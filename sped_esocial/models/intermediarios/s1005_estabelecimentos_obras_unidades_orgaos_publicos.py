@@ -18,6 +18,10 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         string='Empresa',
         comodel_name='res.company',
     )
+    estabelecimento_id = fields.Many2one(
+        string='Estabelecimento',
+        comodel_name='res.company',
+    )
     sped_inclusao = fields.Many2one(
         string='Inclusão',
         comodel_name='sped.registro',
@@ -177,52 +181,33 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
     def atualizar_esocial(self):
         self.ensure_one()
 
-        matriz = self.company_id if self.company_id.eh_empresa_base else self.company_id.matriz
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-1005',
+            'ambiente': self.company_id.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtTabEstab',
+            'origem': ('res.company,%s' % self.estabelecimento_id.id),
+            'origem_intermediario': ('sped.estabelecimentos,%s' % self.id),
+        }
 
         # Criar o registro S-1005 de inclusão, se for necessário
         if self.precisa_incluir:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-1005',
-                'ambiente': matriz.esocial_tpAmb,
-                'company_id': matriz.id,
-                'operacao': 'I',
-                'evento': 'evtTabEstab',
-                'origem': ('res.company,%s' % self.company_id.id),
-                'origem_intermediario': ('sped.estabelecimentos,%s' % self.id),
-            }
+            values['operacao'] = 'I'
 
             sped_inclusao = self.env['sped.registro'].create(values)
             self.sped_inclusao = sped_inclusao
 
         # Criar o registro S-1005 de alteração, se for necessário
         if self.precisa_atualizar:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-1005',
-                'ambiente': matriz.esocial_tpAmb,
-                'company_id': matriz.id,
-                'operacao': 'A',
-                'evento': 'evtTabEstab',
-                'origem': ('res.company,%s' % self.comapny_id.id),
-                'origem_intermediario': ('sped.estabelecimentos,%s' % self.id),
-            }
+            values['operacao'] = 'A'
 
             sped_atualizacao = self.env['sped.registro'].create(values)
             self.sped_alteracao = [(4, sped_atualizacao.id)]
 
         # Criar o registro S-1005 de exclusão, se for necessário
         if self.precisa_excluir:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-1005',
-                'ambiente': matriz.esocial_tpAmb,
-                'company_id': matriz.id,
-                'operacao': 'E',
-                'evento': 'evtTabEstab',
-                'origem': ('res.company,%s' % self.company_id.id),
-                'origem_intermediario': ('sped.estabelecimentos,%s' % self.id),
-            }
+            values['operacao'] = 'E'
 
             sped_exclusao = self.env['sped.registro'].create(values)
             self.sped_exclusao = sped_exclusao
@@ -252,44 +237,44 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         # Popula infoEstab (Informações do Estabelecimentou o Obra)
         S1005.evento.infoEstab.ideEstab.tpInsc.valor = '1'
         S1005.evento.infoEstab.ideEstab.nrInsc.valor = limpa_formatacao(
-            self.company_id.cnpj_cpf)
+            self.estabelecimento_id.cnpj_cpf)
 
         S1005.evento.infoEstab.ideEstab.iniValid.valor = \
-            self.company_id.estabelecimento_periodo_inicial_id.code[3:7] + '-' + \
-            self.company_id.estabelecimento_periodo_inicial_id.code[0:2]
+            self.estabelecimento_id.estabelecimento_periodo_inicial_id.code[3:7] + '-' + \
+            self.estabelecimento_id.estabelecimento_periodo_inicial_id.code[0:2]
 
         S1005.evento.infoEstab.dadosEstab.cnaePrep.valor = limpa_formatacao(
-            self.company_id.cnae_main_id.code)
+            self.estabelecimento_id.cnae_main_id.code)
 
         # Se for operacao=='A' (Alteração) Popula idePeriodo usando company_id.periodo_atualizacao_id
         if operacao == 'A':
 
             # Se o campo periodo_atualizacao_id não estiver preenchido, retorne erro de dados para o usuário
-            if not self.company_id.estabelecimento_periodo_atualizacao_id:
+            if not self.estabelecimento_id.estabelecimento_periodo_atualizacao_id:
                 raise ValidationError("O campo 'Período da Última Atualização' no Estabelecimento não está preenchido !")
 
             # Popula infoEstab.novaValidade
             S1005.evento.infoEstab.novaValidade.iniValid.valor = \
-                self.company_id.estabelecimento_periodo_atualizacao_id.code[3:7] + '-' + \
-                self.company_id.estabelecimento_periodo_atualizacao_id.code[0:2]
+                self.estabelecimento_id.estabelecimento_periodo_atualizacao_id.code[3:7] + '-' + \
+                self.estabelecimento_id.estabelecimento_periodo_atualizacao_id.code[0:2]
 
         # Se for operacao=='E' (Exclusão) Popula idePeriodo usando
         if operacao == 'E':
 
             # Se o campo periodo_exclusao_id não estiver preenchido, retorne erro de dados para o usuário
-            if not self.company_id.estabelecimento_periodo_final_id:
+            if not self.estabelecimento_id.estabelecimento_periodo_final_id:
                 raise ValidationError("O campo 'Período Final' no Estabelecimento não está preenchido !")
 
             # Popula infoEmpregador.idePeriodo.fimValid
             S1005.evento.infoEstab.novaValidade.fimValid.valor = \
-                self.company_id.estabelecimento_periodo_final_id.code[3:7] + '-' + \
-                self.company_id.estabelecimento_periodo_final_id.code[0:2]
+                self.estabelecimento_id.estabelecimento_periodo_final_id.code[3:7] + '-' + \
+                self.estabelecimento_id.estabelecimento_periodo_final_id.code[0:2]
 
         # Localiza o percentual de RAT e FAP para esta empresa neste período
         if self.company_id.estabelecimento_periodo_atualizacao_id:
-            ano = self.company_id.estabelecimento_periodo_atualizacao_id.fiscalyear_id.code
+            ano = self.estabelecimento_id.estabelecimento_periodo_atualizacao_id.fiscalyear_id.code
         else:
-            ano = self.company_id.estabelecimento_periodo_inicial_id.fiscalyear_id.code
+            ano = self.estabelecimento_id.estabelecimento_periodo_inicial_id.fiscalyear_id.code
         domain = [
             ('company_id', '=', self.company_id.id),
             ('year', '=', int(ano)),
@@ -308,31 +293,31 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             formata_valor(rat_fap.rat_rate * rat_fap.fap_rate)
 
         # Popula infoCaepf
-        if self.company_id.tp_caepf:
+        if self.estabelecimento_id.tp_caepf:
             S1005.evento.infoEstab.dadosEstab.infoCaepf.tpCaepf.valor = int(
-                self.company_id.tp_caepf)
+                self.estabelecimento_id.tp_caepf)
 
         # Popula infoTrab
         S1005.evento.infoEstab.dadosEstab.infoTrab.regPt.valor = \
-            self.company_id.reg_pt
+            self.estabelecimento_id.reg_pt
 
         # Popula infoApr
         S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contApr.valor = \
-            self.company_id.cont_apr
+            self.estabelecimento_id.cont_apr
         S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contEntEd.valor = \
-            self.company_id.cont_ent_ed
+            self.estabelecimento_id.cont_ent_ed
 
         # Popula infoEntEduc
-        for entidade in self.company_id.info_ent_educ_ids:
+        for entidade in self.estabelecimento_id.info_ent_educ_ids:
             info_ent_educ = pysped.esocial.leiaute.InfoEntEduc_2()
             info_ent_educ.nrInsc = limpa_formatacao(entidade.cnpj_cpf)
             S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.infoEntEduc\
                 .append(info_ent_educ)
 
         # Popula infoPCD
-        if self.company_id.cont_pcd:
+        if self.estabelecimento_id.cont_pcd:
             S1005.evento.infoEstab.dadosEstab.infoTrab.infoPCD.contPCD = \
-                self.company_id.cont_pcd
+                self.estabelecimento_id.cont_pcd
 
         return S1005
 

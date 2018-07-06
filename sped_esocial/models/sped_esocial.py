@@ -47,11 +47,6 @@ class SpedEsocial(models.Model):
         comodel_name='res.company',
         compute='_compute_readonly',
     )
-    estabelecimento_ids = fields.One2many(
-        string='Estabelecimentos',
-        comodel_name='sped.estabelecimentos',
-        inverse_name='esocial_id',
-    )
     lotacao_ids = fields.Many2many(
         string='Lotações Tributárias',
         comodel_name='sped.esocial.lotacao',
@@ -82,6 +77,34 @@ class SpedEsocial(models.Model):
         #compute='_compute_situacao',
         store=True,
     )
+
+    # Controle dos registros S-1005
+    estabelecimento_ids = fields.Many2many(
+        string='Estabelecimentos',
+        comodel_name='sped.estabelecimentos',
+    )
+    necessita_s1005 = fields.Boolean(
+        string='Necessita S-1005(s)',
+        compute='compute_necessita_s1005',
+        store=True,
+    )
+
+    # Calcula se é necessário criar algum registro S-1005
+    @api.depends('estabelecimento_ids')
+    def compute_necessita_s1005(self):
+        for esocial in self:
+            necessita_s1005 = False
+            for estabelecimento in esocial.estabelecimento_ids:
+                if estabelecimento.situacao_esocial in ['2']:
+                    necessita_s1005 = True
+            esocial.necessita_s1005 = necessita_s1005
+
+    # Cria os registros S-1005
+    @api.multi
+    def criar_s1005(self):
+        self.ensure_one()
+        for estabelecimento in self.estabelecimento_ids:
+            estabelecimento.atualizar_estabelecimento()
 
     # @api.multi
     # def unlink(self):
@@ -121,38 +144,26 @@ class SpedEsocial(models.Model):
 
     @api.depends('periodo_id', 'company_id')
     def _compute_nome(self):
-        for efdreinf in self:
-            nome = efdreinf.periodo_id.name
-            if efdreinf.company_id:
-                nome += '-' + efdreinf.company_id.name
-            efdreinf.nome = nome
+        for esocial in self:
+            nome = esocial.periodo_id.name
+            if esocial.company_id:
+                nome += '-' + esocial.company_id.name
+            if esocial.periodo_id:
+                nome += ' (' + esocial.periodo_id.name + ')'
+            esocial.nome = nome
 
     @api.multi
     def importar_estabelecimentos(self):
         self.ensure_one()
 
-        # estabelecimentos = [self.company_id]
-        estabelecimentos = self.env['res.company'].search([
+        estabelecimentos = self.env['sped.estabelecimentos'].search([
             '|',
             ('id', '=', self.company_id.id),
             ('matriz', '=', self.company_id.id),
         ])
-        # estabelecimentos.append(empresas)
-
         for estabelecimento in estabelecimentos:
-            incluir = True
-            for empresa in self.estabelecimento_ids:
-                if empresa.estabelecimento_id == estabelecimento:
-                    incluir = False
-
-            if incluir:
-                # Criar um novo estabelecimento neste período
-                vals = {
-                    'esocial_id': self.id,
-                    'estabelecimento_id': estabelecimento.id,
-                }
-                estabelecimento_id = self.env['sped.esocial.estabelecimento'].create(vals)
-                self.estabelecimento_ids = [(4, estabelecimento_id.id)]
+            if estabelecimento.id not in self.estabelecimento_ids.ids:
+                self.estabelecimento_ids = [(4, estabelecimento.id)]
 
     @api.multi
     def importar_rubricas(self):

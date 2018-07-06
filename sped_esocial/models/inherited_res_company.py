@@ -256,7 +256,11 @@ class ResCompany(models.Model):
 
         # Se o registro intermediário do S-1005 não existe, criá-lo
         if not self.sped_estabelecimento_id:
-            self.sped_estabelecimento_id = self.env['sped.estabelecimentos'].create({'company_id': self.id})
+            matriz = self.id if self.eh_empresa_base else self.matriz.id
+            self.sped_estabelecimento_id = self.env['sped.estabelecimentos'].create({
+                'company_id': matriz,
+                'estabelecimento_id': self.id,
+            })
 
         # Processa cada tipo de operação do S-1005 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário

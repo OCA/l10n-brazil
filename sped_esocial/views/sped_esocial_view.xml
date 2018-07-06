@@ -16,6 +16,7 @@
                         />
                     </header>
                     <field name="nome" invisible="1" />
+                    <field name="necessita_s1005" invisible="1" />
                     <!--<field name="pode_sem_movto" invisible="1" />-->
                     <!--<field name="pode_fechar" invisible="1" />-->
                     <!--<field name="date_start" invisible="1" />-->
@@ -31,7 +32,6 @@
                                 <field name="periodo_id" string="Período" attrs="{'invisible': [('situacao', '!=', '1')]}"
                                        options="{'no_create': True, 'no_open': True}" required="1"
                                 />
-                                       <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
                                 <field name="periodo_id_readonly" string="Período" attrs="{'invisible': [('situacao', '=', '1')]}" />
                             </group>
                             <group colspan="2" col="2">
@@ -45,35 +45,13 @@
                         <notebook>
                             <page name="s1005" string="S-1005">
                                 <group colspan="4" col="4">
-                                    <!--<group colspan="2" col="1">-->
-                                        <!--<div class="oe_title">-->
-                                            <!--<button name="importar_estabelecimentos" type="object" string="Calcular" />-->
-                                            <!--<button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"-->
-                                                    <!--attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />-->
-                                        <!--</div>-->
-                                    <!--</group>-->
-                                    <!--<field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4">-->
-                                        <!--<tree>-->
-                                            <!--<field name="nome" invisible="0" />-->
-                                            <!--<field name="estabelecimento_id" />-->
-                                            <!--<field name="requer_s1005" />-->
-                                            <!--<field name="sped_s1005" invisible="1" />-->
-                                            <!--<field name="sped_s1005_registro" invisible="1" />-->
-                                            <!--<field name="situacao_s1005" />-->
-                                        <!--</tree>-->
-                                        <!--<form>-->
-                                            <!--<sheet>-->
-                                                <!--<group colspan="4" col="4">-->
-                                                    <!--<group colspan="2" col="2">-->
-                                                        <!--<field name="estabelecimento_id" readonly="1" />-->
-                                                        <!--<field name="requer_s1005" invisible="0" />-->
-                                                        <!--<field name="sped_s1005" invisible="0" />-->
-                                                        <!--<field name="sped_s1005_registro" attrs="{'invisible': [('sped_s1005', '=', False)]}" />-->
-                                                    <!--</group>-->
-                                                <!--</group>-->
-                                            <!--</sheet>-->
-                                        <!--</form>-->
-                                    <!--</field>-->
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_estabelecimentos" type="object" string="Calcular" />
+                                            <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight" />
+                                        </div>
+                                    </group>
+                                    <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
                             <page name="s1010" string="S-1010">
