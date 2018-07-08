@@ -91,6 +91,10 @@ True
 True
 >>> AccountingNone <= AccountingNone
 True
+>>> round(AccountingNone, 2)
+0.0
+>>> float(AccountingNone)
+0.0
 """
 
 __all__ = ['AccountingNone']
