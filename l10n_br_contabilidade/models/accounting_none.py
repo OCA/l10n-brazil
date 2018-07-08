@@ -196,6 +196,9 @@ class AccountingNoneType(object):
     def __ge__(self, other):
         return other <= 0
 
+    def __float__(self):
+        return 0.0
+
 
 AccountingNone = AccountingNoneType()
 
