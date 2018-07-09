@@ -4,7 +4,7 @@
 
         <record id="sped_esocial_s1050_form" model="ir.ui.view">
             <field name="name">e-Social S-1050</field>
-            <field name="model">sped.esocial.turnos.trabalho</field>
+            <field name="model">sped.hr.turnos.trabalho</field>
             <field name="arch" type="xml">
                 <form string="e-Social - Registro S-1050" edit="false" delete="false" create="false" duplicate="false">
                     <header>
@@ -18,7 +18,7 @@
                     <div class="oe_title">
                         <h1>
                             <field name="company_id" readonly="1"/>
-                            <field name="sped_esocial_turnos_trabalho_id" readonly="1"/>
+                            <field name="sped_hr_turnos_trabalho_id" readonly="1"/>
                         </h1>
                     </div>
                     <group colspan="4" col="4">
@@ -42,11 +42,11 @@
 
         <record model="ir.ui.view" id="sped_esocial_s1050_tree">
             <field name="name">S-1050 (Turnos Trabalho)</field>
-            <field name="model">sped.esocial.turnos.trabalho</field>
+            <field name="model">sped.hr.turnos.trabalho</field>
             <field name="arch" type="xml">
                 <tree string="S-1050 (Turnos Trabalho)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
-                    <field name="sped_esocial_turnos_trabalho_id" />
+                    <field name="sped_hr_turnos_trabalho_id" />
                     <field name="precisa_incluir" />
                     <field name="precisa_atualizar" />
                     <field name="precisa_excluir" />
@@ -57,11 +57,11 @@
 
         <record id="sped_esocial_s1050_search" model="ir.ui.view">
             <field name="name">S-1050 (Turnos Trabalho)</field>
-            <field name="model">sped.esocial.turnos.trabalho</field>
+            <field name="model">sped.hr.turnos.trabalho</field>
             <field name="arch" type="xml">
                 <search string="S-1050 (Turnos Trabalho)">
                     <field name="company_id" />
-                    <field name="sped_esocial_turnos_trabalho_id" />
+                    <field name="sped_hr_turnos_trabalho_id" />
 		        </search>
             </field>
         </record>
@@ -69,7 +69,7 @@
         <record model="ir.actions.act_window" id="sped_esocial_s1050_action">
             <field name="name">S-1050 (Turnos Trabalho)</field>
             <field name="domain">[]</field>
-            <field name="res_model">sped.esocial.turnos.trabalho</field>
+            <field name="res_model">sped.hr.turnos.trabalho</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>

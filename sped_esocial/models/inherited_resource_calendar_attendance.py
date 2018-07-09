@@ -23,7 +23,7 @@ class ResourceCalendarAttendance(models.Model):
     # Campos de controle S-1050
     sped_turno_id = fields.Many2one(
         string='SPED Turno de Trabalho',
-        comodel_name='sped.esocial.turnos.trabalho',
+        comodel_name='sped.hr.turnos.trabalho',
     )
     situacao_esocial = fields.Selection(
         selection=[
@@ -40,7 +40,7 @@ class ResourceCalendarAttendance(models.Model):
 
     turno_id = fields.Many2one(
         string='Turno',
-        comodel_name='esocial.turnos.trabalho'
+        comodel_name='hr.turnos.trabalho'
     )
     name = fields.Char(
         required=False,

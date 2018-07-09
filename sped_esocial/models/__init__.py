@@ -19,6 +19,8 @@
 #
 ##############################################################################
 
+from . import intermediarios
+
 from . import inherited_res_company
 from . import inherited_res_partner
 from . import inherited_hr_salary_rule
@@ -29,7 +31,5 @@ from . import inherited_hr_employee_dependent
 from . import inherited_resource_calendar_attendance
 from . import inherited_res_partner
 from . import inherited_hr_payslip
-
+from . import hr_turnos_trabalho
 from . import sped_esocial
-from . import esocial_turnos_trabalho
-from . import intermediarios

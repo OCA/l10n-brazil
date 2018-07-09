@@ -46,7 +46,7 @@
         'views/inherited_hr_salary_rule.xml',
         'views/inherited_hr_job.xml',
         'views/inherited_hr_contract.xml',
-        'views/esocial_turnos_trabalho_view.xml',
+        'views/hr_turnos_trabalho_view.xml',
         'views/inherited_resource_calendar_attendance.xml',
         'views/inherited_hr_employee.xml',
         'views/inherited_res_partner.xml',

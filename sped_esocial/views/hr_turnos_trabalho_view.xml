@@ -2,16 +2,16 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="esocial_turnos_trabalho_form">
+        <record model="ir.ui.view" id="hr_turnos_trabalho_form">
             <field name="name">e-Social turnos de trabalho</field>
-            <field name="model">esocial.turnos.trabalho</field>
+            <field name="model">hr.turnos.trabalho</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
                         <button name="gerar_documento_sped"
                                 string="Gerar Documento Sped"
                                 type="object" class="oe_highlight"
-                                attrs="{'invisible': [('sped_esocial_turnos_trabalho_ids', '!=', False)]}"
+                                attrs="{'invisible': [('sped_hr_turnos_trabalho_ids', '!=', False)]}"
                         />
                     </header>
                     <sheet>
@@ -43,7 +43,7 @@
                                            <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
                                     <!--<field name="ini_valid" placeholder="AAAA-MM" />-->
                                     <!--<field name="fim_valid" placeholder="AAAA-MM" />-->
-                                    <field name="sped_esocial_turnos_trabalho_ids" invisible="1"/>
+                                    <field name="sped_hr_turnos_trabalho_ids" invisible="1"/>
                                 </group>
                             </page>
                         </notebook>
@@ -52,9 +52,9 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="esocial_turnos_trabalho_tree">
+        <record model="ir.ui.view" id="hr_turnos_trabalho_tree">
             <field name="name">e-Social turnos de trabalho Tree</field>
-            <field name="model">esocial.turnos.trabalho</field>
+            <field name="model">hr.turnos.trabalho</field>
             <field name="arch" type="xml">
                 <tree string="Turnos">
                     <field name="hr_entr" />
@@ -65,38 +65,38 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="esocial_turnos_trabalho_action">
+        <record model="ir.actions.act_window" id="hr_turnos_trabalho_action">
             <field name="name">Turnos de Trabalho</field>
             <field name="domain">[]</field>
-            <field name="res_model">esocial.turnos.trabalho</field>
+            <field name="res_model">hr.turnos.trabalho</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="esocial_turnos_trabalho_form_acao">
+        <record model="ir.actions.act_window.view" id="hr_turnos_trabalho_form_acao">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="esocial_turnos_trabalho_form"/>
-            <field name="act_window_id" ref="esocial_turnos_trabalho_action"/>
+            <field name="view_id" ref="hr_turnos_trabalho_form"/>
+            <field name="act_window_id" ref="hr_turnos_trabalho_action"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="esocial_turnos_trabalho_tree_acao">
+        <record model="ir.actions.act_window.view" id="hr_turnos_trabalho_tree_acao">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="esocial_turnos_trabalho_tree"/>
-            <field name="act_window_id" ref="esocial_turnos_trabalho_action"/>
+            <field name="view_id" ref="hr_turnos_trabalho_tree"/>
+            <field name="act_window_id" ref="hr_turnos_trabalho_action"/>
         </record>
 
-        <menuitem id="menu_esocial_turnos_trabalho"
+        <menuitem id="menu_hr_turnos_trabalho"
                   name="Turnos de Trabalho"
-                  sequence="31"
-                  parent="sped_esocial.menu_sped_esocial"
-                  action="esocial_turnos_trabalho_action"
+                  sequence="4"
+                  parent="hr.menu_hr_configuration"
+                  action="hr_turnos_trabalho_action"
         />
 
-        <record model="ir.ui.view" id="esocial_turnos_trabalho_intervalo_tree">
+        <record model="ir.ui.view" id="hr_turnos_trabalho_intervalo_tree">
             <field name="name">Sped e-Social turnos de trabalho Intervalo Tree</field>
-            <field name="model">sped.esocial.turnos.intervalo</field>
+            <field name="model">hr.turnos.intervalo</field>
             <field name="arch" type="xml">
                 <tree string="Intervalos">
                     <field name="ini_interv"  placeholder="HH:MM"/>
@@ -107,9 +107,9 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="esocial_turnos_trabalho_intervalo_form">
+        <record model="ir.ui.view" id="hr_turnos_trabalho_intervalo_form">
             <field name="name">Sped e-Social turnos de trabalho Intervalo form</field>
-            <field name="model">sped.esocial.turnos.intervalo</field>
+            <field name="model">hr.turnos.intervalo</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>

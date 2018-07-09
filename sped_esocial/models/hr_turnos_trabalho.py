@@ -9,7 +9,7 @@ from openerp.exceptions import Warning
 
 
 class SpedEsocialTurnosTrabalho(models.Model):
-    _name = "esocial.turnos.trabalho"
+    _name = "hr.turnos.trabalho"
 
     # @api.multi
     # def _get_periodo_atual_default(self):
@@ -33,7 +33,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
     )
     horario_intervalo_ids = fields.Many2many(
         string="Intervalos",
-        comodel_name="sped.esocial.turnos.intervalo",
+        comodel_name="hr.turnos.intervalo",
         column1='turno_trabalho_id',
         column2='intervalo_id',
     )
@@ -72,9 +72,9 @@ class SpedEsocialTurnosTrabalho(models.Model):
     #     string="Competência final",
     #     size=7,
     # )
-    sped_esocial_turnos_trabalho_ids = fields.One2many(
-        comodel_name="sped.esocial.turnos.trabalho",
-        inverse_name="sped_esocial_turnos_trabalho_id"
+    sped_hr_turnos_trabalho_ids = fields.One2many(
+        comodel_name="sped.hr.turnos.trabalho",
+        inverse_name="sped_hr_turnos_trabalho_id"
     )
 
     @api.multi
@@ -107,16 +107,16 @@ class SpedEsocialTurnosTrabalho(models.Model):
         
         :return: 
         """
-        sped_turnos_obj = self.env['sped.esocial.turnos.trabalho']
+        hr_turnos_obj = self.env['sped.hr.turnos.trabalho']
         sped_esocial_obj = self.env['sped.esocial']
         company_id = self.env['res.company'].search([
             ('eh_empresa_base', '=', True),
         ], limit=1)
         sped_esocial_id = sped_esocial_obj.get_esocial_vigente(company_id)
 
-        sped_turnos_obj.create({
+        hr_turnos_obj.create({
             'esocial_id': sped_esocial_id.id,
-            'sped_esocial_turnos_trabalho_id': self.id,
+            'sped_hr_turnos_trabalho_id': self.id,
         })
 
     @api.model
@@ -183,7 +183,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
 
 
 class SpedEsocialTurnosIntervalo(models.Model):
-    _name = "sped.esocial.turnos.intervalo"
+    _name = "hr.turnos.intervalo"
 
     ini_interv = fields.Char(
         string="Horário de Início",
@@ -237,12 +237,12 @@ class SpedEsocialTurnosIntervalo(models.Model):
     @api.multi
     def _validar_campos_horas(self, vals):
         if vals.get('ini_interv'):
-            self.env['esocial.turnos.trabalho']._validar_formato_campo_hora(
+            self.env['hr.turnos.trabalho']._validar_formato_campo_hora(
                 vals.get('ini_interv')
             )
-            # self.sped_esocial_turnos_trabalho_id._validar_formato_campo_hora(
+            # self.sped_hr_turnos_trabalho_id._validar_formato_campo_hora(
 
         if vals.get('term_interv'):
-            self.env['esocial.turnos.trabalho']._validar_formato_campo_hora(
+            self.env['hr.turnos.trabalho']._validar_formato_campo_hora(
                     vals.get('term_interv')
                 )

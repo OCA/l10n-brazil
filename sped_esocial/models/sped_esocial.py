@@ -319,7 +319,7 @@ class SpedEsocial(models.Model):
     # Controle de registros S-1050
     turno_trabalho_ids = fields.Many2many(
         string='sped_esocial_turnos_trabalho_id',
-        comodel_name='sped.esocial.turnos.trabalho',
+        comodel_name='sped.hr.turnos.trabalho',
     )
     necessita_s1050 = fields.Boolean(
         string='Necessita S-1050',
@@ -349,7 +349,7 @@ class SpedEsocial(models.Model):
                     'company_id': self.company_id.id,
                     'sped_esocial_turnos_trabalho_id': turno.id,
                 }
-                sped_turno_id = self.env['sped.esocial.turnos.trabalho'].create(
+                sped_turno_id = self.env['sped.hr.turnos.trabalho'].create(
                     vals
                 )
                 self.turno_trabalho_ids = [(4, sped_turno_id.id)]
