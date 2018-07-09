@@ -7,6 +7,13 @@
             <field name="model">hr.job</field>
             <field name="inherit_id" ref="l10n_br_hr.view_l10n_br_hr_job_form" />
             <field name="arch" type="xml">
+                <button name="set_recruit" position="after">
+                     <button name="atualizar_cargo"
+                             colspan="4" type="object"
+                             string="Ativar/Atualizar Cargo" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('codigo', '=', False), ('sped_cargo_id', '!=', False)]}"
+                     />
+                </button>
                 <group name="employee_data" position="after">
                     <notebook>
                         <page name="esocial" string="e-Social">
@@ -34,6 +41,7 @@
                                        attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
                                 <field name="sit_cargo" colspan="4"
                                        attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                <field name="sped_cargo_id" invisible="1" />
                             </group>
                         </page>
                     </notebook>

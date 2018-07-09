@@ -297,18 +297,6 @@ class SpedEsocial(models.Model):
                 if cargo.situacao_esocial != '9':
                     self.cargo_ids = [(4, cargo.id)]
 
-        # cargos = self.env['hr.job'].search([])
-        #
-        # for cargo in cargos:
-        #
-        #     # Criar um novo cargo neste período
-        #     vals = {
-        #         'company_id': self.company_id.id,
-        #         'cargo_id': cargo.id,
-        #     }
-        #     cargo_id = self.env['sped.esocial.cargo'].create(vals)
-        #     self.cargo_ids = [(4, cargo_id.id)]
-
     # Criar registros S-1030
     @api.multi
     def criar_s1030(self):
