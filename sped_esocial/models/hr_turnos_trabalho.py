@@ -74,7 +74,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
     # )
     sped_hr_turnos_trabalho_ids = fields.One2many(
         comodel_name="sped.hr.turnos.trabalho",
-        inverse_name="sped_hr_turnos_trabalho_id"
+        inverse_name="hr_turnos_trabalho_id"
     )
 
     @api.multi
@@ -161,25 +161,26 @@ class SpedEsocialTurnosTrabalho(models.Model):
                 "Minuto deve estar entre 00 e 59!"
             )
 
-    # @api.multi
-    # def _validar_campos_periodo(self, vals):
-    #     if vals.get('ini_valid'):
-    #         self._validar_formato_campo_periodo(vals.get('ini_valid'))
-    #     if vals.get('fim_valid'):
-    #         self._validar_formato_campo_periodo(vals.get('fim_valid'))
+    @api.multi
+    def atualizar_turno(self):
+        self.ensure_one()
 
-    # @api.multi
-    # def _validar_formato_campo_periodo(self, periodo):
-    #     if not periodo[4] == '-':
-    #         raise Warning(
-    #             "Formato do campo periodo está incorreto, "
-    #             "o modelo correto é AAAA-MM!"
-    #         )
-    #     mes = int(periodo[5:])
-    #     if mes < 1 or mes > 12:
-    #         raise Warning(
-    #             "Mês deve estar entre 1 e 12!"
-    #         )
+        # Se o registro intermediário do S-1005 não existe, criá-lo
+        if not self.sped_hr_turnos_trabalho_ids:
+            if self.env.user.company_id.eh_empresa_base:
+                matriz = self.env.user.company_id.id
+            else:
+                matriz = self.env.user.company_id.matriz.id
+
+            self.sped_hr_turnos_trabalho_ids = \
+                self.env['sped.hr.turnos.trabalho'].create({
+                    'company_id': matriz,
+                    'hr_turnos_trabalho_id': self.id,
+                })
+
+        # Processa cada tipo de operação do S-1005 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_hr_turnos_trabalho_ids.gerar_registro()
 
 
 class SpedEsocialTurnosIntervalo(models.Model):

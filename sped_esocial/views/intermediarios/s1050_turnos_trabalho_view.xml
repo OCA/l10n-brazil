@@ -18,7 +18,7 @@
                     <div class="oe_title">
                         <h1>
                             <field name="company_id" readonly="1"/>
-                            <field name="sped_hr_turnos_trabalho_id" readonly="1"/>
+                            <field name="hr_turnos_trabalho_id" readonly="1"/>
                         </h1>
                     </div>
                     <group colspan="4" col="4">
@@ -46,7 +46,7 @@
             <field name="arch" type="xml">
                 <tree string="S-1050 (Turnos Trabalho)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
-                    <field name="sped_hr_turnos_trabalho_id" />
+                    <field name="hr_turnos_trabalho_id" />
                     <field name="precisa_incluir" />
                     <field name="precisa_atualizar" />
                     <field name="precisa_excluir" />
@@ -61,7 +61,7 @@
             <field name="arch" type="xml">
                 <search string="S-1050 (Turnos Trabalho)">
                     <field name="company_id" />
-                    <field name="sped_hr_turnos_trabalho_id" />
+                    <field name="hr_turnos_trabalho_id" />
 		        </search>
             </field>
         </record>

@@ -15,14 +15,14 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
     _name = "sped.hr.turnos.trabalho"
 
     name = fields.Char(
-        related='sped_hr_turnos_trabalho_id.name'
+        related='hr_turnos_trabalho_id.name'
     )
     company_id = fields.Many2one(
         string='Empresa',
         comodel_name='res.company',
         required=True,
     )
-    sped_hr_turnos_trabalho_id = fields.Many2one(
+    hr_turnos_trabalho_id = fields.Many2one(
         string="Turno de Trabalho",
         comodel_name="hr.turnos.trabalho",
         required=True,
@@ -192,7 +192,7 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
                 'evento': 'evtTabHorTur',
                 'origem': (
                         'hr.turnos.trabalho,%s' %
-                        self.sped_hr_turnos_trabalho_id.id),
+                        self.hr_turnos_trabalho_id.id),
                 'origem_intermediario': (
                         'sped.hr.turnos.trabalho,%s' % self.id),
             }
@@ -229,34 +229,34 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
         # Popula ideHorContratual
         S1050.evento.infoHorContratual.operacao = 'I'
         S1050.evento.infoHorContratual.ideHorContratual.codHorContrat.valor = \
-            self.origem.sped_hr_turnos_trabalho_id.cod_hor_contrat
+            self.origem.hr_turnos_trabalho_id.cod_hor_contrat
         # S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor =
-        # self.origem.sped_hr_turnos_trabalho_id.ini_valid
+        # self.origem.hr_turnos_trabalho_id.ini_valid
         S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = \
-            self.origem.sped_hr_turnos_trabalho_id.ini_valid.code[3:7] + \
+            self.origem.hr_turnos_trabalho_id.ini_valid.code[3:7] + \
             '-' + \
-            self.origem.sped_hr_turnos_trabalho_id.ini_valid.code[0:2]
-        if self.origem.sped_hr_turnos_trabalho_id.fim_valid:
+            self.origem.hr_turnos_trabalho_id.ini_valid.code[0:2]
+        if self.origem.hr_turnos_trabalho_id.fim_valid:
             # S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor =
-            # self.origem.sped_hr_turnos_trabalho_id.fim_valid
+            # self.origem.hr_turnos_trabalho_id.fim_valid
             S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor = \
-                self.origem.sped_hr_turnos_trabalho_id.fim_valid.code[3:7]\
+                self.origem.hr_turnos_trabalho_id.fim_valid.code[3:7]\
                 + '-' + \
-                self.origem.sped_hr_turnos_trabalho_id.fim_valid.code[0:2]
+                self.origem.hr_turnos_trabalho_id.fim_valid.code[0:2]
 
         # Popula dadosHorContratual
         S1050.evento.infoHorContratual.dadosHorContratual.hrEntr.valor = \
-            self.origem.sped_hr_turnos_trabalho_id.hr_entr.replace(
+            self.origem.hr_turnos_trabalho_id.hr_entr.replace(
                 ":", "")
         S1050.evento.infoHorContratual.dadosHorContratual.hrSaida.valor = \
-            self.origem.sped_hr_turnos_trabalho_id.hr_saida.replace(
+            self.origem.hr_turnos_trabalho_id.hr_saida.replace(
                 ":", "")
         S1050.evento.infoHorContratual.dadosHorContratual.durJornada.valor = \
-            self.origem.sped_hr_turnos_trabalho_id.dur_jornada
+            self.origem.hr_turnos_trabalho_id.dur_jornada
         S1050.evento.infoHorContratual.dadosHorContratual.perHorFlexivel.valor \
-            = self.origem.sped_hr_turnos_trabalho_id.per_hor_flexivel
+            = self.origem.hr_turnos_trabalho_id.per_hor_flexivel
 
-        for intervalo in self.origem.sped_hr_turnos_trabalho_id.\
+        for intervalo in self.origem.hr_turnos_trabalho_id.\
                 horario_intervalo_ids:
             sped_intervalo = pysped.esocial.leiaute.HorarioIntervalo_2()
             sped_intervalo.tpInterv.valor = intervalo.tp_interv

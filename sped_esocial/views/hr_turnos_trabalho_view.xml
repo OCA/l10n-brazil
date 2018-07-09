@@ -13,6 +13,11 @@
                                 type="object" class="oe_highlight"
                                 attrs="{'invisible': [('sped_hr_turnos_trabalho_ids', '!=', False)]}"
                         />
+                        <button name="atualizar_turno"
+                                colspan="4" type="object"
+                                string="Ativar/Atualizar e-Social" class="oe_highlight"
+                                attrs="{'invisible': ['|', ('cod_hor_contrat', '=', False), ('ini_valid', '=', False)]}"
+                        />
                     </header>
                     <sheet>
                         <group>

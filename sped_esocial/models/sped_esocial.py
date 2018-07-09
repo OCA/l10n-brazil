@@ -347,7 +347,7 @@ class SpedEsocial(models.Model):
         for turno_trabalho in turnos_trabalho_ids:
             if turno_trabalho.id not in self.turno_trabalho_ids.ids:
                 if turno_trabalho.situacao_esocial != '9':
-                    self.lotacao_ids = [(4, turno_trabalho.id)]
+                    self.turno_trabalho_ids = [(4, turno_trabalho.id)]
 
     # Criar registros S-1050
     @api.multi
