@@ -7,6 +7,15 @@
             <field name="model">hr.salary.rule</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.l10n_br_hr_payroll_hr_salary_rule_form_view" />
             <field name="arch" type="xml">
+                <xpath expr="//label[@for='name']" position="before">
+                    <header>
+                        <button name="atualizar_rubrica"
+                                colspan="4" type="object"
+                                string="Ativar/Atualizar Rubrica" class="oe_highlight"
+                                attrs="{'invisible': ['|', ('codigo', '=', False), ('sped_rubrica_id', '!=', False)]}"
+                        />
+                    </header>
+                </xpath>
                 <xpath expr="//page[@string='General']" position="after">
                     <page name="esocial" string="e-Social">
                         <group colspan="4" col="4">
@@ -77,7 +86,7 @@
                                     <field name="cod_inc_fgts" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
                                     <separator colspan="4" string="Código de Incidência tributária da rubrica para a Contribuição Sindical" />
                                     <field name="cod_inc_sind" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
-
+                                    <field name="sped_rubrica_id" invisible="1" />
                                 </group>
                             </page>
                         </notepad>

@@ -174,22 +174,6 @@ class SpedEsocial(models.Model):
                 if rubrica.situacao_esocial != '9':
                     self.rubrica_ids = [(4, rubrica.id)]
 
-        # rubricas = self.env['hr.salary.rule'].search([
-        #     ('nat_rubr', '!=', False),
-        # ])
-        #
-        # for rubrica in rubricas:
-        #     sped_rubrica_id = rubrica.sped_esocial_rubrica_ids
-        #
-        #     if not sped_rubrica_id:
-        #         # Criar uma nova rubrica neste período
-        #         vals = {
-        #             'rubrica_id': rubrica.id,
-        #             'company_id': self.company_id.id,
-        #         }
-        #         sped_rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
-        #     self.rubrica_ids = [(4, sped_rubrica_id.id)]
-
     @api.multi
     def criar_s1010(self):
         self.ensure_one()

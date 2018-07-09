@@ -47,9 +47,9 @@
                 <tree string="S-1010 (Rúbrica)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="rubrica_id" />
-                    <field name="precisa_incluir" invisible="1" />
-                    <field name="precisa_atualizar" invisible="1" />
-                    <field name="precisa_excluir" invisible="1" />
+                    <field name="precisa_incluir" />
+                    <field name="precisa_atualizar" />
+                    <field name="precisa_excluir" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>
