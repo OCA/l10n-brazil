@@ -323,7 +323,8 @@ class SpedEfdReinf(models.Model):
                         self.estabelecimento_ids = [(4, estabelecimento_id.id)]
 
                 # Soma os totalizadores desta NF
-                vr_total_bruto += nf.amount_total
+                # vr_total_bruto += nf.amount_total
+                vr_total_bruto += nf.inss_base_wh
                 vr_total_base_retencao += nf.inss_base_wh
                 vr_total_ret_princ += nf.inss_value_wh
                 vr_total_ret_adic += 0  # TODO Criar o campo vr_total_rec_adic na NF
