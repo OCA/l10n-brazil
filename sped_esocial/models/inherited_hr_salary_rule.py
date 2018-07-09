@@ -15,6 +15,25 @@ class HrSalaryRule(models.Model):
         ('identificador_unique', 'unique(identificador)', 'Este Identificador e-Social já existe !'),
     ]
 
+    # Campos de controle S-1010
+    sped_rubrica_id = fields.Many2one(
+        string='SPED Rubrica',
+        comodel_name='sped.esocial.rubrica',
+    )
+    situacao_esocial = fields.Selection(
+        selection=[
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
+        ],
+        string='Situação no e-Social',
+        related='sped_rubrica_id.situacao_esocial',
+        readonly=True,
+    )
+
+    # Campos necessários para o e-Social que não existem ainda
     codigo = fields.Char(
         string='Código',
         size=30,

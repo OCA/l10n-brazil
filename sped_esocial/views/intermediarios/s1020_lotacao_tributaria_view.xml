@@ -18,6 +18,7 @@
                     <div class="oe_title">
                         <h1>
                             <field name="company_id" readonly="1"/>
+                            <field name="lotacao_id" readonly="1"/>
                         </h1>
                     </div>
                     <group colspan="4" col="4">
@@ -46,9 +47,9 @@
                 <tree string="S-1020 (Lotação Tributária)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="lotacao_id" />
-                    <field name="precisa_incluir" />
-                    <field name="precisa_atualizar" />
-                    <field name="precisa_excluir" />
+                    <field name="precisa_incluir" invisible="1" />
+                    <field name="precisa_atualizar" invisible="1" />
+                    <field name="precisa_excluir" invisible="1" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>
@@ -60,6 +61,7 @@
             <field name="arch" type="xml">
                 <search string="S-1000 (Lotação Tributária)">
                     <field name="company_id" />
+                    <field name="lotacao_id" />
 		        </search>
             </field>
         </record>

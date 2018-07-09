@@ -18,9 +18,10 @@
                     <field name="nome" invisible="1" />
                     <field name="necessita_s1000" invisible="1" />
                     <field name="necessita_s1005" invisible="1" />
-                    <!--<field name="pode_sem_movto" invisible="1" />-->
-                    <!--<field name="pode_fechar" invisible="1" />-->
-                    <!--<field name="date_start" invisible="1" />-->
+                    <field name="necessita_s1010" invisible="1" />
+                    <field name="necessita_s1020" invisible="1" />
+                    <field name="necessita_s1030" invisible="1" />
+                    <field name="necessita_s1050" invisible="1" />
                     <field name="id" invisible="1" />
                     <div class="oe_title">
                         <h1>
@@ -50,8 +51,7 @@
                                         <div class="oe_title">
                                             <button name="importar_empregador" type="object" string="Calcular" />
                                             <button name="criar_s1000" type="object" string="Criar S-1000(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1000', '=', False)]}"
-                                            />
+                                                    attrs="{'invisible': [('necessita_s1000', '=', False)]}" />
                                         </div>
                                     </group>
                                     <field name="empregador_ids" readonly="1" nolabel="1" colspan="4" />
@@ -63,8 +63,7 @@
                                         <div class="oe_title">
                                             <button name="importar_estabelecimentos" type="object" string="Calcular" />
                                             <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1005', '=', False)]}"
-                                            />
+                                                    attrs="{'invisible': [('necessita_s1005', '=', False)]}" />
                                         </div>
                                     </group>
                                     <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4" />
@@ -76,7 +75,7 @@
                                         <div class="oe_title">
                                             <button name="importar_rubricas" type="object" string="Calcular" />
                                             <button name="criar_s1010" type="object" string="Criar S-1010(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('rubrica_ids', '=', False)]}" />
+                                                    attrs="{'invisible': [('necessita_s1010', '=', False)]}" />
                                         </div>
                                     </group>
                                     <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4" />
@@ -88,7 +87,7 @@
                                         <div class="oe_title">
                                             <button name="importar_lotacoes" type="object" string="Calcular" />
                                             <button name="criar_s1020" type="object" string="Criar S-1020(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('lotacao_ids', '=', False)]}" />
+                                                    attrs="{'invisible': [('necessita_s1020', '=', False)]}" />
                                         </div>
                                     </group>
                                     <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4" />
@@ -100,7 +99,7 @@
                                         <div class="oe_title">
                                             <button name="importar_cargos" type="object" string="Calcular" />
                                             <button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('cargo_ids', '=', False)]}" />
+                                                    attrs="{'invisible': [('necessita_s1030', '=', False)]}" />
                                         </div>
                                     </group>
                                     <field name="cargo_ids" readonly="1" nolabel="1" colspan="4" />
@@ -112,41 +111,12 @@
                                         <div class="oe_title">
                                             <button name="importar_turnos_trabalho" type="object" string="Calcular" />
                                             <button name="criar_s1050" type="object" string="Criar S-1050(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('turno_trabalho_ids', '=', False)]}" />
+                                                    attrs="{'invisible': [('necessita_s1050', '=', False)]}" />
                                         </div>
                                     </group>
                                     <field name="turno_trabalho_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
-                            <!--<page name="R2099" string="R-2099">-->
-                                <!--<group colspan="4" col="4">-->
-                                    <!--<group colspan="2" col="4">-->
-                                        <!--<label for="evt_serv_tm" colspan="3"/><field name="evt_serv_tm" nolabel="1" colspan="1" />-->
-                                        <!--<label for="evt_serv_pr" colspan="3"/><field name="evt_serv_pr" nolabel="1" colspan="1" />-->
-                                        <!--<label for="evt_ass_desp_rec" colspan="3"/><field name="evt_ass_desp_rec" nolabel="1" colspan="1" />-->
-                                        <!--<label for="evt_ass_desp_rep" colspan="3"/><field name="evt_ass_desp_rep" nolabel="1" colspan="1" />-->
-                                        <!--<label for="evt_com_prod" colspan="3"/><field name="evt_com_prod" nolabel="1" colspan="1" />-->
-                                        <!--<label for="evt_cprb" colspan="3"/><field name="evt_cprb" nolabel="1" colspan="1" />-->
-                                        <!--<label for="evt_pgtos" colspan="3"/><field name="evt_pgtos" nolabel="1" colspan="1" />-->
-                                        <!--<label for="comp_sem_movto_id" colspan="3"-->
-                                               <!--attrs="{'invisible': [('pode_sem_movto', '=', False)]}"-->
-                                        <!--/>-->
-                                        <!--<field name="comp_sem_movto_id" nolabel="1" colspan="1"-->
-                                               <!--domain="[('date_start', '&gt;=', '2018-01-01'), ('date_start', '&lt;=', date_start)]"-->
-                                               <!--options="{'no_open': True, 'no_create': True}"-->
-                                               <!--attrs="{'invisible': [('pode_sem_movto', '=', False)]}"-->
-                                        <!--/>-->
-                                    <!--</group>-->
-                                    <!--<group colspan="2" col="2">-->
-                                        <!--<button name="criar_R2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"-->
-                                                <!--attrs="{'invisible': ['|', ('sped_R2099', '=', True), ('pode_fechar', '=', False)]}"-->
-                                        <!--/>-->
-                                        <!--<field name="sped_R2099" readonly="1"/>-->
-                                        <!--<field name="sped_R2099_registro" readonly="1"/>-->
-                                        <!--<field name="situacao_R2099" />-->
-                                    <!--</group>-->
-                                <!--</group>-->
-                            <!--</page>-->
                         </notebook>
                     </group>
                 </form>
@@ -181,7 +151,6 @@
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
                         <filter name="group_by_periodo_id" string="Período" context="{'group_by': 'periodo_id'}" />
                         <filter name="group_by_company_id" string="Empresa" context="{'group_by': 'company_id'}" />
-                        <!--<filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />-->
                     </group>
 		        </search>
             </field>
@@ -190,7 +159,6 @@
         <record model="ir.actions.act_window" id="sped_esocial_action">
             <field name="name">e-Social</field>
             <field name="domain">[]</field>
-            <!--<field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>-->
             <field name="res_model">sped.esocial</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -216,18 +184,6 @@
                   parent="sped_esocial.menu_sped_esocial"
                   action="sped_esocial.sped_esocial_action"
         />
-
-        <!--<record model="ir.sequence.type" id="sped_registro_sequence_type">-->
-            <!--<field name="name">Registros de Transmissão SPED</field>-->
-            <!--<field name="code">sped.registro</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.sequence" id="sped_registro_sequence">-->
-            <!--<field name="name">Registros de Transmissão SPED</field>-->
-            <!--<field name="code">sped.registro</field>-->
-            <!--<field name="padding">4</field>-->
-            <!--<field name="prefix">SPED/REG/</field>-->
-        <!--</record>-->
 
     </data>
 </openerp>

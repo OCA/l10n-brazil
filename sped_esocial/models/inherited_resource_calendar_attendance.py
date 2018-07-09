@@ -15,9 +15,28 @@ DIADASEMANA = [
             ('8', 'Dia variável'),
         ]
 
+
 class ResourceCalendarAttendance(models.Model):
 
     _inherit = 'resource.calendar.attendance'
+
+    # Campos de controle S-1050
+    sped_turno_id = fields.Many2one(
+        string='SPED Turno de Trabalho',
+        comodel_name='sped.esocial.turnos.trabalho',
+    )
+    situacao_esocial = fields.Selection(
+        selection=[
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
+        ],
+        string='Situação no e-Social',
+        related='sped_turno_id.situacao_esocial',
+        readonly=True,
+    )
 
     turno_id = fields.Many2one(
         string='Turno',

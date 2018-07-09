@@ -12,6 +12,24 @@ class HrJob(models.Model):
         ('codigo_unique', 'unique(codigo)', 'Este Código e-Social já existe !'),
     ]
 
+    # Campos de controle S-1030
+    sped_cargo_id = fields.Many2one(
+        string='SPED Cargo',
+        comodel_name='sped.esocial.cargo',
+    )
+    situacao_esocial = fields.Selection(
+        selection=[
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
+        ],
+        string='Situação no e-Social',
+        related='sped_cargo_id.situacao_esocial',
+        readonly=True,
+    )
+
     codigo = fields.Char(
         string='Código',
         size=30,

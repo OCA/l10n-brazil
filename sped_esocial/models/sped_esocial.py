@@ -47,23 +47,6 @@ class SpedEsocial(models.Model):
         comodel_name='res.company',
         compute='_compute_readonly',
     )
-    lotacao_ids = fields.Many2many(
-        string='Lotações Tributárias',
-        comodel_name='sped.esocial.lotacao',
-    )
-    rubrica_ids = fields.Many2many(
-        string='Rubricas',
-        comodel_name='sped.esocial.rubrica',
-        inverse_name='esocial_id',
-    )
-    cargo_ids = fields.Many2many(
-        string='Cargos',
-        comodel_name='sped.esocial.cargo',
-    )
-    turno_trabalho_ids = fields.Many2many(
-        string='sped_esocial_turnos_trabalho_id',
-        comodel_name='sped.esocial.turnos.trabalho',
-    )
     situacao = fields.Selection(
         string='Situação',
         selection=[
@@ -156,6 +139,202 @@ class SpedEsocial(models.Model):
         for estabelecimento in self.estabelecimento_ids:
             estabelecimento.atualizar_esocial()
 
+    # Controle de registros S-1010
+    rubrica_ids = fields.Many2many(
+        string='Rubricas',
+        comodel_name='sped.esocial.rubrica',
+        inverse_name='esocial_id',
+    )
+    necessita_s1010 = fields.Boolean(
+        string='Necessita S-1010(s)',
+        compute='compute_necessita_s1010',
+    )
+
+    # Calcula se é necessário criar algum registro S-1010
+    @api.depends('rubrica_ids.situacao_esocial')
+    def compute_necessita_s1010(self):
+        for esocial in self:
+            necessita_s1010 = False
+            for rubrica in esocial.rubrica_ids:
+                if rubrica.situacao_esocial in ['2']:
+                    necessita_s1010 = True
+            esocial.necessita_s1010 = necessita_s1010
+
+    @api.multi
+    def importar_rubricas(self):
+        self.ensure_one()
+
+        rubricas = self.env['hr.salary.rule'].search([
+            ('nat_rubr', '!=', False),
+        ])
+
+        for rubrica in rubricas:
+            sped_rubrica_id = rubrica.sped_esocial_rubrica_ids
+
+            if not sped_rubrica_id:
+                # Criar uma nova rubrica neste período
+                vals = {
+                    'rubrica_id': rubrica.id,
+                    'company_id': self.company_id.id,
+                }
+                sped_rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
+            self.rubrica_ids = [(4, sped_rubrica_id.id)]
+
+    @api.multi
+    def criar_s1010(self):
+        self.ensure_one()
+        for rubrica in self.rubrica_ids:
+            rubrica.gerar_registro()
+
+    # Controle de registros S-1020
+    lotacao_ids = fields.Many2many(
+        string='Lotações Tributárias',
+        comodel_name='sped.esocial.lotacao',
+    )
+    necessita_s1020 = fields.Boolean(
+        string='Necessita S-1020',
+        compute='compute_necessita_s1020',
+    )
+
+    # Calcula se é necessário criar algum registro S-1020
+    @api.depends('lotacao_ids.situacao_esocial')
+    def compute_necessita_s1020(self):
+        for esocial in self:
+            necessita_s1020 = False
+            for lotacao in esocial.lotacao_ids:
+                if lotacao.situacao_esocial in ['2']:
+                    necessita_s1020 = True
+            esocial.necessita_s1020 = necessita_s1020
+
+    @api.multi
+    def importar_lotacoes(self):
+        self.ensure_one()
+
+        lotacoes = self.env['res.company'].search([
+            '|',
+            ('id', '=', self.company_id.id),
+            ('matriz', '=', self.company_id.id),
+        ])
+
+        for lotacao in lotacoes:
+            incluir = True
+            for empresa in self.lotacao_ids:
+                if empresa.lotacao_id == lotacao:
+                    incluir = False
+
+            if incluir:
+                # Criar uma nova lotacao neste período
+                vals = {
+                    'company_id': self.company_id.id,
+                    'lotacao_id': lotacao.id,
+                }
+                lotacao_id = self.env['sped.esocial.lotacao'].create(vals)
+                self.lotacao_ids = [(4, lotacao_id.id)]
+
+    @api.multi
+    def criar_s1020(self):
+        self.ensure_one()
+        for lotacao in self.lotacao_ids:
+            lotacao.gerar_registro()
+
+    # Calcula se é necessário criar algum registro S-1020
+    @api.depends('lotacao_ids.situacao_esocial')
+    def compute_necessita_s1020(self):
+        for esocial in self:
+            necessita_s1020 = False
+            for lotacao in esocial.lotacao_ids:
+                if lotacao.situacao_esocial in ['2']:
+                    necessita_s1020 = True
+            esocial.necessita_s1020 = necessita_s1020
+
+    # Controle de registros S-1030
+    cargo_ids = fields.Many2many(
+        string='Cargos',
+        comodel_name='sped.esocial.cargo',
+    )
+    necessita_s1030 = fields.Boolean(
+        string='Necessita S-1030',
+        compute='compute_necessita_s1030',
+    )
+
+    # Calcula se é necessário criar algum registro S-1030
+    @api.depends('cargo_ids.situacao_esocial')
+    def compute_necessita_s1030(self):
+        for esocial in self:
+            necessita_s1030 = False
+            for cargo in esocial.cargo_ids:
+                if cargo.situacao_esocial in ['2']:
+                    necessita_s1030 = True
+            esocial.necessita_s1030 = necessita_s1030
+
+    @api.multi
+    def importar_cargos(self):
+        self.ensure_one()
+
+        cargos = self.env['hr.job'].search([])
+
+        for cargo in cargos:
+
+            # Criar um novo cargo neste período
+            vals = {
+                'company_id': self.company_id.id,
+                'cargo_id': cargo.id,
+            }
+            cargo_id = self.env['sped.esocial.cargo'].create(vals)
+            self.cargo_ids = [(4, cargo_id.id)]
+
+    # Criar registros S-1030
+    @api.multi
+    def criar_s1030(self):
+        self.ensure_one()
+        for cargo in self.cargo_ids:
+            cargo.gerar_registro()
+
+    # Controle de registros S-1050
+    turno_trabalho_ids = fields.Many2many(
+        string='sped_esocial_turnos_trabalho_id',
+        comodel_name='sped.esocial.turnos.trabalho',
+    )
+    necessita_s1050 = fields.Boolean(
+        string='Necessita S-1050',
+        compute='compute_necessita_s1050',
+    )
+
+    # Calcula se é necessário criar algum registro S-1050
+    @api.depends('turno_trabalho_ids.situacao_esocial')
+    def compute_necessita_s1050(self):
+        for esocial in self:
+            necessita_s1050 = False
+            for turno in esocial.cargo_ids:
+                if turno.situacao_esocial in ['2']:
+                    necessita_s1050 = True
+            esocial.necessita_s1050 = necessita_s1050
+
+    @api.multi
+    def importar_turnos_trabalho(self):
+        self.ensure_one()
+
+        turnos_trabalho = self.env['esocial.turnos.trabalho'].search([])
+
+        for turno in turnos_trabalho:
+            if not turno.turno_trabalho_ids:
+                # Criar um novo documento sped para o turno de trabalho
+                vals = {
+                    'company_id': self.company_id.id,
+                    'sped_esocial_turnos_trabalho_id': turno.id,
+                }
+                sped_turno_id = self.env['sped.esocial.turnos.trabalho'].create(
+                    vals
+                )
+                self.turno_trabalho_ids = [(4, sped_turno_id.id)]
+
+    # Criar registros S-1050
+    @api.multi
+    def criar_s1050(self):
+        self.ensure_one()
+        for turno in self.turno_trabalho_ids:
+            turno.gerar_registro()
+
     # @api.multi
     # def unlink(self):
     #     for esocial in self:
@@ -185,126 +364,6 @@ class SpedEsocial(models.Model):
     #         # Atualiza o campo situacao
     #         esocial.situacao = situacao
 
-    @api.depends('periodo_id', 'company_id', 'nome')
-    def _compute_readonly(self):
-        for esocial in self:
-            esocial.nome_readonly = esocial.nome
-            esocial.periodo_id_readonly = esocial.periodo_id
-            esocial.company_id_readonly = esocial.company_id
-
-    @api.depends('periodo_id', 'company_id')
-    def _compute_nome(self):
-        for esocial in self:
-            nome = esocial.periodo_id.name
-            if esocial.company_id:
-                nome += '-' + esocial.company_id.name
-            if esocial.periodo_id:
-                nome += ' (' + esocial.periodo_id.name + ')'
-            esocial.nome = nome
-
-    @api.multi
-    def importar_rubricas(self):
-        self.ensure_one()
-
-        rubricas = self.env['hr.salary.rule'].search([
-            ('nat_rubr', '!=', False),
-        ])
-
-        for rubrica in rubricas:
-            sped_rubrica_id = rubrica.sped_esocial_rubrica_ids
-
-            if not sped_rubrica_id:
-                # Criar uma nova rubrica neste período
-                vals = {
-                    'rubrica_id': rubrica.id,
-                    'company_id': self.company_id.id,
-                }
-                sped_rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
-            self.rubrica_ids = [(4, sped_rubrica_id.id)]
-
-    @api.multi
-    def importar_lotacoes(self):
-        self.ensure_one()
-
-        lotacoes = self.env['res.company'].search([
-            '|',
-            ('id', '=', self.company_id.id),
-            ('matriz', '=', self.company_id.id),
-        ])
-
-        for lotacao in lotacoes:
-            incluir = True
-            for empresa in self.lotacao_ids:
-                if empresa.lotacao_id == lotacao:
-                    incluir = False
-
-            if incluir:
-                # Criar uma nova lotacao neste período
-                vals = {
-                    'company_id': self.company_id.id,
-                    'lotacao_id': lotacao.id,
-                }
-                lotacao_id = self.env['sped.esocial.lotacao'].create(vals)
-                self.lotacao_ids = [(4, lotacao_id.id)]
-
-    @api.multi
-    def importar_cargos(self):
-        self.ensure_one()
-
-        cargos = self.env['hr.job'].search([])
-
-        for cargo in cargos:
-
-            # Criar um novo cargo neste período
-            vals = {
-                'company_id': self.company_id.id,
-                'cargo_id': cargo.id,
-            }
-            cargo_id = self.env['sped.esocial.cargo'].create(vals)
-            self.cargo_ids = [(4, cargo_id.id)]
-
-    @api.multi
-    def importar_turnos_trabalho(self):
-        self.ensure_one()
-
-        turnos_trabalho = self.env['esocial.turnos.trabalho'].search([])
-
-        for turno in turnos_trabalho:
-            if not turno.turno_trabalho_ids:
-                # Criar um novo documento sped para o turno de trabalho
-                vals = {
-                    'company_id': self.company_id.id,
-                    'sped_esocial_turnos_trabalho_id': turno.id,
-                }
-                sped_turno_id = self.env['sped.esocial.turnos.trabalho'].create(
-                    vals
-                )
-                self.turno_trabalho_ids = [(4, sped_turno_id.id)]
-
-    @api.multi
-    def criar_s1010(self):
-        self.ensure_one()
-        for rubrica in self.rubrica_ids:
-            rubrica.gerar_registro()
-
-    @api.multi
-    def criar_s1020(self):
-        self.ensure_one()
-        for lotacao in self.lotacao_ids:
-            lotacao.gerar_registro()
-
-    @api.multi
-    def criar_s1030(self):
-        self.ensure_one()
-        for cargo in self.cargo_ids:
-            cargo.gerar_registro()
-
-    @api.multi
-    def criar_s1050(self):
-        self.ensure_one()
-        for turno in self.turno_trabalho_ids:
-            turno.gerar_registro()
-
     @api.multi
     def get_esocial_vigente(self, company_id=False):
         """
@@ -331,3 +390,21 @@ class SpedEsocial(models.Model):
         )
 
         return esocial_id
+
+    @api.depends('periodo_id', 'company_id', 'nome')
+    def _compute_readonly(self):
+        for esocial in self:
+            esocial.nome_readonly = esocial.nome
+            esocial.periodo_id_readonly = esocial.periodo_id
+            esocial.company_id_readonly = esocial.company_id
+
+    @api.depends('periodo_id', 'company_id')
+    def _compute_nome(self):
+        for esocial in self:
+            nome = esocial.periodo_id.name
+            if esocial.company_id:
+                nome += '-' + esocial.company_id.name
+            if esocial.periodo_id:
+                nome += ' (' + esocial.periodo_id.name + ')'
+            esocial.nome = nome
+
