@@ -318,7 +318,7 @@ class SpedEsocial(models.Model):
 
     # Controle de registros S-1050
     turno_trabalho_ids = fields.Many2many(
-        string='sped_esocial_turnos_trabalho_id',
+        string='Turnos de Trabalho',
         comodel_name='sped.hr.turnos.trabalho',
     )
     necessita_s1050 = fields.Boolean(
@@ -331,7 +331,7 @@ class SpedEsocial(models.Model):
     def compute_necessita_s1050(self):
         for esocial in self:
             necessita_s1050 = False
-            for turno in esocial.cargo_ids:
+            for turno in esocial.turno_trabalho_ids:
                 if turno.situacao_esocial in ['2']:
                     necessita_s1050 = True
             esocial.necessita_s1050 = necessita_s1050
@@ -340,19 +340,14 @@ class SpedEsocial(models.Model):
     def importar_turnos_trabalho(self):
         self.ensure_one()
 
-        turnos_trabalho = self.env['esocial.turnos.trabalho'].search([])
+        turnos_trabalho_ids = self.env['sped.hr.turnos.trabalho'].search([
+            ('company_id', '=', self.company_id.id),
+        ])
 
-        for turno in turnos_trabalho:
-            if not turno.turno_trabalho_ids:
-                # Criar um novo documento sped para o turno de trabalho
-                vals = {
-                    'company_id': self.company_id.id,
-                    'sped_esocial_turnos_trabalho_id': turno.id,
-                }
-                sped_turno_id = self.env['sped.hr.turnos.trabalho'].create(
-                    vals
-                )
-                self.turno_trabalho_ids = [(4, sped_turno_id.id)]
+        for turno_trabalho in turnos_trabalho_ids:
+            if turno_trabalho.id not in self.turno_trabalho_ids.ids:
+                if turno_trabalho.situacao_esocial != '9':
+                    self.lotacao_ids = [(4, turno_trabalho.id)]
 
     # Criar registros S-1050
     @api.multi
