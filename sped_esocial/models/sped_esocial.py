@@ -90,7 +90,8 @@ class SpedEsocial(models.Model):
         ])
         for empregador in empregadores:
             if empregador.id not in self.empregador_ids.ids:
-                self.empregador_ids = [(4, empregador.id)]
+                if empregador.situacao_esocial != '9':
+                    self.empregador_ids = [(4, empregador.id)]
 
     # Cria o registro S-1000
     @api.multi
@@ -130,7 +131,8 @@ class SpedEsocial(models.Model):
         ])
         for estabelecimento in estabelecimentos:
             if estabelecimento.id not in self.estabelecimento_ids.ids:
-                self.estabelecimento_ids = [(4, estabelecimento.id)]
+                if estabelecimento.situacao_esocial != '9':
+                    self.estabelecimento_ids = [(4, estabelecimento.id)]
 
     # Cria os registros S-1005
     @api.multi
@@ -164,21 +166,29 @@ class SpedEsocial(models.Model):
     def importar_rubricas(self):
         self.ensure_one()
 
-        rubricas = self.env['hr.salary.rule'].search([
-            ('nat_rubr', '!=', False),
+        rubricas = self.env['sped.esocial.rubrica'].search([
+            ('company_id', '=', self.company_id.id),
         ])
-
         for rubrica in rubricas:
-            sped_rubrica_id = rubrica.sped_esocial_rubrica_ids
+            if rubrica.id not in self.rubrica_ids.ids:
+                if rubrica.situacao_esocial != '9':
+                    self.rubrica_ids = [(4, rubrica.id)]
 
-            if not sped_rubrica_id:
-                # Criar uma nova rubrica neste período
-                vals = {
-                    'rubrica_id': rubrica.id,
-                    'company_id': self.company_id.id,
-                }
-                sped_rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
-            self.rubrica_ids = [(4, sped_rubrica_id.id)]
+        # rubricas = self.env['hr.salary.rule'].search([
+        #     ('nat_rubr', '!=', False),
+        # ])
+        #
+        # for rubrica in rubricas:
+        #     sped_rubrica_id = rubrica.sped_esocial_rubrica_ids
+        #
+        #     if not sped_rubrica_id:
+        #         # Criar uma nova rubrica neste período
+        #         vals = {
+        #             'rubrica_id': rubrica.id,
+        #             'company_id': self.company_id.id,
+        #         }
+        #         sped_rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
+        #     self.rubrica_ids = [(4, sped_rubrica_id.id)]
 
     @api.multi
     def criar_s1010(self):
@@ -210,26 +220,34 @@ class SpedEsocial(models.Model):
     def importar_lotacoes(self):
         self.ensure_one()
 
-        lotacoes = self.env['res.company'].search([
-            '|',
-            ('id', '=', self.company_id.id),
-            ('matriz', '=', self.company_id.id),
+        lotacoes = self.env['sped.esocial.lotacao'].search([
+            ('company_id', '=', self.company_id.id),
         ])
-
         for lotacao in lotacoes:
-            incluir = True
-            for empresa in self.lotacao_ids:
-                if empresa.lotacao_id == lotacao:
-                    incluir = False
+            if lotacao.id not in self.lotacao_ids.ids:
+                if lotacao.situacao_esocial != '9':
+                    self.lotacao_ids = [(4, lotacao.id)]
 
-            if incluir:
-                # Criar uma nova lotacao neste período
-                vals = {
-                    'company_id': self.company_id.id,
-                    'lotacao_id': lotacao.id,
-                }
-                lotacao_id = self.env['sped.esocial.lotacao'].create(vals)
-                self.lotacao_ids = [(4, lotacao_id.id)]
+        # lotacoes = self.env['res.company'].search([
+        #     '|',
+        #     ('id', '=', self.company_id.id),
+        #     ('matriz', '=', self.company_id.id),
+        # ])
+        #
+        # for lotacao in lotacoes:
+        #     incluir = True
+        #     for empresa in self.lotacao_ids:
+        #         if empresa.lotacao_id == lotacao:
+        #             incluir = False
+        #
+        #     if incluir:
+        #         # Criar uma nova lotacao neste período
+        #         vals = {
+        #             'company_id': self.company_id.id,
+        #             'lotacao_id': lotacao.id,
+        #         }
+        #         lotacao_id = self.env['sped.esocial.lotacao'].create(vals)
+        #         self.lotacao_ids = [(4, lotacao_id.id)]
 
     @api.multi
     def criar_s1020(self):
@@ -271,17 +289,25 @@ class SpedEsocial(models.Model):
     def importar_cargos(self):
         self.ensure_one()
 
-        cargos = self.env['hr.job'].search([])
-
+        cargos = self.env['sped.esocial.cargo'].search([
+            ('company_id', '=', self.company_id.id),
+        ])
         for cargo in cargos:
+            if cargo.id not in self.cargo_ids.ids:
+                if cargo.situacao_esocial != '9':
+                    self.cargo_ids = [(4, cargo.id)]
 
-            # Criar um novo cargo neste período
-            vals = {
-                'company_id': self.company_id.id,
-                'cargo_id': cargo.id,
-            }
-            cargo_id = self.env['sped.esocial.cargo'].create(vals)
-            self.cargo_ids = [(4, cargo_id.id)]
+        # cargos = self.env['hr.job'].search([])
+        #
+        # for cargo in cargos:
+        #
+        #     # Criar um novo cargo neste período
+        #     vals = {
+        #         'company_id': self.company_id.id,
+        #         'cargo_id': cargo.id,
+        #     }
+        #     cargo_id = self.env['sped.esocial.cargo'].create(vals)
+        #     self.cargo_ids = [(4, cargo_id.id)]
 
     # Criar registros S-1030
     @api.multi
