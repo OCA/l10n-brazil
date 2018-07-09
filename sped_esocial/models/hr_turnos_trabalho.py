@@ -165,7 +165,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
     def atualizar_turno(self):
         self.ensure_one()
 
-        # Se o registro intermediário do S-1005 não existe, criá-lo
+        # Se o registro intermediário do S-1050 não existe, criá-lo
         if not self.sped_hr_turnos_trabalho_ids:
             if self.env.user.company_id.eh_empresa_base:
                 matriz = self.env.user.company_id.id
@@ -178,7 +178,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
                     'hr_turnos_trabalho_id': self.id,
                 })
 
-        # Processa cada tipo de operação do S-1005 (Inclusão / Alteração / Exclusão)
+        # Processa cada tipo de operação do S-1050 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
         self.sped_hr_turnos_trabalho_ids.gerar_registro()
 
