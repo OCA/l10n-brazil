@@ -7,10 +7,11 @@ from openerp.exceptions import ValidationError
 
 GRUPO_0 = [
     'R-1000',  # Informações do Contribuinte (EFD/Reinf)
-    'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social)
+    # 'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social)
 ]
 
 GRUPO_1 = [  # Registros de Tabela
+    'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social),
     'S-1005',   # Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
     'S-1010',   # Tabela de Rubricas
     'S-1020',   # Tabela de Lotações Tributárias
@@ -165,6 +166,7 @@ class SpedCriacaoWizard(models.TransientModel):
                 'tipo': lote.tipo,
                 'ambiente': lote.ambiente,
                 'company_id': lote.company_id.id,
+                'grupo': lote.grupo,
                 'situacao': '1',
             }
             novo_lote = self.env['sped.lote'].create(vals)

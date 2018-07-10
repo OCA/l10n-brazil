@@ -365,7 +365,7 @@ class SpedLote(models.Model, ):
         processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
 
         # Transmite
-        processo = processador.enviar_lote(eventos)
+        processo = processador.enviar_lote(eventos, self.grupo)
 
         # Guarda os XMLs de envio e retorno do lote
         envio_xml = processo.envio.xml

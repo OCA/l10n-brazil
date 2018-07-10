@@ -468,284 +468,40 @@ class SpedRegistro(models.Model):
 
         # Registro S-2200 - Cadastramento Inicial do Vínculo e Admissão/Ingresso do Trabalhador
         elif self.registro == 'S-2200':
-
-            # Cria o registro
-            S2200 = pysped.esocial.leiaute.S2200_2()
-
-            # Popula ideEvento
-            S2200.tpInsc = '1'
-            S2200.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-            S2200.evento.ideEvento.tpAmb.valor = int(self.ambiente)
-            S2200.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
-            S2200.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
-
-            # Popula ideEmpregador (Dados do Empregador)
-            S2200.evento.ideEmpregador.tpInsc.valor = '1'
-            S2200.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-
-            # Popula "trabalhador" (Dados do Trabalhador)
-            S2200.evento.trabalhador.cpfTrab.valor = limpa_formatacao(self.origem.employee_id.cpf)
-            S2200.evento.trabalhador.nisTrab.valor = limpa_formatacao(self.origem.employee_id.pis_pasep)
-            S2200.evento.trabalhador.nmTrab.valor = self.origem.employee_id.name
-            sexo = ''
-            if self.origem.employee_id.gender == 'male':
-                sexo = 'M'
-            elif self.origem.employee_id.gender == 'female':
-                sexo = 'F'
-            S2200.evento.trabalhador.sexo.valor = sexo
-            S2200.evento.trabalhador.racaCor.valor = self.origem.employee_id.ethnicity.code or ''
-            estado_civil = ''
-            if self.origem.employee_id.marital == 'single':
-                estado_civil = '1'
-            elif self.origem.employee_id.marital in ['married', 'common_law_marriage']:
-                estado_civil = '2'
-            elif self.origem.employee_id.marital == 'divorced':
-                estado_civil = '3'
-            elif self.origem.employee_id.marital == 'separated':
-                estado_civil = '4'
-            elif self.origem.employee_id.marital == 'widower':
-                estado_civil = '5'
-            S2200.evento.trabalhador.estCiv.valor = estado_civil
-            S2200.evento.trabalhador.grauInstr.valor = self.origem.employee_id.educational_attainment.code or ''
-            S2200.evento.trabalhador.indPriEmpr.valor = 'S' if self.origem.primeiro_emprego else 'N'
-            # S2200.evento.trabalhador.nmSoc =  # TODO separar Nome Legal de Nome Social no Odoo
-
-            # Popula trabalhador.nascimento
-            S2200.evento.trabalhador.nascimento.dtNascto.valor = self.origem.employee_id.birthday
-            S2200.evento.trabalhador.nascimento.codMunic.valor = \
-                self.origem.employee_id.naturalidade.state_id.ibge_code + self.origem.employee_id.naturalidade.ibge_code
-            S2200.evento.trabalhador.nascimento.uf.valor = self.origem.employee_id.naturalidade.state_id.code or ''
-            S2200.evento.trabalhador.nascimento.paisNascto.valor = self.origem.employee_id.pais_nascto_id.codigo
-            S2200.evento.trabalhador.nascimento.paisNac.valor = self.origem.employee_id.pais_nac_id.codigo
-            S2200.evento.trabalhador.nascimento.nmMae.valor = self.origem.employee_id.mother_name or ''
-            S2200.evento.trabalhador.nascimento.nmPai.valor = self.origem.employee_id.father_name or ''
-
-            # Popula trabalhador.documentos
-            # CTPS
-            if self.origem.employee_id.ctps:
-                CTPS = pysped.esocial.leiaute.S2200_CTPS_2()
-                CTPS.nrCtps.valor = self.origem.employee_id.ctps or ''
-                CTPS.serieCtps.valor = self.origem.employee_id.ctps_series or ''
-                CTPS.ufCtps.valor = self.origem.employee_id.ctps_uf_id.code or ''
-                S2200.evento.trabalhador.documentos.CTPS.append(CTPS)
-
-            # # RIC  # TODO (Criar campos em l10n_br_hr)
-            # if self.origem.employee_id.ric:
-            #     RIC = pysped.esocial.leiaute.S2200_RIC_2()
-            #     RIC.nrRic.valor = self.origem.employee_id.ric
-            #     RIC.orgaoEmissor.valor = self.origem.employee_id.ric_orgao_emissor
-            #     if self.origem.employee_id.ric_dt_exped:
-            #         RIC.dtExped.valor = self.origem.employee_id.ric_dt_exped
-            #     S2200.evento.trabalhador.documentos.RG.append(RIC)
-
-            # RG
-            if self.origem.employee_id.rg:
-                RG = pysped.esocial.leiaute.S2200_RG_2()
-                RG.nrRg.valor = self.origem.employee_id.rg or ''
-                RG.orgaoEmissor.valor = self.origem.employee_id.organ_exp or ''
-                if self.origem.employee_id.rg_emission:
-                    RG.dtExped.valor = self.origem.employee_id.rg_emission
-                S2200.evento.trabalhador.documentos.RG.append(RG)
-
-            # # RNE  # TODO (Criar campos em l10n_br_hr)
-            # if self.origem.employee_id.rne:
-            #     RNE = pysped.esocial.leiaute.S2200_RNE_2()
-            #     RNE.nrRne.valor = self.origem.employee_id.rne
-            #     RNE.orgaoEmissor.valor = self.origem.employee_id.rne_orgao_emissor
-            #     if self.origem.employee_id.rne_dt_exped:
-            #         RNE.dtExped.valor = self.origem.employee_id.rne_dt_exped
-            #     S2200.evento.trabalhador.documentos.RNE.append(RNE)
-
-            # # OC  # TODO (Criar campos em l10n_br_hr)
-            # if self.origem.employee_id.oc:
-            #     OC = pysped.esocial.leiaute.S2200_OC_2()
-            #     OC.nrOc.valor = self.origem.employee_id.oc
-            #     OC.orgaoEmissor.valor = self.origem.employee_id.oc_orgao_emissor
-            #     if self.origem.employee_id.oc_dt_exped:
-            #         OC.dtExped.valor = self.origem.employee_id.oc_dt_exped
-            #     if self.origem.employee_id.oc_dt_valid:
-            #         OC.dtValid.valor = self.origem.employee_id.oc_dt_valid
-            #     S2200.evento.trabalhador.documentos.OC.append(OC)
-
-            # CNH
-            if self.origem.employee_id.driver_license:
-                CNH = pysped.esocial.leiaute.S2200_CNH_2()
-                CNH.nrRegCnh.valor = self.origem.employee_id.driver_license
-                if self.origem.employee_id.cnh_dt_exped:
-                    CNH.dtExped.valor = self.origem.employee_id.cnh_dt_exped
-                CNH.ufCnh.valor = self.origem.employee_id.cnh_uf.code
-                CNH.dtValid.valor = self.origem.employee_id.expiration_date
-                if self.origem.employee_id.cnh_dt_pri_hab:
-                    CNH.dtPriHab.valor = self.origem.employee_id.cnh_dt_pri_hab
-                CNH.categoriaCnh.valor = self.origem.employee_id.driver_categ
-                S2200.evento.trabalhador.documentos.CNH.append(CNH)
-
-            # Popula trabalhador.endereco.brasil
-            Brasil = pysped.esocial.leiaute.S2200_Brasil_2()
-            if self.origem.employee_id.address_home_id.tp_lograd:
-                Brasil.tpLograd.valor = self.origem.employee_id.address_home_id.tp_lograd.codigo or ''
-            else:
-                Brasil.tpLograd.valor = 'R'
-            Brasil.dscLograd.valor = self.origem.employee_id.address_home_id.street or ''
-            Brasil.nrLograd.valor = self.origem.employee_id.address_home_id.number or ''
-            Brasil.complemento.valor = self.origem.employee_id.address_home_id.street2 or ''
-            Brasil.bairro.valor = self.origem.employee_id.address_home_id.district or ''
-            Brasil.cep.valor = limpa_formatacao(self.origem.employee_id.address_home_id.zip) or ''
-            Brasil.codMunic.valor = \
-                self.origem.employee_id.address_home_id.l10n_br_city_id.state_id.ibge_code + \
-                self.origem.employee_id.address_home_id.l10n_br_city_id.ibge_code
-            Brasil.uf.valor = self.origem.employee_id.address_home_id.state_id.code
-            S2200.evento.trabalhador.endereco.brasil.append(Brasil)
-
-            # Popula trabalhador.dependente
-            if self.origem.employee_id.have_dependent:
-                for dependente in self.origem.employee_id.dependent_ids:
-                    Dependente = pysped.esocial.leiaute.S2200_Dependente_2()
-                    Dependente.tpDep.valor = dependente.dependent_type_id.code.zfill(2)
-                    Dependente.nmDep.valor = dependente.dependent_name
-                    Dependente.cpfDep.valor = dependente.dependent_cpf
-                    Dependente.dtNascto.valor = dependente.dependent_dob
-                    Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
-                    Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
-                    Dependente.incTrab.valor = 'S' if dependente.inc_trab else 'N'
-                    S2200.evento.trabalhador.dependente.append(Dependente)
-
-            # Popula trabalhador.contato
-            Contato = pysped.esocial.leiaute.S2200_Contato_2()
-            Contato.fonePrinc.valor = limpa_formatacao(self.origem.employee_id.address_home_id.phone or '')
-            Contato.foneAlternat.valor = limpa_formatacao(self.origem.employee_id.alternate_phone or '')
-            Contato.emailPrinc.valor = self.origem.employee_id.address_home_id.email or ''
-            Contato.emailAlternat.valor = self.origem.employee_id.alternate_email or ''
-            S2200.evento.trabalhador.contato.append(Contato)
-
-            # Popula "vinculo"
-            S2200.evento.vinculo.matricula.valor = self.origem.codigo_contrato
-            S2200.evento.vinculo.tpRegTrab.valor = self.origem.labor_regime_id.code
-            S2200.evento.vinculo.tpRegPrev.valor = self.origem.tp_reg_prev
-            S2200.evento.vinculo.cadIni.valor = self.origem.cad_ini
-
-            # Popula vinculo.infoRegimeTrab
-            if self.origem.labor_regime_id.code == '1':
-
-                # Popula infoCeletista
-                InfoCeletista = pysped.esocial.leiaute.S2200_InfoCeletista_2()
-                InfoCeletista.dtAdm.valor = self.origem.date_start
-                InfoCeletista.tpAdmissao.valor = str(self.origem.admission_type_id.code)
-                InfoCeletista.indAdmissao.valor = self.origem.indicativo_de_admissao
-                InfoCeletista.tpRegJor.valor = self.origem.tp_reg_jor
-                InfoCeletista.natAtividade.valor = self.origem.nat_atividade
-                InfoCeletista.cnpjSindCategProf.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf)
-                InfoCeletista.FGTS.opcFGTS.valor = self.origem.opc_fgts
-                if self.origem.dt_opc_fgts:
-                    InfoCeletista.FGTS.dtOpcFGTS.valor = self.origem.dt_opc_fgts
-                S2200.evento.vinculo.infoRegimeTrab.infoCeletista.append(InfoCeletista)
-
-            elif self.origem.labor_regime_id.code == '2':
-
-                # Popula infoEstatutario  # TODO
-                InfoEstatutario = pysped.esocial.leiaute.S2200_InfoEstatutario_2()
-
-
-            # Popula vinculo.infoContrato
-            S2200.evento.vinculo.infoContrato.codCargo.valor = self.origem.job_id.codigo
-            # S2200.evento.vinculo.infoContrato.codFuncao.valor =   # TODO Quando lidar com Estatutários
-            S2200.evento.vinculo.infoContrato.codCateg.valor = self.origem.categoria  # TODO Migrar esse campo para
-                                                                                      # relacionar com tabela 1 do eSocial
-            # S2200.evento.vinculo.infoContrato.codCarreira.valor =   # TODO Quando lidar com Estatutários
-            # S2200.evento.vinculo.infoContrato.dtIngrCarr.valor =   # TODO Quando lidar com Estatutários
-
-            # Popula vinculo.infoContrato.remuneracao
-            S2200.evento.vinculo.infoContrato.vrSalFx.valor = formata_valor(self.origem.wage)
-            S2200.evento.vinculo.infoContrato.undSalFixo.valor = self.origem.salary_unit.code
-            S2200.evento.vinculo.infoContrato.dscSalVar.valor = self.origem.dsc_sal_var or ''
-
-            # Popula vinculo.infoContrato.duracao
-            S2200.evento.vinculo.infoContrato.tpContr.valor = self.origem.tp_contr
-            if self.origem.tp_contr == '2':
-                S2200.evento.vinculo.infoContrato.dtTerm.valor = self.origem.date_end
-                S2200.evento.vinculo.infoContrato.clauAssec.valor = self.origem.clau_assec
-
-            # Popula vinculo.infoContrato.localTrabalho
-            LocalTrabGeral = pysped.esocial.leiaute.S2200_LocalTrabGeral_2()
-            LocalTrabGeral.tpInsc.valor = '1'
-            LocalTrabGeral.nrInsc.valor = limpa_formatacao(self.origem.company_id.cnpj_cpf)
-            # LocalTrabGeral.descComp.valor = ''  # TODO Criar no contrato
-            S2200.evento.vinculo.infoContrato.localTrabalho.localTrabGeral.append(LocalTrabGeral)
-
-            # Popula vinculo.infoContrato.horContratual (Campos)
-            HorContratual = pysped.esocial.leiaute.S2200_HorContratual_2()
-            HorContratual.qtdHrsSem.valor = formata_valor(self.origem.weekly_hours)
-            print(formata_valor(self.origem.weekly_hours))
-            HorContratual.tpJornada.valor = self.origem.tp_jornada
-            if self.origem.tp_jornada == '9':
-                HorContratual.dscTpJor.valor = self.origem.dsc_tp_jorn
-            HorContratual.tmpParc.valor = self.origem.tmp_parc
-
-            # Popula vinculo.horContratual.horario
-            if self.origem.working_hours:
-                for horario in self.origem.working_hours.attendance_ids:
-                    Horario = pysped.esocial.leiaute.S2200_Horario_2()
-                    Horario.dia.valor = horario.diadasemana
-                    Horario.codHorContrat.valor = horario.turno_id.cod_hor_contrat
-                    HorContratual.horario.append(Horario)
-
-            # Popula vinculo.infoContrato.horContratual (Efetivamente)
-            S2200.evento.vinculo.infoContrato.horContratual.append(HorContratual)
-
-            # Popula vinculo.infoContrato.filiacaoSindical
-            FiliacaoSindical = pysped.esocial.leiaute.S2200_FiliacaoSindical_2()
-            FiliacaoSindical.cnpjSindTrab.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf or '')
-            S2200.evento.vinculo.infoContrato.filiacaoSindical.append(FiliacaoSindical)
-
-            # Popula vinculo.infoContrato.observacoes
-            if self.origem.notes:
-                Observacoes = pysped.esocial.leiaute.S2200_Observacoes_2()
-                Observacoes.observacao.valor = self.origem.notes[0:254]
-                S2200.evento.vinculo.infoContrato.observacoes.append(Observacoes)
-
-            # Popula vinculo.sucessaoVinc
-            if self.origem.cnpj_empregador_anterior:
-                SucessaoVinc = pysped.esocial.leiaute.S2200_SucessaoVinc_2()
-                SucessaoVinc.cnpjEmpregAnt.valor = limpa_formatacao(self.origem.cnpj_empregador_anterior)
-                if self.origem.matricula_anterior:
-                    SucessaoVinc.matricAnt.valor = self.origem.matricula_anterior
-                SucessaoVinc.dtTransf.valor = self.origem.date_start  # Se for transf. a data de inicio do contrato é a correta neste campo
-                if self.origem.observacoes_vinculo_anterior:
-                    SucessaoVinc.observacao.valor = self.origem.observacoes_vinculo_anterior
-                S2200.evento.vinculo.sucessaoVinc.append(SucessaoVinc)
-
-            # Gera
-            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
-            S2200.gera_id_evento(dh_transmissao)
-            processador = pysped.ProcessadorESocial()
-
-            processador.certificado.arquivo = arquivo.name
-            processador.certificado.senha = self.company_id.nfe_a1_password
-            processador.ambiente = int(self.ambiente)
-
-            # Define a Inscrição do Processador
-            processador.tpInsc = '1'
-            processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
-
-            # Criar registro do Lote
-            vals = {
-                'tipo': 'esocial',
-                'ambiente': self.ambiente,
-                'transmissao_ids': [(4, self.id)],
-                'data_hora_transmissao': data_hora_transmissao,
-            }
-
-            lote_id = self.env['sped.lote'].create(vals)
-            self.lote_ids = [(4, lote_id.id)]
-            self.data_hora_transmissao = data_hora_transmissao
-
-            # Transmite
-            processo = processador.enviar_lote(lista_eventos=[S2200], grupo='2')
-            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
-            envio_xml_nome = S2200.evento.Id.valor + '-S2200-env.xml'
-            retorno_xml = processo.resposta.xml
-            retorno_xml_nome = S2200.evento.Id.valor + '-S2200-ret.xml'
+            return
+            #
+            # # Gera
+            # data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            # dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            # S2200.gera_id_evento(dh_transmissao)
+            # processador = pysped.ProcessadorESocial()
+            #
+            # processador.certificado.arquivo = arquivo.name
+            # processador.certificado.senha = self.company_id.nfe_a1_password
+            # processador.ambiente = int(self.ambiente)
+            #
+            # # Define a Inscrição do Processador
+            # processador.tpInsc = '1'
+            # processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
+            #
+            # # Criar registro do Lote
+            # vals = {
+            #     'tipo': 'esocial',
+            #     'ambiente': self.ambiente,
+            #     'transmissao_ids': [(4, self.id)],
+            #     'data_hora_transmissao': data_hora_transmissao,
+            # }
+            #
+            # lote_id = self.env['sped.lote'].create(vals)
+            # self.lote_ids = [(4, lote_id.id)]
+            # self.data_hora_transmissao = data_hora_transmissao
+            #
+            # # Transmite
+            # processo = processador.enviar_lote(lista_eventos=[S2200], grupo='2')
+            # envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            # envio_xml_nome = S2200.evento.Id.valor + '-S2200-env.xml'
+            # retorno_xml = processo.resposta.xml
+            # retorno_xml_nome = S2200.evento.Id.valor + '-S2200-ret.xml'
 
         # Registro S-2299 - Informações do Desligamento do Contrato de trabalho
         if self.registro == 'S-2299':
