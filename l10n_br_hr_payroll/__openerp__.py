@@ -36,9 +36,11 @@
         'security/ir.model.access.csv',
 
         'views/hr_contract.xml',
+        'views/hr_contract_autonomo.xml',
         'views/l10n_br_hr_employee.xml',
         'views/hr_payroll_structure.xml',
         'views/hr_payslip.xml',
+        'views/hr_payslip_autonomo.xml',
         'views/hr_payslip_run.xml',
         'views/hr_salary_rule.xml',
         'views/l10n_br_hr_child_benefit_view.xml',

@@ -203,5 +203,19 @@
     </record>
 
 
+    <record model="ir.actions.act_window.view" id="hr_contract_action_tree">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="act_window_id" ref="hr_contract.action_hr_contract"/>
+        <field name="view_id" ref="hr_contract_tree_view"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="hr_contract_action_form">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="act_window_id" ref="hr_contract.action_hr_contract"/>
+        <field name="view_id" ref="hr_contract_form_view"/>
+    </record>
+
 </data>
 </openerp>

@@ -102,6 +102,16 @@ class HrPayslipeLine(models.Model):
                 line.valor_deducao = 0.00
                 line.valor_deducao_fmt = ''
 
+    @api.onchange('salary_rule_id')
+    def _onchange_salary_rule_id(self):
+        for line in self:
+            if line.salary_rule_id and line.salary_rule_id.code:
+                line.code = line.salary_rule_id.code
+                line.category_id = line.salary_rule_id.category_id
+            else:
+                line.code = ''
+                line.category_id = False
+
     quantity_fmt = fields.Char(
         string=u'Quantidade',
         compute=_compute_valor_provento,

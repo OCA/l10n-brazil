@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018  - ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_payslip_autonomo_form_view">
+            <field name="name">hr.payslip.autonomo.form (in l10n_br_hr_payroll)</field>
+            <field name="model">hr.payslip.autonomo</field>
+            <field name="priority" eval="105"/>
+            <field name="arch" type="xml">
+            <form string="RPA">
+                <header>
+                    <button string="Validar" name="hr_verify_sheet" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                    <div class="oe_title">
+                        <label for="contract_id" class="oe_edit_only"/>
+                        <h1>
+                            <field name="contract_id" options="{'no_create': 1}"  required="True" colspan="4" col="4" />
+                        </h1>
+                    </div>
+                    </group>
+
+                    <field name="employee_id" />
+                    <field name="struct_id" />
+
+                    <gorup>
+                        <group>
+                            <group>
+                                <field name="mes_do_ano" />
+                            </group>
+                            <group>
+                                <field name="ano" />
+                            </group>
+                        </group>
+                    </gorup>
+
+                    <group col="4">
+                        <label for="date_from" string="Período"/>
+                        <div>
+                            <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                        </div>
+                    </group>
+
+                    <!-- Adiciona abas -->
+                    <notebook>
+                        <page string="Holerite" attrs="{'invisible': [('state', '!=', 'done')]}">
+                            <field name="line_resume_ids"
+                                   colspan="4" nolabel="1" readonly="1"
+                                   context="{'order': 'sequence, valor_provento desc,  valor_desconto desc'}">
+
+                                <tree string="Salary Structure"
+                                      editable="bottom"
+                                      colors="blue:valor_provento > 0;red:valor_deducao > 0">
+                                    <field name="name"/>
+                                    <field name="valor_provento" sum="valor_provento"/>
+                                    <field name="valor_deducao" sum="valor_deducao" />
+                                </tree>
+                                <form string="Payslip Line">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="valor_provento"/>
+                                        <field name="valor_deducao"/>
+                                    </group>
+                                </form>
+                                <field name="inicio_aquisitivo" invisible="1"/>
+                                <field name="fim_aquisitivo" invisible="1"/>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="total_folha"/>
+                            </group>
+                            <div class="oe_clear"/>
+                        </page>
+
+                        <page string="Salary Computation" attrs="{'invisible': [('state', '=', 'done')]}">
+                            <field name="line_ids" colspan="4" nolabel="1" context="{'default_employee_id': 1, 'default_contract_id': contract_id }" >
+                                <tree editable="bottom"
+                                      colors="blue:valor_provento > 0;red:valor_deducao > 0;orange:total == 0" >
+                                    <field name="code" invisible="1"/>
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="valor_provento" invisible="1"/>
+                                    <field name="valor_deducao" invisible="1"/>
+                                    <field name="quantity" digits="(18,2)" invisible="1"/>
+
+                                    <field name="salary_rule_id"/>
+                                    <field name="name"/>
+                                    <field name="category_id"/>
+                                    <field name="rate" digits="(18,4)" />
+                                    <field name="amount" digits="(18,2)" />
+                                    <field name="total"/>
+                                    <field name="partner_id"/>
+                                    <field name="employee_id"/>
+                                    <field name="contract_id"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- RPA Visao tree-->
+        <record model="ir.ui.view" id="hr_payslip_autonomo_tree_view">
+            <field name="name">hr.payslip.autonomo.tree (in l10n_br_hr_payroll)</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Recibo de Pagamento a Autônomoa">
+                    <field name="contract_id"/>
+                    <field name="mes_do_ano"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hr_payslip_autonomo_action">
+            <field name="name">RPA</field>
+            <field name="res_model">hr.payslip.autonomo</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="hr_payslip_autonomo_tree_view"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="hr_menu_payslip_autonomo"
+                action="hr_payslip_autonomo_action"
+                name="RPA"
+                parent="hr_payroll.menu_hr_root_payroll" sequence="3"
+                groups="base.group_hr_manager"/>
+
+        <record model="ir.actions.act_window.view" id="hr_contracto_autonomo_action_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="hr_payslip_autonomo_action"/>
+            <field name="view_id" ref="hr_payslip_autonomo_tree_view"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="hr_contracto_autonomo_action_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="hr_payslip_autonomo_action"/>
+            <field name="view_id" ref="hr_payslip_autonomo_form_view"/>
+        </record>
+
+
+    </data>
+</openerp>
+
+        <!--Visão Tree -->
