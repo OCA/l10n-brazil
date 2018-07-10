@@ -106,15 +106,7 @@ class SpedCriacaoWizard(models.TransientModel):
         for registro in registros:
 
             # Verifica se o lote correto para este registro já existe
-            grupo = 'na'
-            if registro.registro in GRUPO_0:
-                grupo = '0'
-            elif registro.tipo == 'esocial' and registro.registro in GRUPO_1:
-                grupo = '1'
-            elif registro.tipo == 'esocial' and registro.registro in GRUPO_2:
-                grupo = '2'
-            elif registro.tipo == 'esocial' and registro.registro in GRUPO_3:
-                grupo = '3'
+            grupo = self.get_valor_grupo(registro)
 
             # Verifica se este registro já está em algum lote pré-existente
             lote = self.env['sped.lote.wizard'].search([
@@ -156,6 +148,18 @@ class SpedCriacaoWizard(models.TransientModel):
             res['lote_ids'] = [(6, 0, lotes)]
 
         return res
+
+    def get_valor_grupo(self, registro):
+        grupo = 'na'
+        if registro.registro in GRUPO_0:
+            grupo = '0'
+        elif registro.tipo == 'esocial' and registro.registro in GRUPO_1:
+            grupo = '1'
+        elif registro.tipo == 'esocial' and registro.registro in GRUPO_2:
+            grupo = '2'
+        elif registro.tipo == 'esocial' and registro.registro in GRUPO_3:
+            grupo = '3'
+        return grupo
 
     @api.multi
     def criar_lotes(self):

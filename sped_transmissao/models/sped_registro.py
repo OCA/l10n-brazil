@@ -312,10 +312,12 @@ class SpedRegistro(models.Model):
         # Se chegou até aqui é porque não tem nenhum lote criado, então cria um novo
         #
         # Criar registro do Lote
+        grupo = self.env['sped.criacao.wizard'].get_valor_grupo(self)
         vals = {
             'tipo': 'esocial',
             'company_id': self.company_id.id,
             'ambiente': self.ambiente,
+            'grupo': grupo,
             'transmissao_ids': [(4, self.id)],
         }
         lote_id = self.env['sped.lote'].create(vals)
