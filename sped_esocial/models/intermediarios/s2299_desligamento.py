@@ -120,7 +120,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
             record.name = 'S-2299 - Desligamento {}'.format(record.id)
 
     @api.multi
-    def popula_xml(self):
+    def popula_xml(self, ambiente='2', operacao='I'):
         """
         Função para popular o xml com os dados referente ao desligamento de
         um contrato de trabalho
@@ -214,6 +214,10 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                         det_verbas.vrRubr.valor = str(rubrica_line.total)
 
                         ide_estab_lot.detVerbas.append(det_verbas)
+                        info_ag_nocivo = pysped.esocial.leiaute.S2299_InfoAgNocivo_2()
+                        info_ag_nocivo.grauExp.valor = 1
+
+                        ide_estab_lot.infoAgNocivo.append(info_ag_nocivo)
                         info_per_apur.ideEstabLot.append(ide_estab_lot)
 
                         ide_dm_dev.infoPerApur.append(info_per_apur)

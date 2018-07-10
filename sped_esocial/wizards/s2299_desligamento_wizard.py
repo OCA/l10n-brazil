@@ -56,7 +56,8 @@ class S2299DesligamentoWizard(models.TransientModel):
     @api.multi
     def create_sped_registro(self, intermediario_id, company_id, tipo, registro, evento, ambiente):
         sped_registro_id = self.env['sped.registro'].create({
-            'origem': ("sped.hr.rescisao,{}".format(intermediario_id)),
+            'origem': ("hr.payslip,{}".format(intermediario_id.sped_hr_rescisao_id.id)),
+            'origem_intermediario': ("sped.hr.rescisao,{}".format(intermediario_id.id)),
             'company_id': company_id,
             'tipo': tipo,
             'registro': registro,
@@ -70,7 +71,7 @@ class S2299DesligamentoWizard(models.TransientModel):
     def button_transmitir(self):
         s2299_desligamento_id = self.create_s2299_desligamento()
         sped_registro = self.create_sped_registro(
-            s2299_desligamento_id.id,
+            s2299_desligamento_id,
             s2299_desligamento_id.sped_hr_rescisao_id.company_id.id,
             'esocial',
             'S-2299',
