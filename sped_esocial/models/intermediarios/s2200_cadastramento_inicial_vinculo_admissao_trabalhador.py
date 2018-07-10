@@ -335,7 +335,9 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
 
             # Popula infoCeletista
             InfoCeletista = pysped.esocial.leiaute.S2200_InfoCeletista_2()
-            InfoCeletista.dtAdm.valor = self.hr_contract_id.date_start
+            data_inicio_contrato = fields.Datetime.from_string(self.hr_contract_id.date_start)
+            data_inicio_esocial = fields.Datetime.from_string(self.company_id.esocial_periodo_inicial_id.date_start)
+            InfoCeletista.dtAdm.valor = self.hr_contract_id.date_start if data_inicio_contrato > data_inicio_esocial else self.company_id.esocial_periodo_inicial_id.date_start
             InfoCeletista.tpAdmissao.valor = str(self.hr_contract_id.admission_type_id.code)
             InfoCeletista.indAdmissao.valor = self.hr_contract_id.indicativo_de_admissao
             InfoCeletista.tpRegJor.valor = self.hr_contract_id.tp_reg_jor
@@ -344,7 +346,11 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 self.hr_contract_id.partner_union.cnpj_cpf)
             InfoCeletista.FGTS.opcFGTS.valor = self.hr_contract_id.opc_fgts
             if self.hr_contract_id.dt_opc_fgts:
-                InfoCeletista.FGTS.dtOpcFGTS.valor = self.hr_contract_id.dt_opc_fgts
+                data_inicio_contrato = fields.Datetime.from_string(
+                    self.hr_contract_id.date_start)
+                data_inicio_esocial = fields.Datetime.from_string(
+                    self.company_id.esocial_periodo_inicial_id.date_start)
+                InfoCeletista.FGTS.dtOpcFGTS.valor = self.hr_contract_id.date_start if data_inicio_contrato > data_inicio_esocial else self.company_id.esocial_periodo_inicial_id.date_start
             S2200.evento.vinculo.infoRegimeTrab.infoCeletista.append(InfoCeletista)
 
         elif self.hr_contract_id.labor_regime_id.code == '2':
