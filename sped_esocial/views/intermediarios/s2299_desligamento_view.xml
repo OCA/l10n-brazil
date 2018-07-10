@@ -11,7 +11,7 @@
                         <button name="atualizar_esocial" colspan="4" type="object"
                                 string="Ativar/Atualizar e-Social" class="oe_highlight"
                                 attrs="{'invisible': [('situacao_esocial', 'in', ['1', '3', '9'])]}" />
-                        <field name="situacao_s2200" widget="statusbar" select="1"
+                        <field name="situacao_s2299" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1" />
                     </header>
@@ -22,8 +22,8 @@
                     </div>
                     <group colspan="4" col="4">
                         <group colspan="4" col="2">
-                            <field name="sped_s2200_registro_inclusao" readonly="1"/>
-                            <field name="sped_s2200_registro_retificacao" readonly="1"/>
+                            <field name="sped_s2299_registro_inclusao" readonly="1"/>
+                            <field name="sped_s2299_registro_retificacao" readonly="1"/>
                         </group>
                         <group colspan="4" col="2">
                             <field name="ultima_atualizacao" />
@@ -45,7 +45,7 @@
             <field name="arch" type="xml">
                 <tree string="S-2299 (Desligamento)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
-                    <field name="situacao_s2200"/>
+                    <field name="situacao_s2299"/>
                 </tree>
             </field>
         </record>
