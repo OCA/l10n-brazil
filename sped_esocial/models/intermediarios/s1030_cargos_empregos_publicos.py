@@ -221,14 +221,14 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
                 self.sped_exclusao = sped_exclusao
 
     @api.multi
-    def popula_xml(self):
+    def popula_xml(self, ambiente='2', operacao='I'):
         # Cria o registro
         S1030 = pysped.esocial.leiaute.S1030_2()
 
         # Popula ideEvento
         S1030.tpInsc = '1'
         S1030.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        S1030.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+        S1030.evento.ideEvento.tpAmb.valor = int(ambiente)
         # Processo de Emissão = Aplicativo do Contribuinte
         S1030.evento.ideEvento.procEmi.valor = '1'
         S1030.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -242,29 +242,29 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
         # Inclusão TODO lidar com alteração e exclusão
         S1030.evento.infoCargo.operacao = 'I'
         S1030.evento.infoCargo.ideCargo.codCargo.valor = \
-            self.origem.cargo_id.codigo
+            self.cargo_id.codigo
 
         # Início da Validade neste evento
         S1030.evento.infoCargo.ideCargo.iniValid.valor = \
-            self.origem.cargo_id.ini_valid.code[3:7] + '-' + \
-            self.origem.cargo_id.ini_valid.code[0:2]
+            self.cargo_id.ini_valid.code[3:7] + '-' + \
+            self.cargo_id.ini_valid.code[0:2]
 
         # Preencher dadosCargo
         S1030.evento.infoCargo.dadosCargo.nmCargo.valor = \
-            self.origem.cargo_id.name
+            self.cargo_id.name
         S1030.evento.infoCargo.dadosCargo.codCBO.valor = \
-            self.origem.cargo_id.cbo_id.code
+            self.cargo_id.cbo_id.code
 
         # Preencher dados de cargoPublico (se for o caso)
-        if self.origem.cargo_id.cargo_publico:
+        if self.cargo_id.cargo_publico:
             CargoPublico = pysped.esocial.leiaute.S1030_CargoPublico_2()
 
-            CargoPublico.acumCargo.valor = self.origem.cargo_id.acum_cargo
-            CargoPublico.contagemEsp.valor = self.origem.cargo_id.contagem_esp
-            CargoPublico.dedicExcl.valor = self.origem.cargo_id.dedic_excl
-            CargoPublico.nrLei.valor = self.origem.cargo_id.nr_lei
-            CargoPublico.dtLei.valor = self.origem.cargo_id.dt_lei
-            CargoPublico.sitCargo.valor = self.origem.cargo_id.sit_cargo
+            CargoPublico.acumCargo.valor = self.cargo_id.acum_cargo
+            CargoPublico.contagemEsp.valor = self.cargo_id.contagem_esp
+            CargoPublico.dedicExcl.valor = self.cargo_id.dedic_excl
+            CargoPublico.nrLei.valor = self.cargo_id.nr_lei
+            CargoPublico.dtLei.valor = self.cargo_id.dt_lei
+            CargoPublico.sitCargo.valor = self.cargo_id.sit_cargo
 
         return S1030
 

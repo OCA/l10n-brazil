@@ -210,13 +210,13 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
                 self.sped_exclusao = sped_exclusao
 
     @api.multi
-    def popula_xml(self):
+    def popula_xml(self, ambiente='2', operacao='I'):
         S1050 = pysped.esocial.leiaute.S1050_2()
 
         # Popula ideEvento
         S1050.tpInsc = '1'
         S1050.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        S1050.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+        S1050.evento.ideEvento.tpAmb.valor = int(ambiente)
         # Processo de Emissão = Aplicativo do Contribuinte
         S1050.evento.ideEvento.procEmi.valor = '1'
         S1050.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -227,37 +227,36 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
             self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideHorContratual
-        S1050.evento.infoHorContratual.operacao = 'I'
+        S1050.evento.infoHorContratual.operacao = operacao
         S1050.evento.infoHorContratual.ideHorContratual.codHorContrat.valor = \
-            self.origem.hr_turnos_trabalho_id.cod_hor_contrat
+            self.hr_turnos_trabalho_id.cod_hor_contrat
         # S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor =
-        # self.origem.hr_turnos_trabalho_id.ini_valid
+        # self.hr_turnos_trabalho_id.ini_valid
         S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = \
-            self.origem.hr_turnos_trabalho_id.ini_valid.code[3:7] + \
+            self.hr_turnos_trabalho_id.ini_valid.code[3:7] + \
             '-' + \
-            self.origem.hr_turnos_trabalho_id.ini_valid.code[0:2]
-        if self.origem.hr_turnos_trabalho_id.fim_valid:
+            self.hr_turnos_trabalho_id.ini_valid.code[0:2]
+        if self.hr_turnos_trabalho_id.fim_valid:
             # S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor =
-            # self.origem.hr_turnos_trabalho_id.fim_valid
+            # self.hr_turnos_trabalho_id.fim_valid
             S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor = \
-                self.origem.hr_turnos_trabalho_id.fim_valid.code[3:7]\
+                self.hr_turnos_trabalho_id.fim_valid.code[3:7]\
                 + '-' + \
-                self.origem.hr_turnos_trabalho_id.fim_valid.code[0:2]
+                self.hr_turnos_trabalho_id.fim_valid.code[0:2]
 
         # Popula dadosHorContratual
         S1050.evento.infoHorContratual.dadosHorContratual.hrEntr.valor = \
-            self.origem.hr_turnos_trabalho_id.hr_entr.replace(
+            self.hr_turnos_trabalho_id.hr_entr.replace(
                 ":", "")
         S1050.evento.infoHorContratual.dadosHorContratual.hrSaida.valor = \
-            self.origem.hr_turnos_trabalho_id.hr_saida.replace(
+            self.hr_turnos_trabalho_id.hr_saida.replace(
                 ":", "")
         S1050.evento.infoHorContratual.dadosHorContratual.durJornada.valor = \
-            self.origem.hr_turnos_trabalho_id.dur_jornada
+            self.hr_turnos_trabalho_id.dur_jornada
         S1050.evento.infoHorContratual.dadosHorContratual.perHorFlexivel.valor \
-            = self.origem.hr_turnos_trabalho_id.per_hor_flexivel
+            = self.hr_turnos_trabalho_id.per_hor_flexivel
 
-        for intervalo in self.origem.hr_turnos_trabalho_id.\
-                horario_intervalo_ids:
+        for intervalo in self.hr_turnos_trabalho_id.horario_intervalo_ids:
             sped_intervalo = pysped.esocial.leiaute.HorarioIntervalo_2()
             sped_intervalo.tpInterv.valor = intervalo.tp_interv
             sped_intervalo.durInterv.valor = intervalo.dur_interv
