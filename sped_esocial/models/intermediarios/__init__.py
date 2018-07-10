@@ -10,4 +10,5 @@ from . import s1010_rubrica
 from . import s1020_lotacao_tributaria
 from . import s1030_cargos_empregos_publicos
 from . import s1050_turnos_trabalho
+from . import s2200_cadastramento_inicial_vinculo_admissao_trabalhador
 from . import s2299_desligamento

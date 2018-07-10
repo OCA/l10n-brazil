@@ -16,6 +16,7 @@
                 <field name="place_of_birth" position="before">
                     <field name="pais_nascto_id" options="{'no_create': True, 'no_edit': True}" required="1" />
                     <field name="pais_nac_id" options="{'no_create': True, 'no_edit': True}" required="1" />
+                    <field name="naturalidade" options="{'no_create': True, 'no_edit': True}" required="1" />
                 </field>
                 <field name="driver_categ" position="after">
                     <field name="cnh_dt_exped" />

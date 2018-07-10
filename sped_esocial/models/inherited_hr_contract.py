@@ -106,52 +106,40 @@ class HrContract(models.Model):
     )
 
     # Registro S-2200
-    sped_s2200 = fields.Boolean(
-        string='Cadastro do Vínculo',
-        compute='_compute_sped_s2200',
+    sped_contrato_id = fields.Many2one(
+        string='SPED Contrato',
+        comodel_name='sped.esocial.contrato',
     )
-    sped_s2200_registro = fields.Many2one(
-        string='Registro S-2200 - Cadastramento Inicial do Vínculo',
-        comodel_name='sped.registro',
-    )
-    sped_s2200_situacao = fields.Selection(
-        string='Situação S-2200',
+    situacao_esocial = fields.Selection(
         selection=[
-            ('1', 'Pendente'),
-            ('2', 'Transmitida'),
-            ('3', 'Erro(s)'),
-            ('4', 'Sucesso'),
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
         ],
-        related='sped_s2200_registro.situacao',
+        string='Situação no e-Social',
+        related='sped_contrato_id.situacao_esocial',
         readonly=True,
     )
-    sped_s2200_data_hora = fields.Datetime(
-        string='Data/Hora',
-        related='sped_s2200_registro.data_hora_origem',
-        readonly=True,
-    )
-
-    @api.depends('sped_s2200_registro')
-    def _compute_sped_s2200(self):
-        for contrato in self:
-            contrato.sped_s2200 = True if contrato.sped_s2200_registro else False
 
     @api.multi
-    def criar_s2200(self):
+    def atualizar_contrato(self):
         self.ensure_one()
-        if self.sped_s2200_registro:
-            raise ValidationError('Esta contrato já registro este vínculo')
 
-        empresa = self.company_id.id if self.company_id.eh_empresa_base else self.company_id.matriz.id
+        # Se o registro intermediário do S-2200 não existe, criá-lo
+        if not self.sped_contrato_id:
+            if self.env.user.company_id.eh_empresa_base:
+                matriz = self.env.user.company_id.id
+            else:
+                matriz = self.env.user.company_id.matriz.id
 
-        values = {
-            'tipo': 'esocial',
-            'registro': 'S-2200',
-            'ambiente': self.company_id.esocial_tpAmb or self.company_id.matriz.esocial_tpAmb,
-            'company_id': empresa,
-            'evento': 'evtAdmissao',
-            'origem': ('hr.contract,%s' % self.id),
-        }
+            self.sped_contrato_id = \
+                self.env['sped.esocial.contrato'].create({
+                    'company_id': matriz,
+                    'hr_contract_id': self.id,
+                })
 
-        sped_s2200_registro = self.env['sped.registro'].create(values)
-        self.sped_s2200_registro = sped_s2200_registro
+        # Processa cada tipo de operação do S-2200 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_contrato_id.gerar_registro()

@@ -11,15 +11,13 @@
                     <page name="esocial" string="e-Social">
                         <group colspan="4" col="4">
                             <group colspan="2" col="2">
-                                <field name="sped_s2200" />
-                                <field name="sped_s2200_registro" />
-                                <field name="sped_s2200_situacao" />
+                                <field name="sped_contrato_id" />
+                                <field name="situacao_esocial" />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_s2200_data_hora" />
-                                <button name="criar_s2200" colspan="4" type="object"
-                                        string="Enviar S-2200 - Cadastro de Vínculo"
-                                        attrs="{'invisible': [('sped_s2200_registro', '!=', False)]}" />
+                                <button name="atualizar_contrato" colspan="4" type="object"
+                                        string="Ativar/Atualizar Contrato"
+                                        attrs="{'invisible': [('sped_contrato_id', '!=', False)]}" />
                             </group>
                         </group>
                     </page>

@@ -82,20 +82,20 @@ class HrEmployee(models.Model):
                 # Caso contrario assume a situacao do ultimo envio
                 record.sped_s2205_situacao = ultima_transmissao_id.situacao
 
-            elif record.contract_id.sped_s2200_registro:
-
-                # Se a data da alteracao do registro for maior que a data de
-                # envio do registro do contrato, sinalizo falta de retificacao
-                if record.contract_id.sped_s2200_data_hora < record.write_date:
-                    record.sped_s2205_situacao = '5'
-
-                # se ja foi transmitido o registro S-2200 do contrato,
-                # marco que esta transmitido e nao foi feito alteração ainda
-                # se a data de edicao do registro for igua do contrato,
-                #  sinaliza apenas commo transmitida
-                else:
-                    record.sped_s2205_situacao = \
-                        record.contract_id.sped_s2200_situacao
+            # elif record.contract_id.sped_contrato_id:
+            #
+            #     # Se a data da alteracao do registro for maior que a data de
+            #     # envio do registro do contrato, sinalizo falta de retificacao
+            #     if record.contract_id.sped_s2200_data_hora < record.write_date:
+            #         record.sped_s2205_situacao = '5'
+            #
+            #     # se ja foi transmitido o registro S-2200 do contrato,
+            #     # marco que esta transmitido e nao foi feito alteração ainda
+            #     # se a data de edicao do registro for igua do contrato,
+            #     #  sinaliza apenas commo transmitida
+            #     else:
+            #         record.sped_s2205_situacao = \
+            #             record.contract_id.situacao_esocial
 
             # Se nao informo que nem o contrato foi transmitido ainda
             else:
