@@ -20,6 +20,7 @@
                             <group colspan="4" col="4">
                                 <field name="codigo" required="1" />
                                 <field name="cargo_publico"/>
+                                <field name="sped_cargo_id" />
                                 <field name="ini_valid"
                                        options="{'no_create': True, 'no_open': True}"
                                        attrs="{'required': True}"
@@ -41,7 +42,7 @@
                                        attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
                                 <field name="sit_cargo" colspan="4"
                                        attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
-                                <field name="sped_cargo_id" invisible="1" />
+
                             </group>
                         </page>
                     </notebook>
