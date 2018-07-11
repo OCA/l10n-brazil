@@ -182,6 +182,21 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                 rescisao_id.contract_id.numero_processo
         infoDeslig.indCumprParc.valor = '4'
         verba_rescisoria = pysped.esocial.leiaute.S2299_VerbasResc_2()
+
+        ide_dm_dev = pysped.esocial.leiaute.S2299_DmDev_2()
+        ide_dm_dev.ideDmDev.valor = self.sped_hr_rescisao_id.number
+        info_per_apur = \
+            pysped.esocial.leiaute.S2299_InforPerApur_2()
+
+        ide_estab_lot = \
+            pysped.esocial.leiaute.S2299_IdeEstabLotApur_2()
+        ide_estab_lot.tpInsc.valor = '1'
+        ide_estab_lot.nrInsc.valor = limpa_formatacao(
+            rescisao_id.company_id.cnpj_cpf
+        )
+        ide_estab_lot.codLotacao.valor = \
+            rescisao_id.company_id.cod_lotacao
+
         for rubrica_line in rescisao_id.line_ids:
             if rubrica_line.salary_rule_id.category_id.id in (
                     self.env.ref('hr_payroll.PROVENTO').id,
@@ -189,19 +204,6 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
             ):
                 if rubrica_line.salary_rule_id.code != 'PENSAO_ALIMENTICIA':
                     if rubrica_line.total > 0:
-                        ide_dm_dev = pysped.esocial.leiaute.S2299_DmDev_2()
-                        ide_dm_dev.ideDmDev.valor = str(rubrica_line.id)
-                        info_per_apur = \
-                            pysped.esocial.leiaute.S2299_InforPerApur_2()
-
-                        ide_estab_lot = \
-                            pysped.esocial.leiaute.S2299_IdeEstabLotApur_2()
-                        ide_estab_lot.tpInsc.valor = '1'
-                        ide_estab_lot.nrInsc.valor = limpa_formatacao(
-                            rescisao_id.company_id.cnpj_cpf
-                        )[0:8]
-                        ide_estab_lot.codLotacao.valor = \
-                            rescisao_id.company_id.cod_lotacao
 
                         det_verbas = pysped.esocial.leiaute.S2299_DetVerbas_2()
                         det_verbas.codRubr.valor = \
@@ -214,15 +216,16 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                         det_verbas.vrRubr.valor = str(rubrica_line.total)
 
                         ide_estab_lot.detVerbas.append(det_verbas)
-                        info_ag_nocivo = pysped.esocial.leiaute.S2299_InfoAgNocivo_2()
-                        info_ag_nocivo.grauExp.valor = 1
 
-                        ide_estab_lot.infoAgNocivo.append(info_ag_nocivo)
-                        info_per_apur.ideEstabLot.append(ide_estab_lot)
+        info_ag_nocivo = pysped.esocial.leiaute.S2299_InfoAgNocivo_2()
+        info_ag_nocivo.grauExp.valor = 1
 
-                        ide_dm_dev.infoPerApur.append(info_per_apur)
+        ide_estab_lot.infoAgNocivo.append(info_ag_nocivo)
+        info_per_apur.ideEstabLot.append(ide_estab_lot)
 
-                        verba_rescisoria.dmDev.append(ide_dm_dev)
+        ide_dm_dev.infoPerApur.append(info_per_apur)
+
+        verba_rescisoria.dmDev.append(ide_dm_dev)
 
         infoDeslig.verbaResc.append(verba_rescisoria)
         return S2299
