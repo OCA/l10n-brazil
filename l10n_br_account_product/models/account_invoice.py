@@ -392,6 +392,8 @@ class AccountInvoice(models.Model):
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
+    payment_mode_id = fields.Many2one(
+        comodel_name='payment.mode', string="Payment Mode")
     type_nf_payment = fields.Selection([
         ('01', u'01 - Dinheiro'),
         ('02', u'02 - Cheque'),
