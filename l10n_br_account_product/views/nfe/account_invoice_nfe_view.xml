@@ -173,7 +173,7 @@
                                 <group>
                                     <field name="payment_term" class="oe_inline" on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)"/>
                                     <field name="payment_mode_id" domain="[]"/>
-                                    <field name="type_nf_payment"/>
+                                    <field name="type_nf_payment" required="True"/>
                                     <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"/>
                                 </group>
                                 <group>
