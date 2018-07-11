@@ -54,6 +54,7 @@
                                                     attrs="{'invisible': [('necessita_s1000', '=', False)]}" />
                                         </div>
                                     </group>
+                                    <separator string="Informações do Empregador/Contribuínte/Órgão Público" />
                                     <field name="empregador_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
@@ -66,6 +67,7 @@
                                                     attrs="{'invisible': [('necessita_s1005', '=', False)]}" />
                                         </div>
                                     </group>
+                                    <separator string="Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos" />
                                     <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
@@ -78,6 +80,7 @@
                                                     attrs="{'invisible': [('necessita_s1010', '=', False)]}" />
                                         </div>
                                     </group>
+                                    <separator string="Tabela de Rubricas" />
                                     <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
@@ -90,6 +93,7 @@
                                                     attrs="{'invisible': [('necessita_s1020', '=', False)]}" />
                                         </div>
                                     </group>
+                                    <separator string="Tabela de Lotações Tributárias" />
                                     <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
@@ -102,6 +106,7 @@
                                                     attrs="{'invisible': [('necessita_s1030', '=', False)]}" />
                                         </div>
                                     </group>
+                                    <separator string="Tabela de Cargos/Empregos Públicos" />
                                     <field name="cargo_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
@@ -114,7 +119,26 @@
                                                     attrs="{'invisible': [('necessita_s1050', '=', False)]}" />
                                         </div>
                                     </group>
+                                    <separator string="Tabela de Horários/Turnos de Trabalho" />
                                     <field name="turno_trabalho_ids" readonly="1" nolabel="1" colspan="4" />
+                                </group>
+                            </page>
+                            <page name="s1200" string="S-1200">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_remuneracoes" type="object" string="Calcular" />
+                                        </div>
+                                    </group>
+                                    <separator string="Remuneração de Trabalhador vinculado ao RGPS" />
+                                    <field name="remuneracao_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree string="S-1200 (Remunerações RGPS)">
+                                            <field name="trabalhador_id"/>
+                                            <field name="contratos" />
+                                            <field name="remuneracoes" />
+                                            <field name="situacao_esocial"/>
+                                        </tree>
+                                    </field>
                                 </group>
                             </page>
                         </notebook>

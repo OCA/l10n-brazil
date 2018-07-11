@@ -4,6 +4,7 @@
 
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
+from datetime import datetime
 
 
 class SpedEsocial(models.Model):
@@ -328,34 +329,100 @@ class SpedEsocial(models.Model):
         for turno in self.turno_trabalho_ids:
             turno.gerar_registro()
 
-    # @api.multi
-    # def unlink(self):
-    #     for esocial in self:
-    #         if esocial.situacao not in ['1']:
-    #             raise ValidationError("Não pode excluir um Período e-Social que já tem algum processamento!")
-    #
-    #         # Checa se algum registro já foi transmitido
-    #         for estabelecimento in esocial.estabelecimento_ids:
-    #             if estabelecimento.requer_s1005 and estabelecimento.situacao_s1005 in ['2', '4']:
-    #                 raise ValidationError("Não pode excluir um Período e-Social que já tem algum processamento!")
+    # Controle de registros S-1200
+    remuneracao_ids = fields.Many2many(
+        string='Remuneração de Trabalhador',
+        comodel_name='sped.esocial.remuneracao',
+    )
 
-    # @api.depends('estabelecimento_ids')
-    # def _compute_situacao(self):
-    #     for esocial in self:
-    #
-    #         situacao = '1'
-    #
-    #         # Verifica se está fechado ou aberto
-    #         # situacao = '3' if efdreinf.situacao_R2099 == '4' else '1'
-    #
-    #         # # Checa se tem algum problema que precise ser retificado
-    #         # for estabelecimento in esocial.estabelecimento_ids:
-    #         #     if estabelecimento.requer_
-    #         #     if estabelecimento.situacao_R2010 == '5':
-    #         #         situacao = '2'  # Precisa Retificar
-    #
-    #         # Atualiza o campo situacao
-    #         esocial.situacao = situacao
+    @api.multi
+    def importar_remuneracoes(self):
+        self.ensure_one()
+
+        # TODO
+        # Buscar todos os hr.payslip do período e marcar quais hr.employees tiveram quaisquer hr.payslip
+        # Adicionar no sped.esocial.remuneracao um registro para cada employee com hr.payslip
+        # Atualizar os campos do sped.esocial.remuneracao caso tenha havido algum hr.payslip ou hr.contract novo
+        # Levar em consideração a empresa matriz e todas as filiais
+        # Ignorar o código abaixo
+
+        # Buscar Trabalhadores
+        trabalhadores = self.env['hr.employee'].search([])
+
+        periodo = self.periodo_id
+        matriz  = self.company_id
+        empresas = self.env['res.company'].search([('matriz', '=', matriz.id)]).ids
+        if matriz.id not in empresas:
+            empresas.append(matriz.id)
+
+        # separa somente os trabalhadores com contrato válido neste período e nesta empresa matriz
+        # trabalhadores_com_contrato = []
+        for trabalhador in trabalhadores:
+
+            # Localiza os contratos válidos deste trabalhador
+            domain = [
+                ('employee_id', '=', trabalhador.id),
+                ('company_id', 'in', empresas),
+                ('date_start', '<=', periodo.date_start),
+            ]
+            contratos = self.env['hr.contract'].search(domain)
+            contratos_validos = []
+
+            # Se algum contrato tiver data de término menor que a data inicial do período, tira ele
+            # adiciona o trabalhador na lista de trabalhadores_com_contrato
+            for contrato in contratos:
+                if not contrato.date_end or contrato.date_end >= periodo.date_stop:
+
+                    # TODO Separar os tipos de contratos que importam para o S-1200 somente
+                    # trabalhadores_com_contrato.append(trabalhador)
+                    contratos_validos.append(contrato.id)
+
+            # Se tiver algum contrato válido, cria o registro s1200
+            if contratos_validos:
+
+                # Calcula campos de mês e ano para busca dos payslip
+                mes = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').month
+                ano = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').year
+
+                # Busca os payslips de pagamento mensal deste trabalhador
+                domain_payslip = [
+                    ('company_id', 'in', empresas),
+                    ('contract_id', 'in', contratos_validos),
+                    ('mes_do_ano', '=', mes),
+                    ('ano', '=', ano),
+                    ('state', 'in', ['verify', 'done']),
+                    ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro']),
+                ]
+                payslips = self.env['hr.payslip'].search(domain_payslip)
+
+                # Se tem payslip, cria o registro S-1200
+                if payslips:
+
+                    # Verifica se o registro S-1200 já existe, cria ou atualiza
+                    domain_s1200 = [
+                        ('company_id', '=', matriz.id),
+                        ('trabalhador_id', '=', trabalhador.id),
+                        ('periodo_id', '=', periodo.id),
+                    ]
+                    s1200 = self.env['sped.esocial.remuneracao'].search(domain_s1200)
+                    if not s1200:
+                        vals = {
+                            'company_id': matriz.id,
+                            'trabalhador_id': trabalhador.id,
+                            'periodo_id': periodo.id,
+                            'contract_ids': contratos,
+                            'payslip_ids': payslips,
+                        }
+                        s1200 = self.env['sped.esocial.remuneracao'].create(vals)
+                    else:
+                        s1200.contract_ids = [(6, 0, contratos.ids)]
+                        s1200.payslip_ids = [(6, 0, payslips.ids)]
+
+                    # Relaciona o s1200 com o período do e-Social
+                    self.remuneracao_ids = [(4, s1200.id)]
+
+                    # Cria o registro de transmissão sped (se ainda não existir)
+                    s1200.atualizar_esocial()
 
     @api.multi
     def get_esocial_vigente(self, company_id=False):
@@ -400,4 +467,3 @@ class SpedEsocial(models.Model):
             if esocial.periodo_id:
                 nome += ' (' + esocial.periodo_id.name + ')'
             esocial.nome = nome
-
