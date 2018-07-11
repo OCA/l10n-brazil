@@ -29,97 +29,44 @@ class HrEmployee(models.Model):
     cnh_dt_pri_hab = fields.Date(
         string='Data da 1ª Hab.',
     )
-
-    #  Guardar toedas as alteracoes
-    sped_s2205_registro_ids = fields.Many2many(
-        string='Registro S-2205 de Alterações Cadastrais',
-        comodel_name='sped.registro',
-        # column1='employee_id',
-        # column2='sped_transmissao_id',
+    sped_esocial_alterar_cadastro_id = fields.Many2one(
+        string='Alterar Cadastro',
+        comodel_name='sped.esocial.alteracao.funcionario',
     )
-
-    # Computar a situação da transmissao da ultima alteracao
-    sped_s2205_situacao = fields.Selection(
-        string='Situação',
-        compute='_compute_sped_s2205_situacao',
+    situacao_esocial_inicial = fields.Selection(
         selection=[
-            ('1', 'Pendente'),
-            ('2', 'Transmitida'),
-            ('3', 'Erro(s)'),
-            ('4', 'Sucesso'),
-            ('5', 'Precisa Retificar'),
-            ('6', 'Ainda não cadastrado no e-social'),
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
         ],
+        string='Situação no e-Social',
+        related='contract_id.situacao_esocial',
+        readonly=True,
+    )
+    precisa_atualizar = fields.Boolean(
+        string='Precisa atualizar dados?',
+        related='sped_esocial_alterar_cadastro_id.precisa_atualizar',
     )
 
     @api.multi
-    @api.depends('sped_s2205_registro_ids')
-    def _compute_sped_s2205_situacao(self):
-        """
-        Determinar a situacao do gerador de registro 2205
-        """
-        for record in self:
-
-            if record.sped_s2205_registro_ids:
-
-                # ultima_transmissao_id = record.sped_s2205_registro_ids.
-                # sorted(key=lambda r: r.data_hora_origem)[0]
-
-                ultima_transmissao_id = record.sped_s2205_registro_ids[0]
-
-                # Caso a ultima alteracao do registro for maior que o ultimo
-                # envio do esocial Precisa de retificacao do registro
-                if ultima_transmissao_id.data_hora_origem != record.write_date:
-                    record.sped_s2205_situacao = '5'
-                    return
-
-                # Caso a data seja igual mas o registro nao foi retornado pelo
-                # esocial com sucesso ainda, fica pendente
-                if ultima_transmissao_id.situacao == '4':
-                    record.sped_s2205_situacao = '4'
-                    return
-
-                # Caso contrario assume a situacao do ultimo envio
-                record.sped_s2205_situacao = ultima_transmissao_id.situacao
-
-            # elif record.contract_id.sped_contrato_id:
-            #
-            #     # Se a data da alteracao do registro for maior que a data de
-            #     # envio do registro do contrato, sinalizo falta de retificacao
-            #     if record.contract_id.sped_s2200_data_hora < record.write_date:
-            #         record.sped_s2205_situacao = '5'
-            #
-            #     # se ja foi transmitido o registro S-2200 do contrato,
-            #     # marco que esta transmitido e nao foi feito alteração ainda
-            #     # se a data de edicao do registro for igua do contrato,
-            #     #  sinaliza apenas commo transmitida
-            #     else:
-            #         record.sped_s2205_situacao = \
-            #             record.contract_id.situacao_esocial
-
-            # Se nao informo que nem o contrato foi transmitido ainda
-            else:
-                record.sped_s2205_situacao = '6'
-
-    @api.multi
-    def criar_s2205(self):
-        """
-        Criar registro do esocial S-2205
-        """
-        empresa = self.company_id.id if self.company_id.eh_empresa_base else self.company_id.matriz.id
-
+    def atualizar_cadastro_funcionario(self):
         self.ensure_one()
-        values = {
-            'tipo': 'esocial',
-            'registro': 'S-2205',
-            'ambiente': self.company_id.esocial_tpAmb or self.company_id.matriz.esocial_tpAmb,
-            'company_id': empresa,
-            'evento': 'evtAltCadastral',
-            'origem': ('hr.employee,%s' % self.id),
-        }
 
-        sped_s2205_registro_id = self.env['sped.registro'].create(values)
+        # Se o registro intermediário do S-2205 não existe, criá-lo
+        if not self.sped_esocial_alterar_cadastro_id:
+            matriz = self.company_id.id if self.company_id.eh_empresa_base \
+                else self.company_id.matriz.id
+            self.sped_esocial_alterar_cadastro_id = \
+                self.env['sped.esocial.alteracao.funcionario'].create(
+                    {
+                        'company_id': matriz,
+                        'hr_employee_id': self.id,
+                    }
+                )
 
-        self.write({
-            'sped_s2205_registro_ids': [(4, sped_s2205_registro_id.id)]
-        })
+        # Processa cada tipo de operação do S-2205
+        # O que realmente precisará ser feito é
+        # tratado no método do registro intermediário
+        self.sped_esocial_alterar_cadastro_id.gerar_registro()
