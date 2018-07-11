@@ -205,12 +205,12 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                     itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
                     itens_remun.codRubr.valor = line.salary_rule_id.codigo
                     itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
-                    if line.salary_rule_id.quantity and line.salary_rule_id != 1:
-                        itens_remun.qtdRubr.valor = line.salary_rule_id.quantity
-                        itens_remun.vrUnit.valor = line.salary_rule_id.amount
-                    if line.salary_rule_id.rate and line.salary_rule_id.rate != 100:
-                        itens_remun.fatorRubr.valor = line.salary_rule_id.rate
-                    itens_remun.vrRubr.valor = line.salary_rule_id.total
+                    if line.quantity and float(line.quantity) != 1:
+                        itens_remun.qtdRubr.valor = float(line.quantity)
+                        itens_remun.vrUnit.valor = formata_valor(line.amount)
+                    if line.rate and line.rate != 100:
+                        itens_remun.fatorRubr.valor = line.rate
+                    itens_remun.vrRubr.valor = formata_valor(line.total)
                     remun_per_apur.itensRemun.append(itens_remun)
 
             # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoSaudeColet  # TODO Quando tivermos plano de saúde
@@ -261,7 +261,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
             # Adiciona o registro nas listas das tags superiores
             info_per_apur.ideEstabLot.remunPerApur.append(remun_per_apur)
-            dm_dev.info_per_apur.append(info_per_apur)
+            dm_dev.infoPerApur.append(info_per_apur)
             S1200.evento.dmDev.append(dm_dev)
 
         return S1200
