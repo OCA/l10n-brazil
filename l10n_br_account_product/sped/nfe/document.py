@@ -128,7 +128,7 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.ide.verProc.valor = 'Odoo Brasil v8'
         self.nfe.infNFe.compra.xPed.valor = invoice.name or ''
 
-        if invoice.cfop_ids[0].type in ("input"):
+        if invoice.cfop_ids[0].type in "input":
             self.nfe.infNFe.ide.tpNF.valor = 0
         else:
             self.nfe.infNFe.ide.tpNF.valor = 1
@@ -235,8 +235,8 @@ class NFe200(FiscalDocument):
             invoice.company_id.partner_id.cnpj_cpf)
         self.nfe.infNFe.emit.xNome.valor = (normalize(
             'NFKD', unicode(
-                invoice.company_id.partner_id.legal_name[:60])).encode(
-            'ASCII', 'ignore'))
+                invoice.company_id.partner_id.legal_name[:60])
+        ).encode('ASCII', 'ignore'))
         self.nfe.infNFe.emit.xFant.valor = invoice.company_id.partner_id.name
         self.nfe.infNFe.emit.enderEmit.xLgr.valor = (normalize(
             'NFKD', unicode(company.street or '')).encode('ASCII', 'ignore'))
@@ -296,8 +296,8 @@ class NFe200(FiscalDocument):
             address_invoice_state_code = invoice.partner_id.state_id.code
             address_invoice_city = (normalize(
                 'NFKD', unicode(
-                    invoice.partner_id.l10n_br_city_id.name or '')).encode(
-                'ASCII', 'ignore'))
+                    invoice.partner_id.l10n_br_city_id.name or '')
+            ).encode('ASCII', 'ignore'))
             address_invoice_city_code = ('%s%s') % (
                 invoice.partner_id.state_id.ibge_code,
                 invoice.partner_id.l10n_br_city_id.ibge_code)
@@ -309,14 +309,13 @@ class NFe200(FiscalDocument):
             self.nfe.infNFe.dest.xNome.valor = (
                 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL')
         else:
-            self.nfe.infNFe.dest.xNome.valor = (normalize(
-            'NFKD', unicode(
-                    invoice.partner_id.legal_name[:60] or '')
-            ).encode('ASCII', 'ignore'))
+            self.nfe.infNFe.dest.xNome.valor = (normalize('NFKD', unicode(
+                invoice.partner_id.legal_name[:60] or ''
+            )).encode('ASCII', 'ignore'))
 
             if invoice.partner_id.is_company:
-                self.nfe.infNFe.dest.IE.valor = punctuation_rm(
-                    invoice.partner_id.inscr_est)
+                self.nfe.infNFe.dest.IE.valor = \
+                    punctuation_rm(invoice.partner_id.inscr_est)
 
             if invoice.partner_id.country_id.id == \
                     invoice.company_id.country_id.id:
@@ -340,7 +339,8 @@ class NFe200(FiscalDocument):
                 invoice.partner_id.street2 or '')).encode('ASCII', 'ignore'))
         self.nfe.infNFe.dest.enderDest.xBairro.valor = (normalize(
             'NFKD', unicode(
-                invoice.partner_id.district or 'Sem Bairro')).encode('ASCII', 'ignore'))
+                invoice.partner_id.district or 'Sem Bairro')
+        ).encode('ASCII', 'ignore'))
         self.nfe.infNFe.dest.enderDest.cMun.valor = address_invoice_city_code
         self.nfe.infNFe.dest.enderDest.xMun.valor = address_invoice_city
         self.nfe.infNFe.dest.enderDest.UF.valor = address_invoice_state_code
@@ -361,16 +361,13 @@ class NFe200(FiscalDocument):
             self.det.prod.cProd.valor = invoice_line.product_id.code or ''
             self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
             self.det.prod.cEANTrib.valor = invoice_line.product_id.ean13 or ''
-            self.det.prod.xProd.valor = (normalize(
-            'NFKD', unicode(
-                    invoice_line.product_id.name[:120] or '')
-            ).encode('ASCII', 'ignore'))
+            self.det.prod.xProd.valor = (normalize('NFKD', unicode(
+                invoice_line.product_id.name[:120] or ''
+            )).encode('ASCII', 'ignore'))
         else:
             self.det.prod.cProd.valor = invoice_line.code or ''
-            self.det.prod.xProd.valor = (normalize(
-            'NFKD', unicode(
-                    invoice_line.name[:120] or '')
-            ).encode('ASCII', 'ignore'))
+            self.det.prod.xProd.valor = (normalize('NFKD', unicode(
+                invoice_line.name[:120] or '')).encode('ASCII', 'ignore'))
 
         self.det.prod.NCM.valor = punctuation_rm(
             invoice_line.fiscal_classification_id.code or '')[:8]
