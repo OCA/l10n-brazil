@@ -17,5 +17,5 @@ from . import s1200_remuneracao_de_trabalhador_rgps
 
 # Registros Eventuais
 from . import s2200_cadastramento_inicial_vinculo_admissao_trabalhador
-from . import s2005_alteracao_dados_cadastrais_trabalhador
+from . import s2205_alteracao_dados_cadastrais_trabalhador
 from . import s2299_desligamento
