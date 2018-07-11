@@ -148,6 +148,8 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         S2205.evento.ideEvento.tpAmb.valor = int(
             empregado_id.company_id.esocial_tpAmb
         )
+        S2205.evento.ideEvento.procEmi.valor = '1'
+        S2205.evento.ideEvento.verProc.valor = '8.0'
 
         # Popula ideEmpregador (Dados do Empregador)
         S2205.evento.ideEmpregador.tpInsc.valor = '1'
@@ -211,12 +213,13 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
         # Popula endereco (Informações do endereço do Trabalhador)
         endereco_brasil = dados_trabalhador.endereco.brasil
-        endereco_brasil.tpLograd.valor = empregado_id.address_home_id.tp_lograd
+        endereco_brasil.tpLograd.valor = empregado_id.address_home_id.tp_lograd.codigo
         endereco_brasil.dscLograd.valor = empregado_id.address_home_id.street
         endereco_brasil.nrLograd.valor = empregado_id.address_home_id.number \
             if empregado_id.address_home_id.number else 'S/N'
         endereco_brasil.bairro.valor = empregado_id.address_home_id.district
-        endereco_brasil.cep.valor = empregado_id.address_home_id.zip
+        endereco_brasil.cep.valor = limpa_formatacao(
+            empregado_id.address_home_id.zip)
         endereco_brasil.codMunic.valor = \
             empregado_id.address_home_id.l10n_br_city_id.ibge_code
         endereco_brasil.uf.valor = empregado_id.address_home_id.state_id.code
@@ -225,7 +228,8 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         for dependente in empregado_id.dependent_ids:
             dependente_xml = pysped.esocial.leiaute.S2205_Dependente_2()
 
-            dependente_xml.tpDep.valor = dependente.dependent_type_id.code
+            dependente_xml.tpDep.valor = '03'
+            # dependente_xml.tpDep.valor = dependente.dependent_type_id.code
             dependente_xml.nmDep.valor = dependente.dependent_name
             dependente_xml.dtNascto.valor = dependente.dependent_dob
             if dependente.dependent_cpf:
