@@ -123,8 +123,18 @@ class HrContract(models.Model):
         readonly=True,
     )
 
+    # Registro S-2206
+    sped_esocial_alterar_contrato_id = fields.Many2one(
+        string='Alterar Contrato',
+        comodel_name='sped.esocial.alteracao.contrato',
+    )
+    precisa_atualizar = fields.Boolean(
+        string='Precisa atualizar dados?',
+        related='sped_esocial_alterar_contrato_id.precisa_atualizar',
+    )
+
     @api.multi
-    def atualizar_contrato(self):
+    def ativar_contrato(self):
         self.ensure_one()
 
         # Se o registro intermediário do S-2200 não existe, criá-lo
@@ -143,3 +153,24 @@ class HrContract(models.Model):
         # Processa cada tipo de operação do S-2200 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
         self.sped_contrato_id.gerar_registro()
+
+    @api.multi
+    def alterar_contrato(self):
+        self.ensure_one()
+
+        # Se o registro intermediário do S-2206 não existe, criá-lo
+        if not self.sped_esocial_alterar_contrato_id:
+            if self.env.user.company_id.eh_empresa_base:
+                matriz = self.env.user.company_id.id
+            else:
+                matriz = self.env.user.company_id.matriz.id
+
+            self.sped_esocial_alterar_contrato_id = \
+                self.env['.esocial.alteracao.contrato'].create({
+                    'company_id': matriz,
+                    'hr_contract_id': self.id,
+                })
+
+        # Processa cada tipo de operação do S-2206 (Alteração)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_esocial_alterar_contrato_id.gerar_registro()

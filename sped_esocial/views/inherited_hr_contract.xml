@@ -9,15 +9,28 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Alterações Contratuais']" position="after">
                     <page name="esocial" string="e-Social">
+                        <separator string="Ativação do Contrato" />
                         <group colspan="4" col="4">
                             <group colspan="2" col="2">
                                 <field name="sped_contrato_id" />
                                 <field name="situacao_esocial" />
                             </group>
                             <group colspan="2" col="2">
-                                <button name="atualizar_contrato" colspan="4" type="object"
-                                        string="Ativar/Atualizar Contrato"
+                                <button name="ativar_contrato" colspan="4" type="object"
+                                        string="Ativar Contrato"
                                         attrs="{'invisible': [('sped_contrato_id', '!=', False)]}" />
+                            </group>
+                        </group>
+                        <separator string="Alteração do Contrato" />
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="sped_esocial_alterar_contrato_id" />
+                                <field name="precisa_atualizar" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <button name="atualizar_contrato" colspan="4" type="object"
+                                        string="Atualizar Contrato"
+                                        attrs="{'invisible': [('precisa_atualizar', '=', False)]}" />
                             </group>
                         </group>
                     </page>
