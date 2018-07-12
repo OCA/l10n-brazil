@@ -17,11 +17,14 @@
                     </header>
                     <div class="oe_title">
                         <h1>
-                            <field name="company_id" readonly="1"/>
-                            <field name="cargo_id" readonly="1"/>
+                            <field name="nome" readonly="1"/>
                         </h1>
                     </div>
                     <group colspan="4" col="4">
+                        <group colspan="4" col="2">
+                            <field name="company_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="cargo_id" readonly="1"/>
+                        </group>
                         <group colspan="4" col="2">
                             <field name="sped_inclusao" readonly="1"/>
                             <field name="sped_alteracao" readonly="1"/>
@@ -47,9 +50,6 @@
                 <tree string="S-1030 (Cargos e Empregos Públicos)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="cargo_id" />
-                    <field name="precisa_incluir" />
-                    <field name="precisa_atualizar" />
-                    <field name="precisa_excluir" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

@@ -13,10 +13,12 @@ from .sped_registro_intermediario import SpedRegistroIntermediario
 
 class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
     _name = "sped.esocial.contrato"
+    _rec_name = 'name'
 
     name = fields.Char(
         string='name',
-        compute='_compute_display_name'
+        compute='_compute_display_name',
+        store=True,
     )
     company_id = fields.Many2one(
         string='Empresa',
@@ -112,10 +114,10 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             # Popula na tabela
             desligamento.situacao_esocial = situacao_esocial
 
-    @api.multi
+    @api.depends('hr_contract_id')
     def _compute_display_name(self):
         for record in self:
-            record.name = 'S-2200 - Admissão {}'.format(record.id)
+            record.name = 'S-2200 - Admissão {}'.format(record.hr_contract_id.display_name or '')
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):

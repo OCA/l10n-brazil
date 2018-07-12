@@ -76,9 +76,11 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
     @api.depends('rubrica_id')
     def _compute_nome(self):
         for rubrica in self:
-            nome = ""
+            nome = "Rubrica"
             if rubrica.rubrica_id:
-                nome += rubrica.rubrica_id.name
+                nome += ' ('
+                nome += rubrica.rubrica_id.display_name or ''
+                nome += ')'
 
             rubrica.nome = nome
 

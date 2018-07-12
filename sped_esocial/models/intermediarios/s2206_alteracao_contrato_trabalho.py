@@ -15,6 +15,11 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
     _rec_name = "hr_contract_id"
     _order = "company_id"
 
+    name = fields.Char(
+        string='name',
+        compute='_compute_display_name',
+        store=True,
+    )
     company_id = fields.Many2one(
         string='Empresa',
         comodel_name='res.company',
@@ -46,6 +51,11 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         string='Data da última atualização',
         compute='compute_ultima_atualizacao',
     )
+
+    @api.depends('hr_contract_id')
+    def _compute_display_name(self):
+        for record in self:
+            record.name = 'S-2206 - Alteração Contratual {}'.format(record.hr_contract_id.display_name or '')
 
     @api.depends('sped_alteracao')
     def compute_situacao_esocial(self):

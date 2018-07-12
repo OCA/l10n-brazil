@@ -13,7 +13,7 @@ from .sped_registro_intermediario import SpedRegistroIntermediario
 class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
     _name = 'sped.esocial.lotacao'
     _description = 'Tabela de Lotações Tributárias do e-Social'
-    _rec_name = 'nome'
+    _rec_name = "nome"
     _order = "nome"
 
     nome = fields.Char(
@@ -76,9 +76,11 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
     @api.depends('lotacao_id')
     def _compute_nome(self):
         for lotacao in self:
-            nome = ""
+            nome = "Lotação Tributária "
             if lotacao.lotacao_id:
-                nome += lotacao.lotacao_id.name
+                nome += ' ('
+                nome += lotacao.lotacao_id.name or ''
+            nome += ')'
             lotacao.nome = nome
 
     @api.depends('sped_inclusao', 'sped_exclusao')

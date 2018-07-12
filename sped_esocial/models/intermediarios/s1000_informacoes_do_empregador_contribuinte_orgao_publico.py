@@ -15,10 +15,10 @@ import pysped
 
 class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     _name = "sped.empregador"
-    _rec_name = "company_id"
+    _rec_name = "nome"
     _order = "company_id"
 
-    name = fields.Char(
+    nome = fields.Char(
         string='Nome',
         compute='_compute_name',
         store=True,
@@ -72,24 +72,15 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         string='Limpar DB',
     )
 
-    @api.depends('origem')
+    @api.depends('company_id')
     def _compute_name(self):
         for registro in self:
-            name = ''
-            if registro.origem:
-                name += registro.origem.display_name or ''
-            registro.name = name
-
-    @api.depends('origem')
-    def _compute_name(self):
-        for registro in self:
-            name = ''
-            if registro.origem:
-                name += ' ' if name else ''
-                name += '('
-                name += registro.origem.display_name or ''
-                name += ')'
-            registro.name = name
+            nome = 'Empregador'
+            if registro.company_id:
+                nome += ' ('
+                nome += registro.company_id.display_name or ''
+                nome += ')'
+            registro.nome = nome
 
     @api.depends('sped_inclusao', 'sped_exclusao')
     def compute_situacao_esocial(self):

@@ -75,9 +75,11 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
     @api.depends('cargo_id')
     def _compute_nome(self):
         for cargo in self:
-            nome = ""
+            nome = "Cargo"
             if cargo.cargo_id:
-                nome += cargo.cargo_id.name
+                nome += ' ('
+                nome += cargo.cargo_id.name or ''
+                nome += ')'
 
             cargo.nome = nome
 

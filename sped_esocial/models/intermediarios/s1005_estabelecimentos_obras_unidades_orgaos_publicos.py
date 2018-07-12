@@ -13,8 +13,9 @@ from .sped_registro_intermediario import SpedRegistroIntermediario
 
 class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
     _name = "sped.estabelecimentos"
+    _rec_name = "nome"
 
-    name = fields.Char(
+    nome = fields.Char(
         string='Nome',
         compute='_compute_name',
         store=True,
@@ -67,13 +68,15 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         compute='compute_ultima_atualizacao',
     )
 
-    @api.depends('origem')
+    @api.depends('estabelecimento_id')
     def _compute_name(self):
         for registro in self:
-            name = ''
-            if registro.origem:
-                name += registro.origem.display_name or ''
-            registro.name = name
+            nome = 'Estabelecimento'
+            if registro.estabelecimento_id:
+                nome += ' ('
+                nome += registro.estabelecimento_id.display_name or ''
+                nome += ')'
+            registro.nome = nome
 
     @api.depends('sped_inclusao', 'sped_exclusao')
     def compute_situacao_esocial(self):

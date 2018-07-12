@@ -225,17 +225,18 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # info_saude_colet = pysped.esocial.leiaute.S1200_InfoSaudeColet_2()
             # info_saude_colet.
 
-            # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoAgNocivo  # TODO Quando tivermos controle de
-            # #                                                                 # agentes nocivos
-            # # Registro preenchido exclusivamente em relação a remuneração do trabalhador enquadrado em uma das
-            # # categorias relativas a Empregado, Servidor Público, Avulso, ou na categoria de Cooperado filiado
-            # # a cooperativa de produção [738] ou Cooperado filiado a cooperativa de trabalho que presta serviço
-            # # a empresa [731, 734], permitindo o detalhamento do grau de exposição do trabalhador aos agentes
-            # # nocivos que ensejam cobrança da contribuição adicional para financiamento dos benefícios de
-            # # aposentadoria especial.
-            # #
-            # info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
-            # info_ag_nocivo.
+            # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoAgNocivo  # TODO Quando tivermos controle de
+            #                                                                 # agentes nocivos
+            # Registro preenchido exclusivamente em relação a remuneração do trabalhador enquadrado em uma das
+            # categorias relativas a Empregado, Servidor Público, Avulso, ou na categoria de Cooperado filiado
+            # a cooperativa de produção [738] ou Cooperado filiado a cooperativa de trabalho que presta serviço
+            # a empresa [731, 734], permitindo o detalhamento do grau de exposição do trabalhador aos agentes
+            # nocivos que ensejam cobrança da contribuição adicional para financiamento dos benefícios de
+            # aposentadoria especial.
+            #
+            info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
+            info_ag_nocivo.grauExp = '1'
+            remun_per_apur.infoAgNocivo.append(info_ag_nocivo)
 
             # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoTrabInterm  # TODO Quando tivermos controle
             # #                                                                   # trabalho intermitente

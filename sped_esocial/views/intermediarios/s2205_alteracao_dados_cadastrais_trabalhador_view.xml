@@ -17,12 +17,15 @@
                     </header>
                     <div class="oe_title">
                         <h1>
-                            <field name="company_id" readonly="1"/>
+                            <field name="name" readonly="1"/>
                         </h1>
                     </div>
                     <group colspan="4" col="4">
                         <group colspan="4" col="2">
+                            <field name="company_id" readonly="1" options="{'no_open': True}"/>
                             <field name="hr_employee_id" readonly="1"/>
+                        </group>
+                        <group colspan="4" col="2">
                             <field name="sped_alteracao" readonly="1"/>
                         </group>
                         <group colspan="4" col="2">

@@ -21,9 +21,14 @@ ESTADO_CIVIL = {
 
 class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     _name = "sped.esocial.alteracao.funcionario"
-    _rec_name = "company_id"
+    _rec_name = "name"
     _order = "company_id"
 
+    name = fields.Char(
+        string='name',
+        compute='_compute_display_name',
+        store=True,
+    )
     company_id = fields.Many2one(
         string='Empresa',
         comodel_name='res.company',
@@ -55,6 +60,11 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         string='Data da última atualização',
         compute='compute_ultima_atualizacao',
     )
+
+    @api.depends('hr_employee_id')
+    def _compute_display_name(self):
+        for record in self:
+            record.name = 'S-2205 - Alteração Cadastral {}'.format(record.hr_employee_id.display_name or '')
 
     @api.depends('sped_alteracao')
     def compute_situacao_esocial(self):
