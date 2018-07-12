@@ -12,7 +12,7 @@ class HrTelefoniaWizard(models.TransientModel):
     mensagem_ateste = fields.Char(
         string='Mensagem do Ateste',
         readonly=True,
-        default=u'Atesto que as ligações previamente selecionadas foram particulares.',
+        default=u'Atesto as ligações previamente selecionadas.',
     )
 
     mensagem_valor = fields.Char(
