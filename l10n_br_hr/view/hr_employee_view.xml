@@ -36,7 +36,7 @@
                     <attribute name="domain">[('is_company','=',False)]</attribute>
                 </field>
                 <xpath expr="//page[@string='Public Information']" position="after">
-                    <page string="Documents">
+                    <page string="Documents" groups="base.group_hr_manager,base.group_hr_user">
                         <form string="Documents" version="7.0">
                             <group>
                                 <group string="CTPS">
@@ -84,7 +84,7 @@
                 </xpath>
 
                 <xpath expr="//page[@string='Personal Information']" position="after">
-                    <page string="Spouse and Dependents">
+                    <page string="Spouse and Dependents" groups="base.group_hr_manager,base.group_hr_user">
                         <form string="Spouse and Dependents" version="7.0">
                             <group colspan="4" col="4">
                                 <field name="have_dependent"/>
@@ -126,7 +126,7 @@
                             </field>
                         </form>
                     </page>
-                    <page string="Health">
+                    <page string="Health" groups="base.group_hr_manager,base.group_hr_user">
                         <group>
                             <field name="blood_type"/>
                             <field name="deficiency_id"/>
