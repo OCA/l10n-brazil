@@ -60,6 +60,7 @@
         'views/intermediarios/s1030_cargos_empregos_publicos_view.xml',
         'views/intermediarios/s1050_turnos_trabalho_view.xml',
         'views/intermediarios/s1200_remuneracao_de_trabalhador_rgps.xml',
+        'views/intermediarios/s1202_remuneracao_de_servidor_rpps.xml',
         'views/intermediarios/s2200_cadastramento_inicial_vinculo_admissao_trabalhador_view.xml',
         'views/intermediarios/s2205_alteracao_dados_cadastrais_trabalhador_view.xml',
         'views/intermediarios/s2206_alteracao_contrato_trabalho_view.xml',

@@ -14,6 +14,11 @@ from .sped_registro_intermediario import SpedRegistroIntermediario
 class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
     _name = "sped.estabelecimentos"
 
+    name = fields.Char(
+        string='Nome',
+        compute='_compute_name',
+        store=True,
+    )
     company_id = fields.Many2one(
         string='Empresa',
         comodel_name='res.company',
@@ -61,6 +66,14 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         string='Data da última atualização',
         compute='compute_ultima_atualizacao',
     )
+
+    @api.depends('origem')
+    def _compute_name(self):
+        for registro in self:
+            name = ''
+            if registro.origem:
+                name += registro.origem.display_name or ''
+            registro.name = name
 
     @api.depends('sped_inclusao', 'sped_exclusao')
     def compute_situacao_esocial(self):

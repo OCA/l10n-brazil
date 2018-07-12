@@ -19,9 +19,9 @@
                     </div>
                     <group colspan="4" col="4">
                         <group colspan="4" col="4">
-                            <field name="company_id" readonly="1"/>
+                            <field name="company_id" colspan="4" readonly="1"/>
                             <field name="trabalhador_id" colspan="4" readonly="1" />
-                            <field name="periodo_id" readonly="1"/>
+                            <field name="periodo_id" colspan="4" readonly="1"/>
                         </group>
                         <notebook>
                             <page name="remuneracoes" string="Remunerações">
@@ -68,7 +68,7 @@
         </record>
 
         <record id="sped_esocial_s1200_search" model="ir.ui.view">
-            <field name="name">S-1200 (Empregador)</field>
+            <field name="name">S-1200 (Remunerações RGPS)</field>
             <field name="model">sped.esocial.remuneracao</field>
             <field name="arch" type="xml">
                 <search string="S-1200 (Remunerações RGPS)">
@@ -103,7 +103,7 @@
         </record>
 
         <menuitem id="menu_sped_esocial_s1200"
-                  name="S-1200 (Empregador)"
+                  name="S-1200 (Remunerações RPGS)"
                   sequence="1200"
                   action="sped_esocial.sped_esocial_s1200_action"
                   parent="sped_esocial.menu_sped_esocial_intermediarios"

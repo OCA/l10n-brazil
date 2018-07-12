@@ -63,7 +63,10 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                 codigo += esocial.trabalhador_id.name or ''
             if esocial.periodo_id:
                 codigo += ' ' if codigo else ''
-                codigo += '(' + esocial.periodo_id.code or '' + ')'
+                codigo += '('
+                codigo += esocial.periodo_id.code or ''
+                codigo += ')'
+            esocial.codigo = codigo
 
     @api.depends('contract_ids', 'payslip_ids')
     def _compute_qtd(self):

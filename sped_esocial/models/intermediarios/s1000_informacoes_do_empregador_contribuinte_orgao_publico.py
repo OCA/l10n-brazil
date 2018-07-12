@@ -18,6 +18,11 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     _rec_name = "company_id"
     _order = "company_id"
 
+    name = fields.Char(
+        string='Nome',
+        compute='_compute_name',
+        store=True,
+    )
     company_id = fields.Many2one(
         string='Empresa',
         comodel_name='res.company',
@@ -66,6 +71,25 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     limpar_db = fields.Boolean(
         string='Limpar DB',
     )
+
+    @api.depends('origem')
+    def _compute_name(self):
+        for registro in self:
+            name = ''
+            if registro.origem:
+                name += registro.origem.display_name or ''
+            registro.name = name
+
+    @api.depends('origem')
+    def _compute_name(self):
+        for registro in self:
+            name = ''
+            if registro.origem:
+                name += ' ' if name else ''
+                name += '('
+                name += registro.origem.display_name or ''
+                name += ')'
+            registro.name = name
 
     @api.depends('sped_inclusao', 'sped_exclusao')
     def compute_situacao_esocial(self):
