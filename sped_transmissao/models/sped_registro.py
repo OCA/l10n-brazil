@@ -17,7 +17,7 @@ class SpedRegistro(models.Model):
     _name = 'sped.registro'
     _inherit = []
     _description = 'Registros SPED'
-    _rec_name = 'registro'
+    _rec_name = 'name'
     _order = "data_hora_origem DESC, situacao"
 
     # Campo para mostrar que está limpado db
@@ -29,6 +29,11 @@ class SpedRegistro(models.Model):
             ('efdreinf', 'EFD-Reinf'),
             ('esocial', 'e-Social'),
         ],
+    )
+    name = fields.Char(
+        string='Nome',
+        compute='_compute_name',
+        store=True,
     )
     codigo = fields.Char(
         string='Código',
@@ -187,6 +192,22 @@ class SpedRegistro(models.Model):
         string='Transmissão por Lote?',
         compute='_compute_lote',
     )
+
+    @api.depends('registro', 'codigo', 'origem')
+    def _compute_name(self):
+        for registro in self:
+            name = ''
+            if registro.registro:
+                name += registro.registro or ''
+            if registro.codigo:
+                name += ' ' if name else ''
+                name += '('
+                name += registro.codigo or ''
+                name += ')'
+            if registro.origem:
+                name += ' - ' if name else ''
+                name += registro.origem.display_name or ''
+            registro.name = name
 
     @api.depends('lote_ids')
     def _compute_lote(self):
