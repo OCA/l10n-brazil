@@ -1153,7 +1153,8 @@ class L10nBrSefip(models.Model):
 
         # Para categorias que tem BASE_FGTS
         else:
-            result += self._valor_rubrica(folha.line_ids, "BASE_FGTS")
+            base_fgts = self._valor_rubrica(folha.line_ids, "BASE_FGTS")
+            result +=  base_fgts if base_fgts > 0 else 0
             result += self._valor_rubrica(folha.line_ids, "BASE_FGTS_FERIAS")
 
         return result
