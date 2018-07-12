@@ -9,10 +9,10 @@
                 <form string="Registros SPED" edit="false" create="false" duplicate="false">
                     <field name="transmissao_lote" invisible="1" />
                     <header>
-                        <button name="gera_xml" type="object" string="Transmitir (não usar)" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('situacao', 'in', ['2', '4']), ('transmissao_lote', '=', True)]}"
-                        />
-                        <button name="transmitir_lote" type="object" string="Transmitir Lote" class="oe_highlight"
+                        <!--<button name="gera_xml" type="object" string="Transmitir (não usar)" class="oe_highlight"-->
+                                <!--attrs="{'invisible': ['|', ('situacao', 'in', ['2', '4']), ('transmissao_lote', '=', True)]}"-->
+                        <!--/>-->
+                        <button name="transmitir_lote" type="object" string="Transmitir" class="oe_highlight"
                                 attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}" />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
                                 attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"
@@ -71,7 +71,9 @@
                                         <field name="dh_process" readonly="1"/>
                                         <field name="tp_ev" readonly="1"/>
                                         <field name="id_ev" readonly="1"/>
-                                        <field name="hash" readonly="1"/>
+                                    </group>
+                                    <group colspan="4" cols="2">
+                                        <field name="hash" readonly="1" widget="ace" />
                                     </group>
                                     <group colspan="4" col="1">
                                         <separator colspan="1" string="Ocorrencias" />

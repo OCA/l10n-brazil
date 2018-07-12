@@ -144,7 +144,7 @@ class SpedRegistro(models.Model):
         string='ID do Evento',
     )
     hash = fields.Char(  # evtTotal.ideRecRetorno.infoRecEv.hash
-        string='Hash do Arquivo Processado',
+        string='Hash',
     )
     envio_xml_id = fields.Many2one(
         comodel_name='ir.attachment',

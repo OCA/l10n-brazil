@@ -305,6 +305,8 @@ class SpedLote(models.Model, ):
             # Atualiza o status do evento
             if self.tipo == 'esocial':
                 if evento.codigo_retorno == '201':
+                    registro.recibo = evento.recibo
+                    registro.hash = evento.hash
                     registro.situacao = '4'
                 else:
                     registro.situacao = '3'
