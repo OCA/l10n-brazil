@@ -87,12 +87,12 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             precisa_atualizar = False
 
             # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
-            if self.situacao_esocial != '3':
+            if empregado.situacao_esocial != '3':
 
                 # Se a empresa já tem um registro de inclusão confirmado mas
                 # a data da última atualização é menor que a o write_date da
                 # empresa, então precisa atualizar
-                if not self.precisa_atualizar or empregado.ultima_atualizacao \
+                if not empregado.precisa_atualizar or empregado.ultima_atualizacao \
                         < empregado.hr_employee_id.write_date:
                     precisa_atualizar = True
 
@@ -231,6 +231,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         endereco_brasil.cep.valor = limpa_formatacao(
             empregado_id.address_home_id.zip)
         endereco_brasil.codMunic.valor = \
+            empregado_id.address_home_id.state_id.ibge_code + \
             empregado_id.address_home_id.l10n_br_city_id.ibge_code
         endereco_brasil.uf.valor = empregado_id.address_home_id.state_id.code
 

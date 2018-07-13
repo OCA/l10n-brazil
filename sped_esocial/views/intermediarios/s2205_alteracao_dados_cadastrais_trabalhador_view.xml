@@ -8,12 +8,11 @@
             <field name="arch" type="xml">
                 <form string="e-Social - Registro S-2205" edit="false" delete="false" create="false" duplicate="false">
                     <header>
-                        <button name="atualizar_esocial" colspan="4" type="object"
+                        <button name="gerar_registro" colspan="4" type="object"
                                 string="Ativar/Atualizar e-Social" class="oe_highlight"
                                 attrs="{'invisible': [('situacao_esocial', 'in', ['1', '3', '9'])]}" />
-                        <field name="situacao_esocial" widget="statusbar" select="1"
-                               nolabel="1"
-                               readonly="1" />
+                        <field name="situacao_esocial" widget="statusbar"
+                               select="1" nolabel="1" readonly="1" />
                     </header>
                     <div class="oe_title">
                         <h1>
@@ -31,6 +30,7 @@
                         <group colspan="4" col="2">
                             <field name="situacao_esocial" />
                             <field name="ultima_atualizacao" />
+                            <field name="precisa_atualizar" />
                         </group>
                     </group>
                 </form>
@@ -45,6 +45,7 @@
                     <field name="company_id"/>
                     <field name="hr_employee_id"/>
                     <field name="situacao_esocial"/>
+                    <field name="precisa_atualizar"/>
                 </tree>
             </field>
         </record>
