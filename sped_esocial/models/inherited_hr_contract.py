@@ -166,7 +166,7 @@ class HrContract(models.Model):
                 matriz = self.env.user.company_id.matriz.id
 
             self.sped_esocial_alterar_contrato_id = \
-                self.env['.esocial.alteracao.contrato'].create({
+                self.env['sped.esocial.alteracao.contrato'].create({
                     'company_id': matriz,
                     'hr_contract_id': self.id,
                 })

@@ -28,9 +28,9 @@
                                 <field name="precisa_atualizar" />
                             </group>
                             <group colspan="2" col="2">
-                                <button name="atualizar_contrato" colspan="4" type="object"
-                                        string="Atualizar Contrato"
-                                        attrs="{'invisible': [('precisa_atualizar', '=', False)]}" />
+                                <button name="alterar_contrato" colspan="4" type="object"
+                                        string="Alterar Contrato"
+                                        attrs="{'invisible': ['|', '|', ('situacao_esocial', '!=', '4'), ('sped_esocial_alterar_contrato_id', '=', False), ('precisa_atualizar', '=', False)]}" />
                             </group>
                         </group>
                     </page>
