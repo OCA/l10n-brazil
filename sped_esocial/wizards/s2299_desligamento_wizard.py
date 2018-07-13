@@ -50,6 +50,8 @@ class S2299DesligamentoWizard(models.TransientModel):
             vals['vr_alim'] = valor
 
         s2299_desligamento = self.env['sped.hr.rescisao'].create(vals)
+        payslip = self.env['hr.payslip'].browse(self.env.context['active_id'])
+        payslip.sped_s2299 = s2299_desligamento
 
         return s2299_desligamento
 

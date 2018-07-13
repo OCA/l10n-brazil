@@ -335,22 +335,9 @@ class SpedEsocial(models.Model):
         comodel_name='sped.esocial.remuneracao',
     )
 
-    # Controle de registros S-1202
-    remuneracao_rpps_ids = fields.Many2many(
-        string='Remuneração de Servidor (RPPS)',
-        comodel_name='sped.esocial.remuneracao.rpps',
-    )
-
     @api.multi
     def importar_remuneracoes(self):
         self.ensure_one()
-
-        # TODO
-        # Buscar todos os hr.payslip do período e marcar quais hr.employees tiveram quaisquer hr.payslip
-        # Adicionar no sped.esocial.remuneracao um registro para cada employee com hr.payslip
-        # Atualizar os campos do sped.esocial.remuneracao caso tenha havido algum hr.payslip ou hr.contract novo
-        # Levar em consideração a empresa matriz e todas as filiais
-        # Ignorar o código abaixo
 
         # Buscar Trabalhadores
         trabalhadores = self.env['hr.employee'].search([])
@@ -379,9 +366,6 @@ class SpedEsocial(models.Model):
             # adiciona o trabalhador na lista de trabalhadores_com_contrato
             for contrato in contratos:
                 if not contrato.date_end or contrato.date_end >= periodo.date_stop:
-
-                    # TODO Separar os tipos de contratos que importam para o S-1200 somente
-                    # trabalhadores_com_contrato.append(trabalhador)
                     contratos_validos.append(contrato.id)
 
             # Se tiver algum contrato válido, cria o registro s1200
@@ -443,16 +427,15 @@ class SpedEsocial(models.Model):
                     s1200.sped_registro.unlink()
                     s1200.unlink()
 
+    # Controle de registros S-1202
+    remuneracao_rpps_ids = fields.Many2many(
+        string='Remuneração de Servidor (RPPS)',
+        comodel_name='sped.esocial.remuneracao.rpps',
+    )
+
     @api.multi
     def importar_remuneracoes_rpps(self):
         self.ensure_one()
-
-        # TODO
-        # Buscar todos os hr.payslip do período e marcar quais hr.employees tiveram quaisquer hr.payslip
-        # Adicionar no sped.esocial.remuneracao um registro para cada employee com hr.payslip
-        # Atualizar os campos do sped.esocial.remuneracao caso tenha havido algum hr.payslip ou hr.contract novo
-        # Levar em consideração a empresa matriz e todas as filiais
-        # Ignorar o código abaixo
 
         # Buscar Servidores
         servidores = self.env['hr.employee'].search([])
@@ -481,9 +464,6 @@ class SpedEsocial(models.Model):
             # adiciona o trabalhador na lista de trabalhadores_com_contrato
             for contrato in contratos:
                 if not contrato.date_end or contrato.date_end >= periodo.date_stop:
-
-                    # TODO Separar os tipos de contratos que importam para o S-1200 somente
-                    # trabalhadores_com_contrato.append(trabalhador)
                     contratos_validos.append(contrato.id)
 
             # Se tiver algum contrato válido, cria o registro s1200
@@ -544,6 +524,103 @@ class SpedEsocial(models.Model):
                 if s1202:
                     s1202.sped_registro.unlink()
                     s1202.unlink()
+
+    # Controle de registros S-1210
+    pagamento_ids = fields.Many2many(
+        string='Pagamentos a Trabalhadores',
+        comodel_name='sped.esocial.pagamento',
+    )
+
+    @api.multi
+    def importar_pagamentos(self):
+        self.ensure_one()
+
+        # Buscar Servidores
+        beneficiarios = self.env['hr.employee'].search([])
+
+        periodo = self.periodo_id
+        matriz  = self.company_id
+        empresas = self.env['res.company'].search([('matriz', '=', matriz.id)]).ids
+        if matriz.id not in empresas:
+            empresas.append(matriz.id)
+
+        # separa somente os trabalhadores com contrato válido neste período e nesta empresa matriz
+        # servidores_com_contrato = []
+        for beneficiario in beneficiarios:
+
+            # Localiza os contratos válidos deste beneficiário
+            domain = [
+                ('employee_id', '=', beneficiario.id),
+                ('company_id', 'in', empresas),
+                ('date_start', '<=', periodo.date_stop),
+            ]
+            contratos = self.env['hr.contract'].search(domain)
+            contratos_validos = []
+
+            # Se algum contrato tiver data de término menor que a data inicial do período, tira ele
+            # adiciona o beneficiario na lista de beneficiarios_com_contrato
+            for contrato in contratos:
+                if not contrato.date_end or contrato.date_end >= periodo.date_stop:
+                    contratos_validos.append(contrato.id)
+
+            # Se tiver algum contrato válido, cria o registro s1210
+            if contratos_validos:
+
+                # Calcula campos de mês e ano para busca dos payslip
+                mes = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').month
+                ano = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').year
+
+                # Busca os payslips de pagamento mensal deste beneficiário
+                domain_payslip = [
+                    ('company_id', 'in', empresas),
+                    ('contract_id', 'in', contratos_validos),
+                    ('mes_do_ano', '=', mes),
+                    ('ano', '=', ano),
+                    ('state', 'in', ['verify', 'done']),
+                    ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro', 'rescisao']),
+                ]
+                payslips = self.env['hr.payslip'].search(domain_payslip)
+
+                # Se tem payslip, cria o registro S-1210
+                if payslips:
+
+                    # Verifica se o registro S-1210 já existe, cria ou atualiza
+                    domain_s1210 = [
+                        ('company_id', '=', matriz.id),
+                        ('beneficiario_id', '=', beneficiario.id),
+                        ('periodo_id', '=', periodo.id),
+                    ]
+                    s1210 = self.env['sped.esocial.pagamento'].search(domain_s1210)
+                    if not s1210:
+                        vals = {
+                            'company_id': matriz.id,
+                            'beneficiario_id': beneficiario.id,
+                            'periodo_id': periodo.id,
+                            'contract_ids': [(6, 0, contratos.ids)],
+                            'payslip_ids': [(6, 0, payslips.ids)],
+                        }
+                        s1210 = self.env['sped.esocial.pagamento'].create(vals)
+                    else:
+                        s1210.contract_ids = [(6, 0, contratos.ids)]
+                        s1210.payslip_ids = [(6, 0, payslips.ids)]
+
+                    # Relaciona o s1210 com o período do e-Social
+                    self.pagamento_ids = [(4, s1210.id)]
+
+                    # Cria o registro de transmissão sped (se ainda não existir)
+                    s1210.atualizar_esocial()
+            else:
+
+                # Se não tem contrato válido, remove o registro S-1210 (se existir)
+                domain = [
+                    ('company_id', '=', matriz.id),
+                    ('trabalhador_id', '=', trabalhador.id),
+                    ('periodo_id', '=', periodo.id),
+                ]
+                s1210 = self.env['sped.esocial.pagamento'].search(domain)
+                if s1210:
+                    s1210.sped_registro.unlink()
+                    s1210.unlink()
 
     @api.multi
     def get_esocial_vigente(self, company_id=False):

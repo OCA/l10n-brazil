@@ -26,3 +26,8 @@ class HrPaylisp(models.Model):
         comodel_name='sped.motivo_desligamento',
         help="e-Social: S-2299 - mtvDeslig"
     )
+
+    sped_s2299 = fields.Many2one(
+        string='Registro SPED S-2299',
+        comodel_name='sped.hr.rescisao',
+    )

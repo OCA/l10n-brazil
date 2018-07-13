@@ -126,6 +126,11 @@ class HrSalaryRule(models.Model):
             ('94', '94-Salário maternidade 13º salário'),
         ]
     )
+    cod_inc_irrf_calculado = fields.Char(
+        string='codIncIRRF',
+        compute='_compute_cod_inc_irrf_calculado',
+        store=True,
+    )
     cod_inc_irrf = fields.Selection(
         string='Incidência Tributária para o IRRF',
         selection=[
@@ -237,6 +242,27 @@ class HrSalaryRule(models.Model):
             ('91', '91-Incidência suspensa em decorrência de decisão judicial'),
         ],
     )
+
+    @api.depends('cod_inc_irrf', 'cod_inc_irrf_0', 'cod_inc_irrf_1', 'cod_inc_irrf_3',
+                 'cod_inc_irrf_4', 'cod_inc_irrf_7', 'cod_inc_irrf_8', 'cod_inc_irrf_9')
+    def _compute_cod_inc_irrf_calculado(self):
+        for rubrica in self:
+            codigo = ''
+            if rubrica.cod_inc_irrf == '0':
+                codigo = rubrica.cod_inc_irrf_0
+            if rubrica.cod_inc_irrf == '1':
+                codigo = rubrica.cod_inc_irrf_1
+            if rubrica.cod_inc_irrf == '3':
+                codigo = rubrica.cod_inc_irrf_3
+            if rubrica.cod_inc_irrf == '4':
+                codigo = rubrica.cod_inc_irrf_4
+            if rubrica.cod_inc_irrf == '7':
+                codigo = rubrica.cod_inc_irrf_7
+            if rubrica.cod_inc_irrf == '8':
+                codigo = rubrica.cod_inc_irrf_8
+            if rubrica.cod_inc_irrf == '9':
+                codigo = rubrica.cod_inc_irrf_9
+            rubrica.cod_inc_irrf_calculado = codigo
 
     @api.multi
     def atualizar_rubrica(self):

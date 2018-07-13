@@ -159,6 +159,24 @@
                                     </field>
                                 </group>
                             </page>
+                            <page name="s1210" string="S-1210">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_pagamentos" type="object" string="Calcular" />
+                                        </div>
+                                    </group>
+                                    <separator string="Pagamentos de Rendimentos do Trabalho" />
+                                    <field name="pagamento_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree string="S-1210 (Pagamentos)">
+                                            <field name="beneficiario_id"/>
+                                            <field name="contratos" />
+                                            <field name="pagamentos" />
+                                            <field name="situacao_esocial"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
                         </notebook>
                     </group>
                 </form>
