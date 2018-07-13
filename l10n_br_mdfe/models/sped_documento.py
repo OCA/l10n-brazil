@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from __future__ import division, print_function, unicode_literals
+import tempfile
 
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import (
@@ -10,6 +11,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_TRANSPORTADOR,
     TIPO_EMISSAO_PROPRIA,
     MODALIDADE_TRANSPORTE,
+    MODALIDADE_TRANSPORTE_RODOVIARIO,
     TIPO_EMITENTE,
     TIPO_RODADO,
     TIPO_CARROCERIA,
@@ -271,8 +273,14 @@ class SpedDocumento(models.Model):
 
         result = super(SpedDocumento, self)._confirma_documento()
         for record in self:
-            record.percurso_estado_ids = \
+            percurso_estado_ids = \
                 record.item_mdfe_ids.mapped('destinatario_cidade_id').mapped('estado_id')
+            record.percurso_estado_ids = \
+                percurso_estado_ids - record.empresa_id.municipio_id.estado_id
+            if (record.modalidade_transporte ==
+                    MODALIDADE_TRANSPORTE_RODOVIARIO and not record.condutor_ids):
+                raise UserError(_('Informar no mínimo um condutor!'))
+
         return result
 
     def _envia_documento(self):
@@ -284,14 +292,17 @@ class SpedDocumento(models.Model):
         # processador = self.processador_cfe()
         processador = False
 
-        mdfe = self.monta_mdfe(processador)
-        edoc = DocumentoEletronico(mdfe)
-
-        # TODO: Refatorar
         cert = self.empresa_id.certificado_id.arquivo.decode('base64')
         pw = self.empresa_id.certificado_id.senha
+        uf = self.empresa_id.estado
 
-        mdfe_assinado = edoc.assina_documento(cert, pw)
+        caminho = tempfile.gettempdir() + '/certificado.pfx'
+        f = open(caminho, 'wb')
+        f.write(cert)
+        f.close()
+
+        mdfe = self.monta_mdfe(processador)
+        edoc = DocumentoEletronico(mdfe, certificado=caminho, senha=pw, uf=uf)
 
         processo = None
         for p in edoc.envia_documento():

@@ -2,8 +2,7 @@
 
 from __future__ import division, print_function, unicode_literals
 import StringIO
-import tempfile
-from pybrasil.certificado import Certificado
+from pynfe.processamento.mdfe import ComunicacaoMDFe
 
 
 class ChaveCFeSAT(object):
@@ -123,12 +122,17 @@ class DocumentoEletronico(object):
 
     _edoc_methods = ['export', 'save', 'delete']
 
-    def __init__(self, generateds):
+    def __init__(
+            self, generateds,
+            certificado='',
+            senha='', uf='', homologacao=True):
         self._edoc = generateds
         self.gera_id()
         self.documento_exportado = False
         self.documento_assinado = False
-        self.certificado = False
+        self.chave = False
+        self.id = False
+        self.mdfe = ComunicacaoMDFe(uf, certificado, senha, homologacao)
 
     def __getattr__(self, attribute):
         if attribute in self._edoc_methods:
@@ -200,32 +204,16 @@ class DocumentoEletronico(object):
 
         return self.documento_exportado
 
-    def assina_documento(self, cert_file, pw):
-        self.cert = Certificado()
-        arq = tempfile.NamedTemporaryFile(delete=False)
-        arq.seek(0)
-        arq.write(cert_file)
-        arq.flush()
-        self.cert.arquivo = arq.name
-        self.cert.senha = pw
-        self.cert.prepara_certificado_arquivo_pfx()
-
-        if not self.documento_exportado:
-            self.exporta_documento()
-        self.documento_assinado = self.cert.assina_xml(
-            self.documento_exportado, URI=self.id
-        )
+    def assina_documento(self):
+        self.documento_assinado = \
+            self.mdfe.assina_documento(self.documento_exportado)
         return self.documento_assinado
 
     def envia_documento(self):
+        if not self.documento_exportado:
+            self.exporta_documento()
+
         if not self.documento_assinado:
             self.assina_documento()
 
-        from pynfe.processamento.mdfe import ComunicacaoMDFE
-        certificado = "/home/mileo/Documentos/certificado.pfx"
-        senha = 'senha'
-        uf = 'sp'
-        homologacao = True
-        mdfe = ComunicacaoMDFE(uf, certificado, senha, homologacao)
-
-        return mdfe.processar_documento(self.documento_assinado)
+        return self.mdfe.processar_documento(self.documento_assinado)
