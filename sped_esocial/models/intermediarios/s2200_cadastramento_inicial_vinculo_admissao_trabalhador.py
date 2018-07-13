@@ -329,7 +329,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2200.evento.trabalhador.contato.append(Contato)
 
         # Popula "vinculo"
-        S2200.evento.vinculo.matricula.valor = self.hr_contract_id.codigo_contrato
+        S2200.evento.vinculo.matricula.valor = self.hr_contract_id.matricula
         S2200.evento.vinculo.tpRegTrab.valor = self.hr_contract_id.labor_regime_id.code
         S2200.evento.vinculo.tpRegPrev.valor = self.hr_contract_id.tp_reg_prev
         S2200.evento.vinculo.cadIni.valor = self.hr_contract_id.cad_ini
