@@ -235,7 +235,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # aposentadoria especial.
             #
             info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
-            info_ag_nocivo.grauExp = '1'
+            info_ag_nocivo.grauExp.valor = '1'  # TODO inserir um campo em algum lugar (no contrato talvez)
             remun_per_apur.infoAgNocivo.append(info_ag_nocivo)
 
             # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoTrabInterm  # TODO Quando tivermos controle
