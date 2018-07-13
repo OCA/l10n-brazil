@@ -143,7 +143,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             if estabelecimento.sped_inclusao and \
                     estabelecimento.sped_inclusao.situacao == '4':
                 if estabelecimento.ultima_atualizacao < \
-                        estabelecimento.company_id.write_date:
+                        estabelecimento.estabelecimento_id.write_date:
                     precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um

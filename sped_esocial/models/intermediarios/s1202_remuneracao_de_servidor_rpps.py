@@ -139,132 +139,98 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
         S1202.evento.ideTrabalhador.cpfTrab.valor = limpa_formatacao(self.servidor_id.cpf)
         S1202.evento.ideTrabalhador.nisTrab.valor = limpa_formatacao(self.servidor_id.pis_pasep)
 
-        # # # Popula ideTrabalhador.infoMV (Dados do Empregador Cedente)  # TODO
-        # # #        ideTrabalhador.infoMV.remunOutrEmpr
-        # # #
-        # # # Registro preenchido exclusivamente em caso de servidor que possua outros vínculos/atividades
-        # # # para definição do limite do salário-de-contribuição e da alíquota a ser aplicada no desconto da
-        # # # contribuição previdenciária.
+        # Conta o número de dependentes para fins do regime próprio de previdência social
+        dependentes = 0
+        for dependente in self.servidor_id.dependent_ids:
+            if dependente.dependent_verification:
+                dependentes += 1
+        S1202.evento.ideTrabalhador.qtdDepFP.valor = dependentes
+
+        # # Popula ideTrabalhador.infoMV (Dados do Empregador Cedente)  # TODO
+        # #        ideTrabalhador.infoMV.remunOutrEmpr
         # #
-        # # if self.servidor_id.
-        # # info_mv = pysped.esocial.leiaute.S1200_InfoMV_2()
-        # # info_mv
+        # # Registro preenchido exclusivamente em caso de servidor que possua outros vínculos/atividades
+        # # para definição do limite do salário-de-contribuição e da alíquota a ser aplicada no desconto da
+        # # contribuição previdenciária.
         #
-        # # # Popula ideTrabalhador.infoComplem               # TODO
-        # # #        ideTrabalhador.infoComplem.sucessaoVinc
-        # # #
-        # # # Registro preenchido exclusivamente quando o evento de remuneração referir-se a servidor cuja
-        # # # categoria não está sujeita ao evento de admissão ou ao evento de início de "servidor sem vínculo".
-        # # # No caso das categorias em que o envio do evento TSV é opcional, o preenchimento do grupo somente é
-        # # # exigido se não houver evento TSV Início correspondente (cpf + categoria). As informações
-        # # # complementares são necessárias para correta identificação do servidor.
+        # if self.servidor_id.
+        # info_mv = pysped.esocial.leiaute.S1202_InfoMV_2()
+        # info_mv
+
+        # # Popula ideTrabalhador.procJudTrab  # TODO
         # #
-        # # info_complem = pysped.esocial.leiaute.S1200_InfoComplem_2()
-        # # info_complem.
+        # # Informações sobre a existência de processos judiciais do servidor com decisão favorável quanto à não
+        # # incidência ou alterações na incidência de contribuições sociais e/ou Imposto de Renda sobre as rubricas
+        # # apresentadas nos subregistros de {dmDev}.
         #
-        # # # Popula ideTrabalhador.procJudTrab  # TODO
-        # # #
-        # # # Informações sobre a existência de processos judiciais do servidor com decisão favorável quanto à não
-        # # # incidência ou alterações na incidência de contribuições sociais e/ou Imposto de Renda sobre as rubricas
-        # # # apresentadas nos subregistros de {dmDev}.
-        # #
-        # # proc_jud_trab = pysped.esocial.leiaute.S1200_ProcJudTrab_2()
-        # # proc_jud_trab.
-        #
-        # # # Popula ideTrabalhador.infoInterm  # TODO
-        # # #
-        # # # Informações relativas ao trabalho intermitente
-        # #
-        # # info_interm = pysped.esocial.leiaute.S1200_InfoInterm_2()
-        # # info_interm.
-        #
-        # # Popula dmDev (1 para cada payslip)
-        # for payslip in self.payslip_ids:
-        #     dm_dev = pysped.esocial.leiaute.S1200_DmDev_2()
-        #     dm_dev.ideDmDev.valor = payslip.number
-        #     dm_dev.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
-        #
-        #     # Popula dmDev.infoPerApur
-        #     info_per_apur = pysped.esocial.leiaute.S1200_InfoPerApur_2()
-        #     info_per_apur.ideEstabLot.tpInsc.valor = '1'  # CNPJ
-        #     info_per_apur.ideEstabLot.nrInsc.valor = limpa_formatacao(payslip.company_id.cnpj_cpf)
-        #     info_per_apur.ideEstabLot.codLotacao.valor = payslip.company_id.cod_lotacao
-        #
-        #     # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur
-        #     remun_per_apur = pysped.esocial.leiaute.S1200_RemunPerApur_2()
-        #     remun_per_apur.matricula.valor = payslip.contract_id.matricula
-        #     # remun_per_apur.indSimples.valor =  # TODO Somente para quando a empresa for do Simples
-        #                                          # lidar com isso na res.company
-        #
-        #     # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
-        #     for line in payslip.line_ids:
-        #
-        #         # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
-        #         # ser transmitida para o e-Social.
-        #         if line.salary_rule_id.nat_rubr:
-        #             itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
-        #             itens_remun.codRubr.valor = line.salary_rule_id.codigo
-        #             itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
-        #             if line.quantity and float(line.quantity) != 1:
-        #                 itens_remun.qtdRubr.valor = float(line.quantity)
-        #                 itens_remun.vrUnit.valor = formata_valor(line.amount)
-        #             if line.rate and line.rate != 100:
-        #                 itens_remun.fatorRubr.valor = line.rate
-        #             itens_remun.vrRubr.valor = formata_valor(line.total)
-        #             remun_per_apur.itensRemun.append(itens_remun)
-        #
-        #     # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoSaudeColet  # TODO Quando tivermos plano de saúde
-        #     # #                                                                   # coletívo
-        #     # # Informações de plano privado coletivo empresarial de assistência à saúde. Só preencher se houver
-        #     # # {codRubr} em {itensRemun}, cuja natureza de rubrica {natRubr} indicada em S-1010 seja igual a [9219].
-        #     # # Não preencher nos demais casos
-        #     # #
-        #     # info_saude_colet = pysped.esocial.leiaute.S1200_InfoSaudeColet_2()
-        #     # info_saude_colet.
-        #
-        #     # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoAgNocivo  # TODO Quando tivermos controle de
-        #     # #                                                                 # agentes nocivos
-        #     # # Registro preenchido exclusivamente em relação a remuneração do servidor enquadrado em uma das
-        #     # # categorias relativas a Empregado, Servidor Público, Avulso, ou na categoria de Cooperado filiado
-        #     # # a cooperativa de produção [738] ou Cooperado filiado a cooperativa de trabalho que presta serviço
-        #     # # a empresa [731, 734], permitindo o detalhamento do grau de exposição do servidor aos agentes
-        #     # # nocivos que ensejam cobrança da contribuição adicional para financiamento dos benefícios de
-        #     # # aposentadoria especial.
-        #     # #
-        #     # info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
-        #     # info_ag_nocivo.
-        #
-        #     # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoTrabInterm  # TODO Quando tivermos controle
-        #     # #                                                                   # trabalho intermitente
-        #     # # Informações da(s) convocação(ões) de trabalho intermitente
-        #     # #
-        #     # info_trab_interm = pysped.esocial.leiaute.S1200_InfoTrabInterm_2()
-        #     # info_trab_interm.
-        #
-        #     # # Popula dmDev.infoPerAnt  # TODO Quando tratarmos dos cálculo retroativos por coleção coletiva
-        #     # #
-        #     # # Registro destinado ao registro de:
-        #     # # a) remuneração relativa a diferenças salariais provenientes de acordos coletivos, convenção coletiva
-        #     # #    e dissídio.
-        #     # # b) remuneração relativa a diferenças de vencimento provenientes de disposições legais (órgãos públicos)
-        #     # # c) bases de cálculo para efeitos de apuração de FGTS resultantes de conversão de licença saúde em
-        #     # #    acidente de trabalho
-        #     # # d) verbas de natureza salarial ou não salarial devidas após o desligamento.
-        #     # # OBS.: as informações previstas nos itens "a", "b" e "d" acima podem se referir ao período de apuração
-        #     # #       definido em {perApur} ou a períodos anteriores a {perApur}.
-        #     # #
-        #     # info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
-        #     # info_per_ant.
-        #
-        #     # Popula dmDev.infoComplCont  # Não teremos registros no odoo que não tenham um S2300 nesses casos
-        #     #
-        #
-        #     # Adiciona o registro nas listas das tags superiores
-        #     info_per_apur.ideEstabLot.remunPerApur.append(remun_per_apur)
-        #     dm_dev.infoPerApur.append(info_per_apur)
-        #     S1200.evento.dmDev.append(dm_dev)
-        #
-        # return S1200
+        # proc_jud_trab = pysped.esocial.leiaute.S1202_ProcJudTrab_2()
+        # proc_jud_trab.
+
+        # Popula dmDev (1 para cada payslip)
+        for payslip in self.payslip_ids:
+            dm_dev = pysped.esocial.leiaute.S1202_DmDev_2()
+            dm_dev.ideDmDev.valor = payslip.number
+
+            # Popula dmDev.infoPerApur
+            info_per_apur = pysped.esocial.leiaute.S1202_InfoPerApur_2()
+            info_per_apur.ideEstab.tpInsc.valor = '1'  # CNPJ
+            info_per_apur.ideEstab.nrInsc.valor = limpa_formatacao(payslip.company_id.cnpj_cpf)
+
+            # Popula dmDev.infoPerApur.ideEstab.remunPerApur
+            remun_per_apur = pysped.esocial.leiaute.S1202_RemunPerApur_2()
+            remun_per_apur.matricula.valor = payslip.contract_id.matricula
+            remun_per_apur.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
+
+            # Popula dmDev.infoPerApur.ideEstab.remunPerApur.itensRemun
+            for line in payslip.line_ids:
+
+                # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
+                # ser transmitida para o e-Social.
+                if line.salary_rule_id.nat_rubr:
+                    itens_remun = pysped.esocial.leiaute.S1202_ItensRemun_2()
+                    itens_remun.codRubr.valor = line.salary_rule_id.codigo
+                    itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
+                    if line.quantity and float(line.quantity) != 1:
+                        itens_remun.qtdRubr.valor = float(line.quantity)
+                        itens_remun.vrUnit.valor = formata_valor(line.amount)
+                    if line.rate and line.rate != 100:
+                        itens_remun.fatorRubr.valor = line.rate
+                    itens_remun.vrRubr.valor = formata_valor(line.total)
+                    remun_per_apur.itensRemun.append(itens_remun)
+
+            # # Popula dmDev.infoPerApur.ideEstab.remunPerApur.infoSaudeColet  # TODO Quando tivermos plano de saúde
+            # #                                                                   # coletívo
+            # # Informações de plano privado coletivo empresarial de assistência à saúde. Só preencher se houver
+            # # {codRubr} em {itensRemun}, cuja natureza de rubrica {natRubr} indicada em S-1010 seja igual a [9219].
+            # # Não preencher nos demais casos
+            # #
+            # info_saude_colet = pysped.esocial.leiaute.S1202_InfoSaudeColet_2()
+            # info_saude_colet.
+
+            # # Popula dmDev.infoPerAnt  # TODO Quando tratarmos dos cálculo retroativos por coleção coletiva
+            # #
+            # # Registro destinado ao registro de:
+            # # a) remuneração relativa a diferenças salariais provenientes de acordos coletivos, convenção coletiva
+            # #    e dissídio.
+            # # b) remuneração relativa a diferenças de vencimento provenientes de disposições legais (órgãos públicos)
+            # # c) bases de cálculo para efeitos de apuração de FGTS resultantes de conversão de licença saúde em
+            # #    acidente de trabalho
+            # # d) verbas de natureza salarial ou não salarial devidas após o desligamento.
+            # # OBS.: as informações previstas nos itens "a", "b" e "d" acima podem se referir ao período de apuração
+            # #       definido em {perApur} ou a períodos anteriores a {perApur}.
+            # #
+            # info_per_ant = pysped.esocial.leiaute.S1202_InfoPerAnt_2()
+            # info_per_ant.
+
+            # Popula dmDev.infoComplCont  # Não teremos registros no odoo que não tenham um S2300 nesses casos
+            #
+
+            # Adiciona o registro nas listas das tags superiores
+            info_per_apur.ideEstab.remunPerApur.append(remun_per_apur)
+            dm_dev.infoPerApur.append(info_per_apur)
+            S1202.evento.dmDev.append(dm_dev)
+
+        return S1202
 
     @api.multi
     def retorno_sucesso(self):

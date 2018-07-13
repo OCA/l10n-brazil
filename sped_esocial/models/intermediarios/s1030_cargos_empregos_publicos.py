@@ -146,7 +146,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
             if cargo.sped_inclusao and \
                     cargo.sped_inclusao.situacao == '4':
                 if cargo.ultima_atualizacao < \
-                        cargo.company_id.write_date:
+                        cargo.cargo_id.write_date:
                     precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um

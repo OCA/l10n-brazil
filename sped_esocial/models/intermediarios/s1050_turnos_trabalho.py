@@ -131,7 +131,7 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
             if turno.sped_inclusao and \
                     turno.sped_inclusao.situacao == '4':
                 if turno.ultima_atualizacao < \
-                        turno.company_id.write_date:
+                        turno.hr_turnos_trabalho_id.write_date:
                     precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um

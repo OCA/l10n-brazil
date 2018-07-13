@@ -145,7 +145,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
             if lotacao.sped_inclusao and \
                     lotacao.sped_inclusao.situacao == '4':
                 if lotacao.ultima_atualizacao < \
-                        lotacao.company_id.write_date:
+                        lotacao.lotacao_id.write_date:
                     precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um

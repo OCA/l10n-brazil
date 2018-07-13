@@ -84,7 +84,7 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
 
             rubrica.nome = nome
 
-    @api.depends('sped_inclusao', 'sped_exclusao')
+    @api.depends('sped_inclusao', 'sped_alteracao', 'sped_exclusao')
     def compute_situacao_esocial(self):
         for rubrica in self:
             situacao_esocial = '0'  # Inativa
@@ -146,7 +146,7 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
             if rubrica.sped_inclusao and \
                     rubrica.sped_inclusao.situacao == '4':
                 if rubrica.ultima_atualizacao < \
-                        rubrica.company_id.write_date:
+                        rubrica.rubrica_id.write_date:
                     precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um
