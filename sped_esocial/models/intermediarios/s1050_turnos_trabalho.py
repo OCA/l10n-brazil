@@ -267,6 +267,13 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
 
             S1050.evento.infoHorContratual.dadosHorContratual. \
                 horarioIntervalo.append(sped_intervalo)
+
+        # Se for Alteração, popula novaValidade
+        if operacao == 'A':
+            S1050.evento.infoHorContratual.novaValidade.iniValid.valor = \
+                self.hr_turnos_trabalho_id.alt_valid.code[3:7] + '-' + \
+                self.hr_turnos_trabalho_id.alt_valid.code[0:2]
+
         # Gera
         dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
         S1050.gera_id_evento(dh_transmissao)
