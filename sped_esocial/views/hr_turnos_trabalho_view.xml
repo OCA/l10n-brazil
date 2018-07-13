@@ -41,13 +41,12 @@
                                     <field name="ini_valid"
                                            options="{'no_create': True, 'no_open': True}"
                                     />
-                                           <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
+                                    <field name="alt_valid"
+                                           options="{'no_create': True, 'no_open': True}"
+                                    />
                                     <field name="fim_valid"
                                            options="{'no_create': True, 'no_open': True}"
                                     />
-                                           <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
-                                    <!--<field name="ini_valid" placeholder="AAAA-MM" />-->
-                                    <!--<field name="fim_valid" placeholder="AAAA-MM" />-->
                                     <field name="sped_hr_turnos_trabalho_ids" invisible="1"/>
                                 </group>
                             </page>

@@ -58,12 +58,11 @@ class SpedEsocialTurnosTrabalho(models.Model):
         comodel_name='account.period',
         required=True,
     )
-    # ini_valid = fields.Char(
-    #     string="Competência de início",
-    #     required=True,
-    #     size=7,
-    #     default=_get_periodo_atual_default,
-    # )
+    alt_valid = fields.Many2one(
+        string="Alteração válida desde",
+        comodel_name='account.period',
+        required=True,
+    )
     fim_valid = fields.Many2one(
         string="Competência Final",
         comodel_name='account.period',
