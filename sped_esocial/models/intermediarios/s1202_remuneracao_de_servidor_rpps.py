@@ -58,7 +58,7 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
             codigo = ''
             if esocial.company_id:
                 codigo += esocial.company_id.name or ''
-            if esocial.trabalhador_id:
+            if esocial.servidor_id:
                 codigo += ' - ' if codigo else ''
                 codigo += esocial.servidor_id.name or ''
             if esocial.periodo_id:
@@ -113,58 +113,58 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
     def popula_xml(self, ambiente='2', operacao='I'):
         self.ensure_one()
 
-        # # Cria o registro
-        # S1200 = pysped.esocial.leiaute.S1200_2()
-        # S1200.tpInsc = '1'
-        # S1200.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        #
-        # # Popula ideEvento
-        # S1200.evento.ideEvento.indRetif.valor = '1'  # TODO Criar meio de enviar um registro retificador
-        # # S1200.evento.ideEvento.nrRecibo.valor = '' # Recibo só quando for retificação
-        # S1200.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
-        #                                                 # '1' - Mensal
-        #                                                 # '2' - Anual (13º salário)
-        # S1200.evento.ideEvento.perApur.valor = \
-        #     self.periodo_id.code[3:7] + '-' + \
-        #     self.periodo_id.code[0:2]
-        # S1200.evento.ideEvento.tpAmb.valor = ambiente
-        # S1200.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
-        # S1200.evento.ideEvento.verProc.valor = '8.0'  # Odoo v.8.0
-        #
-        # # Popula ideEmpregador (Dados do Empregador)
-        # S1200.evento.ideEmpregador.tpInsc.valor = '1'
-        # S1200.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        #
-        # # Popula ideTrabalhador (Dados do Trabalhador)
-        # S1200.evento.ideTrabalhador.cpfTrab.valor = limpa_formatacao(self.trabalhador_id.cpf)
-        # S1200.evento.ideTrabalhador.nisTrab.valor = limpa_formatacao(self.trabalhador_id.pis_pasep)
-        #
+        # Cria o registro
+        S1202 = pysped.esocial.leiaute.S1202_2()
+        S1202.tpInsc = '1'
+        S1202.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+        # Popula ideEvento
+        S1202.evento.ideEvento.indRetif.valor = '1'  # TODO Criar meio de enviar um registro retificador
+        # S1202.evento.ideEvento.nrRecibo.valor = '' # Recibo só quando for retificação
+        S1202.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
+                                                        # '1' - Mensal
+                                                        # '2' - Anual (13º salário)
+        S1202.evento.ideEvento.perApur.valor = \
+            self.periodo_id.code[3:7] + '-' + \
+            self.periodo_id.code[0:2]
+        S1202.evento.ideEvento.tpAmb.valor = ambiente
+        S1202.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
+        S1202.evento.ideEvento.verProc.valor = '8.0'  # Odoo v.8.0
+
+        # Popula ideEmpregador (Dados do Empregador)
+        S1202.evento.ideEmpregador.tpInsc.valor = '1'
+        S1202.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+        # Popula ideTrabalhador (Dados do Trabalhador)
+        S1202.evento.ideTrabalhador.cpfTrab.valor = limpa_formatacao(self.servidor_id.cpf)
+        S1202.evento.ideTrabalhador.nisTrab.valor = limpa_formatacao(self.servidor_id.pis_pasep)
+
         # # # Popula ideTrabalhador.infoMV (Dados do Empregador Cedente)  # TODO
         # # #        ideTrabalhador.infoMV.remunOutrEmpr
         # # #
-        # # # Registro preenchido exclusivamente em caso de trabalhador que possua outros vínculos/atividades
+        # # # Registro preenchido exclusivamente em caso de servidor que possua outros vínculos/atividades
         # # # para definição do limite do salário-de-contribuição e da alíquota a ser aplicada no desconto da
         # # # contribuição previdenciária.
         # #
-        # # if self.trabalhador_id.
+        # # if self.servidor_id.
         # # info_mv = pysped.esocial.leiaute.S1200_InfoMV_2()
         # # info_mv
         #
         # # # Popula ideTrabalhador.infoComplem               # TODO
         # # #        ideTrabalhador.infoComplem.sucessaoVinc
         # # #
-        # # # Registro preenchido exclusivamente quando o evento de remuneração referir-se a trabalhador cuja
-        # # # categoria não está sujeita ao evento de admissão ou ao evento de início de "trabalhador sem vínculo".
+        # # # Registro preenchido exclusivamente quando o evento de remuneração referir-se a servidor cuja
+        # # # categoria não está sujeita ao evento de admissão ou ao evento de início de "servidor sem vínculo".
         # # # No caso das categorias em que o envio do evento TSV é opcional, o preenchimento do grupo somente é
         # # # exigido se não houver evento TSV Início correspondente (cpf + categoria). As informações
-        # # # complementares são necessárias para correta identificação do trabalhador.
+        # # # complementares são necessárias para correta identificação do servidor.
         # #
         # # info_complem = pysped.esocial.leiaute.S1200_InfoComplem_2()
         # # info_complem.
         #
         # # # Popula ideTrabalhador.procJudTrab  # TODO
         # # #
-        # # # Informações sobre a existência de processos judiciais do trabalhador com decisão favorável quanto à não
+        # # # Informações sobre a existência de processos judiciais do servidor com decisão favorável quanto à não
         # # # incidência ou alterações na incidência de contribuições sociais e/ou Imposto de Renda sobre as rubricas
         # # # apresentadas nos subregistros de {dmDev}.
         # #
@@ -224,10 +224,10 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
         #
         #     # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoAgNocivo  # TODO Quando tivermos controle de
         #     # #                                                                 # agentes nocivos
-        #     # # Registro preenchido exclusivamente em relação a remuneração do trabalhador enquadrado em uma das
+        #     # # Registro preenchido exclusivamente em relação a remuneração do servidor enquadrado em uma das
         #     # # categorias relativas a Empregado, Servidor Público, Avulso, ou na categoria de Cooperado filiado
         #     # # a cooperativa de produção [738] ou Cooperado filiado a cooperativa de trabalho que presta serviço
-        #     # # a empresa [731, 734], permitindo o detalhamento do grau de exposição do trabalhador aos agentes
+        #     # # a empresa [731, 734], permitindo o detalhamento do grau de exposição do servidor aos agentes
         #     # # nocivos que ensejam cobrança da contribuição adicional para financiamento dos benefícios de
         #     # # aposentadoria especial.
         #     # #
