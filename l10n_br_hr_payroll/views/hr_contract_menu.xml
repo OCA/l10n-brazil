@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!-- Menu principal de contratos-->
+        <menuitem id="menu_hr_contract_main"
+                  parent="hr.menu_hr_main"
+                  name="Contratos"
+                  sequence="2"/>
+
+        <!-- Sobrescrever menu de contratos do core para ficar "embaixo" do princippal-->
+        <menuitem
+                id="hr_contract.hr_menu_contract"
+                action="hr_contract.action_hr_contract"
+                name="Contratos"
+                parent="menu_hr_contract_main" sequence="1"
+                groups="base.group_hr_manager"/>
+
+        <!-- Contratos de Autonomos - Trabalhador sem vínculo -->
+        <menuitem
+                id="hr_menu_contract_autonomo"
+                action="hr_contrato_autonomo_action"
+                name="Contrato de Autônomos"
+                parent="menu_hr_contract_main" sequence="2"
+                groups="base.group_hr_manager"/>
+
+        <!-- Contratos de Terceirizados-->
+        <!--<menuitem-->
+                <!--id="hr_menu_contract_terceirizado"-->
+                <!--action=""-->
+                <!--name="Contrato de Terceiros"-->
+                <!--parent="menu_hr_contract_main" sequence="3"-->
+                <!--groups="base.group_hr_manager"/>-->
+
+    </data>
+</openerp>

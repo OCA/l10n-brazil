@@ -26,6 +26,22 @@ class HrContract(models.Model):
         default='101',
     )
 
+    tipo = fields.Selection(
+        string='Tipo de vínculo com funcionário',
+        selection=[
+            ('autonomo', 'Autônomo'),
+            ('funcionario', 'Funcionário'),
+            ('terceirizado', 'Terceirizado'),
+        ],
+        default='funcionario',
+        help='Tipo basedo no tipo de vínculo com funcionário, '
+             'campo utilizado para separação de views.',
+    )
+
+    name = fields.Char(
+        required=False,
+    )
+
     codigo_contrato = fields.Char(
         string='Codigo de Identificacao',
         required=True,
