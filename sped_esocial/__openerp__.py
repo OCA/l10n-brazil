@@ -68,7 +68,7 @@
         'views/intermediarios/s2299_desligamento_view.xml',
 
         # Segurança
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
 
     ],
     "installable": True,
