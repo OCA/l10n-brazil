@@ -9,6 +9,14 @@ from openerp.exceptions import Warning as UserError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+    ramais = fields.Many2many(
+        comodel_name='hr.ramal',
+        relation='employee_ramal_rel',
+        column1='ramal_id',
+        column2='employee_id',
+        string=u'Ramais'
+    )
+
     tipo = fields.Selection(
         string="Tipo de Colaborador",
         selection=[
@@ -44,11 +52,3 @@ class HrEmployee(models.Model):
                             u'realizada através do menu '
                             u'Alterações Contratuais' % dict_key)
         return super(HrEmployee, self).write(vals)
-
-    ramais = fields.Many2many(
-        comodel_name='hr.ramal',
-        relation='employee_ramal_rel',
-        column1='ramal_id',
-        column2='employee_id',
-        string=u'Ramais'
-    )

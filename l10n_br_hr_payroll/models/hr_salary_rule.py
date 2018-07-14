@@ -85,6 +85,14 @@ class HrSalaryRule(models.Model):
         help='result will be affected to a variable'
     )
 
+    tipo_media = fields.Selection(
+        selection=[
+            ('valor', 'Valor'),
+            ('quantidade', 'Quantidade'),
+        ],
+        string='Tipo de Média da Rubrica',
+    )
+
     @api.multi
     def compute_rule(self, rule_id, localdict):
         rule = self.browse(rule_id)
@@ -167,11 +175,3 @@ class HrSalaryRule(models.Model):
         except:
             msg = _('Wrong python condition defined for salary rule %s (%s).')
             raise UserError(msg % (rule.name, rule.code))
-
-    tipo_media = fields.Selection(
-        selection=[
-            ('valor', 'Valor'),
-            ('quantidade', 'Quantidade'),
-        ],
-        string='Tipo de Média da Rubrica',
-    )
