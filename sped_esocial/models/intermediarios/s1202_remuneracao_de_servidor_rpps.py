@@ -231,6 +231,7 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
             dm_dev.infoPerApur.append(info_per_apur)
             S1202.evento.dmDev.append(dm_dev)
 
+            print(S1202.xml)
         return S1202
 
     @api.multi
