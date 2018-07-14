@@ -212,14 +212,14 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         local_trabalho.tpInsc.valor = '1'
         local_trabalho.nrInsc.valor = limpa_formatacao(
             contrato_id.company_id.cnpj_cpf
-        )[0:8]
+        )
 
         info_contrato.localTrabalho.localTrabGeral.append(local_trabalho)
 
         # Popula horContratual (Informações do Horario
         # Contratual do Trabalhador)
         horario_contratual = pysped.esocial.leiaute.S2206_HorContratual_2()
-        horario_contratual.qtdHrsSem.valor = contrato_id.weekly_hours
+        horario_contratual.qtdHrsSem.valor = int(contrato_id.weekly_hours)
         horario_contratual.tpJornada.valor = contrato_id.tp_jornada
         horario_contratual.tmpParc.valor = contrato_id.tmp_parc
 

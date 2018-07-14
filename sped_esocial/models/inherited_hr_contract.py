@@ -155,21 +155,34 @@ class HrContract(models.Model):
         self.sped_contrato_id.gerar_registro()
 
     @api.multi
-    def alterar_contrato(self):
-        self.ensure_one()
+    def write(self, vals):
+        self._gerar_tabela_intermediaria_alteracao(vals)
+        return super(HrContract, self).write(vals)
 
+    @api.multi
+    def _gerar_tabela_intermediaria_alteracao(self, vals={}):
         # Se o registro intermediário do S-2206 não existe, criá-lo
-        if not self.sped_esocial_alterar_contrato_id:
+        if not self.sped_esocial_alterar_contrato_id and not \
+                vals.get('sped_esocial_alterar_contrato_id'):
             if self.env.user.company_id.eh_empresa_base:
                 matriz = self.env.user.company_id.id
             else:
                 matriz = self.env.user.company_id.matriz.id
 
-            self.sped_esocial_alterar_contrato_id = \
+            esocial_alteracao = \
                 self.env['sped.esocial.alteracao.contrato'].create({
                     'company_id': matriz,
                     'hr_contract_id': self.id,
                 })
+            self.sped_esocial_alterar_contrato_id = esocial_alteracao
+
+    @api.multi
+    def alterar_contrato(self):
+        self.ensure_one()
+
+        # Se o registro intermediário do S-2206 não existe, criá-lo
+        if not self.sped_esocial_alterar_contrato_id:
+            self._gerar_tabela_intermediaria_alteracao()
 
         # Processa cada tipo de operação do S-2206 (Alteração)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
