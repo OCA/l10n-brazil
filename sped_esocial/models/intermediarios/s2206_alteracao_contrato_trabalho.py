@@ -13,7 +13,7 @@ from .sped_registro_intermediario import SpedRegistroIntermediario
 
 class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
     _name = "sped.esocial.alteracao.contrato"
-    _rec_name = "hr_contract_id"
+    _rec_name = "name"
     _order = "company_id"
 
     name = fields.Char(

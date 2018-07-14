@@ -64,6 +64,7 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
             if esocial.periodo_id:
                 codigo += ' ' if codigo else ''
                 codigo += '(' + esocial.periodo_id.code or '' + ')'
+            esocial.codigo = codigo
 
     @api.depends('contract_ids', 'payslip_ids')
     def _compute_qtd(self):
