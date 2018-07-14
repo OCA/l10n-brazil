@@ -205,16 +205,19 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                 # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
                 # ser transmitida para o e-Social.
                 if line.salary_rule_id.nat_rubr:
-                    itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
-                    itens_remun.codRubr.valor = line.salary_rule_id.codigo
-                    itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
-                    if line.quantity and float(line.quantity) != 1:
-                        itens_remun.qtdRubr.valor = float(line.quantity)
-                        itens_remun.vrUnit.valor = formata_valor(line.amount)
-                    if line.rate and line.rate != 100:
-                        itens_remun.fatorRubr.valor = line.rate
-                    itens_remun.vrRubr.valor = formata_valor(line.total)
-                    remun_per_apur.itensRemun.append(itens_remun)
+
+                    if line.salary_rule_id.cod_inc_irrf_calculado not in \
+                            ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
+                        itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
+                        itens_remun.codRubr.valor = line.salary_rule_id.codigo
+                        itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
+                        if line.quantity and float(line.quantity) != 1:
+                            itens_remun.qtdRubr.valor = float(line.quantity)
+                            itens_remun.vrUnit.valor = formata_valor(line.amount)
+                        if line.rate and line.rate != 100:
+                            itens_remun.fatorRubr.valor = line.rate
+                        itens_remun.vrRubr.valor = formata_valor(line.total)
+                        remun_per_apur.itensRemun.append(itens_remun)
 
             # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoSaudeColet  # TODO Quando tivermos plano de saúde
             # #                                                                   # coletívo
