@@ -10,15 +10,15 @@
         <field name="model">hr.contract</field>
         <field name="inherit_id" ref="l10n_br_hr_contract.l10n_br_hr_contract_view_form"/>
         <field name="arch" type="xml">
+            <field name="name" position="replace">
+                <field name="nome_contrato"/>
+            </field>
             <field name="wage" position="after">
                 <field name="is_editable" invisible="1"/>
             </field>
             <field name="wage" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_editable', '=', False)]}</attribute>
             </field>
-            <xpath expr="//label[@for='name']" position="before">
-                <h1><field name="codigo_contrato"/></h1>
-            </xpath>
             <field name="employee_id" position="after">
                 <field name="company_id"/>
             </field>
@@ -28,7 +28,7 @@
             </field>
 -->
             <field name="job_id" position="after">
-                <field name="matricula" />
+                <field name="matricula" required="1" />
             </field>
             <xpath expr="//page[@string='Resignation']" position="after">
                     <page string="Rubricas específicas">
@@ -111,12 +111,18 @@
                         <field name="data_admissao_anterior"/>
                         <field name="observacoes_vinculo_anterior"/>
                     </group>
-                    <group name="vinculo_cedente"
-                           string="Vínculo cedente">
-                        <field name="cnpj_empregador_cedente"/>
-                        <field name="matricula_cedente"/>
-                        <field name="data_admissao_cedente"/>
-                        <field name="adiantamento_13_cedente"/>
+                    <group name="vinculo_cedente" string="Vínculo cedente" attrs="{'invisible': [('categoria','!=','410')]}">
+                        <group>
+                            <!--<field name="funcionario_cedido" />-->
+                            <field name="cnpj_empregador_cedente" attrs="{'required': [('categoria','=','410')]}"/>
+                            <field name="matricula_cedente" attrs="{'required': [('categoria','=','410')]}"/>
+                            <field name="categoria_cedente" attrs="{'required': [('categoria','=','410')]}"/>
+                        </group>
+                        <group>
+                            <field name="data_admissao_cedente" attrs="{'required': [('categoria','=','410')]}"/>
+                            <field name="tpRegTrab" attrs="{'required': [('categoria','=','410')]}"/>
+                            <field name="infOnus" attrs="{'required': [('categoria','=','410')]}"/>
+                        </group>
                     </group>
                     <separator string="Outros Vínculos/Atividades" />
                     <h3>Contribuições para a previdência nos outros Vínculos/Atividades</h3>
@@ -190,19 +196,25 @@
         </field>
     </record>
 
-     <record model="ir.ui.view" id="hr_contract_tree_view">
+    <!-- Visao tree do contrato -->
+    <record model="ir.ui.view" id="hr_contract_tree_view">
         <field name="name">hr.contract.tree (in l10n_br_hr_payroll)</field>
         <field name="model">hr.contract</field>
         <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
         <field name="arch" type="xml">
-             <field name="name" position="before">
-                 <field name="codigo_contrato"/>
+             <field name="name" position="replace">
                  <field name="nome_contrato"/>
              </field>
         </field>
     </record>
 
+    <!--Action do core para menu de contratos padrao -->
+    <record id="hr_contract.action_hr_contract" model="ir.actions.act_window">
+        <field name="context">{'default_tipo': 'funcionario', 'search_default_current':1}</field>
+        <field name="domain">[('tipo','in', ['funcionario', False])]</field>
+    </record>
 
+    <!-- Action da tree do contrato do core (contrato de funcionarios) -->
     <record model="ir.actions.act_window.view" id="hr_contract_action_tree">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
@@ -210,6 +222,7 @@
         <field name="view_id" ref="hr_contract_tree_view"/>
     </record>
 
+    <!-- Action do form do contrato do core (contrato de funcionarios) -->
     <record model="ir.actions.act_window.view" id="hr_contract_action_form">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
