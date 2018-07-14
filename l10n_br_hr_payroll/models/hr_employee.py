@@ -9,6 +9,19 @@ from openerp.exceptions import Warning as UserError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+    tipo = fields.Selection(
+        string="Tipo de Colaborador",
+        selection=[
+            # S2200
+            ('funcionario', 'Funcionário'),
+            # S2300 Sem vinculo
+            ('autonomo', 'Autônomo'),
+            ('terceirizado', 'Terceirizado'),
+            ('cedido', 'Funcionário Cedido'),
+        ],
+        default='funcionario',
+    )
+
     @api.multi
     def write(self, vals):
         # Não permitir alterações do cadastro de funcionario.
