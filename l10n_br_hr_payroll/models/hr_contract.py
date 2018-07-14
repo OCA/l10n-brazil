@@ -1,15 +1,30 @@
 # -*- coding: utf-8 -*-
 # Copyright 2017 KMEE
+# Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
 from openerp import exceptions
 from datetime import datetime, timedelta
+from ..constantes import CATEGORIA_TRABALHADOR, CATEGORIA_TRABALHADOR_SEFIP
 
 
 class HrContract(models.Model):
     _inherit = 'hr.contract'
     _rec_name = 'nome_contrato'
+
+    categoria_sefip = fields.Selection(
+        selection=CATEGORIA_TRABALHADOR_SEFIP,
+        compute='_compute_categoria_sefip',
+        store=True,
+    )
+
+    categoria = fields.Selection(
+        selection=CATEGORIA_TRABALHADOR,
+        string="Categoria do Contrato",
+        required=True,
+        default='101',
+    )
 
     codigo_contrato = fields.Char(
         string='Codigo de Identificacao',
