@@ -45,7 +45,7 @@
         'wizards/sped_lote_view.xml',
 
         # Segurança
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
 
     ],
     "installable": True,
