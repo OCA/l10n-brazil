@@ -125,12 +125,18 @@ class HrContract(models.Model):
     labor_bond_type_id = fields.Many2one(
         string='Labor bond type',
         comodel_name='hr.contract.labor.bond.type')
+
     labor_regime_id = fields.Many2one(
-        string='Labor regime', comodel_name='hr.contract.labor.regime')
+        string='Labor regime',
+        comodel_name='hr.contract.labor.regime',
+        help = 'e-Social: S2300 - tpRegPrev',
+    )
 
     salary_unit = fields.Many2one(
         string='Salary Unity',
-        comodel_name='hr.contract.salary.unit')
+        comodel_name='hr.contract.salary.unit',
+        help='e-Social: S2300 - tpRegPrev',
+    )
 
     weekly_hours = fields.Float(string='Weekly hours')
     monthly_hours = fields.Float(string='Monthly hours')
