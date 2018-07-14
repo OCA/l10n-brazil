@@ -133,11 +133,12 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
             precisa_atualizar = False
             precisa_excluir = False
 
-            # Se a empresa matriz tem um período inicial definido e não
-            # tem um registro S1000 de inclusão # confirmado,
+            # Se a rubrica tem um período inicial definido e não
+            # tem um registro S1010 de inclusão # confirmado,
             # então precisa incluir
-            if not rubrica.sped_inclusao or \
-                    rubrica.sped_inclusao.situacao != '4':
+            if not rubrica.sped_inclusao:
+                # or \
+                #     rubrica.sped_inclusao.situacao != '4':
                 precisa_incluir = True
 
             # Se a empresa já tem um registro de inclusão confirmado mas a
