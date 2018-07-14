@@ -553,6 +553,7 @@ class SpedEsocial(models.Model):
                 ('employee_id', '=', beneficiario.id),
                 ('company_id', 'in', empresas),
                 ('date_start', '<=', periodo.date_stop),
+                ('tp_reg_prev', 'in', ['1', '2']),  # Somente contratos com o campo tp_reg_prev definido como 1 ou 2
             ]
             contratos = self.env['hr.contract'].search(domain)
             contratos_validos = []
@@ -614,7 +615,7 @@ class SpedEsocial(models.Model):
                 # Se não tem contrato válido, remove o registro S-1210 (se existir)
                 domain = [
                     ('company_id', '=', matriz.id),
-                    ('trabalhador_id', '=', trabalhador.id),
+                    ('beneficiario_id', '=', beneficiario.id),
                     ('periodo_id', '=', periodo.id),
                 ]
                 s1210 = self.env['sped.esocial.pagamento'].search(domain)
