@@ -49,13 +49,19 @@ class HrContract(models.Model):
             ('1', '1-Optante'),
             ('2', '2-Não Optante'),
         ],
+        help='e-Social: S-2200/S-2300 - opcFGTS',
     )
     dt_opc_fgts = fields.Date(
         string='Data de Opção do FGTS',
+        help='e-Social: S-2200/S-2300 - dtOpcFgts',
     )
     dsc_sal_var = fields.Char(
-        string='Descr. Salário Variável',
+        string='Descrição Salário Variável',
         size=255,
+        help="e-Social: S-2200/S-2300 - dscSalVar"
+             "\nDescrição do salário por tarefa ou variável e como este é "
+             "calculado. "
+             "\nEx.: Comissões pagas no percentual de 10% sobre as vendas.",
     )
     tp_contr = fields.Selection(
         string='Tipo de Contrato de Trabalho',
@@ -63,6 +69,7 @@ class HrContract(models.Model):
             ('1', '1-Prazo indeterminado'),
             ('2', '2-Prazo determinado'),
         ],
+        help='e-Social: S-2200 - tpContr',
     )
     clau_assec = fields.Selection(
         string='Contém Cláusula Assecuratória',
@@ -110,6 +117,7 @@ class HrContract(models.Model):
         string='SPED Contrato',
         comodel_name='sped.esocial.contrato',
     )
+
     situacao_esocial = fields.Selection(
         selection=[
             ('0', 'Inativa'),
