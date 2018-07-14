@@ -5,4 +5,5 @@
 from . import payslip_report_analitico
 from . import payslip_report_aviso_ferias
 from . import payslip_report_holerite
+from . import payslip_report_holerite_autonomo_rpa
 from . import payslip_report_rescisao
