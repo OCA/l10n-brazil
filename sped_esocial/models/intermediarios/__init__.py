@@ -16,6 +16,7 @@ from . import s1050_turnos_trabalho
 from . import s1200_remuneracao_de_trabalhador_rgps
 from . import s1202_remuneracao_de_servidor_rpps
 from . import s1210_pagamento
+from . import s1299_fechamento
 
 # Registros Eventuais
 from . import s2200_cadastramento_inicial_vinculo_admissao_trabalhador

@@ -167,13 +167,34 @@ class SpedEsocial(models.Model):
     def importar_rubricas(self):
         self.ensure_one()
 
-        rubricas = self.env['sped.esocial.rubrica'].search([
-            ('company_id', '=', self.company_id.id),
+        # Roda todas as Rubricas que possuem o campo nat_rubr definido (Natureza da Rubrica)
+        rubricas = self.env['hr.salary.rule'].search([
+            ('nat_rubr', '!=', False),
         ])
         for rubrica in rubricas:
-            if rubrica.id not in self.rubrica_ids.ids:
-                if rubrica.situacao_esocial != '9':
-                    self.rubrica_ids = [(4, rubrica.id)]
+
+            # Procura o registro intermediário S-1010 correspondente
+            s1010 = self.env['sped.esocial.rubrica'].search([
+                ('company_id', '=', self.company_id.id),
+                ('rubrica_id', '=', rubrica.id),
+            ])
+            if not s1010:
+
+                # Cria o registro intermediário
+                vals = {
+                    'company_id': self.company_id.id,
+                    'rubrica_id': rubrica.id,
+                }
+                s1010 = self.env['sped.esocial.rubrica'].create(vals)
+                self.rubrica_ids = [(4, s1010.id)]
+            else:
+
+                # Adiciona no período o link para o registro S-1010 (se não estiver)
+                if s1010.id not in self.rubrica_ids.ids:
+                    self.rubrica_ids = [(4, s1010.id)]
+
+            # Gera o registro de transmissão (se for necessário)
+            s1010.gerar_registro()
 
     @api.multi
     def criar_s1010(self):
@@ -212,27 +233,6 @@ class SpedEsocial(models.Model):
             if lotacao.id not in self.lotacao_ids.ids:
                 if lotacao.situacao_esocial != '9':
                     self.lotacao_ids = [(4, lotacao.id)]
-
-        # lotacoes = self.env['res.company'].search([
-        #     '|',
-        #     ('id', '=', self.company_id.id),
-        #     ('matriz', '=', self.company_id.id),
-        # ])
-        #
-        # for lotacao in lotacoes:
-        #     incluir = True
-        #     for empresa in self.lotacao_ids:
-        #         if empresa.lotacao_id == lotacao:
-        #             incluir = False
-        #
-        #     if incluir:
-        #         # Criar uma nova lotacao neste período
-        #         vals = {
-        #             'company_id': self.company_id.id,
-        #             'lotacao_id': lotacao.id,
-        #         }
-        #         lotacao_id = self.env['sped.esocial.lotacao'].create(vals)
-        #         self.lotacao_ids = [(4, lotacao_id.id)]
 
     @api.multi
     def criar_s1020(self):
@@ -622,6 +622,36 @@ class SpedEsocial(models.Model):
                 if s1210:
                     s1210.sped_registro.unlink()
                     s1210.unlink()
+
+    # Controle de registros S-1299
+    fechamento_ids = fields.Many2many(
+        string='Fechamento',
+        comodel_name='sped.esocial.fechamento',
+    )
+
+    @api.multi
+    def importar_fechamentos(self):
+        self.ensure_one()
+
+        # Verifica se o registro S-1299 já existe, cria ou atualiza
+        domain_s1299 = [
+            ('company_id', '=', self.company_id.id),
+            ('periodo_id', '=', self.periodo_id.id),
+        ]
+        s1299 = self.env['sped.esocial.fechamento'].search(domain_s1299)
+        if not s1299:
+            vals = {
+                'company_id': self.company_id.id,
+                'periodo_id': self.periodo_id.id,
+            }
+            s1299 = self.env['sped.esocial.fechamento'].create(vals)
+        else:
+
+            # Relaciona o s1210 com o período do e-Social
+            self.fechamento_ids = [(4, s1299.id)]
+
+            # Cria o registro de transmissão sped (se ainda não existir)
+            s1299.atualizar_esocial()
 
     @api.multi
     def get_esocial_vigente(self, company_id=False):

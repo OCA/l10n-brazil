@@ -177,6 +177,22 @@
                                     </field>
                                 </group>
                             </page>
+                            <page name="s1299" string="S-1299">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_fechamentos" type="object" string="Calcular" />
+                                        </div>
+                                    </group>
+                                    <separator string="Fechamento dos Eventos Periódicos" />
+                                    <field name="fechamento_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree string="S-1299 (Fechamento)">
+                                            <field name="codigo"/>
+                                            <field name="situacao_esocial"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
                         </notebook>
                     </group>
                 </form>
