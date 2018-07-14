@@ -26,6 +26,11 @@ class HrContract(models.Model):
         default='101',
     )
 
+    type_id = fields.Many2one(
+        comodel_name='hr.contract.type',
+        required=False,
+    )
+
     tipo = fields.Selection(
         string='Tipo de vínculo com funcionário',
         selection=[
@@ -80,13 +85,13 @@ class HrContract(models.Model):
             vals['codigo_contrato'] = self.env['ir.sequence'].get(self._name)
             return super(HrContract, self).create(vals)
 
-    @api.depends('employee_id')
+    @api.depends('employee_id', 'matricula')
     def _compute_nome_contrato(self):
         for contrato in self:
-            nome = contrato.employee_id.name
-            matricula = contrato.codigo_contrato
-            nome_contrato = '[%s] %s' % (matricula, nome)
-            contrato.nome_contrato = nome_contrato if nome else ''
+            if contrato.employee_id and contrato.matricula:
+                nome = contrato.employee_id.name
+                nome_contrato = '[%s] %s' % (contrato.matricula, nome)
+                contrato.nome_contrato = nome_contrato if nome else ''
 
     nome_contrato = fields.Char(
         default="[mat] nome - inicio - fim",
@@ -371,15 +376,57 @@ class HrContract(models.Model):
 
     # Vínculo cedente
     cnpj_empregador_cedente = fields.Char(
-        string="CNPJ do empregador"
+        string="CNPJ do empregador",
+        help = 'e-Social: S2300 - cnpjCednt',
     )
 
     matricula_cedente = fields.Char(
-        string="Matrícula"
+        string="Matrícula no cedente",
+        help = 'e-Social: S2300 - matricCed',
     )
 
     data_admissao_cedente = fields.Date(
-        string="Data de admissão no vínculo"
+        string="Data de admissão no vínculo",
+        help='e-Social: S2300 - dtAdmCed',
+    )
+
+    tpRegTrab = fields.Selection(
+        string="Tipo de regime trabalhista no cedente",
+        selection=[
+            (1, 'CLT - Consolidação das Leis de Trabalho e legislações trabalhistas específicas'),
+            (2, 'Estatutário.'),
+        ],
+        help='e-Social: S2300 - tpRegTrab',
+    )
+
+    tpRegPrev = fields.Selection(
+        string="Tipo de regime previdenciário",
+        selection=[
+            (1, 'Regime Geral da Previdência Social - RGPS'),
+            (2, 'Regime Próprio de Previdência Social - RPPS'),
+            (3, 'Regime de Previdência Social no Exterior'),
+        ],
+        help='e-Social: S2300 - tpRegPrev',
+    )
+
+    infOnus = fields.Selection(
+        string="Ônus da cessão/requisição",
+        selection=[
+            (1, 'Ônus do Cedente'),
+            (2, 'Ônus do Cessionário'),
+            (3, 'Ônus do Cedente e Cessionário'),
+        ],
+        help='e-Social: S2300 - categOrig',
+    )
+
+    categoria_cedente = fields.Selection(
+        selection=CATEGORIA_TRABALHADOR,
+        string="Categoria do Contrato no cedente",
+        help='e-Social: S2300 - categOrig',
+    )
+
+    funcionario_cedido = fields.Boolean(
+        string=u'Funcionário cedido?'
     )
 
     adiantamento_13_cedente = fields.Float(
@@ -454,10 +501,46 @@ class HrContract(models.Model):
     )
     matricula = fields.Char(
         string='Matrícula',
-        required=True,
-        help="e-Social: S-2299 - matricula"
+        help="e-Social: S-2299 - matricula",
+        default=lambda self: self.get_default_matricula(),
     )
 
+    @api.multi
+    @api.depends('categoria')
+    def _compute_categoria_sefip(self):
+
+        for record in self:
+            if record.categoria in ('701', '702', '703'):
+                #
+                # Autônomo
+                #
+                record.categoria_sefip = '13'
+            elif record.categoria == '721':
+                #
+                # Pró-labore
+                #
+                record.categoria_sefip = '05'
+            elif record.categoria == '722':
+                #
+                # Pró-labore 2
+                #
+                record.categoria_sefip = '11'
+            elif record.categoria == '103':
+                #
+                # Aprendiz
+                #
+                record.categoria_sefip = '07'
+            else:
+                record.categoria_sefip = '01'
+
+    def get_default_matricula(self):
+        """
+        """
+        ultima_matricula = self.search([
+            ('matricula','!=',False)], limit=1, order='matricula desc'
+        )
+        matricula = '0' + str(int(ultima_matricula.matricula) + 1)
+        return matricula
 
 class Exame(models.Model):
     _name = 'hr.exame.medico'
@@ -619,3 +702,28 @@ class HrContribuicaoInssVinculos(models.Model):
             raise exceptions.Warning(
                 'Só é possível uma entrada por vínculo no período selecionado!'
             )
+
+    @api.onchange('employee_id')
+    def onchange_funcionario(self):
+        """
+        COnfigurar o tipo do contrato de acordo com o tipo de vinculo do
+        funcionario
+        """
+        for record in self:
+            if record.employee_id:
+                record.tipo = record.employee_id.tipo
+
+    @api.constrains('categoria')
+    def constrains_categoria(self):
+        """
+        Validar categoria do contrato para o esocial
+        :return:
+        """
+        categoria_autonomos = \
+            [201, 202, 305, 308, 401, 410, 701, 711, 712, 721, 722, 723, 731,
+             734, 738, 741, 751, 761, 771, 781, 901, 902, 903, 904, 905]
+
+        if self.tipo == 'autonomo' and \
+                self.categoria not in categoria_autonomos:
+                raise exceptions.Warning(
+                    'Categoria inválida para Contratos de autônomos.')

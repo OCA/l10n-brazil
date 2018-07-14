@@ -64,6 +64,7 @@ TIPO_DE_FOLHA = [
     ('licenca_maternidade', u'Licença maternidade'),
     ('auxilio_doenca', u'Auxílio doença'),
     ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
+    ('rpa', u'Recibo de Pagamento a Autonômo'),
 ]
 
 

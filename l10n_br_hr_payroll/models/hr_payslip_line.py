@@ -60,6 +60,20 @@ class HrPayslipeLine(models.Model):
         store=True,
     )
 
+    # A slip de autonomo, utiliza esse modelo, entretanto nao eh um model
+    # payslip, como todos os processos no odoo setam esse campo por código
+    # nao tem necessidade de ser obrigatorio e caso esse campo for pra view,
+    # deve ser tratado na visao a obrigatoriedade ndo campo
+    slip_id = fields.Many2one(
+        comodel_name='hr.payslip',
+        required=False,
+    )
+
+    slip_autonomo_id = fields.Many2one(
+        string=u'Holerite do Autonomo',
+        comodel_name='hr.payslip.autonomo',
+    )
+
     @api.depends('rate', 'amount', 'quantity')
     def _compute_total(self):
         for linha in self:
@@ -111,6 +125,15 @@ class HrPayslipeLine(models.Model):
             else:
                 line.code = ''
                 line.category_id = False
+
+    @api.onchange('contract_id')
+    def _onchange_contract_id(self):
+        """
+        Setar o employee na linha baseado no contrato
+        """
+        for line in self:
+            if line.contract_id and line.contract_id.employee_id:
+                line.employee_id = line.contract_id.employee_id
 
     quantity_fmt = fields.Char(
         string=u'Quantidade',

@@ -12,30 +12,26 @@
             <field name="arch" type="xml">
             <form string="RPA">
                 <header>
-                    <button string="Validar" name="hr_verify_sheet" class="oe_highlight"/>
+                    <button string="Validar" name="button_hr_validate_payslip_autonomo"
+                            states="draft" class="oe_highlight"
+                            type="object"/>
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <group>
-                    <div class="oe_title">
+                    <div class="oe_title" colspan="4">
                         <label for="contract_id" class="oe_edit_only"/>
-                        <h1>
-                            <field name="contract_id" options="{'no_create': 1}"  required="True" colspan="4" col="4" />
-                        </h1>
+                        <h1><field name="contract_id" required="True" /></h1>
                     </div>
                     </group>
-
-                    <field name="employee_id" />
-                    <field name="struct_id" />
-
+                    <group>
+                        <field name="employee_id" invisible="True" />
+                        <field name="struct_id" invisible="True"/>
+                    </group>
                     <gorup>
                         <group>
-                            <group>
-                                <field name="mes_do_ano" />
-                            </group>
-                            <group>
-                                <field name="ano" />
-                            </group>
+                            <field name="mes_do_ano" />
+                            <field name="ano" />
                         </group>
                     </gorup>
 
@@ -45,6 +41,13 @@
                             <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
                         </div>
                     </group>
+
+                    <gorup>
+                        <group>
+                            <field name="company_id" />
+                        </group>
+                    </gorup>
+
 
                     <!-- Adiciona abas -->
                     <notebook>
@@ -77,7 +80,7 @@
                         </page>
 
                         <page string="Salary Computation" attrs="{'invisible': [('state', '=', 'done')]}">
-                            <field name="line_ids" colspan="4" nolabel="1" context="{'default_employee_id': 1, 'default_contract_id': contract_id }" >
+                            <field name="line_ids" colspan="4" nolabel="1" context="{'default_contract_id': contract_id}" >
                                 <tree editable="bottom"
                                       colors="blue:valor_provento > 0;red:valor_deducao > 0;orange:total == 0" >
                                     <field name="code" invisible="1"/>
@@ -85,16 +88,15 @@
                                     <field name="valor_provento" invisible="1"/>
                                     <field name="valor_deducao" invisible="1"/>
                                     <field name="quantity" digits="(18,2)" invisible="1"/>
-
+                                    <field name="partner_id" invisible="1"/>
+                                    <field name="employee_id" invisible="1"/>
+                                    <field name="contract_id" invisible="1"/>
                                     <field name="salary_rule_id"/>
                                     <field name="name"/>
                                     <field name="category_id"/>
-                                    <field name="rate" digits="(18,4)" />
+                                    <field name="rate" digits="(18,2)" />
                                     <field name="amount" digits="(18,2)" />
                                     <field name="total"/>
-                                    <field name="partner_id"/>
-                                    <field name="employee_id"/>
-                                    <field name="contract_id"/>
                                 </tree>
                             </field>
                         </page>
@@ -110,7 +112,7 @@
         <!-- RPA Visao tree-->
         <record model="ir.ui.view" id="hr_payslip_autonomo_tree_view">
             <field name="name">hr.payslip.autonomo.tree (in l10n_br_hr_payroll)</field>
-            <field name="model">hr.payslip</field>
+            <field name="model">hr.payslip.autonomo</field>
             <field name="arch" type="xml">
                 <tree string="Recibo de Pagamento a Autônomoa">
                     <field name="contract_id"/>
@@ -121,6 +123,7 @@
             </field>
         </record>
 
+        <!-- RPA Action-->
         <record model="ir.actions.act_window" id="hr_payslip_autonomo_action">
             <field name="name">RPA</field>
             <field name="res_model">hr.payslip.autonomo</field>
@@ -129,6 +132,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!-- RPA Menu -->
         <menuitem
                 id="hr_menu_payslip_autonomo"
                 action="hr_payslip_autonomo_action"
@@ -153,5 +157,3 @@
 
     </data>
 </openerp>
-
-        <!--Visão Tree -->

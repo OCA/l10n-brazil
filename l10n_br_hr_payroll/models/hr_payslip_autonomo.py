@@ -37,6 +37,7 @@ MES_DO_ANO = [
 
 TIPO_DE_FOLHA = [
     ('normal', u'Folha normal'),
+    ('rpa', u'Recibo de Pagamento a Autonômo'),
     ('rescisao', u'Rescisão'),
     ('ferias', u'Férias'),
     ('decimo_terceiro', u'Décimo terceiro (13º)'),
@@ -54,10 +55,11 @@ class HrPayslipAutonomo(models.Model):
     _order = 'ano desc, mes_do_ano desc, company_id asc, employee_id asc'
 
     contract_id = fields.Many2one(
-        'hr.contract',
-        'Contract',
+        comodel_name = 'hr.contract',
+        string= 'Contrato',
         ondelete='cascade',
         index=True,
+        domain="[('tipo','=','autonomo')]",
     )
 
     employee_id = fields.Many2one(
@@ -76,6 +78,7 @@ class HrPayslipAutonomo(models.Model):
             ('done', 'Done'),
             ('cancel', 'Rejected'),
         ],
+        default='draft',
         string = 'Status',
         copy=False,
     )
@@ -125,12 +128,12 @@ class HrPayslipAutonomo(models.Model):
     line_ids = fields.One2many(
         string=u"Holerite Resumo",
         comodel_name='hr.payslip.line',
-        inverse_name='slip_id',
+        inverse_name='slip_autonomo_id',
     )
 
     line_resume_ids = fields.One2many(
         comodel_name='hr.payslip.line',
-        inverse_name='slip_id',
+        inverse_name='slip_autonomo_id',
         compute='_buscar_payslip_line',
         string=u"Holerite Resumo",
     )
@@ -169,18 +172,40 @@ class HrPayslipAutonomo(models.Model):
         compute='_compute_valor_total_folha'
     )
 
-
     data_extenso = fields.Char(
         string=u'Data por Extenso',
         compute='_compute_valor_total_folha'
     )
-
 
     company_id = fields.Many2one(
         string="Empresa",
         comodel_name="res.company",
         related='contract_id.company_id',
         store=True
+    )
+
+    total_proventos = fields.Float(
+        string=u'Total Proventos',
+        default=0.00,
+        compute='_compute_valor_total_folha'
+    )
+
+    total_proventos_fmt = fields.Char(
+        string=u'Total Proventos',
+        default='0',
+        compute='_compute_valor_total_folha'
+    )
+
+    total_descontos = fields.Float(
+        string=u'Total Descontos',
+        default=0.00,
+        compute='_compute_valor_total_folha'
+    )
+
+    total_descontos_fmt = fields.Char(
+        string=u'Total Descontos',
+        default='0',
+        compute='_compute_valor_total_folha'
     )
 
     @api.multi
@@ -285,12 +310,13 @@ class HrPayslipAutonomo(models.Model):
                 '/' + str(record.ano)
 
     @api.multi
-    def hr_verify_sheet(self):
+    def button_hr_validate_payslip_autonomo(self):
         """
 
         :return:
         """
         for record in self:
+            record._buscar_payslip_line()
             record.state = 'done'
 
     @api.multi
@@ -302,7 +328,7 @@ class HrPayslipAutonomo(models.Model):
                       'draft or cancelled or permission!')
                 )
             payslip.cancel_sheet()
-        return super(HrPayslip, self).unlink()
+        return super(HrPayslipAutonomo, self).unlink()
 
     @api.multi
     @api.depends('contract_id', 'mes_do_ano')
@@ -311,8 +337,8 @@ class HrPayslipAutonomo(models.Model):
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
 
+    @api.multi
     @api.depends('line_ids')
-    @api.model
     def _buscar_payslip_line(self):
         for holerite in self:
             lines = []
@@ -320,6 +346,11 @@ class HrPayslipAutonomo(models.Model):
                 if line.valor_provento or line.valor_deducao:
                     lines.append(line.id)
             holerite.line_resume_ids = lines
+
+    @api.model
+    def _compute_sheet_autonomo(self):
+        for holerite in self:
+            holerite._buscar_payslip_line()
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
