@@ -2,6 +2,7 @@
 <openerp>
     <data>
 
+        <!-- Contrato de Funcionarios -->
         <record model="ir.ui.view" id="sped_hr_contract">
             <field name="name">Adiciona e-Social no Contrato</field>
             <field name="model">hr.contract</field>
@@ -53,10 +54,7 @@
                     <field name="opc_fgts" required="1"/>
                            <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
                     <!--/>-->
-                    <field name="dt_opc_fgts" />
-                    <!--attrs="{'required': ['opc_fgts', '=', '1']}"/>-->
-                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')]}"-->
-                    <!--/>-->
+                    <field name="dt_opc_fgts" attrs="{'required': [('opc_fgts', '=', '1')]}"/>
                 </field>
                 <field name="salary_unit" position="after">
                     <field name="dsc_sal_var" />
@@ -79,6 +77,36 @@
                 </field>
                 <field name="resignation_cause_id" position="after">
                     <field name="nr_cert_obito" attrs="{'invisible': [('resignation_code', 'not in', ['09', '10'])]}" />
+                </field>
+            </field>
+        </record>
+
+
+        <!-- Contrato de Autnomos -->
+        <record model="ir.ui.view" id="sped_hr_contrato_autonomo">
+            <field name="name">Adiciona e-Social no Contrato do autonomo</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='information']" position="after">
+                    <page name="esocial" string="e-Social">
+                        <group colspan="4" col="4" string="Transmissão e-Social">
+                            <group colspan="2" col="2">
+                                <field name="sped_contrato_autonomo_id" />
+                                <field name="situacao_esocial_autonomo" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <button name="atualizar_contrato_autonomo" colspan="4" type="object"
+                                        string="Ativar/Atualizar Contrato"
+                                        attrs="{'invisible': [('sped_contrato_autonomo_id', '!=', False)]}" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <field name="salary_unit" position="after">
+                    <field name="salary_unit_code" invisible="1" />
+                    <field name="dsc_sal_var" attrs="{'invisible': [('salary_unit_code','not in',['6','7'])],
+                                                       'required': [('salary_unit_code','in',['6','7'])]}" />
                 </field>
             </field>
         </record>
