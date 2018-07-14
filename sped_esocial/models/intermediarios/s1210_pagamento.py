@@ -139,12 +139,12 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
         S1210.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideBenef (Dados do Beneficiário do Pagamento)
-        S1210.evento.ideBenef.cpfTrab.valor = limpa_formatacao(self.beneficiario_id.cpf)
+        S1210.evento.ideBenef.cpfBenef.valor = limpa_formatacao(self.beneficiario_id.cpf)
 
         # Popula deps (Informações de dependentes do beneficiário do pagamento
         # Conta o número de dependentes para fins do regime próprio de previdência social
         dependentes = 0
-        for dependente in self.servidor_id.dependent_ids:
+        for dependente in self.beneficiario_id.dependent_ids:
             if dependente.dependent_verification:
                 dependentes += 1
 
@@ -200,7 +200,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 periodo = self.periodo_id.code[3:7] + '-' + self.periodo_id.code[0:2] \
                     if payslip.tipo_de_folha != 'decimo_terceiro' else self.periodo_id.fiscalyear_id.code
                 det_pgto_fl.perRef.valor = periodo
-                det_pgto_fl.ideDmDev.valor = tipo
+                det_pgto_fl.ideDmDev.valor = payslip.number
                 det_pgto_fl.indPgtoTt.valor = 'S'  # TODO Lidar com pagamento de adiantamentos mensais, quando tivermos
                 det_pgto_fl.vrLiq.valor = formata_valor(payslip.total_folha)
 
@@ -238,7 +238,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                             pen_alim.vlrPensao.valor = formata_valor(line.total)
                             ret_pgto_tot.penAlim.append(pen_alim)
 
-                        det_pgto_fl.itensRemun.append(ret_pgto_tot)
+                        det_pgto_fl.retPgtoTot.append(ret_pgto_tot)
 
                 # Popula a tag detPgtoFl
                 info_pgto.detPgtoFl.append(det_pgto_fl)
@@ -288,6 +288,9 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                 # Popula a tag detPgtoFl
                 info_pgto.detPgtoFer.append(det_pgto_fer)
+
+            # Popula infoPgto
+            S1210.evento.ideBenef.infoPgto.append(info_pgto)
 
         return S1210
 
