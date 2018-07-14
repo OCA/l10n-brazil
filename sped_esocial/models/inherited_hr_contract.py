@@ -118,6 +118,12 @@ class HrContract(models.Model):
         comodel_name='sped.esocial.contrato',
     )
 
+    # Registro S-2300
+    sped_contrato_autonomo_id = fields.Many2one(
+        string='SPED Contrato',
+        comodel_name='sped.esocial.contrato.autonomo',
+    )
+
     situacao_esocial = fields.Selection(
         selection=[
             ('0', 'Inativa'),
@@ -136,9 +142,28 @@ class HrContract(models.Model):
         string='Alterar Contrato',
         comodel_name='sped.esocial.alteracao.contrato',
     )
+
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
         related='sped_esocial_alterar_contrato_id.precisa_atualizar',
+    )
+
+    situacao_esocial_autonomo = fields.Selection(
+        selection=[
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
+        ],
+        string='Situação no e-Social dos autonomos',
+        related='sped_contrato_autonomo_id.situacao_esocial',
+        readonly=True,
+    )
+
+    salary_unit_code = fields.Char(
+        string='Cod. unidade de salario',
+        related='salary_unit.code',
     )
 
     @api.multi
@@ -193,5 +218,35 @@ class HrContract(models.Model):
             self._gerar_tabela_intermediaria_alteracao()
 
         # Processa cada tipo de operação do S-2206 (Alteração)
-        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        # O que realmente precisará ser feito é tratado no método do
+        # registro intermediário
         self.sped_esocial_alterar_contrato_id.gerar_registro()
+
+    @api.multi
+    def atualizar_contrato_autonomo(self):
+        """
+        Função Duplicada =\
+        """
+        self.ensure_one()
+
+        sped_esocial_contrato_obj = self.env['sped.esocial.contrato.autonomo']
+
+        # Se o registro intermediário não existe, criá-lo
+        if not self.sped_contrato_autonomo_id:
+
+            if self.env.user.company_id.eh_empresa_base:
+                matriz = self.env.user.company_id.id
+            else:
+                matriz = self.env.user.company_id.matriz.id
+
+            esocial_contrato_autonomo_id = \
+                self.env['sped.esocial.contrato.autonomo'].create({
+                    'company_id': matriz,
+                    'hr_contract_id': self.id,
+                })
+
+            self.sped_contrato_autonomo_id = esocial_contrato_autonomo_id
+
+        # Processa cada tipo de operação do S-2200 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_contrato_autonomo_id.gerar_registro()
