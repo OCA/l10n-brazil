@@ -51,11 +51,15 @@ class HrEmployee(models.Model):
     )
 
     @api.multi
-    def atualizar_cadastro_funcionario(self):
-        self.ensure_one()
+    def write(self, vals):
+        self._gerar_tabela_intermediaria_alteracao(vals)
+        return super(HrEmployee, self).write(vals)
 
+    @api.multi
+    def _gerar_tabela_intermediaria_alteracao(self, vals={}):
         # Se o registro intermediário do S-2205 não existe, criá-lo
-        if not self.sped_esocial_alterar_cadastro_id:
+        if not self.sped_esocial_alterar_cadastro_id and not \
+                vals.get('sped_esocial_alterar_cadastro_id'):
             matriz = self.company_id.id if self.company_id.eh_empresa_base \
                 else self.company_id.matriz.id
             self.sped_esocial_alterar_cadastro_id = \
@@ -65,6 +69,12 @@ class HrEmployee(models.Model):
                         'hr_employee_id': self.id,
                     }
                 )
+
+    @api.multi
+    def atualizar_cadastro_funcionario(self):
+        self.ensure_one()
+
+        self._gerar_tabela_intermediaria_alteracao()
 
         # Processa cada tipo de operação do S-2205
         # O que realmente precisará ser feito é

@@ -50,7 +50,7 @@
                                         colspan="4" type="object"
                                         string="Atualizar Cadastro"
                                         class="oe_highlight"
-                                        attrs="{'invisible': [('precisa_atualizar', '=', True)]}"
+                                        attrs="{'invisible': [('precisa_atualizar', '!=', True)]}"
                                 />
                             </group>
                         </group>

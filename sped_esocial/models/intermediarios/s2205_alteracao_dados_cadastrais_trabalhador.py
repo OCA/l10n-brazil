@@ -92,8 +92,9 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
                 # Se a empresa já tem um registro de inclusão confirmado mas
                 # a data da última atualização é menor que a o write_date da
                 # empresa, então precisa atualizar
-                if not empregado.precisa_atualizar or empregado.ultima_atualizacao \
-                        < empregado.hr_employee_id.write_date:
+                if empregado.ultima_atualizacao < \
+                        empregado.hr_employee_id.write_date or \
+                        empregado.situacao_esocial == '1':
                     precisa_atualizar = True
 
             # Popula os campos na tabela
