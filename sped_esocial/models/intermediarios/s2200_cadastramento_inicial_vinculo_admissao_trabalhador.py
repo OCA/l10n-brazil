@@ -294,7 +294,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         else:
             Brasil.tpLograd.valor = 'R'
         Brasil.dscLograd.valor = self.hr_contract_id.employee_id.address_home_id.street or ''
-        Brasil.nrLograd.valor = self.hr_contract_id.employee_id.address_home_id.number or ''
+        Brasil.nrLograd.valor = self.hr_contract_id.employee_id.address_home_id.number or 'S/N'
         Brasil.complemento.valor = self.hr_contract_id.employee_id.address_home_id.street2 or ''
         Brasil.bairro.valor = self.hr_contract_id.employee_id.address_home_id.district or ''
         Brasil.cep.valor = limpa_formatacao(

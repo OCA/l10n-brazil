@@ -27,11 +27,11 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         required=True,
     )
     registro_inclusao = fields.Many2one(
-        string='Registro S-2200',
+        string='Registro S-2300',
         comodel_name='sped.registro',
     )
     registro_retificacao = fields.Many2many(
-        string='Registro S-2200 - Retificação',
+        string='Registro S-2306 - Retificação',
         comodel_name='sped.registro',
     )
     situacao_esocial = fields.Selection(
@@ -153,7 +153,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2300.evento.ideEvento.verProc.valor = '8.0'
 
         #
-        # Popula (Dados do Empregador)
+        # Popula (Dados do Empregador)- evtTSVInicio.ideEvento.ideEmpregador
         #
         S2300.evento.ideEmpregador.tpInsc.valor = '1'
         S2300.evento.ideEmpregador.nrInsc.valor = \

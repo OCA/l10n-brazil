@@ -70,6 +70,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             # Popula na tabela
             contrato.situacao_esocial = situacao_esocial
 
+    @api.multi
     @api.depends('sped_alteracao')
     def compute_precisa_enviar(self):
 
