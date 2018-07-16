@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_holidays_form">
+            <field name="name">Hr Holidays(e-Social) Form</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="l10n_br_hr_holiday.hr_holidays_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <h3>e-Social:</h3>
+                    <group colspan="4" col="4">
+                        <field name="sped_esocial_afastamento_id" options="{'no_create': True, 'no_edit': True}" readonly="1"/>
+                        <field name="situacao_esocial" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

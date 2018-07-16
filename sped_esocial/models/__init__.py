@@ -32,5 +32,6 @@ from . import inherited_resource_calendar_attendance
 from . import inherited_res_partner
 from . import inherited_hr_payslip
 from . import inherited_hr_holidays_status
+from . import inherited_hr_holidays
 from . import hr_turnos_trabalho
 from . import sped_esocial
