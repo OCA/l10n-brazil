@@ -22,6 +22,7 @@ from . import s1299_fechamento
 from . import s2200_cadastramento_inicial_vinculo_admissao_trabalhador
 from . import s2205_alteracao_dados_cadastrais_trabalhador
 from . import s2206_alteracao_contrato_trabalho
+from . import s2230_afastamento_temporario
 from . import s2299_desligamento
 
 from . import s2300_inicio_trabalhador_sem_vinculo_de_emprego
