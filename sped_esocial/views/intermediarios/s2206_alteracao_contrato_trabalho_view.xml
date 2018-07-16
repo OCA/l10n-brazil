@@ -24,14 +24,11 @@
                         <group colspan="4" col="2">
                             <field name="company_id" readonly="1" options="{'no_open': True}"/>
                             <field name="hr_contract_id" readonly="1"/>
-                        </group>
-                        <group colspan="4" col="2">
-                            <field name="sped_alteracao" readonly="1"/>
-                        </group>
-                        <group colspan="4" col="2">
-                            <field name="situacao_esocial" />
                             <field name="ultima_atualizacao" />
                             <field name="precisa_atualizar" />
+                        </group>
+                        <group colspan="4">
+                            <field name="sped_alteracao" readonly="1" nolabel="1"/>
                         </group>
                     </group>
                 </form>
