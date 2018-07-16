@@ -232,7 +232,7 @@ class SpedLote(models.Model, ):
         self.dh_recepcao = processo.resposta.dhRecepcao   # o tratamento da resposta
         self.versao_aplicativo_recepcao = processo.resposta.versaoAplicativoRecepcao
         self.versao_aplicativo_processamento = processo.resposta.versaoAplicativoProcessamentoLote
-        # self.protocolo = processo.resposta.protocoloEnvio # Não acho correto poder mudar o protocoloEnvio aqui
+        self.protocolo = processo.resposta.protocoloEnvio  # Não acho correto poder mudar o protocoloEnvio aqui
 
         # Limpar ocorrências
         for ocorrencia in self.ocorrencia_ids:
@@ -330,6 +330,56 @@ class SpedLote(models.Model, ):
             anexo_id = self._grava_anexo(consulta_xml_nome, consulta_xml)
             registro.consulta_xml_id = anexo_id
 
+            # Se teve algum registro de totalização, cria o registro (se já não existir)
+            if evento.tot:
+
+                vr_evento, vr_registro = False, False
+                tot = evento.tot.eSocial
+                if evento.tot.tipo.valor == 'S5001':
+                    vr_evento = 'evtBasesTrab'
+                    vr_registro = 'S-5001'
+                if evento.tot.tipo.valor == 'S5002':
+                    vr_evento = 'evtIrrfBenef'
+                    vr_registro = 'S-5002'
+                if evento.tot.tipo.valor == 'S5011':
+                    vr_evento = 'evtCS'
+                    vr_registro = 'S-5011'
+                if evento.tot.tipo.valor == 'S5012':
+                    vr_evento = 'evtIrrf'
+                    vr_registro = 'S-5012'
+
+                sped_registro = self.env['sped.registro'].search([
+                    ('id_evento', '=', tot.evento.Id.valor)
+                ])
+                vals = {
+                    'tipo': 'esocial',
+                    'registro': vr_registro,
+                    'evento': vr_evento,
+                    'operacao': 'na',
+                    'ambiente': self.ambiente,
+                    'origem': ('sped.registro,%s' % registro.id),
+                    # 'origem_intermediario': registro.origem_intermediario,
+                    'company_id': self.company_id.id,
+                    'id_evento': tot.evento.Id.valor,
+                    'situacao': '4',
+                    'lote_ids': [(4, self.id)],
+                    'recibo': tot.evento.ideEvento.nrRecArqBase.valor,
+                }
+                if sped_registro:
+                    sped_registro.write(vals)
+                else:
+                    sped_registro = self.env['sped.registro'].create(vals)
+
+                # Popula o XML de Consulta
+                if sped_registro.consulta_xml_id:
+                    consulta = sped_registro.consulta_xml_id
+                    sped_registro.consulta_xml_id = False
+                    consulta.unlink()
+                consulta_xml = tot.xml
+                consulta_xml_nome = registro.id_evento + '-consulta.xml'
+                anexo_id = self._grava_anexo(consulta_xml_nome, consulta_xml)
+                sped_registro.consulta_xml_id = anexo_id
+
     # Transmite todos os registros contidos neste lote
     @api.multi
     def transmitir(self):
@@ -346,8 +396,9 @@ class SpedLote(models.Model, ):
         eventos = []
         sequencia = 1
         for registro in self.transmissao_ids:
-            eventos.append(registro.calcula_xml(sequencia=sequencia))
-            sequencia += 1
+            if registro.registro not in ['S-5001', 'S-5002', 'S-5011', 'S-5012']:
+                eventos.append(registro.calcula_xml(sequencia=sequencia))
+                sequencia += 1
 
         # Popula a data/hora da transmissão do lote
         data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
