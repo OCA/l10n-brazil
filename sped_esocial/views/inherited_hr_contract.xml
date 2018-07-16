@@ -56,10 +56,10 @@
                     <!--/>-->
                     <field name="dt_opc_fgts" attrs="{'required': [('opc_fgts', '=', '1')]}"/>
                 </field>
-                <field name="salary_unit" position="after">
-                    <field name="dsc_sal_var" />
-                           <!--attrs="{'required': [('salary_unit.code', 'in', ['6', '7'])]}" />-->
-                </field>
+                <!--<field name="salary_unit" position="after">-->
+                    <!--<field name="dsc_sal_var" />-->
+                           <!--&lt;!&ndash;attrs="{'required': [('salary_unit.code', 'in', ['6', '7'])]}" />&ndash;&gt;-->
+                <!--</field>-->
                 <field name="working_hours" position="before">
                     <field name="tp_contr" required="1" />
                     <field name="clau_assec" attrs="{'invisible': [('tp_contr', '!=', '2')], 'required': [('tp_contr', '=', '2')]}" />
@@ -103,7 +103,7 @@
                         </group>
                     </page>
                 </xpath>
-                <field name="salary_unit" position="after">
+                <field name="wage" position="after">
                     <field name="salary_unit_code" invisible="1" />
                     <field name="dsc_sal_var" attrs="{'invisible': [('salary_unit_code','not in',['6','7'])],
                                                        'required': [('salary_unit_code','in',['6','7'])]}" />
