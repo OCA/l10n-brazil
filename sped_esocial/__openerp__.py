@@ -51,6 +51,7 @@
         'views/inherited_hr_employee.xml',
         'views/inherited_res_partner.xml',
         'views/inherited_hr_payslip_view.xml',
+        'views/inherited_hr_holidays_status_view.xml',
 
         # Intermediarios
         'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',

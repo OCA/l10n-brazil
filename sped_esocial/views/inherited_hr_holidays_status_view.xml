@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_esocial_hr_holidays_status_form">
+            <field name="name">Sped e-Social Hr Holidays Status Form</field>
+            <field name="model">hr.holidays.status</field>
+            <field name="inherit_id" ref="l10n_br_hr_holiday.hr_holidays_status_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Details']" position="after">
+                    <page string="e-Social" name="esocial">
+                        <group>
+                            <field name="esocial_evento_afastamento_id" />
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
