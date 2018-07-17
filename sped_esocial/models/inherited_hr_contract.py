@@ -112,18 +112,30 @@ class HrContract(models.Model):
         size=32,
     )
 
+    evento_esocial = fields.Char(
+        string='Evento no esocial',
+        help='Definição do Evento do esocial de acordo com a categoria.',
+        compute='_compute_evento_esocial',
+    )
+    salary_unit_code = fields.Char(
+        string='Cod. unidade de salario',
+        related='salary_unit.code',
+    )
+
     # Registro S-2200
     sped_contrato_id = fields.Many2one(
         string='SPED Contrato',
         comodel_name='sped.esocial.contrato',
     )
-
-    # Registro S-2300
-    sped_contrato_autonomo_id = fields.Many2one(
-        string='SPED Contrato',
-        comodel_name='sped.esocial.contrato.autonomo',
+    # Registro S-2206
+    sped_esocial_alterar_contrato_id = fields.Many2one(
+        string='Alterar Contrato',
+        comodel_name='sped.esocial.alteracao.contrato',
     )
-
+    precisa_atualizar = fields.Boolean(
+        string='Precisa atualizar dados?',
+        related='sped_esocial_alterar_contrato_id.precisa_atualizar',
+    )
     situacao_esocial = fields.Selection(
         selection=[
             ('0', 'Inativa'),
@@ -137,33 +149,31 @@ class HrContract(models.Model):
         readonly=True,
     )
 
-    # Registro S-2206
-    sped_esocial_alterar_contrato_id = fields.Many2one(
+    # Registro S-2300
+    sped_contrato_autonomo_id = fields.Many2one(
+        string='SPED Contrato',
+        comodel_name='sped.esocial.contrato.autonomo',
+    )
+    # Registro S-2306
+    sped_esocial_alterar_contrato_autonomo_id = fields.Many2one(
         string='Alterar Contrato',
-        comodel_name='sped.esocial.alteracao.contrato',
+        comodel_name='sped.esocial.alteracao.contrato.autonomo',
     )
-
-    precisa_atualizar = fields.Boolean(
-        string='Precisa atualizar dados?',
-        related='sped_esocial_alterar_contrato_id.precisa_atualizar',
-    )
-
     situacao_esocial_autonomo = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
-            ('2', 'Precisa Atualizar'),
-            ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
         ],
-        string='Situação no e-Social dos autonomos',
+        string='Situação no e-Social',
         related='sped_contrato_autonomo_id.situacao_esocial',
         readonly=True,
     )
-
-    salary_unit_code = fields.Char(
-        string='Cod. unidade de salario',
-        related='salary_unit.code',
+    precisa_atualizar_autonomo = fields.Boolean(
+        string='Precisa atualizar dados?',
+        related='sped_esocial_alterar_contrato_autonomo_id.precisa_atualizar',
     )
 
     @api.multi
@@ -189,7 +199,13 @@ class HrContract(models.Model):
 
     @api.multi
     def write(self, vals):
-        self._gerar_tabela_intermediaria_alteracao(vals)
+
+        if self.evento_esocial == 's2200':
+            self._gerar_tabela_intermediaria_alteracao(vals)
+
+        if self.evento_esocial == 's2300':
+            self._gerar_tabela_intermediaria_alteracao_autonomo(vals)
+
         return super(HrContract, self).write(vals)
 
     @api.multi
@@ -210,6 +226,25 @@ class HrContract(models.Model):
             self.sped_esocial_alterar_contrato_id = esocial_alteracao
 
     @api.multi
+    def _gerar_tabela_intermediaria_alteracao_autonomo(self, vals={}):
+        """
+        Duplicada
+        """
+        if not self.sped_esocial_alterar_contrato_autonomo_id and not \
+                vals.get('sped_esocial_alterar_contrato_autonomo_id'):
+            if self.env.user.company_id.eh_empresa_base:
+                matriz = self.env.user.company_id.id
+            else:
+                matriz = self.env.user.company_id.matriz.id
+
+            esocial_alteracao = \
+                self.env['sped.esocial.alteracao.contrato.autonomo'].create({
+                    'company_id': matriz,
+                    'hr_contract_id': self.id,
+                })
+            self.sped_esocial_alterar_contrato_autonomo_id = esocial_alteracao
+
+    @api.multi
     def alterar_contrato(self):
         self.ensure_one()
 
@@ -221,6 +256,9 @@ class HrContract(models.Model):
         # O que realmente precisará ser feito é tratado no método do
         # registro intermediário
         self.sped_esocial_alterar_contrato_id.gerar_registro()
+
+        # Enviar o ultimo registro
+        # self.sped_esocial_alterar_contrato_id[0].sped_s2200_registro_retificacao[0].transmitir_lote()
 
     @api.multi
     def atualizar_contrato_autonomo(self):
@@ -250,3 +288,32 @@ class HrContract(models.Model):
         # Processa cada tipo de operação do S-2200 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
         self.sped_contrato_autonomo_id.gerar_registro()
+
+    @api.multi
+    def alterar_contrato_autonomo(self):
+        self.ensure_one()
+
+        # Se o registro intermediário do S-2206 não existe, criá-lo
+        if not self.sped_esocial_alterar_contrato_autonomo_id:
+            self._gerar_tabela_intermediaria_alteracao_autonomo()
+
+        # Processa cada tipo de operação do S-2206 (Alteração)
+        # O que realmente precisará ser feito é tratado no método do
+        # registro intermediário
+        self.sped_esocial_alterar_contrato_autonomo_id.gerar_registro()
+
+    @api.multi
+    @api.depends('categoria')
+    def _compute_evento_esocial(self):
+        """
+        Validar de acordo com a categoria para definir qual tipo de registro
+        sera criado e enviado ao esocial.
+        Futuramente será atributo da tabela de categorias.
+        """
+        categoria_do_s2300 = ['201', '202', '401', '410', '721', '722', '723',
+                              '731', '734', '738', '761', '771', '901', '902']
+        for record in self:
+            if record.categoria in categoria_do_s2300:
+                record.evento_esocial = 's2300'
+            else:
+                record.evento_esocial = 's2200'
