@@ -38,10 +38,12 @@ class HrHolidays(models.Model):
     def check_dias_afastamento(self, vals):
         holidays_status_id = self.env['hr.holidays.status'].browse(
             vals['holiday_status_id'])
-        if holidays_status_id.esocial_evento_afastamento_id.codigo != '15':
-            self.valida_dias_afastamento(vals)
-        else:
-            self.valida_dias_inicio_ferias(vals)
+        if holidays_status_id.esocial_evento_afastamento_id:
+            if holidays_status_id.esocial_evento_afastamento_id.codigo not in [
+                    '15', '17', '18', '19', '20', '33']:
+                self.valida_dias_afastamento(vals)
+            else:
+                self.valida_dias_inicio_ferias(vals)
 
     def valida_dias_inicio_ferias(self, vals):
         data_atual = fields.Datetime.from_string(fields.Datetime.now())
@@ -53,8 +55,14 @@ class HrHolidays(models.Model):
             )
 
     def valida_dias_afastamento(self, vals):
+        data_atual = fields.Datetime.from_string(fields.Datetime.now())
         data_inicio = fields.Datetime.from_string(vals['data_inicio'])
         data_fim = fields.Datetime.from_string(vals['data_fim'])
+        if (data_inicio - data_atual).days > 0:
+            raise ValidationError(
+                "Este evento de afastamento não "
+                "pode ter seu início no futuro!"
+            )
         if (data_fim - data_inicio).days > 15:
             raise ValidationError(
                 "Este evento de afastamento não "
