@@ -93,6 +93,9 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         S2230 = pysped.esocial.leiaute.S2230_2()
         holiday_id = self.hr_holiday_id
 
+        S2230.tpInsc = '1'
+        S2230.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
         S2230.evento.ideEvento.indRetif.valor = '1'
         S2230.evento.ideEvento.tpAmb.valor = \
             holiday_id.contrato_id.company_id.esocial_tpAmb
