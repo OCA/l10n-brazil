@@ -367,20 +367,22 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         InfoComplementares = pysped.esocial.leiaute.S2300_InfoComplementares_2()
 
         # InfoTSVInicio.InfoComplementares.CargoFuncao
-        CargoFuncao = pysped.esocial.leiaute.S2300_CargoFuncao_2()
-        CargoFuncao.codCargo.valor = self.hr_contract_id.job_id.codigo
-        # CargoFuncao.codFuncao.valor = ''
-        InfoComplementares.cargoFuncao.append(CargoFuncao)
+        if self.hr_contract_id.categoria not in ['901','903','904','905']:
+            CargoFuncao = pysped.esocial.leiaute.S2300_CargoFuncao_2()
+            CargoFuncao.codCargo.valor = self.hr_contract_id.job_id.codigo
+            # CargoFuncao.codFuncao.valor = ''
+            InfoComplementares.cargoFuncao.append(CargoFuncao)
 
         # InfoTSVInicio.InfoComplementares.Remuneracao
-        Remuneracao = pysped.esocial.leiaute.S2300_Remuneracao_2()
-        Remuneracao.vrSalFx.valor = formata_valor(self.hr_contract_id.wage)
-        if self.hr_contract_id.salary_unit.code in [7]:
-            Remuneracao.vrSalFx.valor = 0
-        Remuneracao.undSalFixo.valor = self.hr_contract_id.salary_unit.code
-        if self.hr_contract_id.salary_unit.code in [6,7]:
-            Remuneracao.dscSalVar.valor = self.hr_contract_id.dsc_sal_var
-        InfoComplementares.remuneracao.append(Remuneracao)
+        if self.hr_contract_id.categoria in ['301','302','305','306','721','722','771']:
+            Remuneracao = pysped.esocial.leiaute.S2300_Remuneracao_2()
+            Remuneracao.vrSalFx.valor = formata_valor(self.hr_contract_id.wage)
+            if self.hr_contract_id.salary_unit.code in [7]:
+                Remuneracao.vrSalFx.valor = 0
+            Remuneracao.undSalFixo.valor = self.hr_contract_id.salary_unit.code
+            if self.hr_contract_id.salary_unit.code in [6,7]:
+                Remuneracao.dscSalVar.valor = self.hr_contract_id.dsc_sal_var
+            InfoComplementares.remuneracao.append(Remuneracao)
 
         # InfoTSVInicio.InfoComplementares.FGTS
         if self.hr_contract_id.categoria in ['721']:
@@ -398,6 +400,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             InfoComplementares.fgts.append(FGTS)
 
         # InfoTSVInicio.InfoComplementares.InfoDirigenteSindical
+        # if self.hr_contract_id.categoria in ['401']:
         # InfoDirigenteSind = pysped.esocial.leiaute.S2300_InfoDirigenteSindical_2()
         # InfoDirigenteSind.categOrigem.valor = ''
         # InfoDirigenteSind.cnphOrigem.valor = ''
@@ -406,7 +409,8 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # InfoComplementares.infoDirigenteSind.append(InfoDirigenteSind)
 
         # InfoTSVInicio.InfoComplementares.InfoTrabCedido
-        if self.hr_contract_id.categoria == '401':
+
+        if self.hr_contract_id.categoria == '410':
             InfoTrabCedido = pysped.esocial.leiaute.S2300_InfoTrabCedido_2()
             InfoTrabCedido.cnpjCednt.valor = \
                 limpa_formatacao(self.hr_contract_id.cnpj_empregador_cedente)
@@ -418,11 +422,12 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 self.hr_contract_id.data_admissao_cedente
             InfoTrabCedido.tpRegTrab.valor = \
                 self.hr_contract_id.labor_regime_id.code
-            InfoTrabCedido.tpRegPrev.valor = self.hr_contract_id.tpRegPrev
+            InfoTrabCedido.tpRegPrev.valor = self.hr_contract_id.tp_reg_prev
             InfoTrabCedido.infOnus.valor = self.hr_contract_id.infOnus
             InfoComplementares.infoTrabCedido.append(InfoTrabCedido)
 
         # InfoTSVInicio.InfoComplementares.InfoEstagiario
+        # if self.hr_contract_id.categoria in ['901']:
         # InfoEstagiario = pysped.esocial.leiaute.S2300_InfoEstagiario_2()
         # InfoEstagiario.natEstagio.valor = ''
         # InfoEstagiario.nivEstagio.valor = ''
