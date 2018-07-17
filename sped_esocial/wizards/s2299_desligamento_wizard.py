@@ -27,7 +27,7 @@ class S2299DesligamentoWizard(models.TransientModel):
     )
 
     @api.multi
-    def create_s2299_desligamento(self):
+    def create_sped_intermediario_desligamento(self):
         """
         Criar o registro intermediário para o desligamento
         de contrato de trabalho
@@ -49,17 +49,36 @@ class S2299DesligamentoWizard(models.TransientModel):
             vals['perc_aliment'] = porcentagem
             vals['vr_alim'] = valor
 
-        s2299_desligamento = self.env['sped.hr.rescisao'].create(vals)
+        # Identificar qual categoria de contrato para definir o registro sped
         payslip = self.env['hr.payslip'].browse(self.env.context['active_id'])
-        payslip.sped_s2299 = s2299_desligamento
+        if payslip.contract_id.evento_esocial == 's2200':
+            desligamento_id = self.env['sped.hr.rescisao'].create(vals)
+            payslip.sped_s2299 = desligamento_id
 
-        return s2299_desligamento
+        elif payslip.contract_id.evento_esocial == 's2300':
+            desligamento_id = self.env['sped.hr.rescisao.autonomo'].create(vals)
+            payslip.sped_s2399 = desligamento_id
+
+        return desligamento_id
 
     @api.multi
     def create_sped_registro(self, intermediario_id, company_id, tipo, registro, evento, ambiente):
+        """
+
+        :param intermediario_id:
+        :param company_id:
+        :param tipo:
+        :param registro:
+        :param evento:
+        :param ambiente:
+        :return:
+        """
         sped_registro_id = self.env['sped.registro'].create({
-            'origem': ("hr.payslip,{}".format(intermediario_id.sped_hr_rescisao_id.id)),
-            'origem_intermediario': ("sped.hr.rescisao,{}".format(intermediario_id.id)),
+            'origem':
+                ("hr.payslip,{}".format(
+                    intermediario_id.sped_hr_rescisao_id.id)),
+            'origem_intermediario':
+                ("{},{}".format(intermediario_id._name, intermediario_id.id)),
             'company_id': company_id,
             'tipo': tipo,
             'registro': registro,
@@ -71,14 +90,23 @@ class S2299DesligamentoWizard(models.TransientModel):
 
     @api.multi
     def button_transmitir(self):
-        s2299_desligamento_id = self.create_s2299_desligamento()
+        """
+        Cria o registro intermediario da rescisao e em seguida gera o
+        registro do esocial
+        """
+        desligamento_id = self.create_sped_intermediario_desligamento()
+
+        if desligamento_id.sped_hr_rescisao_id.contract_id.evento_esocial == 's2300':
+            registro = 'S-2399'
+            evento = 'evtTSVTermino'
+        else:
+            registro = 'S-2299'
+            evento = 'evtDeslig'
+
         sped_registro = self.create_sped_registro(
-            s2299_desligamento_id,
-            s2299_desligamento_id.sped_hr_rescisao_id.company_id.id,
-            'esocial',
-            'S-2299',
-            'evtDeslig',
-            s2299_desligamento_id.sped_hr_rescisao_id.company_id.esocial_tpAmb
+            desligamento_id, desligamento_id.sped_hr_rescisao_id.company_id.id,
+            'esocial', registro, evento,
+            desligamento_id.sped_hr_rescisao_id.company_id.esocial_tpAmb
         )
 
         return {
