@@ -11,7 +11,9 @@
                     <field name="mtv_deslig" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])], 'required': [('tipo_de_folha', '=', 'rescisao')]}" />
                 </field>
                 <button name="hr_verify_sheet" position="after">
-                    <button name="%(sped_esocial.criar_s2299_desligamento)d" string="Criar Registro" type="action" class="oe_highlight" />
+                    <button name="%(sped_esocial.criar_s2299_desligamento)d" string="Criar Registro e-Social" type="action" class="oe_highlight"
+                    attrs="{'invisible': ['|',('tipo_de_folha','!=','rescisao'),('state','not in',['draft', 'cancel'])]}"
+                    />
                 </button>
             </field>
         </record>
