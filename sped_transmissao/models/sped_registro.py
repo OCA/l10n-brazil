@@ -1045,7 +1045,6 @@ class SpedRegistro(models.Model):
         anexo_id = self._grava_anexo(fechamento_xml_nome, fechamento_xml)
         self.fechamento_xml_id = anexo_id
 
-
     # Este método será usado pelo lote na transmissão
     @api.multi
     def calcula_xml(self, sequencia=False):
@@ -1075,3 +1074,11 @@ class SpedRegistro(models.Model):
 
         # Retorno XML preenchido
         return registro
+
+    # Este método será chamado pelo lote quando a consulta for concluída com sucesso
+    @api.multi
+    def retorno_sucesso(self, evento):
+        self.ensure_one()
+
+        # Chama o método retorno_sucesso do registro de origem
+        self.origem_intermediario.retorno_sucesso(evento)
