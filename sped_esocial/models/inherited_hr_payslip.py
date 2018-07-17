@@ -8,17 +8,6 @@ from openerp import api, models, fields
 class HrPaylisp(models.Model):
     _inherit = "hr.payslip"
 
-    @api.multi
-    def hr_verify_sheet(self):
-        for holerite in self:
-            if holerite.state == 'draft':
-                if holerite.tipo_de_folha == 'rescisao':
-                    holerite.contract_id.resignation_cause_id = \
-                        holerite.mtv_deslig
-                    holerite.contract_id.resignation_date = \
-                        holerite.data_afastamento
-            super(HrPaylisp, holerite).hr_verify_sheet()
-
     # Campo motificado para utilizar a tabela de campos do e-Social
     # Tabela 19 - Motivos de Desligamento
     mtv_deslig = fields.Many2one(
@@ -31,3 +20,19 @@ class HrPaylisp(models.Model):
         string='Registro SPED S-2299',
         comodel_name='sped.hr.rescisao',
     )
+
+    sped_s2399 = fields.Many2one(
+        string='Registro SPED S-2399',
+        comodel_name='sped.hr.rescisao.autonomo',
+    )
+
+    @api.multi
+    def hr_verify_sheet(self):
+        for holerite in self:
+            if holerite.state == 'draft':
+                if holerite.tipo_de_folha == 'rescisao':
+                    holerite.contract_id.resignation_cause_id = \
+                        holerite.mtv_deslig
+                    holerite.contract_id.resignation_date = \
+                        holerite.data_afastamento
+            super(HrPaylisp, holerite).hr_verify_sheet()
