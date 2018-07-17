@@ -133,5 +133,5 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         return S2230
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         self.ensure_one()

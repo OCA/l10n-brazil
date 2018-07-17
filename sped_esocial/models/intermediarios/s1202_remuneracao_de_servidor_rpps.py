@@ -235,5 +235,5 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
         return S1202
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         self.ensure_one()

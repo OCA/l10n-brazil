@@ -433,5 +433,5 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         return S2200
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         pass

@@ -26,3 +26,8 @@ from . import s2230_afastamento_temporario
 from . import s2299_desligamento
 
 from . import s2300_inicio_trabalhador_sem_vinculo_de_emprego
+
+# Registros Totalizadores
+from . import s5001_contribuicao_social_trabalhador
+from . import s5001_infocpcalc
+from . import s5001_ideestablot

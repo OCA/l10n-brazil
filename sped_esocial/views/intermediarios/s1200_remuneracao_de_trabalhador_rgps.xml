@@ -46,6 +46,7 @@
                         </notebook>
                         <group colspan="4" col="2">
                             <field name="sped_registro" readonly="1"/>
+                            <field name="s5001_id" readonly="1" attrs="{'invisible': [('s5001_id', '=', False)]}" />
                         </group>
                     </group>
                 </form>

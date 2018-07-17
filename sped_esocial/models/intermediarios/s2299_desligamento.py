@@ -231,5 +231,5 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         return S2299
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         pass

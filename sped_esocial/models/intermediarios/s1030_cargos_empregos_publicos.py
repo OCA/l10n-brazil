@@ -271,5 +271,5 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
         return S1030
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         self.ensure_one()

@@ -12,5 +12,5 @@ class SpedRegistroIntermediario(object):
         pass
 
     @abstractmethod
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         pass

@@ -295,5 +295,5 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
         return S1210
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         self.ensure_one()

@@ -258,5 +258,5 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         return S2205
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         self.ensure_one()

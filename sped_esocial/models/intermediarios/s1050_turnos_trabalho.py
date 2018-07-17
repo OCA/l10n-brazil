@@ -281,5 +281,5 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
         return S1050
 
     @api.multi
-    def retorno_sucesso(self):
+    def retorno_sucesso(self, evento):
         pass
