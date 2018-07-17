@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sped_esocial_s2306_form" model="ir.ui.view">
+            <field name="name">e-Social S-2306</field>
+            <field name="model">sped.esocial.alteracao.contrato.autonomo</field>
+            <field name="arch" type="xml">
+                <form string="e-Social - Registro S-2306" edit="false" delete="false" create="false" duplicate="false">
+                    <header>
+                        <button name="gerar_registro" colspan="4" type="object"
+                                string="Ativar/Atualizar e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'in', ['1', '3', '9'])]}" />
+                        <field name="situacao_esocial" widget="statusbar" select="1"
+                               nolabel="1"
+                               readonly="1" />
+                    </header>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group colspan="4">
+                            <field name="company_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="hr_contract_id" readonly="1"/>
+                            <field name="ultima_atualizacao" />
+                            <field name="precisa_atualizar" />
+
+                        </group>
+                        <group colspan="4">
+                            <separator string="Envios das alterações contratuais" colspan="4"/>
+                            <field name="sped_alteracao" readonly="1" nolabel="1"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_esocial_s2306_tree">
+            <field name="name">S-2306 (Alteração Contratual)</field>
+            <field name="model">sped.esocial.alteracao.contrato.autonomo</field>
+            <field name="arch" type="xml">
+                <tree string="S-2306 (Alteração Contratual)" duplicate="false" edit="false" delete="false" create="false">
+                    <field name="company_id"/>
+                    <field name="hr_contract_id"/>
+                    <field name="situacao_esocial"/>
+                    <field name="precisa_atualizar" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_esocial_s2306_search" model="ir.ui.view">
+            <field name="name">S-2306 (Alteração Contratual)</field>
+            <field name="model">sped.esocial.alteracao.contrato.autonomo</field>
+            <field name="arch" type="xml">
+                <search string="S-2306 (Alteração Contratual)">
+                    <field name="company_id" />
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_esocial_s2306_action">
+            <field name="name">S-2306 (Alteração de Contrato sem vínculo)</field>
+            <field name="domain">[]</field>
+            <field name="res_model">sped.esocial.alteracao.contrato.autonomo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s2306_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_esocial_s2306_form"/>
+            <field name="act_window_id" ref="sped_esocial_s2306_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s2306_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_esocial_s2306_tree"/>
+            <field name="act_window_id" ref="sped_esocial_s2306_action"/>
+        </record>
+
+        <menuitem id="menu_sped_esocial_s2306"
+                  name="S-2306 (Alteração de Contrato sem vínculo)"
+                  sequence="2306"
+                  action="sped_esocial.sped_esocial_s2306_action"
+                  parent="sped_esocial.menu_sped_esocial_intermediarios"
+        />
+
+    </data>
+</openerp>

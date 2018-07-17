@@ -70,6 +70,8 @@
         'views/intermediarios/s2206_alteracao_contrato_trabalho_view.xml',
         'views/intermediarios/s2230_afastamento_temporario_view.xml',
         'views/intermediarios/s2299_desligamento_view.xml',
+        'views/intermediarios/s2300_cadastramento_inicial_trabalhador_sem_vinculo.xml',
+        'views/intermediarios/s2306_alteracao_contrato_trabalhador_sem_vinculo.xml',
         'views/intermediarios/s5001_contribuicao_social_trabalhador.xml',
 
         # Segurança
