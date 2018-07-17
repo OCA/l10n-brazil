@@ -8,8 +8,14 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view" />
             <field name="arch" type="xml">
+                <field name="categoria" position="before">
+                    <field name="evento_esocial" invisible="True" />
+                </field>
+
                 <xpath expr="//page[@string='Alterações Contratuais']" position="after">
-                    <page name="esocial" string="e-Social">
+
+                    <!-- Esocial para trabalhadores com Vinculo Registro S2200-->
+                    <page name="esocial" string="e-Social"  attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}" >
                         <separator string="Ativação do Contrato" />
                         <group colspan="4" col="4">
                             <group colspan="2" col="2">
@@ -35,6 +41,39 @@
                             </group>
                         </group>
                     </page>
+
+                    <!-- Esocial para trabalhadores sem Vinculo Registro S2300-->
+                    <page name="esocial" string="e-Social"  attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}">
+                        <group colspan="4" col="4" string="Transmissão e-Social">
+                            <group colspan="2" col="2">
+                                <field name="sped_contrato_autonomo_id" />
+                                <field name="situacao_esocial_autonomo" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <button name="atualizar_contrato_autonomo" colspan="4" type="object"
+                                        string="Ativar/Atualizar Contrato"
+                                        attrs="{'invisible': [('sped_contrato_autonomo_id', '!=', False)]}" />
+                            </group>
+                        </group>
+
+                        <group>
+                            <separator string="Alteração do Contrato Sem Vínculo" />
+                            <group colspan="4" col="4">
+                                <group colspan="2" col="2">
+                                    <field name="sped_esocial_alterar_contrato_autonomo_id" string="Registros de alterações"/>
+                                    <field name="precisa_atualizar_autonomo" />
+                                </group>
+                                <group colspan="2" col="2">
+                                    <button name="alterar_contrato_autonomo" colspan="4" type="object"
+                                            string="Gerar Registro de Alteração"
+                                            class="oe_highlight"
+                                            attrs="{'invisible': ['|', '|', ('situacao_esocial_autonomo', '!=', '4'), ('sped_esocial_alterar_contrato_autonomo_id', '=', False), ('precisa_atualizar_autonomo', '=', False)]}" />
+                                </group>
+                            </group>
+                        </group>
+
+                    </page>
+
                 </xpath>
                 <field name="partner_union" position="attributes">
                     <attribute name="required">1</attribute>
@@ -101,12 +140,30 @@
                                         attrs="{'invisible': [('sped_contrato_autonomo_id', '!=', False)]}" />
                             </group>
                         </group>
+
+                        <group>
+                            <separator string="Alteração do Contrato Sem Vínculo" />
+                            <group colspan="4" col="4">
+                                <group colspan="2" col="2">
+                                    <field name="sped_esocial_alterar_contrato_autonomo_id" />
+                                    <field name="precisa_atualizar_autonomo" />
+                                </group>
+                                <group colspan="2" col="2">
+                                    <button name="alterar_contrato_autonomo" colspan="4" type="object"
+                                            string="Gerar Registro de Alteração"
+                                            class="oe_highlight"/>
+                                            <!--attrs="{'invisible': ['|', '|', ('situacao_esocial_autonomo', '!=', '4'), ('sped_esocial_alterar_contrato_autonomo_id', '=', False), ('precisa_atualizar_autonomo', '=', False)]}" />-->
+                                </group>
+                            </group>
+                        </group>
+
                     </page>
                 </xpath>
                 <field name="wage" position="after">
                     <field name="salary_unit_code" invisible="1" />
-                    <field name="dsc_sal_var" attrs="{'invisible': [('salary_unit_code','not in',['6','7'])],
-                                                       'required': [('salary_unit_code','in',['6','7'])]}" />
+                    <field name="dsc_sal_var"
+                           attrs="{'invisible': [('salary_unit_code','not in',['6','7'])],
+                                   'required': [('salary_unit_code','in',['6','7'])]}" />
                 </field>
             </field>
         </record>
