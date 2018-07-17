@@ -80,12 +80,12 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             precisa_atualizar = False
 
             # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
-            if self.situacao_esocial != '3':
+            if contrato.situacao_esocial != '3':
 
                 # Se a empresa já tem um registro de inclusão confirmado mas
                 # a data da última atualização é menor que a o write_date da
                 # empresa, então precisa atualizar
-                if not self.precisa_atualizar or contrato.ultima_atualizacao \
+                if not contrato.precisa_atualizar or contrato.ultima_atualizacao \
                         < contrato.hr_contract_id.write_date:
                     precisa_atualizar = True
 
