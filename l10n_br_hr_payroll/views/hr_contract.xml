@@ -27,6 +27,13 @@
                 <field name="conta_bancaria_id"/>
             </field>
 -->
+            <field name="weekly_hours" position="attributes">
+                <attribute name="required">1</attribute>
+            </field>
+            <field name="admission_type_id" position="before">
+                <field name="categoria" />
+                <field name="categoria_sefip" readonly="1" />
+            </field>
             <field name="job_id" position="after">
                 <field name="matricula" required="1" />
             </field>
