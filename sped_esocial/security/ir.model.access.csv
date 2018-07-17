@@ -29,3 +29,5 @@ access_s2299_operador,Operador S-2299(Leitura),model_sped_hr_rescisao,sped_tabel
 access_s2299_gerente,Gerente S-2299(Escrita),model_sped_hr_rescisao,sped_tabelas.group_manager,1,1,1,1
 access_sped_esocial_operador,Operador e-Social(Leitura),model_sped_esocial,sped_tabelas.group_user,1,0,0,0
 access_sped_esocial_gerente,Gerente e-Social(Escrita),model_sped_esocial,sped_tabelas.group_manager,1,1,1,1
+access_hr_turnos_trabalho_oficial,Turnos de Trabalho - Oficial,model_hr_turnos_trabalho,base.group_user,1,1,1,1
+access_hr_turnos_intervalo_oficial,Turnos de Trabalho(Intervalo) - Oficial,model_hr_turnos_intervalo,base.group_user,1,1,1,1
