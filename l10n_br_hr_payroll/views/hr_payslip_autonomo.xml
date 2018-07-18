@@ -140,7 +140,7 @@
                 id="hr_menu_payslip_autonomo"
                 action="hr_payslip_autonomo_action"
                 name="RPA"
-                parent="hr_payroll.menu_hr_root_payroll" sequence="3"
+                parent="hr_payroll.menu_hr_root_payroll" sequence="130"
                 groups="base.group_hr_manager"/>
 
         <record model="ir.actions.act_window.view" id="hr_contracto_autonomo_action_tree">
