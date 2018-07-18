@@ -171,6 +171,23 @@ def analytic_report(pool, cr, uid, local_context, context):
     )
     cr.execute(SQL_BUSCA_SEFIP)
 
+
+    # Funcionários autonomos - sem vinculo possuem um payslip a parte
+    busca = [
+        ('company_id', '=', wizard.company_id.id),
+        ('mes_do_ano', '=', wizard.mes_do_ano),
+        ('ano', '=', wizard.ano),
+        ('state', 'in', ['done', 'verify']),
+        ('is_simulacao', '=', False),
+    ]
+    if wizard.tipo_de_folha == "('normal', 'rescisao')":
+        busca.append(('tipo_de_folha', 'in', eval(wizard.tipo_de_folha)))
+    else:
+        busca.append(('tipo_de_folha', '=', eval(wizard.tipo_de_folha)))
+    payslip_line_autonomos_ids = pool['hr.payslip.autonomo'].\
+        search(cr, uid, busca)
+
+    # INicializando variaveis
     payslip_lines_sefip = cr.dictfetchall()
     proventos = []
     descontos = []
@@ -249,6 +266,14 @@ def analytic_report(pool, cr, uid, local_context, context):
                 base_fgts += rubrica['sum']
         if rubrica['code'] == 'FGTS':
             fgts += rubrica['sum']
+
+    # INSS dos autonomos
+    for slip_id in payslip_line_autonomos_ids:
+        for line_id in slip_id:
+            if line_id.category_id.code in ['INSS']:
+                inss_autonomo_retido += line_id.total
+            if line_id.rule_id.compoe_base_INSS:
+                inss_empresa_autonomo.base += line_id.total
 
     legal_name = payslips[0].company_id.legal_name
     endereco = \
