@@ -3,6 +3,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
+from pybrasil.data import formata_data
+from pybrasil.valor import formata_valor
 
 @py3o_report_extender(
     "l10n_br_hr_payroll_report.report_payslip_autonomo_py3o_report")
@@ -19,7 +21,27 @@ def payslip_autonomo_report(pool, cr, uid, local_context, context):
     local_context['company_logo2'] = \
         company_nfe_logo if company_nfe_logo else company_logo
 
-    # numero maximo de linhas por holerites, se ultrapassar esse limite será
+    # Campo de conta bancária no formato para exibição do relatório
+    conta_bancaria = ''
+    if payslip_id.employee_id.address_home_id.bank_ids:
+        conta_bancaria_id = payslip_id.employee_id.address_home_id.bank_ids[0]
+
+        conta_bancaria = conta_bancaria_id.bank.bic + ' / ' + \
+                         conta_bancaria_id.bra_number + ' / ' + \
+                         conta_bancaria_id.acc_number
+
+    local_context['conta_bancaria'] = conta_bancaria
+
+    # Data de pagamento
+    if payslip_id.data_pagamento_autonomo:
+
+        local_context['data_pagamento'] = \
+            'Data de Pagamento: ' + \
+            formata_data(payslip_id.data_pagamento_autonomo)
+    else:
+        local_context['data_pagamento'] = ''
+
+            # numero maximo de linhas por holerites, se ultrapassar esse limite será
     # dividido em 2 grupos para ser exibido em uma segunda pagina
     max_linhas = 10
     local_context['grupo_rubricas_1'] = payslip_id.line_resume_ids[:max_linhas]
