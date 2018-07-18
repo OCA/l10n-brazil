@@ -76,6 +76,8 @@ class NFe200(FiscalDocument):
                     self.dup = self._get_Dup()
                     self._encashment_data(invoice, move_line, numero_dup)
                     self.nfe.infNFe.cobr.dup.append(self.dup)
+                self.Fat = self._get_Fat()
+                self._invoice_data(invoice)
 
             try:
                 self._carrier_data(invoice)
@@ -866,6 +868,13 @@ class NFe400(NFe310):
         self.detPag.tPag.valor = invoice.type_nf_payment
         self.detPag.vPag.valor = invoice.amount_total
 
+    def _invoice_data(self, invoice):
+        self.nfe.infNFe.cobr.fat.vLiq.valor = str(invoice.amount_total)
+        self.nfe.infNFe.cobr.fat.nFat.valor = str(invoice.internal_number or '')
+        self.nfe.infNFe.cobr.fat.vOrig.valor = str(invoice.amount_total)
+        # TODO - mapear/implementar vDesc
+        self.nfe.infNFe.cobr.fat.vDesc.valor = str('0.00')
+
     def get_NFe(self):
         try:
             from pysped.nfe.leiaute import NFe_400
@@ -915,6 +924,14 @@ class NFe400(NFe310):
             raise UserError(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         return Pag_400()
+
+    def _get_Fat(self):
+        try:
+            from pysped.nfe.leiaute import Fat_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED Fat_400 não instalada!"))
+        return Fat_400()
 
     def _get_DetPag(self):
         try:
