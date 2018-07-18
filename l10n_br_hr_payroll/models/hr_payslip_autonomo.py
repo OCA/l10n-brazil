@@ -208,6 +208,10 @@ class HrPayslipAutonomo(models.Model):
         compute='_compute_valor_total_folha'
     )
 
+    data_pagamento_autonomo = fields.Date(
+        string=u'Data de Pagamento',
+    )
+
     @api.multi
     def _compute_valor_total_folha(self):
         for holerite in self:
