@@ -29,6 +29,14 @@ openerp.l10n_br_tef = function(instance){
     var transaction_queue = new Array();
     var payment_type;
 
+    var global_ls_product_type = "Credito-Banrisul";
+
+    var card_number = "0000000000000000";
+    var card_expiring_date = "00/00";
+    var card_security_code = "000";
+
+    var pinpad_connected = 0;
+
     function connect()
     {
         // Returns the established connection.
@@ -78,22 +86,36 @@ openerp.l10n_br_tef = function(instance){
         in_sequential_execute = io_tags.automacao_coleta_sequencial;
 
         setTimeout(function(){
-            check_completed_consult();
-            check_completed_execution();
+            // Initial Checks
+            if(check_completed_consult()) return;
+            if(check_completed_execution()) return;
+
+            // Credit without PinPad
+            if(check_completed_start()) return;
+            if(check_completed_start_execute()) return;
+            if(check_completed_send_card_number()) return;
+            if(check_completed_send_expiring_date()) return;
+            if(check_completed_send_security_code()) return;
+            if(check_authorized_operation()) return;
+
+            // Credit with PinPad
             check_completed_send();
-            check_inserted_card();
-            check_filled_value();
+            if(check_inserted_card()) return;
+            if(check_filled_value()) return;
             check_filled_value_send();
-            check_inserted_password();
-            check_approved_transaction();
-            check_removed_card();
-            finishes_operation();
+            if(check_inserted_password()) return;
+
+            // Final checks
+            if(check_approved_transaction()) return;
+            if(check_removed_card()) return;
+            if(finishes_operation()) return;
         }, 1000);
     };
 
     function check_completed_consult(){
 
         if((io_tags.servico == "consultar") && (io_tags.retorno == "0")) {
+
             return true;
         }
         else if((io_tags.servico == '')&& (io_tags.retorno != "0")) {
@@ -103,49 +125,175 @@ openerp.l10n_br_tef = function(instance){
     }
 
     function check_completed_execution(){
-        if((io_tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") &&
-            (io_tags.automacao_coleta_retorno == "0")) {
+        if((io_tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo != "N")
+            && (io_tags.automacao_coleta_retorno == "0")) {
             collect('');
+
+            io_tags.automacao_coleta_palavra_chave = '';
+            io_tags.automacao_coleta_tipo = '';
+            io_tags.automacao_coleta_retorno = '';
+            return true;
         }else{
             //Handle Exceptions Here
+            return false;
+        }
+    }
+
+    function check_completed_start(){
+        if((io_tags.servico == "iniciar") && (io_tags.retorno == "1") && (io_tags.aplicacao_tela == "VBIAutomationTest")){
+            execute();
+
+            io_tags.aplicacao_tela = '';
+            return true;
+        } else {
+            //Handle Exceptions Here
+            return false;
+        }
+    }
+
+    function check_completed_start_execute(){
+        if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo == "N")
+            && (io_tags.automacao_coleta_retorno == "0")){
+
+            // Send the card number
+            collect(card_number);
+
+            io_tags.automacao_coleta_palavra_chave = '';
+            io_tags.automacao_coleta_tipo = '';
+            io_tags.automacao_coleta_retorno = '';
+            return true;
+        } else {
+            //Handle Exceptions Here
+            return false;
+        }
+    }
+
+    function check_completed_send_card_number(){
+        if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_validade") && (io_tags.automacao_coleta_tipo == "D")
+            && (io_tags.automacao_coleta_retorno == "0")){
+
+            // Send the card expiring date
+            collect(card_expiring_date);
+
+            io_tags.automacao_coleta_palavra_chave = '';
+            io_tags.automacao_coleta_tipo = '';
+            io_tags.automacao_coleta_retorno = '';
+            return true;
+        } else {
+            //Handle Exceptions Here
+            return false;
+        }
+    }
+
+    function check_completed_send_expiring_date(){
+        if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_codigo_seguranca") && (io_tags.automacao_coleta_tipo == "X")
+            && (io_tags.automacao_coleta_retorno == "0")){
+
+            // Send the card security code
+            collect(card_security_code);
+
+            io_tags.automacao_coleta_palavra_chave = '';
+            io_tags.automacao_coleta_tipo = '';
+            io_tags.automacao_coleta_retorno = '';
+            return true;
+        } else {
+            //Handle Exceptions Here
+            return false;
+        }
+    }
+
+    function check_completed_send_security_code(){
+        if((io_tags.automacao_coleta_palavra_chave == "transacao_valor") && (io_tags.automacao_coleta_tipo == "N")
+            && (io_tags.automacao_coleta_retorno == "0")){
+
+            ls_transaction_global_value = $('.paymentline-input')[1]['value'].replace(',', '.');
+            // Send the value
+            collect('');
+
+            // Reset the Value
+            ls_transaction_global_value = "";
+            io_tags.automacao_coleta_palavra_chave = '';
+            io_tags.automacao_coleta_tipo = '';
+            io_tags.automacao_coleta_retorno = '';
+            return true;
+        } else {
+            //Handle Exceptions Here
+            return false;
+        }
+    }
+
+    function check_authorized_operation(){
+        if(io_tags.automacao_coleta_mensagem === "Transacao autorizada"){
+            collect('');
+
+            io_tags.automacao_coleta_mensagem = '';
+            return true;
+        } else if(io_tags.mensagem === "Transacao autorizada") {
+
+            confirm(io_tags.sequencial);
+            io_tags.mensagem = '';
+            return true;
+        } else {
+            //Handle Exceptions Here
+            return false;
         }
     }
 
     function check_completed_send(){
         if(io_tags.automacao_coleta_retorno == "0"){
             // Here the user must insert the card
+
+            io_tags.automacao_coleta_retorno = '';
+            return true;
         } else {
             //Handle Exceptions Here
+            return false;
         }
     }
 
     function check_inserted_card(){
-        if((io_tags.automacao_coleta_palavra_chave === "transacao_valor") && (io_tags.automacao_coleta_mensagem === "Valor" )){
+        if((io_tags.automacao_coleta_palavra_chave === "transacao_valor") && (io_tags.automacao_coleta_tipo != "N")){
             // Transaction Value
             ls_transaction_global_value = $('.paymentline-input')[1]['value'].replace(',', '.');
 
             collect('');
+
+            // Reset the Value
+            ls_transaction_global_value = "";
+            io_tags.automacao_coleta_palavra_chave = '';
+            io_tags.automacao_coleta_tipo = '';
+            io_tags.automacao_coleta_retorno = '';
+            return true;
+        } else {
+            return false;
         }
     }
 
     function check_filled_value(){
         if(io_tags.automacao_coleta_mensagem == "AGUARDE A SENHA"){
-            ls_transaction_global_value = '';
             collect('');
+
+            io_tags.automacao_coleta_mensagem = '';
+            return true;
         } else {
           // Handle Exceptions Here
+            return false;
         }
     }
 
     function check_filled_value_send(){
-        // Aqui o usuário deverá preencher sua senha no PinPad
+        // here the user must enter his password
     }
 
     function check_inserted_password(){
         if(io_tags.automacao_coleta_mensagem === "Aguarde !!! Processando a transacao ..."){
             collect('');
+
+            io_tags.automacao_coleta_mensagem = "";
+            return true;
         } else {
             // Handle Exceptions Here
+            return false;
         }
     }
 
@@ -153,25 +301,39 @@ openerp.l10n_br_tef = function(instance){
         if((io_tags.automacao_coleta_mensagem === "Transacao aprovada.") &&
             (io_tags.servico == "") && (io_tags.transacao == "")) {
             collect('');
+
+            io_tags.automacao_coleta_mensagem = '';
+            return true;
         }else{
             // Handle Exceptions Here
+            return false;
         }
     }
 
     function check_removed_card(){
-        if((io_tags.servico=="executar") && (io_tags.mensagem=="Transacao aprovada., RETIRE O CARTAO")){
+        if((io_tags.servico == "executar") && (io_tags.mensagem == "Transacao aprovada., RETIRE O CARTAO")){
             confirm(io_tags.sequencial);
-            io_tags.mensagem = ""
+
+            io_tags.mensagem = "";
+            return true;
         } else {
             // Handle Exceptions Here
+            return false;
         }
     }
 
     function finishes_operation(){
-        if((io_tags.retorno=="1") && (io_tags.servico=="executar") && (io_tags.transacao=="Cartao Vender") ){
+        if((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender") ){
             finish();
+
+            io_tags.transacao = '';
+            setTimeout(function(){
+                consult();
+            }, 2000);
+            return true;
         } else {
             // Handle Exceptions Here
+            return false;
         }
     }
 
@@ -196,6 +358,7 @@ openerp.l10n_br_tef = function(instance){
         var tipo_produto;
         var transacao_comprovante_1via;
         var automacao_coleta_palavra_chave;
+        var automacao_coleta_tipo;
         var transacao_comprovante_2via;
         var transacao_comprovante_resumido;
         var transacao_informacao;
@@ -261,6 +424,15 @@ openerp.l10n_br_tef = function(instance){
 
             else if ('automacao_coleta_palavra_chave' === as_tag)
                 this.automacao_coleta_palavra_chave = as_value;
+
+            else if ('automacao_coleta_tipo' === as_tag)
+                this.automacao_coleta_tipo = as_value;
+
+            else if ('estado' === as_tag)
+                this.estado = as_value;
+
+            else if ('aplicacao_tela' === as_tag)
+                this.aplicacao_tela = as_value;
         };
 
         this.initialize_tags = function()
@@ -306,7 +478,9 @@ openerp.l10n_br_tef = function(instance){
     function collect(ao_event)
     {
         if(ao_event == '') {
-            send('automacao_coleta_sequencial="'+in_sequential_execute+'"automacao_coleta_retorno="0"automacao_coleta_informacao="'+ ls_transaction_global_value+ '"');
+            send('automacao_coleta_sequencial="'+in_sequential_execute+'"automacao_coleta_retorno="0"automacao_coleta_informacao="'+ ls_transaction_global_value + '"');
+        } else{
+            send('automacao_coleta_sequencial="'+in_sequential_execute+'"automacao_coleta_retorno="0"automacao_coleta_informacao="'+ ao_event + '"');
         }
     }
 
@@ -326,10 +500,10 @@ openerp.l10n_br_tef = function(instance){
 
         var ls_execute_tags = 'servico="executar"retorno="1"sequencial="'+ sequential() +'"';
 
-        // var ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
-        var ls_card_type = "Credito";
+        var ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
+        // var ls_card_type = "Credito";
         var ls_transaction_type = "Cartao Vender";
-        var ls_product_type = "Credito-Banrisul";
+        var ls_product_type = global_ls_product_type;
         var ls_payment_transaction = "A vista";
 
 
@@ -373,6 +547,11 @@ openerp.l10n_br_tef = function(instance){
         trace("Send >>> " + as_buffer);
     }
 
+    function start()
+    {
+        send('servico="iniciar"sequencial="'+ sequential() +'"retorno="1"versao="1.0.0"aplicacao_tela="VBIAutomationTest"aplicacao="V$PagueClient"');
+    }
+
     function finish()
     {
         send('servico="finalizar"sequencial="'+sequential()+'"retorno="1"');
@@ -404,7 +583,22 @@ openerp.l10n_br_tef = function(instance){
     function start_operation()
     {
         if (('consultar' === io_tags.servico)&& (io_tags.transacao_produto != '' )){
-            execute();
+            if(payment_type === "CC01"){
+
+                // With PinPad
+                if(pinpad_connected){
+                    execute()
+                }
+                // Without PinPad
+                else{
+                    global_ls_product_type = "Credito-Stone";
+                    start();
+                }
+
+            }else if(payment_type === "CD01"){
+
+            }
+
         }
     }
 
