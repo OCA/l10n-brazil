@@ -28,7 +28,7 @@
     'summary': 'Manage Payment Terminal device from POS front end',
     'author': "KMEE Informatica LTDA",
     'license': 'AGPL-3',
-    'depends': ['point_of_sale', 'l10n_br_pos'],
+    'depends': ['point_of_sale'],
     'data': [
         'l10n_br_tef.xml',
         'l10n_br_tef_view.xml',
