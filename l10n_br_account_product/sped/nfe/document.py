@@ -70,9 +70,11 @@ class NFe200(FiscalDocument):
                 self.nfe.infNFe.det.append(self.det)
 
             if invoice.journal_id.revenue_expense:
+                numero_dup = 0
                 for move_line in invoice.move_line_receivable_id:
+                    numero_dup += 1
                     self.dup = self._get_Dup()
-                    self._encashment_data(invoice, move_line)
+                    self._encashment_data(invoice, move_line, numero_dup)
                     self.nfe.infNFe.cobr.dup.append(self.dup)
 
             try:
@@ -549,7 +551,7 @@ class NFe200(FiscalDocument):
         self.di_line.vDescDI.valor = str(
             "%.2f" % invoice_line_di.amount_discount)
 
-    def _encashment_data(self, invoice, move_line):
+    def _encashment_data(self, invoice, move_line, numero_dup):
         """Dados de Cobrança"""
 
         if invoice.type in ('out_invoice', 'in_refund'):
@@ -557,7 +559,8 @@ class NFe200(FiscalDocument):
         else:
             value = move_line.credit
 
-        self.dup.nDup.valor = move_line.name
+        self.dup.nDup.valor = str(numero_dup).zfill(3)
+
         self.dup.dVenc.valor = (move_line.date_maturity or
                                 invoice.date_due or
                                 invoice.date_invoice)
