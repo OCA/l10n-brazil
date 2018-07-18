@@ -8,14 +8,15 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view" />
             <field name="arch" type="xml">
-                <field name="categoria" position="before">
-                    <field name="evento_esocial" invisible="True" />
-                </field>
+                <!--<field name="categoria" position="before">-->
+                    <!--<field name="evento_esocial" invisible="True" />-->
+                <!--</field>-->
 
                 <xpath expr="//page[@string='Alterações Contratuais']" position="after">
 
                     <!-- Esocial para trabalhadores com Vinculo Registro S2200-->
                     <page name="esocial" string="e-Social"  attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}" >
+                        <field name="evento_esocial" invisible="1" />
                         <separator string="Ativação do Contrato" />
                         <group colspan="4" col="4">
                             <group colspan="2" col="2">
@@ -24,7 +25,7 @@
                             </group>
                             <group colspan="2" col="2">
                                 <button name="ativar_contrato" colspan="4" type="object"
-                                        string="Ativar Contrato"
+                                        string="Ativar Contrato no e-Social"
                                         attrs="{'invisible': [('sped_contrato_id', '!=', False)]}" />
                             </group>
                         </group>
@@ -36,7 +37,7 @@
                             </group>
                             <group colspan="2" col="2">
                                 <button name="alterar_contrato" colspan="4" type="object"
-                                        string="Alterar Contrato"
+                                        string="Alterar Contrato no e-Social"
                                         attrs="{'invisible': ['|', '|', ('situacao_esocial', '!=', '4'), ('sped_esocial_alterar_contrato_id', '=', False), ('precisa_atualizar', '=', False)]}" />
                             </group>
                         </group>
