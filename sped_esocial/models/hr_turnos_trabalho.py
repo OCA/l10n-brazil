@@ -61,11 +61,13 @@ class SpedEsocialTurnosTrabalho(models.Model):
     alt_valid = fields.Many2one(
         string="Alteração válida desde",
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
         required=True,
     )
     fim_valid = fields.Many2one(
         string="Competência Final",
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     # fim_valid = fields.Char(
     #     string="Competência final",
@@ -75,6 +77,18 @@ class SpedEsocialTurnosTrabalho(models.Model):
         comodel_name="sped.hr.turnos.trabalho",
         inverse_name="hr_turnos_trabalho_id"
     )
+
+    @api.model
+    def _field_id_domain(self):
+        """
+        Dominio para buscar os registros maiores que 01/2017
+        """
+        domain = [
+            ('date_start', '>=', '2017-01-01'),
+            ('special', '=', False)
+        ]
+
+        return domain
 
     @api.multi
     def _get_display_name(self):
