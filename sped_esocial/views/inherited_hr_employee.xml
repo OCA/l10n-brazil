@@ -35,7 +35,7 @@
             <field name="inherit_id" ref="hr.view_employee_form" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook[last()]" position="inside">
-                    <page name="esocial" string="e-Social">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user,sped_tabelas.group_manager">
                         <separator string="Registro S-2205 Alterações Cadastrais" />
                         <group>
                             <group>

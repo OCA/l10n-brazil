@@ -31,3 +31,4 @@ access_sped_esocial_operador,Operador e-Social(Leitura),model_sped_esocial,sped_
 access_sped_esocial_gerente,Gerente e-Social(Escrita),model_sped_esocial,sped_tabelas.group_manager,1,1,1,1
 access_hr_turnos_trabalho_oficial,Turnos de Trabalho - Oficial,model_hr_turnos_trabalho,base.group_user,1,1,1,1
 access_hr_turnos_intervalo_oficial,Turnos de Trabalho(Intervalo) - Oficial,model_hr_turnos_intervalo,base.group_user,1,1,1,1
+access_hr_employee_alteracao_esocial,Alterar Funcionário(e-Social),model_sped_esocial_alteracao_funcionario,base.group_hr_user,1,1,1,1
