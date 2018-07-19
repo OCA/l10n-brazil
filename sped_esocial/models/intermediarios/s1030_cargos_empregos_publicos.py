@@ -46,11 +46,13 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
+            ('0', 'Inativo(a)'),
+            ('1', 'Ativo(a)'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado(a)'),
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
@@ -109,19 +111,36 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
             if cargo.sped_inclusao and \
                     cargo.sped_inclusao.situacao != '4':
                 situacao_esocial = '3'
+                registro = cargo.sped_inclusao
             if cargo.sped_exclusao and \
                     cargo.sped_exclusao.situacao != '4':
                 situacao_esocial = '3'
+                registro = cargo.sped_exclusao
             for alteracao in cargo.sped_alteracao:
                 if alteracao.situacao != '4':
                     situacao_esocial = '3'
+                    registro = alteracao
+
+            # Se a situação == '3', verifica se já foi transmitida ou não (se já foi transmitida
+            # então a situacao_esocial deve ser '4'
+            if situacao_esocial == '3' and registro.situacao == '2':
+                situacao_esocial = '4'
+
+            # Verifica se algum registro está com erro de transmissão
+            if cargo.sped_inclusao and cargo.sped_inclusao.situacao == '3':
+                situacao_esocial = '5'
+            if cargo.sped_exclusao and cargo.sped_exclusao.situacao == '3':
+                situacao_esocial = '5'
+            for alteracao in cargo.sped_alteracao:
+                if alteracao.situacao == '3':
+                    situacao_esocial = '5'
 
             # Popula na tabela
             cargo.situacao_esocial = situacao_esocial
 
-    @api.depends('sped_inclusao',
+    @api.depends('sped_inclusao', 'sped_exclusao',
                  'sped_alteracao', 'sped_alteracao.situacao',
-                 'sped_exclusao')
+                 'cargo_id.precisa_atualizar')
     def compute_precisa_enviar(self):
 
         # Roda todos os registros da lista
@@ -140,14 +159,9 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
                         cargo.sped_inclusao.situacao != '4':
                     precisa_incluir = True
 
-            # Se a empresa já tem um registro de inclusão confirmado mas a
-            # data da última atualização é menor que a o write_date da empresa,
-            # então precisa atualizar
-            if cargo.sped_inclusao and \
-                    cargo.sped_inclusao.situacao == '4':
-                if cargo.ultima_atualizacao < \
-                        cargo.cargo_id.write_date:
-                    precisa_atualizar = True
+            # Se o campo precisa_atualizar mudar no cargo, então precisa atualizar
+            if cargo.cargo_id.precisa_atualizar:
+                precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um
             # período final definido e não tem um
@@ -216,7 +230,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
             elif self.precisa_atualizar:
                 values['operacao'] = 'A'
                 sped_alteracao = self.env['sped.registro'].create(values)
-                self.sped_inclusao = sped_alteracao
+                self.sped_alteracao = [(4, sped_alteracao.id)]
             elif self.precisa_excluir:
                 values['operacao'] = 'E'
                 sped_exclusao = self.env['sped.registro'].create(values)
@@ -241,8 +255,8 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
             self.company_id.cnpj_cpf)[0:8]
 
         # Popula infoCargo (Informações da Rubrica)
-        # Inclusão TODO lidar com alteração e exclusão
-        S1030.evento.infoCargo.operacao = 'I'
+        # Inclusão
+        S1030.evento.infoCargo.operacao = operacao
         S1030.evento.infoCargo.ideCargo.codCargo.valor = \
             self.cargo_id.codigo
 
@@ -250,6 +264,11 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
         S1030.evento.infoCargo.ideCargo.iniValid.valor = \
             self.cargo_id.ini_valid.code[3:7] + '-' + \
             self.cargo_id.ini_valid.code[0:2]
+
+        if operacao == 'A':
+            S1030.evento.infoCargo.novaValidade.iniValid.valor = \
+                self.cargo_id.ini_valid.code[3:7] + '-' + \
+                self.cargo_id.ini_valid.code[0:2]
 
         # Preencher dadosCargo
         S1030.evento.infoCargo.dadosCargo.nmCargo.valor = \
@@ -260,7 +279,6 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
         # Preencher dados de cargoPublico (se for o caso)
         if self.cargo_id.cargo_publico:
             CargoPublico = pysped.esocial.leiaute.S1030_CargoPublico_2()
-
             CargoPublico.acumCargo.valor = self.cargo_id.acum_cargo
             CargoPublico.contagemEsp.valor = self.cargo_id.contagem_esp
             CargoPublico.dedicExcl.valor = self.cargo_id.dedic_excl
@@ -273,3 +291,50 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+        # Desativa o campo 'precisa_atualizar' no cargo
+        self.cargo_id.precisa_atualizar = False
+
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['2', '3', '5']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.sped_inclusao.situacao in ['1', '3']:
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao in ['1', '3']:
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao in ['1', '3']:
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['4']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.sped_inclusao.situacao == '2':
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao == '2':
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao == '2':
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()
