@@ -181,42 +181,51 @@ class ResCompany(models.Model):
     esocial_periodo_inicial_id = fields.Many2one(
         string='Período Inicial',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     esocial_periodo_atualizacao_id = fields.Many2one(
         string='Período da Última Atualização',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     esocial_periodo_final_id = fields.Many2one(
         string='Período Final',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
 
     # Ativação do e-Social para o Estabelecimento (Registro S-1005)
     estabelecimento_periodo_inicial_id = fields.Many2one(
         string='Período Inicial',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     estabelecimento_periodo_atualizacao_id = fields.Many2one(
         string='Período da Última Atualização',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     estabelecimento_periodo_final_id = fields.Many2one(
         string='Período Final',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
 
     # Ativação do e-Social para a Lotação Tributária (Registro S-1020)
     lotacao_periodo_inicial_id = fields.Many2one(
         string='Período Inicial',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     lotacao_periodo_atualizacao_id = fields.Many2one(
         string='Período da Última Atualização',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     lotacao_periodo_final_id = fields.Many2one(
         string='Período Final',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
 
     # Dados para registro S-1005
@@ -270,6 +279,18 @@ class ResCompany(models.Model):
             ('9', 'Obrigado'),
         ],
     )
+
+    @api.model
+    def _field_id_domain(self):
+        """
+        Dominio para buscar os registros maiores que 01/2017
+        """
+        domain = [
+            ('date_start', '>=', '2017-01-01'),
+            ('special', '=', False)
+        ]
+
+        return domain
 
     @api.multi
     def atualizar_esocial(self):
