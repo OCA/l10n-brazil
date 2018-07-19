@@ -256,7 +256,7 @@
 
         <menuitem id="sped_esocial.menu_sped_periodo_esocial"
                   name="Períodos"
-                  sequence="20"
+                  sequence="21"
                   parent="sped_esocial.menu_sped_esocial"
                   action="sped_esocial.sped_esocial_action"
         />
