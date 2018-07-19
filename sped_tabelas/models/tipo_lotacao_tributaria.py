@@ -69,10 +69,10 @@ class TipoLotacaoTributaria(models.Model):
                     lotacao.codigo = False
                     return res
 
-    @api.depends('codigo', 'descricao')
+    @api.depends('codigo', 'nome')
     def _compute_name(self):
         for lotacao in self:
-            lotacao.name = lotacao.codigo
+            lotacao.name = lotacao.codigo + ' - ' + lotacao.nome
 
     @api.multi
     def name_get(self):
