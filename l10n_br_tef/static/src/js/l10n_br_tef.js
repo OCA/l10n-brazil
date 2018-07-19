@@ -31,9 +31,9 @@ openerp.l10n_br_tef = function(instance){
     var payment_name;
     var global_ls_product_type = "Credito-Banrisul";
 
-    var card_number = "5162205574852131";
-    var card_expiring_date = "12/20";
-    var card_security_code = "078";
+    var card_number = "5442556260904012";
+    var card_expiring_date = "03/19";
+    var card_security_code = "624";
 
     var pinpad_connected = 0;
 
@@ -118,7 +118,7 @@ openerp.l10n_br_tef = function(instance){
 
             return true;
         }
-        else if((io_tags.servico == '')&& (io_tags.retorno != "0")) {
+        else if((io_tags.mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
             redo_operation(io_tags.sequencial);
             return false;
         }
@@ -564,6 +564,14 @@ openerp.l10n_br_tef = function(instance){
         send('servico="consultar"retorno="0"sequencial="'+ sequential()+'"');
     }
 
+    function fluxoAbortar()
+	{
+		send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
+		setTimeout(function(){
+		start();
+		}, 1000);
+	}
+
     function sequential()
     {
         // Incrementa o sequencial..
@@ -584,6 +592,7 @@ openerp.l10n_br_tef = function(instance){
 
     function start_operation()
     {
+        fluxoAbortar();
         if (('consultar' === io_tags.servico)&& (io_tags.transacao_produto != '' )){
             if(payment_type === "CC01"){
 
