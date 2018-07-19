@@ -8,10 +8,25 @@
             <field name="inherit_id" ref="l10n_br_hr_holiday.hr_holidays_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="inside">
-                    <h3>e-Social:</h3>
-                    <group colspan="4" col="4">
-                        <field name="sped_esocial_afastamento_id" options="{'no_create': True, 'no_edit': True}" readonly="1"/>
-                        <field name="situacao_esocial" readonly="1"/>
+                    <group>
+                        <field name="observacao" />
+                    </group>
+                    <separator string="e-Social" />
+                    <group>
+                        <group>
+                            <field name="sped_esocial_afastamento_id" options="{'no_create': True, 'no_edit': True}" readonly="1"/>
+                            <field name="situacao_esocial" readonly="1"/>
+                            <field name="situacao_esocial_encerramento" readonly="1"/>
+                            <field name="afastamento_encerrado" />
+                        </group>
+                        <group>
+                            <button
+                                    string="Encerrar Afastamento"
+                                    name="encerrar_afastamento"
+                                    class="oe_highlight"
+                                    attrs="{'invisible': ['|', ('situacao_esocial', '!=', '4'), ('afastamento_encerrado', '=', True)]}"
+                            />
+                        </group>
                     </group>
                 </xpath>
             </field>
