@@ -7,21 +7,22 @@
             <field name="model">hr.salary.rule</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.l10n_br_hr_payroll_hr_salary_rule_form_view" />
             <field name="arch" type="xml">
-                <xpath expr="//label[@for='name']" position="before">
-                    <header>
-                        <button name="atualizar_rubrica"
-                                colspan="4" type="object"
-                                string="Ativar/Atualizar Rubrica" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('codigo', '=', False), ('sped_rubrica_id', '!=', False)]}"
-                        />
-                    </header>
-                </xpath>
+                <!--<xpath expr="//label[@for='name']" position="before">-->
+                    <!--<header>-->
+                        <!--<button name="atualizar_rubrica"-->
+                                <!--colspan="4" type="object"-->
+                                <!--string="Ativar/Atualizar Rubrica" class="oe_highlight"-->
+                                <!--attrs="{'invisible': ['|', ('nat_rubr', '=', False), ('sped_rubrica_id', '!=', False)]}"-->
+                        <!--/>-->
+                    <!--</header>-->
+                <!--</xpath>-->
                 <xpath expr="//page[@string='General']" position="after">
                     <page name="esocial" string="e-Social">
                         <group colspan="4" col="4">
                             <group colspan="4" col="4">
-                                <field name="codigo" colspan="4" required="1" />
-                                <field name="identificador" colspan="4" required="1" />
+                                <field name="codigo" colspan="4" required="1" attrs="{'readonly': [('sped_rubrica_id', '!=', False)]}" />
+                                cd
+                                <field name="identificador" colspan="4" required="1" attrs="{'readonly': [('sped_rubrica_id', '!=', False)]}" />
                                 <field name="nat_rubr" colspan="4"
                                        options="{'no_create': True, 'no_open': True}"
                                 />
@@ -30,17 +31,26 @@
                         <notepad>
                             <page string="Dados Requeridos pelo e-Social" attrs="{'invisible': [('nat_rubr', '=', False)]}">
                                 <group colspan="4" col="4">
-                                    <field name="ini_valid"
-                                           options="{'no_create': True, 'no_open': True}"
-                                           attrs="{'required': [('nat_rubr', '!=', False)]}"
-                                    />
-                                    <field name="fim_valid"
-                                           options="{'no_create': True, 'no_open': True}"
-                                    />
-                                    <field name="alt_valid" colspan="4"
-                                           options="{'no_create': True, 'no_open': True}"
-                                           attrs="{'required': [('nat_rubr', '!=', False)]}"
-                                    />
+                                    <group colspan="2" col="2">
+                                        <field name="ini_valid"
+                                               options="{'no_create': True, 'no_open': True}"
+                                               attrs="{'required': [('nat_rubr', '!=', False)]}"
+                                        />
+                                        <field name="alt_valid" colspan="4"
+                                               options="{'no_create': True, 'no_open': True}"
+                                               attrs="{'required': [('nat_rubr', '!=', False)]}"
+                                        />
+                                        <field name="fim_valid"
+                                               options="{'no_create': True, 'no_open': True}"
+                                        />
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <button name="atualizar_rubrica"
+                                                colspan="4" type="object"
+                                                string="Ativar Rubrica no e-Social" class="oe_highlight"
+                                                attrs="{'invisible': ['|', ('nat_rubr', '=', False), ('sped_rubrica_id', '!=', False)]}"
+                                        />
+                                    </group>
                                     <field name="tp_rubr" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
                                     <separator colspan="4" string="Código de Incidência tributária da rubrica para a Previdência Social" />
                                     <field name="cod_inc_cp" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
