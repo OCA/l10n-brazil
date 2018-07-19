@@ -44,11 +44,13 @@ class HrJob(models.Model):
         string='Válido desde',
         comodel_name='account.period',
         help='e-Social (S-1030) <iniValid>',
+        domain=lambda self: self._field_id_domain(),
     )
     fim_valid = fields.Many2one(
         string='Válido até',
         comodel_name='account.period',
         help='e-Social (S-1030) <fimValid>',
+        domain=lambda self: self._field_id_domain(),
     )
     cargo_publico = fields.Boolean(
         string='É cargo Público',
@@ -93,6 +95,18 @@ class HrJob(models.Model):
             ('3', '3-Reestruturação'),
         ],
     )
+
+    @api.model
+    def _field_id_domain(self):
+        """
+        Dominio para buscar os registros maiores que 01/2017
+        """
+        domain = [
+            ('date_start', '>=', '2017-01-01'),
+            ('special', '=', False)
+        ]
+
+        return domain
 
     @api.multi
     def atualizar_cargo(self):
