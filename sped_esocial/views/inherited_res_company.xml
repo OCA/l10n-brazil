@@ -12,7 +12,7 @@
                         <group colspan="4" col="4">
                             <group colspan="4" col="2">
                                 <field name="esocial_tpAmb" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
-                                <field name="natureza_juridica_id" options="{'no_create': True, 'no_open': True}" />
+                                <field name="natureza_juridica_id" options="{'no_create': True, 'no_open': True}" required="True" />
                                 <field name="ind_coop" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
                                 <field name="ind_constr" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
                                 <field name="ind_opt_reg_eletron" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>

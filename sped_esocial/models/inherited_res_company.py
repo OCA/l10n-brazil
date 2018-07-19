@@ -75,8 +75,9 @@ class ResCompany(models.Model):
         help='S-1000 (//evtInfoEmpregador/ideEvento/tpAmb)',
     )
     natureza_juridica_id = fields.Many2one(
-        string='Tab.21-Natureza Jurídica',
+        string=u'Natureza Jurídica',
         comodel_name='sped.natureza_juridica',
+        help=u'e-Social: Tabela 21 - Natureza Jurídica',
     )
     ind_coop = fields.Selection(
         string='Indicativo de Cooperativa',
