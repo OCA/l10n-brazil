@@ -41,15 +41,6 @@ class HrHolidays(models.Model):
         string='Observação',
         size=255,
     )
-    afastamento_encerrado = fields.Boolean(
-        string='Afastamento Encerrado',
-        readonly=True,
-        compute='_compute_afastamento_encerrado'
-    )
-
-    @api.multi
-    def _compute_afastamento_encerrado(self):
-        pass
 
     @api.multi
     def encerrar_afastamento(self):
@@ -75,11 +66,21 @@ class HrHolidays(models.Model):
 
         return res
 
-    def holidays_first_validate(self):
-        res = super(HrHolidays, self).holidays_first_validate()
+    @api.multi
+    def holidays_validar_criar_intermediario(self):
+        if self.tipo == 'ferias':
+            return self._gerar_intermediario_apos_aprovacao()
+        else:
+            return self.holidays_first_validate()
+
+    @api.multi
+    def holidays_validacao_dupla_criar_intermediario(self):
+        return self._gerar_intermediario_apos_aprovacao()
+
+    def _gerar_intermediario_apos_aprovacao(self):
+        res = self.holidays_validate()
         if res:
             self._gerar_tabela_intermediaria()
-
         return res
 
     def check_dias_afastamento(self, vals):

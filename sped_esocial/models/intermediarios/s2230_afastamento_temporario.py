@@ -73,7 +73,7 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
                 situacao_esocial = afastamento.sped_afastamento.situacao
 
             # Popula na tabela
-            afastamento.situacao_esocial = situacao_esocial
+            afastamento.situacao_esocial_afastamento = situacao_esocial
 
     @api.depends('sped_afastamento_encerrado')
     def _compute_situacao_esocial_encerramento(self):
@@ -153,14 +153,13 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
 
         # Popula iniAfastamento
         bloco_inicio = S2230.evento.infoAfastamento.iniAfastamento
-        if not self.sped_afastamento:
-            inicio_afastamento = pysped.esocial.leiaute.S2230_IniAfastamento_2()
-            inicio_afastamento.dtIniAfast.valor = holiday_id.data_inicio
-            codigo_afastamento = holiday_id.holiday_status_id.\
-                esocial_evento_afastamento_id.codigo
-            inicio_afastamento.codMotAfast.valor = codigo_afastamento
+        inicio_afastamento = pysped.esocial.leiaute.S2230_IniAfastamento_2()
+        inicio_afastamento.dtIniAfast.valor = holiday_id.data_inicio
+        codigo_afastamento = holiday_id.holiday_status_id.\
+            esocial_evento_afastamento_id.codigo
+        inicio_afastamento.codMotAfast.valor = codigo_afastamento
 
-            bloco_inicio.append(inicio_afastamento)
+        bloco_inicio.append(inicio_afastamento)
 
         # Popula fimAfastamento
         data_atual = fields.Datetime.from_string(fields.Datetime.now())

@@ -7,6 +7,25 @@
             <field name="model">hr.holidays</field>
             <field name="inherit_id" ref="l10n_br_hr_holiday.hr_holidays_form_view" />
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='validate']" postion="after">
+                    <button string="Approve" name="holidays_validar_criar_intermediario"
+                            states="confirm" type="object"
+                            groups="base.group_hr_user"
+                            class="oe_highlight"/>
+
+                </xpath>
+                <button name="validate" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <xpath expr="//button[@name='second_validate']" postion="after">
+                    <button string="Validate" name="holidays_validacao_dupla_criar_intermediario"
+                            states="validate1" type="object"
+                            groups="base.group_hr_user"
+                            class="oe_highlight"/>
+                </xpath>
+                <button name="second_validate" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
                 <xpath expr="//sheet" position="inside">
                     <group>
                         <field name="observacao" />
@@ -17,14 +36,13 @@
                             <field name="sped_esocial_afastamento_id" options="{'no_create': True, 'no_edit': True}" readonly="1"/>
                             <field name="situacao_esocial" readonly="1"/>
                             <field name="situacao_esocial_encerramento" readonly="1"/>
-                            <field name="afastamento_encerrado" />
                         </group>
                         <group>
                             <button
                                     string="Encerrar Afastamento"
                                     name="encerrar_afastamento"
                                     class="oe_highlight"
-                                    attrs="{'invisible': ['|', ('situacao_esocial', '!=', '4'), ('afastamento_encerrado', '=', True)]}"
+                                    attrs="{'invisible': ['|', ('situacao_esocial', '!=', '4'), ('situacao_esocial_encerramento', '=', '4')]}"
                             />
                         </group>
                     </group>
