@@ -45,14 +45,17 @@ class HrSalaryRule(models.Model):
     ini_valid = fields.Many2one(
         string='Válido desde',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     alt_valid = fields.Many2one(
         string='Alterado desde',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     fim_valid = fields.Many2one(
         string='Válido até',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
     nat_rubr = fields.Many2one(
         string='Natureza da Rubrica',
@@ -242,6 +245,18 @@ class HrSalaryRule(models.Model):
             ('91', '91-Incidência suspensa em decorrência de decisão judicial'),
         ],
     )
+
+    @api.model
+    def _field_id_domain(self):
+        """
+        Dominio para buscar os registros maiores que 01/2017
+        """
+        domain = [
+            ('date_start', '>=', '2017-01-01'),
+            ('special', '=', False)
+        ]
+
+        return domain
 
     @api.depends('cod_inc_irrf', 'cod_inc_irrf_0', 'cod_inc_irrf_1', 'cod_inc_irrf_3',
                  'cod_inc_irrf_4', 'cod_inc_irrf_7', 'cod_inc_irrf_8', 'cod_inc_irrf_9')
