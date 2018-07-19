@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <menuitem
+                id="menu_sped_esocial_resource_calendar"
+                sequence="5"
+                string="Calendários"
+                action="resource.action_resource_calendar_form"
+                parent="hr.menu_hr_configuration" />
+        />
+
+    </data>
+</openerp>
