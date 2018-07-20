@@ -33,3 +33,6 @@ from . import s2399_desligamento_trabalhador_sem_vinculo
 from . import s5001_contribuicao_social_trabalhador
 from . import s5001_infocpcalc
 from . import s5001_ideestablot
+from . import s5002_imposto_renda_retido_fonte
+from . import s5002_basesirrf
+from . import s5002_infoirrf
