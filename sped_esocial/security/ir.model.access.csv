@@ -33,6 +33,8 @@ access_sped_esocial_operador,Operador e-Social(Leitura),model_sped_esocial,sped_
 access_sped_esocial_gerente,Gerente e-Social(Escrita),model_sped_esocial,sped_tabelas.group_manager,1,1,1,1
 access_hr_turnos_trabalho_oficial,Turnos de Trabalho - Oficial,model_hr_turnos_trabalho,base.group_user,1,1,1,1
 access_hr_turnos_intervalo_oficial,Turnos de Trabalho(Intervalo) - Oficial,model_hr_turnos_intervalo,base.group_user,1,1,1,1
-access_hr_employee_alteracao_esocial,Alterar Funcionário(e-Social),model_sped_esocial_alteracao_funcionario,base.group_hr_user,1,1,1,1
-access_hr_employee_alteracao_esocial,Alterar Contrato(e-Social),model_sped_esocial_alteracao_contrato,base.group_hr_user,1,1,1,1
 access_sped_motivio_afastamento_rh_user,SPED Motivo Afastamento(Oficial RH),sped_tabelas.model_sped_motivo_afastamento,base.group_hr_user,1,1,1,1
+access_alteracao_funcionario_esocial,Alterar Funcionario(e-Social),model_sped_esocial_alteracao_funcionario,base.group_hr_user, 1,1,1,1
+access_alteracao_contrato_esocial,Alterar Contrato(e-Social),model_sped_esocial_alteracao_contrato,base.group_hr_user,1,1,1,1
+access_contrato_autonomo_esocial,Alterar Contrato Autonomo(e-Social),model_sped_esocial_contrato_autonomo,base.group_hr_user,1,1,1,1
+access_alteracao_contrato_autonomo_esocial, Alterar Contrato(e-Social),model_sped_esocial_alteracao_contrato_autonomo,base.group_hr_user,1,1,1,1
