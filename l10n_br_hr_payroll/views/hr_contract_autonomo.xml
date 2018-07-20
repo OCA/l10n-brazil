@@ -25,7 +25,7 @@
                             <group>
                                 <field name="employee_id" required="True" domain="[('tipo', '=', 'autonomo')]" />
                                 <field name="company_id" options="{'no_create': True, 'no_open': True}" required="1"/>
-                                <field name="job_id"
+                                <field name="job_id" required="True"
                                        options="{'no_create': True, 'no_open': True,
                                                  'invisible': [('categoria','not in',['901','903','904','905'])],
                                                  'required': [('categoria','in',['901','903','904','905'])]}" />
