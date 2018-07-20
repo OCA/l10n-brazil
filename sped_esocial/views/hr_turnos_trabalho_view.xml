@@ -30,7 +30,7 @@
                                 <separator string="Intervalos" />
                                 <field name="horario_intervalo_ids" />
                             </page>
-                            <page string="e-Social">
+                            <page string="e-Social" groups="sped_tabelas.group_user" >
                                 <group>
                                     <field name="cod_hor_contrat" />
                                     <field name="ini_valid"

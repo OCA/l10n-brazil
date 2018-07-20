@@ -15,7 +15,7 @@
                 <xpath expr="//page[@string='Alterações Contratuais']" position="after">
 
                     <!-- Esocial para trabalhadores com Vinculo Registro S2200-->
-                    <page name="esocial" string="e-Social"  attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}" >
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user"  attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}" >
                         <field name="evento_esocial" invisible="1" />
                         <separator string="Ativação do Contrato" />
                         <group colspan="4" col="4">
@@ -44,7 +44,7 @@
                     </page>
 
                     <!-- Esocial para trabalhadores sem Vinculo Registro S2300-->
-                    <page name="esocial" string="e-Social"  attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user" attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}">
                         <group colspan="4" col="4" string="Transmissão e-Social">
                             <group colspan="2" col="2">
                                 <field name="sped_contrato_autonomo_id" />
@@ -129,7 +129,7 @@
             <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='information']" position="after">
-                    <page name="esocial" string="e-Social">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user" >
                         <group colspan="4" col="4" string="Transmissão e-Social">
                             <group colspan="2" col="2">
                                 <field name="sped_contrato_autonomo_id" />
