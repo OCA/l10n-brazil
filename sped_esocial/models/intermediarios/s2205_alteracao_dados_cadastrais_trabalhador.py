@@ -185,8 +185,8 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         else:
             dados_trabalhador.sexo.valor = 'F'
         dados_trabalhador.racaCor.valor = empregado_id.ethnicity.code
-        dados_trabalhador.estCiv.valor = ESTADO_CIVIL[
-            empregado_id.marital]
+        if empregado_id.marital:
+            dados_trabalhador.estCiv.valor = ESTADO_CIVIL[empregado_id.marital]
         dados_trabalhador.grauInstr.valor = \
             empregado_id.educational_attainment.code
         
