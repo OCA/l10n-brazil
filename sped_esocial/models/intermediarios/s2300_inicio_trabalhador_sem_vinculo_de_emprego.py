@@ -178,22 +178,22 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2300.evento.trabalhador.racaCor.valor = \
             self.hr_contract_id.employee_id.ethnicity.code or ''
 
-        if self.hr_contract_id.employee_id.marital == 'single':
-            estado_civil = '1'
-        elif self.hr_contract_id.employee_id.marital in \
-                ['married','common_law_marriage']:
-            estado_civil = '2'
-        elif self.hr_contract_id.employee_id.marital == 'divorced':
-            estado_civil = '3'
-        elif self.hr_contract_id.employee_id.marital == 'separated':
-            estado_civil = '4'
-        elif self.hr_contract_id.employee_id.marital == 'widower':
-            estado_civil = '5'
-
-        S2300.evento.trabalhador.estCiv.valor = estado_civil
-
+        if self.hr_contract_id.employee_id.marital:
+            if self.hr_contract_id.employee_id.marital == 'single':
+                estado_civil = '1'
+            elif self.hr_contract_id.employee_id.marital in \
+                    ['married','common_law_marriage']:
+                estado_civil = '2'
+            elif self.hr_contract_id.employee_id.marital == 'divorced':
+                estado_civil = '3'
+            elif self.hr_contract_id.employee_id.marital == 'separated':
+                estado_civil = '4'
+            elif self.hr_contract_id.employee_id.marital == 'widower':
+                estado_civil = '5'
+            S2300.evento.trabalhador.estCiv.valor = estado_civil
 
         # workaround kkkk
+        code = self.hr_contract_id.employee_id.educational_attainment.code
         if len(self.hr_contract_id.employee_id.educational_attainment.code) == 1:
             code = '0' + self.hr_contract_id.employee_id.educational_attainment.code
         S2300.evento.trabalhador.grauInstr.valor = code
