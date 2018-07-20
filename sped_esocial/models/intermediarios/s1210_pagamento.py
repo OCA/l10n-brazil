@@ -302,103 +302,106 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
-        if evento and evento.tot and evento.tot.tipo.valor == 'S5002':
+        if evento:
+            for tot in evento.tot:
 
-            # Busca o sped.registro que originou esse totalizador
-            sped_registro = self.env['sped.registro'].search([
-                ('registro', '=', 'S-1210'),
-                ('recibo', '=', evento.tot.eSocial.evento.ideEvento.nrRecArqBase.valor)
-            ])
+                if tot.tipo.valor == 'S5002':
 
-            # Busca pelo sped.registro deste totalizador (se ele já existir)
-            sped_s5002 = self.env['sped.registro'].search([
-                ('id_evento', '=', evento.tot.eSocial.evento.Id.valor)
-            ])
+                    # Busca o sped.registro que originou esse totalizador
+                    sped_registro = self.env['sped.registro'].search([
+                        ('registro', '=', 'S-1210'),
+                        ('recibo', '=', tot.eSocial.evento.ideEvento.nrRecArqBase.valor)
+                    ])
 
-            # Busca pelo registro intermediário (se ele já existir)
-            sped_intermediario = self.env['sped.irrf'].search([
-                ('id_evento', '=', evento.tot.eSocial.evento.Id.valor)
-            ])
+                    # Busca pelo sped.registro deste totalizador (se ele já existir)
+                    sped_s5002 = self.env['sped.registro'].search([
+                        ('id_evento', '=', tot.eSocial.evento.Id.valor)
+                    ])
 
-            # Popula os valores para criar/alterar o registro intermediário do totalizador
-            vals_intermediario_totalizador = {
-                'company_id': sped_registro.company_id.id,
-                'id_evento': evento.tot.eSocial.evento.Id.valor,
-                'periodo_id': sped_registro.origem_intermediario.periodo_id.id,
-                'trabalhador_id': sped_registro.origem_intermediario.beneficiario_id.id,
-                'vr_ded_deps': float(evento.tot.eSocial.evento.infoDep[0].vrDedDep.valor),
-                'sped_registro_s1210': sped_registro.id,
-            }
+                    # Busca pelo registro intermediário (se ele já existir)
+                    sped_intermediario = self.env['sped.irrf'].search([
+                        ('id_evento', '=', tot.eSocial.evento.Id.valor)
+                    ])
 
-            # Cria/Altera o registro intermediário
-            if sped_intermediario:
-                sped_intermediario.write(vals_intermediario_totalizador)
-            else:
-                sped_intermediario = self.env['sped.irrf'].create(vals_intermediario_totalizador)
-
-            # Popula os valores para criar/alterar o sped.registro do totalizador
-            vals_registro_totalizador = {
-                'tipo': 'esocial',
-                'registro': 'S-5002',
-                'evento': 'evtIrrfBenef',
-                'operacao': 'na',
-                'ambiente': sped_registro.ambiente,
-                'origem': ('sped.irrf,%s' % sped_intermediario.id),
-                'origem_intermediario': ('sped.irrf,%s' % sped_intermediario.id),
-                'company_id': sped_registro.company_id.id,
-                'id_evento': evento.tot.eSocial.evento.Id.valor,
-                'situacao': '4',
-                'recibo': evento.tot.eSocial.evento.ideEvento.nrRecArqBase.valor,
-            }
-
-            # Cria/Altera o sped.registro do totalizador
-            if sped_s5002:
-                sped_s5002.write(vals_registro_totalizador)
-            else:
-                sped_s5002 = self.env['sped.registro'].create(vals_registro_totalizador)
-
-            # Popula o intermediário totalizador com o registro totalizador
-            sped_intermediario.sped_registro_s5002 = sped_s5002
-
-            # Popula o intermediário S1200 com o intermediário totalizador
-            self.s5002_id = sped_intermediario
-
-            # Popula o XML em anexo no sped.registro totalizador
-            if sped_s5002.consulta_xml_id:
-                consulta = sped_s5002.consulta_xml_id
-                sped_s5002.consulta_xml_id = False
-                consulta.unlink()
-            consulta_xml = evento.tot.eSocial.xml
-            consulta_xml_nome = sped_s5002.id_evento + '-consulta.xml'
-            anexo_id = sped_registro._grava_anexo(consulta_xml_nome, consulta_xml)
-            sped_s5002.consulta_xml_id = anexo_id
-
-            # Limpa a tabela sped.irrf.infoirrf
-            for irrf in sped_intermediario.infoirrf_ids:
-                irrf.unlink()
-
-            # Popula a tabela sped.irrf.basesirrf com os valores apurados no S-5002
-            for irrf in evento.tot.eSocial.evento.infoIrrf:
-                for base in irrf.basesIrrf:
-
-                    vals = {
-                        'parent_id': sped_intermediario.id,
-                        'cod_categ': irrf.codCateg.valor,
-                        'ind_res_br': irrf.indResBr.valor,
-                        'tp_valor': base.tpValor.valor,
-                        'valor': float(base.valor.valor),
+                    # Popula os valores para criar/alterar o registro intermediário do totalizador
+                    vals_intermediario_totalizador = {
+                        'company_id': sped_registro.company_id.id,
+                        'id_evento': tot.eSocial.evento.Id.valor,
+                        'periodo_id': sped_registro.origem_intermediario.periodo_id.id,
+                        'trabalhador_id': sped_registro.origem_intermediario.beneficiario_id.id,
+                        'vr_ded_deps': float(tot.eSocial.evento.infoDep[0].vrDedDep.valor),
+                        'sped_registro_s1210': sped_registro.id,
                     }
-                    self.env['sped.irrf.basesirrf'].create(vals)
 
-            # Popula a tabela sped.irrf.infoirrf com os valores apurados no S-5002
-            for irrf in evento.tot.eSocial.evento.infoIrrf:
-                for info in irrf.irrf:
+                    # Cria/Altera o registro intermediário
+                    if sped_intermediario:
+                        sped_intermediario.write(vals_intermediario_totalizador)
+                    else:
+                        sped_intermediario = self.env['sped.irrf'].create(vals_intermediario_totalizador)
 
-                    vals = {
-                        'parent_id': sped_intermediario.id,
-                        'cod_categ': irrf.codCateg.valor,
-                        'ind_res_br': irrf.indResBr.valor,
-                        'tp_cr': info.tpCR.valor,
-                        'vr_irrf_desc': float(info.vrIrrfDesc.valor),
+                    # Popula os valores para criar/alterar o sped.registro do totalizador
+                    vals_registro_totalizador = {
+                        'tipo': 'esocial',
+                        'registro': 'S-5002',
+                        'evento': 'evtIrrfBenef',
+                        'operacao': 'na',
+                        'ambiente': sped_registro.ambiente,
+                        'origem': ('sped.irrf,%s' % sped_intermediario.id),
+                        'origem_intermediario': ('sped.irrf,%s' % sped_intermediario.id),
+                        'company_id': sped_registro.company_id.id,
+                        'id_evento': tot.eSocial.evento.Id.valor,
+                        'situacao': '4',
+                        'recibo': tot.eSocial.evento.ideEvento.nrRecArqBase.valor,
                     }
-                    self.env['sped.irrf.infoirrf'].create(vals)
+
+                    # Cria/Altera o sped.registro do totalizador
+                    if sped_s5002:
+                        sped_s5002.write(vals_registro_totalizador)
+                    else:
+                        sped_s5002 = self.env['sped.registro'].create(vals_registro_totalizador)
+
+                    # Popula o intermediário totalizador com o registro totalizador
+                    sped_intermediario.sped_registro_s5002 = sped_s5002
+
+                    # Popula o intermediário S1200 com o intermediário totalizador
+                    self.s5002_id = sped_intermediario
+
+                    # Popula o XML em anexo no sped.registro totalizador
+                    if sped_s5002.consulta_xml_id:
+                        consulta = sped_s5002.consulta_xml_id
+                        sped_s5002.consulta_xml_id = False
+                        consulta.unlink()
+                    consulta_xml = tot.eSocial.xml
+                    consulta_xml_nome = sped_s5002.id_evento + '-consulta.xml'
+                    anexo_id = sped_registro._grava_anexo(consulta_xml_nome, consulta_xml)
+                    sped_s5002.consulta_xml_id = anexo_id
+
+                    # Limpa a tabela sped.irrf.infoirrf
+                    for irrf in sped_intermediario.infoirrf_ids:
+                        irrf.unlink()
+
+                    # Popula a tabela sped.irrf.basesirrf com os valores apurados no S-5002
+                    for irrf in tot.eSocial.evento.infoIrrf:
+                        for base in irrf.basesIrrf:
+
+                            vals = {
+                                'parent_id': sped_intermediario.id,
+                                'cod_categ': irrf.codCateg.valor,
+                                'ind_res_br': irrf.indResBr.valor,
+                                'tp_valor': base.tpValor.valor,
+                                'valor': float(base.valor.valor),
+                            }
+                            self.env['sped.irrf.basesirrf'].create(vals)
+
+                    # Popula a tabela sped.irrf.infoirrf com os valores apurados no S-5002
+                    for irrf in tot.eSocial.evento.infoIrrf:
+                        for info in irrf.irrf:
+
+                            vals = {
+                                'parent_id': sped_intermediario.id,
+                                'cod_categ': irrf.codCateg.valor,
+                                'ind_res_br': irrf.indResBr.valor,
+                                'tp_cr': info.tpCR.valor,
+                                'vr_irrf_desc': float(info.vrIrrfDesc.valor),
+                            }
+                            self.env['sped.irrf.infoirrf'].create(vals)
