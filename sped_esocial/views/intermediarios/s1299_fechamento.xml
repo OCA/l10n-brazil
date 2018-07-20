@@ -21,6 +21,13 @@
                         <group colspan="4" col="4">
                             <field name="company_id" colspan="4" readonly="1"/>
                             <field name="periodo_id" colspan="4" readonly="1"/>
+                            <field name="evt_remun" colspan="4" readonly="1"/>
+                            <field name="evt_pgtos" colspan="4" readonly="1"/>
+                            <field name="evt_aq_prod" colspan="4" readonly="1"/>
+                            <field name="evt_com_prod" colspan="4" readonly="1"/>
+                            <field name="evt_contrat_av_np" colspan="4" readonly="1"/>
+                            <field name="evt_infocompl_per" colspan="4" readonly="1"/>
+                            <field name="comp_sem_movto" colspan="4" readonly="1"/>
                         </group>
                         <group colspan="4" col="2">
                             <field name="sped_registro" readonly="1"/>

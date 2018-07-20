@@ -31,6 +31,52 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
         string='Período',
         comodel_name='account.period',
     )
+    evt_remun = fields.Selection(
+        string='Possui Remunerações?',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )
+    evt_pgtos = fields.Selection(
+        string='Possui Pagamentos?',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )
+    evt_aq_prod = fields.Selection(
+        string='Possui Aquisições Rurais?',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )
+    evt_com_prod = fields.Selection(
+        string='Possui Comercializações de Produção Rural?',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )
+    evt_contrat_av_np = fields.Selection(
+        string='Contratou por Intermédio de Sindicato?',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )
+    evt_infocompl_per = fields.Selection(
+        string='Contratou por Intermédio de Sindicato?',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )
+    comp_sem_movto = fields.Many2one(
+        string='Primeira competência sem movimento',
+        comodel_name='account.period',
+    )
 
     @api.depends('company_id', 'periodo_id')
     def _compute_codigo(self):
@@ -87,180 +133,46 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
     def popula_xml(self, ambiente='2', operacao='I'):
         self.ensure_one()
 
-        # # Cria o registro
-        # S1210 = pysped.esocial.leiaute.S1210_2()
-        # S1210.tpInsc = '1'
-        # S1210.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        #
-        # # Popula ideEvento
-        # S1210.evento.ideEvento.indRetif.valor = '1'  # TODO Criar meio de enviar um registro retificador
-        # # S1210.evento.ideEvento.nrRecibo.valor = '' # Recibo só quando for retificação
-        # S1210.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
-        #                                                 # '1' - Mensal
-        #                                                 # '2' - Anual (13º salário)
-        # S1210.evento.ideEvento.perApur.valor = \
-        #     self.periodo_id.code[3:7] + '-' + \
-        #     self.periodo_id.code[0:2]
-        # S1210.evento.ideEvento.tpAmb.valor = ambiente
-        # S1210.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
-        # S1210.evento.ideEvento.verProc.valor = '8.0'  # Odoo v.8.0
-        #
-        # # Popula ideEmpregador (Dados do Empregador)
-        # S1210.evento.ideEmpregador.tpInsc.valor = '1'
-        # S1210.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        #
-        # # Popula ideBenef (Dados do Beneficiário do Pagamento)
-        # S1210.evento.ideBenef.cpfTrab.valor = limpa_formatacao(self.beneficiario_id.cpf)
-        #
-        # # Popula deps (Informações de dependentes do beneficiário do pagamento
-        # # Conta o número de dependentes para fins do regime próprio de previdência social
-        # dependentes = 0
-        # for dependente in self.servidor_id.dependent_ids:
-        #     if dependente.dependent_verification:
-        #         dependentes += 1
-        #
-        # if dependentes:
-        #
-        #     # Popula o valor de dedução por dependente no período selecionado
-        #     valor = 0
-        #     domain = [
-        #         ('year', '=', int(self.periodo_id.fiscalyear_id.code)),
-        #     ]
-        #     deducao = self.env['l10n_br.hr.income.tax.deductable.amount.family'].search(domain)
-        #     if deducao:
-        #         valor = deducao.amount
-        #
-        #     S1210.evento.ideBenef.vrDedDep.valor = formata_valor(dependentes * valor)
-        #
-        # # Popula infoPgto (1 para cada payslip)
-        # for payslip in self.payslip_ids:
-        #     info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
-        #
-        #     # TODO Identificar a data do pagamento de acordo com o arquivo CNAB
-        #     # Por enquanto vou usar a data final do período ou a data atual (a que for menor)
-        #     data = fields.Date.today()
-        #     fim_periodo = self.periodo_id.date_stop
-        #     if fim_periodo < data:
-        #         data = fim_periodo
-        #     info_pgto.dtPgto.valor = data
-        #
-        #     # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
-        #     # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
-        #     # 2 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2299;
-        #     # 3 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2399;
-        #     # 5 - Pagamento de remuneração conforme apurado em {dmDev} do S-1202;
-        #     # 6 - Pagamento de Benefícios Previdenciários, conforme apurado em {dmDev} do S-1207;
-        #     # 7 - Recibo de férias;
-        #     # 9 - Pagamento relativo a competências anteriores ao início da obrigatoriedade dos eventos
-        #     #     periódicos para o contribuinte;
-        #     #
-        #     tipo = '1'
-        #     if payslip.tipo_de_folha == 'rescisao':
-        #         tipo = '2'
-        #     if payslip.contract_id.tp_reg_prev == '2':
-        #         tipo = '5'
-        #     if payslip.tipo_de_folha == 'ferias':
-        #         tipo = '7'
-        #     info_pgto.tpPgto.valor = tipo
-        #     info_pgto.indResBr.valor = 'S'  # TODO Lidar com pagamentos a pessoas do exterior quando o Odoo
-        #                                     # tiver isso disponível
-        #
-        #     if tipo != '7':
-        #         # Popula detPgtoFl
-        #         det_pgto_fl = pysped.esocial.leiaute.S1210_DetPgtoFl_2()
-        #         periodo = self.periodo_id.code[3:7] + '-' + self.periodo_id.code[0:2] \
-        #             if payslip.tipo_de_folha != 'decimo_terceiro' else self.periodo_id.fiscalyear_id.code
-        #         det_pgto_fl.perRef.valor = periodo
-        #         det_pgto_fl.ideDmDev.valor = tipo
-        #         det_pgto_fl.indPgtoTt.valor = 'S'  # TODO Lidar com pagamento de adiantamentos mensais, quando tivermos
-        #         det_pgto_fl.vrLiq.valor = formata_valor(payslip.total_folha)
-        #
-        #         # Pega o número do recibo do S-2299 (se for o caso)
-        #         if tipo == '2':
-        #             recibo = payslip.sped_s2299.sped_s2299_registro_inclusao.recibo
-        #             if payslip.sped_s2299.sped_s2299_registro_retificacao:
-        #                 ultima_alteracao = payslip.sped_s2299.sped_s2299_registro_inclusao.sorted(
-        #                     key=lambda r: r.data_hora_transmissao, reverse=True)
-        #                 recibo = ultima_alteracao[0].recibo
-        #             det_pgto_fl.nrRecArq.valor = recibo
-        #
-        #         # Popula infoPgto.detPgtoFl.retPgtoTot
-        #         for line in payslip.line_ids:
-        #
-        #             # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
-        #             if line.salary_rule_id.cod_inc_irrf_calculado in \
-        #                     ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
-        #
-        #                 ret_pgto_tot = pysped.esocial.leiaute.S1210_RetPgtoTot_2()
-        #                 ret_pgto_tot.codRubr.valor = line.salary_rule_id.codigo
-        #                 ret_pgto_tot.ideTabRubr.valor = line.salary_rule_id.identificador
-        #                 if line.quantity and float(line.quantity) != 1:
-        #                     ret_pgto_tot.qtdRubr.valor = float(line.quantity)
-        #                     ret_pgto_tot.vrUnit.valor = formata_valor(line.amount)
-        #                 if line.rate and line.rate != 100:
-        #                     ret_pgto_tot.fatorRubr.valor = line.rate
-        #                 ret_pgto_tot.vrRubr.valor = formata_valor(line.total)
-        #
-        #                 if line.salary_rule_id.cod_inc_irrf_calculado in ['51', '52', '53', '54', '55']:
-        #                     pen_alim = pysped.esocial.leiaute.S1210_PenAlim_2()
-        #                     pen_alim.cpfBenef.valor = limpa_formatacao(line.partner_id.cnpj_cpf)
-        #                     # dtNasctoBenef  # TODO Hoje não estou enviando porque não temos esse controle no Odoo
-        #                     pen_alim.nmBenefic.valor = line.partner_id.name
-        #                     pen_alim.vlrPensao.valor = formata_valor(line.total)
-        #                     ret_pgto_tot.penAlim.append(pen_alim)
-        #
-        #                 det_pgto_fl.itensRemun.append(ret_pgto_tot)
-        #
-        #         # Popula a tag detPgtoFl
-        #         info_pgto.detPgtoFl.append(det_pgto_fl)
-        #     else:
-        #         # Popula a tag detPgtoFer
-        #         det_pgto_fer = pysped.esocial.leiaute.S1210_DetPgtoFer_2()
-        #         det_pgto_fer.codCateg.valor = payslip.contract_id.categoria
-        #         det_pgto_fer.matricula.valor = payslip.contract_id.matricula
-        #         det_pgto_fer.dtIniGoz.valor = payslip.date_from
-        #         info_pgto.detPgtoFer.append(det_pgto_fer)
-        #
-        #         # Pega o valor calculo 'FERIAS' do campo worked_days_line_ids
-        #         dias = 0
-        #         for item in payslip.worked_days_line_ids:
-        #             if item.code == 'FERIAS':
-        #                 dias = item.number_of_days
-        #         det_pgto_fer.qtdDias.valor = dias
-        #
-        #         det_pgto_fer.vrLiq.valor = formata_valor(payslip.total_folha)
-        #
-        #         # Popula detPgtoFer.detRubrFer
-        #         for line in payslip.line_ids:
-        #
-        #             # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
-        #             if line.salary_rule_id.cod_inc_irrf_calculado in \
-        #                     ['00', '01', '09', '13', '33', '43', '46', '53', '63', '75', '93']:
-        #
-        #                 det_rubr_fer = pysped.esocial.leiaute.S1210_DetRubrFer_2()
-        #                 det_rubr_fer.codRubr.valor = line.salary_rule_id.codigo
-        #                 det_rubr_fer.ideTabRubr.valor = line.salary_rule_id.identificador
-        #                 if line.quantity and float(line.quantity) != 1:
-        #                     det_rubr_fer.qtdRubr.valor = float(line.quantity)
-        #                     det_rubr_fer.vrUnit.valor = formata_valor(line.amount)
-        #                 if line.rate and line.rate != 100:
-        #                     det_rubr_fer.fatorRubr.valor = line.rate
-        #                 det_rubr_fer.vrRubr.valor = formata_valor(line.total)
-        #
-        #                 if line.salary_rule_id.cod_inc_irrf_calculado in ['53']:
-        #                     pen_alim = pysped.esocial.leiaute.S1210_DetRubrFerPenAlim_2()
-        #                     pen_alim.cpfBenef.valor = limpa_formatacao(line.partner_id.cnpj_cpf)
-        #                     # dtNasctoBenef  # TODO Hoje não estou enviando porque não temos esse controle no Odoo
-        #                     pen_alim.nmBenefic.valor = line.partner_id.name
-        #                     pen_alim.vlrPensao.valor = formata_valor(line.total)
-        #                     det_rubr_fer.penAlim.append(pen_alim)
-        #
-        #                 det_pgto_fer.detRubrFer.append(det_rubr_fer)
-        #
-        #         # Popula a tag detPgtoFl
-        #         info_pgto.detPgtoFer.append(det_pgto_fer)
-        #
-        # return S1210
+        # Cria o registro
+        S1299 = pysped.esocial.leiaute.S1299_2()
+        S1299.tpInsc = '1'
+        S1299.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+        # Popula ideEvento
+        S1299.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
+                                                        # '1' - Mensal
+                                                        # '2' - Anual (13º salário)
+        S1299.evento.ideEvento.perApur.valor = \
+            self.periodo_id.code[3:7] + '-' + \
+            self.periodo_id.code[0:2]
+        S1299.evento.ideEvento.tpAmb.valor = ambiente
+        S1299.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
+        S1299.evento.ideEvento.verProc.valor = '8.0'  # Odoo v.8.0
+
+        # Popula ideEmpregador (Dados do Empregador)
+        S1299.evento.ideEmpregador.tpInsc.valor = '1'
+        S1299.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+        # Popula ideRespInf (Responsável pelas Informações)
+        S1299.evento.ideRespInf.nmResp.valor = self.company_id.esocial_nm_ctt
+        S1299.evento.ideRespInf.cpfResp.valor = limpa_formatacao(self.company_id.esocial_cpf_ctt)
+        S1299.evento.ideRespInf.telefone.valor = limpa_formatacao(self.company_id.esocial_fone_fixo)
+        if self.company_id.esocial_email:
+            S1299.evento.ideRespInf.email.valor = self.company_id.esocial_email
+
+        # Popula infoFech (Informações do Fechamento)
+        S1299.evento.infoFech.evtRemun.valor = self.evt_remun
+        S1299.evento.infoFech.evtPgtos.valor = self.evt_pgtos
+        S1299.evento.infoFech.evtAqProd.valor = self.evt_aq_prod
+        S1299.evento.infoFech.evtComProd.valor = self.evt_com_prod
+        S1299.evento.infoFech.evtContratAvNP.valor = self.evt_contrat_av_np
+        S1299.evento.infoFech.evtInfoComplPer.valor = self.evt_infocompl_per
+        if self.comp_sem_movto:
+            S1299.evento.infoFech.compSemMovto.valor = \
+                self.comp_sem_movto.code[3:7] + '-' + \
+                self.comp_sem_movto.code[0:2]
+
+        return S1299
 
     @api.multi
     def retorno_sucesso(self, evento):

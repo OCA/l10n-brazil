@@ -633,6 +633,26 @@ class SpedEsocial(models.Model):
     def importar_fechamentos(self):
         self.ensure_one()
 
+        # Calcula os valores do fechamento
+        evt_remun = 'S' if self.remuneracao_ids or self.remuneracao_rpps_ids else 'N'
+        evt_pgtos = 'S' if self.pagamento_ids else 'N'
+        evt_aq_prod = 'N'
+        evt_com_prod = 'N'
+        evt_contrat_av_np = 'N'
+        evt_infocompl_per = 'N'
+        comp_sem_movto = False  # TODO Permitir que indique quando não há movimentação
+        vals = {
+            'company_id': self.company_id.id,
+            'periodo_id': self.periodo_id.id,
+            'evt_remun': evt_remun,
+            'evt_pgtos': evt_pgtos,
+            'evt_aq_prod': evt_aq_prod,
+            'evt_com_prod': evt_com_prod,
+            'evt_contrat_av_np': evt_contrat_av_np,
+            'evt_infocompl_per': evt_infocompl_per,
+            'comp_sem_movto': comp_sem_movto,
+        }
+
         # Verifica se o registro S-1299 já existe, cria ou atualiza
         domain_s1299 = [
             ('company_id', '=', self.company_id.id),
@@ -640,18 +660,15 @@ class SpedEsocial(models.Model):
         ]
         s1299 = self.env['sped.esocial.fechamento'].search(domain_s1299)
         if not s1299:
-            vals = {
-                'company_id': self.company_id.id,
-                'periodo_id': self.periodo_id.id,
-            }
             s1299 = self.env['sped.esocial.fechamento'].create(vals)
         else:
+            s1299.write(vals)
 
-            # Relaciona o s1210 com o período do e-Social
-            self.fechamento_ids = [(4, s1299.id)]
+        # Relaciona o s1299 com o período do e-Social
+        self.fechamento_ids = [(4, s1299.id)]
 
-            # Cria o registro de transmissão sped (se ainda não existir)
-            s1299.atualizar_esocial()
+        # Cria o registro de transmissão sped (se ainda não existir)
+        s1299.atualizar_esocial()
 
     @api.multi
     def get_esocial_vigente(self, company_id=False):
