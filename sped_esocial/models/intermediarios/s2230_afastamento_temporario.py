@@ -135,7 +135,7 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
             matriz = holiday_id.contrato_id.company_id.id
         else:
             matriz = holiday_id.contrato_id.company_id.matriz.id
-        S2230.evento.ideEvento.tpAmb.valor = matriz
+        S2230.evento.ideEvento.tpAmb.valor = matriz.esocial_tpAmb
         S2230.evento.ideEvento.procEmi.valor = '1'
         S2230.evento.ideEvento.verProc.valor = '8.0'
 
