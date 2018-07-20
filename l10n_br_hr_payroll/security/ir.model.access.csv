@@ -29,3 +29,4 @@
 "access_hr_telefonia_line_manager","access_hr_telefonia_line_manager","model_hr_telefonia_line","group_manager_ligacoes",1,1,1,1
 "access_ir_property_manager_ligacao","access_ir_property_manager_ligacao","base.model_ir_property","group_manager_ligacoes",1,1,1,1
 "access_res_partner_manager_ligacao","access_res_partner_manager_ligacao","base.model_res_partner","group_manager_ligacoes",1,1,1,0
+"access_hr_payslip_autonomo","access_hr_payslip_autonomo","model_hr_payslip_autonomo","base.group_hr_user",1,1,1,1
