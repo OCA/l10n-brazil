@@ -30,8 +30,8 @@
                     <group>
                         <field name="observacao" />
                     </group>
-                    <separator string="e-Social" />
-                    <group>
+                    <separator string="e-Social" groups="sped_tabelas.group_user,sped_tabelas.group_manager"/>
+                    <group groups="sped_tabelas.group_user,sped_tabelas.group_manager">
                         <group>
                             <field name="sped_esocial_afastamento_id" options="{'no_create': True, 'no_edit': True}" readonly="1"/>
                             <field name="situacao_esocial" readonly="1"/>
