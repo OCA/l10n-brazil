@@ -206,11 +206,12 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         dados_trabalhador.nascimento.nmPai.valor = empregado_id.father_name
 
         # Popula documentos (Informações dos documentos pessoais)
-        ctps = pysped.esocial.leiaute.S2205_CTPS_2()
-        ctps.nrCtps.valor = empregado_id.ctps
-        ctps.serieCtps.valor = empregado_id.ctps_series
-        ctps.ufCtps.valor = empregado_id.ctps_uf_id.code
-        dados_trabalhador.documentos.CTPS.append(ctps)
+        if empregado_id.ctps:
+            ctps = pysped.esocial.leiaute.S2205_CTPS_2()
+            ctps.nrCtps.valor = empregado_id.ctps
+            ctps.serieCtps.valor = empregado_id.ctps_series
+            ctps.ufCtps.valor = empregado_id.ctps_uf_id.code
+            dados_trabalhador.documentos.CTPS.append(ctps)
 
         # Popula RIC (Registro de Identificação Civil)
         rg = pysped.esocial.leiaute.S2205_RG_2()
