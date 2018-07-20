@@ -154,19 +154,20 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             sexo = 'F'
         S2200.evento.trabalhador.sexo.valor = sexo
         S2200.evento.trabalhador.racaCor.valor = self.hr_contract_id.employee_id.ethnicity.code or ''
-        estado_civil = ''
-        if self.hr_contract_id.employee_id.marital == 'single':
-            estado_civil = '1'
-        elif self.hr_contract_id.employee_id.marital in ['married',
-                                                 'common_law_marriage']:
-            estado_civil = '2'
-        elif self.hr_contract_id.employee_id.marital == 'divorced':
-            estado_civil = '3'
-        elif self.hr_contract_id.employee_id.marital == 'separated':
-            estado_civil = '4'
-        elif self.hr_contract_id.employee_id.marital == 'widower':
-            estado_civil = '5'
-        S2200.evento.trabalhador.estCiv.valor = estado_civil
+
+        if self.hr_contract_id.employee_id.marital:
+            if self.hr_contract_id.employee_id.marital == 'single':
+                estado_civil = '1'
+            elif self.hr_contract_id.employee_id.marital in ['married', 'common_law_marriage']:
+                estado_civil = '2'
+            elif self.hr_contract_id.employee_id.marital == 'divorced':
+                estado_civil = '3'
+            elif self.hr_contract_id.employee_id.marital == 'separated':
+                estado_civil = '4'
+            elif self.hr_contract_id.employee_id.marital == 'widower':
+                estado_civil = '5'
+            S2200.evento.trabalhador.estCiv.valor = estado_civil
+
         S2200.evento.trabalhador.grauInstr.valor = \
             self.hr_contract_id.employee_id.educational_attainment.code.zfill(2) or ''
         S2200.evento.trabalhador.indPriEmpr.valor = 'S' if self.hr_contract_id.primeiro_emprego else 'N'
