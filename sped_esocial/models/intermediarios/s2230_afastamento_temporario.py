@@ -131,8 +131,11 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         S2230.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
 
         S2230.evento.ideEvento.indRetif.valor = '1'
-        S2230.evento.ideEvento.tpAmb.valor = \
-            holiday_id.contrato_id.company_id.esocial_tpAmb
+        if holiday_id.contrato_id.company_id.eh_empresa_base:
+            matriz = holiday_id.contrato_id.company_id.id
+        else:
+            matriz = holiday_id.contrato_id.company_id.matriz.id
+        S2230.evento.ideEvento.tpAmb.valor = matriz
         S2230.evento.ideEvento.procEmi.valor = '1'
         S2230.evento.ideEvento.verProc.valor = '8.0'
 
