@@ -12,6 +12,10 @@ from openerp.tools.translate import _
 from openerp.addons.l10n_br_account.sped.document import FiscalDocument
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
+from ...models.account_invoice_term import (
+    FORMA_PAGAMENTO_CARTOES,
+)
+
 
 class NFe200(FiscalDocument):
     def __init__(self):
@@ -69,23 +73,14 @@ class NFe200(FiscalDocument):
 
                 self.nfe.infNFe.det.append(self.det)
 
-            if invoice.journal_id.revenue_expense:
-                for move_line in invoice.move_line_receivable_id:
-                    self.dup = self._get_Dup()
-                    self._encashment_data(invoice, move_line)
-                    self.nfe.infNFe.cobr.dup.append(self.dup)
+            self._encashment_data(invoice, self.nfe.infNFe.cobr)
 
             try:
                 self._carrier_data(invoice)
             except AttributeError:
                 pass
 
-            self.pag = self._get_Pag()
-            self._details_pag(invoice)
-
-            self.detPag = self._get_DetPag()
-            self._details_pag_data(invoice)
-            self.nfe.infNFe.pag.detPag.append(self.detPag)
+            self._details_pag(invoice, self.nfe.infNFe.pag)
 
             self.vol = self._get_Vol()
             self._weight_data(invoice)
@@ -359,7 +354,7 @@ class NFe200(FiscalDocument):
 
         if invoice_line.product_id:
             self.det.prod.cProd.valor = invoice_line.product_id.code or ''
-            self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
+            self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or 'SEM GTIN'
             self.det.prod.cEANTrib.valor = invoice_line.product_id.ean13 or ''
             self.det.prod.xProd.valor = (normalize(
             'NFKD', unicode(
@@ -552,8 +547,25 @@ class NFe200(FiscalDocument):
         self.di_line.vDescDI.valor = str(
             "%.2f" % invoice_line_di.amount_discount)
 
-    def _encashment_data(self, invoice, move_line):
+    def _encashment_data(self, invoice, cobr):
         """Dados de Cobrança"""
+
+        if invoice.journal_id.revenue_expense:
+            for move_line in invoice.move_line_receivable_id:
+        
+                if invoice.type in ('out_invoice', 'in_refund'):
+                    value = move_line.debit
+                else:
+                    value = move_line.credit
+
+                dup = self._get_Dup()
+
+                dup.nDup.valor = move_line.name
+                dup.dVenc.valor = (move_line.date_maturity or
+                                   invoice.date_due or
+                                   invoice.date_invoice)
+                dup.vDup.valor = str("%.2f" % value)
+                cobr.dup.append(dup)
 
         if invoice.type in ('out_invoice', 'in_refund'):
             value = move_line.debit
@@ -855,16 +867,45 @@ class NFe400(NFe310):
     def __init__(self):
         super(NFe400, self).__init__()
 
-    def _details_pag(self, invoice):
-        # TODO - implementar campo
-        self.pag.vTroco.valor = ''
+    def _details_pag(self, invoice, pag):
 
-    def _details_pag_data(self, invoice):
-        # TODO - existe a possibilidade de pagar uma parte
-        # em uma forma de pagto e outra parte em outra
-        # ex.: metade em dinheiro e metade boleto
-        self.detPag.tPag.valor = invoice.type_nf_payment
-        self.detPag.vPag.valor = invoice.amount_total
+        for pagamento in invoice.account_payment_ids:
+            pag.detPag.append(self._payment_date(pagamento))
+
+        pag.vTroco.valor = invoice.amount_change
+
+    def _payment_date(self, pagamento):
+
+        pag = self._get_DetPag()
+
+        # Somente no/ PL_009_V4_2016_002_v160b
+        # pag.indPag.valor = pagamento.payment_term_id.ind_forma_pagamento or ''
+
+        pag.tPag.valor = pagamento.forma_pagamento
+        pag.vPag.valor = str(pagamento.amount)
+
+        if pagamento.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
+            pag.card.tpIntegra.valor = pagamento.card_integration
+            pag.card.CNPJ.valor = punctuation_rm(pagamento.cnpj_cpf or '')
+            pag.card.tBand.valor = pagamento.card_brand
+            pag.card.cAut.valor = pagamento.autorizacao
+
+        return pag
+
+    def _encashment_data(self, invoice, cobr):
+        """Dados de Cobrança"""
+
+        cobr.fat.nFat.valor = invoice.number
+        cobr.fat.vOrig.valor = str("%.2f" % invoice.amount_total)
+        cobr.fat.vDesc.valor = str("%.2f" % invoice.amount_discount)
+        cobr.fat.vLiq.valor = str("%.2f" % invoice.amount_total)
+
+        for payment_line in invoice.account_payment_line_ids:
+            dup = self._get_Dup()
+            dup.nDup.valor = payment_line.number
+            dup.dVenc.valor = payment_line.date_due
+            dup.vDup.valor = str("%.2f" % payment_line.amount)
+            cobr.dup.append(dup)
 
     def get_NFe(self):
         try:
