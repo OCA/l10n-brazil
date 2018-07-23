@@ -35,29 +35,35 @@
                                            readonly="1" />
                                 </header>
                                 <group colspan="4" col="4">
-                                    <group colspan="2" col="2">
+                                    <group colspan="2" col="2" string="Identificação">
                                         <field name="codigo" required="1"
                                                attrs="{'readonly': [('sped_cargo_id', '!=', False)]}"
                                         />
-                                        <field name="ini_valid"
-                                               options="{'no_create': True, 'no_open': True}"
-                                               attrs="{'required': True, 'readonly': [('sped_cargo_id', '=', True)]}"
-                                        />
-                                        <field name="fim_valid" invisible="1"
-                                               options="{'no_create': True, 'no_open': True}"
-                                        />
-                                    </group>
-                                    <group colspan="2" col="2">
                                         <field name="cargo_publico" />
-                                        <field name="precisa_atualizar" invisible="1" />
-                                    </group>
-                                    <group colspan="4" col="2">
                                         <field name="sped_cargo_id" string="Registro Intermediário"
                                                attrs="{'invisible': [('sped_cargo_id', '=', False)], 'readonly': [('sped_cargo_id', '!=', False)]}"
                                                groups="sped_tabelas.group_user"
                                         />
+                                        <field name="precisa_atualizar" invisible="1" />
+                                    </group>
+                                    <group colspan="2" col="2" string="Validade">
+                                        <field name="ini_valid"
+                                               options="{'no_create': True, 'no_open': True}"
+                                               attrs="{'required': True, 'readonly': [('sped_cargo_id', '!=', False)]}"
+                                        />
+                                        <field name="alt_valid"
+                                               options="{'no_create': True, 'no_open': True}"
+                                               attrs="{'required': [('sped_cargo_id', '!=', False)], 'invisible': [('sped_cargo_id', '=', False)]}"
+                                        />
+                                        <field name="fim_valid"
+                                               options="{'no_create': True, 'no_open': True}"
+                                               attrs="{'invisible': [('sped_cargo_id', '=', False)]}"
+                                        />
                                     </group>
                                     <group colspan="4" col="4">
+                                        <separator string="Detalhes para Cargo Público" colspan="4"
+                                                   attrs="{'invisible': [('cargo_publico', '=', False)]}"
+                                        />
                                         <field name="acum_cargo" colspan="4"
                                                attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
                                         <field name="contagem_esp" colspan="4"

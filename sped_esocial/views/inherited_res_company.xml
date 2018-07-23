@@ -186,7 +186,7 @@
                                     <group colspan="4" col="2">
                                         <field name="esocial_tpAmb"
                                                attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
-                                        <field name="natureza_juridica_id" required="True"
+                                        <field name="natureza_juridica_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
                                                options="{'no_create': True, 'no_open': True}"/>
                                         <field name="ind_coop"
                                                attrs="{'required': [('eh_empresa_base', '=', True)]}"/>

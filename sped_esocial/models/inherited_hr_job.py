@@ -46,6 +46,12 @@ class HrJob(models.Model):
         help='e-Social (S-1030) <iniValid>',
         domain=lambda self: self._field_id_domain(),
     )
+    alt_valid = fields.Many2one(
+        string='Última Alteração em',
+        comodel_name='account.period',
+        help='e-Social (S-1030) <novaValidade><iniValid>',
+        domain=lambda self: self._field_id_domain(),
+    )
     fim_valid = fields.Many2one(
         string='Válido até',
         comodel_name='account.period',
@@ -95,6 +101,12 @@ class HrJob(models.Model):
             ('3', '3-Reestruturação'),
         ],
     )
+
+    @api.onchange('ini_valid')
+    def _onchange_ini_valid(self):
+        self.ensure_one()
+        if not self.alt_valid or self.alt_valid.date_start < self.ini_valid.date_start:
+            self.alt_valid = self.ini_valid
 
     @api.model
     def _field_id_domain(self):
@@ -146,6 +158,7 @@ class HrJob(models.Model):
             'name',             # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/nmCargo
             'cbo_id',           # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/codCBO
             'ini_valid',        # //eSocial/evtTabCargo/infoCargo//ideCargo/iniValid
+            'alt_valid',        # //eSocial/evtTabCargo/infoCargo//ideCargo/novaValidade/iniValid
             'cargo_publico',    # Flag que indica se é cargo público
             'acum_cargo',       # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/acumCargo
             'contagem_esp',     # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/contagemEsp

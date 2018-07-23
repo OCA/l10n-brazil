@@ -267,8 +267,8 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
 
         if operacao == 'A':
             S1030.evento.infoCargo.novaValidade.iniValid.valor = \
-                self.cargo_id.ini_valid.code[3:7] + '-' + \
-                self.cargo_id.ini_valid.code[0:2]
+                self.cargo_id.alt_valid.code[3:7] + '-' + \
+                self.cargo_id.alt_valid.code[0:2]
 
         # Preencher dadosCargo
         S1030.evento.infoCargo.dadosCargo.nmCargo.valor = \
