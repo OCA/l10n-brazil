@@ -39,3 +39,5 @@ from . import s5002_infoirrf
 from . import s5011_inss_consolidado
 from . import s5011_inss_consolidado_idestab
 from . import s5011_inss_consolidado_idestab_basesremun
+from . import s5012_irrf_consolidado
+from . import s5012_irrf_consolidado_infocrcontrib

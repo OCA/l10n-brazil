@@ -41,6 +41,7 @@
                             <group colspan="2" col="2">
                                 <field name="situacao_esocial" attrs="{'invisible': [('situacao_esocial', '=', False)]}" />
                                 <field name="sped_empregador_id" invisible="1" />
+                                <field name="cnpj_cpf_limpo" invisible="1" />
                                 <button name="atualizar_esocial" colspan="4" type="object"
                                         string="Ativar Empregador no e-Social" class="oe_highlight"
                                         attrs="{'invisible': ['|', ('situacao_esocial', 'in', ['1', '3', '9']), ('esocial_periodo_inicial_id', '=', False)]}" />

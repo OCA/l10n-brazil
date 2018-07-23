@@ -28,6 +28,8 @@
                             <field name="evt_contrat_av_np" colspan="4" readonly="1"/>
                             <field name="evt_infocompl_per" colspan="4" readonly="1"/>
                             <field name="comp_sem_movto" colspan="4" readonly="1"/>
+                            <field name="s5011_id" colspan="4" readonly="1"/>
+                            <field name="s5012_id" colspan="4" readonly="1"/>
                         </group>
                         <group colspan="4" col="2">
                             <field name="sped_registro" readonly="1"/>

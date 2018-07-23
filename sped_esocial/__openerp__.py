@@ -76,6 +76,7 @@
         'views/intermediarios/s5001_contribuicao_social_trabalhador.xml',
         'views/intermediarios/s5002_imposto_renda_retido_fonte.xml',
         'views/intermediarios/s5011_inss_consolidado.xml',
+        'views/intermediarios/s5012_irrf_consolidado.xml',
 
         # Segurança
         'security/ir.model.access.csv',

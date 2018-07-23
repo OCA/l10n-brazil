@@ -5,6 +5,7 @@
 from openerp import api, fields, models, exceptions
 from pysped.esocial import ProcessadorESocial
 from openerp.exceptions import ValidationError
+from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
 
 class ResCompany(models.Model):
@@ -279,6 +280,18 @@ class ResCompany(models.Model):
             ('9', 'Obrigado'),
         ],
     )
+
+    # Armazena o cnpj/cpf no db sem a formatação para comparação com os registros de Totalização do e-Social
+    cnpj_cpf_limpo = fields.Char(
+        string='CNPJ/CPF',
+        compute='_compute_cnpj_cpf_limpo',
+        store=True,
+    )
+
+    @api.depends('cnpj_cpf')
+    def _compute_cnpj_cpf_limpo(self):
+        for company in self:
+            company.cnpj_cpf_limpo = limpa_formatacao(company.cnpj_cpf)
 
     @api.model
     def _field_id_domain(self):

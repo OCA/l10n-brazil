@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sped_esocial_s5012_form" model="ir.ui.view">
+            <field name="name">e-Social S-5012</field>
+            <field name="model">sped.irrf.consolidado</field>
+            <field name="arch" type="xml">
+                <form string="e-Social - Registro S-5012" edit="false" delete="false" create="false" duplicate="false">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nome" readonly="1" />
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <group colspan="4" col="4">
+                            <field name="id_evento" colspan="4" readonly="1" />
+                            <field name="company_id" colspan="4" readonly="1" />
+                            <field name="periodo_id" colspan="4" readonly="1" options="{'no_open': True}" />
+                            <field name="ind_exist_info" colspan="4" readonly="1" />
+                        </group>
+                        <notebook>
+                            <page name="infocrcontrib" string="Informações Consolidadas">
+                                <group colspan="4" col="1">
+                                    <label string="Informações Consolidadas do IRRF por código de receita" />
+                                    <field name="infocrcontrib_ids" nolabel="1" readonly="1">
+                                        <tree>
+                                            <field name="tp_cr" />
+                                            <field name="vr_cr" sum="vr_cr"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group colspan="4" col="2">
+                            <field name="sped_registro_s5012" readonly="1" />
+                            <field name="sped_registro_s1299" readonly="1" />
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_esocial_s5012_tree">
+            <field name="name">S-5012 (IRRF Consolidadas)</field>
+            <field name="model">sped.irrf.consolidado</field>
+            <field name="arch" type="xml">
+                <tree string="S-5012 (IRRF Consolidadas)" duplicate="false" edit="false" delete="false" create="false">
+                    <field name="company_id"/>
+                    <field name="periodo_id"/>
+                    <field name="ind_exist_info"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_esocial_s5012_search" model="ir.ui.view">
+            <field name="name">S-5012 (IRRF Consolidadas)</field>
+            <field name="model">sped.irrf.consolidado</field>
+            <field name="arch" type="xml">
+                <search string="S-5012 (IRRF Consolidadas)">
+                    <field name="company_id" />
+                    <field name="periodo_id" />
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_esocial_s5012_action">
+            <field name="name">S-5012 (IRRF Consolidadas)</field>
+            <field name="domain">[]</field>
+            <field name="res_model">sped.irrf.consolidado</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s5012_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_esocial_s5012_form"/>
+            <field name="act_window_id" ref="sped_esocial_s5012_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s5012_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_esocial_s5012_tree"/>
+            <field name="act_window_id" ref="sped_esocial_s5012_action"/>
+        </record>
+
+        <menuitem id="menu_sped_esocial_s5012"
+                  name="S-5012 (IRRF Consolidadas)"
+                  sequence="5012"
+                  action="sped_esocial.sped_esocial_s5012_action"
+                  parent="sped_esocial.menu_sped_esocial_intermediarios"
+        />
+
+    </data>
+</openerp>

@@ -81,6 +81,10 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
         string='S-5011 (INSS Consolidado)',
         comodel_name='sped.inss.consolidado',
     )
+    s5012_id = fields.Many2one(
+        string='S-5012 (IRRF Consolidado)',
+        comodel_name='sped.irrf.consolidado',
+    )
 
     @api.depends('company_id', 'periodo_id')
     def _compute_codigo(self):
@@ -187,11 +191,10 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
 
                 if tot.tipo.valor == 'S5011':
 
-                    # print(tot.xml)
                     # Busca o sped.registro que originou esse totalizador
                     sped_registro = self.env['sped.registro'].search([
                         ('registro', '=', 'S-1299'),
-                        ('recibo', '=', tot.eSocial.evento.ideEvento.nrRecArqBase.valor)
+                        ('recibo', '=', tot.eSocial.evento.infoCS.nrRecArqBase.valor)
                     ])
 
                     # Busca pelo sped.registro deste totalizador (se ele já existir)
@@ -232,7 +235,7 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
                         'company_id': sped_registro.company_id.id,
                         'id_evento': tot.eSocial.evento.Id.valor,
                         'situacao': '4',
-                        'recibo': tot.eSocial.evento.ideEvento.nrRecArqBase.valor,
+                        'recibo': tot.eSocial.evento.infoCS.nrRecArqBase.valor,
                     }
 
                     # Cria/Altera o sped.registro do totalizador
@@ -257,36 +260,154 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
                     anexo_id = sped_registro._grava_anexo(consulta_xml_nome, consulta_xml)
                     sped_s5011.consulta_xml_id = anexo_id
 
-                    # # Limpa a tabela sped.irrf.infoirrf
-                    # for irrf in sped_intermediario.infoirrf_ids:
-                    #     irrf.unlink()
-                    #
-                    # # Popula a tabela sped.irrf.basesirrf com os valores apurados no S-5002
-                    # for irrf in tot.eSocial.evento.infoIrrf:
-                    #     for base in irrf.basesIrrf:
-                    #
-                    #         vals = {
-                    #             'parent_id': sped_intermediario.id,
-                    #             'cod_categ': irrf.codCateg.valor,
-                    #             'ind_res_br': irrf.indResBr.valor,
-                    #             'tp_valor': base.tpValor.valor,
-                    #             'valor': float(base.valor.valor),
-                    #         }
-                    #         self.env['sped.irrf.basesirrf'].create(vals)
-                    #
-                    # # Popula a tabela sped.irrf.infoirrf com os valores apurados no S-5002
-                    # for irrf in tot.eSocial.evento.infoIrrf:
-                    #     for info in irrf.irrf:
-                    #
-                    #         vals = {
-                    #             'parent_id': sped_intermediario.id,
-                    #             'cod_categ': irrf.codCateg.valor,
-                    #             'ind_res_br': irrf.indResBr.valor,
-                    #             'tp_cr': info.tpCR.valor,
-                    #             'vr_irrf_desc': float(info.vrIrrfDesc.valor),
-                    #         }
-                    #         self.env['sped.irrf.infoirrf'].create(vals)
+                    # Limpa a tabela sped.inss.consolidado.ideestab
+                    for ideestab in sped_intermediario.ideestab_ids:
+                        ideestab.unlink()
+
+                    # Popula a tabela sped.inss.consolidado.ideestab com os valores apurados no S-5011
+                    for estabelecimento in tot.eSocial.evento.infoCS.ideEstab:
+
+                        estabelecimento_id = self.env['res.company'].search([
+                            ('cnpj_cpf_limpo', '=', estabelecimento.nrInsc.valor),
+                        ])
+
+                        if estabelecimento_id:
+                            for lotacao in estabelecimento.ideLotacao:
+
+                                lotacao_id = self.env['res.company'].search([
+                                    ('cod_lotacao', '=', lotacao.codLotacao.valor),
+                                ])
+
+                                if lotacao_id:
+
+                                    vals = {
+                                        'parent_id': sped_intermediario.id,
+                                        'estabelecimento_id': estabelecimento_id.id,
+                                        'lotacao_id': lotacao_id.id,
+                                        'fpas': lotacao.fpas.valor,
+                                        'cod_tercs': lotacao.codTercs.valor,
+                                    }
+
+                                    # Popula se a tag infoEstab foi devolvida pelo registro S-5011
+                                    if estabelecimento.infoEstab:
+                                        vals['cnae_prep'] = estabelecimento.infoEstab[0].cnaePrep.valor
+                                        vals['aliq_rat'] = estabelecimento.infoEstab[0].aliqRat.valor
+                                        vals['fap'] = estabelecimento.infoEstab[0].fap.valor
+                                        vals['aliq_rat_ajust'] = estabelecimento.infoEstab[0].aliqRatAjust.valor
+
+                                    ideestab_id = self.env['sped.inss.consolidado.ideestab'].create(vals)
+
+                                    # Popula a tabela sped.inss.consolidado.basesremun
+                                    for base in lotacao.basesRemun:
+
+                                        cod_categ_id = self.env['sped.categoria_trabalhador'].search([
+                                            ('codigo', '=', base.codCateg.valor),
+                                        ])
+
+                                        if cod_categ_id:
+                                            vals = {
+                                                'parent_id': ideestab_id.id,
+                                                'ind_incid': base.indIncid.valor,
+                                                'cod_categ': cod_categ_id.id,
+                                                'vr_bc_cp_00': base.basesCp.vrBcCp00.valor,
+                                                'vr_bc_cp_15': base.basesCp.vrBcCp15.valor,
+                                                'vr_bc_cp_20': base.basesCp.vrBcCp20.valor,
+                                                'vr_bc_cp_25': base.basesCp.vrBcCp25.valor,
+                                                'vr_susp_bc_cp_00': base.basesCp.vrSuspBcCp00.valor,
+                                                'vr_susp_bc_cp_15': base.basesCp.vrSuspBcCp15.valor,
+                                                'vr_susp_bc_cp_20': base.basesCp.vrSuspBcCp20.valor,
+                                                'vr_susp_bc_cp_25': base.basesCp.vrSuspBcCp25.valor,
+                                                'vr_desc_sest': base.basesCp.vrDescSest.valor,
+                                                'vr_calc_sest': base.basesCp.vrCalcSest.valor,
+                                                'vr_desc_senat': base.basesCp.vrDescSenat.valor,
+                                                'vr_calc_senat': base.basesCp.vrCalcSenat.valor,
+                                                'vr_sal_fam': base.basesCp.vrSalFam.valor,
+                                                'vr_sal_mat': base.basesCp.vrSalMat.valor,
+                                            }
+
+                                            self.env['sped.inss.consolidado.basesremun'].create(vals)
 
                 if tot.tipo.valor == 'S5012':
 
-                    print(tot.xml)
+                    # Busca o sped.registro que originou esse totalizador
+                    sped_registro = self.env['sped.registro'].search([
+                        ('registro', '=', 'S-1299'),
+                        ('recibo', '=', tot.eSocial.evento.infoIRRF.nrRecArqBase.valor)
+                    ])
+
+                    # Busca pelo sped.registro deste totalizador (se ele já existir)
+                    sped_s5012 = self.env['sped.registro'].search([
+                        ('id_evento', '=', tot.eSocial.evento.Id.valor)
+                    ])
+
+                    # Busca pelo registro intermediário (se ele já existir)
+                    sped_intermediario = self.env['sped.irrf.consolidado'].search([
+                        ('id_evento', '=', tot.eSocial.evento.Id.valor)
+                    ])
+
+                    # Popula os valores para criar/alterar o registro intermediário do totalizador
+                    vals_intermediario_totalizador = {
+                        'company_id': sped_registro.company_id.id,
+                        'id_evento': tot.eSocial.evento.Id.valor,
+                        'periodo_id': sped_registro.origem_intermediario.periodo_id.id,
+                        'ind_exist_info': tot.eSocial.evento.infoIRRF.indExistInfo.valor,
+                        'sped_registro_s1299': sped_registro.id,
+                    }
+
+                    # Cria/Altera o registro intermediário
+                    if sped_intermediario:
+                        sped_intermediario.write(vals_intermediario_totalizador)
+                    else:
+                        sped_intermediario = self.env['sped.irrf.consolidado'].create(vals_intermediario_totalizador)
+
+                    # Popula os valores para criar/alterar o sped.registro do totalizador
+                    vals_registro_totalizador = {
+                        'tipo': 'esocial',
+                        'registro': 'S-5012',
+                        'evento': 'evtIrrf',
+                        'operacao': 'na',
+                        'ambiente': sped_registro.ambiente,
+                        'origem': ('sped.irrf.consolidado,%s' % sped_intermediario.id),
+                        'origem_intermediario': ('sped.irrf.consolidado,%s' % sped_intermediario.id),
+                        'company_id': sped_registro.company_id.id,
+                        'id_evento': tot.eSocial.evento.Id.valor,
+                        'situacao': '4',
+                        'recibo': tot.eSocial.evento.infoIRRF.nrRecArqBase.valor,
+                    }
+
+                    # Cria/Altera o sped.registro do totalizador
+                    if sped_s5012:
+                        sped_s5012.write(vals_registro_totalizador)
+                    else:
+                        sped_s5012 = self.env['sped.registro'].create(vals_registro_totalizador)
+
+                    # Popula o intermediário totalizador com o registro totalizador
+                    sped_intermediario.sped_registro_s5012 = sped_s5012
+
+                    # Popula o intermediário S1299 com o intermediário totalizador
+                    self.s5012_id = sped_intermediario
+
+                    # Popula o XML em anexo no sped.registro totalizador
+                    if sped_s5012.consulta_xml_id:
+                        consulta = sped_s5012.consulta_xml_id
+                        sped_s5012.consulta_xml_id = False
+                        consulta.unlink()
+                    consulta_xml = tot.eSocial.xml
+                    consulta_xml_nome = sped_s5012.id_evento + '-consulta.xml'
+                    anexo_id = sped_registro._grava_anexo(consulta_xml_nome, consulta_xml)
+                    sped_s5012.consulta_xml_id = anexo_id
+
+                    # Limpa a tabela sped.irrf.consolidado.infocrcontrib
+                    for infocrcontrib in sped_intermediario.infocrcontrib_ids:
+                        infocrcontrib.unlink()
+
+                    # Popula a tabela sped.irrf.consolidado.inocrcontrib com os valores apurados no S-5012
+                    for infocrcontrib in tot.eSocial.evento.infoIRRF.infoCRContrib:
+
+                        vals = {
+                            'parent_id': sped_intermediario.id,
+                            'tp_cr': infocrcontrib.tpCR.valor,
+                            'vr_cr': infocrcontrib.vrCR.valor,
+                        }
+
+                        self.env['sped.irrf.consolidado.infocrcontrib'].create(vals)
