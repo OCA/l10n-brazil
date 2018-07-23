@@ -41,3 +41,4 @@ access_alteracao_contrato_esocial,Alterar Contrato(e-Social),model_sped_esocial_
 access_contrato_autonomo_esocial,Alterar Contrato Autonomo(e-Social),model_sped_esocial_contrato_autonomo,base.group_hr_user,1,1,1,1
 access_alteracao_contrato_autonomo_esocial, Alterar Contrato(e-Social),model_sped_esocial_alteracao_contrato_autonomo,base.group_hr_user,1,1,1,1
 access_sped_afastamento_temporario_rh_user,SPED Afastamento Temporário(Oficial RH),model_sped_esocial_afastamento_temporario,base.group_hr_user,1,1,1,1
+access_res_company_gerente_sped,Gerente SPED(Escrita),base.model_res_company,sped_tabelas.group_manager,1,1,0,0
