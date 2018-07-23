@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
 <odoo>
 
-    <record id="l10n_br_account_product_payment_term_form" model="ir.ui.view">
-        <field name="name">l10n_br_account_product.payment.term.form</field>
+    <record model="ir.ui.view" id="account_payment_term_tree_view">
+        <field name="name">account.payment.tree.form (in l10n_br_account_product)</field>
+        <field name="model">account.payment.term</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name" string="Payment Term"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_payment_term_search_view">
+        <field name="name">account.payment.term.search (in l10n_br_account_product)</field>
+        <field name="model">account.payment.term</field>
+        <field name="inherit_id" ref="account.view_payment_term_search"/>
+        <field name="arch" type="xml">
+            <field name="name" position="replace">
+                <field name="display_name" string="Payment Term"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_payment_term_form_view">
+        <field name="name">account.payment.term.form (in l10n_br_account_product)</field>
         <field name="model">account.payment.term</field>
         <field name="inherit_id" ref="account.view_payment_term_form"/>
         <field name="arch" type="xml">
             <field name="active" position="after">
-                <field name="indPag" required="1"/>
+                <field name="ind_forma_pagamento"/>
+                <newline/>
+                <field name="forma_pagamento"/>
             </field>
+            <xpath expr="//label[@for='note']" position="before">
+                 <group name="cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ('03', '04'))]}" string="Cartão de crédito/débito" >
+                    <field name="card_brand" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}"/>
+                    <field name="card_integration" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}"/>
+                    <field name="partner_id" domain="[('cnpj_cpf', '!=', False)]" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}"/>
+                 </group>
+            </xpath>
         </field>
     </record>
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+        <record id="l10n_br_account_payment_term_no_payment" model="account.payment.term">
+            <field name="name">Sem pagamento</field>
+            <field name="note">Sem pagamento</field>
+            <field name="ind_forma_pagamento">2</field>
+            <field name="forma_pagamento">90</field>
+        </record>
+
+</odoo>

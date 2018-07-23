@@ -24,6 +24,7 @@
         'data/l10n_br_account_product_data.xml',
         'data/l10n_br_tax.icms_partition.csv',
         'data/ir_cron.xml',
+        'data/account_payment_term_data.xml',
         'data/l10n_br_account_product_cst_data.xml',
         'views/l10n_br_account_fiscal_category_view.xml',
         'views/l10n_br_account_partner_fiscal_type_view.xml',
