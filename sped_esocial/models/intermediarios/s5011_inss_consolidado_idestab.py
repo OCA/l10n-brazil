@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, models, fields
-from .sped_registro_intermediario import SpedRegistroIntermediario
+from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError

@@ -6,7 +6,7 @@ import pysped
 from openerp import api, fields, models
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
-from .sped_registro_intermediario import SpedRegistroIntermediario
+from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 
 class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):

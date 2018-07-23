@@ -4,7 +4,7 @@
 
 
 from openerp import api, models, fields
-from .sped_registro_intermediario import SpedRegistroIntermediario
+from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 import pysped

@@ -7,7 +7,7 @@ from openerp import api, models, fields
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
 
-from .sped_registro_intermediario import SpedRegistroIntermediario
+from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 
 class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
