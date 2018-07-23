@@ -471,13 +471,13 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # Afastamento = pysped.esocial.leiaute.S2300_Afastamento_2()
         # Afastamento.dtIniAfast = ''
         # Afastamento.codMotAfast = ''
-        # S2300.evento.InfoTSVInicio.afastamento.append(Afastamento)
+        # S2300.evento.infoTSVInicio.afastamento.append(Afastamento)
 
         # InfoTSVInicio.Termino
         if self.hr_contract_id.date_end:
             Termino = pysped.esocial.leiaute.S2300_Termino_2()
-            Termino.dtTerm = self.hr_contract_id.date_end
-            S2300.evento.InfoTSVInicio.termino.append(Termino)
+            Termino.dtTerm.valor = self.hr_contract_id.date_end
+            S2300.evento.infoTSVInicio.termino.append(Termino)
 
         S2300.evento.infoTSVInicio.infoComplementares.append(InfoComplementares)
         return S2300
