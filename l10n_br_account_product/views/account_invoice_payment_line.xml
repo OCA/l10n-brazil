@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="account_invoice_payment_line_tree_view">
+        <field name="name">account.invoice.payment.line.tree (in l10n_br_account)</field>
+        <field name="model">account.invoice.payment.line</field>
+        <field name="arch" type="xml">
+            <tree string="Dados da cobrança">
+                <field name="currency_id" invisible="1"/>
+                <field name="number"/>
+                <field name="date_due"/>
+                <field name="amount" sum="amount"/>
+            </tree>
+        </field>
+    </record>
+
+</data>
+</openerp>

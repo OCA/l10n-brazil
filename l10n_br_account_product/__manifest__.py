@@ -36,6 +36,8 @@
         'views/l10n_br_tax_icms_partition_view.xml',
         'views/account_tax_template_view.xml',
         'views/account_payment_term_view.xml',
+        'views/account_invoice_payment.xml',
+        'views/account_invoice_payment_line.xml',
         'views/account_tax_view.xml',
         'views/account_payment_term_view.xml',
         'views/account_invoice_view.xml',
