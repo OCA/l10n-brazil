@@ -75,6 +75,7 @@
         'views/intermediarios/s2306_alteracao_contrato_trabalhador_sem_vinculo.xml',
         'views/intermediarios/s5001_contribuicao_social_trabalhador.xml',
         'views/intermediarios/s5002_imposto_renda_retido_fonte.xml',
+        'views/intermediarios/s5011_inss_consolidado.xml',
 
         # Segurança
         'security/ir.model.access.csv',

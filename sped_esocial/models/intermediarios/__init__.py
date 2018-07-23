@@ -36,3 +36,6 @@ from . import s5001_ideestablot
 from . import s5002_imposto_renda_retido_fonte
 from . import s5002_basesirrf
 from . import s5002_infoirrf
+from . import s5011_inss_consolidado
+from . import s5011_inss_consolidado_idestab
+from . import s5011_inss_consolidado_idestab_basesremun
