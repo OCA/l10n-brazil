@@ -8,7 +8,7 @@ from datetime import datetime
 
 class SpedEfdReinfNFS(models.Model):
     _name = 'sped.efdreinf.nfs'
-    _description = 'NFs de Eventos Periódicos EFD/Reinf'
+    _description = u'NFs de Eventos Periódicos EFD/Reinf'
     _rec_name = 'nome'
     _order = "nome"
 

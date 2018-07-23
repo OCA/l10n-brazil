@@ -8,7 +8,7 @@ from datetime import datetime
 
 class SpedEfdReinfServico(models.Model):
     _name = 'sped.efdreinf.servico'
-    _description = 'Serviços de NFs de Eventos Periódicos EFD/Reinf'
+    _description = u'Serviços de NFs de Eventos Periódicos EFD/Reinf'
     _rec_name = 'nome'
     _order = "nome"
 

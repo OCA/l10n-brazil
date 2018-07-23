@@ -8,7 +8,7 @@ from openerp.exceptions import ValidationError
 
 class SpedEfdReinf(models.Model):
     _name = 'sped.efdreinf'
-    _description = 'Eventos Periódicos EFD/Reinf'
+    _description = u'Eventos Periódicos EFD/Reinf'
     _rec_name = 'nome'
     _order = "nome DESC"
     _sql_constraints = [
@@ -308,6 +308,7 @@ class SpedEfdReinf(models.Model):
                         ('efdreinf_id', '=', self.id),
                         ('estabelecimento_id', '=', empresa.id),
                         ('prestador_id', '=', prestador_id.id),
+                        ('periodo_id', '=', self.periodo_id.id)
                     ]
                     estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].search(domain)
 
@@ -317,6 +318,7 @@ class SpedEfdReinf(models.Model):
                             'efdreinf_id': self.id,
                             'estabelecimento_id': empresa.id,
                             'prestador_id': prestador_id.id,
+                            'periodo_id': self.periodo_id.id,
                             'ind_cprb': ind_cprb,
                         }
                         estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].create(vals)
@@ -411,7 +413,14 @@ class SpedEfdReinf(models.Model):
                     'ambiente': self.company_id.tpAmb,
                     'company_id': self.company_id.id,
                     'evento': 'evtServTom',
-                    'origem': ('sped.efdreinf.estabelecimento,%s' % estabelecimento.id),
+                    'origem': (
+                            'sped.efdreinf.estabelecimento,%s' %
+                            estabelecimento.id
+                    ),
+                    'origem_intermediario': (
+                            'sped.efdreinf.estabelecimento,%s' %
+                            estabelecimento.id
+                    ),
                 }
 
                 sped_r2010_registro = self.env['sped.registro'].create(values)
@@ -430,6 +439,7 @@ class SpedEfdReinf(models.Model):
                 'company_id': self.company_id.id,
                 'evento': 'evtFechamento',
                 'origem': ('sped.efdreinf,%s' % efdreinf.id),
+                'origem_intermediario': ('sped.efdreinf,%s' % efdreinf.id),
             }
 
             sped_r2099_registro = self.env['sped.registro'].create(values)

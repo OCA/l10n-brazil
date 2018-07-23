@@ -5,3 +5,5 @@ sped_efdreinf_sped_efdreinf_servico,sped_efdreinf.sped_efdreinf_servico,model_sp
 sped_efdreinf_sped_efdreinf,sped_efdreinf.sped_efdreinf,model_sped_efdreinf,account.group_account_user,1,1,1,1
 access_r1000_operador,Operador R-1000(Leitura),model_sped_efdreinf_contribuinte,sped_tabelas.group_user,1,0,0,0
 access_r1000_gerente,Gerente R-1000(Escrita),model_sped_efdreinf_contribuinte,sped_tabelas.group_manager,1,1,1,1
+access_r2010_operador,Operador R-2010(Leitura),model_sped_efdreinf_estabelecimento,sped_tabelas.group_user,1,0,0,0
+access_r2010_gerente,Gerente R-2010(Escrita),model_sped_efdreinf_estabelecimento,sped_tabelas.group_manager,1,1,1,1
