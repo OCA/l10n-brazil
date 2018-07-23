@@ -392,6 +392,15 @@ class AccountInvoice(models.Model):
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
+    account_payment_ids = fields.One2many(
+        string='Dados de Pagamento',
+        comodel_name='account.invoice.payment',
+        inverse_name='invoice_id',
+    )
+    account_payment_line_ids = fields.One2many(
+        string='Dados da cobrança',
+        comodel_name='account.invoice.payment.line',
+        inverse_name='invoice_id',
     )
 
     @api.one
@@ -519,6 +528,15 @@ class AccountInvoice(models.Model):
                      'date_hour_invoice': date_time_invoice,
                      'date_in_out': date_in_out}
                 )
+
+                if not invoice.account_payment_ids and invoice.nfe_version == '4.00':
+                    raise UserError(
+                        _(u'A nota fiscal deve conter dados de pagamento')
+                    )
+
+                for item, payment in enumerate(invoice.account_payment_line_ids):
+                    payment.number = str(item + 1).zfill(3)
+
         return True
 
     @api.onchange('type')
