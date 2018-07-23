@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="account_invoice_payment_tree_view">
+        <field name="name">account.invoice.payment.tree (in l10n_br_account)</field>
+        <field name="model">account.invoice.payment</field>
+        <field name="arch" type="xml">
+            <tree string="Payments">
+                <field name="currency_id" invisible="1"/>
+                <field name="sequence" widget="handle"/>
+                <field name="payment_term_id" />
+                <field name="amount" sum="amount" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_invoice_payment_form_view">
+        <field name="name">account.invoice.payment.form (in l10n_br_account)</field>
+        <field name="model">account.invoice.payment</field>
+        <field name="arch" type="xml">
+            <form string="Payments">
+                <field name="currency_id" invisible="1"/>
+                <field name="forma_pagamento" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="card_brand" invisible="1"/>
+                <field name="card_integration" invisible="1"/>
+                <field name="cnpj_cpf" invisible="1"/>
+                <group name="dados_pagamento">
+                    <group>
+                        <field name="amount" required="1"/>
+                    </group>
+                    <group name="cartoes" attrs="{'invisible': [('forma_pagamento', 'not in', ('03', '04'))]}" string="Cartão de crédito/débito">
+                        <field name="autorizacao"/>
+                        <field name="nsu"/>
+                    </group>
+                    <group colspan="4" col="4" name="condicao_pagamento">
+                        <field name="payment_term_id" colspan="4"/>
+                    </group>
+                </group>
+                <separator string="Vencimentos"/>
+                <field name="item_ids" editable="bottom"/>
+            </form>
+        </field>
+    </record>
+
+</data>
+</openerp>

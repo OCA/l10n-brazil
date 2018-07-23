@@ -13,3 +13,5 @@ from . import product
 from . import res_country
 from . import account_payment
 from . import account_invoice_term
+from . import account_invoice_payment
+from . import account_invoice_payment_line
