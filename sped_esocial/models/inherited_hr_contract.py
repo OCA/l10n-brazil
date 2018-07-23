@@ -20,12 +20,19 @@ class HrContract(models.Model):
         ],
     )
     cad_ini = fields.Selection(
-        string='Cad.Inicial de Vínculo',
+        string='Cadastro Inicial de Vínculo',
         selection=[
             ('N', 'Não (Admissão)'),
             ('S', 'Sim (Cadastramento Inicial)'),
         ],
         default='N',
+        help='Indicar se o evento se refere a cadastramento inicial de vínculo'
+             ' (o ingresso do trabalhador no empregador declarante, por '
+             'admissão ou transferência, é anterior à data de início da '
+             'obrigatoriedade de envio de seus eventos não periódicos) ou se '
+             'refere a uma admissão (o ingresso do trabalhador no empregador'
+             ' declarante é igual ou posterior à data de início de '
+             'obrigatoriedade de envio de seus eventos não periódicos)',
     )
     tp_reg_jor = fields.Selection(
         string='Regime de Jornada',
