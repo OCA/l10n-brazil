@@ -51,57 +51,64 @@ class ResCompany(models.Model):
     cttemail = fields.Char(
         string='Email do Contato',
     )
-    sped_r1000 = fields.Boolean(
-        string='Ativação EFD/Reinf',
-        compute='_compute_sped_r1000',
-    )
-    sped_r1000_registro = fields.Many2one(
+    sped_r1000 = fields.Many2one(
         string='Registro R-1000 - Informações do Contribuinte',
-        comodel_name='sped.registro',
+        comodel_name='sped.efdreinf.contribuinte',
     )
     sped_r1000_situacao = fields.Selection(
         string='Situação R-1000',
         selection=[
-            ('1', 'Pendente'),
-            ('2', 'Transmitida'),
-            ('3', 'Erro(s)'),
-            ('4', 'Sucesso'),
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
         ],
-        related='sped_r1000_registro.situacao',
+        related='sped_r1000.situacao',
         readonly=True,
     )
-    sped_r1000_data_hora = fields.Datetime(
-        string='Data/Hora',
-        related='sped_r1000_registro.data_hora_origem',
-        readonly=True,
-    )
-    periodo_id = fields.Many2one(
+
+    # Ativação do e-Social para a empresa mãe (Registro S-1000)
+    reinf_periodo_inicial_id = fields.Many2one(
         string='Período Inicial',
         comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
+    )
+    reinf_periodo_atualizacao_id = fields.Many2one(
+        string='Período da Última Atualização',
+        comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
+    )
+    reinf_periodo_final_id = fields.Many2one(
+        string='Período Final',
+        comodel_name='account.period',
+        domain=lambda self: self._field_id_domain(),
     )
 
-    @api.depends('sped_r1000_registro')
-    def _compute_sped_r1000(self):
-        for empresa in self:
-            empresa.sped_r1000 = True if empresa.sped_r1000_registro else False
+    @api.model
+    def _field_id_domain(self):
+        """
+        Dominio para buscar os registros maiores que 01/2017
+        """
+        domain = [
+            ('date_start', '>=', '2017-01-01'),
+            ('special', '=', False)
+        ]
+
+        return domain
 
     @api.multi
-    def criar_r1000(self):
+    def atualizar_reinf(self):
         self.ensure_one()
-        if self.sped_r1000_registro:
-            raise ValidationError('Esta Empresa já ativou o EFD/Reinf')
 
-        values = {
-            'tipo': 'efdreinf',
-            'registro': 'R-1000',
-            'ambiente': self.tpAmb,
-            'company_id': self.id,
-            'evento': 'evtInfoContribuinte',
-            'origem': ('res.company,%s' % self.id),
-        }
+        # Se o registro intermediário do R-1000 não existe, criá-lo
+        if not self.sped_r1000:
+            self.sped_r1000 = self.env['sped.efdreinf.contribuinte'].create(
+                {'company_id': self.id})
 
-        sped_r1000_registro = self.env['sped.registro'].create(values)
-        self.sped_r1000_registro = sped_r1000_registro
+        # Processa cada tipo de operação do R-1000 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_r1000.atualizar_reinf()
 
     @api.multi
     def processador_efd_reinf(self):

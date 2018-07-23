@@ -7,5 +7,11 @@
                   sequence="85"
                   parent="sped_tabelas.menu_sped"
         />
+        <menuitem id="menu_sped_efdreinf_intermediarios"
+                  name="Intermediários"
+                  sequence="100"
+                  parent="menu_sped_efdreinf"
+        />
+
     </data>
 </openerp>

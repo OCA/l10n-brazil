@@ -22,21 +22,18 @@
                                 <field name="cttfonefixo" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
                                 <field name="cttfonecel" />
                                 <field name="cttemail" />
-                                <field name="periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
-                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
-                                       options="{'no_create': True, 'no_open': True}"
-                                />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_r1000" />
-                                <field name="sped_r1000_registro" />
-                                <field name="sped_r1000_situacao" />
+                                <field name="sped_r1000" readonly="1"/>
+                                <field name="sped_r1000_situacao" readonly="1"/>
+                                <field name="reinf_periodo_inicial_id" required="1"/>
+                                <field name="reinf_periodo_atualizacao_id" />
+                                <field name="reinf_periodo_final_id" />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_r1000_data_hora" />
-                                <button name="criar_r1000" colspan="4" type="object"
-                                        string="Enviar R-1000 - Informações do Contribuinte"
-                                        attrs="{'invisible': [('sped_r1000_registro', '!=', False)]}" />
+                                <button name="atualizar_reinf" colspan="4" type="object"
+                                        string="Ativar Contribuinte - EFD Reinf"
+                                        attrs="{'invisible': [('sped_r1000', '!=', False)]}" />
                             </group>
                         </group>
                     </page>

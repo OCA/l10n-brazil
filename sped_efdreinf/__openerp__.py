@@ -41,6 +41,8 @@
         'views/inherited_product_template.xml',
         'views/inherited_res_company.xml',
 
+        # View/intermediários
+        'views/intermediarios/r1000_informacoes_contribuinte_view.xml',
         # Segurança
         'security/ir.model.access.csv',
 

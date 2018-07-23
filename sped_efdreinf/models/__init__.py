@@ -19,6 +19,8 @@
 #
 ##############################################################################
 
+import intermediarios
+
 from . import sped_efdreinf
 from . import sped_efdreinf_nfs
 from . import sped_efdreinf_estabelecimento
