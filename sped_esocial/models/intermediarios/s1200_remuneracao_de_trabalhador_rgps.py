@@ -43,6 +43,10 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         string='Holerites',
         comodel_name='hr.payslip',
     )
+    payslip_autonomo_ids = fields.Many2many(
+        string='Holerites de Autônomos',
+        comodel_name='hr.payslip.autonomo',
+    )
     contratos = fields.Integer(
         string='Contratos',
         compute='_compute_qtd',
@@ -72,11 +76,12 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                 codigo += ')'
             esocial.codigo = codigo
 
-    @api.depends('contract_ids', 'payslip_ids')
+    @api.depends('contract_ids', 'payslip_ids', 'payslip_autonomo_ids')
     def _compute_qtd(self):
         for esocial in self:
             esocial.contratos = 0 if not esocial.contract_ids else len(esocial.contract_ids)
             esocial.remuneracoes = 0 if not esocial.payslip_ids else len(esocial.payslip_ids)
+            esocial.remuneracoes_autonomos = 0 if not esocial.payslip_autonomo_ids else len(esocial.payslip_autonomo_ids)
 
     # Campos de controle e-Social, registros Periódicos
     sped_registro = fields.Many2one(
@@ -186,7 +191,9 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         # info_interm.
 
         # Popula dmDev (1 para cada payslip)
-        for payslip in self.payslip_ids:
+
+        remuneracoes_ids = self.payslip_ids or self.payslip_autonomo_ids
+        for payslip in remuneracoes_ids:
             dm_dev = pysped.esocial.leiaute.S1200_DmDev_2()
             dm_dev.ideDmDev.valor = payslip.number
             dm_dev.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
@@ -204,7 +211,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                                                  # lidar com isso na res.company
 
             # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
-            for line in payslip.line_ids:
+            for line in remuneracoes_ids.line_ids:
 
                 # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
                 # ser transmitida para o e-Social.
