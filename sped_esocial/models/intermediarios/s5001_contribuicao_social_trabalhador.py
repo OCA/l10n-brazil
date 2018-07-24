@@ -46,6 +46,10 @@ class SpedContribuicaoInss(models.Model, SpedRegistroIntermediario):
         string='S-1200',
         comodel_name='sped.registro',
     )
+    sped_registro_s2399 = fields.Many2one(
+        string='S-2399',
+        comodel_name='sped.registro',
+    )
     infocpcalc_ids = fields.One2many(
         string='Cálculo da Contribuição Previdenciária do Segurado',
         comodel_name='sped.contribuicao.inss.infocpcalc',

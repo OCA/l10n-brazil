@@ -206,9 +206,13 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
             # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur
             remun_per_apur = pysped.esocial.leiaute.S1200_RemunPerApur_2()
-            remun_per_apur.matricula.valor = payslip.contract_id.matricula
-            # remun_per_apur.indSimples.valor =  # TODO Somente para quando a empresa for do Simples
-                                                 # lidar com isso na res.company
+
+            # Só preencher matricula de EMPREGADO com vinculo
+            if payslip.contract_id.tipo != 'autonomo':
+                remun_per_apur.matricula.valor = payslip.contract_id.matricula
+
+            # Somente para quando a empresa for do Simples
+            # remun_per_apur.indSimples.valor =
 
             # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
             for line in remuneracoes_ids.line_ids:
@@ -249,9 +253,15 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # nocivos que ensejam cobrança da contribuição adicional para financiamento dos benefícios de
             # aposentadoria especial.
             #
-            info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
-            info_ag_nocivo.grauExp.valor = '1'  # TODO inserir um campo em algum lugar (no contrato talvez)
-            remun_per_apur.infoAgNocivo.append(info_ag_nocivo)
+
+            # Preencher com o código que representa o grau de exposição a
+            # agentes nocivos, conforme tabela 2. Preencher apenas para
+            # trabalhadores com vinculo S2200
+            if payslip.contract_id.tipo != 'autonomo':
+                info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
+                # Inserir um campo em algum lugar (no contrato talvez)
+                info_ag_nocivo.grauExp.valor = 1
+                remun_per_apur.infoAgNocivo.append(info_ag_nocivo)
 
             # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoTrabInterm  # TODO Quando tivermos controle
             # #                                                                   # trabalho intermitente

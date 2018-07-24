@@ -43,6 +43,10 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
         string='Holerites',
         comodel_name='hr.payslip',
     )
+    payslip_autonomo_ids = fields.Many2many(
+        string='Holerites',
+        comodel_name='hr.payslip.autonomo',
+    )
     contratos = fields.Integer(
         string='Contratos',
         compute='_compute_qtd',
@@ -166,7 +170,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             S1210.evento.ideBenef.vrDedDep.valor = formata_valor(dependentes * valor)
 
         # Popula infoPgto (1 para cada payslip)
-        for payslip in self.payslip_ids:
+        for payslip in self.payslip_ids or self.payslip_autonomo_ids:
             info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
 
             # TODO Identificar a data do pagamento de acordo com o arquivo CNAB
