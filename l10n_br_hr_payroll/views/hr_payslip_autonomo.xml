@@ -19,24 +19,22 @@
                 </header>
                 <sheet>
                     <group>
-                    <div colspan="4" col="4">
-                        <label for="contract_id" class="oe_edit_only"/>
-                        <h1><field name="contract_id" required="True" /></h1>
-                    </div>
+                        <div colspan="4" col="4">
+                            <label for="contract_id" class="oe_edit_only"/>
+                            <h1><field name="contract_id" required="True" /></h1>
+                        </div>
                     </group>
+
                     <group>
                         <field name="employee_id" invisible="True" />
                         <field name="struct_id" invisible="True"/>
                     </group>
-                    <gorup>
-                        <group colspan="2">
-                            <field name="mes_do_ano" />
-                            <field name="ano" />
-                        </group>
+
+                    <group>
                         <group>
-                            <field name="data_pagamento_autonomo" />
+                            <field name="mes_do_ano" class="oe_inline"/> <field name="ano" class="oe_inline" required="True" />
                         </group>
-                    </gorup>
+                    </group>
 
                     <group col="4">
                         <label for="date_from" string="Período de Referência"/>
@@ -45,11 +43,13 @@
                         </div>
                     </group>
 
-                    <gorup>
+                    <group>
                         <group>
+                            <field name="data_pagamento_autonomo" />
+                            <field name="number" />
                             <field name="company_id" />
                         </group>
-                    </gorup>
+                    </group>
 
 
                     <!-- Adiciona abas -->
@@ -133,6 +133,7 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="hr_payslip_autonomo_tree_view"/>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'default_tipo_de_folha': 'normal'}</field>
         </record>
 
         <!-- RPA Menu -->

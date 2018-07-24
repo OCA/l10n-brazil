@@ -35,7 +35,6 @@
                             <group>
                                 <field name="type_id" options="{'no_create': True, 'no_open': True}" required="1"/>
                                 <field name="categoria"/>
-                                <field name="labor_regime_id" options="{'no_create': True, 'no_open': True}" required="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -71,6 +70,7 @@
                     <field name="company_id"/>
                     <field name="job_id"/>
                     <field name="date_start"/>
+                    <field name="date_end"/>
                 </tree>
             </field>
         </record>

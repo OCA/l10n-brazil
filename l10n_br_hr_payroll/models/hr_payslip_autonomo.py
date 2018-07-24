@@ -108,7 +108,7 @@ class HrPayslipAutonomo(models.Model):
         string='Date To',
         #readonly=True,
         #states={'draft': [('readonly', False)]},
-        required=True,
+        required=False,
         #compute='_compute_set_dates',
         #store=True,
     )
@@ -210,6 +210,13 @@ class HrPayslipAutonomo(models.Model):
 
     data_pagamento_autonomo = fields.Date(
         string=u'Data de Pagamento',
+    )
+
+    number = fields.Char(
+        string='Reference',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        copy=False
     )
 
     @api.multi
@@ -322,6 +329,7 @@ class HrPayslipAutonomo(models.Model):
         for record in self:
             record._buscar_payslip_line()
             record.state = 'done'
+            record.number = self.env['ir.sequence'].get('salary.slip')
 
     @api.multi
     def unlink(self):
@@ -353,6 +361,8 @@ class HrPayslipAutonomo(models.Model):
 
     @api.model
     def _compute_sheet_autonomo(self):
+        """
+        """
         for holerite in self:
             holerite._buscar_payslip_line()
 
