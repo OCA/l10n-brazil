@@ -310,7 +310,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
                         registro = r
 
             if not registro:
-                if self.sped_exclusao in ['1', '3']:
+                if self.sped_exclusao.situacao in ['1', '3']:
                     registro = self.sped_exclusao
 
             # Com o registro identificado, é só rodar o método transmitir_lote() do registro

@@ -9,8 +9,10 @@ from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
 
 class ResCompany(models.Model):
-
     _inherit = 'res.company'
+    _sql_constraints = [
+        ('cod_lotacao unique', 'unique(cod_lotacao)', 'Este Código de Lotação Tributária já existe !'),
+    ]
 
     # Campos de controle S-1000
     sped_empregador_id = fields.Many2one(
@@ -19,15 +21,20 @@ class ResCompany(models.Model):
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
+            ('0', 'Inativo'),
+            ('1', 'Ativo'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado'),
         ],
-        string='Situação no e-Social',
+        string='Situação Empregador no e-Social',
         related='sped_empregador_id.situacao_esocial',
         readonly=True,
+    )
+    precisa_atualizar = fields.Boolean(
+        string='Precisa Atualizar',
     )
 
     # Campos de controle S-1005
@@ -37,15 +44,20 @@ class ResCompany(models.Model):
     )
     situacao_estabelecimento_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
+            ('0', 'Inativo'),
+            ('1', 'Ativo'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado'),
         ],
-        string='Situação no e-Social',
+        string='Situação Estabelecimento no e-Social',
         related='sped_estabelecimento_id.situacao_esocial',
         readonly=True,
+    )
+    precisa_atualizar_estabelecimento = fields.Boolean(
+        string='Precisa Atualizar',
     )
 
     # Campos de controle S-1020
@@ -55,15 +67,20 @@ class ResCompany(models.Model):
     )
     situacao_lotacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
+            ('0', 'Inativo'),
+            ('1', 'Ativo'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado'),
         ],
-        string='Situação no e-Social',
+        string='Situação Lotação Tributária no e-Social',
         related='sped_lotacao_id.situacao_esocial',
         readonly=True,
+    )
+    precisa_atualizar_lotacao = fields.Boolean(
+        string='Precisa Atualizar',
     )
 
     # Campos de dados diversos
@@ -154,14 +171,14 @@ class ResCompany(models.Model):
         string='Tipo de Lotação Tributária',
         comodel_name='sped.lotacao_tributaria',
     )
-    tp_insc_id = fields.Many2one(
-        string='Tipo de Inscrição',
-        comodel_name='sped.tipos_inscricao',
-    )
-    nr_insc = fields.Char(
-        string='Número de Inscrição',
-        size=15,
-    )
+    # tp_insc_id = fields.Many2one(
+    #     string='Tipo de Inscrição',
+    #     comodel_name='sped.tipos_inscricao',
+    # )
+    # nr_insc = fields.Char(
+    #     string='Número de Inscrição',
+    #     size=15,
+    # )
     fpas_id = fields.Many2one(
         string='Código FPAS',
         comodel_name='sped.codigo_aliquota',
@@ -288,6 +305,30 @@ class ResCompany(models.Model):
         store=True,
     )
 
+    @api.onchange('esocial_periodo_inicial_id')
+    def onchange_esocial_periodo_inicial_id(self):
+        self.ensure_one()
+        if not self.esocial_periodo_atualizacao_id or \
+                self.esocial_periodo_atualizacao_id.date_start < \
+                self.esocial_periodo_inicial_id.date_start:
+            self.esocial_periodo_atualizacao_id = self.esocial_periodo_inicial_id
+
+    @api.onchange('estabelecimento_periodo_inicial_id')
+    def onchange_estabelecimento_periodo_inicial_id(self):
+        self.ensure_one()
+        if not self.estabelecimento_periodo_atualizacao_id or \
+                self.estabelecimento_periodo_atualizacao_id.date_start < \
+                self.estabelecimento_periodo_inicial_id.date_start:
+            self.estabelecimento_periodo_atualizacao_id = self.estabelecimento_periodo_inicial_id
+
+    @api.onchange('lotacao_periodo_inicial_id')
+    def onchange_lotacao_periodo_inicial_id(self):
+        self.ensure_one()
+        if not self.lotacao_periodo_atualizacao_id or \
+                self.lotacao_periodo_atualizacao_id.date_start < \
+                self.lotacao_periodo_inicial_id.date_start:
+            self.lotacao_periodo_atualizacao_id = self.lotacao_periodo_inicial_id
+
     @api.depends('cnpj_cpf')
     def _compute_cnpj_cpf_limpo(self):
         for company in self:
@@ -306,16 +347,28 @@ class ResCompany(models.Model):
         return domain
 
     @api.multi
-    def atualizar_esocial(self):
+    def atualizar_empregador(self):
         self.ensure_one()
 
         # Se o registro intermediário do S-1000 não existe, criá-lo
         if not self.sped_empregador_id:
-            self.sped_empregador_id = self.env['sped.empregador'].create({'company_id': self.id})
+
+            # Verifica se o registro intermediário já existe
+            domain = [
+                ('company_id', '=', self.id),
+            ]
+            sped_empregador_id = self.env['sped.empregador'].search(domain)
+            if sped_empregador_id:
+                self.sped_empregador_id = sped_empregador_id
+            else:
+                self.sped_empregador_id = \
+                    self.env['sped.empregador'].create({
+                        'company_id': self.id,
+                    })
 
         # Processa cada tipo de operação do S-1000 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_empregador_id.atualizar_esocial()
+        self.sped_empregador_id.gerar_registro()
 
     @api.multi
     def atualizar_estabelecimento(self):
@@ -323,15 +376,26 @@ class ResCompany(models.Model):
 
         # Se o registro intermediário do S-1005 não existe, criá-lo
         if not self.sped_estabelecimento_id:
-            matriz = self.id if self.eh_empresa_base else self.matriz.id
-            self.sped_estabelecimento_id = self.env['sped.estabelecimentos'].create({
-                'company_id': matriz,
-                'estabelecimento_id': self.id,
-            })
+
+            # Verifica se o registro intermediário já existe
+            matriz = self if self.eh_empresa_base else self.matriz
+            domain = [
+                ('company_id', '=', matriz.id),
+                ('estabelecimento_id', '=', self.id),
+            ]
+            sped_estabelecimento_id = self.env['sped.estabelecimentos'].search(domain)
+            if sped_estabelecimento_id:
+                self.sped_estabelecimento_id = sped_estabelecimento_id
+            else:
+                self.sped_estabelecimento_id = \
+                    self.env['sped.estabelecimentos'].create({
+                        'company_id': matriz.id,
+                        'estabelecimento_id': self.id,
+                    })
 
         # Processa cada tipo de operação do S-1005 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_estabelecimento_id.atualizar_esocial()
+        self.sped_estabelecimento_id.gerar_registro()
 
     @api.multi
     def atualizar_lotacao(self):
@@ -339,11 +403,21 @@ class ResCompany(models.Model):
 
         # Se o registro intermediário do S-1020 não existe, criá-lo
         if not self.sped_lotacao_id:
-            matriz = self.id if self.eh_empresa_base else self.matriz.id
-            self.sped_lotacao_id = self.env['sped.esocial.lotacao'].create({
-                'company_id': matriz,
-                'lotacao_id': self.id,
-            })
+
+            # Verifica se o registro intermediário já existe
+            matriz = self if self.eh_empresa_base else self.matriz
+            domain = [
+                ('company_id', '=', matriz.id),
+                ('lotacao_id', '=', self.id),
+            ]
+            sped_lotacao_id = self.env['sped.esocial.lotacao'].search(domain)
+            if sped_lotacao_id:
+                self.sped_lotacao_id = sped_lotacao_id
+            else:
+                self.sped_lotacao_id = self.env['sped.esocial.lotacao'].create({
+                    'company_id': matriz.id,
+                    'lotacao_id': self.id,
+                })
 
         # Processa cada tipo de operação do S-1020 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
@@ -358,3 +432,135 @@ class ResCompany(models.Model):
 
         if self.nfe_a1_file:
             processador.certificado = self.certificado_nfe()
+
+    @api.model
+    def write(self, vals):
+
+        # Lista os campos que são monitorados do Empregador
+        campos_monitorados = [
+            'cnpj_cpf',                         # //eSocial/evtInfoEmpregador/ideEmpregador/nrInsc
+            'esocial_periodo_inicial_id',       # //eSocial/evtInfoEmpregador/infoEmpregador//idePeriodo/iniValid
+            'esocial_periodo_atualizacao_id',   # //eSocial/evtInfoEmpregador/infoEmpregador//novaValidade/iniValid
+            'esocial_periodo_final_id',         # //eSocial/evtInfoEmpregador/infoEmpregador//idePeriodo/fimValid
+            'legal_name',                       # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/nmRazao
+            'classificacao_tributaria_id',      # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/classTrib
+            'natureza_juridica_id',             # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/natJurid
+            'ind_coop',                         # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/indCoop
+            'ind_constr',                       # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/indConstr
+            'ind_desoneracao',                  # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/indDesFolha
+            'ind_opt_reg_eletron',              # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/indOptRegEletron
+            'ind_ent_ed',                       # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/indEntEd
+            'ind_ett',                          # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/indEtt
+            'nr_reg_ett',                       # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/nrRegEtt
+            'esocial_nm_ctt',                   # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/contato/nmCtt
+            'esocial_cpf_ctt',                  # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/contato/cpfCtt
+            'esocial_fone_fixo',                # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/contato/foneFixo
+            'esocial_fone_cel',                 # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/contato/foneCel
+            'esocial_email',                    # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/contato/email
+            'ind_sitpj',                        # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/infoComplementares/situacaoPj/indSitPJ
+        ]
+        precisa_atualizar = False
+
+        # Lista os campos que são monitorados do Estabelecimento
+        campos_monitorados_estabelecimento = [
+            'cnpj_cpf',                                 # //eSocial/evtTabEstab/infoEstab//ideEstab/nrInsc
+            'estabelecimento_periodo_inicial_id',       # //eSocial/evtTabEstab/infoEstab//idePeriodo/iniValid
+            'estabelecimento_periodo_atualizacao_id',   # //eSocial/evtTabEstab/infoEstab//novaValidade/iniValid
+            'estabelecimento_periodo_final_id',         # //eSocial/evtTabEstab/infoEstab//idePeriodo/fimValid
+
+        ]
+        precisa_atualizar_estabelecimento = False
+
+        # Lista os campos que são monitorados da Lotação Tributária
+        campos_monitorados_lotacao = [
+            'name',             # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/nmCargo
+            'cbo_id',           # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/codCBO
+            'ini_valid',        # //eSocial/evtTabCargo/infoCargo//ideCargo/iniValid
+            'alt_valid',        # //eSocial/evtTabCargo/infoCargo//ideCargo/novaValidade/iniValid
+            'cargo_publico',    # Flag que indica se é cargo público
+            'acum_cargo',       # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/acumCargo
+            'contagem_esp',     # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/contagemEsp
+            'dedic_excl',       # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/dedicExcl
+            'nr_lei',           # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/leiCargo/nrLei
+            'dt_lei',           # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/leiCargo/dtLei
+            'sit_cargo',        # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/leiCargo/sitCargo
+        ]
+        precisa_atualizar_lotacao = False
+
+        # Roda o vals procurando se algum desses campos está na lista
+        # Empregador
+        if self.sped_empregador_id and self.situacao_esocial == '1':
+            for campo in campos_monitorados:
+                if campo in vals:
+                    precisa_atualizar = True
+
+            # Se precisa_atualizar == True, inclui ele no vals
+            if precisa_atualizar:
+                vals['precisa_atualizar'] = precisa_atualizar
+
+        # Roda o vals procurando se algum desses campos está na lista
+        # Estabelecimento
+        if self.sped_estabelecimento_id and self.situacao_estabelecimento_esocial == '1':
+            for campo in campos_monitorados_estabelecimento:
+                if campo in vals:
+                    precisa_atualizar_estabelecimento = True
+
+            # Se precisa_atualizar_estabelecimento == True, inclui ele no vals
+            if precisa_atualizar_estabelecimento:
+                vals['precisa_atualizar_estabelecimento'] = precisa_atualizar_estabelecimento
+
+        # Roda o vals procurando se algum desses campos está na lista
+        # Lotação Tributária
+        if self.sped_lotacao_id and self.situacao_lotacao_esocial == '1':
+            for campo in campos_monitorados_lotacao:
+                if campo in vals:
+                    precisa_atualizar_lotacao = True
+
+            # Se precisa_atualizar_lotacao == True, inclui ele no vals
+            if precisa_atualizar_lotacao:
+                vals['precisa_atualizar_lotacao'] = precisa_atualizar_lotacao
+
+        # Grava os dados
+        return super(ResCompany, self).write(vals)
+
+    @api.multi
+    def transmitir_empregador(self):
+        self.ensure_one()
+
+        # Executa o método Transmitir do registro intermediário
+        self.sped_empregador_id.transmitir()
+
+    @api.multi
+    def consultar_empregador(self):
+        self.ensure_one()
+
+        # Executa o método Consultar do registro intermediário
+        self.sped_empregador_id.consultar()
+
+    @api.multi
+    def transmitir_estabelecimento(self):
+        self.ensure_one()
+
+        # Executa o método Transmitir do registro intermediário
+        self.sped_estabelecimento_id.transmitir()
+
+    @api.multi
+    def consultar_estabelecimento(self):
+        self.ensure_one()
+
+        # Executa o método Consultar do registro intermediário
+        self.sped_estabelecimento_id.consultar()
+
+    @api.multi
+    def transmitir_lotacao(self):
+        self.ensure_one()
+
+        # Executa o método Transmitir do registro intermediário
+        self.sped_lotacao_id.transmitir()
+
+    @api.multi
+    def consultar_lotacao(self):
+        self.ensure_one()
+
+        # Executa o método Consultar do registro intermediário
+        self.sped_lotacao_id.consultar()

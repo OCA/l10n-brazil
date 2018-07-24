@@ -42,11 +42,13 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
+            ('0', 'Inativo'),
+            ('1', 'Ativo'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado'),
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
@@ -85,31 +87,43 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
 
             # Se o estabelecimento possui um registro de inclusão confirmado e
             # não precisa atualizar nem excluir então ela está Ativa
-            if estabelecimento.sped_inclusao and \
-                    estabelecimento.sped_inclusao.situacao == '4':
-                if not estabelecimento.precisa_atualizar and not \
-                        estabelecimento.precisa_excluir:
+            if estabelecimento.sped_inclusao and estabelecimento.sped_inclusao.situacao == '4':
+                if not estabelecimento.precisa_atualizar and not estabelecimento.precisa_excluir:
                     situacao_esocial = '1'
                 else:
                     situacao_esocial = '2'
 
                 # Se já possui um registro de exclusão confirmado, então
                 # é situação é Finalizada
-                if estabelecimento.sped_exclusao and \
-                        estabelecimento.sped_exclusao.situacao == '4':
+                if estabelecimento.sped_exclusao and estabelecimento.sped_exclusao.situacao == '4':
                     situacao_esocial = '9'
 
             # Se a empresa possui algum registro que esteja em fase de
             # transmissão então a situação é Aguardando Transmissão
-            if estabelecimento.sped_inclusao and \
-                    estabelecimento.sped_inclusao.situacao != '4':
+            if estabelecimento.sped_inclusao and estabelecimento.sped_inclusao.situacao != '4':
                 situacao_esocial = '3'
-            if estabelecimento.sped_exclusao and \
-                    estabelecimento.sped_exclusao.situacao != '4':
+                registro = estabelecimento.sped_inclusao
+            if estabelecimento.sped_exclusao and estabelecimento.sped_exclusao.situacao != '4':
                 situacao_esocial = '3'
+                registro = estabelecimento.sped_exclusao
             for alteracao in estabelecimento.sped_alteracao:
                 if alteracao.situacao != '4':
                     situacao_esocial = '3'
+                    registro = alteracao
+
+            # Se a situação == '3', verifica se já foi transmitida ou não (se já foi transmitida
+            # então a situacao_esocial deve ser '4'
+            if situacao_esocial == '3' and registro.situacao == '2':
+                situacao_esocial = '4'
+
+            # Verifica se algum registro está com erro de transmissão
+            if estabelecimento.sped_inclusao and estabelecimento.sped_inclusao.situacao == '3':
+                situacao_esocial = '5'
+            if estabelecimento.sped_exclusao and estabelecimento.sped_exclusao.situacao == '3':
+                situacao_esocial = '5'
+            for alteracao in estabelecimento.sped_alteracao:
+                if alteracao.situacao == '3':
+                    situacao_esocial = '5'
 
             # Popula na tabela
             estabelecimento.situacao_esocial = situacao_esocial
@@ -194,7 +208,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
-    def atualizar_esocial(self):
+    def gerar_registro(self):
         self.ensure_one()
 
         values = {
@@ -342,3 +356,47 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['2', '3', '5']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.sped_inclusao.situacao in ['1', '3']:
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao in ['1', '3']:
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao.situacao in ['1', '3']:
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['4']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.sped_inclusao.situacao == '2':
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao == '2':
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao == '2':
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()

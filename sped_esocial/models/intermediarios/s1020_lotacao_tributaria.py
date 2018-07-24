@@ -289,3 +289,47 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['2', '3', '5']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.sped_inclusao.situacao in ['1', '3']:
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao in ['1', '3']:
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao.situacao in ['1', '3']:
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['4']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.sped_inclusao.situacao == '2':
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao == '2':
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao == '2':
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()
