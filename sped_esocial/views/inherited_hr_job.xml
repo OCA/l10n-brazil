@@ -18,26 +18,28 @@
                                 <header>
                                     <button name="atualizar_cargo" type="object" colspan="2"
                                          string="Ativar Cargo no e-Social" class="oe_highlight"
-                                         attrs="{'invisible': ['|', ('codigo', '=', False), ('sped_cargo_id', '!=', False)]}"
+                                         attrs="{'invisible': ['|', ('sped_cargo_id', '!=', False), ('ini_valid', '=', False)]}"
                                     />
                                     <button name="atualizar_cargo" type="object" colspan="2"
                                          string="Atualizar Cargo no e-Social" class="oe_highlight"
-                                         attrs="{'invisible': ['|', ('codigo', '=', False), ('situacao_esocial', '!=', '2')]}"
+                                         attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
                                     />
                                     <button name="transmitir" colspan="4" type="object"
-                                            string="Transmitir para o e-Social" class="oe_highlight"
-                                            attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}" />
+                                         string="Transmitir para o e-Social" class="oe_highlight"
+                                         attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}"
+                                    />
                                     <button name="consultar" colspan="4" type="object"
-                                            string="Consultar Processamento no e-Social" class="oe_highlight"
-                                            attrs="{'invisible': [('situacao_esocial', 'not in', ['4'])]}" />
+                                         string="Consultar Processamento no e-Social" class="oe_highlight"
+                                         attrs="{'invisible': [('situacao_esocial', 'not in', ['4'])]}"
+                                    />
                                     <field name="situacao_esocial" widget="statusbar" select="1"
-                                           nolabel="1" statusbar_visible="1"
-                                           readonly="1" />
+                                         nolabel="1" statusbar_visible="0" readonly="1"
+                                    />
                                 </header>
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="2" string="Identificação">
-                                        <field name="codigo" required="1"
-                                               attrs="{'readonly': [('sped_cargo_id', '!=', False)]}"
+                                        <field name="codigo"
+                                               attrs="{'required': [('ini_valid', '!=', False)], 'readonly': [('sped_cargo_id', '!=', False)]}"
                                         />
                                         <field name="cargo_publico" />
                                         <field name="sped_cargo_id" string="Registro Intermediário"
@@ -49,7 +51,7 @@
                                     <group colspan="2" col="2" string="Validade">
                                         <field name="ini_valid"
                                                options="{'no_create': True, 'no_open': True}"
-                                               attrs="{'required': True, 'readonly': [('sped_cargo_id', '!=', False)]}"
+                                               attrs="{'required': [('sped_cargo_id', '!=', False)], 'readonly': [('sped_cargo_id', '!=', False)]}"
                                         />
                                         <field name="alt_valid"
                                                options="{'no_create': True, 'no_open': True}"
@@ -65,17 +67,17 @@
                                                    attrs="{'invisible': [('cargo_publico', '=', False)]}"
                                         />
                                         <field name="acum_cargo" colspan="4"
-                                               attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                               attrs="{'required': [('cargo_publico', '=', True), ('ini_valid', '!=', False)], 'invisible': [('cargo_publico', '=', False)]}" />
                                         <field name="contagem_esp" colspan="4"
-                                               attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                               attrs="{'required': [('cargo_publico', '=', True), ('ini_valid', '!=', False)], 'invisible': [('cargo_publico', '=', False)]}" />
                                         <field name="dedic_excl" colspan="4"
-                                               attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                               attrs="{'required': [('cargo_publico', '=', True), ('ini_valid', '!=', False)], 'invisible': [('cargo_publico', '=', False)]}" />
                                         <field name="nr_lei" colspan="4"
-                                               attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                               attrs="{'required': [('cargo_publico', '=', True), ('ini_valid', '!=', False)], 'invisible': [('cargo_publico', '=', False)]}" />
                                         <field name="dt_lei" colspan="4"
-                                               attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                               attrs="{'required': [('cargo_publico', '=', True), ('ini_valid', '!=', False)], 'invisible': [('cargo_publico', '=', False)]}" />
                                         <field name="sit_cargo" colspan="4"
-                                               attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                               attrs="{'required': [('cargo_publico', '=', True), ('ini_valid', '!=', False)], 'invisible': [('cargo_publico', '=', False)]}" />
                                     </group>
                                 </group>
                             </form>

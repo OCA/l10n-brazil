@@ -269,12 +269,12 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
         # Popula dadosLotacao
         S1020.evento.infoLotacao.dadosLotacao.tpLotacao.valor = \
             self.lotacao_id.tp_lotacao_id.codigo
-        if self.lotacao_id.tp_insc_id:
-            S1020.evento.infoLotacao.dadosLotacao.tpInsc.valor = \
-                self.lotacao_id.tp_insc_id.codigo
-        if self.lotacao_id.nr_insc:
-            S1020.evento.infoLotacao.dadosLotacao.nrInsc.valor = \
-                self.lotacao_id.nr_insc
+        # if self.lotacao_id.tp_insc_id:
+        #     S1020.evento.infoLotacao.dadosLotacao.tpInsc.valor = \
+        #         self.lotacao_id.tp_insc_id.codigo
+        # if self.lotacao_id.nr_insc:
+        #     S1020.evento.infoLotacao.dadosLotacao.nrInsc.valor = \
+        #         self.lotacao_id.nr_insc
 
         # Popula fpasLotacao
         S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.fpas.valor = \

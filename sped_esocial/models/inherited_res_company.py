@@ -441,7 +441,7 @@ class ResCompany(models.Model):
             'cnpj_cpf',                         # //eSocial/evtInfoEmpregador/ideEmpregador/nrInsc
             'esocial_periodo_inicial_id',       # //eSocial/evtInfoEmpregador/infoEmpregador//idePeriodo/iniValid
             'esocial_periodo_atualizacao_id',   # //eSocial/evtInfoEmpregador/infoEmpregador//novaValidade/iniValid
-            'esocial_periodo_final_id',         # //eSocial/evtInfoEmpregador/infoEmpregador//idePeriodo/fimValid
+            # 'esocial_periodo_final_id',         # //eSocial/evtInfoEmpregador/infoEmpregador//idePeriodo/fimValid
             'legal_name',                       # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/nmRazao
             'classificacao_tributaria_id',      # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/classTrib
             'natureza_juridica_id',             # //eSocial/evtInfoEmpregador/infoEmpregador//infoCadastro/natJurid
@@ -466,24 +466,25 @@ class ResCompany(models.Model):
             'cnpj_cpf',                                 # //eSocial/evtTabEstab/infoEstab//ideEstab/nrInsc
             'estabelecimento_periodo_inicial_id',       # //eSocial/evtTabEstab/infoEstab//idePeriodo/iniValid
             'estabelecimento_periodo_atualizacao_id',   # //eSocial/evtTabEstab/infoEstab//novaValidade/iniValid
-            'estabelecimento_periodo_final_id',         # //eSocial/evtTabEstab/infoEstab//idePeriodo/fimValid
-
+            # 'estabelecimento_periodo_final_id',         # //eSocial/evtTabEstab/infoEstab//idePeriodo/fimValid
+            'cnae_main_id',                             # //eSocial/evtTabEstab/infoEstab//dadosEstab/cnaePrep
+            # TODO Quando mudar na tabela l10n_br.hr.rat.fap os percentuais de rat/fap, trazer para cá
+            'reg_pt',                                   # //eSocial/evtTabEstab/infoEstab//dadosEstab/infoTrab/regPt
+            'cont_apr',                                 # //eSocial/evtTabEstab/infoEstab//dadosEstab/infoTrab/infoApr/contApr
+            'cont_ent_ed',                              # //eSocial/evtTabEstab/infoEstab//dadosEstab/infoTrab/infoApr/contEntEd
+            'info_ent_educ_ids',                        # //eSocial/evtTabEstab/infoEstab//dadosEstab/infoTrab/infoApr/infoEntEduc
+            'cont_pcd',                                 # //eSocial/evtTabEstab/infoEstab//dadosEstab/infoTrab/infoPCD
         ]
         precisa_atualizar_estabelecimento = False
 
         # Lista os campos que são monitorados da Lotação Tributária
         campos_monitorados_lotacao = [
-            'name',             # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/nmCargo
-            'cbo_id',           # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/codCBO
-            'ini_valid',        # //eSocial/evtTabCargo/infoCargo//ideCargo/iniValid
-            'alt_valid',        # //eSocial/evtTabCargo/infoCargo//ideCargo/novaValidade/iniValid
-            'cargo_publico',    # Flag que indica se é cargo público
-            'acum_cargo',       # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/acumCargo
-            'contagem_esp',     # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/contagemEsp
-            'dedic_excl',       # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/dedicExcl
-            'nr_lei',           # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/leiCargo/nrLei
-            'dt_lei',           # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/leiCargo/dtLei
-            'sit_cargo',        # //eSocial/evtTabCargo/infoCargo//ideCargo/dadosCargo/cargoPublico/leiCargo/sitCargo
+            'cod_lotacao',                      # //eSocial/evtTabLotacao/infoLotacao//ideLotacao/codLotacao
+            'lotacao_periodo_inicial_id',       # //eSocial/evtTabLotacao/infoLotacao//ideLotacao/iniValid
+            'lotacao_periodo_atualizacao_id',   # //eSocial/evtTabLotacao/infoLotacao//ideLotacao/novaValidade/iniValid
+            'tp_lotacao_id',                    # //eSocial/evtTabLotacao/infoLotacao//dadosLotacao/tpLotacao
+            'fpas_id',                          # //eSocial/evtTabLotacao/infoLotacao//dadosLotacao/fpasLotacao/fpas
+            'cod_tercs',                        # //eSocial/evtTabLotacao/infoLotacao//dadosLotacao/fpasLotacao/codTercs
         ]
         precisa_atualizar_lotacao = False
 

@@ -226,7 +226,7 @@
                                         <group colspan="2" col="2" string="Validade">
                                             <field name="lotacao_periodo_inicial_id"
                                                    options="{'no_create': True, 'no_open': True}"
-                                                   attrs="{'required': [('sped_lotacao_id', '!=', False)]}"
+                                                   attrs="{'required': [('sped_lotacao_id', '!=', False)], 'readonly': [('sped_lotacao_id', '!=', False)]}"
                                             />
                                             <field name="lotacao_periodo_atualizacao_id"
                                                    options="{'no_create': True, 'no_open': True}"
