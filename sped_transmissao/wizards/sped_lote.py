@@ -11,7 +11,6 @@ from openerp.exceptions import ValidationError
 # ]
 
 GRUPO_1 = [  # Registros de Tabela
-    'R-1000',  # Informações do Contribuinte (EFD/Reinf)
     'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social),
     'S-1005',  # Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
     'S-1010',  # Tabela de Rubricas
@@ -47,8 +46,6 @@ GRUPO_2 = [
 ]   # 18 Registros
 
 GRUPO_3 = [
-    'R-2010',   # Retenção Contribuição Previdenciária - Serviços Tomados
-    'R-2099',   # Fechamento de Eventos Periódicos
     'S-1200',   # Remuneração de trabalhador vinculado ao Regime Geral de Prev. Social
     'S-1202',   # Remuneração de servidor vinculado a Regime Próprio de Previd. Social
     'S-1207',   # Benefícios previdenciários - RPPS
