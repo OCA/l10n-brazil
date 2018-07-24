@@ -5,6 +5,7 @@
 from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
 from pybrasil.data import formata_data
 from pybrasil.valor import formata_valor
+from pybrasil.inscricao import formata_cpf
 
 @py3o_report_extender(
     "l10n_br_hr_payroll_report.report_payslip_autonomo_py3o_report")
@@ -20,6 +21,16 @@ def payslip_autonomo_report(pool, cr, uid, local_context, context):
         company_nfe_logo if company_nfe_logo else company_logo
     local_context['company_logo2'] = \
         company_nfe_logo if company_nfe_logo else company_logo
+
+    # CPF DO Autonomo
+    if payslip_id.employee_id.cpf:
+        local_context['cpf'] = formata_cpf(payslip_id.employee_id.cpf)
+    else:
+        local_context['cpf'] = ''
+
+    # Formatar Data da emissao do do RG
+    local_context['rg_emission'] = \
+        formata_data(payslip_id.employee_id.rg_emission)
 
     # Campo de conta bancária no formato para exibição do relatório
     conta_bancaria = ''
@@ -41,7 +52,7 @@ def payslip_autonomo_report(pool, cr, uid, local_context, context):
     else:
         local_context['data_pagamento'] = ''
 
-            # numero maximo de linhas por holerites, se ultrapassar esse limite será
+    # Numero maximo de linhas por holerites, se ultrapassar esse limite será
     # dividido em 2 grupos para ser exibido em uma segunda pagina
     max_linhas = 10
     local_context['grupo_rubricas_1'] = payslip_id.line_resume_ids[:max_linhas]
