@@ -222,10 +222,10 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
 
         # Popula ideContri (Dados do Contribuinte)
         R1000.evento.ideContri.tpInsc.valor = '1'
-        if self.estabelecimento_id.eh_empresa_base:
-            matriz = self.estabelecimento_id
+        if self.company_id.eh_empresa_base:
+            matriz = self.company_id
         else:
-            matriz = self.estabelecimento_id.matriz
+            matriz = self.company_id.matriz
         R1000.evento.ideContri.nrInsc.valor = limpa_formatacao(
             matriz.cnpj_cpf)[0:8]
 
@@ -233,8 +233,8 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
         if operacao == 'I':
             R1000.evento.infoContri.operacao = 'I'
             R1000.evento.infoContri.idePeriodo.iniValid.valor = \
-                self.company_id.periodo_id.code[3:7] + '-' + \
-                self.company_id.periodo_id.code[0:2]
+                self.company_id.reinf_periodo_inicial_id.code[3:7] + '-' + \
+                self.company_id.reinf_periodo_inicial_id.code[0:2]
 
         # Popula infoContri.InfoCadastro
         R1000.evento.infoContri.infoCadastro.classTrib.valor = self.company_id.classificacao_tributaria_id.codigo
