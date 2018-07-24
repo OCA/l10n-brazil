@@ -5,23 +5,24 @@
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
-GRUPO_0 = [
-    'R-1000',  # Informações do Contribuinte (EFD/Reinf)
-    # 'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social)
-]
+# GRUPO_0 = [
+#     'R-1000',  # Informações do Contribuinte (EFD/Reinf)
+#     'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social)
+# ]
 
 GRUPO_1 = [  # Registros de Tabela
+    'R-1000',  # Informações do Contribuinte (EFD/Reinf)
     'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social),
-    'S-1005',   # Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
-    'S-1010',   # Tabela de Rubricas
-    'S-1020',   # Tabela de Lotações Tributárias
-    'S-1030',   # Tabela de Cargos/Empregos Públicos
-    'S-1035',   # Tabela de Carreiras Públicas
-    'S-1040',   # Tabela de Funções/Cargos em Comissão
-    'S-1050',   # Tabela de Horários/Turnos de Trabalho
-    'S-1060',   # Tabela de Ambientes de Trabalho
-    'S-1070',   # Tabela de Processos Administrativos/Judiciais
-    'S-1080',   # Tabela de Operadores Portuários
+    'S-1005',  # Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
+    'S-1010',  # Tabela de Rubricas
+    'S-1020',  # Tabela de Lotações Tributárias
+    'S-1030',  # Tabela de Cargos/Empregos Públicos
+    'S-1035',  # Tabela de Carreiras Públicas
+    'S-1040',  # Tabela de Funções/Cargos em Comissão
+    'S-1050',  # Tabela de Horários/Turnos de Trabalho
+    'S-1060',  # Tabela de Ambientes de Trabalho
+    'S-1070',  # Tabela de Processos Administrativos/Judiciais
+    'S-1080',  # Tabela de Operadores Portuários
 ]   # 12 Registros
 
 GRUPO_2 = [
@@ -46,6 +47,8 @@ GRUPO_2 = [
 ]   # 18 Registros
 
 GRUPO_3 = [
+    'R-2010',   # Retenção Contribuição Previdenciária - Serviços Tomados
+    'R-2099',   # Fechamento de Eventos Periódicos
     'S-1200',   # Remuneração de trabalhador vinculado ao Regime Geral de Prev. Social
     'S-1202',   # Remuneração de servidor vinculado a Regime Próprio de Previd. Social
     'S-1207',   # Benefícios previdenciários - RPPS
@@ -151,13 +154,11 @@ class SpedCriacaoWizard(models.TransientModel):
 
     def get_valor_grupo(self, registro):
         grupo = 'na'
-        if registro.registro in GRUPO_0:
-            grupo = '0'
-        elif registro.tipo == 'esocial' and registro.registro in GRUPO_1:
+        if registro.registro in GRUPO_1:
             grupo = '1'
-        elif registro.tipo == 'esocial' and registro.registro in GRUPO_2:
+        elif registro.registro in GRUPO_2:
             grupo = '2'
-        elif registro.tipo == 'esocial' and registro.registro in GRUPO_3:
+        elif registro.registro in GRUPO_3:
             grupo = '3'
         return grupo
 
