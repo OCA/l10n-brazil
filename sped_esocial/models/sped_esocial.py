@@ -582,7 +582,7 @@ class SpedEsocial(models.Model):
                 ('employee_id', '=', beneficiario.id),
                 ('company_id', 'in', empresas),
                 ('date_start', '<=', periodo.date_stop),
-                ('tp_reg_prev', 'in', ['1', '2']),  # Somente contratos com o campo tp_reg_prev definido como 1 ou 2
+                ('tp_reg_prev', 'in', ['1', '2', False]),  # Somente contratos com o campo tp_reg_prev definido como 1 ou 2
             ]
             contratos = self.env['hr.contract'].search(domain)
             contratos_validos = []
@@ -600,16 +600,33 @@ class SpedEsocial(models.Model):
                 mes = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').month
                 ano = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').year
 
-                # Busca os payslips de pagamento mensal deste beneficiário
-                domain_payslip = [
-                    ('company_id', 'in', empresas),
-                    ('contract_id', 'in', contratos_validos),
-                    ('mes_do_ano', '=', mes),
-                    ('ano', '=', ano),
-                    ('state', 'in', ['verify', 'done']),
-                    ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro', 'rescisao']),
-                ]
-                payslips = self.env['hr.payslip'].search(domain_payslip)
+                # Trabalhadores autonomos tem holerite separado
+                if beneficiario.tipo != 'autonomo':
+
+                    # Busca os payslips de pagamento mensal deste beneficiário
+                    domain_payslip = [
+                        ('company_id', 'in', empresas),
+                        ('contract_id', 'in', contratos_validos),
+                        ('mes_do_ano', '=', mes),
+                        ('ano', '=', ano),
+                        ('state', 'in', ['verify', 'done']),
+                        ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro', 'rescisao']),
+                    ]
+                    payslips = self.env['hr.payslip'].search(domain_payslip)
+
+                else:
+                    # Busca os payslips de pagamento mensal deste autonomo
+                    domain_payslip_autonomo = [
+                        ('company_id', 'in', empresas),
+                        ('contract_id', 'in', contratos_validos),
+                        ('mes_do_ano', '=', mes),
+                        ('ano', '=', ano),
+                        ('state', 'in', ['verify', 'done']),
+                        ('tipo_de_folha', 'in',
+                         ['normal', 'ferias', 'decimo_terceiro', 'rescisao']),
+                    ]
+                    payslips = self.env['hr.payslip.autonomo'].search(
+                        domain_payslip_autonomo)
 
                 # Se tem payslip, cria o registro S-1210
                 if payslips:
@@ -627,12 +644,26 @@ class SpedEsocial(models.Model):
                             'beneficiario_id': beneficiario.id,
                             'periodo_id': periodo.id,
                             'contract_ids': [(6, 0, contratos.ids)],
-                            'payslip_ids': [(6, 0, payslips.ids)],
                         }
+
+                        # Criar intermediario de acordo com o tipo de employee
+                        if beneficiario.tipo != 'autonomo':
+                            vals.update(
+                                {'payslip_ids': [(6, 0, payslips.ids)]})
+                        else:
+                            vals.update(
+                                {'payslip_autonomo_ids': [
+                                    (6, 0, payslips.ids)]})
+
                         s1210 = self.env['sped.esocial.pagamento'].create(vals)
+
                     else:
                         s1210.contract_ids = [(6, 0, contratos.ids)]
-                        s1210.payslip_ids = [(6, 0, payslips.ids)]
+
+                        if beneficiario.tipo != 'autonomo':
+                            s1210.payslip_ids = [(6, 0, payslips.ids)]
+                        else:
+                            s1210.payslip_autonomo_ids = [(6, 0, payslips.ids)]
 
                     # Relaciona o s1210 com o período do e-Social
                     self.pagamento_ids = [(4, s1210.id)]

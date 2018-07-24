@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sped_esocial_s2399_form" model="ir.ui.view">
+            <field name="name">e-Social S-2399</field>
+            <field name="model">sped.hr.rescisao.autonomo</field>
+            <field name="arch" type="xml">
+                <form string="e-Social - Registro S-2399" edit="false" delete="false" create="false" duplicate="false">
+                    <header>
+                        <field name="situacao_esocial" widget="statusbar" select="1"
+                               nolabel="1"
+                               readonly="1" />
+                    </header>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group colspan="4">
+                            <field name="sped_hr_rescisao_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="company_id" readonly="1" options="{'no_open': True}"/>
+                        </group>
+                    </group>
+
+                    <group colspan="4">
+                        <separator string="Envios do Término dos contratos" colspan="4"/>
+                        <field name="sped_s2399_registro_inclusao" readonly="1" nolabel="1"/>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_esocial_s2399_tree">
+            <field name="name">S-2399 (Término Contrato sem vínculo)</field>
+            <field name="model">sped.hr.rescisao.autonomo</field>
+            <field name="arch" type="xml">
+                <tree string="S-2399 (Término Contrato sem vínculo)" duplicate="false" edit="false" delete="false" create="false">
+                    <field name="sped_hr_rescisao_id"/>
+                    <field name="company_id"/>
+                    <field name="situacao_esocial"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_esocial_s2399_search" model="ir.ui.view">
+            <field name="name">S-2399 (Término Contrato sem vínculo)</field>
+            <field name="model">sped.hr.rescisao.autonomo</field>
+            <field name="arch" type="xml">
+                <search string="S-2399 (Término Contrato sem Vínculo)">
+                    <field name="company_id" />
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_esocial_s2399_action">
+            <field name="name">S-2399 (Término de Contrato sem vínculo)</field>
+            <field name="domain">[]</field>
+            <field name="res_model">sped.hr.rescisao.autonomo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s2399_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_esocial_s2399_form"/>
+            <field name="act_window_id" ref="sped_esocial_s2399_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s2399_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_esocial_s2399_tree"/>
+            <field name="act_window_id" ref="sped_esocial_s2399_action"/>
+        </record>
+
+        <menuitem id="menu_sped_esocial_s2399"
+                  name="S-2399 (Término de Contrato sem vínculo)"
+                  sequence="2399"
+                  action="sped_esocial.sped_esocial_s2399_action"
+                  parent="sped_esocial.menu_sped_esocial_intermediarios"
+        />
+
+    </data>
+</openerp>

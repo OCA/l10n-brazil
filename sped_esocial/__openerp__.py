@@ -52,6 +52,7 @@
         'views/inherited_hr_employee.xml',
         'views/inherited_res_partner.xml',
         'views/inherited_hr_payslip_view.xml',
+        'views/inherited_hr_payslip_autonomo_view.xml',
         'views/inherited_hr_holidays_status_view.xml',
         'views/inherited_hr_holidays_view.xml',
 
@@ -73,6 +74,7 @@
         'views/intermediarios/s2299_desligamento_view.xml',
         'views/intermediarios/s2300_cadastramento_inicial_trabalhador_sem_vinculo.xml',
         'views/intermediarios/s2306_alteracao_contrato_trabalhador_sem_vinculo.xml',
+        'views/intermediarios/s2399_termino_trabalhador_sem_vinculo.xml',
         'views/intermediarios/s5001_contribuicao_social_trabalhador.xml',
         'views/intermediarios/s5002_imposto_renda_retido_fonte.xml',
         'views/intermediarios/s5011_inss_consolidado.xml',
