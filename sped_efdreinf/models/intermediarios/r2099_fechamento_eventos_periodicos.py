@@ -74,30 +74,20 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
 
     @api.depends('sped_inclusao')
     def compute_precisa_enviar(self):
-
         # Roda todos os registros da lista
         for contribuinte in self:
-
-            # Inicia as variáveis como False
             precisa_incluir = False
-            precisa_atualizar = False
-            precisa_excluir = False
 
-            # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
-            if self.situacao != '3':
+            if contribuinte.situacao != '3':
 
-                # Se a empresa matriz tem um período inicial definido e não tem um registro S1000 de inclusão
-                # confirmado, então precisa incluir
-                if contribuinte.company_id.esocial_periodo_inicial_id:
-                    if not contribuinte.sped_inclusao or contribuinte.sped_inclusao.situacao != '4':
-                        precisa_incluir = True
+                if not contribuinte.sped_inclusao or \
+                        contribuinte.sped_inclusao.situacao != '4':
+                    precisa_incluir = True
 
-            # Popula os campos na tabela
             contribuinte.precisa_incluir = precisa_incluir
 
     @api.depends('sped_inclusao')
     def compute_ultima_atualizacao(self):
-
         # Roda todos os registros da lista
         for contribuinte in self:
 
@@ -105,7 +95,8 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
             ultima_atualizacao = fields.Datetime.now()
 
             # Se tiver o registro de inclusão, pega a data/hora de origem
-            if contribuinte.sped_inclusao and contribuinte.sped_inclusao.situacao == '4':
+            if contribuinte.sped_inclusao and \
+                    contribuinte.sped_inclusao.situacao == '4':
                 ultima_atualizacao = contribuinte.sped_inclusao.data_hora_origem
 
             # Popula o campo na tabela
@@ -160,13 +151,20 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
             R2099.evento.ideRespInf.email.valor = self.company_id.cttemail
 
         # Popula infoFech
-        R2099.evento.infoFech.evtServTm.valor = 'S' if self.reinf_competencia_id.evt_serv_tm else 'N'
-        R2099.evento.infoFech.evtServPr.valor = 'S' if self.reinf_competencia_id.evt_serv_pr else 'N'
-        R2099.evento.infoFech.evtAssDespRec.valor = 'S' if self.reinf_competencia_id.evt_ass_desp_rec else 'N'
-        R2099.evento.infoFech.evtAssDespRep.valor = 'S' if self.reinf_competencia_id.evt_ass_desp_rep else 'N'
-        R2099.evento.infoFech.evtComProd.valor = 'S' if self.reinf_competencia_id.evt_com_prod else 'N'
-        R2099.evento.infoFech.evtCPRB.valor = 'S' if self.reinf_competencia_id.evt_cprb else 'N'
-        R2099.evento.infoFech.evtPgtos.valor = 'S' if self.reinf_competencia_id.evt_pgtos else 'N'
+        R2099.evento.infoFech.evtServTm.valor = \
+            'S' if self.reinf_competencia_id.evt_serv_tm else 'N'
+        R2099.evento.infoFech.evtServPr.valor = \
+            'S' if self.reinf_competencia_id.evt_serv_pr else 'N'
+        R2099.evento.infoFech.evtAssDespRec.valor = \
+            'S' if self.reinf_competencia_id.evt_ass_desp_rec else 'N'
+        R2099.evento.infoFech.evtAssDespRep.valor = \
+            'S' if self.reinf_competencia_id.evt_ass_desp_rep else 'N'
+        R2099.evento.infoFech.evtComProd.valor = \
+            'S' if self.reinf_competencia_id.evt_com_prod else 'N'
+        R2099.evento.infoFech.evtCPRB.valor = \
+            'S' if self.reinf_competencia_id.evt_cprb else 'N'
+        R2099.evento.infoFech.evtPgtos.valor = \
+            'S' if self.reinf_competencia_id.evt_pgtos else 'N'
         if self.reinf_competencia_id.comp_sem_movto_id:
             # Calcula o Período Inicial sem Movimento (se necessário)
             comp_sem_movto = \
