@@ -3,16 +3,14 @@
 # Copyright 2017 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
+import tempfile
+from datetime import datetime
+
+import pysped
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
-from pybrasil.valor import formata_valor
-from datetime import datetime
-from openerp.exceptions import ValidationError
-import base64
-import pysped
-import tempfile
-from decimal import Decimal
 
 
 class SpedLote(models.Model, ):
@@ -229,10 +227,11 @@ class SpedLote(models.Model, ):
         # Guarda os dados de retorno do Lote
         self.cd_resposta = processo.resposta.cdResposta     # TODO Incluir no processador do REINF as mesmas
         self.desc_resposta = processo.resposta.descResposta # variáveis da resposta do eSocial para equalizar
-        self.dh_recepcao = processo.resposta.dhRecepcao   # o tratamento da resposta
-        self.versao_aplicativo_recepcao = processo.resposta.versaoAplicativoRecepcao
-        self.versao_aplicativo_processamento = processo.resposta.versaoAplicativoProcessamentoLote
-        self.protocolo = processo.resposta.protocoloEnvio  # Não acho correto poder mudar o protocoloEnvio aqui
+        if self.tipo == 'esocial':
+            self.dh_recepcao = processo.resposta.dhRecepcao   # o tratamento da resposta
+            self.versao_aplicativo_recepcao = processo.resposta.versaoAplicativoRecepcao
+            self.versao_aplicativo_processamento = processo.resposta.versaoAplicativoProcessamentoLote
+            self.protocolo = processo.resposta.protocoloEnvio  # Não acho correto poder mudar o protocoloEnvio aqui
 
         # Limpar ocorrências
         for ocorrencia in self.ocorrencia_ids:
@@ -241,13 +240,22 @@ class SpedLote(models.Model, ):
         # Popula as ocorrências do Lote
         if len(processo.resposta.ocorrencias) > 0:
             for ocorrencia in processo.resposta.ocorrencias:
-                vals = {
-                    'lote_id': self.id,
-                    'tipo': ocorrencia.tipo.valor,
-                    'local': ocorrencia.localizacao.valor,
-                    'codigo': ocorrencia.codigo.valor,
-                    'descricao': ocorrencia.descricao.valor,
-                }
+                if self.tipo == 'esocial':
+                    vals = {
+                        'lote_id': self.id,
+                        'tipo': ocorrencia.tipo.valor,
+                        'local': ocorrencia.localizacao.valor,
+                        'codigo': ocorrencia.codigo.valor,
+                        'descricao': ocorrencia.descricao.valor,
+                    }
+                elif self.tipo == 'efdreinf':
+                    vals = {
+                        'lote_id': self.id,
+                        'tipo': ocorrencia.tpOcorr.valor,
+                        'local': ocorrencia.localErroAviso.valor,
+                        'codigo': ocorrencia.codResp.valor,
+                        'descricao': ocorrencia.dscResp.valor,
+                    }
                 self.ocorrencia_ids.create(vals)
 
         # Atualiza o XML de Consulta (retorno da consulta)
@@ -274,8 +282,13 @@ class SpedLote(models.Model, ):
         else:
             self.situacao = '2'
 
+        if self.tipo == 'esocial':
+            eventos = processo.resposta.lista_eventos
+        elif self.tipo == 'efdreinf':
+            eventos = [processo.resposta.evento]
+
         # Processar os eventos
-        for evento in processo.resposta.lista_eventos:
+        for evento in eventos:
 
             # Localiza o evento pelo ID
             id = evento.Id.valor
@@ -372,7 +385,10 @@ class SpedLote(models.Model, ):
         processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
 
         # Transmite
-        processo = processador.enviar_lote(eventos, self.grupo)
+        if self.grupo != 'na':
+            processo = processador.enviar_lote(eventos, self.grupo)
+        else:
+            processo = processador.enviar_lote(eventos)
 
         # Guarda os XMLs de envio e retorno do lote
         envio_xml = processo.envio.xml
