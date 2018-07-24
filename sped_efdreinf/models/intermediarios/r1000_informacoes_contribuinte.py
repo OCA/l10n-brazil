@@ -184,7 +184,7 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
             'registro': 'R-1000',
             'ambiente': self.company_id.tpAmb,
             'company_id': self.company_id.id,
-            'evento': 'evtInfoContribuinte',
+            'evento': 'evtInfoContri',
             'origem': ('res.company,%s' % self.company_id.id),
             'origem_intermediario': ('sped.efdreinf.contribuinte,%s' % self.id),
         }
