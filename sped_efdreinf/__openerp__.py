@@ -44,6 +44,7 @@
         # View/intermediários
         'views/intermediarios/r1000_informacoes_contribuinte_view.xml',
         'views/intermediarios/r2010_retencao_contribuicao_previdenciaria_servicos_tomados_view.xml',
+        'views/intermediarios/r2099_fechamento_eventos_periodicos_view.xml',
 
         # Segurança
         'security/ir.model.access.csv',

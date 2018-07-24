@@ -7,3 +7,5 @@ access_r1000_operador,Operador R-1000(Leitura),model_sped_efdreinf_contribuinte,
 access_r1000_gerente,Gerente R-1000(Escrita),model_sped_efdreinf_contribuinte,sped_tabelas.group_manager,1,1,1,1
 access_r2010_operador,Operador R-2010(Leitura),model_sped_efdreinf_estabelecimento,sped_tabelas.group_user,1,0,0,0
 access_r2010_gerente,Gerente R-2010(Escrita),model_sped_efdreinf_estabelecimento,sped_tabelas.group_manager,1,1,1,1
+access_r2099_operador,Operador R-2099(Leitura),model_sped_efdreinf_fechamento_eventos_periodicos,sped_tabelas.group_user,1,0,0,0
+access_r2099_gerente,Gerente R-2099(Escrita),model_sped_efdreinf_fechamento_eventos_periodicos,sped_tabelas.group_manager,1,1,1,1

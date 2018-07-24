@@ -120,7 +120,7 @@ class SpedEfdReinf(models.Model):
     )
     sped_r2099_registro = fields.Many2one(
         string='Registro R-2099',
-        comodel_name='sped.registro',
+        comodel_name='sped.efdreinf.fechamento.eventos.periodicos',
     )
     situacao_r2099 = fields.Selection(
         string='Situação R-2099',
@@ -129,6 +129,7 @@ class SpedEfdReinf(models.Model):
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
         ],
         related='sped_r2099_registro.situacao',
         readonly=True,
@@ -431,16 +432,15 @@ class SpedEfdReinf(models.Model):
         self.ensure_one()
 
         for efdreinf in self:
+            # Se o registro intermediário do R-2099 não existe, criá-lo
+            if not self.sped_r2099_registro:
+                self.sped_r2099_registro = \
+                    self.env['sped.efdreinf.fechamento.eventos.periodicos'].create({
+                        'company_id': self.company_id.id,
+                        'periodo_id': self.periodo_id.id,
+                        'reinf_competencia_id': self.id,
+                    })
 
-            values = {
-                'tipo': 'efdreinf',
-                'registro': 'R-2099',
-                'ambiente': self.company_id.tpAmb,
-                'company_id': self.company_id.id,
-                'evento': 'evtFechamento',
-                'origem': ('sped.efdreinf,%s' % efdreinf.id),
-                'origem_intermediario': ('sped.efdreinf,%s' % efdreinf.id),
-            }
-
-            sped_r2099_registro = self.env['sped.registro'].create(values)
-            efdreinf.sped_r2099_registro = sped_r2099_registro
+            # Processa cada tipo de operação do R-2099
+            # O que realmente precisará ser feito é tratado no método do registro intermediário
+            self.sped_r2099_registro.criar_registro()
