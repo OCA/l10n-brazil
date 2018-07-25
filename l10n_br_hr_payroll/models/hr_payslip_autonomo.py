@@ -54,6 +54,11 @@ class HrPayslipAutonomo(models.Model):
     _name = 'hr.payslip.autonomo'
     _order = 'ano desc, mes_do_ano desc, company_id asc, employee_id asc'
 
+    name = fields.Char(
+        string='name',
+        compute='_compute_name'
+    )
+
     contract_id = fields.Many2one(
         comodel_name = 'hr.contract',
         string= 'Contrato',
@@ -218,6 +223,19 @@ class HrPayslipAutonomo(models.Model):
         states={'draft': [('readonly', False)]},
         copy=False
     )
+
+    @api.multi
+    @api.depends('mes_do_ano', 'ano', 'contract_id')
+    def _compute_name(self):
+        """
+         Definir nome do RPA
+        """
+        for record in self:
+            name = 'Recibo de pagamento - {}'.format(
+                record.contract_id.display_name)
+            if record.mes_do_ano and record.ano:
+                name += str(record.mes_do_ano) + '/' + str(record.ano)
+            record.name = name
 
     @api.multi
     def _compute_valor_total_folha(self):
