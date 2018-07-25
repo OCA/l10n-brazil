@@ -45,48 +45,16 @@ class HrPaylisp(models.Model):
         return desligamento_id
 
     @api.multi
-    def create_sped_registro(self, intermediario_id, company_id, tipo, registro, evento, ambiente):
-        """
-
-        :param intermediario_id:
-        :param company_id:
-        :param tipo:
-        :param registro:
-        :param evento:
-        :param ambiente:
-        :return:
-        """
-        sped_registro_id = self.env['sped.registro'].create({
-            'origem':
-                ("hr.payslip,{}".format(
-                    intermediario_id.sped_hr_rescisao_id.id)),
-            'origem_intermediario':
-                ("{},{}".format(intermediario_id._name, intermediario_id.id)),
-            'company_id': company_id,
-            'tipo': tipo,
-            'registro': registro,
-            'evento': evento,
-            'ambiente': ambiente,
-        })
-
-        return sped_registro_id
-
-    @api.multi
-    def button_gerar_regitro(self):
+    def button_gerar_registro(self):
         """
         Cria o registro intermediario da rescisao e em seguida gera o
-        registro do esocial
+        registro do esocial redirecionando o usuario para o registro criado
         """
+
+        # Criar o registro intermediario sped.hr.rescisao.autonomo
         desligamento_id = self.create_sped_intermediario_desligamento()
 
-        registro = 'S-2399'
-        evento = 'evtTSVTermino'
-
-        sped_registro = self.create_sped_registro(
-            desligamento_id, desligamento_id.sped_hr_rescisao_id.company_id.id,
-            'esocial', registro, evento,
-            desligamento_id.sped_hr_rescisao_id.company_id.esocial_tpAmb
-        )
+        sped_registro = desligamento_id.create_sped_registro()
 
         return {
             'view_type': 'form',

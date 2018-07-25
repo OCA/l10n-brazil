@@ -123,6 +123,22 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
             record.name = 'S-2399 - Desligamento {}'.format(
                 record.sped_hr_rescisao_id.contract_id.display_name)
 
+    @api.multi
+    def create_sped_registro(self):
+        """
+        """
+        sped_registro_id = self.env['sped.registro'].create({
+            'tipo': 'esocial',
+            'registro':'S-2399',
+            'evento': 'evtTSVTermino',
+            'company_id': self.sped_hr_rescisao_id.company_id.id,
+            'ambiente': self.sped_hr_rescisao_id.company_id.esocial_tpAmb,
+            'origem_intermediario': ("{},{}".format(self._name, self.id)),
+            'origem':
+                ("hr.payslip.autonomo,{}".format(self.sped_hr_rescisao_id.id)),
+        })
+        self.sped_s2399_registro_inclusao = sped_registro_id
+        return sped_registro_id
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
