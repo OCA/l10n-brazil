@@ -26,7 +26,7 @@
 
                     <group colspan="4">
                         <separator string="Envios do Término dos contratos" colspan="4"/>
-                        <field name="sped_s2399_registro_inclusao" readonly="1" nolabel="1"/>
+                        <field name="sped_s2399_registro_inclusao" />
                     </group>
 
                 </form>

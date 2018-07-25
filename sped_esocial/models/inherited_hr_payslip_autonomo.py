@@ -13,6 +13,12 @@ class HrPaylisp(models.Model):
         comodel_name='sped.hr.rescisao.autonomo',
     )
 
+    mtv_deslig = fields.Many2one(
+        string='Motivo Término',
+        comodel_name='sped.motivo_desligamento',
+        help="e-Social: S-2399 - mtvDeslig"
+    )
+
     @api.multi
     def hr_verify_sheet(self):
         for holerite in self:

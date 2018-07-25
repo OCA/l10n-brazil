@@ -9,13 +9,28 @@
             <field name="arch" type="xml">
                 <button name="button_hr_validate_payslip_autonomo" position="after">
                     <button
-                            name="button_gerar_regitro"
+                            name="button_gerar_registro"
                             string="Criar Registro e-Social"
                             type="object"
                             class="oe_highlight"
-                            attrs="{'invisible': ['|',('date_to','=',False),('state','not in',['done', 'verify'])]}"
-                    />
+                            attrs="{'invisible': ['|','|',('date_to','=',False),('state','not in',['done', 'verify'])]}" />
                 </button>
+
+                <field name="company_id" position="after">
+                    <field name="mtv_deslig" />
+                </field>
+
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user">
+                        <separator string="Registro S-2399 Desligamento" />
+                        <group>
+                            <group>
+                                <field name="sped_s2399" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
             </field>
         </record>
 
