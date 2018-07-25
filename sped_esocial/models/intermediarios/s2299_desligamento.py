@@ -117,7 +117,8 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
     @api.multi
     def _compute_display_name(self):
         for record in self:
-            record.name = 'S-2299 - Desligamento {}'.format(record.id)
+            record.name = 'S-2299 - Desligamento {}'.format(
+                record.sped_hr_rescisao_id.contract_id.display_name)
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
