@@ -29,7 +29,7 @@ openerp.l10n_br_tef = function(instance){
     var transaction_queue = new Array();
     var payment_type;
     var payment_name;
-    var global_ls_product_type = "Credito-Banrisul";
+    var global_ls_product_type = "Credito-Stone";
 
     var card_number = "5442556260904012";
     var card_expiring_date = "03/19";
@@ -313,7 +313,7 @@ openerp.l10n_br_tef = function(instance){
     }
 
     function check_removed_card(){
-        if((io_tags.servico == "executar") && (io_tags.mensagem == "Transacao aprovada., RETIRE O CARTAO")){
+        if((io_tags.servico == "executar") && (io_tags.mensagem == "Transacao autorizada, RETIRE O CARTAO")){
             confirm(io_tags.sequencial);
 
             io_tags.mensagem = "";
@@ -602,7 +602,6 @@ openerp.l10n_br_tef = function(instance){
                 }
                 // Without PinPad
                 else{
-                    global_ls_product_type = "Credito-Stone";
                     start();
                 }
 
