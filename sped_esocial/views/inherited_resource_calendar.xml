@@ -8,7 +8,11 @@
                 string="Calendários"
                 action="resource.action_resource_calendar_form"
                 parent="hr.menu_hr_configuration" />
-        />
+
+        <!--Alterando o nome do Menu. Fazer por tradução é A riscado -->
+        <record id="resource.action_resource_calendar_form" model="ir.actions.act_window">
+            <field name="name">Calendários</field>
+        </record>
 
     </data>
 </openerp>
