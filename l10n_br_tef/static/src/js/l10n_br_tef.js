@@ -29,13 +29,12 @@ openerp.l10n_br_tef = function(instance){
     var transaction_queue = new Array();
     var payment_type;
     var payment_name;
-    var global_ls_product_type = "Credito-Stone";
 
     var card_number = "5442556260904012";
     var card_expiring_date = "03/19";
     var card_security_code = "624";
 
-    var pinpad_connected = 0;
+    var pinpad_connected = 1;
 
     function connect()
     {
@@ -503,9 +502,8 @@ openerp.l10n_br_tef = function(instance){
         var ls_execute_tags = 'servico="executar"retorno="1"sequencial="'+ sequential() +'"';
 
         var ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
-        // var ls_card_type = "Credito";
+        var ls_product_type = (payment_type === "CD01")? "Debito-Stone" : "Credito-Stone";
         var ls_transaction_type = "Cartao Vender";
-        var ls_product_type = global_ls_product_type;
         var ls_payment_transaction = "A vista";
 
 
@@ -574,17 +572,17 @@ openerp.l10n_br_tef = function(instance){
 
     function sequential()
     {
-        // Incrementa o sequencial..
+        // Increments the senquential..
         in_sequential = (in_sequential+1);
 
         // document.getElementById('io_txt_sequencial').value = in_sequential;
         return(in_sequential);
     }
 
-    function redo_operation(retorno_sequencial){
+    function redo_operation(sequential_return){
         if(transaction_queue.length > 0){
             setTimeout(function(){
-                transaction_queue[transaction_queue.length-1] = transaction_queue[transaction_queue.length-1].replace(/sequencial="\d+"/, "sequencial=\"" + retorno_sequencial + "\"");
+                transaction_queue[transaction_queue.length-1] = transaction_queue[transaction_queue.length-1].replace(/sequencial="\d+"/, "sequencial=\"" + sequential_return + "\"");
                     send(transaction_queue[transaction_queue.length-1]);
             }, 1000);
         }
@@ -606,17 +604,12 @@ openerp.l10n_br_tef = function(instance){
                 }
 
             }else if(payment_type === "CD01"){
-
+                // Only works with PinPad
+                start();
             }
 
         }
     }
-
-    module.Order = module.Order.extend({
-        verificar_metodo_pagamento: function(){
-            var payment_method = this.attributes.paymentLines.models;
-        }
-    });
 
     module.ProductScreenWidget.include({
         init: function(parent,options){
