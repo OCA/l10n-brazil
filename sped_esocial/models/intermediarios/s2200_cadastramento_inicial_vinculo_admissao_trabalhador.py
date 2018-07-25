@@ -312,7 +312,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 Dependente = pysped.esocial.leiaute.S2200_Dependente_2()
                 Dependente.tpDep.valor = dependente.dependent_type_id.code.zfill(2)
                 Dependente.nmDep.valor = dependente.dependent_name
-                Dependente.cpfDep.valor = dependente.dependent_cpf
+                Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
                 Dependente.dtNascto.valor = dependente.dependent_dob
                 Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
                 Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
