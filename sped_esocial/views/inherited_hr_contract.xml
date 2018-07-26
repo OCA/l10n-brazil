@@ -135,6 +135,23 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="sped_esocial_hr_contract_tree_view">
+            <field name="name">sped.esocial.hr.contract.tree (in sped_esocial)</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="type_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date_end" position="after">
+                    <field name="situacao_esocial" />
+                </field>
+            </field>
+        </record>
+
 
         <!-- Contrato de Autnomos -->
         <record model="ir.ui.view" id="sped_hr_contrato_autonomo">
@@ -179,6 +196,17 @@
                     <field name="dsc_sal_var"
                            attrs="{'invisible': [('salary_unit_code','not in',['6','7'])],
                                    'required': [('salary_unit_code','in',['6','7'])]}" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_esocial_hr_contract_autonomo_tree_view">
+            <field name="name">sped.esocial.hr.contract.autonomo.tree (in sped_esocial)</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="date_end" position="after">
+                    <field name="situacao_esocial_autonomo" />
                 </field>
             </field>
         </record>
