@@ -12,12 +12,11 @@ class HrHolidaysStatus(models.Model):
     esocial_evento_afastamento_id = fields.Many2one(
         string='Evento e-Social',
         comodel_name='sped.motivo_afastamento',
-        required=True
     )
 
     @api.constrains('esocial_evento_afastamento_id')
     def _check_evento_afastamento_unico(self):
-        if self.search([
+        if self.esocial_evento_afastamento_id and self.search([
             ('esocial_evento_afastamento_id',
              '=',
              self.esocial_evento_afastamento_id.id),
