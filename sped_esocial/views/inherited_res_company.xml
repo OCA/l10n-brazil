@@ -203,7 +203,7 @@
                                                 string="Transmitir para o e-Social" class="oe_highlight"
                                                 attrs="{'invisible': [('situacao_lotacao_esocial', 'not in', ['3', '5'])]}" />
                                         <button name="consultar_lotacao" colspan="4" type="object"
-                                                string="Consultar Lotação no e-Social" class="oe_highlight"
+                                                string="Consultar Processamento no e-Social" class="oe_highlight"
                                                 attrs="{'invisible': [('situacao_lotacao_esocial', 'not in', ['4'])]}" />
                                         <field name="situacao_lotacao_esocial" widget="statusbar" select="1"
                                                nolabel="1" statusbar_visible="0"
