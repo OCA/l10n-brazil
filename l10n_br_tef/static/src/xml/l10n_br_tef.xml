@@ -9,4 +9,13 @@
             </t>
         </t>
     </t>
+
+    <t t-name="PinPadStatusWidget">
+        <div class="oe_status connected js_synch">
+            <i class='fa fa-fw fal fa-credit-card icon_connected' style="color: green;"/>
+        </div>
+        <div class="oe_status disconnected js_synch oe_hidden">
+            <i class='fa fa-fw fal fa-credit-card icon_disconnected' style="color: red;"/>
+        </div>
+    </t>
 </templates>

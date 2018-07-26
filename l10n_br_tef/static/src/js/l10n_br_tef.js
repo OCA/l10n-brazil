@@ -19,11 +19,12 @@
  ******************************************************************************/
 
 openerp.l10n_br_tef = function(instance){
+    
     module = instance.point_of_sale;
+    var _t = instance.web._t;
 
     var in_sequential = 2;
     var in_sequential_execute = 0;
-    var io_connection = connect();
     var io_tags;
     var ls_transaction_global_value = '';
     var transaction_queue = new Array();
@@ -34,82 +35,146 @@ openerp.l10n_br_tef = function(instance){
     var card_expiring_date = "03/19";
     var card_security_code = "624";
 
-    var pinpad_connected = 0;
+    var connect_init = false;
+    var set_interval_id = 0;
+
+    module.PindPadWidget = module.StatusWidget.extend({
+        template: 'PinPadStatusWidget',
+
+        start: function(){
+            this.$el.click(function(){
+                connect();
+            });
+        },
+    });
+
+    module.PosWidget = module.PosWidget.extend({
+        build_widgets: function(){
+            this._super();
+            this.close_button = new module.HeaderButtonWidget(this,{
+                label: _t('Close'),
+                action: function(){
+                    var self = this;
+                    if (!this.confirmed) {
+                        this.$el.addClass('confirm');
+                        this.$el.text(_t('Confirm'));
+                        this.confirmed = setTimeout(function(){
+                            self.$el.removeClass('confirm');
+                            self.$el.text(_t('Close'));
+                            self.confirmed = false;
+                        },2000);
+                    } else {
+                        clearTimeout(this.confirmed);
+                        clearInterval(set_interval_id);
+                        this.pos_widget.close();
+                    }
+                },
+            });
+            this.pind_pad_button = new module.PindPadWidget(this,{});
+            this.pind_pad_button.appendTo(this.$('.pos-rightheader'));
+            $('.header-button').remove();
+            this.close_button.appendTo(this.$('.pos-rightheader'));
+
+         },
+    });
+
 
     function connect()
     {
         // Returns the established connection.
-        return (new WebSocket('ws://localhost:60906'));
-    }
+        try {
+            io_connection = new WebSocket('ws://localhost:60906');
 
-    // Opens the connection and sends the first service
-    io_connection.onopen = function()
-    {
-        // Reports that you are connected.
-        trace('Connection successful');
+            // Opens the connection and sends the first service
+                io_connection.onopen = function()
+            {
+                connect_init = true;
+                // Reports that you are connected.
+                $(".connected").removeClass("oe_hidden");
+                $(".disconnected").addClass("oe_hidden");
+                trace('Connection successful');
+                // Instantiate and initialize the tags for integration.
+                io_tags = new tags();
+                io_tags.initialize_tags();
+                consult();
+            };
 
-        // Instantiate and initialize the tags for integration.
-        io_tags = new tags();
-        io_tags.initialize_tags();
-    };
+         /**
+           Function for handling connection closed.
+            */
+            io_connection.onclose = function () {
+                trace('Connection closed');
+                $(".connected").addClass("oe_hidden");
+                $(".disconnected").removeClass("oe_hidden");
+                connect_init = false;
+                io_connection.close();
+            };
 
-    /**
-    Function for handling communication errors.
-    */
-    io_connection.onerror = function(error)
-    {
-        trace(error.data);
-        //io_connection.close();
-    };
+            /**
+            Function for handling communication errors.
+            */
+            io_connection.onerror = function(error)
+            {
+                trace(error.data);
+                $(".connected").addClass("oe_hidden");
+                $(".disconnected").removeClass("oe_hidden");
+                connect_init = false;
+                io_connection.close();
+            };
 
-    /**
-    Function for receiving messages.
-    */
-    io_connection.onmessage = function(e){
+            /**
+            Function for receiving messages.
+            */
+            io_connection.onmessage = function(e){
 
-        // Shows the message.
-        trace("Received >>> " + e.data);
+                // Shows the message.
+                trace("Received >>> " + e.data);
 
-        // Initializes Tags.
-        io_tags.initialize_tags();
+                // Initializes Tags.
+                io_tags.initialize_tags();
 
-        // Show the received Tags.
-        disassembling_service(e.data);
+                // Show the received Tags.
+                disassembling_service(e.data);
 
-        // If 'retorno' isn't OK
-        if( io_tags.retorno !== "0" ) {
-            in_sequential = io_tags.sequencial;
+                // If 'retorno' isn't OK
+                if( io_tags.retorno !== "0" ) {
+                    in_sequential = io_tags.sequencial;
+                }
+
+                // Saves the current sequence of the collection.
+                in_sequential_execute = io_tags.automacao_coleta_sequencial;
+
+                setTimeout(function(){
+                    // Initial Checks
+                    if(check_completed_consult()) return;
+                    if(check_completed_execution()) return;
+
+                    // Credit without PinPad
+                    if(check_completed_start()) return;
+                    if(check_completed_start_execute()) return;
+                    if(check_completed_send_card_number()) return;
+                    if(check_completed_send_expiring_date()) return;
+                    if(check_completed_send_security_code()) return;
+                    if(check_authorized_operation()) return;
+
+                    // Credit with PinPad
+                    check_completed_send();
+                    if(check_inserted_card()) return;
+                    if(check_filled_value()) return;
+                    check_filled_value_send();
+                    if(check_inserted_password()) return;
+
+                    // Final checks
+                    if(check_approved_transaction()) return;
+                    if(check_removed_card()) return;
+                    if(finishes_operation()) return;
+                    
+                }, 1000);
+            };
         }
-
-        // Saves the current sequence of the collection.
-        in_sequential_execute = io_tags.automacao_coleta_sequencial;
-
-        setTimeout(function(){
-            // Initial Checks
-            if(check_completed_consult()) return;
-            if(check_completed_execution()) return;
-
-            // Credit without PinPad
-            if(check_completed_start()) return;
-            if(check_completed_start_execute()) return;
-            if(check_completed_send_card_number()) return;
-            if(check_completed_send_expiring_date()) return;
-            if(check_completed_send_security_code()) return;
-            if(check_authorized_operation()) return;
-
-            // Credit with PinPad
-            // check_completed_send();
-            if(check_inserted_card()) return;
-            if(check_filled_value()) return;
-            check_filled_value_send();
-            if(check_inserted_password()) return;
-
-            // Final checks
-            if(check_approved_transaction()) return;
-            if(check_removed_card()) return;
-            if(finishes_operation()) return;
-            if(check_for_errors()) return;
-        }, 1000);
+        catch (err){
+            console.log('Nao foi possivel estalecer uma conexao com o servidor')
+        }
     };
 
     function check_completed_consult(){
@@ -459,7 +524,7 @@ openerp.l10n_br_tef = function(instance){
                     ln_start, (ln_start = to_service.toString().indexOf('\"\n', ln_start)));
 
                 ln_start += 2;
-                
+
                 io_tags.fill_tags(ls_tag, ls_value);
             }
         }
@@ -556,10 +621,8 @@ openerp.l10n_br_tef = function(instance){
 
     function abort()
 	{
-		// send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
 		setTimeout(function(){
-		// start();
-            send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
+                    send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
 		}, 1000);
 	}
 
@@ -590,7 +653,12 @@ openerp.l10n_br_tef = function(instance){
     module.ProductScreenWidget.include({
         init: function(parent,options){
             this._super(parent,options);
-            consult();
+            connect();
+            set_interval_id =
+                setInterval(function(){
+                if (!connect_init)
+                    connect();
+            }, 10000);
         }
     });
 
@@ -601,7 +669,7 @@ openerp.l10n_br_tef = function(instance){
         render_paymentline: function(line){
             el_node = this._super(line);
             var self = this;
-             
+
             if (["CD01", "CC01"].indexOf(line.cashregister.journal.code) > -1 &&
                 this.pos.config.iface_tef){
                 payment_type = line.cashregister.journal.code;
