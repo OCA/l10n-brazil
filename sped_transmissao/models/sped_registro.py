@@ -94,6 +94,8 @@ class SpedRegistro(models.Model):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
+            ('7', 'Excluído'),
         ],
         default='1',
     )

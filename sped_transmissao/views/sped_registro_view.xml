@@ -152,8 +152,9 @@
                     <filter name="com_erros" icon="terp-document-new" string="Com Erro(s)" domain="[('situacao', '=', '3')]" help="Registros com Erros"/>
                     <filter name="pendentes" icon="terp-document-new" string="Pendente Transmissão" domain="[('situacao', '=', '1')]" />
                     <filter name="transmitidas" icon="terp-document-new" string="Transmitidas" domain="[('situacao', '=', '2')]" />
-                    <filter name="sucessos" icon="terp-document-new" string="Com Sucesso" domain="[('situacao', '=', '4')]" />
                     <filter name="retificar" icon="terp-document-new" string="Precisam retificar" domain="[('situacao', '=', '5')]" />
+                    <filter name="sucessos" icon="terp-document-new" string="Com Sucesso" domain="[('situacao', '=', '4')]" />
+                    <filter name="excluidos" icon="terp-document-new" string="Excluídos" domain="[('situacao', '=', '7')]" />
                     <field name="codigo" />
                     <field name="origem" />
                     <group expand="0" string="Group By">
