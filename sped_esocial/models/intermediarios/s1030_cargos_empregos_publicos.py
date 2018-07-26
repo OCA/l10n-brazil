@@ -63,7 +63,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
-        compute='compute_precisa_enviar',
+        related='cargo_id.precisa_atualizar',
     )
     precisa_excluir = fields.Boolean(
         string='Precisa excluir dados?',
@@ -159,10 +159,6 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
                         cargo.sped_inclusao.situacao != '4':
                     precisa_incluir = True
 
-            # Se o campo precisa_atualizar mudar no cargo, então precisa atualizar
-            if cargo.cargo_id.precisa_atualizar:
-                precisa_atualizar = True
-
             # Se a empresa já tem um registro de inclusão confirmado, tem um
             # período final definido e não tem um
             # registro de exclusão confirmado, então precisa excluir
@@ -175,7 +171,6 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
 
             # Popula os campos na tabela
             cargo.precisa_incluir = precisa_incluir
-            cargo.precisa_atualizar = precisa_atualizar
             cargo.precisa_excluir = precisa_excluir
 
     @api.depends('sped_inclusao',

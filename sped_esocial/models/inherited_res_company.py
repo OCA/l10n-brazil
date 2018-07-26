@@ -433,8 +433,9 @@ class ResCompany(models.Model):
         if self.nfe_a1_file:
             processador.certificado = self.certificado_nfe()
 
-    @api.model
+    @api.multi
     def write(self, vals):
+        self.ensure_one()
 
         # Lista os campos que são monitorados do Empregador
         campos_monitorados = [

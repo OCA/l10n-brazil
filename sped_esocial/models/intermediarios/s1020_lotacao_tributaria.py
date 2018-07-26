@@ -62,7 +62,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
-        compute='compute_precisa_enviar',
+        related='lotacao_id.precisa_atualizar_lotacao',
     )
     precisa_excluir = fields.Boolean(
         string='Precisa excluir dados?',
@@ -129,7 +129,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
 
             # Inicia as variáveis como False
             precisa_incluir = False
-            precisa_atualizar = False
+            # precisa_atualizar = False
             precisa_excluir = False
 
             # Se a empresa matriz tem um período inicial definido e não
@@ -139,14 +139,14 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
                         lotacao.sped_inclusao.situacao != '4':
                 precisa_incluir = True
 
-            # Se a empresa já tem um registro de inclusão confirmado mas a
-            # data da última atualização é menor que a o write_date da empresa,
-            # então precisa atualizar
-            if lotacao.sped_inclusao and \
-                    lotacao.sped_inclusao.situacao == '4':
-                if lotacao.ultima_atualizacao < \
-                        lotacao.lotacao_id.write_date:
-                    precisa_atualizar = True
+            # # Se a empresa já tem um registro de inclusão confirmado mas a
+            # # data da última atualização é menor que a o write_date da empresa,
+            # # então precisa atualizar
+            # if lotacao.sped_inclusao and \
+            #         lotacao.sped_inclusao.situacao == '4':
+            #     if lotacao.ultima_atualizacao < \
+            #             lotacao.lotacao_id.write_date:
+            #         precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um
             # período final definido e não tem um
@@ -160,7 +160,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
 
             # Popula os campos na tabela
             lotacao.precisa_incluir = precisa_incluir
-            lotacao.precisa_atualizar = precisa_atualizar
+            # lotacao.precisa_atualizar = precisa_atualizar
             lotacao.precisa_excluir = precisa_excluir
 
     @api.depends('sped_inclusao',
@@ -289,6 +289,8 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+        self.company_id.precisa_atualizar = False
 
     @api.multi
     def transmitir(self):

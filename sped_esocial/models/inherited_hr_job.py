@@ -150,8 +150,9 @@ class HrJob(models.Model):
         # O que realmente precisará ser feito é tratado no método do registro intermediário
         self.sped_cargo_id.gerar_registro()
 
-    @api.model
+    @api.multi
     def write(self, vals):
+        self.ensure_one()
 
         # Lista os campos que são monitorados
         campos_monitorados = [
