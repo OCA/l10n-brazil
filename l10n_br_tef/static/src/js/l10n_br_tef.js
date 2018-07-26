@@ -34,7 +34,7 @@ openerp.l10n_br_tef = function(instance){
     var card_expiring_date = "03/19";
     var card_security_code = "624";
 
-    var pinpad_connected = 1;
+    var pinpad_connected = 0;
 
     function connect()
     {
@@ -98,7 +98,7 @@ openerp.l10n_br_tef = function(instance){
             if(check_authorized_operation()) return;
 
             // Credit with PinPad
-            check_completed_send();
+            // check_completed_send();
             if(check_inserted_card()) return;
             if(check_filled_value()) return;
             check_filled_value_send();
@@ -108,6 +108,7 @@ openerp.l10n_br_tef = function(instance){
             if(check_approved_transaction()) return;
             if(check_removed_card()) return;
             if(finishes_operation()) return;
+            if(check_for_errors()) return;
         }, 1000);
     };
 
@@ -338,6 +339,29 @@ openerp.l10n_br_tef = function(instance){
         }
     }
 
+    function check_for_errors(){
+        // Here all the exceptions will be handle
+
+        // For any other exceptions, just abort the operation
+        if((io_tags.automacao_coleta_retorno === "9" && io_tags.automacao_coleta_mensagem === "Fluxo Abortado pelo operador!!")){
+            return true;
+        }else if((io_tags.mensagem || false) && (io_tags.mensagem.startsWith("Sequencial invalido"))){
+            return true;
+        }else if(io_tags.automacao_coleta_mensagem === "Problema na conexao"){
+            return true;
+        }else if((io_tags.automacao_coleta_mensagem || false) && (io_tags.automacao_coleta_mensagem.startsWith("Transacao cancelada"))) {
+            return true;
+        }else if(io_tags.automacao_coleta_mensagem === "INSIRA OU PASSE O CARTAO"){
+            return true;
+        }else if(io_tags.servico === "finalizar"){
+            return true;
+        }else if(io_tags.servico === "iniciar"){
+            return true;
+        }else{
+            abort();
+        }
+    }
+
     function trace(as_buffer) {
         console.log(as_buffer);
     }
@@ -347,40 +371,8 @@ openerp.l10n_br_tef = function(instance){
     */
     function tags()
     {
-        var aplicacao;
-        var aplicacao_tela;
-        var estado;
-        var versao;
-        var mensagem;
-        var retorno;
-        var sequencial;
-        var servico;
-        var transacao;
-        var tipo_produto;
-        var transacao_comprovante_1via;
-        var automacao_coleta_palavra_chave;
-        var automacao_coleta_tipo;
-        var transacao_comprovante_2via;
-        var transacao_comprovante_resumido;
-        var transacao_informacao;
-        var transacao_opcao;
-        var transacao_pagamento;
-        var transacao_parcela;
-        var transacao_produto;
-        var transacao_rede;
-        var transacao_tipo_cartao;
-        var transacao_administracao_usuario;
-        var transacao_administracao_senha;
-        var transacao_valor;
-        var automacao_coleta_sequencial;
-        var automacao_coleta_retorno;
-        var automacao_coleta_mensagem;
-        var automacao_coleta_informacao;
-        var automacao_coleta_opcao;
-
         this.fill_tags = function(as_tag, as_value)
         {
-
             if('automacao_coleta_opcao' === as_tag)
                 this.automacao_coleta_opcao = as_value;
 
@@ -562,11 +554,12 @@ openerp.l10n_br_tef = function(instance){
         send('servico="consultar"retorno="0"sequencial="'+ sequential()+'"');
     }
 
-    function fluxoAbortar()
+    function abort()
 	{
-		send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
+		// send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
 		setTimeout(function(){
-		start();
+		// start();
+            send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
 		}, 1000);
 	}
 
@@ -587,28 +580,11 @@ openerp.l10n_br_tef = function(instance){
             }, 1000);
         }
     }
-
+    
     function start_operation()
     {
-        fluxoAbortar();
-        if (('consultar' === io_tags.servico)&& (io_tags.transacao_produto != '' )){
-            if(payment_type === "CC01"){
-
-                // With PinPad
-                if(pinpad_connected){
-                    execute()
-                }
-                // Without PinPad
-                else{
-                    start();
-                }
-
-            }else if(payment_type === "CD01"){
-                // Only works with PinPad
-                start();
-            }
-
-        }
+        // abort();
+        start();
     }
 
     module.ProductScreenWidget.include({
