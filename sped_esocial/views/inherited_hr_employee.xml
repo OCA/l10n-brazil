@@ -22,10 +22,6 @@
                     <field name="cnh_dt_pri_hab" />
                     <field name="cnh_uf" domain="[('country_id','=',country_id)]" attrs="{'required': [('driver_license', '!=', False)]}" />
                 </field>
-                <field name="dependent_verification" position="after">
-                    <field name="dep_sf" />
-                    <field name="inc_trab" />
-                </field>
             </field>
         </record>
 

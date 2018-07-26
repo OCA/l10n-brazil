@@ -51,6 +51,7 @@
         'views/inherited_resource_calendar_attendance.xml',
         'views/inherited_resource_calendar.xml',
         'views/inherited_hr_employee.xml',
+        'views/inherited_hr_employee_dependent.xml',
         'views/inherited_res_partner.xml',
         'views/inherited_hr_payslip_view.xml',
         'views/inherited_hr_payslip_autonomo_view.xml',

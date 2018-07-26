@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_hr_employee_dependent">
+            <field name="name">sped_hr_employee_dependent.form</field>
+            <field name="model">hr.employee.dependent</field>
+            <field name="inherit_id" ref="l10n_br_hr.view_l10n_br_hr_employee_dependent_form" />
+            <field name="arch" type="xml">
+                <field name="dependent_verification" position="after">
+                    <field name="dep_sf" />
+                    <field name="inc_trab" />
+                </field>
+                <field name="dependent_dob" position="after">
+                    <field name="precisa_cpf" invisible="1"/>
+                </field>
+                <field name="dependent_cpf" position="attributes">
+                    <attribute name="attrs">{'required': [('dependent_verification', '=', True),('precisa_cpf', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
