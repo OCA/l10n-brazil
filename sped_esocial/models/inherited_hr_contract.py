@@ -182,6 +182,10 @@ class HrContract(models.Model):
         string='Precisa atualizar dados?',
         related='sped_esocial_alterar_contrato_autonomo_id.precisa_atualizar',
     )
+    admission_type_code = fields.Char(
+        string='Código do tipo da admissão',
+        related='admission_type_id.code'
+    )
 
     @api.multi
     def ativar_contrato(self):

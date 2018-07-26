@@ -11,7 +11,21 @@
                 <!--<field name="categoria" position="before">-->
                     <!--<field name="evento_esocial" invisible="True" />-->
                 <!--</field>-->
-
+                <field name="admission_type_id" position="after">
+                    <field name="admission_type_code" invisible="1"/>
+                </field>
+                <group name="vinculo_anterior" position="attributes">
+                    <attribute name="attrs">{'invisible': [('admission_type_code', '=', '1')]}</attribute>
+                </group>
+                <field name="cnpj_empregador_anterior" position="attributes">
+                    <attribute name="attrs">{'required': [('admission_type_code', '!=', '1')]}</attribute>
+                </field>
+                <field name="matricula_anterior" position="attributes">
+                    <attribute name="attrs">{'required': [('admission_type_code', '!=', '1')]}</attribute>
+                </field>
+                <field name="data_admissao_anterior" position="attributes">
+                    <attribute name="attrs">{'required': [('admission_type_code', '!=', '1')]}</attribute>
+                </field>
                 <xpath expr="//page[@string='Alterações Contratuais']" position="after">
 
                     <!-- Esocial para trabalhadores com Vinculo Registro S2200-->
