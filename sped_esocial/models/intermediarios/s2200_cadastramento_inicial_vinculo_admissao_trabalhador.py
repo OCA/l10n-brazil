@@ -2,13 +2,13 @@
 # Copyright 2018 - ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-
-from pybrasil.valor import formata_valor
-from openerp import api, models, fields
-from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 import pysped
-
-from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
+from openerp import api, models, fields
+from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import \
+    SpedRegistroIntermediario
+from openerp.exceptions import Warning
+from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
+from pybrasil.valor import formata_valor
 
 
 class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
