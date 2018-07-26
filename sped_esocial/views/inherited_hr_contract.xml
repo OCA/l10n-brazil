@@ -43,8 +43,8 @@
                                         attrs="{'invisible': [('sped_contrato_id', '!=', False)]}" />
                             </group>
                         </group>
-                        <separator string="Alteração do Contrato" />
-                        <group colspan="4" col="4">
+                        <group colspan="4" col="4" attrs="{'invisible': [('situacao_esocial', '!=', '4')]}">
+                            <separator string="Alteração do Contrato" />
                             <group colspan="2" col="2">
                                 <field name="sped_esocial_alterar_contrato_id" />
                                 <field name="precisa_atualizar" />
@@ -71,7 +71,7 @@
                             </group>
                         </group>
 
-                        <group>
+                        <group attrs="{'invisible': [('situacao_esocial_autonomo', '!=', '4')]}">
                             <separator string="Alteração do Contrato Sem Vínculo" />
                             <group colspan="4" col="4">
                                 <group colspan="2" col="2">
@@ -173,7 +173,7 @@
                             </group>
                         </group>
 
-                        <group>
+                        <group attrs="{'invisible': [('situacao_esocial_autonomo', '!=', '4')]}">
                             <separator string="Alteração do Contrato Sem Vínculo" />
                             <group colspan="4" col="4">
                                 <group colspan="2" col="2">
@@ -191,6 +191,7 @@
 
                     </page>
                 </xpath>
+
                 <field name="wage" position="after">
                     <field name="salary_unit_code" invisible="1" />
                     <field name="dsc_sal_var"
