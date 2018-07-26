@@ -3,3 +3,4 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import s2299_desligamento_wizard
+from . import s3000_exclusao_wizard

@@ -409,3 +409,8 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                                 'vr_irrf_desc': float(info.vrIrrfDesc.valor),
                             }
                             self.env['sped.irrf.infoirrf'].create(vals)
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.beneficiario_id

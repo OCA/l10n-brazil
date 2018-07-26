@@ -36,3 +36,4 @@ from . import inherited_hr_holidays_status
 from . import inherited_hr_holidays
 from . import hr_turnos_trabalho
 from . import sped_esocial
+from . import inherited_sped_registro

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="s3000_exclusao_wizard">
+            <field name="name">S3000 Exclusão Wizard</field>
+            <field name="model">s3000.exclusao.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group colspan="4" col="4">
+                        <separator string="Motivo da Exclusão deste registro" />
+                        <field name="motivo" colspan="4" nolabel="1" required="1"/>
+                    </group>
+                    <footer>
+                        <button type="object" name="create_s3000" string="Prosseguir com a Exclusão deste Registro" class="oe_highlight" />
+                        <button special="cancel" string="Cancelar" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="sped_esocial.criar_s3000_exclusao"
+            name="Excluir Registro (S-3000)"
+            src_model="hr.payslip"
+            res_model="s3000.exclusao.wizard"
+            view_id="s3000_exclusao_wizard"
+            target="new"
+            multi="True"
+        />
+
+    </data>
+</openerp>

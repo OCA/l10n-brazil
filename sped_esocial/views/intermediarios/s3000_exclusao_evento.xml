@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sped_esocial_s3000_form" model="ir.ui.view">
+            <field name="name">e-Social S-3000</field>
+            <field name="model">sped.esocial.exclusao</field>
+            <field name="arch" type="xml">
+                <form string="e-Social - Registro S-3000" edit="false" delete="false" create="false" duplicate="false">
+                    <header>
+                        <field name="situacao_esocial" widget="statusbar" select="1"
+                               nolabel="1"
+                               readonly="1" />
+                    </header>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nome" readonly="1" />
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <group colspan="4" col="4">
+                            <field name="company_id" colspan="4" readonly="1"/>
+                            <field name="sped_registro_id" colspan="4" readonly="1" />
+                            <field name="sped_transmissao_id" colspan="4" readonly="1"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_esocial_s3000_tree">
+            <field name="name">S-3000 (Exclusões de Eventos)</field>
+            <field name="model">sped.esocial.exclusao</field>
+            <field name="arch" type="xml">
+                <tree string="S-3000 (Exclusão)" duplicate="false" edit="false" delete="false" create="false">
+                    <field name="company_id"/>
+                    <field name="sped_registro_id"/>
+                    <field name="situacao_esocial"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_esocial_s3000_search" model="ir.ui.view">
+            <field name="name">S-3000 (Exclusão)</field>
+            <field name="model">sped.esocial.exclusao</field>
+            <field name="arch" type="xml">
+                <search string="S-3000 (Exclusão)">
+                    <field name="company_id" />
+                    <field name="sped_registro_id" />
+                    <field name="situacao_esocial" />
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_esocial_s3000_action">
+            <field name="name">S-3000 (Exclusões)</field>
+            <field name="domain">[]</field>
+            <field name="res_model">sped.esocial.exclusao</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s3000_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_esocial_s3000_form"/>
+            <field name="act_window_id" ref="sped_esocial_s3000_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s3000_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_esocial_s3000_tree"/>
+            <field name="act_window_id" ref="sped_esocial_s3000_action"/>
+        </record>
+
+        <menuitem id="menu_sped_esocial_s3000"
+                  name="S-3000 (Exclusões de Eventos)"
+                  sequence="3000"
+                  action="sped_esocial.sped_esocial_s3000_action"
+                  parent="sped_esocial.menu_sped_esocial_intermediarios"
+        />
+
+    </data>
+</openerp>

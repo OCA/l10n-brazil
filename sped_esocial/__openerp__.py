@@ -41,6 +41,7 @@
 
         # Views
         'wizards/s2299_desligamento_wizard_view.xml',
+        'wizards/s3000_exclusao_wizard_view.xml',
         'views/sped_esocial_view.xml',
         'views/inherited_res_company.xml',
         'views/inherited_hr_salary_rule.xml',
@@ -55,6 +56,7 @@
         'views/inherited_hr_payslip_autonomo_view.xml',
         'views/inherited_hr_holidays_status_view.xml',
         'views/inherited_hr_holidays_view.xml',
+        'views/inherited_sped_registro.xml',
 
         # Intermediarios
         'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',
@@ -75,6 +77,7 @@
         'views/intermediarios/s2300_cadastramento_inicial_trabalhador_sem_vinculo.xml',
         'views/intermediarios/s2306_alteracao_contrato_trabalhador_sem_vinculo.xml',
         'views/intermediarios/s2399_termino_trabalhador_sem_vinculo.xml',
+        'views/intermediarios/s3000_exclusao_evento.xml',
         'views/intermediarios/s5001_contribuicao_social_trabalhador.xml',
         'views/intermediarios/s5002_imposto_renda_retido_fonte.xml',
         'views/intermediarios/s5011_inss_consolidado.xml',

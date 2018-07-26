@@ -436,3 +436,8 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         pass
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.hr_contract_id.employee_id

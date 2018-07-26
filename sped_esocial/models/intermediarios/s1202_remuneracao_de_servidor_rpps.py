@@ -237,3 +237,8 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.servidor_id

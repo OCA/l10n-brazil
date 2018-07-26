@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_registro_form">
+            <field name="name">Adiciona Exclusão de Registros (S-3000) no e-Social</field>
+            <field name="model">sped.registro</field>
+            <field name="inherit_id" ref="sped_transmissao.sped_registro_form" />
+            <field name="arch" type="xml">
+                <button name="consulta_lote" position="after">
+                    <button name="%(sped_esocial.criar_s3000_exclusao)d" type="action" string="Excluir este Registro" class="oe_highlight"
+                            attrs="{'invisible': ['|', '|', ('situacao', '!=', '4'), ('pode_excluir', '=', False), ('sped_s3000', '!=', False)]}"
+                            groups="sped_tabelas.group_manager"
+                    />
+                </button>
+                <page name="retorno" position="before">
+                    <page name="exclusao" string="Dados da Exclusão deste Registro"
+                          attrs="{'invisible': [('sped_s3000', '=', False)]}">
+                        <form>
+                            <header>
+                                <button name="transmitir_s3000" type="object" string="Transmitir Exclusão" class="oe_highlight"
+                                        attrs="{'invisible': [('situacao_s3000', 'not in', ['1', '3'])]}" />
+                                <button name="consultar_s3000" type="object" string="Consultar Exclusão" class="oe_highlight"
+                                        attrs="{'invisible': [('situacao_s3000', 'not in', ['2'])]}" />
+                                <field name="situacao_s3000" widget="statusbar" select="1"
+                                    nolabel="1" statusbar_visible="0" readonly="1"
+                                />
+                            </header>
+                            <group colspan="4" col="2">
+                                <field name="sped_s3000" readonly="1" />
+                                <separator string="Motivo" />
+                                <field name="motivo_s3000" nolabel="1" colspan="2" readonly="1" />
+                                <field name="pode_excluir" invisible="1" />
+                            </group>
+                        </form>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>
