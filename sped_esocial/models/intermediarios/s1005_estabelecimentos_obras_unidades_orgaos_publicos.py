@@ -326,8 +326,10 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
 
         # Popula infoCaepf
         if self.estabelecimento_id.tp_caepf:
-            S1005.evento.infoEstab.dadosEstab.infoCaepf.tpCaepf.valor = int(
+            info_caepf = pysped.esocial.leiaute.S1005_InfoCaepf_2()
+            info_caepf.tpCaepf.valor = int(
                 self.estabelecimento_id.tp_caepf)
+            S1005.evento.infoEstab.dadosEstab.infoCaepf.append(info_caepf)
 
         # Popula infoTrab
         S1005.evento.infoEstab.dadosEstab.infoTrab.regPt.valor = \
@@ -348,8 +350,9 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
 
         # Popula infoPCD
         if self.estabelecimento_id.cont_pcd:
-            S1005.evento.infoEstab.dadosEstab.infoTrab.infoPCD.contPCD = \
-                self.estabelecimento_id.cont_pcd
+            info_pcd = pysped.esocial.leiaute.S1005_InfoPCD_2()
+            info_pcd.contPCD.valor = self.estabelecimento_id.cont_pcd
+            S1005.evento.infoEstab.dadosEstab.infoTrab.infoPCD.append(info_pcd)
 
         return S1005
 
