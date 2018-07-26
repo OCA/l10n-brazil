@@ -42,3 +42,18 @@ access_contrato_autonomo_esocial,Alterar Contrato Autonomo(e-Social),model_sped_
 access_alteracao_contrato_autonomo_esocial, Alterar Contrato(e-Social),model_sped_esocial_alteracao_contrato_autonomo,base.group_hr_user,1,1,1,1
 access_sped_afastamento_temporario_rh_user,SPED Afastamento Temporário(Oficial RH),model_sped_esocial_afastamento_temporario,base.group_hr_user,1,1,1,1
 access_res_company_gerente_sped,Operador SPED(Escrita),base.model_res_company,sped_tabelas.group_user,1,1,0,0
+access_res_company_gerente_sped,Gerente SPED(Escrita),base.model_res_company,sped_tabelas.group_manager,1,1,0,0
+access_sped_esocial_fechamento_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_esocial_fechamento,sped_tabelas.group_user,1,1,1,1
+access_sped_contribuicao_inss_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_contribuicao_inss,sped_tabelas.group_user,1,1,1,1
+access_sped_contribuicao_inss_infocpcalc_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_contribuicao_inss_infocpcalc,sped_tabelas.group_user,1,1,1,1
+access_sped_contribuicao_inss_ideestablot_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_contribuicao_inss_ideestablot,sped_tabelas.group_user,1,1,1,1
+access_sped_hr_rescisao_autonomo_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_hr_rescisao_autonomo,sped_tabelas.group_user,1,1,1,1
+access_sped_irrf_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_irrf,sped_tabelas.group_user,1,1,1,1
+access_sped_irrf_basesirrf_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_irrf_basesirrf,sped_tabelas.group_user,1,1,1,1
+access_sped_irrf_infoirrf_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_irrf_infoirrf,sped_tabelas.group_user,1,1,1,1
+access_sped_inss_consolidado_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_inss_consolidado,sped_tabelas.group_user,1,1,1,1
+access_sped_inss_consolidado_ideestab_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_inss_consolidado_ideestab,sped_tabelas.group_user,1,1,1,1
+access_sped_inss_consolidado_basesremun_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_inss_consolidado_basesremun,sped_tabelas.group_user,1,1,1,1
+access_sped_irrf_consolidado_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_irrf_consolidado,sped_tabelas.group_user,1,1,1,1
+access_sped_irrf_consolidado_infocrcontrib_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_irrf_consolidado_infocrcontrib,sped_tabelas.group_user,1,1,1,1
+access_sped_esocial_exclusao_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_esocial_exclusao,sped_tabelas.group_user,1,1,1,1
