@@ -215,7 +215,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # remun_per_apur.indSimples.valor =
 
             # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
-            for line in remuneracoes_ids.line_ids:
+            for line in payslip.line_ids:
 
                 # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
                 # ser transmitida para o e-Social.
