@@ -294,12 +294,31 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             Brasil.tpLograd.valor = self.hr_contract_id.employee_id.address_home_id.tp_lograd.codigo or ''
         else:
             Brasil.tpLograd.valor = 'R'
-        Brasil.dscLograd.valor = self.hr_contract_id.employee_id.address_home_id.street or ''
-        Brasil.nrLograd.valor = self.hr_contract_id.employee_id.address_home_id.number or 'S/N'
-        Brasil.complemento.valor = self.hr_contract_id.employee_id.address_home_id.street2 or ''
-        Brasil.bairro.valor = self.hr_contract_id.employee_id.address_home_id.district or ''
+
+        # Verificar se campos obrigatórios estao preenchidos:
+        partner_id = self.hr_contract_id.employee_id.address_home_id
+
+        if not partner_id.street or not partner_id.number:
+            raise Warning('Por favor preencha corretamente o endereço do '
+                          'funcionário {}'.format(partner_id.name))
+        Brasil.dscLograd.valor = \
+            self.hr_contract_id.employee_id.address_home_id.street
+        Brasil.nrLograd.valor = \
+            self.hr_contract_id.employee_id.address_home_id.number
+        Brasil.complemento.valor = \
+            self.hr_contract_id.employee_id.address_home_id.street2 or ''
+        Brasil.bairro.valor = \
+            self.hr_contract_id.employee_id.address_home_id.district or ''
+
+        if not partner_id.zip:
+            raise Warning('Por favor preencha corretamente o CEP do '
+                          'funcionário {}'.format(partner_id.name))
         Brasil.cep.valor = limpa_formatacao(
             self.hr_contract_id.employee_id.address_home_id.zip) or ''
+
+        if not partner_id.l10n_br_city_id:
+            raise Warning('Por favor preencha corretamente o Município e a UF'
+                          ' do funcionário {}'.format(partner_id.name))
         Brasil.codMunic.valor = \
             self.hr_contract_id.employee_id.address_home_id.l10n_br_city_id.state_id.ibge_code + \
             self.hr_contract_id.employee_id.address_home_id.l10n_br_city_id.ibge_code
