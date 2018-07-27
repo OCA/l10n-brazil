@@ -44,7 +44,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('1', 'Precisa Atualizar'),
+            ('1', 'Precisa Transmitir'),
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),

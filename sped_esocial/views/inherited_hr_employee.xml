@@ -30,27 +30,56 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form" />
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="atualizar_trabalhador_s2206" type="object" colspan="2"
+                                string="Atualizar Trabalhador no e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
+                        />
+                        <button name="transmitir" colspan="4" type="object"
+                                string="Transmitir para o e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}" />
+                        <button name="consultar" colspan="4" type="object"
+                                string="Consultar Processamento no e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['4'])]}" />
+                        <field name="situacao_esocial" widget="statusbar" select="1"
+                               nolabel="1" statusbar_visible="0" readonly="1"
+                        />
+                    </header>
+                </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="esocial" string="e-Social" groups="sped_tabelas.group_user,sped_tabelas.group_manager">
-                        <separator string="Registro S-2205 Alterações Cadastrais" />
-                        <group>
-                            <group>
-                                <field name="situacao_esocial_inicial" />
-                                <field name="sped_esocial_alterar_cadastro_id" />
-                                <field name="precisa_atualizar" />
-                            </group>
-                            <group>
-                                <button
-                                        name="atualizar_cadastro_funcionario"
-                                        colspan="4" type="object"
-                                        string="Atualizar Cadastro"
-                                        class="oe_highlight"
-                                        attrs="{'invisible': [('precisa_atualizar', '!=', True)]}"
-                                />
-                            </group>
+                        <group colspan="4" col="4">
+                            <separator string="Registro S-2205 Alterações Cadastrais" />
+                            <field name="sped_s2205_ids" nolabel="1" readonly="1" />
+                            <!--<group>-->
+                                <!--<field name="situacao_esocial_inicial" />-->
+                                <!--<field name="sped_esocial_alterar_cadastro_id" />-->
+                                <!--<field name="precisa_atualizar" />-->
+                            <!--</group>-->
+                            <!--<group>-->
+                                <!--<button-->
+                                        <!--name="atualizar_cadastro_funcionario"-->
+                                        <!--colspan="4" type="object"-->
+                                        <!--string="Atualizar Cadastro"-->
+                                        <!--class="oe_highlight"-->
+                                        <!--attrs="{'invisible': [('precisa_atualizar', '!=', True)]}"-->
+                                <!--/>-->
+                            <!--</group>-->
                         </group>
                     </page>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="hr_employee_view_tree" model="ir.ui.view">
+            <field name="name">hr.employee.view.tree (in sped_esocial)</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_employee_ramal_tree_view" />
+            <field name="arch" type="xml">
+                <field name="ramais" position="after">
+                    <field name="situacao_esocial" />
+                </field>
             </field>
         </record>
 

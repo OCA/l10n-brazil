@@ -455,7 +455,11 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def retorno_sucesso(self, evento):
-        pass
+        self.ensure_one()
+
+        # Atualiza os campos de precisa_atualizar no contrato e no funcionário
+        self.hr_contract_id.precisa_atualizar = False
+        self.hr_contract_id.employee_id.precisa_atualizar = False
 
     @api.multi
     def retorna_trabalhador(self):
