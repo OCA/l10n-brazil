@@ -111,23 +111,6 @@ openerp.l10n_br_tef = function(instance){
          },
     });
 
-    function check_completed_start_execute(){
-        if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo == "N")
-            && (io_tags.automacao_coleta_retorno == "0")){
-
-            // Send the card number
-            collect(card_number);
-
-            io_tags.automacao_coleta_palavra_chave = '';
-            io_tags.automacao_coleta_tipo = '';
-            io_tags.automacao_coleta_retorno = '';
-            return true;
-        } else {
-            //Handle Exceptions Here
-            return false;
-        }
-    }
-
     function check_completed_send_card_number(){
         if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_validade") && (io_tags.automacao_coleta_tipo == "D")
             && (io_tags.automacao_coleta_retorno == "0")){
@@ -155,45 +138,6 @@ openerp.l10n_br_tef = function(instance){
             io_tags.automacao_coleta_palavra_chave = '';
             io_tags.automacao_coleta_tipo = '';
             io_tags.automacao_coleta_retorno = '';
-            return true;
-        } else {
-            //Handle Exceptions Here
-            return false;
-        }
-    }
-
-    function check_completed_send_security_code(){
-        if((io_tags.automacao_coleta_palavra_chave == "transacao_valor") && (io_tags.automacao_coleta_tipo == "N")
-            && (io_tags.automacao_coleta_retorno == "0")){
-            for( var i=0; i < $('.paymentline-input').length; i++){
-                if($('.paymentline-name')[i].innerText.indexOf(payment_name) != -1)
-                ls_transaction_global_value = $(".paymentline-input")[i].value.replace(',','.');
-            }
-            // Send the value
-            collect('');
-
-            // Reset the Value
-            ls_transaction_global_value = "";
-            io_tags.automacao_coleta_palavra_chave = '';
-            io_tags.automacao_coleta_tipo = '';
-            io_tags.automacao_coleta_retorno = '';
-            return true;
-        } else {
-            //Handle Exceptions Here
-            return false;
-        }
-    }
-
-    function check_authorized_operation(){
-        if(io_tags.automacao_coleta_mensagem === "Transacao autorizada"){
-            collect('');
-
-            io_tags.automacao_coleta_mensagem = '';
-            return true;
-        } else if(io_tags.mensagem === "Transacao autorizada") {
-
-            confirm(io_tags.sequencial);
-            io_tags.mensagem = '';
             return true;
         } else {
             //Handle Exceptions Here
@@ -231,80 +175,8 @@ openerp.l10n_br_tef = function(instance){
         }
     }
 
-    function check_filled_value(){
-        if(io_tags.automacao_coleta_mensagem == "AGUARDE A SENHA"){
-            collect('');
-
-            io_tags.automacao_coleta_mensagem = '';
-            return true;
-        } else {
-          // Handle Exceptions Here
-            return false;
-        }
-    }
-
     function check_filled_value_send(){
         // here the user must enter his password
-    }
-
-    function check_inserted_password(){
-        if(io_tags.automacao_coleta_mensagem === "Aguarde !!! Processando a transacao ..."){
-            collect('');
-
-            io_tags.automacao_coleta_mensagem = "";
-            return true;
-        } else {
-            // Handle Exceptions Here
-            return false;
-        }
-    }
-
-    function check_approved_transaction(){
-        if((io_tags.automacao_coleta_mensagem === "Transacao aprovada.") &&
-            (io_tags.servico == "") && (io_tags.transacao == "")) {
-            collect('');
-
-            io_tags.automacao_coleta_mensagem = '';
-            return true;
-        }else{
-            // Handle Exceptions Here
-            return false;
-        }
-    }
-
-    function check_removed_card(){
-        if((io_tags.servico == "executar") && (io_tags.mensagem == "Transacao autorizada, RETIRE O CARTAO")){
-            confirm(io_tags.sequencial);
-
-            io_tags.mensagem = "";
-            return true;
-        } else {
-            // Handle Exceptions Here
-            return false;
-        }
-    }
-
-    function check_for_errors(){
-        // Here all the exceptions will be handle
-
-        // For any other exceptions, just abort the operation
-        if((io_tags.automacao_coleta_retorno === "9" && io_tags.automacao_coleta_mensagem === "Fluxo Abortado pelo operador!!")){
-            return true;
-        }else if((io_tags.mensagem || false) && (io_tags.mensagem.startsWith("Sequencial invalido"))){
-            return true;
-        }else if(io_tags.automacao_coleta_mensagem === "Problema na conexao"){
-            return true;
-        }else if((io_tags.automacao_coleta_mensagem || false) && (io_tags.automacao_coleta_mensagem.startsWith("Transacao cancelada"))) {
-            return true;
-        }else if(io_tags.automacao_coleta_mensagem === "INSIRA OU PASSE O CARTAO"){
-            return true;
-        }else if(io_tags.servico === "finalizar"){
-            return true;
-        }else if(io_tags.servico === "iniciar"){
-            return true;
-        }else{
-            abort();
-        }
     }
 
     function trace(as_buffer) {
@@ -507,6 +379,7 @@ openerp.l10n_br_tef = function(instance){
                     $(".disconnected").removeClass("oe_hidden");
                     connect_init = false;
                     io_connection.close();
+                    abort();
                 };
 
                 /**
@@ -546,27 +419,27 @@ openerp.l10n_br_tef = function(instance){
                         // Initial Checks
                         if(self.check_completed_consult()) return;
                         if(self.check_completed_execution()) return;
+                        if(self.check_completed_start()) return;
 
                         // Credit without PinPad
-                        if(self.check_completed_start()) return;
-                        if(check_completed_start_execute()) return;
+                        if(self.check_completed_start_execute()) return;
                         if(check_completed_send_card_number()) return;
                         if(check_completed_send_expiring_date()) return;
-                        if(check_completed_send_security_code()) return;
-                        if(check_authorized_operation()) return;
+                        if(self.check_completed_send_security_code()) return;
+                        if(self.check_authorized_operation()) return;
 
                         // Credit with PinPad
                         // check_completed_send();
                         if(check_inserted_card()) return;
-                        if(check_filled_value()) return;
+                        if(self.check_filled_value()) return;
                         check_filled_value_send();
-                        if(check_inserted_password()) return;
+                        if(self.check_inserted_password()) return;
 
                         // Final checks
-                        if(check_approved_transaction()) return;
-                        if(check_removed_card()) return;
+                        if(self.check_approved_transaction()) return;
+                        if(self.check_removed_card()) return;
                         if(self.finishes_operation()) return;
-                        if(check_for_errors()) return;
+                        if(self.check_for_errors()) return;
                     }, 1000);
                 };
             }
@@ -575,11 +448,124 @@ openerp.l10n_br_tef = function(instance){
             }
         },
 
+        check_authorized_operation: function(){
+            // Authorized operation -- Without PinPad
+            if(io_tags.automacao_coleta_mensagem === "Transacao autorizada"){
+                collect('');
+
+                this.screenPopupPagamento('Transação Aprovada');
+
+                io_tags.automacao_coleta_mensagem = '';
+                return true;
+            }
+            // Authorized operation -- With PinPad
+            else if(io_tags.mensagem === "Transacao autorizada") {
+
+                this.screenPopupPagamento('Transação Aprovada');
+
+                confirm(io_tags.sequencial);
+                io_tags.mensagem = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_removed_card: function(){
+            var self = this;
+            if((io_tags.servico == "executar") && (io_tags.mensagem == "Transacao autorizada, RETIRE O CARTAO")){
+                confirm(io_tags.sequencial);
+
+                setTimeout(function(){
+                    self.screenPopupPagamento('Retire o Cartão');
+                }, 1500);
+
+                io_tags.mensagem = "";
+                return true;
+            } else {
+                // Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_inserted_password: function(){
+            if(io_tags.automacao_coleta_mensagem === "Aguarde !!! Processando a transacao ..."){
+                collect('');
+
+                this.screenPopupPagamento('Processando a transação ...');
+
+                io_tags.automacao_coleta_mensagem = "";
+                return true;
+            } else {
+                // Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_approved_transaction: function(){
+            if((io_tags.automacao_coleta_mensagem === "Transacao aprovada.") &&
+                (io_tags.servico == "") && (io_tags.transacao == "")) {
+
+                this.screenPopupPagamento('Transação Aprovada');
+                collect('');
+
+                io_tags.automacao_coleta_mensagem = '';
+                return true;
+            }else{
+                // Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_completed_start_execute: function(){
+            if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo == "N")
+                && (io_tags.automacao_coleta_retorno == "0")){
+
+                // Send the card number
+                collect(card_number);
+
+                this.screenPopupPagamento('Por favor, insira a senha');
+
+                io_tags.automacao_coleta_palavra_chave = '';
+                io_tags.automacao_coleta_tipo = '';
+                io_tags.automacao_coleta_retorno = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_completed_send_security_code: function(){
+            if((io_tags.automacao_coleta_palavra_chave == "transacao_valor") && (io_tags.automacao_coleta_tipo == "N")
+                && (io_tags.automacao_coleta_retorno == "0")){
+                for( var i=0; i < $('.paymentline-input').length; i++){
+                    if($('.paymentline-name')[i].innerText.indexOf(payment_name) != -1)
+                    ls_transaction_global_value = $(".paymentline-input")[i].value.replace(',','.');
+                }
+                // Send the value
+                collect('');
+
+                // Reset the Value
+                ls_transaction_global_value = "";
+                io_tags.automacao_coleta_palavra_chave = '';
+                io_tags.automacao_coleta_tipo = '';
+                io_tags.automacao_coleta_retorno = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
         check_completed_execution: function()
         {
             if((io_tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo != "N")
                 && (io_tags.automacao_coleta_retorno == "0")) {
-                this.collect('');
+                collect('');
+
+                this.screenPopupPagamento('Por favor, insira ou passe o Cartão');
 
                 io_tags.automacao_coleta_palavra_chave = '';
                 io_tags.automacao_coleta_tipo = '';
@@ -591,10 +577,27 @@ openerp.l10n_br_tef = function(instance){
             }
         },
 
+
+        check_filled_value: function(){
+            if(io_tags.automacao_coleta_mensagem == "AGUARDE A SENHA"){
+                collect('');
+
+                this.screenPopupPagamento('Por favor, insira a senha');
+
+                io_tags.automacao_coleta_mensagem = '';
+                return true;
+            } else {
+              // Handle Exceptions Here
+                return false;
+            }
+        },
+
         finishes_operation: function(){
             var self = this;
             if((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender") ){
                 finish();
+
+                self.pos_widget.popupStatusPagamento.hide()
 
                 io_tags.transacao = '';
                 setTimeout(function(){
@@ -647,6 +650,29 @@ openerp.l10n_br_tef = function(instance){
             } else {
                 //Handle Exceptions Here
                 return false;
+            }
+        },
+
+        check_for_errors: function(){
+            // Here all the exceptions will be handle
+
+            // For any other exceptions, just abort the operation
+            if((io_tags.automacao_coleta_retorno === "9" && io_tags.automacao_coleta_mensagem === "Fluxo Abortado pelo operador!!")){
+                return true;
+            }else if((io_tags.mensagem || false) && (io_tags.mensagem.startsWith("Sequencial invalido"))){
+                return true;
+            }else if(io_tags.automacao_coleta_mensagem === "Problema na conexao"){
+                abort();
+            }else if((io_tags.automacao_coleta_mensagem || false) && (io_tags.automacao_coleta_mensagem.startsWith("Transacao cancelada"))) {
+                return true;
+            }else if(io_tags.automacao_coleta_mensagem === "INSIRA OU PASSE O CARTAO"){
+                return true;
+            }else if(io_tags.servico === "finalizar"){
+                return true;
+            }else if(io_tags.servico === "iniciar"){
+                return true;
+            }else{
+                abort();
             }
         },
 
