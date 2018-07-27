@@ -145,14 +145,25 @@ class HrContract(models.Model):
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
-            ('2', 'Precisa Atualizar'),
-            ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
         ],
         string='Situação no e-Social',
         related='sped_contrato_id.situacao_esocial',
+        readonly=True,
+    )
+    situacao_esocial_alteracao = fields.Selection(
+        selection=[
+            ('1', 'Precisa Atualizar'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+        ],
+        string='Situação no e-Social',
+        related='sped_esocial_alterar_contrato_id.situacao_esocial',
         readonly=True,
     )
 
@@ -328,3 +339,17 @@ class HrContract(models.Model):
                 record.evento_esocial = 's2300'
             else:
                 record.evento_esocial = 's2200'
+
+    @api.multi
+    def transmitir_contrato_s2200(self):
+        self.ensure_one()
+
+        # Executa o método Transmitir do registro intermediário
+        self.sped_contrato_id.transmitir()
+
+    @api.multi
+    def consultar_contrato_s2200(self):
+        self.ensure_one()
+
+        # Executa o método Consultar do registro intermediário
+        self.sped_contrato_id.consultar()
