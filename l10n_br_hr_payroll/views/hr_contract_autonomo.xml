@@ -11,6 +11,7 @@
         <record model="ir.ui.view" id="hr_contrato_autonomo_form_view">
             <field name="name">hr.contract.form (in l10n_br_hr_payroll)</field>
             <field name="model">hr.contract</field>
+            <field name="priority" eval="200"/>
             <field name="arch" type="xml">
                 <form string="Contract">
                     <sheet>
