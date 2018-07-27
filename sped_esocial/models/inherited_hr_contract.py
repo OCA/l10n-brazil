@@ -707,6 +707,7 @@ class HrContract(models.Model):
     #     # registro intermediário
     #     self.sped_esocial_alterar_contrato_autonomo_id.gerar_registro()
     #
+
     @api.multi
     @api.depends('categoria')
     def _compute_evento_esocial(self):
@@ -723,16 +724,16 @@ class HrContract(models.Model):
             else:
                 record.evento_esocial = 's2200'
 
-    # @api.multi
-    # def transmitir_contrato_s2200(self):
-    #     self.ensure_one()
-    #
-    #     # Executa o método Transmitir do registro intermediário
-    #     self.sped_contrato_id.transmitir()
-    #
-    # @api.multi
-    # def consultar_contrato_s2200(self):
-    #     self.ensure_one()
-    #
-    #     # Executa o método Consultar do registro intermediário
-    #     self.sped_contrato_id.consultar()
+    @api.multi
+    def transmitir_contrato_s2200(self):
+        self.ensure_one()
+
+        # Executa o método Transmitir do registro intermediário
+        self.sped_contrato_id.transmitir()
+
+    @api.multi
+    def consultar_contrato_s2200(self):
+        self.ensure_one()
+
+        # Executa o método Consultar do registro intermediário
+        self.sped_contrato_id.consultar()
