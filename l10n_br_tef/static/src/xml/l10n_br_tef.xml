@@ -18,4 +18,20 @@
             <i class='fa fa-fw fal fa-credit-card icon_disconnected' style="color: red;"/>
         </div>
     </t>
+
+    <t t-name="StatusPagamentoPopUp">
+        <div class="modal-dialog">
+          <div class="popup popup-select-variant statusPagamentoPopUp">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="message"><t t-esc=" widget.message" /></p>
+                </div>
+                <div class="modal-body">
+
+                    <p class="comment"><t t-esc=" widget.comment" /></p>
+                </div>
+              </div>
+          </div>
+        </div>
+    </t>
 </templates>

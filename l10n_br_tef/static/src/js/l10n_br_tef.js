@@ -19,7 +19,7 @@
  ******************************************************************************/
 
 openerp.l10n_br_tef = function(instance){
-    
+
     module = instance.point_of_sale;
     var _t = instance.web._t;
 
@@ -46,6 +46,33 @@ openerp.l10n_br_tef = function(instance){
                 connect();
             });
         },
+    });
+
+    module.StatusPagementoPopUp = module.PopUpWidget.extend({
+        template: 'StatusPagamentoPopUp',
+        hotkeys_handlers: {},
+
+        show: function(options){
+            var self = this;
+            this._super();
+            this.message = options.message || '';
+            this.comment = options.comment || '';
+            this.renderElement();
+        },
+    });
+
+    module.PosOrderListWidget = module.PosBaseWidget.extend({
+        template: 'PosOrderListWidget',
+        renderElement: function() {
+            var self = this;
+            this._super();
+
+            var button = new module.PosOrderListButtonWidget(self,{
+                pos: self.pos,
+                pos_widget : self.pos_widget,
+            });
+            button.appendTo(self.$el);
+        }
     });
 
     module.PosWidget = module.PosWidget.extend({
@@ -75,146 +102,14 @@ openerp.l10n_br_tef = function(instance){
             $('.header-button').remove();
             this.close_button.appendTo(this.$('.pos-rightheader'));
 
+            this.popupStatusPagamento = new module.StatusPagementoPopUp(this,{});
+            this.popupStatusPagamento.appendTo(this.$('.screens'));
+            this.popupStatusPagamento.hide();
+            this.screen_selector.popup_set['popupStatusPagamento'] = this.popupStatusPagamento;
+
+
          },
     });
-
-
-    function connect()
-    {
-        // Returns the established connection.
-        try {
-            io_connection = new WebSocket('ws://localhost:60906');
-
-            // Opens the connection and sends the first service
-                io_connection.onopen = function()
-            {
-                connect_init = true;
-                // Reports that you are connected.
-                $(".connected").removeClass("oe_hidden");
-                $(".disconnected").addClass("oe_hidden");
-                trace('Connection successful');
-                // Instantiate and initialize the tags for integration.
-                io_tags = new tags();
-                io_tags.initialize_tags();
-                consult();
-            };
-
-         /**
-           Function for handling connection closed.
-            */
-            io_connection.onclose = function () {
-                trace('Connection closed');
-                $(".connected").addClass("oe_hidden");
-                $(".disconnected").removeClass("oe_hidden");
-                connect_init = false;
-                io_connection.close();
-            };
-
-            /**
-            Function for handling communication errors.
-            */
-            io_connection.onerror = function(error)
-            {
-                trace(error.data);
-                $(".connected").addClass("oe_hidden");
-                $(".disconnected").removeClass("oe_hidden");
-                connect_init = false;
-                io_connection.close();
-            };
-
-            /**
-            Function for receiving messages.
-            */
-            io_connection.onmessage = function(e){
-
-                // Shows the message.
-                trace("Received >>> " + e.data);
-
-                // Initializes Tags.
-                io_tags.initialize_tags();
-
-                // Show the received Tags.
-                disassembling_service(e.data);
-
-                // If 'retorno' isn't OK
-                if( io_tags.retorno !== "0" ) {
-                    in_sequential = io_tags.sequencial;
-                }
-
-                // Saves the current sequence of the collection.
-                in_sequential_execute = io_tags.automacao_coleta_sequencial;
-
-                setTimeout(function(){
-                    // Initial Checks
-                    if(check_completed_consult()) return;
-                    if(check_completed_execution()) return;
-
-                    // Credit without PinPad
-                    if(check_completed_start()) return;
-                    if(check_completed_start_execute()) return;
-                    if(check_completed_send_card_number()) return;
-                    if(check_completed_send_expiring_date()) return;
-                    if(check_completed_send_security_code()) return;
-                    if(check_authorized_operation()) return;
-
-                    // Credit with PinPad
-                    check_completed_send();
-                    if(check_inserted_card()) return;
-                    if(check_filled_value()) return;
-                    check_filled_value_send();
-                    if(check_inserted_password()) return;
-
-                    // Final checks
-                    if(check_approved_transaction()) return;
-                    if(check_removed_card()) return;
-                    if(finishes_operation()) return;
-                    
-                }, 1000);
-            };
-        }
-        catch (err){
-            console.log('Nao foi possivel estalecer uma conexao com o servidor')
-        }
-    };
-
-    function check_completed_consult(){
-
-        if((io_tags.servico == "consultar") && (io_tags.retorno == "0")) {
-
-            return true;
-        }
-        else if((io_tags.mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
-            redo_operation(io_tags.sequencial);
-            return false;
-        }
-    }
-
-    function check_completed_execution(){
-        if((io_tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo != "N")
-            && (io_tags.automacao_coleta_retorno == "0")) {
-            collect('');
-
-            io_tags.automacao_coleta_palavra_chave = '';
-            io_tags.automacao_coleta_tipo = '';
-            io_tags.automacao_coleta_retorno = '';
-            return true;
-        }else{
-            //Handle Exceptions Here
-            return false;
-        }
-    }
-
-    function check_completed_start(){
-        if((io_tags.servico == "iniciar") && (io_tags.retorno == "1") && (io_tags.aplicacao_tela == "VBIAutomationTest")){
-            execute();
-
-            io_tags.aplicacao_tela = '';
-            return true;
-        } else {
-            //Handle Exceptions Here
-            return false;
-        }
-    }
 
     function check_completed_start_execute(){
         if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo == "N")
@@ -389,21 +284,6 @@ openerp.l10n_br_tef = function(instance){
         }
     }
 
-    function finishes_operation(){
-        if((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender") ){
-            finish();
-
-            io_tags.transacao = '';
-            setTimeout(function(){
-                consult();
-            }, 2000);
-            return true;
-        } else {
-            // Handle Exceptions Here
-            return false;
-        }
-    }
-
     function check_for_errors(){
         // Here all the exceptions will be handle
 
@@ -553,57 +433,6 @@ openerp.l10n_br_tef = function(instance){
         send(ls_execute_tags);
     }
 
-    function execute()
-    {
-
-        var ls_execute_tags = 'servico="executar"retorno="1"sequencial="'+ sequential() +'"';
-
-        var ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
-        var ls_product_type = (payment_type === "CD01")? "Debito-Stone" : "Credito-Stone";
-        var ls_transaction_type = "Cartao Vender";
-        var ls_payment_transaction = "A vista";
-
-
-         if (ls_transaction_global_value !== "") {
-             ls_transaction_global_value = 'transacao_valor="'+ls_transaction_global_value+'"';
-             ls_execute_tags = ls_execute_tags+ls_transaction_global_value;
-         }
-
-
-         if (ls_transaction_type != "") {
-             ls_transaction_type = 'transacao="'+ls_transaction_type+'"';
-             ls_execute_tags = ls_execute_tags+ls_transaction_type;
-         }
-
-         if (ls_card_type != "") {
-             ls_card_type  = 'transacao_tipo_cartao="'+ls_card_type+'"';
-             ls_execute_tags = ls_execute_tags+ls_card_type;
-
-         }
-
-         if ( ls_payment_transaction != "") {
-             ls_payment_transaction = 'transacao_pagamento="'+ls_payment_transaction+'"';
-             ls_execute_tags = ls_execute_tags+ls_payment_transaction;
-         }
-
-         if ( ls_product_type != "" ){
-             ls_product_type = 'transacao_produto="'+ls_product_type+'"';
-             ls_execute_tags = ls_execute_tags+ls_product_type;
-         }
-
-         send(ls_execute_tags);
-    }
-
-    function send(as_buffer)
-    {
-        // Send the package.
-        io_connection.send(as_buffer);
-
-        // Places the current transaction in the queue
-        transaction_queue.push(as_buffer);
-        trace("Send >>> " + as_buffer);
-    }
-
     function start()
     {
         send('servico="iniciar"sequencial="'+ sequential() +'"retorno="1"versao="1.0.0"aplicacao_tela="VBIAutomationTest"aplicacao="V$PagueClient"');
@@ -612,11 +441,6 @@ openerp.l10n_br_tef = function(instance){
     function finish()
     {
         send('servico="finalizar"sequencial="'+sequential()+'"retorno="1"');
-    }
-
-    function consult()
-    {
-        send('servico="consultar"retorno="0"sequencial="'+ sequential()+'"');
     }
 
     function abort()
@@ -635,15 +459,6 @@ openerp.l10n_br_tef = function(instance){
         return(in_sequential);
     }
 
-    function redo_operation(sequential_return){
-        if(transaction_queue.length > 0){
-            setTimeout(function(){
-                transaction_queue[transaction_queue.length-1] = transaction_queue[transaction_queue.length-1].replace(/sequencial="\d+"/, "sequencial=\"" + sequential_return + "\"");
-                    send(transaction_queue[transaction_queue.length-1]);
-            }, 1000);
-        }
-    }
-    
     function start_operation()
     {
         // abort();
@@ -652,15 +467,244 @@ openerp.l10n_br_tef = function(instance){
 
     module.ProductScreenWidget.include({
         init: function(parent,options){
+            var self = this;
             this._super(parent,options);
-            connect();
+            this.connect();
             set_interval_id =
                 setInterval(function(){
                 if (!connect_init)
-                    connect();
+                    self.connect();
             }, 10000);
-        }
+        },
+
+        connect: function()
+        {
+            var self = this;
+            // Returns the established connection.
+            try {
+                io_connection = new WebSocket('ws://localhost:60906');
+
+                // Opens the connection and sends the first service
+                    io_connection.onopen = function()
+                {
+                    connect_init = true;
+                    // Reports that you are connected.
+                    $(".connected").removeClass("oe_hidden");
+                    $(".disconnected").addClass("oe_hidden");
+                    trace('Connection successful');
+                    // Instantiate and initialize the tags for integration.
+                    io_tags = new tags();
+                    io_tags.initialize_tags();
+                    self.consult();
+                };
+
+             /**
+               Function for handling connection closed.
+                */
+                io_connection.onclose = function () {
+                    trace('Connection closed');
+                    $(".connected").addClass("oe_hidden");
+                    $(".disconnected").removeClass("oe_hidden");
+                    connect_init = false;
+                    io_connection.close();
+                };
+
+                /**
+                Function for handling communication errors.
+                */
+                io_connection.onerror = function(error)
+                {
+                    trace(error.data);
+                    $(".connected").addClass("oe_hidden");
+                    $(".disconnected").removeClass("oe_hidden");
+                    connect_init = false;
+                    io_connection.close();
+                };
+
+                /**
+                Function for receiving messages.
+                */
+                io_connection.onmessage = function(e){
+
+                    // Shows the message.
+                    trace("Received >>> " + e.data);
+
+                    // Initializes Tags.
+                    io_tags.initialize_tags();
+
+                    // Show the received Tags.
+                    disassembling_service(e.data);
+
+                    // If 'retorno' isn't OK
+                    if( io_tags.retorno !== "0" ) {
+                        in_sequential = io_tags.sequencial;
+                    }
+
+                    // Saves the current sequence of the collection.
+                    in_sequential_execute = io_tags.automacao_coleta_sequencial;
+                    setTimeout(function(){
+                        // Initial Checks
+                        if(self.check_completed_consult()) return;
+                        if(self.check_completed_execution()) return;
+
+                        // Credit without PinPad
+                        if(self.check_completed_start()) return;
+                        if(check_completed_start_execute()) return;
+                        if(check_completed_send_card_number()) return;
+                        if(check_completed_send_expiring_date()) return;
+                        if(check_completed_send_security_code()) return;
+                        if(check_authorized_operation()) return;
+
+                        // Credit with PinPad
+                        // check_completed_send();
+                        if(check_inserted_card()) return;
+                        if(check_filled_value()) return;
+                        check_filled_value_send();
+                        if(check_inserted_password()) return;
+
+                        // Final checks
+                        if(check_approved_transaction()) return;
+                        if(check_removed_card()) return;
+                        if(self.finishes_operation()) return;
+                        if(check_for_errors()) return;
+                    }, 1000);
+                };
+            }
+            catch (err){
+                console.log('Nao foi possivel estalecer uma conexao com o servidor')
+            }
+        },
+
+        check_completed_execution: function()
+        {
+            if((io_tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") && (io_tags.automacao_coleta_tipo != "N")
+                && (io_tags.automacao_coleta_retorno == "0")) {
+                this.collect('');
+
+                io_tags.automacao_coleta_palavra_chave = '';
+                io_tags.automacao_coleta_tipo = '';
+                io_tags.automacao_coleta_retorno = '';
+                return true;
+            }else{
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        finishes_operation: function(){
+            var self = this;
+            if((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender") ){
+                finish();
+
+                io_tags.transacao = '';
+                setTimeout(function(){
+                    self.consult();
+                }, 2000);
+                return true;
+            } else {
+                // Handle Exceptions Here
+                return false;
+            }
+        },
+
+        redo_operation: function(sequential_return)
+        {
+            var self = this;
+            if(transaction_queue.length > 0){
+                setTimeout(function(){
+                    transaction_queue[transaction_queue.length-1] = transaction_queue[transaction_queue.length-1].replace(/sequencial="\d+"/, "sequencial=\"" + sequential_return + "\"");
+                        send(transaction_queue[transaction_queue.length-1]);
+                }, 1000);
+            }
+        },
+
+        check_completed_consult: function()
+        {
+
+            if((io_tags.servico == "consultar") && (io_tags.retorno == "0")) {
+
+                return true;
+            }
+            else if((io_tags.mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
+                this.redo_operation(io_tags.sequencial);
+                return false;
+            }
+        },
+
+        screenPopupPagamento: function (msg) {
+            this.pos_widget.screen_selector.show_popup('popupStatusPagamento', {
+                            message: _t('Por Favor Aguarde!'),
+                            comment: _t(msg),
+                            });
+        },
+
+        check_completed_start: function(){
+            if((io_tags.servico == "iniciar") && (io_tags.retorno == "1") && (io_tags.aplicacao_tela == "VBIAutomationTest")){
+                this.execute();
+                this.screenPopupPagamento('Iniciando Operação');
+                io_tags.aplicacao_tela = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        execute: function()
+        {
+
+            var ls_execute_tags = 'servico="executar"retorno="1"sequencial="'+ sequential() +'"';
+
+            var ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
+            var ls_product_type = (payment_type === "CD01")? "Debito-Stone" : "Credito-Stone";
+            var ls_transaction_type = "Cartao Vender";
+            var ls_payment_transaction = "A vista";
+
+
+             if (ls_transaction_global_value !== "") {
+                 ls_transaction_global_value = 'transacao_valor="'+ls_transaction_global_value+'"';
+                 ls_execute_tags = ls_execute_tags+ls_transaction_global_value;
+             }
+
+
+             if (ls_transaction_type != "") {
+                 ls_transaction_type = 'transacao="'+ls_transaction_type+'"';
+                 ls_execute_tags = ls_execute_tags+ls_transaction_type;
+             }
+
+             if (ls_card_type != "") {
+                 ls_card_type  = 'transacao_tipo_cartao="'+ls_card_type+'"';
+                 ls_execute_tags = ls_execute_tags+ls_card_type;
+
+             }
+
+             if ( ls_payment_transaction != "") {
+                 ls_payment_transaction = 'transacao_pagamento="'+ls_payment_transaction+'"';
+                 ls_execute_tags = ls_execute_tags+ls_payment_transaction;
+             }
+
+             if ( ls_product_type != "" ){
+                 ls_product_type = 'transacao_produto="'+ls_product_type+'"';
+                 ls_execute_tags = ls_execute_tags+ls_product_type;
+             }
+
+             send(ls_execute_tags);
+        },
+
+        consult: function()
+        {
+            send('servico="consultar"retorno="0"sequencial="'+ sequential()+'"');
+        },
     });
+
+    function send(as_buffer)
+    {
+        // Send the package.
+        io_connection.send(as_buffer);
+        // Places the current transaction in the queue
+        transaction_queue.push(as_buffer);
+        trace("Send >>> " + as_buffer);
+    };
 
     module.PaymentScreenWidget.include({
         rerender_paymentline: function(line) {
@@ -675,7 +719,9 @@ openerp.l10n_br_tef = function(instance){
                 payment_type = line.cashregister.journal.code;
                 payment_name = line.cashregister.journal.name;
                 el_node.querySelector('.payment-terminal-transaction-start')
-                    .addEventListener('click', function(){start_operation()});
+                    .addEventListener('click', function(){
+                        start_operation();
+                    });
             }
             return el_node;
         },

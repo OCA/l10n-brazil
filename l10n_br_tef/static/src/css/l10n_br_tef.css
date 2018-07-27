@@ -10,3 +10,9 @@
     bottom: 10px;
     position: absolute;
 }
+
+.popup.popup-select-variant.statusPagamentoPopUp {
+    height: 120px;
+    width: 400px;
+    -webkit-border-radius: 15px;
+}
