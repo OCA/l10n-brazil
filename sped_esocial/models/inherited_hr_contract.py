@@ -707,7 +707,6 @@ class HrContract(models.Model):
     #     # registro intermediário
     #     self.sped_esocial_alterar_contrato_autonomo_id.gerar_registro()
     #
-
     @api.multi
     @api.depends('categoria')
     def _compute_evento_esocial(self):

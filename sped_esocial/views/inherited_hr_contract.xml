@@ -56,7 +56,6 @@
                     <attribute name="attrs">{'required': [('admission_type_code', '!=', '1')]}</attribute>
                 </field>
                 <xpath expr="//page[@string='Alterações Contratuais']" position="after">
-<<<<<<< b82d8400b321b2e2dd14f6399f520be41011b8d8
                     <page name="esocial" string="e-Social" groups="sped_tabelas.group_user"
                           attrs="{'invisible': [('situacao_esocial', '=', '0')]}">
                         <group colspan="4" col="4">
@@ -73,6 +72,7 @@
                                    attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
                             />
                             <field name="evento_esocial" invisible="1" />
+
                         </group>
                         <group colspan="4" col="4">
                             <separator string="SPED Alterações Contratuais S-2206" colspan="4"
@@ -87,85 +87,6 @@
                             <field name="sped_s2306_ids" colspan="4" nolabel="1" readonly="1"
                                        attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
                             />
-=======
-
-                    <!-- Esocial para trabalhadores com Vinculo Registro S2200-->
-                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user"  attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}" >
-                        <field name="evento_esocial" invisible="1" />
-                        <form>
-                            <header>
-                                <button name="ativar_contrato" type="object"
-                                        string="Ativar Contrato no e-Social"
-                                        attrs="{'invisible': [('sped_contrato_id', '!=', False)]}"
-                                />
-                                <button name="transmitir_contrato_s2200" type="object"
-                                        string="Transmitir para o e-Social" class="oe_highlight"
-                                        attrs="{'invisible': [('situacao_esocial', 'in', ['2', '4'])]}"
-                                />
-                                <button name="consultar_contrato_s2200" type="object"
-                                        string="Consultar Processamento no e-Social" class="oe_highlight"
-                                        attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
-                                />
-                                <field name="situacao_esocial" widget="statusbar" select="1"
-                                     nolabel="1" statusbar_visible="0" readonly="1"
-                                />
-                            </header>
-                            <newline/>
-                            <newline/>
-                            <group>
-                                <separator string="Ativação do Contrato" />
-                                <group colspan="2" col="2">
-                                    <field name="sped_contrato_id" />
-                                </group>
-                            </group>
-                        </form>
-                        <!--<form attrs="{'invisible': [('situacao_esocial', '!=', '4')]}">-->
-                        <form >
-                            <header>
-                               <button name="alterar_contrato" colspan="4" type="object"
-                                            string="Alterar Contrato no e-Social"
-                                            attrs="{'invisible': ['|', '|', ('situacao_esocial', '!=', '4'), ('sped_esocial_alterar_contrato_id', '=', False), ('precisa_atualizar', '=', False)]}" />
-
-                                <button name="atualizar_cargo" type="object"
-                                        string="Atualizar Cargo no e-Social" class="oe_highlight"
-                                        attrs="{'invisible': [('precisa_atualizar', '=', False)]}"
-                                />
-                                <button name="transmitir" type="object"
-                                        string="Transmitir para o e-Social" class="oe_highlight"
-                                        attrs="{'invisible': [('precisa_atualizar', '=', False)]}"
-                                />
-                                <button name="consultar" type="object"
-                                        string="Consultar Processamento no e-Social" class="oe_highlight"
-                                        attrs="{'invisible': [('precisa_atualizar', '=', False)]}"
-                                />
-                                <field name="situacao_esocial_alteracao" widget="statusbar" select="1"
-                                     nolabel="1" statusbar_visible="0" readonly="1"
-                                />
-                            </header>
-                            <newline />
-                            <group>
-                                <separator string="Alteração do Contrato" />
-                                <group colspan="2" col="2">
-                                    <field name="sped_esocial_alterar_contrato_id" />
-                                    <field name="precisa_atualizar" />
-                                </group>
-                            </group>
-                        </form>
-                    </page>
-
-                    <!-- Esocial para trabalhadores sem Vinculo Registro S2300-->
-                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user" attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}">
-                        <group colspan="4" col="4" string="Transmissão e-Social">
-                            <group colspan="2" col="2">
-                                <field name="sped_contrato_autonomo_id" />
-                                <field name="situacao_esocial_autonomo" />
-                            </group>
-                            <group colspan="2" col="2">
-                                <button name="atualizar_contrato_autonomo" colspan="4" type="object"
-                                        string="Ativar/Atualizar Contrato"
-                                        attrs="{'invisible': [('sped_contrato_autonomo_id', '!=', False)]}" />
-                            </group>
->>>>>>> [FIX] Fluxo de transmissão do contrato de trabalho
                         </group>
                         <group colspan="4" col="4">
                             <separator string="SPED Desligamentos (S-2299)" colspan="4"
