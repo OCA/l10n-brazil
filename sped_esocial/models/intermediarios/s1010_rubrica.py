@@ -47,11 +47,13 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
+            ('0', 'Inativo'),
+            ('1', 'Ativo'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado'),
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
@@ -62,7 +64,7 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
-        compute='compute_precisa_enviar',
+        related='rubrica_id.precisa_atualizar',
     )
     precisa_excluir = fields.Boolean(
         string='Precisa excluir dados?',
@@ -110,12 +112,29 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
             if rubrica.sped_inclusao and \
                     rubrica.sped_inclusao.situacao != '4':
                 situacao_esocial = '3'
+                registro = rubrica.sped_inclusao
             if rubrica.sped_exclusao and \
                     rubrica.sped_exclusao.situacao != '4':
                 situacao_esocial = '3'
+                registro = rubrica.sped_exclusao
             for alteracao in rubrica.sped_alteracao:
                 if alteracao.situacao != '4':
                     situacao_esocial = '3'
+                    registro = alteracao
+
+            # Se a situação == '3', verifica se já foi transmitida ou não (se já foi transmitida
+            # então a situacao_esocial deve ser '4'
+            if situacao_esocial == '3' and registro.situacao == '2':
+                situacao_esocial = '4'
+
+            # Verifica se algum registro está com erro de transmissão
+            if rubrica.sped_inclusao and rubrica.sped_inclusao.situacao == '3':
+                situacao_esocial = '5'
+            if rubrica.sped_exclusao and rubrica.sped_exclusao.situacao == '3':
+                situacao_esocial = '5'
+            for alteracao in rubrica.sped_alteracao:
+                if alteracao.situacao == '3':
+                    situacao_esocial = '5'
 
             # Popula na tabela
             rubrica.situacao_esocial = situacao_esocial
@@ -130,7 +149,6 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
 
             # Inicia as variáveis como False
             precisa_incluir = False
-            precisa_atualizar = False
             precisa_excluir = False
 
             # Se a rubrica tem um período inicial definido e não
@@ -140,15 +158,6 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
                 # or \
                 #     rubrica.sped_inclusao.situacao != '4':
                 precisa_incluir = True
-
-            # Se a empresa já tem um registro de inclusão confirmado mas a
-            # data da última atualização é menor que a o write_date da empresa,
-            # então precisa atualizar
-            if rubrica.sped_inclusao and \
-                    rubrica.sped_inclusao.situacao == '4':
-                if rubrica.ultima_atualizacao < \
-                        rubrica.rubrica_id.write_date:
-                    precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um
             # período final definido e não tem um
@@ -162,7 +171,6 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
 
             # Popula os campos na tabela
             rubrica.precisa_incluir = precisa_incluir
-            rubrica.precisa_atualizar = precisa_atualizar
             rubrica.precisa_excluir = precisa_excluir
 
     @api.depends('sped_inclusao',
@@ -326,11 +334,57 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
+        self.rubrica_id.precisa_atualizar = False
 
-class HrSalaryRule(models.Model):
-    _inherit = "hr.salary.rule"
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
 
-    sped_esocial_rubrica_ids = fields.One2many(
-        comodel_name='sped.esocial.rubrica',
-        inverse_name='rubrica_id',
-    )
+        if self.situacao_esocial in ['2', '3', '5']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.sped_inclusao.situacao in ['1', '3']:
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao in ['1', '3']:
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao.situacao in ['1', '3']:
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['4']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.sped_inclusao.situacao == '2':
+                registro = self.sped_inclusao
+            else:
+                for r in self.sped_alteracao:
+                    if r.situacao == '2':
+                        registro = r
+
+            if not registro:
+                if self.sped_exclusao == '2':
+                    registro = self.sped_exclusao
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()
+
+
+# class HrSalaryRule(models.Model):
+#     _inherit = "hr.salary.rule"
+#
+#     sped_esocial_rubrica_ids = fields.One2many(
+#         comodel_name='sped.esocial.rubrica',
+#         inverse_name='rubrica_id',
+#     )

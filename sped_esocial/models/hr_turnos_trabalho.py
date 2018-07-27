@@ -119,7 +119,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
                         'hr_turnos_trabalho_id': self.id,
                     })
 
-        # Processa cada tipo de operação do S-1000 (Inclusão / Alteração / Exclusão)
+        # Processa cada tipo de operação do S-1050 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
         self.sped_turno_id.gerar_registro()
 

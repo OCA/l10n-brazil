@@ -22,15 +22,20 @@ class HrSalaryRule(models.Model):
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativa'),
-            ('1', 'Ativa'),
+            ('0', 'Inativo'),
+            ('1', 'Ativo'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
-            ('9', 'Finalizada'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado'),
         ],
-        string='Situação no e-Social',
+        string='Situação Turno no e-Social',
         related='sped_rubrica_id.situacao_esocial',
         readonly=True,
+    )
+    precisa_atualizar = fields.Boolean(
+        string='Precisa Atualizar',
     )
 
     # Campos necessários para o e-Social que não existem ainda
@@ -246,6 +251,99 @@ class HrSalaryRule(models.Model):
         ],
     )
 
+    @api.onchange('ini_valid')
+    def onchange_esocial_periodo_inicial_id(self):
+        self.ensure_one()
+        if not self.alt_valid or \
+                self.alt_valid.date_start < \
+                self.ini_valid.date_start:
+            self.alt_valid = self.ini_valid
+
+    @api.multi
+    def atualizar_rubrica(self):
+        self.ensure_one()
+
+        # Se o registro intermediário do S-1010 não existe, criá-lo
+        if not self.sped_rubrica_id:
+
+            # Verifica se o registro intermediário já existe
+            domain = [
+                ('company_id', '=', self.env.user.company_id.id),
+                ('rubrica_id', '=', self.id),
+            ]
+            sped_rubrica_id = self.env['sped.esocial.rubrica'].search(domain)
+            if sped_rubrica_id:
+                self.sped_rubrica_id = sped_rubrica_id
+            else:
+                self.sped_rubrica_id = \
+                    self.env['sped.esocial.rubrica'].create({
+                        'company_id': self.env.user.company_id.id,
+                        'rubrica_id': self.id,
+                    })
+
+        # Processa cada tipo de operação do S-1010 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_rubrica_id.gerar_registro()
+
+    @api.multi
+    def write(self, vals):
+        self.ensure_one()
+
+        # Lista os campos que são monitorados do Empregador
+        campos_monitorados = [
+            'ini_valid',        # //eSocial/evtRubrica/infoRubrica//ideRubrica/iniValid
+            'alt_valid',        # //eSocial/evtRubrica/infoRubrica//novaValidade/iniValid
+            'name',             # //eSocial/evtRubrica/infoRubrica//dadosRubrica/dscRubr
+            'nat_rubr',         # //eSocial/evtRubrica/infoRubrica//dadosRubrica/natRubr
+            'tp_rubr ',         # //eSocial/evtRubrica/infoRubrica//dadosRubrica/tpRubr
+            'cod_inc_cp',       # //eSocial/evtRubrica/infoRubrica//dadosRubrica/codIncCP
+            'cod_inc_cp_0',     #
+            'cod_inc_cp_1',     #
+            'cod_inc_cp_3',     #
+            'cod_inc_cp_5',     #
+            'cod_inc_cp_9',     #
+            'cod_inc_irrf',     # //eSocial/evtRubrica/infoRubrica//dadosRubrica/codIncIRRF
+            'cod_inc_irrf_0',   #
+            'cod_inc_irrf_1',   #
+            'cod_inc_irrf_3',   #
+            'cod_inc_irrf_4',   #
+            'cod_inc_irrf_7',   #
+            'cod_inc_irrf_8',   #
+            'cod_inc_irrf_9',   #
+            'cod_inc_fgts',     # //eSocial/evtRubrica/infoRubrica//dadosRubrica/codIncIRRF
+            'cod_inc_sind',     # //eSocial/evtRubrica/infoRubrica//dadosRubrica/codIncSIND
+            'note',             # //eSocial/evtRubrica/infoRubrica//dadosRubrica/observacao
+        ]
+        precisa_atualizar = False
+
+        # Roda o vals procurando se algum desses campos está na lista
+        # Empregador
+        if self.sped_rubrica_id and self.situacao_esocial == '1':
+            for campo in campos_monitorados:
+                if campo in vals:
+                    precisa_atualizar = True
+
+            # Se precisa_atualizar == True, inclui ele no vals
+            if precisa_atualizar:
+                vals['precisa_atualizar'] = precisa_atualizar
+
+        # Grava os dados
+        return super(HrSalaryRule, self).write(vals)
+
+    @api.multi
+    def transmitir_rubrica(self):
+        self.ensure_one()
+
+        # Executa o método Transmitir do registro intermediário
+        self.sped_rubrica_id.transmitir()
+
+    @api.multi
+    def consultar_rubrica(self):
+        self.ensure_one()
+
+        # Executa o método Consultar do registro intermediário
+        self.sped_rubrica_id.consultar()
+
     @api.model
     def _field_id_domain(self):
         """
@@ -278,24 +376,3 @@ class HrSalaryRule(models.Model):
             if rubrica.cod_inc_irrf == '9':
                 codigo = rubrica.cod_inc_irrf_9
             rubrica.cod_inc_irrf_calculado = codigo
-
-    @api.multi
-    def atualizar_rubrica(self):
-        self.ensure_one()
-
-        # Se o registro intermediário do S-1010 não existe, criá-lo
-        if not self.sped_rubrica_id:
-            if self.env.user.company_id.eh_empresa_base:
-                matriz = self.env.user.company_id.id
-            else:
-                matriz = self.env.user.company_id.matriz.id
-
-            self.sped_rubrica_id = \
-                self.env['sped.esocial.rubrica'].create({
-                    'company_id': matriz,
-                    'rubrica_id': self.id,
-                })
-
-        # Processa cada tipo de operação do S-1010 (Inclusão / Alteração / Exclusão)
-        # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_rubrica_id.gerar_registro()
