@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <!-- Contrato de Funcionarios -->
+        <record model="ir.ui.view" id="sped_hr_contract">
+            <field name="name">Adiciona e-Social no Contrato</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="ativar_contrato_s2200" type="object" colspan="2"
+                             string="Ativar Contrato no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '0')]}"
+                        />
+                        <button name="retificar_contrato_s2200" type="object" colspan="2"
+                             string="Retificar Contrato no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', '|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '0')]}"
+                        />
+                        <button name="ativar_contrato_s2300" type="object" colspan="2"
+                             string="Ativar Contrato no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '0')]}"
+                        />
+                        <!--<button name="atualizar_contrato_s2206" type="object" colspan="2"-->
+                             <!--string="Atualizar Contrato no e-Social" class="oe_highlight"-->
+                             <!--attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"-->
+                        <!--/>-->
+                        <button name="atualizar_contrato_s2306" type="object" colspan="2"
+                             string="Atualizar Contrato no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '2')]}"
+                        />
+                        <button name="transmitir" colspan="4" type="object"
+                                string="Transmitir para o e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}" />
+                        <button name="consultar" colspan="4" type="object"
+                                string="Consultar Processamento no e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['4'])]}" />
+                        <field name="situacao_esocial" widget="statusbar" select="1"
+                               nolabel="1" statusbar_visible="0" readonly="1"
+                        />
+                    </header>
+                </xpath>
+                <field name="admission_type_id" position="after">
+                    <field name="admission_type_code" invisible="1"/>
+                </field>
+                <field name="matricula" position="attributes">
+                    <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
+                </field>
+                <group name="vinculo_anterior" position="attributes">
+                    <attribute name="attrs">{'invisible': [('admission_type_code', '=', '1')]}</attribute>
+                </group>
+                <field name="cnpj_empregador_anterior" position="attributes">
+                    <attribute name="attrs">{'required': [('admission_type_code', '!=', '1')]}</attribute>
+                </field>
+                <field name="matricula_anterior" position="attributes">
+                    <attribute name="attrs">{'required': [('admission_type_code', '!=', '1')]}</attribute>
+                </field>
+                <field name="data_admissao_anterior" position="attributes">
+                    <attribute name="attrs">{'required': [('admission_type_code', '!=', '1')]}</attribute>
+                </field>
+                <xpath expr="//page[@string='Alterações Contratuais']" position="after">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user"
+                          attrs="{'invisible': [('situacao_esocial', '=', '0')]}">
+                        <group colspan="4" col="4">
+                            <label for="sped_s2200_id" colspan="2"
+                                   attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
+                            />
+                            <field name="sped_s2200_id" colspan="2" nolabel="1" readonly="1"
+                                   attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
+                            />
+                            <label for="sped_s2300_id" colspan="2"
+                                   attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                            <field name="sped_s2300_id" colspan="4" nolabel="1" readonly="1"
+                                   attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                            <field name="evento_esocial" invisible="1" />
+                            <field name="precisa_atualizar" invisible="1" />
+                        </group>
+                        <group colspan="4" col="4">
+                            <separator string="SPED Alterações Contratuais S-2206" colspan="4"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
+                            />
+                            <field name="sped_s2206_ids" colspan="4" nolabel="1" readonly="1"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
+                            />
+                            <separator string="SPED Trabalhador sem Vínculo - Alteração (S-2306)" colspan="4"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                            <field name="sped_s2306_ids" colspan="4" nolabel="1" readonly="1"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                        </group>
+                        <group colspan="4" col="4">
+                            <separator string="SPED Desligamentos (S-2299)" colspan="4"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
+                            />
+                            <field name="sped_s2299_ids" colspan="4" nolabel="1" readonly="1"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
+                            />
+                            <label for="sped_s2399_id" colspan="2"
+                                   attrs="{'invisible': [('sped_s2300_id', '=', False)]}"
+                            />
+                            <field name="sped_s2399_id" colspan="2" nolabel="1" readonly="1"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                        </group>
+                    </page>
+                </xpath>
+                <field name="partner_union" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+                <field name="primeiro_emprego" position="before">
+                    <!--<field name="tp_admissao"-->
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
+                    <field name="tp_reg_jor" required="1"/>
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
+                    <field name="nat_atividade" required="1"/>
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
+                    <field name="tp_reg_prev" required="1" />
+                    <field name="cad_ini" required="1" />
+                    <field name="opc_fgts" required="1"/>
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
+                    <field name="dt_opc_fgts" attrs="{'required': [('opc_fgts', '=', '1')]}"/>
+                </field>
+                <!--<field name="salary_unit" position="after">-->
+                    <!--<field name="dsc_sal_var" />-->
+                           <!--&lt;!&ndash;attrs="{'required': [('salary_unit.code', 'in', ['6', '7'])]}" />&ndash;&gt;-->
+                <!--</field>-->
+                <field name="working_hours" position="before">
+                    <field name="tp_contr" required="1" />
+                    <field name="clau_assec" attrs="{'invisible': [('tp_contr', '!=', '2')], 'required': [('tp_contr', '=', '2')]}" />
+                </field>
+                <field name="weekly_hours" position="after">
+                    <field name="tp_jornada" required="1" />
+                    <field name="dsc_tp_jorn" attrs="{'invisible': [('tp_jornada', '!=', '9')], 'required': [('tp_jornada', '=', '9')]}" />
+                    <field name="tmp_parc" required="1" />
+                </field>
+                <field name="resignation_cause_id" position="replace">
+                    <field name="resignation_cause_id" />
+                </field>
+                <field name="resignation_code" position="replace">
+                    <field name="resignation_code" invisible="1"/>
+                </field>
+                <field name="resignation_cause_id" position="after">
+                    <field name="nr_cert_obito" attrs="{'invisible': [('resignation_code', 'not in', ['09', '10'])]}" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_esocial_hr_contract_tree_view">
+            <field name="name">sped.esocial.hr.contract.tree (in sped_esocial)</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="type_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date_end" position="after">
+                    <field name="situacao_esocial" />
+                </field>
+            </field>
+        </record>
+
+
+        <!-- Contrato de Autnomos -->
+        <record model="ir.ui.view" id="sped_hr_contrato_autonomo">
+            <field name="name">Adiciona e-Social no Contrato do autonomo</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='information']" position="after">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user" >
+                        <group colspan="4" col="4" string="Transmissão e-Social">
+                            <group colspan="2" col="2">
+                                <!--<field name="sped_contrato_autonomo_id" />-->
+                                <!--<field name="situacao_esocial_autonomo" />-->
+                            </group>
+                            <group colspan="2" col="2">
+                                <!--<button name="atualizar_contrato_autonomo" colspan="4" type="object"-->
+                                        <!--string="Ativar/Atualizar Contrato"-->
+                                        <!--attrs="{'invisible': [('sped_contrato_autonomo_id', '!=', False)]}" />-->
+                            </group>
+                        </group>
+
+                        <group attrs="{'invisible': [('situacao_esocial_autonomo', '!=', '4')]}">
+                            <separator string="Alteração do Contrato Sem Vínculo" />
+                            <group colspan="4" col="4">
+                                <group colspan="2" col="2">
+                                    <!--<field name="sped_esocial_alterar_contrato_autonomo_id" />-->
+                                    <!--<field name="precisa_atualizar_autonomo" />-->
+                                </group>
+                                <group colspan="2" col="2">
+                                    <!--<button name="alterar_contrato_autonomo" colspan="4" type="object"-->
+                                            <!--string="Gerar Registro de Alteração"-->
+                                            <!--class="oe_highlight"/>-->
+                                            <!--&lt;!&ndash;attrs="{'invisible': ['|', '|', ('situacao_esocial_autonomo', '!=', '4'), ('sped_esocial_alterar_contrato_autonomo_id', '=', False), ('precisa_atualizar_autonomo', '=', False)]}" />&ndash;&gt;-->
+                                </group>
+                            </group>
+                        </group>
+
+                    </page>
+                </xpath>
+
+                <field name="wage" position="after">
+                    <field name="salary_unit_code" invisible="1" />
+                    <field name="dsc_sal_var"
+                           attrs="{'invisible': [('salary_unit_code','not in',['6','7'])],
+                                   'required': [('salary_unit_code','in',['6','7'])]}" />
+                </field>
+            </field>
+        </record>
+
+        <!--<record model="ir.ui.view" id="sped_esocial_hr_contract_autonomo_tree_view">-->
+            <!--<field name="name">sped.esocial.hr.contract.autonomo.tree (in sped_esocial)</field>-->
+            <!--<field name="model">hr.contract</field>-->
+            <!--<field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_tree_view"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="date_end" position="after">-->
+                    <!--<field name="situacao_esocial_autonomo" />-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
+
+    </data>
+</openerp>
