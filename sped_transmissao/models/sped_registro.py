@@ -55,6 +55,7 @@ class SpedRegistro(models.Model):
             ('I', 'Inclusão'),
             ('A', 'Alteração'),
             ('E', 'Exclusão'),
+            ('R', 'Retificação'),
         ],
         default='na',
     )
