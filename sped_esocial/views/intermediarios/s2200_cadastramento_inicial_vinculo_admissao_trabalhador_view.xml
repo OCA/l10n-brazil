@@ -11,6 +11,9 @@
                         <!--<button name="gerar_registro" colspan="4" type="object"-->
                                 <!--string="Ativar/Atualizar e-Social" class="oe_highlight"-->
                                 <!--attrs="{'invisible': [('situacao_esocial', 'not in', ['1', '5'])]}" />-->
+                        <button name="gerar_registro" colspan="4" type="object"
+                                string="Retificar no e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', '!=', '5')]}" />
                         <field name="situacao_esocial" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1" />
@@ -35,9 +38,10 @@
                         </group>
                     </group>
 
-                    <separator colspan="4" string="e-Social Alterações"/>
+                    <separator colspan="4" string="e-Social Retificações"/>
                     <group>
                         <field name="ultima_atualizacao" />
+                        <field name="precisa_atualizar" />
                     </group>
                     <group>
                         <field name="sped_s2200_registro_retificacao" readonly="1" nolabel="1"/>

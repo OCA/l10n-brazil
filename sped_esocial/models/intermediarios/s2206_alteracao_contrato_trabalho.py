@@ -25,13 +25,22 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         string='Empresa',
         comodel_name='res.company',
     )
+    hr_contract_change_id = fields.Many2one(
+        string='Alteração Contratual',
+        comodel_name='l10n_br_hr.contract.change',
+        required=True,
+    )
     hr_contract_id = fields.Many2one(
         string='Contrato de Trabalho',
         comodel_name='hr.contract',
-        required=True,
+        related='hr_contract_change_id.contract_id',
     )
-    sped_alteracao = fields.Many2many(
+    sped_alteracao = fields.Many2one(
         string='Alterações',
+        comodel_name='sped.registro',
+    )
+    sped_retificacao_ids = fields.Many2many(
+        string='Retificações',
         comodel_name='sped.registro',
     )
     situacao_esocial = fields.Selection(
@@ -40,17 +49,18 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
-        compute='compute_precisa_enviar',
+        related='hr_contract_change_id.precisa_atualizar',
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
-        compute='compute_ultima_atualizacao',
+        compute='compute_situacao_esocial',
     )
 
     @api.depends('hr_contract_id')
@@ -59,57 +69,66 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             record.name = 'S-2206 - Alteração Contratual {}'.format(
                 record.hr_contract_id.display_name or '')
 
-    @api.depends('sped_alteracao')
+    @api.depends('sped_alteracao', 'sped_retificacao_ids')
     def compute_situacao_esocial(self):
-        for contrato in self:
+        for s2206 in self:
             situacao_esocial = '1'
+            ultima_atualizacao = False
 
-            for alteracao in contrato.sped_alteracao:
-                situacao_esocial = alteracao.situacao
+            # Usa o status do registro de inclusão
+            if s2206.sped_alteracao:
+                situacao_esocial = s2206.sped_alteracao.situacao
+                ultima_atualizacao = s2206.sped_alteracao.data_hora_origem
+
+            for retificacao in s2206.sped_retificacao_ids:
+                if not ultima_atualizacao or retificacao.data_hora_origem > ultima_atualizacao:
+                    ultima_atualizacao = retificacao.data_hora_origem
+                    situacao_esocial = retificacao.situacao
 
             # Popula na tabela
-            contrato.situacao_esocial = situacao_esocial
+            s2206.situacao_esocial = situacao_esocial
+            s2206.ultima_atualizacao = ultima_atualizacao
 
-    @api.multi
-    @api.depends('sped_alteracao')
-    def compute_precisa_enviar(self):
+    # @api.multi
+    # @api.depends('sped_alteracao')
+    # def compute_precisa_enviar(self):
+    #
+    #     # Roda todos os registros da lista
+    #     for contrato in self:
+    #
+    #         # Inicia as variáveis como False
+    #         precisa_atualizar = False
+    #
+    #         # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
+    #         if contrato.situacao_esocial != '3':
+    #
+    #             # Se a empresa já tem um registro de inclusão confirmado mas
+    #             # a data da última atualização é menor que a o write_date da
+    #             # empresa, então precisa atualizar
+    #             if not contrato.precisa_atualizar or contrato.ultima_atualizacao \
+    #                     < contrato.hr_contract_id.write_date:
+    #                 precisa_atualizar = True
+    #
+    #         # Popula os campos na tabela
+    #         contrato.precisa_atualizar = precisa_atualizar
 
-        # Roda todos os registros da lista
-        for contrato in self:
-
-            # Inicia as variáveis como False
-            precisa_atualizar = False
-
-            # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
-            if contrato.situacao_esocial != '3':
-
-                # Se a empresa já tem um registro de inclusão confirmado mas
-                # a data da última atualização é menor que a o write_date da
-                # empresa, então precisa atualizar
-                if not contrato.precisa_atualizar or contrato.ultima_atualizacao \
-                        < contrato.hr_contract_id.write_date:
-                    precisa_atualizar = True
-
-            # Popula os campos na tabela
-            contrato.precisa_atualizar = precisa_atualizar
-
-    @api.depends('sped_alteracao')
-    def compute_ultima_atualizacao(self):
-
-        # Roda todos os registros da lista
-        for contrato in self:
-
-            # Inicia a última atualização com a data/hora now()
-            ultima_atualizacao = fields.Datetime.now()
-
-            # Se tiver alterações pega a data/hora de origem da última alteração
-            for alteracao in contrato.sped_alteracao:
-                if alteracao.situacao == '4':
-                    if alteracao.data_hora_origem > ultima_atualizacao:
-                        ultima_atualizacao = alteracao.data_hora_origem
-
-            # Popula o campo na tabela
-            contrato.ultima_atualizacao = ultima_atualizacao
+    # @api.depends('sped_alteracao')
+    # def compute_ultima_atualizacao(self):
+    #
+    #     # Roda todos os registros da lista
+    #     for contrato in self:
+    #
+    #         # Inicia a última atualização com a data/hora now()
+    #         ultima_atualizacao = fields.Datetime.now()
+    #
+    #         # Se tiver alterações pega a data/hora de origem da última alteração
+    #         for alteracao in contrato.sped_alteracao:
+    #             if alteracao.situacao == '4':
+    #                 if alteracao.data_hora_origem > ultima_atualizacao:
+    #                     ultima_atualizacao = alteracao.data_hora_origem
+    #
+    #         # Popula o campo na tabela
+    #         contrato.ultima_atualizacao = ultima_atualizacao
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
@@ -117,21 +136,24 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         self.ensure_one()
 
         # Criar o registro S-2206 de alteração, se for necessário
-        if self.precisa_atualizar:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-2206',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
-                'operacao': 'A',
-                'evento': 'evtAltContratual',
-                'origem': ('hr.contract,%s' % self.hr_contract_id.id),
-                'origem_intermediario': (
-                        'sped.esocial.alteracao.contrato,%s' % self.id),
-            }
-
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-2206',
+            'ambiente': self.company_id.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtAltContratual',
+            'origem': ('hr.contract,%s' % self.hr_contract_id.id),
+            'origem_intermediario': (
+                    'sped.esocial.alteracao.contrato,%s' % self.id),
+        }
+        if not self.sped_alteracao:
             sped_alteracao = self.env['sped.registro'].create(values)
-            self.sped_alteracao = [(4, sped_alteracao.id)]
+            self.sped_alteracao = sped_alteracao
+        elif self.precisa_atualizar:
+            # Cria o registro de Retificação
+            values['operacao'] = 'R'
+            sped_retificacao = self.env['sped.registro'].create(values)
+            self.sped_retificacao_ids = [(4, sped_retificacao.id)]
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
@@ -248,7 +270,47 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
+        # Executa método original do contract_change para aplicar a mudança
+        self.hr_contract_change_id.apply_contract_changes()
+
     @api.multi
     def retorna_trabalhador(self):
         self.ensure_one()
         return self.hr_contract_id.employee_id
+
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['1', '3']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.sped_alteracao.situacao in ['1', '3']:
+                registro = self.sped_alteracao
+            else:
+                for r in self.sped_retificacao_ids:
+                    if r.situacao in ['1', '3']:
+                        registro = r
+
+            # Com o registro identificado, é só rodar o método
+            # transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['2']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.sped_alteracao.situacao == '2':
+                registro = self.sped_alteracao
+            else:
+                for r in self.sped_retificacao_ids:
+                    if r.situacao == '2':
+                        registro = r
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()

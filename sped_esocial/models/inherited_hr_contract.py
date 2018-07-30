@@ -18,7 +18,7 @@ class HrContract(models.Model):
     #     comodel_name='sped.esocial.contrato_preliminar',
     # )
     #
-    # S-2200 (Admissão do Trabalhador)
+    # S-2200 (Admissão do Trabalhador) - Inicial
     sped_s2200_id = fields.Many2one(
         string='SPED Contrato (S-2200)',
         comodel_name='sped.esocial.contrato',
@@ -97,7 +97,11 @@ class HrContract(models.Model):
                 if contrato.sped_s2300_id.situacao_esocial == '4':
                     situacao_esocial = '1'  # Ativo
 
-            # Se precisa_atualizar então é Precisa Atualizar
+            # Corrige o campo precisa_atualizar caso não haja nenhum registro intermediário
+            if not contrato.sped_s2200_id and not contrato.sped_s2300_id:
+                contrato.precisa_atualizar = False
+
+            # Se precisa_atualizar ou retificar então é Precisa Atualizar
             if contrato.precisa_atualizar:
                 situacao_esocial = '2'  # Precisa Atualizar
 
@@ -198,10 +202,39 @@ class HrContract(models.Model):
     def write(self, vals):
         self.ensure_one()
 
-        # Lista os campos que são monitorados do Empregador
+        # Lista os campos que são monitorados do Contrato
         campos_monitorados = [
-            # TODO Inserir os campos a serem monitorados no contrato
-            'cnpj_cpf',  # //eSocial/evtInfoEmpregador/ideEmpregador/nrInsc
+            'vinculo',                       # //eSocial/evtAdmissao/vinculo/matricula
+            'labor_regime_id',               # //eSocial/evtAdmissao/vinculo/tpRegTrab
+            'tp_reg_prev',                   # //eSocial/evtAdmissao/vinculo/tpRegPrev
+            'cad_ini',                       # //eSocial/evtAdmissao/vinculo/cadIni
+            'date_start',                    # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/dtAdm
+                                             # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoEstatutario/dtNomeacao
+            'admission_type_id',             # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/tpAdmissao
+            'indicativo_de_admissao',        # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/indAdmissao
+            'tp_reg_jor',                    # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/tpRegJor
+            'nat_atividade',                 # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/natAtividade
+            'partner_union',                 # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/cnpjSindCategProf
+            'opc_fgts',                      # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/FGTS/opcFGTS
+            'dt_opc_fgts',                   # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/FGTS/dtOpcFGTS
+            'job_id',                        # //eSocial/evtAdmissao/vinculo/infoContrato/codCargo
+            'categoria',                     # //eSocial/evtAdmissao/vinculo/infoContrato/codCateg
+            'wage',                          # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/vrSalFx
+            'salary_unit',                   # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/undSalFixo
+            'dsc_sal_var',                   # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/dscSalVar
+            'tp_contr',                      # //eSocial/evtAdmissao/vinculo/infoContrato/duracao/tpContr
+            'date_end',                      # //eSocial/evtAdmissao/vinculo/infoContrato/duracao/dtTerm
+            'clau_assec',                    # //eSocial/evtAdmissao/vinculo/infoContrato/duracao/clauAssec
+            'company_id',                    # //eSocial/evtAdmissao/vinculo/infoContrato/localTrabalho/localTrabGeral/nrInsc
+            'weekly_hours',                  # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/qtdHrsSem
+            'tp_jornada',                    # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/tpJornada
+            'dsc_tp_jorn',                   # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/dscTpJorn
+            'tmp_parc',                      # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/tmpParc
+            'working_hours',                 # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/horario **
+            'notes',                         # //eSocial/evtAdmissao/vinculo/infoContrato/observacoes/observacao
+            'cnpj_empregador_anterior',      # //eSocial/evtAdmissao/vinculo/sucessaoVinc/cnpjEmpregAnt
+            'matricula_anterior',            # //eSocial/evtAdmissao/vinculo/sucessaoVinc/matricAnt
+            'observacoes_vinculo_anterior',  # //eSocial/evtAdmissao/vinculo/sucessaoVinc/observacao
         ]
         precisa_atualizar = False
 
@@ -259,8 +292,36 @@ class HrContract(models.Model):
         self.sped_s2300_id.gerar_registro()
 
     @api.multi
+    def retificar_contrato_s2200(self):  # TODO
+        self.ensure_one()
+
+        # Valida se pode ser retificado
+        if not self.sped_s2200_id:
+            raise ValidationError("Este registro não pode ser retificado pois ainda não foi transmitido inicialmente!")
+
+        if not self.precisa_atualizar:
+            raise ValidationError("Este registro não precisa ser retificado !")
+
+        # Cria o registro de retificação
+        self.sped_s2200_id.gerar_registro()
+
+    @api.multi
     def atualizar_contrato_s2206(self):  # TODO
         self.ensure_one()
+
+    @api.multi
+    def retificar_contrato_s2300(self):  # TODO
+        self.ensure_one()
+
+        # Valida se pode ser retificado
+        if not self.sped_s2300_id:
+            raise ValidationError("Este registro não pode ser retificado pois ainda não foi transmitido inicialmente!")
+
+        if not self.precisa_atualizar:
+            raise ValidationError("Este registro não precisa ser retificado !")
+
+        # Cria o registro de retificação
+        self.sped_s2300_id.gerar_registro()
 
     @api.multi
     def atualizar_contrato_s2306(self):  # TODO
@@ -361,102 +422,6 @@ class HrContract(models.Model):
         #     if s2298.situacao_esocial in ['2']:
         #         s2298.consultar()
         #         return
-
-    # # Registro S-2200
-    # sped_contrato_id = fields.Many2one(
-    #     string='SPED Contrato',
-    #     comodel_name='sped.esocial.contrato',
-    # )
-    # # Registro S-2206
-    # sped_esocial_alterar_contrato_id = fields.Many2one(
-    #     string='Alterar Contrato',
-    #     comodel_name='sped.esocial.alteracao.contrato',
-    # )
-    # precisa_atualizar = fields.Boolean(
-    #     string='Precisa atualizar dados?',
-    #     related='sped_esocial_alterar_contrato_id.precisa_atualizar',
-    # )
-    # situacao_esocial = fields.Selection(
-    #     selection=[
-    #         ('1', 'Pendente'),
-    #         ('2', 'Transmitida'),
-    #         ('3', 'Erro(s)'),
-    #         ('4', 'Sucesso'),
-    #         ('5', 'Precisa Retificar'),
-    #     ],
-    #     string='Situação no e-Social',
-    #     related='sped_contrato_id.situacao_esocial',
-    #     readonly=True,
-    # )
-    # situacao_esocial_alteracao = fields.Selection(
-    #     selection=[
-    #         ('1', 'Precisa Atualizar'),
-    #         ('2', 'Transmitida'),
-    #         ('3', 'Erro(s)'),
-    #         ('4', 'Sucesso'),
-    #     ],
-    #     string='Situação no e-Social',
-    #     related='sped_esocial_alterar_contrato_id.situacao_esocial',
-    #     readonly=True,
-    # )
-    #
-    # # Registro S-2300
-    # sped_contrato_autonomo_id = fields.Many2one(
-    #     string='SPED Contrato',
-    #     comodel_name='sped.esocial.contrato.autonomo',
-    # )
-    # # Registro S-2306
-    # sped_esocial_alterar_contrato_autonomo_id = fields.Many2one(
-    #     string='Alterar Contrato',
-    #     comodel_name='sped.esocial.alteracao.contrato.autonomo',
-    # )
-    # situacao_esocial_autonomo = fields.Selection(
-    #     selection=[
-    #         ('1', 'Pendente'),
-    #         ('2', 'Transmitida'),
-    #         ('3', 'Erro(s)'),
-    #         ('4', 'Sucesso'),
-    #         ('5', 'Precisa Retificar'),
-    #     ],
-    #     string='Situação no e-Social',
-    #     related='sped_contrato_autonomo_id.situacao_esocial',
-    #     readonly=True,
-    # )
-    # precisa_atualizar_autonomo = fields.Boolean(
-    #     string='Precisa atualizar dados?',
-    #     related='sped_esocial_alterar_contrato_autonomo_id.precisa_atualizar',
-    # )
-    #
-    # # Registro S-2300
-    # sped_contrato_autonomo_id = fields.Many2one(
-    #     string='SPED Contrato',
-    #     comodel_name='sped.esocial.contrato.autonomo',
-    # )
-    # # Registro S-2306
-    # sped_esocial_alterar_contrato_autonomo_id = fields.Many2one(
-    #     string='Alterar Contrato',
-    #     comodel_name='sped.esocial.alteracao.contrato.autonomo',
-    # )
-    # situacao_esocial_autonomo = fields.Selection(
-    #     selection=[
-    #         ('1', 'Pendente'),
-    #         ('2', 'Transmitida'),
-    #         ('3', 'Erro(s)'),
-    #         ('4', 'Sucesso'),
-    #         ('5', 'Precisa Retificar'),
-    #     ],
-    #     string='Situação no e-Social',
-    #     related='sped_contrato_autonomo_id.situacao_esocial',
-    #     readonly=True,
-    # )
-    # precisa_atualizar_autonomo = fields.Boolean(
-    #     string='Precisa atualizar dados?',
-    #     related='sped_esocial_alterar_contrato_autonomo_id.precisa_atualizar',
-    # )
-    # admission_type_code = fields.Char(
-    #     string='Código do tipo da admissão',
-    #     related='admission_type_id.code'
-    # )
 
     # Criar campos que faltam para o eSocial
     admission_type_code = fields.Char(
@@ -581,132 +546,6 @@ class HrContract(models.Model):
         related='salary_unit.code',
     )
 
-    # @api.multi
-    # def ativar_contrato(self):
-    #     self.ensure_one()
-    #
-    #     # Se o registro intermediário do S-2200 não existe, criá-lo
-    #     if not self.sped_contrato_id:
-    #         if self.env.user.company_id.eh_empresa_base:
-    #             matriz = self.env.user.company_id.id
-    #         else:
-    #             matriz = self.env.user.company_id.matriz.id
-    #
-    #         self.sped_contrato_id = \
-    #             self.env['sped.esocial.contrato'].create({
-    #                 'company_id': matriz,
-    #                 'hr_contract_id': self.id,
-    #             })
-    #
-    #     # Processa cada tipo de operação do S-2200 (Inclusão / Alteração / Exclusão)
-    #     # O que realmente precisará ser feito é tratado no método do registro intermediário
-    #     self.sped_contrato_id.gerar_registro()
-    #
-    # @api.multi
-    # def write(self, vals):
-    #
-    #     if self.evento_esocial == 's2200':
-    #         self._gerar_tabela_intermediaria_alteracao(vals)
-    #
-    #     if self.evento_esocial == 's2300':
-    #         self._gerar_tabela_intermediaria_alteracao_autonomo(vals)
-    #
-    #     return super(HrContract, self).write(vals)
-    #
-    # @api.multi
-    # def _gerar_tabela_intermediaria_alteracao(self, vals={}):
-    #     # Se o registro intermediário do S-2206 não existe, criá-lo
-    #     if not self.sped_esocial_alterar_contrato_id and not \
-    #             vals.get('sped_esocial_alterar_contrato_id'):
-    #         if self.env.user.company_id.eh_empresa_base:
-    #             matriz = self.env.user.company_id.id
-    #         else:
-    #             matriz = self.env.user.company_id.matriz.id
-    #
-    #         esocial_alteracao = \
-    #             self.env['sped.esocial.alteracao.contrato'].create({
-    #                 'company_id': matriz,
-    #                 'hr_contract_id': self.id,
-    #             })
-    #         self.sped_esocial_alterar_contrato_id = esocial_alteracao
-    #
-    # @api.multi
-    # def _gerar_tabela_intermediaria_alteracao_autonomo(self, vals={}):
-    #     """
-    #     Duplicada
-    #     """
-    #     if not self.sped_esocial_alterar_contrato_autonomo_id and not \
-    #             vals.get('sped_esocial_alterar_contrato_autonomo_id'):
-    #         if self.env.user.company_id.eh_empresa_base:
-    #             matriz = self.env.user.company_id.id
-    #         else:
-    #             matriz = self.env.user.company_id.matriz.id
-    #
-    #         esocial_alteracao = \
-    #             self.env['sped.esocial.alteracao.contrato.autonomo'].create({
-    #                 'company_id': matriz,
-    #                 'hr_contract_id': self.id,
-    #             })
-    #         self.sped_esocial_alterar_contrato_autonomo_id = esocial_alteracao
-    #
-    # @api.multi
-    # def alterar_contrato(self):
-    #     self.ensure_one()
-    #
-    #     # Se o registro intermediário do S-2206 não existe, criá-lo
-    #     if not self.sped_esocial_alterar_contrato_id:
-    #         self._gerar_tabela_intermediaria_alteracao()
-    #
-    #     # Processa cada tipo de operação do S-2206 (Alteração)
-    #     # O que realmente precisará ser feito é tratado no método do
-    #     # registro intermediário
-    #     self.sped_esocial_alterar_contrato_id.gerar_registro()
-    #
-    #     # Enviar o ultimo registro
-    #     # self.sped_esocial_alterar_contrato_id[0].sped_s2200_registro_retificacao[0].transmitir_lote()
-    #
-    # @api.multi
-    # def atualizar_contrato_autonomo(self):
-    #     """
-    #     Função Duplicada =\
-    #     """
-    #     self.ensure_one()
-    #
-    #     sped_esocial_contrato_obj = self.env['sped.esocial.contrato.autonomo']
-    #
-    #     # Se o registro intermediário não existe, criá-lo
-    #     if not self.sped_contrato_autonomo_id:
-    #
-    #         if self.env.user.company_id.eh_empresa_base:
-    #             matriz = self.env.user.company_id.id
-    #         else:
-    #             matriz = self.env.user.company_id.matriz.id
-    #
-    #         esocial_contrato_autonomo_id = \
-    #             self.env['sped.esocial.contrato.autonomo'].create({
-    #                 'company_id': matriz,
-    #                 'hr_contract_id': self.id,
-    #             })
-    #
-    #         self.sped_contrato_autonomo_id = esocial_contrato_autonomo_id
-    #
-    #     # Processa cada tipo de operação do S-2200 (Inclusão / Alteração / Exclusão)
-    #     # O que realmente precisará ser feito é tratado no método do registro intermediário
-    #     self.sped_contrato_autonomo_id.gerar_registro()
-    #
-    # @api.multi
-    # def alterar_contrato_autonomo(self):
-    #     self.ensure_one()
-    #
-    #     # Se o registro intermediário do S-2206 não existe, criá-lo
-    #     if not self.sped_esocial_alterar_contrato_autonomo_id:
-    #         self._gerar_tabela_intermediaria_alteracao_autonomo()
-    #
-    #     # Processa cada tipo de operação do S-2206 (Alteração)
-    #     # O que realmente precisará ser feito é tratado no método do
-    #     # registro intermediário
-    #     self.sped_esocial_alterar_contrato_autonomo_id.gerar_registro()
-    #
     @api.multi
     @api.depends('categoria')
     def _compute_evento_esocial(self):

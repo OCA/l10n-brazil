@@ -26,6 +26,7 @@ from . import inherited_res_partner
 from . import inherited_hr_salary_rule
 from . import inherited_hr_job
 from . import inherited_hr_contract
+from . import inherited_hr_contract_change
 from . import inherited_hr_employee
 from . import inherited_hr_employee_dependent
 from . import inherited_resource_calendar_attendance

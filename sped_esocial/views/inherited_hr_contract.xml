@@ -14,14 +14,18 @@
                              string="Ativar Contrato no e-Social" class="oe_highlight"
                              attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '0')]}"
                         />
+                        <button name="retificar_contrato_s2200" type="object" colspan="2"
+                             string="Retificar Contrato no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"
+                        />
                         <button name="ativar_contrato_s2300" type="object" colspan="2"
                              string="Ativar Contrato no e-Social" class="oe_highlight"
                              attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '0')]}"
                         />
-                        <button name="atualizar_contrato_s2206" type="object" colspan="2"
-                             string="Atualizar Contrato no e-Social" class="oe_highlight"
-                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"
-                        />
+                        <!--<button name="atualizar_contrato_s2206" type="object" colspan="2"-->
+                             <!--string="Atualizar Contrato no e-Social" class="oe_highlight"-->
+                             <!--attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"-->
+                        <!--/>-->
                         <button name="atualizar_contrato_s2306" type="object" colspan="2"
                              string="Atualizar Contrato no e-Social" class="oe_highlight"
                              attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '2')]}"
@@ -72,7 +76,7 @@
                                    attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
                             />
                             <field name="evento_esocial" invisible="1" />
-
+                            <field name="precisa_atualizar" invisible="1" />
                         </group>
                         <group colspan="4" col="4">
                             <separator string="SPED Alterações Contratuais S-2206" colspan="4"

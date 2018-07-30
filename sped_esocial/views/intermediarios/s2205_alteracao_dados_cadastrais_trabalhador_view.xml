@@ -27,11 +27,6 @@
                         <group colspan="4" col="2">
                             <field name="sped_alteracao" readonly="1"/>
                         </group>
-                        <group colspan="4" col="2">
-                            <field name="situacao_esocial" />
-                            <field name="ultima_atualizacao" />
-                            <field name="precisa_atualizar" />
-                        </group>
                     </group>
                 </form>
             </field>
@@ -45,7 +40,6 @@
                     <field name="company_id"/>
                     <field name="hr_employee_id"/>
                     <field name="situacao_esocial"/>
-                    <field name="precisa_atualizar"/>
                 </tree>
             </field>
         </record>

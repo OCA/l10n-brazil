@@ -24,10 +24,17 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         string='Empresa',
         comodel_name='res.company',
     )
+    retificacao = fields.Boolean(
+        string='É Retificação?',
+    )
     hr_contract_id = fields.Many2one(
         string="Contrato de Trabalho",
         comodel_name="hr.contract",
         required=True,
+    )
+    precisa_atualizar = fields.Boolean(
+        string='Precisa Atualizar',
+        related='hr_contract_id.precisa_atualizar',
     )
     sped_s2200_registro_inclusao = fields.Many2one(
         string='Registro S-2200',
@@ -51,68 +58,54 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
-        compute='compute_ultima_atualizacao',
+        compute='compute_situacao_esocial',
     )
-
-    @api.depends('sped_s2200_registro_inclusao',
-                 'sped_s2200_registro_retificacao')
-    def compute_ultima_atualizacao(self):
-
-        # Roda todos os registros da lista
-        for desligamento in self:
-
-            # Inicia a última atualização com a data/hora now()
-            ultima_atualizacao = fields.Datetime.now()
-
-            # Se tiver o registro de inclusão, pega a data/hora de origem
-            if desligamento.sped_s2200_registro_inclusao and \
-                    desligamento.sped_s2200_registro_inclusao.situacao == '4':
-                ultima_atualizacao = \
-                    desligamento.sped_s2200_registro_inclusao.data_hora_origem
-
-            # Se tiver alterações, pega a data/hora de origem da última alteração
-            for retificacao in desligamento.sped_s2200_registro_retificacao:
-                if retificacao.situacao == '4':
-                    if retificacao.data_hora_origem > ultima_atualizacao:
-                        ultima_atualizacao = retificacao.data_hora_origem
-
-            # Popula o campo na tabela
-            desligamento.ultima_atualizacao = ultima_atualizacao
 
     @api.multi
     def gerar_registro(self):
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-2200',
+            'ambiente': self.company_id.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtAdmissao',
+            'origem': (
+                    'hr.contract,%s' %
+                    self.hr_contract_id.id),
+            'origem_intermediario': (
+                    'sped.esocial.contrato,%s' % self.id),
+        }
         if not self.sped_s2200_registro_inclusao:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-2200',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
-                'evento': 'evtAdmissao',
-                'origem': (
-                        'hr.contract,%s' %
-                        self.hr_contract_id.id),
-                'origem_intermediario': (
-                        'sped.esocial.contrato,%s' % self.id),
-            }
-
+            # Cria o registro de envio
             sped_inclusao = self.env['sped.registro'].create(values)
             self.sped_s2200_registro_inclusao = sped_inclusao
+        elif self.precisa_atualizar:
+            # Cria o registro de Retificação
+            values['operacao'] = 'R'
+            sped_retificacao = self.env['sped.registro'].create(values)
+            self.sped_s2200_registro_retificacao = [(4, sped_retificacao.id)]
 
-    @api.depends('sped_s2200_registro_inclusao',
-                 'sped_s2200_registro_retificacao')
+    @api.depends('sped_s2200_registro_inclusao', 'sped_s2200_registro_retificacao')
     def compute_situacao_esocial(self):
-        for desligamento in self:
+        for s2200 in self:
             situacao_esocial = '1'
+            ultima_atualizacao = False
 
-            if desligamento.sped_s2200_registro_inclusao:
+            # Usa o status do registro de inclusão
+            if s2200.sped_s2200_registro_inclusao:
                 situacao_esocial = \
-                    desligamento.sped_s2200_registro_inclusao.situacao
+                    s2200.sped_s2200_registro_inclusao.situacao
+                ultima_atualizacao = s2200.sped_s2200_registro_inclusao.data_hora_origem
 
-            for retificao in desligamento.sped_s2200_registro_retificacao:
-                situacao_esocial = retificao.situacao
+            # Se tem registros de retificação, usa o status do último deles
+            for retificacao in s2200.sped_s2200_registro_retificacao:
+                if not ultima_atualizacao or retificacao.data_hora_origem > ultima_atualizacao:
+                    ultima_atualizacao = retificacao.data_hora_origem
+                    situacao_esocial = retificacao.situacao
 
             # Popula na tabela
-            desligamento.situacao_esocial = situacao_esocial
+            s2200.situacao_esocial = situacao_esocial
+            s2200.ultima_atualizacao = ultima_atualizacao
 
     @api.depends('hr_contract_id')
     def _compute_display_name(self):
@@ -135,6 +128,10 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2200.evento.ideEvento.tpAmb.valor = int(ambiente)
         S2200.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
         S2200.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+        # Se for um registro de Retificação manda o indRetif e o recido do S2200 inicial
+        if operacao == 'R':  # Retificação
+            S2200.evento.ideEvento.indRetif.valor = '2'
+            S2200.evento.ideEvento.nrRecibo.valor = self.sped_s2200_registro_inclusao.recibo
 
         # Popula ideEmpregador (Dados do Empregador)
         S2200.evento.ideEmpregador.tpInsc.valor = '1'

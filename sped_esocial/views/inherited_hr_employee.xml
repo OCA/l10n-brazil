@@ -32,7 +32,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
                     <header>
-                        <button name="atualizar_trabalhador_s2206" type="object" colspan="2"
+                        <button name="atualizar_trabalhador_s2205" type="object" colspan="2"
                                 string="Atualizar Trabalhador no e-Social" class="oe_highlight"
                                 attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
                         />

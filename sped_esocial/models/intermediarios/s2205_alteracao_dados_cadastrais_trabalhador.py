@@ -38,27 +38,22 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         comodel_name='hr.employee',
         required=True,
     )
-    sped_alteracao = fields.Many2many(
-        string='Alterações',
+    sped_alteracao = fields.Many2one(
+        string='Alteração',
         comodel_name='sped.registro',
     )
     situacao_esocial = fields.Selection(
         selection=[
-            ('1', 'Precisa Transmitir'),
+            ('1', 'Pendente'),
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
+            ('7', 'Excluído'),
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
-    )
-    precisa_atualizar = fields.Boolean(
-        string='Precisa atualizar dados?',
-        compute='compute_precisa_enviar',
-    )
-    ultima_atualizacao = fields.Datetime(
-        string='Data da última atualização',
-        compute='compute_ultima_atualizacao',
     )
 
     @api.depends('hr_employee_id')
@@ -68,55 +63,15 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
     @api.depends('sped_alteracao')
     def compute_situacao_esocial(self):
-        for empregado in self:
+        for s2205 in self:
             situacao_esocial = '1'
 
-            for alteracao in empregado.sped_alteracao:
-                situacao_esocial = alteracao.situacao
+            # Usa o status do registro de inclusão
+            if s2205.sped_alteracao:
+                situacao_esocial = s2205.sped_alteracao.situacao
 
             # Popula na tabela
-            empregado.situacao_esocial = situacao_esocial
-
-    @api.depends('sped_alteracao')
-    def compute_precisa_enviar(self):
-
-        # Roda todos os registros da lista
-        for empregado in self:
-
-            # Inicia as variáveis como False
-            precisa_atualizar = False
-
-            # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
-            if empregado.situacao_esocial != '3':
-
-                # Se a empresa já tem um registro de inclusão confirmado mas
-                # a data da última atualização é menor que a o write_date da
-                # empresa, então precisa atualizar
-                if empregado.ultima_atualizacao < \
-                        empregado.hr_employee_id.write_date or \
-                        empregado.situacao_esocial == '1':
-                    precisa_atualizar = True
-
-            # Popula os campos na tabela
-            empregado.precisa_atualizar = precisa_atualizar
-
-    @api.depends('sped_alteracao')
-    def compute_ultima_atualizacao(self):
-
-        # Roda todos os registros da lista
-        for empregado in self:
-
-            # Inicia a última atualização com a data/hora now()
-            ultima_atualizacao = fields.Datetime.now()
-
-            # Se tiver alterações pega a data/hora de origem da última alteração
-            for alteracao in empregado.sped_alteracao:
-                if alteracao.situacao == '4':
-                    if alteracao.data_hora_origem > ultima_atualizacao:
-                        ultima_atualizacao = alteracao.data_hora_origem
-
-            # Popula o campo na tabela
-            empregado.ultima_atualizacao = ultima_atualizacao
+            s2205.situacao_esocial = situacao_esocial
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
@@ -124,21 +79,19 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         self.ensure_one()
 
         # Criar o registro S-2205 de alteração, se for necessário
-        if self.precisa_atualizar:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-2205',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
-                'operacao': 'A',
-                'evento': 'evtAltCadastral',
-                'origem': ('hr.employee,%s' % self.hr_employee_id.id),
-                'origem_intermediario': (
-                        'sped.esocial.alteracao.funcionario,%s' % self.id),
-            }
-
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-2205',
+            'ambiente': self.company_id.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtAltCadastral',
+            'origem': ('hr.employee,%s' % self.hr_employee_id.id),
+            'origem_intermediario': (
+                    'sped.esocial.alteracao.funcionario,%s' % self.id),
+        }
+        if not self.sped_alteracao:
             sped_alteracao = self.env['sped.registro'].create(values)
-            self.sped_alteracao = [(4, sped_alteracao.id)]
+            self.sped_alteracao = sped_alteracao
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
@@ -156,9 +109,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             empregado_id.company_id.cnpj_cpf
         )[0:8]
         S2205.evento.ideEvento.indRetif.valor = '1'
-        S2205.evento.ideEvento.tpAmb.valor = int(
-            empregado_id.company_id.esocial_tpAmb
-        )
+        S2205.evento.ideEvento.tpAmb.valor = int(ambiente)
         S2205.evento.ideEvento.procEmi.valor = '1'
         S2205.evento.ideEvento.verProc.valor = '8.0'
 
@@ -221,7 +172,17 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         dados_trabalhador.documentos.RIC.append(rg)
 
         # Popula CNH (Carteira Nacional de Habilitação)
-        cnh = pysped.esocial.leiaute.S2205_CNH_2()
+        if self.hr_employee_id.driver_license:
+            CNH = pysped.esocial.leiaute.S2205_CNH_2()
+            CNH.nrRegCnh.valor = self.hr_employee_id.driver_license
+            if self.hr_employee_id.cnh_dt_exped:
+                CNH.dtExped.valor = self.hr_employee_id.cnh_dt_exped
+            CNH.ufCnh.valor = self.hr_employee_id.cnh_uf.code
+            CNH.dtValid.valor = self.hr_employee_id.expiration_date
+            if self.hr_employee_id.cnh_dt_pri_hab:
+                CNH.dtPriHab.valor = self.hr_employee_id.cnh_dt_pri_hab
+            CNH.categoriaCnh.valor = self.hr_employee_id.driver_categ
+            dados_trabalhador.documentos.CNH.append(CNH)
 
         # Popula endereco (Informações do endereço do Trabalhador)
         endereco_brasil = dados_trabalhador.endereco.brasil
@@ -262,7 +223,38 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
+        self.hr_employee_id.precisa_atualizar = False
+
     @api.multi
     def retorna_trabalhador(self):
         self.ensure_one()
         return self.hr_employee_id
+
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['1', '3']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.sped_alteracao.situacao in ['1', '3']:
+                registro = self.sped_alteracao
+
+            # Com o registro identificado, é só rodar o método
+            # transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['2']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.sped_alteracao.situacao == '2':
+                registro = self.sped_alteracao
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()

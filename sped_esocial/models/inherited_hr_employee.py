@@ -33,7 +33,7 @@ class HrEmployee(models.Model):
     )
 
     # Calcula a situação e-Social levando em conta a situação do contrato também.
-    @api.depends('contract_ids')
+    @api.depends('contract_ids', 'sped_s2205_ids')
     def compute_situacao_esocial(self):
         for trabalhador in self:
 
@@ -87,7 +87,21 @@ class HrEmployee(models.Model):
         # Lista os campos que são monitorados do Empregador
         campos_monitorados = [
             # TODO Inserir os campos a serem monitorados no trabalhador
-            'cnpj_cpf',  # //eSocial/evtInfoEmpregador/ideEmpregador/nrInsc
+            'marital',                  # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/estCiv
+            'educational_attainment',   # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/grauInstr
+            'ctps',                     # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CTPS/nrCtps
+            'ctps_series',              # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CTPS/serieCtps
+            'ctps_uf_id',               # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CTPS/ufCtps
+            'rg',                       # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/RG/nrRG
+            'organ_exp',                # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/RG/orgaoEmissor
+            'rg_emission',              # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/RG/dtExped
+            'driver_license',           # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CNH/nrRegCnh
+            'cnh_dt_exped',             # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CNH/dtExped
+            'cnh_uf',                   # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CNH/ufCnh
+            'expiration_date',          # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CNH/dtValid
+            'cnh_dt_pri_hab',           # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CNH/dtPriHab
+            'driver_categ',             # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/documentos/CNH/categoriaCnh
+            'dependent_ids',            # //eSocial/evtAltCadastral/ideEmpregador/dadosTrabalhador/dependente
         ]
         precisa_atualizar = False
 
@@ -125,54 +139,56 @@ class HrEmployee(models.Model):
     cnh_dt_pri_hab = fields.Date(
         string='Data da 1ª Hab.',
     )
-    sped_esocial_alterar_cadastro_id = fields.Many2one(
-        string='Alterar Cadastro',
-        comodel_name='sped.esocial.alteracao.funcionario',
-    )
-    # situacao_esocial_inicial = fields.Selection(
-    #     selection=[
-    #         ('0', 'Inativa'),
-    #         ('1', 'Ativa'),
-    #         ('2', 'Precisa Atualizar'),
-    #         ('3', 'Aguardando Transmissão'),
-    #         ('9', 'Finalizada'),
-    #     ],
-    #     string='Situação no e-Social',
-    #     related='contract_id.situacao_esocial',
-    #     readonly=True,
-    # )
-    # precisa_atualizar = fields.Boolean(
-    #     string='Precisa atualizar dados?',
-    #     related='sped_esocial_alterar_cadastro_id.precisa_atualizar',
-    # )
 
     @api.multi
-    def write(self, vals):
-        self._gerar_tabela_intermediaria_alteracao(vals)
-        return super(HrEmployee, self).write(vals)
-
-    @api.multi
-    def _gerar_tabela_intermediaria_alteracao(self, vals={}):
-        # Se o registro intermediário do S-2205 não existe, criá-lo
-        if not self.sped_esocial_alterar_cadastro_id and not \
-                vals.get('sped_esocial_alterar_cadastro_id'):
-            matriz = self.company_id.id if self.company_id.eh_empresa_base \
-                else self.company_id.matriz.id
-            self.sped_esocial_alterar_cadastro_id = \
-                self.env['sped.esocial.alteracao.funcionario'].create(
-                    {
-                        'company_id': matriz,
-                        'hr_employee_id': self.id,
-                    }
-                )
-
-    @api.multi
-    def atualizar_cadastro_funcionario(self):
+    def atualizar_trabalhador_s2205(self):  # TODO
         self.ensure_one()
 
-        self._gerar_tabela_intermediaria_alteracao()
+        # Identifica se já existe um registro de atualização em aberto
+        sped_s2205 = False
+        for s2205 in self.sped_s2205_ids:
+            if s2205.situacao_esocial != '4':
+                sped_s2205 = s2205
 
-        # Processa cada tipo de operação do S-2205
-        # O que realmente precisará ser feito é
-        # tratado no método do registro intermediário
-        self.sped_esocial_alterar_cadastro_id.gerar_registro()
+        # Se o registro intermediário do S-2205 não existe, criá-lo
+        if not sped_s2205:
+            if self.env.user.company_id.eh_empresa_base:
+                matriz = self.env.user.company_id.id
+            else:
+                matriz = self.env.user.company_id.matriz.id
+
+            sped_s2205 = \
+                self.env['sped.esocial.alteracao.funcionario'].create({
+                    'company_id': matriz,
+                    'hr_employee_id': self.id,
+                })
+            self.sped_s2205_ids = [(4, sped_s2205.id)]
+
+        # Criar o registro de transmissão relacionado
+        sped_s2205.gerar_registro()
+
+    @api.multi
+    def transmitir(self):  # TODO
+        self.ensure_one()
+
+        # Se algum registro S-2205 estiver pendente transmissão
+        for s2205 in self.sped_s2205_ids:
+            if s2205.situacao_esocial in ['1', '3']:
+                s2205.transmitir()
+                return
+
+    @api.multi
+    def consultar(self):  # TODO
+        self.ensure_one()
+
+        # Se algum registro S-2205 estiver transmitida
+        for s2205 in self.sped_s2205_ids:
+            if s2205.situacao_esocial in ['2']:
+                s2205.consultar()
+                return
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+
+        return self
