@@ -275,6 +275,10 @@ def analytic_report(pool, cr, uid, local_context, context):
                 inss_autonomo_retido += line_id.total
             if line_id.salary_rule_id.compoe_base_INSS:
                 inss_empresa_autonomo.base += line_id.total
+                # Calcular manualmente o INSS para exibicao do analitico.
+                # PS Futuramente implementaremos o cálculo automatico do
+                # INSS / INSS_PATRONAL para os autonomos
+                inss_empresa_autonomo.inss_empresa += line_id.total * 0.22
 
     legal_name = payslips[0].company_id.legal_name
     endereco = \
