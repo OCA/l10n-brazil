@@ -279,6 +279,7 @@ def analytic_report(pool, cr, uid, local_context, context):
                 # PS Futuramente implementaremos o cálculo automatico do
                 # INSS / INSS_PATRONAL para os autonomos
                 inss_empresa_autonomo.inss_empresa += line_id.total * 0.225
+                inss_empresa_autonomo.total += line_id.total * 0.225
 
     legal_name = payslips[0].company_id.legal_name
     endereco = \
