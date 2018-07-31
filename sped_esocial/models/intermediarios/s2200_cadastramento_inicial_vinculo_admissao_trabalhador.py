@@ -295,13 +295,13 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # Verificar se campos obrigatórios estao preenchidos:
         partner_id = self.hr_contract_id.employee_id.address_home_id
 
-        if not partner_id.street or not partner_id.number:
+        if not partner_id.street:
             raise Warning('Por favor preencha corretamente o endereço do '
                           'funcionário {}'.format(partner_id.name))
         Brasil.dscLograd.valor = \
             self.hr_contract_id.employee_id.address_home_id.street
         Brasil.nrLograd.valor = \
-            self.hr_contract_id.employee_id.address_home_id.number
+            self.hr_contract_id.employee_id.address_home_id.number or 'S\N'
         Brasil.complemento.valor = \
             self.hr_contract_id.employee_id.address_home_id.street2 or ''
         Brasil.bairro.valor = \
