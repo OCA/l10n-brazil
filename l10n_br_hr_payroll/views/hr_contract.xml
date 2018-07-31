@@ -8,6 +8,7 @@
     <record model="ir.ui.view" id="hr_contract_form_view">
         <field name="name">hr.contract.form (in l10n_br_hr_payroll)</field>
         <field name="model">hr.contract</field>
+        <field name="priority" eval="200"/>
         <field name="inherit_id" ref="l10n_br_hr_contract.l10n_br_hr_contract_view_form"/>
         <field name="arch" type="xml">
             <field name="name" position="replace">
