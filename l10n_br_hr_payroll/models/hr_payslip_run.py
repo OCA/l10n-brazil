@@ -135,6 +135,7 @@ class HrPayslipRun(models.Model):
             # pegar todos contratos da empresa que são válidos,
             dominio_contratos = [
                 ('date_start', '<=', lote.date_end),
+                ('tipo', '!=', 'autonomo'),
                 ('company_id', '=', lote.company_id.id),
             ]
 
