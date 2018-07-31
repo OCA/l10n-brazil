@@ -268,11 +268,12 @@ def analytic_report(pool, cr, uid, local_context, context):
             fgts += rubrica['sum']
 
     # INSS dos autonomos
-    for slip_id in payslip_line_autonomos_ids:
-        for line_id in slip_id:
+    payslip_ids = pool['hr.payslip.autonomo'].browse(cr, uid, payslip_line_autonomos_ids)
+    for slip_id in payslip_ids:
+        for line_id in slip_id.line_ids:
             if line_id.category_id.code in ['INSS']:
                 inss_autonomo_retido += line_id.total
-            if line_id.rule_id.compoe_base_INSS:
+            if line_id.salary_rule_id.compoe_base_INSS:
                 inss_empresa_autonomo.base += line_id.total
 
     legal_name = payslips[0].company_id.legal_name
