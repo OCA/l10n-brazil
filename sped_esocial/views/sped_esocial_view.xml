@@ -63,6 +63,7 @@
                             <page name="resumo" string="Resumo">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="2" string="Eventos de Tabela">
+                                        <!--<separator string="Eventos de Tabela" colspan="2"/>-->
                                         <field name="msg_empregador" />
                                         <field name="msg_estabelecimentos" />
                                         <field name="msg_rubricas" />
