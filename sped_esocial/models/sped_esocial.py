@@ -905,6 +905,16 @@ class SpedEsocial(models.Model):
                         # Cria o registro de transmissão sped (se ainda não existir)
                         s1202.atualizar_esocial()
                 else:
+                    # Busca os payslips de pagamento mensal deste autonomo
+                    domain_payslip_autonomo = [
+                        ('company_id', 'in', empresas),
+                        ('contract_id', 'in', contratos_validos),
+                        ('mes_do_ano', '=', mes),
+                        ('ano', '=', ano),
+                        ('state', 'in', ['verify', 'done']),
+                        ('tipo_de_folha', 'in',  ['normal', 'ferias', 'decimo_terceiro']),
+                    ]
+                    payslips = self.env['hr.payslip.autonomo'].search(domain_payslip_autonomo)
 
                     # Se não tem contrato válido, remove o registro S-1202 (se existir)
                     domain = [
