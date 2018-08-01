@@ -578,7 +578,6 @@ class HrContract(models.Model):
         related='salary_unit.code',
     )
 
-    @api.multi
     @api.depends('categoria')
     def _compute_evento_esocial(self):
         """
