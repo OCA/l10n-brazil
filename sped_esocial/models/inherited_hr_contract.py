@@ -72,7 +72,7 @@ class HrContract(models.Model):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
-        store=True,
+        # store=True,
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa Atualizar',
@@ -353,6 +353,37 @@ class HrContract(models.Model):
             }
             if not s2306:
                 s2306 = self.env['sped.esocial.alteracao.contrato.autonomo'].create(vals)
+                self.sped_s2306_ids = [(4, s2306.id)]
+
+        # Cria o registro de retificação
+        s2306.gerar_registro()
+
+        # Valida se pode ser atualizado
+        if not self.sped_s2300_id:
+            raise ValidationError("Este registro não pode ser atualizado pois ainda não foi transmitido inicialmente!")
+
+        if not self.precisa_atualizar:
+            raise ValidationError("Este registro não precisa ser atualizado !")
+
+        # Identifica se já tem um registro S-2306 em aberto
+        s2306 = False
+        for registro in self.sped_s2306_ids:
+            if registro.situacao != '4':
+                s2306 = registro
+
+        # Se o registro intermediário do S-2306 não existe, criá-lo
+        if not s2306:
+            if self.env.user.company_id.eh_empresa_base:
+                matriz = self.env.user.company_id.id
+            else:
+                matriz = self.env.user.company_id.matriz.id
+
+            vals = {
+                'company_id': matriz,
+                'hr_contract_id': self.id,
+            }
+            if not s2306:
+                s2306 = self.env['sped.esocial.contrato.autonomo'].create(vals)
                 self.sped_s2306_ids = [(4, s2306.id)]
 
         # Cria o registro de retificação
