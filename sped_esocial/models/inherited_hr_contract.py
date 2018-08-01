@@ -72,7 +72,7 @@ class HrContract(models.Model):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
-        store=True,
+        # store=True,
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa Atualizar',
@@ -578,6 +578,7 @@ class HrContract(models.Model):
         related='salary_unit.code',
     )
 
+    @api.multi
     @api.depends('categoria')
     def _compute_evento_esocial(self):
         """
