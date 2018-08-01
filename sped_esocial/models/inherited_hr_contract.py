@@ -337,7 +337,7 @@ class HrContract(models.Model):
         # Identifica se já tem um registro S-2306 em aberto
         s2306 = False
         for registro in self.sped_s2306_ids:
-            if registro.situacao_esocial != '4':
+            if registro.situacao != '4':
                 s2306 = registro
 
         # Se o registro intermediário do S-2306 não existe, criá-lo
@@ -352,7 +352,7 @@ class HrContract(models.Model):
                 'hr_contract_id': self.id,
             }
             if not s2306:
-                s2306 = self.env['sped.esocial.alteracao.contrato.autonomo'].create(vals)
+                s2306 = self.env['sped.esocial.contrato.autonomo'].create(vals)
                 self.sped_s2306_ids = [(4, s2306.id)]
 
         # Cria o registro de retificação
