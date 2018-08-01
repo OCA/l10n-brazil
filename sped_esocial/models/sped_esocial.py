@@ -69,18 +69,27 @@ class SpedEsocial(models.Model):
         string='Necessita S-1000(s)',
         compute='compute_necessita_s1000',
     )
+    msg_empregador = fields.Char(
+        string='Empregador',
+        compute='compute_necessita_s1000',
+    )
 
     #
     # Calcula se é necessário criar algum registro S-1000
     #
-    @api.depends('empregador_ids.situacao_esocial')
+    @api.depends('empregador_ids')
     def compute_necessita_s1000(self):
         for esocial in self:
             necessita_s1000 = False
+            msg_empregador = 'OK'
+            if not esocial.empregador_ids:
+                msg_empregador = 'Pendente Análise'
             for empregador in esocial.empregador_ids:
                 if empregador.situacao_esocial in ['2']:
                     necessita_s1000 = True
+                    msg_empregador = 'Pendências não enviadas ao e-Social',
             esocial.necessita_s1000 = necessita_s1000
+            esocial.msg_empregador = msg_empregador
 
     @api.multi
     def importar_empregador(self):
@@ -112,28 +121,47 @@ class SpedEsocial(models.Model):
         string='Necessita S-1005(s)',
         compute='compute_necessita_s1005',
     )
+    msg_estabelecimentos = fields.Char(
+        string='Estabelecimentos',
+        compute='compute_necessita_s1005',
+    )
 
     # Calcula se é necessário criar algum registro S-1005
     @api.depends('estabelecimento_ids.situacao_esocial')
     def compute_necessita_s1005(self):
         for esocial in self:
             necessita_s1005 = False
+            msg_estabelecimentos = False
             for estabelecimento in esocial.estabelecimento_ids:
                 if estabelecimento.situacao_esocial in ['2']:
                     necessita_s1005 = True
+                    msg_estabelecimentos = 'Pendências não enviadas ao e-Social'
+            if not msg_estabelecimentos:
+                msg_estabelecimentos = 'OK'
+            if esocial.estabelecimento_ids:
+                txt = 'Estabelecimento'
+                if len(esocial.estabelecimento_ids) > 1:
+                    txt += 's'
+                msg_estabelecimentos = '{} {} - '.format(len(esocial.estabelecimento_ids), txt) + \
+                    msg_estabelecimentos
             esocial.necessita_s1005 = necessita_s1005
+            esocial.msg_estabelecimentos = msg_estabelecimentos
 
     @api.multi
     def importar_estabelecimentos(self):
         self.ensure_one()
 
-        estabelecimentos = self.env['sped.estabelecimentos'].search([
-            ('company_id', '=', self.company_id.id),
-        ])
+        estabelecimentos = self.env['res.company'].search([])
         for estabelecimento in estabelecimentos:
-            if estabelecimento.id not in self.estabelecimento_ids.ids:
-                if estabelecimento.situacao_esocial != '9':
-                    self.estabelecimento_ids = [(4, estabelecimento.id)]
+            if estabelecimento.situacao_estabelecimento_esocial not in ['0', '9']:
+                sped_estabelecimento = self.env['sped.estabelecimentos'].search([
+                    ('company_id', '=', self.company_id.id),
+                    ('estabelecimento_id', '=', estabelecimento.id),
+                ])
+                if not sped_estabelecimento:
+                    estabelecimento.atualizar_estabelecimento()
+                    sped_estabelecimento = estabelecimento.sped_estabelecimento_id
+                self.estabelecimento_ids = [(4, sped_estabelecimento.id)]
 
     # Cria os registros S-1005
     @api.multi
@@ -152,16 +180,31 @@ class SpedEsocial(models.Model):
         string='Necessita S-1010(s)',
         compute='compute_necessita_s1010',
     )
+    msg_rubricas = fields.Char(
+        string='Rubricas',
+        compute='compute_necessita_s1010',
+    )
 
     # Calcula se é necessário criar algum registro S-1010
     @api.depends('rubrica_ids.situacao_esocial')
     def compute_necessita_s1010(self):
         for esocial in self:
             necessita_s1010 = False
+            msg_rubricas = False
             for rubrica in esocial.rubrica_ids:
                 if rubrica.situacao_esocial in ['2']:
                     necessita_s1010 = True
+                    msg_rubricas = 'Pendências não enviadas ao e-Social'
+            if not msg_rubricas:
+                msg_rubricas = 'OK'
+            if esocial.rubrica_ids:
+                txt = 'Rubrica'
+                if len(esocial.rubrica_ids) > 1:
+                    txt += 's'
+                msg_rubricas = '{} {} - '.format(len(esocial.rubrica_ids), txt) + \
+                    msg_rubricas
             esocial.necessita_s1010 = necessita_s1010
+            esocial.msg_rubricas = msg_rubricas
 
     @api.multi
     def importar_rubricas(self):
@@ -211,44 +254,53 @@ class SpedEsocial(models.Model):
         string='Necessita S-1020',
         compute='compute_necessita_s1020',
     )
+    msg_lotacoes_tributarias = fields.Char(
+        string='Lotações Tributárias',
+        compute='compute_necessita_s1020',
+    )
 
     # Calcula se é necessário criar algum registro S-1020
     @api.depends('lotacao_ids.situacao_esocial')
     def compute_necessita_s1020(self):
         for esocial in self:
             necessita_s1020 = False
+            msg_lotacoes_tributarias = False
             for lotacao in esocial.lotacao_ids:
                 if lotacao.situacao_esocial in ['2']:
                     necessita_s1020 = True
+                    msg_lotacoes_tributarias = 'Pendências não enviadas ao e-Social'
+            if not msg_lotacoes_tributarias:
+                msg_lotacoes_tributarias = 'OK'
+            if esocial.lotacao_ids:
+                txt = 'Lotação'
+                if len(esocial.lotacao_ids) > 1:
+                    txt = 'Lotações'
+                msg_lotacoes_tributarias = '{} {} - '.format(len(esocial.lotacao_ids), txt) + \
+                    msg_lotacoes_tributarias
             esocial.necessita_s1020 = necessita_s1020
+            esocial.msg_lotacoes_tributarias = msg_lotacoes_tributarias
 
     @api.multi
     def importar_lotacoes(self):
         self.ensure_one()
 
-        lotacoes = self.env['sped.esocial.lotacao'].search([
-            ('company_id', '=', self.company_id.id),
-        ])
+        lotacoes = self.env['res.company'].search([])
         for lotacao in lotacoes:
-            if lotacao.id not in self.lotacao_ids.ids:
-                if lotacao.situacao_esocial != '9':
-                    self.lotacao_ids = [(4, lotacao.id)]
+            if lotacao.situacao_lotacao_esocial not in ['0', '9']:
+                sped_lotacao = self.env['sped.esocial.lotacao'].search([
+                    ('company_id', '=', self.company_id.id),
+                    ('lotacao_id', '=', lotacao.id),
+                ])
+                if not sped_lotacao:
+                    lotacao.atualizar_lotacao()
+                    sped_lotacao = lotacao.sped_estabelecimento_id
+                self.lotacao_ids = [(4, sped_lotacao.id)]
 
     @api.multi
     def criar_s1020(self):
         self.ensure_one()
         for lotacao in self.lotacao_ids:
             lotacao.gerar_registro()
-
-    # Calcula se é necessário criar algum registro S-1020
-    @api.depends('lotacao_ids.situacao_esocial')
-    def compute_necessita_s1020(self):
-        for esocial in self:
-            necessita_s1020 = False
-            for lotacao in esocial.lotacao_ids:
-                if lotacao.situacao_esocial in ['2']:
-                    necessita_s1020 = True
-            esocial.necessita_s1020 = necessita_s1020
 
     # Controle de registros S-1030
     cargo_ids = fields.Many2many(
@@ -259,28 +311,49 @@ class SpedEsocial(models.Model):
         string='Necessita S-1030',
         compute='compute_necessita_s1030',
     )
+    msg_cargos = fields.Char(
+        string='Cargos',
+        compute='compute_necessita_s1030',
+    )
 
     # Calcula se é necessário criar algum registro S-1030
     @api.depends('cargo_ids.situacao_esocial')
     def compute_necessita_s1030(self):
         for esocial in self:
             necessita_s1030 = False
+            msg_cargos = False
             for cargo in esocial.cargo_ids:
                 if cargo.situacao_esocial in ['2']:
                     necessita_s1030 = True
+                    msg_cargos = 'Pendências não enviadas ao e-Social'
+            if not msg_cargos:
+                msg_cargos = 'OK'
+            if esocial.cargo_ids:
+                txt = 'Cargo'
+                if len(esocial.cargo_ids) > 1:
+                    txt += 's'
+                msg_cargos = '{} {} - '.format(len(esocial.cargo_ids), txt) + \
+                    msg_cargos
             esocial.necessita_s1030 = necessita_s1030
+            esocial.msg_cargos = msg_cargos
 
     @api.multi
     def importar_cargos(self):
         self.ensure_one()
 
-        cargos = self.env['sped.esocial.cargo'].search([
-            ('company_id', '=', self.company_id.id),
+        cargos = self.env['hr.job'].search([
+            ('codigo', '!=', False),
         ])
         for cargo in cargos:
-            if cargo.id not in self.cargo_ids.ids:
-                if cargo.situacao_esocial != '9':
-                    self.cargo_ids = [(4, cargo.id)]
+            if cargo.situacao_esocial not in ['0', '9']:
+                sped_cargo = self.env['sped.esocial.cargo'].search([
+                    ('company_id', '=', self.company_id.id),
+                    ('cargo_id', '=', cargo.id),
+                ])
+                if not sped_cargo:
+                    cargo.atualizar_cargo()
+                    sped_cargo = cargo.sped_cargo_id
+                self.cargo_ids = [(4, sped_cargo.id)]
 
     # Criar registros S-1030
     @api.multi
@@ -298,29 +371,49 @@ class SpedEsocial(models.Model):
         string='Necessita S-1050',
         compute='compute_necessita_s1050',
     )
+    msg_turnos = fields.Char(
+        string='Turnos de Trabalho',
+        compute='compute_necessita_s1050',
+    )
 
     # Calcula se é necessário criar algum registro S-1050
     @api.depends('turno_trabalho_ids.situacao_esocial')
     def compute_necessita_s1050(self):
         for esocial in self:
             necessita_s1050 = False
+            msg_turnos = False
             for turno in esocial.turno_trabalho_ids:
                 if turno.situacao_esocial in ['2']:
                     necessita_s1050 = True
+                    msg_turnos = 'Pendências não enviadas ao e-Social'
+            if not msg_turnos:
+                msg_turnos = 'OK'
+            if esocial.turno_trabalho_ids:
+                txt = 'Turno de Trabalho'
+                if len(esocial.turno_trabalho_ids) > 1:
+                    txt = 'Turnos de Trabalho'
+                msg_turnos = '{} {} - '.format(len(esocial.turno_trabalho_ids), txt) + \
+                    msg_turnos
             esocial.necessita_s1050 = necessita_s1050
+            esocial.msg_turnos = msg_turnos
 
     @api.multi
     def importar_turnos_trabalho(self):
         self.ensure_one()
 
-        turnos_trabalho_ids = self.env['sped.hr.turnos.trabalho'].search([
-            ('company_id', '=', self.company_id.id),
+        turnos = self.env['hr.turnos.trabalho'].search([
+            ('cod_hor_contrat', '!=', False),
         ])
-
-        for turno_trabalho in turnos_trabalho_ids:
-            if turno_trabalho.id not in self.turno_trabalho_ids.ids:
-                if turno_trabalho.situacao_esocial != '9':
-                    self.turno_trabalho_ids = [(4, turno_trabalho.id)]
+        for turno in turnos:
+            if turno.situacao_esocial not in ['0', '9']:
+                sped_turno = self.env['sped.hr.turnos.trabalho'].search([
+                    ('company_id', '=', self.company_id.id),
+                    ('hr_turnos_trabalho_id', '=', turno.id),
+                ])
+                if not sped_turno:
+                    turno.atualizar_turno()
+                    sped_turno = turno.sped_turno_id
+                self.turno_trabalho_ids = [(4, sped_turno.id)]
 
     # Criar registros S-1050
     @api.multi
@@ -730,6 +823,146 @@ class SpedEsocial(models.Model):
         # Cria o registro de transmissão sped (se ainda não existir)
         s1299.atualizar_esocial()
 
+    # Controle de registros S-2200
+    admissao_ids = fields.Many2many(
+        string='Admissões',
+        comodel_name='sped.esocial.contrato',
+    )
+    necessita_s2200 = fields.Boolean(
+        string='Necessita S2200',
+        compute='compute_necessita_s2200',
+    )
+    msg_admissoes = fields.Char(
+        string='Contratos',
+        compute='compute_necessita_s2200',
+    )
+
+    # Calcula se é necessário criar algum registro S-2200
+    @api.depends('admissao_ids')
+    def compute_necessita_s2200(self):
+        for esocial in self:
+            necessita_s2200 = False
+            msg_admissoes = False
+            for admissao in esocial.admissao_ids:
+                if admissao.situacao_esocial not in ['4']:
+                    necessita_s2200 = True
+                    msg_admissoes = 'Pendências não enviadas ao e-Social'
+            if not msg_admissoes:
+                msg_admissoes = 'OK'
+            if esocial.admissao_ids:
+                txt = 'Contrato Válido'
+                if len(esocial.admissao_ids) > 1:
+                    txt = 'Contratos Válidos'
+                msg_admissoes = '{} {} - '.format(len(esocial.admissao_ids), txt) + \
+                    msg_admissoes
+            esocial.necessita_s2200 = necessita_s2200
+            esocial.msg_admissoes = msg_admissoes
+
+    @api.multi
+    def importar_admissao(self):
+        self.ensure_one()
+
+        admissao_ids = self.env['sped.esocial.contrato'].search([
+            ('company_id', '=', self.company_id.id),
+        ])
+
+        for admissao in admissao_ids:
+            if admissao.id not in self.admissao_ids.ids:
+                self.admissao_ids = [(4, admissao.id)]
+
+    # Controle de registros S-2205
+    alteracao_trabalhador_ids = fields.Many2many(
+        string='Alterações Trabalhador',
+        comodel_name='sped.esocial.alteracao.funcionario',
+        relation='periodo_alt_funcionario',
+    )
+    necessita_s2205 = fields.Boolean(
+        string='Necessita S2205',
+        compute='compute_necessita_s2205',
+    )
+    msg_alteracao_trabalhador = fields.Char(
+        string='Alterações de Trabalhador',
+        compute='compute_necessita_s2205',
+    )
+
+    # Calcula se é necessário criar algum registro S-2205
+    @api.depends('alteracao_trabalhador_ids')
+    def compute_necessita_s2205(self):
+        for esocial in self:
+            necessita_s2205 = False
+            msg_alteracao_trabalhador = False
+            for alteracao in esocial.alteracao_trabalhador_ids:
+                if alteracao.situacao_esocial not in ['4']:
+                    necessita_s2205 = True
+            if not msg_alteracao_trabalhador:
+                msg_alteracao_trabalhador = 'Nenhuma'
+            if esocial.alteracao_trabalhador_ids:
+                txt = 'Alteração de Trabalhador não enviada!'
+                if len(esocial.alteracao_trabalhador_ids) > 1:
+                    txt = 'Alterações de Trabalhador não enviadas!'
+                msg_alteracao_trabalhador = '{} {} - '.format(len(esocial.alteracao_trabalhador_ids), txt) + \
+                    msg_alteracao_trabalhador
+            esocial.necessita_s2205 = necessita_s2205
+            esocial.msg_alteracao_trabalhador = msg_alteracao_trabalhador
+
+    @api.multi
+    def importar_alteracao_trabalhador(self):
+        self.ensure_one()
+
+        alteracao_trabalhador_ids = self.env['sped.esocial.alteracao.funcionario'].search([
+            ('company_id', '=', self.company_id.id),
+            ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+        ])
+
+        self.alteracao_trabalhador_ids = [(6, 0, alteracao_trabalhador_ids.ids)]
+
+    # Controle de registros S-2206
+    alteracao_contrato_ids = fields.Many2many(
+        string='Alterações Contrato',
+        comodel_name='sped.esocial.alteracao.contrato',
+        relation='periodo_alt_contrato',
+    )
+    necessita_s2206 = fields.Boolean(
+        string='Necessita S2206',
+        compute='compute_necessita_s2206',
+    )
+    msg_alteracao_contrato = fields.Char(
+        string='Alterações de Contrato',
+        compute='compute_necessita_s2206',
+    )
+
+    # Calcula se é necessário criar algum registro S-2206
+    @api.depends('alteracao_contrato_ids')
+    def compute_necessita_s2206(self):
+        for esocial in self:
+            necessita_s2206 = False
+            msg_alteracao_contrato = False
+            for alteracao in esocial.alteracao_trabalhador_ids:
+                if alteracao.situacao_esocial not in ['4']:
+                    necessita_s2206 = True
+            if not msg_alteracao_contrato:
+                msg_alteracao_contrato = 'Nenhuma'
+            if esocial.alteracao_contrato_ids:
+                txt = 'Alteração de Contrato não enviada!'
+                if len(esocial.alteracao_contrato_ids) > 1:
+                    txt = 'Alterações de Contrato não enviadas!'
+                msg_alteracao_contrato = '{} {} - '.format(len(esocial.alteracao_contrato_ids), txt) + \
+                    msg_alteracao_contrato
+            esocial.necessita_s2206 = necessita_s2206
+            esocial.msg_alteracao_contrato = msg_alteracao_contrato
+
+    @api.multi
+    def importar_alteracao_contrato(self):
+        self.ensure_one()
+
+        alteracao_contrato_ids = self.env['sped.esocial.alteracao.contrato'].search([
+            ('company_id', '=', self.company_id.id),
+            ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+        ])
+
+        self.alteracao_contrato_ids = [(6, 0, alteracao_contrato_ids.ids)]
+
+    # Outros métodos
     @api.multi
     def get_esocial_vigente(self, company_id=False):
         """
@@ -773,3 +1006,29 @@ class SpedEsocial(models.Model):
             if esocial.periodo_id:
                 nome += ' (' + esocial.periodo_id.name + ')'
             esocial.nome = nome
+
+    @api.multi
+    def executa_analise_tabelas(self):
+        for esocial in self:
+            # Tabelas
+            esocial.importar_empregador()               # S-1000
+            esocial.importar_estabelecimentos()         # S-1005
+            esocial.importar_rubricas()                 # S-1010
+            esocial.importar_lotacoes()                 # S-1020
+            esocial.importar_cargos()                   # S-1030
+            esocial.importar_lotacoes()                 # S-1050
+
+            # Não Periódicos
+            esocial.importar_admissao()                 # S-2200
+            esocial.importar_alteracao_trabalhador()    # S-2205
+
+    @api.model
+    def create(self, vals):
+
+        # Cria o registro
+        res = super(SpedEsocial, self).create(vals)
+
+        # Executa os métodos de análise de tabelas
+        res.executa_analise_tabelas()
+
+        return res

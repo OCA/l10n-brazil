@@ -57,6 +57,7 @@
                 <tree string="S-2200 (Admissão Trabalhador)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="hr_contract_id"/>
+                    <field name="ultima_atualizacao" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

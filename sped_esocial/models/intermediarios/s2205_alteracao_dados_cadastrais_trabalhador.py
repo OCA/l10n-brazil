@@ -54,6 +54,11 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
+        store=True,
+    )
+    ultima_atualizacao = fields.Datetime(
+        string='Data da última atualização',
+        compute='compute_situacao_esocial',
     )
 
     @api.depends('hr_employee_id')
@@ -65,13 +70,16 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     def compute_situacao_esocial(self):
         for s2205 in self:
             situacao_esocial = '1'
+            ultima_atualizacao = False
 
             # Usa o status do registro de inclusão
             if s2205.sped_alteracao:
                 situacao_esocial = s2205.sped_alteracao.situacao
+                ultima_atualizacao = s2205.sped_alteracao.data_hora_origem
 
             # Popula na tabela
             s2205.situacao_esocial = situacao_esocial
+            s2205.ultima_atualizacao = ultima_atualizacao
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi

@@ -202,7 +202,9 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
-        pass
+
+        # Limpa o flag de precisa atualizar no contrato de origem
+        self.hr_contract_id.precisa_atualizar = False
 
     @api.multi
     def retorna_trabalhador(self):

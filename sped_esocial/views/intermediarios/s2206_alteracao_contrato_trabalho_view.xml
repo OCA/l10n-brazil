@@ -42,8 +42,8 @@
                 <tree string="S-2206 (Alteração Contratual)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="hr_contract_id"/>
+                    <field name="ultima_atualizacao" />
                     <field name="situacao_esocial"/>
-                    <field name="precisa_atualizar" />
                 </tree>
             </field>
         </record>

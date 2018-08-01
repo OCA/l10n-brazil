@@ -26,6 +26,7 @@
                         </group>
                         <group colspan="4" col="2">
                             <field name="sped_alteracao" readonly="1"/>
+                            <field name="ultima_atualizacao" readonly="1" />
                         </group>
                     </group>
                 </form>
@@ -39,6 +40,7 @@
                 <tree string="S-2205 (Alteração Cadastro Funcionário)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="hr_employee_id"/>
+                    <field name="ultima_atualizacao"/>
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

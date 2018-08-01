@@ -50,6 +50,7 @@
                 <tree string="S-1010 (Rúbrica)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="rubrica_id" />
+                    <field name="ultima_atualizacao" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

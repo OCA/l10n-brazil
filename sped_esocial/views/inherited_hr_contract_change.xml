@@ -34,6 +34,9 @@
                     <field name="state" invisible="1"/>
                     <field name="precisa_atualizar" invisible="1"/>
                 </field>
+                <field name="contract_id" position="attributes">
+                    <attribute name="domain">[('situacao_esocial', 'in', ['1', '2'])]</attribute>
+                </field>
             </field>
         </record>
 

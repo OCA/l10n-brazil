@@ -56,6 +56,7 @@
                 <tree string="S-1030 (Cargos e Empregos Públicos)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="cargo_id" />
+                    <field name="ultima_atualizacao" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

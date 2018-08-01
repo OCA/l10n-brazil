@@ -48,6 +48,7 @@
             <field name="arch" type="xml">
                 <tree string="S-1000 (Empregador)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
+                    <field name="ultima_atualizacao"/>
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

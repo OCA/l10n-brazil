@@ -79,12 +79,6 @@
                             <field name="sped_s2299_ids" colspan="4" nolabel="1" readonly="1"
                                        attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
                             />
-                            <label for="sped_s2399_id" colspan="2"
-                                   attrs="{'invisible': [('sped_s2300_id', '=', False)]}"
-                            />
-                            <field name="sped_s2399_id" colspan="2" nolabel="1" readonly="1"
-                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
-                            />
                         </group>
                     </page>
                 </xpath>

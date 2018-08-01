@@ -53,6 +53,7 @@
                     <field name="precisa_incluir" invisible="1" />
                     <field name="precisa_atualizar" invisible="1" />
                     <field name="precisa_excluir" invisible="1" />
+                    <field name="ultima_atualizacao" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

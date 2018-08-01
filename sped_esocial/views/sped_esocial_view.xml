@@ -8,6 +8,18 @@
             <field name="arch" type="xml">
                 <form string="e-Social">
                     <header>
+                        <button name="executa_analise_tabelas" type="object" string="Analisar Tabelas"
+                                attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
+                        />
+                        <button name="criar_registros_tabelas" type="object" string="Criar Registros de Tabelas Necessários"
+                                attrs="{'invisible': [
+                                ('necessita_s1000', '=', False),
+                                ('necessita_s1005', '=', False),
+                                ('necessita_s1010', '=', False),
+                                ('necessita_s1020', '=', False),
+                                ('necessita_s1030', '=', False),
+                                ('necessita_s1050', '=', False),
+                                ]}" colspan="2" class="oe_highlight"/>
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
@@ -16,12 +28,16 @@
                         />
                     </header>
                     <field name="nome" invisible="1" />
+                    <field name="id" invisible="1" />
                     <field name="necessita_s1000" invisible="1" />
                     <field name="necessita_s1005" invisible="1" />
                     <field name="necessita_s1010" invisible="1" />
                     <field name="necessita_s1020" invisible="1" />
                     <field name="necessita_s1030" invisible="1" />
                     <field name="necessita_s1050" invisible="1" />
+                    <field name="necessita_s2200" invisible="1" />
+                    <field name="necessita_s2205" invisible="1" />
+                    <field name="necessita_s2206" invisible="1" />
                     <field name="id" invisible="1" />
                     <div class="oe_title">
                         <h1>
@@ -38,89 +54,164 @@
                             </group>
                             <group colspan="2" col="2">
                                 <field name="company_id" string="Empresa" attrs="{'invisible': [('situacao', '!=', '1')]}"
-                                       domain="[('eh_empresa_base', '=', True)]"
+                                       domain="[('eh_empresa_base', '=', True), ('situacao_esocial', 'in', ['1', '2'])]"
                                        options="{'no_create': True, 'no_open': True}" required="1"
                                 />
                                 <field name="company_id_readonly" string="Empresa" attrs="{'invisible': [('situacao', '=', '1')]}" />
                             </group>
                         </group>
                         <notebook>
-                            <page name="s1000" string="S-1000">
+                            <page name="resumo" string="Resumo">
                                 <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_empregador" type="object" string="Calcular" />
-                                            <button name="criar_s1000" type="object" string="Criar S-1000(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1000', '=', False)]}" />
-                                        </div>
+                                    <group colspan="2" col="2" string="Eventos de Tabela">
+                                        <!--<separator string="Eventos de Tabela" colspan="2"/>-->
+                                        <field name="msg_empregador" />
+                                        <field name="msg_estabelecimentos" />
+                                        <field name="msg_rubricas" />
+                                        <field name="msg_lotacoes_tributarias" />
+                                        <field name="msg_cargos" />
+                                        <field name="msg_turnos" />
                                     </group>
-                                    <separator string="Informações do Empregador/Contribuínte/Órgão Público" />
-                                    <field name="empregador_ids" readonly="1" nolabel="1" colspan="4" />
-                                </group>
-                            </page>
-                            <page name="s1005" string="S-1005">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_estabelecimentos" type="object" string="Calcular" />
-                                            <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1005', '=', False)]}" />
-                                        </div>
+                                    <group colspan="2" col="2" string="Eventos Não Periódicos">
+                                        <field name="msg_admissoes" />
+                                        <field name="msg_alteracao_trabalhador" />
+                                        <field name="msg_alteracao_contrato" />
                                     </group>
-                                    <separator string="Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos" />
-                                    <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4" />
-                                </group>
-                            </page>
-                            <page name="s1010" string="S-1010">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_rubricas" type="object" string="Calcular" />
-                                            <button name="criar_s1010" type="object" string="Criar S-1010(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1010', '=', False)]}" />
-                                        </div>
+                                    <group colspan="4" col="4">
+                                        <notebook>
+                                            <page name="s1000" string="S-1000" attrs="{'invisible': [('necessita_s1000', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_empregador" type="object" string="Calcular" />
+                                                            <button name="criar_s1000" type="object" string="Criar S-1000(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s1000', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Informações do Empregador/Contribuínte/Órgão Público" />
+                                                    <field name="empregador_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['1', '9'])]"
+                                                    />
+                                                </group>
+                                            </page>
+                                            <page name="s1005" string="S-1005" attrs="{'invisible': [('necessita_s1005', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_estabelecimentos" type="object" string="Calcular" />
+                                                            <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s1005', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos" />
+                                                    <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['1', '9'])]"
+                                                    />
+                                                </group>
+                                            </page>
+                                            <page name="s1010" string="S-1010" attrs="{'invisible': [('necessita_s1010', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_rubricas" type="object" string="Calcular" />
+                                                            <button name="criar_s1010" type="object" string="Criar S-1010(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s1010', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Tabela de Rubricas" />
+                                                    <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['1', '9'])]"
+                                                    />
+                                                </group>
+                                            </page>
+                                            <page name="s1020" string="S-1020" attrs="{'invisible': [('necessita_s1020', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_lotacoes" type="object" string="Calcular" />
+                                                            <button name="criar_s1020" type="object" string="Criar S-1020(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s1020', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Tabela de Lotações Tributárias" />
+                                                    <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['1', '9'])]"
+                                                    />
+                                                </group>
+                                            </page>
+                                            <page name="s1030" string="S-1030" attrs="{'invisible': [('necessita_s1030', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_cargos" type="object" string="Calcular" />
+                                                            <button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s1030', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Tabela de Cargos/Empregos Públicos" />
+                                                    <field name="cargo_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['1', '9'])]"
+                                                    />
+                                                </group>
+                                            </page>
+                                            <page name="s1050" string="S-1050" attrs="{'invisible': [('necessita_s1050', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_turnos_trabalho" type="object" string="Calcular" />
+                                                            <button name="criar_s1050" type="object" string="Criar S-1050(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s1050', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Tabela de Horários/Turnos de Trabalho" />
+                                                    <field name="turno_trabalho_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['1', '9'])]"
+                                                    />
+                                                </group>
+                                            </page>
+                                            <page name="s2200" string="S-2200" attrs="{'invisible': [('necessita_s2200', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_admissao" type="object" string="Calcular" />
+                                                            <button name="criar_s2200" type="object" string="Criar S-2200(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s2200', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Admissões (Contratos de Trabalho com Vínculo)" />
+                                                    <field name="admissao_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['4'])]"
+                                                    />
+                                                </group>
+                                            </page>
+                                            <page name="s2205" string="S-2205" attrs="{'invisible': [('necessita_s2205', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_alteracao_trabalhador" type="object" string="Calcular" />
+                                                            <button name="criar_s2205" type="object" string="Criar S-2205(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s2205', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Alterações de Dados Cadastrais de Trabalhadores" />
+                                                    <field name="alteracao_trabalhador_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
+                                            <page name="s2206" string="S-2206" attrs="{'invisible': [('necessita_s2206', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="1">
+                                                        <div class="oe_title">
+                                                            <button name="importar_alteracao_contrato" type="object" string="Calcular" />
+                                                            <button name="criar_s2205" type="object" string="Criar S-2206(s)" class="oe_highlight"
+                                                                    attrs="{'invisible': [('necessita_s2206', '=', False)]}" />
+                                                        </div>
+                                                    </group>
+                                                    <separator string="Alterações Contratuais" />
+                                                    <field name="alteracao_contrato_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
+                                        </notebook>
                                     </group>
-                                    <separator string="Tabela de Rubricas" />
-                                    <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4" />
-                                </group>
-                            </page>
-                            <page name="s1020" string="S-1020">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_lotacoes" type="object" string="Calcular" />
-                                            <button name="criar_s1020" type="object" string="Criar S-1020(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1020', '=', False)]}" />
-                                        </div>
-                                    </group>
-                                    <separator string="Tabela de Lotações Tributárias" />
-                                    <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4" />
-                                </group>
-                            </page>
-                            <page name="s1030" string="S-1030">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_cargos" type="object" string="Calcular" />
-                                            <button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1030', '=', False)]}" />
-                                        </div>
-                                    </group>
-                                    <separator string="Tabela de Cargos/Empregos Públicos" />
-                                    <field name="cargo_ids" readonly="1" nolabel="1" colspan="4" />
-                                </group>
-                            </page>
-                            <page name="s1050" string="S-1050">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_turnos_trabalho" type="object" string="Calcular" />
-                                            <button name="criar_s1050" type="object" string="Criar S-1050(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('necessita_s1050', '=', False)]}" />
-                                        </div>
-                                    </group>
-                                    <separator string="Tabela de Horários/Turnos de Trabalho" />
-                                    <field name="turno_trabalho_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
                             <page name="s1200" string="S-1200">
