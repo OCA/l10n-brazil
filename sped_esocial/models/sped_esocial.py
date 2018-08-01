@@ -510,7 +510,7 @@ class SpedEsocial(models.Model):
             necessita_s1030 = False
             msg_cargos = False
             for cargo in esocial.cargo_ids:
-                if cargo.situacao_esocial in ['2', '3', '4', '5']:
+                if cargo.situacao_esocial in ['2']:
                     necessita_s1030 = True
                     msg_cargos = 'Pendências não enviadas ao e-Social'
             if not msg_cargos:
@@ -1002,6 +1002,11 @@ class SpedEsocial(models.Model):
 
                             s1210 = self.env['sped.esocial.pagamento'].create(vals)
 
+                    else:
+                        s1210.contract_ids = [(6, 0, contratos.ids)]
+
+                        if beneficiario.tipo != 'autonomo':
+                            s1210.payslip_ids = [(6, 0, payslips.ids)]
                         else:
                             s1210.contract_ids = [(6, 0, contratos.ids)]
 
