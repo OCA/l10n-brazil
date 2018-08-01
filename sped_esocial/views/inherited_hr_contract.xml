@@ -18,18 +18,10 @@
                              string="Retificar Contrato no e-Social" class="oe_highlight"
                              attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"
                         />
-                        <button name="ativar_contrato_s2300" type="object" colspan="2"
-                             string="Ativar Contrato no e-Social" class="oe_highlight"
-                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '0')]}"
-                        />
                         <!--<button name="atualizar_contrato_s2206" type="object" colspan="2"-->
                              <!--string="Atualizar Contrato no e-Social" class="oe_highlight"-->
                              <!--attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"-->
                         <!--/>-->
-                        <button name="atualizar_contrato_s2306" type="object" colspan="2"
-                             string="Atualizar Contrato no e-Social" class="oe_highlight"
-                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '2')]}"
-                        />
                         <button name="transmitir" colspan="4" type="object"
                                 string="Transmitir para o e-Social" class="oe_highlight"
                                 attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}" />
@@ -69,12 +61,6 @@
                             <field name="sped_s2200_id" colspan="2" nolabel="1" readonly="1"
                                    attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
                             />
-                            <label for="sped_s2300_id" colspan="2"
-                                   attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
-                            />
-                            <field name="sped_s2300_id" colspan="4" nolabel="1" readonly="1"
-                                   attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
-                            />
                             <field name="evento_esocial" invisible="1" />
                             <field name="precisa_atualizar" invisible="1" />
                         </group>
@@ -84,12 +70,6 @@
                             />
                             <field name="sped_s2206_ids" colspan="4" nolabel="1" readonly="1"
                                        attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
-                            />
-                            <separator string="SPED Trabalhador sem Vínculo - Alteração (S-2306)" colspan="4"
-                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
-                            />
-                            <field name="sped_s2306_ids" colspan="4" nolabel="1" readonly="1"
-                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
                             />
                         </group>
                         <group colspan="4" col="4">
@@ -177,36 +157,69 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_form_view" />
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="ativar_contrato_s2300" type="object" colspan="2"
+                             string="Ativar Contrato no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '0')]}"
+                        />
+                        <!--<button name="retificar_contrato_s2300" type="object" colspan="2"-->
+                             <!--string="Retificar Contrato no e-Social" class="oe_highlight"-->
+                             <!--attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '2')]}"-->
+                        <!--/>-->
+                        <button name="atualizar_contrato_s2306" type="object" colspan="2"
+                             string="Atualizar Contrato no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '2')]}"
+                        />
+                        <button name="transmitir" colspan="4" type="object"
+                                string="Transmitir para o e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}" />
+                        <button name="consultar" colspan="4" type="object"
+                                string="Consultar Processamento no e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['4'])]}" />
+                        <field name="situacao_esocial" widget="statusbar" select="1"
+                               nolabel="1" statusbar_visible="0" readonly="1"
+                        />
+                    </header>
+                </xpath>
+                <field name="company_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
+                    <attribute name="domain">[('eh_empresa_base', '=', True)]</attribute>
+                </field>
+                <field name="matricula" position="attributes">
+                    <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
+                </field>
+                <field name="employee_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
+                </field>
+                <field name="categoria" position="attributes">
+                    <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
+                </field>
                 <xpath expr="//page[@name='information']" position="after">
                     <page name="esocial" string="e-Social" groups="sped_tabelas.group_user" >
-                        <group colspan="4" col="4" string="Transmissão e-Social">
-                            <group colspan="2" col="2">
-                                <!--<field name="sped_contrato_autonomo_id" />-->
-                                <!--<field name="situacao_esocial_autonomo" />-->
-                            </group>
-                            <group colspan="2" col="2">
-                                <!--<button name="atualizar_contrato_autonomo" colspan="4" type="object"-->
-                                        <!--string="Ativar/Atualizar Contrato"-->
-                                        <!--attrs="{'invisible': [('sped_contrato_autonomo_id', '!=', False)]}" />-->
-                            </group>
+                        <group colspan="4" col="4">
+                            <field name="sped_s2300_id" colspan="4" readonly="1"
+                                   attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                            <field name="evento_esocial" invisible="1" />
+                            <field name="precisa_atualizar" invisible="1" />
                         </group>
-
-                        <group attrs="{'invisible': [('situacao_esocial_autonomo', '!=', '4')]}">
-                            <separator string="Alteração do Contrato Sem Vínculo" />
-                            <group colspan="4" col="4">
-                                <group colspan="2" col="2">
-                                    <!--<field name="sped_esocial_alterar_contrato_autonomo_id" />-->
-                                    <!--<field name="precisa_atualizar_autonomo" />-->
-                                </group>
-                                <group colspan="2" col="2">
-                                    <!--<button name="alterar_contrato_autonomo" colspan="4" type="object"-->
-                                            <!--string="Gerar Registro de Alteração"-->
-                                            <!--class="oe_highlight"/>-->
-                                            <!--&lt;!&ndash;attrs="{'invisible': ['|', '|', ('situacao_esocial_autonomo', '!=', '4'), ('sped_esocial_alterar_contrato_autonomo_id', '=', False), ('precisa_atualizar_autonomo', '=', False)]}" />&ndash;&gt;-->
-                                </group>
-                            </group>
+                        <group colspan="4" col="4">
+                            <separator string="SPED Trabalhador sem Vínculo - Alteração (S-2306)" colspan="4"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                            <field name="sped_s2306_ids" colspan="4" nolabel="1" readonly="1"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
                         </group>
-
+                        <group colspan="4" col="4">
+                            <label for="sped_s2399_id" colspan="2"
+                                   attrs="{'invisible': [('sped_s2300_id', '=', False)]}"
+                            />
+                            <field name="sped_s2399_id" colspan="2" nolabel="1" readonly="1"
+                                       attrs="{'invisible': [('evento_esocial', '!=', 's2300')]}"
+                            />
+                        </group>
                     </page>
                 </xpath>
 
@@ -219,16 +232,16 @@
             </field>
         </record>
 
-        <!--<record model="ir.ui.view" id="sped_esocial_hr_contract_autonomo_tree_view">-->
-            <!--<field name="name">sped.esocial.hr.contract.autonomo.tree (in sped_esocial)</field>-->
-            <!--<field name="model">hr.contract</field>-->
-            <!--<field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_tree_view"/>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<field name="date_end" position="after">-->
-                    <!--<field name="situacao_esocial_autonomo" />-->
-                <!--</field>-->
-            <!--</field>-->
-        <!--</record>-->
+        <record model="ir.ui.view" id="sped_esocial_hr_contract_autonomo_tree_view">
+            <field name="name">sped.esocial.hr.contract.autonomo.tree (in sped_esocial)</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contrato_autonomo_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="date_end" position="after">
+                    <field name="situacao_esocial" />
+                </field>
+            </field>
+        </record>
 
     </data>
 </openerp>

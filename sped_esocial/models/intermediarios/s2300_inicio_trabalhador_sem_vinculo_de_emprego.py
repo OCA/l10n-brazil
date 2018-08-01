@@ -490,3 +490,40 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
     def retorna_trabalhador(self):
         self.ensure_one()
         return self.hr_contract_id.employee_id
+
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['1', '3']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.registro_inclusao.situacao in ['1', '3']:
+                registro = self.registro_inclusao
+            else:
+                for r in self.registro_retificacao:
+                    if r.situacao in ['1', '3']:
+                        registro = r
+
+            # Com o registro identificado, é só rodar o método
+            # transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['2']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.registro_inclusao.situacao == '2':
+                registro = self.registro_inclusao
+            else:
+                for r in self.registro_retificacao:
+                    if r.situacao == '2':
+                        registro = r
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()

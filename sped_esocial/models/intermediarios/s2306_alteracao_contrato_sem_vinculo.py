@@ -50,7 +50,7 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
-        compute='compute_precisa_enviar',
+        related='hr_contract_id.precisa_atualizar',
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
@@ -74,28 +74,28 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
             # Popula na tabela
             contrato.situacao_esocial = situacao_esocial
 
-    @api.multi
-    @api.depends('sped_alteracao')
-    def compute_precisa_enviar(self):
-
-        # Roda todos os registros da lista
-        for contrato in self:
-
-            # Inicia as variáveis como False
-            precisa_atualizar = False
-
-            # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
-            if contrato.situacao_esocial != '3':
-
-                # Se a empresa já tem um registro de inclusão confirmado mas
-                # a data da última atualização é menor que a o write_date da
-                # empresa, então precisa atualizar
-                if not contrato.precisa_atualizar or contrato.ultima_atualizacao \
-                        < contrato.hr_contract_id.write_date:
-                    precisa_atualizar = True
-
-            # Popula os campos na tabela
-            contrato.precisa_atualizar = precisa_atualizar
+    # @api.multi
+    # @api.depends('sped_alteracao')
+    # def compute_precisa_enviar(self):
+    #
+    #     # Roda todos os registros da lista
+    #     for contrato in self:
+    #
+    #         # Inicia as variáveis como False
+    #         precisa_atualizar = False
+    #
+    #         # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
+    #         if contrato.situacao_esocial != '3':
+    #
+    #             # Se a empresa já tem um registro de inclusão confirmado mas
+    #             # a data da última atualização é menor que a o write_date da
+    #             # empresa, então precisa atualizar
+    #             if not contrato.precisa_atualizar or contrato.ultima_atualizacao \
+    #                     < contrato.hr_contract_id.write_date:
+    #                 precisa_atualizar = True
+    #
+    #         # Popula os campos na tabela
+    #         contrato.precisa_atualizar = precisa_atualizar
 
 
     @api.depends('sped_alteracao')
@@ -208,3 +208,32 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
     def retorna_trabalhador(self):
         self.ensure_one()
         return self.hr_contract_id.employee_id
+
+    @api.multi
+    def transmitir(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['1', '3']:
+            # Identifica qual registro precisa transmitir
+            registro = False
+            if self.sped_alteracao.situacao in ['1', '3']:
+                registro = self.sped_alteracao
+
+            # Com o registro identificado, é só rodar o método
+            # transmitir_lote() do registro
+            if registro:
+                registro.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        self.ensure_one()
+
+        if self.situacao_esocial in ['2']:
+            # Identifica qual registro precisa consultar
+            registro = False
+            if self.sped_alteracao.situacao == '2':
+                registro = self.sped_alteracao
+
+            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            if registro:
+                registro.consulta_lote()
