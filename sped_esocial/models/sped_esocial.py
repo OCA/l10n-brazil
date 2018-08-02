@@ -1033,6 +1033,25 @@ class SpedEsocial(models.Model):
         string='Fechamento',
         comodel_name='sped.esocial.fechamento',
     )
+    msg_remuneracao_rpps = fields.Char(
+        string='Remunerações RPPS',
+        compute='compute_msg_remuneracao_rpps',
+    )
+
+    @api.depends('remuneracao_rpps_ids')
+    def compute_msg_remuneracao_rpps(self):
+        for esocial in self:
+            msg_remuneracao_rpps = 'Nenhuma'
+            for remuneracao in esocial.remuneracao_rpps_ids:
+                if remuneracao.situacao_esocial in ['1', '3', '5']:
+                    msg_remuneracao_rpps = 'Há Pendências para Transmistir'
+            if esocial.remuneracao_rpps_ids:
+                txt = 'Remuneração'
+                if len(esocial.remuneracao_rpps_ids) > 1:
+                    txt = 'Remunerações'
+                msg_remuneracao_rpps = '{} {} - '.format(len(esocial.remuneracao_rpps_ids), txt) + \
+                    msg_remuneracao_rpps
+            esocial.msg_remuneracao_rpps = msg_remuneracao_rpps
 
     @api.multi
     def importar_fechamentos(self):
@@ -1167,6 +1186,25 @@ class SpedEsocial(models.Model):
         string='Alterações de Trabalhador',
         compute='compute_necessita_s2205',
     )
+    msg_pagamento = fields.Char(
+        string='Pagamentos',
+        compute='compute_msg_pagamento',
+    )
+
+    @api.depends('pagamento_ids')
+    def compute_msg_pagamento(self):
+        for esocial in self:
+            msg_pagamento = 'Nenhum'
+            for pagamento in esocial.pagamento_ids:
+                if pagamento.situacao_esocial in ['1', '3', '5']:
+                    msg_pagamento = 'Há Pendências para Transmistir'
+            if esocial.pagamento_ids:
+                txt = 'Pagamento'
+                if len(esocial.pagamento_ids) > 1:
+                    txt += 's'
+                msg_pagamento = '{} {} - '.format(len(esocial.pagamento_ids), txt) + \
+                    msg_pagamento
+            esocial.msg_pagamento = msg_pagamento
 
     # Calcula se é necessário criar algum registro S-2205
     @api.depends('alteracao_trabalhador_ids')
@@ -1467,7 +1505,7 @@ class SpedEsocial(models.Model):
                     necessita_s2200 = True
                     msg_admissoes = 'Pendências não enviadas ao e-Social'
             if not msg_admissoes:
-                msg_admissoes = 'OK'
+                msg_admissoes = 'Nenhum'
             if esocial.admissao_ids:
                 txt = 'Contrato Válido'
                 if len(esocial.admissao_ids) > 1:
@@ -1481,13 +1519,14 @@ class SpedEsocial(models.Model):
     def importar_admissao(self):
         self.ensure_one()
 
-        admissao_ids = self.env['sped.esocial.contrato'].search([
-            ('company_id', '=', self.company_id.id),
-        ])
+        if self.empregador_ids:
+            admissao_ids = self.env['sped.esocial.contrato'].search([
+                ('company_id', '=', self.company_id.id),
+            ])
 
-        for admissao in admissao_ids:
-            if admissao.id not in self.admissao_ids.ids:
-                self.admissao_ids = [(4, admissao.id)]
+            for admissao in admissao_ids:
+                if admissao.id not in self.admissao_ids.ids:
+                    self.admissao_ids = [(4, admissao.id)]
 
     # Controle de registros S-2205
     alteracao_trabalhador_ids = fields.Many2many(
@@ -1528,12 +1567,13 @@ class SpedEsocial(models.Model):
     def importar_alteracao_trabalhador(self):
         self.ensure_one()
 
-        alteracao_trabalhador_ids = self.env['sped.esocial.alteracao.funcionario'].search([
-            ('company_id', '=', self.company_id.id),
-            ('situacao_esocial', 'in', ['1', '2', '3', '5']),
-        ])
+        if self.empregador_ids:
+            alteracao_trabalhador_ids = self.env['sped.esocial.alteracao.funcionario'].search([
+                ('company_id', '=', self.company_id.id),
+                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+            ])
 
-        self.alteracao_trabalhador_ids = [(6, 0, alteracao_trabalhador_ids.ids)]
+            self.alteracao_trabalhador_ids = [(6, 0, alteracao_trabalhador_ids.ids)]
 
     # Controle de registros S-2206
     alteracao_contrato_ids = fields.Many2many(
@@ -1574,12 +1614,110 @@ class SpedEsocial(models.Model):
     def importar_alteracao_contrato(self):
         self.ensure_one()
 
-        alteracao_contrato_ids = self.env['sped.esocial.alteracao.contrato'].search([
-            ('company_id', '=', self.company_id.id),
-            ('situacao_esocial', 'in', ['1', '2', '3', '5']),
-        ])
+        if self.empregador_ids:
+            alteracao_contrato_ids = self.env['sped.esocial.alteracao.contrato'].search([
+                ('company_id', '=', self.company_id.id),
+                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+            ])
 
-        self.alteracao_contrato_ids = [(6, 0, alteracao_contrato_ids.ids)]
+            self.alteracao_contrato_ids = [(6, 0, alteracao_contrato_ids.ids)]
+
+    # TODO Fazer registros S-2230 e S-2399
+
+    # Controle de registros S-2300
+    admissao_sem_vinculo_ids = fields.Many2many(
+        string='Contratos sem Vínculo',
+        comodel_name='sped.esocial.contrato.autonomo',
+        relation='periodo_inc_contrato_svinc',
+    )
+    necessita_s2300 = fields.Boolean(
+        string='Necessita S2300',
+        compute='compute_necessita_s2300',
+    )
+    msg_admissao_sem_vinculo = fields.Char(
+        string='Contratos sem Vínculo',
+        compute='compute_necessita_s2300',
+    )
+
+    # Calcula se é necessário criar algum registro S-2300
+    @api.depends('admissao_sem_vinculo_ids')
+    def compute_necessita_s2300(self):
+        for esocial in self:
+            necessita_s2300 = False
+            msg_admissao_sem_vinculo = False
+            for alteracao in esocial.admissao_sem_vinculo_ids:
+                if alteracao.situacao_esocial not in ['4']:
+                    necessita_s2300 = True
+            if not msg_admissao_sem_vinculo:
+                msg_admissao_sem_vinculo = 'Nenhuma'
+            if esocial.admissao_sem_vinculo_ids:
+                txt = 'Contrato sem Vínculo não enviada!'
+                if len(esocial.admissao_sem_vinculo_ids) > 1:
+                    txt = 'Contratos sem Vínculo não enviadas!'
+                msg_admissao_sem_vinculo = \
+                    '{} {} - '.format(len(esocial.admissao_sem_vinculo_ids), txt) + \
+                    msg_admissao_sem_vinculo
+            esocial.necessita_s2300 = necessita_s2300
+            esocial.msg_admissao_sem_vinculo = msg_admissao_sem_vinculo
+
+    @api.multi
+    def importar_admissao_sem_vinculo(self):
+        self.ensure_one()
+
+        if self.empregador_ids:
+            admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
+                ('company_id', '=', self.company_id.id),
+                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+            ])
+
+            self.admissao_sem_vinculo_ids = [(6, 0, admissao_sem_vinculo_ids.ids)]
+
+    # Controle de registros S-2306
+    alteracao_sem_vinculo_ids = fields.Many2many(
+        string='Alterações de Contrato sem Vínculo',
+        comodel_name='sped.esocial.alteracao.contrato.autonomo',
+        relation='periodo_alt_contrato_svinc',
+    )
+    necessita_s2306 = fields.Boolean(
+        string='Necessita S2306',
+        compute='compute_necessita_s2306',
+    )
+    msg_alteracao_sem_vinculo = fields.Char(
+        string='Contratos sem Vínculo',
+        compute='compute_necessita_s2306',
+    )
+
+    # Calcula se é necessário criar algum registro S-2306
+    @api.depends('alteracao_sem_vinculo_ids')
+    def compute_necessita_s2306(self):
+        for esocial in self:
+            necessita_s2306 = False
+            msg_alteracao_sem_vinculo = False
+            for alteracao in esocial.alteracao_sem_vinculo_ids:
+                if alteracao.situacao_esocial not in ['4']:
+                    necessita_s2306 = True
+            if not msg_alteracao_sem_vinculo:
+                msg_alteracao_sem_vinculo = 'Nenhuma'
+            if esocial.alteracao_sem_vinculo_ids:
+                txt = 'Alteração de Contrato sem Vínculo não enviada!'
+                if len(esocial.alteracao_sem_vinculo_ids) > 1:
+                    txt = 'Contratos sem Vínculo não enviados!'
+                msg_alteracao_sem_vinculo = '{} {} - '.format(len(esocial.alteracao_sem_vinculo_ids), txt) + \
+                    msg_alteracao_sem_vinculo
+            esocial.necessita_s2306 = necessita_s2306
+            esocial.msg_alteracao_sem_vinculo = msg_alteracao_sem_vinculo
+
+    @api.multi
+    def importar_alteracao_sem_vinculo(self):
+        self.ensure_one()
+
+        if self.empregador_ids:
+            alteracao_sem_vinculo_ids = self.env['sped.esocial.alteracao.contrato.autonomo'].search([
+                ('company_id', '=', self.company_id.id),
+                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+            ])
+
+            self.alteracao_sem_vinculo_ids = [(6, 0, alteracao_sem_vinculo_ids.ids)]
 
     # Outros métodos
     @api.multi
