@@ -198,6 +198,7 @@ class SpedEsocial(models.Model):
 
             # TODO Incluir os demais registros
             # S-2230
+            # S-2299
             # S-2399
 
             # Fechamento (S-1200)
@@ -1100,6 +1101,9 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         if self.empregador_ids:
+            admissao_ids = self.env['sped.esocial.contrato'].search([
+                ('company_id', '=', self.company_id.id),
+            ])
 
             # Popula os registros S-2200 já existentes
             # Lista todos os contratos que deveriam estar ativos no e-Social
