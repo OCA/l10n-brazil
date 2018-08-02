@@ -329,7 +329,7 @@ class SpedRegistro(models.Model):
 
         # Se já tem um lote pendente transmissão, transmite ele
         for lote in self.lote_ids:
-            if lote.situacao == '1':
+            if lote.situacao in ['1', '3']:
                 lote.transmitir()
                 return
 

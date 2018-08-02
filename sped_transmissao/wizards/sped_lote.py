@@ -5,13 +5,11 @@
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
-# GRUPO_0 = [
-#     'R-1000',  # Informações do Contribuinte (EFD/Reinf)
-#     'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social)
+# GRUPO_0 = [  # Eventos de Ativação
+#     'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social),
 # ]
 
 GRUPO_1 = [  # Registros de Tabela
-    'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social),
     'S-1005',  # Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
     'S-1010',  # Tabela de Rubricas
     'S-1020',  # Tabela de Lotações Tributárias
