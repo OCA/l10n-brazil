@@ -33,7 +33,7 @@
             </field>
             <field name="admission_type_id" position="before">
                 <field name="categoria" />
-                <field name="categoria_sefip" readonly="1" />
+                <field name="categoria_sefip" />
             </field>
             <field name="job_id" position="after">
                 <field name="matricula" required="1" />

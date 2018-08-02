@@ -16,6 +16,7 @@ class HrContract(models.Model):
     categoria_sefip = fields.Selection(
         selection=CATEGORIA_TRABALHADOR_SEFIP,
         compute='_compute_categoria_sefip',
+        inverse='_inverse_categoria_sefip',
         store=True,
     )
 
@@ -504,6 +505,11 @@ class HrContract(models.Model):
         help="e-Social: S-2299 - matricula",
         default=lambda self: self.get_default_matricula(),
     )
+
+    @api.multi
+    def _inverse_categoria_sefip(self):
+        for record in self:
+            pass
 
     @api.multi
     @api.depends('categoria')
