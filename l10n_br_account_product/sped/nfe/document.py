@@ -14,6 +14,7 @@ from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 from ...models.account_invoice_term import (
     FORMA_PAGAMENTO_CARTOES,
+    FORMA_PAGAMENTO_SEM_PAGAMENTO,
 )
 
 
@@ -872,7 +873,7 @@ class NFe400(NFe310):
         for pagamento in invoice.account_payment_ids:
             pag.detPag.append(self._payment_date(pagamento))
 
-        pag.vTroco.valor = invoice.amount_change
+        pag.vTroco.valor = str("%.2f" % invoice.amount_change)
 
     def _payment_date(self, pagamento):
 
@@ -895,16 +896,19 @@ class NFe400(NFe310):
     def _encashment_data(self, invoice, cobr):
         """Dados de Cobrança"""
 
+        if FORMA_PAGAMENTO_SEM_PAGAMENTO in invoice.account_payment_ids.mapped('forma_pagamento'):
+            return
+
         cobr.fat.nFat.valor = invoice.number
-        cobr.fat.vOrig.valor = str("%.2f" % invoice.amount_total)
-        cobr.fat.vDesc.valor = str("%.2f" % invoice.amount_discount)
-        cobr.fat.vLiq.valor = str("%.2f" % invoice.amount_total)
+        cobr.fat.vOrig.valor = str("%.2f" % invoice.amount_payment_original)
+        cobr.fat.vDesc.valor = str("%.2f" % invoice.amount_payment_discount)
+        cobr.fat.vLiq.valor = str("%.2f" % invoice.amount_payment_net)
 
         for payment_line in invoice.account_payment_line_ids:
             dup = self._get_Dup()
             dup.nDup.valor = payment_line.number
             dup.dVenc.valor = payment_line.date_due
-            dup.vDup.valor = str("%.2f" % payment_line.amount)
+            dup.vDup.valor = str("%.2f" % payment_line.amount_net)
             cobr.dup.append(dup)
 
     def get_NFe(self):

@@ -13,7 +13,9 @@
                 <field name="currency_id" invisible="1"/>
                 <field name="number"/>
                 <field name="date_due"/>
-                <field name="amount" sum="amount"/>
+                <field name="amount_original"/>
+                <field name="amount_discount"/>
+                <field name="amount_net"/>
             </tree>
         </field>
     </record>
