@@ -7,7 +7,6 @@ from openerp.exceptions import ValidationError
 
 
 class HrEmployeeDependent(models.Model):
-
     _inherit = 'hr.employee.dependent'
 
     # Cria campos dep_sf e inc_trab (Dependentes) que não existe na l10n_br
@@ -23,6 +22,7 @@ class HrEmployeeDependent(models.Model):
     )
 
     @api.multi
+    @api.depends('dependent_dob', 'dependent_verification')
     def _precisa_preencher_cpf(self):
         for record in self:
             data_atual = fields.Datetime.from_string(fields.Datetime.now())
