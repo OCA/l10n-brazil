@@ -224,6 +224,10 @@ OCORRENCIA_SEFIP = [
 
 CATEGORIA_TRABALHADOR_SEFIP = [
     ('01', u'01 - Empregado'),
+    ('03', u'03 - Trabalhador não vinculado ao RGPS, mas com direito ao FGTS'),
+    ('04', u'04 - Empregado sob contrato de trabalho por prazo determinado - '
+           u'Lei n° 9.601/98, com as alterações da '
+           u'Medida Provisória n° 2.164-41, de 24/08/2001.'),
     ('05', u'05 - Contribuinte individual - Diretor não empregado com FGTS – '
            u'Lei nº 8.036/90, art. 16'),
     ('07', u'07 - Menor aprendiz - Lei n°10.097/2000.'),
