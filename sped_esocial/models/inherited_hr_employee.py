@@ -27,6 +27,7 @@ class HrEmployee(models.Model):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
+        store=True,
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa Atualizar',

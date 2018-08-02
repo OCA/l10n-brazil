@@ -45,6 +45,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         ],
         compute="compute_situacao_esocial",
         readonly=True,
+        store=True,
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
