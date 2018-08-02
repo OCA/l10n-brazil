@@ -526,7 +526,7 @@ class HrContract(models.Model):
                 # Pró-labore
                 #
                 record.categoria_sefip = '05'
-            elif record.categoria == '722':
+            elif record.categoria in ['722','723']:
                 #
                 # Pró-labore 2
                 #
