@@ -1015,7 +1015,7 @@ class L10nBrSefip(models.Model):
                               self.responsible_user_id.name)
         logadouro, bairro, cep, cidade, uf, telefone = \
             self._logadouro_bairro_cep_cidade_uf_telefone(
-                'do responsável', self.responsible_user_id
+                'do responsável', self.company_id.partner_id
             )
         sefip.arq_logradouro = logadouro
         sefip.arq_bairro = bairro
