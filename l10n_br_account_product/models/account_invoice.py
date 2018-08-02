@@ -15,6 +15,7 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE_DEFAULT)
 from .product import PRODUCT_ORIGIN
 from openerp.addons.l10n_br_account_product.sped.nfe.validator import txt
+from .account_invoice_term import FORMA_PAGAMENTO_SEM_PAGAMENTO
 
 
 class AccountInvoice(models.Model):
@@ -564,17 +565,44 @@ class AccountInvoice(models.Model):
                 )
 
                 if not invoice.account_payment_ids and invoice.nfe_version == '4.00':
-                    raise UserError(
-                        _(u'A nota fiscal deve conter dados de pagamento')
-                    )
-                elif invoice.amount_change < 0:
-                    raise UserError(
-                        _(u'O total de pagamentos deve ser maior ou igual ao total da nota.\n'),
-                        _(u'Resta realizar o pagamento de %0.2f' % invoice.amount_change)
-                    )
 
-                for item, payment in enumerate(invoice.account_payment_line_ids):
-                    payment.number = str(item + 1).zfill(3)
+                    if (invoice.fiscal_category_id and
+                            invoice.fiscal_category_id.account_payment_term_id):
+
+                        account_payments = self.env['account.invoice.payment']
+
+                        amount = 0.00
+                        if not (invoice.fiscal_category_id.account_payment_term_id.forma_pagamento ==
+                                    FORMA_PAGAMENTO_SEM_PAGAMENTO):
+                            amount = invoice.amount_total
+
+                        values = {
+                            'payment_term_id':
+                                invoice.fiscal_category_id.account_payment_term_id.id,
+                            'amount': amount,
+                        }
+                        specs = account_payments._onchange_spec()
+                        updates = account_payments.onchange(values, [], specs)
+                        value = updates.get('value', {})
+                        for name, val in value.iteritems():
+                            if isinstance(val, tuple):
+                                value[name] = val[0]
+                        values.update(value)
+
+                        invoice.account_payment_ids = [(0, 0, values)]
+
+                    if not invoice.account_payment_ids:
+                        raise UserError(
+                            _(u'A nota fiscal deve conter dados de pagamento')
+                        )
+                    elif invoice.amount_change < 0:
+                        raise UserError(
+                            _(u'O total de pagamentos deve ser maior ou igual ao total da nota.\n'),
+                            _(u'Resta realizar o pagamento de %0.2f' % invoice.amount_change)
+                        )
+
+                    for item, payment in enumerate(invoice.account_payment_line_ids):
+                        payment.number = str(item + 1).zfill(3)
 
         return True
 
