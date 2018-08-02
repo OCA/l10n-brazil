@@ -19,6 +19,10 @@ class L10nBrAccountFiscalCategory(models.Model):
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
 
+    account_payment_term_id = fields.Many2one(
+        comodel_name='account.payment.term',
+        string=u'Condição de pagamento'
+    )
 
 class L10nBrAccountDocumentSerie(models.Model):
     _inherit = 'l10n_br_account.document.serie'
