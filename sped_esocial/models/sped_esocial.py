@@ -1170,6 +1170,9 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         if self.empregador_ids:
+            admissao_ids = self.env['sped.esocial.contrato'].search([
+                ('company_id', '=', self.company_id.id),
+            ])
 
             # Popula os registros S-2200 já existentes
             admissao_ids = self.env['sped.esocial.contrato'].search([
