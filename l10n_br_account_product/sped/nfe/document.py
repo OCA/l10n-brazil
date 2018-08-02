@@ -2,8 +2,9 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from __future__ import division, print_function, unicode_literals
+
 from datetime import datetime
-from unicodedata import normalize
 
 from openerp import pooler
 from openerp.exceptions import Warning as UserError
@@ -237,24 +238,18 @@ class NFe200(FiscalDocument):
 
         self.nfe.infNFe.emit.CNPJ.valor = punctuation_rm(
             invoice.company_id.partner_id.cnpj_cpf)
-        self.nfe.infNFe.emit.xNome.valor = (normalize(
-            'NFKD', unicode(
-                invoice.company_id.partner_id.legal_name[:60])
-        ).encode('ASCII', 'ignore'))
+        self.nfe.infNFe.emit.xNome.valor =\
+            invoice.company_id.partner_id.legal_name[:60]
         self.nfe.infNFe.emit.xFant.valor = invoice.company_id.partner_id.name
-        self.nfe.infNFe.emit.enderEmit.xLgr.valor = (normalize(
-            'NFKD', unicode(company.street or '')).encode('ASCII', 'ignore'))
+        self.nfe.infNFe.emit.enderEmit.xLgr.valor = company.street or ''
         self.nfe.infNFe.emit.enderEmit.nro.valor = company.number or ''
-        self.nfe.infNFe.emit.enderEmit.xCpl.valor = (normalize(
-            'NFKD', unicode(company.street2 or '')).encode('ASCII', 'ignore'))
-        self.nfe.infNFe.emit.enderEmit.xBairro.valor = (normalize(
-            'NFKD', unicode(
-                company.district or 'Sem Bairro')).encode('ASCII', 'ignore'))
+        self.nfe.infNFe.emit.enderEmit.xCpl.valor = company.street2 or ''
+        self.nfe.infNFe.emit.enderEmit.xBairro.valor =\
+            company.district or 'Sem Bairro'
         self.nfe.infNFe.emit.enderEmit.cMun.valor = '%s%s' % (
             company.state_id.ibge_code, company.l10n_br_city_id.ibge_code)
-        self.nfe.infNFe.emit.enderEmit.xMun.valor = (normalize(
-            'NFKD', unicode(
-                company.l10n_br_city_id.name or '')).encode('ASCII', 'ignore'))
+        self.nfe.infNFe.emit.enderEmit.xMun.valor =\
+            company.l10n_br_city_id.name or ''
         self.nfe.infNFe.emit.enderEmit.UF.valor = company.state_id.code or ''
         self.nfe.infNFe.emit.enderEmit.CEP.valor = punctuation_rm(
             company.zip or '')
@@ -298,11 +293,9 @@ class NFe200(FiscalDocument):
             address_invoice_city_code = '9999999'
         else:
             address_invoice_state_code = invoice.partner_id.state_id.code
-            address_invoice_city = (normalize(
-                'NFKD', unicode(
-                    invoice.partner_id.l10n_br_city_id.name or '')
-            ).encode('ASCII', 'ignore'))
-            address_invoice_city_code = ('%s%s') % (
+            address_invoice_city =\
+                invoice.partner_id.l10n_br_city_id.name or ''
+            address_invoice_city_code = '%s%s' % (
                 invoice.partner_id.state_id.ibge_code,
                 invoice.partner_id.l10n_br_city_id.ibge_code)
             partner_cep = punctuation_rm(invoice.partner_id.zip)
@@ -313,9 +306,8 @@ class NFe200(FiscalDocument):
             self.nfe.infNFe.dest.xNome.valor = (
                 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL')
         else:
-            self.nfe.infNFe.dest.xNome.valor = (normalize('NFKD', unicode(
-                invoice.partner_id.legal_name[:60] or ''
-            )).encode('ASCII', 'ignore'))
+            self.nfe.infNFe.dest.xNome.valor =\
+                invoice.partner_id.legal_name[:60]
 
             if invoice.partner_id.is_company:
                 self.nfe.infNFe.dest.IE.valor = \
@@ -333,18 +325,14 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.dest.indIEDest.valor = \
             invoice.partner_id.partner_fiscal_type_id.ind_ie_dest
 
-        self.nfe.infNFe.dest.enderDest.xLgr.valor = (normalize(
-            'NFKD', unicode(
-                invoice.partner_id.street or '')).encode('ASCII', 'ignore'))
+        self.nfe.infNFe.dest.enderDest.xLgr.valor =\
+            invoice.partner_id.street or ''
         self.nfe.infNFe.dest.enderDest.nro.valor = (
             invoice.partner_id.number or '')
-        self.nfe.infNFe.dest.enderDest.xCpl.valor = (normalize(
-            'NFKD', unicode(
-                invoice.partner_id.street2 or '')).encode('ASCII', 'ignore'))
-        self.nfe.infNFe.dest.enderDest.xBairro.valor = (normalize(
-            'NFKD', unicode(
-                invoice.partner_id.district or 'Sem Bairro')
-        ).encode('ASCII', 'ignore'))
+        self.nfe.infNFe.dest.enderDest.xCpl.valor =\
+            invoice.partner_id.street2 or ''
+        self.nfe.infNFe.dest.enderDest.xBairro.valor =\
+            invoice.partner_id.district or 'Sem Bairro'
         self.nfe.infNFe.dest.enderDest.cMun.valor = address_invoice_city_code
         self.nfe.infNFe.dest.enderDest.xMun.valor = address_invoice_city
         self.nfe.infNFe.dest.enderDest.UF.valor = address_invoice_state_code
@@ -367,13 +355,12 @@ class NFe200(FiscalDocument):
                 invoice_line.product_id.ean13 or 'SEM GTIN'
             self.det.prod.cEANTrib.valor =\
                 invoice_line.product_id.ean13 or 'SEM GTIN'
-            self.det.prod.xProd.valor = (normalize('NFKD', unicode(
-                invoice_line.product_id.name[:120] or ''
-            )).encode('ASCII', 'ignore'))
+            self.det.prod.xProd.valor =\
+                invoice_line.product_id.name[:120]
         else:
             self.det.prod.cProd.valor = invoice_line.code or ''
-            self.det.prod.xProd.valor = (normalize('NFKD', unicode(
-                invoice_line.name[:120] or '')).encode('ASCII', 'ignore'))
+            self.det.prod.xProd.valor =\
+                invoice_line.name[:120] or ''
 
         self.det.prod.NCM.valor = punctuation_rm(
             invoice_line.fiscal_classification_id.code or '')[:8]
@@ -622,12 +609,8 @@ class NFe200(FiscalDocument):
     def _additional_information(self, invoice):
         """Informações adicionais"""
 
-        self.nfe.infNFe.infAdic.infAdFisco.valor = normalize(
-            'NFKD', unicode(
-                invoice.fiscal_comment or '')).encode('ASCII', 'ignore')
-        self.nfe.infNFe.infAdic.infCpl.valor = normalize(
-            'NFKD', unicode(
-                invoice.comment or '')).encode('ASCII', 'ignore')
+        self.nfe.infNFe.infAdic.infAdFisco.valor = invoice.fiscal_comment or ''
+        self.nfe.infNFe.infAdic.infCpl.valor = invoice.comment or ''
 
     def _total(self, invoice):
         """Totais"""
