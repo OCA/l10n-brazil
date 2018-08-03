@@ -37,6 +37,8 @@
                                 <group colspan="4" col="4">
                                     <group colspan="4" col="4">
                                         <field name="company_id" />
+                                        <field name="tipo" />
+                                        <field name="grupo" />
                                         <field name="quantidade" />
                                     </group>
                                     <group colspan="2" col="2">
@@ -103,9 +105,10 @@
                 <tree string="Lotes de Transmissão" edit="false" create="false" duplicate="false"
                       colors="blue:situacao in ('2','4');black:situacao == '1';read:situacao in ('3', '5')"
                 >
-                    <field name="tipo"/>
                     <field name="codigo"/>
                     <field name="company_id"/>
+                    <field name="tipo"/>
+                    <field name="grupo"/>
                     <field name="quantidade" />
                     <field name="situacao"/>
                 </tree>
@@ -124,6 +127,7 @@
                     <field name="codigo" />
                     <group expand="0" string="Group By">
                         <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
+                        <filter name="group_by_grupo" string="Grupo" context="{'group_by': 'grupo'}" />
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
                         <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
                         <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />

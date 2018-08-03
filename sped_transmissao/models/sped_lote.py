@@ -18,7 +18,7 @@ class SpedLote(models.Model, ):
     _inherit = []
     _description = 'Lotes de transmissões de registros SPED'
     _rec_name = 'codigo'
-    # _order = "data_hora_transmissao DESC, situacao"
+    _order = "data_hora_transmissao DESC, tipo, grupo, situacao"
 
     codigo = fields.Char(
         string='Código',
