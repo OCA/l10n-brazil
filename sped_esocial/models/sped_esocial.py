@@ -1524,9 +1524,7 @@ class SpedEsocial(models.Model):
                 ('company_id', '=', self.company_id.id),
             ])
 
-            for admissao in admissao_ids:
-                if admissao.id not in self.admissao_ids.ids:
-                    self.admissao_ids = [(4, admissao.id)]
+            self.admissao_ids = [(6, 0, admissao_ids.ids)]
 
     # Controle de registros S-2205
     alteracao_trabalhador_ids = fields.Many2many(
@@ -1622,7 +1620,86 @@ class SpedEsocial(models.Model):
 
             self.alteracao_contrato_ids = [(6, 0, alteracao_contrato_ids.ids)]
 
-    # TODO Fazer registros S-2230 e S-2399
+    # TODO Fazer registros S-2230
+
+    # Controle de registros S-2299
+    desligamento_ids = fields.Many2many(
+        string='Desligamentos',
+        comodel_name='sped.hr.rescisao',
+    )
+    necessita_s2299 = fields.Boolean(
+        string='Necessita S2299',
+        compute='compute_necessita_s2299',
+    )
+    msg_desligamentos = fields.Char(
+        string='Desligamentos',
+        compute='compute_necessita_s2299',
+    )
+    rescisoes_sem_registro = fields.Integer(
+        string='Deslig.sem e-Social',
+    )
+
+    # Calcula se é necessário criar algum registro S-2299
+    @api.depends('desligamento_ids')
+    def compute_necessita_s2299(self):
+        for esocial in self:
+            necessita_s2299 = False
+            msg_desligamentos = False
+            for desligamento in esocial.desligamento_ids:
+                if desligamento.situacao_esocial not in ['4']:
+                    necessita_s2299 = True
+                    msg_desligamentos = 'Pendências não enviadas ao e-Social'
+            if not msg_desligamentos and esocial.rescisoes_sem_registro == 0:
+                msg_desligamentos = 'OK'
+            else:
+                msg_desligamentos = 'Pendências não enviadas ao e-Social'
+            if esocial.desligamento_ids or esocial.rescisoes_sem_registro > 0:
+                txt = 'Desligamento'
+                qtd = len(esocial.desligamento_ids) + esocial.rescisoes_sem_registro
+                if qtd > 1:
+                    txt += 's'
+                msg_desligamentos = '{} {} - '.format(qtd, txt) + msg_desligamentos
+            if esocial.rescisoes_sem_registro:
+                necessita_s2299 = True
+            esocial.necessita_s2299 = necessita_s2299
+            esocial.msg_desligamentos = msg_desligamentos
+
+    @api.multi
+    def importar_desligamento(self):
+        self.ensure_one()
+
+        if self.empregador_ids:
+
+            # Pesquisa os holerites de rescisão dentro deste período
+            empresas = self.env['res.company'].search([
+                '|',
+                ('id', '=', self.company_id.id),
+                ('matriz', '=', self.company_id.id),
+            ])
+            payslip_ids = self.env['hr.payslip'].search([
+                ('company_id', 'in', empresas.ids),
+                ('data_afastamento', '>=', self.periodo_id.date_start),
+                ('data_afastamento', '<=', self.periodo_id.date_stop),
+                ('state', '=', 'done'),
+            ])
+            rescisoes_sem_registro = 0
+
+            # Conta as rescisões sem registro no e-Social ou com pendência de transmissão
+            for payslip in payslip_ids:
+                if not payslip.sped_s2299 or payslip.sped_s2299 not in ['4']:
+                    rescisoes_sem_registro += 1
+
+            # Popula o número de rescisões sem registro
+            self.rescisoes_sem_registro = rescisoes_sem_registro
+
+            # Popula os registros S-2299 já existentes
+            desligamento_ids = self.env['sped.hr.rescisao'].search([
+                ('company_id', '=', self.company_id.id),
+                ('data_rescisao', '>=', self.periodo_id.date_start),
+                ('data_rescisao', '<=', self.periodo_id.date_stop),
+            ])
+
+            self.desligamento_ids = [(6, 0, desligamento_ids.ids)]
 
     # Controle de registros S-2300
     admissao_sem_vinculo_ids = fields.Many2many(
@@ -1665,6 +1742,37 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         if self.empregador_ids:
+            # Popula os registros S-2200 já existentes
+            admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
+                ('company_id', '=', self.company_id.id),
+                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+            ])
+
+            # Lista todos os contratos que deveriam estar ativos no e-Social
+            empresas = self.env['res.company'].search([
+                '|',
+                ('id', '=', self.company_id.id),
+                ('matriz', '=', self.company_id.id),
+            ])
+            contrato_ids = self.env['hr.contract'].search([
+                ('date_start', '<=', self.periodo_id.date_stop),
+                ('tipo', '=', 'autonomo'),
+                ('company_id', 'in', empresas.ids),
+            ])
+
+            # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
+            for contrato in contrato_ids:
+
+                # Só pega os contratos que não foram encerrados antes do início deste período
+                if contrato.date_end <= self.periodo_id.date_start:
+
+                    # Se este contrato não tem um S-2200 criado, então cria
+                    if contrato.id not in admissao_sem_vinculo_ids.ids:
+
+                        # Cria o S-2300
+                        contrato.ativar_contrato_s2300()
+
+            # Re-popula os registros S-2300 já existentes
             admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
                 ('company_id', '=', self.company_id.id),
                 ('situacao_esocial', 'in', ['1', '2', '3', '5']),
@@ -1683,7 +1791,7 @@ class SpedEsocial(models.Model):
         compute='compute_necessita_s2306',
     )
     msg_alteracao_sem_vinculo = fields.Char(
-        string='Contratos sem Vínculo',
+        string='Alterações de Contratos sem Vínculo',
         compute='compute_necessita_s2306',
     )
 
