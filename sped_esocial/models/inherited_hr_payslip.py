@@ -21,10 +21,10 @@ class HrPaylisp(models.Model):
         comodel_name='sped.hr.rescisao',
     )
 
-    sped_s2399 = fields.Many2one(
-        string='Registro SPED S-2399',
-        comodel_name='sped.hr.rescisao.autonomo',
-    )
+    # sped_s2399 = fields.Many2one(
+    #     string='Registro SPED S-2399',
+    #     comodel_name='sped.hr.rescisao.autonomo',
+    # )
 
     @api.multi
     def hr_verify_sheet(self):

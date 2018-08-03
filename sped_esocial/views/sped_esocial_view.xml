@@ -11,6 +11,9 @@
                         <button name="executa_analise" type="object" string="Analisar"
                                 attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
                         />
+                        <button name="importar_fechamentos" type="object" string="Fechar Período"
+                                attrs="{'invisible': ['|', ('pode_fechar', '=', False), ('fechamento_ids', '!=', False)]}"
+                        />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
@@ -29,9 +32,12 @@
                     <field name="necessita_s2200" invisible="1" />
                     <field name="necessita_s2205" invisible="1" />
                     <field name="necessita_s2206" invisible="1" />
+                    <field name="necessita_s2299" invisible="1" />
                     <field name="necessita_s2300" invisible="1" />
                     <field name="necessita_s2306" invisible="1" />
                     <field name="id" invisible="1" />
+                    <field name="pode_fechar" invisible="1" />
+                    <field name="rescisoes_sem_registro" invisible="1" />
                     <div class="oe_title">
                         <h1>
                             <field name="nome_readonly" readonly="1"/>
@@ -68,6 +74,7 @@
                                         <field name="msg_admissoes" />
                                         <field name="msg_alteracao_trabalhador" />
                                         <field name="msg_alteracao_contrato" />
+                                        <field name="msg_desligamentos" />
                                         <field name="msg_admissao_sem_vinculo" />
                                         <field name="msg_alteracao_sem_vinculo" />
                                     </group>
@@ -185,6 +192,14 @@
                                                     <field name="alteracao_contrato_ids" readonly="1" nolabel="1" colspan="4"/>
                                                 </group>
                                             </page>
+                                            <page name="s2299" string="S-2299" attrs="{'invisible': [('necessita_s2299', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <separator string="Desligamentos" />
+                                                    <field name="desligamento_ids" readonly="1" nolabel="1" colspan="4"
+                                                           domain="[('situacao_esocial', 'not in', ['4'])]"
+                                                    />
+                                                </group>
+                                            </page>
                                             <page name="s2300" string="S-2300" attrs="{'invisible': [('necessita_s2300', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="Contratos sem Vínculo" />
@@ -203,11 +218,6 @@
                             </page>
                             <page name="s1299" string="Fechamento (S-1299)">
                                 <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_fechamentos" type="object" string="Calcular" />
-                                        </div>
-                                    </group>
                                     <separator string="Fechamento dos Eventos Periódicos" />
                                     <field name="fechamento_ids" readonly="1" nolabel="1" colspan="4">
                                         <tree string="S-1299 (Fechamento)">

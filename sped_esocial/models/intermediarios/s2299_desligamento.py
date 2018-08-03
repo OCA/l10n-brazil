@@ -26,6 +26,11 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         comodel_name="hr.payslip",
         required=True,
     )
+    data_rescisao = fields.Date(
+        string="Data de Desligamento",
+        related='sped_hr_rescisao_id.data_afastamento',
+        store=True,
+    )
     sped_s2299_registro_inclusao = fields.Many2one(
         string='Registro S-2299',
         comodel_name='sped.registro',
