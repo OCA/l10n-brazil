@@ -198,7 +198,6 @@ class SpedEsocial(models.Model):
 
             # TODO Incluir os demais registros
             # S-2230
-            # S-2299
             # S-2399
 
             # Fechamento (S-1200)
@@ -1101,6 +1100,37 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         if self.empregador_ids:
+
+            # Popula os registros S-2200 já existentes
+            admissao_ids = self.env['sped.esocial.contrato'].search([
+                ('company_id', '=', self.company_id.id),
+            ])
+
+            # Lista todos os contratos que deveriam estar ativos no e-Social
+            empresas = self.env['res.company'].search([
+                '|',
+                ('id', '=', self.company_id.id),
+                ('matriz', '=', self.company_id.id),
+            ])
+            contrato_ids = self.env['hr.contract'].search([
+                ('date_start', '<=', self.periodo_id.date_stop),
+                ('tipo', '!=', 'autonomo'),
+                ('company_id', 'in', empresas.ids),
+            ])
+
+            # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
+            for contrato in contrato_ids:
+
+                # Só pega os contratos que não foram encerrados antes do início deste período
+                if contrato.date_end <= self.periodo_id.date_start:
+
+                    # Se este contrato não tem um S-2200 criado, então cria
+                    if contrato.id not in admissao_ids.ids:
+
+                        # Cria o S-2200
+                        contrato.ativar_contrato_s2200()
+
+            # Re-popula os registros S-2200 já existentes
             admissao_ids = self.env['sped.esocial.contrato'].search([
                 ('company_id', '=', self.company_id.id),
             ])
