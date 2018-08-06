@@ -100,8 +100,7 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
 
         res['value'] = valores
 
-        if not (self.condicao_pagamento_id and
-                self.valor and self.documento_id):
+        if not (self.condicao_pagamento_id and self.documento_id):
             return res
 
         valor = D(self.valor or 0)
