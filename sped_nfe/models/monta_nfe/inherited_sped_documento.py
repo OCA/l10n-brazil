@@ -443,8 +443,8 @@ class SpedDocumento(models.Model):
             if pagamento.condicao_pagamento_id.forma_pagamento == FORMA_PAGAMENTO_DUPLICATA_MERCANTIL:
                 self._monta_nfe_cobranca(nfe.infNFe.cobr)
             nfe.infNFe.pag.detPag.append(pagamento.monta_nfe())
-
-        nfe.infNFe.pag.vTroco.valor = str(D(self.vr_troco))
+        if self.vr_troco >= 0:
+            nfe.infNFe.pag.vTroco.valor = str(D(self.vr_troco))
 
     def _monta_nfe_total(self, nfe):
         nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
