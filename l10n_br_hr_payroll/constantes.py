@@ -237,4 +237,6 @@ CATEGORIA_TRABALHADOR_SEFIP = [
            u'equiparado, inclusive o operador de máquina, com contribuição '
            u'sobre remuneração; trabalhador associado à cooperativa de '
            u'produção.'),
+    ('21', u'21 - Servidor Público titular de cargo efetivo, magistrado, '
+           u'membro do Ministério Público e do Tribunal e Conselho de Contas'),
 ]
