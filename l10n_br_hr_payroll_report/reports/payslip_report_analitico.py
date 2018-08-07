@@ -455,7 +455,8 @@ def analytic_report(pool, cr, uid, local_context, context):
             payslip_lines_rescisoes)
         data.update({'totalizadores_rescisoes': total_rescisoes})
 
-    total = totalizadores_linhas_holerites(payslip_lines_total)
+    total = totalizadores_linhas_holerites(
+        payslip_lines_total, payslip_autonomo_ids)
     data.update(total.__dict__)
 
     #
