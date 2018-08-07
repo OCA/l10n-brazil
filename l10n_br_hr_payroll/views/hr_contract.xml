@@ -100,7 +100,7 @@
                     <field name="data_segunda_experiencia"/>
                 </group>
                 <group name="lotacao" string="Lotação">
-                    <field name="department_id" />
+                    <field name="department_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                     <field name="lotacao_cliente_fornecedor"/>
                 </group>
                 <group name="jornada" string="Jornada de trabalho">

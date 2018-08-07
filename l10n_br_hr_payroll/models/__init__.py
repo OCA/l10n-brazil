@@ -17,6 +17,7 @@ from . import hr_salary_rule
 from . import l10n_br_hr_contract
 from . import hr_contract
 from . import hr_contract_salary_rule
+from . import hr_department
 from . import hr_employee
 from . import hr_payroll_structure
 from . import l10n_br_hr_medias

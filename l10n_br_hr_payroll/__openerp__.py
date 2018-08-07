@@ -36,6 +36,7 @@
         'security/ir.model.access.csv',
 
         'views/hr_contract.xml',
+        'views/hr_department_view.xml',
         'views/hr_contract_autonomo.xml',
         'views/hr_contract_menu.xml',
         'views/l10n_br_hr_employee.xml',

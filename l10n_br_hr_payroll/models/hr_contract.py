@@ -332,6 +332,7 @@ class HrContract(models.Model):
     department_id = fields.Many2one(
         comodel_name='hr.department',
         string='Departamento/Lotação',
+        domain="[('state', '=', 'ativo')]",
         related=False,
         readonly=False,
     )
