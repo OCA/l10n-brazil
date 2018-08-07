@@ -506,6 +506,12 @@ class HrContract(models.Model):
         help="e-Social: S-2299 - matricula",
         default=lambda self: self.get_default_matricula(),
     )
+    gerente_id = fields.Many2one(
+        string='Gerente',
+        comodel_name='hr.employee',
+        related='department_id.manager_id',
+        store=True,
+    )
 
     @api.multi
     def _inverse_categoria_sefip(self):

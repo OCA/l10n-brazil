@@ -37,6 +37,7 @@
             </field>
             <field name="job_id" position="after">
                 <field name="matricula" required="1" />
+                <field name="gerente_id" readonly="1"/>
             </field>
             <xpath expr="//page[@string='Resignation']" position="after">
                     <page string="Rubricas específicas">
