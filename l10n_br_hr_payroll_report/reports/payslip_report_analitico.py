@@ -432,6 +432,8 @@ def analytic_report(pool, cr, uid, local_context, context):
     if payslips_rescisoes:
         data.update({'payslips_rescisoes': payslips_rescisoes,
                      'exibir_rescisoes': True})
+    else:
+        data.update({'exibir_rescisoes': False})
 
     # 
     # GET Autonomos
