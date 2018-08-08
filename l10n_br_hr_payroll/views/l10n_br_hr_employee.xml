@@ -20,6 +20,9 @@
                         <field name="ramais" placeholder="Ramal.." nolabel="1" widget="many2many_tags"/>
                     </group>
                 </field>
+                <field name="parent_id" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </field>
             </field>
         </record>
 
