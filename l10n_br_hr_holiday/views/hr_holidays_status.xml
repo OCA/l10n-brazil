@@ -19,6 +19,7 @@
                     <field name="type_day" />
                     <field name="need_attachment" />
                     <field name="payroll_discount" />
+                    <field name="descontar_DSR" />
                 </group>
             </xpath>
         </field>
