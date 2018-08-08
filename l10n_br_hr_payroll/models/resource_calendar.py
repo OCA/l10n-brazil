@@ -56,13 +56,13 @@ class ResourceCalendar(models.Model):
         # percorre as faltas nao remuneradas e adiciona em uma lista a semana
         # que deve perder o DSR (Descanso semanal remunerado)
         for leave in leaves:
-            data_inicio = fields.Datetime.from_string(leave.date_from)
-            data_final = fields.Datetime.from_string(leave.date_to)
-            while data_inicio <= data_final:
-                # adiciona em uma lista o numero da semana que foi cada falta
-                semanas_sem_DSR.append(fields.Datetime.from_string(
-                    leave.date_to).isocalendar()[1])
-                data_inicio += timedelta(days=1)
+            if leave.holiday_status_id.descontar_DSR:
+                data_inicio = fields.Datetime.from_string(leave.data_inicio)
+                data_final = fields.Datetime.from_string(leave.data_fim)
+                while data_inicio <= data_final:
+                    # adiciona em lista o numero da semana que foi cada falta
+                    semanas_sem_DSR.append(data_inicio.isocalendar()[1])
+                    data_inicio += timedelta(days=1)
         quantity_DSR = len(set(semanas_sem_DSR))
 
         # percorre os feriados de determinado período e incrementa a quantidade
