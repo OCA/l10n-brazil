@@ -37,7 +37,6 @@
         'views/account_product_fiscal_classification_view.xml',
         'views/product_view.xml',
         'views/res_country_view.xml',
-        'views/account_payment_view.xml',
         'views/account_payment_term_view.xml',
         'views/account_invoice_payment.xml',
         'views/account_invoice_payment_line.xml',
