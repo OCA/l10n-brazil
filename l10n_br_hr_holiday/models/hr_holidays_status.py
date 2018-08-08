@@ -39,7 +39,14 @@ class HrHolidaysStatus(models.Model):
     )
 
     payroll_discount = fields.Boolean(
-        string=u'Payroll Discount',
+        string=u'Descontar dia no Holerite?',
+        help=u'Na ocorrência desse evento, será descontado em folha a '
+             u'quantidade de dias em afastamento.',
+    )
+
+    descontar_DSR = fields.Boolean(
+        string=u'Descontar DSR',
+        help=u'Descontar DSR da semana de ocorrência do evento?',
     )
 
     tipo = fields.Selection(

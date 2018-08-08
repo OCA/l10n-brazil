@@ -30,7 +30,13 @@ class HrHolidays(models.Model):
         string=u'Justification'
     )
     payroll_discount = fields.Boolean(
-        string=u'Payroll Discount',
+        string=u'Descontar dia no Holerite?',
+        help=u'Na ocorrência desse evento, será descontado em folha a '
+             u'quantidade de dias em afastamento.',
+    )
+    descontar_DSR = fields.Boolean(
+        string=u'Descontar DSR',
+        help=u'Descontar DSR da semana de ocorrência do evento?',
     )
 
     tipo = fields.Selection(
@@ -109,6 +115,7 @@ class HrHolidays(models.Model):
     @api.onchange('payroll_discount', 'holiday_status_id')
     def _set_payroll_discount(self):
         self.payroll_discount = self.holiday_status_id.payroll_discount
+        self.descontar_DSR = self.holiday_status_id.descontar_DSR
 
     @api.multi
     def get_ocurrences(self, employee_id, data_from, data_to):
