@@ -769,6 +769,13 @@ class HrPayslip(models.Model):
                                                 u'FALTAS_NAO_REMUNERADAS',
                                                 qtd_leaves,
                                                 0.0, contract_id)]
+
+            if leaves.get('faltas_remuneradas'):
+                qtd_leaves = leaves['quantidade_dias_faltas_remuneradas']
+                result += [self.get_attendances(
+                    u'Faltas remuneradas', 32, u'FALTAS_REMUNERADAS',
+                    qtd_leaves, 0.0, contract_id)]
+
             # get Quantidade de DSR
             quantity_DSR = hr_contract.working_hours. \
                 quantidade_de_DSR(date_from, date_to)
@@ -840,6 +847,7 @@ class HrPayslip(models.Model):
             # get Dias Trabalhados
             quantidade_dias_trabalhados = \
                 dias_mes - leaves['quantidade_dias_faltas_nao_remuneradas'] - \
+                leaves['quantidade_dias_faltas_remuneradas'] - \
                 quantity_DSR_discount - quantidade_dias_ferias
             result += [self.get_attendances(u'Dias Trabalhados', 36,
                                             u'DIAS_TRABALHADOS',
