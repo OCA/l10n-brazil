@@ -30,6 +30,19 @@ class HrEmployee(models.Model):
         default='funcionario',
     )
 
+    parent_id = fields.Many2one(
+        compute='_compute_gerente_contrato',
+        store=True,
+    )
+
+    @api.multi
+    @api.depends('contract_ids.gerente_id')
+    def _compute_gerente_contrato(self):
+        for record in self:
+            for contract in record.contract_ids.filtered(
+                    lambda rec: rec.date_end is False):
+                record.parent_id = contract.gerente_id
+
     @api.multi
     def write(self, vals):
         # Não permitir alterações do cadastro de funcionario.
