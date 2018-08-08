@@ -106,6 +106,9 @@
                     <!--<field name="dsc_sal_var" />-->
                            <!--&lt;!&ndash;attrs="{'required': [('salary_unit.code', 'in', ['6', '7'])]}" />&ndash;&gt;-->
                 <!--</field>-->
+                <field name="working_hours" position="attributes">
+                    <attribute name="required">True</attribute>
+                </field>
                 <field name="working_hours" position="before">
                     <field name="tp_contr" required="1" />
                     <field name="clau_assec" attrs="{'invisible': [('tp_contr', '!=', '2')], 'required': [('tp_contr', '=', '2')]}" />
