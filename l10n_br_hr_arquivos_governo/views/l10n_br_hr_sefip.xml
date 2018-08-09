@@ -116,6 +116,12 @@
                                 </group>
                             </page>
 
+                            <page string="Autônomos" attrs="{'invisible':[('folha_autonomo_ids','=',[])]}">
+                                <group string="Autônomos">
+                                    <field nolabel="1" name="folha_autonomo_ids" readonly="1"/>
+                                </group>
+                            </page>
+
                             <page string="Boletos"  attrs="{'invisible':[('boletos_ids','=',[])]}">
                                 <group string="Boletos Gerados">
                                     <field nolabel="1" name="boletos_ids" readonly="1"/>
