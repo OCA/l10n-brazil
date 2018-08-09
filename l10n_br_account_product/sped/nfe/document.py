@@ -851,7 +851,9 @@ class NFe400(NFe310):
         # em uma forma de pagto e outra parte em outra
         # ex.: metade em dinheiro e metade boleto
         self.detPag.tPag.valor = invoice.type_nf_payment
-        self.detPag.vPag.valor = invoice.amount_total
+        if invoice.type_nf_payment != '90':
+            self.detPag.vPag.valor = str(
+                "%.2f" % invoice.amount_total)
 
     def _invoice_data(self, invoice):
         self.nfe.infNFe.cobr.fat.vLiq.valor = str(invoice.amount_total)
