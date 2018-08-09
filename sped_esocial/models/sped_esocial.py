@@ -339,6 +339,8 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             estabelecimentos = self.env['res.company'].search([])
             for estabelecimento in estabelecimentos:
+
+                estabelecimento.atualizar_estabelecimento()
                 if estabelecimento.situacao_estabelecimento_esocial not in ['0', '9']:
                     sped_estabelecimento = self.env['sped.estabelecimentos'].search([
                         ('company_id', '=', self.company_id.id),
@@ -400,6 +402,7 @@ class SpedEsocial(models.Model):
             # Roda todas as Rubricas que possuem o campo nat_rubr definido (Natureza da Rubrica)
             rubricas = self.env['hr.salary.rule'].search([
                 ('nat_rubr', '!=', False),
+                ('ini_valid.date_start', '<=', self.periodo_id.date_start),
             ])
             for rubrica in rubricas:
 
@@ -474,6 +477,8 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             lotacoes = self.env['res.company'].search([])
             for lotacao in lotacoes:
+
+                lotacao.atualizar_lotacao()
                 if lotacao.situacao_lotacao_esocial not in ['0', '9']:
                     sped_lotacao = self.env['sped.esocial.lotacao'].search([
                         ('company_id', '=', self.company_id.id),
@@ -532,8 +537,11 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             cargos = self.env['hr.job'].search([
                 ('codigo', '!=', False),
+                ('ini_valid.date_start', '<=', self.periodo_id.date_start),
             ])
             for cargo in cargos:
+
+                cargo.atualizar_cargo()
                 if cargo.situacao_esocial not in ['0', '9']:
                     sped_cargo = self.env['sped.esocial.cargo'].search([
                         ('company_id', '=', self.company_id.id),
@@ -594,8 +602,11 @@ class SpedEsocial(models.Model):
 
             turnos = self.env['hr.turnos.trabalho'].search([
                 ('cod_hor_contrat', '!=', False),
+                ('ini_valid.date_start', '<=', self.periodo_id.date_start),
             ])
             for turno in turnos:
+
+                turno.atualizar_turno()
                 if turno.situacao_esocial not in ['0', '9']:
                     sped_turno = self.env['sped.hr.turnos.trabalho'].search([
                         ('company_id', '=', self.company_id.id),
@@ -1139,10 +1150,14 @@ class SpedEsocial(models.Model):
                 ('id', '=', self.company_id.id),
                 ('matriz', '=', self.company_id.id),
             ])
+            admissao_ids = self.env['sped.esocial.contrato'].search([
+                ('company_id', 'in', empresas.ids),
+            ])
             contrato_ids = self.env['hr.contract'].search([
                 ('date_start', '<=', self.periodo_id.date_stop),
                 ('tipo', '!=', 'autonomo'),
                 ('company_id', 'in', empresas.ids),
+                ('evento_esocial', '=', 's2200'),
             ])
 
             # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
@@ -1392,10 +1407,15 @@ class SpedEsocial(models.Model):
                 ('id', '=', self.company_id.id),
                 ('matriz', '=', self.company_id.id),
             ])
+            admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
+                ('company_id', 'in', empresas.ids),
+                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+            ])
             contrato_ids = self.env['hr.contract'].search([
                 ('date_start', '<=', self.periodo_id.date_stop),
                 ('tipo', '=', 'autonomo'),
                 ('company_id', 'in', empresas.ids),
+                ('evento_esocial', '=', 's2300'),
             ])
 
             # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
