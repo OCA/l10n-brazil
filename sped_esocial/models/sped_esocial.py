@@ -288,13 +288,6 @@ class SpedEsocial(models.Model):
                 if empregador.situacao_esocial != '9':
                     self.empregador_ids = [(4, empregador.id)]
 
-    # # Cria o registro S-1000
-    # @api.multi
-    # def criar_s1000(self):
-    #     self.ensure_one()
-    #     for empregador in self.empregador_ids:
-    #         empregador.atualizar_esocial()
-
     #
     # Controle dos registros S-1005
     #
@@ -339,22 +332,11 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             estabelecimentos = self.env['res.company'].search([])
             for estabelecimento in estabelecimentos:
-                if estabelecimento.situacao_estabelecimento_esocial not in ['0', '9']:
-                    sped_estabelecimento = self.env['sped.estabelecimentos'].search([
-                        ('company_id', '=', self.company_id.id),
-                        ('estabelecimento_id', '=', estabelecimento.id),
-                    ])
-                    if not sped_estabelecimento:
-                        estabelecimento.atualizar_estabelecimento()
-                        sped_estabelecimento = estabelecimento.sped_estabelecimento_id
-                    self.estabelecimento_ids = [(4, sped_estabelecimento.id)]
 
-    # # Cria os registros S-1005
-    # @api.multi
-    # def criar_s1005(self):
-    #     self.ensure_one()
-    #     for estabelecimento in self.estabelecimento_ids:
-    #         estabelecimento.atualizar_esocial()
+                estabelecimento.atualizar_estabelecimento()
+                if estabelecimento.situacao_estabelecimento_esocial not in ['0', '9']:
+                    if estabelecimento.sped_estabelecimento_id.id not in self.estabelecimento_ids.ids:
+                        self.estabelecimento_ids = [(4, estabelecimento.sped_estabelecimento_id.id)]
 
     # Controle de registros S-1010
     rubrica_ids = fields.Many2many(
@@ -400,37 +382,40 @@ class SpedEsocial(models.Model):
             # Roda todas as Rubricas que possuem o campo nat_rubr definido (Natureza da Rubrica)
             rubricas = self.env['hr.salary.rule'].search([
                 ('nat_rubr', '!=', False),
+                ('ini_valid.date_start', '<=', self.periodo_id.date_start),
             ])
             for rubrica in rubricas:
 
-                # Procura o registro intermediário S-1010 correspondente
-                s1010 = self.env['sped.esocial.rubrica'].search([
-                    ('company_id', '=', self.company_id.id),
-                    ('rubrica_id', '=', rubrica.id),
-                ])
-                if not s1010:
+                # Atualizar a rubrica
+                rubrica.atualizar_rubrica()
+                if rubrica.situacao_esocial not in ['0', '9']:
+                    if rubrica.sped_rubrica_id.id not in self.rubrica_ids.ids:
+                        self.rubrica_ids = [(4, rubrica.sped_rubrica_id.id)]
 
-                    # Cria o registro intermediário
-                    vals = {
-                        'company_id': self.company_id.id,
-                        'rubrica_id': rubrica.id,
-                    }
-                    s1010 = self.env['sped.esocial.rubrica'].create(vals)
-                    self.rubrica_ids = [(4, s1010.id)]
-                else:
-
-                    # Adiciona no período o link para o registro S-1010 (se não estiver)
-                    if s1010.id not in self.rubrica_ids.ids:
-                        self.rubrica_ids = [(4, s1010.id)]
-
-                # Gera o registro de transmissão (se for necessário)
-                s1010.gerar_registro()
-
-    # @api.multi
-    # def criar_s1010(self):
-    #     self.ensure_one()
-    #     for rubrica in self.rubrica_ids:
-    #         rubrica.gerar_registro()
+                # # Procura o registro intermediário S-1010 correspondente
+                # s1010 = self.env['sped.esocial.rubrica'].search([
+                #     ('company_id', '=', self.company_id.id),
+                #     ('rubrica_id', '=', rubrica.id),
+                # ])
+                # if not s1010:
+                #
+                #     # Cria o registro intermediário
+                #     rubrica.atualizar_rubrica()
+                #     vals = {
+                #         'company_id': self.company_id.id,
+                #         'rubrica_id': rubrica.id,
+                #     }
+                #     s1010 = self.env['sped.esocial.rubrica'].create(vals)
+                #     self.rubrica_ids = [(4, s1010.id)]
+                #     rubrica.sped_rubrica_id = s1010
+                # else:
+                #
+                #     # Adiciona no período o link para o registro S-1010 (se não estiver)
+                #     if s1010.id not in self.rubrica_ids.ids:
+                #         self.rubrica_ids = [(4, s1010.id)]
+                #
+                # # Gera o registro de transmissão (se for necessário)
+                # s1010.gerar_registro()
 
     # Controle de registros S-1020
     lotacao_ids = fields.Many2many(
@@ -474,21 +459,11 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             lotacoes = self.env['res.company'].search([])
             for lotacao in lotacoes:
-                if lotacao.situacao_lotacao_esocial not in ['0', '9']:
-                    sped_lotacao = self.env['sped.esocial.lotacao'].search([
-                        ('company_id', '=', self.company_id.id),
-                        ('lotacao_id', '=', lotacao.id),
-                    ])
-                    if not sped_lotacao:
-                        lotacao.atualizar_lotacao()
-                        sped_lotacao = lotacao.sped_lotacao_id
-                    self.lotacao_ids = [(4, sped_lotacao.id)]
 
-    # @api.multi
-    # def criar_s1020(self):
-    #     self.ensure_one()
-    #     for lotacao in self.lotacao_ids:
-    #         lotacao.gerar_registro()
+                lotacao.atualizar_lotacao()
+                if lotacao.situacao_lotacao_esocial not in ['0', '9']:
+                    if lotacao.sped_lotacao_id.id not in self.lotacao_ids.ids:
+                        self.lotacao_ids = [(4, lotacao.sped_lotacao_id.id)]
 
     # Controle de registros S-1030
     cargo_ids = fields.Many2many(
@@ -532,24 +507,14 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             cargos = self.env['hr.job'].search([
                 ('codigo', '!=', False),
+                ('ini_valid.date_start', '<=', self.periodo_id.date_start),
             ])
             for cargo in cargos:
-                if cargo.situacao_esocial not in ['0', '9']:
-                    sped_cargo = self.env['sped.esocial.cargo'].search([
-                        ('company_id', '=', self.company_id.id),
-                        ('cargo_id', '=', cargo.id),
-                    ])
-                    if not sped_cargo:
-                        cargo.atualizar_cargo()
-                        sped_cargo = cargo.sped_cargo_id
-                    self.cargo_ids = [(4, sped_cargo.id)]
 
-    # # Criar registros S-1030
-    # @api.multi
-    # def criar_s1030(self):
-    #     self.ensure_one()
-    #     for cargo in self.cargo_ids:
-    #         cargo.gerar_registro()
+                cargo.atualizar_cargo()
+                if cargo.situacao_esocial not in ['0', '9']:
+                    if cargo.sped_cargo_id.id not in self.cargo_ids.ids:
+                        self.cargo_ids = [(4, cargo.sped_cargo_id.id)]
 
     # Controle de registros S-1050
     turno_trabalho_ids = fields.Many2many(
@@ -594,24 +559,14 @@ class SpedEsocial(models.Model):
 
             turnos = self.env['hr.turnos.trabalho'].search([
                 ('cod_hor_contrat', '!=', False),
+                ('ini_valid.date_start', '<=', self.periodo_id.date_start),
             ])
             for turno in turnos:
-                if turno.situacao_esocial not in ['0', '9']:
-                    sped_turno = self.env['sped.hr.turnos.trabalho'].search([
-                        ('company_id', '=', self.company_id.id),
-                        ('hr_turnos_trabalho_id', '=', turno.id),
-                    ])
-                    if not sped_turno:
-                        turno.atualizar_turno()
-                        sped_turno = turno.sped_turno_id
-                    self.turno_trabalho_ids = [(4, sped_turno.id)]
 
-    # # Criar registros S-1050
-    # @api.multi
-    # def criar_s1050(self):
-    #     self.ensure_one()
-    #     for turno in self.turno_trabalho_ids:
-    #         turno.gerar_registro()
+                turno.atualizar_turno()
+                if turno.situacao_esocial not in ['0', '9']:
+                    if turno.sped_turno_id.id not in self.turno_trabalho_ids.ids:
+                        self.turno_trabalho_ids = [(4, turno.sped_turno_id.id)]
 
     # Controle de registros S-1200
     remuneracao_ids = fields.Many2many(
@@ -1132,27 +1087,27 @@ class SpedEsocial(models.Model):
             ])
 
             # Popula os registros S-2200 já existentes
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', '=', self.company_id.id),
-            ])
-
             # Lista todos os contratos que deveriam estar ativos no e-Social
             empresas = self.env['res.company'].search([
                 '|',
                 ('id', '=', self.company_id.id),
                 ('matriz', '=', self.company_id.id),
             ])
+            admissao_ids = self.env['sped.esocial.contrato'].search([
+                ('company_id', 'in', empresas.ids),
+            ])
             contrato_ids = self.env['hr.contract'].search([
                 ('date_start', '<=', self.periodo_id.date_stop),
-                ('tipo', '!=', 'autonomo'),
+                # ('tipo', '!=', 'autonomo'),
                 ('company_id', 'in', empresas.ids),
+                ('evento_esocial', '=', 's2200'),
             ])
 
             # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
             for contrato in contrato_ids:
 
                 # Só pega os contratos que não foram encerrados antes do início deste período
-                if contrato.date_end <= self.periodo_id.date_start:
+                if not contrato.date_end or contrato.date_end >= self.periodo_id.date_start:
 
                     # Se este contrato não tem um S-2200 criado, então cria
                     if contrato.id not in admissao_ids.ids:
@@ -1384,30 +1339,30 @@ class SpedEsocial(models.Model):
 
         if self.empregador_ids:
             # Popula os registros S-2200 já existentes
-            admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
-                ('company_id', '=', self.company_id.id),
-                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
-            ])
-
             # Lista todos os contratos que deveriam estar ativos no e-Social
             empresas = self.env['res.company'].search([
                 '|',
                 ('id', '=', self.company_id.id),
                 ('matriz', '=', self.company_id.id),
             ])
+            admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
+                ('company_id', 'in', empresas.ids),
+                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+            ])
             contrato_ids = self.env['hr.contract'].search([
                 ('date_start', '<=', self.periodo_id.date_stop),
-                ('tipo', '=', 'autonomo'),
+                # ('tipo', '=', 'autonomo'),
                 ('company_id', 'in', empresas.ids),
+                ('evento_esocial', '=', 's2300'),
             ])
 
             # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
             for contrato in contrato_ids:
 
                 # Só pega os contratos que não foram encerrados antes do início deste período
-                if contrato.date_end <= self.periodo_id.date_start:
+                if not contrato.date_end or contrato.date_end >= self.periodo_id.date_start:
 
-                    # Se este contrato não tem um S-2200 criado, então cria
+                    # Se este contrato não tem um S-2300 criado, então cria
                     if contrato.id not in admissao_sem_vinculo_ids.ids:
 
                         # Cria o S-2300
