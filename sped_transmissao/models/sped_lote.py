@@ -340,7 +340,7 @@ class SpedLote(models.Model, ):
                 consulta.unlink()
             consulta_xml = evento.xml
             consulta_xml_nome = registro.id_evento + '-consulta.xml'
-            anexo_id = self._grava_anexo(consulta_xml_nome, consulta_xml)
+            anexo_id = registro._grava_anexo(consulta_xml_nome, consulta_xml)
             registro.consulta_xml_id = anexo_id
 
             # Se não houve erros no registro, rode o método retorno_sucesso() do registro intermediário
