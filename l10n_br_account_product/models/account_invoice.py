@@ -23,7 +23,7 @@ class AccountInvoice(models.Model):
     _order = 'date_hour_invoice DESC, internal_number DESC'
 
     @api.one
-    @api.depends('invoice_line', 'tax_line.amount', 'account_payment_ids.amount')
+    @api.depends('invoice_line', 'tax_line.amount', 'account_payment_line_ids')
     def _compute_amount(self):
         self.icms_base = 0.0
         self.icms_base_other = 0.0
