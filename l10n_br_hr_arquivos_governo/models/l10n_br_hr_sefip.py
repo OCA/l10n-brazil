@@ -326,6 +326,14 @@ class L10nBrSefip(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
+    folha_autonomo_ids = fields.One2many(
+        string='Holerites de Autônomos',
+        comodel_name='hr.payslip.autonomo',
+        inverse_name='sefip_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
     boletos_ids = fields.One2many(
         string='Guias/Boletos',
         comodel_name='financial.move',
@@ -550,6 +558,31 @@ class L10nBrSefip(models.Model):
                     total += (ocorrencia.contrato_id.wage *
                               ocorrencia.number_of_days_temp / 30)
             return total
+
+    def _get_folha_autonomos_ids(self):
+        """
+        Buscar os holerites de autonomos que irao compor o SEFIP do mes
+        :return:
+        """
+        mes_do_ano = self.mes
+        tipo_de_folha = ['normal']
+
+        # No caso do demonstrativo de decimo terceiro
+        if mes_do_ano == '13':
+            # Monta data para algumas vericacoes, logo deve setar
+            tipo_de_folha = ['decimo_terceiro']
+
+        raiz = self.company_id.cnpj_cpf.split('/')[0]
+        folha_autonomo_ids = self.env['hr.payslip.autonomo'].search([
+            ('mes_do_ano', '=', mes_do_ano),
+            ('ano', '=', self.ano),
+            ('tipo_de_folha', 'in', tipo_de_folha),
+            ('state', 'in', ['done','verify']),
+            ('company_id.partner_id.cnpj_cpf', 'like', raiz),
+        ]).filtered('total_folha')
+        # Filtered eh para pegar apenas os holerites que nao estao zerados
+
+        return folha_autonomo_ids
 
     def _get_folha_ids(self):
         """
@@ -961,6 +994,7 @@ class L10nBrSefip(models.Model):
     def gerar_sefip(self):
         for record in self:
             record.folha_ids = False
+            record.folha_autonomo_ids = False
             sefip = SEFIP()
 
             if self.mes == '13':
@@ -974,11 +1008,10 @@ class L10nBrSefip(models.Model):
             record.sefip = self._valida_tamanho_linha(
                 record._preencher_registro_00(sefip))
             folha_ids = record._get_folha_ids()
+            folha_autonomo_ids = record._get_folha_autonomos_ids()
             self._valida_centralizadora(folha_ids.mapped('company_id'))
 
             for company_id in folha_ids.mapped('company_id'):
-                folhas_da_empresa = folha_ids.filtered(
-                    lambda r: r.company_id == company_id)
 
                 record.sefip += self._valida_tamanho_linha(
                     self._preencher_registro_10(company_id, sefip))
@@ -986,23 +1019,41 @@ class L10nBrSefip(models.Model):
                 record.sefip += self._valida_tamanho_linha(
                     self._preencher_registro_12(company_id, sefip))
 
-                for folha in folhas_da_empresa.sorted(
-                        key=lambda folha:
-                        (
-                                punctuation_rm(folha.employee_id.pis_pasep),
-                                folha.contract_id.categoria_sefip
-                        )):
+                # Holerites da empresa
+                folhas_da_empresa = folha_ids.filtered(
+                    lambda r: r.company_id == company_id)
+                # Holerites dos autonomos
+                folhas_autonomo_empresa_ids = folha_autonomo_ids.filtered(
+                    lambda r: r.company_id == company_id)
+
+                # Acumulador para todos holerites. Dict para organizar
+                # automaticamente a ordem
+                holerites = {}
+                # Acumulador para holerites
+                for folha in folhas_da_empresa:
+                    holerites[
+                        punctuation_rm(folha.employee_id.pis_pasep)] = folha
+                # Acumulador para autonomos
+                for folha in folhas_autonomo_empresa_ids:
+                    holerites[
+                        punctuation_rm(folha.employee_id.pis_pasep)] = folha
+                
+                for key in sorted(list(holerites)):
                     record.sefip += self._valida_tamanho_linha(
-                        record._preencher_registro_30(sefip, folha))
+                        record._preencher_registro_30(sefip, holerites[key]))
 
                     if folha.tipo_de_folha == 'rescisao':
                         record.sefip += self._valida_tamanho_linha(
-                            record._preencher_registro_32(sefip, folha))
+                           record._preencher_registro_32(sefip, folha))
 
             record.sefip += sefip._registro_90_totalizador_do_arquivo()
 
             # Setar a relação entre Holerite e o SEFIP
             for holerite in folha_ids:
+                holerite.sefip_id = record.id
+
+            # Setar a relação entre Autonomos e o SEFIP
+            for holerite in folha_autonomo_ids:
                 holerite.sefip_id = record.id
 
     def _preencher_registro_00(self, sefip):
@@ -1156,6 +1207,14 @@ class L10nBrSefip(models.Model):
             result +=  base_fgts if base_fgts > 0 else 0
             result += self._valor_rubrica(folha.line_ids, "BASE_FGTS_FERIAS")
 
+        # Para Autonomos pegar as rubricas da categoria de Provento
+        # Essa intervenção é temporária enquanto o calculo do RPA de autonomos
+        # nao é automatizado e nao contem uma estrutura de salario
+        if folha.contract_id.categoria_sefip == '13':
+            result = sum(folha.line_ids.filtered(
+                lambda line: line.category_id.code == 'PROVENTO').
+                         mapped('total'))
+
         return result
 
         # Categorias Obrigatórias in ('05', '11', '13', '14', '15', '16',
@@ -1293,7 +1352,7 @@ class L10nBrSefip(models.Model):
         """ Registro 30. Item 19
         Ocorrencia: Acidente de trabalho, rescisão, afastamento por
         doença lic maternidade, ( situaçeõs que o funcionario deixa de
-        trablalhar e o inss deverá assumir o pagamento do funcionário)
+        trabalhar e o inss deverá assumir o pagamento do funcionário)
 
         Nao implementado:
 
@@ -1302,7 +1361,16 @@ class L10nBrSefip(models.Model):
          -
 
         """
+        #
+        # Se contribuir INSS em outra entidade o código eh 05
+        #
         if folha.contract_id.cnpj_empregador_cedente:
+            return '05'
+
+        #
+        # Autônomos contribuem em outras entidades
+        #
+        if folha._name == 'hr.payslip.autonomo':
             return '05'
 
         folha_ids = self._get_folha_ids()
@@ -1491,9 +1559,11 @@ class L10nBrSefip(models.Model):
                                 '12', '19', '20', '21', '26'):
             sefip.data_admissao = fields.Datetime.from_string(
                 folha.contract_id.date_start).strftime('%d%m%Y') or ''
+        else:
+            sefip.data_admissao = ''
 
         if codigo_categoria in ('01', '03', '04', '05', '06', '07', '11',
-                                '12', '19', '20', '21'):
+                                '12', '13', '19', '20', '21'):
             sefip.categoria_trabalhador = codigo_categoria or ''
 
         sefip.nome_trabalhador = folha.employee_id.name
