@@ -35,6 +35,7 @@
                             <group>
                                 <field name="type_id" options="{'no_create': True, 'no_open': True}" required="1"/>
                                 <field name="categoria"/>
+                                <field name="categoria_sefip" />
                             </group>
                         </group>
                         <notebook>
