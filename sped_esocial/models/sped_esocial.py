@@ -1123,10 +1123,14 @@ class SpedEsocial(models.Model):
                 ('id', '=', self.company_id.id),
                 ('matriz', '=', self.company_id.id),
             ])
+            admissao_ids = self.env['sped.esocial.contrato'].search([
+                ('company_id', 'in', empresas.ids),
+            ])
             contrato_ids = self.env['hr.contract'].search([
                 ('date_start', '<=', self.periodo_id.date_stop),
                 ('tipo', '!=', 'autonomo'),
                 ('company_id', 'in', empresas.ids),
+                ('evento_esocial', '=', 's2200'),
             ])
 
             # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
