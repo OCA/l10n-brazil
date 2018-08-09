@@ -2122,3 +2122,4 @@ class SpedEsocial(models.Model):
         ]
 
         return domain
+
