@@ -360,6 +360,17 @@ class SpedEsocial(models.Model):
                         sped_estabelecimento = estabelecimento.sped_estabelecimento_id
                     self.estabelecimento_ids = [(4, sped_estabelecimento.id)]
 
+                estabelecimento.atualizar_estabelecimento()
+                if estabelecimento.situacao_estabelecimento_esocial not in ['0', '9']:
+                    sped_estabelecimento = self.env['sped.estabelecimentos'].search([
+                        ('company_id', '=', self.company_id.id),
+                        ('estabelecimento_id', '=', estabelecimento.id),
+                    ])
+                    if not sped_estabelecimento:
+                        estabelecimento.atualizar_estabelecimento()
+                        sped_estabelecimento = estabelecimento.sped_estabelecimento_id
+                    self.estabelecimento_ids = [(4, sped_estabelecimento.id)]
+
     # # Cria os registros S-1005
     # @api.multi
     # def criar_s1005(self):
@@ -507,6 +518,17 @@ class SpedEsocial(models.Model):
                         sped_lotacao = lotacao.sped_lotacao_id
                     self.lotacao_ids = [(4, sped_lotacao.id)]
 
+                lotacao.atualizar_lotacao()
+                if lotacao.situacao_lotacao_esocial not in ['0', '9']:
+                    sped_lotacao = self.env['sped.esocial.lotacao'].search([
+                        ('company_id', '=', self.company_id.id),
+                        ('lotacao_id', '=', lotacao.id),
+                    ])
+                    if not sped_lotacao:
+                        lotacao.atualizar_lotacao()
+                        sped_lotacao = lotacao.sped_lotacao_id
+                    self.lotacao_ids = [(4, sped_lotacao.id)]
+
     # @api.multi
     # def criar_s1020(self):
     #     self.ensure_one()
@@ -558,6 +580,17 @@ class SpedEsocial(models.Model):
                 ('ini_valid.date_start', '<=', self.periodo_id.date_start),
             ])
             for cargo in cargos:
+                if cargo.situacao_esocial not in ['0', '9']:
+                    sped_cargo = self.env['sped.esocial.cargo'].search([
+                        ('company_id', '=', self.company_id.id),
+                        ('cargo_id', '=', cargo.id),
+                    ])
+                    if not sped_cargo:
+                        cargo.atualizar_cargo()
+                        sped_cargo = cargo.sped_cargo_id
+                    self.cargo_ids = [(4, sped_cargo.id)]
+
+                cargo.atualizar_cargo()
                 if cargo.situacao_esocial not in ['0', '9']:
                     sped_cargo = self.env['sped.esocial.cargo'].search([
                         ('company_id', '=', self.company_id.id),
