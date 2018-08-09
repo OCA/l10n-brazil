@@ -210,11 +210,13 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             self.hr_contract_id.employee_id.birthday
 
         if self.hr_contract_id.employee_id.naturalidade:
-            S2300.evento.trabalhador.nascimento.codMunic.valor = \
-                self.hr_contract_id.employee_id.naturalidade.state_id.ibge_code + \
-                self.hr_contract_id.employee_id.naturalidade.ibge_code
-            S2300.evento.trabalhador.nascimento.uf.valor = \
-                self.hr_contract_id.employee_id.naturalidade.state_id.code
+            # Só preenche o município/estado se a naturalidade for Brasil
+            if self.hr_contract_id.employee_id.pais_nascto_id == self.env.ref('sped_tabelas.tab06_105'):
+                S2300.evento.trabalhador.nascimento.codMunic.valor = \
+                    self.hr_contract_id.employee_id.naturalidade.state_id.ibge_code + \
+                    self.hr_contract_id.employee_id.naturalidade.ibge_code
+                S2300.evento.trabalhador.nascimento.uf.valor = \
+                    self.hr_contract_id.employee_id.naturalidade.state_id.code
         S2300.evento.trabalhador.nascimento.paisNascto.valor = \
             self.hr_contract_id.employee_id.pais_nascto_id.codigo
         S2300.evento.trabalhador.nascimento.paisNac.valor = \
@@ -332,13 +334,23 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 Dependente.tpDep.valor = \
                     dependente.dependent_type_id.code.zfill(2)
                 Dependente.nmDep.valor = dependente.dependent_name
-                Dependente.cpfDep.valor = dependente.dependent_cpf
+                Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
                 Dependente.dtNascto.valor = dependente.dependent_dob
                 Dependente.depIRRF.valor = \
                     'S' if dependente.dependent_verification else 'N'
                 Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
                 Dependente.incTrab.valor = 'S' if dependente.inc_trab else 'N'
                 S2300.evento.trabalhador.dependente.append(Dependente)
+
+        # Popula trabEstrangeiro se pais_nascto_id diferente de Brasil
+        if self.hr_contract_id.employee_id.pais_nascto_id != self.env.ref('sped_tabelas.tab06_105'):
+            TrabEstrangeiro = pysped.esocial.leiaute.S2300_TrabEstrangeiro_2()
+            TrabEstrangeiro.classTrabEstrang.valor = self.hr_contract_id.employee_id.class_trab_estrang
+            if self.hr_contract_id.employee_id.dt_chegada:
+                TrabEstrangeiro.dtChegada.valor = self.hr_contract_id.employee_id.dt_chegada
+            TrabEstrangeiro.casadoBr.valor = self.hr_contract_id.employee_id.casado_br
+            TrabEstrangeiro.filhosBr.valor = self.hr_contract_id.employee_id.filhos_br
+            S2300.evento.trabalhador.trabEstrangeiro.append(TrabEstrangeiro)
 
         #
         # Popula Trabalhador.Contato
@@ -358,11 +370,12 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # Popula InfoTSVInicio
         #
 
-        S2300.evento.infoTSVInicio.cadIni.valor = 'N'
+        S2300.evento.infoTSVInicio.cadIni.valor = self.hr_contract_id.cad_ini or 'N'
 
         S2300.evento.infoTSVInicio.codCateg.valor = self.hr_contract_id.categoria
         S2300.evento.infoTSVInicio.dtInicio.valor = self.hr_contract_id.date_start
-        S2300.evento.infoTSVInicio.natAtividade.valor = 1
+        if self.hr_contract_id.categoria not in ['721', '722']:
+            S2300.evento.infoTSVInicio.natAtividade.valor = self.hr_contract_id.nat_atividade
 
         # InfoTSVInicio.InfoComplementares
         InfoComplementares = pysped.esocial.leiaute.S2300_InfoComplementares_2()
@@ -474,11 +487,11 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # Afastamento.codMotAfast = ''
         # S2300.evento.infoTSVInicio.afastamento.append(Afastamento)
 
-        # InfoTSVInicio.Termino
-        if self.hr_contract_id.date_end:
-            Termino = pysped.esocial.leiaute.S2300_Termino_2()
-            Termino.dtTerm.valor = self.hr_contract_id.date_end
-            S2300.evento.infoTSVInicio.termino.append(Termino)
+        # # InfoTSVInicio.Termino
+        # if self.hr_contract_id.date_end:
+        #     Termino = pysped.esocial.leiaute.S2300_Termino_2()
+        #     Termino.dtTerm.valor = self.hr_contract_id.date_end
+        #     S2300.evento.infoTSVInicio.termino.append(Termino)
 
         S2300.evento.infoTSVInicio.infoComplementares.append(InfoComplementares)
         return S2300

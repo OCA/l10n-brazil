@@ -351,7 +351,7 @@ class ResCompany(models.Model):
         self.ensure_one()
 
         # Se o registro intermediário do S-1000 não existe, criá-lo
-        if not self.sped_empregador_id:
+        if not self.sped_empregador_id and self.esocial_periodo_inicial_id:
 
             # Verifica se o registro intermediário já existe
             domain = [
@@ -368,14 +368,15 @@ class ResCompany(models.Model):
 
         # Processa cada tipo de operação do S-1000 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_empregador_id.gerar_registro()
+        if self.sped_empregador_id:
+            self.sped_empregador_id.gerar_registro()
 
     @api.multi
     def atualizar_estabelecimento(self):
         self.ensure_one()
 
         # Se o registro intermediário do S-1005 não existe, criá-lo
-        if not self.sped_estabelecimento_id:
+        if not self.sped_estabelecimento_id and self.estabelecimento_periodo_inicial_id:
 
             # Verifica se o registro intermediário já existe
             matriz = self if self.eh_empresa_base else self.matriz
@@ -395,14 +396,15 @@ class ResCompany(models.Model):
 
         # Processa cada tipo de operação do S-1005 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_estabelecimento_id.gerar_registro()
+        if self.sped_estabelecimento_id:
+            self.sped_estabelecimento_id.gerar_registro()
 
     @api.multi
     def atualizar_lotacao(self):
         self.ensure_one()
 
         # Se o registro intermediário do S-1020 não existe, criá-lo
-        if not self.sped_lotacao_id:
+        if not self.sped_lotacao_id and self.lotacao_periodo_inicial_id:
 
             # Verifica se o registro intermediário já existe
             matriz = self if self.eh_empresa_base else self.matriz
@@ -421,7 +423,8 @@ class ResCompany(models.Model):
 
         # Processa cada tipo de operação do S-1020 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_lotacao_id.gerar_registro()
+        if self.sped_lotacao_id:
+            self.sped_lotacao_id.gerar_registro()
 
     @api.multi
     def processador_esocial(self):

@@ -208,7 +208,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             remun_per_apur = pysped.esocial.leiaute.S1200_RemunPerApur_2()
 
             # Só preencher matricula de EMPREGADO com vinculo
-            if payslip.contract_id.tipo != 'autonomo':
+            if payslip.contract_id.evento_esocial == 's2200':
                 remun_per_apur.matricula.valor = payslip.contract_id.matricula
 
             # Somente para quando a empresa for do Simples
@@ -257,7 +257,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # Preencher com o código que representa o grau de exposição a
             # agentes nocivos, conforme tabela 2. Preencher apenas para
             # trabalhadores com vinculo S2200
-            if payslip.contract_id.tipo != 'autonomo':
+            if payslip.contract_id.evento_esocial == 's2200':
                 info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
                 # Inserir um campo em algum lugar (no contrato talvez)
                 info_ag_nocivo.grauExp.valor = 1

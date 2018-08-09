@@ -22,6 +22,20 @@
                     <field name="cnh_dt_pri_hab" />
                     <field name="cnh_uf" domain="[('country_id','=',country_id)]" attrs="{'required': [('driver_license', '!=', False)]}" />
                 </field>
+                <xpath expr="//group[@string='Characteristics']" position="after">
+                    <group string="Trabalhador Extrangeiro" colspan="4" col="4" attrs="{'invisible': [('pais_nascto_id', '=', %(sped_tabelas.tab06_105)d)]}">
+                        <field name="class_trab_estrang" attrs="{'required': [('pais_nascto_id', '!=', %(sped_tabelas.tab06_105)d)]}" colspan="4"/>
+                        <group colspan="2" col="2">
+                            <field name="dt_chegada" attrs="{'required': [('class_trab_estrang', '!=', '6'), ('pais_nascto_id', '!=', %(sped_tabelas.tab06_105)d)]}" />
+                            <field name="casado_br" attrs="{'required': [('pais_nascto_id', '!=', %(sped_tabelas.tab06_105)d)]}" />
+                            <field name="filhos_br" attrs="{'required': [('pais_nascto_id', '!=', %(sped_tabelas.tab06_105)d)]}" />
+                        </group>
+                    </group>
+                </xpath>
+                <field name="naturalidade" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <attribute name="attrs">{'required': [('pais_nascto_id', '=', %(sped_tabelas.tab06_105)d)]}</attribute>
+                </field>
             </field>
         </record>
 

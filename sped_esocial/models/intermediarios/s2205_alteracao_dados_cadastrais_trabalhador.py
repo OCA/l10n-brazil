@@ -225,6 +225,16 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
             dados_trabalhador.dependente.append(dependente_xml)
 
+        # Popula trabEstrangeiro se pais_nascto_id diferente de Brasil
+        if empregado_id.pais_nascto_id != self.env.ref('sped_tabelas.tab06_105'):
+            TrabEstrangeiro = pysped.esocial.leiaute.S2205_TrabEstrangeiro_2()
+            TrabEstrangeiro.classTrabEstrang.valor = empregado_id.class_trab_estrang
+            if empregado_id.dt_chegada:
+                TrabEstrangeiro.dtChegada.valor = empregado_id.dt_chegada
+            TrabEstrangeiro.casadoBr.valor = empregado_id.casado_br
+            TrabEstrangeiro.filhosBr.valor = empregado_id.filhos_br
+            dados_trabalhador.trabEstrangeiro.append(TrabEstrangeiro)
+
         return S2205
 
     @api.multi

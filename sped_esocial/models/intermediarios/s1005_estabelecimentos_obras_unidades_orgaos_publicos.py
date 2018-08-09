@@ -222,7 +222,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         }
 
         # Criar o registro S-1005 de inclusão, se for necessário
-        if self.precisa_incluir:
+        if self.precisa_incluir and not self.sped_inclusao:
             values['operacao'] = 'I'
 
             sped_inclusao = self.env['sped.registro'].create(values)
@@ -232,11 +232,17 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         if self.precisa_atualizar:
             values['operacao'] = 'A'
 
-            sped_atualizacao = self.env['sped.registro'].create(values)
-            self.sped_alteracao = [(4, sped_atualizacao.id)]
+            # Verifica se já tem um registro de atualização em aberto
+            reg = False
+            for registro in self.sped_alteracao:
+                if registro.situacao in ['2', '3']:
+                    reg = registro
+            if not reg:
+                sped_atualizacao = self.env['sped.registro'].create(values)
+                self.sped_alteracao = [(4, sped_atualizacao.id)]
 
         # Criar o registro S-1005 de exclusão, se for necessário
-        if self.precisa_excluir:
+        if self.precisa_excluir and not self.sped_exclusao:
             values['operacao'] = 'E'
 
             sped_exclusao = self.env['sped.registro'].create(values)

@@ -25,8 +25,11 @@ class HrEmployeeDependent(models.Model):
     @api.depends('dependent_dob', 'dependent_verification')
     def _precisa_preencher_cpf(self):
         for record in self:
-            data_atual = fields.Datetime.from_string(fields.Datetime.now())
-            data_aniversario = fields.Datetime.from_string(
-                record.dependent_dob)
-            if (data_atual - data_aniversario).days / 365 >= 8:
-                record.precisa_cpf = True
+            precisa_cpf = False
+            if record.dependent_verification:
+                data_atual = fields.Datetime.from_string(fields.Datetime.now())
+                data_aniversario = fields.Datetime.from_string(
+                    record.dependent_dob)
+                if (data_atual - data_aniversario).days / 365 >= 8:
+                    precisa_cpf = True
+            record.precisa_cpf = precisa_cpf

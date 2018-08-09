@@ -207,7 +207,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         self.ensure_one()
 
         # Criar o registro S-1000 de inclusão, se for necessário
-        if self.precisa_incluir:
+        if self.precisa_incluir and not self.sped_inclusao:
             values = {
                 'tipo': 'esocial',
                 'registro': 'S-1000',
@@ -224,22 +224,28 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
         # Criar o registro S-1000 de alteração, se for necessário
         if self.precisa_atualizar:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-1000',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
-                'operacao': 'A',
-                'evento': 'evtInfoEmpregador',
-                'origem': ('res.company,%s' % self.company_id.id),
-                'origem_intermediario': ('sped.empregador,%s' % self.id),
-            }
+            # Verifica se já tem um registro de atualização em aberto
+            reg = False
+            for registro in self.sped_alteracao:
+                if registro.situacao in ['2', '3']:
+                    reg = registro
+            if not reg:
+                values = {
+                    'tipo': 'esocial',
+                    'registro': 'S-1000',
+                    'ambiente': self.company_id.esocial_tpAmb,
+                    'company_id': self.company_id.id,
+                    'operacao': 'A',
+                    'evento': 'evtInfoEmpregador',
+                    'origem': ('res.company,%s' % self.company_id.id),
+                    'origem_intermediario': ('sped.empregador,%s' % self.id),
+                }
 
-            sped_alteracao = self.env['sped.registro'].create(values)
-            self.sped_alteracao = [(4, sped_alteracao.id)]
+                sped_alteracao = self.env['sped.registro'].create(values)
+                self.sped_alteracao = [(4, sped_alteracao.id)]
 
         # Criar o registro S-1000 de exclusão, se for necessário
-        if self.precisa_excluir:
+        if self.precisa_excluir and not self.sped_exclusao:
             values = {
                 'tipo': 'esocial',
                 'registro': 'S-1000',

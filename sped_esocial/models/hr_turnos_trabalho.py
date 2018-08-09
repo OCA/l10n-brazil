@@ -102,7 +102,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
         self.ensure_one()
 
         # Se o registro intermediário do S-1050 não existe, criá-lo
-        if not self.sped_turno_id:
+        if not self.sped_turno_id and self.ini_valid:
 
             # Verifica se o registro intermediário já existe
             domain = [
@@ -121,7 +121,8 @@ class SpedEsocialTurnosTrabalho(models.Model):
 
         # Processa cada tipo de operação do S-1050 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_turno_id.gerar_registro()
+        if self.sped_turno_id:
+            self.sped_turno_id.gerar_registro()
 
     @api.multi
     def write(self, vals):

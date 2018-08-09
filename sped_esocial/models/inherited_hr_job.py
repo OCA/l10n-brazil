@@ -125,7 +125,7 @@ class HrJob(models.Model):
         self.ensure_one()
 
         # Se o registro intermediário do S-1030 não existe, criá-lo
-        if not self.sped_cargo_id:
+        if not self.sped_cargo_id and self.ini_valid:
             if self.env.user.company_id.eh_empresa_base:
                 matriz = self.env.user.company_id
             else:
@@ -148,7 +148,8 @@ class HrJob(models.Model):
 
         # Processa cada tipo de operação do S-1030 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_cargo_id.gerar_registro()
+        if self.sped_cargo_id:
+            self.sped_cargo_id.gerar_registro()
 
     @api.multi
     def write(self, vals):

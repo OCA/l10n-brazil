@@ -193,3 +193,39 @@ class HrEmployee(models.Model):
         self.ensure_one()
 
         return self
+
+    # Campos de Trabalhador Extrangeiro
+    dt_chegada = fields.Date(
+        string='Data de chegada no Brasil',
+    )
+    class_trab_estrang = fields.Selection(
+        string='Condição do Extrangeiro no Brasil',
+        selection=[
+            ('1',  '1-Visto Permanente'),
+            ('2',  '2-Visto temporário'),
+            ('3',  '3-Asilado'),
+            ('4',  '4-Refugiado'),
+            ('5',  '5-Solicitante de Refúgio'),
+            ('6',  '6-Residente fora do Brasil'),
+            ('7',  '7-Deficiente físico e com mais de 51 anos'),
+            ('8',  '8-Com residência provisória e anistiado, em situação irregular'),
+            ('9',  '9-Permanência no Brasil em razão de filhos ou cônjuge brasileiros'),
+            ('10', '10-Beneficiado pelo acordo entre países do Mercosul'),
+            ('11', '11-Dependente de agente diplomático e/ou consular de países que mantém convênio de reciprocidade para o exercício de atividade remunerada no Brasil'),
+            ('12', '12-Beneficiado pelo Tratado de Amizade, Cooperação e Consulta entre a República Federativa do Brasil e a República Portuguesa'),
+        ],
+    )
+    casado_br = fields.Selection(
+        string='Casado(a) com Brasileiro(a)',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )
+    filhos_br = fields.Selection(
+        string='Tem filhos brasileiros',
+        selection=[
+            ('S', 'S-Sim'),
+            ('N', 'N-Não'),
+        ],
+    )

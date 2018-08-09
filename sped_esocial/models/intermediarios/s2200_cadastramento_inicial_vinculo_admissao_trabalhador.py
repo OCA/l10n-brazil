@@ -6,7 +6,7 @@ import pysped
 from openerp import api, models, fields
 from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import \
     SpedRegistroIntermediario
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning, ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
 
@@ -173,9 +173,11 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # Popula trabalhador.nascimento
         S2200.evento.trabalhador.nascimento.dtNascto.valor = self.hr_contract_id.employee_id.birthday
         if self.hr_contract_id.employee_id.naturalidade:
-            S2200.evento.trabalhador.nascimento.codMunic.valor = \
-                self.hr_contract_id.employee_id.naturalidade.state_id.ibge_code + \
-                self.hr_contract_id.employee_id.naturalidade.ibge_code
+            if self.hr_contract_id.employee_id.naturalidade.ibge_code and \
+                    self.hr_contract_id.employee_id.naturalidade.state_id.ibge_code:
+                S2200.evento.trabalhador.nascimento.codMunic.valor = \
+                    self.hr_contract_id.employee_id.naturalidade.state_id.ibge_code + \
+                    self.hr_contract_id.employee_id.naturalidade.ibge_code
             S2200.evento.trabalhador.nascimento.uf.valor = self.hr_contract_id.employee_id.naturalidade.state_id.code
         S2200.evento.trabalhador.nascimento.paisNascto.valor = self.hr_contract_id.employee_id.pais_nascto_id.codigo
         S2200.evento.trabalhador.nascimento.paisNac.valor = self.hr_contract_id.employee_id.pais_nac_id.codigo
@@ -186,6 +188,10 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # CTPS
         if self.hr_contract_id.employee_id.ctps:
             CTPS = pysped.esocial.leiaute.S2200_CTPS_2()  # Cria o registro
+            CTPS.nrCtps.valor = self.hr_contract_id.employee_id.ctps or ''
+            CTPS.serieCtps.valor = self.hr_contract_id.employee_id.ctps_series or ''
+            CTPS.ufCtps.valor = self.hr_contract_id.employee_id.ctps_uf_id.code or ''
+            S2200.evento.trabalhador.documentos.CTPS.append(CTPS)
 
         # Popula ideEvento
         S2200.tpInsc = '1'
@@ -229,10 +235,6 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             self.hr_contract_id.employee_id.educational_attainment.code.zfill(2) or ''
         S2200.evento.trabalhador.indPriEmpr.valor = 'S' if self.hr_contract_id.primeiro_emprego else 'N'
         # S2200.evento.trabalhador.nmSoc =  # TODO separa
-        CTPS.nrCtps.valor = self.hr_contract_id.employee_id.ctps or ''
-        CTPS.serieCtps.valor = self.hr_contract_id.employee_id.ctps_series or ''
-        CTPS.ufCtps.valor = self.hr_contract_id.employee_id.ctps_uf_id.code or ''
-        S2200.evento.trabalhador.documentos.CTPS.append(CTPS)
 
         # # RIC  # TODO (Criar campos em l10n_br_hr)
         # if self.hr_contract_id.employee_id.ric:
@@ -329,12 +331,26 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 Dependente.tpDep.valor = dependente.dependent_type_id.code.zfill(2)
                 Dependente.nmDep.valor = dependente.dependent_name
                 if dependente.precisa_cpf:
+                    if not dependente.dependent_cpf:
+                        raise ValidationError(
+                            "O trabalhador {} está faltando o CPF de um dependente !".format(
+                                self.hr_contract_id.employee_id.name))
                     Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
                 Dependente.dtNascto.valor = dependente.dependent_dob
                 Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
                 Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
                 Dependente.incTrab.valor = 'S' if dependente.inc_trab else 'N'
                 S2200.evento.trabalhador.dependente.append(Dependente)
+
+        # Popula trabEstrangeiro se pais_nascto_id diferente de Brasil
+        if self.hr_contract_id.employee_id.pais_nascto_id != self.env.ref('sped_tabelas.tab06_105'):
+            TrabEstrangeiro = pysped.esocial.leiaute.S2200_TrabEstrangeiro_2()
+            TrabEstrangeiro.classTrabEstrang.valor = self.hr_contract_id.employee_id.class_trab_estrang
+            if self.hr_contract_id.employee_id.dt_chegada:
+                TrabEstrangeiro.dtChegada.valor = self.hr_contract_id.employee_id.dt_chegada
+            TrabEstrangeiro.casadoBr.valor = self.hr_contract_id.employee_id.casado_br
+            TrabEstrangeiro.filhosBr.valor = self.hr_contract_id.employee_id.filhos_br
+            S2200.evento.trabalhador.trabEstrangeiro.append(TrabEstrangeiro)
 
         # Popula trabalhador.contato
         Contato = pysped.esocial.leiaute.S2200_Contato_2()
@@ -364,8 +380,9 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             InfoCeletista.indAdmissao.valor = self.hr_contract_id.indicativo_de_admissao
             InfoCeletista.tpRegJor.valor = self.hr_contract_id.tp_reg_jor
             InfoCeletista.natAtividade.valor = self.hr_contract_id.nat_atividade
-            InfoCeletista.cnpjSindCategProf.valor = limpa_formatacao(
-                self.hr_contract_id.partner_union.cnpj_cpf)
+            if self.hr_contract_id.partner_union.cnpj_cpf:
+                InfoCeletista.cnpjSindCategProf.valor = limpa_formatacao(
+                    self.hr_contract_id.partner_union.cnpj_cpf)
             InfoCeletista.FGTS.opcFGTS.valor = self.hr_contract_id.opc_fgts
             if self.hr_contract_id.dt_opc_fgts:
                 InfoCeletista.FGTS.dtOpcFGTS.valor = self.hr_contract_id.dt_opc_fgts
@@ -410,7 +427,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         HorContratual.qtdHrsSem.valor = formata_valor(self.hr_contract_id.weekly_hours)
         HorContratual.tpJornada.valor = self.hr_contract_id.tp_jornada
         if self.hr_contract_id.tp_jornada == '9':
-            HorContratual.dscTpJor.valor = self.hr_contract_id.dsc_tp_jorn
+            HorContratual.dscTpJorn.valor = self.hr_contract_id.dsc_tp_jorn
         HorContratual.tmpParc.valor = self.hr_contract_id.tmp_parc
 
         # Popula vinculo.horContratual.horario
@@ -443,7 +460,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 self.hr_contract_id.cnpj_empregador_anterior)
             if self.hr_contract_id.matricula_anterior:
                 SucessaoVinc.matricAnt.valor = self.hr_contract_id.matricula_anterior
-            # SucessaoVinc.dtTransf.valor = self.hr_contract_id.date_start  # Se for transf. a data de inicio do contrato é a correta neste campo
+            SucessaoVinc.dtTransf.valor = self.hr_contract_id.date_start
             if self.hr_contract_id.observacoes_vinculo_anterior:
                 SucessaoVinc.observacao.valor = self.hr_contract_id.observacoes_vinculo_anterior
             S2200.evento.vinculo.sucessaoVinc.append(SucessaoVinc)

@@ -204,30 +204,34 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def gerar_registro(self):
-        if self.precisa_incluir or self.precisa_atualizar or \
-                self.precisa_excluir:
-            values = {
-                'tipo': 'esocial',
-                'registro': 'S-1020',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
-                'evento': 'evtTabLotacao',
-                'origem': ('res.company,%s' % self.lotacao_id.id),
-                'origem_intermediario': (
-                        'sped.esocial.lotacao,%s' % self.id),
-            }
-            if self.precisa_incluir:
-                values['operacao'] = 'I'
-                sped_inclusao = self.env['sped.registro'].create(values)
-                self.sped_inclusao = sped_inclusao
-            elif self.precisa_atualizar:
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-1020',
+            'ambiente': self.company_id.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtTabLotacao',
+            'origem': ('res.company,%s' % self.lotacao_id.id),
+            'origem_intermediario': (
+                    'sped.esocial.lotacao,%s' % self.id),
+        }
+        if self.precisa_incluir and not self.sped_inclusao:
+            values['operacao'] = 'I'
+            sped_inclusao = self.env['sped.registro'].create(values)
+            self.sped_inclusao = sped_inclusao
+        elif self.precisa_atualizar:
+            # Verifica se já tem um registro de atualização em aberto
+            reg = False
+            for registro in self.sped_alteracao:
+                if registro.situacao in ['2', '3']:
+                    reg = registro
+            if not reg:
                 values['operacao'] = 'A'
                 sped_alteracao = self.env['sped.registro'].create(values)
                 self.sped_inclusao = sped_alteracao
-            elif self.precisa_excluir:
-                values['operacao'] = 'E'
-                sped_exclusao = self.env['sped.registro'].create(values)
-                self.sped_exclusao = sped_exclusao
+        elif self.precisa_excluir and not self.sped_exclusao:
+            values['operacao'] = 'E'
+            sped_exclusao = self.env['sped.registro'].create(values)
+            self.sped_exclusao = sped_exclusao
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):

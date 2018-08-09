@@ -256,14 +256,14 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 det_pgto_fer.codCateg.valor = payslip.contract_id.categoria
                 det_pgto_fer.matricula.valor = payslip.contract_id.matricula
                 det_pgto_fer.dtIniGoz.valor = payslip.date_from
-                info_pgto.detPgtoFer.append(det_pgto_fer)
+                # info_pgto.detPgtoFer.append(det_pgto_fer)
 
                 # Pega o valor calculo 'FERIAS' do campo worked_days_line_ids
                 dias = 0
                 for item in payslip.worked_days_line_ids:
                     if item.code == 'FERIAS':
                         dias = item.number_of_days
-                det_pgto_fer.qtdDias.valor = dias
+                det_pgto_fer.qtDias.valor = str(int(dias))
 
                 det_pgto_fer.vrLiq.valor = formata_valor(payslip.total_folha)
 
@@ -272,13 +272,14 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                     # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
                     if line.salary_rule_id.cod_inc_irrf_calculado in \
-                            ['00', '01', '09', '13', '33', '43', '46', '53', '63', '75', '93']:
+                            ['00', '01', '09', '13', '33', '43', '46', '53', '63', '75', '93'] and line.total:
 
                         det_rubr_fer = pysped.esocial.leiaute.S1210_DetRubrFer_2()
                         det_rubr_fer.codRubr.valor = line.salary_rule_id.codigo
                         det_rubr_fer.ideTabRubr.valor = line.salary_rule_id.identificador
                         if line.quantity and float(line.quantity) != 1:
-                            det_rubr_fer.qtdRubr.valor = float(line.quantity)
+                            # det_rubr_fer.qtdRubr.valor = float(line.quantity)
+                            det_rubr_fer.qtdRubr.valor = formata_valor(line.quantity)
                             det_rubr_fer.vrUnit.valor = formata_valor(line.amount)
                         if line.rate and line.rate != 100:
                             det_rubr_fer.fatorRubr.valor = line.rate
@@ -333,9 +334,11 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                         'id_evento': tot.eSocial.evento.Id.valor,
                         'periodo_id': sped_registro.origem_intermediario.periodo_id.id,
                         'trabalhador_id': sped_registro.origem_intermediario.beneficiario_id.id,
-                        'vr_ded_deps': float(tot.eSocial.evento.infoDep[0].vrDedDep.valor),
                         'sped_registro_s1210': sped_registro.id,
                     }
+                    if tot.eSocial.evento.infoDep:
+                        vals_intermediario_totalizador['vr_ded_deps'] = \
+                            float(tot.eSocial.evento.infoDep[0].vrDedDep.valor)
 
                     # Cria/Altera o registro intermediário
                     if sped_intermediario:

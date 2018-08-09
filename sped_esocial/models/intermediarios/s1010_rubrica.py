@@ -218,15 +218,21 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
                 'origem_intermediario': (
                         'sped.esocial.rubrica,%s' % self.id),
             }
-            if self.precisa_incluir:
+            if self.precisa_incluir and not self.sped_inclusao:
                 values['operacao'] = 'I'
                 sped_inclusao = self.env['sped.registro'].create(values)
                 self.sped_inclusao = sped_inclusao
             elif self.precisa_atualizar:
-                values['operacao'] = 'A'
-                sped_alteracao = self.env['sped.registro'].create(values)
-                self.sped_inclusao = sped_alteracao
-            elif self.precisa_excluir:
+                # Verifica se já tem um registro de atualização em aberto
+                reg = False
+                for registro in self.sped_alteracao:
+                    if registro.situacao in ['2', '3']:
+                        reg = registro
+                if not reg:
+                    values['operacao'] = 'A'
+                    sped_alteracao = self.env['sped.registro'].create(values)
+                    self.sped_inclusao = sped_alteracao
+            elif self.precisa_excluir and not sped_exclusao:
                 values['operacao'] = 'E'
                 sped_exclusao = self.env['sped.registro'].create(values)
                 self.sped_exclusao = sped_exclusao

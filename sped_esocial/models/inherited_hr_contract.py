@@ -571,6 +571,7 @@ class HrContract(models.Model):
         string='Evento no esocial',
         help='Definição do Evento do esocial de acordo com a categoria.',
         compute='_compute_evento_esocial',
+        store=True,
     )
     salary_unit_code = fields.Char(
         string='Cod. unidade de salario',
