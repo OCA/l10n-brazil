@@ -361,6 +361,10 @@ class NFe200(FiscalDocument):
             self.det.prod.cProd.valor = invoice_line.code or ''
             self.det.prod.xProd.valor =\
                 invoice_line.name[:120] or ''
+            self.det.prod.cEAN.valor =\
+                invoice_line.fiscal_uom_ean or 'SEM GTIN'
+            self.det.prod.cEANTrib.valor =\
+                invoice_line.fiscal_uom_ean or 'SEM GTIN'
 
         self.det.prod.NCM.valor = punctuation_rm(
             invoice_line.fiscal_classification_id.code or '')[:8]
