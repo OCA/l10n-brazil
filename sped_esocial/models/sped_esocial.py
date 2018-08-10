@@ -859,6 +859,9 @@ class SpedEsocial(models.Model):
             if matriz.id not in empresas:
                 empresas.append(matriz.id)
 
+            # Popula a lista dos registros deste movimento
+            s1210s = []
+
             # separa somente os trabalhadores com contrato válido neste período e nesta empresa matriz
             # servidores_com_contrato = []
             for beneficiario in beneficiarios:
@@ -943,28 +946,21 @@ class SpedEsocial(models.Model):
                                         (6, 0, payslips.ids)]})
 
                             s1210 = self.env['sped.esocial.pagamento'].create(vals)
-
-                    else:
-                        s1210.contract_ids = [(6, 0, contratos.ids)]
-
-                        if beneficiario.tipo != 'autonomo':
-                            s1210.payslip_ids = [(6, 0, payslips.ids)]
                         else:
-                            s1210.contract_ids = [(6, 0, contratos.ids)]
-
                             if beneficiario.tipo != 'autonomo':
                                 s1210.payslip_ids = [(6, 0, payslips.ids)]
+                                s1210.payslip_autonomo_ids = [(5, 0, 0)]
                             else:
+                                s1210.payslip_ids = [(5, 0, 0)]
                                 s1210.payslip_autonomo_ids = [(6, 0, payslips.ids)]
 
-                        # Relaciona o s1210 com o período do e-Social
-                        self.pagamento_ids = [(4, s1210.id)]
-
-                        # Cria o registro de transmissão sped (se ainda não existir)
+                        # Atualiza o registro de transmissão e a lista de registros S-1210 deste período
                         s1210.atualizar_esocial()
-                else:
+                        s1210s.append(s1210.id)
 
-                    # Se não tem contrato válido, remove o registro S-1210 (se existir)
+                if not contratos_validos or not payslips:
+
+                    # Se não tem contrato válido ou nenhum payslips, remove o registro S-1210 (se existir)
                     domain = [
                         ('company_id', '=', matriz.id),
                         ('beneficiario_id', '=', beneficiario.id),
@@ -975,14 +971,13 @@ class SpedEsocial(models.Model):
                         s1210.sped_registro.unlink()
                         s1210.unlink()
 
+            # Popula os pagamentos no período do e-social
+            self.pagamento_ids = [(6, 0, s1210s)]
+
     # Controle de registros S-1299
     fechamento_ids = fields.Many2many(
         string='Fechamento',
         comodel_name='sped.esocial.fechamento',
-    )
-    msg_remuneracao_rpps = fields.Char(
-        string='Remunerações RPPS',
-        compute='compute_msg_remuneracao_rpps',
     )
 
     @api.depends('remuneracao_rpps_ids')
@@ -1082,33 +1077,11 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         if self.empregador_ids:
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', '=', self.company_id.id),
-            ])
-
-            # Popula os registros S-2200 já existentes
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', '=', self.company_id.id),
-            ])
-
-            # Popula os registros S-2200 já existentes
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', '=', self.company_id.id),
-            ])
-
-            # Popula os registros S-2200 já existentes
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', '=', self.company_id.id),
-            ])
-
             # Lista todos os contratos que deveriam estar ativos no e-Social
             empresas = self.env['res.company'].search([
                 '|',
                 ('id', '=', self.company_id.id),
                 ('matriz', '=', self.company_id.id),
-            ])
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', 'in', empresas.ids),
             ])
             contrato_ids = self.env['hr.contract'].search([
                 ('date_start', '<=', self.periodo_id.date_stop),
@@ -1121,53 +1094,15 @@ class SpedEsocial(models.Model):
             for contrato in contrato_ids:
 
                 # Só pega os contratos que não foram encerrados antes do início deste período
-                if contrato.date_end <= self.periodo_id.date_start:
-
-                    # Se este contrato não tem um S-2200 criado, então cria
-                    if contrato.id not in admissao_ids.ids:
-
-                        # Cria o S-2200
-                        contrato.ativar_contrato_s2200()
-
-            # Re-popula os registros S-2200 já existentes
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', '=', self.company_id.id),
-            ])
-
-            # Popula os registros S-2200 já existentes
-            # Lista todos os contratos que deveriam estar ativos no e-Social
-            empresas = self.env['res.company'].search([
-                '|',
-                ('id', '=', self.company_id.id),
-                ('matriz', '=', self.company_id.id),
-            ])
-            admissao_ids = self.env['sped.esocial.contrato'].search([
-                ('company_id', 'in', empresas.ids),
-            ])
-            contrato_ids = self.env['hr.contract'].search([
-                ('date_start', '<=', self.periodo_id.date_stop),
-                # ('tipo', '!=', 'autonomo'),
-                ('company_id', 'in', empresas.ids),
-                ('evento_esocial', '=', 's2200'),
-            ])
-
-            # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
-            for contrato in contrato_ids:
-
-                # Só pega os contratos que não foram encerrados antes do início deste período
                 if not contrato.date_end or contrato.date_end >= self.periodo_id.date_start:
 
-                    # Se este contrato não tem um S-2200 criado, então cria
-                    if contrato.id not in admissao_ids.ids:
+                    # Cria o S-2200 (se já não existir)
+                    contrato.ativar_contrato_s2200()
 
-                        # Cria o S-2200
-                        contrato.ativar_contrato_s2200()
-
-            # Re-popula os registros S-2200 já existentes
+            # Popula os registros S-2200 já existentes
             admissao_ids = self.env['sped.esocial.contrato'].search([
                 ('company_id', '=', self.company_id.id),
             ])
-
             self.admissao_ids = [(6, 0, admissao_ids.ids)]
 
     # Controle de registros S-2205
