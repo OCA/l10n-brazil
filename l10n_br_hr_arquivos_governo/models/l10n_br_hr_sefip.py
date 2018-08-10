@@ -1575,7 +1575,7 @@ class L10nBrSefip(models.Model):
         if codigo_categoria not in (
                 '06', '13', '14', '15', '16', '17', '18', '22', '23',
                 '24', '25'):
-            sefip.matricula_trabalhador = folha.employee_id.registration or ''
+            sefip.matricula_trabalhador = folha.contract_id.matricula or ''
 
         if codigo_categoria in ('01', '03', '04', '06', '07', '26'):
             sefip.num_ctps = folha.employee_id.ctps or ''
