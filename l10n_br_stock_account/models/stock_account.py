@@ -63,6 +63,18 @@ class StockPicking(models.Model):
         result['fiscal_category_id'] = picking.fiscal_category_id.id
         result['fiscal_position'] = picking.fiscal_position.id
 
+        if not picking.fiscal_category_id.property_journal.revenue_expense:
+            result['partner_bank_id'] = False
+            result['payment_mode_id'] = False
+            result['payment_term'] = False
+            result['type_nf_payment'] = '90'
+        else:
+            if picking.sale_id and picking.sale_id.payment_mode_id:
+                result['type_nf_payment'] = (
+                    picking.sale_id.payment_mode_id.type_nf_payment)
+            else:
+                result['type_nf_payment'] = '99'
+
         if picking.fiscal_category_id.journal_type in ('sale_refund',
                                                        'purchase_refund'):
             result['nfe_purpose'] = '4'
