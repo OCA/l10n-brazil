@@ -52,8 +52,7 @@ class HrEmployee(models.Model):
         #
         # Se a variavel de alteracaocontratual nao for setada validar alteração
         if not self.env.context.get('alteracaocontratual'):
-            for dict_key in ['work_location', 'job_id',
-                             'registration', 'manager']:
+            for dict_key in ['work_location', 'job_id','manager']:
                 if dict_key in vals:
                     # Se a variavel nao foi setada ainda, permitir setar via
                     # cadastro de contratoss, se ja estiver definida disparar
