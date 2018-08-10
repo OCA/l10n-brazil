@@ -555,3 +555,17 @@ class SpedLote(models.Model, ):
         anexo = self.env['ir.attachment'].create(dados)
 
         return anexo
+
+    @api.model
+    def consultar_lotes_transmitidos(self):
+
+        # Identifica todos os lotes já transmitidos que precisem ser consultados
+        lotes = self.env['sped.lote'].search([
+            ('situacao', '=', 2),
+        ])
+
+        # Executa a consulta
+        for lote in lotes:
+            lote.consultar()
+
+        return True
