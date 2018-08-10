@@ -220,6 +220,12 @@ class SaleOrder(models.Model):
         result['comment'] = " - ".join(comment)
         result['fiscal_comment'] = " - ".join(fiscal_comment)
         result['fiscal_category_id'] = fiscal_category_id
+        if order.payment_mode_id.type_nf_payment:
+            result['type_nf_payment'] = order.payment_mode_id.type_nf_payment
+        else:
+            result['type_nf_payment'] = '99'
+        if not order.fiscal_category_id.property_journal.revenue_expense:
+            result['type_nf_payment'] = '90'
 
         return result
 
