@@ -196,6 +196,32 @@ class SpedRegistro(models.Model):
         compute='_compute_lote',
     )
 
+    # # Controle de Retificação
+    pode_retificar = fields.Boolean(
+        string='Pode Retificar ?',
+        compute='_compute_pode_retificar',
+    )
+    # retificacao_ids = fields.Many2many(
+    #     string='Retificações',
+    #     comodel_name='sped.registro',
+    #     relation='retificacao_registro'
+    # )
+    retificado_id = fields.Many2one(
+        string='Registro Retificado',
+        comodel_name='sped.registro',
+    )
+
+    @api.multi
+    def _compute_pode_retificar(self):
+        for registro in self:
+            pode_retificar = False
+            if registro.registro in [
+                'S-1200', 'S-1202', 'S-1207', 'S-1210', 'S-2200', 'S-2205',
+                'S-2206', 'S-2230', 'S-2299', 'S-2300', 'S-2306', 'S-2399'
+            ]:
+                pode_retificar = True
+            registro.pode_retificar = pode_retificar
+
     @api.depends('registro', 'codigo', 'origem')
     def _compute_name(self):
         for registro in self:
@@ -284,6 +310,11 @@ class SpedRegistro(models.Model):
             # Não permite excluir se a situação não for '1-Pendente' ou '3-Erro(s)'
             if registro.situacao not in ['1', '3']:
                 raise ValidationError("Não pode excluir registros que não estejam Pendente(s) !")
+
+            # Se esse é um registro de retificação, então voltar a situação do registro retificado original para
+            # "Sucesso"
+            if self.retificado_id:
+                self.retificado_id.situacao = '4'
 
             # Exclui
             super(SpedRegistro, registro).unlink()
@@ -521,5 +552,41 @@ class SpedRegistro(models.Model):
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
+        # Se esse registro é uma retificação de outro, muda o status do registro retificado para "Retificado"
+        if self.retificado_id:
+            self.retificado_id.situacao = '6'
+
         # Chama o método retorno_sucesso do registro de origem
         self.origem_intermediario.retorno_sucesso(evento)
+
+    # Cria uma retificação deste registro
+    def retificar(self):
+        self.ensure_one()
+
+        # Verifica se já não tem um registro de retificação pendente transmissão para este registro
+        retificacao_id = self.env['sped.registro'].search([
+            ('retificado_id', '=', self.id),
+            ('situacao', 'in', ['1', '3']),
+        ])
+
+        if not retificacao_id:
+            # Cria o registro de retificação
+            vals = {
+                'tipo': self.tipo,
+                'registro': self.registro,
+                'evento': self.evento,
+                'operacao': 'R',  # Retificação
+                'ambiente': self.ambiente,
+                'origem': self.origem,
+                'origem_intermediario': self.origem_intermediario,
+                'company_id': self.company_id.id,
+                'retificado_id': self.id,
+            }
+            retificacao_id = self.env['sped.registro'].create(vals)
+
+            # Relaciona a retificação com este registro
+            self.retificacao_ids = [(4, retificacao_id)]
+
+            # Muda a situação deste registro para 'Precisa Retificar' até que o registro de retificação seja transmitido
+            # com sucesso
+            self.situacao = '5'

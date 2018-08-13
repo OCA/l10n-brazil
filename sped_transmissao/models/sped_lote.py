@@ -6,11 +6,13 @@
 import base64
 import tempfile
 from datetime import datetime
-
+import logging
 import pysped
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
+
+_logger = logging.getLogger(__name__)
 
 
 class SpedLote(models.Model, ):
@@ -317,7 +319,7 @@ class SpedLote(models.Model, ):
 
             # Atualiza o status do evento
             if self.tipo == 'esocial':
-                if evento.codigo_retorno == '201':
+                if evento.codigo_retorno in ['201', '202']:
                     registro.recibo = evento.recibo
                     registro.hash = evento.hash
                     registro.situacao = '4'
@@ -567,5 +569,9 @@ class SpedLote(models.Model, ):
         # Executa a consulta
         for lote in lotes:
             lote.consultar()
+
+        if lotes:
+            msg = "{} Lotes SPED Consultados".format(len(lotes))
+            _logger.info(msg)
 
         return True
