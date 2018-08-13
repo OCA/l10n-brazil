@@ -288,24 +288,24 @@
                                     <!--</field>-->
                                 </group>
                             </page>
-                            <page name="s1299" string="Fechamento (S-1299)">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_remuneracoes_rpps" type="object" string="Calcular" />
-                                        </div>
-                                    </group>
-                                    <separator string="Remuneração de Servidor vinculado ao RPPS" />
-                                    <field name="remuneracao_rpps_ids" readonly="1" nolabel="1" colspan="4">
-                                        <tree string="S-1202 (Remunerações RPPS)">
-                                            <field name="servidor_id"/>
-                                            <field name="contratos" />
-                                            <field name="remuneracoes" />
-                                            <field name="situacao_esocial"/>
-                                        </tree>
-                                    </field>
-                                </group>
-                            </page>
+                            <!--<page name="s1299" string="Fechamento (S-1299)">-->
+                                <!--<group colspan="4" col="4">-->
+                                    <!--<group colspan="2" col="1">-->
+                                        <!--<div class="oe_title">-->
+                                            <!--<button name="importar_remuneracoes_rpps" type="object" string="Calcular" />-->
+                                        <!--</div>-->
+                                    <!--</group>-->
+                                    <!--<separator string="Remuneração de Servidor vinculado ao RPPS" />-->
+                                    <!--<field name="remuneracao_rpps_ids" readonly="1" nolabel="1" colspan="4">-->
+                                        <!--<tree string="S-1202 (Remunerações RPPS)">-->
+                                            <!--<field name="servidor_id"/>-->
+                                            <!--<field name="contratos" />-->
+                                            <!--<field name="remuneracoes" />-->
+                                            <!--<field name="situacao_esocial"/>-->
+                                        <!--</tree>-->
+                                    <!--</field>-->
+                                <!--</group>-->
+                            <!--</page>-->
                             <!--<page name="s1210" string="S-1210">-->
                                 <!--<group colspan="4" col="4">-->
                                     <!--<group colspan="2" col="1">-->
@@ -324,22 +324,22 @@
                                     <!--</field>-->
                                 <!--</group>-->
                             <!--</page>-->
-                            <!--<page name="s1299" string="S-1299">-->
-                                <!--<group colspan="4" col="4">-->
-                                    <!--<group colspan="2" col="1">-->
-                                        <!--<div class="oe_title">-->
-                                            <!--<button name="importar_fechamentos" type="object" string="Calcular" />-->
-                                        <!--</div>-->
-                                    <!--</group>-->
-                                    <!--<separator string="Fechamento dos Eventos Periódicos" />-->
-                                    <!--<field name="fechamento_ids" readonly="1" nolabel="1" colspan="4">-->
-                                        <!--<tree string="S-1299 (Fechamento)">-->
-                                            <!--<field name="codigo"/>-->
-                                            <!--<field name="situacao_esocial"/>-->
-                                        <!--</tree>-->
-                                    <!--</field>-->
-                                <!--</group>-->
-                            <!--</page>-->
+                            <page name="fechamento" string="Fechamento">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_fechamentos" type="object" string="Calcular" />
+                                        </div>
+                                    </group>
+                                    <separator string="Fechamento dos Eventos Periódicos" />
+                                    <field name="fechamento_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree string="S-1299 (Fechamento)">
+                                            <field name="codigo"/>
+                                            <field name="situacao_esocial"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
                             <page name="registros" string="Registros e-Social">
                                 <group colspan="4" col="4">
                                     <field name="registro_ids" readonly="1" nolabel="1" colspan="4"/>

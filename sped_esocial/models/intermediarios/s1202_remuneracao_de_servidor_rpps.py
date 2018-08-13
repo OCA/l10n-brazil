@@ -111,7 +111,7 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
             self.sped_registro = sped_registro
 
     @api.multi
-    def popula_xml(self, ambiente='2', operacao='I'):
+    def popula_xml(self, ambiente='2', operacao='na'):
         self.ensure_one()
 
         # Cria o registro
@@ -120,8 +120,11 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
         S1202.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideEvento
-        S1202.evento.ideEvento.indRetif.valor = '1'  # TODO Criar meio de enviar um registro retificador
-        # S1202.evento.ideEvento.nrRecibo.valor = '' # Recibo só quando for retificação
+        indRetif = '1'
+        if operacao == 'R':
+            indRetif = '2'
+            S1202.evento.ideEvento.nrRecibo.valor = self.sped_registro.retificado_id.recibo
+        S1202.evento.ideEvento.indRetif.valor = indRetif
         S1202.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
                                                         # '1' - Mensal
                                                         # '2' - Anual (13º salário)

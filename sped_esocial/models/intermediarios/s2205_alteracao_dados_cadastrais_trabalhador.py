@@ -102,7 +102,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             self.sped_alteracao = sped_alteracao
 
     @api.multi
-    def popula_xml(self, ambiente='2', operacao='I'):
+    def popula_xml(self, ambiente='2', operacao='na'):
         """
         Função para popular o xml com os dados referente a alteração de
         dados cadastrais do funcionário
@@ -117,6 +117,9 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             empregado_id.company_id.cnpj_cpf
         )[0:8]
         S2205.evento.ideEvento.indRetif.valor = '1'
+        if operacao == 'R':  # Retificação
+            S2205.evento.ideEvento.indRetif.valor = '2'
+            S2205.evento.ideEvento.nrRecibo.valor = self.sped_alteracao.recibo
         S2205.evento.ideEvento.tpAmb.valor = int(ambiente)
         S2205.evento.ideEvento.procEmi.valor = '1'
         S2205.evento.ideEvento.verProc.valor = '8.0'

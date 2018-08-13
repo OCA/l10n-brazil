@@ -156,7 +156,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             self.sped_retificacao_ids = [(4, sped_retificacao.id)]
 
     @api.multi
-    def popula_xml(self, ambiente='2', operacao='I'):
+    def popula_xml(self, ambiente='2', operacao='na'):
         """
         Função para popular o xml com os dados referente a alteração de
         dados contratuais
@@ -171,6 +171,9 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             contrato_id.company_id.cnpj_cpf
         )[0:8]
         S2206.evento.ideEvento.indRetif.valor = '1'
+        if operacao == 'R':  # Retificação
+            S2206.evento.ideEvento.indRetif.valor = '2'
+            S2206.evento.ideEvento.nrRecibo.valor = self.sped_alteracao.recibo
         S2206.evento.ideEvento.tpAmb.valor = int(
             contrato_id.company_id.esocial_tpAmb
         )

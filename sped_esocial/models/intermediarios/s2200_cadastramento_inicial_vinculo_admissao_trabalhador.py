@@ -113,7 +113,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             record.name = 'S-2200 - Admissão {}'.format(record.hr_contract_id.display_name or '')
 
     @api.multi
-    def popula_xml(self, ambiente='2', operacao='I'):
+    def popula_xml(self, ambiente='2', operacao='na'):
         """
         Função para popular o xml com os dados referente ao desligamento de
         um contrato de trabalho
