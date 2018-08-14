@@ -11,7 +11,6 @@
                 <field name="arch" type="xml">
                 <form string="Substituicao">
                     <header>
-                        <field name="state" widget="statusbar" select="1"/>
                     </header>
                     <sheet string="Substituição de Funcionários">
 

@@ -23,14 +23,6 @@ class L10nBrHrSubstituicao(models.Model):
         compute='_compute_name',
     )
 
-    state = fields.Selection(
-        selection=[
-            ('draft', 'Draft'),
-            ('done', 'Done'),
-        ],
-        string='Status',
-    )
-
     department_id = fields.Many2one(
         comodel_name='hr.department',
         string='Departamento',
@@ -58,13 +50,6 @@ class L10nBrHrSubstituicao(models.Model):
     data_fim = fields.Date(
         string='Data Fim',
         help='Data de Fim da substituição',
-    )
-
-    origem = fields.Reference(
-        string='Modelo de Origem',
-        selection=[
-            ('hr.holiday', 'Ocorrências')
-        ],
     )
 
     holiday_id = fields.Many2one(
