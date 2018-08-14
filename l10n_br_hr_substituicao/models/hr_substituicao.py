@@ -2,9 +2,9 @@
 # Copyright 2018 ABGF - Hendrix Costa <hendrix.costa@abgf.gov.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
 import logging
 
+from openerp import api, fields, models
 
 _logger = logging.getLogger(__name__)
 try:
@@ -53,7 +53,7 @@ class L10nBrHrSubstituicao(models.Model):
     )
 
     holiday_id = fields.Many2one(
-        comodel_name='hr.holiday',
+        comodel_name='hr.holidays',
         string='Ocorrência',
         help='Ocorrência que originou a substituição',
         ondelete='cascade',
