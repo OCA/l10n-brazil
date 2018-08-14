@@ -71,5 +71,8 @@ class L10nBrHrSubstituicao(models.Model):
     def _compute_name(self):
         for subs in self:
             if subs.data_inicio and subs.data_fim:
-                subs.name = 'Substituição {} - {}'.format(
-                    formata_data(subs.data_inicio), formata_data(subs.data_fim))
+                subs.name = 'Substituição {} {} - {}'.format(
+                    subs.department_id.name,
+                    formata_data(subs.data_inicio),
+                    formata_data(subs.data_fim)
+                )
