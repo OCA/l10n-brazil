@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -588,6 +589,8 @@ class SpedEsocial(models.Model):
             for trabalhador in trabalhadores:
 
                 # Localiza os contratos válidos deste trabalhador
+                if trabalhador.id == 78:
+                    print('Ernesto')
                 domain = [
                     ('employee_id', '=', trabalhador.id),
                     ('company_id', 'in', empresas),
@@ -614,6 +617,7 @@ class SpedEsocial(models.Model):
                     # Trabalhadores autonomos tem holerite separado
                     if trabalhador.tipo != 'autonomo':
                         # Busca os payslips de pagamento mensal deste trabalhador
+
                         domain_payslip = [
                             ('company_id', 'in', empresas),
                             ('contract_id', 'in', contratos_validos),
@@ -1119,25 +1123,6 @@ class SpedEsocial(models.Model):
         string='Alterações de Trabalhador',
         compute='compute_necessita_s2205',
     )
-    msg_pagamento = fields.Char(
-        string='Pagamentos',
-        compute='compute_msg_pagamento',
-    )
-
-    @api.depends('pagamento_ids')
-    def compute_msg_pagamento(self):
-        for esocial in self:
-            msg_pagamento = 'Nenhum'
-            for pagamento in esocial.pagamento_ids:
-                if pagamento.situacao_esocial in ['1', '3', '5']:
-                    msg_pagamento = 'Há Pendências para Transmistir'
-            if esocial.pagamento_ids:
-                txt = 'Pagamento'
-                if len(esocial.pagamento_ids) > 1:
-                    txt += 's'
-                msg_pagamento = '{} {} - '.format(len(esocial.pagamento_ids), txt) + \
-                    msg_pagamento
-            esocial.msg_pagamento = msg_pagamento
 
     # Calcula se é necessário criar algum registro S-2205
     @api.depends('alteracao_trabalhador_ids')
