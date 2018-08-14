@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import timedelta
+
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning as UserError
 
@@ -144,7 +145,8 @@ class HrHolidays(models.Model):
             ('type', '=', 'remove'),
         ]
 
-        clause_1 = [('data_inicio', '>=', data_from), ('data_inicio', '<=', data_to)]
+        clause_1 = [
+            ('data_inicio', '>=', data_from), ('data_inicio', '<=', data_to)]
         holidays_1_ids = self.env['hr.holidays'].search(domain + clause_1)
 
         clause_2 = [('data_fim', '>=', data_from), ('data_fim', '<=', data_to)]
