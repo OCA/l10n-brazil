@@ -31,6 +31,8 @@ openerp.l10n_br_tef = function(instance){
     var payment_type;
     var payment_name;
 
+    var dev_mode = false;
+
     var card_number = "5442556260904012";
     var card_expiring_date = "03/19";
     var card_security_code = "624";
@@ -163,6 +165,8 @@ openerp.l10n_br_tef = function(instance){
             ls_transaction_global_value = $('.paymentline-input')[1]['value'].replace(',', '.');
 
             collect('');
+
+            this.screenPopupPagamento('Iniciando a Operação');
 
             // Reset the Value
             ls_transaction_global_value = "";
@@ -315,13 +319,6 @@ openerp.l10n_br_tef = function(instance){
         send('servico="finalizar"sequencial="'+sequential()+'"retorno="1"');
     }
 
-    function abort()
-	{
-		setTimeout(function(){
-                    send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
-		}, 1000);
-	}
-
     function sequential()
     {
         // Increments the senquential..
@@ -379,7 +376,7 @@ openerp.l10n_br_tef = function(instance){
                     $(".disconnected").removeClass("oe_hidden");
                     connect_init = false;
                     io_connection.close();
-                    abort();
+                    self.abort();
                 };
 
                 /**
@@ -422,9 +419,13 @@ openerp.l10n_br_tef = function(instance){
                         if(self.check_completed_start()) return;
 
                         // Credit without PinPad
-                        if(self.check_completed_start_execute()) return;
-                        if(check_completed_send_card_number()) return;
-                        if(check_completed_send_expiring_date()) return;
+                        // Only works if dev_mode is true
+                        if(dev_mode){
+                            if(self.check_completed_start_execute()) return;
+                            if(check_completed_send_card_number()) return;
+                            if(check_completed_send_expiring_date()) return;
+                        }
+
                         if(self.check_completed_send_security_code()) return;
                         if(self.check_authorized_operation()) return;
 
@@ -474,7 +475,7 @@ openerp.l10n_br_tef = function(instance){
 
         check_removed_card: function(){
             var self = this;
-            if((io_tags.servico == "executar") && (io_tags.mensagem == "Transacao autorizada, RETIRE O CARTAO")){
+            if((io_tags.servico == "executar") && (io_tags.mensagem && io_tags.mensagem.indexOf("APROVADA, RETIRE O CARTAO") > -1)){
                 confirm(io_tags.sequencial);
 
                 setTimeout(function(){
@@ -504,7 +505,7 @@ openerp.l10n_br_tef = function(instance){
         },
 
         check_approved_transaction: function(){
-            if((io_tags.automacao_coleta_mensagem === "Transacao aprovada.") &&
+            if((io_tags.automacao_coleta_mensagem && io_tags.automacao_coleta_mensagem.indexOf("APROVADA") > -1) &&
                 (io_tags.servico == "") && (io_tags.transacao == "")) {
 
                 this.screenPopupPagamento('Transação Aprovada');
@@ -610,6 +611,20 @@ openerp.l10n_br_tef = function(instance){
             }
         },
 
+        abort: function()
+        {
+            var self = this;
+            setTimeout(function(){
+                    send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
+            }, 1000);
+
+            setTimeout(function(){
+                if (self.pos_widget){
+                    self.pos_widget.popupStatusPagamento.hide()
+                }
+            }, 3000);
+        },
+
         redo_operation: function(sequential_return)
         {
             var self = this;
@@ -628,8 +643,10 @@ openerp.l10n_br_tef = function(instance){
 
                 return true;
             }
-            else if((io_tags.mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
+            else if((io_tags.automacao_coleta_mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
                 this.redo_operation(io_tags.sequencial);
+                return false;
+            } else {
                 return false;
             }
         },
@@ -644,7 +661,7 @@ openerp.l10n_br_tef = function(instance){
         check_completed_start: function(){
             if((io_tags.servico == "iniciar") && (io_tags.retorno == "1") && (io_tags.aplicacao_tela == "VBIAutomationTest")){
                 this.execute();
-                this.screenPopupPagamento('Iniciando Operação');
+                this.screenPopupPagamento('Iniciando a Operação');
                 io_tags.aplicacao_tela = '';
                 return true;
             } else {
@@ -659,10 +676,12 @@ openerp.l10n_br_tef = function(instance){
             // For any other exceptions, just abort the operation
             if((io_tags.automacao_coleta_retorno === "9" && io_tags.automacao_coleta_mensagem === "Fluxo Abortado pelo operador!!")){
                 return true;
-            }else if((io_tags.mensagem || false) && (io_tags.mensagem.startsWith("Sequencial invalido"))){
-                return true;
+            }else if(io_tags.automacao_coleta_mensagem === "Digite o numero do cartao"){
+                this.screenPopupPagamento('Erro - PinPad não conectado!!!');
+                this.abort();
             }else if(io_tags.automacao_coleta_mensagem === "Problema na conexao"){
-                abort();
+                this.screenPopupPagamento('Erro - Problema na Conexão!!!');
+                this.abort();
             }else if((io_tags.automacao_coleta_mensagem || false) && (io_tags.automacao_coleta_mensagem.startsWith("Transacao cancelada"))) {
                 return true;
             }else if(io_tags.automacao_coleta_mensagem === "INSIRA OU PASSE O CARTAO"){
@@ -671,8 +690,13 @@ openerp.l10n_br_tef = function(instance){
                 return true;
             }else if(io_tags.servico === "iniciar"){
                 return true;
+            }else if(io_tags.mensagem && io_tags.mensagem.startsWith("Sequencial invalido") && !io_tags.automacao_coleta_mensagem){
+                return true;
             }else{
-                abort();
+                var message = io_tags.message || io_tags.automacao_coleta_mensagem;
+                if(message)
+                    this.screenPopupPagamento(message);
+                this.abort();
             }
         },
 
@@ -682,7 +706,7 @@ openerp.l10n_br_tef = function(instance){
             var ls_execute_tags = 'servico="executar"retorno="1"sequencial="'+ sequential() +'"';
 
             var ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
-            var ls_product_type = (payment_type === "CD01")? "Debito-Stone" : "Credito-Stone";
+            var ls_product_type = (payment_type === "CD01")? "Debito-Getnetlac" : "Credito-Getnetlac";
             var ls_transaction_type = "Cartao Vender";
             var ls_payment_transaction = "A vista";
 
