@@ -43,9 +43,9 @@
                                 <field name="funcionario_substituto" required="True" options="{'no_quick_create': True, 'no_create_edit': True,'no_edit': True}" colspan="2"/>
                         </group>
 
+                        <separator string="Ocorrência"/>
                         <group>
-                            <separator string="Ocorrência"/>
-                            <field name="holiday_id" />
+                            <field name="holiday_id" nolabel="1"/>
                         </group>
 
                     </sheet>
