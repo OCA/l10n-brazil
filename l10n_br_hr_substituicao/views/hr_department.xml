@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_hr_department_view_form" model="ir.ui.view">
+            <field name="model">hr.department</field>
+            <field name="name">l10n_br.hr.department.view.form</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="manager_substituto_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

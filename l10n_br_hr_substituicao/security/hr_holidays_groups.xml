@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!--regra para te acesso a seus holidays e de seus subordinados
+        Levando em conta possíveis substituições -->
+        <record id="hr_holidays.property_rule_holidays_employee" model="ir.rule">
+            <field name="perm_write" eval="True"/>
+            <field name="domain_force">['|',('employee_id.user_id','=',user.id),('gerente_titular.user_id', '=', user.id)]
+            </field>
+        </record>
+
+        <record id="hr_holidays.property_rule_holidays_employee_write" model="ir.rule">
+            <field name="domain_force">['&amp;', ('state', 'in', ['draft', 'confirm', 'cancel']),
+                '|',('employee_id.user_id','=',user.id),('gerente_titular.user_id', '=', user.id)]
+            </field>
+        </record>
+
+    </data>
+</openerp>
