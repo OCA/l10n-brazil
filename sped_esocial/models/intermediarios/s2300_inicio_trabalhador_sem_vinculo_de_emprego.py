@@ -6,7 +6,7 @@ import pysped
 from openerp import api, models, fields
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
-
+from openerp.exceptions import Warning, ValidationError
 from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 
@@ -45,7 +45,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         ],
         compute="compute_situacao_esocial",
         readonly=True,
-        store=True,
+        # store=True,
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
@@ -314,8 +314,11 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             self.hr_contract_id.employee_id.address_home_id.street2 or ''
         Brasil.bairro.valor = \
             self.hr_contract_id.employee_id.address_home_id.district or ''
+        if not self.hr_contract_id.employee_id.address_home_id.zip:
+            raise Warning('Por favor preencha corretamente o CEP do '
+                          'funcionário {}'.format(self.hr_contract_id.employee_id.name))
         Brasil.cep.valor = limpa_formatacao(
-            self.hr_contract_id.employee_id.address_home_id.zip) or ''
+            self.hr_contract_id.employee_id.address_home_id.zip or '')
         Brasil.codMunic.valor = \
             self.hr_contract_id.employee_id.\
                 address_home_id.l10n_br_city_id.state_id.ibge_code + \
@@ -334,7 +337,12 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 Dependente.tpDep.valor = \
                     dependente.dependent_type_id.code.zfill(2)
                 Dependente.nmDep.valor = dependente.dependent_name
-                Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
+                if dependente.precisa_cpf:
+                    if not dependente.dependent_cpf:
+                        raise ValidationError(
+                            "O trabalhador {} está faltando o CPF de um dependente !".format(
+                                self.hr_contract_id.employee_id.name))
+                    Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
                 Dependente.dtNascto.valor = dependente.dependent_dob
                 Dependente.depIRRF.valor = \
                     'S' if dependente.dependent_verification else 'N'
