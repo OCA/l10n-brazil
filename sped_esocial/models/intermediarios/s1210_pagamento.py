@@ -228,7 +228,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 for line in payslip.line_ids:
 
                     # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
-                    if line.salary_rule_id.cod_inc_irrf_calculado in \
+                    if line.total and line.salary_rule_id.cod_inc_irrf_calculado in \
                             ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
 
                         ret_pgto_tot = pysped.esocial.leiaute.S1210_RetPgtoTot_2()
@@ -257,7 +257,9 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 # Popula a tag detPgtoFer
                 det_pgto_fer = pysped.esocial.leiaute.S1210_DetPgtoFer_2()
                 det_pgto_fer.codCateg.valor = payslip.contract_id.categoria
-                det_pgto_fer.matricula.valor = payslip.contract_id.matricula
+                if payslip.contract_id.evento_esocial == 's2200':
+                    det_pgto_fer.matricula.valor = payslip.contract_id.matricula
+                # det_pgto_fer.matricula.valor = payslip.contract_id.matricula
                 det_pgto_fer.dtIniGoz.valor = payslip.date_from
                 # info_pgto.detPgtoFer.append(det_pgto_fer)
 
