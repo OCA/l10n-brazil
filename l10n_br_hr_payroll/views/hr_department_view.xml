@@ -35,5 +35,19 @@
             </field>
         </record>
 
+        <record id="l10n_br_hr_view_department_filter" model="ir.ui.view">
+            <field name="model">hr.department</field>
+            <field name="name">l10n_br.hr.department.view.search</field>
+            <field name="inherit_id" ref="hr.view_department_filter"/>
+            <field name="arch" type="xml">
+                <field name="manager_id" position="after">
+                    <filter string="Departamentos Ativos"
+                            name="active_departments"
+                            domain="[('state', '=', 'ativo')]"/>
+                    <filter string="Empresa" domain="[]" context="{'group_by':'company_id'}"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>
