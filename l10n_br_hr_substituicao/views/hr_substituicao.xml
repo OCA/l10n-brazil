@@ -15,26 +15,37 @@
                     <sheet string="Substituição de Funcionários">
 
                         <div class="oe_title">
-                            <label for="name" class="oe_edit_only" />
+                            <label for="name" />
                             <h1>
-                                <field name="name" readonly="1"/>
+                                Substituição de Funcionário
                             </h1>
                         </div>
 
+                        <newline/>
+
                         <group colspan="4">
-                            <field name="department_id"  options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                            <label for="department_id" class="oe_edit_only" />
+                            <h2>
+                                <field name="department_id" required="True" options="{'no_quick_create': True, 'no_create_edit': True, 'no_edit': True}"/>
+                            </h2>
                         </group>
 
                         <separator string="Intervalo"/>
-                        <group colspan="3">
-                            <field name="data_inicio" nolabel="1" class="oe_inline"/> até <field name="data_fim" nolabel="1" class="oe_inline"/>
+                        <group>
+                            <field name="data_inicio" nolabel="1" required="True" class="oe_inline"/>
+                            até
+                            <field name="data_fim" nolabel="1" required="True" class="oe_inline"/>
                         </group>
 
                         <separator string="Funcionário"/>
                         <group colspan="4">
-                                <field name="funcionario_titular"  options="{'no_quick_create': True, 'no_create_edit': True}" colspan="2"/>
-                                <field name="funcionario_substituto"  options="{'no_quick_create': True, 'no_create_edit': True}" colspan="2"/>
-                                <!--<field name="origem" />-->
+                                <field name="funcionario_titular" required="True" options="{'no_quick_create': True, 'no_create_edit': True, 'no_edit': True}" colspan="2"/>
+                                <field name="funcionario_substituto" required="True" options="{'no_quick_create': True, 'no_create_edit': True,'no_edit': True}" colspan="2"/>
+                        </group>
+
+                        <group>
+                            <separator string="Ocorrência"/>
+                            <field name="holiday_id" />
                         </group>
 
                     </sheet>
