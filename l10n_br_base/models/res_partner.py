@@ -7,7 +7,7 @@
 import re
 
 from odoo import models, fields, api
-from odoo.addons.l10n_br_base.tools import fiscal
+from ..tools import fiscal
 from odoo.exceptions import ValidationError
 
 
