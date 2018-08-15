@@ -541,11 +541,9 @@ openerp.l10n_br_tef = function(instance){
         check_completed_send_security_code: function(){
             if((io_tags.automacao_coleta_palavra_chave == "transacao_valor") && (io_tags.automacao_coleta_tipo == "N")
                 && (io_tags.automacao_coleta_retorno == "0")){
-                for( var i=0; i < $('.paymentline-input').length; i++){
-                    if($('.paymentline-name')[i].innerText.indexOf(payment_name) != -1)
-                    ls_transaction_global_value = $(".paymentline-input")[i].value.replace(',','.');
-                }
+
                 // Send the value
+                ls_transaction_global_value = this.pos.get('selectedOrder').selected_paymentline.amount
                 collect('');
 
                 // Reset the Value
