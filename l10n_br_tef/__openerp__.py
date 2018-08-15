@@ -18,7 +18,6 @@
     'data': [
         'l10n_br_tef.xml',
         'l10n_br_tef_view.xml',
-        'data/account_journal_data.xml',
         ],
     'qweb': ['static/src/xml/l10n_br_tef.xml'],
 }
