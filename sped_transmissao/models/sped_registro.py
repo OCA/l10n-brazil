@@ -201,11 +201,13 @@ class SpedRegistro(models.Model):
         string='Pode Retificar ?',
         compute='_compute_pode_retificar',
     )
-    # retificacao_ids = fields.Many2many(
-    #     string='Retificações',
-    #     comodel_name='sped.registro',
-    #     relation='retificacao_registro'
-    # )
+    retificacao_ids = fields.Many2many(
+        string='Retificações',
+        comodel_name='sped.registro',
+        relation='retificacao_registro',
+        column1='registro_ids',
+        column2='retificacao_ids',
+    )
     retificado_id = fields.Many2one(
         string='Registro Retificado',
         comodel_name='sped.registro',
@@ -313,8 +315,8 @@ class SpedRegistro(models.Model):
 
             # Se esse é um registro de retificação, então voltar a situação do registro retificado original para
             # "Sucesso"
-            if self.retificado_id:
-                self.retificado_id.situacao = '4'
+            if registro.retificado_id:
+                registro.retificado_id.situacao = '4'
 
             # Exclui
             super(SpedRegistro, registro).unlink()
@@ -560,6 +562,7 @@ class SpedRegistro(models.Model):
         self.origem_intermediario.retorno_sucesso(evento)
 
     # Cria uma retificação deste registro
+    @api.multi
     def retificar(self):
         self.ensure_one()
 
@@ -577,15 +580,15 @@ class SpedRegistro(models.Model):
                 'evento': self.evento,
                 'operacao': 'R',  # Retificação
                 'ambiente': self.ambiente,
-                'origem': self.origem,
-                'origem_intermediario': self.origem_intermediario,
+                'origem': '{},{}'.format(self.origem._model,self.origem.id),
+                'origem_intermediario': '{},{}'.format(self.origem_intermediario._model,self.origem_intermediario.id),
                 'company_id': self.company_id.id,
                 'retificado_id': self.id,
             }
             retificacao_id = self.env['sped.registro'].create(vals)
 
             # Relaciona a retificação com este registro
-            self.retificacao_ids = [(4, retificacao_id)]
+            self.retificacao_ids = [(4, retificacao_id.id)]
 
             # Muda a situação deste registro para 'Precisa Retificar' até que o registro de retificação seja transmitido
             # com sucesso

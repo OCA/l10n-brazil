@@ -45,6 +45,7 @@ class SpedLote(models.Model, ):
             ('1', 'Eventos de Tabela'),
             ('2', 'Eventos Não Periódicos'),
             ('3', 'Eventos Periódicos'),
+            ('4', 'Fechamento'),
         ],
         default='na',
     )
@@ -354,6 +355,10 @@ class SpedLote(models.Model, ):
     def transmitir(self):
         self.ensure_one()
 
+        # Se o lote já foi transmitido, não transmite de novo
+        if self.situacao not in ['1', '3']:
+            return True
+
         # Gravar certificado em arquivo temporario
         arquivo = tempfile.NamedTemporaryFile()
         arquivo.seek(0)
@@ -388,7 +393,8 @@ class SpedLote(models.Model, ):
 
         # Transmite
         if self.grupo != 'na':
-            processo = processador.enviar_lote(eventos, self.grupo)
+            grupo = '3' if self.grupo == '4' else self.grupo
+            processo = processador.enviar_lote(eventos, grupo)
         else:
             processo = processador.enviar_lote(eventos)
 
@@ -559,6 +565,43 @@ class SpedLote(models.Model, ):
         return anexo
 
     @api.model
+    def transmitir_lotes_preparados(self):
+
+        # Identifica se já tem algum lote transmitido, nesse caso, não faça nada pois o e-Social "sugere" que
+        # se transmita apenas 1 lote por vez (apesar que dever ser síncrono)
+        lote_transmitido = self.env['sped.lote'].search([
+            ('situacao', '=', 2),
+        ], limit=1)
+        if lote_transmitido:
+            # msg = "Lote {} está aguardando processamento, não pode transmitir em paralelo".\
+            #     format(lote_transmitido.codigo)
+            # _logger.info(msg)
+            return True
+
+        # Localiza se tem algum lote do grupo 'na' para transmitir (esses devem ser transmitidos primeiro)
+        lote_para_transmitir = self.env['sped.lote'].search([
+            ('grupo', '=', 'na'),
+            ('situacao', '=', '1'),
+        ], limit=1, order='create_date')
+
+        # Se não tem um lote do grupo NA então busca um dos grupos numéricos
+        for x in range(1, 4):
+            if not lote_para_transmitir:
+                lote_para_transmitir = self.env['sped.lote'].search([
+                    ('grupo', '=', str(x)),
+                    ('situacao', '=', '1'),
+                ], limit=1, order='create_date')
+
+        # Transmite o lote identificado
+        if lote_para_transmitir:
+            lote_para_transmitir.transmitir()
+            msg = "Lote {} transmitido".format(lote_para_transmitir.codigo)
+            _logger.info(msg)
+        # else:
+        #     msg = "Nenhum Lote SPED para ser transmitido no momento."
+        #     _logger.info(msg)
+
+    @api.model
     def consultar_lotes_transmitidos(self):
 
         # Identifica todos os lotes já transmitidos que precisem ser consultados
@@ -569,9 +612,7 @@ class SpedLote(models.Model, ):
         # Executa a consulta
         for lote in lotes:
             lote.consultar()
-
-        if lotes:
-            msg = "{} Lotes SPED Consultados".format(len(lotes))
+            msg = "Lote {} Consultado - (Resposta: {}-{}".format(lote.codigo, lote.cd_resposta, lote.desc_resposta)
             _logger.info(msg)
 
         return True

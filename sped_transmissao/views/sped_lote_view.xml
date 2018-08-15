@@ -178,6 +178,19 @@
             <field name="prefix">SPED-LOTE-</field>
         </record>
 
+        <!-- Cron para transmitir lotes -->
+        <record model="ir.cron" id="sped_lote_transmite_cron">
+            <field name="name">Transmitir Lotes SPED</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'sped.lote'" />
+            <field name="function" eval="'transmitir_lotes_preparados'" />
+            <field name="args" eval="" />
+        </record>
+
         <!-- Cron para consulta dos lotes transmitidos -->
         <record model="ir.cron" id="sped_lote_consulta_cron">
             <field name="name">Consultar Lotes SPED Transmitidos</field>

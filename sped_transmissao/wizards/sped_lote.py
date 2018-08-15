@@ -53,11 +53,13 @@ GRUPO_3 = [
     'S-1270',   # Contratação de Trabalhadores Avulsos Não Portuários
     'S-1280',   # Informações Complementares aos Eventos Periódicos
     'S-1295',   # Solicitação de Totalização para Pagamento em Contingência
+    'S-1300',   # Contribuição Sindical Patronal
+]   # 102 Registros
+
+GRUPO_4 = [
     'S-1298',   # Reabertura dos Eventos Periódicos
     'S-1299',   # Fechamento dos Eventos Periódicos
-    'S-1300',   # Contribuição Sindical Patronal
-]   # 12 Registros
-
+]   # 2 Registros
 # Total 42 Registros
 
 
@@ -81,6 +83,8 @@ class SpedCriacaoWizard(models.TransientModel):
                 lote.unlink()
             wizard.unlink()
 
+        # Se o parâmetro 'ids' foi passado significa que o método foi chamado por fora do wizard, nesse caso
+        # usa a lista de ids como parâmetro dos ids ao inves dos active_ids no contexto.
         registros_originais = self.env['sped.registro'].browse(self.env.context.get('active_ids'))
 
         # Elimina da lista registros já transmitidos e/ou em outros lotes pendentes transmissão ou retorno
@@ -155,11 +159,15 @@ class SpedCriacaoWizard(models.TransientModel):
             grupo = '2'
         elif registro.registro in GRUPO_3:
             grupo = '3'
+        elif registro.registro in GRUPO_4:
+            grupo = '4'
         return grupo
 
     @api.multi
     def criar_lotes(self):
         self.ensure_one()
+
+        lotes = []
 
         for lote in self.lote_ids:
             vals = {
@@ -168,12 +176,15 @@ class SpedCriacaoWizard(models.TransientModel):
                 'company_id': lote.company_id.id,
                 'grupo': lote.grupo,
                 'situacao': '1',
+                # 'lote_ids': [(6, 0, lote.registro_ids.ids)]
             }
             novo_lote = self.env['sped.lote'].create(vals)
+            # novo_lote.lote_ids = [(6, 0, lote.registro_ids.ids)]
             for registro in lote.registro_ids:
                 registro.lote_ids = [(4, novo_lote.id)]
+            lotes.append(novo_lote.id)
 
-        return True
+        return lotes
 
 
 class SpedLoteWizard(models.TransientModel):
@@ -198,6 +209,7 @@ class SpedLoteWizard(models.TransientModel):
             ('1' , 'Eventos de Tabela'),
             ('2' , 'Eventos Não Periódicos'),
             ('3' , 'Eventos Periódicos'),
+            ('4' , 'Fechamento'),
         ],
         default='na',
     )

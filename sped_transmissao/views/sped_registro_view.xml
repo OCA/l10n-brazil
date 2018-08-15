@@ -10,16 +10,13 @@
                     <field name="transmissao_lote" invisible="1" />
                     <field name="pode_retificar" invisible="1" />
                     <header>
-                        <!--<button name="gera_xml" type="object" string="Transmitir (não usar)" class="oe_highlight"-->
-                                <!--attrs="{'invisible': ['|', ('situacao', 'in', ['2', '4']), ('transmissao_lote', '=', True)]}"-->
-                        <!--/>-->
                         <button name="transmitir_lote" type="object" string="Transmitir" class="oe_highlight"
-                                attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}" />
+                                attrs="{'invisible': [('situacao', 'not in', ['1', '3'])]}" />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
                                 attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"
                         />
                         <button name="retificar" type="object" string="Retificar"
-                                attrs="{'invisible': ['|', '|', ('pode_retificar', '=', False), ('situacao', 'not in', ['4', '5']), ('operacao', '=', 'R')]}" />
+                                attrs="{'invisible': ['|', '|', ('pode_retificar', '=', False), ('situacao', 'not in', ['4']), ('operacao', '=', 'R')]}" />
                         <button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"
                                 attrs="{'invisible': ['|', '|', ('registro', '!=', 'R-2099'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"
                         />
@@ -92,12 +89,12 @@
                                     </group>
                                 </group>
                             </page>
-                            <!--<page name="retificacao" string="Retificações" attrs="{'invisible': [('retificacao_ids', '=', False)]}">-->
-                                <!--<group colspan="4" col="1">-->
-                                    <!--<separator colspan="1" string="Registros de Retificações" />-->
-                                    <!--<field name="retificacao_ids" colspan="1" nolabel="1" readonly="1"/>-->
-                                <!--</group>-->
-                            <!--</page>-->
+                            <page name="retificacao" string="Retificações" attrs="{'invisible': [('retificacao_ids', '=', False)]}">
+                                <group colspan="4" col="1">
+                                    <separator colspan="1" string="Registros de Retificações" />
+                                    <field name="retificacao_ids" colspan="1" nolabel="1" readonly="1"/>
+                                </group>
+                            </page>
                             <page name="lotes" string="Lote(s)">
                                 <group colspan="4" col="1">
                                     <separator colspan="1" string="Lotes de Transmissão" />
