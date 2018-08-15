@@ -119,8 +119,8 @@
             <field name="arch" type="xml">
                 <tree string="Recibo de Pagamento a Autônomoa">
                     <field name="contract_id"/>
-                    <field name="mes_do_ano"/>
                     <field name="state"/>
+                    <field name="mes_do_ano"/>
                     <field name="company_id"/>
                 </tree>
             </field>
