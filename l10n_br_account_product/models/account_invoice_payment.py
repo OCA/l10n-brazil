@@ -83,6 +83,14 @@ class AccountInvoicePayment(models.Model):
         string='Duplicatas',
     )
 
+    def _set_parent(self, field_parent, field_parent_id):
+        date = False
+
+        if field_parent == 'invoice_id':
+            date = field_parent_id.date_invoice
+            self.invoice_id = field_parent_id
+        return date
+
     @api.onchange('payment_term_id', 'amount', 'item_ids')
     def _onchange_payment_term_id(self):
 
@@ -93,12 +101,9 @@ class AccountInvoicePayment(models.Model):
         field_parent = self.env.context.get('field_parent')
         field_parent_id = getattr(self, field_parent)
 
-        if field_parent == 'invoice_id':
-            date = field_parent_id.date_invoice
-            self.invoice_id = field_parent_id
-        # TODO: Implementar para vendas e compras
+        date = self._set_parent(field_parent, field_parent_id)
 
-        pterm_list = self.payment_term_id.compute(self.amount, date)[0]
+        pterm_list = self.payment_term_id.compute(self.amount, date[:10])[0]
 
         self.forma_pagameto = self.payment_term_id.forma_pagamento
 
