@@ -185,6 +185,16 @@ class SaleOrder(models.Model):
         compute=_get_costs_value, inverse=_set_amount_insurance,
         string='Seguro', default=0.00, digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]})
+    account_payment_ids = fields.One2many(
+        string='Dados de Pagamento',
+        comodel_name='account.invoice.payment',
+        inverse_name='sale_id',
+    )
+    account_payment_line_ids = fields.One2many(
+        string='Dados da cobrança',
+        comodel_name='account.invoice.payment.line',
+        inverse_name='sale_id',
+    )
 
     def _fiscal_comment(self, cr, uid, order, context=None):
         fp_comment = []

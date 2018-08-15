@@ -14,6 +14,8 @@
         'l10n_br_account_product',
     ],
     'data': [
+        'views/account_invoice_payment_line.xml',
+        'views/account_invoice_payment.xml',
         'views/sale_view.xml',
         'views/res_company_view.xml',
         'data/l10n_br_sale_product_data.xml',

@@ -33,6 +33,17 @@
                         </page>
                     </notebook>
                 </xpath>
+                <xpath expr="//page[@string='Other Information']" position="before">
+                    <page name="financeiro" string="Financeiro">
+                            <group string="Dados de Pagamento">
+                                <field name="account_payment_ids" nolabel="1" colspan="4"/>
+                            </group>
+                            <group string="Dados da cobrança">
+                                <field name="account_payment_line_ids" nolabel="1" editable="false"/>
+                            </group>
+                    </page>
+                </xpath>
+
             </field>
         </record>
 

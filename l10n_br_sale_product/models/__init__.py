@@ -4,3 +4,5 @@
 
 from . import res_company
 from . import sale
+from . import account_invoice_payment
+from . import account_invoice_payment_line
