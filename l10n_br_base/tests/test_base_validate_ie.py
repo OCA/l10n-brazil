@@ -3,7 +3,7 @@
 #   Clément Mombereau <clement.mombereau@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.addons.l10n_br_base.tools.fiscal import validate_ie
+from ..tools.fiscal import validate_ie
 from odoo.tests.common import TransactionCase
 
 # Create a dictionary with a list of invalid inscr_est for each state
