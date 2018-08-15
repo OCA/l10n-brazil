@@ -7,6 +7,7 @@ from openerp import api, models, fields
 from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
+from pybrasil.valor import formata_valor
 import pysped
 
 
@@ -120,6 +121,30 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
             desligamento.situacao_esocial = situacao_esocial
 
     @api.multi
+    def gerar_registro(self):
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-2299',
+            'ambiente': self.company_id.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtDeslig',
+            'origem': (
+                    'hr.payslip,%s' %
+                    self.sped_hr_rescisao_id.id),
+            'origem_intermediario': (
+                    'sped.hr.rescisao,%s' % self.id),
+        }
+        if not self.sped_s2299_registro_inclusao:
+            # Cria o registro de envio
+            sped_inclusao = self.env['sped.registro'].create(values)
+            self.sped_s2299_registro_inclusao = sped_inclusao
+        elif self.precisa_atualizar:
+            # Cria o registro de Retificação
+            values['operacao'] = 'R'
+            sped_retificacao = self.env['sped.registro'].create(values)
+            self.sped_s2299_registro_retificacao = [(4, sped_retificacao.id)]
+
+    @api.multi
     def _compute_display_name(self):
         for record in self:
             record.name = 'S-2299 - Desligamento {}'.format(
@@ -204,21 +229,27 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
             rescisao_id.company_id.cod_lotacao
 
         for rubrica_line in rescisao_id.line_ids:
-            if rubrica_line.salary_rule_id.category_id.id in (
-                    self.env.ref('hr_payroll.PROVENTO').id,
-                    self.env.ref('hr_payroll.DEDUCAO').id
-            ):
-                if rubrica_line.salary_rule_id.code != 'PENSAO_ALIMENTICIA':
-                    if rubrica_line.total > 0:
-
+            # if rubrica_line.salary_rule_id.category_id.id in (
+            #         self.env.ref('hr_payroll.PROVENTO').id,
+            #         self.env.ref('hr_payroll.DEDUCAO').id
+            # ):
+            if rubrica_line.salary_rule_id.nat_rubr:
+                # if rubrica_line.salary_rule_id.code != 'PENSAO_ALIMENTICIA':
+                #     if rubrica_line.total > 0:
+                #
+                if rubrica_line.salary_rule_id.cod_inc_irrf_calculado not in \
+                        ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
+                    if rubrica_line.total != 0:
                         det_verbas = pysped.esocial.leiaute.S2299_DetVerbas_2()
                         det_verbas.codRubr.valor = \
                             rubrica_line.salary_rule_id.codigo
                         det_verbas.ideTabRubr.valor = \
                             rubrica_line.salary_rule_id.identificador
-                        # det_verbas.qtdRubr.valor = ''
-                        # det_verbas.fatorRubr.valor = ''
-                        # det_verbas.vrunit.valor = ''
+                        if rubrica_line.quantity and float(rubrica_line.quantity) != 1:
+                            det_verbas.qtdRubr.valor = float(rubrica_line.quantity)
+                            det_verbas.vrunit.valor = formata_valor(rubrica_line.amount)
+                        if rubrica_line.rate and rubrica_line.rate != 100:
+                            det_verbas.fatorRubr.valor = rubrica_line.rate
                         det_verbas.vrRubr.valor = str(rubrica_line.total)
 
                         ide_estab_lot.detVerbas.append(det_verbas)

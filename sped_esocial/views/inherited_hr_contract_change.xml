@@ -12,10 +12,12 @@
                     <button name="atualizar_contrato_s2206" type="object" colspan="2"
                          string="Registrar Alteração Contratual no e-Social" class="oe_highlight"
                          attrs="{'invisible': [('situacao_esocial', '!=', '0')]}"
+                         confirm="Confirma a transmissão desta alteração contratual para o e-Social?"
                     />
                     <button name="retificar_contrato_s2206" type="object" colspan="2"
                          string="Retificar Alteração Contratual no e-Social" class="oe_highlight"
                          attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
+                         confirm="Confirma a retificação desta alteração contratual no e-Social?"
                     />
                     <button name="transmitir" colspan="4" type="object"
                             string="Transmitir para o e-Social" class="oe_highlight"

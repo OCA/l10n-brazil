@@ -109,6 +109,8 @@ class S2299DesligamentoWizard(models.TransientModel):
             desligamento_id.sped_hr_rescisao_id.company_id.esocial_tpAmb
         )
 
+        desligamento_id.sped_s2299_registro_inclusao = sped_registro
+
         return {
             'view_type': 'form',
             'view_mode': 'form',

@@ -49,6 +49,7 @@
                         <button name="atualizar_trabalhador_s2205" type="object" colspan="2"
                                 string="Atualizar Trabalhador no e-Social" class="oe_highlight"
                                 attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
+                                confirm="Confirma a atualização deste trabalhador no e-Social?"
                         />
                         <button name="transmitir" colspan="4" type="object"
                                 string="Transmitir para o e-Social" class="oe_highlight"

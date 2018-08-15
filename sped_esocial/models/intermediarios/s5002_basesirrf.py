@@ -35,6 +35,7 @@ class SpedIrrfBasesirrf(models.Model):
         selection=[
 
             # Rendimentos não tributáveis
+            ('0', '0-O que é isso?'),
             ('00', '00-Rendimento não tributável'),
             ('01', '01-Rendimento não tributável em função de acordos internacionais de bitributação'),
             ('09', '09-Outras verbas não consideradas como base de cálculo ou rendimento'),

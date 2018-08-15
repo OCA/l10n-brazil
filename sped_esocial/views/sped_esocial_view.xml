@@ -11,6 +11,11 @@
                         <button name="executa_analise" type="object" string="Analisar"
                                 attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
                         />
+                        <button name="transmitir_periodo" type="object" string="Transmitir para o e-Social"
+                                attrs="{'invisible': ['|', ('registro_ids', '=', False), ('situacao', '=', '3')]}"
+                                class="oe_highlight"
+                                confirm="Confirma a transmissão dos registros deste período para o e-Social?"
+                        />
                         <button name="importar_fechamentos" type="object" string="Fechar Período"
                                 attrs="{'invisible': ['|', ('pode_fechar', '=', False), ('fechamento_ids', '!=', False)]}"
                         />
@@ -340,9 +345,25 @@
                                     </field>
                                 </group>
                             </page>
-                            <page name="registros" string="Registros e-Social">
+                            <page name="registros" string="Registros para transmitir ao e-Social"
+                                  attrs="{'invisible': [('registro_ids', '=', False)]}"
+                            >
                                 <group colspan="4" col="4">
                                     <field name="registro_ids" readonly="1" nolabel="1" colspan="4"/>
+                                </group>
+                            </page>
+                            <page name="transmitidos" string="Registros Transmitidos ao e-Social neste Período"
+                                  attrs="{'invisible': [('transmitido_ids', '=', False)]}"
+                            >
+                                <group colspan="4" col="4">
+                                    <field name="transmitido_ids" readonly="1" nolabel="1" colspan="4"/>
+                                </group>
+                            </page>
+                            <page name="lotes" string="Lotes de Transmissão ao e-Social"
+                                  attrs="{'invisible': [('lote_ids', '=', False)]}"
+                            >
+                                <group colspan="4" col="4">
+                                    <field name="lote_ids" readonly="1" nolabel="1" colspan="4"/>
                                 </group>
                             </page>
                         </notebook>

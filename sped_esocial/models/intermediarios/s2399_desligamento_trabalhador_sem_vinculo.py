@@ -118,6 +118,30 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
             desligamento.situacao_esocial = situacao_esocial
 
     @api.multi
+    def gerar_registro(self):
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-2399',
+            'ambiente': self.company_id.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtTSVTermino',
+            'origem': (
+                    'hr.payslip,%s' %
+                    self.sped_hr_rescisao_id.id),
+            'origem_intermediario': (
+                    'sped.hr.rescisao.autonomo,%s' % self.id),
+        }
+        if not self.sped_s2399_registro_inclusao:
+            # Cria o registro de envio
+            sped_inclusao = self.env['sped.registro'].create(values)
+            self.sped_s2399_registro_inclusao = sped_inclusao
+        elif self.precisa_atualizar:
+            # Cria o registro de Retificação
+            values['operacao'] = 'R'
+            sped_retificacao = self.env['sped.registro'].create(values)
+            self.sped_s2399_registro_retificacao = [(4, sped_retificacao.id)]
+
+    @api.multi
     def _compute_display_name(self):
         for record in self:
             record.name = 'S-2399 - Desligamento {}'.format(

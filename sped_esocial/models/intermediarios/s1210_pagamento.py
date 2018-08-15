@@ -400,7 +400,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                                 'parent_id': sped_intermediario.id,
                                 'cod_categ': irrf.codCateg.valor,
                                 'ind_res_br': irrf.indResBr.valor,
-                                'tp_valor': base.tpValor.valor,
+                                'tp_valor': str(int(base.tpValor.valor)).zfill(2),
                                 'valor': float(base.valor.valor),
                             }
                             self.env['sped.irrf.basesirrf'].create(vals)

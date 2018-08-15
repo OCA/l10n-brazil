@@ -72,7 +72,7 @@ class HrContract(models.Model):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
-        store=True,
+        # store=True,
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa Atualizar',

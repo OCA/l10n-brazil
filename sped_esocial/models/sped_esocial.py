@@ -62,19 +62,37 @@ class SpedEsocial(models.Model):
         store=True,
     )
     registro_ids = fields.Many2many(
-        string='Registros',
+        string='Registros para Transmitir',
         comodel_name='sped.registro',
         compute='compute_registro_ids',
+    )
+    transmitido_ids = fields.Many2many(
+        string='Registros Transmitidos',
+        comodel_name='sped.registro',
+        compute='compute_transmitido_ids',
     )
     pode_fechar = fields.Boolean(
         string='Pode Fechar?',
         compute='compute_registro_ids',
     )
+    lote_ids = fields.Many2many(
+        string='Lotes de Transmissão ao e-Social',
+        comodel_name='sped.lote',
+    )
+
+    @api.depends('lote_ids')
+    def compute_transmitido_ids(self):
+        for periodo in self:
+            transmitido_ids = []
+            for lote in periodo.lote_ids:
+                for registro in lote.transmissao_ids:
+                    transmitido_ids.append(registro.id)
+            periodo.transmitido_ids = [(6, 0, transmitido_ids)]
 
     @api.depends(
         'empregador_ids', 'estabelecimento_ids', 'rubrica_ids', 'lotacao_ids', 'cargo_ids',
         'turno_trabalho_ids', 'admissao_ids', 'alteracao_trabalhador_ids',
-        'alteracao_contrato_ids',
+        'alteracao_contrato_ids', 'fechamento_ids',
     )
     def compute_registro_ids(self):
         for esocial in self:
@@ -576,7 +594,11 @@ class SpedEsocial(models.Model):
 
         if self.empregador_ids:
             # Buscar Trabalhadores
-            trabalhadores = self.env['hr.employee'].search([])
+            trabalhadores = self.env['hr.employee'].search([
+                '|',
+                ('active', '=', True),  # Busca inclusive trabalhadores já desativados
+                ('active', '=', False),
+            ])
 
             periodo = self.periodo_id
             matriz  = self.company_id
@@ -589,14 +611,12 @@ class SpedEsocial(models.Model):
             for trabalhador in trabalhadores:
 
                 # Localiza os contratos válidos deste trabalhador
-                if trabalhador.id == 78:
-                    print('Ernesto')
                 domain = [
                     ('employee_id', '=', trabalhador.id),
                     ('company_id', 'in', empresas),
                     ('date_start', '<=', periodo.date_stop),
                     ('tp_reg_prev', 'in', ['1', False]),  # Somente contratos do tipo RGPS
-                    ('situacao_esocial', 'not in', ['0', '9']),  # Somente contratos ativos no e-Social
+                    # ('situacao_esocial', 'not in', ['0', '9']),  # Somente contratos ativos no e-Social
                 ]
                 contratos = self.env['hr.contract'].search(domain)
                 contratos_validos = []
@@ -726,7 +746,11 @@ class SpedEsocial(models.Model):
 
         if self.empregador_ids:
             # Buscar Servidores
-            servidores = self.env['hr.employee'].search([])
+            servidores = self.env['hr.employee'].search([
+                '|',
+                ('active', '=', True),  # Busca inclusive trabalhadores já desativados
+                ('active', '=', False),
+            ])
 
             periodo = self.periodo_id
             matriz  = self.company_id
@@ -744,7 +768,7 @@ class SpedEsocial(models.Model):
                     ('company_id', 'in', empresas),
                     ('date_start', '<=', periodo.date_stop),
                     ('tp_reg_prev', '=', '2'),  # Somente contratos do tipo RPPS
-                    ('situacao_esocial', 'not in', ['0', '9']),  # Somente contratos ativos no e-Social
+                    # ('situacao_esocial', 'not in', ['0', '9']),  # Somente contratos ativos no e-Social
                 ]
                 contratos = self.env['hr.contract'].search(domain)
                 contratos_validos = []
@@ -855,7 +879,11 @@ class SpedEsocial(models.Model):
 
         if self.empregador_ids:
             # Buscar Servidores
-            beneficiarios = self.env['hr.employee'].search([])
+            beneficiarios = self.env['hr.employee'].search([
+                '|',
+                ('active', '=', True),  # Busca inclusive trabalhadores já desativados
+                ('active', '=', False),
+            ])
 
             periodo = self.periodo_id
             matriz  = self.company_id
@@ -875,8 +903,9 @@ class SpedEsocial(models.Model):
                     ('employee_id', '=', beneficiario.id),
                     ('company_id', 'in', empresas),
                     ('date_start', '<=', periodo.date_stop),
-                    ('tp_reg_prev', 'in', ['1', '2', False]),  # Somente contratos com o campo tp_reg_prev definido como 1 ou 2
-                    ('situacao_esocial', 'not in', ['0', '9']),  # Somente contratos ativos no e-Social
+                    ('tp_reg_prev', 'in', ['1', False]),  # Somente contratos RPGS - RPPS fica para 2019
+                    # ('tp_reg_prev', 'in', ['1', '2', False]),  # Somente contratos com o campo tp_reg_prev definido como 1 ou 2
+                    # ('situacao_esocial', 'not in', ['0', '9']),  # Somente contratos ativos no e-Social
                 ]
                 contratos = self.env['hr.contract'].search(domain)
                 contratos_validos = []
@@ -1092,6 +1121,8 @@ class SpedEsocial(models.Model):
                 ('tipo', '!=', 'autonomo'),
                 ('company_id', 'in', empresas.ids),
                 ('evento_esocial', '=', 's2200'),
+                ('tp_reg_prev', 'in', ['1', False]),  # Por enquanto somente levar os RGPS (RPPS só em 2019)
+                                                      # Conforme orientação GEPES
             ])
 
             # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
@@ -1151,7 +1182,7 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             alteracao_trabalhador_ids = self.env['sped.esocial.alteracao.funcionario'].search([
                 ('company_id', '=', self.company_id.id),
-                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+                # ('situacao_esocial', 'in', ['1', '2', '3', '5']),
             ])
 
             self.alteracao_trabalhador_ids = [(6, 0, alteracao_trabalhador_ids.ids)]
@@ -1198,7 +1229,7 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             alteracao_contrato_ids = self.env['sped.esocial.alteracao.contrato'].search([
                 ('company_id', '=', self.company_id.id),
-                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+                # ('situacao_esocial', 'in', ['1', '2', '3', '5']),
             ])
 
             self.alteracao_contrato_ids = [(6, 0, alteracao_contrato_ids.ids)]
@@ -1334,13 +1365,15 @@ class SpedEsocial(models.Model):
             ])
             admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
                 ('company_id', 'in', empresas.ids),
-                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+                # ('situacao_esocial', 'in', ['1', '2', '3', '5']),
             ])
             contrato_ids = self.env['hr.contract'].search([
                 ('date_start', '<=', self.periodo_id.date_stop),
                 # ('tipo', '=', 'autonomo'),
                 ('company_id', 'in', empresas.ids),
                 ('evento_esocial', '=', 's2300'),
+                ('tp_reg_prev', 'in', ['1', False]),  # Por enquanto somente levar os RGPS (RPPS só em 2019)
+                                                      # Conforme orientação GEPES
             ])
 
             # Verifica se todos os contratos que deveriam estar no e-Social realmente estão
@@ -1358,7 +1391,7 @@ class SpedEsocial(models.Model):
             # Re-popula os registros S-2300 já existentes
             admissao_sem_vinculo_ids = self.env['sped.esocial.contrato.autonomo'].search([
                 ('company_id', '=', self.company_id.id),
-                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+                # ('situacao_esocial', 'in', ['1', '2', '3', '5']),
             ])
 
             self.admissao_sem_vinculo_ids = [(6, 0, admissao_sem_vinculo_ids.ids)]
@@ -1880,7 +1913,7 @@ class SpedEsocial(models.Model):
         if self.empregador_ids:
             alteracao_sem_vinculo_ids = self.env['sped.esocial.alteracao.contrato.autonomo'].search([
                 ('company_id', '=', self.company_id.id),
-                ('situacao_esocial', 'in', ['1', '2', '3', '5']),
+                # ('situacao_esocial', 'in', ['1', '2', '3', '5']),
             ])
 
             self.alteracao_sem_vinculo_ids = [(6, 0, alteracao_sem_vinculo_ids.ids)]
@@ -1992,3 +2025,21 @@ class SpedEsocial(models.Model):
 
         return domain
 
+    @api.multi
+    def transmitir_periodo(self):
+        self.ensure_one()
+
+        # Verifica se tem algum período anterior não fechado
+        periodo_anterior = self.env['sped.esocial'].search([
+            ('situacao', '=', '1'),
+            ('periodo_id.date_start', '<', self.periodo_id.date_start),
+        ], limit=1)
+        if periodo_anterior:
+            raise Exception("Existem períodos anteriores não fechados, feche os períodos em ordem cronológica!")
+
+        # Cria os lotes de transmissão
+        wizard = self.env['sped.criacao.wizard']
+        res = wizard.default_get(self.registro_ids.ids)
+        lotes = res.criar_lotes()
+        for lote in lotes:
+            self.lote_ids = [(4, lote)]

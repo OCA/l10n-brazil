@@ -20,10 +20,10 @@
                                          string="Ativar Cargo no e-Social" class="oe_highlight"
                                          attrs="{'invisible': ['|', ('sped_cargo_id', '!=', False), ('ini_valid', '=', False)]}"
                                     />
-                                    <button name="atualizar_cargo" type="object" colspan="2"
-                                         string="Atualizar Cargo no e-Social" class="oe_highlight"
-                                         attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
-                                    />
+                                    <!--<button name="atualizar_cargo" type="object" colspan="2"-->
+                                         <!--string="Atualizar Cargo no e-Social" class="oe_highlight"-->
+                                         <!--attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"-->
+                                    <!--/>-->
                                     <button name="transmitir" colspan="4" type="object"
                                          string="Transmitir para o e-Social" class="oe_highlight"
                                          attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}"
