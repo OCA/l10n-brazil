@@ -292,36 +292,38 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
          u'Sequência existente!'),
     ]
 
-    @api.one
+    @api.multi
     @api.constrains('justificative')
     def _check_justificative(self):
-        if len(self.justificative) < 15:
-            raise UserError(
-                _('Justificativa deve ter tamanho minimo de 15 caracteres.'))
-        return True
+        for record in self:
+            if len(record.justificative) < 15:
+                raise UserError(_(
+                    'Justificativa deve ter tamanho minimo de 15 caracteres.'))
+            return True
 
-    @api.one
+    @api.multi
     @api.constrains('number_start', 'number_end')
     def _check_range(self):
-        where = []
-        if self.number_start:
-            where.append("((number_end>='%s') or (number_end is null))" % (
-                self.number_start,))
-        if self.number_end:
-            where.append(
-                "((number_start<='%s') or (number_start is null))" % (
-                    self.number_end,))
+        for record in self:
+            where = []
+            if record.number_start:
+                where.append("((number_end>='%s') or (number_end is null))" % (
+                    record.number_start,))
+            if record.number_end:
+                where.append(
+                    "((number_start<='%s') or (number_start is null))" % (
+                        record.number_end,))
 
-        self._cr.execute(
-            'SELECT id \
-            FROM l10n_br_account_invoice_invalid_number \
-            WHERE ' + ' and '.join(where) + (where and ' and ' or '') +
-            "document_serie_id = %s \
-            AND state = 'done' \
-            AND id <> %s" % (self.document_serie_id.id, self.id))
-        if self._cr.fetchall() or (self.number_start > self.number_end):
-            raise UserError(_(u'Não é permitido faixas sobrepostas!'))
-        return True
+            record._cr.execute(
+                'SELECT id \
+                FROM l10n_br_account_invoice_invalid_number \
+                WHERE ' + ' and '.join(where) + (where and ' and ' or '') +
+                "document_serie_id = %s \
+                AND state = 'done' \
+                AND id <> %s" % (record.document_serie_id.id, record.id))
+            if record._cr.fetchall() or (record.number_start > record.number_end):
+                raise UserError(_(u'Não é permitido faixas sobrepostas!'))
+            return True
 
     _constraints = [
         (_check_range, u'Não é permitido faixas sobrepostas!',
