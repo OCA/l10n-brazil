@@ -11,15 +11,19 @@ class L10nBrHrDepartment(models.Model):
     manager_substituto_id = fields.Many2one(
         comodel_name='hr.employee',
         string='Substituto',
+        help='Gerente do departamento na falta do gerente oficial.',
     )
 
     @api.multi
     def get_manager_titular(
             self, data_referencia=fields.Date.today(), employee_id=False):
         """
-
-        :param data_referencia:
-        :return:
+        Função para definir quem é o gerente do departamento de acordo com a
+        data de referencia para levar em consideração possíveis substituições.
+        O funcionario deverá ser passado como parametro para ser possível
+        identificar se o próprio funcionário é o gestor do seu dpto. Em Casos
+        positivos chamar a mesma função do departamento pai.
+        :return: Gestor do departamento em determinada data
         """
         self.ensure_one()
         hr_substituicao_obj = self.env['hr.substituicao']
