@@ -121,7 +121,8 @@ class HrPayslipAutonomo(models.Model):
     struct_id = fields.Many2one(
         string=u'Estrutura de Salário',
         comodel_name='hr.payroll.structure',
-        compute='_compute_set_employee_id',
+        compute='_compute_struct_id',
+        store=True,
         states={'draft': [('readonly', False)]},
         help=u'Defines the rules that have to be applied to this payslip, '
              u'accordingly to the contract chosen. If you let empty the field '
@@ -170,7 +171,6 @@ class HrPayslipAutonomo(models.Model):
         compute='_compute_valor_total_folha'
     )
 
-
     salario_base_fmt = fields.Char(
         string=u'Salario Base',
         default='0',
@@ -215,6 +215,7 @@ class HrPayslipAutonomo(models.Model):
 
     data_pagamento_autonomo = fields.Date(
         string=u'Data de Pagamento',
+        default=fields.Date.context_today,
     )
 
     number = fields.Char(
@@ -333,6 +334,38 @@ class HrPayslipAutonomo(models.Model):
     #  Métodos da payslip do autonomo
     #
     @api.multi
+    @api.onchange('mes_do_ano', 'ano', 'date_from', 'date_to')
+    def _onchange_set_dates(self):
+        for record in self:
+            if not record.mes_do_ano:
+                record.mes_do_ano = datetime.now().months
+                record.mes_do_ano2 = datetime.now().month
+
+            mes = record.mes_do_ano
+            if mes > 12:
+                mes = 12
+
+            ultimo_dia_do_mes = str(
+                self.env['resource.calendar'].get_ultimo_dia_mes(
+                    mes, record.ano))
+
+            primeiro_dia_do_mes = str(
+                datetime.strptime(str(mes) + '-' +
+                                  str(record.ano), '%m-%Y'))
+
+            record.date_from = primeiro_dia_do_mes
+            record.date_to = ultimo_dia_do_mes
+
+            data_de_inicio = record.contract_id.date_start
+            data_final = record.contract_id.date_end
+
+            if data_de_inicio and primeiro_dia_do_mes < data_de_inicio:
+                record.date_from = record.contract_id.date_start
+
+            if data_final and ultimo_dia_do_mes > data_final:
+                record.date_to = record.contract_id.date_end
+
+    @api.multi
     def _compute_data_mes_ano(self):
         for record in self:
             record.data_mes_ano = MES_DO_ANO[record.mes_do_ano - 1][1][:3] + \
@@ -341,13 +374,38 @@ class HrPayslipAutonomo(models.Model):
     @api.multi
     def button_hr_validate_payslip_autonomo(self):
         """
-
-        :return:
+        Validar Holerite Calculado. Estado vai para Done
         """
         for record in self:
-            record._buscar_payslip_line()
             record.state = 'done'
             record.number = self.env['ir.sequence'].get('salary.slip')
+
+    @api.multi
+    @api.depends('line_ids')
+    def _buscar_payslip_line(self):
+        for holerite in self:
+            lines = []
+            for line in holerite.line_ids:
+                if line.valor_provento or line.valor_deducao:
+                    lines.append(line.id)
+            holerite.line_resume_ids = lines
+
+    @api.multi
+    def compute_sheet_autonomo(self):
+        """
+        """
+        for holerite in self:
+            # delete old payslip lines
+            holerite.line_ids.unlink()
+
+            # Gerar Linhas do Holerite
+            lines = [(0, 0, line) for line in self.get_payslip_lines()]
+            holerite.write({'line_ids': lines})
+
+            # Gerar Resumo do Holerite
+            holerite._buscar_payslip_line()
+
+        return True
 
     @api.multi
     def unlink(self):
@@ -365,24 +423,190 @@ class HrPayslipAutonomo(models.Model):
     def _compute_set_employee_id(self):
         for record in self:
             if record.contract_id:
-                record.employee_id = record.contract_id.employee_id
+                record.employee_id = record.contract_id.employee_id    \
 
     @api.multi
-    @api.depends('line_ids')
-    def _buscar_payslip_line(self):
-        for holerite in self:
-            lines = []
-            for line in holerite.line_ids:
-                if line.valor_provento or line.valor_deducao:
-                    lines.append(line.id)
-            holerite.line_resume_ids = lines
+    @api.depends('contract_id', 'mes_do_ano')
+    def _compute_struct_id(self):
+        """
+        Definir a estrutura que processara o holerite do autonomo
+        """
+        for record in self:
+            if record.contract_id:
+                record.struct_id = record.contract_id.struct_id
 
-    @api.model
-    def _compute_sheet_autonomo(self):
+    @api.multi
+    def get_payslip_lines(self):
         """
         """
-        for holerite in self:
-            holerite._buscar_payslip_line()
+
+        def _sum_salary_rule_category(localdict, category, amount):
+            if category.parent_id:
+                localdict = _sum_salary_rule_category(
+                    localdict, category.parent_id, amount)
+            localdict['categories'].dict[category.code] = \
+                category.code in localdict['categories'].dict and \
+                localdict['categories'].dict[category.code] + amount or amount
+            return localdict
+
+        class BrowsableObject(object):
+            def __init__(self, employee_id, dict):
+                self.employee_id = employee_id
+                self.dict = dict
+
+            def __getattr__(self, attr):
+                return attr in self.dict and self.dict.__getitem__(attr) or 0.0
+
+        # we keep a dict with the result because a value can be overwritten
+        # by another rule with the same code
+        result_dict = {}
+        rules = {}
+        categories_dict = {}
+        blacklist = []
+        payslip_obj = self.env['hr.payslip']
+        obj_rule = self.env['hr.salary.rule']
+        medias = {}
+        categories_obj = BrowsableObject(self.employee_id.id, categories_dict)
+
+        baselocaldict = {
+            'CALCULAR': self,
+            'BASE_INSS': 0.0, 'BASE_FGTS': 0.0, 'BASE_IR': 0.0,
+            'categories': categories_obj,
+            'locals': locals, 'globals': locals,
+            'Decimal': Decimal, 'D': Decimal,
+        }
+
+        for contract_id in self.contract_id:
+            # recuperar todas as estrututras que serao processadas
+            # (estruturas da payslip atual e as estruturas pai da payslip)
+            structure_ids = self.struct_id._get_parent_structure()
+
+            # recuperar as regras das estruturas e filha de cada regra
+            rule_ids = self.env['hr.payroll.structure'].browse(
+                structure_ids).get_all_rules()
+
+            # Caso nao esteja computando holerite de provisão de ferias ou
+            # de decimo terceiro recuperar as regras especificas do contrato
+            applied_specific_rule = \
+                self.get_contract_specific_rubrics(contract_id, rule_ids)
+
+            # organizando as regras pela sequencia de execução definida
+            sorted_rule_ids = \
+                [id for id, sequence in sorted(rule_ids, key=lambda x: x[1])]
+
+            employee = contract_id.employee_id
+            localdict = \
+                dict(baselocaldict, employee=employee, contract=contract_id)
+
+            for rule in obj_rule.browse(sorted_rule_ids):
+                key = rule.code + '-' + str(self.id)
+                localdict['result'] = None
+                localdict['result_qty'] = 1.0
+                localdict['result_rate'] = 100
+                localdict['rubrica'] = rule
+                id_rubrica_especifica = 0
+                beneficiario_id = False
+
+                # check if the rule can be applied
+                if obj_rule.satisfy_condition(rule.id, localdict) \
+                        and rule.id not in blacklist:
+                    # compute the amount of the rule
+                    amount, qty, rate = \
+                        obj_rule.compute_rule(rule.id, localdict)
+
+                    # se ja tiver sido calculado a media dessa rubrica,
+                    # utilizar valor da media e multiplicar
+                    # pela reinciden.
+                    if medias.get(rule.code):
+                        amount = medias.get(rule.code).media / 12
+                        qty = medias.get(rule.code).meses
+                        rule.name += ' (Media) '
+
+                    # check if there is already a rule computed
+                    # with that code
+                    previous_amount = \
+                        rule.code in localdict and \
+                        localdict[rule.code] or 0.0
+                    # previous_amount = 0
+                    # set/overwrite the amount computed
+                    # for this rule in the localdict
+                    tot_rule = Decimal(amount or 0) * Decimal(
+                        qty or 0) * Decimal(rate or 0) / 100.0
+                    tot_rule = tot_rule.quantize(Decimal('0.01'))
+                    localdict[rule.code] = tot_rule
+                    rules[rule.code] = rule
+
+                    # Adiciona a rubrica especifica ao localdict
+                    if id_rubrica_especifica:
+                        localdict['RUBRICAS_ESPEC_CALCULADAS'].append(
+                            id_rubrica_especifica)
+
+                    # sum the amount for its salary category
+                    localdict = _sum_salary_rule_category(
+                        localdict, rule.category_id,
+                        tot_rule - previous_amount)
+
+                    # Definir o partner que recebera o pagamento da linha
+                    if not beneficiario_id and \
+                            contract_id.employee_id.address_home_id:
+                        beneficiario_id = \
+                            contract_id.employee_id.address_home_id.id
+
+                    # create/overwrite the rule in the temporary results
+                    result_dict[key] = {
+                        'salary_rule_id': rule.id,
+                        'contract_id': contract_id.id,
+                        'name': rule.name,
+                        'code': rule.code,
+                        'category_id': rule.category_id.id,
+                        'sequence': rule.sequence,
+                        'appears_on_payslip': rule.appears_on_payslip,
+                        'condition_select': rule.condition_select,
+                        'condition_python': rule.condition_python,
+                        'condition_range': rule.condition_range,
+                        'condition_range_min':
+                            rule.condition_range_min,
+                        'condition_range_max':
+                            rule.condition_range_max,
+                        'amount_select': rule.amount_select,
+                        'amount_fix': rule.amount_fix,
+                        'amount_python_compute':
+                            rule.amount_python_compute,
+                        'amount_percentage': rule.amount_percentage,
+                        'amount_percentage_base':
+                            rule.amount_percentage_base,
+                        'register_id': rule.register_id.id,
+                        'amount': amount,
+                        'employee_id': contract_id.employee_id.id,
+                        'quantity': qty,
+                        'rate': rate,
+                        'partner_id': beneficiario_id or 1,
+                    }
+
+                    blacklist.append(rule.id)
+                else:
+                    rules_seq = rule._model._recursive_search_of_rules(
+                        self._cr, self._uid, rule, self._context)
+                    blacklist += [id for id, seq in rules_seq]
+                    continue
+
+                if rule.category_id.code == 'DEDUCAO':
+                    if rule.compoe_base_INSS:
+                        localdict['BASE_INSS'] -= tot_rule
+                    if rule.compoe_base_IR:
+                        localdict['BASE_IR'] -= tot_rule
+                    if rule.compoe_base_FGTS:
+                        localdict['BASE_FGTS'] -= tot_rule
+                else:
+                    if rule.compoe_base_INSS:
+                        localdict['BASE_INSS'] += tot_rule
+                    if rule.compoe_base_IR:
+                        localdict['BASE_IR'] += tot_rule
+                    if rule.compoe_base_FGTS:
+                        localdict['BASE_FGTS'] += tot_rule
+
+            result = [value for code, value in result_dict.items()]
+            return result
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
@@ -402,3 +626,105 @@ class HrPayslipAutonomo(models.Model):
                 parent.remove(sheet)
             res['arch'] = etree.tostring(doc)
         return res
+
+    @api.multi
+    def get_contract_specific_rubrics(self, contract_id, rule_ids):
+        self.ensure_one()
+        applied_specific_rule = {}
+        for specific_rule in contract_id.specific_rule_ids:
+            if self.date_from >= specific_rule.date_start:
+                if not specific_rule.date_stop or \
+                        self.date_to <= specific_rule.date_stop:
+
+                    rule_ids.append((specific_rule.rule_id.id,
+                                     specific_rule.rule_id.sequence))
+
+                    if specific_rule.rule_id.id not in applied_specific_rule:
+                        applied_specific_rule[specific_rule.rule_id.id] = []
+
+                    applied_specific_rule[specific_rule.rule_id.id].append(
+                        specific_rule)
+
+        return applied_specific_rule
+
+    def INSS(self, BASE_INSS):
+        """
+        Cálculo do INSS da folha de pagamento. Essa função é responsável por
+        disparar o cálculo do INSS, que fica embutido em sua classe.
+         Essa função está dísponivel no context das rubricas sendo possível
+         inserir o seguinte código python na rubrica:
+         result = CALCULAR.INSS(<variavel que contem a base do INSS>)
+         *CALCULAR é a instancia corrente da payslip
+        :param BASE_INSS: - float - soma das rubricas que compoe o INSS
+        :return: float - Valor do inss a ser descontado do funcionario
+        """
+        tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
+        if BASE_INSS:
+            inss = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
+            return inss
+        else:
+            return 0
+
+    def BASE_IRRF(self, TOTAL_IRRF, INSS):
+        """
+        Calcula a base de cálculo do IRRF. A formula se da por:
+        BASE_IRRF = BASE_INSS - INSS -
+            (DESCONTO_POR_DEPENDENTE * QTY_DE_DEPENDENTES)
+
+        :param TOTAL_IRRF:  - float - Soma das rubricas que compoem a BASE_IRRF
+        :param INSS:        - float - Valor do INSS a ser descontado
+                                      do funcionario
+        :return:            - float - base do IRRF
+        """
+        ano = fields.Datetime.from_string(self.date_from).year
+
+        deducao_dependente_obj = self.env[
+            'l10n_br.hr.income.tax.deductable.amount.family'
+        ]
+        deducao_dependente_value = deducao_dependente_obj.search(
+            [('year', '=', ano)], order='create_date DESC', limit=1
+        )
+        dependent_values = 0
+        for dependente in self.employee_id.dependent_ids:
+            if dependente.dependent_verification and \
+                    dependente.dependent_dob < self.date_from:
+                dependent_values += deducao_dependente_value.amount
+
+        return TOTAL_IRRF - INSS - dependent_values
+
+    def IRRF(self, BASE_IRRF, INSS):
+        tabela_irrf_obj = self.env['l10n_br.hr.income.tax']
+        if BASE_IRRF:
+            irrf = tabela_irrf_obj._compute_irrf(
+                BASE_IRRF, self.employee_id.id, INSS, self.date_from
+            )
+            return irrf
+        else:
+            return 0
+
+    def get_specific_rubric_value(self, rubrica_id, medias_obj=False,
+                                  rubricas_especificas_calculadas=False):
+        """
+        Função dísponivel para as regras de salario, que busca o valor das
+        rubricas especificas cadastradas no contrato.
+        :param rubrica_id: int - id da regra de salario corrente
+        :param medias_obj: ?
+        :param rubricas_spec_calculadas - lista dos ids das rubricas
+                                        especificas que ja foram computadas
+        :return: valor da rubrica especifica cadastrado no contrato ou 0.
+        """
+        for rubrica in self.contract_id.specific_rule_ids:
+            # Se a rubrica_especifica ja tiver sido calculada segue pra próxima
+            if rubricas_especificas_calculadas and \
+                    rubrica.id in rubricas_especificas_calculadas:
+                continue
+            if rubrica.rule_id.id == rubrica_id \
+                    and rubrica.date_start <= self.date_from and \
+                    (not rubrica.date_stop or rubrica.date_stop >=
+                        self.date_to):
+                if medias_obj:
+                    if rubrica.rule_id.code not in medias_obj.dict.keys():
+                        return 0
+                return rubrica.specific_quantity * \
+                    rubrica.specific_percentual / 100 * \
+                    rubrica.specific_amount
