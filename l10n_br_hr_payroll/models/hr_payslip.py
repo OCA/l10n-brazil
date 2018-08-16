@@ -1369,19 +1369,24 @@ class HrPayslip(models.Model):
     def _simulacao_ferias(self, ferias_vencida, um_terco_ferias):
 
         #
-        # Está buscando somente o último periodo aquisitivo, e se tiver férias vencida busca
-        # o penúltimo, essa lógica está incompleta, precisa refatorar esse código para buscar
-        # todos os periodos aquisitivos vencidos (TODO)
+        # Está buscando somente o último periodo aquisitivo, e se tiver
+        # férias vencida busca o penúltimo, essa lógica está incompleta,
+        # precisa refatorar esse código para buscar todos os periodos
+        # aquisitivos vencidos (TODO)
         #
         if not ferias_vencida:
             periodo_id = self.contract_id.vacation_control_ids[0].id
         else:
+            # Se no controle de férias tiver apenas um registro, retorne 0
+            if len(self.contract_id.vacation_control_ids) < 2:
+                return 0
             periodo_id = self.contract_id.vacation_control_ids[1].id
 
         self.contract_id.date_end = self.date_to
         self.contract_id.atualizar_data_demissao()
 
-        periodo = self.env['hr.vacation.control'].with_context(data_fim = self.data_afastamento).browse(periodo_id)
+        periodo = self.env['hr.vacation.control'].with_context(
+            data_fim = self.data_afastamento).browse(periodo_id)
 
         if periodo.saldo:
             data_inicio = self.data_afastamento
