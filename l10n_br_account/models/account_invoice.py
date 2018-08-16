@@ -30,22 +30,26 @@ class AccountInvoice(models.Model):
                  'company_id', 'date_invoice')
     def _compute_amount(self):
         for record in self:
-            record.amount_untaxed = sum(l.price_subtotal
-                                      for l in record.invoice_line_ids)
-            record.amount_tax = sum(t.amount for t in record.tax_line_ids
-                                  if not t.tax_id.tax_discount)
+            record.amount_untaxed = sum(
+                l.price_subtotal for l in record.invoice_line_ids)
+            record.amount_tax = sum(
+                t.amount for t in record.tax_line_ids if not
+                t.tax_id.tax_discount)
             record.amount_total = record.amount_untaxed + record.amount_tax
             amount_total_company_signed = record.amount_total
             amount_untaxed_signed = record.amount_untaxed
             if (record.currency_id and record.company_id and
                     record.currency_id != record.company_id.currency_id):
-                currency_id = record.currency_id.with_context(date=record.date_invoice)
+                currency_id = record.currency_id.with_context(
+                    date=record.date_invoice)
                 amount_total_company_signed = currency_id.compute(
                     record.amount_total, record.company_id.currency_id)
                 amount_untaxed_signed = currency_id.compute(
                     record.amount_untaxed, record.company_id.currency_id)
             sign = record.type in ['in_refund', 'out_refund'] and -1 or 1
-            record.amount_total_company_signed = amount_total_company_signed * sign
+            record.amount_total_company_signed = (
+                amount_total_company_signed * sign
+            )
             record.amount_total_signed = record.amount_total * sign
             record.amount_untaxed_signed = amount_untaxed_signed * sign
 

@@ -25,13 +25,14 @@ class TestCustomerInvoice(TransactionCase):
             default_credit_account_id=self.sale_account.id,
         ))
         self.fiscal_category = self.env[
-            'l10n_br_account.fiscal.category'].create(dict(
-            code='Venda Teste',
-            name='Venda Teste',
-            type='output',
-            journal_type='sale',
-            property_journal=self.sale_journal.id
-        ))
+            'l10n_br_account.fiscal.category'].create(
+            dict(
+                code='Venda Teste',
+                name='Venda Teste',
+                type='output',
+                journal_type='sale',
+                property_journal=self.sale_journal.id
+            ))
         self.fiscal_position = self.env['account.fiscal.position'].create(dict(
             name='Venda Teste',
             type='output',
@@ -39,17 +40,18 @@ class TestCustomerInvoice(TransactionCase):
             fiscal_category_id=self.fiscal_category.id,
         ))
         self.fiscal_position_rule = self.env[
-            'account.fiscal.position.rule'].create(dict(
-            name='Venda',
-            description='Venda',
-            company_id=self.env.ref('base.main_company').id,
-            from_country=self.env.ref('base.br').id,
-            fiscal_category_id=self.fiscal_category.id,
-            fiscal_position_id=self.fiscal_position.id,
-            use_sale=True,
-            use_invoice=True,
-            use_picking=True,
-        ))
+            'account.fiscal.position.rule'].create(
+            dict(
+                name='Venda',
+                description='Venda',
+                company_id=self.env.ref('base.main_company').id,
+                from_country=self.env.ref('base.br').id,
+                fiscal_category_id=self.fiscal_category.id,
+                fiscal_position_id=self.fiscal_position.id,
+                use_sale=True,
+                use_invoice=True,
+                use_picking=True,
+            ))
         self.invoice_1 = self.env['account.invoice'].create(dict(
             name='Test Customer Invoice',
             payment_term_id=self.env.ref(
@@ -71,4 +73,4 @@ class TestCustomerInvoice(TransactionCase):
 
     def test_state(self):
         self.assertEquals(self.invoice_1.state, 'draft',
-            "Invoice should be in state Draft")
+                          "Invoice should be in state Draft")

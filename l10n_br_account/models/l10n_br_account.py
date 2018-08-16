@@ -321,7 +321,8 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
                 "document_serie_id = %s \
                 AND state = 'done' \
                 AND id <> %s" % (record.document_serie_id.id, record.id))
-            if record._cr.fetchall() or (record.number_start > record.number_end):
+            if (record._cr.fetchall() or
+                    (record.number_start > record.number_end)):
                 raise UserError(_(u'Não é permitido faixas sobrepostas!'))
             return True
 
