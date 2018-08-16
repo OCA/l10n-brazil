@@ -42,7 +42,8 @@
                         <notebook>
                             <page string="Information" name="information">
                                 <group>
-                                    <group name="valores" string="Valores">
+                                    <group name="valores" string="Estrutura Salarial">
+                                        <field name="struct_id"/>
                                         <field name="wage"/>
                                         <field name="salary_unit" options="{'no_create': True, 'no_open': True}" required="1"/>
                                     </group>
