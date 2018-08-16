@@ -11,9 +11,10 @@ class TestGenerateFiscalRules(TransactionCase):
     def setUp(self):
         super(TestGenerateFiscalRules, self).setUp()
         self.wzd_account_fiscal_position_rule = self.env[
-            'wizard.account.fiscal.position.rule'].create(dict(
-            company_id=self.env.ref('base.main_company').id,
-        ))
+            'wizard.account.fiscal.position.rule'].create(
+            dict(
+                company_id=self.env.ref('base.main_company').id,
+            ))
 
     def test_generate_fiscal_rules(self):
         self.wzd_account_fiscal_position_rule.action_create()
