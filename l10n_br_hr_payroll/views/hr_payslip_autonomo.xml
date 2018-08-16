@@ -12,6 +12,9 @@
             <field name="arch" type="xml">
             <form string="RPA">
                 <header>
+                    <button string="Calcular" name="compute_sheet_autonomo"
+                            states="draft" class="oe_highlight"
+                            type="object"/>
                     <button string="Validar" name="button_hr_validate_payslip_autonomo"
                             states="draft" class="oe_highlight"
                             type="object"/>
@@ -27,7 +30,13 @@
 
                     <group>
                         <field name="employee_id" invisible="True" />
-                        <field name="struct_id" invisible="True"/>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="number" attrs="{'invisible': [('number', '=', False)]}" />
+                            <field name="struct_id" />
+                        </group>
                     </group>
 
                     <group>
@@ -46,15 +55,13 @@
                     <group>
                         <group>
                             <field name="data_pagamento_autonomo" />
-                            <field name="number" />
                             <field name="company_id" />
                         </group>
                     </group>
 
-
                     <!-- Adiciona abas -->
                     <notebook>
-                        <page string="Holerite" attrs="{'invisible': [('state', '!=', 'done')]}">
+                        <page string="Holerite">
                             <field name="line_resume_ids"
                                    colspan="4" nolabel="1" readonly="1"
                                    context="{'order': 'sequence, valor_provento desc,  valor_desconto desc'}">
@@ -82,10 +89,9 @@
                             <div class="oe_clear"/>
                         </page>
 
-                        <page string="Salary Computation" attrs="{'invisible': [('state', '=', 'done')]}">
+                        <page string="Salary Computation">
                             <field name="line_ids" colspan="4" nolabel="1" context="{'default_contract_id': contract_id}" >
-                                <tree editable="bottom"
-                                      colors="blue:valor_provento > 0;red:valor_deducao > 0;orange:total == 0" >
+                                <tree colors="blue:valor_provento > 0;red:valor_deducao > 0;orange:total == 0" >
                                     <field name="code" invisible="1"/>
                                     <field name="sequence" invisible="1"/>
                                     <field name="valor_provento" invisible="1"/>
