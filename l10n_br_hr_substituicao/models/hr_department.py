@@ -14,7 +14,8 @@ class L10nBrHrDepartment(models.Model):
     )
 
     @api.multi
-    def get_manager_titular(self, data_referencia=fields.Date.today()):
+    def get_manager_titular(
+            self, data_referencia=fields.Date.today(), employee_id=False):
         """
 
         :param data_referencia:
@@ -29,4 +30,10 @@ class L10nBrHrDepartment(models.Model):
             ('data_fim', '>=', data_referencia),
         ], limit=1)
 
-        return substituicao_id.funcionario_substituto or self.manager_id
+        gerente_id = substituicao_id.funcionario_substituto or self.manager_id
+
+        if employee_id == gerente_id:
+            return self.parent_id.get_manager_titular(
+                data_referencia, employee_id)
+
+        return gerente_id

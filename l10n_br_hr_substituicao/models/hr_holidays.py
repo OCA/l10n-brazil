@@ -34,7 +34,7 @@ class HrHolidays(models.Model):
         for record in self:
             if record.department_id and record.data_inicio:
                 record.gerente_titular = record.department_id.\
-                    get_manager_titular(record.data_inicio)
+                    get_manager_titular(record.data_inicio, record.employee_id)
             elif record.type == 'add':
                 record.gerente_titular = record.department_id.manager_id
 
