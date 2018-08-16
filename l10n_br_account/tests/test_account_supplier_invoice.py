@@ -67,10 +67,14 @@ class TestSupplierInvoice(TransactionCase):
                     [('user_type_id', '=', self.env.ref(
                         'account.data_account_type_revenue').id)], limit=1).id,
                 'name': 'product test 5',
-                'uom_id': self.env.ref('product.product_uom_unit').id
+                'uom_id': self.env.ref('product.product_uom_unit').id,
+                'fiscal_category_id': self.fiscal_category.id,
             })]
         ))
 
     def test_state(self):
         self.assertEquals(self.invoice_1.state, 'draft',
                           "Invoice should be in state Draft")
+        self.invoice_1.action_invoice_open()
+        self.assertEquals(self.invoice_1.state, 'open',
+                          "Invoice should be in state Open")
