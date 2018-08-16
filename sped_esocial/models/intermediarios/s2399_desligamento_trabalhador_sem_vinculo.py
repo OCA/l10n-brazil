@@ -33,6 +33,10 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         string='Registro S-2399 - Retificação',
         comodel_name='sped.registro',
     )
+    periodo_id = fields.Many2one(
+        string='Período',
+        comodel_name='account.period',
+    )
     situacao_esocial = fields.Selection(
         string='Situação no e-Social',
         selection=[
