@@ -42,10 +42,19 @@ class HrPaylisp(models.Model):
                     _('Categoria inválida para rescisao de autonomo.'))
 
             elif record.contract_id.evento_esocial == 's2300':
+                if self.env.user.company_id.eh_empresa_base:
+                    matriz = self.env.user.company_id.id
+                else:
+                    matriz = self.env.user.company_id.matriz.id
+                periodo = '{}/{}'.format(str(self.mes_do_ano).zfill(2), str(self.ano))
+                periodo_id = self.env['account.period'].search([('name', '=', periodo)])
+                vals = {
+                    'company_id': matriz,
+                    'sped_hr_rescisao_id': self.id,
+                    'periodo_id': periodo_id.id,
+                }
                 desligamento_id = \
-                    self.env['sped.hr.rescisao.autonomo'].create({
-                    'sped_hr_rescisao_id': self.id
-                })
+                    self.env['sped.hr.rescisao.autonomo'].create(vals)
                 record.sped_s2399 = desligamento_id
 
         return desligamento_id
