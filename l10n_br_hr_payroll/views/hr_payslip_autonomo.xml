@@ -35,7 +35,7 @@
                     <group>
                         <group>
                             <field name="number" attrs="{'invisible': [('number', '=', False)]}" />
-                            <field name="struct_id" />
+                            <field name="struct_id" required="True" options="{'no_create': true, 'create_edit': false}"/>
                         </group>
                     </group>
 
@@ -55,7 +55,7 @@
                     <group>
                         <group>
                             <field name="data_pagamento_autonomo" />
-                            <field name="company_id" />
+                            <field name="company_id" options="{'no_create': true, 'create_edit': false}"/>
                         </group>
                     </group>
 
