@@ -7,13 +7,9 @@ from __future__ import division, print_function, unicode_literals
 from openerp import api, fields, models, _
 
 from .account_invoice_term import (
-    FORMA_PAGAMENTO,
-    BANDEIRA_CARTAO,
-    FORMA_PAGAMENTO_CARTOES,
-    IND_FORMA_PAGAMENTO,
-    INTEGRACAO_CARTAO,
-    INTEGRACAO_CARTAO_NAO_INTEGRADO,
+    FORMA_PAGAMENTO_SEM_PAGAMENTO,
 )
+
 
 
 class AccountInvoicePayment(models.Model):
@@ -23,6 +19,10 @@ class AccountInvoicePayment(models.Model):
 
     sequence = fields.Integer(
         default=10,
+    )
+    date = fields.Date(
+        string='Data de referência',
+        readonly=True,
     )
     payment_term_id = fields.Many2one(
         comodel_name='account.payment.term',
@@ -89,25 +89,27 @@ class AccountInvoicePayment(models.Model):
         if field_parent == 'invoice_id':
             date = field_parent_id.date_invoice
             self.invoice_id = field_parent_id
-        return date
+        return date or fields.Date.context_today(field_parent_id)
 
-    @api.onchange('payment_term_id', 'amount', 'item_ids')
-    def _onchange_payment_term_id(self):
+    @api.onchange('payment_term_id', 'amount', 'item_ids', 'date')
+    def onchange_payment_term_id(self):
 
-        if not (self.payment_term_id and self.amount and
-                self.env.context.get('field_parent')):
+        if not (self.payment_term_id and self.amount):
             return
 
         field_parent = self.env.context.get('field_parent')
-        field_parent_id = getattr(self, field_parent)
 
-        date = self._set_parent(field_parent, field_parent_id)
+        if field_parent:
+            field_parent_id = getattr(self, field_parent)
+            self.date = self._set_parent(field_parent, field_parent_id)[:10]
 
-        pterm_list = self.payment_term_id.compute(self.amount, date[:10])[0]
+        pterm_list = self.payment_term_id.compute(self.amount, self.date)[0]
 
         self.forma_pagameto = self.payment_term_id.forma_pagamento
 
-        item_ids = []
+        item_ids = [
+            (5, 0, {})
+        ]
 
         for term in pterm_list:
             item_ids.append(
@@ -120,3 +122,18 @@ class AccountInvoicePayment(models.Model):
                 })
             )
         self.item_ids = item_ids
+
+    def default_payment_term(self, payment_term_id, amount=0.00, object=False, date=False):
+
+        if not (payment_term_id.forma_pagamento ==
+                FORMA_PAGAMENTO_SEM_PAGAMENTO):
+
+            values = {
+                'payment_term_id': payment_term_id.id,
+                'amount': amount,
+                'date': fields.Date.today(self),
+            }
+            term = self.create(values)
+            term._onchange_payment_term_id()
+
+            return term
