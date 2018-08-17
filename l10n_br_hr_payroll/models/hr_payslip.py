@@ -260,6 +260,10 @@ class HrPayslip(models.Model):
         states={'draft': [('readonly', False)]}
     )
 
+    contract_id = fields.Many2one(
+        domain="[('tipo','=','funcionario')]",
+    )
+
     is_simulacao = fields.Boolean(
         string=u"Simulação",
     )
