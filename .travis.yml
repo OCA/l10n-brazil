@@ -34,7 +34,8 @@ install:
   - pip install sh
   - pip install https://github.com/odoo-brazil/pyxmlsec/archive/master.zip
   - pip install https://github.com/odoo-brazil/geraldo/archive/master.zip
-  - pip install https://github.com/odoo-brazil/PySPED/archive/8.0.zip#egg=PySPED-1.2.0
+  - pip install https://github.com/odoo-brazil/pybrasil/archive/master.zip
+  - pip install https://github.com/odoo-brazil/PySPED/archive/8.0.zip
 
 before_script:
   - chmod +x configure_locale.sh
