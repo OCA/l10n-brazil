@@ -423,7 +423,7 @@ class HrPayslipAutonomo(models.Model):
     def _compute_set_employee_id(self):
         for record in self:
             if record.contract_id:
-                record.employee_id = record.contract_id.employee_id    \
+                record.employee_id = record.contract_id.employee_id
 
     @api.multi
     @api.depends('contract_id', 'mes_do_ano')
