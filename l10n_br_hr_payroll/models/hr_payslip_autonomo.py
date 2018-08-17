@@ -338,7 +338,7 @@ class HrPayslipAutonomo(models.Model):
     def _onchange_set_dates(self):
         for record in self:
             if not record.mes_do_ano:
-                record.mes_do_ano = datetime.now().months
+                record.mes_do_ano = datetime.now().month
                 record.mes_do_ano2 = datetime.now().month
 
             mes = record.mes_do_ano

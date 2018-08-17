@@ -2435,7 +2435,7 @@ class HrPayslip(models.Model):
     def _compute_set_dates(self):
         for record in self:
             if not record.mes_do_ano:
-                record.mes_do_ano = datetime.now().months
+                record.mes_do_ano = datetime.now().month
                 record.mes_do_ano2 = datetime.now().month
             if record.tipo_de_folha == 'ferias' and record.holidays_ferias:
                 if record.holidays_ferias.parent_id.controle_ferias_ids:
