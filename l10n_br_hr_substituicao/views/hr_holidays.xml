@@ -11,7 +11,7 @@
         <field name="inherit_id" ref="l10n_br_hr_holiday.hr_holidays_form_view"/>
         <field name="arch" type="xml">
             <field name="department_id" position="after">
-                <field name="gerente_titular" groups="base.group_hr_manager" />
+                <field name="gerente_titular" groups="base.group_no_one" />
             </field>
         </field>
     </record>
