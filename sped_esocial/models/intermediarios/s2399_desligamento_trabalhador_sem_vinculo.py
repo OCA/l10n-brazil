@@ -286,7 +286,7 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
                         'company_id': sped_registro.company_id.id,
                         'id_evento': tot.eSocial.evento.Id.valor,
                         'periodo_id': sped_registro.origem_intermediario.periodo_id.id,
-                        'trabalhador_id': sped_registro.origem_intermediario.trabalhador_id.id,
+                        'trabalhador_id': self.sped_hr_rescisao_id.employee_id.id,
                         'sped_registro_s2399': sped_registro.id,
                     }
 
