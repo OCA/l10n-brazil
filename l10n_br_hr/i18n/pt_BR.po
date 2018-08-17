@@ -6312,7 +6312,7 @@ msgstr "ID"
 #. module: l10n_br_hr
 #: field:hr.employee,identity_city_id:0
 msgid "ID expedition city"
-msgstr "Data de expedição da identidade"
+msgstr "Cidade de expedição da identidade"
 
 #. module: l10n_br_hr
 #: field:hr.employee,identity_uf_id:0
