@@ -16,6 +16,9 @@
                         <field name="invoiced" position="before">
                     <field name="ind_pres"/>
                 </field>
+                <field name="payment_term" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace">
                     <notebook>
                         <page string="Invoice Lines" groups="base.group_no_one">
@@ -35,10 +38,10 @@
                 </xpath>
                 <xpath expr="//page[@string='Other Information']" position="before">
                     <page name="financeiro" string="Financeiro">
-                            <group string="Dados de Pagamento">
+                            <group string="Condições de Pagamento">
                                 <field name="account_payment_ids" nolabel="1" colspan="4"/>
                             </group>
-                            <group string="Dados da cobrança">
+                            <group string="Vencimentos">
                                 <field name="account_payment_line_ids" nolabel="1" editable="false"/>
                             </group>
                     </page>

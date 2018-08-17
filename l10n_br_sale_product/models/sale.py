@@ -221,9 +221,55 @@ class SaleOrder(models.Model):
             self.env.user.company_id.id)
         context.update(
             {'fiscal_document_code': company.product_invoice_id.code})
-        return super(SaleOrder,
+        inv_id = super(SaleOrder,
                      self.with_context(context))._make_invoice(order,
                                                                lines)
+        # TODO: Verificar o que deve ser feito com multiplas faturas para uma série de pagamentos
+        # Devemos mesclar as parcelas? E se o faturamento não for 100%?
+        # Mantemos a proporção / condição e refazemos as parcelas?
+        order.account_payment_ids.write({'invoice_id': inv_id})
+        return inv_id
+
+    @api.multi
+    def onchange_partner_id(self, part):
+        result = super(SaleOrder, self).onchange_partner_id(part)
+        # Sobrescreve o compartamento padrão do core de aplicar a forma de pagamento
+        # verificar metodo: onchange_fiscal_payment_term
+        if result.get('value'):
+            result['value'].pop('payment_term', None)
+        return result
+
+    @api.onchange('fiscal_category_id', 'fiscal_position_id')
+    def onchange_fiscal_payment_term(self):
+        """ Quando a posição fiscal for preenchida temos os dados da categoria e do partner
+        e então podemos tomar decidir qual o payment_term adequado
+        :return:
+        """
+        partner_id = self.partner_invoice_id or self.partner_id
+
+        payment_term = self.env['account.payment.term']
+        # Busca do partner
+        if partner_id and partner_id.property_payment_term:
+            payment_term = partner_id.property_payment_term
+        # Sobrecreve a opção do parceiro caso a categoria fiscal tenha uma opção definida
+
+        if self.fiscal_category_id and self.fiscal_category_id.account_payment_term_id:
+            payment_term = self.fiscal_category_id.account_payment_term_id
+        self.payment_term = payment_term
+
+    @api.onchange('payment_term', 'amount_total', 'date_order')
+    def onchange_default_payment_term(self):
+        """ Preenche a forma de pagamento padrão mantendo compatibilidade com o campo do core
+        :return:
+        """
+        if (self.payment_term and self.amount_total and
+                self.date_order and not self.account_payment_ids):
+            payment_id = self.account_payment_ids.new()
+            payment_id.payment_term_id = self.payment_term
+            payment_id.amount = self.amount_total
+            payment_id.date = self.date_order[:10]
+            payment_id.onchange_payment_term_id()
+            self.account_payment_ids |= payment_id
 
 
 class SaleOrderLine(models.Model):
