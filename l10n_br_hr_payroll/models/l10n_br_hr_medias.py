@@ -3,6 +3,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import api, fields, models
+from pybrasil.data import ultimo_dia_mes, primeiro_dia_mes
+
 
 MES_DO_ANO = [
     (1, u'Janeiro'),
@@ -135,6 +137,11 @@ class L10nBrHrMedias(models.Model):
         """
         for linha in holerite_id.medias_proventos:
             linha.unlink()
+
+        if holerite_id.tipo_de_folha == 'ferias':
+            data_inicio = primeiro_dia_mes(
+                holerite_id.periodo_aquisitivo.inicio_aquisitivo)
+            data_fim = holerite_id.periodo_aquisitivo.fim_aquisitivo
 
         folha_obj = self.env['hr.payslip']
         domain = [
