@@ -9,7 +9,7 @@ class HrHolidays(models.Model):
     _inherit = 'hr.holidays'
 
     gerente_titular = fields.Many2one(
-        string='Gerente Titular',
+        string='Aprovador do Evento',
         comodel_name='hr.employee',
         help='Gerente no momento da criação do Holiday',
         compute='_compute_gerente_titular',
