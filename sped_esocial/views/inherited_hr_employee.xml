@@ -10,7 +10,7 @@
                 <field name="place_of_birth" position="attributes">
                     <attribute name="string">Naturalidade (antiga)</attribute>
                     <attribute name="required">0</attribute>
-                    <attribute name="invisible">0</attribute>
+                    <attribute name="invisible">1</attribute>
                     <attribute name="readonly">1</attribute>
                 </field>
                 <field name="place_of_birth" position="before">
