@@ -8,7 +8,7 @@ Odoo Brasil Account Payment Boleto
 
 This module is part of implementation the payment mode Boleto.
 To can use it you must install other module which depends on what
- library you choose to use or PyBoleto or BRCobranca.
+library you choose to use or PyBoleto or BRCobranca.
 
 Configuration
 =============
