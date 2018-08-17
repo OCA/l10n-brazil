@@ -850,8 +850,7 @@ class HrPayslip(models.Model):
 
             # get Dias Trabalhados
             quantidade_dias_trabalhados = \
-                dias_mes - leaves['quantidade_dias_faltas_nao_remuneradas'] - \
-                leaves['quantidade_dias_faltas_remuneradas'] - \
+                dias_mes - leaves['quantidade_dias_faltas_nao_remuneradas'] -\
                 quantity_DSR_discount - quantidade_dias_ferias
             result += [self.get_attendances(u'Dias Trabalhados', 36,
                                             u'DIAS_TRABALHADOS',
