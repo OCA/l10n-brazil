@@ -371,10 +371,14 @@ class SpedLote(models.Model, ):
         sequencia = 1
         for registro in self.transmissao_ids:
             if registro.registro not in ['S-5001', 'S-5002', 'S-5011', 'S-5012']:
-                evento = registro.calcula_xml(sequencia=sequencia)
-                if evento:
+                evento, validacao = registro.calcula_xml(sequencia=sequencia)
+                if not validacao:
                     eventos.append(evento)
                     sequencia += 1
+
+        # Se não gerou nenhum XML, não precisa transmitir
+        if not eventos:
+            return False
 
         # Popula a data/hora da transmissão do lote
         data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -534,6 +538,8 @@ class SpedLote(models.Model, ):
                 self.situacao = '3'     # Erros
                                         # Se teve erro no lote, ele não foi transmitido portanto os registros
                                         # continuam pendentes transmissão
+
+        return True
 
     @api.multi
     def _grava_anexo(self, nome_arquivo='', conteudo='', model=None, res_id=None):

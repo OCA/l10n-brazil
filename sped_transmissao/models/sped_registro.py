@@ -115,6 +115,11 @@ class SpedRegistro(models.Model):
         comodel_name='sped.lote',
     )
 
+    # Validação de formatação
+    validacao = fields.Text(
+        string='Validação',
+    )
+
     # Status de Retorno
     recibo = fields.Char(  # evtTotal.ideRecRetorno.infoRecEv.nrRecArqBase
         string='Recibo de Entrega',
@@ -525,7 +530,13 @@ class SpedRegistro(models.Model):
         self.ensure_one()
 
         # Gera o XML usando o popula_xml da tabela intermediária
-        registro = self.origem_intermediario.popula_xml(ambiente=self.ambiente, operacao=self.operacao)
+        registro, validacao = self.origem_intermediario.popula_xml(ambiente=self.ambiente, operacao=self.operacao)
+
+        # Se na geração do registro foi criado alguma mensagem de erro de validação, não transmite esse registro
+        self.validacao = validacao
+        if validacao:
+            self.situacao = '3'
+            return False, validacao
 
         # Gera o ID do evento
         agora = datetime.now()
@@ -547,7 +558,7 @@ class SpedRegistro(models.Model):
         self.envio_xml_id = anexo_id
 
         # Retorno XML preenchido
-        return registro
+        return registro, validacao
 
     # Este método será chamado pelo lote quando a consulta for concluída com sucesso
     @api.multi
