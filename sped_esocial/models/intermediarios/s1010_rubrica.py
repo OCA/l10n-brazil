@@ -239,6 +239,10 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S1010 = pysped.esocial.leiaute.S1010_2()
 
@@ -273,12 +277,12 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
         if operacao == 'A':
 
             if not self.rubrica_id.alt_valid:
-                raise ValidationError("O período de Alteração não está definido na Rubrica !")
-
-            # Alteração da Validade neste evento
-            S1010.evento.infoRubrica.novaValidade.iniValid.valor = \
-                self.rubrica_id.alt_valid.code[3:7] + '-' + \
-                self.rubrica_id.alt_valid.code[0:2]
+                validacao += "O período de Alteração não está definido na Rubrica !\n"
+            else:
+                # Alteração da Validade neste evento
+                S1010.evento.infoRubrica.novaValidade.iniValid.valor = \
+                    self.rubrica_id.alt_valid.code[3:7] + '-' + \
+                    self.rubrica_id.alt_valid.code[0:2]
 
         # Exclusão popula a tag fimValid
         if operacao == 'E':
@@ -334,7 +338,7 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
             S1010.evento.infoRubrica.dadosRubrica.observacao.valor = \
                 self.rubrica_id.note
 
-        return S1010
+        return S1010, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

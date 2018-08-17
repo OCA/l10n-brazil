@@ -120,6 +120,10 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         um contrato de trabalho
         :return:
         """
+
+        # Cria a variável de validação de conteúdo
+        validacao = ""
+
         # Cria o registro
         S2200 = pysped.esocial.leiaute.S2200_2()
 
@@ -299,8 +303,9 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         partner_id = self.hr_contract_id.employee_id.address_home_id
 
         if not partner_id.street:
-            raise Warning('Por favor preencha corretamente o endereço do '
-                          'funcionário {}'.format(partner_id.name))
+            validacao += 'Por favor preencha corretamente o endereço do ' \
+                         'funcionário {}\n'.format(partner_id.name)
+
         Brasil.dscLograd.valor = \
             self.hr_contract_id.employee_id.address_home_id.street
         Brasil.nrLograd.valor = \
@@ -311,17 +316,19 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             self.hr_contract_id.employee_id.address_home_id.district or ''
 
         if not partner_id.zip:
-            raise Warning('Por favor preencha corretamente o CEP do '
-                          'funcionário {}'.format(partner_id.name))
-        Brasil.cep.valor = limpa_formatacao(
-            self.hr_contract_id.employee_id.address_home_id.zip) or ''
+            validacao += 'Por favor preencha corretamente o CEP do ' \
+                          'funcionário {}\n'.format(partner_id.name)
+        else:
+            Brasil.cep.valor = limpa_formatacao(
+                self.hr_contract_id.employee_id.address_home_id.zip) or ''
 
         if not partner_id.l10n_br_city_id:
-            raise Warning('Por favor preencha corretamente o Município e a UF'
-                          ' do funcionário {}'.format(partner_id.name))
-        Brasil.codMunic.valor = \
-            self.hr_contract_id.employee_id.address_home_id.l10n_br_city_id.state_id.ibge_code + \
-            self.hr_contract_id.employee_id.address_home_id.l10n_br_city_id.ibge_code
+            validacao += 'Por favor preencha corretamente o Município e a UF' \
+                          ' do funcionário {}\n'.format(partner_id.name)
+        else:
+            Brasil.codMunic.valor = \
+                self.hr_contract_id.employee_id.address_home_id.l10n_br_city_id.state_id.ibge_code + \
+                self.hr_contract_id.employee_id.address_home_id.l10n_br_city_id.ibge_code
         Brasil.uf.valor = self.hr_contract_id.employee_id.address_home_id.state_id.code
         S2200.evento.trabalhador.endereco.brasil.append(Brasil)
 
@@ -333,10 +340,10 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 Dependente.nmDep.valor = dependente.dependent_name
                 if dependente.precisa_cpf:
                     if not dependente.dependent_cpf:
-                        raise ValidationError(
-                            "O trabalhador {} está faltando o CPF de um dependente !".format(
-                                self.hr_contract_id.employee_id.name))
-                    Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
+                        validacao += "O trabalhador {} está faltando o CPF de um dependente !\n".format(
+                                self.hr_contract_id.employee_id.name)
+                    else:
+                        Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
                 Dependente.dtNascto.valor = dependente.dependent_dob
                 Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
                 Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
@@ -466,7 +473,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 SucessaoVinc.observacao.valor = self.hr_contract_id.observacoes_vinculo_anterior
             S2200.evento.vinculo.sucessaoVinc.append(SucessaoVinc)
 
-        return S2200
+        return S2200, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

@@ -174,6 +174,10 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         Função para popular o xml com os dados referente ao desligamento de
         um contrato de trabalho sem vinculo
         """
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S2399 = pysped.esocial.leiaute.S2399_2()
 
@@ -254,7 +258,7 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         verba_rescisoria.dmDev.append(dm_dev)
         S2399.evento.infoTSVTermino.verbasResc.append(verba_rescisoria)
 
-        return S2399
+        return S2399, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

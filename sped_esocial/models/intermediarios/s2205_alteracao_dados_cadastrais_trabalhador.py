@@ -107,6 +107,10 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         Função para popular o xml com os dados referente a alteração de
         dados cadastrais do funcionário
         """
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S2205 = pysped.esocial.leiaute.S2205_2()
         empregado_id = self.hr_employee_id
@@ -238,7 +242,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             TrabEstrangeiro.filhosBr.valor = empregado_id.filhos_br
             dados_trabalhador.trabEstrangeiro.append(TrabEstrangeiro)
 
-        return S2205
+        return S2205, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

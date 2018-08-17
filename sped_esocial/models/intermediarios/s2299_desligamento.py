@@ -157,6 +157,10 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         um contrato de trabalho
         :return:
         """
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S2299 = pysped.esocial.leiaute.S2299_2()
 
@@ -265,7 +269,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         verba_rescisoria.dmDev.append(ide_dm_dev)
 
         infoDeslig.verbaResc.append(verba_rescisoria)
-        return S2299
+        return S2299, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

@@ -223,6 +223,11 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
+        # S-1050
         S1050 = pysped.esocial.leiaute.S1050_2()
 
         # Popula ideEvento
@@ -290,7 +295,7 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
         dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
         S1050.gera_id_evento(dh_transmissao)
 
-        return S1050
+        return S1050, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

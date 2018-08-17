@@ -235,6 +235,10 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S1020 = pysped.esocial.leiaute.S1020_2()
 
@@ -265,11 +269,11 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
         if operacao == 'A':
 
             if not self.lotacao_id.lotacao_periodo_atualizacao_id:
-                raise ValidationError("O período de Atualização da Lotação Tributária não está definido na Empresa !")
-
-            S1020.evento.infoLotacao.novaValidade.iniValid.valor = \
-                self.lotacao_id.lotacao_periodo_atualizacao_id.code[3:7] + '-' + \
-                self.lotacao_id.lotacao_periodo_atualizacao_id.code[0:2]
+                validacao += "O período de Atualização da Lotação Tributária não está definido na Empresa !\n"
+            else:
+                S1020.evento.infoLotacao.novaValidade.iniValid.valor = \
+                    self.lotacao_id.lotacao_periodo_atualizacao_id.code[3:7] + '-' + \
+                    self.lotacao_id.lotacao_periodo_atualizacao_id.code[0:2]
 
         # Exclusão popula a tag fimValid
         if operacao == 'E':
@@ -296,7 +300,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
         # S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.codTercs.valor =
         # self.origem.lotacao_id.cod_tercs_id.codigo
 
-        return S1020
+        return S1020, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

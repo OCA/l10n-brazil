@@ -237,6 +237,10 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S1030 = pysped.esocial.leiaute.S1030_2()
 
@@ -285,7 +289,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
             CargoPublico.dtLei.valor = self.cargo_id.dt_lei
             CargoPublico.sitCargo.valor = self.cargo_id.sit_cargo
 
-        return S1030
+        return S1030, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

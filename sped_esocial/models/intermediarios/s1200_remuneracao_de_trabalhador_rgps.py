@@ -125,6 +125,9 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
     def popula_xml(self, ambiente='2', operacao='na'):
         self.ensure_one()
 
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S1200 = pysped.esocial.leiaute.S1200_2()
         S1200.tpInsc = '1'
@@ -296,7 +299,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             dm_dev.infoPerApur.append(info_per_apur)
             S1200.evento.dmDev.append(dm_dev)
 
-        return S1200
+        return S1200, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

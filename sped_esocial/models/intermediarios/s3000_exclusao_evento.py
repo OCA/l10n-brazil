@@ -90,6 +90,9 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
     def popula_xml(self, ambiente='2', operacao='I'):
         self.ensure_one()
 
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S3000 = pysped.esocial.leiaute.S3000_2()
 
@@ -129,7 +132,7 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
                 self.sped_registro_id.origem_intermediario.periodo_id.code[0:2]
             S3000.evento.infoExclusao.ideFolhaPagto.append(ide_folhapagto)
 
-        return S3000
+        return S3000, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

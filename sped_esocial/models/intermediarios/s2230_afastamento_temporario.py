@@ -123,6 +123,10 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         temporário de um trabalhador
         """
         pass
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S2230 = pysped.esocial.leiaute.S2230_2()
         holiday_id = self.hr_holiday_id
@@ -182,7 +186,7 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         if bloco_inicio and bloco_fim:
             self.sped_afastamento_encerrado = self.sped_afastamento
 
-        return S2230
+        return S2230, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

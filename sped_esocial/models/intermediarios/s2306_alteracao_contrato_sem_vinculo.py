@@ -144,6 +144,10 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
         Função para popular o xml com os dados referente a alteração de
         dados contratuais
         """
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S2306 = pysped.esocial.leiaute.S2306_2()
         contrato_id = self.hr_contract_id
@@ -198,7 +202,7 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
 
         S2306.evento.infoTSVAlteracao.infoComplementares.remuneracao.append(Remuneracao)
 
-        return S2306
+        return S2306, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

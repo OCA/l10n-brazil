@@ -138,6 +138,9 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
     def popula_xml(self, ambiente='2', operacao='I'):
         self.ensure_one()
 
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S1299 = pysped.esocial.leiaute.S1299_2()
         S1299.tpInsc = '1'
@@ -177,7 +180,7 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
                 self.comp_sem_movto.code[3:7] + '-' + \
                 self.comp_sem_movto.code[0:2]
 
-        return S1299
+        return S1299, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

@@ -124,6 +124,9 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
     def popula_xml(self, ambiente='2', operacao='na'):
         self.ensure_one()
 
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S1210 = pysped.esocial.leiaute.S1210_2()
         S1210.tpInsc = '1'
@@ -306,7 +309,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             # Popula infoPgto
             S1210.evento.ideBenef.infoPgto.append(info_pgto)
 
-        return S1210
+        return S1210, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

@@ -250,6 +250,10 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S1005 = pysped.esocial.leiaute.S1005_2()
 
@@ -289,24 +293,24 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
 
             # Se o campo periodo_atualizacao_id não estiver preenchido, retorne erro de dados para o usuário
             if not self.estabelecimento_id.estabelecimento_periodo_atualizacao_id:
-                raise ValidationError("O campo 'Período da Última Atualização' no Estabelecimento não está preenchido !")
-
-            # Popula infoEstab.novaValidade
-            S1005.evento.infoEstab.novaValidade.iniValid.valor = \
-                self.estabelecimento_id.estabelecimento_periodo_atualizacao_id.code[3:7] + '-' + \
-                self.estabelecimento_id.estabelecimento_periodo_atualizacao_id.code[0:2]
+                validacao += "O campo 'Período da Última Atualização' no Estabelecimento não está preenchido !\n"
+            else:
+                # Popula infoEstab.novaValidade
+                S1005.evento.infoEstab.novaValidade.iniValid.valor = \
+                    self.estabelecimento_id.estabelecimento_periodo_atualizacao_id.code[3:7] + '-' + \
+                    self.estabelecimento_id.estabelecimento_periodo_atualizacao_id.code[0:2]
 
         # Se for operacao=='E' (Exclusão) Popula idePeriodo usando
         if operacao == 'E':
 
             # Se o campo periodo_exclusao_id não estiver preenchido, retorne erro de dados para o usuário
             if not self.estabelecimento_id.estabelecimento_periodo_final_id:
-                raise ValidationError("O campo 'Período Final' no Estabelecimento não está preenchido !")
-
-            # Popula infoEmpregador.idePeriodo.fimValid
-            S1005.evento.infoEstab.novaValidade.fimValid.valor = \
-                self.estabelecimento_id.estabelecimento_periodo_final_id.code[3:7] + '-' + \
-                self.estabelecimento_id.estabelecimento_periodo_final_id.code[0:2]
+                validacao += "O campo 'Período Final' no Estabelecimento não está preenchido !\n"
+            else:
+                # Popula infoEmpregador.idePeriodo.fimValid
+                S1005.evento.infoEstab.novaValidade.fimValid.valor = \
+                    self.estabelecimento_id.estabelecimento_periodo_final_id.code[3:7] + '-' + \
+                    self.estabelecimento_id.estabelecimento_periodo_final_id.code[0:2]
 
         # Localiza o percentual de RAT e FAP para esta empresa neste período
         if self.company_id.estabelecimento_periodo_atualizacao_id:
@@ -319,16 +323,15 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         ]
         rat_fap = self.env['l10n_br.hr.rat.fap'].search(domain)
         if not rat_fap:
-            raise Exception(
-                "Tabela de RAT/FAP não encontrada para este período")
-
-        # Popula aligGilRat
-        S1005.evento.infoEstab.dadosEstab.aliqGilrat.aliqRat.valor = int(
-            rat_fap.rat_rate)
-        S1005.evento.infoEstab.dadosEstab.aliqGilrat.fap.valor = formata_valor(
-            rat_fap.fap_rate)
-        S1005.evento.infoEstab.dadosEstab.aliqGilrat.aliqRatAjust.valor = \
-            formata_valor(rat_fap.rat_rate * rat_fap.fap_rate)
+            validacao += "Tabela de RAT/FAP não encontrada para este período\n"
+        else:
+            # Popula aligGilRat
+            S1005.evento.infoEstab.dadosEstab.aliqGilrat.aliqRat.valor = int(
+                rat_fap.rat_rate)
+            S1005.evento.infoEstab.dadosEstab.aliqGilrat.fap.valor = formata_valor(
+                rat_fap.fap_rate)
+            S1005.evento.infoEstab.dadosEstab.aliqGilrat.aliqRatAjust.valor = \
+                formata_valor(rat_fap.rat_rate * rat_fap.fap_rate)
 
         # Popula infoCaepf
         if self.estabelecimento_id.tp_caepf:
@@ -360,7 +363,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             info_pcd.contPCD.valor = self.estabelecimento_id.cont_pcd
             S1005.evento.infoEstab.dadosEstab.infoTrab.infoPCD.append(info_pcd)
 
-        return S1005
+        return S1005, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

@@ -161,6 +161,10 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         Função para popular o xml com os dados referente a alteração de
         dados contratuais
         """
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         S2206 = pysped.esocial.leiaute.S2206_2()
         contrato_id = self.hr_contract_id
@@ -267,7 +271,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
 
             info_contrato.filiacaoSindical.append(filiacao_sindical)
 
-        return S2206
+        return S2206, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):
