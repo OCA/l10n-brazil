@@ -371,8 +371,10 @@ class SpedLote(models.Model, ):
         sequencia = 1
         for registro in self.transmissao_ids:
             if registro.registro not in ['S-5001', 'S-5002', 'S-5011', 'S-5012']:
-                eventos.append(registro.calcula_xml(sequencia=sequencia))
-                sequencia += 1
+                evento = registro.calcula_xml(sequencia=sequencia)
+                if evento:
+                    eventos.append(evento)
+                    sequencia += 1
 
         # Popula a data/hora da transmissão do lote
         data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
