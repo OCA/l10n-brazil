@@ -32,6 +32,7 @@
     ],
     'demo': [
         'demo/base_demo.xml',
+        'demo/l10n_br_chart_demo.xml',
     ],
     'installable': True,
     'auto_install': False,
