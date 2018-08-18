@@ -111,7 +111,7 @@ class ResCompany(models.Model):
 
     inscr_mun = fields.Char(
         compute=_get_l10n_br_data,
-        string=u'Inscr. Municipal'
+        string=u'Inscr. Municipal',
         inverse=_set_l10n_br_inscr_mun,
         size=18)
 
