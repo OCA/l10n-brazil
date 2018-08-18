@@ -1,133 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <!-- Parceiro -->
-        <record id="view_l10n_br_base_partner_filter" model="ir.ui.view">
-            <field name="name">l10n_br_base.partner.filter</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_res_partner_filter"/>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="legal_name"/>
-                    <field name="cnpj_cpf"/>
-                </field>
+    <!--
+    views: res.partner
+    -->
+    <record id="view_l10n_br_base_partner_filter" model="ir.ui.view">
+        <field name="name">l10n_br_base.partner.filter</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="legal_name"/>
+                <field name="cnpj_cpf"/>
             </field>
-        </record>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_base_partner_tree" model="ir.ui.view">
-            <field name="name">l10n_br_base.partner.tree</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_tree"/>
-            <field name="arch" type="xml">
-                <field name="display_name" position="after">
-                    <field name="legal_name"/>
-                    <field name="cnpj_cpf"/>
-                    <field name="inscr_est"/>
-                </field>
+    <record id="view_l10n_br_base_partner_tree" model="ir.ui.view">
+        <field name="name">l10n_br_base.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="legal_name"/>
+                <field name="cnpj_cpf"/>
+                <field name="inscr_est"/>
             </field>
-        </record>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_base_partner_form" model="ir.ui.view">
-            <field name="name">l10n_br_base.partner.form</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//h1" position="after">
-                    <group>
-                        <div class="oe_edit_only">
-                            <label for="legal_name" string="Nome e Sobrenome"
-                                   attrs="{'invisible': [('is_company','=', True)]}"/>
-                            <label for="legal_name" string="Razão Social"
-                                   attrs="{'invisible': [('is_company','!=', True)]}"/>
-                        </div>
-                        <field colspan="4" name="legal_name" nolabel="1"/>
-                        <div class="oe_edit_only">
-                            <label for="cnpj_cpf" string="CPF" attrs="{'invisible': [('is_company','=', True)]}"/>
-                            <label for="cnpj_cpf" string="CNPJ/Id Estrangeiro"
-                                   attrs="{'invisible': [('is_company','!=', True)]}"/>
-                        </div>
-                        <field colspan="4" name="cnpj_cpf" nolabel="1"/>
-                        <div class="oe_edit_only">
-                            <label for="inscr_est" string="Inscr. Estadual"
-                                   attrs="{'invisible': [('is_company','!=', True)]}"/>
-                            <label for="inscr_est" string="RG"
-                                   attrs="{'invisible': [('is_company','=', True)]}"/>
-                        </div>
-                        <field colspan="4" name="inscr_est" nolabel="1"/>
-                    </group>
-                </xpath>
-                <field name="street2" position="replace"/>
-                <field name="zip" position="replace"/>
-                <field name="street" position="replace">
-                    <field name="zip" placeholder="CEP" style="width:50%"/>
-                    <field name="street" placeholder="Logradouro"/>
-                    <field name="number" placeholder="Número"/>
-                    <field name="street2" placeholder="Complemento"/>
-                    <field name="district" placeholder="Bairro"/>
-                </field>
-                <field name="state_id" position="attributes">
-                    <attribute name="domain">[('country_id','=',country_id)]</attribute>
-                    <attribute name="style">width:100%</attribute>
-                </field>
-                <field name="country_id" position="replace"/>
-                <field name="state_id" position="before">
-                    <field name="country_id" placeholder="País"/>
-                </field>
-                <field name="state_id" position="after">
-                    <field name="l10n_br_city_id" placeholder="Cidade"/>
-                </field>
-                <field name="city" position="replace">
-                    <field name="city" invisible="1"/>
-                </field>
-                <page position="after" name="sales_purchases">
-                    <page string="Fiscal" name="fiscal">
-                        <group>
-                            <field name="inscr_mun" attrs="{'invisible': [('is_company','!=', True)]}"/>
-                            <field name="suframa" attrs="{'invisible': [('is_company','!=', True)]}"/>
-                        </group>
-                    </page>
-                </page>
-                <xpath expr="//div[@name='div_address']/field[@name='street']" position="after">
-                    <field name="number" placeholder="Número"/>
-                </xpath>
-                <xpath expr="//div[@name='div_address']/field[@name='street2']" position="attributes">
-                    <attribute name="placeholder">Complemento</attribute>
-                </xpath>
-                <xpath expr="//div[@name='div_address']/field[@name='street2']" position="after">
-                    <field name="district" placeholder="Bairro"/>
-                </xpath>
-                <xpath expr="//div[@name='div_address']/field[@name='state_id']" position="after">
-                    <field name="l10n_br_city_id" placeholder="Cidade" style="width: 40%%"/>
-                </xpath>
-                <xpath expr="//div[@name='div_address']/field[@name='city']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//div[@name='div_address']" position="replace">
-                    <div name="div_address">
-                        <field name="zip" placeholder="CEP" style="width: 20%"/>
-                        <div class="address_format">
-                            <field name="street" placeholder="Logradouro" style="width: 70%"/>
-                            <field name="number" placeholder="Número" style="width: 20%"/>
-                        </div>
-                        <div class="address_format">
-                            <field name="street2" placeholder="Complemento" style="width: 45%"/>
-                            <field name="district" placeholder="Bairro" style="width: 45%"/>
-                        </div>
-                        <div class="address_format">
-                            <field name="country_id" placeholder="País" class="oe_no_button"
-                                   options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
-                                   style="width: 30%"/>
-                            <field name="state_id" class="oe_no_button" placeholder="Estado"
-                                   style="width: 30%" options="{&quot;no_open&quot;: True}"
-                                   domain="[('country_id','=',country_id)]"/>
-                            <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>
-                        </div>
+    <record id="view_l10n_br_base_partner_form" model="ir.ui.view">
+        <field name="name">l10n_br_base.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1" position="after">
+                <group>
+                    <div class="oe_edit_only">
+                        <label for="legal_name" string="Nome e Sobrenome"
+                               attrs="{'invisible': [('is_company','=', True)]}"/>
+                        <label for="legal_name" string="Razão Social"
+                               attrs="{'invisible': [('is_company','!=', True)]}"/>
                     </div>
-                </xpath>
-
+                    <field colspan="4" name="legal_name" nolabel="1"/>
+                    <div class="oe_edit_only">
+                        <label for="cnpj_cpf" string="CPF" attrs="{'invisible': [('is_company','=', True)]}"/>
+                        <label for="cnpj_cpf" string="CNPJ/Id Estrangeiro"
+                               attrs="{'invisible': [('is_company','!=', True)]}"/>
+                    </div>
+                    <field colspan="4" name="cnpj_cpf" nolabel="1"/>
+                    <div class="oe_edit_only">
+                        <label for="inscr_est" string="Inscr. Estadual"
+                               attrs="{'invisible': [('is_company','!=', True)]}"/>
+                        <label for="inscr_est" string="RG"
+                               attrs="{'invisible': [('is_company','=', True)]}"/>
+                    </div>
+                    <field colspan="4" name="inscr_est" nolabel="1"/>
+                </group>
+            </xpath>
+            <field name="street2" position="replace"/>
+            <field name="zip" position="replace"/>
+            <field name="street" position="replace">
+                <field name="zip" placeholder="CEP" style="width:50%"/>
+                <field name="street" placeholder="Logradouro"/>
+                <field name="number" placeholder="Número"/>
+                <field name="street2" placeholder="Complemento"/>
+                <field name="district" placeholder="Bairro"/>
             </field>
-        </record>
+            <field name="state_id" position="attributes">
+                <attribute name="domain">[('country_id','=',country_id)]</attribute>
+                <attribute name="style">width:100%</attribute>
+            </field>
+            <field name="country_id" position="replace"/>
+            <field name="state_id" position="before">
+                <field name="country_id" placeholder="País"/>
+            </field>
+            <field name="state_id" position="after">
+                <field name="l10n_br_city_id" placeholder="Cidade"/>
+            </field>
+            <field name="city" position="replace">
+                <field name="city" invisible="1"/>
+            </field>
+            <page position="after" name="sales_purchases">
+                <page string="Fiscal" name="fiscal">
+                    <group>
+                        <field name="inscr_mun" attrs="{'invisible': [('is_company','!=', True)]}"/>
+                        <field name="suframa" attrs="{'invisible': [('is_company','!=', True)]}"/>
+                    </group>
+                </page>
+            </page>
+            <xpath expr="//div[@name='div_address']/field[@name='street']" position="after">
+                <field name="number" placeholder="Número"/>
+            </xpath>
+            <xpath expr="//div[@name='div_address']/field[@name='street2']" position="attributes">
+                <attribute name="placeholder">Complemento</attribute>
+            </xpath>
+            <xpath expr="//div[@name='div_address']/field[@name='street2']" position="after">
+                <field name="district" placeholder="Bairro"/>
+            </xpath>
+            <xpath expr="//div[@name='div_address']/field[@name='state_id']" position="after">
+                <field name="l10n_br_city_id" placeholder="Cidade" style="width: 40%%"/>
+            </xpath>
+            <xpath expr="//div[@name='div_address']/field[@name='city']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='div_address']" position="replace">
+                <div name="div_address">
+                    <field name="zip" placeholder="CEP" style="width: 20%"/>
+                    <div class="address_format">
+                        <field name="street" placeholder="Logradouro" style="width: 70%"/>
+                        <field name="number" placeholder="Número" style="width: 20%"/>
+                    </div>
+                    <div class="address_format">
+                        <field name="street2" placeholder="Complemento" style="width: 45%"/>
+                        <field name="district" placeholder="Bairro" style="width: 45%"/>
+                    </div>
+                    <div class="address_format">
+                        <field name="country_id" placeholder="País" class="oe_no_button"
+                               options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
+                               style="width: 30%"/>
+                        <field name="state_id" class="oe_no_button" placeholder="Estado"
+                               style="width: 30%" options="{&quot;no_open&quot;: True}"
+                               domain="[('country_id','=',country_id)]"/>
+                        <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>
+                    </div>
+                </div>
+            </xpath>
+    </record>
 
-    </data>
-</openerp>
+</odoo>
+
+        </field>
+    </record>
+
+</odoo>
