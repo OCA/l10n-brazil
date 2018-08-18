@@ -98,7 +98,7 @@
         <field name="suframa"></field>
         <field name="customer" eval="0"/>
         <field name="supplier" eval="1"/>
-	<field name="is_company" eval="1"/>
+        <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
 
@@ -309,7 +309,7 @@
 
     <record id="res_partner_cliente6_pe" model="res.partner">
         <field name="name">Cliente 6 - Simples Nacional- PE</field>
-	<field name="legal_name">Cliente 6 Recife LTDA</field>
+        <field name="legal_name">Cliente 6 Recife LTDA</field>
         <field name="cnpj_cpf">97.449.840/0001-78</field>
         <field name="street">Av. República do Líbano</field>
         <field name="number">275</field>
@@ -332,7 +332,7 @@
 
     <record id="res_partner_cliente7_rs" model="res.partner">
         <field name="name">Cliente 7 RS - Contribuinte</field>
-	<field name="legal_name">Cliente 7 - RS</field>
+        <field name="legal_name">Cliente 7 - RS</field>
         <field name="cnpj_cpf">43.266.887/0001-77</field>
         <field name="street">Avenida Ipiranga</field>
         <field name="number">6690</field>
@@ -453,11 +453,11 @@
         <field name="street">R PRESIDENTE ROOSEVELT</field>
         <field name="number">63</field>
         <field name="district">Morro Chic</field>
-	<field name="street2"></field>
+        <field name="street2"></field>
         <field name="state_id" ref="base.state_br_mg"/>
         <field name="l10n_br_city_id" ref="l10n_br_base.city_3132404"/>
         <field name="zip">37500-070</field>
-	<field name="country_id" ref="base.br"/>
+        <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente10.com.br</field>
         <field name="phone">(35) 3622-7085</field>
         <field name="email">cliente10@cliente10.com.br</field>
