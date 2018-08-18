@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <record id="view_company_form_inherited" model="ir.ui.view">
-            <field name="name">view_company_form_inherited</field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="base.view_company_form"/>
-            <field name="arch" type="xml">
-                <field name="street2" position="replace"/>
-                <field name="zip" position="replace"/>
-                <field name="street" position="replace">
-                    <field name="zip" placeholder="CEP" style="width:50%" />
-                    <field name="street" placeholder="Logradouro" />
-                    <field name="number" placeholder="Número"/>
-                    <field name="street2" placeholder="Complemento"/>
-                    <field name="district" placeholder="Bairro"/>
-                </field>
-                <field name="state_id" position="attributes">
-                    <attribute name="domain">[('country_id','=',country_id)]</attribute>
-                    <attribute name="style">width:100%</attribute>
-                </field>
-                <field name="parent_id" position="before">
-                    <field name="legal_name" placeholder="Razão Social"/>
-                </field>
-                <field name="country_id" position="replace"/>
-                <field name="state_id" position="before">
-                    <field name="country_id" placeholder="País" />
-                </field>            
-                <field name="state_id" position="after">
-                    <field name="l10n_br_city_id" placeholder="Cidade"/>
-                </field>
-                <field name="city" position="replace">
-                    <field name="city" invisible="1"/>
-                </field>
-                <field name="company_registry" position="after">
-                    <field name="cnpj_cpf" placeholder="CNPJ"/>
-                    <field name="inscr_est" placeholder="Inscr. Estadual"/>
-                    <field name="inscr_mun" placeholder="Inscr. Municipal"/>
-                    <field name="suframa" placeholder="Suframa"/>
-                </field>
+    <!--
+    Views: res.company
+    -->
+    <record id="view_company_form_inherited" model="ir.ui.view">
+        <field name="name">view_company_form_inherited</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <field name="street2" position="replace"/>
+            <field name="zip" position="replace"/>
+            <field name="street" position="replace">
+                <field name="zip" placeholder="CEP" style="width:50%" />
+                <field name="street" placeholder="Logradouro" />
+                <field name="number" placeholder="Número"/>
+                <field name="street2" placeholder="Complemento"/>
+                <field name="district" placeholder="Bairro"/>
             </field>
-        </record>
-
-        <record id="view_company_tree_inherited" model="ir.ui.view">
-            <field name="name">res.company.tree.inherited</field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="base.view_company_tree"/>
-            <field name="field_parent">child_ids</field>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="cnpj_cpf"/>
-                </field>
+            <field name="state_id" position="attributes">
+                <attribute name="domain">[('country_id','=',country_id)]</attribute>
+                <attribute name="style">width:100%</attribute>
             </field>
-        </record>
+            <field name="parent_id" position="before">
+                <field name="legal_name" placeholder="Razão Social"/>
+            </field>
+            <field name="country_id" position="replace"/>
+            <field name="state_id" position="before">
+                <field name="country_id" placeholder="País" />
+            </field>            
+            <field name="state_id" position="after">
+                <field name="l10n_br_city_id" placeholder="Cidade"/>
+            </field>
+            <field name="city" position="replace">
+                <field name="city" invisible="1"/>
+            </field>
+            <field name="company_registry" position="after">
+                <field name="cnpj_cpf" placeholder="CNPJ"/>
+                <field name="inscr_est" placeholder="Inscr. Estadual"/>
+                <field name="inscr_mun" placeholder="Inscr. Municipal"/>
+                <field name="suframa" placeholder="Suframa"/>
+            </field>
+        </field>
+    </record>
 
-    </data>
-</openerp>
+    <record id="view_company_tree_inherited" model="ir.ui.view">
+        <field name="name">res.company.tree.inherited</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_tree"/>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="cnpj_cpf"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
