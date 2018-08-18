@@ -10,20 +10,31 @@ class TestGenerateMultiChartsAccounts(TransactionCase):
 
     def setUp(self):
         super(TestGenerateMultiChartsAccounts, self).setUp()
+
         self.company_1 = self.env['res.company'].create(
             dict(
                 name='Empresa TESTE',
-                currency_id=self.env.ref('base.BRL').id
+                country_id=self.env.ref('base.br').id,
+                currency_id=self.env.ref('base.BRL').id,
+                transfer_account_id=self.env.ref(
+                    'l10n_br.transfer_account_id').id,
             ))
-        self.account_id = self.env['account.account.template'].search([])[0]
+
+        self.account_chart_template_1 = self.env.ref(
+            'l10n_br_account.l10n_br_account_chart_template_demo')
+
         self.wzd_account_multi_charts_accounts = self.env[
             'wizard.multi.charts.accounts'].create(
             dict(
                 company_id=self.company_1.id,
                 currency_id=self.env.ref('base.BRL').id,
-                transfer_account_id=self.account_id.id,
+                transfer_account_id=self.env.ref(
+                    'l10n_br.transfer_account_id').id,
                 code_digits=6,
+                chart_template_id=self.account_chart_template_1.id,
             ))
+        self.wzd_account_multi_charts_accounts.onchange_chart_template_id()
 
     def test_generate_multi_charts_accounts(self):
+
         self.wzd_account_multi_charts_accounts.execute()
