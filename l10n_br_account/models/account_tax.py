@@ -14,13 +14,6 @@ class AccountTax(models.Model):
         result = {'tax_discount': 0.0, 'taxes': []}
 
         for tax in taxes:
-            if tax.get('type') == 'weight' and product:
-                weight_net = product.weight_net
-                float_val = product_qty * weight_net * tax['percent']
-                tax['amount'] = round(float_val, precision)
-
-            if tax.get('type') == 'quantity':
-                tax['amount'] = round(product_qty * tax['percent'], precision)
 
             tax['amount'] = round(
                 tax['amount'] * (1 - tax['base_reduction']), precision)
