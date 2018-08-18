@@ -34,7 +34,6 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
         :param company_id: selected from wizard.multi.charts.accounts.
         :returns: True
         """
-        print '========= ACCOUNT FISCAL POSITION TEMPLATE ============'
         obj_tax_fp = self.env['account.fiscal.position.tax']
         obj_ac_fp = self.env['account.fiscal.position.account']
         obj_fiscal_position = self.env['account.fiscal.position']
