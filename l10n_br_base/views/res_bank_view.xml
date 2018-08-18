@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <record id="view_l10n_br_base_bank_form" model="ir.ui.view">
-            <field name="name">l10n_br_base.bank.form</field>
-            <field name="model">res.bank</field>
-            <field name="inherit_id" ref="base.view_res_bank_form"/>
-            <field name="arch" type="xml">
-                <field name="street2" position="replace"/>
-                <field name="zip" position="replace"/>
-                <field name="street" position="replace">
-                    <field name="zip" placeholder="CEP" style="width:50%" />
-                    <field name="street" placeholder="Logradouro" />
-                    <field name="number" placeholder="Número"/>
-                    <field name="street2" placeholder="Complemento"/>
-                    <field name="district" placeholder="Bairro"/>
-                    <field name="country_id" placeholder="País"/>
-                    <field name="state_id" placeholder="Estado"/>
-                    <field name="l10n_br_city_id" placeholder="Cidade"/>
-                </field>
-                <field name="state_id" position="attributes">
-                    <attribute name="domain">[('country_id','=',country_id)]</attribute>
-                    <attribute name="style">width:100%</attribute>
-                </field>
-                <field name="country" position="replace"/>
-                <field name="state" position="replace"/>
-                <field name="city" position="replace"/>
+    <!--
+    Views: res.bank
+    -->
+    <record id="view_l10n_br_base_bank_form" model="ir.ui.view">
+        <field name="name">l10n_br_base.bank.form</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_form"/>
+        <field name="arch" type="xml">
+            <field name="street2" position="replace"/>
+            <field name="zip" position="replace"/>
+            <field name="street" position="replace">
+                <field name="zip" placeholder="CEP" style="width:50%" />
+                <field name="street" placeholder="Logradouro" />
+                <field name="number" placeholder="Número"/>
+                <field name="street2" placeholder="Complemento"/>
+                <field name="district" placeholder="Bairro"/>
+                <field name="country_id" placeholder="País"/>
+                <field name="state_id" placeholder="Estado"/>
+                <field name="l10n_br_city_id" placeholder="Cidade"/>
             </field>
-        </record>
-
-        <!-- res.partner.bank-->
-        <record id="view_l10n_br_base_partner_bank_form" model="ir.ui.view">
-            <field name="name">view_l10n_br_base.partner.bank.form</field>
-            <field name="model">res.partner.bank</field>
-            <field name="inherit_id" ref="base.view_partner_bank_form"/>
-            <field name="arch" type="xml">
-                <field name="acc_number" position="replace">
-                    <newline/>
-                    <field name="acc_number" select="1"/>
-                    <field name="acc_number_dig" select="1"/>
-                    <newline/>
-                    <field name="bra_number" select="1"/>
-                    <field name="bra_number_dig" select="1"/>
-                </field>
+            <field name="state_id" position="attributes">
+                <attribute name="domain">[('country_id','=',country_id)]</attribute>
+                <attribute name="style">width:100%</attribute>
             </field>
-        </record>
+            <field name="country" position="replace"/>
+            <field name="state" position="replace"/>
+            <field name="city" position="replace"/>
+        </field>
+    </record>
 
-        <record id="view_l10n_br_base_partner_bank_tree" model="ir.ui.view">
-            <field name="name">view_l10n_br_base.partner.bank.tree</field>
-            <field name="model">res.partner.bank</field>
-            <field name="inherit_id" ref="base.view_partner_bank_tree"/>
-            <field name="arch" type="xml">
-                <field name="acc_number" position="replace">
-                    <field name="acc_number"/>
-                    <field name="acc_number_dig"/>
-                    <field name="bra_number"/>
-                    <field name="bra_number_dig"/>
-                </field>
+    <!--
+    Views: res.partner.bank
+    -->
+    <record id="view_l10n_br_base_partner_bank_form" model="ir.ui.view">
+        <field name="name">view_l10n_br_base.partner.bank.form</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <field name="acc_number" position="replace">
+                <newline/>
+                <field name="acc_number" select="1"/>
+                <field name="acc_number_dig" select="1"/>
+                <newline/>
+                <field name="bra_number" select="1"/>
+                <field name="bra_number_dig" select="1"/>
             </field>
-        </record>
+        </field>
+    </record>
 
-    </data>
-</openerp>
+    <record id="view_l10n_br_base_partner_bank_tree" model="ir.ui.view">
+        <field name="name">view_l10n_br_base.partner.bank.tree</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+        <field name="arch" type="xml">
+            <field name="acc_number" position="replace">
+                <field name="acc_number"/>
+                <field name="acc_number_dig"/>
+                <field name="bra_number"/>
+                <field name="bra_number_dig"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
