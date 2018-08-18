@@ -14,6 +14,11 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
                                     models.Model):
     _inherit = 'account.fiscal.position.template'
 
+    cfop_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.cfop',
+        string='CFOP'
+    )
+
     def generate_fiscal_position(self, chart_temp_id,
                                  tax_template_ref, acc_template_ref,
                                  company_id):
@@ -29,6 +34,7 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
         :param company_id: selected from wizard.multi.charts.accounts.
         :returns: True
         """
+        print '========= ACCOUNT FISCAL POSITION TEMPLATE ============'
         obj_tax_fp = self.env['account.fiscal.position.tax']
         obj_ac_fp = self.env['account.fiscal.position.account']
         obj_fiscal_position = self.env['account.fiscal.position']
