@@ -127,10 +127,6 @@
                     </div>
                 </div>
             </xpath>
-    </record>
-
-</odoo>
-
         </field>
     </record>
 
