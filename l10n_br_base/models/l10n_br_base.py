@@ -13,6 +13,16 @@ class L10nBrBaseCity(models.Model):
     _name = 'l10n_br_base.city'
     _description = u'Municipio'
 
-    name = fields.Char('Nome', size=64, required=True)
-    state_id = fields.Many2one('res.country.state', 'Estado', required=True)
-    ibge_code = fields.Char(u'Código IBGE', size=7)
+    name = fields.Char(
+        string=u'Nome',
+        size=64,
+        required=True)
+
+    state_id = fields.Many2one(
+        comodel_name='res.country.state',
+        string=u'Estado',
+        required=True)
+
+    ibge_code = fields.Char(
+        string=u'Código IBGE',
+        size=7)
