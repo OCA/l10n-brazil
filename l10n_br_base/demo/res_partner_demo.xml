@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <!--  Resource: res.partner    -->
+    <!--
+    Resource: res.partner
+    -->
+    <record id="base.res_partner_1" model="res.partner">
+        <field name="name">ASUSTeK</field>
+        <field name="legal_name">ASUSTeK</field>
+    </record>
 
-        <record id="base.res_partner_1" model="res.partner">
-            <field name="name">ASUSTeK</field>
-            <field name="legal_name">ASUSTeK</field>
-        </record>
-        <record id="base.res_partner_2" model="res.partner">
-            <field name="name">Agrolait</field>
-            <field name="legal_name">Agrolait</field>
-        </record>
-        <record id="base.res_partner_3" model="res.partner">
-            <field name="name">China Export</field>
-            <field name="legal_name">China Export</field>
-        </record>
+    <record id="base.res_partner_2" model="res.partner">
+        <field name="name">Agrolait</field>
+        <field name="legal_name">Agrolait</field>
+    </record>
 
-        <record id="base.res_partner_4" model="res.partner">
-            <field name="name">Delta PC</field>
-            <field name="legal_name">Delta PC</field>
-        </record>
+    <record id="base.res_partner_3" model="res.partner">
+        <field name="name">China Export</field>
+        <field name="legal_name">China Export</field>
+    </record>
 
+    <record id="base.res_partner_4" model="res.partner">
+        <field name="name">Delta PC</field>
+        <field name="legal_name">Delta PC</field>
+    </record>
 
-        <record id="base.res_partner_10" model="res.partner">
-            <field name="name">The Jackson Group</field>
-            <field name="legal_name">The Jackson Group</field>
-        </record>
+    <record id="base.res_partner_10" model="res.partner">
+        <field name="name">The Jackson Group</field>
+        <field name="legal_name">The Jackson Group</field>
+    </record>
 
-        <record id="base.res_partner_12" model="res.partner">
-            <field name="name">Camptocamp</field>
-            <field name="legal_name">CamptoCamp</field>
-        </record>
+    <record id="base.res_partner_12" model="res.partner">
+        <field name="name">Camptocamp</field>
+        <field name="legal_name">CamptoCamp</field>
+    </record>
 
-        <record id="base.res_partner_18" model="res.partner">
-            <field name="name">Think Big Systems</field>
-            <field name="legal_name">Think Big Systems</field>
-        </record>
+    <record id="base.res_partner_18" model="res.partner">
+        <field name="name">Think Big Systems</field>
+        <field name="legal_name">Think Big Systems</field>
+    </record>
 
-        <record id="base.res_partner_19" model="res.partner">
-            <field name="name">Seagate</field>
-            <field name="legal_name">Seagate</field>
-        </record>
-    </data>
-</openerp>
+    <record id="base.res_partner_19" model="res.partner">
+        <field name="name">Seagate</field>
+        <field name="legal_name">Seagate</field>
+    </record>
+
+</odoo>
