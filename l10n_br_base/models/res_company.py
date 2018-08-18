@@ -78,36 +78,55 @@ class ResCompany(models.Model):
         self.partner_id.suframa = self.suframa
 
     legal_name = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_legal_name,
-        size=128, string=u'Razão Social')
+        string=u'Razão Social',
+        compute=_get_l10n_br_data,
+        inverse=_set_l10n_br_legal_name,
+        size=128)
 
     district = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_district, size=32,
-        string="Bairro", multi='address')
+        compute=_get_l10n_br_data,
+        string=u'Bairro',
+        inverse=_set_l10n_br_district,
+        size=32,
+        multi='address')
 
     number = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_number, size=10,
-        string=u"Número", multi='address')
+        compute=_get_l10n_br_data,
+        string=u'Número',
+        inverse=_set_l10n_br_number,
+        size=10,
+        multi='address')
 
     cnpj_cpf = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_cnpj_cpf,
-        size=18, string='CNPJ/CPF')
+        compute=_get_l10n_br_data,
+        string='CNPJ/CPF',
+        inverse=_set_l10n_br_cnpj_cpf,
+        size=18)
 
     inscr_est = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_inscr_est,
-        size=16, string='Inscr. Estadual')
+        compute=_get_l10n_br_data,
+        string=u'Inscr. Estadual',
+        inverse=_set_l10n_br_inscr_est,
+        size=16)
 
     inscr_mun = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_inscr_mun,
-        size=18, string='Inscr. Municipal')
+        compute=_get_l10n_br_data,
+        string=u'Inscr. Municipal'
+        inverse=_set_l10n_br_inscr_mun,
+        size=18)
 
     suframa = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_suframa,
-        size=18, string='Suframa')
+        compute=_get_l10n_br_data,
+        string='Suframa',
+        inverse=_set_l10n_br_suframa,
+        size=18)
 
     l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]",
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_city_id)
+        comodel_name='l10n_br_base.city',
+        string=u'Municipio',
+        domain="[('state_id', '=', state_id)]",
+        compute=_get_l10n_br_data,
+        inverse=_set_l10n_br_city_id)
 
     @api.onchange('cnpj_cpf')
     def _onchange_cnpj_cpf(self):
