@@ -1,983 +1,979 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo noupdate="True">
 
-    <data noupdate="True">
-        <!-- TODO
-        <function eval="('default',False,'country_id', [('res.partner', False)], ref('base.br'), True, False, False, False, True)" id="country_br_set" model="ir.values" name="set_default"/>
-        -->
-        <record id="base.ad" model="res.country">
-            <field name="bc_code">00370</field>
-        </record>
-        
-        <record id="base.ae" model="res.country">
-            <field name="bc_code">02445</field>
-        </record>
-        
-        <record id="base.af" model="res.country">
-            <field name="bc_code">00132</field>
-        </record>
-        
-        <record id="base.ag" model="res.country">
-            <field name="bc_code">00434</field>
-        </record>
-        
-        <record id="base.ai" model="res.country">
-            <field name="bc_code">00418</field>
-        </record>
-        
-        <record id="base.al" model="res.country">
-            <field name="bc_code">00175</field>
-        </record>
-        
-        <record id="base.am" model="res.country">
-            <field name="bc_code">00647</field>
-        </record>
-        
-        <record id="base.an" model="res.country">
-            <field name="bc_code">00477</field>
-        </record>
-        
-        <record id="base.ao" model="res.country">
-            <field name="bc_code">00400</field>
-        </record>
-        
-        <record id="base.aq" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.ar" model="res.country">
-            <field name="bc_code">00639</field>
-        </record>
-        
-        <record id="base.as" model="res.country">
-            <field name="bc_code">06912</field>
-        </record>
-        
-        <record id="base.at" model="res.country">
-            <field name="bc_code">00728</field>
-        </record>
-        
-        <record id="base.au" model="res.country">
-            <field name="bc_code">00698</field>
-        </record>
-        
-        <record id="base.aw" model="res.country">
-            <field name="bc_code">00655</field>
-        </record>
-        
-        <record id="base.az" model="res.country">
-            <field name="bc_code">00736</field>
-        </record>
-        
-        <record id="base.ba" model="res.country">
-            <field name="bc_code">00981</field>
-        </record>
-        
-        <record id="base.bb" model="res.country">
-            <field name="bc_code">00833</field>
-        </record>
-        
-        <record id="base.bd" model="res.country">
-            <field name="bc_code">00817</field>
-        </record>
-        
-        <record id="base.be" model="res.country">
-            <field name="bc_code">00876</field>
-        </record>
-        
-        <record id="base.bf" model="res.country">
-            <field name="bc_code">00310</field>
-        </record>
-        
-        <record id="base.bg" model="res.country">
-            <field name="bc_code">01112</field>
-        </record>
-        
-        <record id="base.bh" model="res.country">
-            <field name="bc_code">00809</field>
-        </record>
-        
-        <record id="base.bi" model="res.country">
-            <field name="bc_code">01155</field>
-        </record>
-        
-        <record id="base.bj" model="res.country">
-            <field name="bc_code">02291</field>
-        </record>
-        
-        <record id="base.bm" model="res.country">
-            <field name="bc_code">00906</field>
-        </record>
-        
-        <record id="base.bn" model="res.country">
-            <field name="bc_code">01082</field>
-        </record>
-        
-        <record id="base.bo" model="res.country">
-            <field name="bc_code">00973</field>
-        </record>
-        
-        <record id="base.br" model="res.country">
-            <field name="bc_code">01058</field>
-        </record>
-        
-        <record id="base.bs" model="res.country">
-            <field name="bc_code">00779</field>
-        </record>
-        
-        <record id="base.bt" model="res.country">
-            <field name="bc_code">01198</field>
-        </record>
-        
-        <record id="base.bv" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.bw" model="res.country">
-            <field name="bc_code">01015</field>
-        </record>
-        
-        <record id="base.by" model="res.country">
-            <field name="bc_code">00850</field>
-        </record>
-        
-        <record id="base.bz" model="res.country">
-            <field name="bc_code">00884</field>
-        </record>
-        
-        <record id="base.ca" model="res.country">
-            <field name="bc_code">01490</field>
-        </record>
-        
-        <record id="base.cc" model="res.country">
-            <field name="bc_code">01651</field>
-        </record>
-        
-        <record id="base.cf" model="res.country">
-            <field name="bc_code">06408</field>
-        </record>
-        
-        <record id="base.cd" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.cg" model="res.country">
-            <field name="bc_code">01775</field>
-        </record>
-        
-        <record id="base.ch" model="res.country">
-            <field name="bc_code">07676</field>
-        </record>
-        
-        <record id="base.ci" model="res.country">
-            <field name="bc_code">01937</field>
-        </record>
-        
-        <record id="base.ck" model="res.country">
-            <field name="bc_code">01830</field>
-        </record>
-        
-        <record id="base.cl" model="res.country">
-            <field name="bc_code">01589</field>
-        </record>
-        
-        <record id="base.cm" model="res.country">
-            <field name="bc_code">01457</field>
-        </record>
-        
-        <record id="base.cn" model="res.country">
-            <field name="bc_code">01600</field>
-        </record>
-        
-        <record id="base.co" model="res.country">
-            <field name="bc_code">01694</field>
-        </record>
-        
-        <record id="base.cr" model="res.country">
-            <field name="bc_code">01961</field>
-        </record>
-        
-        <record id="base.rs" model="res.country">
-            <field name="bc_code">07370</field>
-        </record>
-        
-        <record id="base.me" model="res.country">
-            <field name="bc_code">04985</field>
-        </record>
-        
-        <record id="base.cu" model="res.country">
-            <field name="bc_code">01996</field>
-        </record>
-        
-        <record id="base.cv" model="res.country">
-            <field name="bc_code">01279</field>
-        </record>
-        
-        <record id="base.cx" model="res.country">
-            <field name="bc_code">05118</field>
-        </record>
-        
-        <record id="base.cy" model="res.country">
-            <field name="bc_code">01635</field>
-        </record>
-        
-        <record id="base.cz" model="res.country">
-            <field name="bc_code">07919</field>
-        </record>
-
-    <record id="base.cw" model="res.country">
-        <field name="bc_code">00200</field>
+    <!-- TODO
+    <function eval="('default',False,'country_id', [('res.partner', False)], ref('base.br'), True, False, False, False, True)" id="country_br_set" model="ir.values" name="set_default"/>
+    -->
+    <record id="base.ad" model="res.country">
+        <field name="bc_code">00370</field>
     </record>
- 
-        <record id="base.de" model="res.country">
-            <field name="bc_code">00230</field>
-        </record>
-        
-        <record id="base.dj" model="res.country">
-            <field name="bc_code">07838</field>
-        </record>
-        
-        <record id="base.dk" model="res.country">
-            <field name="bc_code">02321</field>
-        </record>
-        
-        <record id="base.dm" model="res.country">
-            <field name="bc_code">02356</field>
-        </record>
-        
-        <record id="base.do" model="res.country">
-            <field name="bc_code">06475</field>
-        </record>
-        
-        <record id="base.dz" model="res.country">
-            <field name="bc_code">00590</field>
-        </record>
-        
-        <record id="base.ec" model="res.country">
-            <field name="bc_code">02399</field>
-        </record>
-        
-        <record id="base.ee" model="res.country">
-            <field name="bc_code">02518</field>
-        </record>
-        
-        <record id="base.eg" model="res.country">
-            <field name="bc_code">02402</field>
-        </record>
-        
-        <record id="base.eh" model="res.country">
-            <field name="bc_code">06858</field>
-        </record>
-        
-        <record id="base.er" model="res.country">
-            <field name="bc_code">02437</field>
-        </record>
-        
-        <record id="base.es" model="res.country">
-            <field name="bc_code">02453</field>
-        </record>
-        
-        <record id="base.et" model="res.country">
-            <field name="bc_code">02534</field>
-        </record>
-        
-        <record id="base.fi" model="res.country">
-            <field name="bc_code">02712</field>
-        </record>
-        
-        <record id="base.fj" model="res.country">
-            <field name="bc_code">08702</field>
-        </record>
-        
-        <record id="base.fk" model="res.country">
-            <field name="bc_code">02550</field>
-        </record>
-        
-        <record id="base.fm" model="res.country">
-            <field name="bc_code">04995</field>
-        </record>
-        
-        <record id="base.fo" model="res.country">
-            <field name="bc_code">02593</field>
-        </record>
-        
-        <record id="base.fr" model="res.country">
-            <field name="bc_code">02755</field>
-        </record>
-        
-        <record id="base.ga" model="res.country">
-            <field name="bc_code">02810</field>
-        </record>
-        
-        <record id="base.gd" model="res.country">
-            <field name="bc_code">02976</field>
-        </record>
-        
-        <record id="base.ge" model="res.country">
-            <field name="bc_code">02917</field>
-        </record>
-        
-        <record id="base.gf" model="res.country">
-            <field name="bc_code">03255</field>
-        </record>
-        
-        <record id="base.gh" model="res.country">
-            <field name="bc_code">02895</field>
-        </record>
-        
-        <record id="base.gi" model="res.country">
-        <field name="bc_code">02933</field>
-        </record>
-        
-        <record id="base.gl" model="res.country">
-            <field name="bc_code">03050</field>
-        </record>
-        
-        <record id="base.gm" model="res.country">
-            <field name="bc_code">02852</field>
-        </record>
-        
-        <record id="base.gn" model="res.country">
-            <field name="bc_code">03298</field>
-        </record>
-        
-        <record id="base.gp" model="res.country">
-            <field name="bc_code">03093</field>
-        </record>
-        
-        <record id="base.gq" model="res.country">
-            <field name="bc_code">03310</field>
-        </record>
-        
-        <record id="base.gr" model="res.country">
-            <field name="bc_code">03018</field>
-        </record>
-        
-        <record id="base.gs" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.gt" model="res.country">
-            <field name="bc_code">03174</field>
-        </record>
-        
-        <record id="base.gu" model="res.country">
-            <field name="bc_code">03131</field>
-        </record>
-        
-        <record id="base.gw" model="res.country">
-            <field name="bc_code">03344</field>
-        </record>
-        
-        <record id="base.gy" model="res.country">
-            <field name="bc_code">03379</field>
-        </record>
-        
-        <record id="base.hk" model="res.country">
-            <field name="bc_code">03514</field>
-        </record>
-        
-        <record id="base.hm" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.hn" model="res.country">
-            <field name="bc_code">03450</field>
-        </record>
-        
-        <record id="base.hr" model="res.country">
-            <field name="bc_code">01953</field>
-        </record>
-        
-        <record id="base.ht" model="res.country">
-            <field name="bc_code">03417</field>
-        </record>
-        
-        <record id="base.hu" model="res.country">
-            <field name="bc_code">03557</field>
-        </record>
-        
-        <record id="base.id" model="res.country">
-            <field name="bc_code">03654</field>
-        </record>
-        
-        <record id="base.ie" model="res.country">
-            <field name="bc_code">03751</field>
-        </record>
-        
-        <record id="base.il" model="res.country">
-            <field name="bc_code">03832</field>
-        </record>
-        
-        <record id="base.in" model="res.country">
-            <field name="bc_code">03611</field>
-        </record>
-        
-        <record id="base.io" model="res.country">
-            <field name="bc_code">07820</field>
-        </record>
-        
-        <record id="base.iq" model="res.country">
-            <field name="bc_code">03697</field>
-        </record>
-        
-        <record id="base.ir" model="res.country">
-            <field name="bc_code">03727</field>
-        </record>
-        
-        <record id="base.is" model="res.country">
-            <field name="bc_code">03794</field>
-        </record>
-        
-        <record id="base.it" model="res.country">
-            <field name="bc_code">03867</field>
-        </record>
-        
-        <record id="base.jm" model="res.country">
-            <field name="bc_code">03913</field>
-        </record>
-        
-        <record id="base.jo" model="res.country">
-            <field name="bc_code">04030</field>
-        </record>
-        
-        <record id="base.jp" model="res.country">
-            <field name="bc_code">03999</field>
-        </record>
-        
-        <record id="base.ke" model="res.country">
-            <field name="bc_code">06238</field>
-        </record>
-        
-        <record id="base.kg" model="res.country">
-            <field name="bc_code">06254</field>
-        </record>
-        
-        <record id="base.kh" model="res.country">
-            <field name="bc_code">01414</field>
-        </record>
-        
-        <record id="base.ki" model="res.country">
-            <field name="bc_code">04111</field>
-        </record>
-        
-        <record id="base.km" model="res.country">
-            <field name="bc_code">01732</field>
-        </record>
-        
-        <record id="base.kn" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.kp" model="res.country">
-            <field name="bc_code">01872</field>
-        </record>
-        
-        <record id="base.kr" model="res.country">
-            <field name="bc_code">01902</field>
-        </record>
-        
-        <record id="base.kw" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.ky" model="res.country">
-            <field name="bc_code">01376</field>
-        </record>
-        
-        <record id="base.kz" model="res.country">
-            <field name="bc_code">01538</field>
-        </record>
-        
-        <record id="base.la" model="res.country">
-            <field name="bc_code">04200</field>
-        </record>
-        
-        <record id="base.lb" model="res.country">
-            <field name="bc_code">04316</field>
-        </record>
-        
-        <record id="base.lc" model="res.country">
-            <field name="bc_code">07153</field>
-        </record>
-        
-        <record id="base.li" model="res.country">
-            <field name="bc_code">04405</field>
-        </record>
-        
-        <record id="base.lk" model="res.country">
-            <field name="bc_code">07501</field>
-        </record>
-        
-        <record id="base.lr" model="res.country">
-            <field name="bc_code">04340</field>
-        </record>
-        
-        <record id="base.ls" model="res.country">
-            <field name="bc_code">04260</field>
-        </record>
-        
-        <record id="base.lt" model="res.country">
-            <field name="bc_code">04421</field>
-        </record>
-        
-        <record id="base.lu" model="res.country">
-            <field name="bc_code">04456</field>
-        </record>
-        
-        <record id="base.lv" model="res.country">
-            <field name="bc_code">04278</field>
-        </record>
-        
-        <record id="base.ly" model="res.country">
-            <field name="bc_code">04383</field>
-        </record>
-        
-        <record id="base.ma" model="res.country">
-            <field name="bc_code">04740</field>
-        </record>
-        
-        <record id="base.mc" model="res.country">
-            <field name="bc_code">04952</field>
-        </record>
-        
-        <record id="base.md" model="res.country">
-            <field name="bc_code">04944</field>
-        </record>
-        
-        <record id="base.mg" model="res.country">
-            <field name="bc_code">04502</field>
-        </record>
-        
-        <record id="base.mh" model="res.country">
-            <field name="bc_code">04766</field>
-        </record>
-        
-        <record id="base.mk" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.ml" model="res.country">
-            <field name="bc_code">04642</field>
-        </record>
-        
-        <record id="base.mm" model="res.country">
-            <field name="bc_code">00930</field>
-        </record>
-        
-        <record id="base.mn" model="res.country">
-            <field name="bc_code">04979</field>
-        </record>
-        
-        <record id="base.mo" model="res.country">
-            <field name="bc_code">04472</field>
-        </record>
-        
-        <record id="base.mp" model="res.country">
-            <field name="bc_code">04723</field>
-        </record>
-        
-        <record id="base.mq" model="res.country">
-            <field name="bc_code">04774</field>
-        </record>
-        
-        <record id="base.mr" model="res.country">
-            <field name="bc_code">04880</field>
-        </record>
-        
-        <record id="base.ms" model="res.country">
-            <field name="bc_code">05010</field>
-        </record>
-        
-        <record id="base.mt" model="res.country">
-            <field name="bc_code">04677</field>
-        </record>
-        
-        <record id="base.mu" model="res.country">
-            <field name="bc_code">04855</field>
-        </record>
-        
-        <record id="base.mv" model="res.country">
-            <field name="bc_code">04618</field>
-        </record>
-        
-        <record id="base.mw" model="res.country">
-            <field name="bc_code">04588</field>
-        </record>
-        
-        <record id="base.mx" model="res.country">
-            <field name="bc_code">04936</field>
-        </record>
-        
-        <record id="base.my" model="res.country">
-            <field name="bc_code">04553</field>
-        </record>
-        
-        <record id="base.mz" model="res.country">
-            <field name="bc_code">05053</field>
-        </record>
-        
-        <record id="base.na" model="res.country">
-            <field name="bc_code">05070</field>
-        </record>
-        
-        <record id="base.nc" model="res.country">
-            <field name="bc_code">05428</field>
-        </record>
-        
-        <record id="base.ne" model="res.country">
-            <field name="bc_code">05258</field>
-        </record>
-        
-        <record id="base.nf" model="res.country">
-            <field name="bc_code">05355</field>
-        </record>
-        
-        <record id="base.ng" model="res.country">
-            <field name="bc_code">05282</field>
-        </record>
-        
-        <record id="base.ni" model="res.country">
-            <field name="bc_code">05215</field>
-        </record>
-        
-        <record id="base.nl" model="res.country">
-            <field name="bc_code">05738</field>
-        </record>
-        
-        <record id="base.no" model="res.country">
-            <field name="bc_code">05380</field>
-        </record>
-        
-        <record id="base.np" model="res.country">
-            <field name="bc_code">05177</field>
-        </record>
-        
-        <record id="base.nr" model="res.country">
-            <field name="bc_code">05088</field>
-        </record>
-        
-        <record id="base.nt" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.nu" model="res.country">
-            <field name="bc_code">05312</field>
-        </record>
-        
-        <record id="base.nz" model="res.country">
-            <field name="bc_code">05487</field>
-        </record>
-        
-        <record id="base.om" model="res.country">
-            <field name="bc_code">05568</field>
-        </record>
-        
-        <record id="base.pa" model="res.country">
-            <field name="bc_code">05800</field>
-        </record>
-        
-        <record id="base.pe" model="res.country">
-            <field name="bc_code">05894</field>
-        </record>
-        
-        <record id="base.pf" model="res.country">
-            <field name="bc_code">05991</field>
-        </record>
-        
-        <record id="base.pg" model="res.country">
-            <field name="bc_code">05452</field>
-        </record>
-        
-        <record id="base.ph" model="res.country">
-            <field name="bc_code">02674</field>
-        </record>
-        
-        <record id="base.pk" model="res.country">
-            <field name="bc_code">05762</field>
-        </record>
-        
-        <record id="base.pl" model="res.country">
-            <field name="bc_code">06033</field>
-        </record>
-        
-        <record id="base.pm" model="res.country">
-            <field name="bc_code">07005</field>
-        </record>
-        
-        <record id="base.pn" model="res.country">
-            <field name="bc_code">05932</field>
-        </record>
-        
-        <record id="base.pr" model="res.country">
-            <field name="bc_code">06114</field>
-        </record>
-        
-        <record id="base.pt" model="res.country">
-            <field name="bc_code">06076</field>
-        </record>
-        
-        <record id="base.pw" model="res.country">
-            <field name="bc_code">05754</field>
-        </record>
-        
-        <record id="base.py" model="res.country">
-            <field name="bc_code">05860</field>
-        </record>
-        
-        <record id="base.qa" model="res.country">
-            <field name="bc_code">01546</field>
-        </record>
-        
-        <record id="base.re" model="res.country">
-            <field name="bc_code">06602</field>
-        </record>
-        
-        <record id="base.ro" model="res.country">
-            <field name="bc_code">06700</field>
-        </record>
-        
-        <record id="base.ru" model="res.country">
-            <field name="bc_code">06769</field>
-        </record>
-        
-        <record id="base.rw" model="res.country">
-            <field name="bc_code">06750</field>
-        </record>
-        
-        <record id="base.sa" model="res.country">
-            <field name="bc_code">00531</field>
-        </record>
-        
-        <record id="base.sb" model="res.country">
-            <field name="bc_code">06777</field>
-        </record>
-        
-        <record id="base.sc" model="res.country">
-            <field name="bc_code">07315</field>
-        </record>
-        
-        <record id="base.sd" model="res.country">
-            <field name="bc_code">07595</field>
-        </record>
-        
-        <record id="base.se" model="res.country">
-            <field name="bc_code">07641</field>
-        </record>
-        
-        <record id="base.sg" model="res.country">
-            <field name="bc_code">07412</field>
-        </record>
-        
-        <record id="base.sh" model="res.country">
-            <field name="bc_code">07102</field>
-        </record>
-        
-        <record id="base.si" model="res.country">
-            <field name="bc_code">02461</field>
-        </record>
-        
-        <record id="base.sj" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.sk" model="res.country">
-            <field name="bc_code">02470</field>
-        </record>
-        
-        <record id="base.sl" model="res.country">
-            <field name="bc_code">07358</field>
-        </record>
-        
-        <record id="base.sm" model="res.country">
-            <field name="bc_code">06971</field>
-        </record>
-        
-        <record id="base.sn" model="res.country">
-            <field name="bc_code">07285</field>
-        </record>
-        
-        <record id="base.so" model="res.country">
-            <field name="bc_code">07480</field>
-        </record>
-        
-        <record id="base.sr" model="res.country">
-            <field name="bc_code">07706</field>
-        </record>
-        
-        <record id="base.st" model="res.country">
-            <field name="bc_code">07200</field>
-        </record>
-        
-        <record id="base.sv" model="res.country">
-            <field name="bc_code">06874</field>
-        </record>
-        
-        <record id="base.sy" model="res.country">
-            <field name="bc_code">07447</field>
-        </record>
-        
-        <record id="base.sz" model="res.country">
-            <field name="bc_code">07544</field>
-        </record>
-        
-        <record id="base.tc" model="res.country">
-            <field name="bc_code">08230</field>
-        </record>
-        
-        <record id="base.td" model="res.country">
-            <field name="bc_code">07889</field>
-        </record>
-        
-        <record id="base.tf" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.tg" model="res.country">
-            <field name="bc_code">08001</field>
-        </record>
-        
-        <record id="base.th" model="res.country">
-            <field name="bc_code">07765</field>
-        </record>
-        
-        <record id="base.tj" model="res.country">
-            <field name="bc_code">07722</field>
-        </record>
-        
-        <record id="base.tk" model="res.country">
-            <field name="bc_code">08052</field>
-        </record>
-        
-        <record id="base.tm" model="res.country">
-            <field name="bc_code">08249</field>
-        </record>
-        
-        <record id="base.tn" model="res.country">
-            <field name="bc_code">08206</field>
-        </record>
-        
-        <record id="base.to" model="res.country">
-            <field name="bc_code">08109</field>
-        </record>
-        
-        <record id="base.tp" model="res.country">
-            <field name="bc_code">07951</field>
-        </record>
-        
-        <record id="base.tr" model="res.country">
-            <field name="bc_code">08273</field>
-        </record>
-        
-        <record id="base.tt" model="res.country">
-            <field name="bc_code">08150</field>
-        </record>
-        
-        <record id="base.tv" model="res.country">
-            <field name="bc_code">08281</field>
-        </record>
-        
-        <record id="base.tw" model="res.country">
-            <field name="bc_code">01619</field>
-        </record>
-        
-        <record id="base.tz" model="res.country">
-            <field name="bc_code">07803</field>
-        </record>
-        
-        <record id="base.ua" model="res.country">
-            <field name="bc_code">08311</field>
-        </record>
-        
-        <record id="base.ug" model="res.country">
-            <field name="bc_code">08338</field>
-        </record>
-        
-        <record id="base.uk" model="res.country">
-            <field name="bc_code">06289</field>
-        </record>
-        
-        <record id="base.um" model="res.country">
-            <field name="bc_code">05665</field>
-        </record>
-        
-        <record id="base.us" model="res.country">
-            <field name="bc_code">02496</field>
-        </record>
-        
-        <record id="base.uy" model="res.country">
-            <field name="bc_code">08451</field>
-        </record>
-        
-        <record id="base.uz" model="res.country">
-            <field name="bc_code">08478</field>
-        </record>
-        
-        <record id="base.va" model="res.country">
-            <field name="bc_code">08486</field>
-        </record>
-        
-        <record id="base.vc" model="res.country">
-            <field name="bc_code">07056</field>
-        </record>
-        
-        <record id="base.ve" model="res.country">
-            <field name="bc_code">08508</field>
-        </record>
-        
-        <record id="base.vg" model="res.country">
-            <field name="bc_code">08630</field>
-        </record>
-        
-        <record id="base.vi" model="res.country">
-            <field name="bc_code">08664</field>
-        </record>
-        
-        <record id="base.vn" model="res.country">
-            <field name="bc_code">08583</field>
-        </record>
-        
-        <record id="base.vu" model="res.country">
-            <field name="bc_code">05517</field>
-        </record>
-        
-        <record id="base.wf" model="res.country">
-            <field name="bc_code"></field>
-        </record>
-        
-        <record id="base.ws" model="res.country">
-            <field name="bc_code">06904</field>
-        </record>
-        
-        <record id="base.ye" model="res.country">
-            <field name="bc_code">03573</field>
-        </record>
-        
-        <record id="base.yt" model="res.country">
-            <field name="bc_code">04885</field>
-        </record>
-        
-        <record id="base.yu" model="res.country">
-            <field name="bc_code">04499</field>
-        </record>
-        
-        <record id="base.za" model="res.country">
-            <field name="bc_code">07560</field>
-        </record>
-        
-        <record id="base.zm" model="res.country">
-            <field name="bc_code">08907</field>
-        </record>
-        
-        <!-- DEPRECATED, New name of Zaire is Democratic Republic of the Congo ! -->
-        <record id="base.zr" model="res.country">
-            <field name="bc_code">08885</field>
-        </record>
-        
-        <record id="base.zw" model="res.country">
-            <field name="bc_code">06653</field>
-        </record>
 
-    </data>
+    <record id="base.ae" model="res.country">
+        <field name="bc_code">02445</field>
+    </record>
 
-</openerp>
+    <record id="base.af" model="res.country">
+        <field name="bc_code">00132</field>
+    </record>
+
+    <record id="base.ag" model="res.country">
+        <field name="bc_code">00434</field>
+    </record>
+
+    <record id="base.ai" model="res.country">
+        <field name="bc_code">00418</field>
+    </record>
+
+    <record id="base.al" model="res.country">
+        <field name="bc_code">00175</field>
+    </record>
+
+    <record id="base.am" model="res.country">
+        <field name="bc_code">00647</field>
+    </record>
+
+    <record id="base.an" model="res.country">
+        <field name="bc_code">00477</field>
+    </record>
+
+    <record id="base.ao" model="res.country">
+        <field name="bc_code">00400</field>
+    </record>
+
+    <record id="base.aq" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.ar" model="res.country">
+        <field name="bc_code">00639</field>
+    </record>
+
+    <record id="base.as" model="res.country">
+        <field name="bc_code">06912</field>
+    </record>
+
+    <record id="base.at" model="res.country">
+        <field name="bc_code">00728</field>
+    </record>
+
+    <record id="base.au" model="res.country">
+        <field name="bc_code">00698</field>
+    </record>
+
+    <record id="base.aw" model="res.country">
+        <field name="bc_code">00655</field>
+    </record>
+
+    <record id="base.az" model="res.country">
+        <field name="bc_code">00736</field>
+    </record>
+
+    <record id="base.ba" model="res.country">
+        <field name="bc_code">00981</field>
+    </record>
+
+    <record id="base.bb" model="res.country">
+        <field name="bc_code">00833</field>
+    </record>
+
+    <record id="base.bd" model="res.country">
+        <field name="bc_code">00817</field>
+    </record>
+
+    <record id="base.be" model="res.country">
+        <field name="bc_code">00876</field>
+    </record>
+
+    <record id="base.bf" model="res.country">
+        <field name="bc_code">00310</field>
+    </record>
+
+    <record id="base.bg" model="res.country">
+        <field name="bc_code">01112</field>
+    </record>
+
+    <record id="base.bh" model="res.country">
+        <field name="bc_code">00809</field>
+    </record>
+
+    <record id="base.bi" model="res.country">
+        <field name="bc_code">01155</field>
+    </record>
+
+    <record id="base.bj" model="res.country">
+        <field name="bc_code">02291</field>
+    </record>
+
+    <record id="base.bm" model="res.country">
+        <field name="bc_code">00906</field>
+    </record>
+
+    <record id="base.bn" model="res.country">
+        <field name="bc_code">01082</field>
+    </record>
+
+    <record id="base.bo" model="res.country">
+        <field name="bc_code">00973</field>
+    </record>
+
+    <record id="base.br" model="res.country">
+        <field name="bc_code">01058</field>
+    </record>
+
+    <record id="base.bs" model="res.country">
+        <field name="bc_code">00779</field>
+    </record>
+
+    <record id="base.bt" model="res.country">
+        <field name="bc_code">01198</field>
+    </record>
+
+    <record id="base.bv" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.bw" model="res.country">
+        <field name="bc_code">01015</field>
+    </record>
+
+    <record id="base.by" model="res.country">
+        <field name="bc_code">00850</field>
+    </record>
+
+    <record id="base.bz" model="res.country">
+        <field name="bc_code">00884</field>
+    </record>
+
+    <record id="base.ca" model="res.country">
+        <field name="bc_code">01490</field>
+    </record>
+
+    <record id="base.cc" model="res.country">
+        <field name="bc_code">01651</field>
+    </record>
+
+    <record id="base.cf" model="res.country">
+        <field name="bc_code">06408</field>
+    </record>
+
+    <record id="base.cd" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.cg" model="res.country">
+        <field name="bc_code">01775</field>
+    </record>
+
+    <record id="base.ch" model="res.country">
+        <field name="bc_code">07676</field>
+    </record>
+
+    <record id="base.ci" model="res.country">
+        <field name="bc_code">01937</field>
+    </record>
+
+    <record id="base.ck" model="res.country">
+        <field name="bc_code">01830</field>
+    </record>
+
+    <record id="base.cl" model="res.country">
+        <field name="bc_code">01589</field>
+    </record>
+
+    <record id="base.cm" model="res.country">
+        <field name="bc_code">01457</field>
+    </record>
+
+    <record id="base.cn" model="res.country">
+        <field name="bc_code">01600</field>
+    </record>
+
+    <record id="base.co" model="res.country">
+        <field name="bc_code">01694</field>
+    </record>
+
+    <record id="base.cr" model="res.country">
+        <field name="bc_code">01961</field>
+    </record>
+
+    <record id="base.rs" model="res.country">
+        <field name="bc_code">07370</field>
+    </record>
+
+    <record id="base.me" model="res.country">
+        <field name="bc_code">04985</field>
+    </record>
+
+    <record id="base.cu" model="res.country">
+        <field name="bc_code">01996</field>
+    </record>
+
+    <record id="base.cv" model="res.country">
+        <field name="bc_code">01279</field>
+    </record>
+
+    <record id="base.cx" model="res.country">
+        <field name="bc_code">05118</field>
+    </record>
+
+    <record id="base.cy" model="res.country">
+        <field name="bc_code">01635</field>
+    </record>
+
+    <record id="base.cz" model="res.country">
+        <field name="bc_code">07919</field>
+    </record>
+
+<record id="base.cw" model="res.country">
+    <field name="bc_code">00200</field>
+</record>
+
+    <record id="base.de" model="res.country">
+        <field name="bc_code">00230</field>
+    </record>
+
+    <record id="base.dj" model="res.country">
+        <field name="bc_code">07838</field>
+    </record>
+
+    <record id="base.dk" model="res.country">
+        <field name="bc_code">02321</field>
+    </record>
+
+    <record id="base.dm" model="res.country">
+        <field name="bc_code">02356</field>
+    </record>
+
+    <record id="base.do" model="res.country">
+        <field name="bc_code">06475</field>
+    </record>
+
+    <record id="base.dz" model="res.country">
+        <field name="bc_code">00590</field>
+    </record>
+
+    <record id="base.ec" model="res.country">
+        <field name="bc_code">02399</field>
+    </record>
+
+    <record id="base.ee" model="res.country">
+        <field name="bc_code">02518</field>
+    </record>
+
+    <record id="base.eg" model="res.country">
+        <field name="bc_code">02402</field>
+    </record>
+
+    <record id="base.eh" model="res.country">
+        <field name="bc_code">06858</field>
+    </record>
+
+    <record id="base.er" model="res.country">
+        <field name="bc_code">02437</field>
+    </record>
+
+    <record id="base.es" model="res.country">
+        <field name="bc_code">02453</field>
+    </record>
+
+    <record id="base.et" model="res.country">
+        <field name="bc_code">02534</field>
+    </record>
+
+    <record id="base.fi" model="res.country">
+        <field name="bc_code">02712</field>
+    </record>
+
+    <record id="base.fj" model="res.country">
+        <field name="bc_code">08702</field>
+    </record>
+
+    <record id="base.fk" model="res.country">
+        <field name="bc_code">02550</field>
+    </record>
+
+    <record id="base.fm" model="res.country">
+        <field name="bc_code">04995</field>
+    </record>
+
+    <record id="base.fo" model="res.country">
+        <field name="bc_code">02593</field>
+    </record>
+
+    <record id="base.fr" model="res.country">
+        <field name="bc_code">02755</field>
+    </record>
+
+    <record id="base.ga" model="res.country">
+        <field name="bc_code">02810</field>
+    </record>
+
+    <record id="base.gd" model="res.country">
+        <field name="bc_code">02976</field>
+    </record>
+
+    <record id="base.ge" model="res.country">
+        <field name="bc_code">02917</field>
+    </record>
+
+    <record id="base.gf" model="res.country">
+        <field name="bc_code">03255</field>
+    </record>
+
+    <record id="base.gh" model="res.country">
+        <field name="bc_code">02895</field>
+    </record>
+
+    <record id="base.gi" model="res.country">
+    <field name="bc_code">02933</field>
+    </record>
+
+    <record id="base.gl" model="res.country">
+        <field name="bc_code">03050</field>
+    </record>
+
+    <record id="base.gm" model="res.country">
+        <field name="bc_code">02852</field>
+    </record>
+
+    <record id="base.gn" model="res.country">
+        <field name="bc_code">03298</field>
+    </record>
+
+    <record id="base.gp" model="res.country">
+        <field name="bc_code">03093</field>
+    </record>
+
+    <record id="base.gq" model="res.country">
+        <field name="bc_code">03310</field>
+    </record>
+
+    <record id="base.gr" model="res.country">
+        <field name="bc_code">03018</field>
+    </record>
+
+    <record id="base.gs" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.gt" model="res.country">
+        <field name="bc_code">03174</field>
+    </record>
+
+    <record id="base.gu" model="res.country">
+        <field name="bc_code">03131</field>
+    </record>
+
+    <record id="base.gw" model="res.country">
+        <field name="bc_code">03344</field>
+    </record>
+
+    <record id="base.gy" model="res.country">
+        <field name="bc_code">03379</field>
+    </record>
+
+    <record id="base.hk" model="res.country">
+        <field name="bc_code">03514</field>
+    </record>
+
+    <record id="base.hm" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.hn" model="res.country">
+        <field name="bc_code">03450</field>
+    </record>
+
+    <record id="base.hr" model="res.country">
+        <field name="bc_code">01953</field>
+    </record>
+
+    <record id="base.ht" model="res.country">
+        <field name="bc_code">03417</field>
+    </record>
+
+    <record id="base.hu" model="res.country">
+        <field name="bc_code">03557</field>
+    </record>
+
+    <record id="base.id" model="res.country">
+        <field name="bc_code">03654</field>
+    </record>
+
+    <record id="base.ie" model="res.country">
+        <field name="bc_code">03751</field>
+    </record>
+
+    <record id="base.il" model="res.country">
+        <field name="bc_code">03832</field>
+    </record>
+
+    <record id="base.in" model="res.country">
+        <field name="bc_code">03611</field>
+    </record>
+
+    <record id="base.io" model="res.country">
+        <field name="bc_code">07820</field>
+    </record>
+
+    <record id="base.iq" model="res.country">
+        <field name="bc_code">03697</field>
+    </record>
+
+    <record id="base.ir" model="res.country">
+        <field name="bc_code">03727</field>
+    </record>
+
+    <record id="base.is" model="res.country">
+        <field name="bc_code">03794</field>
+    </record>
+
+    <record id="base.it" model="res.country">
+        <field name="bc_code">03867</field>
+    </record>
+
+    <record id="base.jm" model="res.country">
+        <field name="bc_code">03913</field>
+    </record>
+
+    <record id="base.jo" model="res.country">
+        <field name="bc_code">04030</field>
+    </record>
+
+    <record id="base.jp" model="res.country">
+        <field name="bc_code">03999</field>
+    </record>
+
+    <record id="base.ke" model="res.country">
+        <field name="bc_code">06238</field>
+    </record>
+
+    <record id="base.kg" model="res.country">
+        <field name="bc_code">06254</field>
+    </record>
+
+    <record id="base.kh" model="res.country">
+        <field name="bc_code">01414</field>
+    </record>
+
+    <record id="base.ki" model="res.country">
+        <field name="bc_code">04111</field>
+    </record>
+
+    <record id="base.km" model="res.country">
+        <field name="bc_code">01732</field>
+    </record>
+
+    <record id="base.kn" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.kp" model="res.country">
+        <field name="bc_code">01872</field>
+    </record>
+
+    <record id="base.kr" model="res.country">
+        <field name="bc_code">01902</field>
+    </record>
+
+    <record id="base.kw" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.ky" model="res.country">
+        <field name="bc_code">01376</field>
+    </record>
+
+    <record id="base.kz" model="res.country">
+        <field name="bc_code">01538</field>
+    </record>
+
+    <record id="base.la" model="res.country">
+        <field name="bc_code">04200</field>
+    </record>
+
+    <record id="base.lb" model="res.country">
+        <field name="bc_code">04316</field>
+    </record>
+
+    <record id="base.lc" model="res.country">
+        <field name="bc_code">07153</field>
+    </record>
+
+    <record id="base.li" model="res.country">
+        <field name="bc_code">04405</field>
+    </record>
+
+    <record id="base.lk" model="res.country">
+        <field name="bc_code">07501</field>
+    </record>
+
+    <record id="base.lr" model="res.country">
+        <field name="bc_code">04340</field>
+    </record>
+
+    <record id="base.ls" model="res.country">
+        <field name="bc_code">04260</field>
+    </record>
+
+    <record id="base.lt" model="res.country">
+        <field name="bc_code">04421</field>
+    </record>
+
+    <record id="base.lu" model="res.country">
+        <field name="bc_code">04456</field>
+    </record>
+
+    <record id="base.lv" model="res.country">
+        <field name="bc_code">04278</field>
+    </record>
+
+    <record id="base.ly" model="res.country">
+        <field name="bc_code">04383</field>
+    </record>
+
+    <record id="base.ma" model="res.country">
+        <field name="bc_code">04740</field>
+    </record>
+
+    <record id="base.mc" model="res.country">
+        <field name="bc_code">04952</field>
+    </record>
+
+    <record id="base.md" model="res.country">
+        <field name="bc_code">04944</field>
+    </record>
+
+    <record id="base.mg" model="res.country">
+        <field name="bc_code">04502</field>
+    </record>
+
+    <record id="base.mh" model="res.country">
+        <field name="bc_code">04766</field>
+    </record>
+
+    <record id="base.mk" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.ml" model="res.country">
+        <field name="bc_code">04642</field>
+    </record>
+
+    <record id="base.mm" model="res.country">
+        <field name="bc_code">00930</field>
+    </record>
+
+    <record id="base.mn" model="res.country">
+        <field name="bc_code">04979</field>
+    </record>
+
+    <record id="base.mo" model="res.country">
+        <field name="bc_code">04472</field>
+    </record>
+
+    <record id="base.mp" model="res.country">
+        <field name="bc_code">04723</field>
+    </record>
+
+    <record id="base.mq" model="res.country">
+        <field name="bc_code">04774</field>
+    </record>
+
+    <record id="base.mr" model="res.country">
+        <field name="bc_code">04880</field>
+    </record>
+
+    <record id="base.ms" model="res.country">
+        <field name="bc_code">05010</field>
+    </record>
+
+    <record id="base.mt" model="res.country">
+        <field name="bc_code">04677</field>
+    </record>
+
+    <record id="base.mu" model="res.country">
+        <field name="bc_code">04855</field>
+    </record>
+
+    <record id="base.mv" model="res.country">
+        <field name="bc_code">04618</field>
+    </record>
+
+    <record id="base.mw" model="res.country">
+        <field name="bc_code">04588</field>
+    </record>
+
+    <record id="base.mx" model="res.country">
+        <field name="bc_code">04936</field>
+    </record>
+
+    <record id="base.my" model="res.country">
+        <field name="bc_code">04553</field>
+    </record>
+
+    <record id="base.mz" model="res.country">
+        <field name="bc_code">05053</field>
+    </record>
+
+    <record id="base.na" model="res.country">
+        <field name="bc_code">05070</field>
+    </record>
+
+    <record id="base.nc" model="res.country">
+        <field name="bc_code">05428</field>
+    </record>
+
+    <record id="base.ne" model="res.country">
+        <field name="bc_code">05258</field>
+    </record>
+
+    <record id="base.nf" model="res.country">
+        <field name="bc_code">05355</field>
+    </record>
+
+    <record id="base.ng" model="res.country">
+        <field name="bc_code">05282</field>
+    </record>
+
+    <record id="base.ni" model="res.country">
+        <field name="bc_code">05215</field>
+    </record>
+
+    <record id="base.nl" model="res.country">
+        <field name="bc_code">05738</field>
+    </record>
+
+    <record id="base.no" model="res.country">
+        <field name="bc_code">05380</field>
+    </record>
+
+    <record id="base.np" model="res.country">
+        <field name="bc_code">05177</field>
+    </record>
+
+    <record id="base.nr" model="res.country">
+        <field name="bc_code">05088</field>
+    </record>
+
+    <record id="base.nt" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.nu" model="res.country">
+        <field name="bc_code">05312</field>
+    </record>
+
+    <record id="base.nz" model="res.country">
+        <field name="bc_code">05487</field>
+    </record>
+
+    <record id="base.om" model="res.country">
+        <field name="bc_code">05568</field>
+    </record>
+
+    <record id="base.pa" model="res.country">
+        <field name="bc_code">05800</field>
+    </record>
+
+    <record id="base.pe" model="res.country">
+        <field name="bc_code">05894</field>
+    </record>
+
+    <record id="base.pf" model="res.country">
+        <field name="bc_code">05991</field>
+    </record>
+
+    <record id="base.pg" model="res.country">
+        <field name="bc_code">05452</field>
+    </record>
+
+    <record id="base.ph" model="res.country">
+        <field name="bc_code">02674</field>
+    </record>
+
+    <record id="base.pk" model="res.country">
+        <field name="bc_code">05762</field>
+    </record>
+
+    <record id="base.pl" model="res.country">
+        <field name="bc_code">06033</field>
+    </record>
+
+    <record id="base.pm" model="res.country">
+        <field name="bc_code">07005</field>
+    </record>
+
+    <record id="base.pn" model="res.country">
+        <field name="bc_code">05932</field>
+    </record>
+
+    <record id="base.pr" model="res.country">
+        <field name="bc_code">06114</field>
+    </record>
+
+    <record id="base.pt" model="res.country">
+        <field name="bc_code">06076</field>
+    </record>
+
+    <record id="base.pw" model="res.country">
+        <field name="bc_code">05754</field>
+    </record>
+
+    <record id="base.py" model="res.country">
+        <field name="bc_code">05860</field>
+    </record>
+
+    <record id="base.qa" model="res.country">
+        <field name="bc_code">01546</field>
+    </record>
+
+    <record id="base.re" model="res.country">
+        <field name="bc_code">06602</field>
+    </record>
+
+    <record id="base.ro" model="res.country">
+        <field name="bc_code">06700</field>
+    </record>
+
+    <record id="base.ru" model="res.country">
+        <field name="bc_code">06769</field>
+    </record>
+
+    <record id="base.rw" model="res.country">
+        <field name="bc_code">06750</field>
+    </record>
+
+    <record id="base.sa" model="res.country">
+        <field name="bc_code">00531</field>
+    </record>
+
+    <record id="base.sb" model="res.country">
+        <field name="bc_code">06777</field>
+    </record>
+
+    <record id="base.sc" model="res.country">
+        <field name="bc_code">07315</field>
+    </record>
+
+    <record id="base.sd" model="res.country">
+        <field name="bc_code">07595</field>
+    </record>
+
+    <record id="base.se" model="res.country">
+        <field name="bc_code">07641</field>
+    </record>
+
+    <record id="base.sg" model="res.country">
+        <field name="bc_code">07412</field>
+    </record>
+
+    <record id="base.sh" model="res.country">
+        <field name="bc_code">07102</field>
+    </record>
+
+    <record id="base.si" model="res.country">
+        <field name="bc_code">02461</field>
+    </record>
+
+    <record id="base.sj" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.sk" model="res.country">
+        <field name="bc_code">02470</field>
+    </record>
+
+    <record id="base.sl" model="res.country">
+        <field name="bc_code">07358</field>
+    </record>
+
+    <record id="base.sm" model="res.country">
+        <field name="bc_code">06971</field>
+    </record>
+
+    <record id="base.sn" model="res.country">
+        <field name="bc_code">07285</field>
+    </record>
+
+    <record id="base.so" model="res.country">
+        <field name="bc_code">07480</field>
+    </record>
+
+    <record id="base.sr" model="res.country">
+        <field name="bc_code">07706</field>
+    </record>
+
+    <record id="base.st" model="res.country">
+        <field name="bc_code">07200</field>
+    </record>
+
+    <record id="base.sv" model="res.country">
+        <field name="bc_code">06874</field>
+    </record>
+
+    <record id="base.sy" model="res.country">
+        <field name="bc_code">07447</field>
+    </record>
+
+    <record id="base.sz" model="res.country">
+        <field name="bc_code">07544</field>
+    </record>
+
+    <record id="base.tc" model="res.country">
+        <field name="bc_code">08230</field>
+    </record>
+
+    <record id="base.td" model="res.country">
+        <field name="bc_code">07889</field>
+    </record>
+
+    <record id="base.tf" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.tg" model="res.country">
+        <field name="bc_code">08001</field>
+    </record>
+
+    <record id="base.th" model="res.country">
+        <field name="bc_code">07765</field>
+    </record>
+
+    <record id="base.tj" model="res.country">
+        <field name="bc_code">07722</field>
+    </record>
+
+    <record id="base.tk" model="res.country">
+        <field name="bc_code">08052</field>
+    </record>
+
+    <record id="base.tm" model="res.country">
+        <field name="bc_code">08249</field>
+    </record>
+
+    <record id="base.tn" model="res.country">
+        <field name="bc_code">08206</field>
+    </record>
+
+    <record id="base.to" model="res.country">
+        <field name="bc_code">08109</field>
+    </record>
+
+    <record id="base.tp" model="res.country">
+        <field name="bc_code">07951</field>
+    </record>
+
+    <record id="base.tr" model="res.country">
+        <field name="bc_code">08273</field>
+    </record>
+
+    <record id="base.tt" model="res.country">
+        <field name="bc_code">08150</field>
+    </record>
+
+    <record id="base.tv" model="res.country">
+        <field name="bc_code">08281</field>
+    </record>
+
+    <record id="base.tw" model="res.country">
+        <field name="bc_code">01619</field>
+    </record>
+
+    <record id="base.tz" model="res.country">
+        <field name="bc_code">07803</field>
+    </record>
+
+    <record id="base.ua" model="res.country">
+        <field name="bc_code">08311</field>
+    </record>
+
+    <record id="base.ug" model="res.country">
+        <field name="bc_code">08338</field>
+    </record>
+
+    <record id="base.uk" model="res.country">
+        <field name="bc_code">06289</field>
+    </record>
+
+    <record id="base.um" model="res.country">
+        <field name="bc_code">05665</field>
+    </record>
+
+    <record id="base.us" model="res.country">
+        <field name="bc_code">02496</field>
+    </record>
+
+    <record id="base.uy" model="res.country">
+        <field name="bc_code">08451</field>
+    </record>
+
+    <record id="base.uz" model="res.country">
+        <field name="bc_code">08478</field>
+    </record>
+
+    <record id="base.va" model="res.country">
+        <field name="bc_code">08486</field>
+    </record>
+
+    <record id="base.vc" model="res.country">
+        <field name="bc_code">07056</field>
+    </record>
+
+    <record id="base.ve" model="res.country">
+        <field name="bc_code">08508</field>
+    </record>
+
+    <record id="base.vg" model="res.country">
+        <field name="bc_code">08630</field>
+    </record>
+
+    <record id="base.vi" model="res.country">
+        <field name="bc_code">08664</field>
+    </record>
+
+    <record id="base.vn" model="res.country">
+        <field name="bc_code">08583</field>
+    </record>
+
+    <record id="base.vu" model="res.country">
+        <field name="bc_code">05517</field>
+    </record>
+
+    <record id="base.wf" model="res.country">
+        <field name="bc_code"></field>
+    </record>
+
+    <record id="base.ws" model="res.country">
+        <field name="bc_code">06904</field>
+    </record>
+
+    <record id="base.ye" model="res.country">
+        <field name="bc_code">03573</field>
+    </record>
+
+    <record id="base.yt" model="res.country">
+        <field name="bc_code">04885</field>
+    </record>
+
+    <record id="base.yu" model="res.country">
+        <field name="bc_code">04499</field>
+    </record>
+
+    <record id="base.za" model="res.country">
+        <field name="bc_code">07560</field>
+    </record>
+
+    <record id="base.zm" model="res.country">
+        <field name="bc_code">08907</field>
+    </record>
+
+    <record id="base.zr" model="res.country">
+        <field name="bc_code">08885</field>
+    </record>
+
+    <record id="base.zw" model="res.country">
+        <field name="bc_code">06653</field>
+    </record>
+
+</odoo>
