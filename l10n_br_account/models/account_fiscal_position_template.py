@@ -5,7 +5,6 @@
 from odoo import models, fields
 
 from .account_fiscal_position_abstract import (
-    AccountFiscalPositionAbstract,
     AccountFiscalPositionTaxAbstract
 )
 
