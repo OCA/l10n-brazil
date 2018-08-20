@@ -12,13 +12,13 @@
                                 attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
                         />
                         <button name="transmitir_periodo" type="object" string="Transmitir para o e-Social"
-                                attrs="{'invisible': ['|', ('registro_ids', '=', False), ('situacao', '=', '3')]}"
+                                attrs="{'invisible': ['|', ('tem_registros', '=', False), ('situacao', '=', '3')]}"
                                 class="oe_highlight"
                                 confirm="Confirma a transmissão dos registros deste período para o e-Social?"
                         />
-                        <button name="importar_fechamentos" type="object" string="Fechar Período"
-                                attrs="{'invisible': ['|', ('pode_fechar', '=', False), ('fechamento_ids', '!=', False)]}"
-                        />
+                        <!--<button name="importar_fechamentos" type="object" string="Fechar Período"-->
+                                <!--attrs="{'invisible': ['|', ('pode_fechar', '=', False), ('fechamento_ids', '!=', False)]}"-->
+                        <!--/>-->
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
@@ -41,6 +41,9 @@
                     <field name="necessita_s2300" invisible="1" />
                     <field name="necessita_s2306" invisible="1" />
                     <field name="id" invisible="1" />
+                    <field name="tem_registros" invisible="1" />
+                    <field name="tem_erros" invisible="1" />
+                    <field name="tem_fechamentos" invisible="1" />
                     <field name="pode_fechar" invisible="1" />
                     <field name="rescisoes_sem_registro" invisible="1" />
                     <div class="oe_title">
@@ -92,13 +95,6 @@
                                         <notebook>
                                             <page name="s1000" string="S-1000" attrs="{'invisible': [('necessita_s1000', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_empregador" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s1000" type="object" string="Criar S-1000(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s1000', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Informações do Empregador/Contribuínte/Órgão Público" />
                                                     <field name="empregador_ids" readonly="1" nolabel="1" colspan="4"
                                                            domain="[('situacao_esocial', 'not in', ['1', '9'])]"
@@ -107,13 +103,6 @@
                                             </page>
                                             <page name="s1005" string="S-1005" attrs="{'invisible': [('necessita_s1005', '=', False), ('estabelecimento_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_estabelecimentos" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s1005', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos" />
                                                     <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4"
                                                            domain="[('situacao_esocial', 'not in', ['1', '9'])]"
@@ -122,13 +111,6 @@
                                             </page>
                                             <page name="s1010" string="S-1010" attrs="{'invisible': [('necessita_s1010', '=', False), ('rubrica_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_rubricas" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s1010" type="object" string="Criar S-1010(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s1010', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Tabela de Rubricas" />
                                                     <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4"
                                                            domain="[('situacao_esocial', 'not in', ['1', '9'])]"
@@ -137,13 +119,6 @@
                                             </page>
                                             <page name="s1020" string="S-1020" attrs="{'invisible': [('necessita_s1020', '=', False), ('lotacao_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_lotacoes" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s1020" type="object" string="Criar S-1020(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s1020', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Tabela de Lotações Tributárias" />
                                                     <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4"
                                                            domain="[('situacao_esocial', 'not in', ['1', '9'])]"
@@ -152,13 +127,6 @@
                                             </page>
                                             <page name="s1030" string="S-1030" attrs="{'invisible': [('necessita_s1030', '=', False), ('cargo_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_cargos" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s1030', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Tabela de Cargos/Empregos Públicos" />
                                                     <field name="cargo_ids" readonly="1" nolabel="1" colspan="4"
                                                            domain="[('situacao_esocial', 'not in', ['1', '9'])]"
@@ -167,13 +135,6 @@
                                             </page>
                                             <page name="s1050" string="S-1050" attrs="{'invisible': [('necessita_s1050', '=', False), ('turno_trabalho_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_turnos_trabalho" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s1050" type="object" string="Criar S-1050(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s1050', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Tabela de Horários/Turnos de Trabalho" />
                                                     <field name="turno_trabalho_ids" readonly="1" nolabel="1" colspan="4"
                                                            domain="[('situacao_esocial', 'not in', ['1', '9'])]"
@@ -221,13 +182,6 @@
                                             </page>
                                             <page name="s2200" string="S-2200" attrs="{'invisible': [('necessita_s2200', '=', False), ('admissao_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_admissao" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s2200" type="object" string="Criar S-2200(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s2200', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Admissões (Contratos de Trabalho com Vínculo)" />
                                                     <field name="admissao_ids" readonly="1" nolabel="1" colspan="4"
                                                            domain="[('situacao_esocial', 'not in', ['4'])]"
@@ -236,26 +190,12 @@
                                             </page>
                                             <page name="s2205" string="S-2205" attrs="{'invisible': [('necessita_s2205', '=', False), ('alteracao_trabalhador_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_alteracao_trabalhador" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s2205" type="object" string="Criar S-2205(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s2205', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Alterações de Dados Cadastrais de Trabalhadores" />
                                                     <field name="alteracao_trabalhador_ids" readonly="1" nolabel="1" colspan="4"/>
                                                 </group>
                                             </page>
                                             <page name="s2206" string="S-2206" attrs="{'invisible': [('necessita_s2206', '=', False), ('alteracao_contrato_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
-                                                    <!--<group colspan="2" col="1">-->
-                                                        <!--<div class="oe_title">-->
-                                                            <!--<button name="importar_alteracao_contrato" type="object" string="Calcular" />-->
-                                                            <!--<button name="criar_s2205" type="object" string="Criar S-2206(s)" class="oe_highlight"-->
-                                                                    <!--attrs="{'invisible': [('necessita_s2206', '=', False)]}" />-->
-                                                        <!--</div>-->
-                                                    <!--</group>-->
                                                     <separator string="Alterações Contratuais" />
                                                     <field name="alteracao_contrato_ids" readonly="1" nolabel="1" colspan="4"/>
                                                 </group>
@@ -282,54 +222,11 @@
                                             </page>
                                         </notebook>
                                     </group>
-                                    <!--<separator string="Remuneração de Trabalhador vinculado ao RGPS" />-->
-                                    <!--<field name="remuneracao_ids" readonly="1" nolabel="1" colspan="4">-->
-                                        <!--<tree string="S-1200 (Remunerações RGPS)">-->
-                                            <!--<field name="trabalhador_id"/>-->
-                                            <!--<field name="contratos" />-->
-                                            <!--<field name="remuneracoes" />-->
-                                            <!--<field name="situacao_esocial"/>-->
-                                        <!--</tree>-->
-                                    <!--</field>-->
                                 </group>
                             </page>
-                            <!--<page name="s1299" string="Fechamento (S-1299)">-->
-                                <!--<group colspan="4" col="4">-->
-                                    <!--<group colspan="2" col="1">-->
-                                        <!--<div class="oe_title">-->
-                                            <!--<button name="importar_remuneracoes_rpps" type="object" string="Calcular" />-->
-                                        <!--</div>-->
-                                    <!--</group>-->
-                                    <!--<separator string="Remuneração de Servidor vinculado ao RPPS" />-->
-                                    <!--<field name="remuneracao_rpps_ids" readonly="1" nolabel="1" colspan="4">-->
-                                        <!--<tree string="S-1202 (Remunerações RPPS)">-->
-                                            <!--<field name="servidor_id"/>-->
-                                            <!--<field name="contratos" />-->
-                                            <!--<field name="remuneracoes" />-->
-                                            <!--<field name="situacao_esocial"/>-->
-                                        <!--</tree>-->
-                                    <!--</field>-->
-                                <!--</group>-->
-                            <!--</page>-->
-                            <!--<page name="s1210" string="S-1210">-->
-                                <!--<group colspan="4" col="4">-->
-                                    <!--<group colspan="2" col="1">-->
-                                        <!--<div class="oe_title">-->
-                                            <!--<button name="importar_pagamentos" type="object" string="Calcular" />-->
-                                        <!--</div>-->
-                                    <!--</group>-->
-                                    <!--<separator string="Pagamentos de Rendimentos do Trabalho" />-->
-                                    <!--<field name="pagamento_ids" readonly="1" nolabel="1" colspan="4">-->
-                                        <!--<tree string="S-1210 (Pagamentos)">-->
-                                            <!--<field name="beneficiario_id"/>-->
-                                            <!--<field name="contratos" />-->
-                                            <!--<field name="pagamentos" />-->
-                                            <!--<field name="situacao_esocial"/>-->
-                                        <!--</tree>-->
-                                    <!--</field>-->
-                                <!--</group>-->
-                            <!--</page>-->
-                            <page name="fechamento" string="Fechamento">
+                            <page name="fechamento" string="Fechamento (S-1299)"
+                                  attrs="{'invisible': [('tem_fechamentos', '=', False)]}"
+                            >
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
@@ -346,24 +243,17 @@
                                 </group>
                             </page>
                             <page name="registros" string="Registros para transmitir ao e-Social"
-                                  attrs="{'invisible': [('registro_ids', '=', False)]}"
+                                  attrs="{'invisible': [('tem_registros', '=', False)]}"
                             >
                                 <group colspan="4" col="4">
-                                    <field name="registro_ids" readonly="1" nolabel="1" colspan="4"/>
+                                    <field name="registro_ids" nolabel="1" colspan="4" readonly="1" />
                                 </group>
                             </page>
-                            <page name="transmitidos" string="Registros Transmitidos ao e-Social neste Período"
-                                  attrs="{'invisible': [('transmitido_ids', '=', False)]}"
+                            <page name="erros" string="Registros com Erros para Corrigir"
+                                  attrs="{'invisible': [('tem_erros', '=', False)]}"
                             >
                                 <group colspan="4" col="4">
-                                    <field name="transmitido_ids" readonly="1" nolabel="1" colspan="4"/>
-                                </group>
-                            </page>
-                            <page name="lotes" string="Lotes de Transmissão ao e-Social"
-                                  attrs="{'invisible': [('lote_ids', '=', False)]}"
-                            >
-                                <group colspan="4" col="4">
-                                    <field name="lote_ids" readonly="1" nolabel="1" colspan="4"/>
+                                    <field name="erro_ids" nolabel="1" colspan="4"/>
                                 </group>
                             </page>
                         </notebook>
@@ -377,7 +267,6 @@
             <field name="model">sped.esocial</field>
             <field name="arch" type="xml">
                 <tree string="e-Social" duplicate="false">
-                      <!--colors="blue:state in ('new','draft');black:state in ('open','done');gray:state == 'cancel'"-->
                     <field name="periodo_id" />
                     <field name="company_id"/>
                     <field name="situacao"/>
@@ -436,4 +325,3 @@
 
     </data>
 </openerp>
-

@@ -58,42 +58,135 @@ class SpedEsocial(models.Model):
             ('3', 'Fechado')
         ],
         default='1',
-        #compute='_compute_situacao',
+        # compute='_compute_situacao',
+        store=True,
+    )
+    tem_registros = fields.Boolean(
+        string='Tem Registros?',
+        compute='compute_tem_registros',
         store=True,
     )
     registro_ids = fields.Many2many(
         string='Registros para Transmitir',
         comodel_name='sped.registro',
-        compute='compute_registro_ids',
+        relation='sped_esocial_sped_registro_todos_rel',
+        column1='sped_esocial_id',
+        column2='sped_registro_id',
+        # compute='compute_registro_ids',
+        # store=True,
     )
-    transmitido_ids = fields.Many2many(
-        string='Registros Transmitidos',
+    tem_erros = fields.Boolean(
+        string='Tem Erros?',
+        compute='compute_erro_ids',
+        store=True,
+    )
+    erro_ids = fields.Many2many(
+        string='Registros com Erros',
         comodel_name='sped.registro',
-        compute='compute_transmitido_ids',
+        relation='sped_esocial_sped_registro_erros_rel',
+        column1='sped_esocial_id',
+        column2='sped_registro_id',
+        compute='compute_erro_ids',
+        store=True,
     )
     pode_fechar = fields.Boolean(
         string='Pode Fechar?',
         compute='compute_registro_ids',
-    )
-    lote_ids = fields.Many2many(
-        string='Lotes de Transmissão ao e-Social',
-        comodel_name='sped.lote',
+        store=True,
     )
 
-    @api.depends('lote_ids')
-    def compute_transmitido_ids(self):
+    @api.depends('registro_ids.situacao')
+    def compute_erro_ids(self):
         for periodo in self:
-            transmitido_ids = []
-            for lote in periodo.lote_ids:
-                for registro in lote.transmissao_ids:
-                    transmitido_ids.append(registro.id)
-            periodo.transmitido_ids = [(6, 0, transmitido_ids)]
+            registros = []
+            for registro in periodo.registro_ids:
+                if registro.situacao == '3':
+                    registros.append(registro.id)
+            periodo.erro_ids = [(6, 0, registros)]
+            periodo.tem_erros = True if registros else False
 
-    @api.depends(
-        'empregador_ids', 'estabelecimento_ids', 'rubrica_ids', 'lotacao_ids', 'cargo_ids',
-        'turno_trabalho_ids', 'admissao_ids', 'alteracao_trabalhador_ids',
-        'alteracao_contrato_ids', 'fechamento_ids',
-    )
+    @api.depends('registro_ids')
+    def compute_tem_registros(self):
+        for periodo in self:
+            periodo.tem_registros = True if periodo.registro_ids else False
+
+    # tem_transmitidos = fields.Boolean(
+    #     string='Tem Transmitidos',
+    #     compute='compute_transmitido_ids',
+    #     store=True,
+    # )
+    # transmitido_ids = fields.Many2many(
+    #     string='Registros Transmitidos',
+    #     comodel_name='sped.registro',
+    #     compute='compute_transmitido_ids',
+    #     store=True,
+    # )
+    # tem_lotes = fields.Boolean(
+    #     string='Tem Lotes',
+    #     compute='compute_transmitido_ids',
+    #     store=True,
+    # )
+    # lote_ids = fields.Many2many(
+    #     string='Lotes de Transmissão ao e-Social',
+    #     comodel_name='sped.lote',
+    #     compute='compute_transmitido_ids',
+    #     store=True,
+    # )
+    #
+    # @api.depends(
+    #     # Tabelas
+    #     'empregador_ids.situacao_esocial',  # S-1000
+    #     'estabelecimento_ids.situacao_esocial',  # S-1005
+    #     'rubrica_ids.situacao_esocial',  # S-1010
+    #     'lotacao_ids.situacao_esocial',  # S-1020
+    #     'cargo_ids.situacao_esocial',  # S-1030
+    #     'turno_trabalho_ids.situacao_esocial',  # S-1050
+    #     # Eventos não periódicos
+    #     'admissao_ids.situacao_esocial',  # S-2200
+    #     'alteracao_trabalhador_ids.situacao_esocial',  # S-2205
+    #     'alteracao_contrato_ids.situacao_esocial',  # S-2206
+    #     # 'desligamento_ids.situacao_esocial',            # TODO S-2299
+    #     'admissao_sem_vinculo_ids.situacao_esocial',  # S-2300
+    #     'alteracao_sem_vinculo_ids.situacao_esocial',  # S-2306
+    #     # TODO S-2399
+    #     # Eventos periódicos
+    #     'remuneracao_ids.situacao_esocial',  # S-1200
+    #     'remuneracao_rpps_ids.situacao_esocial',  # S-1202
+    #     'pagamento_ids.situacao_esocial',  # S-1210
+    #     'fechamento_ids.situacao_esocial',  # S-1299
+    # )
+    # def compute_transmitido_ids(self):
+    #     for periodo in self:
+    #         transmitido_ids = []
+    #         lote_ids = []
+    #         for lote in periodo.lote_ids:
+    #             for registro in lote.transmissao_ids:
+    #                 transmitido_ids.append(registro.id)
+    #         periodo.transmitido_ids = [(6, 0, transmitido_ids)]
+    #
+    # @api.depends(
+    #     # Tabelas
+    #     'empregador_ids.situacao_esocial',              # S-1000
+    #     'estabelecimento_ids.situacao_esocial',         # S-1005
+    #     'rubrica_ids.situacao_esocial',                 # S-1010
+    #     'lotacao_ids.situacao_esocial',                 # S-1020
+    #     'cargo_ids.situacao_esocial',                   # S-1030
+    #     'turno_trabalho_ids.situacao_esocial',          # S-1050
+    #     # Eventos não periódicos
+    #     'admissao_ids.situacao_esocial',                # S-2200
+    #     'alteracao_trabalhador_ids.situacao_esocial',   # S-2205
+    #     'alteracao_contrato_ids.situacao_esocial',      # S-2206
+    #     # 'desligamento_ids.situacao_esocial',            # TODO S-2299
+    #     'admissao_sem_vinculo_ids.situacao_esocial',    # S-2300
+    #     'alteracao_sem_vinculo_ids.situacao_esocial',   # S-2306
+    #                                                     # TODO S-2399
+    #     # Eventos periódicos
+    #     'remuneracao_ids.situacao_esocial',             # S-1200
+    #     'remuneracao_rpps_ids.situacao_esocial',        # S-1202
+    #     'pagamento_ids.situacao_esocial',               # S-1210
+    #     'fechamento_ids.situacao_esocial',              # S-1299
+    # )
+    @api.multi
     def compute_registro_ids(self):
         for esocial in self:
 
@@ -157,9 +250,9 @@ class SpedEsocial(models.Model):
             for turno in esocial.turno_trabalho_ids:
                 # Identifica o registro a ser transmitido
                 if turno.sped_inclusao.situacao in ['1', '3']:
-                    registros.append(cargo.sped_inclusao.id)
+                    registros.append(turno.sped_inclusao.id)
                 else:
-                    for registro in cargo.sped_alteracao:
+                    for registro in turno.sped_alteracao:
                         if registro.situacao in ['1', '3']:
                             registros.append(registro.id)
 
@@ -221,7 +314,7 @@ class SpedEsocial(models.Model):
             # S-2399
 
             # Fechamento (S-1200)
-            for remuneracao in esocial.pagamento_ids:
+            for remuneracao in esocial.remuneracao_ids:
                 # Identifica o registro a ser transmitido
                 if remuneracao.sped_registro.situacao in ['1', '3']:
                     registros.append(remuneracao.sped_registro.id)
@@ -239,7 +332,13 @@ class SpedEsocial(models.Model):
                     registros.append(fechamento.sped_registro.id)
 
             # Popula a lista de registros
-            esocial.registro_ids = [(6, 0, registros)]
+            regs = esocial.registro_ids.ids
+            for registro in registros:
+                if registro not in regs:
+                    regs.append(registro)
+                    # esocial.registro_ids = [(4, registro)]
+            esocial.registro_ids = [(6, 0, regs)]
+            esocial.tem_registros = True if esocial.registro_ids else False
 
             # Identifica se este período está apto a ser fechado
             pode_fechar = True
@@ -326,7 +425,9 @@ class SpedEsocial(models.Model):
     )
 
     # Calcula se é necessário criar algum registro S-1005
-    @api.depends('estabelecimento_ids.situacao_esocial')
+    @api.depends(
+        'estabelecimento_ids.situacao_esocial'
+    )
     def compute_necessita_s1005(self):
         for esocial in self:
             necessita_s1005 = False
@@ -376,7 +477,9 @@ class SpedEsocial(models.Model):
     )
 
     # Calcula se é necessário criar algum registro S-1010
-    @api.depends('rubrica_ids.situacao_esocial')
+    @api.depends(
+        'rubrica_ids.situacao_esocial'
+    )
     def compute_necessita_s1010(self):
         for esocial in self:
             necessita_s1010 = False
@@ -427,7 +530,9 @@ class SpedEsocial(models.Model):
     )
 
     # Calcula se é necessário criar algum registro S-1020
-    @api.depends('lotacao_ids.situacao_esocial')
+    @api.depends(
+        'lotacao_ids.situacao_esocial'
+    )
     def compute_necessita_s1020(self):
         for esocial in self:
             necessita_s1020 = False
@@ -477,7 +582,9 @@ class SpedEsocial(models.Model):
     )
 
     # Calcula se é necessário criar algum registro S-1030
-    @api.depends('cargo_ids.situacao_esocial')
+    @api.depends(
+        'cargo_ids.situacao_esocial'
+    )
     def compute_necessita_s1030(self):
         for esocial in self:
             necessita_s1030 = False
@@ -528,7 +635,9 @@ class SpedEsocial(models.Model):
     )
 
     # Calcula se é necessário criar algum registro S-1050
-    @api.depends('turno_trabalho_ids.situacao_esocial')
+    @api.depends(
+        'turno_trabalho_ids.situacao_esocial'
+    )
     def compute_necessita_s1050(self):
         for esocial in self:
             necessita_s1050 = False
@@ -1008,10 +1117,19 @@ class SpedEsocial(models.Model):
             self.pagamento_ids = [(6, 0, s1210s)]
 
     # Controle de registros S-1299
+    tem_fechamentos = fields.Boolean(
+        string='Tem Fechamentos?',
+        compute='compute_tem_fechamentos',
+    )
     fechamento_ids = fields.Many2many(
         string='Fechamento',
         comodel_name='sped.esocial.fechamento',
     )
+
+    @api.depends('fechamento_ids')
+    def compute_tem_fechamentos(self):
+        for periodo in self:
+            periodo.tem_fechamentos = True if periodo.fechamento_ids else False
 
     @api.depends('remuneracao_rpps_ids')
     def compute_msg_remuneracao_rpps(self):
@@ -2002,6 +2120,9 @@ class SpedEsocial(models.Model):
             # esocial.importar_remuneracoes_rpps()        # S-1202 (Por enquanto não deve-se enviar o S-1202)
             esocial.importar_pagamentos()               # S-1210
 
+            # Calcula os registros para transmitir
+            esocial.compute_registro_ids()
+
     @api.model
     def create(self, vals):
 
@@ -2029,17 +2150,16 @@ class SpedEsocial(models.Model):
     def transmitir_periodo(self):
         self.ensure_one()
 
-        # Verifica se tem algum período anterior não fechado
-        periodo_anterior = self.env['sped.esocial'].search([
-            ('situacao', '=', '1'),
-            ('periodo_id.date_start', '<', self.periodo_id.date_start),
-        ], limit=1)
-        if periodo_anterior:
-            raise Exception("Existem períodos anteriores não fechados, feche os períodos em ordem cronológica!")
+        # # Verifica se tem algum período anterior não fechado
+        # periodo_anterior = self.env['sped.esocial'].search([
+        #     ('situacao', '=', '1'),
+        #     ('periodo_id.date_start', '<', self.periodo_id.date_start),
+        # ], limit=1)
+        # if periodo_anterior:
+        #     raise Exception("Existem períodos anteriores não fechados, feche os períodos em ordem cronológica!")
 
         # Cria os lotes de transmissão
-        wizard = self.env['sped.criacao.wizard']
-        res = wizard.default_get(self.registro_ids.ids)
-        lotes = res.criar_lotes()
-        for lote in lotes:
-            self.lote_ids = [(4, lote)]
+        wizard = self.env['sped.criacao.wizard'].create({})
+        lotes = wizard.popular(self.registro_ids)
+        wizard.lote_ids = [(6, 0, lotes)]
+        wizard.criar_lotes()
