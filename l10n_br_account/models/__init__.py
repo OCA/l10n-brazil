@@ -18,7 +18,6 @@ from . import res_company
 from . import res_config
 from . import account_journal
 from . import account_tax
-from . import wizard_multi_charts_accounts
 from . import account_invoice
 from . import account_invoice_line
 from . import product_template
