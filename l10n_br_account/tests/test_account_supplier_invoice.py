@@ -23,6 +23,7 @@ class TestSupplierInvoice(TransactionCase):
             refund_sequence=True,
             default_debit_account_id=self.purchase_account.id,
             default_credit_account_id=self.purchase_account.id,
+            revenue_expense=True,
         ))
         self.fiscal_category = self.env[
             'l10n_br_account.fiscal.category'].create(
@@ -59,6 +60,7 @@ class TestSupplierInvoice(TransactionCase):
             fiscal_category_id=self.fiscal_category.id,
             partner_id=self.env.ref('base.res_partner_3').id,
             reference_type="none",
+            journal_id=self.purchase_journal.id,
             invoice_line_ids=[(0, 0, {
                 'product_id': self.env.ref('product.product_product_5').id,
                 'quantity': 10.0,
@@ -76,5 +78,7 @@ class TestSupplierInvoice(TransactionCase):
         self.assertEquals(self.invoice_1.state, 'draft',
                           "Invoice should be in state Draft")
         self.invoice_1.action_invoice_open()
+        assert self.invoice_1.move_id, \
+            "Move Receivable not created for open invoice"
         self.assertEquals(self.invoice_1.state, 'open',
                           "Invoice should be in state Open")
