@@ -119,6 +119,7 @@ class HrContractChange(models.Model):
 
         # Criar o registro de transmissão relacionado
         self.sped_s2206_id.gerar_registro()
+        self.apply_contract_changes()
 
     @api.multi
     def retificar_contrato_s2206(self):  # TODO
