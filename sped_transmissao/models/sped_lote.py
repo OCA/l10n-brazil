@@ -157,6 +157,10 @@ class SpedLote(models.Model, ):
         for lote in self:
             if lote.situacao not in ['1', '3']:
                 raise ValidationError("Não pode excluir um Lote transmitido!")
+            if lote.situacao in ['3']:
+                # Mudar o status dos registros deste lote para 'Pendente'
+                for registro in lote.registro_ids:
+                    registro.situacao = '1'
             super(SpedLote, lote).unlink()
 
     @api.depends('transmissao_ids')
@@ -593,7 +597,7 @@ class SpedLote(models.Model, ):
         ], limit=1, order='create_date')
 
         # Se não tem um lote do grupo NA então busca um dos grupos numéricos
-        for x in range(1, 4):
+        for x in range(1, 5):
             if not lote_para_transmitir:
                 lote_para_transmitir = self.env['sped.lote'].search([
                     ('grupo', '=', str(x)),
