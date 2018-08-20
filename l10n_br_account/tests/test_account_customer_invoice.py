@@ -15,6 +15,7 @@ class TestCustomerInvoice(TransactionCase):
             name='Product Sales - (test)',
             user_type_id=self.env.ref(
                 'account.data_account_type_revenue').id,
+            reconcile=True,
         ))
         self.sale_journal = self.env['account.journal'].create(dict(
             name='Sales Journal - (test)',
@@ -23,6 +24,7 @@ class TestCustomerInvoice(TransactionCase):
             refund_sequence=True,
             default_debit_account_id=self.sale_account.id,
             default_credit_account_id=self.sale_account.id,
+            revenue_expense=True,
         ))
         self.fiscal_category = self.env[
             'l10n_br_account.fiscal.category'].create(
@@ -59,6 +61,7 @@ class TestCustomerInvoice(TransactionCase):
             fiscal_category_id=self.fiscal_category.id,
             partner_id=self.env.ref('base.res_partner_3').id,
             reference_type="none",
+            journal_id=self.sale_journal.id,
             invoice_line_ids=[(0, 0, {
                 'product_id': self.env.ref('product.product_product_5').id,
                 'quantity': 10.0,
@@ -100,6 +103,7 @@ class TestCustomerInvoice(TransactionCase):
             fiscal_category_id=self.fiscal_category.id,
             partner_id=self.env.ref('base.res_partner_3').id,
             reference_type="none",
+            journal_id=self.sale_journal.id,
             invoice_line_ids=[(0, 0, {
                 'product_id': self.env.ref('product.product_product_5').id,
                 'quantity': 5.0,
@@ -115,6 +119,27 @@ class TestCustomerInvoice(TransactionCase):
                     tax_percent_included_base_incl.id,
                     tax_percentage.id
                 ])],
+            })]
+        ))
+        self.invoice_3 = self.env['account.invoice'].create(dict(
+            name='Test Customer Invoice',
+            payment_term_id=self.env.ref(
+                'account.account_payment_term_advance').id,
+            fiscal_category_id=self.fiscal_category.id,
+            currency_id=self.env.ref('base.EUR').id,
+            partner_id=self.env.ref('base.res_partner_3').id,
+            reference_type="none",
+            journal_id=self.sale_journal.id,
+            invoice_line_ids=[(0, 0, {
+                'product_id': self.env.ref('product.product_product_5').id,
+                'quantity': 10.0,
+                'price_unit': 450.0,
+                'account_id': self.env['account.account'].search(
+                    [('user_type_id', '=', self.env.ref(
+                        'account.data_account_type_revenue').id)], limit=1).id,
+                'name': 'product test 5',
+                'uom_id': self.env.ref('product.product_uom_unit').id,
+                'fiscal_category_id': self.fiscal_category.id,
             })]
         ))
 
@@ -137,5 +162,16 @@ class TestCustomerInvoice(TransactionCase):
         self.invoice_2.pay_and_reconcile(
             self.env['account.journal'].search(
                 [('type', '=', 'bank')], limit=1), 10050.0)
+        assert self.invoice_2.payment_move_line_ids, \
+            "Paymente Move Line not created for Paid invoice"
         self.assertEquals(self.invoice_2.state, 'paid',
                           "Invoice should be in state Paid")
+
+    def test_invoice_other_currency(self):
+        self.assertEquals(self.invoice_3.state, 'draft',
+                          "Invoice should be in state Draft")
+        self.invoice_3.action_invoice_open()
+        assert self.invoice_3.move_id, \
+            "Move Receivable not created for open invoice"
+        self.assertEquals(self.invoice_3.state, 'open',
+                          "Invoice should be in state Open")
