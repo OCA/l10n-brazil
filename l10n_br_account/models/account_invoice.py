@@ -53,15 +53,20 @@ class AccountInvoice(models.Model):
             record.amount_total_signed = record.amount_total * sign
             record.amount_untaxed_signed = amount_untaxed_signed * sign
 
-    def _compute_receivables(self):
-        lines = self.env['account.move.line']
-        for line in self.move_id.line_ids:
-            if (line.account_id.id == self.account_id.id and
-                    self.journal_id.revenue_expense and
-                    line.account_id.user_type_id.type in ('receivable',
-                                                          'payable')):
-                lines |= line
-        self.move_line_receivable_id = (lines).sorted()
+    @api.one
+    @api.depends('move_id.line_ids.amount_residual')
+    def _compute_payments(self):
+        payment_lines = []
+        for line in self.move_id.line_ids.filtered(
+                lambda l: l.account_id.id == self.account_id.id and
+                self.journal_id.revenue_expense and
+                l.account_id.user_type_id.type in ('receivable', 'payable')):
+            payment_lines.extend(filter(None, [
+                rp.credit_move_id.id for rp in line.matched_credit_ids]))
+            payment_lines.extend(filter(None, [
+                rp.debit_move_id.id for rp in line.matched_debit_ids]))
+        self.payment_move_line_ids = self.env[
+            'account.move.line'].browse(list(set(payment_lines)))
 
     state = fields.Selection(
         selection_add=[
