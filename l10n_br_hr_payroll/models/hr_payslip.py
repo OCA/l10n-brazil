@@ -722,12 +722,22 @@ class HrPayslip(models.Model):
         be applied for the given contract between date_from and date_to
         """
         result = []
+        resource_calendar_obj = self.env['resource.calendar']
         for contract_id in self.env['hr.contract'].browse(contract_id):
 
-            # get dias Base para cálculo do mês
+            #
+            # GET dias Base para cálculo do mês
+            #
+
             if self.tipo_de_folha == 'rescisao':
-                dias_mes = fields.Date.from_string(date_to).day - \
-                    fields.Date.from_string(date_from).day + 1
+                # Na rescisao não utilizar mês comercial e sim o total de dias
+                # trabalhados no mês
+                dias_mes = resource_calendar_obj.get_dias_base(
+                    fields.Datetime.from_string(date_from),
+                    fields.Datetime.from_string(date_to),
+                    mes_comercial=False
+                )
+
                 # Quando o afastamento for no primeiro dia do mes,
                 # significa que nao trabalhou nenhum dia
                 primeiro_dia_do_mes = \
@@ -735,6 +745,7 @@ class HrPayslip(models.Model):
                         str(self.mes_do_ano) + '-' + str(self.ano), '%m-%Y'))
                 if self.data_afastamento == primeiro_dia_do_mes[:10]:
                     dias_mes = 0
+
                 # Ajuste temporário!
                 # Se na rescisao ja tiver sido calculado o holerite do mes:
                 # Holerite março gerado em 17/mar referente a 1/mar ate 30/mar
@@ -745,11 +756,27 @@ class HrPayslip(models.Model):
                 if self.data_afastamento == self.date_to and \
                         self.data_afastamento == self.date_to:
                     dias_mes = 0
-            else:
-                dias_mes = self.env['resource.calendar'].get_dias_base(
+
+            # Quando for admissao levar em consideração apenas os dias
+            # trabalhados e não o mês comercial. Assim se for admitido no
+            # dia 20 em um mês de 31 dias, retornar 11 dias trabalhados no
+            # mês de admissão.
+            elif date_from == contract_id.date_start:
+                dias_mes = resource_calendar_obj.get_dias_base(
                     fields.Datetime.from_string(date_from),
-                    fields.Datetime.from_string(date_to)
+                    fields.Datetime.from_string(date_to),
+                    mes_comercial=False
                 )
+
+            # Para todos ou outros casos utilizar mês comercial,
+            # contabilizando mês cheio com 30 dias
+            else:
+                dias_mes = resource_calendar_obj.get_dias_base(
+                    fields.Datetime.from_string(date_from),
+                    fields.Datetime.from_string(date_to),
+                    mes_comercial=True
+                )
+
             result += [self.get_attendances(
                 u'Dias Base', 30, u'DIAS_BASE', dias_mes, 0.0, contract_id)]
 
