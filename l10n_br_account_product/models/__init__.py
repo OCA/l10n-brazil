@@ -11,3 +11,4 @@ from . import account_invoice
 from . import account
 from . import product
 from . import res_country
+from . import wizard_multi_charts_accounts
