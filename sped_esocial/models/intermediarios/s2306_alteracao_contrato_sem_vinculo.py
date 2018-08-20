@@ -64,7 +64,7 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
             record.name = 'S-2306 - Alteração de Contratos Sem vínculos {}'.format(
                 record.hr_contract_id.display_name or '')
 
-    @api.depends('sped_alteracao')
+    @api.depends('sped_alteracao.situacao')
     def compute_situacao_esocial(self):
         for contrato in self:
             situacao_esocial = '1'
@@ -98,8 +98,7 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
     #         # Popula os campos na tabela
     #         contrato.precisa_atualizar = precisa_atualizar
 
-
-    @api.depends('sped_alteracao')
+    @api.depends('sped_alteracao.situacao')
     def compute_ultima_atualizacao(self):
 
         # Roda todos os registros da lista

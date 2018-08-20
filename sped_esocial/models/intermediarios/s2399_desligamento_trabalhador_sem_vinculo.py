@@ -47,7 +47,7 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
             ('5', 'Precisa Retificar'),
         ],
         compute="compute_situacao_esocial",
-        readonly=True,
+        store=True,
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
@@ -80,8 +80,8 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         comodel_name='sped.contribuicao.inss',
     )
 
-    @api.depends('sped_s2399_registro_inclusao',
-                 'sped_s2399_registro_retificacao')
+    @api.depends('sped_s2399_registro_inclusao.situacao',
+                 'sped_s2399_registro_retificacao.situacao')
     def compute_ultima_atualizacao(self):
 
         # Roda todos os registros da lista
@@ -105,8 +105,8 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
             # Popula o campo na tabela
             desligamento.ultima_atualizacao = ultima_atualizacao
 
-    @api.depends('sped_s2399_registro_inclusao',
-                 'sped_s2399_registro_retificacao')
+    @api.depends('sped_s2399_registro_inclusao.situacao',
+                 'sped_s2399_registro_retificacao.situacao')
     def compute_situacao_esocial(self):
         for desligamento in self:
             situacao_esocial = '1'

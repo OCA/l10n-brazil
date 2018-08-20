@@ -66,7 +66,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         for record in self:
             record.name = 'S-2205 - Alteração Cadastral {}'.format(record.hr_employee_id.display_name or '')
 
-    @api.depends('sped_alteracao')
+    @api.depends('sped_alteracao.situacao')
     def compute_situacao_esocial(self):
         for s2205 in self:
             situacao_esocial = '1'

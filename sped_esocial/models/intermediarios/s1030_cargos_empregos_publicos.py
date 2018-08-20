@@ -56,6 +56,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
+        store=True,
     )
     precisa_incluir = fields.Boolean(
         string='Precisa incluir dados?',
@@ -85,7 +86,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
 
             cargo.nome = nome
 
-    @api.depends('sped_inclusao', 'sped_exclusao')
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao')
     def compute_situacao_esocial(self):
         for cargo in self:
             situacao_esocial = '0'  # Inativa
@@ -138,8 +139,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
             # Popula na tabela
             cargo.situacao_esocial = situacao_esocial
 
-    @api.depends('sped_inclusao', 'sped_exclusao',
-                 'sped_alteracao', 'sped_alteracao.situacao',
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao',
                  'cargo_id.precisa_atualizar')
     def compute_precisa_enviar(self):
 
@@ -173,9 +173,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
             cargo.precisa_incluir = precisa_incluir
             cargo.precisa_excluir = precisa_excluir
 
-    @api.depends('sped_inclusao',
-                 'sped_alteracao', 'sped_alteracao.situacao',
-                 'sped_exclusao')
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao')
     def compute_ultima_atualizacao(self):
 
         # Roda todos os registros da lista

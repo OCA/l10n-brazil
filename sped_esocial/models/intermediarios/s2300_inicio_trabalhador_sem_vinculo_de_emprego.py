@@ -44,8 +44,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             ('5', 'Precisa Retificar'),
         ],
         compute="compute_situacao_esocial",
-        readonly=True,
-        # store=True,
+        store=True,
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
@@ -53,7 +52,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
     )
 
     @api.multi
-    @api.depends('registro_inclusao', 'registro_retificacao')
+    @api.depends('registro_inclusao.situacao', 'registro_retificacao.situacao')
     def compute_ultima_atualizacao(self):
         """
         Calcular a ultima atualizacao do registro
@@ -101,7 +100,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
                 record.registro_inclusao = sped_inclusao
 
     @api.multi
-    @api.depends('registro_inclusao', 'registro_retificacao')
+    @api.depends('registro_inclusao.situacao', 'registro_retificacao.situacao')
     def compute_situacao_esocial(self):
         """
         Definir a situacao do envio do e social de acordo com a ultima 

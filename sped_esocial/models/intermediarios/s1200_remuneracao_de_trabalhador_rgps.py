@@ -98,6 +98,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             ('5', 'Precisa Retificar'),
         ],
         related='sped_registro.situacao',
+        store=True,
     )
 
     # Roda a atualização do e-Social (não transmite ainda)

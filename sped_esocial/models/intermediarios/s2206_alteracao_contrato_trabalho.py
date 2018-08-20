@@ -53,6 +53,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
+        store=True,
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
@@ -69,7 +70,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             record.name = 'S-2206 - Alteração Contratual {}'.format(
                 record.hr_contract_id.display_name or '')
 
-    @api.depends('sped_alteracao', 'sped_retificacao_ids')
+    @api.depends('sped_alteracao.situacao', 'sped_retificacao_ids.situacao')
     def compute_situacao_esocial(self):
         for s2206 in self:
             situacao_esocial = '1'

@@ -55,7 +55,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             ('6', 'Retificado'),
         ],
         compute="compute_situacao_esocial",
-        readonly=True,
+        store=True,
     )
     ultima_atualizacao = fields.Datetime(
         string='Data da última atualização',
@@ -86,7 +86,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             sped_retificacao = self.env['sped.registro'].create(values)
             self.sped_s2200_registro_retificacao = [(4, sped_retificacao.id)]
 
-    @api.depends('sped_s2200_registro_inclusao', 'sped_s2200_registro_retificacao')
+    @api.depends('sped_s2200_registro_inclusao.situacao', 'sped_s2200_registro_retificacao.situacao')
     def compute_situacao_esocial(self):
         for s2200 in self:
             situacao_esocial = '1'

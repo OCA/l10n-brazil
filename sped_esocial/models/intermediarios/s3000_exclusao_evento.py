@@ -47,6 +47,7 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
+        store=True,
     )
 
     @api.depends('company_id')
@@ -59,7 +60,7 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
                 nome += ')'
             registro.nome = nome
 
-    @api.depends('sped_transmissao_id')
+    @api.depends('sped_transmissao_id.situacao')
     def compute_situacao_esocial(self):
         for exclusao in self:
             situacao_esocial = '0'  # Inativa
