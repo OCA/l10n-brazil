@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
-from odoo.exceptions import Warning as UserError
 
 OPERATION_TYPE = {
     'out_invoice': 'output',
@@ -198,28 +197,6 @@ class AccountInvoice(models.Model):
             result[i]['price'] = l.price_subtotal - l.amount_tax_discount
             i += 1
         return result
-
-    def _fiscal_position_id_map(self, result, **kwargs):
-        ctx = dict(self._context)
-        ctx.update({'use_domain': ('use_invoice', '=', True)})
-        if ctx.get('fiscal_category_id'):
-            kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
-
-        if not kwargs.get('fiscal_category_id'):
-            return result
-
-        company = self.env['res.company'].browse(kwargs.get('company_id'))
-
-        fcategory = self.env['l10n_br_account.fiscal.category'].browse(
-            kwargs.get('fiscal_category_id'))
-        result['value']['journal_id'] = fcategory.property_journal.id
-        if not result['value'].get('journal_id', False):
-            raise UserError(
-                _('Nenhum Diário !'),
-                _("Categoria fiscal: '%s', não tem um diário contábil para a \
-                empresa %s") % (fcategory.name, company.name))
-        return self.env['account.fiscal.position.rule'].with_context(
-            ctx).apply_fiscal_mapping(result, **kwargs)
 
     @api.multi
     def open_fiscal_document(self):
