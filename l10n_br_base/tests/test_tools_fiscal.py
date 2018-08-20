@@ -5,7 +5,7 @@
 
 
 from ..tools.fiscal import validate_pis_pasep
-from openerp.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase
 
 
 class Tests(TransactionCase):
