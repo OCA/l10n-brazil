@@ -422,6 +422,13 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                             }
                             self.env['sped.irrf.infoirrf'].create(vals)
 
+                    # Adiciona o S-5002 ao Período do e-Social que gerou o S-1210 relacionado
+                    periodo = self.env['sped.esocial'].search([
+                        ('company_id', '=', self.company_id.id),
+                        ('periodo_id', '=', self.periodo_id.id),
+                    ])
+                    periodo.irrf_trabalhador_ids = [(4, sped_intermediario.id)]
+
     @api.multi
     def retorna_trabalhador(self):
         self.ensure_one()

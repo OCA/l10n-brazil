@@ -20,6 +20,7 @@
 
                     <group colspan="4" col="4">
                         <group colspan="4" col="2">
+                            <field name="company_id" readonly="1" />
                             <field name="sped_hr_rescisao_id" readonly="1"/>
                         </group>
                     </group>

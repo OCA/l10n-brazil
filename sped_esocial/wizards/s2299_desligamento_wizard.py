@@ -33,8 +33,12 @@ class S2299DesligamentoWizard(models.TransientModel):
         de contrato de trabalho
         :return:
         """
+        # Identificar qual categoria de contrato para definir o registro sped
+        payslip = self.env['hr.payslip'].browse(self.env.context['active_id'])
+
         vals = {
-            'sped_hr_rescisao_id': self.env.context['active_id'],
+            'company_id': payslip.company_id.id,
+            'sped_hr_rescisao_id': payslip.id,
             'pens_alim': self.pens_alim,
         }
         if self.pens_alim != 0:
@@ -49,8 +53,7 @@ class S2299DesligamentoWizard(models.TransientModel):
             vals['perc_aliment'] = porcentagem
             vals['vr_alim'] = valor
 
-        # Identificar qual categoria de contrato para definir o registro sped
-        payslip = self.env['hr.payslip'].browse(self.env.context['active_id'])
+        desligamento_id = False
         if payslip.contract_id.evento_esocial == 's2200':
             desligamento_id = self.env['sped.hr.rescisao'].create(vals)
             payslip.sped_s2299 = desligamento_id
@@ -95,32 +98,33 @@ class S2299DesligamentoWizard(models.TransientModel):
         registro do esocial
         """
         desligamento_id = self.create_sped_intermediario_desligamento()
+        desligamento_id.gerar_registro()
 
-        if desligamento_id.sped_hr_rescisao_id.contract_id.evento_esocial == 's2300':
-            registro = 'S-2399'
-            evento = 'evtTSVTermino'
-        else:
-            registro = 'S-2299'
-            evento = 'evtDeslig'
-
-        sped_registro = self.create_sped_registro(
-            desligamento_id, desligamento_id.sped_hr_rescisao_id.company_id.id,
-            'esocial', registro, evento,
-            desligamento_id.sped_hr_rescisao_id.company_id.esocial_tpAmb
-        )
-
-        desligamento_id.sped_s2299_registro_inclusao = sped_registro
-
-        return {
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'sped.registro',
-            'res_id': sped_registro.id,
-            'type': 'ir.actions.act_window',
-            'target': 'current',
-            'nodestroy': True,
-            'context': self.env.context,
-        }
+        # if desligamento_id.sped_hr_rescisao_id.contract_id.evento_esocial == 's2300':
+        #     registro = 'S-2399'
+        #     evento = 'evtTSVTermino'
+        # else:
+        #     registro = 'S-2299'
+        #     evento = 'evtDeslig'
+        #
+        # sped_registro = self.create_sped_registro(
+        #     desligamento_id, desligamento_id.sped_hr_rescisao_id.company_id.id,
+        #     'esocial', registro, evento,
+        #     desligamento_id.sped_hr_rescisao_id.company_id.esocial_tpAmb
+        # )
+        #
+        # desligamento_id.sped_s2299_registro_inclusao = sped_registro
+        #
+        # return {
+        #     'view_type': 'form',
+        #     'view_mode': 'form',
+        #     'res_model': 'sped.registro',
+        #     'res_id': sped_registro.id,
+        #     'type': 'ir.actions.act_window',
+        #     'target': 'current',
+        #     'nodestroy': True,
+        #     'context': self.env.context,
+        # }
 
 
 class S229DesligamentoPensaoWizard(models.TransientModel):

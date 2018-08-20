@@ -12,13 +12,13 @@
                                 attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
                         />
                         <button name="transmitir_periodo" type="object" string="Transmitir para o e-Social"
-                                attrs="{'invisible': ['|', ('tem_registros', '=', False), ('situacao', '=', '3')]}"
+                                attrs="{'invisible': ['|', ('pode_transmitir', '=', False), ('situacao', '=', '3')]}"
                                 class="oe_highlight"
                                 confirm="Confirma a transmissão dos registros deste período para o e-Social?"
                         />
-                        <!--<button name="importar_fechamentos" type="object" string="Fechar Período"-->
-                                <!--attrs="{'invisible': ['|', ('pode_fechar', '=', False), ('fechamento_ids', '!=', False)]}"-->
-                        <!--/>-->
+                        <button name="importar_fechamentos" type="object" string="Fechar Período"
+                                attrs="{'invisible': ['|', ('pode_fechar', '=', False), ('fechamento_ids', '=', False)]}"
+                        />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
@@ -45,7 +45,12 @@
                     <field name="tem_erros" invisible="1" />
                     <field name="tem_fechamentos" invisible="1" />
                     <field name="pode_fechar" invisible="1" />
+                    <field name="pode_transmitir" invisible="1" />
                     <field name="rescisoes_sem_registro" invisible="1" />
+                    <field name="tem_s5001" invisible="1" />
+                    <field name="tem_s5002" invisible="1" />
+                    <field name="tem_s5011" invisible="1" />
+                    <field name="tem_s5012" invisible="1" />
                     <div class="oe_title">
                         <h1>
                             <field name="nome_readonly" readonly="1"/>
@@ -86,10 +91,16 @@
                                         <field name="msg_admissao_sem_vinculo" />
                                         <field name="msg_alteracao_sem_vinculo" />
                                     </group>
-                                    <group colspan="4" col="2" string="Eventos Periódicos">
+                                    <group colspan="2" col="2" string="Eventos Periódicos">
                                         <field name="msg_remuneracao" />
-                                        <field name="msg_remuneracao_rpps" />
+                                        <field name="msg_remuneracao_rpps" invisible="1"/>  <!-- Por enquanto não envia S-1202 -->
                                         <field name="msg_pagamento" />
+                                    </group>
+                                    <group colspan="2" col="2" string="Contadores">
+                                        <field name="registros" />
+                                        <field name="em_transmissao" />
+                                        <field name="transmitidos" />
+                                        <field name="erros" />
                                     </group>
                                     <group colspan="4" col="4">
                                         <notebook>
@@ -101,7 +112,7 @@
                                                     />
                                                 </group>
                                             </page>
-                                            <page name="s1005" string="S-1005" attrs="{'invisible': [('necessita_s1005', '=', False), ('estabelecimento_ids', '=', False)]}">
+                                            <page name="s1005" string="S-1005" attrs="{'invisible': [('necessita_s1005', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos" />
                                                     <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4"
@@ -109,7 +120,7 @@
                                                     />
                                                 </group>
                                             </page>
-                                            <page name="s1010" string="S-1010" attrs="{'invisible': [('necessita_s1010', '=', False), ('rubrica_ids', '=', False)]}">
+                                            <page name="s1010" string="S-1010" attrs="{'invisible': [('necessita_s1010', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="Tabela de Rubricas" />
                                                     <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4"
@@ -117,7 +128,7 @@
                                                     />
                                                 </group>
                                             </page>
-                                            <page name="s1020" string="S-1020" attrs="{'invisible': [('necessita_s1020', '=', False), ('lotacao_ids', '=', False)]}">
+                                            <page name="s1020" string="S-1020" attrs="{'invisible': [('necessita_s1020', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="Tabela de Lotações Tributárias" />
                                                     <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4"
@@ -125,7 +136,7 @@
                                                     />
                                                 </group>
                                             </page>
-                                            <page name="s1030" string="S-1030" attrs="{'invisible': [('necessita_s1030', '=', False), ('cargo_ids', '=', False)]}">
+                                            <page name="s1030" string="S-1030" attrs="{'invisible': [('necessita_s1030', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="Tabela de Cargos/Empregos Públicos" />
                                                     <field name="cargo_ids" readonly="1" nolabel="1" colspan="4"
@@ -133,7 +144,7 @@
                                                     />
                                                 </group>
                                             </page>
-                                            <page name="s1050" string="S-1050" attrs="{'invisible': [('necessita_s1050', '=', False), ('turno_trabalho_ids', '=', False)]}">
+                                            <page name="s1050" string="S-1050" attrs="{'invisible': [('necessita_s1050', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="Tabela de Horários/Turnos de Trabalho" />
                                                     <field name="turno_trabalho_ids" readonly="1" nolabel="1" colspan="4"
@@ -218,6 +229,30 @@
                                                 <group colspan="4" col="4">
                                                     <separator string="Alterações de Contrato sem Vínculo" />
                                                     <field name="alteracao_sem_vinculo_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
+                                            <page name="s5001" string="S-5001" attrs="{'invisible': [('tem_s5001', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <separator string="INSS por Trabalhador" />
+                                                    <field name="inss_trabalhador_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
+                                            <page name="s5002" string="S-5002" attrs="{'invisible': [('tem_s5002', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <separator string="IRRF por Trabalhador" />
+                                                    <field name="irrf_trabalhador_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
+                                            <page name="s5011" string="S-5011" attrs="{'invisible': [('tem_s5011', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <separator string="INSS Consolidado do Período" />
+                                                    <field name="inss_consolidado_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
+                                            <page name="s5012" string="S-5012" attrs="{'invisible': [('tem_s5012', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <separator string="IRRF Consolidado do Período" />
+                                                    <field name="irrf_consolidado_ids" readonly="1" nolabel="1" colspan="4"/>
                                                 </group>
                                             </page>
                                         </notebook>

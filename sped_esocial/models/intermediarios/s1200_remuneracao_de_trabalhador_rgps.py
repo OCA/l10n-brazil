@@ -416,6 +416,13 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                                     vals['ind_simples'] = categoria.indSimples.valor
                                 self.env['sped.contribuicao.inss.ideestablot'].create(vals)
 
+                    # Adiciona o S-5001 ao Período do e-Social que gerou o S-1200 relacionado
+                    periodo = self.env['sped.esocial'].search([
+                        ('company_id', '=', self.company_id.id),
+                        ('periodo_id', '=', self.periodo_id.id),
+                    ])
+                    periodo.inss_trabalhador_ids = [(4, sped_intermediario.id)]
+
     @api.multi
     def retorna_trabalhador(self):
         self.ensure_one()
