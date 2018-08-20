@@ -41,15 +41,15 @@
     </record>
 
     <record id="l10n_br_account_invoice_tree" model="ir.ui.view">
-		<field name="name">l10n_br_account.invoice.tree</field>
-		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="account.invoice_tree"/>
-		<field name="arch" type="xml">
+        <field name="name">l10n_br_account.invoice.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
             <field name="type" position="after">
                 <field name="fiscal_document_code" invisible="1"/>
                 <button class="oe_inline" type="object"
                     attrs="{'invisible': [('fiscal_document_code', '=', False)]}"
-				    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
+                    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
             </field>
         </field>
     </record>
