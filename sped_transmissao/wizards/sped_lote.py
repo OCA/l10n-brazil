@@ -77,19 +77,28 @@ class SpedCriacaoWizard(models.TransientModel):
     def default_get(self, fields):
         res = super(SpedCriacaoWizard, self).default_get(fields)
 
+        # Obtém a lista de registros para transmitir pelo wizard
+        registros_originais = self.env['sped.registro'].browse(self.env.context.get('active_ids'))
+
         # Limpa a tabela do wizard
         for wizard in self.env['sped.criacao.wizard'].search([]):
             for lote in wizard.lote_ids:
                 lote.unlink()
             wizard.unlink()
 
-        # Se o parâmetro 'ids' foi passado significa que o método foi chamado por fora do wizard, nesse caso
-        # usa a lista de ids como parâmetro dos ids ao inves dos active_ids no contexto.
-        registros_originais = self.env['sped.registro'].browse(self.env.context.get('active_ids'))
+        lotes = self.popular(ids=registros_originais)
+
+        # Atualiza o campo res para criar o registro corretamente
+        res['lote_ids'] = [(6, 0, lotes)]
+
+        return res
+
+    @api.multi
+    def popular(self, ids=[]):
 
         # Elimina da lista registros já transmitidos e/ou em outros lotes pendentes transmissão ou retorno
         registros = []
-        for registro in registros_originais:
+        for registro in ids:
             if registro.situacao not in ['1', '3']:
                 continue
             ja_tem_lote = False
@@ -146,10 +155,7 @@ class SpedCriacaoWizard(models.TransientModel):
             # Adiciona este registro no lote
             lote.registro_ids = [(4, registro.id)]
 
-            # Atualiza o campo res para criar o registro corretamente
-            res['lote_ids'] = [(6, 0, lotes)]
-
-        return res
+        return lotes
 
     def get_valor_grupo(self, registro):
         grupo = 'na'
@@ -179,7 +185,6 @@ class SpedCriacaoWizard(models.TransientModel):
                 # 'lote_ids': [(6, 0, lote.registro_ids.ids)]
             }
             novo_lote = self.env['sped.lote'].create(vals)
-            # novo_lote.lote_ids = [(6, 0, lote.registro_ids.ids)]
             for registro in lote.registro_ids:
                 registro.lote_ids = [(4, novo_lote.id)]
             lotes.append(novo_lote.id)
@@ -190,10 +195,6 @@ class SpedCriacaoWizard(models.TransientModel):
 class SpedLoteWizard(models.TransientModel):
     _name = 'sped.lote.wizard'
 
-    # criacao_id = fields.Many2one(
-    #     string='Wizard de Criação',
-    #     comodel_name='sped.criacao.wizard',
-    # )
     tipo = fields.Selection(
         string='Tipo',
         selection=[
