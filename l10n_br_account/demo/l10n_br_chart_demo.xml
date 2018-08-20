@@ -43,11 +43,36 @@
     </record>
 
     <!-- Fiscal Position Account Templates -->
+    <record id="account_fiscal_position_account_template_1" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="fiscal_position_template_1"/>
+        <field name="account_src_id" ref="ch_br_3_01_03_01_01_03_00_demo" />
+        <field name="account_dest_id" ref="ch_br_3_01_03_01_03_03_00_demo" />
+    </record>
 
-    <record id="fiscal_position_account_template_1" model="account.fiscal.position.account.template">
-            <field name="position_id" ref="fiscal_position_template_1"/>
-            <field name="account_src_id" ref="ch_br_3_01_03_01_01_03_00_demo" />
-            <field name="account_dest_id" ref="ch_br_3_01_03_01_03_03_00_demo" />
+    <record id="tax_template_out_ipi_demo" model="account.tax.template">
+        <field name="description">IPI </field>
+        <field name="name">IPI Saída - TESTE</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="tax_discount"/>
+        <field ref="l10n_br_account_chart_template_demo" name="chart_template_id"/>
+    </record>
+
+    <record id="tax_template_out_ipi2_demo" model="account.tax.template">
+        <field name="description">IPI 2%</field>
+        <field name="name">IPI Saída 2% - TESTE</field>
+        <field name="amount">2</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="tax_discount"/>
+        <field ref="l10n_br_account_chart_template_demo" name="chart_template_id"/>
+      </record>
+
+    <record id="teste_tax_template_1" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="fiscal_position_template_1"/>
+        <field name="tax_src_id" ref="tax_template_out_ipi_demo"/>
+        <field name="tax_dest_id" ref="tax_template_out_ipi2_demo"/>
     </record>
 
 </odoo>
