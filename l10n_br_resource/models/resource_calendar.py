@@ -212,19 +212,22 @@ class ResourceCalendar(models.Model):
             data_referencia += timedelta(days=1)
 
     @api.multi
-    def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now()):
+    def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now(), mes_comercial=True):
         """Calcular a quantidade de dias que devem ser remunerados em
         determinado intervalo de tempo.
         :param datetime data_from: Data inicial do intervalo de tempo.
                datetime data_end: Data final do intervalo
         :return int : quantidade de dias que devem ser remunerada
         """
-        return 30 - data_from.day + 1
-        # quantidade_dias = (data_to - data_from).days + 1
-        # if quantidade_dias > 30:
-        #     return 30
-        # else:
-        #     return quantidade_dias
+        # Mes comercial sempre será 30 dias
+        if mes_comercial:
+            return 30 - data_from.day + 1
+        # Na admissao e rescisao nao levar em conta o mes comercial
+        quantidade_dias = (data_to - data_from).days + 1
+        if quantidade_dias > 30:
+            return 30
+        else:
+            return quantidade_dias
 
     @api.multi
     def data_eh_dia_util_bancario(self, data=datetime.now()):
