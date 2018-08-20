@@ -4,13 +4,14 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-import openerp.tests.common as common
+from odoo.tests.common import TransactionCase
+
 import logging
 
 _logger = logging.getLogger(__name__)
 
 
-class OtherIETest(common.TransactionCase):
+class OtherIETest(TransactionCase):
 
     def setUp(self):
         super(OtherIETest, self).setUp()
@@ -23,7 +24,7 @@ class OtherIETest(common.TransactionCase):
             'street': 'Rua Paulo Dias',
             'number': '586',
             'district': 'Alumínio',
-            'state_id': self.ref('l10n_br_base.br_sp'),
+            'state_id': self.ref('base.state_br_sp'),
             'l10n_br_city_id': self.ref('l10n_br_base.city_3501152'),
             'country_id': self.ref('base.br'),
             'city': 'Alumínio',
@@ -36,7 +37,7 @@ class OtherIETest(common.TransactionCase):
     def test_included_valid_ie_in_company(self):
         result = self.company.write({
             'other_inscr_est_lines': [(0, 0, {
-                'state_id': self.ref('l10n_br_base.br_ba'),
+                'state_id': self.ref('base.state_br_ba'),
                 'inscr_est': 41902653,
             })]
         })
@@ -53,12 +54,13 @@ class OtherIETest(common.TransactionCase):
         try:
             result = self.company.write({
                 'other_inscr_est_lines': [(1, line_id, {
-                    'state_id': self.ref('l10n_br_base.br_ba'),
+                    'state_id': self.ref('base.state_br_ba'),
                     'inscr_est': 67729139,
                 })]
             })
         except:
             result = False
+
         self.assertFalse(
             result, "Error to check included other"
                     " IE to State already informed.")
@@ -67,7 +69,7 @@ class OtherIETest(common.TransactionCase):
         try:
             result = self.company.write({
                 'other_inscr_est_lines': [(0, 0, {
-                    'state_id': self.ref('l10n_br_base.br_ba'),
+                    'state_id': self.ref('base.state_br_ba'),
                     'inscr_est': 41902652,
                 })]
             })
@@ -79,7 +81,7 @@ class OtherIETest(common.TransactionCase):
         try:
             result = self.company.write({
                 'other_inscr_est_lines': [(0, 0, {
-                    'state_id': self.ref('l10n_br_base.br_sp'),
+                    'state_id': self.ref('base.state_br_sp'),
                     'inscr_est': 692015742119,
                 })]
             })
@@ -92,7 +94,7 @@ class OtherIETest(common.TransactionCase):
     def test_included_valid_ie_on_partner(self):
         result = self.company.partner_id.write({
             'other_inscr_est_lines': [(0, 0, {
-                'state_id': self.ref('l10n_br_base.br_ba'),
+                'state_id': self.ref('base.state_br_ba'),
                 'inscr_est': 41902653,
             })]
         })
