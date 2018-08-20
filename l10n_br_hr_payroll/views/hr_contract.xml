@@ -21,7 +21,7 @@
                 <attribute name="attrs">{'readonly': [('is_editable', '=', False)]}</attribute>
             </field>
             <field name="employee_id" position="after">
-                <field name="company_id"/>
+                <field name="company_id" attrs="{'readonly': [('nome_contrato', '!=', False)]}"/>
             </field>
 <!--
             <field name="struct_id" position="after">

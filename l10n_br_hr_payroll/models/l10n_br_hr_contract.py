@@ -97,9 +97,9 @@ class HrContractChange(models.Model):
         default=lambda self: self.env.user,
     )
 
-    departamento_id = fields.Many2one(
-        comodel_name='hr.department',
-        string='Departamento',
+    lotacao_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Lotação',
     )
 
     @api.depends('contract_id', 'change_history_ids')
@@ -141,7 +141,7 @@ class HrContractChange(models.Model):
                 contract.discount_union_contribution
             self.month_base_date = contract.month_base_date
         elif self.change_type == 'lotacao-local':
-            self.departamento_id = contract.department_id
+            self.lotacao_id = contract.company_id
             # self.lotacao_cliente_fornecedor = contract.lotacao_cliente_fornecedor
             # self.month_base_data = contract.month_base_data
 
@@ -199,7 +199,9 @@ class HrContractChange(models.Model):
                         month_base_date=contract.month_base_date
                     )
                 elif change.change_type == 'lotacao-local':
-                    vals.update(departamento_id=contract.department_id.id)
+                    vals.update(
+                        lotacao_id=contract.company_id.id,
+                    )
 
                 # Criar o registro inicial
                 self.create(vals)
@@ -242,8 +244,8 @@ class HrContractChange(models.Model):
                 # Setar variavel de contexto para indicar que a alteração
                 # partiu do menu de alterações contratuais.
                 contract.with_context(
-                    alteracaocontratual=True).department_id = \
-                    alteracao.departamento_id
+                    alteracaocontratual=True).company_id = \
+                    alteracao.lotacao_id
                 # contract.lotacao_cliente_fornecedor = \
                 #     alteracao.lotacao_cliente_fornecedor
                 # contract.month_base_data = alteracao.month_base_data
