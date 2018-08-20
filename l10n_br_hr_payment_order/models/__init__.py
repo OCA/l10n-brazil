@@ -10,3 +10,4 @@ from . import hr_contract
 from . import res_config
 from . import hr_salary_rule
 from . import bank_payment_line
+from . import l10n_br_hr_contract_change
