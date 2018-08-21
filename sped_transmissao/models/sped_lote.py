@@ -3,13 +3,15 @@
 # Copyright 2017 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import os
 import base64
 import tempfile
 from datetime import datetime
 import logging
 import pysped
+from openerp.tools import config
 from openerp import api, fields, models
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, RedirectWarning
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
 _logger = logging.getLogger(__name__)
@@ -204,10 +206,11 @@ class SpedLote(models.Model, ):
         # Cria o processador, dependendo do tipo do arquivo
         if self.tipo == 'efdreinf':
             processador = pysped.ProcessadorEFDReinf()
+            processador.caminho = self.mount_path()
 
         elif self.tipo == 'esocial':
             processador = pysped.ProcessadorESocial()
-
+            processador.caminho = self.mount_path()
 
         else:
             raise Exception("Não é um tipo que possa ser consultado !")
@@ -391,8 +394,11 @@ class SpedLote(models.Model, ):
         # Popula o processador
         if self.tipo == 'efdreinf':
             processador = pysped.ProcessadorEFDReinf()
+            # processador.caminho = self.mount_path()
         else:
             processador = pysped.ProcessadorESocial()
+            # processador.caminho = self.mount_path()
+        processador.salvar_arquivos = False
         processador.certificado.arquivo = arquivo.name
         processador.certificado.senha = self.company_id.nfe_a1_password
         processador.ambiente = int(self.ambiente)
@@ -628,3 +634,21 @@ class SpedLote(models.Model, ):
             _logger.info(msg)
 
         return True
+
+    @api.multi
+    def mount_path(self):
+        db_name = self.company_id._cr.dbname
+        cnpj = limpa_formatacao(self.company_id.cnpj_cpf)
+
+        filestore = config.filestore(db_name)
+        protocolo_path = '/'.join([filestore, 'PySPED', self.tipo, cnpj, self.protocolo])
+        sped_path = '/'.join([filestore, 'PySPED', self.tipo, cnpj])
+        if not os.path.exists(protocolo_path):
+            try:
+                os.makedirs(protocolo_path)
+            except OSError:
+                raise RedirectWarning(
+                    _(u'Erro!'),
+                    _(u"""Verifique as permissões de escrita
+                        e o caminho da pasta"""))
+        return sped_path
