@@ -125,6 +125,10 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         data_eh_feriado_emendado = \
             self.municipal_calendar_id.data_eh_feriado_emendado(data)
         self.assertTrue(data_eh_feriado_emendado)
+        data = fields.Datetime.from_string('2016-03-19 00:00:01')
+        data_eh_feriado_emendado = \
+            self.municipal_calendar_id.data_eh_feriado_emendado(data)
+        self.assertFalse(data_eh_feriado_emendado)
 
     def test_06_obter_proximo_dia_util(self):
         """ Dado uma data obter proximo dia útil """
