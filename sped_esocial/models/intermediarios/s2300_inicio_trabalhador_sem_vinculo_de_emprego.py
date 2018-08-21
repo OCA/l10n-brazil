@@ -8,6 +8,7 @@ from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
 from openerp.exceptions import Warning, ValidationError
 from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
+from dateutil.relativedelta import relativedelta
 
 
 class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
@@ -381,7 +382,11 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # Popula InfoTSVInicio
         #
 
-        S2300.evento.infoTSVInicio.cadIni.valor = self.hr_contract_id.cad_ini or 'N'
+        data_inicio_contrato = fields.Datetime.from_string(self.hr_contract_id.date_start)
+        data_inicio_esocial = fields.Datetime.from_string(self.company_id.esocial_periodo_inicial_id.date_start)
+        data_inicio_esocial = data_inicio_esocial + relativedelta(months=3)
+        cad_ini = 'S' if data_inicio_contrato < data_inicio_esocial else 'N'
+        S2300.evento.infoTSVInicio.cadIni.valor = cad_ini
 
         S2300.evento.infoTSVInicio.codCateg.valor = self.hr_contract_id.categoria
         S2300.evento.infoTSVInicio.dtInicio.valor = self.hr_contract_id.date_start

@@ -98,7 +98,7 @@
                            <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
                     <!--/>-->
                     <field name="tp_reg_prev" required="1" />
-                    <field name="cad_ini" required="1" />
+                    <!--<field name="cad_ini" required="1" />-->
                     <field name="opc_fgts" required="1"/>
                            <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
                     <!--/>-->

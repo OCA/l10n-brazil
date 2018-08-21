@@ -207,7 +207,7 @@ class HrContract(models.Model):
             'vinculo',                       # //eSocial/evtAdmissao/vinculo/matricula
             'labor_regime_id',               # //eSocial/evtAdmissao/vinculo/tpRegTrab
             'tp_reg_prev',                   # //eSocial/evtAdmissao/vinculo/tpRegPrev
-            'cad_ini',                       # //eSocial/evtAdmissao/vinculo/cadIni
+            # 'cad_ini',                       # //eSocial/evtAdmissao/vinculo/cadIni
             'date_start',                    # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/dtAdm
                                              # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoEstatutario/dtNomeacao
             'admission_type_id',             # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/tpAdmissao
@@ -498,21 +498,21 @@ class HrContract(models.Model):
             ('3', 'Remige de Previdência Social no Exterior'),
         ],
     )
-    cad_ini = fields.Selection(
-        string='Cadastro Inicial de Vínculo',
-        selection=[
-            ('N', 'Não (Admissão)'),
-            ('S', 'Sim (Cadastramento Inicial)'),
-        ],
-        default='N',
-        help='Indicar se o evento se refere a cadastramento inicial de vínculo'
-             ' (o ingresso do trabalhador no empregador declarante, por '
-             'admissão ou transferência, é anterior à data de início da '
-             'obrigatoriedade de envio de seus eventos não periódicos) ou se '
-             'refere a uma admissão (o ingresso do trabalhador no empregador'
-             ' declarante é igual ou posterior à data de início de '
-             'obrigatoriedade de envio de seus eventos não periódicos)',
-    )
+    # cad_ini = fields.Selection(
+    #     string='Cadastro Inicial de Vínculo',
+    #     selection=[
+    #         ('N', 'Não (Admissão)'),
+    #         ('S', 'Sim (Cadastramento Inicial)'),
+    #     ],
+    #     default='N',
+    #     help='Indicar se o evento se refere a cadastramento inicial de vínculo'
+    #          ' (o ingresso do trabalhador no empregador declarante, por '
+    #          'admissão ou transferência, é anterior à data de início da '
+    #          'obrigatoriedade de envio de seus eventos não periódicos) ou se '
+    #          'refere a uma admissão (o ingresso do trabalhador no empregador'
+    #          ' declarante é igual ou posterior à data de início de '
+    #          'obrigatoriedade de envio de seus eventos não periódicos)',
+    # )
     tp_reg_jor = fields.Selection(
         string='Regime de Jornada',
         selection=[

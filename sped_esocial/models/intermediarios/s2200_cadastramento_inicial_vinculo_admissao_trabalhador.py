@@ -9,6 +9,7 @@ from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_interme
 from openerp.exceptions import Warning, ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
+from dateutil.relativedelta import relativedelta
 
 
 class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
@@ -374,15 +375,27 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2200.evento.vinculo.matricula.valor = self.hr_contract_id.matricula
         S2200.evento.vinculo.tpRegTrab.valor = self.hr_contract_id.labor_regime_id.code
         S2200.evento.vinculo.tpRegPrev.valor = self.hr_contract_id.tp_reg_prev
-        S2200.evento.vinculo.cadIni.valor = self.hr_contract_id.cad_ini
+        # Calcula cadIni
+        # Regra: Se a data de inicio do contrato for menor que a data inicio do empregador + 3 meses = 'S' else 'N'
+        # +3 é necessário porque o calendário do e-Social é:
+        # Jan/2017 - Eventos de Tabela (Produção Restrita)
+        # Mar/2017 - Eventos não-periódicos (Produção Restrita)
+        # Mai/2017 - Eventos Periódicos (Produção Restrita)
+        # Jan/2018 - Eventos de Tabela (Produção)
+        # Mar/2018 - Eventos não-periódicos (Produção)
+        # Mai/2018 - Eventos Periódicos (Produção)
+        data_inicio_contrato = fields.Datetime.from_string(self.hr_contract_id.date_start)
+        data_inicio_esocial = fields.Datetime.from_string(self.company_id.esocial_periodo_inicial_id.date_start)
+        data_inicio_esocial = data_inicio_esocial + relativedelta(months=3)
+        cad_ini = 'S' if data_inicio_contrato < data_inicio_esocial else 'N'
+        S2200.evento.vinculo.cadIni.valor = cad_ini
+        # S2200.evento.vinculo.cadIni.valor = self.hr_contract_id.cad_ini
 
         # Popula vinculo.infoRegimeTrab
         if self.hr_contract_id.labor_regime_id.code == '1':
 
             # Popula infoCeletista
             InfoCeletista = pysped.esocial.leiaute.S2200_InfoCeletista_2()
-            data_inicio_contrato = fields.Datetime.from_string(self.hr_contract_id.date_start)
-            data_inicio_esocial = fields.Datetime.from_string(self.company_id.esocial_periodo_inicial_id.date_start)
             InfoCeletista.dtAdm.valor = self.hr_contract_id.date_start
             InfoCeletista.tpAdmissao.valor = str(self.hr_contract_id.admission_type_id.code)
             InfoCeletista.indAdmissao.valor = self.hr_contract_id.indicativo_de_admissao
