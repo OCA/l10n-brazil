@@ -1340,7 +1340,7 @@ class SpedEsocial(models.Model):
     )
 
     # Calcula se é necessário criar algum registro S-2299
-    @api.depends('desligamento_ids')
+    @api.depends('desligamento_ids.situacao_s2299', 'fechamento_ids.situacao_esocial')
     def compute_necessita_s2299(self):
         for esocial in self:
             necessita_s2299 = False

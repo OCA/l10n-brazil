@@ -118,7 +118,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                 situacao_esocial = retificao.situacao
 
             # Popula na tabela
-            desligamento.situacao_esocial = situacao_esocial
+            desligamento.situacao_s2299 = situacao_esocial
 
     @api.multi
     def gerar_registro(self):
