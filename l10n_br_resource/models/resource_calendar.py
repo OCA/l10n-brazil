@@ -82,8 +82,7 @@ class ResourceCalendar(models.Model):
         leaves = []
         for leave in self.leave_ids:
             if leave.resource_id and resource_id:
-                if leave.resource_id and not resource_id == leave.\
-                        resource_id.id:
+                if not resource_id == leave.resource_id.id:
                     continue
             elif leave.resource_id and not resource_id:
                 continue
@@ -114,11 +113,10 @@ class ResourceCalendar(models.Model):
         :return boolean True se a data referencia for feriado
                         False se a data referencia nao for feriado
         """
+        data = data_referencia.strftime("%Y-%m-%d %H:%M:%S")
         for leave in self.leave_ids:
-            if leave.date_from <= data_referencia.strftime(
-                    "%Y-%m-%d %H:%M:%S"):
-                if leave.date_to >= data_referencia.\
-                        strftime("%Y-%m-%d %H:%M:%S"):
+            if leave.date_from <= data:
+                if leave.date_to >= data:
                     if leave.leave_type == 'F':
                         return True
         return False
@@ -157,19 +155,20 @@ class ResourceCalendar(models.Model):
 
         :return retorna True ou False
         """
-        dia_antes = data_referencia - timedelta(days=2)
-        dia_depois = data_referencia + timedelta(days=2)
+        eh_feriado = self.data_eh_feriado(data_referencia)
+        dia_antes = data_referencia - timedelta(days=1)
+        dia_depois = data_referencia + timedelta(days=1)
 
-        dia_antes_eh_util = \
-            True if dia_antes.weekday() > 5 or self.data_eh_feriado(
+        dia_antes_eh_segunda = \
+            True if dia_antes.weekday() == 0 or self.data_eh_feriado(
                 dia_antes
             ) else False
-        dia_depois_eh_util = \
-            True if dia_depois.weekday() > 4 or self.data_eh_feriado(
+        dia_depois_eh_sexta = \
+            True if dia_depois.weekday() == 4 or self.data_eh_feriado(
                 dia_depois
             ) else False
 
-        return dia_antes_eh_util or dia_depois_eh_util
+        return eh_feriado and (dia_antes_eh_segunda or dia_depois_eh_sexta)
 
     @api.multi
     def data_eh_dia_util(self, data=datetime.now()):
@@ -235,7 +234,7 @@ class ResourceCalendar(models.Model):
         :return boolean True: Se for dia útil
                         False: Se Não for dia útil
         """
-        if data.weekday() > 4:
+        if data.weekday() > 5:
             return False
         elif self.data_eh_feriado_bancario(data):
             return False
@@ -248,7 +247,7 @@ class ResourceCalendar(models.Model):
                                    verifique se amanha é dia útil.
         :return datetime Proximo dia util apartir da data referencia
         """
+        data_referencia += timedelta(days=1)
         if self.data_eh_dia_util_bancario(data_referencia):
             return data_referencia
-        data_referencia += timedelta(days=1)
         return self.proximo_dia_util_bancario(data_referencia)
