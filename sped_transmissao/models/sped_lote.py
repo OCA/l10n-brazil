@@ -630,7 +630,7 @@ class SpedLote(models.Model, ):
         # Executa a consulta
         for lote in lotes:
             lote.consultar()
-            msg = "Lote {} Consultado - (Resposta: {}-{}".format(lote.codigo, lote.cd_resposta, lote.desc_resposta)
+            msg = "Lote {} Consultado - (Resposta: {}-{})".format(lote.codigo, lote.cd_resposta, lote.desc_resposta)
             _logger.info(msg)
 
         return True
