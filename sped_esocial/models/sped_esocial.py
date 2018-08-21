@@ -12,7 +12,7 @@ class SpedEsocial(models.Model):
     _name = 'sped.esocial'
     _description = 'Eventos Periódicos e-Social'
     _rec_name = 'nome'
-    _order = "nome DESC"
+    _order = "periodo_id DESC, company_id"
     _sql_constraints = [
         ('periodo_company_unique', 'unique(periodo_id, company_id)', 'Este período já existe para esta empresa !')
     ]
@@ -140,6 +140,8 @@ class SpedEsocial(models.Model):
                     pode_fechar = True
             else:
                 pode_transmitir = True
+            if periodo.rescisoes_sem_registro:
+                pode_fechar = False
             periodo.pode_fechar = pode_fechar
             periodo.pode_transmitir = pode_transmitir
 
@@ -248,7 +250,7 @@ class SpedEsocial(models.Model):
             for desligamento in esocial.desligamento_ids:
                 # Identifica o registro a ser transmitido
                 if desligamento.sped_s2299_registro_inclusao.situacao in ['1', '3']:
-                    registros.append(desligamento.sped_alteracao.id)
+                    registros.append(desligamento.sped_s2299_registro_inclusao.id)
                 else:
                     for registro in desligamento.sped_s2299_registro_retificacao:
                         if registro.situacao in ['1', '3']:
@@ -272,7 +274,7 @@ class SpedEsocial(models.Model):
 
             for desligamento in esocial.desligamento_ids:
                 # Identifica o registro a ser transmitido
-                if desligamento.sped_s2299_registro_inclusao in ['1', '3']:
+                if desligamento.sped_s2299_registro_inclusao.situacao in ['1', '3']:
                     registros.append(desligamento.sped_s2299_registro_inclusao.id)
 
             # TODO Incluir os demais registros
@@ -707,7 +709,7 @@ class SpedEsocial(models.Model):
                             ('contract_id', 'in', contratos_validos),
                             ('mes_do_ano', '=', mes),
                             ('ano', '=', ano),
-                            ('state', 'in', ['verify', 'done']),
+                            # ('state', 'in', ['verify', 'done']),
                             ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro']),
                         ]
                         payslips = self.env['hr.payslip'].search(domain_payslip)
@@ -719,13 +721,21 @@ class SpedEsocial(models.Model):
                             ('contract_id', 'in', contratos_validos),
                             ('mes_do_ano', '=', mes),
                             ('ano', '=', ano),
-                            ('state', 'in', ['verify', 'done']),
+                            ('state', 'not in', ['cancel']),
+                            # ('state', 'in', ['verify', 'done']),
                             ('tipo_de_folha', 'in',  ['normal', 'ferias', 'decimo_terceiro']),
                         ]
                         payslips = self.env['hr.payslip.autonomo'].search(domain_payslip_autonomo)
 
                     # Se tem payslip, cria o registro S-1200
                     if payslips:
+
+                        # Se o payslip não está em 'verify' ou 'done' manda um raise
+                        for payslip in payslips:
+                            if payslip.state not in ['verify', 'done']:
+                                raise ValidationError("Existem Holerites não validados neste período !\n"
+                                                      "Confirme ou Cancele todos os holerites deste período"
+                                                      "antes de processar o e-Social.")
 
                         # Verifica se o registro S-1200 já existe, cria ou atualiza
                         domain_s1200 = [
@@ -1243,9 +1253,9 @@ class SpedEsocial(models.Model):
             if not msg_alteracao_trabalhador:
                 msg_alteracao_trabalhador = 'Nenhuma'
             if esocial.alteracao_trabalhador_ids:
-                txt = 'Alteração de Trabalhador não enviada!'
+                txt = 'Alteração de Trabalhador não enviada'
                 if len(esocial.alteracao_trabalhador_ids) > 1:
-                    txt = 'Alterações de Trabalhador não enviadas!'
+                    txt = 'Alterações de Trabalhador não enviadas'
                 msg_alteracao_trabalhador = '{} {} - '.format(len(esocial.alteracao_trabalhador_ids), txt) + \
                     msg_alteracao_trabalhador
             esocial.necessita_s2205 = necessita_s2205
@@ -1290,9 +1300,9 @@ class SpedEsocial(models.Model):
             if not msg_alteracao_contrato:
                 msg_alteracao_contrato = 'Nenhuma'
             if esocial.alteracao_contrato_ids:
-                txt = 'Alteração de Contrato não enviada!'
+                txt = 'Alteração de Contrato não enviada'
                 if len(esocial.alteracao_contrato_ids) > 1:
-                    txt = 'Alterações de Contrato não enviadas!'
+                    txt = 'Alterações de Contrato não enviadas'
                 msg_alteracao_contrato = '{} {} - '.format(len(esocial.alteracao_contrato_ids), txt) + \
                     msg_alteracao_contrato
             esocial.necessita_s2206 = necessita_s2206
@@ -1336,7 +1346,7 @@ class SpedEsocial(models.Model):
             necessita_s2299 = False
             msg_desligamentos = False
             for desligamento in esocial.desligamento_ids:
-                if desligamento.situacao_esocial not in ['4']:
+                if desligamento.situacao_s2299 not in ['4']:
                     necessita_s2299 = True
                     msg_desligamentos = 'Pendências não enviadas ao e-Social'
             if not msg_desligamentos and esocial.rescisoes_sem_registro == 0:
@@ -1370,13 +1380,14 @@ class SpedEsocial(models.Model):
                 ('company_id', 'in', empresas.ids),
                 ('data_afastamento', '>=', self.periodo_id.date_start),
                 ('data_afastamento', '<=', self.periodo_id.date_stop),
-                ('state', '=', 'done'),
+                ('state', 'in', ['verify', 'done']),
             ])
             rescisoes_sem_registro = 0
 
             # Conta as rescisões sem registro no e-Social ou com pendência de transmissão
             for payslip in payslip_ids:
-                if not payslip.sped_s2299 or payslip.sped_s2299 not in ['4']:
+                if not payslip.sped_s2299:
+                        # or payslip.sped_s2299 not in ['4']:
                     rescisoes_sem_registro += 1
 
             # Popula o número de rescisões sem registro
@@ -1418,9 +1429,9 @@ class SpedEsocial(models.Model):
             if not msg_admissao_sem_vinculo:
                 msg_admissao_sem_vinculo = 'OK'
             if esocial.admissao_sem_vinculo_ids:
-                txt = 'Contrato sem Vínculo!'
+                txt = 'Contrato sem Vínculo'
                 if len(esocial.admissao_sem_vinculo_ids) > 1:
-                    txt = 'Contratos sem Vínculo!'
+                    txt = 'Contratos sem Vínculo'
                 msg_admissao_sem_vinculo = \
                     '{} {} - '.format(len(esocial.admissao_sem_vinculo_ids), txt) + \
                     msg_admissao_sem_vinculo
@@ -1499,9 +1510,9 @@ class SpedEsocial(models.Model):
             if not msg_alteracao_sem_vinculo:
                 msg_alteracao_sem_vinculo = 'Nenhuma'
             if esocial.alteracao_sem_vinculo_ids:
-                txt = 'Alteração de Contrato sem Vínculo não enviada!'
+                txt = 'Alteração de Contrato sem Vínculo não enviada'
                 if len(esocial.alteracao_sem_vinculo_ids) > 1:
-                    txt = 'Contratos sem Vínculo não enviados!'
+                    txt = 'Contratos sem Vínculo não enviados'
                 msg_alteracao_sem_vinculo = '{} {} - '.format(len(esocial.alteracao_sem_vinculo_ids), txt) + \
                     msg_alteracao_sem_vinculo
             esocial.necessita_s2306 = necessita_s2306
@@ -1624,6 +1635,12 @@ class SpedEsocial(models.Model):
     @api.multi
     def executa_analise(self):
         for esocial in self:
+
+            # Verifica se tem holerites não fechados neste período
+            holerites = self.env['hr.payslip'].search([
+
+            ])
+
             # Tabelas
             esocial.importar_empregador()               # S-1000
             esocial.importar_estabelecimentos()         # S-1005

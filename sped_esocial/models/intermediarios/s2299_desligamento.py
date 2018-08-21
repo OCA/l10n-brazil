@@ -243,7 +243,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                 #
                 if rubrica_line.salary_rule_id.cod_inc_irrf_calculado not in \
                         ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
-                    if rubrica_line.total != 0:
+                    if rubrica_line.total > 0:
                         det_verbas = pysped.esocial.leiaute.S2299_DetVerbas_2()
                         det_verbas.codRubr.valor = \
                             rubrica_line.salary_rule_id.codigo
