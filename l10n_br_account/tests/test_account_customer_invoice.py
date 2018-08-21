@@ -3,6 +3,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -121,8 +122,15 @@ class TestCustomerInvoice(TransactionCase):
                 ])],
             })]
         ))
+        tax_discount = self.env['account.tax'].create({
+            'sequence': 40,
+            'name': 'Tax 20.0% (Discount)',
+            'amount': 20.0,
+            'amount_type': 'percent',
+            'include_base_amount': False,
+            'tax_discount': True
+        })
         self.invoice_3 = self.env['account.invoice'].create(dict(
-            name='Test Customer Invoice',
             payment_term_id=self.env.ref(
                 'account.account_payment_term_advance').id,
             fiscal_category_id=self.fiscal_category.id,
@@ -140,6 +148,11 @@ class TestCustomerInvoice(TransactionCase):
                 'name': 'product test 5',
                 'uom_id': self.env.ref('product.product_uom_unit').id,
                 'fiscal_category_id': self.fiscal_category.id,
+                'invoice_line_tax_ids': [(6, 0, [
+                    tax_discount.id,
+                    tax_percent_included_base_incl.id,
+                    tax_percentage.id
+                ])],
             })]
         ))
 
@@ -175,3 +188,26 @@ class TestCustomerInvoice(TransactionCase):
             "Move Receivable not created for open invoice"
         self.assertEquals(self.invoice_3.state, 'open',
                           "Invoice should be in state Open")
+
+    def test_account_invoice_cce(self):
+        self.account_cce = self.env['l10n_br_account.invoice.cce'].create(dict(
+            invoice_id=self.invoice_3.id,
+            motivo='TESTE',
+        ))
+        assert self.account_cce.display_name, \
+            'Error with function display_name() of object ' \
+            'l10n_br_account.invoice.cce'
+
+    def test_account_invoice_cancel(self):
+        with self.assertRaises(ValidationError):
+            self.account_invoice_cancel = self.env[
+                'l10n_br_account.invoice.cancel'].create(dict(
+                    invoice_id=self.invoice_3.id,
+                    justificative='TESTE'))
+        self.account_invoice_cancel = self.env[
+            'l10n_br_account.invoice.cancel'].create(dict(
+                invoice_id=self.invoice_3.id,
+                justificative='TESTE DEVE TER MAIS DE QUINZE CARACTERES.'))
+        assert self.account_invoice_cancel.display_name, \
+            'Error with function display_name() of object ' \
+            'l10n_br_account.invoice.cancel'
