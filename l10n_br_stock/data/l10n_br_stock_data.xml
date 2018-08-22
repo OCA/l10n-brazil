@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
 
         <!-- stock.incoterms -->
         <record id="stock.incoterm_EXW" model="stock.incoterms">
@@ -63,5 +62,4 @@
             <field name="freight_responsibility">0</field>
         </record>
 
-    </data>
 </odoo>
