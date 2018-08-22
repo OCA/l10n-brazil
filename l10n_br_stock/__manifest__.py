@@ -11,6 +11,7 @@
     'version': '10.0.1.0.0',
     'depends': [
         'stock',
+        'l10n_br_base',
     ],
     'data': [
         'data/l10n_br_stock_data.xml',
