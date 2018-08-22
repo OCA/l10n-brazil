@@ -31,8 +31,9 @@
 -
   name_get for L10nBrHrCbo
 -
-  !python {model: l10n_br_hr.cbo, id: 1}: |
-    assert self.name_get()[0][1] == u'010105 - Oficial general da aeronáutica', 'The CBO name by name_get is not valid, expected \'code - name\''
+  !python {model: l10n_br_hr.cbo, id: False}: |
+    cbo = self.env.ref('l10n_br_hr.1')
+    assert cbo.name_get()[0][1] == u'010105 - Oficial general da aeronáutica', 'The CBO name by name_get is not valid, expected \'code - name\''
 -
   name_get for HrDeficiency
 -
@@ -47,12 +48,12 @@
   name_get for HrEthnicity
 -
   !python {model: hr.ethnicity, id: ethnicity_1}: |
-    assert self.name_get()[0][1] == u'1 - Indigene', 'The ethnicity name by name_get is not valid, expected \'code - name\''
+    assert self.name_get()[0][1] == u'1 - Branca', 'The ethnicity name by name_get is not valid, expected \'code - name\''
 -
   name_get for HrEducationalAttainment
 -
   !python {model: hr.educational.attainment, id: educational_attainment_1}: |
-    assert self.name_get()[0][1] == u'1 - Analfabeto, inclusive o que, embora tenha recebido instrução, não se alfabetizou', 'The educational attainment name by name_get is not valid, expected \'code - name\''
+    assert self.name_get()[0][1] == u'01 - Analfabeto, inclusive o que, embora tenha recebido instrução, não se alfabetizou', 'The educational attainment name by name_get is not valid, expected \'code - name\''
 -
   name_get for HrNationalityCode
 -
