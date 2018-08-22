@@ -31,7 +31,7 @@ class HrEmployee(models.Model):
         for dependent in self.dependent_ids:
             if datetime.strptime(
                     dependent.dependent_dob, DEFAULT_SERVER_DATE_FORMAT
-                    ).date() > datetime.now().date():
+            ).date() > datetime.now().date():
                 raise ValidationError(_('Invalid birth date for dependent %s'
                                         % dependent.dependent_name))
 
@@ -78,7 +78,7 @@ class HrEmployee(models.Model):
     educational_attainment = fields.Many2one(
         string='Educational attainment',
         comodel_name='hr.educational.attainment'
-        )
+    )
     have_dependent = fields.Boolean('Has dependents')
     dependent_ids = fields.One2many(comodel_name='hr.employee.dependent',
                                     inverse_name='employee_id',
