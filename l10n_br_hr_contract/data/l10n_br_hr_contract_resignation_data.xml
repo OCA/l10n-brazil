@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
 
         <record id="hr_contract_resignation_10" model="hr.contract.resignation.cause">
             <field name="name">Rescisão de contrato de trabalho por justa causa e iniciativa do empregador ou demissão de servidor</field>
@@ -138,5 +137,4 @@
             <field name="fgts_withdraw_code"></field>
         </record>
 
-    </data>
 </odoo>
