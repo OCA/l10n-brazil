@@ -183,10 +183,10 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(sabado),
-            "ERRO: Sabado e dia util!")
+            "ERRO: Sabado nao eh dia util!")
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(domingo),
-            "ERRO: Domingo e dia util!")
+            "ERRO: Domingo nao eh dia util!")
 
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(feriado),
