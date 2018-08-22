@@ -108,17 +108,17 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                          self.municipal_calendar_id)
         self.assertEqual(4, len(self.municipal_calendar_id.leave_ids))
 
-    def test_03_obter_feriados_no_periodo(self):
+    def test_03_data_eh_feriado(self):
+        data = fields.Datetime.from_string('2016-08-25 00:00:01')
+        data_eh_feriado = self.municipal_calendar_id.data_eh_feriado(data)
+        self.assertTrue(data_eh_feriado)
+
+    def test_04_obter_feriados_no_periodo(self):
         self.holidays = self.municipal_calendar_id.get_leave_intervals(
             start_datetime=fields.Datetime.from_string('2016-08-01 00:00:00'),
             end_datetime=fields.Datetime.from_string('2016-08-31 00:00:00'),
         )
         self.assertEqual(1, len(self.holidays))
-
-    def test_04_data_eh_feriado(self):
-        data = fields.Datetime.from_string('2016-08-25 00:00:01')
-        data_eh_feriado = self.municipal_calendar_id.data_eh_feriado(data)
-        self.assertTrue(data_eh_feriado)
 
     def test_05_data_eh_feriado_emendado(self):
         data = fields.Datetime.from_string('2016-08-25 00:00:01')
@@ -304,6 +304,23 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(city_id.name, 'Calendario de Sao Paulo', 'Calendario '
                                                                   'incorreto.')
 
-    def test_16_holiday_import(self):
+    def test_16_proximo_dia_util_bancario(self):
+        data = fields.Datetime.from_string('2017-01-13 00:00:00')
+        prox_dia_ultil = self.nacional_calendar_id. \
+            proximo_dia_util_bancario(data)
+        self.assertEqual(prox_dia_ultil, fields.Datetime.
+                         from_string('2017-01-16 00:00:00'))
+
+    def test_17_holiday_import(self):
         res = self.holiday_import.holiday_import()
         self.assertTrue(res)
+
+    def test_18_data_eh_dia_util_bancario(self):
+        data = fields.Datetime.from_string('2017-01-16 00:00:00')
+        dia_util = self.nacional_calendar_id. \
+            data_eh_dia_util_bancario(data)
+        self.assertTrue(dia_util)
+        data = fields.Datetime.from_string('2017-01-13 00:00:00')
+        feriado = self.nacional_calendar_id. \
+            data_eh_dia_util_bancario(data)
+        self.assertFalse(feriado)
