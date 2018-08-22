@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
         <record id="sequence_boleto_own_number" model="ir.sequence">
             <field name="name">Nosso número</field>
@@ -15,4 +15,4 @@
                    ref="sequence_transaction_id_invoice"/>
         </record>
     </data>
-</openerp>
+</odoo>
