@@ -36,7 +36,7 @@
   name_get for HrContractAdmissionType
 -
   !python {model: hr.contract.admission.type, id: admission_type_1}: |
-    assert self.name_get()[0][1] == u'1 - Admissão  de  empregado  no  primeiro  emprego  ou  nomeação  de  servidor em caráter efetivo ou em comissão, no primeiro emprego', 'The admission type name by name_get is not valid, expected \'code - name\''
+    assert self.name_get()[0][1] == u'1 - Admissão', 'The admission type name by name_get is not valid, expected \'code - name\''
 
 -
   name_get for HrContractLaborRegime
@@ -54,7 +54,7 @@
   name_get for HrContractSalaryUnit
 -
   !python {model: hr.contract.salary.unit, id: salary_unit_1}: |
-    assert self.name_get()[0][1] == u'1 - Monthly', 'The salary unit name by name_get is not valid, expected \'code - name\''
+    assert self.name_get()[0][1] == u'5 - Monthly', 'The salary unit name by name_get is not valid, expected \'code - name\''
 
 -
   name_get for HrContractResignationCause
