@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
+<odoo>
     <data noupdate="1">
 
         <record id="main_company_bank_bb" model="res.partner.bank">
@@ -149,4 +149,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>
