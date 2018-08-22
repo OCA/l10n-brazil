@@ -7,7 +7,7 @@
     'category': 'Localization',
     'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'http://www.kmee.com.br',
-    'version': '8.0.0.0.0',
+    'version': '10.0.0.0.0',
     'depends': ['hr', 'l10n_br_base'],
     'data': [
         'data/l10n_br_hr.cbo.csv',
