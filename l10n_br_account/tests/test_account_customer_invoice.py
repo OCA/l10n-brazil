@@ -186,6 +186,8 @@ class TestCustomerInvoice(TransactionCase):
         self.invoice_3.action_invoice_open()
         assert self.invoice_3.move_id, \
             "Move Receivable not created for open invoice"
+        assert self.invoice_3.move_line_receivable_id, \
+            "Field move_line_receivable_id not created for open invoice"
         self.assertEquals(self.invoice_3.state, 'open',
                           "Invoice should be in state Open")
 
