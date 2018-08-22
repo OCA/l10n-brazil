@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
 
         <!-- ADMISSION TYPE -->
         <record id="admission_type_1" model="hr.contract.admission.type">
@@ -165,5 +164,4 @@
             <field name="name">Sem justa causa</field>
         </record>
 
-    </data>
 </odoo>
