@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
 
         <!-- NATIONALITY CODE -->
         <record id="nationality_code_10" model="hr.nationality.code">
@@ -160,5 +159,4 @@
             <field name="code">80</field>
         </record>
 
-    </data>
 </odoo>
