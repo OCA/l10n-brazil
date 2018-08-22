@@ -997,6 +997,22 @@ class HrPayslip(models.Model):
         else:
             return 0
 
+    def INSS_vinculo_cedente(self):
+        """
+        Verificar se no vínculo anterior já houve alguma contribuição com a
+        seguridade social
+        """
+        inss_vinculo_obj = self.env['hr.contribuicao.inss.vinculos']
+
+        inss_vinculos_id = inss_vinculo_obj.search([
+            ('contrato_id','=', self.contract_id.id),
+        ], limit=1)
+
+        if inss_vinculos_id:
+            return inss_vinculos_id.valor_alicota_vinculo
+
+        return 0
+
     def MEDIA_RUBRICA(self, codigo, tipo_de_folha='normal'):
         media = 0
         if self.tipo_de_folha in ['ferias', 'provisao_ferias']:
