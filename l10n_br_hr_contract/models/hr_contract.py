@@ -129,7 +129,7 @@ class HrContract(models.Model):
     labor_regime_id = fields.Many2one(
         string='Labor regime',
         comodel_name='hr.contract.labor.regime',
-        help = 'e-Social: S2300 - tpRegPrev',
+        help='e-Social: S2300 - tpRegPrev',
     )
 
     salary_unit = fields.Many2one(
