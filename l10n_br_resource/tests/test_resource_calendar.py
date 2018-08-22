@@ -312,7 +312,11 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                          from_string('2017-01-16 00:00:00'))
 
     def test_17_holiday_import(self):
-        res = self.holiday_import.holiday_import()
+        holiday = self.holiday_import.create({
+            'interval_type': 'days',
+            'calendar_id': self.calendar_id_sp.id,
+        })
+        res = holiday.holiday_import()
         self.assertTrue(res)
 
     def test_18_data_eh_dia_util_bancario(self):
