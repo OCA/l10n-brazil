@@ -41,10 +41,12 @@ class HrSalaryRule(models.Model):
     # Campos necessários para o e-Social que não existem ainda
     codigo = fields.Char(
         string='Código',
+        copy=False,
         size=30,
     )
     identificador = fields.Char(
         string='Identificador',
+        copy=False,
         size=8,
     )
     ini_valid = fields.Many2one(
