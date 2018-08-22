@@ -27,6 +27,9 @@ openerp.l10n_br_tef = function(instance){
     var in_sequential_execute = 0;
     var io_tags;
     var ls_transaction_global_value = '';
+    var ls_global_transaction_method = '';
+    var ls_global_plots = 1;
+    var ls_global_institution = '';
     var transaction_queue = new Array();
     var payment_type;
     var payment_name;
@@ -162,7 +165,7 @@ openerp.l10n_br_tef = function(instance){
     function check_inserted_card(){
         if((io_tags.automacao_coleta_palavra_chave === "transacao_valor") && (io_tags.automacao_coleta_tipo != "N")){
             // Transaction Value
-            ls_transaction_global_value = $('.paymentline-input')[1]['value'].replace(',', '.');
+            ls_transaction_global_value = this.pos.get('selectedOrder').selected_paymentline.amount
 
             collect('');
 
@@ -434,6 +437,11 @@ openerp.l10n_br_tef = function(instance){
                         if(check_inserted_card()) return;
                         if(self.check_filled_value()) return;
                         check_filled_value_send();
+
+                        if(self.check_payment_method()) return;
+                        if(self.check_institution()) return;
+                        if(self.check_plots()) return;
+
                         if(self.check_inserted_password()) return;
 
                         // Final checks
@@ -658,9 +666,71 @@ openerp.l10n_br_tef = function(instance){
 
         check_completed_start: function(){
             if((io_tags.servico == "iniciar") && (io_tags.retorno == "1") && (io_tags.aplicacao_tela == "VBIAutomationTest")){
+
+                var payment_term = $('.paymentline-input.payment_term').get('0');
+                if(payment_term){
+                    ls_global_plots = payment_term.options[payment_term.selectedIndex].text.match(/\d+/)
+                    if(ls_global_plots)
+                        ls_global_plots = parseInt(ls_global_plots[0]);
+                    else
+                        ls_global_plots = 1
+                }
+
+                if(!ls_global_institution && ls_global_plots > 1){
+                    this.pos.pos_widget.screen_selector.show_popup('error',{
+                        message: 'Nenhuma modalidade de parcelamento selecionada!',
+                        comment: 'Você precisa selecionar pelo menos uma instituição nas configurações do POS',
+                    });
+                    return false;
+                }
                 this.execute();
                 this.screenPopupPagamento('Iniciando a Operação');
                 io_tags.aplicacao_tela = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_payment_method: function(){
+            if((io_tags.automacao_coleta_mensagem === "Forma de Pagamento") && (io_tags.automacao_coleta_palavra_chave === "transacao_pagamento")
+                && (io_tags.automacao_coleta_tipo === "X")){
+
+                collect(ls_global_transaction_method);
+                this.screenPopupPagamento('Pagamento ' + ls_global_transaction_method);
+                io_tags.automacao_coleta_mensagem = '';
+                io_tags.automacao_coleta_palavra_chave = '';
+                io_tags.automacao_coleta_tipo = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+        
+        check_institution: function(){
+            if((io_tags.automacao_coleta_mensagem === "Financiado pelo") && (io_tags.automacao_coleta_palavra_chave === "transacao_financiado")
+                && (io_tags.automacao_coleta_tipo === "X")){
+                collect(ls_global_institution);
+                io_tags.automacao_coleta_mensagem = '';
+                io_tags.automacao_coleta_palavra_chave = '';
+                io_tags.automacao_coleta_tipo = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_plots: function(){
+            if((io_tags.automacao_coleta_mensagem === "Parcelas") && (io_tags.automacao_coleta_palavra_chave === "transacao_parcela")
+                && (io_tags.automacao_coleta_tipo === "N")){
+                collect(ls_global_plots);
+                this.screenPopupPagamento('Pagamento em ' + ls_global_plots + ' vezes');
+                io_tags.automacao_coleta_mensagem = '';
+                io_tags.automacao_coleta_palavra_chave = '';
+                io_tags.automacao_coleta_tipo = '';
                 return true;
             } else {
                 //Handle Exceptions Here
@@ -681,6 +751,7 @@ openerp.l10n_br_tef = function(instance){
                 this.screenPopupPagamento('Erro - Problema na Conexão!!!');
                 this.abort();
             }else if((io_tags.automacao_coleta_mensagem || false) && (io_tags.automacao_coleta_mensagem.startsWith("Transacao cancelada"))) {
+                io_tags.automacao_coleta_mensagem = '';
                 return true;
             }else if(io_tags.automacao_coleta_mensagem === "INSIRA OU PASSE O CARTAO"){
                 return true;
@@ -702,11 +773,12 @@ openerp.l10n_br_tef = function(instance){
         {
 
             var ls_execute_tags = 'servico="executar"retorno="1"sequencial="'+ sequential() +'"';
-
-            var ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
+            var ls_payment_transaction = '';
+            var ls_card_type = '';
             var ls_product_type = (payment_type === "CD01")? "Debito-Getnetlac" : "Credito-Getnetlac";
             var ls_transaction_type = "Cartao Vender";
-            var ls_payment_transaction = "A vista";
+
+            ls_global_transaction_method = (ls_global_plots > 1)? "Parcelado": "A vista";
 
 
              if (ls_transaction_global_value !== "") {
@@ -742,6 +814,12 @@ openerp.l10n_br_tef = function(instance){
         consult: function()
         {
             send('servico="consultar"retorno="0"sequencial="'+ sequential()+'"');
+
+            setTimeout(function(){
+                if (self.pos_widget){
+                    self.pos_widget.popupStatusPagamento.hide()
+                }
+            }, 1000);
         },
     });
 
@@ -764,6 +842,8 @@ openerp.l10n_br_tef = function(instance){
 
             if (["CD01", "CC01"].indexOf(line.cashregister.journal.code) > -1 &&
                 this.pos.config.iface_tef){
+                ls_global_institution = this.pos.config.institution_selection;
+
                 payment_type = line.cashregister.journal.code;
                 payment_name = line.cashregister.journal.name;
                 el_node.querySelector('.payment-terminal-transaction-start')

@@ -10,6 +10,10 @@
                 <field name="iface_cashdrawer" position="after">
                     <field name="iface_tef"/>
                 </field>
+
+                <field name="group_by" position="after">
+                    <field name="institution_selection"/>
+                </field>
             </field>
         </record>
 
