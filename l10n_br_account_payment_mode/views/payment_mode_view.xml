@@ -1,74 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-    <data>
+<odoo>
 
-        <record id="view_payment_mode_form_inherit_l10n_br_payment" model="ir.ui.view">
-            <field name="name">payment.mode.l10n_br_payment.form.inherit</field>
-            <field name="model">payment.mode</field>
-            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
-            <field name="priority" eval="14"/>
-            <field name="arch" type="xml">
+    <record id="view_payment_mode_form_inherit_l10n_br_payment" model="ir.ui.view">
+        <field name="name">payment.mode.l10n_br_payment.form.inherit</field>
+        <field name="model">payment.mode</field>
+        <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+        <field name="priority" eval="14"/>
+        <field name="arch" type="xml">
 
-                <field name="type" position="after">
-                    <field name="payment_order_type"/>
-                </field>
-                <xpath expr="//form/group[@string='Note']" position="before">
-                    <group string="Configurações" name='l10n-br-config' col="4">
-                        <notebook colspan="4">
-                            <page string="Cobrança" attrs="{'invisible': ['|', ('sale_ok', '!=', True),
+            <field name="type" position="after">
+                <field name="payment_order_type"/>
+            </field>
+            <xpath expr="//form/group[@string='Note']" position="before">
+                <group string="Configurações" name='l10n-br-config' col="4">
+                    <notebook colspan="4">
+                        <page string="Cobrança" attrs="{'invisible': ['|', ('sale_ok', '!=', True),
                                                                           ('payment_order_type', '!=', 'cobranca')]}">
-                                <group>
-                                    <field name="type_sale_payment"/>
-                                    <field name="internal_sequence_id"
-                                           attrs="{'invisible': [('type_sale_payment', '!=', '00')]}"/>
-                                    <field name="instrucoes"/>
-                                    <field name="invoice_print"/>
-                                </group>
-                                <notebook>
-                                    <page string="Boleto"
-                                        attrs="{'invisible': [('type_sale_payment', '!=', '00')]}">
-                                    </page>
-                                    <page string="Cheque"
-                                          attrs="{'invisible': [('type_sale_payment', '!=', '01')]}">
-                                    </page>
-                                    <page string="Promissoria"
-                                          attrs="{'invisible': [('type_sale_payment', '!=', '02')]}">
-                                    </page>
-                                    <page string="Recibo"
-                                          attrs="{'invisible': [('type_sale_payment', '!=', '03')]}">
-                                    </page>
-                                </notebook>
-                            </page>
-                            <page string="Pagamento" attrs="{'invisible': [('purchase_ok', '!=', True)]}">
-                                <group>
-                                    <field name="internal_sequence_id" required='True'/>
-                                    <field name="instrucoes"
-                                           attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
-                                    <field name="invoice_print"
-                                           attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
-                                </group>
-                            </page>
-                        </notebook>
-                    </group>
+                            <group>
+                                <field name="type_sale_payment"/>
+                                <field name="internal_sequence_id"
+                                       attrs="{'invisible': [('type_sale_payment', '!=', '00')]}"/>
+                                <field name="instrucoes"/>
+                                <field name="invoice_print"/>
+                            </group>
+                            <notebook>
+                                <page string="Boleto"
+                                      attrs="{'invisible': [('type_sale_payment', '!=', '00')]}">
+                                </page>
+                                <page string="Cheque"
+                                      attrs="{'invisible': [('type_sale_payment', '!=', '01')]}">
+                                </page>
+                                <page string="Promissoria"
+                                      attrs="{'invisible': [('type_sale_payment', '!=', '02')]}">
+                                </page>
+                                <page string="Recibo"
+                                      attrs="{'invisible': [('type_sale_payment', '!=', '03')]}">
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="Pagamento" attrs="{'invisible': [('purchase_ok', '!=', True)]}">
+                            <group>
+                                <field name="internal_sequence_id" required='True'/>
+                                <field name="instrucoes"
+                                       attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
+                                <field name="invoice_print"
+                                       attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="payment_mode_cnab240_type_sale_payment_form" model="ir.ui.view">
+        <field name="name">payment.mode.type_sale_payment.form.cnab240</field>
+        <field name="model">payment.mode.type</field>
+        <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_type_form"/>
+        <field name="priority" eval="14"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='ir_model_id']" position="after">
+                    <field name="payment_order_type"/>
                 </xpath>
+            </data>
+        </field>
+    </record>
 
-            </field>
-        </record>
-
-        <record id="payment_mode_cnab240_type_sale_payment_form" model="ir.ui.view">
-            <field name="name">payment.mode.type_sale_payment.form.cnab240</field>
-            <field name="model">payment.mode.type</field>
-            <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_type_form"/>
-            <field name="priority" eval="14"/>
-            <field name="arch" type="xml">
-                <data>
-                    <xpath expr="//field[@name='ir_model_id']" position="after">
-                            <field name="payment_order_type"/>
-                    </xpath>
-                </data>
-            </field>
-        </record>
-
-    </data>
-</openerp>
+</odoo>
