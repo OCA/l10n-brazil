@@ -52,9 +52,11 @@ class AccountInvoice(models.Model):
             record.amount_total_signed = record.amount_total * sign
             record.amount_untaxed_signed = amount_untaxed_signed * sign
 
+    # Não migrar este módulo para api multi antes da mesma ser removida do core
     @api.one
     @api.depends('move_id.line_ids.amount_residual')
     def _compute_payments(self):
+
         payment_lines = []
         for line in self.move_id.line_ids.filtered(
                 lambda l: l.account_id.id == self.account_id.id and
@@ -67,18 +69,18 @@ class AccountInvoice(models.Model):
         self.payment_move_line_ids = self.env[
             'account.move.line'].browse(list(set(payment_lines)))
 
-    @api.one
-    @api.depends(
-        'move_id.line_ids',
-    )
+    @api.multi
+    @api.depends('move_id.line_ids')
     def _compute_receivables(self):
-        lines = self.env['account.move.line']
-        for line in self.move_id.line_ids:
-            if line.account_id.id == self.account_id.id and \
-                line.account_id.internal_type in ('receivable', 'payable') and \
-                    self.journal_id.revenue_expense:
-                lines |= line
-        self.move_line_receivable_id = lines.sorted()
+        for record in self:
+            lines = self.env['account.move.line']
+            for line in record.move_id.line_ids:
+                if (line.account_id.id == record.account_id.id and
+                        line.account_id.internal_type in
+                        ('receivable', 'payable') and
+                        record.journal_id.revenue_expense):
+                    lines |= line
+                    record.move_line_receivable_id = lines.sorted()
 
     state = fields.Selection(
         selection_add=[
