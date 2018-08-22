@@ -48,12 +48,10 @@ class OtherIETest(TransactionCase):
                 result = True
             self.assertTrue(
                 result, "Error in method to update other IE(s) on partner.")
-        line_id = False
-        for line in self.company.partner_id.other_inscr_est_lines:
-            line_id = line.id
+
         try:
             result = self.company.write({
-                'other_inscr_est_lines': [(1, line_id, {
+                'other_inscr_est_lines': [(0, 0, {
                     'state_id': self.ref('base.state_br_ba'),
                     'inscr_est': 67729139,
                 })]
