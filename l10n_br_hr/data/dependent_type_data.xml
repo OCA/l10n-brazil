@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
 
         <record id='l10n_br_dependent_1' model="hr.dependent.type">
             <field name="name">Cônjuge</field>
@@ -77,5 +76,4 @@
             <field name="code">99</field>
         </record>
 
-    </data>
 </odoo>
