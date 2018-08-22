@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
 
         <!-- ETHNICITY -->
         <!-- Registros antigos (não batem com e-Social) -->
@@ -137,5 +136,4 @@
             <field name="code">6</field>
         </record>
 
-    </data>
 </odoo>
