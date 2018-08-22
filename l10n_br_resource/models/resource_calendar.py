@@ -234,7 +234,7 @@ class ResourceCalendar(models.Model):
         :return boolean True: Se for dia útil
                         False: Se Não for dia útil
         """
-        if data.weekday() > 5:
+        if data.weekday() >= 5:
             return False
         elif self.data_eh_feriado_bancario(data):
             return False
