@@ -251,9 +251,27 @@ class HrContract(models.Model):
         # Grava os dados
         return super(HrContract, self).write(vals)
 
+    def _gerar_matricula(self):
+        if not self.matricula:
+            sped_contrato_ids = self.env['sped.esocial.contrato'].search([])
+
+            sped_contrato_ativo_ids = sped_contrato_ids.filtered(
+                lambda rec: rec.hr_contract_id.situacao_esocial == '1')
+
+            ultima_matricula = 0
+            if sped_contrato_ativo_ids:
+                ultima_matricula = max(
+                    list(
+                        map(
+                            lambda x: int(x.hr_contract_id.matricula),
+                            sped_contrato_ativo_ids)
+                    ))
+            self.matricula = "{:06}".format(ultima_matricula + 1)
+
     @api.multi
     def ativar_contrato_s2200(self):  # TODO
         self.ensure_one()
+        self._gerar_matricula()
 
         # Se o registro intermediário do S-2200 não existe, criá-lo
         if not self.sped_s2200_id:
@@ -274,6 +292,7 @@ class HrContract(models.Model):
     @api.multi
     def ativar_contrato_s2300(self):  # TODO
         self.ensure_one()
+        self._gerar_matricula()
 
         # Se o registro intermediário do S-2200 não existe, criá-lo
         if not self.sped_s2300_id:
@@ -607,6 +626,10 @@ class HrContract(models.Model):
     salary_unit_code = fields.Char(
         string='Cod. unidade de salario',
         related='salary_unit.code',
+    )
+
+    matricula = fields.Char(
+        default=False,
     )
 
     @api.multi
