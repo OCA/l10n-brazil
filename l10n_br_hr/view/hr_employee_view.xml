@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <odoo>
-    <data>
+
         <record model="ir.ui.view" id="view_l10n_br_hr_employee_form">
             <field name="name">l10n_br_hr_employee.form</field>
             <field name="model">hr.employee</field>
@@ -283,5 +283,4 @@
                   sequence="7"/>
         <menuitem action="action_hr_nationality_code" id="menu_hr_nationality_code" parent="menu_hr_employee_register"
                   sequence="8"/>
-    </data>
 </odoo>
