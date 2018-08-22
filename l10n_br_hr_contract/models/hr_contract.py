@@ -88,7 +88,7 @@ class HrContractSalaryUnit(models.Model):
             # name = record['name']
             # if record['code']:
             #     name = record.code + '-' + record.name
-            result.append((record['id'], record.code + '-' + record.name))
+            result.append((record['id'], record.code + ' - ' + record.name))
         return result
 
 

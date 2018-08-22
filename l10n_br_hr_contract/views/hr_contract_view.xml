@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+
+        <record id="hr_hr_employee_view_form3" model="ir.ui.view">
+            <field name="name">hr.hr.employee.view.form3</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="place_of_birth" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </field>
+                    <field name="place_of_birth" position="after">
+                        <field name="naturalidade" options="{'no_create': True, 'no_open': True}" required="1" />
+                    </field>
+                </data>
+            </field>
+        </record>
+
         <record id="l10n_br_hr_contract_view_form" model="ir.ui.view">
             <field name="model">hr.contract</field>
             <field name="name">l10n_br.hr.contract.view.form</field>
@@ -35,16 +51,16 @@
                     <field name="weekly_hours"/>
                 </xpath>
 
-                <xpath expr="//page[@string='Work Permit']" position="after">
-                    <page string="Resignation">
-                        <group string="Resignation">
+                <xpath expr="//page[@name='information']" position="after">
+                    <page name="resignation_page" string="Resignation">
+                        <group name="resignation_group" string="Resignation">
                             <field name="resignation_cause_id"/>
                             <field name="resignation_date"/>
                             <field name="resignation_code" invisible='1'/>
                             <field name="by_death"
                                    attrs="{'invisible': [('resignation_code', 'not in', ('60', '62', '63', '64'))]}"/>
                         </group>
-                        <group string="Notice of Termination">
+                        <group name="notice_of_terminationstring" string="Notice of Termination">
                             <field name="notice_of_termination_id"/>
                             <field name="notice_of_termination_date"/>
                             <field name="notice_of_termination_payment_date"/>
@@ -91,7 +107,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem action="" id="menu_hr_contract_configuration_rais_contract" parent="l10n_br_hr.menu_hr_contract_configuration_rais" name="Contract" sequence="30" groups="base.group_hr_manager"/>
+        <menuitem action="" id="menu_hr_contract_configuration_rais_contract" parent="l10n_br_hr.menu_hr_contract_configuration_rais" name="Contract" sequence="30" groups="hr.group_hr_manager"/>
         <menuitem action="action_hr_contract_admission_type" id="menu_hr_contract_admission_type" parent="menu_hr_contract_configuration_rais_contract" name="Admission Type" sequence="10" />
         <menuitem action="action_hr_contract_labor_bond_type" id="menu_hr_contract_labor_bond_type" parent="menu_hr_contract_configuration_rais_contract" name="Labor Bond Type" sequence="11" />
         <menuitem action="action_hr_contract_labor_regime" id="menu_hr_contract_labor_regime" parent="menu_hr_contract_configuration_rais_contract" name="Labor Regime" sequence="12" />
@@ -99,5 +115,4 @@
         <menuitem action="action_hr_contract_resignation_cause" id="menu_hr_contract_resignation_cause" parent="menu_hr_contract_configuration_rais_contract" name="Resignation Cause" sequence="14" />
         <menuitem action="action_hr_contract_notice_termination" id="menu_hr_contract_notice_termination" parent="menu_hr_contract_configuration_rais_contract" name="Notice Termination" sequence="15"/>
 
-    </data>
 </odoo>
