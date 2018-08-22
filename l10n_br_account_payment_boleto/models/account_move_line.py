@@ -6,8 +6,8 @@
 import logging
 from datetime import date
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning as UserError
 
 _logger = logging.getLogger(__name__)
 
