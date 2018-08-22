@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <odoo>
-    <data>
         <record model="ir.ui.view" id="view_l10n_br_hr_job_form">
             <field name="name">l10n_br_hr_job.form</field>
             <field name="model">hr.job</field>
@@ -12,5 +11,4 @@
                 </xpath>
             </field>
         </record>
-    </data>
 </odoo>
