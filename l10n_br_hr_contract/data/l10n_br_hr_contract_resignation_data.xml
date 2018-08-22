@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="0">
 
         <record id="hr_contract_resignation_10" model="hr.contract.resignation.cause">
@@ -139,4 +139,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>
