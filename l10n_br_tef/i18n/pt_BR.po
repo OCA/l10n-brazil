@@ -1,0 +1,80 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_tef
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-22 19:41+0000\n"
+"PO-Revision-Date: 2018-08-22 19:41+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_tef
+#: code:addons/l10n_br_tef/l10n_br_tef.py:11
+#: help:pos.config,iface_tef:0
+#, python-format
+msgid "A TEF terminal is available on the Proxy"
+msgstr "Um terminal TEF ficará disponível no Proxy"
+
+#. module: l10n_br_tef
+#: selection:pos.config,institution_selection:0
+msgid "Administradora"
+msgstr "Administradora"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:87
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:95
+#, python-format
+msgid "Close"
+msgstr "Fechar"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:92
+#, python-format
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: l10n_br_tef
+#: selection:pos.config,institution_selection:0
+msgid "Estabelecimento"
+msgstr "Estabelecimento"
+
+#. module: l10n_br_tef
+#: field:pos.config,institution_selection:0
+msgid "Institution"
+msgstr "Instituição"
+
+#. module: l10n_br_tef
+#: code:addons/l10n_br_tef/l10n_br_tef.py:20
+#: help:pos.config,institution_selection:0
+#, python-format
+msgid "Institution selection for installment payments"
+msgstr "Seleção de Instituição para pagamentos parcelados"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:662
+#, python-format
+msgid "Por Favor Aguarde!"
+msgstr "Por Favor Aguarde!"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:7
+#, python-format
+msgid "Start transaction"
+msgstr "Iniciar Transação"
+
+#. module: l10n_br_tef
+#: field:pos.config,iface_tef:0
+msgid "TEF"
+msgstr "TEF"
+
