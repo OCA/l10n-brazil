@@ -20,8 +20,7 @@ class AccountTax(models.Model):
 
             if tax.get('tax_discount'):
                 result['tax_discount'] += tax['amount']
-
-            if tax['percent']:
+            if tax['amount_type'] == 'percent':
                 tax['total_base'] = round(
                     total_line * (1 - tax['base_reduction']), precision)
                 tax['total_base_other'] = round(
@@ -87,7 +86,9 @@ class AccountTax(models.Model):
                 tax_brw = tax_list[0]
             tax['group'] = tax_brw.tax_group_id.name
             tax['type'] = tax_brw.type_tax_use
+            # TODO - check parent compute
             tax['percent'] = tax_brw.amount
+            tax['amount_type'] = tax_brw.amount_type
             tax['base_reduction'] = tax_brw.base_reduction
             tax['amount_mva'] = tax_brw.amount_mva
             tax['tax_discount'] = tax_brw.tax_discount
