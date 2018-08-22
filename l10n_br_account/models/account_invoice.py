@@ -80,7 +80,7 @@ class AccountInvoice(models.Model):
                         ('receivable', 'payable') and
                         record.journal_id.revenue_expense):
                     lines |= line
-                    record.move_line_receivable_id = lines.sorted()
+            record.move_line_receivable_id = lines.sorted()
 
     state = fields.Selection(
         selection_add=[
