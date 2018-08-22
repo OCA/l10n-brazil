@@ -8,7 +8,7 @@
     'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'http://www.kmee.com.br',
     'version': '10.0.0.0.0',
-    'depends': ['hr', 'l10n_br_base', 'hr_contract'],
+    'depends': ['hr', 'l10n_br_base'],
     'data': [
         'data/l10n_br_hr.cbo.csv',
         'data/dependent_type_data.xml',
