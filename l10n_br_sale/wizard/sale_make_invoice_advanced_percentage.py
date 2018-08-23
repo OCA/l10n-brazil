@@ -10,13 +10,13 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
     _inherit = 'sale.advance.payment.inv'
 
     def _get_line_qty(self, cr, uid, line, context=None):
-        if (line.order_id.invoice_quantity == 'order'):
+        if line.order_id.invoice_quantity == 'order':
             if line.product_uos:
                 return line.product_uos_qty or 0.0
         return line.product_uom_qty
 
     def _get_line_uom(self, cr, uid, line, context=None):
-        if (line.order_id.invoice_quantity == 'order'):
+        if line.order_id.invoice_quantity == 'order':
             if line.product_uos:
                 return line.product_uos.id
         return line.product_uom.id
@@ -61,7 +61,7 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
                                l10n_br_sale_prepare_order_line_invoice_line(
                                    cr, uid, order_line, res_aux, context))
 
-                    res_aux = order_line_obj.\
+                    res_aux = order_line_obj. \
                         l10n_br_sale_product_prepare_order_line_invoice_line(
                             cr, uid, order_line, res_aux, context)
 
