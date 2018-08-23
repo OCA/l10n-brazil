@@ -61,8 +61,9 @@ Images
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Hendrix Costa <hendrix.costa@abgf.gov.br>
+* Bruna Braga <bruna.braga@kmee.com.br>
+
 
 Maintainer
 ----------
