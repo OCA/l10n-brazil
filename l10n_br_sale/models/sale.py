@@ -68,8 +68,8 @@ class SaleOrder(models.Model):
             tot = 0.0
             for invoice in sale.invoice_ids:
                 if invoice.state not in ('draft', 'cancel') and \
-                        invoice.fiscal_category_id.id == \
-                        sale.fiscal_category_id.id:
+                                invoice.fiscal_category_id.id == \
+                                sale.fiscal_category_id.id:
                     tot += invoice.amount_untaxed
             if tot:
                 result[sale.id] = min(100.0, tot * 100.0 / (
@@ -313,7 +313,7 @@ class SaleOrderLine(models.Model):
         return result
 
     @api.multi
-    def product_id_change(self,  pricelist, product, qty=0,
+    def product_id_change(self, pricelist, product, qty=0,
                           uom=False, qty_uos=0, uos=False, name='',
                           partner_id=False, lang=False, update_tax=True,
                           date_order=False, packaging=False,
@@ -374,8 +374,9 @@ class SaleOrderLine(models.Model):
     def _prepare_order_line_invoice_line(self, line, account_id=False):
         result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
             line, account_id)
-        result['fiscal_category_id'] = line.fiscal_category_id.id or \
-            line.order_id.fiscal_category_id.id or False
+        result['fiscal_category_id'] = \
+            line.fiscal_category_id.id or line.order_id.fiscal_category_id.id \
+            or False
         result['fiscal_position'] = line.fiscal_position.id or \
-            line.order_id.fiscal_position.id or False
+                                    line.order_id.fiscal_position.id or False
         return result
