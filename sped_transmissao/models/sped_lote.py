@@ -206,16 +206,15 @@ class SpedLote(models.Model, ):
         # Cria o processador, dependendo do tipo do arquivo
         if self.tipo == 'efdreinf':
             processador = pysped.ProcessadorEFDReinf()
-            processador.caminho = self.mount_path()
 
         elif self.tipo == 'esocial':
             processador = pysped.ProcessadorESocial()
-            processador.caminho = self.mount_path()
 
         else:
             raise Exception("Não é um tipo que possa ser consultado !")
 
         # Popula o certificado no processador
+        processador.caminho = self.mount_path()
         processador.certificado.arquivo = arquivo.name
         processador.certificado.senha = self.company_id.nfe_a1_password
         processador.ambiente = int(self.ambiente)
@@ -394,11 +393,10 @@ class SpedLote(models.Model, ):
         # Popula o processador
         if self.tipo == 'efdreinf':
             processador = pysped.ProcessadorEFDReinf()
-            # processador.caminho = self.mount_path()
         else:
             processador = pysped.ProcessadorESocial()
-            # processador.caminho = self.mount_path()
-        processador.salvar_arquivos = False
+        processador.salvar_arquivos = True
+        processador.caminho = self.mount_path()
         processador.certificado.arquivo = arquivo.name
         processador.certificado.senha = self.company_id.nfe_a1_password
         processador.ambiente = int(self.ambiente)
@@ -639,16 +637,6 @@ class SpedLote(models.Model, ):
     def mount_path(self):
         db_name = self.company_id._cr.dbname
         cnpj = limpa_formatacao(self.company_id.cnpj_cpf)
-
         filestore = config.filestore(db_name)
-        protocolo_path = '/'.join([filestore, 'PySPED', self.tipo, cnpj, self.protocolo])
-        sped_path = '/'.join([filestore, 'PySPED', self.tipo, cnpj])
-        if not os.path.exists(protocolo_path):
-            try:
-                os.makedirs(protocolo_path)
-            except OSError:
-                raise RedirectWarning(
-                    _(u'Erro!'),
-                    _(u"""Verifique as permissões de escrita
-                        e o caminho da pasta"""))
+        sped_path = '/'.join([filestore, 'PySPED', cnpj])
         return sped_path
