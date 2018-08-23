@@ -84,7 +84,7 @@ class HrEmployee(models.Model):
                                     inverse_name='employee_id',
                                     string='Dependents')
     rg = fields.Char(string='RG', help='National ID number')
-    cpf = fields.Char(string='CPF', required=True)
+    cpf = fields.Char(string='CPF')
     organ_exp = fields.Char(string='Dispatcher organ')
     rg_emission = fields.Date(string='Emission date')
     voter_title = fields.Char(string='Voter title')
