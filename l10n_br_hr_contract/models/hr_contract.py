@@ -151,7 +151,10 @@ class HrContract(models.Model):
 
     union = fields.Char(string='Union')
     union_cnpj = fields.Char(string='Union CNPJ')
-    union_entity_code = fields.Char(string='Union entity code')
+    union_entity_code = fields.Char(
+        string='Union entity code',
+        related='partner_union.union_entity_code',
+    )
     month_base_date = fields.Selection(string='Base date month',
                                        selection=MONTHS)
     discount_union_contribution = fields.Boolean(
