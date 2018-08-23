@@ -62,6 +62,7 @@ Contributors
 ------------
 
 * Hendrix Costa <hendrix.costa@abgf.gov.br>
+* Bruna Braga <bruna.braga@kmee.com.br>
 
 
 Maintainer
