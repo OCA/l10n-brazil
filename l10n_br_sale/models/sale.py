@@ -3,8 +3,8 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields, api
+from odoo.addons import decimal_precision as dp
 
 
 class SaleOrder(models.Model):
