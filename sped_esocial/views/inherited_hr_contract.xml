@@ -39,7 +39,11 @@
                     <field name="admission_type_code" invisible="1"/>
                 </field>
                 <field name="matricula" position="attributes">
-                    <attribute name="attrs">{'readonly': True}</attribute>
+                    <attribute name="attrs">{'invisible': True}</attribute>
+                </field>
+                <field name="matricula" position="after">
+                    <field name="prefixo_empresa_matricula" invisible="1"/>
+                    <field name="matricula_contrato" readonly="1"/>
                 </field>
                 <group name="vinculo_anterior" position="attributes">
                     <attribute name="attrs">{'invisible': [('admission_type_code', '=', '1')]}</attribute>
