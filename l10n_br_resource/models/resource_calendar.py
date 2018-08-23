@@ -212,7 +212,8 @@ class ResourceCalendar(models.Model):
             data_referencia += timedelta(days=1)
 
     @api.multi
-    def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now(), mes_comercial=True):
+    def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now(),
+                      mes_comercial=True):
         """Calcular a quantidade de dias que devem ser remunerados em
         determinado intervalo de tempo.
         :param datetime data_from: Data inicial do intervalo de tempo.
