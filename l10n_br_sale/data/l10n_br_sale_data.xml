@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 
         <!-- REF Criar um ir.values como True para evitar futuras incompatibilidades -->
@@ -13,4 +13,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>
