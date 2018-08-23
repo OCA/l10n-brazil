@@ -8,7 +8,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
+    'version': '10.0.1.0.0',
     'depends': [
         'l10n_br_account',
         'account_fiscal_position_rule_sale',
