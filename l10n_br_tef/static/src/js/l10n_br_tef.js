@@ -646,12 +646,7 @@ openerp.l10n_br_tef = function(instance){
         {
 
             if((io_tags.servico == "consultar") && (io_tags.retorno == "0")) {
-
                 return true;
-            }
-            else if((io_tags.automacao_coleta_mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
-                this.redo_operation(io_tags.sequencial);
-                return false;
             } else {
                 return false;
             }
@@ -742,7 +737,7 @@ openerp.l10n_br_tef = function(instance){
             // Here all the exceptions will be handle
 
             // For any other exceptions, just abort the operation
-            if((io_tags.automacao_coleta_retorno === "9" && io_tags.automacao_coleta_mensagem === "Fluxo Abortado pelo operador!!")){
+            if((io_tags.automacao_coleta_retorno === "9" && io_tags.automacao_coleta_mensagem === "Fluxo Abortado pelo operador!!" && io_tags.retorno != "2")){
                 return true;
             }else if(io_tags.automacao_coleta_mensagem === "Digite o numero do cartao"){
                 this.screenPopupPagamento('Erro - PinPad não conectado!!!');
@@ -759,7 +754,9 @@ openerp.l10n_br_tef = function(instance){
                 return true;
             }else if(io_tags.servico === "iniciar"){
                 return true;
-            }else if(io_tags.mensagem && io_tags.mensagem.startsWith("Sequencial invalido") && !io_tags.automacao_coleta_mensagem){
+            }else if(io_tags.mensagem && io_tags.mensagem.startsWith("Sequencial invalido")){
+                io_tags.mensagem = '';
+                this.redo_operation(io_tags.sequencial);
                 return true;
             }else{
                 var message = io_tags.message || io_tags.automacao_coleta_mensagem;
