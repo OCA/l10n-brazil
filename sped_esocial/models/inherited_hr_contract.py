@@ -686,3 +686,11 @@ class HrContract(models.Model):
 
         # Executa o método Consultar do registro intermediário
         self.sped_contrato_id.consultar()
+
+    @api.depends('employee_id', 'matricula_contrato')
+    def _compute_nome_contrato(self):
+        for contrato in self:
+            if contrato.employee_id and contrato.matricula_contrato:
+                nome = contrato.employee_id.name
+                nome_contrato = '[%s] %s' % (contrato.matricula_contrato, nome)
+                contrato.nome_contrato = nome_contrato if nome else ''
