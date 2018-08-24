@@ -20,6 +20,20 @@ class HrPaylisp(models.Model):
         string='Registro SPED S-2299',
         comodel_name='sped.hr.rescisao',
     )
+    situacao_esocial_s2299 = fields.Selection(
+        selection=[
+            ('0', 'Inativo'),
+            ('1', 'Ativo'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('4', 'Aguardando Processamento'),
+            ('5', 'Erro(s)'),
+            ('9', 'Finalizado'),
+        ],
+        string='Situação no e-Social',
+        related='sped_s2299.situacao_s2299',
+        readonly=True,
+    )
 
     # sped_s2399 = fields.Many2one(
     #     string='Registro SPED S-2399',

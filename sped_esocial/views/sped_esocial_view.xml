@@ -38,6 +38,7 @@
                     <field name="necessita_s2200" invisible="1" />
                     <field name="necessita_s2205" invisible="1" />
                     <field name="necessita_s2206" invisible="1" />
+                    <field name="necessita_s2230" invisible="1" />
                     <field name="necessita_s2299" invisible="1" />
                     <field name="necessita_s2300" invisible="1" />
                     <field name="necessita_s2306" invisible="1" />
@@ -87,6 +88,7 @@
                                         <field name="msg_admissoes" />
                                         <field name="msg_alteracao_trabalhador" />
                                         <field name="msg_alteracao_contrato" />
+                                        <field name="msg_afastamento" />
                                         <field name="msg_desligamentos" />
                                         <field name="msg_admissao_sem_vinculo" />
                                         <field name="msg_alteracao_sem_vinculo" />
@@ -211,6 +213,12 @@
                                                     <field name="alteracao_contrato_ids" readonly="1" nolabel="1" colspan="4"/>
                                                 </group>
                                             </page>
+                                            <page name="s2230" string="S-2230" attrs="{'invisible': [('necessita_s2230', '=', False), ('afastamento_ids', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <separator string="Afastamentos Temporários" />
+                                                    <field name="afastamento_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
                                             <page name="s2299" string="S-2299" attrs="{'invisible': [('necessita_s2299', '=', False), ('desligamento_ids', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="Desligamentos" />
@@ -259,6 +267,36 @@
                                     </group>
                                 </group>
                             </page>
+                            <page name="afastamentos" string="Afastamentos">
+                                <group colspan="4" col="4">
+                                    <field name="holiday_ids" readonly="1" nolabel="1" colspan="4"
+                                           context="{'form_view_ref': 'sped_esocial.afastamento_form'}"
+                                    >
+                                        <tree>
+                                            <field name="employee_id" />
+                                            <field name="holiday_status_id" />
+                                            <field name="data_inicio" />
+                                            <field name="data_fim" />
+                                            <field name="state" />
+                                            <field name="situacao_esocial" />
+                                            <field name="situacao_esocial_encerramento" />
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="rescisoes" string="Rescisões">
+                                <group colspan="4" col="4">
+                                    <field name="rescisao_ids" colspan="4" nolabel="1" readonly="1">
+                                        <tree>
+                                            <field name="number" />
+                                            <field name="employee_id" />
+                                            <field name="data_mes_ano" />
+                                            <field name="state" />
+                                            <!--<field name="situacao_esocial" />--> <!-- TODO Criar campo situacao_esocial em hr.payslip -->
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
                             <page name="fechamento" string="Fechamento (S-1299)"
                                   attrs="{'invisible': [('tem_fechamentos', '=', False)]}"
                             >
@@ -293,6 +331,50 @@
                             </page>
                         </notebook>
                     </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="sped_esocial.afastamento_form" model="ir.ui.view">
+            <field name="name">Transmissão de Afastamentos</field>
+            <field name="model">hr.holidays</field>
+            <field name="arch" type="xml">
+                <form string="afastamento">
+                    <header>
+                        <button string="Transmitir para o e-Social" type="object" class="oe_highlight"
+                                name="holidays_validar_criar_intermediario" attrs="{'invisible': [('sped_esocial_afastamento_id', '!=', False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate" statusbar_colors="{'confirm':'blue','validate1':'blue','refuse':'red'}" />
+                    </header>
+                    <sheet>
+                        <!--<h1>-->
+                            <!--<field name="name" attrs="{'readonly':[('state','in',['validate','validate1','refuse'])]}" modifiers="{'readonly': [['state', 'in', ['validate', 'validate1', 'refuse']]]}"/>-->
+                        <!--</h1>-->
+                        <group colspan="4" col="4">
+                            <group string="Evento" colspan="4" col="4">
+                                <field name="contrato_id" colspan="4" />
+                                <field name="employee_id" colspan="4" />
+                                <!--<field name="holiday_status_id" colspan="4" options="{'no_open': True}"/>-->
+                                <field name="esocial_evento_afastamento_id" colspan="4" options="{'no_open': True}"/>
+                            </group>
+                        </group>
+                        <group colspan="4" col="4">
+                            <group string="Período" colspan="4" col="4">
+                                <field name="data_inicio" nolabel="1" class="oe_inline"/>
+                                <div class="oe_inline">
+                                    até
+                                </div>
+                                <field name="data_fim" nolabel="1" class="oe_inline" />
+                                <field name="number_of_days_temp_fmt" style="text-align:center" nolabel="1" class="oe_inline" />
+                            </group>
+                        </group>
+                        <group colspan="4" col="4">
+                            <group string="e-Social" colspan="4" col="4">
+                                <field name="situacao_esocial" colspan="4"/>
+                                <field name="situacao_esocial_encerramento" colspan="4"/>
+                                <field name="sped_esocial_afastamento_id" colspan="4"/>
+                            </group>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>

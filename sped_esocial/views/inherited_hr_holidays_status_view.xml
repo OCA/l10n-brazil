@@ -10,7 +10,9 @@
                 <xpath expr="//page[@string='Details']" position="after">
                     <page string="e-Social" name="esocial">
                         <group>
-                            <field name="esocial_evento_afastamento_id" />
+                            <field name="esocial_evento_afastamento_id"
+                                   options="{'no_create': True, 'no_open': True}"
+                            />
                         </group>
                     </page>
                 </xpath>

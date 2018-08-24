@@ -14,6 +14,12 @@ class HrHolidays(models.Model):
         comodel_name='sped.esocial.afastamento.temporario',
         ondelete='cascade',
     )
+    esocial_evento_afastamento_id = fields.Many2one(
+        string='Evento e-Social',
+        comodel_name='sped.motivo_afastamento',
+        related='holiday_status_id.esocial_evento_afastamento_id',
+        store=True,
+    )
     situacao_esocial = fields.Selection(
         selection=[
             ('1', 'Precisa Transmitir'),

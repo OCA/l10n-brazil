@@ -111,6 +111,10 @@ class SpedEsocial(models.Model):
         string='Erros',
         compute='compute_erro_ids',
     )
+    rescisao_ids = fields.Many2many(
+        string='Rescisões',
+        comodel_name='hr.payslip',
+    )
 
     @api.depends('registro_ids.situacao')
     def compute_erro_ids(self):
@@ -246,7 +250,13 @@ class SpedEsocial(models.Model):
                         if registro.situacao in ['1', '3']:
                             registros.append(registro.id)
 
-            # Alterações Contrato (S-2299)
+            # Afastamentos (S-2230)
+            for afastamento in esocial.afastamento_ids:
+                # Identifica o registro a ser transmitido
+                if afastamento.sped_afastamento.situacao in ['1', '3']:
+                    registros.append(afastamento.sped_afastamento.id)
+
+            # Desligamentos com Vínculo (S-2299)
             for desligamento in esocial.desligamento_ids:
                 # Identifica o registro a ser transmitido
                 if desligamento.sped_s2299_registro_inclusao.situacao in ['1', '3']:
@@ -256,7 +266,7 @@ class SpedEsocial(models.Model):
                         if registro.situacao in ['1', '3']:
                             registros.append(registro.id)
 
-            # Admissões com Vínculo (S-2300)
+            # Admissões sem Vínculo (S-2300)
             for admissao in esocial.admissao_sem_vinculo_ids:
                 # Identifica o registro a ser transmitido
                 if admissao.registro_inclusao.situacao in ['1', '3']:
@@ -266,19 +276,8 @@ class SpedEsocial(models.Model):
                         if registro.situacao in ['1', '3']:
                             registros.append(registro.id)
 
-            # Admissões com Vínculo (S-2306)
-            for admissao in esocial.alteracao_sem_vinculo_ids:
-                # Identifica o registro a ser transmitido
-                if admissao.sped_alteracao.situacao in ['1', '3']:
-                    registros.append(admissao.sped_alteracao.id)
-
-            for desligamento in esocial.desligamento_ids:
-                # Identifica o registro a ser transmitido
-                if desligamento.sped_s2299_registro_inclusao.situacao in ['1', '3']:
-                    registros.append(desligamento.sped_s2299_registro_inclusao.id)
-
             # TODO Incluir os demais registros
-            # S-2230
+            # S-2306
             # S-2399
 
             # Fechamento (S-1200)
@@ -1320,7 +1319,72 @@ class SpedEsocial(models.Model):
 
             self.alteracao_contrato_ids = [(6, 0, alteracao_contrato_ids.ids)]
 
-    # TODO Fazer registros S-2230
+    # Controle de registros S-2230
+    afastamento_ids = fields.Many2many(
+        string='Afastamentos Temporários',
+        comodel_name='sped.esocial.afastamento.temporario',
+        relation='periodo_afastamento',
+    )
+    holiday_ids = fields.Many2many(
+        string='Afastamentos Temporários',
+        comodel_name='hr.holidays',
+        # relation='periodo_holiday',
+    )
+    necessita_s2230 = fields.Boolean(
+        string='Necessita S2230',
+        compute='compute_necessita_s2230',
+    )
+    msg_afastamento = fields.Char(
+        string='Afastamentos',
+        compute='compute_necessita_s2230',
+    )
+
+    # Calcula se é necessário criar algum registro S-2230
+    @api.depends('afastamento_ids')
+    def compute_necessita_s2230(self):
+        for esocial in self:
+            necessita_s2230 = False
+            msg_afastamento = False
+            # Se os holidays e os afastamentos não forem exatamente iguais, precisa corrigir
+            if len(esocial.holiday_ids) != len(esocial.afastamento_ids):
+                necessita_s2230 = True
+            # Se algum afastamento não foi enviado, precisa corrigir
+            for afastamento in esocial.afastamento_ids:
+                if afastamento.situacao_esocial_afastamento not in ['4']:
+                    necessita_s2230 = True
+            if not msg_afastamento:
+                msg_afastamento = 'OK'
+            if esocial.holiday_ids:
+                txt = 'Afastamento não enviado'
+                if len(esocial.holiday_ids) > 1:
+                    txt = 'Afastamentos não enviados'
+                msg_afastamento = '{} {} - '.format(len(esocial.holiday_ids), txt) + \
+                    msg_afastamento
+            esocial.necessita_s2230 = necessita_s2230
+            esocial.msg_afastamento = msg_afastamento
+
+    @api.multi
+    def importar_afastamento(self):
+        self.ensure_one()
+
+        if self.empregador_ids:
+
+            # Busca todos os afastamentos do período que precisam ser enviados
+            data_inicio = self.periodo_id.date_start
+            data_fim = self.periodo_id.date_stop
+            holiday_ids = self.env['hr.holidays'].search([
+                ('state', 'in', ['validate']),
+                ('data_inicio', '>=', data_inicio),
+                ('data_inicio', '<=', data_fim),
+                ('esocial_evento_afastamento_id', '!=', False),
+            ])
+            afastamentos = []
+            for holiday in holiday_ids:
+                if holiday.sped_esocial_afastamento_id:
+                    afastamentos.append(holiday.sped_esocial_afastamento_id.id)
+
+            self.holiday_ids = [(6, 0, holiday_ids.ids)]
+            self.afastamento_ids = [(6, 0, afastamentos)]
 
     # Controle de registros S-2299
     desligamento_ids = fields.Many2many(
@@ -1636,10 +1700,10 @@ class SpedEsocial(models.Model):
     def executa_analise(self):
         for esocial in self:
 
-            # Verifica se tem holerites não fechados neste período
-            holerites = self.env['hr.payslip'].search([
-
-            ])
+            # # Verifica se tem holerites não fechados neste período
+            # holerites = self.env['hr.payslip'].search([
+            #
+            # ])
 
             # Tabelas
             esocial.importar_empregador()               # S-1000
@@ -1652,8 +1716,8 @@ class SpedEsocial(models.Model):
             # Não Periódicos
             esocial.importar_admissao()                 # S-2200
             esocial.importar_alteracao_trabalhador()    # S-2205
-            # TODO S-2230
-            esocial.importar_desligamento()
+            esocial.importar_afastamento()              # S-2230
+            esocial.importar_desligamento()             # S-2299
             esocial.importar_admissao_sem_vinculo()     # S-2300
             esocial.importar_alteracao_sem_vinculo()    # S-2306
             # TODO S-2399
@@ -1665,6 +1729,17 @@ class SpedEsocial(models.Model):
 
             # Calcula os registros para transmitir
             esocial.compute_registro_ids()
+
+            # Relaciona as Rescisões do Período para facilmente visualizá-las
+            mes = 6     # TODO Calcular o mês do periodo
+            ano = 2018  # TODO Calcular o ano do periodo
+            rescisoes = self.env['hr.payslip'].search([
+                ('tipo_de_folha', '=', 'rescisao'),
+                ('mes_do_ano', '=', mes),
+                ('ano', '=', ano),
+                ('state', 'in', ['wait', 'done']),
+            ])
+            esocial.rescisao_ids = [(6, 0, rescisoes.ids)]
 
     @api.model
     def create(self, vals):

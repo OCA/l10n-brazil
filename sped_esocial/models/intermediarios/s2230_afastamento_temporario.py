@@ -80,7 +80,7 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
     @api.depends('sped_afastamento_encerrado.situacao')
     def _compute_situacao_esocial_encerramento(self):
         for afastamento in self:
-            situacao_esocial = '1'
+            situacao_esocial = False
 
             if afastamento.sped_afastamento_encerrado:
                 situacao_esocial = \
