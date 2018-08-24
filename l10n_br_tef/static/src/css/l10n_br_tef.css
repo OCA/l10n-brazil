@@ -16,3 +16,12 @@
     width: 400px;
     -webkit-border-radius: 15px;
 }
+
+.modal-body input {
+    width: 40%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 6px;
+}

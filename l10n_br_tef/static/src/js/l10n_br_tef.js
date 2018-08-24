@@ -35,6 +35,7 @@ openerp.l10n_br_tef = function(instance){
     var payment_name;
 
     var dev_mode = false;
+    var ls_global_operation = '';
 
     var card_number = "5442556260904012";
     var card_expiring_date = "03/19";
@@ -49,6 +50,37 @@ openerp.l10n_br_tef = function(instance){
         start: function(){
             this.$el.click(function(){
                 connect();
+            });
+
+            var cancel_btn= $('.btn-cancelar-pagamento');
+            cancel_btn.hide();
+
+            if(this.pos.config.iface_tef){
+                cancel_btn.show();
+                cancel_btn.unbind('click').on("click", function(event){
+                    self.pos_widget.payment_screen.cancel_payment()
+                });
+            }
+
+        },
+    });
+
+    module.CancelamentoCompraPopup = module.PopUpWidget.extend({
+       template: 'CancelamentoCompraPopup',
+
+        show: function(options){
+           var self = this;
+           this._super();
+
+           $('.CancelamentoCompraPopup_valor').on('keydown', function (e) {
+                if(e.which == 2){
+                    self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
+                }
+            });
+
+            this.el.querySelector('.btn-report_data').addEventListener('click',this.search_handler);
+            $('.btn-report_data', this.el).click(function(e){
+                self.pos_widget.product_screen.proceed_cancellation();
             });
         },
     });
@@ -112,6 +144,10 @@ openerp.l10n_br_tef = function(instance){
             this.popupStatusPagamento.hide();
             this.screen_selector.popup_set['popupStatusPagamento'] = this.popupStatusPagamento;
 
+            this.CancelamentoCompraPopup = new module.CancelamentoCompraPopup(this);
+            this.CancelamentoCompraPopup.appendTo(this.$('.screens'));
+            this.CancelamentoCompraPopup.hide();
+            this.screen_selector.popup_set['CancelamentoCompraPopup'] = this.CancelamentoCompraPopup;
 
          },
     });
@@ -331,9 +367,10 @@ openerp.l10n_br_tef = function(instance){
         return(in_sequential);
     }
 
-    function start_operation()
+    function start_operation(operation)
     {
         // abort();
+        ls_global_operation = operation;
         start();
     }
 
@@ -420,6 +457,10 @@ openerp.l10n_br_tef = function(instance){
                         if(self.check_completed_consult()) return;
                         if(self.check_completed_execution()) return;
                         if(self.check_completed_start()) return;
+
+                        // Cancellation Operations
+                        if(self.check_user_access()) return;
+                        if(self.proceed_cancellation()) return;
 
                         // Credit without PinPad
                         // Only works if dev_mode is true
@@ -646,7 +687,12 @@ openerp.l10n_br_tef = function(instance){
         {
 
             if((io_tags.servico == "consultar") && (io_tags.retorno == "0")) {
+
                 return true;
+            }
+            else if((io_tags.automacao_coleta_mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
+                this.redo_operation(io_tags.sequencial);
+                return false;
             } else {
                 return false;
             }
@@ -684,6 +730,27 @@ openerp.l10n_br_tef = function(instance){
                 return true;
             } else {
                 //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_user_access: function(){
+            if((io_tags.automacao_coleta_mensagem === "Usuario de acesso") && (io_tags.automacao_coleta_tipo === "X") &&
+                (io_tags.automacao_coleta_palavra_chave === "transacao_administracao_usuario")){
+
+                this.pos_widget.screen_selector.show_popup('CancelamentoCompraPopup', {});
+
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        proceed_cancellation: function(){
+            if(true){
+                return false;
+            }else{
                 return false;
             }
         },
@@ -772,8 +839,15 @@ openerp.l10n_br_tef = function(instance){
             var ls_execute_tags = 'servico="executar"retorno="1"sequencial="'+ sequential() +'"';
             var ls_payment_transaction = '';
             var ls_card_type = '';
-            var ls_product_type = (payment_type === "CD01")? "Debito-Getnetlac" : "Credito-Getnetlac";
-            var ls_transaction_type = "Cartao Vender";
+            var ls_product_type = '';
+            var ls_transaction_type = '';
+
+            if(ls_global_operation === "purchase"){
+                var ls_product_type = (payment_type === "CD01")? "Debito-Getnetlac" : "Credito-Getnetlac";
+                var ls_transaction_type = "Cartao Vender";
+            } else if (ls_global_operation === "cancellation"){
+                var ls_transaction_type = "Administracao Cancelar";
+            }
 
             ls_global_transaction_method = (ls_global_plots > 1)? "Parcelado": "A vista";
 
@@ -838,17 +912,31 @@ openerp.l10n_br_tef = function(instance){
             var self = this;
 
             if (["CD01", "CC01"].indexOf(line.cashregister.journal.code) > -1 &&
-                this.pos.config.iface_tef){
+                this.pos.config.iface_tef) {
                 ls_global_institution = this.pos.config.institution_selection;
 
                 payment_type = line.cashregister.journal.code;
                 payment_name = line.cashregister.journal.name;
                 el_node.querySelector('.payment-terminal-transaction-start')
                     .addEventListener('click', function(){
-                        start_operation();
+                        start_operation("purchase");
                     });
             }
             return el_node;
+        },
+    });
+
+    module.PaymentScreenWidget = module.PaymentScreenWidget.extend({
+        show: function(){
+            this._super();
+            var self = this;
+        },
+
+
+        cancel_payment: function()
+        {
+            start_operation("cancellation");
+            // this.pos_widget.product_screen.start_cancel_operation();
         },
     });
 };
