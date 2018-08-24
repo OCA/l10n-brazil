@@ -14,7 +14,6 @@ class L10nBrHrDepartment(models.Model):
         help='Gerente do departamento na falta do gerente oficial.',
     )
 
-    @api.multi
     def get_manager_titular(
             self, data_referencia=fields.Date.today(), employee_id=False):
         """
@@ -25,7 +24,6 @@ class L10nBrHrDepartment(models.Model):
         positivos chamar a mesma função do departamento pai.
         :return: Gestor do departamento em determinada data
         """
-        self.ensure_one()
         hr_substituicao_obj = self.env['hr.substituicao']
 
         substituicao_id = hr_substituicao_obj.search([
