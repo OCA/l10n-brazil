@@ -231,6 +231,7 @@ class SpedLote(models.Model, ):
         else:
 
             # Consulta
+            processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
             processo = processador.consultar_lote(self.protocolo)
 
         # Guarda os dados de retorno do Lote
@@ -636,7 +637,8 @@ class SpedLote(models.Model, ):
     @api.multi
     def mount_path(self):
         db_name = self.company_id._cr.dbname
-        cnpj = limpa_formatacao(self.company_id.cnpj_cpf)
+        # cnpj = limpa_formatacao(self.company_id.cnpj_cpf)
         filestore = config.filestore(db_name)
-        sped_path = '/'.join([filestore, 'PySPED', cnpj])
+        # sped_path = '/'.join([filestore, 'PySPED', cnpj])
+        sped_path = '/'.join([filestore, 'PySPED'])
         return sped_path

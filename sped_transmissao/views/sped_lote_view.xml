@@ -63,7 +63,7 @@
                                 </group>
                             </page>
                             <page name="envio_xml" string="XML Envio" attrs="{'invisible': [('envio_xml_id', '=', False)]}">
-                                <group colspan="4" col="2" string="XML">
+                                <group colspan="4" col="2">
                                     <field name="envio_xml_id" />
                                     <field name="envio_xml" widget="ace" />
                                 </group>
