@@ -648,6 +648,7 @@ class HrContract(models.Model):
     )
 
     @api.multi
+    @api.depends('company_id')
     def _compute_prefixo_matricula(self):
         for record in self:
             cnpj_empresa = record.company_id.cnpj_cpf
