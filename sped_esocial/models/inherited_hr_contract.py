@@ -297,8 +297,9 @@ class HrContract(models.Model):
     @api.multi
     def ativar_contrato_s2300(self):  # TODO
         self.ensure_one()
-        self._gerar_matricula()
-        self._formar_matricula_completa()
+        if self.tipo != 'autonomo':
+            self._gerar_matricula()
+            self._formar_matricula_completa()
 
         # Se o registro intermediário do S-2200 não existe, criá-lo
         if not self.sped_s2300_id:
