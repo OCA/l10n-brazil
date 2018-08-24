@@ -34,4 +34,50 @@
           </div>
         </div>
     </t>
+
+    <t t-name="CancelamentoCompraPopup">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm cancelamentoCompraPopup">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h class="message">Cancelamento de Compras</h>
+                </div>
+                <div class="modal-body">
+                    <p class="comment">Usuário de Acesso</p>
+                    <input name="CancelamentoCompraPopup_usuario" type="text" placeholder="lojista"/>
+
+                    <p class="comment">Senha de Acesso</p>
+                    <input name="CancelamentoCompraPopup_senha" type="password" placeholder="123465"/>
+
+                    <p class="comment">Data da Transação</p>
+                    <input class="CancelamentoCompraPopup_data" type="text" placeholder="DD/mm/yy" maxlength="8"/>
+
+                    <p class="comment">Número do Documento</p>
+                    <input name="CancelamentoCompraPopup_documento" type="number" placeholder="111"/>
+
+                    <p class="comment">Valor da Transação</p>
+                    <input name="CancelamentoCompraPopup_valor" type="number" placeholder="10.25"/>
+
+                </div>
+                <div class="footer">
+                    <div class="button btn-report_data">
+                        OK
+                    </div>
+                    <div class="button btn-cancel-operation">
+                        CANCELAR
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-extend="PosOrderListButtonWidget">
+        <t t-jquery=".paypad-button" t-operation="before">
+           <button class="paypad-button btn-cancelar-pagamento">
+                Cancelar Compras
+           </button>
+        </t>
+    </t>
+
 </templates>
