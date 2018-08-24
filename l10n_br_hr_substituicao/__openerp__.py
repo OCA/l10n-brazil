@@ -24,4 +24,5 @@
         'views/hr_holidays.xml',
         'views/hr_department.xml',
     ],
+    'installable': True,
 }
