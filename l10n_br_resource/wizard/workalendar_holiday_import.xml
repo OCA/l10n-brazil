@@ -15,10 +15,8 @@
                     </div>
                     <group>
                         <group string="Interval">
-                            <group>
-                                <field name="interval_type" />
-                                <field name="interval_number" />
-                            </group>
+                            <field name="interval_type" />
+                            <field name="interval_number" />
                         </group>
                     </group>
                     <footer>
