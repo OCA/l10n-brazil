@@ -727,18 +727,16 @@ class L10nBrSefip(models.Model):
         # Calcular data de vencimento da DARF
         # data de vencimento setada na conf da empresa
         dia = str(self.company_id.darf_dia_vencimento)
-        mes = self.mes
 
         # ou se forem darfs especificas, cair no dia 05 de cada mes
         if codigo_receita in ['1781', '1684']:
             dia = '05'
-            mes = str(int(self.mes) + 1)
 
-        data = self.ano + '-' + mes + '-' + dia
+        data = self.ano + '-' + self.mes + '-' + dia
         data_vencimento = fields.Date.from_string(data) + timedelta(days=31)
 
         # Gerar FINANCEIRO da DARF
-        vals_darf =  {
+        vals_darf = {
             'date_document': fields.Date.today(),
             'partner_id': partner_id.id,
             'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
