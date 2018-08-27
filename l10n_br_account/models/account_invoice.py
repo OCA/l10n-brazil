@@ -2,8 +2,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api, _
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields, api, _
 
 OPERATION_TYPE = {
     'out_invoice': 'output',
@@ -22,83 +21,149 @@ JOURNAL_TYPE = {
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    _order = 'date_invoice DESC, internal_number DESC'
+    _order = 'date_invoice DESC, number DESC'
 
+    @api.multi
+    @api.depends('invoice_line_ids.price_subtotal',
+                 'tax_line_ids.amount', 'currency_id',
+                 'company_id', 'date_invoice')
+    def _compute_amount(self):
+        for record in self:
+            record.amount_untaxed = sum(
+                l.price_subtotal for l in record.invoice_line_ids)
+            record.amount_tax = sum(
+                t.amount for t in record.tax_line_ids if not
+                t.tax_id.tax_discount)
+            record.amount_total = record.amount_untaxed + record.amount_tax
+            amount_total_company_signed = record.amount_total
+            amount_untaxed_signed = record.amount_untaxed
+            if (record.currency_id and record.company_id and
+                    record.currency_id != record.company_id.currency_id):
+                currency_id = record.currency_id.with_context(
+                    date=record.date_invoice)
+                amount_total_company_signed = currency_id.compute(
+                    record.amount_total, record.company_id.currency_id)
+                amount_untaxed_signed = currency_id.compute(
+                    record.amount_untaxed, record.company_id.currency_id)
+            sign = record.type in ['in_refund', 'out_refund'] and -1 or 1
+            record.amount_total_company_signed = (
+                amount_total_company_signed * sign
+            )
+            record.amount_total_signed = record.amount_total * sign
+            record.amount_untaxed_signed = amount_untaxed_signed * sign
+
+    # Não migrar este módulo para api multi antes da mesma ser removida do core
     @api.one
-    @api.depends(
-        'move_id.line_id.reconcile_id.line_id',
-        'move_id.line_id.reconcile_partial_id.line_partial_ids',
-    )
+    @api.depends('move_id.line_ids.amount_residual')
+    def _compute_payments(self):
+
+        payment_lines = []
+        for line in self.move_id.line_ids.filtered(
+                lambda l: l.account_id.id == self.account_id.id and
+                self.journal_id.revenue_expense and
+                l.account_id.user_type_id.type in ('receivable', 'payable')):
+            payment_lines.extend(filter(None, [
+                rp.credit_move_id.id for rp in line.matched_credit_ids]))
+            payment_lines.extend(filter(None, [
+                rp.debit_move_id.id for rp in line.matched_debit_ids]))
+        self.payment_move_line_ids = self.env[
+            'account.move.line'].browse(list(set(payment_lines)))
+
+    @api.multi
+    @api.depends('move_id.line_ids')
     def _compute_receivables(self):
-        lines = self.env['account.move.line']
-        for line in self.move_id.line_id:
-            if line.account_id.id == self.account_id.id and \
-                line.account_id.type in ('receivable', 'payable') and \
-                    self.journal_id.revenue_expense:
-                lines |= line
-        self.move_line_receivable_id = (lines).sorted()
+        for record in self:
+            lines = self.env['account.move.line']
+            for line in record.move_id.line_ids:
+                if (line.account_id.id == record.account_id.id and
+                        line.account_id.internal_type in
+                        ('receivable', 'payable') and
+                        record.journal_id.revenue_expense):
+                    lines |= line
+            record.move_line_receivable_id = lines.sorted()
 
     state = fields.Selection(
         selection_add=[
             ('sefaz_export', 'Enviar para Receita'),
             ('sefaz_exception', u'Erro de autorização da Receita'),
             ('sefaz_cancelled', 'Cancelado no Sefaz'),
-            ('sefaz_denied', 'Denegada no Sefaz'),
-        ])
+            ('sefaz_denied', 'Denegada no Sefaz')])
+
     move_line_receivable_id = fields.Many2many(
-        'account.move.line', string='Receivables',
+        comodel_name='account.move.line',
+        string=u'Receivables',
         compute='_compute_receivables')
+
     document_serie_id = fields.Many2one(
-        'l10n_br_account.document.serie', string=u'Série',
-        domain="[('fiscal_document_id', '=', fiscal_document_id),\
-        ('company_id','=',company_id)]", readonly=True,
+        comodel_name='l10n_br_account.document.serie',
+        string=u'Série',
+        domain="[('fiscal_document_id', '=', fiscal_document_id),"
+               "('company_id', '=', company_id)]",
+        readonly=True,
         states={'draft': [('readonly', False)]})
+
     fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document', string='Documento', readonly=True,
+        comodel_name='l10n_br_account.fiscal.document',
+        string=u'Documento',
+        readonly=True,
         states={'draft': [('readonly', False)]})
+
     fiscal_document_electronic = fields.Boolean(
-        related='fiscal_document_id.electronic', type='boolean', readonly=True,
-        store=True, string='Electronic')
+        related='fiscal_document_id.electronic',
+        store=True,
+        readonly=True,
+        string='Electronic')
+
     fiscal_document_code = fields.Char(
         related='fiscal_document_id.code',
-        readonly=True,
         store=True,
+        readonly=True,
         string='Document Code')
+
     fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-        readonly=True, states={'draft': [('readonly', False)]})
-    fiscal_position = fields.Many2one(
-        'account.fiscal.position', 'Fiscal Position', readonly=True,
+        comodel_name='l10n_br_account.fiscal.category',
+        string=u'Categoria Fiscal',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+
+    fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string=u'Fiscal Position',
+        readonly=True,
         states={'draft': [('readonly', False)]},
-    )
+        oldname='fiscal_position')
+
     account_document_event_ids = fields.One2many(
-        'l10n_br_account.document_event', 'document_event_ids',
-        u'Eventos')
-    fiscal_comment = fields.Text(u'Observação Fiscal')
+        comodel_name='l10n_br_account.document_event',
+        inverse_name='document_event_ids',
+        string=u'Eventos')
+
+    fiscal_comment = fields.Text(
+        string=u'Observação Fiscal')
+
     cnpj_cpf = fields.Char(
         string=u'CNPJ/CPF',
-        related='partner_id.cnpj_cpf',
-    )
+        related='partner_id.cnpj_cpf')
+
     legal_name = fields.Char(
         string=u'Razão Social',
-        related='partner_id.legal_name',
-    )
+        related='partner_id.legal_name')
+
     ie = fields.Char(
         string=u'Inscrição Estadual',
-        related='partner_id.inscr_est',
-    )
+        related='partner_id.inscr_est')
+
     revenue_expense = fields.Boolean(
         related='journal_id.revenue_expense',
         readonly=True,
         store=True,
-        string='Gera Financeiro'
-    )
+        string=u'Gera Financeiro')
 
     @api.multi
     def name_get(self):
         lista = []
         for obj in self:
-            name = obj.internal_number if obj.internal_number else ''
+            name = obj.number or ''
             lista.append((obj.id, name))
         return lista
 
@@ -119,20 +184,33 @@ class AccountInvoice(models.Model):
             :return: the (possibly updated) final move_lines to create for this
             invoice
         """
-        move_lines = super(
-            AccountInvoice, self).finalize_invoice_move_lines(move_lines)
+        move_lines = super(AccountInvoice, self).\
+            finalize_invoice_move_lines(move_lines)
+
         count = 1
         total = len([x for x in move_lines
                      if x[2]['account_id'] == self.account_id.id])
-        number = self.name or self.number
-        result = []
-        for move_line in move_lines:
-            if move_line[2]['debit'] or move_line[2]['credit']:
-                if move_line[2]['account_id'] == self.account_id.id:
-                    move_line[2]['name'] = '%s/%s-%s' % \
-                        (number, count, total)
-                    count += 1
-                result.append(move_line)
+        number = self.name or self.number or self.origin or False
+        if number:
+            result = []
+            for move_line in move_lines:
+                if move_line[2]['debit'] or move_line[2]['credit']:
+                    if move_line[2]['account_id'] == self.account_id.id:
+                        move_line[2]['name'] = '%s/%s-%s' % \
+                            (number, count, total)
+                        count += 1
+                    result.append(move_line)
+        else:
+            result = move_lines
+        return result
+
+    @api.model
+    def invoice_line_move_line_get(self):
+        result = super(AccountInvoice, self).invoice_line_move_line_get()
+        i = 0
+        for l in self.invoice_line_ids:
+            result[i]['price'] = l.price_subtotal - l.amount_tax_discount
+            i += 1
         return result
 
     @api.multi
@@ -152,49 +230,3 @@ class AccountInvoice(models.Model):
             'nodestroy': True,
             'res_id': self.id
         }
-
-
-class AccountInvoiceLine(models.Model):
-    _inherit = 'account.invoice.line'
-
-    @api.one
-    @api.depends('price_unit', 'discount', 'invoice_line_tax_id',
-                 'quantity', 'product_id', 'invoice_id.partner_id',
-                 'invoice_id.currency_id')
-    def _compute_price(self):
-        price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
-        taxes = self.invoice_line_tax_id.compute_all(
-            price, self.quantity, product=self.product_id,
-            partner=self.invoice_id.partner_id,
-            fiscal_position=self.fiscal_position)
-        self.price_subtotal = taxes['total']
-        self.price_tax_discount = taxes['total'] - taxes['total_tax_discount']
-        if self.invoice_id:
-            self.price_subtotal = self.invoice_id.currency_id.round(
-                self.price_subtotal)
-            self.price_tax_discount = self.invoice_id.currency_id.round(
-                self.price_tax_discount)
-
-    invoice_line_tax_id = fields.Many2many(
-        'account.tax', 'account_invoice_line_tax', 'invoice_line_id',
-        'tax_id', string='Taxes', domain=[('parent_id', '=', False)])
-    fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal')
-    fiscal_position = fields.Many2one(
-        'account.fiscal.position', u'Posição Fiscal',
-    )
-    price_tax_discount = fields.Float(
-        string='Price Tax discount', store=True,
-        digits=dp.get_precision('Account'),
-        readonly=True, compute='_compute_price')
-
-    @api.model
-    def move_line_get_item(self, line):
-        """
-            Overrrite core to fix invoice total account.move
-        :param line:
-        :return:
-        """
-        res = super(AccountInvoiceLine, self).move_line_get_item(line)
-        res['price'] = line.price_tax_discount
-        return res
