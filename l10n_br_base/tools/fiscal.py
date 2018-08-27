@@ -517,3 +517,14 @@ def validate_pis_pasep(pis_pasep):
     if rest == digits[10]:
         return True
     return False
+
+
+def format_cpf_cnpj(cnpj_cpf, country_code, is_company):
+    if cnpj_cpf and country_code.upper() == 'BR':
+        val = re.sub('[^0-9]', '', cnpj_cpf)
+        if not is_company and len(val) == 11:
+            return "%s.%s.%s-%s" % (
+                val[0:3], val[3:6], val[6:9], val[9:11])
+        elif is_company and len(val) == 14:
+            return "%s.%s.%s/%s-%s" % (
+                val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
