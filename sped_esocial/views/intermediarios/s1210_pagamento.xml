@@ -24,9 +24,23 @@
                             <field name="periodo_id" colspan="4" readonly="1"/>
                         </group>
                         <notebook>
-                            <page name="pagamentos" string="Pagamentos">
+                            <page name="pagamentos" string="Pagamentos" attrs="{'invisible': [('payslip_ids', '=', False)]}">
                                 <group colspan="4" col="1">
                                     <field name="payslip_ids" nolabel="1" readonly="1">
+                                        <tree>
+                                            <field name="number" />
+                                            <field name="tipo_de_folha" />
+                                            <field name="contract_id" />
+                                            <field name="date_from" />
+                                            <field name="date_to" />
+                                            <field name="state" />
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="rps" string="RPS" attrs="{'invisible': [('payslip_autonomo_ids', '=', False)]}">
+                                <group colspan="4" col="1">
+                                    <field name="payslip_autonomo_ids" nolabel="1" readonly="1">
                                         <tree>
                                             <field name="number" />
                                             <field name="tipo_de_folha" />
