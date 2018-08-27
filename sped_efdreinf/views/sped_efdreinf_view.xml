@@ -8,6 +8,18 @@
             <field name="arch" type="xml">
                 <form string="EFD/Reinf">
                     <header>
+                        <button name="executa_analise" type="object" string="Analisar"
+                                attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
+                        />
+                        <button name="transmitir_periodo" type="object" string="Transmitir para o EFD/Reinf"
+                                attrs="{'invisible': ['|', ('pode_transmitir', '=', False), ('situacao', '=', '3')]}"
+                                class="oe_highlight"
+                                confirm="Confirma a transmissão dos registros deste período para o EFD/Reinf?"
+                        />
+                        <button name="importar_fechamentos" type="object" string="Fechar Período"
+                                attrs="{'invisible': ['|', ('id', '=', False), ('pode_fechar', '=', False)]}"
+                                class="oe_highlight"
+                        />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
@@ -16,6 +28,10 @@
                         />
                     </header>
                     <field name="nome" invisible="1" />
+                    <field name="tem_registros" invisible="1" />
+                    <field name="tem_erros" invisible="1" />
+                    <field name="pode_fechar" invisible="1" />
+                    <field name="pode_transmitir" invisible="1" />
                     <field name="pode_sem_movto" invisible="1" />
                     <field name="pode_fechar" invisible="1" />
                     <field name="date_start" invisible="1" />
@@ -41,17 +57,23 @@
                                 />
                                 <field name="company_id_readonly" string="Empresa" attrs="{'invisible': [('situacao', '=', '1')]}" />
                             </group>
+                            <group colspan="2" col="2" string="Contadores">
+                                <field name="registros" />
+                                <field name="em_transmissao" />
+                                <field name="transmitidos" />
+                                <field name="erros" />
+                            </group>
                         </group>
                         <notebook>
                             <page name="r2010" string="R-2010">
                                 <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_movimento" type="object" string="Calcular" />
-                                            <button name="criar_r2010" type="object" string="Criar R-2010(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />
-                                        </div>
-                                    </group>
+                                    <!--<group colspan="2" col="1">-->
+                                        <!--<div class="oe_title">-->
+                                            <!--<button name="importar_movimento" type="object" string="Calcular" />-->
+                                            <!--<button name="criar_r2010" type="object" string="Criar R-2010(s)" class="oe_highlight"-->
+                                                    <!--attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />-->
+                                        <!--</div>-->
+                                    <!--</group>-->
                                     <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4">
                                         <tree>
                                             <field name="nome" invisible="1" />
@@ -174,9 +196,9 @@
                                         />
                                     </group>
                                     <group colspan="2" col="2">
-                                        <button name="criar_r2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"
-                                                attrs="{'invisible': ['|', ('sped_r2099', '=', True), ('pode_fechar', '=', False)]}"
-                                        />
+                                        <!--<button name="criar_r2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"-->
+                                                <!--attrs="{'invisible': ['|', ('sped_r2099', '=', True), ('pode_fechar', '=', False)]}"-->
+                                        <!--/>-->
                                         <field name="sped_r2099" readonly="1"/>
                                         <field name="sped_r2099_registro" readonly="1"/>
                                         <field name="situacao_r2099" />

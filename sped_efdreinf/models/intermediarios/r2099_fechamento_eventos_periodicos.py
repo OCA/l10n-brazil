@@ -124,6 +124,10 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
         # Calcula o Período de Apuração no formato YYYY-MM
         periodo = self.periodo_id.code[3:7] + '-' + self.periodo_id.code[0:2]
 
@@ -172,8 +176,11 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
                 self.reinf_competencia_id.comp_sem_movto_id.code[0:2]
             R2099.evento.infoFech.compSemMovto.valor = comp_sem_movto
 
-        return R2099
+        return R2099, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+        # Fecha o Período EFD/Reinf
+        self.reinf_competencia_id.situacao = '3'  # Fechado

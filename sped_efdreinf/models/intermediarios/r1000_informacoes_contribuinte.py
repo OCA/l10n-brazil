@@ -209,6 +209,10 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
         # Cria o registro
         R1000 = pysped.efdreinf.leiaute.R1000_1()
 
@@ -253,7 +257,7 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
         if self.company_id.cttemail:
             R1000.evento.infoContri.infoCadastro.contato.email.valor = self.company_id.cttemail
 
-        return R1000
+        return R1000, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):

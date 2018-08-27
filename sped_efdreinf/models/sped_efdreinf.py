@@ -62,6 +62,124 @@ class SpedEfdReinf(models.Model):
         compute='_compute_situacao',
         store=True,
     )
+    tem_registros = fields.Boolean(
+        string='Tem Registros?',
+        compute='compute_tem_registros',
+        store=True,
+    )
+    registro_ids = fields.Many2many(
+        string='Registros para Transmitir',
+        comodel_name='sped.registro',
+        relation='sped_efdreinf_sped_registro_todos_rel',
+        column1='sped_efdreinf_id',
+        column2='sped_registro_id',
+    )
+    tem_erros = fields.Boolean(
+        string='Tem Erros?',
+        compute='compute_erro_ids',
+        store=True,
+    )
+    erro_ids = fields.Many2many(
+        string='Registros com Erros',
+        comodel_name='sped.registro',
+        relation='sped_efdreinf_sped_registro_erros_rel',
+        column1='sped_efdreinf_id',
+        column2='sped_registro_id',
+        compute='compute_erro_ids',
+        store=True,
+    )
+    pode_fechar = fields.Boolean(
+        string='Pode Fechar?',
+        compute='compute_erro_ids',
+    )
+    pode_transmitir = fields.Boolean(
+        string='Pode Transmitir?',
+        compute='compute_erro_ids',
+    )
+    registros = fields.Integer(
+        string='Registros neste Período',
+        compute='compute_erro_ids',
+    )
+    transmitidos = fields.Integer(
+        string='Sucesso',
+        compute='compute_erro_ids',
+    )
+    em_transmissao = fields.Integer(
+        string='Em Transmissão',
+        compute='compute_erro_ids',
+    )
+    erros = fields.Integer(
+        string='Erros',
+        compute='compute_erro_ids',
+    )
+
+    @api.depends('registro_ids.situacao')
+    def compute_erro_ids(self):
+        for periodo in self:
+            registros = []
+            transmitidos = 0
+            em_transmissao = 0
+            pode_fechar = False
+            pode_transmitir = False
+            for registro in periodo.registro_ids:
+                if registro.situacao == '3':
+                    registros.append(registro.id)
+                elif registro.situacao == '4':
+                    transmitidos += 1
+                elif registro.situacao in ['1', '2']:
+                    for lote in registro.lote_ids:
+                        if lote.situacao in ['1', '2']:
+                            em_transmissao += 1
+            periodo.erro_ids = [(6, 0, registros)]
+            periodo.tem_erros = True if registros else False
+            periodo.registros = len(periodo.registro_ids)
+            periodo.transmitidos = transmitidos
+            periodo.em_transmissao = em_transmissao
+            periodo.erros = len(periodo.erro_ids)
+            if periodo.registros == (periodo.transmitidos + periodo.em_transmissao):
+                if not periodo.sped_r2099_registro and periodo.registros == periodo.transmitidos:
+                    pode_fechar = True
+            else:
+                pode_transmitir = True
+            periodo.pode_fechar = pode_fechar
+            periodo.pode_transmitir = pode_transmitir
+
+    @api.depends('registro_ids')
+    def compute_tem_registros(self):
+        for periodo in self:
+            periodo.tem_registros = True if periodo.registro_ids else False
+
+    @api.multi
+    def compute_registro_ids(self):
+        for efdreinf in self:
+
+            # Identifica a lista de registros relacionados com este período
+            # Ela deve incluir todos os registros de tabelas com pendência neste momento,
+            # todos os registros não-periódicos pendentes transmissão
+            # e o registros periódicos relacionados
+            registros = []
+
+            # Estabelecimentos (R-2010)
+            for estabelecimento in efdreinf.estabelecimento_ids:
+                # Identifica o registro a ser transmitido
+                if estabelecimento.sped_r2010_registro.situacao in ['1', '3']:
+                    registros.append(estabelecimento.sped_r2010_registro.id)
+                else:
+                    for registro in estabelecimento.sped_r2010_retificacao:
+                        if registro.situacao in ['1', '3']:
+                            registros.append(registro.id)
+
+            # Fechamento (R-2099)
+            if efdreinf.sped_r2099_registro.situacao in ['1', '3']:
+                registros.append(efdreinf.sped_r2099_registro.sped_inclusao.id)
+
+            # Popula a lista de registros
+            regs = efdreinf.registro_ids.ids
+            for registro in registros:
+                if registro not in regs:
+                    regs.append(registro)
+            efdreinf.registro_ids = [(6, 0, regs)]
+            efdreinf.tem_registros = True if efdreinf.registro_ids else False
 
     # R-2099 - Fechamento
     evt_serv_tm = fields.Boolean(
@@ -444,3 +562,47 @@ class SpedEfdReinf(models.Model):
             # Processa cada tipo de operação do R-2099
             # O que realmente precisará ser feito é tratado no método do registro intermediário
             self.sped_r2099_registro.criar_registro()
+
+    @api.multi
+    def executa_analise(self):
+        for efdreinf in self:
+
+            # Periódicos
+            efdreinf.importar_movimento()               # R-2010
+            efdreinf.criar_r2010()
+
+            # Calcula os registros para transmitir
+            efdreinf.compute_registro_ids()
+
+    @api.model
+    def create(self, vals):
+
+        # Cria o registro
+        res = super(SpedEfdReinf, self).create(vals)
+
+        # Executa os métodos de análise de tabelas
+        res.executa_analise()
+
+        return res
+
+    @api.multi
+    def transmitir_periodo(self):
+        self.ensure_one()
+
+        # Cria os lotes de transmissão
+        wizard = self.env['sped.criacao.wizard'].create({})
+        lotes = wizard.popular(self.registro_ids)
+        wizard.lote_ids = [(6, 0, lotes)]
+        wizard.criar_lotes()
+        self.env['sped.lote'].transmitir_lotes_preparados()
+
+    @api.multi
+    def importar_fechamentos(self):
+        self.ensure_one()
+
+        # Verifica se o registro R-2099 já existe, cria ou atualiza
+        if not self.sped_r2099_registro:
+            self.criar_r2099()
+
+        # Recalcula os registros
+        self.compute_registro_ids()

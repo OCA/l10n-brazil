@@ -111,6 +111,10 @@ class SpedEfdReinfEstab(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
+
+        # Validação
+        validacao = ""
+
         # Calcula o Período de Apuração no formato YYYY-MM
         periodo = self.efdreinf_id.periodo_id.code[3:7] + '-' + self.efdreinf_id.periodo_id.code[0:2]
 
@@ -204,7 +208,7 @@ class SpedEfdReinfEstab(models.Model, SpedRegistroIntermediario):
             R2010.evento.infoServTom.ideEstabObra.idePrestServ.nfs.append(
                 R2010_nfs)
 
-        return R2010
+        return R2010, validacao
 
     @api.multi
     def retorno_sucesso(self, evento):
