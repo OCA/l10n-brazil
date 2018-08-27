@@ -147,18 +147,11 @@ class ResPartner(models.Model):
 
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
-        cnpj_cpf = None
-        country_code = self.country_id.code or ''
-        if self.cnpj_cpf and country_code.upper() == 'BR':
-            val = re.sub('[^0-9]', '', self.cnpj_cpf)
-            if self.is_company and len(val) == 14:
-                cnpj_cpf = "%s.%s.%s/%s-%s" % (
-                    val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-            elif not self.is_company and len(val) == 11:
-                cnpj_cpf = "%s.%s.%s-%s" % (
-                    val[0:3], val[3:6], val[6:9], val[9:11])
-            if cnpj_cpf:
-                self.cnpj_cpf = cnpj_cpf
+        country = self.country_id.code or ''
+        cpf_cnpj = fiscal.format_cpf_cnpj(self.cnpj_cpf, country,
+                                          self.is_company)
+        if cpf_cnpj:
+            self.cnpj_cpf = cpf_cnpj
 
     @api.onchange('l10n_br_city_id')
     def _onchange_l10n_br_city_id(self):
