@@ -148,7 +148,8 @@ class ResPartner(models.Model):
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
         country = self.country_id.code or ''
-        cpf_cnpj = fiscal.format_cpf_cnpj(self.cnpj_cpf, country, self.is_company)
+        cpf_cnpj = fiscal.format_cpf_cnpj(self.cnpj_cpf, country,
+                                          self.is_company)
         if cpf_cnpj:
             self.cnpj_cpf = cpf_cnpj
 
