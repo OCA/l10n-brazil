@@ -518,7 +518,7 @@ def validate_pis_pasep(pis_pasep):
         return True
     return False
 
-def formata_cpf_cnpj(cnpj_cpf, country_code, is_company):
+def format_cpf_cnpj(cnpj_cpf, country_code, is_company):
     if cnpj_cpf and country_code.upper() == 'BR':
         val = re.sub('[^0-9]', '', cnpj_cpf)
         if not is_company and len(val) == 11:
