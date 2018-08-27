@@ -334,18 +334,12 @@ class SpedRegistro(models.Model):
         if self.ambiente == '1':
             raise ValidationError("Ambiente de Produção não suporta Limpeza de Banco de Dados !")
 
-        if self.registro == 'S-1000':
-            self.origem_intermediario.limpar_db = True
-            self.transmitir_lote()
-            self.recibo = False
-            self.protocolo = False
-            self.origem_intermediario.limpar_db = False
-        elif self.registro == 'R-1000':
-            self.origem_intermediario.limpar_db = True
-            self.transmitir_lote()
-            self.recibo = False
-            self.protocolo = False
-            self.origem_intermediario.limpar_db = False
+        self.origem_intermediario.limpar_db = True
+        self.transmitir_lote()
+        self.recibo = False
+        self.protocolo = False
+        self.situacao = '1'
+        self.origem_intermediario.limpar_db = False
 
     @api.multi
     def consulta_lote(self):

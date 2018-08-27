@@ -17,9 +17,9 @@
                         />
                         <button name="retificar" type="object" string="Retificar"
                                 attrs="{'invisible': ['|', '|', ('pode_retificar', '=', False), ('situacao', 'not in', ['4']), ('operacao', '=', 'R')]}" />
-                        <button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"
-                                attrs="{'invisible': ['|', '|', ('registro', '!=', 'R-2099'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"
-                        />
+                        <!--<button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"-->
+                                <!--attrs="{'invisible': ['|', '|', ('registro', '!=', 'R-2099'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"-->
+                        <!--/>-->
                         <button name="consulta_esocial" type="object" string="Consultar e-Social" class="oe_highlight"
                                 attrs="{'invisible': ['|', '|', ('tipo', '!=', 'esocial'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"
                         />
@@ -53,9 +53,10 @@
                                 <field name="origem_intermediario" readonly="1" invisible="1" />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="data_hora_origem" readonly="1"/>
-                                <field name="data_hora_transmissao" readonly="1"/>
-                                <field name="data_hora_retorno" readonly="1"/>
+                                <field name="id_evento" attrs="{'readonly': True, 'invisible': [('id_evento', '=', False)]}" />
+                                <field name="data_hora_origem" attrs="{'readonly': True, 'invisible': [('data_hora_origem', '=', False)]}" />
+                                <field name="data_hora_transmissao" attrs="{'readonly': True, 'invisible': [('data_hora_transmissao', '=', False)]}" />
+                                <field name="data_hora_retorno" attrs="{'readonly': True, 'invisible': [('data_hora_retorno', '=', False)]}" />
                             </group>
                             <group colspan="4" col="4">
                                 <separator string="Validação de Conteúdo de Origem" attrs="{'invisible': [('validacao', '=', False)]}" colspan="4" />
