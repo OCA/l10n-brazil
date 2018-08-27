@@ -64,7 +64,6 @@ class HrPayslipAutonomo(models.Model):
         string= 'Contrato',
         ondelete='cascade',
         index=True,
-        domain="[('tipo','=','autonomo')]",
     )
 
     employee_id = fields.Many2one(
@@ -105,8 +104,6 @@ class HrPayslipAutonomo(models.Model):
         #readonly=True,
         #states={'draft': [('readonly', False)]},
         required=True,
-        #compute='_compute_set_dates',
-        #store=True,
     )
 
     date_to = fields.Date(
@@ -115,7 +112,6 @@ class HrPayslipAutonomo(models.Model):
         #states={'draft': [('readonly', False)]},
         required=False,
         #compute='_compute_set_dates',
-        #store=True,
     )
 
     struct_id = fields.Many2one(
@@ -334,36 +330,23 @@ class HrPayslipAutonomo(models.Model):
     #  Métodos da payslip do autonomo
     #
     @api.multi
-    @api.onchange('mes_do_ano', 'ano', 'date_from', 'date_to')
-    def _onchange_set_dates(self):
+    @api.onchange('contract_id')
+    def _onchange_contract_id(self):
         for record in self:
-            if not record.mes_do_ano:
-                record.mes_do_ano = datetime.now().month
-                record.mes_do_ano2 = datetime.now().month
 
-            mes = record.mes_do_ano
-            if mes > 12:
-                mes = 12
+            primeiro_dia_do_mes = str(
+                datetime.strptime(str(record.mes_do_ano) + '-' +
+                                  str(record.ano), '%m-%Y').date())
+
+            record.date_from = \
+                max(primeiro_dia_do_mes, record.contract_id.date_start)
 
             ultimo_dia_do_mes = str(
                 self.env['resource.calendar'].get_ultimo_dia_mes(
-                    mes, record.ano))
+                    record.mes_do_ano, record.ano).date())
 
-            primeiro_dia_do_mes = str(
-                datetime.strptime(str(mes) + '-' +
-                                  str(record.ano), '%m-%Y'))
-
-            record.date_from = primeiro_dia_do_mes
-            record.date_to = ultimo_dia_do_mes
-
-            data_de_inicio = record.contract_id.date_start
-            data_final = record.contract_id.date_end
-
-            if data_de_inicio and primeiro_dia_do_mes < data_de_inicio:
-                record.date_from = record.contract_id.date_start
-
-            if data_final and ultimo_dia_do_mes > data_final:
-                record.date_to = record.contract_id.date_end
+            record.date_to = \
+                min(record.contract_id.date_end, ultimo_dia_do_mes)
 
     @api.multi
     def _compute_data_mes_ano(self):
@@ -377,6 +360,7 @@ class HrPayslipAutonomo(models.Model):
         Validar Holerite Calculado. Estado vai para Done
         """
         for record in self:
+            record.contract_id.date_end = record.date_to
             record.state = 'done'
             record.number = self.env['ir.sequence'].get('salary.slip')
 
