@@ -10,6 +10,8 @@ setuptools.setup(
     install_requires=[
         'odoo8-addon-l10n_br_account',
         'odoo8-addon-l10n_br_account_banking_payment',
+        'odoo8-addon-l10n_br_account_payment_boleto',
+        'odoo8-addon-l10n_br_account_payment_mode',
         'odoo8-addon-l10n_br_account_product',
         'odoo8-addon-l10n_br_account_product_service',
         'odoo8-addon-l10n_br_account_service',

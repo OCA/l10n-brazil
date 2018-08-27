@@ -80,6 +80,12 @@ class ResCompany(models.Model):
         'account.tax', string='Other Costs Sale Tax',
         domain=[('domain', '=', 'other_costs')])
     accountant_cnpj_cpf = fields.Char(size=18, string='CNPJ/CPF Contador')
+    date_used_maturity = fields.Selection(
+        [('invoice_creation_date', u'Data de Criação da NFe'),
+         ('invoice_out_date', u'Data de Saída da NFe')],
+        string=u'Data usada na criação de Vencimentos na NFe de Saída.',
+        default='invoice_creation_date'
+    )
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
