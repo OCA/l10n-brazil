@@ -11,6 +11,7 @@ from openerp import tools
 class ResourceCalendar(models.Model):
 
     _inherit = 'resource.calendar'
+    _parent_store = True
 
     def _compute_recursive_leaves(self, calendar):
         res = self.env['resource.calendar.leaves']
@@ -35,7 +36,6 @@ class ResourceCalendar(models.Model):
     child_ids = fields.One2many(
         'resource.calendar', 'parent_id',
         string='Child Calendar')
-    _parent_store = True
 
     parent_left = fields.Integer(index=True)
     parent_right = fields.Integer(index=True)
