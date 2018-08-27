@@ -71,6 +71,16 @@ class HrContract(models.Model):
         ]
     )
 
+    payslip_autonomo_ids_confirmados = fields.One2many(
+        comodel_name="hr.payslip.autonomo",
+        inverse_name="contract_id",
+        string="Holerites Confirmados",
+        domain=[
+            ('state', '!=', 'draft'),
+            ('is_simulacao', '=', False),
+        ]
+    )
+
     @api.multi
     @api.depends('payslip_ids_confirmados', 'payslip_ids_confirmados.state')
     def _is_editable(self):

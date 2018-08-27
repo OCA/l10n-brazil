@@ -30,7 +30,7 @@
                                        options="{'no_create': True, 'no_open': True,
                                                  'invisible': [('categoria','not in',['901','903','904','905'])],
                                                  'required': [('categoria','in',['901','903','904','905'])]}" />
-                                <field name="matricula" required="True"/>
+                                <field name="matricula" />
                                 <field name="tipo" invisible="True" />
                             </group>
                             <group>
@@ -43,19 +43,35 @@
                             <page string="Information" name="information">
                                 <group>
                                     <group name="valores" string="Estrutura Salarial">
-                                        <field name="struct_id"/>
                                         <field name="wage"/>
-                                        <field name="salary_unit" options="{'no_create': True, 'no_open': True}" required="1"/>
+                                        <field name="salary_unit" options="{'no_create': True, 'no_open': True}" required="True"/>
+                                        <field name="struct_id"  options="{'no_create': True, 'no_open': True}" required="True" />
                                     </group>
-                                    <group name="duration_group" string="Duration">
-                                        <label for="date_start" string="Duration"/>
+
+                                    <group name="duration_group" string="Período de Vigência">
                                         <div>
                                             <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
                                         </div>
                                     </group>
+
                                 </group>
                                 <separator string="Notes" class="oe_edit_only"/>
                                 <field name="notes"/>
+                            </page>
+                            <page string="Pagamentos" name="pagamentos">
+                                <field name="payslip_autonomo_ids_confirmados" colspan="4" nolabel="1"  readonly="1" >
+                                    <tree>
+                                        <field name="number" />
+                                        <field name="date_from" />
+                                        <field name="date_to" />
+                                        <field name="mes_do_ano" />
+                                        <field name="ano" />
+                                        <field name="data_pagamento_autonomo" />
+                                        <field name="total_folha" />
+                                        <field name="company_id" />
+                                        <field name="state" />
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
