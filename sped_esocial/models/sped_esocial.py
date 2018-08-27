@@ -1348,6 +1348,7 @@ class SpedEsocial(models.Model):
             # Se os holidays e os afastamentos não forem exatamente iguais, precisa corrigir
             if len(esocial.holiday_ids) != len(esocial.afastamento_ids):
                 necessita_s2230 = True
+                msg_afastamento = 'Pendências não enviadas ao e-Social'
             # Se algum afastamento não foi enviado, precisa corrigir
             for afastamento in esocial.afastamento_ids:
                 if afastamento.situacao_esocial_afastamento not in ['4']:
