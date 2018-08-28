@@ -98,7 +98,7 @@ class HrEmployee(models.Model):
     @api.onchange('cpf')
     def onchange_cpf(self):
         country = self.env['res.country'].\
-            search([('id', '=', self.country_id.id)]).code
+            search([('id', '=', self.country_id.id)]).code or ''
         cpf = fiscal.format_cpf_cnpj(self.cpf, country, False)
         if cpf:
             self.cpf = cpf
