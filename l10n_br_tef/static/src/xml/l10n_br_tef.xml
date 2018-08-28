@@ -72,6 +72,28 @@
         </div>
     </t>
 
+    <t t-extend="DebugWidget">
+        <t t-jquery=".content" t-operation="append">
+            <p class="category">TEF</p>
+            <ul>
+                <li class="status card_number">Card Number</li>
+                <li>
+                    <input class="card_number" type="text" placeholder="5442556260904012"/>
+                </li>
+
+                <li class="status expiring_date">Expiring Date</li>
+                <li>
+                    <input class="expiring_date" type="text" placeholder="05/21"/>
+                </li>
+
+                <li class="status security_code">Security Code</li>
+                <li>
+                    <input class="security_code" type="text" placeholder="510"/>
+                </li>
+            </ul>
+        </t>
+    </t>
+
     <t t-extend="PosOrderListButtonWidget">
         <t t-jquery=".paypad-button" t-operation="before">
            <button class="paypad-button btn-cancelar-pagamento">

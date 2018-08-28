@@ -34,12 +34,11 @@ openerp.l10n_br_tef = function(instance){
     var payment_type;
     var payment_name;
 
-    var dev_mode = false;
     var ls_global_operation = '';
 
-    var card_number = "5442556260904012";
-    var card_expiring_date = "03/19";
-    var card_security_code = "624";
+    var card_number;
+    var card_expiring_date;
+    var card_security_code;
 
     var connect_init = false;
     var set_interval_id = 0;
@@ -369,6 +368,10 @@ openerp.l10n_br_tef = function(instance){
 
     function start_operation(operation)
     {
+        card_number = $('input.card_number').val();
+        card_expiring_date = $('input.card_expiring_date').val();
+        card_security_code = $('input.card_security_code').val();
+
         if(!connect_init){
             self.pos.pos_widget.screen_selector.show_popup('error',{
                         message: 'Cliente V$Pague não iniciado!',
@@ -469,8 +472,8 @@ openerp.l10n_br_tef = function(instance){
                         if(self.proceed_cancellation()) return;
 
                         // Credit without PinPad
-                        // Only works if dev_mode is true
-                        if(dev_mode){
+                        // Only works if card_number is filled in Debug mode
+                        if(card_number){
                             if(self.check_completed_start_execute()) return;
                             if(check_completed_send_card_number()) return;
                             if(check_completed_send_expiring_date()) return;
