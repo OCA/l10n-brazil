@@ -277,11 +277,16 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
     def test_17_holiday_import(self):
         holiday = self.holiday_import.create({
+            'start_date': fields.Datetime.from_string('2018-08-28 00:00:00'),
             'interval_type': 'years',
-            'calendar_id': self.calendar_id_sp.id,
+            'calendar_id': self.nacional_calendar_id.id,
         })
         res = holiday.holiday_import()
         self.assertTrue(res)
+        data = fields.Datetime.from_string('2019-03-05 00:00:00')
+        data_eh_feriado = \
+            self.nacional_calendar_id.data_eh_feriado_bancario(data)
+        self.assertTrue(data_eh_feriado)
 
     def test_18_data_eh_dia_util_bancario(self):
         data = fields.Datetime.from_string('2017-01-16 00:00:00')
