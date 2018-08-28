@@ -396,6 +396,9 @@ class HrPayslipAutonomo(models.Model):
 
         return True
 
+    def cancel_sheet(self):
+        return self.write({'state': 'cancel'})
+
     @api.multi
     def unlink(self):
         for payslip in self:
