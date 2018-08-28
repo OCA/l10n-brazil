@@ -241,20 +241,6 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             data_eh_feriado_bancario(data)
         self.assertTrue(data_eh_feriado_bancario)
 
-    # Testar workalendar_holiday_import
-    def test_11_get_state_from_calendar(self):
-        """
-        Validar se o retorno do estado do holiday esta correto
-        :return:
-        """
-        holiday = self.holiday_import.create({
-            'interval_type': 'days',
-            'calendar_id': self.calendar_id_sp.id,
-        })
-
-        state_id = self.holiday_import.get_state_from_calendar(holiday)
-        self.assertEqual(state_id.code, 'SP', 'Estado incorreto.')
-
     def test_12_get_country_from_calendar(self):
         """
         Validar se o retorno do país do holiday esta correto
