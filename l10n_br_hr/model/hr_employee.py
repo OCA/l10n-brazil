@@ -83,12 +83,22 @@ class HrEmployee(models.Model):
     dependent_ids = fields.One2many(comodel_name='hr.employee.dependent',
                                     inverse_name='employee_id',
                                     string='Dependents')
-    rg = fields.Char(string='RG', store=True, related='address_home_id.inscr_est', help='National ID number')
-    cpf = fields.Char(string='CPF', store=True, related='address_home_id.cnpj_cpf')
+    rg = fields.Char(
+        string='RG',
+        store=True,
+        related='address_home_id.inscr_est',
+        help='National ID number'
+    )
+    cpf = fields.Char(
+        string='CPF',
+        store=True,
+        related='address_home_id.cnpj_cpf'
+    )
 
     @api.onchange('cpf')
     def onchange_cpf(self):
-        country = self.env['res.country'].search([('id', '=', self.country_id.id)]).code
+        country = self.env['res.country'].\
+            search([('id', '=', self.country_id.id)]).code
         cpf = fiscal.format_cpf_cnpj(self.cpf, country, False)
         if cpf:
             self.cpf = cpf
