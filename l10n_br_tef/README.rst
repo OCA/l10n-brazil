@@ -75,6 +75,10 @@ Essa configuração pode ser acessada em: **Ponto de Venda -> Configuração -> 
 
 Selecione o ponto de venda a ser utilizado e, em 'Hardware Proxy', habilite o checkbox **TEF**.
 
+Para selecionar a modalidade de parcelamento da loja, ainda na configuração
+ do Ponto de Venda, acima dos 'Métodos de Pagamentos Definidos' existe a
+ opção **Instituição**, podendo ser 'Estabelecimento' ou 'Administradora';
+
 Uso
 ===
 
@@ -89,6 +93,6 @@ Créditos
 Contribuidores
 --------------
 
-* Hugo Uchôas Borges <hugo.borges@kmee.com.br>
 * Átilla Graciano da Silva <atilla.silva@kmee.com.br>
 * Bianca da Rocha Bartolomei <bianca.bartolomei@kmee.com.br>
+* Hugo Uchôas Borges <hugo.borges@kmee.com.br>
