@@ -699,7 +699,8 @@ openerp.l10n_br_tef = function(instance){
 
                 return true;
             }
-            else if((io_tags.automacao_coleta_mensagem != 'Fluxo Abortado pelo operador!!' ) && (io_tags.servico == '')&& (io_tags.retorno != "0")) {
+            else if((io_tags.automacao_coleta_mensagem != 'Fluxo Abortado pelo operador!!' )
+                && (io_tags.servico == '') && (io_tags.retorno != "0") && (!io_tags.mensagem)) {
                 this.redo_operation(io_tags.sequencial);
                 return false;
             } else {
