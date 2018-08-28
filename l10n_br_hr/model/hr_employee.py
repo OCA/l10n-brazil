@@ -83,8 +83,27 @@ class HrEmployee(models.Model):
     dependent_ids = fields.One2many(comodel_name='hr.employee.dependent',
                                     inverse_name='employee_id',
                                     string='Dependents')
-    rg = fields.Char(string='RG', help='National ID number')
-    cpf = fields.Char(string='CPF')
+    rg = fields.Char(string='RG', store=True, related='address_home_id.inscr_est', help='National ID number')
+    cpf = fields.Char(string='CPF', store=True, related='address_home_id.cnpj_cpf')
+
+    @api.onchange('cpf')
+    def onchange_cpf(self):
+        country = self.env['res.country'].search([('id', '=', self.country_id.id)]).code
+        cpf = fiscal.format_cpf_cnpj(self.cpf, country, False)
+        if cpf:
+            self.cpf = cpf
+
+    @api.multi
+    @api.constrains('cpf')
+    def _check_cpf(self):
+        result = True
+        for record in self:
+            if record.cpf:
+                if not fiscal.validate_cpf(record.cpf):
+                    result = False
+            if not result:
+                raise ValidationError(u"CPF Invalido!")
+
     organ_exp = fields.Char(string='Dispatcher organ')
     rg_emission = fields.Date(string='Emission date')
     voter_title = fields.Char(string='Voter title')
