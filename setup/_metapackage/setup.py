@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-brazil Odoo addons",
     version=version,
     install_requires=[
+        'odoo10-addon-l10n_br_account',
         'odoo10-addon-l10n_br_base',
         'odoo10-addon-l10n_br_crm',
         'odoo10-addon-l10n_br_crm_zip',
