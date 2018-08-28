@@ -365,7 +365,6 @@ class HrPayslipAutonomo(models.Model):
         Validar Holerite Calculado. Estado vai para Done
         """
         for record in self:
-            record.contract_id.date_end = record.date_to
             record.state = 'done'
             record.number = self.env['ir.sequence'].get('salary.slip')
 
