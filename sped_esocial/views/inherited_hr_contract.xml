@@ -35,11 +35,42 @@
                         />
                     </header>
                 </xpath>
+                <field name="employee_id" position="attributes">
+                    <attribute name="options">{'no_quick_create': True}</attribute>
+                </field>
+                <field name="company_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
+                <field name="job_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
+                <field name="type_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
+                <field name="labor_bond_type_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
+                <field name="struct_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
+                <field name="working_hours" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
+                <field name="partner_union" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
                 <field name="admission_type_id" position="after">
                     <field name="admission_type_code" invisible="1"/>
                 </field>
+                <field name="resignation_cause_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
+                <field name="notice_of_termination_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                </field>
                 <field name="matricula" position="attributes">
-                    <attribute name="attrs">{'invisible': True}</attribute>
+                    <attribute name="attrs">{'required': False, 'invisible': True}</attribute>
+                    <attribute name="required">0</attribute>
                 </field>
                 <field name="matricula" position="after">
                     <field name="prefixo_empresa_matricula" invisible="1"/>

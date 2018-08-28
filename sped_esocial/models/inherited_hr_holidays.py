@@ -67,7 +67,8 @@ class HrHolidays(models.Model):
 
     @api.model
     def create(self, vals):
-        self.check_dias_afastamento(vals)
+        if vals.get('type') == 'remove':
+            self.check_dias_afastamento(vals)
         res = super(HrHolidays, self).create(vals)
 
         return res

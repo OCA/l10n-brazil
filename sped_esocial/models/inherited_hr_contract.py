@@ -252,21 +252,39 @@ class HrContract(models.Model):
         return super(HrContract, self).write(vals)
 
     def _gerar_matricula(self):
+
+        # Só tenta gerar uma matrícula se o campo matricula_contrato estiver vazio
+        # Isso evita que uma matrícula seja recriada no futuro incorretamente
         if not self.matricula_contrato:
-            sped_contrato_ids = self.env['sped.esocial.contrato'].search([])
 
-            sped_contrato_ativo_ids = sped_contrato_ids.filtered(
-                lambda rec: rec.hr_contract_id.situacao_esocial == '1')
+            # Se já tem uma matrícula definida, utilize ela ao invés de criar uma nova (só reformata)
+            if self.matricula:
+                self.matricula_contrato = "{:06}".format(int(self.matricula))
+                return
 
-            ultima_matricula = 0
-            if sped_contrato_ativo_ids:
-                ultima_matricula = max(
-                    list(
-                        map(
-                            lambda x: int(x.hr_contract_id.matricula_contrato),
-                            sped_contrato_ativo_ids)
-                    ))
-            self.matricula_contrato = "{:06}".format(ultima_matricula + 1)
+            # Busca o último número de contrato
+            contrato_ids = self.env['hr.contract'].search([])
+            x = 0
+            for contrato in contrato_ids:
+                if int(contrato.matricula_contrato) > x:
+                    x = int(contrato.matricula_contrato)
+
+            # Popula o próximo número de contrato
+            self.matricula_contrato = "{:06}".format(x + 1)
+
+            # Comentado código anterior
+            # sped_contrato_ativo_ids = sped_contrato_ids.filtered(
+            #     lambda rec: rec.hr_contract_id.situacao_esocial == '1')
+            #
+            # ultima_matricula = 0
+            # if sped_contrato_ativo_ids:
+            #     ultima_matricula = max(
+            #         list(
+            #             map(
+            #                 lambda x: int(x.hr_contract_id.matricula_contrato),
+            #                 sped_contrato_ativo_ids)
+            #         ))
+            # self.matricula_contrato = "{:06}".format(ultima_matricula + 1)
 
     def _formar_matricula_completa(self):
         self.matricula = "{}-{}".format(
