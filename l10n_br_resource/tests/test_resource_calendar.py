@@ -2,10 +2,9 @@
 # Copyright 2016 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+
 from openerp import fields
 import openerp.tests.common as test_common
-
-# from pybrasil import feriado
 
 
 class TestResourceCalendar(test_common.SingleTransactionCase):
@@ -269,41 +268,6 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         country_id = self.holiday_import.get_country_from_calendar(holiday)
         self.assertEqual(country_id.code, 'BR', 'País incorreto.')
 
-    def test_13_get_calendar_for_country(self):
-        """
-        Validar se o retorno do calendario nacional do holiday esta correto
-        :return:
-        """
-        country = self.holiday_import.get_calendar_for_country()
-        self.assertEqual(country.name, 'Calendario Nacional',
-                         'Calendario incorreto.')
-
-    def test_14_get_calendar_for_state(self):
-        """
-        Validar se o retorno do calendario estadual do holiday esta correto
-        :return:
-        """
-        holiday = self.holiday_import.create({
-            'interval_type': 'days',
-            'calendar_id': self.calendar_id_sp.id,
-        })
-        state = self.holiday_import.get_calendar_for_state(holiday)
-        self.assertEqual(state.name, 'Calendario de Sao Paulo',
-                         'Calendario incorreto.')
-
-    def test_15_get_calendar_for_city(self):
-        """
-        Validar se o retorno do calendario municipal do holiday esta correto
-        :return:
-        """
-        holiday = self.holiday_import.create({
-            'interval_type': 'days',
-            'calendar_id': self.calendar_id_sp.id,
-        })
-        city_id = self.holiday_import.get_calendar_for_city(holiday)
-        self.assertEqual(city_id.name, 'Calendario de Sao Paulo', 'Calendario '
-                                                                  'incorreto.')
-
     def test_16_proximo_dia_util_bancario(self):
         data = fields.Datetime.from_string('2017-01-13 00:00:00')
         prox_dia_ultil = self.nacional_calendar_id. \
@@ -313,7 +277,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
     def test_17_holiday_import(self):
         holiday = self.holiday_import.create({
-            'interval_type': 'days',
+            'interval_type': 'years',
             'calendar_id': self.calendar_id_sp.id,
         })
         res = holiday.holiday_import()
