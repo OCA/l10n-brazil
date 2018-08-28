@@ -13,8 +13,8 @@ class PosConfig(models.Model):
 
     institution_selection = fields.Selection(
         selection=[
-            ('Administradora', 'Administradora'),
-            ('Estabelecimento', 'Estabelecimento')
+            ('Administradora', _('Administrator')),
+            ('Estabelecimento', _('Institute'))
         ],
         string="Institution",
         help=_("Institution selection for installment payments"),
