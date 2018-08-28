@@ -65,7 +65,8 @@
                         <field name="hide_empty"
                                attrs="{'invisible': [('hide_empty_inherit', '=', True)]}" />
                         <field name="hide_always_inherit" />
-                        <field name="hide_always"/>
+                        <field name="hide_always"
+                               attrs="{'invisible': [('hide_always_inherit', '=', True)]}" />
                     </group>
                 </sheet>
                 </form>
