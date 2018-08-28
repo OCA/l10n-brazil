@@ -4,9 +4,8 @@
 
 import logging
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
-
-
 from lxml import etree
 from openerp import api, fields, models, exceptions, _
 
@@ -219,6 +218,11 @@ class HrPayslipAutonomo(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
         copy=False
+    )
+
+    wage = fields.Float(
+        string='Valor',
+        states={'draft': [('readonly', False)]},
     )
 
     @api.multi
