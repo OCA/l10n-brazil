@@ -77,9 +77,11 @@ class HrEmployee(models.Model):
                                    default='3')
     educational_attainment = fields.Many2one(
         string='Educational attainment',
-        comodel_name='hr.educational.attainment'
+        comodel_name='hr.educational.attainment',
+        track_visibility='onchange',
     )
-    have_dependent = fields.Boolean('Has dependents')
+    have_dependent = fields.Boolean('Has dependents',
+                                    track_visibility='onchange')
     dependent_ids = fields.One2many(comodel_name='hr.employee.dependent',
                                     inverse_name='employee_id',
                                     string='Dependents')
@@ -137,7 +139,8 @@ class HrEmployee(models.Model):
         ('ab-', 'AB-'),
     ])
     deficiency_id = fields.Many2one(string='Deficiency',
-                                    comodel_name='hr.deficiency')
+                                    comodel_name='hr.deficiency',
+                                    track_visibility='onchange')
     deficiency_description = fields.Char(string='Deficiency description')
     identity_type_id = fields.Many2one(string='ID type',
                                        comodel_name='hr.identity.type')
