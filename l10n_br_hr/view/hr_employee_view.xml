@@ -34,6 +34,7 @@
                 </xpath>
                 <field name="address_home_id" position="attributes">
                     <attribute name="domain">[('is_company','=',False)]</attribute>
+                    <attribute name="required">1</attribute>
                 </field>
                 <xpath expr="//page[@name='public']" position="after">
                     <page name="documents" string="Documents" groups="hr.group_hr_manager,hr.group_hr_user">
