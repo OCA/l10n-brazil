@@ -83,6 +83,12 @@ class HrContract(models.Model):
         ]
     )
 
+    # Desativar o required para contratos de autonomos que nao eh obrigatório
+    wage = fields.Float(
+        required=False,
+    )
+
+
     @api.multi
     @api.depends('payslip_ids_confirmados', 'payslip_ids_confirmados.state')
     def _is_editable(self):
