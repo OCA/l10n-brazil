@@ -24,7 +24,8 @@
                         </div>
                         <group>
                             <group>
-                                <field name="employee_id" required="True" domain="[('tipo', '=', 'autonomo')]" context="{'default_tipo': 'autonomo'}"/>
+                                <field name="employee_id" string="Autônomo" required="True"
+                                       domain="[('tipo', '=', 'autonomo')]" context="{'default_tipo': 'autonomo'}"/>
                                 <field name="company_id" options="{'no_create': True, 'no_open': True}" required="1"/>
                                 <field name="job_id" required="True"
                                        options="{'no_create': True, 'no_open': True,
