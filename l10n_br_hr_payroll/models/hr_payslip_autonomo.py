@@ -222,6 +222,7 @@ class HrPayslipAutonomo(models.Model):
 
     wage = fields.Float(
         string='Valor',
+        readonly=True,
         states={'draft': [('readonly', False)]},
     )
 

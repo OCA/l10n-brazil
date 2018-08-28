@@ -41,16 +41,20 @@
                         </group>
                         <notebook>
                             <page string="Information" name="information">
-                                <group>
 
+                                <group>
+                                    <field name="struct_id" required="True" />
+                                </group>
+
+                                <group>
                                     <group name="duration_group">
                                         <label for="date_start" string="Duração"/>
                                         <div>
                                             <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
                                         </div>
                                     </group>
-
                                 </group>
+
                                 <separator string="Notes" class="oe_edit_only"/>
                                 <field name="notes"/>
                             </page>
