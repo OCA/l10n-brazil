@@ -88,7 +88,6 @@ class HrContract(models.Model):
         required=False,
     )
 
-
     @api.multi
     @api.depends('payslip_ids_confirmados', 'payslip_ids_confirmados.state')
     def _is_editable(self):
