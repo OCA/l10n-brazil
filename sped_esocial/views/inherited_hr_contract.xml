@@ -185,7 +185,7 @@
         </record>
 
 
-        <!-- Contrato de Autnomos -->
+        <!-- Contrato de Autônomos -->
         <record model="ir.ui.view" id="sped_hr_contrato_autonomo">
             <field name="name">Adiciona e-Social no Contrato do autonomo</field>
             <field name="model">hr.contract</field>

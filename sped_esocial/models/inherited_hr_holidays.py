@@ -137,5 +137,6 @@ class HrHolidays(models.Model):
                     })
 
             # Processa cada tipo de operação do S-2230
-            # O que realmente precisará ser feito é tratado no método do registro intermediário
+            # O que realmente precisará ser feito é tratado no método do
+            #  registro intermediário
             self.sped_esocial_afastamento_id.gerar_registro()
