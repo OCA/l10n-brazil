@@ -40,22 +40,22 @@
             <div class="popup popup-confirm cancelamentoCompraPopup">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h class="message">Cancelamento de Compras</h>
+                    <h class="message">Cancellation of Purchases</h>
                 </div>
                 <div class="modal-body">
-                    <p class="comment">Usuário de Acesso</p>
+                    <p class="comment">User</p>
                     <input name="CancelamentoCompraPopup_usuario" type="text" placeholder="lojista"/>
 
-                    <p class="comment">Senha de Acesso</p>
+                    <p class="comment">Password</p>
                     <input name="CancelamentoCompraPopup_senha" type="password" placeholder="123465"/>
 
-                    <p class="comment">Data da Transação</p>
+                    <p class="comment">Transaction Date</p>
                     <input class="CancelamentoCompraPopup_data" type="text" placeholder="DD/mm/yy" maxlength="8"/>
 
-                    <p class="comment">Número do Documento</p>
+                    <p class="comment">Document Number</p>
                     <input name="CancelamentoCompraPopup_documento" type="number" placeholder="111"/>
 
-                    <p class="comment">Valor da Transação</p>
+                    <p class="comment">Transaction Value</p>
                     <input name="CancelamentoCompraPopup_valor" type="number" placeholder="10.25"/>
 
                 </div>
@@ -64,7 +64,7 @@
                         OK
                     </div>
                     <div class="button btn-cancel-operation">
-                        CANCELAR
+                        CANCEL
                     </div>
                 </div>
               </div>
@@ -97,7 +97,7 @@
     <t t-extend="PosOrderListButtonWidget">
         <t t-jquery=".paypad-button" t-operation="before">
            <button class="paypad-button btn-cancelar-pagamento">
-                Cancelar Compras
+                Cancel Purchases
            </button>
         </t>
     </t>

@@ -6,14 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-22 19:41+0000\n"
-"PO-Revision-Date: 2018-08-22 19:41+0000\n"
+"POT-Creation-Date: 2018-08-28 19:06+0000\n"
+"PO-Revision-Date: 2018-08-28 19:06+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:81
+#, python-format
+msgid "5442556260904012"
+msgstr "5442556260904012"
 
 #. module: l10n_br_tef
 #: code:addons/l10n_br_tef/l10n_br_tef.py:11
@@ -29,23 +36,72 @@ msgstr "Administradora"
 
 #. module: l10n_br_tef
 #. openerp-web
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:87
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:95
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:66
+#, python-format
+msgid "CANCEL"
+msgstr "CANCELAR"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:99
+#, python-format
+msgid "Cancel Purchases"
+msgstr "Cancelar Compras"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:43
+#, python-format
+msgid "Cancellation of Purchases"
+msgstr "Cancelamento de Compras"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:79
+#, python-format
+msgid "Card Number"
+msgstr "Número do Cartão"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:118
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:126
 #, python-format
 msgid "Close"
 msgstr "Fechar"
 
 #. module: l10n_br_tef
 #. openerp-web
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:92
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:123
 #, python-format
 msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:53
+#, python-format
+msgid "DD/mm/yy"
+msgstr "DD/mm/yy"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:55
+#, python-format
+msgid "Document Number"
+msgstr "Número do Documento"
+
+#. module: l10n_br_tef
 #: selection:pos.config,institution_selection:0
 msgid "Estabelecimento"
 msgstr "Estabelecimento"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:84
+#, python-format
+msgid "Expiring Date"
+msgstr "Data de Vencimento"
 
 #. module: l10n_br_tef
 #: field:pos.config,institution_selection:0
@@ -61,10 +117,31 @@ msgstr "Seleção de Instituição para pagamentos parcelados"
 
 #. module: l10n_br_tef
 #. openerp-web
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:662
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:63
 #, python-format
-msgid "Por Favor Aguarde!"
-msgstr "Por Favor Aguarde!"
+msgid "OK"
+msgstr "OK"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:49
+#, python-format
+msgid "Password"
+msgstr "Senha"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:713
+#, python-format
+msgid "Please, wait!"
+msgstr "Por favor, aguarde!"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:89
+#, python-format
+msgid "Security Code"
+msgstr "Código de Segurança"
 
 #. module: l10n_br_tef
 #. openerp-web
@@ -74,7 +151,37 @@ msgid "Start transaction"
 msgstr "Iniciar Transação"
 
 #. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:77
 #: field:pos.config,iface_tef:0
+#, python-format
 msgid "TEF"
 msgstr "TEF"
 
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:52
+#, python-format
+msgid "Transaction Date"
+msgstr "Data da Transação"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:58
+#, python-format
+msgid "Transaction Value"
+msgstr "Valor da Transação"
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:46
+#, python-format
+msgid "User"
+msgstr ""
+
+#. module: l10n_br_tef
+#. openerp-web
+#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:47
+#, python-format
+msgid "lojista"
+msgstr "lojista"

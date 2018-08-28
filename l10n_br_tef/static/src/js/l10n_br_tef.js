@@ -204,7 +204,7 @@ openerp.l10n_br_tef = function(instance){
 
             collect('');
 
-            this.screenPopupPagamento('Iniciando a Operação');
+            this.screenPopupPagamento('Starting Operation');
 
             // Reset the Value
             ls_transaction_global_value = "";
@@ -503,7 +503,7 @@ openerp.l10n_br_tef = function(instance){
                 };
             }
             catch (err){
-                console.log('Nao foi possivel estalecer uma conexao com o servidor')
+                console.log('Could not connect to server');
             }
         },
 
@@ -552,7 +552,7 @@ openerp.l10n_br_tef = function(instance){
             if(io_tags.automacao_coleta_mensagem === "Aguarde !!! Processando a transacao ..."){
                 collect('');
 
-                this.screenPopupPagamento('Processando a transação ...');
+                this.screenPopupPagamento('Processing the transaction...');
 
                 io_tags.automacao_coleta_mensagem = "";
                 return true;
@@ -566,7 +566,7 @@ openerp.l10n_br_tef = function(instance){
             if((io_tags.automacao_coleta_mensagem && io_tags.automacao_coleta_mensagem.indexOf("APROVADA") > -1) &&
                 (io_tags.servico == "") && (io_tags.transacao == "")) {
 
-                this.screenPopupPagamento('Transação Aprovada');
+                this.screenPopupPagamento('Transaction Approved');
                 collect('');
 
                 io_tags.automacao_coleta_mensagem = '';
@@ -584,7 +584,7 @@ openerp.l10n_br_tef = function(instance){
                 // Send the card number
                 collect(card_number);
 
-                this.screenPopupPagamento('Por favor, insira a senha');
+                this.screenPopupPagamento('Please, enter the password');
 
                 io_tags.automacao_coleta_palavra_chave = '';
                 io_tags.automacao_coleta_tipo = '';
@@ -622,7 +622,7 @@ openerp.l10n_br_tef = function(instance){
                 && (io_tags.automacao_coleta_retorno == "0")) {
                 collect('');
 
-                this.screenPopupPagamento('Por favor, insira ou passe o Cartão');
+                this.screenPopupPagamento('Please, insert the Card');
 
                 io_tags.automacao_coleta_palavra_chave = '';
                 io_tags.automacao_coleta_tipo = '';
@@ -639,7 +639,7 @@ openerp.l10n_br_tef = function(instance){
             if(io_tags.automacao_coleta_mensagem == "AGUARDE A SENHA"){
                 collect('');
 
-                this.screenPopupPagamento('Por favor, insira a senha');
+                this.screenPopupPagamento('Please, enter the password');
 
                 io_tags.automacao_coleta_mensagem = '';
                 return true;
@@ -654,7 +654,7 @@ openerp.l10n_br_tef = function(instance){
             if((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender") ){
                 finish();
 
-                self.pos_widget.popupStatusPagamento.hide()
+                self.pos_widget.popupStatusPagamento.hide();
 
                 io_tags.transacao = '';
                 setTimeout(function(){
@@ -710,7 +710,7 @@ openerp.l10n_br_tef = function(instance){
 
         screenPopupPagamento: function (msg) {
             this.pos_widget.screen_selector.show_popup('popupStatusPagamento', {
-                            message: _t('Por Favor Aguarde!'),
+                            message: _t('Please, wait!'),
                             comment: _t(msg),
                             });
         },
@@ -729,13 +729,13 @@ openerp.l10n_br_tef = function(instance){
 
                 if(!ls_global_institution && ls_global_plots > 1){
                     this.pos.pos_widget.screen_selector.show_popup('error',{
-                        message: 'Nenhuma modalidade de parcelamento selecionada!',
-                        comment: 'Você precisa selecionar pelo menos uma instituição nas configurações do POS',
+                        message: 'No type of installment scheme selected!',
+                        comment: 'You must select at least one institution in the POS settings',
                     });
                     return false;
                 }
                 this.execute();
-                this.screenPopupPagamento('Iniciando a Operação');
+                this.screenPopupPagamento('Initializing Operation');
                 io_tags.aplicacao_tela = '';
                 return true;
             } else {
@@ -770,7 +770,7 @@ openerp.l10n_br_tef = function(instance){
                 && (io_tags.automacao_coleta_tipo === "X")){
 
                 collect(ls_global_transaction_method);
-                this.screenPopupPagamento('Pagamento ' + ls_global_transaction_method);
+                this.screenPopupPagamento('Payment ' + ls_global_transaction_method);
                 io_tags.automacao_coleta_mensagem = '';
                 io_tags.automacao_coleta_palavra_chave = '';
                 io_tags.automacao_coleta_tipo = '';
@@ -799,7 +799,7 @@ openerp.l10n_br_tef = function(instance){
             if((io_tags.automacao_coleta_mensagem === "Parcelas") && (io_tags.automacao_coleta_palavra_chave === "transacao_parcela")
                 && (io_tags.automacao_coleta_tipo === "N")){
                 collect(ls_global_plots);
-                this.screenPopupPagamento('Pagamento em ' + ls_global_plots + ' vezes');
+                this.screenPopupPagamento('Payment in ' + ls_global_plots + ' installments');
                 io_tags.automacao_coleta_mensagem = '';
                 io_tags.automacao_coleta_palavra_chave = '';
                 io_tags.automacao_coleta_tipo = '';
