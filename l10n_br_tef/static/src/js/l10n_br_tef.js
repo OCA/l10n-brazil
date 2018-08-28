@@ -49,7 +49,7 @@ openerp.l10n_br_tef = function(instance){
 
         start: function(){
             this.$el.click(function(){
-                connect();
+                self.pos_widget.product_screen.connect()
             });
 
             var cancel_btn= $('.btn-cancelar-pagamento');
@@ -369,9 +369,15 @@ openerp.l10n_br_tef = function(instance){
 
     function start_operation(operation)
     {
-        // abort();
-        ls_global_operation = operation;
-        start();
+        if(!connect_init){
+            self.pos.pos_widget.screen_selector.show_popup('error',{
+                        message: 'Cliente V$Pague não iniciado!',
+                        comment: 'Certifique-se de que o Cliente V$Pague está funcionando normalmente',
+                    });
+        } else {
+            ls_global_operation = operation;
+            start();
+        }
     }
 
     module.ProductScreenWidget.include({
