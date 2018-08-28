@@ -853,7 +853,7 @@ openerp.l10n_br_tef = function(instance){
             var ls_transaction_type = '';
 
             if(ls_global_operation === "purchase"){
-                var ls_product_type = (payment_type === "CD01")? "Debito-Getnetlac" : "Credito-Getnetlac";
+                var ls_product_type = (payment_type === "CD01")? "Debito-Bin" : "Credito-Bin";
                 var ls_transaction_type = "Cartao Vender";
             } else if (ls_global_operation === "cancellation"){
                 var ls_transaction_type = "Administracao Cancelar";
