@@ -256,13 +256,6 @@
                         </group>
                     </page>
                 </xpath>
-
-                <field name="wage" position="after">
-                    <field name="salary_unit_code" invisible="1" />
-                    <field name="dsc_sal_var"
-                           attrs="{'invisible': [('salary_unit_code','not in',['6','7'])],
-                                   'required': [('salary_unit_code','in',['6','7'])]}" />
-                </field>
             </field>
         </record>
 
