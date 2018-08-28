@@ -5,6 +5,8 @@
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
+from pybrasil.data import formata_data
+
 
 class HrContract(models.Model):
 
@@ -714,3 +716,14 @@ class HrContract(models.Model):
                 nome = contrato.employee_id.name
                 nome_contrato = '[%s] %s' % (contrato.matricula_contrato, nome)
                 contrato.nome_contrato = nome_contrato if nome else ''
+
+            if contrato.tipo == 'autonomo' and \
+                    contrato.employee_id and contrato.date_start:
+                nome = contrato.employee_id.name
+                nome_contrato = '%s - [%s]' % \
+                                (nome, formata_data(contrato.date_start))
+                contrato.nome_contrato = nome_contrato if nome else ''
+                if contrato.date_end:
+                    nome_contrato = nome_contrato.replace(
+                        ']', ' - ' + formata_data(contrato.date_end) + ']')
+                    contrato.nome_contrato = nome_contrato
