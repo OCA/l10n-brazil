@@ -53,6 +53,9 @@
                     <attribute name="states">verify</attribute>
                     <attribute name="type">object</attribute>
                 </button>
+                <button name="549" position="attributes">
+                    <attribute name="groups">base.group_hr_user</attribute>
+                </button>
                 <!-- Adiciona abas -->
                 <xpath expr="//notebook" position="replace">
                     <notebook>
@@ -87,7 +90,7 @@
                             <div class="oe_clear"/>
                         </page>
 
-                        <page string="Salary Computation">
+                        <page string="Salary Computation" groups="base.group_hr_user,base.group_hr_manager">
                             <field name="line_ids" colspan="4" nolabel="1">
                                 <tree string="Salary Structure"
                                       editable="bottom"
@@ -119,7 +122,7 @@
                             </field>
                         </page>
 
-                        <page string="Variáveis">
+                        <page string="Variáveis" groups="base.group_hr_user,base.group_hr_manager">
                             <separator string="Worked Days"/>
                             <field name="worked_days_line_ids">
                                 <tree string="Worked Days" editable="bottom">
@@ -196,7 +199,7 @@
                         </page>
 
                         <page string="Campos de Rescisão"
-                              attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}">
+                              attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}" groups="base.group_hr_user,base.group_hr_manager">
                             <field name="rescisao_ids" colspan="4" nolabel="1">
                                 <tree>
                                     <field name="tipo"/>
@@ -352,7 +355,8 @@
 
         <menuitem action="action_view_hr_calculo_medias_view_tree"
                   id="menu_calculo_medias_page"
-                  parent="hr_payroll.menu_hr_root_payroll"/>
+                  parent="hr_payroll.menu_hr_root_payroll"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
 
         <!--13º Salário-->
         <record id="view_hr_decimo_terceiro_tree" model="ir.ui.view">
@@ -385,7 +389,8 @@
 
         <menuitem action="action_view_hr_decimo_terceiro_view_page"
                   id="menu_decimo_terceiro_page"
-                  parent="hr_payroll.menu_hr_root_payroll"/>
+                  parent="hr_payroll.menu_hr_root_payroll"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
 
         <!--Aviso Prévio-->
         <record id="view_hr_aviso_previo_tree" model="ir.ui.view">
@@ -420,7 +425,8 @@
 
         <menuitem action="action_view_hr_aviso_previo_view_page"
                   id="menu_aviso_previo_page"
-                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
 
         <!--Provisão Férias-->
         <record id="view_hr_provisao_ferias_tree" model="ir.ui.view">
@@ -467,7 +473,8 @@
 
         <menuitem action="action_view_hr_provisao_ferias_page"
                   id="menu_previsao_ferias_page"
-                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_provisao"/>
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_provisao"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
 
         <!--Provisão Décimo Terceiro-->
         <record id="view_hr_provisao_decimo_terceiro_tree" model="ir.ui.view">
@@ -497,7 +504,8 @@
 
         <menuitem action="action_view_hr_ferias_simulacao_view_page"
                   id="menu_ferias_simulacao_page"
-                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
 
         <!--Décimo Terceiro Simulação-->
         <record id="view_hr_decimo_terceiro_simulacao_tree" model="ir.ui.view">
@@ -527,7 +535,8 @@
 
         <menuitem action="action_view_hr_provisao_decimo_terceiro_page"
                   id="menu_previsao_decimo_terceiro_page"
-                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_provisao"/>
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_provisao"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
 
         <record id="action_view_hr_decimo_terceiro_simulacao_view_page" model="ir.actions.act_window">
             <field name="name">13º Terceiro</field>
@@ -540,7 +549,8 @@
 
         <menuitem action="action_view_hr_decimo_terceiro_simulacao_view_page"
                   id="menu_decimo_terceiro_simulacao_page"
-                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
 
         <!--Rescisão-->
         <record id="view_hr_rescisao_tree" model="ir.ui.view">
@@ -573,7 +583,8 @@
 
         <menuitem action="action_view_hr_rescisao_view_tree"
                   id="menu_rescisao_page"
-                  parent="hr_payroll.menu_hr_root_payroll"/>
+                  parent="hr_payroll.menu_hr_root_payroll"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
         <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
         <!--<field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>-->
         <!--<field name="model">hr.payslip</field>-->
@@ -613,6 +624,10 @@
         <!--<field name="action" ref="hr_payslip_act_window"/>-->
         <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
         <!--</record>-->
+
+        <record id="hr_payroll.menu_department_tree" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_user'),ref('base.group_hr_user'),ref('base.group_hr_manager')])]"/>
+        </record>
 
     </data>
 </openerp>
