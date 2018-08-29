@@ -125,8 +125,3 @@ class ResCompany(models.Model):
         string=u'Sequencia dos documentos',
         comodel_name=u'ir.sequence'
     )
-    default_resource_calendar_id = fields.Many2one(
-        string=u'Calendário para indicar os feriados da empresa',
-        comodel_name=u'resource.calendar',
-        help=u'Calendário que indica os feriados padrões da empresa.',
-    )

@@ -29,11 +29,6 @@
                             </group>
                         </group>
 
-                        <separator string="Calendário Padrão"/>
-                        <group>
-                            <field name="default_resource_calendar_id" />
-                        </group>
-
                         <separator string="DARF"/>
                         <group>
                             <field name="darf_account_id" />
