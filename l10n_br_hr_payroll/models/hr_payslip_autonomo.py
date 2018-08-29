@@ -459,12 +459,17 @@ class HrPayslipAutonomo(models.Model):
         medias = {}
         categories_obj = BrowsableObject(self.employee_id.id, categories_dict)
 
+        # Variaveis para INSS patronal
+        rat_fap = self._get_rat_fap_period_values(self.ano)
+
         baselocaldict = {
             'CALCULAR': self,
             'BASE_INSS': 0.0, 'BASE_FGTS': 0.0, 'BASE_IR': 0.0,
             'categories': categories_obj,
             'locals': locals, 'globals': locals,
             'Decimal': Decimal, 'D': Decimal,
+            'payslip': self,
+            'RAT_FAP': rat_fap,
         }
 
         for contract_id in self.contract_id:
@@ -692,6 +697,19 @@ class HrPayslipAutonomo(models.Model):
             return irrf
         else:
             return 0
+
+    @api.multi
+    def _get_rat_fap_period_values(self, year):
+        rat_fap_obj = self.env['l10n_br.hr.rat.fap']
+        rat_fap = rat_fap_obj = rat_fap_obj.search(
+            [('year', '=', year), ('company_id', '=', self.company_id.id)]
+        )
+        if rat_fap:
+            return rat_fap
+        else:
+            raise exceptions.Warning(
+                _('Can\'t find this year values in Rat Fap Table')
+            )
 
     def get_specific_rubric_value(self, rubrica_id, medias_obj=False,
                                   rubricas_especificas_calculadas=False):
