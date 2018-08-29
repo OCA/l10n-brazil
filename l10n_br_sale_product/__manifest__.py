@@ -22,6 +22,6 @@
     'demo': [
         'demo/product_demo.xml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }
