@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <!--busca por cnpj_cpf e razao social nos pedidos de compra -->
         <record id="view_l10n_br_purchase_partner_filter" model="ir.ui.view">
@@ -62,4 +62,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>
