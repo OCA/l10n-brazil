@@ -11,7 +11,6 @@
     'website': 'http://odoo-brasil.org',
     'version': '8.0.3.0.0',
     'depends': [
-        'l10n_br_data_account',
         'account_product_fiscal_classification',
     ],
     'data': [
@@ -67,6 +66,6 @@
         'test/account_invoice_refund.yml',
         'test/nfe_export.yml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
