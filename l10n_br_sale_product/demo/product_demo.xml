@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
 
         <!-- On Site Monitoring -->
@@ -252,4 +252,4 @@
             </record>
 
     </data>
-</openerp>
+</odoo>
