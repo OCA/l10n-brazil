@@ -119,21 +119,21 @@ class AccountInvoice(models.Model):
             :return: the (possibly updated) final move_lines to create for this
             invoice
         """
-        move_lines = super(
-            AccountInvoice, self).finalize_invoice_move_lines(move_lines)
-        count = 1
-        total = len([x for x in move_lines
-                     if x[2]['account_id'] == self.account_id.id])
-        number = self.name or self.number
-        result = []
-        for move_line in move_lines:
-            if move_line[2]['debit'] or move_line[2]['credit']:
-                if move_line[2]['account_id'] == self.account_id.id:
-                    move_line[2]['name'] = '%s/%s-%s' % \
-                        (number, count, total)
-                    count += 1
-                result.append(move_line)
-        return result
+        for record in self:
+            move_lines = super(
+                AccountInvoice, record).finalize_invoice_move_lines(move_lines)
+            count = 1
+            total = len([x for x in move_lines
+                         if x[2]['account_id'] == record.account_id.id])
+            result = []
+            for move_line in move_lines:
+                if move_line[2]['debit'] or move_line[2]['credit']:
+                    if move_line[2]['account_id'] == record.account_id.id:
+                        move_line[2]['name'] = '%s/%s-%s' % \
+                            (record.number, count, total)
+                        count += 1
+                    result.append(move_line)
+            return result
 
     @api.multi
     def open_fiscal_document(self):
