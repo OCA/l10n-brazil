@@ -11,7 +11,6 @@
         'l10n_br_base',
     ],
     'data': [
-        'data/res.bank.csv',
     ],
     'demo': [],
     'category': 'Localisation',
