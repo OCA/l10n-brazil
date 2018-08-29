@@ -17,7 +17,7 @@
             </field>
 
             <field name="credit_note" position="replace">
-                <field name="payment_mode_id" options="{'no_create': 1}"/>
+                <field name="payment_mode_id" options="{'no_create': 1}" groups="base.group_hr_user"/>
             </field>
 
             <button name="refund_sheet" position="before">
@@ -32,7 +32,7 @@
             </button>
 
             <xpath expr="//notebook//page[@string='Holerite']" position="after">
-                <page string="Ordens de Pagamento">
+                <page string="Ordens de Pagamento" groups="base.group_hr_user,base.group_hr_manager">
                     <field name="payment_line_ids" readonly="1"/>
                 </page>
             </xpath>
@@ -42,7 +42,8 @@
                 <button class="oe_inline oe_stat_button"
                         name="button_payment_order_form_view" type="object"
                         icon="fa-usd" string="Pagamento"
-                        attrs="{'invisible':[('payment_order_id','=', False)]}" />
+                        attrs="{'invisible':[('payment_order_id','=', False)]}"
+                        groups="base.group_hr_user"/>
             </xpath>
 
         </field>
