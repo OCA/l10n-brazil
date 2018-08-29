@@ -20,6 +20,7 @@
         <field name="inscr_est">078.016.350.838</field>
         <field name="currency_id" ref="base.BRL"/>
         <field name="fiscal_type">3</field>
+        <field name="cnae_main_id" ref="l10n_br_account.l10n_br_cnae_1333"/>
     </record>
 
     <record id="base.main_partner" model="res.partner">
