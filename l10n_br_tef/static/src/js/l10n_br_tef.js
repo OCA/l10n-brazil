@@ -409,7 +409,11 @@ openerp.l10n_br_tef = function(instance){
             var self = this;
             // Returns the established connection.
             try {
-                io_connection = new WebSocket('ws://localhost:60906');
+                if((io_connection && io_connection.readyState !== 1 ) || (io_connection === undefined))
+                    io_connection = new WebSocket('ws://localhost:60906');
+
+                if(io_connection.readyState === 3)
+                    return;
 
                 // Opens the connection and sends the first service
                     io_connection.onopen = function()
