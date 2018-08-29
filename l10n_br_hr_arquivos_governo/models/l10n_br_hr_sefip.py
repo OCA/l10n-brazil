@@ -721,7 +721,7 @@ class L10nBrSefip(models.Model):
         if codigo_receita == '1661':
             descricao += ' - PSS Plano de Seguridade Social'
 
-        if codigo_receita == '1769':
+        if codigo_receita == '1850':
             descricao += ' - PSS Patronal'
 
         # Calcular data de vencimento da DARF
@@ -729,8 +729,8 @@ class L10nBrSefip(models.Model):
         dia = str(self.company_id.darf_dia_vencimento)
 
         # ou se forem darfs especificas, cair no dia 05 de cada mes
-        if codigo_receita in ['1781', '1684']:
             dia = '05'
+        if codigo_receita in ['1850', '1661']:
 
         data = self.ano + '-' + self.mes + '-' + dia
         data_vencimento = fields.Date.from_string(data) + timedelta(days=31)
@@ -917,14 +917,14 @@ class L10nBrSefip(models.Model):
                     elif line.code in ['PSS_PATRONAL']:
                         partner_id = line.employee_id.address_home_id
                         financial_move_darf = self.gerar_financial_move_darf(
-                            '1781', line.total, partner_id)
+                            '1850', line.total, partner_id)
                         created_ids.append(financial_move_darf.id)
 
                     # Para rubricas de PSS do funcionario
                     elif line.code in ['PSS']:
                         partner_id = line.employee_id.address_home_id
                         financial_move_darf = self.gerar_financial_move_darf(
-                            '1684', line.total, partner_id)
+                            '1661', line.total, partner_id)
                         created_ids.append(financial_move_darf.id)
 
                 # buscar o valor do IRPF do holerite de 13º
