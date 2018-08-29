@@ -12,8 +12,6 @@
         'l10n_br_account',
     ],
     'data': [
-        'data/l10n_br_account.cnae.csv',
-        'data/l10n_br_account.service.type.csv',
     ],
     'demo': [
         'demo/base_demo.xml',
