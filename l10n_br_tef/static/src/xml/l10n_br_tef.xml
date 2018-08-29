@@ -44,19 +44,19 @@
                 </div>
                 <div class="modal-body">
                     <p class="comment">User</p>
-                    <input name="CancelamentoCompraPopup_usuario" type="text" placeholder="lojista"/>
+                    <input class ="CancelamentoCompraPopup_usuario" type="text" placeholder="lojista"/>
 
                     <p class="comment">Password</p>
-                    <input name="CancelamentoCompraPopup_senha" type="password" placeholder="123465"/>
+                    <input class="CancelamentoCompraPopup_senha" type="password" placeholder="123465"/>
 
                     <p class="comment">Transaction Date</p>
-                    <input class="CancelamentoCompraPopup_data" type="text" placeholder="DD/mm/yy" maxlength="8"/>
+                    <input class="CancelamentoCompraPopup_data" type="date"/>
 
                     <p class="comment">Document Number</p>
-                    <input name="CancelamentoCompraPopup_documento" type="number" placeholder="111"/>
+                    <input class="CancelamentoCompraPopup_documento" type="number" placeholder="111"/>
 
                     <p class="comment">Transaction Value</p>
-                    <input name="CancelamentoCompraPopup_valor" type="number" placeholder="10.25"/>
+                    <input class="CancelamentoCompraPopup_valor" type="number" placeholder="10.25"/>
 
                 </div>
                 <div class="footer">
