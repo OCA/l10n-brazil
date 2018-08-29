@@ -4,8 +4,7 @@
     @author Luis Felipe Miléo <mileo@kmee.com.br>
     The licence is in the file __openerp__.py
 -->
-<openerp>
-    <data>
+<odoo>
 
         <record id="l10n_br_banking_payment_order_form" model="ir.ui.view">
             <field name="name">l10n_br_account.payment.order.form.banking</field>
@@ -20,5 +19,4 @@
             </field>
         </record>
 
-    </data>
-</openerp>
+</odoo>

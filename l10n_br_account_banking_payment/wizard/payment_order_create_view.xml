@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
         <record id="view_create_payment_order" model="ir.ui.view">
             <field name="name">payment.order.create.form.export</field>
@@ -50,5 +49,4 @@
         </record>
         
 
-    </data>
-</openerp>
+</odoo>
