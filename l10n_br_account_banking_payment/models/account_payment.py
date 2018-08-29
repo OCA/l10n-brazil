@@ -9,30 +9,6 @@ from odoo.tools.float_utils import float_round as round
 from odoo.exceptions import ValidationError
 
 
-class PaymentOrder(models.Model):
-    _inherit = 'account.payment.order'
-
-    # TODO: Implementar total de juros e outras despesas acessórias.
-    @api.depends('payment_line_ids',
-                 'payment_line_ids.amount_company_currency')
-    @api.multi
-    def _compute_total(self):
-        for record in self:
-            record.total_company_currency = sum(
-                record.mapped('payment_line_ids.amount_company_currency') or
-                [0.0])
-
-    @api.multi
-    def action_open(self):
-        """
-        Validacao para nao confirmar ordem de pagamento vazia
-        """
-        for record in self:
-            if not record.payment_line_ids:
-                raise ValidationError(_("Impossible confirm empty line!"))
-        return super(PaymentOrder, self).action_open()
-
-
 class PaymentLine(models.Model):
     _inherit = 'account.payment.line'
 
