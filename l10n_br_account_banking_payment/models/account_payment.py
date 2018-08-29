@@ -10,7 +10,7 @@ from odoo.exceptions import ValidationError
 
 
 class PaymentOrder(models.Model):
-    _inherit = 'payment.order'
+    _inherit = 'account.payment.order'
 
     # TODO: Implementar total de juros e outras despesas acessórias.
     @api.depends('line_ids', 'line_ids.amount')
@@ -31,7 +31,7 @@ class PaymentOrder(models.Model):
 
 
 class PaymentLine(models.Model):
-    _inherit = 'payment.line'
+    _inherit = 'account.payment.line'
 
     @api.model
     def _get_info_partner(self, partner_record):
