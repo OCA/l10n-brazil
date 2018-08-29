@@ -732,11 +732,17 @@ class L10nBrSefip(models.Model):
         dia = str(self.company_id.darf_dia_vencimento)
 
         # ou se forem darfs especificas, cair no dia 05 de cada mes
-            dia = '05'
         if codigo_receita in ['1850', '1661']:
+            dia = '07'
 
         data = self.ano + '-' + self.mes + '-' + dia
-        data_vencimento = fields.Date.from_string(data) + timedelta(days=31)
+        data_vencimento = \
+            fields.Datetime.from_string(data + ' 03:00:00') + timedelta(days=31)
+
+        # Antecipar data caso caia em feriado
+        while not self.company_id.default_resource_calendar_id.\
+                data_eh_dia_util(data_vencimento):
+            data_vencimento -= timedelta(days=1)
 
         # Gerar FINANCEIRO da DARF
         vals_darf = {
