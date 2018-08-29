@@ -26,7 +26,7 @@
                             <group colspan="2" col="2">
                                 <field name="sped_r1000" readonly="1"/>
                                 <field name="sped_r1000_situacao" readonly="1"/>
-                                <field name="reinf_periodo_inicial_id" required="1"/>
+                                <field name="reinf_periodo_inicial_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
                                 <field name="reinf_periodo_atualizacao_id" />
                                 <field name="reinf_periodo_final_id" />
                             </group>
