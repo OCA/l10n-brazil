@@ -17,7 +17,7 @@ class ResCompany(models.Model):
         ('4', u'NFC-e em operação com entrega em domicílio'),
         ('5', u'Operação presencial, fora do estabelecimento'),
         ('9', u'Operação não presencial, outros'),
-        ], u'Tipo de operação',
+    ], u'Tipo de operação',
         help=u'Indicador de presença do comprador no \
             \nestabelecimento comercial no momento \
             \nda operação.')
