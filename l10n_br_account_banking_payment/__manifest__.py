@@ -19,7 +19,6 @@
     'data': [
         'views/account_due_list.xml',
         'views/account_payment.xml',
-        'wizard/payment_order_create_view.xml',
     ],
     'demo': [
     ],
