@@ -13,7 +13,7 @@
     'category': 'Banking addons',
     'depends': [
         'l10n_br_account',
-        'account_banking_payment_export',
+        'account_payment_order',
         'account_due_list',
     ],
     'data': [
