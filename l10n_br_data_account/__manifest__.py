@@ -14,7 +14,6 @@
     'data': [
     ],
     'demo': [
-        'demo/base_demo.xml',
     ],
     'category': 'Localisation',
     'installable': False,
