@@ -161,7 +161,7 @@ class SpedLote(models.Model, ):
                 raise ValidationError("Não pode excluir um Lote transmitido!")
             if lote.situacao in ['3']:
                 # Mudar o status dos registros deste lote para 'Pendente'
-                for registro in lote.registro_ids:
+                for registro in lote.transmissao_ids:
                     registro.situacao = '1'
             super(SpedLote, lote).unlink()
 
