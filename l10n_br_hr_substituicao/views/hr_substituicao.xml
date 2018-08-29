@@ -112,6 +112,7 @@
         <menuitem id="menu_l10n_br_hr_substituicao_root"
                   name="Substituições"
                   sequence="11"
+                  groups="base.group_hr_manager"
                   parent="hr.menu_hr_root"/>
 
         <menuitem id="menu_l10n_br_hr_substituicao"
