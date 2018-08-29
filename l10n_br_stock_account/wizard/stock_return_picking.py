@@ -2,9 +2,9 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, api, _
-from openerp.exceptions import Warning as UserError
-from openerp.tools.safe_eval import safe_eval
+from odoo import models, api, _
+from odoo.exceptions import Warning as UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class StockReturnPicking(models.TransientModel):
