@@ -53,6 +53,10 @@
         <field name="parent_id" ref="hr_payroll.menu_hr_root_payroll"/>
         <field name="action" ref="wizard_l10n_br_hr_payroll_analytic_report_act_window"/>
         <field name="sequence" eval="140"/>
+        <field name="groups_id" eval="[(6, 0, [
+	            ref('base.group_hr_user'),
+	            ref('base.group_hr_manager'),
+	        ])]"/>
     </record>
 
 </data>
