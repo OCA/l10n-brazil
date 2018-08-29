@@ -108,12 +108,8 @@ class HrEmployee(models.Model):
     @api.multi
     @api.constrains('cpf')
     def _check_cpf(self):
-        result = True
         for record in self:
-            if record.cpf:
-                if not fiscal.validate_cpf(record.cpf):
-                    result = False
-            if not result:
+            if record.cpf and not fiscal.validate_cpf(record.cpf):
                 raise ValidationError(u"CPF Invalido!")
 
     organ_exp = fields.Char(string='Dispatcher organ')
