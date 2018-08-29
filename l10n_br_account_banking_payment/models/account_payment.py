@@ -3,10 +3,10 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
-from openerp.addons import decimal_precision as dp
-from openerp.tools.float_utils import float_round as round
-from openerp.exceptions import ValidationError
+from odoo import models, fields, api, _
+from odoo.addons import decimal_precision as dp
+from odoo.tools.float_utils import float_round as round
+from odoo.exceptions import ValidationError
 
 
 class PaymentOrder(models.Model):
