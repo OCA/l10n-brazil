@@ -11,7 +11,7 @@ Installation
 
 This module depends on:
 
-* account_banking_payment_export
+* account_payment_order
 * account_due_list
 * l10n_br_account
 
