@@ -702,6 +702,7 @@ class L10nBrSefip(models.Model):
         # Número do documento da DARF
         sequence_id = self.company_id.darf_sequence_id.id
         doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
+        num_referencia = ''
 
         # Definir quem sera o contribuinte da DARF, se nao passar nenhum
         # nos parametros assume que é a empresa
@@ -720,8 +721,10 @@ class L10nBrSefip(models.Model):
 
         if codigo_receita == '1661':
             descricao += ' - PSS Plano de Seguridade Social'
+            num_referencia = partner_id.cnpj_cpf
 
         if codigo_receita == '1850':
+            num_referencia = self.company_id.partner_id.cnpj_cpf
             descricao += ' - PSS Patronal'
 
         # Calcular data de vencimento da DARF
@@ -751,6 +754,7 @@ class L10nBrSefip(models.Model):
             'sefip_id': self.id,
             'cod_receita': codigo_receita,
             'descricao': descricao,
+            'num_referencia': num_referencia,
         }
         financial_move_darf = self.env['financial.move'].create(vals_darf)
 
