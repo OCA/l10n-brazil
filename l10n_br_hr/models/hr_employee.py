@@ -54,13 +54,10 @@ class HrEmployee(models.Model):
 
     @api.constrains('pis_pasep')
     def _validate_pis_pasep(self):
-        employee = self
-        if not employee.pis_pasep:
-            return True
-        elif fiscal.validate_pis_pasep(self.pis_pasep):
-            return True
-        else:
-            raise ValidationError(_('Invalid PIS/PASEP'))
+        for record in self:
+            if record.pis_pasep and not fiscal.\
+                    validate_pis_pasep(record.pis_pasep):
+                raise ValidationError(_('Invalid PIS/PASEP'))
 
     pis_pasep = fields.Char(u'PIS/PASEP', size=15)
     ctps = fields.Char('CTPS', help='CTPS number')

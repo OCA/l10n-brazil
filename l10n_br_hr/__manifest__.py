@@ -15,11 +15,11 @@
         'data/hr_employee_data.xml',
         'data/hr_employee_nationality_code_data.xml',
         'security/ir.model.access.csv',
-        'view/res_company_view.xml',
-        'view/l10n_br_hr_cbo_view.xml',
-        'view/hr_employee_dependent_view.xml',
-        'view/hr_employee_view.xml',
-        'view/hr_job_view.xml',
+        'views/res_company_view.xml',
+        'views/l10n_br_hr_cbo_view.xml',
+        'views/hr_employee_dependent_view.xml',
+        'views/hr_employee_view.xml',
+        'views/hr_job_view.xml',
     ],
     'test': [
         'test/l10n_br_hr_demo.yml'
