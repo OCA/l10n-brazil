@@ -12,7 +12,6 @@ setuptools.setup(
         'odoo10-addon-l10n_br_base',
         'odoo10-addon-l10n_br_crm',
         'odoo10-addon-l10n_br_crm_zip',
-        'odoo10-addon-l10n_br_data_base',
         'odoo10-addon-l10n_br_stock',
         'odoo10-addon-l10n_br_zip',
         'odoo10-addon-l10n_br_zip_correios',
