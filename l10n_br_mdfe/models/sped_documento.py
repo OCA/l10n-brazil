@@ -28,6 +28,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     SITUACAO_FISCAL_DENEGADO,
 )
 
+from pynfe.processamento.mdfe import ComunicacaoMDFe
 from pynfe.utils.flags import (
     WS_MDFE_CONSULTA,
     WS_MDFE_STATUS_SERVICO,
@@ -293,16 +294,9 @@ class SpedDocumento(models.Model):
         mdfe = self.gera_mdfe()
         envio = self.monta_envio()
 
-        #
-        # Se o último processo foi a consulta do status do serviço, significa
-        # que ele não está online...
-        #
         self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
         if not mdfe.status_servico().resposta.cStat == '107':
             return {}
-        #
-        # Se o último processo foi a consulta da nota, significa que ela já
-        # está emitida
 
         consulta = mdfe.consulta(self.chave).resposta
         if consulta.cStat in ('100', '101', '132'):
@@ -313,16 +307,14 @@ class SpedDocumento(models.Model):
 
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
             return {}
-        #
-        # Se o último processo foi o envio do lote, significa que a consulta
-        # falhou, mas o envio não
-        #
+
         resposta = mdfe.autorizacao(envio).resposta
         if resposta.cStat != '103':
             self.mensagem_nfe = 'Código de retorno: ' + resposta.cStat + \
                                 '\nMensagem: ' + resposta.xMotivo
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
             return {}
+
         recibo = None
         for i in range(5):
             time.sleep(resposta.infRec.tMed * (1.5 if i else 1.3))
@@ -335,15 +327,10 @@ class SpedDocumento(models.Model):
                 #
                 self.recibo = resposta.infRec.nRec
                 break
-        #
-        # Se o último processo foi o retorno do recibo, a nota foi rejeitada,
-        # denegada, autorizada, ou ainda não tem resposta
-        #
+
         if recibo.cStat == '105':
             self.situacao_nfe = SITUACAO_NFE_ENVIADA
-        #
-        # Lote processado
-        #
+        
         elif recibo.cStat == '104' and recibo.protMDFe.infProt.cStat == '100':
 
             # TODO: Gravar o xml
