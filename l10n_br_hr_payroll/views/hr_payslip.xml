@@ -5,7 +5,7 @@
 <openerp>
     <data>
 
-        <menuitem id="hr_payroll.menu_hr_root_payroll" parent="hr.menu_hr_root" name="Payroll" sequence="30" groups="base.group_hr_manager" />
+        <menuitem id="hr_payroll.menu_hr_root_payroll" parent="hr.menu_hr_root" name="Payroll" sequence="30" groups="base.group_user" />
         <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root" name="Simulações" sequence="35" groups="base.group_hr_manager"/>
         <menuitem id="menu_hr_root_payroll_provisao" parent="hr.menu_hr_root" name="Provisão" sequence="45" groups="base.group_hr_manager"/>
 
