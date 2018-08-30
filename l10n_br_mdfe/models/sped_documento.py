@@ -4,6 +4,7 @@
 
 from __future__ import division, print_function, unicode_literals
 import tempfile
+import time
 
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import (
@@ -289,122 +290,79 @@ class SpedDocumento(models.Model):
         if not self.modelo == MODELO_FISCAL_MDFE:
             return result
 
-        # processador = self.processador_cfe()
-        processador = False
-
-        cert = self.empresa_id.certificado_id.arquivo.decode('base64')
-        pw = self.empresa_id.certificado_id.senha
-        uf = self.empresa_id.estado
-
-        caminho = tempfile.gettempdir() + '/certificado.pfx'
-        f = open(caminho, 'wb')
-        f.write(cert)
-        f.close()
-
-        mdfe = self.monta_mdfe(processador)
-        edoc = DocumentoEletronico(mdfe, certificado=caminho, senha=pw, uf=uf)
-
-        processo = None
-        for p in edoc.envia_documento():
-            processo = p
+        mdfe = self.gera_mdfe()
+        envio = self.monta_envio()
 
         #
         # Se o último processo foi a consulta do status do serviço, significa
         # que ele não está online...
         #
-        if processo.webservice == WS_MDFE_STATUS_SERVICO:
-            self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
+        self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
+        if not mdfe.status_servico().resposta.cStat == '107':
+            return {}
         #
         # Se o último processo foi a consulta da nota, significa que ela já
         # está emitida
-        #
-        elif processo.webservice == WS_MDFE_CONSULTA:
-            if processo.resposta.cStat == '100':
+
+        consulta = mdfe.consulta(self.chave).resposta
+        if consulta.cStat in ('100', '101', '132'):
+            if consulta.cStat == '100':
                 # TODO Corrir o GenetateDS:
                 # http://www.davekuhlman.org/generateDS.html#support-for-xs-any
                 # implementar gds_build_any para infProt
 
-                # self.chave = processo.resposta.protMDFe.infProt.chMDFe
-                # self.executa_antes_autorizar()
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
-                # self.executa_depois_autorizar()
-
-            else:
-                self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
+            return {}
         #
         # Se o último processo foi o envio do lote, significa que a consulta
         # falhou, mas o envio não
         #
-        elif processo.webservice == WS_MDFE_RECEPCAO:
-            #
-            # Lote recebido, vamos guardar o recibo
-            #
-            if processo.resposta.cStat == '103':
-                self.recibo = processo.resposta.infRec.nRec
+        resposta = mdfe.autorizacao(envio).resposta
+        if resposta.cStat != '103':
+            self.mensagem_nfe = 'Código de retorno: ' + resposta.cStat + \
+                                '\nMensagem: ' + resposta.xMotivo
+            self.situacao_nfe = SITUACAO_NFE_REJEITADA
+            return {}
+        recibo = None
+        for i in range(5):
+            time.sleep(resposta.infRec.tMed * (1.5 if i else 1.3))
+            recibo = mdfe.consulta_recibo(resposta.infRec.nRec).resposta
+            if recibo and recibo.cStat == '105':
+                continue
             else:
-                mensagem = 'Código de retorno: ' + \
-                           processo.resposta.cStat
-                mensagem += '\nMensagem: ' + \
-                            processo.resposta.xMotivo
-                self.mensagem_nfe = mensagem
-                self.situacao_nfe = SITUACAO_NFE_REJEITADA
+                #
+                # Lote recebido, vamos guardar o recibo
+                #
+                self.recibo = resposta.infRec.nRec
+                break
         #
         # Se o último processo foi o retorno do recibo, a nota foi rejeitada,
         # denegada, autorizada, ou ainda não tem resposta
         #
-        elif processo.webservice == WS_MDFE_RET_RECEPCAO:
+        if recibo.cStat == '105':
+            self.situacao_nfe = SITUACAO_NFE_ENVIADA
+        #
+        # Lote processado
+        #
+        elif recibo.cStat == '104' and recibo.protMDFe.infProt.cStat == '100':
+
+            # TODO: Gravar o xml
+            # TODO: Gravar o pdf
+            # TODO: Salvar a hora de autorizaçao
+
+            self.protocolo_autorizacao = recibo.protMDFe.infProt.nProt
+
+            # Autorizada
+            if recibo.protMDFe.infProt.cStat == '100':
+                self.protocolo_autorizacao = recibo.protMDFe.infProt.nProt
+                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+        else:
             #
-            # Consulta ainda sem resposta, a nota ainda não foi processada
+            # Rejeitada por outros motivos, falha no schema etc. etc.
             #
-            if processo.resposta.cStat == '105':
-                self.situacao_nfe = SITUACAO_NFE_ENVIADA
-            #
-            # Lote processado
-            #
-            elif processo.resposta.cStat == '104':
-                protMDFe = processo.resposta.protMDFe
-
-                #
-                # Autorizada ou denegada
-                #
-                if protMDFe.infProt.cStat == '100':
-                    # procMDFe = processo.resposta.procMDFe
-                    # self.grava_xml(procMDFe.MDFe)
-                    # self.grava_xml_autorizacao(procMDFe)
-
-                    # TODO: Gravar o xml
-                    # TODO: Gravar o pdf
-                    # TODO: Salbar a gora de autorizaçao
-
-                    # data_autorizacao = protMDFe.infProt.dhRecbto
-                    # data_autorizacao = UTC.normalize(data_autorizacao)
-
-                    # self.data_hora_autorizacao = data_autorizacao
-                    self.protocolo_autorizacao = protMDFe.infProt.nProt
-                    self.chave = protMDFe.infProt.chMDFe
-
-                    if protMDFe.infProt.cStat == '100':
-                        self.executa_antes_autorizar()
-                        self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
-                        self.executa_depois_autorizar()
-
-                else:
-                    mensagem = 'Código de retorno: ' + \
-                               protMDFe.infProt.cStat
-                    mensagem += '\nMensagem: ' + \
-                                protMDFe.infProt.xMotivo
-                    self.mensagem_nfe = mensagem
-                    self.situacao_nfe = SITUACAO_NFE_REJEITADA
-            else:
-                #
-                # Rejeitada por outros motivos, falha no schema etc. etc.
-                #
-                mensagem = 'Código de retorno: ' + \
-                           processo.resposta.cStat
-                mensagem += '\nMensagem: ' + \
-                            processo.resposta.xMotivo
-                self.mensagem_nfe = mensagem
-                self.situacao_nfe = SITUACAO_NFE_REJEITADA
+            self.mensagem_nfe = 'Código de retorno: ' + recibo.cStat + \
+                                '\nMensagem: ' + recibo.xMotivo
+            self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     def gera_pdf(self):
         for record in self:
