@@ -10,6 +10,8 @@ def payslip_report(pool, cr, uid, local_context, context):
     payslip_pool = pool['hr.payslip']
     payslip_id = payslip_pool.browse(cr, uid, context['active_id'])
 
+    local_context['footer'] = payslip_id.company_id.rml_footer
+
     company_logo = payslip_id.company_id.logo
     company_nfe_logo = payslip_id.company_id.nfe_logo
 
@@ -18,11 +20,33 @@ def payslip_report(pool, cr, uid, local_context, context):
     local_context['company_logo2'] = \
         company_nfe_logo if company_nfe_logo else company_logo
 
-    # numero maximo de linhas por holerites, se ultrapassar esse limite será
-    # dividido em 2 grupos para ser exibido em uma segunda pagina
-    max_linhas = 10
-    local_context['grupo_rubricas_1'] = payslip_id.line_resume_ids[:max_linhas]
-    local_context['grupo_rubricas_2'] = False
-    if len(payslip_id.line_resume_ids) > max_linhas:
-        local_context['grupo_rubricas_2'] = \
-            payslip_id.line_resume_ids[max_linhas:]
+    local_context['linhas_holerites'] = payslip_id.line_resume_ids
+
+    local_context['data_pagamento'] = \
+        payslip_id.payment_order_id.date_scheduled or ''
+
+    # Competencia
+    competencia = dict(payslip_id._fields.get('mes_do_ano').selection).get(
+        payslip_id.mes_do_ano) + ' de ' + str(payslip_id.ano)
+    local_context['competencia'] = competencia
+
+    # Calculo da quantidade de dependentes ativos.
+    qty_dependent_values = 0
+    for dependente in payslip_id.employee_id.dependent_ids:
+        if dependente.dependent_verification and \
+                dependente.dependent_dob < payslip_id.date_from:
+                    qty_dependent_values += 1
+
+    # Bloco para montar as observacoes do Holerite
+    msg_dependentes = 'OBS.: {} dependente{}'.format(
+        qty_dependent_values, 's' if qty_dependent_values != 1 else '') \
+        if qty_dependent_values else ''
+    local_context['msg_dependentes'] = msg_dependentes
+
+    # Mensagem de felcitações
+    msg_aniversario = ''
+    aniversario = str(payslip_id.ano) + payslip_id.employee_id.birthday[-6:]
+    if aniversario >= payslip_id.date_from and \
+            aniversario <= payslip_id.date_to:
+        msg_aniversario = '\n\n\nFELIZ ANIVERSÁRIO! =) '
+    local_context['msg_aniversario'] = msg_aniversario
