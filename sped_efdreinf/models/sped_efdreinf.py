@@ -345,10 +345,6 @@ class SpedEfdReinf(models.Model):
             if not estabelecimento.sped_r2010_registro:
                 estabelecimento.unlink()
 
-        # Pegar a lista de empresas
-        # domain = [
-        #     ('cnpj_cpf', '=ilike', cnpj_base),
-        # ]
         empresas = self.env['res.company'].search([])
 
         # Roda 1 empresa por vez (cada empresa é um Estabelecimento no EFD/Reinf)
@@ -357,66 +353,14 @@ class SpedEfdReinf(models.Model):
             if empresa.cnpj_cpf[0:10] != cnpj_base:
                 continue
 
-            # Identificar NFs de entrada do período com retenção de INSS nesta empresa
-            domain = [
-                ('state', 'in', ['open', 'paid']),
-                ('type', '=', 'in_invoice'),
-                ('date_hour_invoice', '>=', data_hora_inicial),
-                ('date_hour_invoice', '<=', data_hora_final),
-            ]
-            nfs_busca = self.env['account.invoice'].search(domain, order='partner_id')
-            prestador_id = False
-            estabelecimento_id = False
-            ind_cprb = False
-
-            # Inicia acumuladores do Estabelecimento
-            vr_total_bruto = 0
-            vr_total_base_retencao = 0
-            vr_total_ret_princ = 0
-            vr_total_ret_adic = 0
-            vr_total_nret_princ = 0
-            vr_total_nret_adic = 0
+            nfs_busca = self.get_fornecedores_notas_entrada(
+                data_hora_final, data_hora_inicial)
             for nf in nfs_busca:
 
                 if nf.company_id != empresa or nf.inss_value_wh == 0:
                     continue
 
-                if prestador_id != nf.partner_id and nf.company_id == empresa:
-
-                    # Popula os totalizadores do prestador anterior
-                    if prestador_id:
-
-                        # Precisa mudar o status do registro R-2010 ?
-                        if estabelecimento_id.sped_r2010 and \
-                                (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
-                                 round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
-                                 round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
-                                 round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
-                                 round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
-                                 round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
-                            estabelecimento_id.sped_r2010_registro.situacao = '5'
-                            estabelecimento_id.vr_total_bruto = vr_total_bruto
-                            estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-                            estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-                            estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-                            estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-                            estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
-                        else:
-                            if estabelecimento_id.situacao_r2010 != '5':
-                                estabelecimento_id.vr_total_bruto = vr_total_bruto
-                                estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-                                estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-                                estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-                                estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-                                estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
-
-                        # Zera os totalizadores
-                        vr_total_bruto = 0
-                        vr_total_base_retencao = 0
-                        vr_total_ret_princ = 0
-                        vr_total_ret_adic = 0
-                        vr_total_nret_princ = 0
-                        vr_total_nret_adic = 0
+                if nf.company_id == empresa:
 
                     # Define o próximo prestador_id
                     prestador_id = nf.partner_id
@@ -443,81 +387,18 @@ class SpedEfdReinf(models.Model):
                         estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].create(vals)
                         self.estabelecimento_ids = [(4, estabelecimento_id.id)]
 
-                # Soma os totalizadores desta NF
-                # vr_total_bruto += nf.amount_total
-                vr_total_bruto += nf.inss_base_wh
-                vr_total_base_retencao += nf.inss_base_wh
-                vr_total_ret_princ += nf.inss_value_wh
-                vr_total_ret_adic += 0  # TODO Criar o campo vr_total_rec_adic na NF
-                vr_total_nret_princ += 0  # TODO Criar o campo vr_total_nret_princ na NF
-                vr_total_nret_adic += 0  # TODO Criar o campo vr_total_nret_adic na NF
-
-                # Criar o registro da NF
-                domain = [
-                    ('estabelecimento_id', '=', estabelecimento_id.id),
-                    ('nfs_id', '=', nf.id),
-                ]
-                nfs_estabelecimento = self.env['sped.efdreinf.nfs'].search(domain)
-                if not nfs_estabelecimento:
-
-                    # Cria a NF que ainda não existe
-                    vals = {
-                        'estabelecimento_id': estabelecimento_id.id,
-                        'nfs_id': nf.id,
-                    }
-                    nfs_estabelecimento = self.env['sped.efdreinf.nfs'].create(vals)
-                    estabelecimento_id.nfs_ids = [(4, nfs_estabelecimento.id)]
-
-                # Criar os registros dos itens das NFs
-                for item in nf.invoice_line:
-                    domain = [
-                        ('efdreinf_nfs_id', '=', nfs_estabelecimento.id),
-                        ('servico_nfs_id', '=', item.id),
-                    ]
-                    servico = self.env['sped.efdreinf.servico'].search(domain)
-
-                    if not servico:
-                        vals = {
-                            'efdreinf_nfs_id': nfs_estabelecimento.id,
-                            'servico_nfs_id': item.id,
-                            'tp_servico_id': item.product_id.tp_servico_id.id or False,
-                            'vr_base_ret': item.inss_base,
-                            'vr_retencao': item.inss_wh_value,
-                            'vr_ret_sub': 0,  # TODO Criar esse campo no item da NF
-                            'vr_nret_princ': 0,  # TODO Criar esse campo no item da NF
-                            'vr_servicos_15': 0,  # TODO Criar esse campo no item da NF
-                            'vr_servicos_20': 0,  # TODO Criar esse campo no item da NF
-                            'vr_servicos_25': 0,  # TODO Criar esse campo no item da NF
-                            'vr_adicional': 0,  # TODO Criar esse campo no item da NF
-                            'vr_nret_adic': 0,  # TODO Criar esse campo no item da NF
-                        }
-                        servico = self.env['sped.efdreinf.servico'].create(vals)
-                        nfs_estabelecimento.servico_ids = [(4, servico.id)]
-
-            # Precisa mudar o status do registro R-2010 ?
-            if estabelecimento_id:
-                if estabelecimento_id.sped_r2010 and \
-                        (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
-                         round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
-                         round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
-                         round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
-                         round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
-                         round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
-                    estabelecimento_id.sped_r2010_registro.situacao = '5'
-                    estabelecimento_id.vr_total_bruto = vr_total_bruto
-                    estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-                    estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-                    estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-                    estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-                    estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
-                else:
-                    if estabelecimento_id.situacao_r2010 != '5':
-                        estabelecimento_id.vr_total_bruto = vr_total_bruto
-                        estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-                        estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-                        estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-                        estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-                        estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
+    def get_fornecedores_notas_entrada(self, data_hora_final,
+                                       data_hora_inicial):
+        # Identificar NFs de entrada do período com retenção de INSS nesta empresa
+        domain = [
+            ('state', 'in', ['open', 'paid']),
+            ('type', '=', 'in_invoice'),
+            ('date_hour_invoice', '>=', data_hora_inicial),
+            ('date_hour_invoice', '<=', data_hora_final),
+        ]
+        nfs_busca = self.env['account.invoice'].search(domain,
+                                                       order='partner_id')
+        return nfs_busca
 
     @api.multi
     def criar_r2010(self):
@@ -568,7 +449,8 @@ class SpedEfdReinf(models.Model):
         for efdreinf in self:
 
             # Periódicos
-            efdreinf.importar_movimento()               # R-2010
+            efdreinf.importar_movimento()
+            efdreinf.estabelecimento_ids.calcular_valores_impostos()
             efdreinf.criar_r2010()
 
             # Calcula os registros para transmitir

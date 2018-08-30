@@ -109,6 +109,131 @@ class SpedEfdReinfEstab(models.Model, SpedRegistroIntermediario):
         for efdreinf in self:
             efdreinf.sped_r2010 = True if efdreinf.sped_r2010_registro else False
 
+    def get_fornecedores_notas_entrada(self, data_hora_inicial, data_hora_final):
+        # Identificar NFs de entrada do período com retenção de INSS nesta empresa
+        domain = [
+            ('state', 'in', ['open', 'paid']),
+            ('type', '=', 'in_invoice'),
+            ('partner_id', '=', self.prestador_id.id),
+            ('date_hour_invoice', '>=', data_hora_inicial),
+            ('date_hour_invoice', '<=', data_hora_final),
+        ]
+        nfs_busca = self.env['account.invoice'].search(domain)
+
+        return nfs_busca
+
+    def gerar_valores_nfs(self):
+        # Criar o registro da NF
+        data_hora_inicial = self.periodo_id.date_start + ' 00:00:00'
+        data_hora_final = self.periodo_id.date_stop + ' 23:59:59'
+        nfs = self.get_fornecedores_notas_entrada(data_hora_inicial, data_hora_final)
+        for nf in nfs:
+            domain = [
+                ('estabelecimento_id', '=', self.id),
+                ('nfs_id', '=', nf.id),
+            ]
+            nfs_estabelecimento = self.env[
+                'sped.efdreinf.nfs'].search(domain)
+            if not nfs_estabelecimento:
+                # Cria a NF que ainda não existe
+                vals = {
+                    'estabelecimento_id': self.id,
+                    'nfs_id': nf.id,
+                }
+                nfs_estabelecimento = self.env[
+                    'sped.efdreinf.nfs'].create(vals)
+                self.nfs_ids = [
+                    (4, nfs_estabelecimento.id)]
+
+            # Criar os registros dos itens das NFs
+            for item in nf.invoice_line:
+                domain = [
+                    (
+                        'efdreinf_nfs_id', '=', nfs_estabelecimento.id),
+                    ('servico_nfs_id', '=', item.id),
+                ]
+                servico = self.env['sped.efdreinf.servico'].search(
+                    domain)
+
+                if not servico:
+                    vals = {
+                        'efdreinf_nfs_id': nfs_estabelecimento.id,
+                        'servico_nfs_id': item.id,
+                        'tp_servico_id': item.product_id.tp_servico_id.id or False,
+                        'vr_base_ret': item.inss_base,
+                        'vr_retencao': item.inss_wh_value,
+                        'vr_ret_sub': 0,
+                        # TODO Criar esse campo no item da NF
+                        'vr_nret_princ': 0,
+                        # TODO Criar esse campo no item da NF
+                        'vr_servicos_15': 0,
+                        # TODO Criar esse campo no item da NF
+                        'vr_servicos_20': 0,
+                        # TODO Criar esse campo no item da NF
+                        'vr_servicos_25': 0,
+                        # TODO Criar esse campo no item da NF
+                        'vr_adicional': 0,
+                        # TODO Criar esse campo no item da NF
+                        'vr_nret_adic': 0,
+                        # TODO Criar esse campo no item da NF
+                    }
+                    servico = self.env[
+                        'sped.efdreinf.servico'].create(vals)
+                    nfs_estabelecimento.servico_ids = [
+                        (4, servico.id)]
+
+    @api.multi
+    def calcular_valores_impostos(self):
+        for record in self:
+            vr_total_bruto = 0
+            vr_total_base_retencao = 0
+            vr_total_ret_princ = 0
+            vr_total_ret_adic = 0
+            vr_total_nret_princ = 0
+            vr_total_nret_adic = 0
+
+            record.gerar_valores_nfs()
+
+            for nf in record.nfs_ids:
+                # Soma os totalizadores desta NF
+                # vr_total_bruto += nf.amount_total
+                vr_total_bruto += nf.nfs_id.inss_base_wh
+                vr_total_base_retencao += nf.nfs_id.inss_base_wh
+                vr_total_ret_princ += nf.nfs_id.inss_value_wh
+                vr_total_ret_adic += 0  # TODO Criar o campo vr_total_rec_adic na NF
+                vr_total_nret_princ += 0  # TODO Criar o campo vr_total_nret_princ na NF
+                vr_total_nret_adic += 0  # TODO Criar o campo vr_total_nret_adic na NF
+
+            # Precisa mudar o status do registro R-2010 ?
+            if record.sped_r2010 and \
+                    (round(record.vr_total_bruto,
+                           2) != round(vr_total_bruto, 2) or
+                     round(record.vr_total_base_retencao,
+                           2) != round(vr_total_base_retencao, 2) or
+                     round(record.vr_total_ret_princ,
+                           2) != round(vr_total_ret_princ, 2) or
+                     round(record.vr_total_ret_adic,
+                           2) != round(vr_total_ret_adic, 2) or
+                     round(record.vr_total_nret_princ,
+                           2) != round(vr_total_nret_princ, 2) or
+                     round(record.vr_total_nret_adic,
+                           2) != round(vr_total_nret_adic, 2)):
+                record.sped_r2010_registro.situacao = '5'
+                record.vr_total_bruto = vr_total_bruto
+                record.vr_total_base_retencao = vr_total_base_retencao
+                record.vr_total_ret_princ = vr_total_ret_princ
+                record.vr_total_ret_adic = vr_total_ret_adic
+                record.vr_total_nret_princ = vr_total_nret_princ
+                record.vr_total_nret_adic = vr_total_nret_adic
+            else:
+                if record.situacao_r2010 != '5':
+                    record.vr_total_bruto = vr_total_bruto
+                    record.vr_total_base_retencao = vr_total_base_retencao
+                    record.vr_total_ret_princ = vr_total_ret_princ
+                    record.vr_total_ret_adic = vr_total_ret_adic
+                    record.vr_total_nret_princ = vr_total_nret_princ
+                    record.vr_total_nret_adic = vr_total_nret_adic
+
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
 
