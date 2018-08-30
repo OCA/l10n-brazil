@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA, Grupo Zenir
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="consulta_mdfe_form" model="ir.ui.view">
+        <field name="name">consulta.mdfe.form</field>
+        <field name="model">consulta.mdfe</field>
+        <field name="arch" type="xml">
+            <form string="Consultar MDF-e">
+                <header>
+                    <button string="Consultar" name="consultar" type="object" class="oe_highlight"/>
+                </header>
+                <group>
+                    <group>
+                        <field name="tipo_consulta"/>
+                        <field name="mensagem_consulta"/>
+                    </group>
+                    <group>
+                        <field name="empresa_id"/>
+                        <field name="certificado_id"/>
+                    </group>
+                    <field name="mdfe_nao_encerrados">
+                        <tree string="MDF-e não encerrados">
+                            <field name="situacao_nfe"/>
+                            <field name="empresa_id"/>
+                            <field name="operacao_id"/>
+                            <field name="serie"/>
+                            <field name="numero"/>
+                            <field name="data_emissao"/>
+                            <field name="vr_nf"/>
+                            <button name="encerra_documento" string="Encerrar" type="object" class="btn-primary"/>
+                        </tree>
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="consulta_mdfe_tree" model="ir.ui.view">
+        <field name="name">consulta.mdfe.tree</field>
+        <field name="model">consulta.mdfe</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="empresa_id"/>
+                <field name="tipo_consulta"/>
+                <field name="mensagem_consulta"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window
+        id="consulta_mdfe_action"
+        name="MDF-e"
+        res_model="consulta.mdfe"
+        view_mode="tree,form"
+        />
+
+    <menuitem
+        parent="l10n_br_base.menu_fiscal"
+        sequence="3"
+        id="menu_fiscal_consultas"
+        name="Consultas"
+        />
+
+    <menuitem
+        parent="menu_fiscal_consultas"
+        id="consulta_mdfe"
+        action="consulta_mdfe_action"
+        />
+</odoo>

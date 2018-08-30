@@ -15,15 +15,17 @@
     'data': [
         'views/sped_empresa.xml',
         'views/sped_veiculo.xml',
-        'security/l10n_br_mdfe_item.xml',
         'views/l10n_br_mdfe_item.xml',
+        'views/sped_documento.xml',
+        'views/sped_operacao.xml',
+        'views/consultas.xml',
+
+        'security/l10n_br_mdfe_item.xml',
         'security/l10n_br_mdfe_lacre.xml',
         'security/l10n_br_mdfe_condutor.xml',
         'security/sped_documento.xml',
         'security/sped_operacao.xml',
 
-        'views/sped_documento.xml',
-        'views/sped_operacao.xml',
         'report/mdfe_report.xml',
     ],
     'demo': [
