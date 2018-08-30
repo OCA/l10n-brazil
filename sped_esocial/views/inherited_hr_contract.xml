@@ -40,6 +40,7 @@
                 </field>
                 <field name="company_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                    <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
                 </field>
                 <field name="job_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
