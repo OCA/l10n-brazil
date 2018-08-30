@@ -27,28 +27,16 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     SITUACAO_NFE_EM_DIGITACAO,
     SITUACAO_FISCAL_DENEGADO,
 )
+from odoo.exceptions import UserError
 
-from pynfe.processamento.mdfe import ComunicacaoMDFe
-from pynfe.utils.flags import (
-    WS_MDFE_CONSULTA,
-    WS_MDFE_STATUS_SERVICO,
-    WS_MDFE_CONSULTA_NAO_ENCERRADOS,
-    WS_MDFE_RECEPCAO,
-    WS_MDFE_RET_RECEPCAO,
-)
-
-from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                           agora)
-
-from edoclib.edoc import DocumentoEletronico
-from odoo.exceptions import UserError, Warning
+SITUACAO_MDFE_ENCERRADA = 'encerrada'
 
 
 class SpedDocumento(models.Model):
 
     _inherit = 'sped.documento'
 
-    @api.depends('modelo', 'emissao', 'importado_xml', 'situacao_nfe')
+    @api.depends('modelo', 'emissao', 'importado_xml', 'situacao_mdfe')
     def _compute_permite_alteracao(self):
         super(SpedDocumento, self)._compute_permite_alteracao()
 
@@ -178,6 +166,21 @@ class SpedDocumento(models.Model):
         inverse_name='mdfe_id',
         inverse='_inverse_item_mdfe_ids',
     )
+    situacao_mdfe = fields.Selection(
+        string=u'Situacação da NF-e',
+        selection=[
+            ('em_digitacao', 'Em digitação'),
+            ('a_enviar', 'Aguardando envio'),
+            ('enviada', 'Aguardando processamento'),
+            ('rejeitada', 'Rejeitada'),
+            ('autorizada', 'Autorizada'),
+            ('cancelada', 'Cancelada'),
+            ('denegada', 'Denegada'),
+            ('inutilizada', 'Inutilizada'),
+            ('encerrada', 'Encerrada'),
+        ],
+        select=True,
+        readonly=True,)
 
     @api.multi
     @api.depends('item_mdfe_ids.documento_id')
@@ -294,7 +297,7 @@ class SpedDocumento(models.Model):
         mdfe = self.gera_mdfe()
         envio = self.monta_envio()
 
-        self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
+        self.situacao_mdfe = SITUACAO_NFE_EM_DIGITACAO
         if not mdfe.status_servico().resposta.cStat == '107':
             return {}
 
@@ -305,14 +308,16 @@ class SpedDocumento(models.Model):
                 # http://www.davekuhlman.org/generateDS.html#support-for-xs-any
                 # implementar gds_build_any para infProt
 
-                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+                self.situacao_mdfe = SITUACAO_NFE_AUTORIZADA
+            elif consulta.cStat == '132':
+                self.situacao_mdfe = SITUACAO_MDFE_ENCERRADA
             return {}
 
         resposta = mdfe.autorizacao(envio).resposta
         if resposta.cStat != '103':
             self.mensagem_nfe = 'Código de retorno: ' + resposta.cStat + \
                                 '\nMensagem: ' + resposta.xMotivo
-            self.situacao_nfe = SITUACAO_NFE_REJEITADA
+            self.situacao_mdfe = SITUACAO_NFE_REJEITADA
             return {}
 
         recibo = None
@@ -329,8 +334,8 @@ class SpedDocumento(models.Model):
                 break
 
         if recibo.cStat == '105':
-            self.situacao_nfe = SITUACAO_NFE_ENVIADA
-        
+            self.situacao_mdfe = SITUACAO_NFE_ENVIADA
+
         elif recibo.cStat == '104' and recibo.protMDFe.infProt.cStat == '100':
 
             # TODO: Gravar o xml
@@ -342,14 +347,14 @@ class SpedDocumento(models.Model):
             # Autorizada
             if recibo.protMDFe.infProt.cStat == '100':
                 self.protocolo_autorizacao = recibo.protMDFe.infProt.nProt
-                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+                self.situacao_mdfe = SITUACAO_NFE_AUTORIZADA
         else:
             #
             # Rejeitada por outros motivos, falha no schema etc. etc.
             #
             self.mensagem_nfe = 'Código de retorno: ' + recibo.cStat + \
                                 '\nMensagem: ' + recibo.xMotivo
-            self.situacao_nfe = SITUACAO_NFE_REJEITADA
+            self.situacao_mdfe = SITUACAO_NFE_REJEITADA
 
     def gera_pdf(self):
         for record in self:
@@ -381,6 +386,8 @@ class SpedDocumento(models.Model):
         encerramento = self.monta_encerramento()
         mdfe = self.gera_mdfe()
         processo = mdfe.encerramento(encerramento)
+        if processo.resposta.infEvento.cStat == '101':
+            self.situacao_mdfe = SITUACAO_MDFE_ENCERRADA
         mensagem = 'Código de retorno: ' + \
                    processo.resposta.infEvento.cStat
         mensagem += '\nMensagem: ' + \
