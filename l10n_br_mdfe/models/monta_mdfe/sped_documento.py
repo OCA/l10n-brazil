@@ -212,3 +212,32 @@ class SpedDocumento(models.Model):
         return ComunicacaoMDFe(certificado=caminho, senha=pw, uf=uf,
                                homologacao=(self.ambiente_nfe == '2'))
 
+    def monta_encerramento(self):
+
+        nSeqEvento = '01'
+        tpEvento = '110112'
+
+        encerramento = evEncMDFe.evEncMDFe()
+        encerramento.set_descEvento('Encerramento')
+        encerramento.set_nProt(self.protocolo_autorizacao)
+        encerramento.set_dtEnc(fields.Date.today())
+        encerramento.set_cUF(self.empresa_id.municipio_id.estado_id.codigo_ibge)
+        encerramento.set_cMun(self.empresa_id.municipio_id.codigo_ibge[:7])
+        
+        det_evento = evEncMDFe.detEventoType(versaoEvento='3.00', 
+                                             anytypeobjs_=encerramento)
+
+        inf_evento = evEncMDFe.infEventoType()
+        inf_evento.set_cOrgao(self.empresa_id.municipio_id.estado_id.codigo_ibge)
+        inf_evento.set_tpAmb('2')
+        inf_evento.set_CNPJ('41426966004836')
+        inf_evento.set_chMDFe(self.chave)
+        inf_evento.set_dhEvento((fields.Datetime.from_string(
+            fields.Datetime.now()) + relativedelta(
+            hours=-3)).strftime('%Y-%m-%dT%H:%M:%S-03:00'))
+        inf_evento.set_tpEvento(tpEvento)
+        inf_evento.set_nSeqEvento(nSeqEvento)
+        inf_evento.set_detEvento(det_evento)
+        inf_evento.set_Id('ID' + tpEvento + self.chave + nSeqEvento)
+
+        return inf_evento

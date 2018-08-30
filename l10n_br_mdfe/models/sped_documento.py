@@ -388,3 +388,14 @@ class SpedDocumento(models.Model):
 
         res, filetype = py3o_report.create_report(self.ids, {})
         return res
+
+    def encerra_documento(self):
+
+        encerramento = self.monta_encerramento()
+        mdfe = self.gera_mdfe()
+        processo = mdfe.encerramento(encerramento)
+        mensagem = 'Código de retorno: ' + \
+                   processo.resposta.infEvento.cStat
+        mensagem += '\nMensagem: ' + \
+                    processo.resposta.infEvento.xMotivo
+        self.mensagem_nfe = mensagem
