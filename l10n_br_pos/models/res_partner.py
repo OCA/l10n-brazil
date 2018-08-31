@@ -2,7 +2,7 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 
 class ResPartner(models.Model):
@@ -32,7 +32,7 @@ class ResPartner(models.Model):
 
     @api.model
     def create_from_ui(self, partner):
-        from openerp.addons.l10n_br_base.tools import misc
+        from odoo.addons.l10n_br_base.tools import misc
         cnpj_cpf = misc.punctuation_rm(partner['cnpj_cpf'])
         cnpj_cpf_type = 'cpf' if len(cnpj_cpf) == 11 else 'cnpj'
         partner['data_alteracao'] = fields.Date.today()
