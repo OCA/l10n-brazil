@@ -386,7 +386,7 @@ class SpedDocumento(models.Model):
         encerramento = self.monta_encerramento()
         mdfe = self.gera_mdfe()
         processo = mdfe.encerramento(encerramento)
-        if processo.resposta.infEvento.cStat == '101':
+        if processo.resposta.infEvento.cStat == '135':
             self.situacao_mdfe = SITUACAO_MDFE_ENCERRADA
         mensagem = 'Código de retorno: ' + \
                    processo.resposta.infEvento.cStat
