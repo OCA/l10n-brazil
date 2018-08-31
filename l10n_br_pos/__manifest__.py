@@ -4,7 +4,7 @@
 
 {
     "name": "Ponto de venda adaptado a legislação Brasileira",
-    "version": "8.0.1.0.0",
+    "version": "10.0.1.0.0",
     "author": "KMEE INFORMATICA LTDA, "
               "Odoo Community Association (OCA)",
     'website': 'http://odoo-brasil.org',
