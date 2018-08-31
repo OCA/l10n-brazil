@@ -203,21 +203,21 @@ class StockMove(models.Model):
 
         return result
 
-    @api.cr_uid_ids_context
-    def _picking_assign(self, cr, uid, move_ids, procurement_group,
-                        location_from, location_to, context=None):
+    @api.multi
+    def _picking_assign(self, move_ids, procurement_group,
+                        location_from, location_to):
 
         result = super(StockMove, self)._picking_assign(
-            cr, uid, move_ids, procurement_group,
-            location_from, location_to, context)
+            move_ids, procurement_group,
+            location_from, location_to)
         if move_ids:
-            move = self.browse(cr, uid, move_ids, context=context)[0]
+            move = self.browse(move_ids)[0]
             if move.picking_id:
                 picking_values = {
                     'fiscal_category_id': move.fiscal_category_id.id,
                     'fiscal_position': move.fiscal_position.id,
                 }
                 self.pool.get("stock.picking").write(
-                    cr, uid, move.picking_id.id,
-                    picking_values, context=context)
+                    move.picking_id.id,
+                    picking_values)
         return result
