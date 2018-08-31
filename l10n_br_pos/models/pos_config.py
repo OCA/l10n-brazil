@@ -2,8 +2,8 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields, api
+from odoo.addons import decimal_precision as dp
 
 SIMPLIFIED_INVOICE_TYPE = [
     ('nfce', u'NFC-E'),
@@ -35,7 +35,6 @@ class PosConfig(models.Model):
     # def _check_lim_data_alteracao(self):
     #     if self.lim_data_alteracao < 0:
     #         raise ValidationError("Somente números positivos são válidos")
-
 
     simplified_invoice_limit = fields.Float(
         string=u'Simplified invoice limit',

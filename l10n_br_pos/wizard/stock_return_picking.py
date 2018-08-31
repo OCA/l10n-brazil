@@ -2,8 +2,8 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, api
-from openerp.tools.safe_eval import safe_eval
+from odoo import models, api
+from odoo.tools.safe_eval import safe_eval
 
 
 class StockReturnPicking(models.TransientModel):
@@ -54,7 +54,7 @@ class StockReturnPicking(models.TransientModel):
         # Search and assign the returning picking
         result_domain = safe_eval(result['domain'])
         picking_ids = result_domain and result_domain[0] and \
-                      result_domain[0][2]
+            result_domain[0][2]
         picking_devolucao = self.env['stock.picking'].browse(picking_ids)
         picking_devolucao.action_assign()
         return picking_devolucao
