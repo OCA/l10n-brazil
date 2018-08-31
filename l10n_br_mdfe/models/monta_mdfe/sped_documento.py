@@ -14,6 +14,13 @@ from pynfe.processamento.mdfe import ComunicacaoMDFe
 
 _logger = logging.getLogger(__name__)
 
+try:
+    from pybrasil.data import parse_datetime, data_hora_horario_brasilia
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+_logger = logging.getLogger(__name__)
+
 from odoo import fields, models
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
@@ -62,12 +69,14 @@ class SpedDocumento(models.Model):
         ide_type.set_procEmi('0')
         ide_type.set_verProc('Odoo')
 
-        dhIniViagem = fields.Datetime.from_string(
-            self.data_hora_entrada_saida).strftime('%Y-%m-%dT%H:%M:%S-03:00')
+        dhIniViagem = data_hora_horario_brasilia(
+            parse_datetime(self.data_hora_entrada_saida + ' GMT')
+        ).strftime('%Y-%m-%dT%H:%M:%S-03:00')
         ide_type.set_dhIniViagem(dhIniViagem)
         ide_type.validate_TDateTimeUTC(ide_type.dhIniViagem)
-        ide_type.set_dhEmi(fields.Datetime.from_string(
-            self.data_hora_emissao).strftime('%Y-%m-%dT%H:%M:%S-03:00'))
+        ide_type.set_dhEmi(data_hora_horario_brasilia(
+            parse_datetime(self.data_hora_emissao + ' GMT')
+        ).strftime('%Y-%m-%dT%H:%M:%S-03:00'))
 
         ide_type.set_infMunCarrega([mdfe3.infMunCarregaType(
             cMunCarrega=municipio.codigo_ibge[:7],
