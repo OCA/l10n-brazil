@@ -119,7 +119,7 @@ class PosOrder(models.Model):
         for statement in order_id.statement_ids:
             if statement.journal_id.sat_payment_mode == '05' and statement.journal_id.pagamento_funcionarios:
                 order_id.partner_id.credit_funcionario -= statement.amount
-            elif statement.journal_id.sat_payment_mode == "05" :
+            elif statement.journal_id.sat_payment_mode == "05":
                 order_id.partner_id.credit_limit -= statement.amount
         return order_id.id
 

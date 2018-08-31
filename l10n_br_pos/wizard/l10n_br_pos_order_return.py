@@ -23,7 +23,7 @@ class StockPickingReturn(models.TransientModel):
         for line in pos_order.lines:
             precos_produtos_pos_order.update({
                 line.product_id.id: line.price_unit - (
-                        line.price_unit * (line.discount/100)
+                    line.price_unit * (line.discount/100)
                 )
             })
         valor_total_devolucao = 0.00
@@ -45,11 +45,11 @@ class StockPickingReturn(models.TransientModel):
                         if line.qtd_produtos_devolvidos + product_line.quantity > line.qty:
                             raise Warning(
                                 _('Esta quantidade do produto %s não pode '
-                                'ser devolvida') % (line.product_id.display_name))
+                                  'ser devolvida') % (line.product_id.display_name))
             res = super(StockPickingReturn, self).create_returns()
             result_domain = safe_eval(res['domain'])
             picking_ids = result_domain and result_domain[0] and \
-                          result_domain[0][2]
+                result_domain[0][2]
             picking_devolucao = self.env['stock.picking'].browse(picking_ids)
             cat_fiscal_devolucao = picking_devolucao.fiscal_category_id
             obj_fp_rule = self.env['account.fiscal.position.rule']

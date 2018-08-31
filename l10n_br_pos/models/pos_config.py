@@ -36,7 +36,6 @@ class PosConfig(models.Model):
     #     if self.lim_data_alteracao < 0:
     #         raise ValidationError("Somente números positivos são válidos")
 
-
     simplified_invoice_limit = fields.Float(
         string=u'Simplified invoice limit',
         digits=dp.get_precision('Account'),
