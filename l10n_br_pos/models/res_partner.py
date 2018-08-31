@@ -39,7 +39,7 @@ class ResPartner(models.Model):
         partner['cnpj_cpf'] = self._mask_cnpj_cpf(cnpj_cpf_type, cnpj_cpf)
         if partner.get('whatsapp') and partner.get('opt_out'):
             partner['whatsapp'] = 'sim' == partner['whatsapp']
-            partner['opt_out']  = 'sim' == partner['opt_out']
+            partner['opt_out'] = 'sim' == partner['opt_out']
         else:
             partner['whatsapp'] = False
             partner['opt_out'] = True

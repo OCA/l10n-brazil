@@ -17,8 +17,8 @@ class StockMove(models.Model):
         ).mapped(
             lambda order_line: (order_line.product_id, order_line.price_unit -
                                 (
-                                        order_line.price_unit * (
-                                            order_line.discount/100)
+                                    order_line.price_unit * (
+                                        order_line.discount/100)
                                 )
                                 )
         ))

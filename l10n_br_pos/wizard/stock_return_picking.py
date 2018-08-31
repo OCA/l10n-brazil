@@ -54,7 +54,7 @@ class StockReturnPicking(models.TransientModel):
         # Search and assign the returning picking
         result_domain = safe_eval(result['domain'])
         picking_ids = result_domain and result_domain[0] and \
-                      result_domain[0][2]
+            result_domain[0][2]
         picking_devolucao = self.env['stock.picking'].browse(picking_ids)
         picking_devolucao.action_assign()
         return picking_devolucao
