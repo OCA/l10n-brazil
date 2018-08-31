@@ -6,12 +6,12 @@ import time
 
 from satcomum.ersat import ChaveCFeSAT
 
-from openerp import models, fields, api
-from openerp.addons import decimal_precision as dp
-from openerp.tools.float_utils import float_compare
-from openerp.addons.l10n_br_pos.models.pos_config import \
+from odoo import models, fields, api
+from odoo.addons import decimal_precision as dp
+from odoo.tools.float_utils import float_compare
+from odoo.addons.l10n_br_pos.models.pos_config import \
     SIMPLIFIED_INVOICE_TYPE
-from openerp.tools.translate import _
+from odoo.tools.translate import _
 
 
 class PosOrder(models.Model):

@@ -2,9 +2,9 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
-from openerp.tools.safe_eval import safe_eval
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning
+from odoo.tools.safe_eval import safe_eval
 
 
 class StockPickingReturn(models.TransientModel):
