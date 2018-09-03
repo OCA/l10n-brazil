@@ -38,8 +38,8 @@ def payslip_report(pool, cr, uid, local_context, context):
                     qty_dependent_values += 1
 
     # Bloco para montar as observacoes do Holerite
-    msg_dependentes = 'OBS.: {} dependente{}'.format(
-        qty_dependent_values, 's' if qty_dependent_values != 1 else '') \
+    msg_dependentes = 'OBS.: Nº Dependente{} IR: {}'.format(
+        's' if qty_dependent_values != 1 else '', qty_dependent_values) \
         if qty_dependent_values else ''
     local_context['msg_dependentes'] = msg_dependentes
 
@@ -48,5 +48,5 @@ def payslip_report(pool, cr, uid, local_context, context):
     aniversario = str(payslip_id.ano) + payslip_id.employee_id.birthday[-6:]
     if aniversario >= payslip_id.date_from and \
             aniversario <= payslip_id.date_to:
-        msg_aniversario = '\n\n\nFELIZ ANIVERSÁRIO! =) '
+        msg_aniversario = '\n\n\n  FELIZ ANIVERSÁRIO! =) '
     local_context['msg_aniversario'] = msg_aniversario
