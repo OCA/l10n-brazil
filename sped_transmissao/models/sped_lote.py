@@ -241,7 +241,7 @@ class SpedLote(models.Model, ):
             self.dh_recepcao = processo.resposta.dhRecepcao   # o tratamento da resposta
             self.versao_aplicativo_recepcao = processo.resposta.versaoAplicativoRecepcao
             self.versao_aplicativo_processamento = processo.resposta.versaoAplicativoProcessamentoLote
-            self.protocolo = processo.resposta.protocoloEnvio  # Não acho correto poder mudar o protocoloEnvio aqui
+            # self.protocolo = processo.resposta.protocoloEnvio  # Não acho correto poder mudar o protocoloEnvio aqui
 
         # Limpar ocorrências
         for ocorrencia in self.ocorrencia_ids:
