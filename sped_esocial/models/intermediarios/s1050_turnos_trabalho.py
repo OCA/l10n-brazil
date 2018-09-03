@@ -63,7 +63,7 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
         related='hr_turnos_trabalho_id.precisa_atualizar',
     )
     precisa_excluir = fields.Boolean(
-        string='Precisa excluir dados?',
+        string='Precisa excluir dados?',sa_atualizar
         compute='compute_precisa_enviar',
     )
     ultima_atualizacao = fields.Datetime(
