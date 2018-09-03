@@ -63,7 +63,7 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
         related='hr_turnos_trabalho_id.precisa_atualizar',
     )
     precisa_excluir = fields.Boolean(
-        string='Precisa excluir dados?',
+        string='Precisa excluir dados?',sa_atualizar
         compute='compute_precisa_enviar',
     )
     ultima_atualizacao = fields.Datetime(
@@ -71,7 +71,7 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
         compute='compute_ultima_atualizacao',
     )
 
-    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao')
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao', 'precisa_atualizar')
     def compute_situacao_esocial(self):
         for turno in self:
             situacao_esocial = '0'  # Inativa

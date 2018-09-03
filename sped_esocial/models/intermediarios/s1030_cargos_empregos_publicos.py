@@ -86,7 +86,7 @@ class SpedEsocialCargo(models.Model, SpedRegistroIntermediario):
 
             cargo.nome = nome
 
-    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao')
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao', 'precisa_atualizar')
     def compute_situacao_esocial(self):
         for cargo in self:
             situacao_esocial = '0'  # Inativa
