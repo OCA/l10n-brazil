@@ -25,10 +25,9 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
     )
     company_id = fields.Many2one(
         string='Empresa',
-        comodel_name='res.company',
+        comodel_name='res.company'
     )
     sped_registro_id = fields.Many2one(
-        string='Registro Original',
         comodel_name='sped.registro',
     )
     sped_transmissao_id = fields.Many2one(
@@ -120,7 +119,8 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
             ide_trabalhador = pysped.esocial.leiaute.S3000_IdeTrabalhador_2()
             trabalhador = self.sped_registro_id.origem.retorna_trabalhador()
             ide_trabalhador.cpfTrab.valor = limpa_formatacao(trabalhador.cpf)
-            ide_trabalhador.nisTrab.valor = limpa_formatacao(trabalhador.pis_pasep)
+            if self.sped_registro_id.registro not in ['S-1210', 'S-2190']:
+                ide_trabalhador.nisTrab.valor = limpa_formatacao(trabalhador.pis_pasep)
             S3000.evento.infoExclusao.ideTrabalhador.append(ide_trabalhador)
 
         # Se for um registro Período, deve enviar a tag ideFolhaPagto
