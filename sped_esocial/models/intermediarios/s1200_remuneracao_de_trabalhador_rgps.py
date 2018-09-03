@@ -138,7 +138,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         indRetif = '1'
         if operacao == 'R':
             indRetif = '2'
-            S1200.evento.ideEvento.nrRecibo.valor = self.sped_registro.retificado_id.recibo
+            S1200.evento.ideEvento.nrRecibo.valor = self.sped_registro.recibo
         S1200.evento.ideEvento.indRetif.valor = indRetif
         S1200.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
                                                         # '1' - Mensal
