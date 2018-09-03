@@ -5,3 +5,4 @@ sped_transmissao_sped_transmissao_lote,sped_transmissao.sped_transmissao_lote,mo
 sped_transmissao_sped_ocorrencia,sped_transmissao.sped_ocorrencia,model_sped_ocorrencia,sped_tabelas.group_manager,1,1,1,1
 sped_transmissao_sped_transmissao,sped_transmissao.sped_transmissao,model_sped_registro,sped_tabelas.group_manager,1,1,1,1
 sped_transmissao_sped_transmissao_lote,sped_transmissao.sped_transmissao_lote,model_sped_lote,sped_tabelas.group_manager,1,1,1,1
+sped_transmissao_sped_registro_operador,sped_transmissao.sped.registro.operador,model_sped_registro,sped_tabelas.group_user,1,0,1,0
