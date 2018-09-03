@@ -1,5 +1,2 @@
-[ This file must be max 2-3 paragraphs, and is required. ]
-
-This module extends the functionality of ... to support ...
-and to allow you to ...
-
+This module was written to extend the functionality of Company and Partner
+and allow you to fill fields like: CNPJ, IE and etc.
