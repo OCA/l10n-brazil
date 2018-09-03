@@ -11,7 +11,7 @@
             <field name="inherit_id" ref="l10n_br_hr_contract.l10n_br_hr_contract_view_form"/>
             <field name="arch" type="xml">
                 <field name="struct_id" position="after">
-                    <field name="payment_mode_id" required="True" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('nome_contrato', '!=', False)]}"/>
+                    <field name="payment_mode_id" required="True" options="{'no_create': True, 'no_open': True}" />
                 </field>
             </field>
         </record>
