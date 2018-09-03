@@ -710,6 +710,7 @@ class SpedEsocial(models.Model):
                             ('ano', '=', ano),
                             # ('state', 'in', ['verify', 'done']),
                             ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro']),
+                            ('is_simulacao', '=', False),
                         ]
                         payslips = self.env['hr.payslip'].search(domain_payslip)
 
@@ -867,6 +868,7 @@ class SpedEsocial(models.Model):
                         ('ano', '=', ano),
                         ('state', 'in', ['verify', 'done']),
                         ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro']),
+                        ('is_simulacao', '=', False),
                     ]
                     payslips = self.env['hr.payslip'].search(domain_payslip)
 
@@ -1007,6 +1009,7 @@ class SpedEsocial(models.Model):
                             ('ano', '=', ano),
                             ('state', 'in', ['verify', 'done']),
                             ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro', 'rescisao']),
+                            ('is_simulacao', '=', False),
                         ]
                         payslips = self.env['hr.payslip'].search(domain_payslip)
 
@@ -1446,6 +1449,7 @@ class SpedEsocial(models.Model):
                 ('data_afastamento', '>=', self.periodo_id.date_start),
                 ('data_afastamento', '<=', self.periodo_id.date_stop),
                 ('state', 'in', ['verify', 'done']),
+                ('is_simulacao', '=', False),
             ])
             rescisoes_sem_registro = 0
 
@@ -1739,6 +1743,7 @@ class SpedEsocial(models.Model):
                 ('mes_do_ano', '=', mes),
                 ('ano', '=', ano),
                 ('state', 'in', ['wait', 'done']),
+                ('is_simulacao', '=', False),
             ])
             esocial.rescisao_ids = [(6, 0, rescisoes.ids)]
 
