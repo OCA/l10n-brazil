@@ -141,7 +141,8 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             registro_para_retificar = self.sped_registro
             tem_retificacao = True
             while tem_retificacao:
-                if registro_para_retificar.retificacao_ids[0].situacao != '1':
+                if registro_para_retificar.retificacao_ids and \
+                        registro_para_retificar.retificacao_ids[0].situacao not in ['1', '3']:
                     registro_para_retificar = registro_para_retificar.retificacao_ids[0]
                 else:
                     tem_retificacao = False
