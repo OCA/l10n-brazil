@@ -122,6 +122,7 @@ class SpedEsocial(models.Model):
             registros = []
             transmitidos = 0
             em_transmissao = 0
+            excluidos = 0
             pode_fechar = False
             pode_transmitir = False
             for registro in periodo.registro_ids:
@@ -133,9 +134,11 @@ class SpedEsocial(models.Model):
                     for lote in registro.lote_ids:
                         if lote.situacao in ['1', '2']:
                             em_transmissao += 1
+                elif registro.situacao == '7':
+                    excluidos += 1
             periodo.erro_ids = [(6, 0, registros)]
             periodo.tem_erros = True if registros else False
-            periodo.registros = len(periodo.registro_ids)
+            periodo.registros = len(periodo.registro_ids) - excluidos
             periodo.transmitidos = transmitidos
             periodo.em_transmissao = em_transmissao
             periodo.erros = len(periodo.erro_ids)
