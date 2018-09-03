@@ -655,9 +655,17 @@ class HrContract(models.Model):
         related='salary_unit.code',
     )
 
+    @api.multi
+    def _compute_prefixo_matricula(self):
+        if self:
+            cnpj_empresa = self.company_id.cnpj_cpf
+            identificacao_empresa = cnpj_empresa.split('/')[1].split('-')[0]
+
+            return identificacao_empresa
+
     prefixo_empresa_matricula = fields.Char(
         string='Prefixo Matricula por Empresa',
-        compute="_compute_prefixo_matricula",
+        default=_compute_prefixo_matricula,
     )
 
     matricula_contrato = fields.Char(
