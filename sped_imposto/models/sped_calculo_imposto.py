@@ -638,28 +638,32 @@ class SpedCalculoImposto(SpedBase):
         if not (operacao and len(itens) > 0):
             return
 
-        dados = {
-            'empresa_id': self.empresa_id.id,
-            'operacao_id': operacao.id,
-            'modelo': operacao.modelo,
-            'emissao': operacao.emissao,
-            'participante_id': self.participante_id.id,
-            'partner_id': self.partner_id.id,
-            'condicao_pagamento_id': self.condicao_pagamento_id.id if \
-                self.condicao_pagamento_id else False,
-            'transportadora_id': self.transportadora_id.id if \
-                self.transportadora_id else False,
-            'modalidade_frete': self.modalidade_frete,
-        }
-        dados.update(self.prepara_dados_documento())
-
         #
         # Criamos o documento e chamados os onchange necessários
         #
-        if isinstance(self.id, models.NewId) or self._name != 'sped.documento':
-            documento = self.env['sped.documento'].create(dados)
-        else:
+
+        dados = {}
+
+        if not isinstance(self.id, models.NewId) \
+                and self._name == 'sped.documento':
             documento = self
+        else:
+
+            dados.update({
+                'empresa_id': self.empresa_id.id,
+                'operacao_id': operacao.id,
+                'modelo': operacao.modelo,
+                'emissao': operacao.emissao,
+                'participante_id': self.participante_id.id,
+                'partner_id': self.partner_id.id,
+                'condicao_pagamento_id': self.condicao_pagamento_id.id if
+                self.condicao_pagamento_id else False,
+                'transportadora_id': self.transportadora_id.id if
+                self.transportadora_id else False,
+                'modalidade_frete': self.modalidade_frete,
+            })
+            dados.update(self.prepara_dados_documento())
+            documento = self.env['sped.documento'].create(dados)
 
         documento.update(documento._onchange_empresa_id()['value'])
         documento.update(documento._onchange_operacao_id()['value'])
@@ -703,21 +707,15 @@ class SpedCalculoImposto(SpedBase):
                 # o cáculo dos impostos.
                 #
 
-                ctx = {
-                    'forca_vr_unitario': dados['vr_unitario']
-                }
-
                 documento_item = sped_documento_item.create(dados)
 
             else:
-                ctx = {
-                    'forca_vr_unitario': item.vr_unitario
-                }
 
                 documento_item = item
 
-
+            ctx = dict(forca_vr_unitario=documento_item['vr_unitario'])
             ctx['gera_documento'] = True
+
             documento_item.with_context(ctx).calcula_impostos()
 
         #
