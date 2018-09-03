@@ -1161,20 +1161,13 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
     @api.onchange('empresa_id', 'modelo', 'emissao')
     def _onchange_empresa_id(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
 
-        if not self.empresa_id:
-            return res
-
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
-            return res
-
-        if self.modelo not in (
-                MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE, MODELO_FISCAL_NFSE,
-                MODELO_FISCAL_CFE):
-            return res
+        if self.empresa_id and self.emissao == TIPO_EMISSAO_PROPRIA:
+            res = {}
+            valores = {}
+            res['value'] = valores
+        else:
+            return {'value': {}}
 
         if self.modelo == MODELO_FISCAL_NFE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfe
@@ -1247,12 +1240,13 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def _onchange_operacao_id(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
 
-        if not self.operacao_id:
-            return res
+        if self.operacao_id:
+            res = {}
+            valores = {}
+            res['value'] = valores
+        else:
+            return {'value': {}}
 
         valores['modelo'] = self.operacao_id.modelo
         valores['emissao'] = self.operacao_id.emissao
@@ -1355,18 +1349,14 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
     @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
     def _onchange_serie(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
 
-        if not self.empresa_id:
-            return res
-
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
-            return res
-
-        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
-            return res
+        if self.empresa_id and self.emissao == TIPO_EMISSAO_PROPRIA and \
+                self.modelo in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            res = {}
+            valores = {}
+            res['value'] = valores
+        else:
+            return {'value': {}}
 
         serie = self.serie and self.serie.strip()
 
@@ -1380,11 +1370,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         ], limit=1, order='numero desc')
 
         valores['serie'] = serie
-
-        if len(ultimo_numero) == 0:
-            valores['numero'] = 1
-        else:
-            valores['numero'] = ultimo_numero[0].numero + 1
+        valores['numero'] = getattr(ultimo_numero, 'numero') + 1
 
         return res
 

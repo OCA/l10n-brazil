@@ -1036,29 +1036,21 @@ class SpedCalculoImpostoItem(SpedBase):
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
         self.ensure_one()
+        if not self.emissao:
+            return {}
 
-        if self.emissao == TIPO_EMISSAO_PROPRIA:
+        if self.emissao == TIPO_EMISSAO_PROPRIA or \
+                self.env.context.get('manual'):
             res = self._onchange_produto_id_emissao_propria()
-
-            if hasattr(self, 'product_id'):
-                self.product_id = self.produto_id.product_id.id
-            if hasattr(self, 'product_uom'):
-                self.product_uom = self.produto_id.unidade_id.uom_id
-            if hasattr(self, 'uom_id'):
-                self.uom_id = self.produto_id.unidade_id.uom_id
-            return res
-        elif self.emissao == TIPO_EMISSAO_TERCEIROS:
-            if self.env.context.get('manual'):
-                res = self._onchange_produto_id_emissao_propria()
-            else:
-                res = self._onchange_produto_id_recebimento()
-            if hasattr(self, 'product_id'):
-                self.product_id = self.produto_id.product_id.id
-            if hasattr(self, 'product_uom'):
-                self.product_uom = self.produto_id.unidade_id.uom_id
-            if hasattr(self, 'uom_id'):
-                self.uom_id = self.produto_id.unidade_id.uom_id
-            return res
+        else:
+            res = self._onchange_produto_id_recebimento()
+        if hasattr(self, 'product_id'):
+            self['product_id'] = self.produto_id.product_id.id
+        if hasattr(self, 'product_uom'):
+            self['product_uom'] = self.produto_id.unidade_id.uom_id.id
+        if hasattr(self, 'uom_id'):
+            self['uom_id'] = self.produto_id.unidade_id.uom_id.id
+        return res
 
     def busca_operacao_item(self, domain_base):
         #
