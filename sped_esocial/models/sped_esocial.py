@@ -1739,8 +1739,9 @@ class SpedEsocial(models.Model):
             esocial.compute_registro_ids()
 
             # Relaciona as Rescisões do Período para facilmente visualizá-las
-            mes = 6     # TODO Calcular o mês do periodo
-            ano = 2018  # TODO Calcular o ano do periodo
+            data = fields.Date.from_string(esocial.periodo_id.date_start)
+            mes = data.month
+            ano = data.year
             rescisoes = self.env['hr.payslip'].search([
                 ('tipo_de_folha', '=', 'rescisao'),
                 ('mes_do_ano', '=', mes),
