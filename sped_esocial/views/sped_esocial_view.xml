@@ -20,6 +20,10 @@
                                 attrs="{'invisible': ['|', ('id', '=', False), ('pode_fechar', '=', False)]}"
                                 class="oe_highlight"
                         />
+                        <button name="importar_reabertura" type="object" string="Reabrir Período"
+                                groups="base.group_no_one"
+                                class="oe_highlight"
+                        />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"

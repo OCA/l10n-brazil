@@ -1096,6 +1096,26 @@ class SpedEsocial(models.Model):
         comodel_name='sped.esocial.fechamento',
     )
 
+    sped_reabertura_id = fields.Many2one(
+        comodel_name='sped.esocial.reabertura',
+        string='Reabertura'
+    )
+
+    @api.multi
+    def importar_reabertura(self):
+        self.ensure_one()
+
+        if not self.sped_reabertura_id:
+            reabertura_id = self.env['sped.esocial.reabertura'].create({
+                'company_id': self.company_id.id,
+                'periodo_id': self.periodo_id.id,
+                'sped_fechamento_id': self.id,
+            })
+
+            self.sped_reabertura_id = reabertura_id
+
+        self.sped_reabertura_id.atualizar_esocial()
+
     @api.depends('fechamento_ids')
     def compute_tem_fechamentos(self):
         for periodo in self:
