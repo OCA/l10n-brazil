@@ -352,8 +352,10 @@ class SpedDocumento(models.Model):
             #
             # Rejeitada por outros motivos, falha no schema etc. etc.
             #
-            self.mensagem_nfe = 'Código de retorno: ' + recibo.cStat + \
-                                '\nMensagem: ' + recibo.xMotivo
+            self.mensagem_nfe = 'Código de retorno: ' + \
+                                recibo.protMDFe.infProt.cStat + \
+                                '\nMensagem: ' + \
+                                recibo.protMDFe.infProt.xMotivo
             self.situacao_mdfe = SITUACAO_NFE_REJEITADA
 
     def gera_pdf(self):
