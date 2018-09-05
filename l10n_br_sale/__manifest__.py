@@ -10,8 +10,8 @@
     'website': 'http://odoo-brasil.org',
     'version': '10.0.1.0.0',
     'depends': [
-        'l10n_br_account',
         'account_fiscal_position_rule_sale',
+        'l10n_br_account',
     ],
     'data': [
         'data/l10n_br_sale_data.xml',
