@@ -52,8 +52,7 @@ class SaleOrder(models.Model):
         qty = line._calc_line_quantity()
         for computed in line.tax_id.compute_all(
                 price, qty, product=line.product_id,
-                partner=line.order_id.partner_invoice_id,
-                fiscal_position=line.fiscal_position)['taxes']:
+                partner=line.order_id.partner_invoice_id)['taxes']:
             tax = self.env['account.tax'].browse(computed['id'])
             if not tax.tax_code_id.tax_discount:
                 value += computed.get('amount', 0.0)
