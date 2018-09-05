@@ -548,8 +548,9 @@ class SpedCalculoImposto(SpedBase):
 
             valor = vr_rateio * proporcao
             valor = valor.quantize(D('0.01'))
-            item.write({campo: valor})
-            item.calcula_impostos()
+            if item[campo] != valor:
+                item.write({campo: valor})
+                item.calcula_impostos()
 
     #def _inverse_rateio_campo_al_desconto(self, tipo_item=None):
         #self.ensure_one()
