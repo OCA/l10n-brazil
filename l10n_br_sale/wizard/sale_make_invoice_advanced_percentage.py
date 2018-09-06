@@ -9,14 +9,14 @@ from odoo import models, api
 class SaleAdvancePaymentInvoice(models.TransientModel):
     _inherit = 'sale.advance.payment.inv'
 
-    @api.one
+    @api.multi
     def _get_line_qty(self, line):
         if line.order_id.invoice_quantity == 'order':
             if line.product_uos:
                 return line.product_uos_qty or 0.0
         return line.product_uom_qty
 
-    @api.one
+    @api.multi
     def _get_line_uom(self, line):
         if line.order_id.invoice_quantity == 'order':
             if line.product_uos:
@@ -29,9 +29,6 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
         # Lista de campos
         result = super(
             SaleAdvancePaymentInvoice, self)._prepare_advance_invoice_vals()
-
-        if self._context is None:
-            context = {}
 
         sale_obj = self.pool['sale.order']
         wizard = self.browse(self._ids[0])
@@ -61,11 +58,11 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
                     res_aux = {}
                     res_aux = (order_line_obj.
                                l10n_br_sale_prepare_order_line_invoice_line(
-                        order_line, res_aux))
+                                   order_line, res_aux))
 
                     res_aux = order_line_obj. \
                         l10n_br_sale_product_prepare_order_line_invoice_line(
-                        order_line, res_aux)
+                            order_line, res_aux)
 
                     tax_list_id = []
 
