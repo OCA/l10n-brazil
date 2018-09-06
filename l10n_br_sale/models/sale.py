@@ -58,9 +58,10 @@ class SaleOrder(models.Model):
                 value += computed.get('amount', 0.0)
         return value
 
-    def _invoiced_rate(self, cursor, user, ids, name, arg, context=None):
+    @api.multi
+    def _invoiced_rate(self, name, arg):
         result = {}
-        for sale in self.browse(cursor, user, ids, context=context):
+        for sale in self:
             if sale.invoiced:
                 result[sale.id] = 100.0
                 continue
@@ -78,7 +79,6 @@ class SaleOrder(models.Model):
         return result
 
     @api.model
-    @api.returns('l10n_br_account.fiscal_category')
     def _default_fiscal_category(self):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company.sale_fiscal_category_id
@@ -234,21 +234,22 @@ class SaleOrderLine(models.Model):
     def _calc_price_gross(self, qty):
         return self.price_unit * qty
 
-    @api.one
+    @api.multi
     @api.depends('price_unit', 'tax_id', 'discount', 'product_uom_qty')
     def _amount_line(self):
-        price = self._calc_line_base_price()
-        qty = self._calc_line_quantity()
-        taxes = self.tax_id.compute_all(
-            price, quantity=qty,
-            product=self.product_id,
-            partner=self.order_id.partner_invoice_id)
+        for record in self:
+            price = record._calc_line_base_price()
+            qty = record._calc_line_quantity()
+            taxes = record.tax_id.compute_all(
+                price, quantity=qty,
+                product=record.product_id,
+                partner=record.order_id.partner_invoice_id)
 
-        self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
-            taxes['total_excluded'])
-        self.price_gross = self._calc_price_gross(qty)
-        self.discount_value = self.order_id.pricelist_id.currency_id.round(
-            self.price_gross - (price * qty))
+            record.price_subtotal = record.order_id.pricelist_id.currency_id.round(
+                taxes['total_excluded'])
+            record.price_gross = record._calc_price_gross(qty)
+            record.discount_value = record.order_id.pricelist_id.currency_id.round(
+                record.price_gross - (price * qty))
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
