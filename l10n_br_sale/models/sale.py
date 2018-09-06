@@ -78,7 +78,6 @@ class SaleOrder(models.Model):
         return result
 
     @api.model
-    @api.returns('l10n_br_account.fiscal_category')
     def _default_fiscal_category(self):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company.sale_fiscal_category_id

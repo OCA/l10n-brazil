@@ -30,9 +30,6 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
         result = super(
             SaleAdvancePaymentInvoice, self)._prepare_advance_invoice_vals()
 
-        if self._context is None:
-            context = {}
-
         sale_obj = self.pool['sale.order']
         wizard = self.browse(self._ids[0])
         # get invoice type
@@ -61,11 +58,11 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
                     res_aux = {}
                     res_aux = (order_line_obj.
                                l10n_br_sale_prepare_order_line_invoice_line(
-                        order_line, res_aux))
+                                   order_line, res_aux))
 
                     res_aux = order_line_obj. \
                         l10n_br_sale_product_prepare_order_line_invoice_line(
-                        order_line, res_aux)
+                            order_line, res_aux)
 
                     tax_list_id = []
 
