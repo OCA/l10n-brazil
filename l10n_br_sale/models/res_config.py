@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import SUPERUSER_ID
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class SaleConfiguration(models.TransientModel):
@@ -18,12 +18,12 @@ class SaleConfiguration(models.TransientModel):
     copy_note = fields.Boolean(u'Copiar Observações nos Documentos Fiscais',
                                default=_get_default_copy_note)
 
-    def set_sale_defaults(self, cr, uid, ids, context=None):
-        result = super(SaleConfiguration, self).set_sale_defaults(
-            cr, uid, ids, context)
-        wizard = self.browse(cr, uid, ids, context)[0]
-        ir_values = self.pool.get('ir.values')
-        user = self.pool.get('res.users').browse(cr, uid, uid, context)
-        ir_values.set_default(cr, SUPERUSER_ID, 'sale.order', 'copy_note',
-                              wizard.copy_note, company_id=user.company_id.id)
+    @api.multi
+    def set_sale_defaults(self):
+        result = super(SaleConfiguration, self).set_sale_defaults()
+        wizard = self
+        ir_values = self.env['ir.values']
+        user = self.env['res.users'].browse(self._uid)
+        ir_values.set_default('sale.order', 'copy_note', wizard.copy_note,
+                              company_id=user.company_id.id)
         return result
