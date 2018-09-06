@@ -2,7 +2,7 @@
 # Copyright (C) 2011  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields
+from odoo import models, fields
 
 
 class SaleReport(models.Model):
@@ -18,9 +18,9 @@ class SaleReport(models.Model):
 
     def _select(self):
         return super(SaleReport, self)._select() + \
-            ", l.fiscal_category_id as fiscal_category_id, " \
-            "l.fiscal_position as fiscal_position"
+               ", l.fiscal_category_id as fiscal_category_id, " \
+               "l.fiscal_position as fiscal_position"
 
     def _group_by(self):
         return super(SaleReport, self)._group_by() + \
-            ", l.fiscal_category_id, l.fiscal_position"
+               ", l.fiscal_category_id, l.fiscal_position"

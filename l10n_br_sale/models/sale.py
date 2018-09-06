@@ -3,8 +3,8 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields, api
+from odoo.addons import decimal_precision as dp
 
 
 class SaleOrder(models.Model):
@@ -51,9 +51,8 @@ class SaleOrder(models.Model):
         price = line._calc_line_base_price()
         qty = line._calc_line_quantity()
         for computed in line.tax_id.compute_all(
-                price, qty, product=line.product_id,
-                partner=line.order_id.partner_invoice_id,
-                fiscal_position=line.fiscal_position)['taxes']:
+                price, quantity=qty, product=line.product_id,
+                partner=line.order_id.partner_invoice_id)['taxes']:
             tax = self.env['account.tax'].browse(computed['id'])
             if not tax.tax_code_id.tax_discount:
                 value += computed.get('amount', 0.0)
@@ -68,8 +67,8 @@ class SaleOrder(models.Model):
             tot = 0.0
             for invoice in sale.invoice_ids:
                 if invoice.state not in ('draft', 'cancel') and \
-                        invoice.fiscal_category_id.id == \
-                        sale.fiscal_category_id.id:
+                                invoice.fiscal_category_id.id == \
+                                sale.fiscal_category_id.id:
                     tot += invoice.amount_untaxed
             if tot:
                 result[sale.id] = min(100.0, tot * 100.0 / (
@@ -79,7 +78,6 @@ class SaleOrder(models.Model):
         return result
 
     @api.model
-    @api.returns('l10n_br_account.fiscal_category')
     def _default_fiscal_category(self):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company.sale_fiscal_category_id
@@ -154,16 +152,15 @@ class SaleOrder(models.Model):
         if self.company_id and self.partner_id and self.fiscal_category_id:
             result = {'value': {'fiscal_position': False}}
             kwargs = {
-                'partner_id': self.partner_id.id,
-                'partner_invoice_id': self.partner_invoice_id.id,
-                'fiscal_category_id': self.fiscal_category_id.id,
-                'company_id': self.company_id.id,
+                'partner_id': self.partner_id,
+                'partner_invoice_id': self.partner_invoice_id,
+                'fiscal_category_id': self.fiscal_category_id,
+                'company_id': self.company_id,
                 'context': self.env.context
             }
             result = self.env[
-                'account.fiscal.position.rule'].apply_fiscal_mapping(
-                    result, **kwargs)
-            self.fiscal_position = result['value'].get('fiscal_position')
+                'account.fiscal.position.rule'].apply_fiscal_mapping(**kwargs)
+            self.fiscal_position = result.fiscal_position_id
 
     @api.model
     def _fiscal_comment(self, order):
@@ -242,13 +239,12 @@ class SaleOrderLine(models.Model):
         price = self._calc_line_base_price()
         qty = self._calc_line_quantity()
         taxes = self.tax_id.compute_all(
-            price, qty,
+            price, quantity=qty,
             product=self.product_id,
-            partner=self.order_id.partner_invoice_id,
-            fiscal_position=self.fiscal_position)
+            partner=self.order_id.partner_invoice_id)
 
         self.price_subtotal = self.order_id.pricelist_id.currency_id.round(
-            taxes['total'])
+            taxes['total_excluded'])
         self.price_gross = self._calc_price_gross(qty)
         self.discount_value = self.order_id.pricelist_id.currency_id.round(
             self.price_gross - (price * qty))
@@ -313,7 +309,7 @@ class SaleOrderLine(models.Model):
         return result
 
     @api.multi
-    def product_id_change(self,  pricelist, product, qty=0,
+    def product_id_change(self, pricelist, product, qty=0,
                           uom=False, qty_uos=0, uos=False, name='',
                           partner_id=False, lang=False, update_tax=True,
                           date_order=False, packaging=False,
@@ -374,8 +370,9 @@ class SaleOrderLine(models.Model):
     def _prepare_order_line_invoice_line(self, line, account_id=False):
         result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
             line, account_id)
-        result['fiscal_category_id'] = line.fiscal_category_id.id or \
-            line.order_id.fiscal_category_id.id or False
+        result['fiscal_category_id'] = \
+            line.fiscal_category_id.id or line.order_id.fiscal_category_id.id \
+            or False
         result['fiscal_position'] = line.fiscal_position.id or \
-            line.order_id.fiscal_position.id or False
+                                    line.order_id.fiscal_position.id or False
         return result
