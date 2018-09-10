@@ -73,13 +73,14 @@ class AccountInvoiceRefund(models.TransientModel):
                 invoice.write(invoice_values)
             return result
 
-    def fields_view_get(self, cr, uid, view_id=None, view_type='form',
-                        context=None, toolbar=False, submenu=False):
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form',
+                        toolbar=False, submenu=False):
+
         result = super(AccountInvoiceRefund, self).fields_view_get(
-            cr, uid, view_id, view_type, context, toolbar, submenu)
-        if not context:
-            context = {}
-        type = context.get('type', 'out_invoice')
+            view_id, view_type, toolbar, submenu)
+
+        type = self.env.context.get('type', 'out_invoice')
         journal_type = JOURNAL_TYPE[type]
         type = OPERATION_TYPE[type]
         eview = etree.fromstring(result['arch'])
