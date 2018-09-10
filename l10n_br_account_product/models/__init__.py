@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from . import l10n_br_account_product
+from . import l10n_br_account_product_cst
 from . import l10n_br_account_fiscal_category
 from . import l10n_br_account_document_serie
 from . import l10n_br_account_partner_fiscal_type
