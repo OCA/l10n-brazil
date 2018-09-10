@@ -16,31 +16,40 @@ class L10nBrAccountDocumentStatusSefaz(models.TransientModel):
                    ('error', 'Error'),
                    ('done', 'Done')],
         string='State',
-        select=True,
+        index=True,
         readonly=True,
         default='init')
+
     version = fields.Text(
-        string=u'Versão', readonly=True)
+        string=u'Versão',
+        readonly=True)
+
     nfe_environment = fields.Selection(
         selection=[('1', u'Produção'),
                    ('2', u'Homologação')],
         string='Ambiente')
+
     xMotivo = fields.Text(
         string='Motivo',
         readonly=True)
+
     # FIXME
     cUF = fields.Integer(
         string='Codigo Estado',
         readonly=True)
+
     chNFe = fields.Char(
         string='Chave de Acesso NFE',
         size=44)
+
     protNFe = fields.Text(
         string='Protocolo NFE',
         readonly=True)
+
     retCancNFe = fields.Text(
         string='Cancelamento NFE',
         readonly=True)
+
     procEventoNFe = fields.Text(
         sting='Processamento Evento NFE',
         readonly=True)
