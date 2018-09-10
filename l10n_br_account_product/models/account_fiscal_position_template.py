@@ -4,15 +4,15 @@
 
 from odoo import models, fields
 
-from odoo.addons.l10n_br_account_product.models.product import (
-    PRODUCT_ORIGIN
-)
+from product_template import PRODUCT_ORIGIN
+
 
 class AccountFiscalPositionTemplate(models.Model):
     _inherit = 'account.fiscal.position.template'
 
     cfop_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cfop',
+        domain="[('internal_type', '=', 'normal')]",
         string='CFOP'
     )
     ind_final = fields.Selection(
@@ -50,4 +50,3 @@ class AccountFiscalPositionTaxTemplate(models.Model):
         selection=PRODUCT_ORIGIN,
         string=u'Origem'
     )
-
