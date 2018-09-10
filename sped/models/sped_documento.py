@@ -1177,21 +1177,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 self.empresa_id.ambiente_nfe,
                 self.empresa_id.tipo_emissao_nfe
             )
-            #if self.empresa_id.tipo_emissao_nfe == TIPO_EMISSAO_NFE_NORMAL:
-                #if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
-                    #valores['serie'] = self.empresa_id.serie_nfe_producao
-                #else:
-                    #valores['serie'] = self.empresa_id.serie_nfe_homologacao
-
-            #else:
-                #if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
-                    #valores['serie'] = (
-                        #self.empresa_id.serie_nfe_contingencia_producao
-                    #)
-                #else:
-                    #valores['serie'] = (
-                        #self.empresa_id.serie_nfe_contingencia_homologacao
-                    #)
 
         elif self.modelo == MODELO_FISCAL_NFCE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfce
@@ -1201,22 +1186,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 self.empresa_id.ambiente_nfce,
                 self.empresa_id.tipo_emissao_nfce
             )
-
-            #if self.empresa_id.tipo_emissao_nfce == TIPO_EMISSAO_NFE_NORMAL:
-                #if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
-                    #valores['serie'] = self.empresa_id.serie_nfce_producao
-                #else:
-                    #valores['serie'] = self.empresa_id.serie_nfce_homologacao
-
-            #else:
-                #if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
-                    #valores['serie'] = (
-                        #self.empresa_id.serie_nfce_contingencia_producao
-                    #)
-                #else:
-                    #valores['serie'] = (
-                        #self.empresa_id.serie_nfce_contingencia_homologacao
-                    #)
 
         elif self.modelo == MODELO_FISCAL_NFSE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfse
@@ -1248,102 +1217,57 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         else:
             return {'value': {}}
 
-        valores['modelo'] = self.operacao_id.modelo
-        valores['emissao'] = self.operacao_id.emissao
-        valores['entrada_saida'] = self.operacao_id.entrada_saida
+        dados_operacao = self.operacao_id.copy_data()[0]
 
-        if self.emissao == TIPO_EMISSAO_PROPRIA:
-            if self.operacao_id.natureza_operacao_id:
-                valores['natureza_operacao_id'] = \
-                    self.operacao_id.natureza_operacao_id.id
+        campos_operacao = [
+            'modelo', 'emissao', 'entrada_saida', 'deduz_retencao', 'al_irrf',
+            'pis_cofins_retido', 'al_pis_retido', 'natureza_tributacao_nfse',
+            'csll_retido', 'al_csll', 'limite_retencao_pis_cofins_csll',
+            'irrf_retido', 'irrf_retido_ignora_limite', 'al_cofins_retido',
+            'inss_retido', 'consumidor_final', 'presenca_comprador', 'cst_iss'
+        ]
 
-            if self.operacao_id.serie:
-                valores['serie'] = self.operacao_id.serie
+        campos_operacao_condicional = ['cnae_id', 'servico_id']
 
-            if self.operacao_id.ambiente_nfe:
-                valores['ambiente_nfe'] = self.operacao_id.ambiente_nfe
+        if dados_operacao['emissao'] == TIPO_EMISSAO_PROPRIA:
+            campos_operacao.extend(
+                ['regime_tributario', 'ind_forma_pagamento', 'finalidade_nfe',
+                    'modalidade_frete', 'infadfisco'])
 
-                if self.ambiente_nfe != self.operacao_id.ambiente_nfe:
-                    if not self.operacao_id.serie:
-                        if self.modelo == MODELO_FISCAL_NFE:
-                            valores['serie'] = self._serie_padrao_nfe(
-                                self.empresa_id,
-                                valores['ambiente_nfe'],
-                                self.tipo_emissao_nfe
-                            )
-                        elif self.modelo == MODELO_FISCAL_NFCE:
-                            valores['serie'] = self._serie_padrao_nfce(
-                                self.empresa_id,
-                                valores['ambiente_nfe'],
-                                self.tipo_emissao_nfe
-                            )
+            campos_operacao_condicional.extend(
+                ['natureza_operacao_id', 'condicao_pagamento_id', 'serie'])
 
-            #else:
-                #if not self.operacao_id.serie:
-                    #if self.modelo == MODELO_FISCAL_NFE:
-                        #valores['serie'] = self._serie_padrao_nfe(
-                            #self.empresa_id,
-                            #self.empresa_id.ambiente_nfe,
-                            #self.empresa_id.tipo_emissao_nfe
-                        #)
-                    #elif self.modelo == MODELO_FISCAL_NFCE:
-                        #valores['serie'] = self._serie_padrao_nfce(
-                            #self.empresa_id,
-                            #self.empresa_id.ambiente_nfce,
-                            #self.empresa_id.tipo_emissao_nfce
-                        #)
+            if dados_operacao['ambiente_nfe'] and \
+                    self.ambiente_nfe != dados_operacao['ambiente_nfe']:
+                valores['ambiente_nfe'] = dados_operacao['ambiente_nfe']
 
-            valores['regime_tributario'] = self.operacao_id.regime_tributario
-            valores['ind_forma_pagamento'] = \
-                self.operacao_id.ind_forma_pagamento
-            if self.operacao_id.condicao_pagamento_id:
-                valores['condicao_pagamento_id'] = \
-                    self.operacao_id.condicao_pagamento_id.id
-            valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
-            valores['modalidade_frete'] = self.operacao_id.modalidade_frete
-            valores['infadfisco'] = self.operacao_id.infadfisco
+                if not dados_operacao['serie']:
+                    if self.modelo == MODELO_FISCAL_NFE:
+                        valores['serie'] = self._serie_padrao_nfe(
+                            self.empresa_id,
+                            valores['ambiente_nfe'],
+                            self.tipo_emissao_nfe
+                        )
+                    elif self.modelo == MODELO_FISCAL_NFCE:
+                        valores['serie'] = self._serie_padrao_nfce(
+                            self.empresa_id,
+                            valores['ambiente_nfe'],
+                            self.tipo_emissao_nfe
+                        )
 
-        valores['deduz_retencao'] = self.operacao_id.deduz_retencao
-        valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
-        valores['al_pis_retido'] = self.operacao_id.al_pis_retido
-        valores['al_cofins_retido'] = self.operacao_id.al_cofins_retido
-        valores['csll_retido'] = self.operacao_id.csll_retido
-        valores['al_csll'] = self.operacao_id.al_csll
-        valores['limite_retencao_pis_cofins_csll'] = (
-            self.operacao_id.limite_retencao_pis_cofins_csll
-        )
-        valores['irrf_retido'] = self.operacao_id.irrf_retido
-        valores['irrf_retido_ignora_limite'] = (
-            self.operacao_id.irrf_retido_ignora_limite
-        )
-        valores['al_irrf'] = self.operacao_id.al_irrf
-        valores['inss_retido'] = self.operacao_id.inss_retido
-        valores['consumidor_final'] = self.operacao_id.consumidor_final
-        valores['presenca_comprador'] = self.operacao_id.presenca_comprador
+        for campo in campos_operacao:
+            valores[campo] = dados_operacao[campo]
 
-        if self.operacao_id.cnae_id:
-            valores['cnae_id'] = self.operacao_id.cnae_id.id
+        for campo in campos_operacao_condicional:
+            if dados_operacao[campo]:
+                valores[campo] = dados_operacao[campo]
 
-        valores['natureza_tributacao_nfse'] = (
-            self.operacao_id.natureza_tributacao_nfse
-        )
-
-        if self.operacao_id.servico_id:
-            valores['servico_id'] = self.operacao_id.servico_id.id
-
-        valores['cst_iss'] = self.operacao_id.cst_iss
-
-        sub = []
-        for subsequente_id in self.operacao_id.mapped(
-                'operacao_subsequente_ids'):
-            sub.append({
+        valores['documento_subsequente_ids'] = [
+            (0, 0, {
                 'documento_origem_id': self.id,
-                'operacao_subsequente_id': subsequente_id.id,
-                'sped_operacao_id':
-                    subsequente_id.operacao_subsequente_id.id,
-            })
-        valores['documento_subsequente_ids'] = [(0, 0, x) for x in sub]
-
+                'operacao_subsequente_id': sub.id,
+                'sped_operacao_id': sub.operacao_subsequente_id.id})
+            for sub in self.operacao_id.operacao_subsequente_ids]
 
         return res
 
