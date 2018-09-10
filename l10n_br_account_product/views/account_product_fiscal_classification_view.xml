@@ -7,7 +7,8 @@
         <field name="arch" type="xml">
             <form string="Definição de Impostos">
                 <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
-                <field name="cst_id" domain="[('domain', '=', tax_domain)]"/>
+                <field name="tax_group_id" invisible="1"/>
+                <field name="cst_id"/>
                 <field name="tax_ipi_guideline_id"/>
                 <field name="tax_icms_relief_id"/>
             </form>
@@ -20,6 +21,7 @@
         <field name="arch" type="xml">
             <tree string="Definição de Impostos" editable="bottom">
                 <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
                 <field name="tax_ipi_guideline_id"/>
                 <field name="tax_icms_relief_id"/>
@@ -33,6 +35,7 @@
         <field name="arch" type="xml">
             <form string="Definição de Impostos">
                 <field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
                 <field name="tax_ipi_guideline_id"/>
                 <field name="tax_icms_relief_id"/>
@@ -46,6 +49,7 @@
         <field name="arch" type="xml">
             <tree string="Definição de Impostos" editable="bottom">
                 <field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
                 <field name="tax_ipi_guideline_id"/>
                 <field name="tax_icms_relief_id"/>
@@ -66,8 +70,7 @@
                 <field name="inv_copy_note" colspan="4"/>
                 <field name="note" colspan="4"/>
             </field>
-            <xpath expr="//sheet/separator[@name='taxes']" position="replace"></xpath>
-            <xpath expr="//sheet/group[3]" position="replace">
+            <xpath expr="//group[@name='tax_ids']" position="replace">
                 <notebook>
                     <page string="Impostos">
                         <group name="taxes" colspan="2">
