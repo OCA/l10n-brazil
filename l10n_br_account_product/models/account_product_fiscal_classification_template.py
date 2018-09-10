@@ -5,6 +5,10 @@
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
+from odoo.addons.l10n_br_account.models.l10n_br_account_tax_definition import (
+    L10nBrTaxDefinitionTemplate
+)
+
 
 class AccountProductFiscalClassificationTemplate(models.Model):
     _inherit = 'account.product.fiscal.classification.template'
@@ -82,22 +86,31 @@ class L10nBrTaxDefinitionTemplateModel(L10nBrTaxDefinitionTemplate):
     fiscal_classification_id = fields.Many2one(
         comodel_name='account.product.fiscal.classification.template',
         string='Fiscal Classification',
-        index=True
-    )
+        index=True)
+
+    cst_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.cst',
+        domain="[('tax_group_id', '=', tax_group_id)]",
+        string='CST')
+
     tax_ipi_guideline_id = fields.Many2one(
         comodel_name='l10n_br_account_product.ipi_guideline',
-        string=u'Enquadramento IPI'
-    )
+        string=u'Enquadramento IPI')
+
     tax_icms_relief_id = fields.Many2one(
         comodel_name='l10n_br_account_product.icms_relief',
-        string=u'Desoneração ICMS'
-    )
+        string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_template_tax_template_id_uniq', 'unique \
          (tax_template_id, fiscal_classification_id)',
          u'Imposto já existente nesta classificação fiscal!')
     ]
+
+    @api.onchange('tax_template_id')
+    def _onchange_tax_template_id(self):
+        if self.tax_template_id.tax_group_id != self.cst_id.tax_group_id:
+            self.cst_id = None
 
 
 class L10nBrTaxDefinitionSaleTemplate(L10nBrTaxDefinitionTemplateModel,
