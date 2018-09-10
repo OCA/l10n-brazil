@@ -15,48 +15,47 @@ class L10nbrAccountCFOP(models.Model):
     code = fields.Char(
         string=u'Código',
         size=4,
-        required=True
-    )
+        required=True)
+
     name = fields.Char(
         string=u'Nome',
         size=256,
-        required=True
-    )
+        required=True)
+
     small_name = fields.Char(
         string=u'Nome Reduzido',
         size=32,
-        required=True
-    )
+        required=True)
+
     description = fields.Text(
-        string=u'Descrição'
-    )
+        string=u'Descrição')
+
     type = fields.Selection(
         selection=TYPE,
         string=u'Tipo',
-        required=True
-    )
+        required=True)
+
     parent_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cfop',
-        string=u'CFOP Pai'
-    )
+        string=u'CFOP Pai')
+
     child_ids = fields.One2many(
         comodel_name='l10n_br_account_product.cfop',
         inverse_name='parent_id',
-        string=u'CFOP Filhos'
-    )
+        string=u'CFOP Filhos')
+
     internal_type = fields.Selection(
         selection=[('view', u'Visualização'),
                    ('normal', 'Normal')],
         string=u'Tipo Interno',
-        required=True, default='normal'
-    )
+        required=True, default='normal')
+
     id_dest = fields.Selection(
         selection=[('1', u'Operação interna'),
                    ('2', u'Operação interestadual'),
                    ('3', u'Operação com exterior')],
         string=u'Local de destino da operação',
-        help=u'Identificador de local de destino da operação.'
-    )
+        help=u'Identificador de local de destino da operação.')
 
     _sql_constraints = [
         ('l10n_br_account_cfop_code_uniq', 'unique (code)',
@@ -75,6 +74,4 @@ class L10nbrAccountCFOP(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(rec.id,
-                 u"{0} - {2}".format(rec.code, rec.name)
-                 ) for rec in self]
+        return [(r.id, u"{0} - {1}".format(r.code, r.name)) for r in self]
