@@ -13,55 +13,55 @@ class AccountInvoiceReport(models.Model):
     _inherit = "account.invoice.report"
 
     issuer = fields.Selection(
-        [('0', u'Emissão própria'),
-         ('1', 'Terceiros')],
+        selection=[('0', u'Emissão própria'),
+                   ('1', 'Terceiros')],
         string='Emitente',
-        readonly=True
-    )
+        readonly=True)
+
     fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE,
-        'Tipo Fiscal'
-    )
+        selection=PRODUCT_FISCAL_TYPE,
+        string='Tipo Fiscal')
+
     cfop_id = fields.Many2one(
-        'l10n_br_account_product.cfop',
-        'CFOP',
-        readonly=True
-    )
+        comodel_name='l10n_br_account_product.cfop',
+        domain="[('internal_type', '=', 'normal')]",
+        string=u'CFOP',
+        readonly=True)
+
     icms_value = fields.Float(
-        'Valor ICMS',
+        string=u'Valor ICMS',
         required=True,
-        digits=dp.get_precision('Account'),
-    )
+        digits=dp.get_precision('Account'))
+
     icms_st_value = fields.Float(
-        'Valor ICMS ST',
+        string=u'Valor ICMS ST',
         required=True,
-        digits=dp.get_precision('Account'),
-    )
+        digits=dp.get_precision('Account'))
+
     ipi_value = fields.Float(
-        'Valor IPI',
+        string=u'Valor IPI',
         required=True,
-        digits=dp.get_precision('Account'),
-    )
+        digits=dp.get_precision('Account'))
+
     pis_value = fields.Float(
-        'Valor PIS',
+        string=u'Valor PIS',
         required=True,
-        digits=dp.get_precision('Account'),
-    )
+        digits=dp.get_precision('Account'))
+
     cofins_value = fields.Float(
-        'Valor COFINS',
+        string=u'Valor COFINS',
         required=True,
-        digits=dp.get_precision('Account'),
-    )
+        digits=dp.get_precision('Account'))
+
     ii_value = fields.Float(
-        'Valor II',
+        string=u'Valor II',
         required=True,
-        digits=dp.get_precision('Account'),
-    )
+        digits=dp.get_precision('Account'))
+
     total_with_taxes = fields.Float(
-        'Total com Impostos',
+        string=u'Total com Impostos',
         required=True,
-        digits=dp.get_precision('Account'),
-    )
+        digits=dp.get_precision('Account'))
 
     def _select(self):
         return super(AccountInvoiceReport, self)._select() + (
