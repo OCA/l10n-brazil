@@ -4,6 +4,10 @@
 
 from odoo import models, fields
 
+from odoo.addons.l10n_br_account.models.l10n_br_account_tax_definition import (
+    L10nBrTaxDefinition
+)
+
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition):
 

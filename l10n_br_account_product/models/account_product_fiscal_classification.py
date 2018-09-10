@@ -7,10 +7,10 @@ from datetime import timedelta, date
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
-from odoo.addons.l10n_br_account.models.l10n_br_account import (
-    L10nBrTaxDefinition,
-    L10nBrTaxDefinitionTemplate
+from odoo.addons.l10n_br_account.models.l10n_br_account_tax_definition import (
+    L10nBrTaxDefinition
 )
+
 from odoo.addons.l10n_br_account.sped.ibpt.deolhonoimposto import (
     DeOlhoNoImposto,
     get_ibpt_product
@@ -207,20 +207,37 @@ class L10nBrTaxEstimate(models.Model):
     )
 
 
-class L10nBrTaxDefinitionModel(L10nBrTaxDefinitionCompanyProduct):
+class L10nBrTaxDefinitionModel(L10nBrTaxDefinition):
     _name = 'l10n_br_tax.definition.model'
 
     fiscal_classification_id = fields.Many2one(
         comodel_name='account.product.fiscal.classification',
         string=u'Parent Fiscal Classification',
-        index=True
-    )
+        index=True)
+
+    cst_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.cst',
+        domain="[('tax_group_id', '=', tax_group_id)]",
+        string='CST')
+
+    tax_ipi_guideline_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.ipi_guideline',
+        string=u'Enquadramento IPI')
+
+    tax_icms_relief_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.icms_relief',
+        string=u'Desoneração ICMS')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
          u'Imposto já existente nesta classificação fiscal!')
     ]
+
+    @api.onchange('tax_id')
+    def _onchange_tax_template_id(self):
+        if self.tax_id.tax_group_id != self.cst_id.tax_group_id:
+            self.cst_id = None
 
 
 class L10nBrTaxDefinitionSale(L10nBrTaxDefinitionModel, models.Model):
