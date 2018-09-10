@@ -1824,38 +1824,29 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_cst_icms_cst_icms_sn(self):
         self.ensure_one()
 
-        res = {}
-        mensagens_complementares = ''
-        avisos = {}
-        res['warning'] = avisos
+        if self.operacao_id.calcular_tributacao not in (
+                'somente_calcula', 'manual') and self.protocolo_id and \
+                (self.emissao == TIPO_EMISSAO_PROPRIA or
+                 self.env.context.get('manual')):
+            mensagens_complementares = ''
+            avisos = {}
+            vals = {}
+            res = {'warning': avisos, 'value': vals}
+        else:
+            return {'warning': {}, 'value': {}}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
-                self.env.context.get('manual'):
-            return res
-        elif self.operacao_id.calcular_tributacao in (
-                'somente_calcula', 'manual'):
-            return res
-        elif not self.protocolo_id:
-            return res
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and \
+                self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
+            if not self.cfop_id.eh_venda:
+                avisos['title'] = 'Aviso!'
+                avisos['message'] = \
+                    'Você selecionou uma CSOSN que dá direito a crédito, '\
+                    'porém a CFOP não indica uma venda!'
 
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            if self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
-                if not self.cfop_id.eh_venda:
-                    avisos['title'] = 'Aviso!'
-                    avisos['message'] = \
-                        'Você selecionou uma CSOSN que dá direito a crédito, '\
-                        'porém a CFOP não indica uma venda!'
-
-                self.al_icms_sn = self.empresa_id.simples_aliquota_id \
-                    .al_icms
-
-            else:
-                self.al_icms_sn = 0
-                self.rd_icms_sn = 0
+            vals['al_icms_sn'] = self.empresa_id.simples_aliquota_id.al_icms
 
         else:
-            self.al_icms_sn = 0
-            self.rd_icms_sn = 0
+            vals['al_icms_sn'] = vals['rd_icms_sn'] = 0
 
         estado_origem, estado_destino, destinatario = \
             self._estado_origem_estado_destino_destinatario()
@@ -1865,20 +1856,13 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         if (self.entrada_saida == ENTRADA_SAIDA_ENTRADA and
                 self.participante_id.estado == 'EX'):
-            mensagem, aliquota_origem_destino = \
-                self.protocolo_id.busca_aliquota(
-                estado_destino, estado_destino,
-                self.data_emissao, self.empresa_id)
-            if mensagem:
-                mensagens_complementares += mensagem + '; '
-
+            estado = estado_destino
         else:
-            mensagem, aliquota_origem_destino = \
-                self.protocolo_id.busca_aliquota(
-                estado_origem, estado_destino,
-                self.data_emissao, self.empresa_id)
-            if mensagem:
-                mensagens_complementares += mensagem + '; '
+            estado = estado_origem
+
+        mensagem, aliquota_origem_destino = self.protocolo_id.busca_aliquota(
+            estado, estado_destino, self.data_emissao, self.empresa_id)
+        mensagens_complementares += (mensagem or '') + '; '
 
         #
         # Alíquota do ICMS próprio
@@ -1890,39 +1874,35 @@ class SpedCalculoImpostoItem(SpedBase):
         else:
             al_icms = aliquota_origem_destino.al_icms_proprio_id
 
-        self.md_icms_proprio = al_icms.md_icms
-        self.pr_icms_proprio = al_icms.pr_icms
-        self.rd_icms_proprio = al_icms.rd_icms
+        vals['md_icms_proprio'] = al_icms.md_icms
+        vals['pr_icms_proprio'] = al_icms.pr_icms
+        vals['rd_icms_proprio'] = al_icms.rd_icms
 
-        if self.cst_icms and (
-                not self.cst_icms in ST_ICMS_DESONERADO_ZERA_ICMS_PROPRIO):
-            self.al_icms_proprio = al_icms.al_icms
+        if self.cst_icms and self.cst_icms not in \
+                ST_ICMS_DESONERADO_ZERA_ICMS_PROPRIO:
+            vals['al_icms_proprio'] = al_icms.al_icms
 
-        self.al_interna_destino = 0
-        self.al_difal = 0
-        self.al_fcp = 0
+        vals['al_difal'] = vals['al_fcp'] = vals['al_interna_destino'] = 0
 
-        if self.calcula_difal:
-            mensagem, aliquota_interna_destino = \
-            self.protocolo_id.busca_aliquota(
-                estado_destino, estado_destino,
-                self.data_emissao, self.empresa_id)
-            if mensagem:
-                mensagens_complementares += mensagem + '; '
+        if self.calcula_difal and estado != estado_destino:
+            mensagem, aliquota_interna_destino = self.protocolo_id.\
+                busca_aliquota(estado_destino, estado_destino,
+                               self.data_emissao, self.empresa_id)
+            mensagens_complementares += (mensagem or '') + '; '
 
             if (aliquota_interna_destino.al_icms_proprio_id.al_icms >
                     al_icms.al_icms):
                 al_difal = aliquota_interna_destino.al_icms_proprio_id.al_icms
                 al_difal -= al_icms.al_icms
 
-                self.al_difal = al_difal
-                self.al_interna_destino = \
+                vals['al_difal'] = al_difal
+                vals['al_interna_destino'] = \
                     aliquota_interna_destino.al_icms_proprio_id.al_icms
 
-                self.al_fcp = aliquota_interna_destino.al_fcp
+                vals['al_fcp'] = aliquota_interna_destino.al_fcp
 
         if mensagens_complementares:
-            self.mensagens_complementares = mensagens_complementares
+            vals['mensagens_complementares'] = mensagens_complementares
         #
         # Alíquota e MVA do ICMS ST, somente para quando não houver serviço
         # (serviço pode ter ICMS na nota conjugada [DF])
@@ -1932,10 +1912,10 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.produto_id.tipo != TIPO_PRODUTO_SERVICO_SERVICOS):
             al_icms_st = aliquota_origem_destino.al_icms_st_id
 
-            self.md_icms_st = al_icms_st.md_icms
-            self.pr_icms_st = al_icms_st.pr_icms
-            self.rd_icms_st = al_icms_st.rd_icms
-            self.al_icms_st = al_icms_st.al_icms
+            vals['md_icms_st'] = al_icms_st.md_icms
+            vals['pr_icms_st'] = al_icms_st.pr_icms
+            vals['rd_icms_st'] = al_icms_st.rd_icms
+            vals['al_icms_st'] = al_icms_st.al_icms
 
             #
             # Verificamos a necessidade de se busca a MVA (ajustada ou não)
@@ -1946,7 +1926,7 @@ class SpedCalculoImpostoItem(SpedBase):
                 protocolo_ncm = self.produto_id.ncm_id.busca_mva(
                     self.protocolo_id)
 
-                if (protocolo_ncm is not None) and protocolo_ncm:
+                if protocolo_ncm:
                     pr_icms_st = protocolo_ncm.mva
 
                     #
@@ -1955,14 +1935,14 @@ class SpedCalculoImpostoItem(SpedBase):
                     # Atenção aqui, pois SC determina que é o regime tributário
                     # do destinatário que determina o ajuste
                     #
-                    ajusta_mva = False
-                    if (estado_origem == 'SC' or estado_destino == 'SC'):
-                        if (destinatario.regime_tributario !=
-                                REGIME_TRIBUTARIO_SIMPLES):
-                            ajusta_mva = True
-
+                    if ('SC' in (estado_origem, estado_destino) and
+                            destinatario.regime_tributario !=
+                            REGIME_TRIBUTARIO_SIMPLES):
+                        ajusta_mva = True
                     elif self.regime_tributario != REGIME_TRIBUTARIO_SIMPLES:
                         ajusta_mva = True
+                    else:
+                        ajusta_mva = False
 
                     if ajusta_mva:
                         al_icms_proprio = 100 - al_icms.al_icms
@@ -1978,7 +1958,9 @@ class SpedCalculoImpostoItem(SpedBase):
                         pr_icms_st *= 100
                         pr_icms_st = D(pr_icms_st).quantize(D('0.0001'))
 
-                    self.pr_icms_st = pr_icms_st
+                    vals['pr_icms_st'] = pr_icms_st
+
+        self.update(vals)
 
         return res
 
