@@ -5,10 +5,10 @@
 from odoo import models, fields, api, _, tools
 from odoo.addons import decimal_precision as dp
 
-from .l10n_br_account_product import (sPRODUCT_FISCAL_TYPE,
+from .l10n_br_account_product import (PRODUCT_FISCAL_TYPE,
                                       PRODUCT_FISCAL_TYPE_DEFAULT)
 
-from .product import PRODUCT_ORIGIN
+from .product_template import PRODUCT_ORIGIN
 
 
 class AccountInvoiceLine(models.Model):
@@ -64,6 +64,7 @@ class AccountInvoiceLine(models.Model):
     )
     cfop_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cfop',
+        domain="[('internal_type', '=', 'normal')]",
         string=u'CFOP'
     )
     fiscal_classification_id = fields.Many2one(
@@ -1085,4 +1086,3 @@ class AccountInvoiceLine(models.Model):
     # def write(self, vals):
     #    vals.update(self._validate_taxes(vals))
     #    return super(AccountInvoiceLine, self).write(vals)
-

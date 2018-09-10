@@ -5,9 +5,10 @@
 from datetime import datetime
 from unicodedata import normalize
 import pytz
-from openerp import SUPERUSER_ID
-from openerp import pooler
-from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
+
+from odoo import SUPERUSER_ID
+from odoo import registry
+from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
 def nfe_export(cr, uid, ids, nfe_environment='1',
@@ -16,7 +17,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
 
     StrNF = 'NOTA FISCAL|%s|\n' % len(ids)
     StrFile = StrNF
-    pool = pooler.get_pool(cr.dbname)
+    pool = registry.get_pool(cr.dbname)
 
     nfes = []
 
