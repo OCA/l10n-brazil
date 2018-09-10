@@ -1570,56 +1570,62 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_operacao_item_id(self):
         self.ensure_one()
 
-        res = {}
+        if self.operacao_item_id:
+            vals = {}
+            res = {'value': vals}
 
-        if not self.operacao_item_id:
-            return res
-
-        self.cfop_id = self.operacao_item_id.cfop_id.id
-        self.compoe_total = self.operacao_item_id.compoe_total
-        self.movimentacao_fisica = \
-            self.operacao_item_id.movimentacao_fisica
-        # self.bc_icms_proprio_com_ipi = \
-        #    self.operacao_item_id.bc_icms_proprio_com_ipi
-        # self.bc_icms_st_com_ipi = \
-        #    self.operacao_item_id.bc_icms_st_com_ipi
-
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            self.cst_icms_sn = self.operacao_item_id.cst_icms_sn
-            self.cst_icms = False
-
+            dados_operacao = self.operacao_item_id.copy_data()[0]
         else:
-            self.cst_icms = self.operacao_item_id.cst_icms
-            self.cst_icms_sn = False
+            return {'value': {}}
 
-        if self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
-            self.cst_ipi_entrada = self.operacao_item_id.cst_ipi_entrada
-            self.cst_ipi = self.operacao_item_id.cst_ipi_entrada
-        else:
-            self.cst_ipi_saida = self.operacao_item_id.cst_ipi_saida
-            self.cst_ipi = self.operacao_item_id.cst_ipi_saida
-
-        self.enquadramento_ipi = self.operacao_item_id.enquadramento_ipi
-        self.motivo_icms_desonerado = \
-            self.operacao_item_id.motivo_icms_desonerado
+        campos_operacao = ['cfop_id', 'compoe_total', 'movimentacao_fisica',
+                           'enquadramento_ipi', 'motivo_icms_desonerado']
 
         #
         # Busca agora as alíquotas do PIS e COFINS
         #
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and \
-           self.operacao_item_id.cst_icms_sn != ST_ICMS_SN_OUTRAS:
-            #
-            # Força a CST do PIS, COFINS e IPI para o SIMPLES
-            #
-            # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
-            self.cst_ipi = ''
-            self.cst_ipi_entrada = ''
-            self.cst_ipi_saida = ''
-            al_pis_cofins = \
-                self.env.ref('sped_imposto.ALIQUOTA_PIS_COFINS_SIMPLES')
-            self.al_pis_cofins_id = al_pis_cofins.id
-            self.codigo_natureza_receita_pis_cofins = ''
 
+        vals['cst_icms_sn'] = vals['cst_icms'] = False
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            campos_operacao.extend(['cst_icms_sn'])
+
+            if dados_operacao['cst_icms_sn'] != ST_ICMS_SN_OUTRAS:
+                #
+                # Força a CST do PIS, COFINS e IPI para o SIMPLES
+                #
+                # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
+                for campo in ['cst_ipi', 'cst_ipi_entrada', 'cst_ipi_saida',
+                              'codigo_natureza_receita_pis_cofins']:
+                    vals[campo] = ''
+                vals['al_pis_cofins_id'] = self.env.ref(
+                    'sped_imposto.ALIQUOTA_PIS_COFINS_SIMPLES').id
+
+                for campo in campos_operacao:
+                    vals[campo] = dados_operacao[campo]
+
+                return res
+
+        else:
+            campos_operacao.extend(['cst_icms'])
+
+        if self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
+            vals['cst_ipi'] = vals['cst_ipi_entrada'] = \
+                dados_operacao['cst_ipi_entrada']
+        else:
+            vals['cst_ipi'] = vals['cst_ipi_saida'] = \
+                dados_operacao['cst_ipi_saida']
+
+        #
+        # Se por acaso a CST do PIS-COFINS especificada no item da operação
+        # definir que não haverá cobrança de PIS-COFINS, usa a CST da
+        # operação
+        #
+        if (dados_operacao['al_pis_cofins_id'] and not
+            (self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida
+                 in ST_PIS_CALCULA_ALIQUOTA or
+             self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida
+                 in ST_PIS_CALCULA_QUANTIDADE)):
+            campos_operacao.extend(['al_pis_cofins_id'])
         else:
             #
             # Determina a alíquota do PIS-COFINS:
@@ -1627,41 +1633,30 @@ class SpedCalculoImpostoItem(SpedBase):
             # 2º - se o NCM tem uma específica
             # 3º - a geral da empresa
             #
-            if self.produto_id.al_pis_cofins_id:
-                al_pis_cofins = self.produto_id.al_pis_cofins_id
-            elif self.produto_id.ncm_id.al_pis_cofins_id:
-                al_pis_cofins = self.produto_id.ncm_id.al_pis_cofins_id
-            else:
-                al_pis_cofins = self.empresa_id.al_pis_cofins_id
+            al_pis_cofins = self.produto_id.al_pis_cofins_id or \
+                self.produto_id.ncm_id.al_pis_cofins_id or \
+                self.empresa_id.al_pis_cofins_id
 
-            #
-            # Se por acaso a CST do PIS-COFINS especificada no item da operação
-            # definir que não haverá cobrança de PIS-COFINS, usa a CST da
-            # operação caso contrário, usa a definida acima
-            #
-            if (self.operacao_item_id.al_pis_cofins_id and not
-                (self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida
-                     in ST_PIS_CALCULA_ALIQUOTA or
-                 self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida
-                     in ST_PIS_CALCULA_QUANTIDADE)):
-                al_pis_cofins = self.operacao_item_id.al_pis_cofins_id
+            vals['al_pis_cofins_id'] = al_pis_cofins.id
 
-            self.al_pis_cofins_id = al_pis_cofins.id
+        #
+        # Agora, pega a natureza da receita do PIS-COFINS, necessária
+        # para o SPED Contribuições
+        #
+        campo = 'codigo_natureza_receita_pis_cofins'
+        if self.produto_id[campo]:
+            vals[campo] = self.produto_id[campo]
+        elif self.produto_id.ncm_id.al_pis_cofins_id and \
+                self.produto_id.ncm_id[campo]:
+            vals[campo] = self.produto_id.ncm_id[campo]
+        elif dados_operacao[campo]:
+            campos_operacao.extend([campo])
 
-            #
-            # Agora, pega a natureza da receita do PIS-COFINS, necessária
-            # para o SPED Contribuições
-            #
-            if self.produto_id.codigo_natureza_receita_pis_cofins:
-                self.codigo_natureza_receita_pis_cofins = \
-                self.produto_id.codigo_natureza_receita_pis_cofins
-            elif self.produto_id.ncm_id.al_pis_cofins_id and \
-                self.produto_id.ncm_id.codigo_natureza_receita_pis_cofins:
-                self.codigo_natureza_receita_pis_cofins = \
-                    self.produto_id.ncm_id.codigo_natureza_receita_pis_cofins
-            elif self.operacao_item_id.codigo_natureza_receita_pis_cofins:
-                self.codigo_natureza_receita_pis_cofins = \
-                    self.operacao_item_id.codigo_natureza_receita_pis_cofins
+        for campo in campos_operacao:
+            vals[campo] = dados_operacao[campo]
+
+        self.update(vals)
+
         return res
 
     @api.onchange('cfop_id')
