@@ -1663,69 +1663,56 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_cfop_id(self):
         self.ensure_one()
 
-        res = {}
+        if self.cfop_id:
+            vals = {}
+            res = {'value': vals}
 
-        if not self.cfop_id:
-            return res
+            dados_cfop = self.cfop_id.copy_data()[0]
+        else:
+            return {'value': {}}
 
-        self.al_simples = 0
-        self.calcula_difal = False
-        self.bc_icms_proprio_com_ipi = False
-        self.bc_icms_st_com_ipi = False
+        vals['al_simples'] = 0
+        vals['calcula_difal'] = False
+        vals['bc_icms_proprio_com_ipi'] = False
+        vals['bc_icms_st_com_ipi'] = False
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            if self.cfop_id.calcula_simples_csll_irpj:
-                if self.cfop_id.eh_venda_servico:
-                    if self.empresa_id.simples_aliquota_servico_id:
-                        self.al_simples = \
-                            self.empresa_id.simples_aliquota_servico_id \
-                                .al_simples
-                    else:
-                        self.al_simples = \
-                            self.empresa_id.simples_aliquota_id.al_simples
+            if dados_cfop['calcula_simples_csll_irpj']:
+                if dados_cfop['eh_venda_servico'] and \
+                        self.empresa_id.simples_aliquota_servico_id:
+                    vals['al_simples'] = \
+                        self.empresa_id.simples_aliquota_servico_id.al_simples
                 else:
-                    self.al_simples = \
+                    vals['al_simples'] = \
                         self.empresa_id.simples_aliquota_id.al_simples
 
         else:
             if (self.consumidor_final ==
                     TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
                     self.cfop_id.eh_venda):
-                if self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
-                    self.calcula_difal = True
+                if dados_cfop['posicao'] == POSICAO_CFOP_INTERESTADUAL:
+                    vals['calcula_difal'] = True
 
                     if '2016-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 40
+                        vals['al_partilha_estado_destino'] = 40
                     elif '2017-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 60
+                        vals['al_partilha_estado_destino'] = 60
                     elif '2018-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 80
+                        vals['al_partilha_estado_destino'] = 80
                     else:
-                        self.al_partilha_estado_destino = 100
+                        vals['al_partilha_estado_destino'] = 100
 
-                self.bc_icms_proprio_com_ipi = True
-                self.bc_icms_st_com_ipi = True
+                vals['bc_icms_proprio_com_ipi'] = True
+                vals['bc_icms_st_com_ipi'] = True
 
         #
         # Busca a alíquota do IBPT quando venda
         #
         if self.cfop_id.eh_venda:
+            domain = []
             if self.produto_id.ncm_id:
                 ibpt = self.env['sped.ibptax.ncm']
-
-                ibpt_ids = ibpt.search([
-                    ('estado_id', '=',
-                        self.empresa_id.municipio_id.estado_id.id),
-                    ('ncm_id', '=', self.produto_id.ncm_id.id),
-                ])
-
-                if len(ibpt_ids) > 0:
-                    self.al_ibpt = ibpt_ids[
-                        0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_estadual
-
-                    if (self.operacao_item_id.cfop_id.posicao ==
-                            POSICAO_CFOP_ESTRANGEIRO):
-                        self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
+                domain.append(('ncm_id', '=', self.produto_id.ncm_id.id))
 
             #
             # NBS por ser mais detalhado tem prioridade sobre o código do
@@ -1733,37 +1720,27 @@ class SpedCalculoImpostoItem(SpedBase):
             #
             elif self.produto_id.nbs_id:
                 ibpt = self.env['sped.ibptax.nbs']
-
-                ibpt_ids = ibpt.search([
-                    ('estado_id', '=',
-                        self.empresa_id.municipio_id.estado_id.id),
-                    ('nbs_id', '=', self.produto_id.nbs_id.id),
-                ])
-
-                if len(ibpt_ids) > 0:
-                    self.al_ibpt = ibpt_ids[
-                        0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
-
-                    if (self.operacao_item_id.cfop_id.posicao ==
-                            POSICAO_CFOP_ESTRANGEIRO):
-                        self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
+                domain.append(('nbs_id', '=', self.produto_id.nbs_id.id))
 
             elif self.produto_id.servico_id:
                 ibpt = self.env['sped.ibptax.servico']
+                domain.append(('servico_id', '=',
+                               self.produto_id.servico_id.id))
 
-                ibpt_ids = ibpt.search([
-                    ('estado_id', '=',
-                        self.empresa_id.municipio_id.estado_id.id),
-                    ('servico_id', '=', self.produto_id.servico_id.id),
-                ])
+            if domain:
+                domain.append(('estado_id', '=',
+                               self.empresa_id.municipio_id.estado_id.id))
 
-                if len(ibpt_ids) > 0:
-                    self.al_ibpt = ibpt_ids[
-                        0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
+                ibpt_id = ibpt.search(domain, limit=1)
+                vals['al_ibpt'] = ibpt_id.al_ibpt_nacional + getattr(
+                    ibpt_id, 'al_ibpt_municipal', ibpt_id.al_ibpt_estadual)
 
-                    if (self.operacao_item_id.cfop_id.posicao ==
-                            POSICAO_CFOP_ESTRANGEIRO):
-                        self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
+                if (self.operacao_item_id.cfop_id.posicao ==
+                        POSICAO_CFOP_ESTRANGEIRO):
+                    vals['al_ibpt'] += ibpt_id.al_ibpt_internacional
+
+        self.update(vals)
+
         return res
 
     @api.onchange('al_pis_cofins_id')
