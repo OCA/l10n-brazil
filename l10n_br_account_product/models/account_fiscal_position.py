@@ -4,9 +4,7 @@
 
 from odoo import models, fields, api
 
-from odoo.addons.l10n_br_account_product.models.product import (
-    PRODUCT_ORIGIN
-)
+from .product_template import PRODUCT_ORIGIN
 
 
 class AccountFiscalPosition(models.Model):
@@ -14,8 +12,9 @@ class AccountFiscalPosition(models.Model):
 
     cfop_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cfop',
-        string=u'CFOP'
-    )
+        domain="[('internal_type', '=', 'normal')]",
+        string=u'CFOP')
+
     ind_final = fields.Selection(
         selection=[('0', u'Não'),
                    ('1', u'Sim')],
@@ -24,8 +23,7 @@ class AccountFiscalPosition(models.Model):
         states={'draft': [('readonly', False)]},
         required=False,
         default='0',
-        help=u'Indica operação com Consumidor final.'
-    )
+        help=u'Indica operação com Consumidor final.')
 
     # TODO
     @api.v7

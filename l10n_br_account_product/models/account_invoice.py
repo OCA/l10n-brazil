@@ -14,7 +14,7 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 
-from .product import PRODUCT_ORIGIN
+from .product_template import PRODUCT_ORIGIN
 from odoo.addons.l10n_br_account_product.sped.nfe.validator import txt
 
 
@@ -776,4 +776,3 @@ class AccountInvoice(models.Model):
         result = super(AccountInvoice, self).open_fiscal_document()
         result['name'] = _('NF-e')
         return result
-
