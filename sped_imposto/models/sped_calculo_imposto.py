@@ -489,38 +489,27 @@ class SpedCalculoImposto(SpedBase):
         for documento in self:
             dados = {}
             for campo in CAMPOS_SOMA_ITENS:
-                dados[campo] = D(0)
+                valor = D(sum(documento.item_ids.mapped(campo)))
+                if valor != documento[campo]:
+                    dados[campo] = valor
                 #
                 # Soma dos campos totalizadores por tipo: produto, serviço
                 # e mensalidade
                 #
-                if 'produtos_' + campo in documento._fields:
-                    dados['produtos_' + campo] = D(0)
-                if 'servicos_' + campo in documento._fields:
-                    dados['servicos_' + campo] = D(0)
-                if 'mensalidades_' + campo in documento._fields:
-                    dados['mensalidades_' + campo] = D(0)
-
-            for item in documento.item_ids:
-                for campo in CAMPOS_SOMA_ITENS:
-                    dados[campo] += D(getattr(item, campo, 0))
-
-                    if 'produtos_' + campo in dados:
-                        if getattr(item, 'tipo_item', False) == 'P':
-                            dados['produtos_' + campo] += \
-                                D(getattr(item, campo, 0))
-
-                    if 'servicos_' + campo in dados:
-                        if getattr(item, 'tipo_item', False) == 'S':
-                            dados['servicos_' + campo] += \
-                                D(getattr(item, campo, 0))
-
-                    if 'mensalidades_' + campo in dados:
-                        if getattr(item, 'tipo_item', False) == 'M':
-                            dados['mensalidades_' + campo] += \
-                                D(getattr(item, campo, 0))
-
-            documento.update(dados)
+                especificos = [('produtos_' + campo, 'P'),
+                               ('servicos_' + campo, 'S'),
+                               ('mensalidades_' + campo, 'M')]
+                for campo_especifico, tipo_item in especificos:
+                    if hasattr(documento, campo_especifico):
+                        valor = D(sum(
+                            documento.item_ids.filtered(
+                                lambda item: item.tipo_item == tipo_item
+                            ).mapped(campo))
+                        )
+                        if valor != documento[campo_especifico]:
+                            dados[campo_especifico] = valor
+            if dados:
+                self.write(dados)
 
     def _inverse_rateio_campo_total(self, campo, tipo_item=None):
         self.ensure_one()
