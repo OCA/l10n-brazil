@@ -7,7 +7,10 @@
         <field name="arch" type="xml">
             <form string="Definição de Impostos">
                 <field name="tax_template_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
+                <field name="tax_ipi_guideline_id"/>
+                <field name="tax_icms_relief_id"/>
             </form>
         </field>
     </record>
@@ -18,7 +21,10 @@
         <field name="arch" type="xml">
             <tree string="Definição de Impostos" editable="bottom">
                 <field name="tax_template_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
+                <field name="tax_ipi_guideline_id"/>
+                <field name="tax_icms_relief_id"/>
             </tree>
         </field>
     </record>
@@ -29,7 +35,10 @@
         <field name="arch" type="xml">
             <form string="Definição de Impostos">
                 <field name="tax_template_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
+                <field name="tax_ipi_guideline_id"/>
+                <field name="tax_icms_relief_id"/>
             </form>
         </field>
     </record>
@@ -40,7 +49,10 @@
         <field name="arch" type="xml">
             <tree string="Definição de Impostos" editable="bottom">
                 <field name="tax_template_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
+                <field name="tax_ipi_guideline_id"/>
+                <field name="tax_icms_relief_id"/>
             </tree>
         </field>
     </record>
@@ -58,8 +70,7 @@
                 <field name="inv_copy_note" colspan="4"/>
                 <field name="note" colspan="4"/>
             </field>
-            <xpath expr="/form/sheet/separator[@name='taxes']" position="replace"></xpath>
-            <xpath expr="/form/sheet/group[2]" position="replace">
+            <xpath expr="//group[@name='tax_ids']" position="replace">
                 <notebook>
                     <page string="Impostos">
                         <group name="taxes" colspan="2">
@@ -130,5 +141,4 @@
 
     <!--    <menuitem action="l10n_br_product_fiscal_classifications_template_action" id="menu_product_fiscal_classifications_template" parent="account.account_template_folder" sequence="22" /> -->
 
-    </data>
-</openerp>
+</odoo>
