@@ -4,7 +4,7 @@
 
 from datetime import datetime
 
-from openerp import pooler
+from odoo import registry
 from openerp.exceptions import Warning as UserError
 from openerp.tools.translate import _
 
@@ -22,7 +22,7 @@ class NFe200(FiscalDocument):
 
     def _serializer(self, cr, uid, ids, nfe_environment, context=None):
 
-        pool = pooler.get_pool(cr.dbname)
+        pool = registry.get_pool(cr.dbname)
         nfes = []
 
         if not context:
