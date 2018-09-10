@@ -1974,42 +1974,28 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_calcula_valor_operacao(self):
         self.ensure_one()
 
-        res = {}
+        vals = {}
+        res = {'value': vals}
 
         if hasattr(self, 'price_unit'):
-            self.price_unit = self.vr_unitario
-        if hasattr(self, 'quantity'):
-            self.quantity = self.quantidade
-        if hasattr(self, 'product_qty'):
-            self.product_qty = self.quantidade
-        if hasattr(self, 'product_uom_qty'):
-            self.product_uom_qty = self.quantidade
-
-        # if self.emissao != TIPO_EMISSAO_PROPRIA and not \
-        #         self.env.context.get('manual'):
-        #     return res
+            vals['price_unit'] = self.vr_unitario
+        for campo in ['quantity', 'product_qty', 'product_uom_qty']:
+            if hasattr(self, campo):
+                vals[campo] = self.quantidade
 
         #
         # Cupom Fiscal só aceita até 3 casas decimais no valor unitário
         #
         if self.modelo == '2D':
-            self.vr_unitario = self.vr_unitario.quantize(D('0.001'))
-            self.vr_unitario_tributacao = self.vr_unitario_tributacao.quantize(
-                D('0.001'))
-
-            # self.vr_unitario = self.vr_unitario
-            # self.vr_unitario_tributacao = self.vr_unitario_tributacao
+            vals['vr_unitario'] = self.vr_unitario.quantize(D('0.001'))
+            vals['vr_unitario_tributacao'] = \
+                self.vr_unitario_tributacao.quantize(D('0.001'))
 
         #
         # Calcula o valor dos produtos
         #
         vr_produtos = D(self.quantidade) * D(self.vr_unitario)
         vr_produtos = vr_produtos.quantize(D('0.01'))
-
-        #if self.al_desconto:
-            #al_desconto = D(self.al_desconto) / 100
-            #vr_desconto = vr_produtos * al_desconto
-            #self.vr_desconto = vr_desconto
 
         #
         # Até segunda ordem, a quantidade e valor unitário para tributação não
@@ -2023,17 +2009,18 @@ class SpedCalculoImpostoItem(SpedBase):
         else:
             vr_unitario_tributacao = D(self.vr_unitario)
 
-        vr_unitario_tributacao = vr_unitario_tributacao.quantize(
-            D('0.0000000001'))
-        vr_produtos_tributacao = quantidade_tributacao * vr_unitario_tributacao
+        vr_unitario_tributacao = \
+            vr_unitario_tributacao.quantize(D('0.0000000001'))
+        vr_produtos_tributacao = \
+            quantidade_tributacao * vr_unitario_tributacao
         vr_produtos_tributacao = vr_produtos_tributacao
-        self.quantidade_tributacao = quantidade_tributacao
-        self.vr_unitario_tributacao = vr_unitario_tributacao
+        vals['quantidade_tributacao'] = quantidade_tributacao
+        vals['vr_unitario_tributacao'] = vr_unitario_tributacao
 
         if self.fator_conversao_unidade_tributacao != 1:
-            self.exibe_tributacao = True
+            vals['exibe_tributacao'] = True
         else:
-            self.exibe_tributacao = False
+            vals['exibe_tributacao'] = False
 
         vr_operacao = vr_produtos + self.vr_frete + \
             self.vr_seguro + self.vr_outras - self.vr_desconto
@@ -2041,10 +2028,10 @@ class SpedCalculoImpostoItem(SpedBase):
             vr_produtos_tributacao + self.vr_frete + self.vr_seguro + \
             self.vr_outras - self.vr_desconto + self.vr_ii
 
-        self.vr_produtos = vr_produtos
-        self.vr_produtos_tributacao = vr_produtos_tributacao
-        self.vr_operacao = vr_operacao
-        self.vr_operacao_tributacao = vr_operacao_tributacao
+        vals['vr_produtos'] = vr_produtos
+        vals['vr_produtos_tributacao'] = vr_produtos_tributacao
+        vals['vr_operacao'] = vr_operacao
+        vals['vr_operacao_tributacao'] = vr_operacao_tributacao
 
         #
         # Preenchimento automático de volumes
@@ -2062,9 +2049,11 @@ class SpedCalculoImpostoItem(SpedBase):
         else:
             quantidade_especie = 0
 
-        self.peso_bruto = peso_bruto
-        self.peso_liquido = peso_liquido
-        self.quantidade_especie = quantidade_especie
+        vals['peso_bruto'] = peso_bruto
+        vals['peso_liquido'] = peso_liquido
+        vals['quantidade_especie'] = quantidade_especie
+
+        self.update(vals)
 
         return res
 
