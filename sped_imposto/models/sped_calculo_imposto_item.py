@@ -1777,33 +1777,27 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_cst_ipi(self):
         self.ensure_one()
 
-        res = {}
-
-        if not self.cst_ipi:
-            return res
-
         #
         # Na nota de terceiros, respeitamos o IPI enviado no XML original,
         # e não recalculamos
         #
-        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
-                self.env.context.get('manual'):
-            return res
-        elif self.operacao_id.calcular_tributacao in (
-                'somente_calcula', 'manual'):
-            return res
+        if self.operacao_id.calcular_tributacao not in (
+                'somente_calcula', 'manual') and self.cst_ipi and \
+                (self.emissao == TIPO_EMISSAO_PROPRIA or 
+                 self.env.context.get('manual')):
+            vals = {}
+            res = {'value': vals}
+        else:
+            return {'value': {}}
 
         if (self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and
                 self.cst_icms_sn != ST_ICMS_SN_OUTRAS):
-            self.cst_ipi = ''  # NF-e do SIMPLES não destaca IPI nunca
             # NF-e do SIMPLES não destaca IPI nunca
-            self.cst_ipi_entrada = ''
-            # NF-e do SIMPLES não destaca IPI nunca
-            self.cst_ipi_saida = ''
-            self.md_ipi = MODALIDADE_BASE_IPI_ALIQUOTA
-            self.bc_ipi = 0
-            self.al_ipi = 0
-            self.vr_ipi = 0
+            vals['cst_ipi'] = vals['cst_ipi_entrada'] = \
+                vals['cst_ipi_saida'] = ''
+            vals['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
+            vals['bc_ipi'] = vals['al_ipi'] = vals['vr_ipi'] = 0
+
             return res
 
         #
@@ -1811,23 +1805,17 @@ class SpedCalculoImpostoItem(SpedBase):
         # 1º - se o produto tem uma específica
         # 2º - se o NCM tem uma específica
         #
-        if self.produto_id.al_ipi_id:
-            al_ipi = self.produto_id.al_ipi_id
-        elif self.produto_id.ncm_id.al_ipi_id:
-            al_ipi = self.produto_id.ncm_id.al_ipi_id
-        else:
-            al_ipi = None
+        al_ipi = self.produto_id.al_ipi_id or \
+            self.produto_id.ncm_id.al_ipi_id
 
-        if ((self.cst_ipi not in ST_IPI_CALCULA) or
-                (not al_ipi) or (al_ipi is None)):
-            self.md_ipi = MODALIDADE_BASE_IPI_ALIQUOTA
-            self.bc_ipi = 0
-            self.al_ipi = 0
-            self.vr_ipi = 0
-
+        if al_ipi and self.cst_ipi in ST_IPI_CALCULA:
+            vals['md_ipi'] = al_ipi.md_ipi
+            vals['al_ipi'] = al_ipi.al_ipi
         else:
-            self.md_ipi = al_ipi.md_ipi
-            self.al_ipi = al_ipi.al_ipi
+            vals['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
+            vals['bc_ipi'] = vals['al_ipi'] = vals['vr_ipi'] = 0
+
+        self.update(vals)
 
         return res
 
