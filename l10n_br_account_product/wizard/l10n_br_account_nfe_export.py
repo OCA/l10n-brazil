@@ -15,8 +15,10 @@ class L10nBrAccountNfeExport(models.TransientModel):
         string='Company',
         default=lambda self: self.env['res.company']._company_default_get(
             'l10n_br_account_product.nfe_export'))
+
     import_status_draft = fields.Boolean(
         string="Importar NFs com status em rascunho")
+
     nfe_export_result = fields.One2many(
         comodel_name='l10n_br_account_product.nfe_export_result',
         inverse_name='wizard_id',
@@ -38,5 +40,4 @@ class L10nBrAccountNfeExportResult(models.TransientModel):
     wizard_id = fields.Many2one(
         comodel_name='l10n_br_account_product.nfe_export',
         string='Wizard ID',
-        ondelete='cascade',
-        select=True)
+        ondelete='cascade')
