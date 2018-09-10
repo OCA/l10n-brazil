@@ -14,9 +14,10 @@ class L10nBrTaxDefinitionTemplate(object):
         string=u'Imposto',
         required=True)
 
-    # TODO
-    # tax_code_template_id = fields.Many2one('account.tax.code.template',
-    #                                        u'Código de Imposto')
+    tax_group_id = fields.Many2one(
+        string=u'Tax Group Related',
+        related='tax_template_id.tax_group_id',
+        readony=True)
 
 
 class L10nBrTaxDefinition(object):
@@ -27,13 +28,14 @@ class L10nBrTaxDefinition(object):
         string='Imposto',
         required=True)
 
-    # TODO
-    # tax_code_id = fields.Many2one('account.tax.code', u'Código de Imposto')
+    tax_group_id = fields.Many2one(
+        string=u'Tax Group Related',
+        related='tax_id.tax_group_id',
+        readony=True)
 
     company_id = fields.Many2one(
-        'res.company',
+        comodel_name='res.company',
         string=u'Company',
         related='tax_id.company_id',
         store=True,
-        readonly=True
-    )
+        readonly=True)
