@@ -5,7 +5,7 @@
 
 from odoo import models, fields, api
 
-from .l10n_br_tax_definition import (
+from .l10n_br_tax_definition_company_product import (
     L10nBrTaxDefinitionCompanyProduct
 )
 
