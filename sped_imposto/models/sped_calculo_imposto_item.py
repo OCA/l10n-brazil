@@ -1747,33 +1747,29 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_al_pis_cofins_id(self):
         self.ensure_one()
 
-        res = {}
+        if self.al_pis_cofins_id:
+            vals = {}
+            res = {'value': vals}
+            dados_aliquota = self.al_pis_cofins_id.copy_data()[0]
+        else:
+            return {'value': {}}
 
-        if not self.al_pis_cofins_id:
-            return res
+        vals['md_pis_proprio'] = dados_aliquota['md_pis_cofins']
+        vals['al_pis_proprio'] = dados_aliquota['al_pis'] or 0
 
-        self.md_pis_proprio = self.al_pis_cofins_id.md_pis_cofins
-        self.al_pis_proprio = self.al_pis_cofins_id.al_pis or 0
-
-        self.md_cofins_proprio = self.al_pis_cofins_id.md_pis_cofins
-        self.al_cofins_proprio = self.al_pis_cofins_id.al_cofins or 0
+        vals['md_cofins_proprio'] = dados_aliquota['md_pis_cofins']
+        vals['al_cofins_proprio'] = dados_aliquota['al_cofins'] or 0
 
         if self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
-            self.cst_pis = self.al_pis_cofins_id.cst_pis_cofins_entrada
-            self.cst_cofins = \
-                self.al_pis_cofins_id.cst_pis_cofins_entrada
-            self.cst_pis_entrada = \
-                self.al_pis_cofins_id.cst_pis_cofins_entrada
-            self.cst_cofins_entrada = \
-                self.al_pis_cofins_id.cst_pis_cofins_entrada
-
+            cst = dados_aliquota['cst_pis_cofins_entrada']
+            vals['cst_pis_entrada'] = vals['cst_cofins_entrada'] = cst
         else:
-            self.cst_pis = self.al_pis_cofins_id.cst_pis_cofins_saida
-            self.cst_cofins = self.al_pis_cofins_id.cst_pis_cofins_saida
-            self.cst_pis_saida = \
-                self.al_pis_cofins_id.cst_pis_cofins_saida
-            self.cst_cofins_saida = \
-                self.al_pis_cofins_id.cst_pis_cofins_saida
+            cst = dados_aliquota['cst_pis_cofins_saida']
+            vals['cst_pis_saida'] = vals['cst_cofins_saida'] = cst
+
+        vals['cst_pis'] = vals['cst_cofins'] = cst
+
+        self.update(vals)
 
         return res
 
