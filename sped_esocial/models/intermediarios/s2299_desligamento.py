@@ -172,6 +172,8 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         S2299.evento.ideEvento.tpAmb.valor = int(
             self.sped_hr_rescisao_id.company_id.esocial_tpAmb
         )
+        S2299.evento.infoRubrica.operacao = 1 if operacao == 'I' else 2
+
         # Processo de Emissão = Aplicativo do Contribuinte
         S2299.evento.ideEvento.procEmi.valor = '1'
         S2299.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
