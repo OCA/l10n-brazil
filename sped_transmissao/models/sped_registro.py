@@ -224,7 +224,8 @@ class SpedRegistro(models.Model):
             pode_retificar = False
             if registro.registro in [
                 'S-1200', 'S-1202', 'S-1207', 'S-1210', 'S-2200', 'S-2205',
-                'S-2206', 'S-2230', 'S-2299', 'S-2300', 'S-2306', 'S-2399'
+                'S-2206', 'S-2230', 'S-2299', 'S-2300', 'S-2306', 'S-2399',
+                'R-2010'
             ]:
                 pode_retificar = True
             registro.pode_retificar = pode_retificar
