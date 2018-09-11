@@ -45,7 +45,7 @@ class SpedEfdReinfNFS(models.Model):
     )
     vr_bruto = fields.Float(
         string='Valor Bruto',
-        related='nfs_id.inss_base_wh',
+        related='nfs_id.amount_total',
         readonly=True,
         store=True,
     )
