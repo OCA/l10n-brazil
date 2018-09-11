@@ -157,13 +157,20 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         Identificar o registro para retificar
         :return:
         """
-        registro_para_retificar = sped_registro.retificacao_ids.filtered(
-            lambda x: x.situacao not in ['1', '3'])
-
-        if registro_para_retificar:
-            return self.get_registro_para_retificar(registro_para_retificar)
-        else:
+        # Se tiver registro de retificação com erro ou nao possuir nenhuma
+        # retificação ainda, retornar o registro que veio no parametro
+        retificacao_com_erro = sped_registro.retificacao_ids.filtered(
+            lambda x: x.situacao in ['1', '3'])
+        if retificacao_com_erro or not sped_registro.retificacao_ids:
             return sped_registro
+
+        # Do contrario navegar ate as retificacoes com sucesso e efetuar a
+        # verificacao de erro novamente
+        else:
+            registro_com_sucesso = sped_registro.retificacao_ids.filtered(
+                lambda x: x.situacao not in ['1', '3'])
+
+            return self.get_registro_para_retificar(registro_com_sucesso[0])
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
@@ -195,14 +202,8 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         if operacao == 'R':
             indRetif = '2'
 
-            # Se nao existe retificacao pega o registro de inclusao
-            if not self.sped_s2299_registro_inclusao.retificacao_ids:
-                registro_para_retificar = self.sped_s2299_registro_inclusao
-            # Caso exista use o registro ja retificado
-            else:
-                # Identifica o Recibo a ser retificado
-                registro_para_retificar = self.get_registro_para_retificar(
-                    self.sped_s2299_registro_inclusao.retificacao_ids[0])
+            registro_para_retificar = self.get_registro_para_retificar(
+                self.sped_s2299_registro_inclusao)
 
             S2299.evento.ideEvento.nrRecibo.valor = \
                 registro_para_retificar.recibo
