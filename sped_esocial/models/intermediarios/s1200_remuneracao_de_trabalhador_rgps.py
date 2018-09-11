@@ -166,7 +166,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         # Popula ideTrabalhador (Dados do Trabalhador)
         S1200.evento.ideTrabalhador.cpfTrab.valor = limpa_formatacao(self.trabalhador_id.cpf)
         S1200.evento.ideTrabalhador.nisTrab.valor = limpa_formatacao(self.trabalhador_id.pis_pasep)
-
+	
         # # Popula ideTrabalhador.infoMV (Dados do Empregador Cedente)  # TODO
         # #        ideTrabalhador.infoMV.remunOutrEmpr
         # #
@@ -210,48 +210,53 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
         remuneracoes_ids = self.payslip_ids or self.payslip_autonomo_ids
         for payslip in remuneracoes_ids:
-            if payslip.tipo_de_folha in ['normal', 'decimo_terceiro']:
-                dm_dev = pysped.esocial.leiaute.S1200_DmDev_2()
-                dm_dev.ideDmDev.valor = payslip.number
-                dm_dev.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
+            if payslip.tipo_de_folha == 'ferias':
+                continue
+            dm_dev = pysped.esocial.leiaute.S1200_DmDev_2()
+            dm_dev.ideDmDev.valor = payslip.number
+            dm_dev.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
 
-                # Popula dmDev.infoPerApur
-                info_per_apur = pysped.esocial.leiaute.S1200_InfoPerApur_2()
-                info_per_apur.ideEstabLot.tpInsc.valor = '1'  # CNPJ
-                info_per_apur.ideEstabLot.nrInsc.valor = limpa_formatacao(payslip.company_id.cnpj_cpf)
-                info_per_apur.ideEstabLot.codLotacao.valor = payslip.company_id.cod_lotacao
+            # Popula dmDev.infoPerApur
+            info_per_apur = pysped.esocial.leiaute.S1200_InfoPerApur_2()
+            info_per_apur.ideEstabLot.tpInsc.valor = '1'  # CNPJ
+            info_per_apur.ideEstabLot.nrInsc.valor = limpa_formatacao(payslip.company_id.cnpj_cpf)
+            info_per_apur.ideEstabLot.codLotacao.valor = payslip.company_id.cod_lotacao
 
-                # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur
-                remun_per_apur = pysped.esocial.leiaute.S1200_RemunPerApur_2()
+            # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur
+            remun_per_apur = pysped.esocial.leiaute.S1200_RemunPerApur_2()
 
-                # Só preencher matricula de EMPREGADO com vinculo
-                if payslip.contract_id.evento_esocial == 's2200':
-                    remun_per_apur.matricula.valor = payslip.contract_id.matricula
+            # Só preencher matricula de EMPREGADO com vinculo
+            if payslip.contract_id.evento_esocial == 's2200':
+                remun_per_apur.matricula.valor = payslip.contract_id.matricula
 
-                # Somente para quando a empresa for do Simples
-                # remun_per_apur.indSimples.valor =
+            # Somente para quando a empresa for do Simples
+            # remun_per_apur.indSimples.valor =
 
-                # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
-                for line in payslip.line_ids:
+            # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
+            for line in payslip.line_ids:
 
-                    # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
-                    # ser transmitida para o e-Social.
-                    if line.salary_rule_id.nat_rubr:
+                # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
+                # ser transmitida para o e-Social.
+                if line.salary_rule_id.nat_rubr:
 
-                        if line.salary_rule_id.cod_inc_irrf_calculado not in \
-                                ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
-                            if line.total != 0:
-                                if (not line.salary_rule_id.code == 'BASE_INSS') or (line.salary_rule_id.code == 'BASE_INSS' and line.slip_id.tipo_de_holerite == 'normal'):
-                                    itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
-                                    itens_remun.codRubr.valor = line.salary_rule_id.codigo
-                                    itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
-                                    if line.quantity and float(line.quantity) != 1:
-                                        itens_remun.qtdRubr.valor = float(line.quantity)
-                                        itens_remun.vrUnit.valor = formata_valor(line.amount)
-                                    if line.rate and line.rate != 100:
-                                        itens_remun.fatorRubr.valor = line.rate
-                                    itens_remun.vrRubr.valor = formata_valor(line.total)
-                                    remun_per_apur.itensRemun.append(itens_remun)
+                    if line.salary_rule_id.cod_inc_irrf_calculado not in \
+                            ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
+
+                        if line.salary_rule_id.code == 'BASE_INSS' and line.slip_id.tipo_de_folha == 'ferias':
+                            continue
+
+                        if line.total != 0:
+
+                            itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
+                            itens_remun.codRubr.valor = line.salary_rule_id.codigo
+                            itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
+                            if line.quantity and float(line.quantity) != 1:
+                                itens_remun.qtdRubr.valor = float(line.quantity)
+                                itens_remun.vrUnit.valor = formata_valor(line.amount)
+                            if line.rate and line.rate != 100:
+                                itens_remun.fatorRubr.valor = line.rate
+                            itens_remun.vrRubr.valor = formata_valor(line.total)
+                            remun_per_apur.itensRemun.append(itens_remun)
 
             # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoSaudeColet  # TODO Quando tivermos plano de saúde
             # #                                                                   # coletívo
