@@ -16,7 +16,7 @@
                                 attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"
                         />
                         <button name="retificar" type="object" string="Retificar"
-                                attrs="{'invisible': ['|', '|', ('pode_retificar', '=', False), ('situacao', 'not in', ['4'])]}" />
+                                attrs="{'invisible': ['|', '|', ('pode_retificar', '=', False), ('situacao', 'not in', ['4', '5'])]}" />
                         <!--<button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"-->
                                 <!--attrs="{'invisible': ['|', '|', ('registro', '!=', 'R-2099'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"-->
                         <!--/>-->
