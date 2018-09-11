@@ -442,7 +442,7 @@ class SpedLote(models.Model, ):
         # Define a Inscrição do Processador
         processador.tpInsc = '1'
         processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
-
+        
         # Transmite
         if self.grupo != 'na':
             grupo = '3' if self.grupo == '4' else self.grupo
@@ -547,7 +547,7 @@ class SpedLote(models.Model, ):
                     registro.protocolo = evento.evtTotal.infoRecEv.nrProtEntr.valor
                     # Grava o protocolo no Lote para consulta
                     self.protocolo = evento.evtTotal.infoRecEv.nrProtEntr.valor
-
+                
                 # Limpa as ocorrências do registro
                 for ocorrencia in registro.ocorrencia_ids:
                     ocorrencia.unlink()
