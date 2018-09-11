@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="EFD Reinf - Registro R-2099" edit="false" delete="false" create="false" duplicate="false">
                     <header>
-                        <button name="atualizar_reinf" colspan="4" type="object"
+                        <button name="criar_registro" colspan="4" type="object"
                                 string="Ativar/Atualizar EFD Reinf" class="oe_highlight"
                                 attrs="{'invisible': [('situacao', 'in', ['1', '3', '9'])]}" />
                         <field name="situacao" widget="statusbar" select="1" nolabel="1" readonly="1" />
