@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sped_efdreinf_r2098_form" model="ir.ui.view">
+            <field name="name">EFD Reinf R-2098</field>
+            <field name="model">sped.efdreinf.reabertura.eventos.periodicos</field>
+            <field name="arch" type="xml">
+                <form string="EFD Reinf - Registro R-2098" edit="false" delete="false" create="false" duplicate="false">
+                    <header>
+                        <button name="criar_registro" colspan="4" type="object"
+                                string="Ativar/Atualizar EFD Reinf" class="oe_highlight"
+                                attrs="{'invisible': [('situacao', 'in', ['1', '3', '9'])]}" />
+                        <field name="situacao" widget="statusbar" select="1" nolabel="1" readonly="1" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="nome" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group colspan="4" col="4">
+                            <group colspan="4" col="2">
+                                <field name="company_id" readonly="1"/>
+                                <field name="reinf_competencia_id" readonly="1"/>
+                                <field name="periodo_id" readonly="1"/>
+                            </group>
+                            <group colspan="4" col="2">
+                                <field name="sped_inclusao" readonly="1"/>
+                            </group>
+                            <field name="ultima_atualizacao"/>
+                            <field name="precisa_incluir"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_efdreinf_r2098_tree">
+            <field name="name">R-2098 (Reabertura Eventos Periodicos)</field>
+            <field name="model">sped.efdreinf.reabertura.eventos.periodicos</field>
+            <field name="arch" type="xml">
+                <tree string="R-2098 (Reabertura Eventos Periodicos)" duplicate="false" edit="false" delete="false" create="false">
+                    <field name="company_id"/>
+                    <field name="situacao"/>
+                    <field name="periodo_id"/>
+                    <field name="ultima_atualizacao"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_efdreinf_r2098_search" model="ir.ui.view">
+            <field name="name">R-2098 (Reabertura Eventos Periodicos)</field>
+            <field name="model">sped.efdreinf.reabertura.eventos.periodicos</field>
+            <field name="arch" type="xml">
+                <search string="R-2098 (Reabertura Eventos Periodicos)">
+                    <field name="company_id" />
+                    <field name="reinf_competencia_id" />
+                    <field name="periodo_id" />
+                    <field name="situacao" />
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_efdreinf_r2098_action">
+            <field name="name">R-2098 (Reabertura Eventos Periodicos)</field>
+            <field name="domain">[]</field>
+            <field name="res_model">sped.efdreinf.reabertura.eventos.periodicos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_efdreinf_r2098_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_efdreinf_r2098_form"/>
+            <field name="act_window_id" ref="sped_efdreinf_r2098_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_efdreinf_r2098_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_efdreinf_r2098_tree"/>
+            <field name="act_window_id" ref="sped_efdreinf_r2098_action"/>
+        </record>
+
+        <menuitem id="menu_sped_efdreinf_r2098"
+                  name="R-2098 (Reabertura Eventos Periodicos)"
+                  sequence="2098"
+                  action="sped_efdreinf.sped_efdreinf_r2098_action"
+                  parent="sped_efdreinf.menu_sped_efdreinf_intermediarios"
+        />
+
+    </data>
+</openerp>
