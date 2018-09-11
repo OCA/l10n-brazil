@@ -12,13 +12,19 @@
                                 attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
                         />
                         <button name="transmitir_periodo" type="object" string="Transmitir para o EFD/Reinf"
-                                attrs="{'invisible': ['|', ('pode_transmitir', '=', False), ('situacao', '=', '3')]}"
+                                attrs="{'invisible': ['|', ('pode_transmitir', '=', False), '|', ('situacao', '=', '3')]}"
                                 class="oe_highlight"
                                 confirm="Confirma a transmissão dos registros deste período para o EFD/Reinf?"
                         />
                         <button name="importar_fechamentos" type="object" string="Fechar Período"
-                                attrs="{'invisible': ['|', ('id', '=', False), ('pode_fechar', '=', False)]}"
+                                attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '3')]}"
                                 class="oe_highlight"
+                                confirm="Tem certeza que desaja fechar este período?"
+                        />
+                        <button name="importar_reabertura" type="object" string="Reabrir Período"
+                                attrs="{'invisible': ['|', ('id', '=', False), ('situacao', '=', '1')]}"
+                                class="oe_highlight"
+                                confirm="Tem certeza que deseja reabrir este período?"
                         />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
@@ -174,6 +180,12 @@
                                             </sheet>
                                         </form>
                                     </field>
+                                </group>
+                            </page>
+                            <page name="r2098" string="R-2098">
+                                <group>
+                                    <field name="sped_r2098_registro" readonly="1"/>
+                                    <field name="situacao_r2098" readonly="1"/>
                                 </group>
                             </page>
                             <page name="r2099" string="R-2099">
