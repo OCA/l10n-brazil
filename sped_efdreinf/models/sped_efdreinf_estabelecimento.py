@@ -86,14 +86,32 @@ class SpedEfdReinfEstab(models.Model, SpedRegistroIntermediario):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
         ],
-        related='sped_r2010_registro.situacao',
+        compute='_compute_situacao',
         readonly=True,
     )
     sped_r2010_retificacao = fields.Many2one(
         string='Registro R-2010 (Retificação)',
         comodel_name='sped.registro',
     )
+
+    @api.multi
+    @api.depends('sped_r2010_registro')
+    def _compute_situacao(self):
+        situacao = '1'
+        for record in self:
+            if record.sped_r2010_registro:
+                situacao = record.sped_r2010_registro.situacao
+
+            if record.sped_r2010_registro.retificacao_ids:
+                situacao = '6'
+                for retificacao in record.sped_r2010_registro.retificacao_ids:
+                    if retificacao.situacao in ['1', '3']:
+                        situacao = retificacao.situacao
+                        break
+
+            record.situacao_r2010 = situacao
 
     @api.depends('estabelecimento_id', 'prestador_id')
     def _compute_nome(self):
@@ -196,8 +214,7 @@ class SpedEfdReinfEstab(models.Model, SpedRegistroIntermediario):
 
             for nf in record.nfs_ids:
                 # Soma os totalizadores desta NF
-                # vr_total_bruto += nf.amount_total
-                vr_total_bruto += nf.nfs_id.inss_base_wh
+                vr_total_bruto += nf.nfs_id.amount_total
                 vr_total_base_retencao += nf.nfs_id.inss_base_wh
                 vr_total_ret_princ += nf.nfs_id.inss_value_wh
                 vr_total_ret_adic += 0  # TODO Criar o campo vr_total_rec_adic na NF
@@ -249,6 +266,25 @@ class SpedEfdReinfEstab(models.Model, SpedRegistroIntermediario):
         # Popula ideEvento
         R2010.evento.ideEvento.tpAmb.valor = ambiente
         R2010.evento.ideEvento.indRetif.valor = '1'
+        # Registro Original
+        indRetif = '1'
+        # Se for uma retificação
+        if operacao == 'R':
+            indRetif = '2'
+            # Identifica o Recibo a ser retificado
+            registro_para_retificar = self.sped_r2010_registro
+            tem_retificacao = True
+            while tem_retificacao:
+                if registro_para_retificar.retificacao_ids and \
+                        registro_para_retificar.retificacao_ids[
+                            0].situacao not in ['1', '3']:
+                    registro_para_retificar = \
+                    registro_para_retificar.retificacao_ids[0]
+                else:
+                    tem_retificacao = False
+            R2010.evento.ideEvento.nrRecibo.valor = registro_para_retificar.recibo
+        R2010.evento.ideEvento.indRetif.valor = indRetif
+
         R2010.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
         R2010.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
         R2010.evento.ideEvento.perApur.valor = periodo
