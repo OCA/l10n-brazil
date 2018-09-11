@@ -169,6 +169,11 @@ class SpedEfdReinf(models.Model):
                         if registro.situacao in ['1', '3']:
                             registros.append(registro.id)
 
+            # Reabertura (R-2098)
+            if efdreinf.sped_r2098_registro.situacao in ['1', '3']:
+                registros.append(
+                    efdreinf.sped_r2098_registro.sped_inclusao.id)
+
             # Fechamento (R-2099)
             if efdreinf.sped_r2099_registro.situacao in ['1', '3']:
                 registros.append(efdreinf.sped_r2099_registro.sped_inclusao.id)
@@ -231,6 +236,24 @@ class SpedEfdReinf(models.Model):
         compute='_compute_r2099',
     )
 
+    # Registro R-2098
+    sped_r2098_registro = fields.Many2one(
+        string='Registro R-2098',
+        comodel_name='sped.efdreinf.reabertura.eventos.periodicos',
+    )
+    situacao_r2098 = fields.Selection(
+        string='Situação R-2098',
+        selection=[
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
+        ],
+        related='sped_r2098_registro.situacao',
+        readonly=True,
+    )
+
     # Registro R-2099
     sped_r2099 = fields.Boolean(
         string='Fechamento EFD/Reinf',
@@ -267,7 +290,6 @@ class SpedEfdReinf(models.Model):
     @api.depends('estabelecimento_ids')
     def _compute_situacao(self):
         for efdreinf in self:
-
             # Verifica se está fechado ou aberto
             situacao = '3' if efdreinf.situacao_r2099 == '4' else '1'
 
@@ -445,6 +467,26 @@ class SpedEfdReinf(models.Model):
             self.sped_r2099_registro.criar_registro()
 
     @api.multi
+    def criar_r2098(self):
+        self.ensure_one()
+
+        for efdreinf in self:
+            # Se o registro intermediário do R-2098 não existe, criá-lo
+            if not self.sped_r2098_registro:
+                self.sped_r2098_registro = \
+                    self.env[
+                        'sped.efdreinf.reabertura.eventos.periodicos'].create({
+                        'company_id': self.company_id.id,
+                        'periodo_id': self.periodo_id.id,
+                        'reinf_competencia_id': self.id,
+                    })
+            else:
+                self.sped_r2098_registro.sped_inclusao = False
+            # Processa cada tipo de operação do R-2098
+            # O que realmente precisará ser feito é tratado no método do registro intermediário
+            self.sped_r2098_registro.criar_registro()
+
+    @api.multi
     def executa_analise(self):
         for efdreinf in self:
 
@@ -485,6 +527,26 @@ class SpedEfdReinf(models.Model):
         # Verifica se o registro R-2099 já existe, cria ou atualiza
         if not self.sped_r2099_registro:
             self.criar_r2099()
+
+        self.sped_r2099_registro.sped_inclusao = False
+        self.sped_r2099_registro.criar_registro()
+        self.sped_r2098_registro.sped_inclusao = False
+
+        # Recalcula os registros
+        self.compute_registro_ids()
+
+    @api.multi
+    def importar_reabertura(self):
+        self.ensure_one()
+
+        # Verifica se o registro R-2099 já existe, cria ou atualiza
+        if not self.sped_r2098_registro:
+            self.criar_r2098()
+
+        self.sped_r2098_registro.sped_inclusao = False
+        self.sped_r2098_registro.criar_registro()
+        self.sped_r2099_registro.sped_inclusao = False
+        self._compute_situacao()
 
         # Recalcula os registros
         self.compute_registro_ids()
