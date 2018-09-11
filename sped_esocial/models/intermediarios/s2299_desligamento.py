@@ -172,7 +172,26 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         S2299.evento.ideEvento.tpAmb.valor = int(
             self.sped_hr_rescisao_id.company_id.esocial_tpAmb
         )
-        S2299.evento.infoRubrica.operacao = 1 if operacao == 'I' else 2
+
+        # Registro Original
+        indRetif = '1'
+
+        # Se for uma retificação
+        if operacao == 'R':
+            indRetif = '2'
+            # Identifica o Recibo a ser retificado
+            registro_para_retificar = self.sped_registro
+            tem_retificacao = True
+            while tem_retificacao:
+                if registro_para_retificar.retificacao_ids and \
+                        registro_para_retificar.retificacao_ids[0].situacao not in ['1', '3']:
+                    registro_para_retificar = registro_para_retificar.retificacao_ids[0]
+                else:
+                    tem_retificacao = False
+
+            S2299.evento.ideEvento.nrRecibo.valor = registro_para_retificar.recibo
+
+        S2299.evento.ideEvento.indRetif.valor = indRetif
 
         # Processo de Emissão = Aplicativo do Contribuinte
         S2299.evento.ideEvento.procEmi.valor = '1'
