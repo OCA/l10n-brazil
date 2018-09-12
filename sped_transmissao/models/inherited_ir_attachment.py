@@ -43,6 +43,8 @@ class IrAttachment(models.Model):
         self.ensure_one()
 
         xml = self.conteudo_texto
+        if not xml:
+            return ''
         root = etree.fromstring(xml.encode('utf-8'))
         xml = '<?xml version="1.0" encoding="utf-8"?>\n' + etree.tounicode(root, pretty_print=True)
 
