@@ -301,6 +301,12 @@
                                     </field>
                                 </group>
                             </page>
+                            <page name="reabertura" string="Reabertura (S-1298)" attrs="{'invisible': [('sped_reabertura_id', '=', False)]}">
+                                <separator string="Reabertura dos Eventos Periódicos" />
+                                <group>
+                                    <field name="sped_reabertura_id" readonly="1"/>
+                                </group>
+                            </page>
                             <page name="fechamento" string="Fechamento (S-1299)"
                                   attrs="{'invisible': [('tem_fechamentos', '=', False)]}"
                             >
