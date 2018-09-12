@@ -991,7 +991,7 @@ class SpedEsocial(models.Model):
                 # Se algum contrato tiver data de término menor que a data inicial do período, tira ele
                 # adiciona o beneficiario na lista de beneficiarios_com_contrato
                 for contrato in contratos:
-                    if not contrato.date_end or contrato.date_end >= periodo.date_stop:
+                    if not contrato.date_end or contrato.date_end <= periodo.date_stop:
                         contratos_validos.append(contrato.id)
 
                 # Se tiver algum contrato válido, cria o registro s1210
