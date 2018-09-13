@@ -63,7 +63,10 @@ class HrHolidays(models.Model):
         holidays_id = super(HrHolidays, self).write(vals)
 
         # Quando validar o holidays, verificar se precisa criar substituicao
-        if vals.get('state') and vals.get('state') in ['validate']:
+        # Quando for compensação de horas nao gerar substituição
+        if vals.get('state') and vals.get('state') in ['validate'] and \
+                not self.holiday_status_id.tipo == 'compensacao':
+
             # Verificar se o funcionario do holiday, eh gerente de
             # algum departamento
             department_ids = self.env['hr.department'].search([
