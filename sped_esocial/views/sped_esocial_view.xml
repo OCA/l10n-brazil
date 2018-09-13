@@ -17,12 +17,14 @@
                                 confirm="Confirma a transmissão dos registros deste período para o e-Social?"
                         />
                         <button name="importar_fechamentos" type="object" string="Fechar Período"
-                                attrs="{'invisible': ['|', ('id', '=', False), ('pode_fechar', '=', False)]}"
+                                attrs="{'invisible': ['|', '|', ('id', '=', False), ('pode_fechar', '=', False), ('situacao_reabertura', 'in', ['4', '6'])]}"
                                 class="oe_highlight"
                         />
                         <button name="importar_reabertura" type="object" string="Reabrir Período"
+                                attrs="{'invisible': [('situacao', '!=', '3')]}"
                                 groups="base.group_no_one"
                                 class="oe_highlight"
+                                confirm="Confirma a reabertura deste período?"
                         />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
@@ -305,6 +307,7 @@
                                 <separator string="Reabertura dos Eventos Periódicos" />
                                 <group>
                                     <field name="sped_reabertura_id" readonly="1"/>
+                                    <field name="situacao_reabertura" readonly="1"/>
                                 </group>
                             </page>
                             <page name="fechamento" string="Fechamento (S-1299)"
@@ -317,12 +320,7 @@
                                         </div>
                                     </group>
                                     <separator string="Fechamento dos Eventos Periódicos" />
-                                    <field name="fechamento_ids" readonly="1" nolabel="1" colspan="4">
-                                        <tree string="S-1299 (Fechamento)">
-                                            <field name="codigo"/>
-                                            <field name="situacao_esocial"/>
-                                        </tree>
-                                    </field>
+                                    <field name="fechamento_id" readonly="1" nolabel="1" colspan="4"/>
                                 </group>
                             </page>
                             <page name="registros" string="Registros para transmitir ao e-Social"

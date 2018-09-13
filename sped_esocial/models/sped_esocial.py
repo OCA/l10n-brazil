@@ -116,7 +116,7 @@ class SpedEsocial(models.Model):
         comodel_name='hr.payslip',
     )
 
-    @api.depends('registro_ids.situacao')
+    @api.depends('registro_ids.situacao', 'situacao_reabertura')
     def compute_erro_ids(self):
         for periodo in self:
             registros = []
@@ -143,12 +143,16 @@ class SpedEsocial(models.Model):
             periodo.em_transmissao = em_transmissao
             periodo.erros = len(periodo.erro_ids)
             if periodo.registros == (periodo.transmitidos + periodo.em_transmissao):
-                if not periodo.fechamento_ids and periodo.registros == periodo.transmitidos:
+                if not periodo.fechamento_id and periodo.registros == periodo.transmitidos:
                     pode_fechar = True
             else:
                 pode_transmitir = True
             if periodo.rescisoes_sem_registro:
                 pode_fechar = False
+            if periodo.situacao_reabertura == '4':
+                periodo.situacao = '1'
+                pode_fechar = True
+                pode_transmitir = True
             periodo.pode_fechar = pode_fechar
             periodo.pode_transmitir = pode_transmitir
 
@@ -296,7 +300,7 @@ class SpedEsocial(models.Model):
                     registros.append(pagamento.sped_registro.id)
 
             # Fechamento (S-1299)
-            for fechamento in esocial.fechamento_ids:
+            for fechamento in esocial.fechamento_id:
                 # Identifica o registro a ser transmitido
                 if fechamento.sped_registro.situacao in ['1', '3']:
                     registros.append(fechamento.sped_registro.id)
@@ -1091,7 +1095,7 @@ class SpedEsocial(models.Model):
         string='Tem Fechamentos?',
         compute='compute_tem_fechamentos',
     )
-    fechamento_ids = fields.Many2many(
+    fechamento_id = fields.Many2one(
         string='Fechamento',
         comodel_name='sped.esocial.fechamento',
     )
@@ -1099,6 +1103,18 @@ class SpedEsocial(models.Model):
     sped_reabertura_id = fields.Many2one(
         comodel_name='sped.esocial.reabertura',
         string='Reabertura'
+    )
+
+    situacao_reabertura = fields.Selection(
+        string='Situação',
+        selection=[
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
+        ],
+        related='sped_reabertura_id.situacao_esocial',
     )
 
     @api.multi
@@ -1114,12 +1130,17 @@ class SpedEsocial(models.Model):
 
             self.sped_reabertura_id = reabertura_id
 
+        # Desvincular , se existir, o registro do modelo intermediário do S-1299
+        # TODO Criar uma validação para ir adicionando varios registros
+        # de fechamento de periodo para um mesmo modelo intermediário
+        self.sped_reabertura_id.sped_registro = False
+
         self.sped_reabertura_id.atualizar_esocial()
 
-    @api.depends('fechamento_ids')
+    @api.depends('fechamento_id')
     def compute_tem_fechamentos(self):
         for periodo in self:
-            periodo.tem_fechamentos = True if periodo.fechamento_ids else False
+            periodo.tem_fechamentos = True if periodo.fechamento_id else False
 
     @api.depends('remuneracao_rpps_ids')
     def compute_msg_remuneracao_rpps(self):
@@ -1171,9 +1192,10 @@ class SpedEsocial(models.Model):
                 s1299 = self.env['sped.esocial.fechamento'].create(vals)
             else:
                 s1299.write(vals)
+                s1299.sped_registro = False
 
             # Relaciona o s1299 com o período do e-Social
-            self.fechamento_ids = [(6, 0, [s1299.id])]
+            self.fechamento_id = s1299.id
 
             # Cria o registro de transmissão sped (se ainda não existir)
             s1299.atualizar_esocial()
@@ -1431,7 +1453,7 @@ class SpedEsocial(models.Model):
     )
 
     # Calcula se é necessário criar algum registro S-2299
-    @api.depends('desligamento_ids.situacao_s2299', 'fechamento_ids.situacao_esocial')
+    @api.depends('desligamento_ids.situacao_s2299', 'fechamento_id.situacao_esocial')
     def compute_necessita_s2299(self):
         for esocial in self:
             necessita_s2299 = False
