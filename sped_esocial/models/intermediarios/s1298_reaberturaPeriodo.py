@@ -10,7 +10,7 @@ from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 import pysped
 
 
-class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
+class SpedEsocialReabertura(models.Model, SpedRegistroIntermediario):
     _name = "sped.esocial.reabertura"
     _rec_name = "codigo"
     _order = "company_id,periodo_id"
@@ -117,4 +117,12 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
-        pass
+
+        if evento:
+
+            # Fecha o periodo relacionado
+            periodo = self.env['sped.esocial'].search([
+                ('company_id', '=', self.company_id.id),
+                ('periodo_id', '=', self.periodo_id.id),
+            ])
+            periodo.situacao = '1'
