@@ -44,6 +44,7 @@ access_sped_afastamento_temporario_rh_user,SPED Afastamento Temporário(Oficial 
 access_res_company_gerente_sped,Operador SPED(Escrita),base.model_res_company,sped_tabelas.group_user,1,1,0,0
 access_res_company_gerente_sped,Gerente SPED(Escrita),base.model_res_company,sped_tabelas.group_manager,1,1,0,0
 access_sped_esocial_abertura_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_esocial_reabertura,sped_tabelas.group_user,1,1,1,1
+access_sped_esocial_fechamento_contingencia_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_esocial_fechamento_contingencia,sped_tabelas.group_user,1,1,1,1
 access_sped_esocial_fechamento_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_esocial_fechamento,sped_tabelas.group_user,1,1,1,1
 access_sped_contribuicao_inss_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_contribuicao_inss,sped_tabelas.group_user,1,1,1,1
 access_sped_contribuicao_inss_infocpcalc_operador_sped,Operador SPED(Escrita),sped_esocial.model_sped_contribuicao_inss_infocpcalc,sped_tabelas.group_user,1,1,1,1

@@ -70,6 +70,7 @@
         'views/intermediarios/s1200_remuneracao_de_trabalhador_rgps.xml',
         'views/intermediarios/s1202_remuneracao_de_servidor_rpps.xml',
         'views/intermediarios/s1210_pagamento.xml',
+        'views/intermediarios/s1295_solicitacao_totalizador_pagamento_contingencia_view.xml',
         'views/intermediarios/s1298_reabertura.xml',
         'views/intermediarios/s1299_fechamento.xml',
         'views/intermediarios/s2200_cadastramento_inicial_vinculo_admissao_trabalhador_view.xml',
