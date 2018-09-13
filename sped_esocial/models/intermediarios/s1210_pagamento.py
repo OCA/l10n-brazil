@@ -64,8 +64,6 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
     def _compute_codigo(self):
         for esocial in self:
             codigo = ''
-            if esocial.company_id:
-                codigo += esocial.company_id.name or ''
             if esocial.beneficiario_id:
                 codigo += ' - ' if codigo else ''
                 codigo += esocial.beneficiario_id.name or ''

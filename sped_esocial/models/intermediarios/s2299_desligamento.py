@@ -13,6 +13,7 @@ import pysped
 
 class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
     _name = "sped.hr.rescisao"
+    _rec_name = 'name'
 
     name = fields.Char(
         string='name',
