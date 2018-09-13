@@ -38,6 +38,10 @@ class SpedInssConsolidado(models.Model, SpedRegistroIntermediario):
         string='S-5011',
         comodel_name='sped.registro',
     )
+    sped_registro_s1295 = fields.Many2one(
+        string='S-1295',
+        comodel_name='sped.registro',
+    )
     sped_registro_s1299 = fields.Many2one(
         string='S-1299',
         comodel_name='sped.registro',
