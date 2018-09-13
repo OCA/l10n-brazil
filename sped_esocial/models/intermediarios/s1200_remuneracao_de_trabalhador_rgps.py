@@ -383,6 +383,10 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                     # Popula o intermediário S1200 com o intermediário totalizador
                     self.s5001_id = sped_intermediario
 
+                    # Popula o intermediario do sped.registro enviado com o
+                    # totalizador 5001 retornado
+                    sped_registro.sped_s5001 = sped_intermediario
+
                     # Popula o XML em anexo no sped.registro totalizador
                     if sped_s5001.consulta_xml_id:
                         consulta = sped_s5001.consulta_xml_id

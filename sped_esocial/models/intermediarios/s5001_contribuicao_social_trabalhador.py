@@ -46,6 +46,10 @@ class SpedContribuicaoInss(models.Model, SpedRegistroIntermediario):
         string='S-1200',
         comodel_name='sped.registro',
     )
+    sped_registro_s2299 = fields.Many2one(
+        string='S-2299',
+        comodel_name='sped.registro',
+    )
     sped_registro_s2399 = fields.Many2one(
         string='S-2399',
         comodel_name='sped.registro',
@@ -61,13 +65,21 @@ class SpedContribuicaoInss(models.Model, SpedRegistroIntermediario):
         inverse_name='parent_id',
     )
 
-    @api.depends('sped_registro_s1200')
+    @api.depends('sped_registro_s1200', 'sped_registro_s2299', 'sped_registro_s2399')
     def _compute_name(self):
         for registro in self:
             nome = 'S-5001'
             if registro.sped_registro_s1200:
                 nome += ' ('
                 nome += registro.sped_registro_s1200.display_name or ''
+                nome += ')'
+            if registro.sped_registro_s2299:
+                nome += ' ('
+                nome += registro.sped_registro_s2299.display_name or ''
+                nome += ')'
+            if registro.sped_registro_s2399:
+                nome += ' ('
+                nome += registro.sped_registro_s2399.display_name or ''
                 nome += ')'
             registro.nome = nome
 

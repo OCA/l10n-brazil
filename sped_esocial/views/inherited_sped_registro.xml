@@ -10,9 +10,13 @@
                 <button name="consulta_lote" position="after">
                     <button name="%(sped_esocial.criar_s3000_exclusao)d" type="action" string="Excluir este Registro" class="oe_highlight"
                             attrs="{'invisible': ['|', '|', ('situacao', '!=', '4'), ('pode_excluir', '=', False), ('sped_s3000', '!=', False)]}"
-                            groups="sped_tabelas.group_manager"
-                    />
+                            groups="sped_tabelas.group_manager" />
                 </button>
+
+                <field name="desc_retorno" position="after">
+                    <field name="sped_s5001" readonly="1" attrs="{'invisible': [('sped_s5001', '=', False)]}"/>
+                </field>
+
                 <page name="retorno" position="before">
                     <page name="exclusao" string="Dados da Exclusão deste Registro"
                           attrs="{'invisible': [('sped_s3000', '=', False)]}">

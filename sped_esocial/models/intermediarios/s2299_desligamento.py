@@ -80,6 +80,18 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         string='Valor da Pensão',
         help='e-Social: S2299 - vrAlim'
     )
+    periodo_id = fields.Many2one(
+        string='Período',
+        comodel_name='account.period',
+    )
+    trabalhador_id = fields.Many2one(
+        string='Trabalhador',
+        comodel_name='hr.employee',
+    )
+    s5001_id = fields.Many2one(
+        string='S-5001 (Contribuições Sociais)',
+        comodel_name='sped.contribuicao.inss',
+    )
 
     @api.depends('sped_s2299_registro_inclusao.situacao',
                  'sped_s2299_registro_retificacao.situacao')
@@ -312,7 +324,147 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def retorno_sucesso(self, evento):
-        pass
+        """
+        :param evento:
+        :return:
+        """
+        self.ensure_one()
+
+        if evento:
+            for tot in evento.tot:
+
+                if tot.tipo.valor == 'S5001':
+
+                    # Busca o sped.registro que originou esse totalizador
+                    sped_registro = self.env['sped.registro'].search([
+                        ('registro', '=', 'S-2299'),
+                        ('recibo', '=',
+                         tot.eSocial.evento.ideEvento.nrRecArqBase.valor)
+                    ])
+
+                    # Busca pelo sped.registro deste totalizador (se ele já existir)
+                    sped_s5001 = self.env['sped.registro'].search([
+                        ('id_evento', '=', tot.eSocial.evento.Id.valor)
+                    ])
+
+                    # Busca pelo registro intermediário (se ele já existir)
+                    sped_intermediario = self.env['sped.contribuicao.inss'].search([
+                        ('id_evento', '=', tot.eSocial.evento.Id.valor)
+                    ])
+
+                    periodo_id = \
+                        sped_registro.origem_intermediario.periodo_id.id \
+                            if sped_registro.origem_intermediario.periodo_id \
+                            else False
+
+                    # Popula os valores para criar/alterar o registro
+                    # intermediário do totalizador
+                    vals_intermediario_totalizador = {
+                        'company_id': sped_registro.company_id.id,
+                        'id_evento': tot.eSocial.evento.Id.valor,
+                        'periodo_id': periodo_id,
+                        'sped_registro_s2299': sped_registro.id,
+                        'trabalhador_id':
+                            sped_registro.origem_intermediario.trabalhador_id.id,
+                    }
+
+                    # Cria/Altera o registro intermediário
+                    if sped_intermediario:
+                        sped_intermediario.write(vals_intermediario_totalizador)
+                    else:
+                        sped_intermediario = self.env['sped.contribuicao.inss'].create(
+                            vals_intermediario_totalizador)
+
+                    # Popula os valores para criar/alterar o sped.registro do totalizador
+                    vals_registro_totalizador = {
+                        'tipo': 'esocial',
+                        'registro': 'S-5001',
+                        'evento': 'evtBasesTrab',
+                        'operacao': 'na',
+                        'ambiente': sped_registro.ambiente,
+                        'origem': ('sped.contribuicao.inss,%s' % sped_intermediario.id),
+                        'origem_intermediario': (
+                                    'sped.contribuicao.inss,%s' % sped_intermediario.id),
+                        'company_id': sped_registro.company_id.id,
+                        'id_evento': tot.eSocial.evento.Id.valor,
+                        'situacao': '4',
+                        'recibo': tot.eSocial.evento.ideEvento.nrRecArqBase.valor,
+                    }
+
+                    # Cria/Altera o sped.registro do totalizador
+                    if sped_s5001:
+                        sped_s5001.write(vals_registro_totalizador)
+                    else:
+                        sped_s5001 = self.env['sped.registro'].create(
+                            vals_registro_totalizador)
+
+                    # Popula o intermediário totalizador com o registro totalizador
+                    sped_intermediario.sped_registro_s5001 = sped_s5001
+
+                    # Popula o intermediário S2299 com o intermediário totalizador
+                    self.s5001_id = sped_intermediario
+
+                    # Popula o intermediario do registro enviado com o
+                    # totalizador obtido
+                    sped_registro.sped_s5001 = sped_intermediario
+
+                    # Popula o XML em anexo no sped.registro totalizador
+                    if sped_s5001.consulta_xml_id:
+                        consulta = sped_s5001.consulta_xml_id
+                        sped_s5001.consulta_xml_id = False
+                        consulta.unlink()
+                    consulta_xml = tot.eSocial.xml
+                    consulta_xml_nome = sped_s5001.id_evento + '-consulta.xml'
+                    anexo_id = sped_registro._grava_anexo(consulta_xml_nome,
+                                                          consulta_xml)
+                    sped_s5001.consulta_xml_id = anexo_id
+
+                    # Limpa a tabela sped.contribuicao.inss.infocpcal
+                    for receita in sped_intermediario.infocpcalc_ids:
+                        receita.unlink()
+
+                    # Limpa a tabela sped.contribuicao.inss.ideestablot
+                    for base in sped_intermediario.ideestablot_ids:
+                        base.unlink()
+
+                    # Popula a tabela sped.contribuicao.inss.infocpcal com os valores apurados no S-5001
+                    for receita in tot.eSocial.evento.infoCpCalc:
+                        vals = {
+                            'parent_id': sped_intermediario.id,
+                            'tp_cr': receita.tpCR.valor,
+                            'vr_cp_seg': float(receita.vrCpSeg.valor),
+                            'vr_desc_seg': float(receita.vrDescSeg.valor),
+                        }
+                        self.env['sped.contribuicao.inss.infocpcalc'].create(vals)
+
+                    # Popula a tabela sped.contribuicao.inss.ideestablot
+                    for estabelecimento in tot.eSocial.evento.infoCp.ideEstabLot:
+                        for categoria in estabelecimento.infoCategIncid:
+                            for base in categoria.infoBaseCS:
+                                vals = {
+                                    'parent_id': sped_intermediario.id,
+                                    'tp_insc': estabelecimento.tpInsc.valor,
+                                    'nr_insc': estabelecimento.nrInsc.valor,
+                                    'cod_lotacao': estabelecimento.codLotacao.valor,
+                                    'matricula': categoria.matricula.valor,
+                                    'cod_categ': categoria.codCateg.valor,
+                                    'ind13': base.ind13.valor,
+                                    'tp_valor': base.tpValor.valor,
+                                    'valor': float(base.valor.valor),
+                                }
+                                if categoria.indSimples:
+                                    vals['ind_simples'] = categoria.indSimples.valor
+
+                                self.env['sped.contribuicao.inss.ideestablot'].create(vals)
+
+                    # Adiciona o S-5001 ao Período do e-Social que gerou o S-2299 relacionado
+                    periodo = self.env['sped.esocial'].search([
+                        ('company_id', '=', self.company_id.id),
+                        ('periodo_id', '=', self.periodo_id.id),
+                    ])
+
+                    if periodo:
+                        periodo.inss_trabalhador_ids = [(4, sped_intermediario.id)]
 
     @api.multi
     def retorna_trabalhador(self):

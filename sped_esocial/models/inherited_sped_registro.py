@@ -33,6 +33,10 @@ class SpedRegistro(models.Model):
         string='Pode Excluir?',
         compute='compute_pode_excluir',
     )
+    sped_s5001 = fields.Many2one(
+        string='Totalizador da base do INSS (S-5001)',
+        comodel_name='sped.contribuicao.inss',
+    )
 
     @api.depends('registro')
     def compute_pode_excluir(self):
