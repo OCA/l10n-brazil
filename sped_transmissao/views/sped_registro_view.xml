@@ -144,11 +144,12 @@
                       colors="blue:situacao in ('2','4');black:situacao == '1';read:situacao in ('3', '5')"
                 >
                     <field name="codigo" />
+                    <field name="name" />
                     <field name="tipo"/>
                     <field name="registro"/>
                     <field name="operacao" />
                     <field name="ambiente" />
-                    <field name="company_id" />
+                    <field name="company_id" invisible="1"/>
                     <field name="situacao"/>
                 </tree>
             </field>

@@ -18,7 +18,7 @@ class SpedRegistro(models.Model):
     _inherit = []
     _description = 'Registros SPED'
     _rec_name = 'name'
-    _order = "registro, data_hora_origem ASC, situacao"
+    _order = "data_hora_origem DESC"
 
     # Campo para mostrar que está limpado db
     limpar_db = fields.Boolean()
