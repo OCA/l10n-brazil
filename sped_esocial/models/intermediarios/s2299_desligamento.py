@@ -160,6 +160,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         self.sped_s2299_registro_retificacao = [(4, sped_retificacao.id)]
 
     @api.multi
+    @api.depends('sped_hr_rescisao_id')
     def _compute_display_name(self):
         for record in self:
             record.name = 'S-2299 - Desligamento {}'.format(
