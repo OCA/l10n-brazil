@@ -129,7 +129,7 @@ class SaleOrder(models.Model):
     )
 
     @api.model
-    def _fiscal_position_map(self, result, **kwargs):
+    def _fiscal_position_map(self, **kwargs):
         ctx = dict(self.env.context)
         if not kwargs.get('fiscal_category_id'):
             kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
@@ -137,7 +137,7 @@ class SaleOrder(models.Model):
             'use_domain': ('use_sale', '=', True),
             'fiscal_category_id': ctx.get('fiscal_category_id')})
         return self.env['account.fiscal.position.rule'].with_context(
-            ctx).apply_fiscal_mapping(result, **kwargs)
+            ctx).apply_fiscal_mapping(**kwargs)
 
     @api.onchange('discount_rate')
     def onchange_discount_rate(self):
@@ -151,7 +151,6 @@ class SaleOrder(models.Model):
         para refinir a posição fiscal de acordo com as
         regras de posição fiscal"""
         if self.company_id and self.partner_id and self.fiscal_category_id:
-            result = {'value': {'fiscal_position': False}}
             kwargs = {
                 'partner_id': self.partner_id,
                 'partner_invoice_id': self.partner_invoice_id,
@@ -159,9 +158,10 @@ class SaleOrder(models.Model):
                 'company_id': self.company_id,
                 'context': self.env.context
             }
-            result = self.env[
+            obj_fiscal_position = self.env[
                 'account.fiscal.position.rule'].apply_fiscal_mapping(**kwargs)
-            self.fiscal_position = result.fiscal_position_id
+            if obj_fiscal_position:
+                self.fiscal_position = obj_fiscal_position.id
 
     @api.model
     def _fiscal_comment(self, order):
@@ -272,18 +272,18 @@ class SaleOrderLine(models.Model):
         digits=dp.get_precision('Sale Price'))
 
     @api.model
-    def _fiscal_position_map(self, result, **kwargs):
+    def _fiscal_position_map(self, **kwargs):
+        result = {'value': {}}
         context = dict(self.env.context)
         context.update({'use_domain': ('use_sale', '=', True)})
         fp_rule_obj = self.env['account.fiscal.position.rule']
 
-        partner_invoice = self.env['res.partner'].browse(
-            kwargs.get('partner_invoice_id'))
+        partner_invoice = kwargs.get('partner_invoice_id')
 
         product_fc_id = fp_rule_obj.with_context(
             context).product_fiscal_category_map(
-                kwargs.get('product_id'),
-                kwargs.get('fiscal_category_id'),
+                kwargs.get('product_id').id,
+                kwargs.get('fiscal_category_id').id,
                 partner_invoice.state_id.id)
 
         if product_fc_id:
@@ -292,20 +292,17 @@ class SaleOrderLine(models.Model):
         result['value']['fiscal_category_id'] = kwargs.get(
             'fiscal_category_id')
 
-        result.update(fp_rule_obj.with_context(context).apply_fiscal_mapping(
-            result, **kwargs))
-        fiscal_position = result['value'].get('fiscal_position')
-        product_id = kwargs.get('product_id')
+        obj_fiscal_position = fp_rule_obj.with_context(
+            context).apply_fiscal_mapping(**kwargs)
+        obj_product = kwargs.get('product_id')
 
-        if product_id and fiscal_position:
-            obj_fposition = self.env['account.fiscal.position'].browse(
-                fiscal_position)
-            obj_product = self.env['product.product'].browse(product_id)
+        if obj_product and obj_fiscal_position:
+            result['value']['fiscal_position'] = obj_fiscal_position
             context.update({
                 'fiscal_type': obj_product.fiscal_type,
-                'type_tax_use': 'sale', 'product_id': product_id})
+                'type_tax_use': 'sale', 'product_id': obj_product.id})
             taxes = obj_product.taxes_id
-            tax_ids = obj_fposition.with_context(context).map_tax(taxes)
+            tax_ids = obj_fiscal_position.with_context(context).map_tax(taxes)
             result['value']['tax_id'] = tax_ids
 
         return result
@@ -332,7 +329,7 @@ class SaleOrderLine(models.Model):
                 'fiscal_category_id': parent_fiscal_category_id,
                 'context': context
             }
-            result.update(self._fiscal_position_map(result, **kwargs))
+            result.update(self._fiscal_position_map(**kwargs))
             if result['value'].get('fiscal_position'):
                 fiscal_position = result['value'].get('fiscal_position')
 
@@ -350,16 +347,15 @@ class SaleOrderLine(models.Model):
     def onchange_fiscal(self):
         if self.order_id.company_id and self.order_id.partner_id \
                 and self.fiscal_category_id:
-            result = {'value': {}}
             kwargs = {
-                'company_id': self.order_id.company_id.id,
-                'partner_id': self.order_id.partner_id.id,
-                'partner_invoice_id': self.order_id.partner_invoice_id.id,
-                'product_id': self.product_id.id,
-                'fiscal_category_id': self.fiscal_category_id.id,
+                'company_id': self.order_id.company_id,
+                'partner_id': self.order_id.partner_id,
+                'partner_invoice_id': self.order_id.partner_invoice_id,
+                'product_id': self.product_id,
+                'fiscal_category_id': self.fiscal_category_id,
                 'context': self.env.context
             }
-            result = self._fiscal_position_map(result, **kwargs)
+            result = self._fiscal_position_map(**kwargs)
 
             kwargs.update({
                 'fiscal_category_id': self.fiscal_category_id.id,
