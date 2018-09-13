@@ -555,12 +555,13 @@ class SpedRegistro(models.Model):
         # Retorno XML preenchido
         return registro, validacao
 
-    # Este método será chamado pelo lote quando a consulta for concluída com sucesso
+    # Este método será chamado pelo lote quando a consulta concluír com sucesso
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
-        # Se esse registro é uma retificação de outro, muda o status do registro retificado para "Retificado"
+        # Se esse registro é uma retificação de outro,
+        # muda o status do registro retificado para "Retificado"
         if self.retificado_id:
             self.retificado_id.situacao = '6'
 
