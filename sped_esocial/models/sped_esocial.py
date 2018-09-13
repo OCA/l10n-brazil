@@ -1117,6 +1117,23 @@ class SpedEsocial(models.Model):
         related='sped_reabertura_id.situacao_esocial',
     )
 
+    fechamento_contingencia_id = fields.Many2one(
+        comodel_name=
+        'sped.esocial.fechamento.contingencia',
+        string='Fechamento em Contingência',
+    )
+    situacao_fechamento_contingencia = fields.Selection(
+        string='Situação',
+        selection=[
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
+        ],
+        related='fechamento_contingencia_id.situacao_esocial',
+    )
+
     @api.multi
     def importar_reabertura(self):
         self.ensure_one()
@@ -1834,3 +1851,18 @@ class SpedEsocial(models.Model):
         wizard.lote_ids = [(6, 0, lotes)]
         wizard.criar_lotes()
         self.env['sped.lote'].transmitir_lotes_preparados()
+
+    @api.multi
+    def importar_fechamento_contingencia(self):
+        self.ensure_one()
+
+        fechamento_contingencia_id = self.env[
+            'sped.esocial.fechamento.contingencia'
+        ].create({
+            'company_id': self.company_id.id,
+            'periodo_id': self.periodo_id.id,
+        })
+
+        self.fechamento_contingencia_id = fechamento_contingencia_id
+
+        self.fechamento_contingencia_id.atualizar_esocial()

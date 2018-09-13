@@ -26,6 +26,11 @@
                                 class="oe_highlight"
                                 confirm="Confirma a reabertura deste período?"
                         />
+                        <button name="importar_fechamento_contingencia" type="object" string="Fechamento em Contingência"
+                                groups="base.group_no_one"
+                                class="oe_highlight"
+                                confirm="Confirma o fechamento em contingência deste período?"
+                        />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
@@ -310,10 +315,13 @@
                                     <field name="situacao_reabertura" readonly="1"/>
                                 </group>
                             </page>
-                            <page name="fechamento" string="Fechamento (S-1299)"
-                                  attrs="{'invisible': [('tem_fechamentos', '=', False)]}"
-                            >
-                                <group colspan="4" col="4">
+                            <page name="fechamento" string="Fechamento (S-1299)">
+                                <separator string="Fechamento dos Eventos Periódicos em Contingência" attrs="{'invisible': [('fechamento_contingencia_id', '=', False)]}"/>
+                                <group attrs="{'invisible': [('fechamento_contingencia_id', '=', False)]}">
+                                    <field name="fechamento_contingencia_id" readonly="1"/>
+                                    <field name="situacao_fechamento_contingencia" readonly="1"/>
+                                </group>
+                                <group colspan="4" col="4" attrs="{'invisible': [('tem_fechamentos', '=', False)]}">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
                                             <button name="importar_fechamentos" type="object" string="Calcular" />
