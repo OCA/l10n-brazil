@@ -60,11 +60,6 @@ class SpedEsocialReabertura(models.Model, SpedRegistroIntermediario):
         store=True,
     )
 
-    sped_fechamento_id = fields.Many2one(
-        comodel_name='sped.esocial.fechamento',
-        string=u'Fechamento de Período',
-    )
-
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
     def atualizar_esocial(self):
@@ -77,7 +72,7 @@ class SpedEsocialReabertura(models.Model, SpedRegistroIntermediario):
                 'company_id': self.company_id.id,
                 'operacao': 'na',
                 'evento': 'evtReabreEvPer',
-                'origem': ('sped.esocial.fechamento,%s' % self.sped_fechamento_id.id),
+                'origem': ('sped.esocial.reabertura,%s' % self.id),
                 'origem_intermediario': ('sped.esocial.reabertura,%s' % self.id),
             }
 
