@@ -223,8 +223,14 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             if tipo != '7':
                 # Popula detPgtoFl
                 det_pgto_fl = pysped.esocial.leiaute.S1210_DetPgtoFl_2()
-                periodo = self.periodo_id.code[3:7] + '-' + self.periodo_id.code[0:2] \
-                    if payslip.tipo_de_folha != 'decimo_terceiro' else self.periodo_id.fiscalyear_id.code
+
+                if payslip.tipo_de_folha == 'decimo_terceiro':
+                    periodo = self.periodo_id.fiscalyear_id.code
+                elif payslip.tipo_de_folha == 'rescisao':
+                    periodo = ''
+                else:
+                    periodo = self.periodo_id.code[3:7] + '-' + \
+                              self.periodo_id.code[0:2]
                 det_pgto_fl.perRef.valor = periodo
                 det_pgto_fl.ideDmDev.valor = payslip.number
                 det_pgto_fl.indPgtoTt.valor = 'S'  # TODO Lidar com pagamento de adiantamentos mensais, quando tivermos
