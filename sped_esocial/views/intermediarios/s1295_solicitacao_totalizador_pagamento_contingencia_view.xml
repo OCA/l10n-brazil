@@ -12,31 +12,39 @@
                                nolabel="1"
                                readonly="1" />
                     </header>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="codigo" readonly="1" />
-                        </h1>
-                    </div>
-                    <group colspan="4" col="4">
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="codigo" readonly="1" />
+                            </h1>
+                        </div>
                         <group colspan="4" col="4">
-                            <field name="company_id" colspan="4" readonly="1"/>
-                            <field name="periodo_id" colspan="4" readonly="1"/>
+                            <group colspan="4" col="4">
+                                <field name="company_id" colspan="4" readonly="1"/>
+                                <field name="periodo_id" colspan="4" readonly="1"/>
+                            </group>
                         </group>
-                    </group>
-                    <page string="Registros (S-1295)">
-                        <group colspan="4" col="2">
-                            <field name="sped_registro_atual_id" readonly="1"/>
-                            <field name="sped_registro_ids" readonly="1"/>
-                        </group>
-                    </page>
-                    <page string="S-5011">
-                        <field name="s5011_atual_id" colspan="4" readonly="1"/>
-                        <field name="s5011_ids" colspan="4" readonly="1"/>
-                    </page>
-                    <page string="S-5012">
-                        <field name="s5012_atual_id" colspan="4" readonly="1"/>
-                        <field name="s5012_ids" colspan="4" readonly="1"/>
-                    </page>
+
+                    <notebook>
+                        <page string="Registros (S-1295)">
+                            <group>
+                                <field name="sped_registro_atual_id" readonly="1"/>
+                                <field name="sped_registro_ids" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="S-5011">
+                            <group>
+                                <field name="s5011_atual_id" readonly="1"/>
+                                <field name="s5011_ids" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="S-5012">
+                            <group>
+                                <field name="s5012_atual_id" readonly="1"/>
+                                <field name="s5012_ids" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>

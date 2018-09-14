@@ -55,11 +55,15 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
 
     @api.depends('s5011_ids')
     def _compute_inss_consolidado_atual(self):
-        pass
+        for record in self:
+            if record.s5011_ids:
+                record.s5011_atual_id = record.s5011_ids[0]
 
     @api.depends('s5012_ids')
     def _compute_irrf_consolidado(self):
-        pass
+        for record in self:
+            if record.s5012_ids:
+                record.s5012_atual_id = record.s5012_ids[0]
 
     @api.depends('company_id', 'periodo_id')
     def _compute_codigo(self):
@@ -76,14 +80,14 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
 
     # Campos de controle e-Social, registros Periódicos
     sped_registro_ids = fields.Many2many(
-        string='Registro SPED',
+        string='Registro SPED Atual',
         comodel_name='sped.registro',
         relation='fechamento_contingente_sped_registro_rel',
         column1='sped_fechamento_contingente_id',
         column2='sped_registro_id',
     )
     sped_registro_atual_id = fields.Many2one(
-        string='Registro SPED',
+        string='Registros SPED',
         comodel_name='sped.registro',
         compute='_compute_registro_atual',
     )
@@ -97,12 +101,13 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
             ('5', 'Precisa Retificar'),
         ],
         related='sped_registro_atual_id.situacao',
-        store=True,
     )
 
     @api.depends('sped_registro_ids')
     def _compute_registro_atual(self):
-        pass
+        for record in self:
+            if record.sped_registro_ids:
+                record.sped_registro_atual_id = record.sped_registro_ids[0]
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
@@ -138,9 +143,7 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
         S1295.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideEvento
-        S1295.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
-                                                        # '1' - Mensal
-                                                        # '2' - Anual (13º salário)
+        S1295.evento.ideEvento.indApuracao.valor = '1'
         S1295.evento.ideEvento.perApur.valor = \
             self.periodo_id.code[3:7] + '-' + \
             self.periodo_id.code[0:2]
@@ -150,14 +153,21 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
 
         # Popula ideEmpregador (Dados do Empregador)
         S1295.evento.ideEmpregador.tpInsc.valor = '1'
-        S1295.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+        S1295.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(
+            self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideRespInf (Responsável pelas Informações)
-        S1295.evento.ideRespInf.nmResp.valor = self.company_id.esocial_nm_ctt
-        S1295.evento.ideRespInf.cpfResp.valor = limpa_formatacao(self.company_id.esocial_cpf_ctt)
-        S1295.evento.ideRespInf.telefone.valor = limpa_formatacao(self.company_id.esocial_fone_fixo)
+        ide_resp_inf = pysped.esocial.leiaute.S1295_IdeRespInf_2()
+
+        ide_resp_inf.nmResp.valor = self.company_id.esocial_nm_ctt
+        ide_resp_inf.cpfResp.valor = limpa_formatacao(
+            self.company_id.esocial_cpf_ctt)
+        ide_resp_inf.telefone.valor = limpa_formatacao(
+            self.company_id.esocial_fone_fixo)
         if self.company_id.esocial_email:
-            S1295.evento.ideRespInf.email.valor = self.company_id.esocial_email
+            ide_resp_inf.email.valor = self.company_id.esocial_email
+
+        S1295.evento.ideRespInf.append(ide_resp_inf)
 
         return S1295, validacao
 
@@ -229,7 +239,7 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
                     sped_intermediario.sped_registro_s5011 = sped_s5011
 
                     # Popula o intermediário S1299 com o intermediário totalizador
-                    self.s5011_id = sped_intermediario
+                    self.s5011_ids = [(4, sped_intermediario.id)]
 
                     # Popula o XML em anexo no sped.registro totalizador
                     if sped_s5011.consulta_xml_id:
@@ -377,7 +387,7 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
                     sped_intermediario.sped_registro_s5012 = sped_s5012
 
                     # Popula o intermediário S1299 com o intermediário totalizador
-                    self.s5012_id = sped_intermediario
+                    self.s5012_ids = [(4, sped_intermediario.id)]
 
                     # Popula o XML em anexo no sped.registro totalizador
                     if sped_s5012.consulta_xml_id:
