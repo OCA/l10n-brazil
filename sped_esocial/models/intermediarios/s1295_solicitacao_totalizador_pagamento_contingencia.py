@@ -203,7 +203,7 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
                         'periodo_id': sped_registro.origem_intermediario.periodo_id.id,
                         'ind_exist_info': tot.eSocial.evento.infoCS.indExistInfo.valor,
                         # TODO popular os demais campos aqui
-                        'sped_registro_s1299': sped_registro.id,
+                        'sped_registro_s1295': sped_registro.id,
                     }
 
                     # Cria/Altera o registro intermediário
@@ -331,7 +331,7 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
 
                     # Busca o sped.registro que originou esse totalizador
                     sped_registro = self.env['sped.registro'].search([
-                        ('registro', '=', 'S-1299'),
+                        ('registro', '=', 'S-1295'),
                         ('recibo', '=', tot.eSocial.evento.infoIRRF.nrRecArqBase.valor)
                     ])
 
@@ -351,7 +351,7 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
                         'id_evento': tot.eSocial.evento.Id.valor,
                         'periodo_id': sped_registro.origem_intermediario.periodo_id.id,
                         'ind_exist_info': tot.eSocial.evento.infoIRRF.indExistInfo.valor,
-                        'sped_registro_s1299': sped_registro.id,
+                        'sped_registro_s1295': sped_registro.id,
                     }
 
                     # Cria/Altera o registro intermediário
