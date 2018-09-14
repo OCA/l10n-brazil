@@ -16,7 +16,7 @@ import pysped
 class SpedInssConsolidado(models.Model, SpedRegistroIntermediario):
     _name = "sped.inss.consolidado"
     _rec_name = "nome"
-    _order = "company_id, create_date DESC"
+    _order = "create_date DESC"
 
     nome = fields.Char(
         string='Nome',
