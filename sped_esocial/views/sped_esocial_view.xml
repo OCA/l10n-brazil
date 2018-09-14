@@ -27,6 +27,7 @@
                                 confirm="Confirma a reabertura deste período?"
                         />
                         <button name="importar_fechamento_contingencia" type="object" string="Fechamento em Contingência"
+                                attrs="{'invisible': [('situacao', '=', '3')]}"
                                 groups="base.group_no_one"
                                 class="oe_highlight"
                                 confirm="Confirma o fechamento em contingência deste período?"

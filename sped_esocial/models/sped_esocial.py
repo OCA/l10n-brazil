@@ -1856,13 +1856,14 @@ class SpedEsocial(models.Model):
     def importar_fechamento_contingencia(self):
         self.ensure_one()
 
-        fechamento_contingencia_id = self.env[
-            'sped.esocial.fechamento.contingencia'
-        ].create({
-            'company_id': self.company_id.id,
-            'periodo_id': self.periodo_id.id,
-        })
+        if not self.fechamento_contingencia_id:
+            fechamento_contingencia_id = self.env[
+                'sped.esocial.fechamento.contingencia'
+            ].create({
+                'company_id': self.company_id.id,
+                'periodo_id': self.periodo_id.id,
+            })
 
-        self.fechamento_contingencia_id = fechamento_contingencia_id
+            self.fechamento_contingencia_id = fechamento_contingencia_id
 
         self.fechamento_contingencia_id.atualizar_esocial()
