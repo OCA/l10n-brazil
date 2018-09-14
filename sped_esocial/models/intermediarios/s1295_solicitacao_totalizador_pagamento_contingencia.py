@@ -69,8 +69,6 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
     def _compute_codigo(self):
         for esocial in self:
             codigo = ''
-            if esocial.company_id:
-                codigo += esocial.company_id.name or ''
             if esocial.periodo_id:
                 codigo += ' ' if codigo else ''
                 codigo += '('
