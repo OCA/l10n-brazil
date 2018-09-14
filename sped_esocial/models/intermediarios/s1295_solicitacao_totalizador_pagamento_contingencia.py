@@ -147,7 +147,7 @@ class SpedFechamentoContingencia(models.Model, SpedRegistroIntermediario):
             self.periodo_id.code[0:2]
         S1295.evento.ideEvento.tpAmb.valor = ambiente
         S1295.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
-        S1295.evento.ideEvento.verProc.valor = '8.0'  # Odoo v.8.0
+        S1295.evento.ideEvento.verProc.valor = 'SAB - 8.0'  # Odoo v.8.0
 
         # Popula ideEmpregador (Dados do Empregador)
         S1295.evento.ideEmpregador.tpInsc.valor = '1'
