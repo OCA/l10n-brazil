@@ -49,15 +49,15 @@ class L10nBrHrSocialTax(models.Model):
         if tabela_vigente:
             for faixa in tabela_vigente:
                 if BASE_INSS < faixa.max_wage:
-                    inss = Decimal(BASE_INSS)
-                    inss *= Decimal(faixa.rate) / 100
-                    inss = inss.quantize(Decimal('0.01'), ROUND_DOWN)
-                    return inss
+                    BASE_INSS = Decimal(BASE_INSS)
+                    # inss *= Decimal(faixa.rate) / 100
+                    # inss = inss.quantize(Decimal('0.01'), ROUND_DOWN)
+                    return BASE_INSS, faixa.rate / 100
 
             inss = Decimal(tabela_vigente[-1].max_wage)
             inss *= Decimal(tabela_vigente[-1].rate) / 100
             inss = inss.quantize(Decimal('0.01'), ROUND_DOWN)
-            return inss
+            return inss, 1
 
         else:
             raise exceptions.Warning(

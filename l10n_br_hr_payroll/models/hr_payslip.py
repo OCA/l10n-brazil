@@ -957,8 +957,11 @@ class HrPayslip(models.Model):
         :return: float - Valor do inss a ser descontado do funcionario
         """
         tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
-        inss = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
-        return inss
+        if BASE_INSS:
+            inss, aliquota = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
+            return inss, aliquota
+        else:
+            return 0, 0
 
     def BASE_IRRF(self, TOTAL_IRRF, INSS):
         """
