@@ -311,20 +311,20 @@ class SaleOrderLine(models.Model):
         return result
 
     @api.multi
+    @api.onchange('product_id')
     def product_id_change(self):
         for record in self:
             context = dict(record.env.context)
-            self = record.with_context(context)
-            parent_fiscal_category_id = context.get(
-                'parent_fiscal_category_id')
-            company_id = context.get('company_id')
-            partner_invoice_id = context.get('partner_invoice_id')
+            record = record.with_context(context)
+            parent_fiscal_category_id = record.order_id.fiscal_category_id
+            company_id = record.order_id.company_id
+            partner_invoice_id = record.order_id.partner_invoice_id
             result = {'value': {}}
             if parent_fiscal_category_id and record.product_id and\
                     partner_invoice_id and company_id:
                 kwargs = {
                     'company_id': company_id,
-                    'partner_id': record.partner_id,
+                    'partner_id': record.order_id.partner_id,
                     'product_id': record.product_id,
                     'partner_invoice_id': partner_invoice_id,
                     'fiscal_category_id': parent_fiscal_category_id,
@@ -338,29 +338,31 @@ class SaleOrderLine(models.Model):
                 })
             result_super = super(SaleOrderLine, record).product_id_change()
             if result['value']:
-                result_super['value'].update(result['value'])
+                record.update(result['value'])
             return result_super
 
     @api.onchange('fiscal_category_id', 'fiscal_position')
     def onchange_fiscal(self):
-        if self.order_id.company_id and self.order_id.partner_id \
-                and self.fiscal_category_id:
-            kwargs = {
-                'company_id': self.order_id.company_id,
-                'partner_id': self.order_id.partner_id,
-                'partner_invoice_id': self.order_id.partner_invoice_id,
-                'product_id': self.product_id,
-                'fiscal_category_id': self.fiscal_category_id,
-                'context': self.env.context
-            }
-            result = self._fiscal_position_map(**kwargs)
+        for record in self:
+            if record.order_id.company_id and record.order_id.partner_id \
+                    and record.fiscal_category_id :
+                kwargs = {
+                    'company_id': record.order_id.company_id,
+                    'partner_id': record.order_id.partner_id,
+                    'partner_invoice_id': record.order_id.partner_invoice_id,
+                    'product_id': record.product_id,
+                    'fiscal_category_id': record.fiscal_category_id or
+                                          record.order_id.fiscal_category_id,
+                    'context': record.env.context
+                }
+                result = record._fiscal_position_map(**kwargs)
 
-            kwargs.update({
-                'fiscal_category_id': self.fiscal_category_id.id,
-                'fiscal_position': self.fiscal_position.id,
-                'tax_id': [(6, 0, self.tax_id.ids)],
-            })
-            self.update(result['value'])
+                kwargs.update({
+                    'fiscal_category_id': record.fiscal_category_id.id,
+                    'fiscal_position': record.fiscal_position.id,
+                    'tax_id': [(6, 0, record.tax_id.ids)],
+                })
+                record.update(result['value'])
 
     @api.model
     def _prepare_order_line_invoice_line(self, line, account_id=False):
