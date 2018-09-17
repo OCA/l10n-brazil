@@ -308,40 +308,35 @@ class SaleOrderLine(models.Model):
         return result
 
     @api.multi
-    def product_id_change(self, pricelist, product, qty=0,
-                          uom=False, qty_uos=0, uos=False, name='',
-                          partner_id=False, lang=False, update_tax=True,
-                          date_order=False, packaging=False,
-                          fiscal_position=False, flag=False):
-        context = dict(self.env.context)
-        self = self.with_context(context)
-        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
-        company_id = context.get('company_id')
-        partner_invoice_id = context.get('partner_invoice_id')
-        result = {'value': {}}
-        if parent_fiscal_category_id and product and partner_invoice_id \
-                and company_id:
-            kwargs = {
-                'company_id': company_id,
-                'partner_id': partner_id,
-                'product_id': product,
-                'partner_invoice_id': partner_invoice_id,
-                'fiscal_category_id': parent_fiscal_category_id,
-                'context': context
-            }
-            result.update(self._fiscal_position_map(**kwargs))
-            if result['value'].get('fiscal_position'):
-                fiscal_position = result['value'].get('fiscal_position')
-
-            obj_product = self.env['product.product'].browse(product)
-            context.update({'fiscal_type': obj_product.fiscal_type,
-                            'type_tax_use': 'sale', 'product_id': product})
-
-        result_super = super(SaleOrderLine, self).product_id_change(
-            pricelist, product, qty, uom, qty_uos, uos, name, partner_id,
-            lang, update_tax, date_order, packaging, fiscal_position, flag)
-        result_super['value'].update(result['value'])
-        return result_super
+    def product_id_change(self):
+        for record in self:
+            context = dict(record.env.context)
+            self = record.with_context(context)
+            parent_fiscal_category_id = context.get(
+                'parent_fiscal_category_id')
+            company_id = context.get('company_id')
+            partner_invoice_id = context.get('partner_invoice_id')
+            result = {'value': {}}
+            if parent_fiscal_category_id and record.product_id and\
+                    partner_invoice_id and company_id:
+                kwargs = {
+                    'company_id': company_id,
+                    'partner_id': record.partner_id,
+                    'product_id': record.product_id,
+                    'partner_invoice_id': partner_invoice_id,
+                    'fiscal_category_id': parent_fiscal_category_id,
+                    'context': context
+                }
+                result.update(record._fiscal_position_map(**kwargs))
+                context.update({
+                    'fiscal_type': record.product_id.fiscal_type,
+                    'type_tax_use': 'sale',
+                    'product_id': record.product_id
+                })
+            result_super = super(SaleOrderLine, record).product_id_change()
+            if result['value']:
+                result_super['value'].update(result['value'])
+            return result_super
 
     @api.onchange('fiscal_category_id', 'fiscal_position')
     def onchange_fiscal(self):
