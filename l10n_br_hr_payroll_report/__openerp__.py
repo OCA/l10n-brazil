@@ -17,6 +17,7 @@
     'data': [
         'reports/payslip_report_analitico.xml',
         'reports/payslip_report_aviso_ferias.xml',
+        'reports/payslip_report_recibo_ferias.xml',
         'reports/payslip_report_holerite.xml',
         'reports/payslip_report_holerite_autonomo_rpa.xml',
         'reports/payslip_report_rescisao.xml',
