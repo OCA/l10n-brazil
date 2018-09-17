@@ -6,6 +6,7 @@
             string="Aviso de Ferias"
             model="hr.payslip"
             report_type="py3o"
+            groups="base.group_hr_manager"
             name="l10n_br_hr_payroll_report.report_aviso_ferias"
         />
 
