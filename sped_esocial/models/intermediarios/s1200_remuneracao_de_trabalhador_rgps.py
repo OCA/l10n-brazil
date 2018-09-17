@@ -164,17 +164,31 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         # Popula ideTrabalhador (Dados do Trabalhador)
         S1200.evento.ideTrabalhador.cpfTrab.valor = limpa_formatacao(self.trabalhador_id.cpf)
         S1200.evento.ideTrabalhador.nisTrab.valor = limpa_formatacao(self.trabalhador_id.pis_pasep)
-	
-        # # Popula ideTrabalhador.infoMV (Dados do Empregador Cedente)  # TODO
-        # #        ideTrabalhador.infoMV.remunOutrEmpr
-        # #
-        # # Registro preenchido exclusivamente em caso de trabalhador que possua outros vínculos/atividades
-        # # para definição do limite do salário-de-contribuição e da alíquota a ser aplicada no desconto da
-        # # contribuição previdenciária.
-        #
-        # if self.trabalhador_id.
-        # info_mv = pysped.esocial.leiaute.S1200_InfoMV_2()
-        # info_mv
+
+        for contrato in self.trabalhador_id.contract_ids:
+            if contrato.contribuicao_inss_ids:
+                for vinculo in contrato.contribuicao_inss_ids:
+                    info_mv = pysped.esocial.leiaute.S1200_InfoMV_2()
+
+                    remun_outr_empr = \
+                        pysped.esocial.leiaute.S1200_RemunOutrEmpr_2()
+                    remun_outr_empr.tpInsc.valor = \
+                        vinculo.tipo_inscricao_vinculo
+                    remun_outr_empr.nrInsc.valor = limpa_formatacao(
+                        vinculo.cnpj_cpf_vinculo)
+                    remun_outr_empr.codCateg.valor = \
+                        vinculo.cod_categ_vinculo
+                    remun_outr_empr.vlrRemunOE.valor = \
+                        vinculo.valor_remuneracao_vinculo
+
+                    info_mv.remunOutrEmpr.append(remun_outr_empr)
+
+                    if vinculo.valor_alicota_vinculo >= 621.03:
+                        info_mv.indMV.valor = '3'
+                    else:
+                        info_mv.indMV.valor = '2'
+
+                    S1200.evento.ideTrabalhador.infoMV.append(info_mv)
 
         # # Popula ideTrabalhador.infoComplem               # TODO
         # #        ideTrabalhador.infoComplem.sucessaoVinc
