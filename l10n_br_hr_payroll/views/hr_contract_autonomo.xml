@@ -45,6 +45,7 @@
 
                                 <group>
                                     <field name="struct_id" required="True" />
+                                    <field name="wage" required="True" />
                                 </group>
 
                                 <group>
