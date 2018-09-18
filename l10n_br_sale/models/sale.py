@@ -181,46 +181,33 @@ class SaleOrder(models.Model):
 
         return fp_comment
 
-    @api.model
-    def _prepare_invoice(self, order, lines):
-        """Prepare the dict of values to create the new invoice for a
-           sale order. This method may be overridden to implement custom
-           invoice generation (making sure to call super() to establish
-           a clean extension chain).
-
-           :param browse_record order: sale.order record to invoice
-           :param list(int) line: list of invoice line IDs that must be
-                                  attached to the invoice
-           :return: dict of value to create() the invoice
-        """
-        result = super(SaleOrder, self)._prepare_invoice(order, lines)
+    @api.multi
+    def _prepare_invoice(self):
+        self.ensure_one()
+        result = super(SaleOrder, self)._prepare_invoice()
         context = self.env.context
 
-        inv_lines = self.env['account.invoice.line'].browse(lines)
-
         if (context.get('fiscal_type') == 'service' and
-                inv_lines and inv_lines[0].fiscal_category_id):
-            fiscal_category_id = inv_lines[0].fiscal_category_id.id
-            result['fiscal_position'] = inv_lines[0].fiscal_position.id
+                self.order_line and self.order_line[0].fiscal_category_id):
+            fiscal_category_id = self.order_line[0].fiscal_category_id.id
+            result['fiscal_position'] = self.order_line.fiscal_position.id
         else:
-            fiscal_category_id = order.fiscal_category_id.id
+            fiscal_category_id = self.fiscal_category_id
+            result['fiscal_position'] = self.fiscal_position.id
 
         if fiscal_category_id:
-            fiscal_category = self.env[
-                'l10n_br_account.fiscal.category'].browse(fiscal_category_id)
-            if fiscal_category:
-                result['journal_id'] = fiscal_category[0].property_journal.id
+            result['journal_id'] = fiscal_category_id.property_journal.id
 
-        result['partner_shipping_id'] = order.partner_shipping_id.id
+        result['partner_shipping_id'] = self.partner_shipping_id.id
 
         comment = []
-        if order.note and order.copy_note:
-            comment.append(order.note)
+        if self.note and self.copy_note:
+            comment.append(self.note)
 
-        fiscal_comment = self._fiscal_comment(order)
+        fiscal_comment = self._fiscal_comment(self)
         result['comment'] = " - ".join(comment)
         result['fiscal_comment'] = " - ".join(fiscal_comment)
-        result['fiscal_category_id'] = fiscal_category_id
+        result['fiscal_category_id'] = fiscal_category_id.id
 
         return result
 
@@ -364,13 +351,13 @@ class SaleOrderLine(models.Model):
                 })
                 record.update(result['value'])
 
-    @api.model
-    def _prepare_order_line_invoice_line(self, line, account_id=False):
-        result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
-            line, account_id)
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        self.ensure_one()
+        result = super(SaleOrderLine, self)._prepare_invoice_line(qty)
         result['fiscal_category_id'] = \
-            line.fiscal_category_id.id or line.order_id.fiscal_category_id.id \
+            self.fiscal_category_id.id or self.order_id.fiscal_category_id.id \
             or False
-        result['fiscal_position'] = line.fiscal_position.id or \
-                                    line.order_id.fiscal_position.id or False
+        result['fiscal_position'] = self.fiscal_position.id or \
+            self.order_id.fiscal_position.id or False
         return result
