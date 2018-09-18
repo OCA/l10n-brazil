@@ -10,5 +10,5 @@ class ResCompany(models.Model):
 
     sale_fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category',
-        u'Categoria Fiscal Padrão Compras',
+        u'Categoria Fiscal Padrão de Vendas',
         domain="[('journal_type', '=', 'sale')]")
