@@ -958,10 +958,10 @@ class HrPayslip(models.Model):
         """
         tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
         if BASE_INSS:
-            inss, aliquota = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
-            return inss, aliquota
+            inss, reference = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
+            return inss, reference
         else:
-            return 0, 0
+            return 0, ' '
 
     def BASE_IRRF(self, TOTAL_IRRF, INSS):
         """
@@ -993,12 +993,12 @@ class HrPayslip(models.Model):
     def IRRF(self, BASE_IRRF, INSS):
         tabela_irrf_obj = self.env['l10n_br.hr.income.tax']
         if BASE_IRRF:
-            irrf = tabela_irrf_obj._compute_irrf(
+            irrf, reference = tabela_irrf_obj._compute_irrf(
                 BASE_IRRF, self.employee_id.id, INSS, self.date_from
             )
-            return irrf
+            return irrf, reference
         else:
-            return 0
+            return 0, ' '
 
     def INSS_vinculo_cedente(self):
         """
