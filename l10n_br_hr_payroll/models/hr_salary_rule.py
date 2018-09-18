@@ -135,7 +135,7 @@ class HrSalaryRule(models.Model):
                     )
 
         if codigo_python:
-            if True:  # try:
+            try:
                 for variavel in localdict:
                     if isinstance(localdict[variavel], float):
                         localdict[variavel] = Decimal(localdict[variavel] or 0)
@@ -153,9 +153,25 @@ class HrSalaryRule(models.Model):
                     result_rate = 100
 
                 return result, result_qty, result_rate
-            # except:
-            #     msg = _('Wrong python code defined for salary rule %s (%s).')
-            #     raise ValidationError(msg % (rule.name, rule.code))
+            except:
+                from openerp.exceptions import Warning
+                msg = _('Wrong python code defined for salary rule %s (%s).')
+                raise Warning(msg % (rule.name, rule.code))
+
+    @api.multi
+    def get_reference_rubrica(self, rule_id, localdict):
+        """
+        :param rule_id:
+        :param localdict:
+        :return:
+        """
+        rule = self.browse(rule_id)
+        safe_eval(rule.amount_python_compute, localdict, mode='exec', nocopy=True)
+        if 'reference' in localdict:
+            reference = localdict['reference']
+        else:
+            reference = ''
+        return reference
 
     @api.multi
     def satisfy_condition(self, rule_id, localdict):

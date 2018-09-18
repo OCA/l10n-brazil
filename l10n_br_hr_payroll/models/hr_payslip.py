@@ -2302,6 +2302,7 @@ class HrPayslip(models.Model):
                     localdict['result_qty'] = 1.0
                     localdict['result_rate'] = 100
                     localdict['rubrica'] = rule
+                    localdict['reference'] = ' '
                     id_rubrica_especifica = 0
                     beneficiario_id = False
                     
@@ -2330,6 +2331,9 @@ class HrPayslip(models.Model):
                         # compute the amount of the rule
                         amount, qty, rate = \
                             obj_rule.compute_rule(rule.id, localdict)
+                        # Pegar Referencia que irá para o holerite
+                        reference = obj_rule.get_reference_rubrica(rule.id, localdict)
+
                         # se ja tiver sido calculado a media dessa rubrica,
                         # utilizar valor da media e multiplicar
                         # pela reinciden.
@@ -2347,6 +2351,11 @@ class HrPayslip(models.Model):
                         # previous_amount = 0
                         # set/overwrite the amount computed
                         # for this rule in the localdict
+
+                        # Registrar a ultima rubrica processada para ser
+                        # possivel identificarmos erros
+                        _logger.info(rule.code)
+
                         tot_rule = Decimal(amount or 0) * Decimal(
                             qty or 0) * Decimal(rate or 0) / 100.0
                         tot_rule = tot_rule.quantize(Decimal('0.01'))
@@ -2401,6 +2410,7 @@ class HrPayslip(models.Model):
                             'employee_id': contract.employee_id.id,
                             'quantity': qty,
                             'rate': rate,
+                            'reference': reference,
                             'partner_id': beneficiario_id or 1,
                         }
                         

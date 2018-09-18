@@ -169,3 +169,7 @@ class HrPayslipeLine(models.Model):
         string=u'Beneficiário',
         comodel_name='res.partner',
     )
+
+    reference = fields.Char(
+        string=u'Referência',
+    )

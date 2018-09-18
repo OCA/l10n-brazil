@@ -71,6 +71,7 @@
                                       editable="bottom"
                                       colors="blue:valor_provento > 0;red:valor_deducao > 0">
                                     <field name="name"/>
+                                    <field name="reference"/>
                                     <field name="valor_provento" sum="valor_provento"/>
                                     <field name="valor_deducao" sum="valor_deducao" />
                                 </tree>
