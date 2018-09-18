@@ -82,7 +82,7 @@ class HrPayslipAutonomo(models.Model):
             ('cancel', 'Rejected'),
         ],
         default='draft',
-        string = 'Status',
+        string='Status',
         copy=False,
     )
 
@@ -100,17 +100,14 @@ class HrPayslipAutonomo(models.Model):
 
     date_from = fields.Date(
         string='Date From',
-        #readonly=True,
-        #states={'draft': [('readonly', False)]},
-        required=True,
+        compute='_compute_contract_date',
+        store=True,
     )
 
     date_to = fields.Date(
         string='Date To',
-        #readonly=True,
-        #states={'draft': [('readonly', False)]},
-        required=False,
-        #compute='_compute_set_dates',
+        compute='_compute_contract_date',
+        store=True,
     )
 
     struct_id = fields.Many2one(
@@ -220,6 +217,12 @@ class HrPayslipAutonomo(models.Model):
         copy=False
     )
 
+    @api.multi
+    @api.depends('contract_id')
+    def _compute_contract_date(self):
+        for record in self:
+            record.date_from = record.contract_id.date_start
+            record.date_to = record.contract_id.date_end
 
     @api.multi
     @api.depends('mes_do_ano', 'ano', 'contract_id')
