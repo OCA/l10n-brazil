@@ -16,20 +16,39 @@
                             string="Confirmar"
                             type="object"
                             class="btn-primary"
+                            attrs="{'invisible': [('situacao_mdfe', 'in', ['autorizada','cancelada','encerrada','a_enviar'] )] }"
+
                     />
                     <button name="envia_documento"
                             string="Enviar"
                             type="object"
                             class="btn-primary"
+                            attrs="{'invisible': [('situacao_mdfe', 'not in', ['a_enviar'] )] }"
                     />
                     <button name="encerra_documento"
                             string="Encerrar"
                             type="object"
                             class="btn-primary"
+                            attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada'] )] }"
+                    />
+                    <button name="consultar_documento"
+                            string="Consultar"
+                            type="object"
+                            class="btn-primary"
+                            attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada','rejeitada','cancelada'] )] }"
                     />
                     <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-default" />
                     <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default"/>
-                    <button name="%(sped_nfe.nfe_motivo_cancelamento_wizard_action)d" string="Cancelar" type="action"/>
+                    <button name="%(mdfe_motivo_cancelamento_wizard_action)d"
+                            string="Cancelar"
+                            type="action"
+                            attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada'] )] }"
+                    />
+                     <!--<button name="cancelar_documento"-->
+                            <!--string="Cancelar"-->
+                            <!--type="object"-->
+                            <!--attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada'] )] }"-->
+                    <!--/>-->
                 </header>
                 <sheet>
                     <field name="emissao" invisible="1" />
@@ -47,7 +66,7 @@
                                decoration-warning="situacao_mdfe == 'denegada' or situacao_fiscal == '04'"
                                decoration-danger="situacao_mdfe == 'rejeitada'"
                                />
-                            <field name="mensagem_nfe" readonly="1" colspan="4" attrs="{'invisible': [('situacao_mdfe', '!=', 'rejeitada')]}"
+                            <field name="mensagem_nfe" readonly="1" colspan="4"
                                    decoration-warning="situacao_mdfe == 'denegada' or situacao_fiscal == '04'"
                                    decoration-danger="situacao_mdfe == 'rejeitada'"
                                    />

@@ -25,11 +25,19 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     SITUACAO_NFE_ENVIADA,
     SITUACAO_NFE_REJEITADA,
     SITUACAO_NFE_EM_DIGITACAO,
+    SITUACAO_NFE_A_ENVIAR,
     SITUACAO_FISCAL_DENEGADO,
 )
 from odoo.exceptions import UserError
 
 SITUACAO_MDFE_ENCERRADA = 'encerrada'
+
+
+STATUS_MDFE = {
+    '100':'autorizada',
+    '101':'cancelada',
+    '132':'encerrada',
+}
 
 
 class SpedDocumento(models.Model):
@@ -233,6 +241,7 @@ class SpedDocumento(models.Model):
                 self.operacao_id.tipo_transportador
             result['value']['modalidade_transporte'] = \
                 self.operacao_id.modalidade_transporte
+            self.situacao_mdfe = SITUACAO_NFE_EM_DIGITACAO
 
         return result
 
@@ -286,6 +295,8 @@ class SpedDocumento(models.Model):
                     MODALIDADE_TRANSPORTE_RODOVIARIO and not record.condutor_ids):
                 raise UserError(_('Informar no mínimo um condutor!'))
 
+        self.situacao_mdfe = SITUACAO_NFE_A_ENVIAR
+
         return result
 
     def _envia_documento(self):
@@ -297,7 +308,7 @@ class SpedDocumento(models.Model):
         mdfe = self.gera_mdfe()
         envio = self.monta_envio()
 
-        self.situacao_mdfe = SITUACAO_NFE_EM_DIGITACAO
+
         if not mdfe.status_servico().resposta.cStat == '107':
             return {}
 
@@ -390,6 +401,37 @@ class SpedDocumento(models.Model):
         processo = mdfe.encerramento(encerramento)
         if processo.resposta.infEvento.cStat == '135':
             self.situacao_mdfe = SITUACAO_MDFE_ENCERRADA
+        mensagem = 'Código de retorno: ' + \
+                   processo.resposta.infEvento.cStat
+        mensagem += '\nMensagem: ' + \
+                    processo.resposta.infEvento.xMotivo
+        self.mensagem_nfe = mensagem
+
+
+    def consultar_documento(self):
+
+        mdfe = self.gera_mdfe()
+        consulta = mdfe.consulta(self.chave)
+
+        if consulta.resposta.cStat in ('100', '101', '132'):
+           self.situacao_mdfe = STATUS_MDFE[consulta.resposta.cStat]
+
+        mensagem = 'Código de retorno: ' + \
+                   consulta.resposta.cStat
+        mensagem += '\nMensagem: ' + \
+                    consulta.resposta.xMotivo
+
+        self.mensagem_nfe = mensagem
+
+
+    def cancelar_documento(self):
+
+        cancelamento = self.monta_cancelamento()
+        #Cria objeto para assinar e comunicar
+        mdfe = self.gera_mdfe()
+        processo = mdfe.cancelamento(cancelamento)
+        if processo.resposta.infEvento.cStat == '101' or processo.resposta.infEvento.cStat == '135':
+            self.situacao_mdfe = SITUACAO_NFE_CANCELADA
         mensagem = 'Código de retorno: ' + \
                    processo.resposta.infEvento.cStat
         mensagem += '\nMensagem: ' + \

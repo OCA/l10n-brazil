@@ -19,7 +19,7 @@
         'views/sped_documento.xml',
         'views/sped_operacao.xml',
         'views/consultas.xml',
-
+        'wizard/wizard_mdfe_motivo_cancelamento.xml',
         'security/l10n_br_mdfe_item.xml',
         'security/l10n_br_mdfe_lacre.xml',
         'security/l10n_br_mdfe_condutor.xml',

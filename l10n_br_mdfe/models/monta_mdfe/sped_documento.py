@@ -7,7 +7,7 @@ import tempfile
 
 from dateutil.relativedelta import relativedelta
 
-from mdfelib.v3_00 import mdfe as mdfe3, evEncMDFe
+from mdfelib.v3_00 import mdfe as mdfe3, evEncMDFe, evCancMDFe
 from mdfelib.v3_00 import procMDFe
 from mdfelib.v3_00 import mdfeModalRodoviario as rodo3
 from pynfe.processamento.mdfe import ComunicacaoMDFe
@@ -235,6 +235,34 @@ class SpedDocumento(models.Model):
         
         det_evento = evEncMDFe.detEventoType(versaoEvento='3.00', 
                                              anytypeobjs_=encerramento)
+
+        inf_evento = evEncMDFe.infEventoType()
+        inf_evento.set_cOrgao(self.empresa_id.municipio_id.estado_id.codigo_ibge)
+        inf_evento.set_tpAmb('2')
+        inf_evento.set_CNPJ('41426966004836')
+        inf_evento.set_chMDFe(self.chave)
+        inf_evento.set_dhEvento((fields.Datetime.from_string(
+            fields.Datetime.now()) + relativedelta(
+            hours=-3)).strftime('%Y-%m-%dT%H:%M:%S-03:00'))
+        inf_evento.set_tpEvento(tpEvento)
+        inf_evento.set_nSeqEvento(nSeqEvento)
+        inf_evento.set_detEvento(det_evento)
+        inf_evento.set_Id('ID' + tpEvento + self.chave + nSeqEvento)
+
+        return inf_evento
+
+    def monta_cancelamento(self):
+
+        nSeqEvento = '01'
+        tpEvento = '110111'
+
+        cancelamento = evCancMDFe.evCancMDFe()
+        cancelamento.set_descEvento('Cancelamento')
+        cancelamento.set_nProt(self.protocolo_autorizacao)
+        cancelamento.set_xJust(self.justificativa)
+
+        det_evento = evEncMDFe.detEventoType(versaoEvento='3.00',
+                                             anytypeobjs_=cancelamento)
 
         inf_evento = evEncMDFe.infEventoType()
         inf_evento.set_cOrgao(self.empresa_id.municipio_id.estado_id.codigo_ibge)
