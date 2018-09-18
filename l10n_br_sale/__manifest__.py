@@ -23,7 +23,9 @@
         'views/res_company_view.xml',
     ],
     'test': [],
-    'demo': [],
+    'demo': [
+        'demo/l10n_br_sale_demo.xml',
+    ],
     'installable': True,
     'auto_install': True,
 }
