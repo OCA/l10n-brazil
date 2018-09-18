@@ -165,6 +165,8 @@ class SaleOrder(models.Model):
                 'account.fiscal.position.rule'].apply_fiscal_mapping(**kwargs)
             if obj_fiscal_position:
                 self.fiscal_position = obj_fiscal_position.id
+            else:
+                self.fiscal_position = False
 
     @api.model
     def _fiscal_comment(self, order):
@@ -210,6 +212,13 @@ class SaleOrder(models.Model):
         result['fiscal_category_id'] = fiscal_category_id.id
 
         return result
+
+    @api.multi
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        for record in self:
+            super(SaleOrder, self).onchange_partner_id()
+            record.onchange_fiscal()
 
 
 class SaleOrderLine(models.Model):
