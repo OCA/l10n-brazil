@@ -87,3 +87,18 @@ class HrHolidays(models.Model):
                     }
                     substituicao_id = self.env['hr.substituicao'].create(vals)
         return holidays_id
+
+    @api.model
+    def create(self, vals):
+        """
+        Adicionar o gerente como follower do evento de ADD para ser possivel
+        aprovação quando for um gerente substituto
+        :param vals:
+        :return:
+        """
+        res = super(HrHolidays, self).create(vals)
+        if vals.get('parent_id'):
+            # ID do employee
+            self.browse(vals.get('parent_id')).\
+                add_follower(employee_id=vals.get('gerente_titular'))
+        return res
