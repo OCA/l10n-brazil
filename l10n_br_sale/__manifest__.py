@@ -20,6 +20,7 @@
         'security/ir.model.access.csv',
         'security/l10n_br_sale_security.xml',
         'report/sale_report_view.xml',
+        'views/res_company_view.xml',
     ],
     'test': [],
     'demo': [],
