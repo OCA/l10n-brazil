@@ -43,13 +43,6 @@
                     </group>
 
                     <group>
-                        <label for="wage" />
-                        <h2>
-                            <field name="wage" required="True"/>
-                        </h2>
-                    </group>
-
-                    <group>
                         <group>
                             <field name="mes_do_ano" class="oe_inline"/> <field name="ano" class="oe_inline" required="True" />
                         </group>

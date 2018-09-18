@@ -220,11 +220,6 @@ class HrPayslipAutonomo(models.Model):
         copy=False
     )
 
-    wage = fields.Float(
-        string='Valor',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-    )
 
     @api.multi
     @api.depends('mes_do_ano', 'ano', 'contract_id')
