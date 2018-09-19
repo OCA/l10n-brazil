@@ -20,6 +20,11 @@
                              attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"
                              confirm="Confirma a retificação deste contrato no e-Social?"
                         />
+                        <button name="finalizar_contrato_autonomo" type="object" colspan="2"
+                             string="Fechar Contrato Autonomo no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', '|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', 'not in', ['1','2']), ('categoria', '!=', '701')]}"
+                             confirm="Confirma a finalização deste contrato no e-Social?"
+                        />
                         <!--<button name="atualizar_contrato_s2206" type="object" colspan="2"-->
                              <!--string="Atualizar Contrato no e-Social" class="oe_highlight"-->
                              <!--attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"-->
