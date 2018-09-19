@@ -158,7 +158,6 @@ class HrSalaryRule(models.Model):
                 msg = _('Wrong python code defined for salary rule %s (%s).')
                 raise Warning(msg % (rule.name, rule.code))
 
-    @api.multi
     def get_reference_rubrica(self, rule_id, localdict):
         """
         :param rule_id:
