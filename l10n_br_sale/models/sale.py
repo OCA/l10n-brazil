@@ -192,10 +192,10 @@ class SaleOrder(models.Model):
         if (context.get('fiscal_type') == 'service' and
                 self.order_line and self.order_line[0].fiscal_category_id):
             fiscal_category_id = self.order_line[0].fiscal_category_id.id
-            result['fiscal_position'] = self.order_line.fiscal_position.id
+            result['fiscal_position_id'] = self.order_line.fiscal_position.id
         else:
             fiscal_category_id = self.fiscal_category_id
-            result['fiscal_position'] = self.fiscal_position.id
+            result['fiscal_position_id'] = self.fiscal_position.id
 
         if fiscal_category_id:
             result['journal_id'] = fiscal_category_id.property_journal.id
@@ -367,6 +367,6 @@ class SaleOrderLine(models.Model):
         result['fiscal_category_id'] = \
             self.fiscal_category_id.id or self.order_id.fiscal_category_id.id \
             or False
-        result['fiscal_position'] = self.fiscal_position.id or \
+        result['fiscal_position_id'] = self.fiscal_position.id or \
             self.order_id.fiscal_position.id or False
         return result
