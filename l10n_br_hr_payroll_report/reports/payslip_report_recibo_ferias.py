@@ -47,17 +47,17 @@ def payslip_recibo_ferias(pool, cr, uid, local_context, context):
     local_context['msg_aniversario'] = msg_aniversario
 
     # Período Aquisitivo
-    periodo_aquisitivo = \
-        formata_data(payslip_id.periodo_aquisitivo.inicio_aquisitivo) + \
-        ' - ' + \
+    periodo_aquisitivo = '{} - {}'.format(
+        formata_data(payslip_id.periodo_aquisitivo.inicio_aquisitivo),
         formata_data(payslip_id.periodo_aquisitivo.fim_aquisitivo)
+    )
     local_context['periodo_aquisitivo'] = periodo_aquisitivo
 
     # Período Gozo
-    periodo_gozo = \
-        formata_data(payslip_id.holidays_ferias.data_inicio) + \
-        ' - ' + \
-        formata_data(payslip_id.holidays_ferias.data_fim)
+    periodo_gozo = '{} - {}'.format(
+        formata_data(payslip_id.holidays_ferias.data_inicio),
+        formata_data(payslip_id.holidays_ferias.data_fim),
+    )
     local_context['periodo_gozo'] = periodo_gozo
 
     # Data para Retorno
