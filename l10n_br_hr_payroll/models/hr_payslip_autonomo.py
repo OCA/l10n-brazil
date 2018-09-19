@@ -89,13 +89,14 @@ class HrPayslipAutonomo(models.Model):
     mes_do_ano = fields.Selection(
         selection=MES_DO_ANO,
         string=u'Mês',
-        required=True,
-        default=datetime.now().month,
+        compute='_compute_mes_ano_contrato',
+        store=True,
     )
 
     ano = fields.Integer(
         string=u'Ano',
-        default=datetime.now().year,
+        compute='_compute_mes_ano_contrato',
+        store=True,
     )
 
     date_from = fields.Date(
@@ -219,10 +220,20 @@ class HrPayslipAutonomo(models.Model):
 
     @api.multi
     @api.depends('contract_id')
+    def _compute_mes_ano_contrato(self):
+        for record in self:
+            if record.contract_id:
+                data = record.contract_id.date_start.split('-')
+                record.mes_do_ano = int(data[1])
+                record.ano = int(data[0])
+
+    @api.multi
+    @api.depends('contract_id')
     def _compute_contract_date(self):
         for record in self:
-            record.date_from = record.contract_id.date_start
-            record.date_to = record.contract_id.date_end
+            if record.contract_id:
+                record.date_from = record.contract_id.date_start
+                record.date_to = record.contract_id.date_end
 
     @api.multi
     @api.depends('mes_do_ano', 'ano', 'contract_id')
@@ -336,20 +347,20 @@ class HrPayslipAutonomo(models.Model):
     @api.onchange('contract_id')
     def _onchange_contract_id(self):
         for record in self:
+            if record.contract_id:
+                primeiro_dia_do_mes = str(
+                    datetime.strptime(str(record.mes_do_ano) + '-' +
+                                      str(record.ano), '%m-%Y').date())
 
-            primeiro_dia_do_mes = str(
-                datetime.strptime(str(record.mes_do_ano) + '-' +
-                                  str(record.ano), '%m-%Y').date())
+                record.date_from = \
+                    max(primeiro_dia_do_mes, record.contract_id.date_start)
 
-            record.date_from = \
-                max(primeiro_dia_do_mes, record.contract_id.date_start)
+                ultimo_dia_do_mes = str(
+                    self.env['resource.calendar'].get_ultimo_dia_mes(
+                        record.mes_do_ano, record.ano).date())
 
-            ultimo_dia_do_mes = str(
-                self.env['resource.calendar'].get_ultimo_dia_mes(
-                    record.mes_do_ano, record.ano).date())
-
-            record.date_to = \
-                min(record.contract_id.date_end, ultimo_dia_do_mes)
+                record.date_to = \
+                    min(record.contract_id.date_end, ultimo_dia_do_mes)
 
     @api.multi
     def _compute_data_mes_ano(self):
