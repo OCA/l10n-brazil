@@ -740,3 +740,27 @@ class HrContract(models.Model):
                     contrato.nome_contrato = nome_contrato
 
             contrato.nome_contrato = nome_contrato
+
+    @api.multi
+    def finalizar_contrato_autonomo(self):
+        for record in self:
+            if not record.date_end:
+                raise Warning(
+                    'É preciso escolher uma data final para finalizar '
+                    'este contrato de autonômo!'
+                )
+            if not record.sped_s2399_id:
+                if self.env.user.company_id.eh_empresa_base:
+                    matriz = self.env.user.company_id.id
+                else:
+                    matriz = self.env.user.company_id.matriz.id
+
+                self.sped_s2399_id = \
+                    self.env['sped.hr.rescisao.autonomo'].create({
+                        'company_id': matriz,
+                        'hr_contract_id': self.id,
+                    })
+
+            sped_registro = record.sped_s2399_id
+            if not sped_registro.sped_s2399_registro_inclusao:
+                sped_registro.gerar_registro()
