@@ -21,6 +21,10 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         string='Empresa',
         comodel_name='res.company',
     )
+    hr_contract_id = fields.Many2one(
+        string='Contrato',
+        comodel_name='hr.contract',
+    )
     sped_hr_rescisao_id = fields.Many2one(
         string="Rescisão Trabalhista",
         comodel_name="hr.payslip.autonomo",
@@ -123,15 +127,17 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def gerar_registro(self):
+        if self.sped_hr_rescisao_id:
+            origem = ('hr.payslip,%s' % self.sped_hr_rescisao_id.id)
+        else:
+            origem = ('hr.contract,%s' % self.hr_contract_id.id)
         values = {
             'tipo': 'esocial',
             'registro': 'S-2399',
             'ambiente': self.company_id.esocial_tpAmb,
             'company_id': self.company_id.id,
             'evento': 'evtTSVTermino',
-            'origem': (
-                    'hr.payslip,%s' %
-                    self.sped_hr_rescisao_id.id),
+            'origem': origem,
             'origem_intermediario': (
                     'sped.hr.rescisao.autonomo,%s' % self.id),
         }
@@ -184,9 +190,9 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         #
         S2399.tpInsc = '1'
         S2399.nrInsc = limpa_formatacao(
-            self.sped_hr_rescisao_id.company_id.cnpj_cpf)[0:8]
+            self.company_id.cnpj_cpf)[0:8]
         S2399.evento.ideEvento.tpAmb.valor = int(
-            self.sped_hr_rescisao_id.company_id.esocial_tpAmb)
+            self.company_id.esocial_tpAmb)
         # Processo de Emissão = Aplicativo do Contribuinte
         S2399.evento.ideEvento.procEmi.valor = '1'
         S2399.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -194,69 +200,71 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         # Popula ideEmpregador (Dados do Empregador)
         S2399.evento.ideEmpregador.tpInsc.valor = '1'
         S2399.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(
-            self.sped_hr_rescisao_id.company_id.cnpj_cpf)[0:8]
+            self.company_id.cnpj_cpf)[0:8]
 
         # evtTSVTermino.ideTrabSemVinculo
-        employee_id = self.sped_hr_rescisao_id.contract_id.employee_id
+        employee_id = self.hr_contract_id.employee_id
         S2399.evento.ideTrabSemVinculo.cpfTrab.valor = \
             limpa_formatacao(employee_id.cpf)
         S2399.evento.ideTrabSemVinculo.nisTrab.valor = \
             limpa_formatacao(employee_id.pis_pasep)
         S2399.evento.ideTrabSemVinculo.codCateg.valor = \
-            self.sped_hr_rescisao_id.contract_id.categoria
+            self.hr_contract_id.categoria
 
         # evtTSVTermino.infoTSVTermino
         rescisao_id = self.sped_hr_rescisao_id
-        S2399.evento.infoTSVTermino.dtTerm.valor = fields.Datetime.now()
-        if rescisao_id.contract_id.categoria in ['721','722']:
+        S2399.evento.infoTSVTermino.dtTerm.valor = self.hr_contract_id.date_end
+        if rescisao_id.contract_id.categoria in ['721', '722']:
             S2399.evento.infoTSVTermino.mtvDesligTSV.valor = \
                 rescisao_id.mtv_deslig.codigo
 
-        # evtTSVTermino.infoTSVTermino.VerbasResc
-        verba_rescisoria = pysped.esocial.leiaute.S2399_VerbasResc_2()
+            # evtTSVTermino.infoTSVTermino.VerbasResc
+            verba_rescisoria = pysped.esocial.leiaute.S2399_VerbasResc_2()
 
-        # evtTSVTermino.infoTSVTermino.VerbasResc.DmDev
-        dm_dev = pysped.esocial.leiaute.S2399_DmDev_2()
-        dm_dev.ideDmDev.valor = self.sped_hr_rescisao_id.number
+            # evtTSVTermino.infoTSVTermino.VerbasResc.DmDev
+            dm_dev = pysped.esocial.leiaute.S2399_DmDev_2()
+            dm_dev.ideDmDev.valor = self.sped_hr_rescisao_id.number
 
-        # evtTSVTermino.infoTSVTermino.VerbasResc.DmDev.ideEstabLot
-        ide_estab_lot = pysped.esocial.leiaute.S2399_IdeEstabLot_2()
-        ide_estab_lot.tpInsc.valor = '1'
-        ide_estab_lot.nrInsc.valor = \
-            limpa_formatacao(rescisao_id.company_id.cnpj_cpf)
-        ide_estab_lot.codLotacao.valor = \
-            rescisao_id.company_id.cod_lotacao
+            # evtTSVTermino.infoTSVTermino.VerbasResc.DmDev.ideEstabLot
+            ide_estab_lot = pysped.esocial.leiaute.S2399_IdeEstabLot_2()
+            ide_estab_lot.tpInsc.valor = '1'
+            ide_estab_lot.nrInsc.valor = \
+                limpa_formatacao(rescisao_id.company_id.cnpj_cpf)
+            ide_estab_lot.codLotacao.valor = \
+                rescisao_id.company_id.cod_lotacao
 
-        # Verbas rescisórias do trabalhador
-        for rubrica_line in rescisao_id.line_ids:
-            if rubrica_line.salary_rule_id.category_id.id in (
-                    self.env.ref('hr_payroll.PROVENTO').id,
-                    self.env.ref('hr_payroll.DEDUCAO').id
-            ):
-                if rubrica_line.salary_rule_id.code != 'PENSAO_ALIMENTICIA':
-                    if rubrica_line.total > 0:
+            # Verbas rescisórias do trabalhador
+            for rubrica_line in rescisao_id.line_ids:
+                if rubrica_line.salary_rule_id.category_id.id in (
+                        self.env.ref('hr_payroll.PROVENTO').id,
+                        self.env.ref('hr_payroll.DEDUCAO').id
+                ):
+                    if rubrica_line.salary_rule_id.code != 'PENSAO_ALIMENTICIA':
+                        if rubrica_line.total > 0:
 
-                        det_verbas = pysped.esocial.leiaute.S2399_DetVerbas_2()
-                        det_verbas.codRubr.valor = \
-                            rubrica_line.salary_rule_id.codigo
-                        det_verbas.ideTabRubr.valor = \
-                            rubrica_line.salary_rule_id.identificador
-                        # det_verbas.qtdRubr.valor = ''
-                        # det_verbas.fatorRubr.valor = ''
-                        # det_verbas.vrunit.valor = ''
-                        det_verbas.vrRubr.valor = str(rubrica_line.total)
-                        ide_estab_lot.detVerbas.append(det_verbas)
+                            det_verbas = \
+                                pysped.esocial.leiaute.S2399_DetVerbas_2()
+                            det_verbas.codRubr.valor = \
+                                rubrica_line.salary_rule_id.codigo
+                            det_verbas.ideTabRubr.valor = \
+                                rubrica_line.salary_rule_id.identificador
+                            # det_verbas.qtdRubr.valor = ''
+                            # det_verbas.fatorRubr.valor = ''
+                            # det_verbas.vrunit.valor = ''
+                            det_verbas.vrRubr.valor = str(rubrica_line.total)
+                            ide_estab_lot.detVerbas.append(det_verbas)
 
-        # evtTSVAltContr.infoTSVTermino.VerbasResc.DmDev.ideEstabLot.InfoAgNocivo
-        if rescisao_id.contract_id.categoria in ['738','731','734']:
-            info_ag_nocivo = pysped.esocial.leiaute.S2399_InfoAgNocivo_2()
-            info_ag_nocivo.grauExp.valor = 1
-            ide_estab_lot.infoAgNocivo.append(info_ag_nocivo)
+            # evtTSVAltContr.infoTSVTermino.VerbasResc.DmDev.
+            # ideEstabLot.InfoAgNocivo
+            if rescisao_id.contract_id.categoria in ['738','731','734']:
+                info_ag_nocivo = pysped.esocial.leiaute.S2399_InfoAgNocivo_2()
+                info_ag_nocivo.grauExp.valor = 1
+                ide_estab_lot.infoAgNocivo.append(info_ag_nocivo)
 
-        # relacionando as classes
-        dm_dev.ideEstabLot.append(ide_estab_lot)
-        verba_rescisoria.dmDev.append(dm_dev)
-        S2399.evento.infoTSVTermino.verbasResc.append(verba_rescisoria)
+            # relacionando as classes
+            dm_dev.ideEstabLot.append(ide_estab_lot)
+            verba_rescisoria.dmDev.append(dm_dev)
+            S2399.evento.infoTSVTermino.verbasResc.append(verba_rescisoria)
 
         return S2399, validacao
 
