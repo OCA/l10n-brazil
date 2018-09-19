@@ -1764,7 +1764,6 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         contrato_sem_vinculo_ids = self.env['hr.contract'].search([
-            ('company_id', '=', self.company_id.id),
             ('situacao_esocial', 'in', ['1', '2']),
             ('sped_s2399_id', '!=', False),
             ('date_start', '>=', self.periodo_id.date_start),
