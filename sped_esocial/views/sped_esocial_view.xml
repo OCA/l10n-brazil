@@ -251,6 +251,12 @@
                                                     <field name="alteracao_sem_vinculo_ids" readonly="1" nolabel="1" colspan="4"/>
                                                 </group>
                                             </page>
+                                            <page name="s2399" string="S-2399" attrs="{'invisible': [('desligamento_sem_vinculo_ids', '=', False)]}">
+                                                <group colspan="4" col="4">
+                                                    <separator string="Desligamento de Contrato sem Vínculo" />
+                                                    <field name="desligamento_sem_vinculo_ids" readonly="1" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </page>
                                             <page name="s5001" string="S-5001" attrs="{'invisible': [('tem_s5001', '=', False)]}">
                                                 <group colspan="4" col="4">
                                                     <separator string="INSS por Trabalhador" />

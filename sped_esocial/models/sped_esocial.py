@@ -1468,6 +1468,17 @@ class SpedEsocial(models.Model):
         string='Deslig.sem e-Social',
     )
 
+    # Controle de registros S-2399
+    desligamento_sem_vinculo_ids = fields.Many2many(
+        string='Desligamentos Sem Vínculo',
+        comodel_name='hr.contract',
+    )
+    necessita_s2399 = fields.Boolean(
+        string='Necessita S2399',
+        compute='compute_necessita_s2399',
+        default=False,
+    )
+
     # Calcula se é necessário criar algum registro S-2299
     @api.depends('desligamento_ids.situacao_s2299', 'fechamento_id.situacao_esocial')
     def compute_necessita_s2299(self):
@@ -1491,6 +1502,36 @@ class SpedEsocial(models.Model):
             if esocial.rescisoes_sem_registro:
                 necessita_s2299 = True
             esocial.necessita_s2299 = necessita_s2299
+            esocial.msg_desligamentos = msg_desligamentos
+
+    # Calcula se é necessário criar algum registro S-2399
+    @api.depends('desligamento_sem_vinculo_ids.situacao_esocial',
+                 'fechamento_id.situacao_esocial')
+    def compute_necessita_s2399(self):
+        for esocial in self:
+            necessita_s2399 = False
+            msg_desligamentos = False
+            for desligamento in esocial.desligamento_ids:
+                if desligamento.situacao_s2399 not in ['4']:
+                    necessita_s2399 = True
+                    msg_desligamentos = 'Pendências não enviadas ao e-Social'
+            if not msg_desligamentos and \
+                    esocial.rescisoes_sem_registro == 0:
+                msg_desligamentos = 'OK'
+            else:
+                msg_desligamentos = 'Pendências não enviadas ao e-Social'
+            if esocial.desligamento_ids or \
+                    esocial.rescisoes_sem_registro > 0:
+                txt = 'Desligamento'
+                qtd = len(esocial.desligamento_ids) + \
+                      esocial.rescisoes_sem_registro
+                if qtd > 1:
+                    txt += 's'
+                msg_desligamentos = '{} {} - '.format(
+                    qtd, txt) + msg_desligamentos
+            if esocial.rescisoes_sem_registro:
+                necessita_s2399 = True
+            esocial.necessita_s2399 = necessita_s2399
             esocial.msg_desligamentos = msg_desligamentos
 
     @api.multi
@@ -1717,6 +1758,27 @@ class SpedEsocial(models.Model):
 
             self.alteracao_sem_vinculo_ids = [(6, 0, alteracao_sem_vinculo_ids.ids)]
 
+    # Outros métodos
+    @api.multi
+    def importar_desligamento_sem_vinculo(self):
+        self.ensure_one()
+
+        contrato_sem_vinculo_ids = self.env['hr.contract'].search([
+            ('company_id', '=', self.company_id.id),
+            ('situacao_esocial', 'in', ['1', '2']),
+            ('sped_s2399_id', '!=', False),
+            ('date_start', '>=', self.periodo_id.date_start),
+            ('date_end', '<=', self.periodo_id.date_stop),
+        ])
+
+        for contrato in contrato_sem_vinculo_ids:
+            if contrato.categoria == '701':
+                contrato.finalizar_contrato_autonomo()
+
+        self.desligamento_sem_vinculo_ids = [
+            (6, 0, contrato_sem_vinculo_ids.ids)
+        ]
+
     @api.multi
     def get_esocial_vigente(self, company_id=False):
         """
@@ -1786,7 +1848,7 @@ class SpedEsocial(models.Model):
             esocial.importar_desligamento()             # S-2299
             esocial.importar_admissao_sem_vinculo()     # S-2300
             esocial.importar_alteracao_sem_vinculo()    # S-2306
-            # TODO S-2399
+            esocial.importar_desligamento_sem_vinculo() # S-2399
 
             # Periódicos
             esocial.importar_remuneracoes()             # S-1200
