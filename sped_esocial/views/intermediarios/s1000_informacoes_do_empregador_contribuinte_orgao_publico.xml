@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="e-Social - Registro S-1000" edit="false" delete="false" create="false" duplicate="false">
                     <header>
-                        <button name="atualizar_esocial" colspan="4" type="object"
+                        <button name="gerar_registro" colspan="4" type="object"
                                 string="Ativar/Atualizar e-Social" class="oe_highlight"
                                 attrs="{'invisible': [('situacao_esocial', 'in', ['1', '3', '9'])]}" />
                         <field name="situacao_esocial" widget="statusbar" select="1"
