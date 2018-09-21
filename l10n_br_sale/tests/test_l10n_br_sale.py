@@ -3,11 +3,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import exceptions, fields
 import odoo.tests.common as common
-#import datetime
-#import dateutil.relativedelta
-#from odoo.addons.sale.tests.test_sale_common import TestSale
 
 
 class TestL10nBRSale(common.TransactionCase):
@@ -18,29 +14,31 @@ class TestL10nBRSale(common.TransactionCase):
         self.sale_order_1 = self.sale_object.browse(
             self.ref('l10n_br_sale.sale_order_teste_1')
         )
-        self.fiscal_categ_venda_st = self.env[
-            'l10n_br_account.fiscal.category'].browse(
-            self.ref('l10n_br_sale.fiscal_category_venda_st'))
         self.fiscal_categ_venda = self.env[
             'l10n_br_account.fiscal.category'].browse(
             self.ref('l10n_br_sale.fiscal_category_venda'))
+        self.fiscal_categ_venda_st = self.env[
+            'l10n_br_account.fiscal.category'].browse(
+            self.ref('l10n_br_sale.fiscal_category_venda_st'))
 
     def test_l10n_br_sale_order(self):
         self.sale_order_1.onchange_partner_id()
+        self.sale_order_1.onchange_partner_shipping_id()
         self.assertTrue(
-            self.sale_order_1.fiscal_position,
+            self.sale_order_1.fiscal_position_id,
             "Error to mapping Fiscal Position on Sale Order."
         )
         # Change Fiscal Category to test mapping Fiscal Position
         self.sale_order_1.fiscal_category_id = self.fiscal_categ_venda_st.id
         self.sale_order_1.onchange_partner_id()
+        self.sale_order_1.onchange_partner_shipping_id()
         self.assertTrue(
-            self.sale_order_1.fiscal_position,
+            self.sale_order_1.fiscal_position_id,
             "Error to mapping Fiscal Position on Sale Order"
             "after change fiscal category."
         )
         self.assertEquals(
-            self.sale_order_1.fiscal_position.name, 'Venda SP c/ ST',
+            self.sale_order_1.fiscal_position_id.name, 'Venda SP c/ ST',
             "Error to mapping correct Fiscal Position on Sale Order"
             "after change fiscal category."
         )
