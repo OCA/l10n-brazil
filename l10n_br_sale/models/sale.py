@@ -92,10 +92,10 @@ class SaleOrder(models.Model):
         ('state', '=', 'approved')]""",
         readonly=True, states={'draft': [('readonly', False)]},
         default=_default_fiscal_category)
-    fiscal_position = fields.Many2one(
-        'account.fiscal.position', 'Fiscal Position',
+    fiscal_position_id = fields.Many2one(
         domain="[('fiscal_category_id', '=', fiscal_category_id)]",
-        readonly=True, states={'draft': [('readonly', False)]})
+        readonly=True, states={'draft': [('readonly', False)]}
+    )
     invoiced_rate = fields.Float(compute='_invoiced_rate', string='Invoiced')
     copy_note = fields.Boolean(u'Copiar Observação no documentos fiscal')
     amount_untaxed = fields.Float(
@@ -148,25 +148,30 @@ class SaleOrder(models.Model):
             for sale_line in sale_order.order_line:
                 sale_line.discount = sale_order.discount_rate
 
-    @api.onchange('fiscal_category_id')
+    @api.multi
+    @api.onchange('fiscal_category_id', 'partner_invoice_id')
     def onchange_fiscal(self):
         """Método chamado ao mudar a categoria fiscal
         para refinir a posição fiscal de acordo com as
         regras de posição fiscal"""
-        if self.company_id and self.partner_id and self.fiscal_category_id:
-            kwargs = {
-                'partner_id': self.partner_id,
-                'partner_invoice_id': self.partner_invoice_id,
-                'fiscal_category_id': self.fiscal_category_id,
-                'company_id': self.company_id,
-                'context': self.env.context
-            }
-            obj_fiscal_position = self.env[
-                'account.fiscal.position.rule'].apply_fiscal_mapping(**kwargs)
-            if obj_fiscal_position:
-                self.fiscal_position = obj_fiscal_position.id
-            else:
-                self.fiscal_position = False
+        for record in self:
+            if record.company_id and record.partner_id and\
+                    record.fiscal_category_id:
+                kwargs = {
+                    'partner_id': record.partner_id,
+                    'partner_invoice_id': record.partner_invoice_id,
+                    'fiscal_category_id': record.fiscal_category_id,
+                    'company_id': record.company_id,
+                    'context': record.env.context
+                }
+                obj_fiscal_position = record.env[
+                    'account.fiscal.position.rule'].apply_fiscal_mapping(
+                    **kwargs
+                )
+                if obj_fiscal_position:
+                    record.fiscal_position_id = obj_fiscal_position.id
+                else:
+                    record.fiscal_position_id = False
 
     @api.model
     def _fiscal_comment(self, order):
@@ -195,7 +200,7 @@ class SaleOrder(models.Model):
             result['fiscal_position_id'] = self.order_line.fiscal_position.id
         else:
             fiscal_category_id = self.fiscal_category_id
-            result['fiscal_position_id'] = self.fiscal_position.id
+            result['fiscal_position_id'] = self.fiscal_position_id.id
 
         if fiscal_category_id:
             result['journal_id'] = fiscal_category_id.property_journal.id
@@ -214,11 +219,16 @@ class SaleOrder(models.Model):
         return result
 
     @api.multi
-    @api.onchange('partner_id')
-    def onchange_partner_id(self):
+    @api.onchange('partner_shipping_id', 'partner_id')
+    def onchange_partner_shipping_id(self):
+        """
+        Trigger the change of fiscal position when
+        the shipping address is modified.
+        """
         for record in self:
-            super(SaleOrder, self).onchange_partner_id()
+            super(SaleOrder, self).onchange_partner_shipping_id()
             record.onchange_fiscal()
+        return {}
 
 
 class SaleOrderLine(models.Model):
