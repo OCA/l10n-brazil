@@ -244,8 +244,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                 # Popula infoPgto.detPgtoFl.retPgtoTot
                 for line in payslip.line_ids:
-                    if line.salary_rule_id.cod_inc_irrf_3 in ['33']:
-                        continue
+
                     # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
                     if line.total and line.salary_rule_id.cod_inc_irrf_calculado in \
                             ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
@@ -296,7 +295,8 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                     # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
                     if line.salary_rule_id.cod_inc_irrf_calculado in \
-                            ['01', '09', '33', '46', '53', '63', '75', '93'] and line.total:
+                            ['00', '01', '09', '13', '33', '43', '46', '53',
+                             '63', '75', '93'] and line.total:
 
                         det_rubr_fer = pysped.esocial.leiaute.S1210_DetRubrFer_2()
                         det_rubr_fer.codRubr.valor = line.salary_rule_id.codigo
