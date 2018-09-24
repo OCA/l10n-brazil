@@ -741,7 +741,6 @@ class HrPayslip(models.Model):
             result += [self.get_attendances(
                 u'Dias no Mês', 29, u'DIAS_MES', dias_mes, 0.0, contract_id)]
 
-
             if self.tipo_de_folha == 'rescisao':
 
                 # Quando o afastamento for no primeiro dia do mes,
@@ -815,7 +814,9 @@ class HrPayslip(models.Model):
                 u'DSR a serem descontados', 33, u'DSR_PARA_DESCONTAR',
                 quantity_DSR_discount, 0.0, contract_id)]
 
-            # get dias de férias + get dias de abono pecuniario
+            #
+            # GET dias de FERIAS + get dias de ABONO pecuniario
+            #
             if self.tipo_de_folha == 'provisao_ferias' or self.is_simulacao:
                 quantidade_dias_abono = 0
                 quantidade_dias_ferias = self.periodo_aquisitivo.saldo
@@ -866,7 +867,38 @@ class HrPayslip(models.Model):
                     )
                 ]
 
-            # get Dias Trabalhados
+            #
+            # GET dias de FERIAS na competencia ATUAL (caso de ferias quebrada)
+            #
+            quantidade_dias_ferias, quantidade_dias_abono = \
+                self.env['resource.calendar'].get_quantidade_dias_ferias(
+                    hr_contract, primeiro_dia_do_mes, ultimo_dia_do_mes)
+
+            result += [self.get_attendances(
+                u'Quantidade dias em Férias na Competência Atual', 38,
+                u'FERIAS_COMPETENCIA_ATUAL', quantidade_dias_ferias, 0.0, contract_id
+            )]
+
+            #
+            # GET dias FERIAS na competencia SEGUINTE(caso de ferias quebrada)
+            #
+            primeiro_dia_do_mes_seguinte = \
+                str(datetime.strptime(str(
+                    self.mes_do_ano + 1) + '-' + str(self.ano), '%m-%Y').date())
+            ultimo_dia_do_mes_seguinte = \
+                str(ultimo_dia_mes(primeiro_dia_do_mes_seguinte))
+            quantidade_dias_ferias, quantidade_dias_abono = \
+                self.env['resource.calendar'].get_quantidade_dias_ferias(
+                    hr_contract, primeiro_dia_do_mes_seguinte,
+                    ultimo_dia_do_mes_seguinte)
+            result += [self.get_attendances(
+                u'Quantidade dias em Férias na Competência Seguinte', 39,
+                u'FERIAS_COMPETENCIA_SEGUINTE', quantidade_dias_ferias, 0.0, contract_id
+            )]
+
+            #
+            # GET Dias Trabalhados
+            #
             quantidade_dias_trabalhados = \
                 dias_mes - leaves['quantidade_dias_faltas_nao_remuneradas'] -\
                 quantity_DSR_discount - quantidade_dias_ferias
