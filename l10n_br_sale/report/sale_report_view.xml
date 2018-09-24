@@ -25,8 +25,8 @@
                         context="{'group_by':'fiscal_category_id'}"/>
                 <filter string="Fiscal Position"
                         icon="terp-stock_symbol-selection"
-                        name="fiscal_position"
-                        context="{'group_by':'fiscal_position'}"/>
+                        name="fiscal_position_id"
+                        context="{'group_by':'fiscal_position_id'}"/>
             </filter>
         </field>
     </record>
