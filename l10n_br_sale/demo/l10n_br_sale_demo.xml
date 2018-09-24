@@ -143,6 +143,7 @@
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="product.product_uom_unit"/>
         <field name="price_unit">12.50</field>
+        <field name="fiscal_category_id" ref="fiscal_category_venda"/>
     </record>
 
     <!-- Sale Order Teste - 2 -->
@@ -176,6 +177,7 @@
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="product.product_uom_unit"/>
         <field name="price_unit">12.50</field>
+        <field name="fiscal_category_id" ref="fiscal_category_venda"/>
     </record>
 
     <!-- Confirmar Ordem de Venda -->
