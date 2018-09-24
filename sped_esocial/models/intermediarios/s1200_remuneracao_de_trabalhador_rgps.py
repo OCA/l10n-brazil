@@ -253,7 +253,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                 if line.salary_rule_id.nat_rubr:
 
                     if line.salary_rule_id.cod_inc_irrf_calculado not in \
-                            ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
+                            ['13', '31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
 
                         if line.salary_rule_id.code == 'BASE_INSS' and line.slip_id.tipo_de_folha == 'ferias':
                             continue
