@@ -139,13 +139,14 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             registro_para_retificar = self.sped_registro
             tem_retificacao = True
             while tem_retificacao:
-                if registro_para_retificar.retificacao_ids:
-                    if registro_para_retificar.retificacao_ids[0].situacao != '1':
-                        registro_para_retificar = \
-                        registro_para_retificar.retificacao_ids[0]
+                if registro_para_retificar.retificacao_ids and \
+                        registro_para_retificar.retificacao_ids[
+                            0].situacao not in ['1', '3']:
+                    registro_para_retificar = \
+                    registro_para_retificar.retificacao_ids[0]
                 else:
                     tem_retificacao = False
-            S1200.evento.ideEvento.nrRecibo.valor = registro_para_retificar.sped_registro.recibo
+            S1200.evento.ideEvento.nrRecibo.valor = registro_para_retificar.recibo
         S1200.evento.ideEvento.indRetif.valor = indRetif
         S1200.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
                                                         # '1' - Mensal
