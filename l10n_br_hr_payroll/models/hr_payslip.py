@@ -729,6 +729,19 @@ class HrPayslip(models.Model):
             # GET dias Base para cálculo do mês
             #
 
+            # DIAS no mês
+            primeiro_dia_do_mes = \
+                str(datetime.strptime(
+                    str(self.mes_do_ano) + '-' + str(self.ano), '%m-%Y'))
+            date_to = str(ultimo_dia_mes(primeiro_dia_do_mes))
+            dias_mes = resource_calendar_obj.get_dias_base(
+                fields.Datetime.from_string(primeiro_dia_do_mes),
+                fields.Datetime.from_string(date_to),
+            )
+            result += [self.get_attendances(
+                u'Dias no Mês', 29, u'DIAS_MES', dias_mes, 0.0, contract_id)]
+
+
             if self.tipo_de_folha == 'rescisao':
                 # Na rescisao não utilizar mês comercial e sim o total de dias
                 # trabalhados no mês
