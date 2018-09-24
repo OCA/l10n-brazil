@@ -11,7 +11,7 @@ class SaleReport(models.Model):
         'l10n_br_account.fiscal.category',
         'Fiscal Category',
         readonly=True)
-    fiscal_position = fields.Many2one(
+    fiscal_position_id = fields.Many2one(
         'account.fiscal.position',
         'Fiscal Position',
         readonly=True)
@@ -19,8 +19,8 @@ class SaleReport(models.Model):
     def _select(self):
         return super(SaleReport, self)._select() + \
                ", l.fiscal_category_id as fiscal_category_id, " \
-               "l.fiscal_position as fiscal_position"
+               "l.fiscal_position_id as fiscal_position_id"
 
     def _group_by(self):
         return super(SaleReport, self)._group_by() + \
-               ", l.fiscal_category_id, l.fiscal_position"
+               ", l.fiscal_category_id, l.fiscal_position_id"
