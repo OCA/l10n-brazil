@@ -165,7 +165,10 @@ class HrSalaryRule(models.Model):
         :return:
         """
         rule = self.browse(rule_id)
-        safe_eval(rule.amount_python_compute, localdict, mode='exec', nocopy=True)
+        try:
+            safe_eval(rule.amount_python_compute, localdict, mode='exec', nocopy=True)
+        except:
+            return ''
         if 'reference' in localdict:
             reference = localdict['reference']
         else:
