@@ -179,12 +179,12 @@ class SaleOrder(models.Model):
         fp_ids = []
 
         for line in order.order_line:
-            if line.fiscal_position and \
-                    line.fiscal_position.inv_copy_note and \
-                    line.fiscal_position.note:
-                if line.fiscal_position.id not in fp_ids:
-                    fp_comment.append(line.fiscal_position.note)
-                    fp_ids.append(line.fiscal_position.id)
+            if line.fiscal_position_id and \
+                    line.fiscal_position_id.inv_copy_note and \
+                    line.fiscal_position_id.note:
+                if line.fiscal_position_id.id not in fp_ids:
+                    fp_comment.append(line.fiscal_position_id.note)
+                    fp_ids.append(line.fiscal_position_id.id)
 
         return fp_comment
 
@@ -265,11 +265,15 @@ class SaleOrderLine(models.Model):
         domain="[('type', '=', 'output'), ('journal_type', '=', 'sale')]",
         readonly=True, states={'draft': [('readonly', False)],
                                'sent': [('readonly', False)]})
-    fiscal_position = fields.Many2one(
+    fiscal_position_id = fields.Many2one(
         'account.fiscal.position', 'Fiscal Position',
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
-        readonly=True, states={'draft': [('readonly', False)],
-                               'sent': [('readonly', False)]})
+        readonly=True, oldname='fiscal_position',
+        states={
+            'draft': [('readonly', False)],
+            'sent': [('readonly', False)]
+        }
+    )
     discount_value = fields.Float(compute='_amount_line',
                                   string='Vlr. Desc. (-)',
                                   digits=dp.get_precision('Sale Price'))
@@ -306,7 +310,7 @@ class SaleOrderLine(models.Model):
         obj_product = kwargs.get('product_id')
 
         if obj_product and obj_fiscal_position:
-            result['value']['fiscal_position'] = obj_fiscal_position
+            result['value']['fiscal_position_id'] = obj_fiscal_position
             context.update({
                 'fiscal_type': obj_product.fiscal_type,
                 'type_tax_use': 'sale', 'product_id': obj_product.id})
@@ -347,7 +351,8 @@ class SaleOrderLine(models.Model):
                 record.update(result['value'])
             return result_super
 
-    @api.onchange('fiscal_category_id', 'fiscal_position')
+    @api.multi
+    @api.onchange('fiscal_category_id', 'fiscal_position_id')
     def onchange_fiscal(self):
         for record in self:
             if record.order_id.company_id and record.order_id.partner_id \
@@ -365,7 +370,7 @@ class SaleOrderLine(models.Model):
 
                 kwargs.update({
                     'fiscal_category_id': record.fiscal_category_id.id,
-                    'fiscal_position': record.fiscal_position.id,
+                    'fiscal_position_id': record.fiscal_position_id.id,
                     'tax_id': [(6, 0, record.tax_id.ids)],
                 })
                 record.update(result['value'])
@@ -377,6 +382,6 @@ class SaleOrderLine(models.Model):
         result['fiscal_category_id'] = \
             self.fiscal_category_id.id or self.order_id.fiscal_category_id.id \
             or False
-        result['fiscal_position_id'] = self.fiscal_position.id or \
-            self.order_id.fiscal_position.id or False
+        result['fiscal_position_id'] = self.fiscal_position_id.id or \
+            self.order_id.fiscal_position_id.id or False
         return result
