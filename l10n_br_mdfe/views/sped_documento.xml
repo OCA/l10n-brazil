@@ -38,17 +38,17 @@
                             attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada','rejeitada','cancelada'] )] }"
                     />
                     <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-default" />
-                    <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default"/>
+                    <button name="imprimir_documento"
+                            string="Imprimir"
+                            type="object"
+                            class="btn-default"
+                            attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada'] )] }"
+                    />
                     <button name="%(mdfe_motivo_cancelamento_wizard_action)d"
                             string="Cancelar"
                             type="action"
                             attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada'] )] }"
                     />
-                     <!--<button name="cancelar_documento"-->
-                            <!--string="Cancelar"-->
-                            <!--type="object"-->
-                            <!--attrs="{'invisible': [('situacao_mdfe', 'not in', ['autorizada'] )] }"-->
-                    <!--/>-->
                 </header>
                 <sheet>
                     <field name="emissao" invisible="1" />

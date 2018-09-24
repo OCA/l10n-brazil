@@ -174,6 +174,12 @@ class SpedDocumento(models.Model):
         inverse_name='mdfe_id',
         inverse='_inverse_item_mdfe_ids',
     )
+
+    item_referenciado_ids = fields.One2many(
+        comodel_name = 'l10n_br.mdfe.item',
+        inverse_name = 'documento_id',
+    )
+
     situacao_mdfe = fields.Selection(
         string=u'Situacação da NF-e',
         selection=[

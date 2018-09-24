@@ -8,6 +8,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     SITUACAO_NFE,
     MODELO_FISCAL_CFE,
     MODELO_FISCAL_NFE,
+    SITUACAO_NFE_AUTORIZADA,
 )
 
 
@@ -74,13 +75,15 @@ class L10nBrMdfeItem(models.Model):
 
     documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        domain=[('modelo', '=', [MODELO_FISCAL_NFE]), ('numero', '!=', 0)],
+        domain=[('modelo', '=', [MODELO_FISCAL_NFE]), ('numero', '!=', 0),('cfop_id.codigo','not in',['5922','6922']),('situacao_nfe','=',SITUACAO_NFE_AUTORIZADA),
+                '|',('item_referenciado_ids','=',False),('item_referenciado_ids.mdfe_id.situacao_mdfe','!=','autorizada')],
         string='NF-E/CT-E',
     )
     documento_chave = fields.Char(
         string='Chave',
         size=44,
         copy=False,
+
     )
     documento_modelo = fields.Selection(
         selection=MODELO_FISCAL,
@@ -107,6 +110,7 @@ class L10nBrMdfeItem(models.Model):
         string='Situação',
         readonly=True,
     )
+
     peso_liquido = fields.Float(
         compute='_compute_informacoes_documento',
         store=True,
@@ -137,6 +141,7 @@ class L10nBrMdfeItem(models.Model):
 
     @api.onchange('documento_id')
     def _onchange_documento(self):
+
         if self.documento_id:
             self.documento_chave = self.documento_id.chave
             self.destinatario_cidade_id = self.documento_id.participante_municipio_id
