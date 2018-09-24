@@ -18,9 +18,9 @@ class SaleReport(models.Model):
 
     def _select(self):
         return super(SaleReport, self)._select() + \
-               ", l.fiscal_category_id as fiscal_category_id, " \
-               "l.fiscal_position_id as fiscal_position_id"
+            ", l.fiscal_category_id as fiscal_category_id, " \
+            "l.fiscal_position_id as fiscal_position_id"
 
     def _group_by(self):
         return super(SaleReport, self)._group_by() + \
-               ", l.fiscal_category_id, l.fiscal_position_id"
+            ", l.fiscal_category_id, l.fiscal_position_id"
