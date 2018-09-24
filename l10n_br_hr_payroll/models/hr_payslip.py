@@ -1017,7 +1017,8 @@ class HrPayslip(models.Model):
 
             # Seta a Data final do aquisitivo apartir da inicial, para sempre
             # pegar os holerites validos do periodo cheio
-            dt_fim = fields.Datetime.from_string(periodo.inicio_aquisitivo) + relativedelta(years=1, days=-1)
+            dt_fim = fields.Datetime.from_string(periodo.inicio_aquisitivo) + \
+                     relativedelta(years=1, days=-1)
 
             if periodo.saldo != 0:
                 #
