@@ -48,17 +48,17 @@ class SaleOrder(models.Model):
     @api.model
     def _amount_line_tax(self, line):
         value = 0.0
-        price = line._calc_line_base_price()
-        qty = line._calc_line_quantity()
-        for computed in line.tax_id.compute_all(
-                price, quantity=qty, product=line.product_id,
-                partner=line.order_id.partner_invoice_id)['taxes']:
-            tax = self.env['account.tax'].browse(computed['id'])
-            # TODO - MIG - tax_code_id removed, now we need to change to
-            # tax_group_id ( or reimplement it ? ) ,
-            # waiting https://github.com/OCA/l10n-brazil/pull/602
-            # if not tax.tax_code_id.tax_discount:
-            #    value += computed.get('amount', 0.0)
+        # TODO - MIG - tax_code_id removed, now we need to change to
+        # tax_group_id ( or reimplement it ? ) ,
+        # waiting https://github.com/OCA/l10n-brazil/pull/602
+        # price = line._calc_line_base_price()
+        # qty = line._calc_line_quantity()
+        # for computed in line.tax_id.compute_all(
+        #        price, quantity=qty, product=line.product_id,
+        #        partner=line.order_id.partner_invoice_id)['taxes']:
+        #     tax = self.env['account.tax'].browse(computed['id'])
+        #     if not tax.tax_code_id.tax_discount:
+        #         value += computed.get('amount', 0.0)
         return value
 
     @api.multi
@@ -71,8 +71,8 @@ class SaleOrder(models.Model):
             tot = 0.0
             for invoice in sale.invoice_ids:
                 if invoice.state not in ('draft', 'cancel') and \
-                                invoice.fiscal_category_id.id == \
-                                sale.fiscal_category_id.id:
+                    invoice.fiscal_category_id.id == \
+                   sale.fiscal_category_id.id:
                     tot += invoice.amount_untaxed
             if tot:
                 result[sale.id] = min(100.0, tot * 100.0 / (
@@ -254,11 +254,13 @@ class SaleOrderLine(models.Model):
                 product=record.product_id,
                 partner=record.order_id.partner_invoice_id)
 
-            record.price_subtotal = record.order_id.pricelist_id.currency_id.round(
-                taxes['total_excluded'])
+            record.price_subtotal = \
+                record.order_id.pricelist_id.currency_id.round(
+                    taxes['total_excluded'])
             record.price_gross = record._calc_price_gross(qty)
-            record.discount_value = record.order_id.pricelist_id.currency_id.round(
-                record.price_gross - (price * qty))
+            record.discount_value = \
+                record.order_id.pricelist_id.currency_id.round(
+                    record.price_gross - (price * qty))
 
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
@@ -356,14 +358,14 @@ class SaleOrderLine(models.Model):
     def onchange_fiscal(self):
         for record in self:
             if record.order_id.company_id and record.order_id.partner_id \
-                    and record.fiscal_category_id :
+                    and record.fiscal_category_id:
                 kwargs = {
                     'company_id': record.order_id.company_id,
                     'partner_id': record.order_id.partner_id,
                     'partner_invoice_id': record.order_id.partner_invoice_id,
                     'product_id': record.product_id,
                     'fiscal_category_id': record.fiscal_category_id or
-                                          record.order_id.fiscal_category_id,
+                    record.order_id.fiscal_category_id,
                     'context': record.env.context
                 }
                 result = record._fiscal_position_map(**kwargs)
