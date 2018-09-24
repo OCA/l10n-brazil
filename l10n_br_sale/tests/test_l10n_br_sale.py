@@ -46,7 +46,7 @@ class TestL10nBRSale(common.TransactionCase):
             line.product_id_change()
             line.onchange_fiscal()
             self.assertTrue(
-                line.fiscal_position,
+                line.fiscal_position_id,
                 "Error to mapping Fiscal Position on Sale Order Line."
             )
             for tax in line.tax_id:
@@ -58,12 +58,12 @@ class TestL10nBRSale(common.TransactionCase):
             line.fiscal_category_id = self.fiscal_categ_venda.id
             line.onchange_fiscal()
             self.assertTrue(
-                line.fiscal_position,
+                line.fiscal_position_id,
                 "Error to mapping Fiscal Position on Sale Order Line"
                 "after change fiscal category."
             )
             self.assertEquals(
-                line.fiscal_position.name, 'Venda SP',
+                line.fiscal_position_id.name, 'Venda SP',
                 "Error to mapping correct Fiscal Position on Sale Order Line"
                 "after change fiscal category."
             )
