@@ -743,19 +743,9 @@ class HrPayslip(models.Model):
 
 
             if self.tipo_de_folha == 'rescisao':
-                # Na rescisao não utilizar mês comercial e sim o total de dias
-                # trabalhados no mês
-                dias_mes = resource_calendar_obj.get_dias_base(
-                    fields.Datetime.from_string(date_from),
-                    fields.Datetime.from_string(date_to),
-                    mes_comercial=False
-                )
 
                 # Quando o afastamento for no primeiro dia do mes,
                 # significa que nao trabalhou nenhum dia
-                primeiro_dia_do_mes = \
-                    str(datetime.strptime(
-                        str(self.mes_do_ano) + '-' + str(self.ano), '%m-%Y'))
                 if self.data_afastamento == primeiro_dia_do_mes[:10]:
                     dias_mes = 0
 
@@ -770,24 +760,12 @@ class HrPayslip(models.Model):
                         self.data_afastamento == self.date_to:
                     dias_mes = 0
 
-            # Quando for admissao levar em consideração apenas os dias
-            # trabalhados e não o mês comercial. Assim se for admitido no
-            # dia 20 em um mês de 31 dias, retornar 11 dias trabalhados no
-            # mês de admissão.
-            elif date_from == contract_id.date_start:
-                dias_mes = resource_calendar_obj.get_dias_base(
-                    fields.Datetime.from_string(date_from),
-                    fields.Datetime.from_string(date_to),
-                    mes_comercial=False
-                )
-
-            # Para todos ou outros casos utilizar mês comercial,
-            # contabilizando mês cheio com 30 dias
+            # Utilizar mes civil para todos outros casos
             else:
                 dias_mes = resource_calendar_obj.get_dias_base(
                     fields.Datetime.from_string(date_from),
                     fields.Datetime.from_string(date_to),
-                    mes_comercial=True
+                    mes_comercial=False
                 )
 
             result += [self.get_attendances(
