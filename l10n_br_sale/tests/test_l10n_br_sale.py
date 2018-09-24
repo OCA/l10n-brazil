@@ -91,3 +91,13 @@ class TestL10nBRSale(common.TransactionCase):
                 "Error to included Fiscal Position on invoice"
                 " dictionary from Sale Order."
             )
+            for line in invoice.invoice_line_ids:
+                self.assertTrue(
+                    line.fiscal_position_id,
+                    "Error to mapping Fiscal Position on Sale Order Line."
+                )
+                for tax in line.invoice_line_tax_ids:
+                    self.assertEquals(
+                        tax.name, u'IPI Saída 2%',
+                        u"Error to mapping correct TAX ( IPI Saída 2% )."
+                    )
