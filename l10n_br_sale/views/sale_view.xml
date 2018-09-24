@@ -70,6 +70,8 @@
                 <field name="price_gross"/>
                 <field name="discount_value"
                        groups="l10n_br_sale.group_discount_per_value"/>
+                <field name="fiscal_category_id"/>
+                <field name="fiscal_position_id"/>
             </xpath>
             <field name="amount_untaxed" position="before">
                 <field name="amount_gross" widget='monetary'
