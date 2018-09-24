@@ -101,3 +101,47 @@ class TestL10nBRSale(common.TransactionCase):
                         tax.name, u'IPI Saída 2%',
                         u"Error to mapping correct TAX ( IPI Saída 2% )."
                     )
+
+    def test_l10n_br_sale_discount(self):
+        self.sale_discount = self.sale_object.create(dict(
+            name='TESTE DESCONTO',
+            partner_id=self.env.ref(
+                'l10n_br_base.res_partner_akretion').id,
+            partner_invoice_id=self.env.ref(
+                'l10n_br_base.res_partner_akretion').id,
+            partner_shipping_id=self.env.ref(
+                'l10n_br_base.res_partner_akretion').id,
+            user_id=self.env.ref('base.user_demo').id,
+            pricelist_id=self.env.ref('product.list0').id,
+            team_id=self.env.ref('sales_team.crm_team_1').id,
+            state='draft',
+            fiscal_category_id=self.env.ref(
+                'l10n_br_sale.fiscal_category_venda').id,
+            order_line=[(0, 0, dict(
+                name='TESTE DISCOUNT',
+                product_id=self.env.ref('product.product_product_27').id,
+                product_uom_qty=1,
+                product_uom=self.env.ref('product.product_uom_unit').id,
+                price_unit=100,
+                fiscal_category_id=self.env.ref(
+                    'l10n_br_sale.fiscal_category_venda').id
+            ))]
+        ))
+        self.sale_discount.onchange_partner_id()
+        self.sale_discount.onchange_partner_shipping_id()
+        self.sale_discount.discount_rate = 10.0
+        self.sale_discount.onchange_discount_rate()
+        # Test Discount
+        self.assertEquals(
+            self.sale_discount.amount_total, 90.0,
+            u"Error to apply discount on sale order."
+        )
+        self.sale_discount.action_confirm()
+        # Create and check invoice
+        self.sale_discount.action_invoice_create(final=True)
+        for invoice in self.sale_discount.invoice_ids:
+            self.assertEquals(
+                invoice.amount_untaxed, 90.0,
+                u"Error to apply discount on invoice"
+                u" created from sale order."
+            )
