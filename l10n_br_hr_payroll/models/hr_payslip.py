@@ -897,6 +897,17 @@ class HrPayslip(models.Model):
             )]
 
             #
+            # GET dias totais do Mês seguinte
+            #
+            dias_mes_seguinte = resource_calendar_obj.get_dias_base(
+                fields.Datetime.from_string(primeiro_dia_do_mes_seguinte),
+                fields.Datetime.from_string(ultimo_dia_do_mes_seguinte),
+            )
+            result += [self.get_attendances(
+                u'Dias no Mês seguinte', 22, u'DIAS_MES_COMPETENCIA_SEGUINTE',
+                dias_mes_seguinte, 0.0, contract_id)]
+
+            #
             # GET Dias Trabalhados
             #
             quantidade_dias_trabalhados = \
