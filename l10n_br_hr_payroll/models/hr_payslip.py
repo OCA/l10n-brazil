@@ -739,7 +739,8 @@ class HrPayslip(models.Model):
                 fields.Datetime.from_string(ultimo_dia_do_mes),
             )
             result += [self.get_attendances(
-                u'Dias no Mês', 29, u'DIAS_MES', dias_mes, 0.0, contract_id)]
+                u'Dias no Mês Atual', 20, u'DIAS_MES_COMPETENCIA_ATUAL',
+                dias_mes, 0.0, contract_id)]
 
             if self.tipo_de_folha == 'rescisao':
 
