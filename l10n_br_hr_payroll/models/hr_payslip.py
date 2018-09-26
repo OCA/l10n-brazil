@@ -2909,3 +2909,12 @@ class HrPayslip(models.Model):
                 parent.remove(sheet)
             res['arch'] = etree.tostring(doc)
         return res
+
+    def buscar_total_rubrica_payslip(self, codigo):
+        total_rubrica = 0.00
+
+        for line in self.line_ids:
+            if line.code == codigo:
+                return line.total
+
+        return total_rubrica
