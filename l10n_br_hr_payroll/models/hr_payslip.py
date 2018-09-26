@@ -2911,6 +2911,14 @@ class HrPayslip(models.Model):
         return res
 
     def buscar_total_rubrica_payslip(self, codigo):
+        """
+        Está função é responsável por iterar pelas linhas de rúbricas do
+        holerite e retornar o valor total da linha
+        buscando pelo código da rúbrica passada por parâmetro.
+
+        :param codigo: Código (code) da rúbrica a ser pesquisada
+        :return: Valor total da linha no holerite
+        """
         total_rubrica = 0.00
 
         for line in self.line_ids:
