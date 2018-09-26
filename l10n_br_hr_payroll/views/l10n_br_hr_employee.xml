@@ -20,6 +20,17 @@
                         <field name="ramais" placeholder="Ramal.." nolabel="1" widget="many2many_tags"/>
                     </group>
                 </field>
+
+                <field name="address_home_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                    <attribute name="options">{'no_create': True,'no_open': True,'no_quick_create': True}</attribute>
+                </field>
+
+                <field name="user_id" position="attributes">
+                    <attribute name="required">True</attribute>
+                    <attribute name="options">{'no_create': True,'no_open': True,'no_quick_create': True}</attribute>
+                </field>
+
                 <field name="parent_id" position="attributes">
                     <attribute name="readonly">True</attribute>
                 </field>
