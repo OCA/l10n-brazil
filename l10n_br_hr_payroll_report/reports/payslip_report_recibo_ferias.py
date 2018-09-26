@@ -68,6 +68,21 @@ def payslip_recibo_ferias(pool, cr, uid, local_context, context):
     data_retorno_dt += timedelta(days=1)
     local_context['data_retorno'] = formata_data(str(data_retorno_dt.date()))
 
+    # Média de substituição e Base de Cálculo
+    valor_salario = valor.formata_valor(payslip_id.contract_id.wage)
+    media_substituicao = payslip_id.buscar_total_rubrica_payslip(
+        'MEDIA_SALARIO_FERIAS')
+    base_calculo = payslip_id.contract_id.wage
+    if media_substituicao:
+        base_calculo += media_substituicao
+    msg_media_substituicao = 'MÉDIA SUBSTITUIÇÃO' if media_substituicao else ''
+    valor_media_substituicao = valor.formata_valor(
+        media_substituicao) if media_substituicao else ''
+    local_context['valor_salario'] = valor_salario
+    local_context['msg_media_substituicao'] = msg_media_substituicao
+    local_context['valor_media_substituicao'] = valor_media_substituicao
+    local_context['base_calculo'] = valor.formata_valor(base_calculo)
+
     # Mensagem de Recebimento do Adiantamento de Salário
     dias_gozo, abono_pecuniario = pool[
         'resource.calendar'].get_quantidade_dias_ferias(
