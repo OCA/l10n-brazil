@@ -1103,8 +1103,7 @@ class HrPayslip(models.Model):
             # Para ser usado no cálculo da média
             #
             meses = 12
-            if self.tipo_de_folha in \
-                    ['ferias', 'aviso_previo']:
+            if self.tipo_de_folha in ['ferias', 'aviso_previo']:
                 # if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
                 #     periodo_aquisitivo = \
                 #         self.contract_id.vacation_control_ids[0]
@@ -1139,9 +1138,8 @@ class HrPayslip(models.Model):
                 dates = [dt for dt in rrule(MONTHLY, dtstart=dtstart, until=dtend)]
                 meses = len(dates)
 
-            elif self.tipo_de_folha in [
-                'decimo_terceiro', 'provisao_decimo_terceiro'
-            ]:
+            elif self.tipo_de_folha in \
+                    ['decimo_terceiro', 'provisao_decimo_terceiro']:
                 if self.contract_id.date_start > str(self.ano - 1) + '-12-01':
                     data_de_inicio = self.contract_id.date_start
                 else:
