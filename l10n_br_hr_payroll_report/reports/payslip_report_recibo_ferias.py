@@ -4,7 +4,9 @@
 
 from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
 from openerp import api, fields
+from pybrasil import valor
 from pybrasil.data import formata_data
+from pybrasil.valor.extenso import numero_por_extenso_unidade
 from datetime import timedelta
 
 @api.model
@@ -65,3 +67,36 @@ def payslip_recibo_ferias(pool, cr, uid, local_context, context):
         fields.Datetime.from_string(payslip_id.holidays_ferias.data_fim)
     data_retorno_dt += timedelta(days=1)
     local_context['data_retorno'] = formata_data(str(data_retorno_dt.date()))
+
+    # Mensagem de Recebimento do Adiantamento de Salário
+    dias_gozo, abono_pecuniario = pool[
+        'resource.calendar'].get_quantidade_dias_ferias(
+        cr, uid, [],
+        payslip_id.contract_id, payslip_id.date_from, payslip_id.date_to,
+        context=context
+    )
+
+    if abono_pecuniario:
+        total_abono_pecuniario = 0
+        for line in payslip_id.line_ids:
+            if line.code in ['ABONO_PECUNIARIO', '1/3_ABONO_PECUNIARIO']:
+                total_abono_pecuniario += line.total
+
+    msg_recebido = 'Recebi da empresa descrita acima a importância de R$ {}' \
+                   ' ({}), correspondente a {} dias das minhas Férias ora' \
+                   ' concedidas e que vou gozar de acordo com o Aviso que ' \
+                   'recebi em tempo hábil. '.format(
+                       payslip_id.total_folha_fmt,
+                       numero_por_extenso_unidade(payslip_id.total_folha_fmt),
+                       dias_gozo)
+
+    if abono_pecuniario:
+        msg_recebido += 'Recebi a importância de R$ {} ({}) do total líquido,' \
+                        ' referente a {} dias de abono pecuniário. '.format(
+                         valor.formata_valor(total_abono_pecuniario),
+                         numero_por_extenso_unidade(total_abono_pecuniario),
+                         abono_pecuniario)
+
+    msg_recebido += 'Por ser verdade, firmo o presente recibo, ' \
+                    'dando plena e geral quitação.'
+    local_context['msg_recebido'] = msg_recebido
