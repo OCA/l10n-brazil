@@ -1231,9 +1231,8 @@ class HrPayslip(models.Model):
         ])
         if holerite_ferias:
             lines = []
-            for line in holerite_ferias.line_ids:
-                if line.category_id.code == 'PROVENTO':
-                    lines.append(line)
+            for line in holerite_ferias.line_resume_ids:
+                lines.append(line)
         else:
             return False, False
         return lines, holerite_ferias.holidays_ferias
@@ -2196,6 +2195,7 @@ class HrPayslip(models.Model):
                         'salary_rule_id': line.salary_rule_id.id,
                         'contract_id': payslip.contract_id.id,
                         'name': name,
+                        'reference': line.reference,
                         'code': line.code + '_FERIAS',
                         'category_id': category_id.id,
                         'sequence': line.sequence - 0.01,
