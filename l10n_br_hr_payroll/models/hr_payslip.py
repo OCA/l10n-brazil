@@ -1723,6 +1723,35 @@ class HrPayslip(models.Model):
                 return line.total
         return 0
 
+
+    def get_reference(self, competencia='atual'):
+        """
+        Definir referência da Rubrica
+        :return: str - referência ('AAAA-MM')
+        """
+        if competencia == 'atual':
+            referencia = self.date_from[:7]
+        else:
+            competencia_atual = fields.Datetime.from_string(self.date_from)
+            competencia_seguinte = competencia_atual + relativedelta(months=1)
+            referencia = str(competencia_seguinte.date())[:7]
+        return referencia
+
+    def get_hr_payslip_line_by_code(self, code, reference):
+        """
+        Buscar linha calculada do holerite
+        :param code: str - Código da rubrica
+        :param reference: str referencia da rubrica
+        :return: float - valor da rubrica processada
+        """
+        domain = [
+            ('contract_id', '=', self.contract_id.id),
+            ('code','ilike', '%{}%'.format(code)),
+            ('reference','=', reference),
+        ]
+        line_id = self.env['hr.payslip.line'].search(domain)
+        return line_id.total
+
     def busca_adiantamento_13(self):
         '''Metodo para recuperar valor pago de adiantamento de 13º no ano
         :return:     float - Valor pago neste ano
