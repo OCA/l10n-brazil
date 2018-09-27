@@ -888,13 +888,15 @@ class HrPayslip(models.Model):
                     self.mes_do_ano + 1) + '-' + str(self.ano), '%m-%Y').date())
             ultimo_dia_do_mes_seguinte = \
                 str(ultimo_dia_mes(primeiro_dia_do_mes_seguinte))
-            quantidade_dias_ferias, quantidade_dias_abono = \
+            quantidade_dias_ferias_competencia_seguinte, \
+            quantidade_dias_abono_competencia_seguinte = \
                 self.env['resource.calendar'].get_quantidade_dias_ferias(
                     hr_contract, primeiro_dia_do_mes_seguinte,
                     ultimo_dia_do_mes_seguinte)
             result += [self.get_attendances(
                 u'Quantidade dias em Férias na Competência Seguinte', 39,
-                u'FERIAS_COMPETENCIA_SEGUINTE', quantidade_dias_ferias, 0.0, contract_id
+                u'FERIAS_COMPETENCIA_SEGUINTE',
+                quantidade_dias_ferias_competencia_seguinte, 0.0, contract_id
             )]
 
             #
