@@ -1,0 +1,37 @@
+language: python
+
+python:
+  - "3.5"
+
+cache: pip
+
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml  # because pip installation is slow
+      - libxml2-dev
+      - libxmlsec1-dev
+      - libxslt-dev
+
+env:
+  - VERSION="12.0" LINT_CHECK="1"
+  - VERSION="12.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  - VERSION="12.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
+
+
+install:
+  - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - travis_install_nightly
+  - pip install -r requirements.txt
+
+before_script:
+  - chmod +x configure_locale.sh
+
+script:
+  - sudo ./configure_locale.sh
+  - travis_run_tests
+
+after_success:
+  coveralls
