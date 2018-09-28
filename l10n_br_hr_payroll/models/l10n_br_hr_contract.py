@@ -329,7 +329,8 @@ class HrContractChange(models.Model):
     @api.multi
     def unlink(self):
         for alteracao in self:
-            if alteracao.state in ['applied']:
+            if alteracao.state in ['applied'] and \
+                    not self.env.user.has_group('base.group_no_one'):
                 raise ValidationError(_('You can\'t delete applied changes!'))
         return super(HrContractChange, self).unlink()
 
