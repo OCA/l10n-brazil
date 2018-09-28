@@ -732,7 +732,7 @@ class HrPayslip(models.Model):
             # DIAS no mês
             primeiro_dia_do_mes = \
                 str(datetime.strptime(
-                    str(self.mes_do_ano) + '-' + str(self.ano), '%m-%Y'))
+                    str(self.mes_do_ano) + '-' + str(self.ano), '%m-%Y'))[:10]
             ultimo_dia_do_mes = str(ultimo_dia_mes(primeiro_dia_do_mes))
             dias_mes = resource_calendar_obj.get_dias_base(
                 fields.Datetime.from_string(primeiro_dia_do_mes),
