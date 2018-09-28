@@ -281,7 +281,8 @@
                                    }"/>
 
                             <field name="periodo_aquisitivo"
-                                   domain="[('contract_id', '=', contract_id), ('hr_holiday_remove_id','=', False)]"/>
+                                   domain="[('contract_id', '=', contract_id), ('hr_holiday_remove_id','=', False)]"
+                                   attrs="{'required': [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)]}" />
 
                             <field name="periodo_aquisitivo_provisao"
                                    attrs="{'invisible' : ['|', ('periodo_aquisitivo', '!=', False), ('tipo_de_folha', 'not in', ['provisao_ferias'])]}" />
