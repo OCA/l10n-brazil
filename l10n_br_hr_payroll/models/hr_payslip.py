@@ -742,8 +742,15 @@ class HrPayslip(models.Model):
                 u'Dias no Mês Atual', 20, u'DIAS_MES_COMPETENCIA_ATUAL',
                 dias_mes, 0.0, contract_id)]
 
-            if self.tipo_de_folha == 'rescisao':
 
+            # Utilizar mes civil
+            dias_mes = resource_calendar_obj.get_dias_base(
+                fields.Datetime.from_string(date_from),
+                fields.Datetime.from_string(date_to),
+                mes_comercial=False
+            )
+
+            if self.tipo_de_folha == 'rescisao':
                 # Quando o afastamento for no primeiro dia do mes,
                 # significa que nao trabalhou nenhum dia
                 if self.data_afastamento == primeiro_dia_do_mes[:10]:
@@ -759,14 +766,6 @@ class HrPayslip(models.Model):
                 if self.data_afastamento == self.date_to and \
                         self.data_afastamento == self.date_to:
                     dias_mes = 0
-
-            # Utilizar mes civil para todos outros casos
-            else:
-                dias_mes = resource_calendar_obj.get_dias_base(
-                    fields.Datetime.from_string(date_from),
-                    fields.Datetime.from_string(date_to),
-                    mes_comercial=False
-                )
 
             result += [self.get_attendances(
                 u'Dias Base', 30, u'DIAS_BASE', dias_mes, 0.0, contract_id)]
