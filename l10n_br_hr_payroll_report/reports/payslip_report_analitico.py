@@ -4,9 +4,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 from datetime import datetime
 
-from openerp import api
+from openerp import api, _
 from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA
 from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
+from openerp.exceptions import Warning
 
 
 class inss_empresa_obj(object):
@@ -471,6 +472,11 @@ def analytic_report(pool, cr, uid, local_context, context):
     #
     # Informações Adicionais no Ánalitico - Dados da Empresa
     #
+    if not payslips:
+        raise Warning(
+            _('Warning!'),
+            _('Nenhum Holerite confirmado encontrado no período indicado!')
+        )
     informacoes_adicionais(data, payslips)
 
     # Aproveitar o selection construido no wizard do relatorio analitico
