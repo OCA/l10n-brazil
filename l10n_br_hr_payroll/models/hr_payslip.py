@@ -1519,7 +1519,8 @@ class HrPayslip(models.Model):
     def BUSCAR_VALOR_PROPORCIONAL(
             self, tipo_simulacao, um_terco_ferias=None, ferias_vencida=None):
 
-        # Se simulação férias, faça e saia (ignorando o resto do método, precisa refatorar) (TODO)
+        # Se simulação férias, faça e saia
+        # (ignorando o resto do método, precisa refatorar) (TODO)
         if tipo_simulacao=='ferias':
             return self._simulacao_ferias(ferias_vencida, um_terco_ferias)
 
