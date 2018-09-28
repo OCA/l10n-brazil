@@ -23,12 +23,13 @@
 
                 <field name="address_home_id" position="attributes">
                     <attribute name="required">1</attribute>
-                    <attribute name="options">{'no_create': True,'no_open': True,'no_quick_create': True}</attribute>
+                    <attribute name="options">{'no_create': True,'no_quick_create': True}</attribute>
                 </field>
 
                 <field name="user_id" position="attributes">
                     <attribute name="required">True</attribute>
-                    <attribute name="options">{'no_create': True,'no_open': True,'no_quick_create': True}</attribute>
+                    <attribute name="context">{'default_groups_ref': ['base.group_user'], 'default_name': name, 'default_login': work_email}</attribute>
+                    <attribute name="options">{'no_quick_create': True}</attribute>
                 </field>
 
                 <field name="parent_id" position="attributes">
