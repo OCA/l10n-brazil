@@ -1018,6 +1018,11 @@ class HrPayslip(models.Model):
         """
         ano = fields.Datetime.from_string(self.date_from).year
 
+        dependent_values = self.get_dependent_values_irrf(ano)
+
+        return TOTAL_IRRF - INSS - dependent_values
+
+    def get_dependent_values_irrf(self, ano):
         deducao_dependente_obj = self.env[
             'l10n_br.hr.income.tax.deductable.amount.family'
         ]
@@ -1029,8 +1034,7 @@ class HrPayslip(models.Model):
             if dependente.dependent_verification and \
                     dependente.dependent_dob < self.date_from:
                 dependent_values += deducao_dependente_value.amount
-
-        return TOTAL_IRRF - INSS - dependent_values
+        return dependent_values
 
     def IRRF(self, BASE_IRRF, INSS):
         tabela_irrf_obj = self.env['l10n_br.hr.income.tax']
