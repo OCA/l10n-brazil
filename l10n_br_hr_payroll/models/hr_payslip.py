@@ -874,6 +874,11 @@ class HrPayslip(models.Model):
                 self.env['resource.calendar'].get_quantidade_dias_ferias(
                     hr_contract, primeiro_dia_do_mes, ultimo_dia_do_mes)
 
+            # PAra Simulações da rescisao e provisão da folha
+            if self.tipo_de_folha == 'provisao_ferias' or self.is_simulacao:
+                quantidade_dias_abono = 0
+                quantidade_dias_ferias = self.periodo_aquisitivo.saldo
+
             result += [self.get_attendances(
                 u'Quantidade dias em Férias na Competência Atual', 38,
                 u'FERIAS_COMPETENCIA_ATUAL', quantidade_dias_ferias, 0.0, contract_id
@@ -892,6 +897,7 @@ class HrPayslip(models.Model):
                 self.env['resource.calendar'].get_quantidade_dias_ferias(
                     hr_contract, primeiro_dia_do_mes_seguinte,
                     ultimo_dia_do_mes_seguinte)
+
             result += [self.get_attendances(
                 u'Quantidade dias em Férias na Competência Seguinte', 39,
                 u'FERIAS_COMPETENCIA_SEGUINTE',
