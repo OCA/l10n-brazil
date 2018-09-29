@@ -1200,6 +1200,11 @@ class L10nBrSefip(models.Model):
         if folha.tipo_de_folha == 'decimo_terceiro':
             return result
 
+        # Em rescisoes A rubrica de base de FGTS totaliza o salario + 13_salario
+        # Para a SEFIP deverá ser enviado apenas o SALARIO
+        if folha.tipo_de_folha == 'rescisao':
+            return self._valor_rubrica(folha.line_ids, 'SALARIO')
+
         #
         # Para diretores buscar a base do INSS, pois a
         # estrutura de salario deles nao tem BASE_FGTS
@@ -1236,6 +1241,7 @@ class L10nBrSefip(models.Model):
         Rúbrica 13 Base do INSS (Somente na rescisão temos o 16 e o 17!)
 
         """
+
         result = 0.00
 
         # Na competencia 13 nao deve ser informado esses campos
