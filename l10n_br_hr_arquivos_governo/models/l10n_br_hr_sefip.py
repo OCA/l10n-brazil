@@ -1049,9 +1049,9 @@ class L10nBrSefip(models.Model):
                     record.sefip += self._valida_tamanho_linha(
                         record._preencher_registro_30(sefip, holerites[key]))
 
-                    if folha.tipo_de_folha == 'rescisao':
+                    if holerites[key].tipo_de_folha == 'rescisao':
                         record.sefip += self._valida_tamanho_linha(
-                           record._preencher_registro_32(sefip, folha))
+                           record._preencher_registro_32(sefip, holerites[key]))
 
             record.sefip += sefip._registro_90_totalizador_do_arquivo()
 
