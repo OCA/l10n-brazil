@@ -1654,7 +1654,7 @@ class L10nBrSefip(models.Model):
         sefip.trabalhador_data_movimentacao = \
             formata_data(folha.data_afastamento) or ''
         # Gerado GRRF
-        sefip.trabalhador_indic_recolhimento_fgts = 'S'
+        sefip.trabalhador_indic_recolhimento_fgts = 'N'
 
         return sefip._registro_32_movimentacao_do_trabalhador()
 
