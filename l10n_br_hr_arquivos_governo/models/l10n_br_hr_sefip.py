@@ -1250,7 +1250,8 @@ class L10nBrSefip(models.Model):
 
         # Em rescisoes a Rubrica que paga o 13 Salario
         if folha.tipo_de_folha == 'rescisao':
-            result += self._valor_rubrica(folha.line_ids, 'PROP13')
+            result += self._valor_rubrica(folha.line_ids, 'PROP13') - \
+                      self._valor_rubrica(folha.line_ids, "DESCONTO_ADIANTAMENTO_13")
 
         # Se o funcionario adiantou ferias no holerite do mes
         result += self._valor_rubrica(folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
