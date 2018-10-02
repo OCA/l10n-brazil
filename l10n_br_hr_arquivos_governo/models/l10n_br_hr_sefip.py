@@ -1400,15 +1400,6 @@ class L10nBrSefip(models.Model):
         if folha._name == 'hr.payslip.autonomo':
             return '05'
 
-        folha_ids = self._get_folha_ids()
-        count = 0
-        for folha_id in folha_ids:
-            if folha.employee_id.id == folha_id.employee_id.id:
-                count += 1
-        if count == 2:
-            return '05'
-        ocorrencia = ' '
-
         # TODO:
         if folha.tipo_de_folha == 'rescisao':
             # FIXME:
@@ -1416,10 +1407,10 @@ class L10nBrSefip(models.Model):
             #print ("tipo_afastamento_sefip - Registro 30. Item 19")
             pass
 
-        ocorrencias_no_periodo_ids = self._buscar_ocorrencias(folha)
-
-        if not ocorrencias_no_periodo_ids:
-            return ocorrencia
+        # ocorrencias_no_periodo_ids = self._buscar_ocorrencias(folha)
+        #
+        # if not ocorrencias_no_periodo_ids:
+        #     return ocorrencia
 
         # Vai o código do afastamento mais longo e é sempre informado
         # A lógica abaixo pode ser removida
