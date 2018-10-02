@@ -22,6 +22,11 @@ class HrContract(models.Model):
         store=True,
     )
 
+    gerar_sefip = fields.Boolean(
+        string=u"Gerar Sefip?",
+        default=True,
+    )
+
     categoria = fields.Selection(
         selection=CATEGORIA_TRABALHADOR,
         string="Categoria do Contrato",

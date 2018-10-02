@@ -33,7 +33,8 @@
             </field>
             <field name="admission_type_id" position="before">
                 <field name="categoria" />
-                <field name="categoria_sefip" />
+                <field name="categoria_sefip" attrs="{'invisible': [('gerar_sefip','!=', True)]}"/>/>
+                <field name="gerar_sefip" />
             </field>
             <field name="job_id" position="after">
                 <field name="matricula" required="1" />
