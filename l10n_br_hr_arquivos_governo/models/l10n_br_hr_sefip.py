@@ -604,6 +604,7 @@ class L10nBrSefip(models.Model):
             ('tipo_de_folha', 'in', tipo_de_folha),
             ('state', 'in', ['done','verify']),
             ('company_id.partner_id.cnpj_cpf', 'like', raiz),
+            ('contract_id.gerar_sefip', '=', True),
         ]).filtered('total_folha')
         # Filtered eh para pegar apenas os holerites que nao estao zerados
 
@@ -1383,6 +1384,10 @@ class L10nBrSefip(models.Model):
         # Se contribuir INSS em outra entidade o código eh 05
         #
         if folha.contract_id.cnpj_empregador_cedente:
+            return '05'
+
+        # Aba Outros vinculos preenchida
+        if folha.contract_id.contribuicao_inss_ids:
             return '05'
 
         #
