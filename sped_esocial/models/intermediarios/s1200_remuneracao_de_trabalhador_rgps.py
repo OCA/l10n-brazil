@@ -120,6 +120,20 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             sped_registro = self.env['sped.registro'].create(values)
             self.sped_registro = sped_registro
 
+    def verificar_rubricas_ferias_holerite(self, rubrica):
+        rubricas_ferias = [
+            self.env.ref('sped_tabelas.tab03_1020').id,
+            self.env.ref('sped_tabelas.tab03_1021').id,
+            self.env.ref('sped_tabelas.tab03_1022').id,
+            self.env.ref('sped_tabelas.tab03_1023').id,
+            self.env.ref('sped_tabelas.tab03_1024').id,
+        ]
+
+        if rubrica.nat_rubr.id in rubricas_ferias:
+            return True
+
+        return False
+
     @api.multi
     def popula_xml(self, ambiente='2', operacao='na'):
         self.ensure_one()
@@ -251,6 +265,10 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                 # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
                 # ser transmitida para o e-Social.
                 if line.salary_rule_id.nat_rubr:
+
+                    if self.verificar_rubricas_ferias_holerite(
+                            line.salary_rule_id):
+                        continue
 
                     if line.salary_rule_id.cod_inc_irrf_calculado not in \
                             ['13', '31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
