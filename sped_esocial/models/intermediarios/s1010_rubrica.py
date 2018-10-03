@@ -229,7 +229,7 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
                     values['operacao'] = 'A'
                     sped_alteracao = self.env['sped.registro'].create(values)
                     self.sped_inclusao = sped_alteracao
-            elif self.precisa_excluir and not sped_exclusao:
+            elif self.precisa_excluir and not self.sped_exclusao:
                 values['operacao'] = 'E'
                 sped_exclusao = self.env['sped.registro'].create(values)
                 self.sped_exclusao = sped_exclusao
