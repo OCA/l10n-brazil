@@ -322,7 +322,14 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
 
         outros_vinculos = self.sped_hr_rescisao_id.contract_id.contribuicao_inss_ids
 
+        periodo_rescisao = '{:02}/{}'.format(
+            self.sped_hr_rescisao_id.mes_do_ano,
+            self.sped_hr_rescisao_id.ano
+        )
+
         for vinculo in outros_vinculos:
+            if not periodo_rescisao == vinculo.period_id.code:
+                continue
             info_mv = pysped.esocial.leiaute.S2299_InfoMV_2()
 
             remun_outr_empr = \
