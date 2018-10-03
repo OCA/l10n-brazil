@@ -303,7 +303,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                             rubrica_line.salary_rule_id.identificador
                         if rubrica_line.quantity and float(rubrica_line.quantity) != 1:
                             det_verbas.qtdRubr.valor = float(rubrica_line.quantity)
-                            det_verbas.vrunit.valor = formata_valor(rubrica_line.amount)
+                            det_verbas.vrUnit.valor = float(rubrica_line.amount)
                         if rubrica_line.rate and rubrica_line.rate != 100:
                             det_verbas.fatorRubr.valor = rubrica_line.rate
                         det_verbas.vrRubr.valor = str(rubrica_line.total)
@@ -320,7 +320,33 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
 
         verba_rescisoria.dmDev.append(ide_dm_dev)
 
+        outros_vinculos = self.sped_hr_rescisao_id.contract_id.contribuicao_inss_ids
+
+        for vinculo in outros_vinculos:
+            info_mv = pysped.esocial.leiaute.S2299_InfoMV_2()
+
+            remun_outr_empr = \
+                pysped.esocial.leiaute.S1200_RemunOutrEmpr_2()
+            remun_outr_empr.tpInsc.valor = \
+                vinculo.tipo_inscricao_vinculo
+            remun_outr_empr.nrInsc.valor = limpa_formatacao(
+                vinculo.cnpj_cpf_vinculo)
+            remun_outr_empr.codCateg.valor = \
+                vinculo.cod_categ_vinculo
+            remun_outr_empr.vlrRemunOE.valor = \
+                vinculo.valor_remuneracao_vinculo
+
+            info_mv.remunOutrEmpr.append(remun_outr_empr)
+
+            if vinculo.valor_alicota_vinculo >= 621.03:
+                info_mv.indMV.valor = '3'
+            else:
+                info_mv.indMV.valor = '2'
+
+                verba_rescisoria.infoMV.append(info_mv)
+
         infoDeslig.verbaResc.append(verba_rescisoria)
+
         return S2299, validacao
 
     @api.multi
