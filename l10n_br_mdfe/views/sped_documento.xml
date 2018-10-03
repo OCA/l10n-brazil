@@ -86,6 +86,7 @@
                             <field name="data_entrada_saida" invisible="1" />
                             <newline />
                             <field name="chave" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}"/>
+                            <field name="protocolo_autorizacao" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}"/>
                             <newline />
                             <field name="documento_impresso" colspan="2" />
 

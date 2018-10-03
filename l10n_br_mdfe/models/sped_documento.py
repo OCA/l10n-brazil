@@ -421,7 +421,7 @@ class SpedDocumento(models.Model):
 
         if consulta.resposta.cStat in ('100', '101', '132'):
            self.situacao_mdfe = STATUS_MDFE[consulta.resposta.cStat]
-
+           self.protocolo_autorizacao = consulta.resposta.protMDFe.anytypeobjs_.nProt
         mensagem = 'Código de retorno: ' + \
                    consulta.resposta.cStat
         mensagem += '\nMensagem: ' + \
