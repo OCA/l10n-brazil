@@ -247,7 +247,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                     # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
                     if line.total and line.salary_rule_id.cod_inc_irrf_calculado in \
-                            ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
+                            ['31', '32', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
 
                         ret_pgto_tot = pysped.esocial.leiaute.S1210_RetPgtoTot_2()
                         ret_pgto_tot.codRubr.valor = line.salary_rule_id.codigo
@@ -256,7 +256,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                             ret_pgto_tot.qtdRubr.valor = float(line.quantity)
                             ret_pgto_tot.vrUnit.valor = formata_valor(line.amount)
                         if line.rate and line.rate != 100:
-                            ret_pgto_tot.fatorRubr.valor = line.rate
+                            ret_pgto_tot.fatorRubr.valor = formata_valor(line.rate)
                         ret_pgto_tot.vrRubr.valor = formata_valor(line.total)
 
                         if line.salary_rule_id.cod_inc_irrf_calculado in ['51', '52', '53', '54', '55']:
