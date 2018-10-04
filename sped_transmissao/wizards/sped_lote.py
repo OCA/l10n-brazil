@@ -138,6 +138,14 @@ class SpedCriacaoWizard(models.TransientModel):
                 ]
                 lote = self.env['sped.lote.wizard'].search(domain)
 
+                for lote_registros in lote:
+                    if lote_registros and \
+                            lote_registros.registro_ids[0].registro == registro.registro:
+                        lote = lote_registros
+                        break
+                    else:
+                        lote = False
+
                 # Cria o lote caso não exista
                 if not lote:
                     vals = {
