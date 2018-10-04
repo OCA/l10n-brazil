@@ -12,6 +12,7 @@
     'version': '8.0.3.0.0',
     'depends': [
         'account_product_fiscal_classification',
+        'l10n_br_account',
     ],
     'data': [
         'l10n_br_account_product_sequence.xml',
