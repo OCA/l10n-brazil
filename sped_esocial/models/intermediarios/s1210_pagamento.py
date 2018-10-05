@@ -235,12 +235,18 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                 # Pega o número do recibo do S-2299 (se for o caso)
                 if tipo == '2':
-                    recibo = payslip.sped_s2299.sped_s2299_registro_inclusao.recibo
-                    if payslip.sped_s2299.sped_s2299_registro_retificacao:
-                        ultima_alteracao = payslip.sped_s2299.sped_s2299_registro_inclusao.sorted(
-                            key=lambda r: r.data_hora_transmissao, reverse=True)
-                        recibo = ultima_alteracao[0].recibo
-                    det_pgto_fl.nrRecArq.valor = recibo
+                    registro_para_retificar = payslip.sped_s2299.sped_s2299_registro_inclusao
+                    tem_retificacao = True
+                    while tem_retificacao:
+                        if registro_para_retificar.retificacao_ids and \
+                                registro_para_retificar.retificacao_ids[
+                                    0].situacao not in ['1', '3']:
+                            registro_para_retificar = \
+                            registro_para_retificar.retificacao_ids[0]
+                        else:
+                            tem_retificacao = False
+
+                    det_pgto_fl.nrRecArq.valor = registro_para_retificar.recibo
 
                 # Popula infoPgto.detPgtoFl.retPgtoTot
                 for line in payslip.line_ids:
