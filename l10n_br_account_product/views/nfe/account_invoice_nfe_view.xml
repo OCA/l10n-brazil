@@ -213,7 +213,7 @@
                                     <div groups="base.group_multi_currency">
                                         <field name="currency_id" class="oe_inline"/>
                                     </div>
-                                    <field domain="[('company_id', '=', company_id), ('type','in',{'out_invoice': ['receivable'], 'out_refund': ['receivable'], 'in_refund': ['payable'], 'in_invoice': ['payable']}.get(type, []))]"
+                                    <field domain="[('company_id', '=', company_id), ('user_type_id.type','in',{'out_invoice': ['receivable'], 'out_refund': ['receivable'], 'in_refund': ['payable'], 'in_invoice': ['payable']}.get(type, []))]"
                                         name="account_id" groups="account.group_account_user"/>
                                     <field name="move_id" groups="account.group_account_user"/>
                                 </group>
