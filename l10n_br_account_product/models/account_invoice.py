@@ -558,28 +558,6 @@ class AccountInvoice(models.Model):
                 raise UserError(u'Não é possível registrar documentos\
                               fiscais com números repetidos.')
 
-    def _fiscal_position_map(self, result, **kwargs):
-        ctx = dict(self._context)
-        ctx.update({'use_domain': ('use_invoice', '=', True)})
-        if ctx.get('fiscal_category_id'):
-            kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
-
-        if not kwargs.get('fiscal_category_id'):
-            return result
-
-        company = self.env['res.company'].browse(kwargs.get('company_id'))
-
-        fcategory = self.env['l10n_br_account.fiscal.category'].browse(
-            kwargs.get('fiscal_category_id'))
-        result['value']['journal_id'] = fcategory.property_journal.id
-        if not result['value'].get('journal_id', False):
-            raise UserError(
-                _('Nenhum Diário !'),
-                _("Categoria fiscal: '%s', não tem um diário contábil para a \
-                empresa %s") % (fcategory.name, company.name))
-        return self.env['account.fiscal.position.rule'].with_context(
-            ctx).apply_fiscal_mapping(result, **kwargs)
-
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
                         toolbar=False, submenu=False):
@@ -686,16 +664,22 @@ class AccountInvoice(models.Model):
     @api.onchange('fiscal_category_id', 'fiscal_position_id')
     def onchange_fiscal(self):
         if self.company_id and self.partner_id and self.fiscal_category_id:
-            result = {'value': {}}
+            if self.fiscal_category_id.property_journal:
+                self.journal_id = self.fiscal_category_id.property_journal
+            else:
+                raise UserError(
+                    _("Nenhum Diário !\n"
+                      "Categoria fiscal: '%s', não tem um diário contábil "
+                      "para a empresa %s") % (self.fiscal_category_id.name,
+                                              self.company_id.name))
             kwargs = {
-                'company_id': self.company_id.id,
-                'partner_id': self.partner_id.id,
-                'partner_invoice_id': self.partner_id.id,
-                'fiscal_category_id': self.fiscal_category_id.id,
-                'context': self.env.context
+                'company_id': self.company_id,
+                'partner_id': self.partner_id,
+                'partner_invoice_id': self.partner_id,
+                'partner_shipping_id': self.partner_id,
             }
-            result = self._fiscal_position_map(result, **kwargs)
-            self.update(result['value'])
+            self.fiscal_position_id = \
+                self._fiscal_position_map(**kwargs) or self.fiscal_position_id
 
     @api.multi
     def action_date_assign(self):
