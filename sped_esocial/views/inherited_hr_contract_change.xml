@@ -39,6 +39,18 @@
                 <field name="contract_id" position="attributes">
                     <attribute name="domain">[('situacao_esocial', 'in', ['1', '2'])]</attribute>
                 </field>
+
+                <notebook position="inside">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user">
+                        <separator string="SPED Alteração Contratual"/>
+                        <group colspan="4" col="4">
+                            <label for="sped_s2206_id" colspan="2" />
+                            <field name="sped_s2206_id" colspan="2" nolabel="1" readonly="1" />
+                            <field name="precisa_atualizar" invisible="1" />
+                        </group>
+                    </page>
+                </notebook>
+
             </field>
         </record>
 

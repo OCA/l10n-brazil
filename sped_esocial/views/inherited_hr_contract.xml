@@ -49,6 +49,7 @@
                 </field>
                 <field name="job_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                    <attribute name="attrs">{'readonly':[('situacao_esocial','!=','0')]}</attribute>
                 </field>
                 <field name="type_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
@@ -61,6 +62,7 @@
                 </field>
                 <field name="working_hours" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                    <attribute name="attrs">{'readonly':[('situacao_esocial','!=','0')]}</attribute>
                 </field>
                 <field name="partner_union" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
@@ -106,14 +108,6 @@
                             />
                             <field name="evento_esocial" invisible="1" />
                             <field name="precisa_atualizar" invisible="1" />
-                        </group>
-                        <group colspan="4" col="4">
-                            <separator string="SPED Alterações Contratuais S-2206" colspan="4"
-                                       attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
-                            />
-                            <field name="sped_s2206_ids" colspan="4" nolabel="1" readonly="1"
-                                       attrs="{'invisible': [('evento_esocial', '!=', 's2200')]}"
-                            />
                         </group>
                         <group colspan="4" col="4">
                             <separator string="SPED Desligamentos (S-2299)" colspan="4"
