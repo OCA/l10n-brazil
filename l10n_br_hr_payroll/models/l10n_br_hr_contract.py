@@ -231,6 +231,8 @@ class HrContractChange(models.Model):
                 contract.weekly_hours = alteracao.weekly_hours
             elif alteracao.change_type == 'cargo-atividade':
                 contract.job_id = alteracao.job_id
+                contract.with_context(alteracaocontratual=True).employee_id.job_id = \
+                    alteracao.job_id
                 contract.type_id = alteracao.type_id
             elif self.change_type == 'filiacao-sindical':
                 contract.union = alteracao.union
