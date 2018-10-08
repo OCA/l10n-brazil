@@ -1442,6 +1442,7 @@ class SpedEsocial(models.Model):
                 ('data_inicio', '>=', data_inicio),
                 ('data_inicio', '<=', data_fim),
                 ('esocial_evento_afastamento_id', '!=', False),
+                ('contrato_id.situacao_esocial', '!=', '0'),
             ])
             afastamentos = []
             for holiday in holiday_ids:
