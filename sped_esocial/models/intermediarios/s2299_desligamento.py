@@ -423,6 +423,9 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                         'id_evento': tot.eSocial.evento.Id.valor,
                         'situacao': '4',
                         'recibo': tot.eSocial.evento.ideEvento.nrRecArqBase.valor,
+                        'trabalhador_id':
+                            sped_registro.origem_intermediario.trabalhador_id.id,
+                        'periodo_id': periodo_id,
                     }
 
                     # Cria/Altera o sped.registro do totalizador
