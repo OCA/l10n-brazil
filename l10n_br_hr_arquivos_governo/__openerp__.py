@@ -29,6 +29,7 @@
         'views/l10n_br_hr_employee.xml',
         'views/l10n_br_hr_sefip.xml',
         'views/res_company.xml',
-        'views/inherited_hr_salary_rule_view.xml'
+        'views/inherited_hr_salary_rule_view.xml',
+        'reports/darf_analitico.xml',
     ],
 }
