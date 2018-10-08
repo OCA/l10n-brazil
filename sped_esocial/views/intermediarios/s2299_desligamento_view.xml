@@ -47,6 +47,7 @@
             <field name="model">sped.hr.rescisao</field>
             <field name="arch" type="xml">
                 <tree string="S-2299 (Desligamento)" duplicate="false" edit="false" delete="false" create="false">
+                    <field name="sped_hr_rescisao_id"/>
                     <field name="company_id"/>
                     <field name="situacao_s2299"/>
                 </tree>
@@ -59,6 +60,7 @@
             <field name="arch" type="xml">
                 <search string="S-2299 (Desligamento)">
                     <field name="company_id" />
+                    <field name="sped_hr_rescisao_id"/>
 		        </search>
             </field>
         </record>
