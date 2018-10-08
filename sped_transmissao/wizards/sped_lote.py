@@ -4,6 +4,7 @@
 
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
+from openerp.addons.sped_transmissao.models.sped_lote import TIPO_REGISTRO
 
 # GRUPO_0 = [  # Eventos de Ativação
 #     'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social),
@@ -153,6 +154,7 @@ class SpedCriacaoWizard(models.TransientModel):
                         'ambiente': registro.ambiente,
                         'grupo': grupo,
                         'company_id': registro.company_id.id,
+                        'ordem_registro': TIPO_REGISTRO[registro.registro],
                     }
                     lote = self.env['sped.lote.wizard'].create(vals)
                     lotes.append(lote.id)
@@ -190,6 +192,7 @@ class SpedCriacaoWizard(models.TransientModel):
                 'company_id': lote.company_id.id,
                 'grupo': lote.grupo,
                 'situacao': '1',
+                'ordem_registro': lote.ordem_registro,
                 # 'lote_ids': [(6, 0, lote.registro_ids.ids)]
             }
             novo_lote = self.env['sped.lote'].create(vals)
@@ -238,6 +241,9 @@ class SpedLoteWizard(models.TransientModel):
         string='Registros',
         comodel_name='sped.registro',
         relation='criacao_registro_rel',
+    )
+    ordem_registro = fields.Integer(
+        string='Ordem de envio do registro',
     )
     quantidade = fields.Integer(
         string='Quantidade',
