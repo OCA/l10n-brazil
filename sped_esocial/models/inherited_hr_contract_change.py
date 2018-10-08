@@ -39,12 +39,13 @@ class HrContractChange(models.Model):
     )
 
     # Método que calcula a situação do contrato no e-Social
-    @api.depends('sped_s2206_id')
+    @api.depends('sped_s2206_id.situacao_esocial')
     def compute_situacao_esocial(self):
         for change in self:
+
             situacao_esocial = '0'  # Inativo
 
-            # Se tiver um registro S-2206
+            # Se tiver um registro intermediário S-2206
             # transmitido com sucesso então é Ativo
             if change.sped_s2206_id:
                 if change.sped_s2206_id.situacao_esocial == '4':
@@ -102,6 +103,10 @@ class HrContractChange(models.Model):
 
     @api.multi
     def atualizar_contrato_s2206(self):
+        """
+
+        :return:
+        """
         self.ensure_one()
 
         # Se o registro intermediário do S-2206 não existe, criá-lo
