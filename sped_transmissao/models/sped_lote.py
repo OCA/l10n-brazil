@@ -16,13 +16,57 @@ from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
 _logger = logging.getLogger(__name__)
 
+TIPO_REGISTRO = {
+    'S-1000': 1,
+    'S-1005': 2,
+    'S-1010': 3,
+    'S-1020': 4,
+    'S-1030': 5,
+    'S-1035': 6,
+    'S-1040': 7,
+    'S-1050': 8,
+    'S-1060': 9,
+    'S-1070': 10,
+    'S-1080': 11,
+    'S-2190': 12,
+    'S-2200': 13,
+    'S-2205': 14,
+    'S-2206': 15,
+    'S-2210': 16,
+    'S-2220': 17,
+    'S-2230': 18,
+    'S-2240': 19,
+    'S-2241': 20,
+    'S-2250': 21,
+    'S-2260': 22,
+    'S-2298': 23,
+    'S-2299': 24,
+    'S-2300': 25,
+    'S-2306': 26,
+    'S-2399': 27,
+    'S-2400': 28,
+    'S-3000': 29,
+    'S-1200': 30,
+    'S-1202': 31,
+    'S-1207': 32,
+    'S-1210': 33,
+    'S-1250': 34,
+    'S-1260': 35,
+    'S-1270': 36,
+    'S-1280': 37,
+    'S-1295': 38,
+    'S-1300': 39,
+    'S-1298': 40,
+    'S-1299': 41,
+}
+
 
 class SpedLote(models.Model, ):
     _name = 'sped.lote'
     _inherit = []
     _description = 'Lotes de transmissões de registros SPED'
     _rec_name = 'codigo'
-    _order = "data_hora_transmissao DESC, tipo, grupo, situacao"
+    _order = "ordem_registro ASC, data_hora_transmissao DESC, tipo, grupo, situacao"
 
     codigo = fields.Char(
         string='Código',
@@ -50,6 +94,9 @@ class SpedLote(models.Model, ):
             ('4', 'Fechamento'),
         ],
         default='na',
+    )
+    ordem_registro = fields.Integer(
+        string='Ordem de envio do registro',
     )
     ambiente = fields.Selection(
         string='Ambiente',
