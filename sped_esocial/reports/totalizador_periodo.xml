@@ -1,0 +1,28 @@
+<openerp>
+    <data>
+        
+        <report
+                id="report_py3o_totalizador_periodo"
+                string="Totalizador do Período"
+                model="sped.esocial"
+                report_type="py3o"
+                name="sped_esocial.report_darf_analitico"
+        />
+
+        <record id="py3o_template_totalizador_periodo" model="py3o.template">
+            <field name="name">Totalizador Período report</field>
+            <field name="filetype">odt</field>
+            <field name="py3o_template_data" type="base64"
+                   file="sped_esocial/reports/totalizador_periodo.odt"></field>
+        </record>
+
+        <record id="report_py3o_totalizador_periodo" model="ir.actions.report.xml">
+            <field name="module">sped_esocial</field>
+            <field name="py3o_fusion_filetype"
+                   ref="report_py3o.py3o_fusion_filetype_pdf"/>
+            <field name="py3o_template_fallback">reports/totalizador_periodo.odt</field>
+            <field name="py3o_template_id" ref="py3o_template_totalizador_periodo"/>
+        </record>
+
+    </data>
+</openerp>

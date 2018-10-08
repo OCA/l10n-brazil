@@ -90,6 +90,9 @@
         # Segurança
         'security/ir.model.access.csv',
 
+        # Relatórios
+        'reports/totalizador_periodo.xml',
+
     ],
     "installable": True,
     "auto_install": False,
