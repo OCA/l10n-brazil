@@ -130,9 +130,6 @@ class HrContractChange(models.Model):
         elif self.change_type == 'cargo-atividade':
             self.job_id = contract.job_id
             self.type_id = contract.type_id
-            self.admission_type_id = contract.admission_type_id
-            self.labor_bond_type_id = contract.labor_bond_type_id
-            self.labor_regime_id = contract.labor_regime_id
         elif self.change_type == 'filiacao-sindical':
             self.union = contract.union
             self.union_cnpj = contract.union_cnpj
@@ -166,9 +163,6 @@ class HrContractChange(models.Model):
             vals.update(
                 job_id=contract.job_id.id,
                 type_id=contract.type_id.id,
-                adminission_type_id=contract.admission_type_id.id,
-                labor_bond_type_id=contract.labor_bond_type_id.id,
-                labor_regime_id=contract.labor_regime_id.id,
             )
         elif change.change_type == 'filiacao-sindical':
             vals.update(
@@ -238,9 +232,6 @@ class HrContractChange(models.Model):
             elif alteracao.change_type == 'cargo-atividade':
                 contract.job_id = alteracao.job_id
                 contract.type_id = alteracao.type_id
-                contract.admission_type_id = alteracao.admission_type_id
-                contract.labor_bond_type_id = alteracao.labor_bond_type_id
-                contract.labor_regime_id = alteracao.labor_regime_id
             elif self.change_type == 'filiacao-sindical':
                 contract.union = alteracao.union
                 contract.union_cnpj = alteracao.union_cnpj

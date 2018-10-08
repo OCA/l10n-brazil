@@ -14,16 +14,10 @@
                     <group>
                         <field name="job_id" attrs="{'readonly': [('state', '=', 'applied')]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                         <field name="type_id" attrs="{'readonly': [('state', '=', 'applied')]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                        <field name="admission_type_id" attrs="{'readonly': [('state', '=', 'applied')]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    </group>
-                    <group>
-                        <field name="labor_bond_type_id" attrs="{'readonly': [('state', '=', 'applied')]}" options="{'no_quick_create': True, 'no_create_edit' : True}" />
-                        <field name="labor_regime_id" attrs="{'readonly': [('state', '=', 'applied')]}" options="{'no_quick_create': True, 'no_create_edit' : True}" />
                     </group>
                 </xpath>
                 <xpath expr="//field[@string='Motivo']" position="after">
                     <field name="job_id" />
-                    <field name="labor_regime_id"/>
                 </xpath>
             </field>
         </record>
@@ -38,9 +32,6 @@
                 <field name="change_reason_id" position="after">
                     <field name="job_id"/>
                     <field name="type_id"/>
-                    <field name="admission_type_id"/>
-                    <field name="labor_bond_type_id"/>
-                    <field name="labor_regime_id"/>
                 </field>
             </field>
         </record>
