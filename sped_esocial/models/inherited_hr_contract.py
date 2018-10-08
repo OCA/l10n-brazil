@@ -209,34 +209,37 @@ class HrContract(models.Model):
             'vinculo',                       # //eSocial/evtAdmissao/vinculo/matricula
             'labor_regime_id',               # //eSocial/evtAdmissao/vinculo/tpRegTrab
             'tp_reg_prev',                   # //eSocial/evtAdmissao/vinculo/tpRegPrev
-            # 'cad_ini',                       # //eSocial/evtAdmissao/vinculo/cadIni
+            # 'cad_ini',                     # //eSocial/evtAdmissao/vinculo/cadIni
             'date_start',                    # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/dtAdm
-                                             # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoEstatutario/dtNomeacao
             'admission_type_id',             # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/tpAdmissao
             'indicativo_de_admissao',        # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/indAdmissao
             'tp_reg_jor',                    # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/tpRegJor
             'nat_atividade',                 # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/natAtividade
-            'partner_union',                 # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/cnpjSindCategProf
+
             'opc_fgts',                      # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/FGTS/opcFGTS
             'dt_opc_fgts',                   # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/FGTS/dtOpcFGTS
-            'job_id',                        # //eSocial/evtAdmissao/vinculo/infoContrato/codCargo
             'categoria',                     # //eSocial/evtAdmissao/vinculo/infoContrato/codCateg
-            'wage',                          # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/vrSalFx
             'salary_unit',                   # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/undSalFixo
             'dsc_sal_var',                   # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/dscSalVar
             'tp_contr',                      # //eSocial/evtAdmissao/vinculo/infoContrato/duracao/tpContr
             'date_end',                      # //eSocial/evtAdmissao/vinculo/infoContrato/duracao/dtTerm
             'clau_assec',                    # //eSocial/evtAdmissao/vinculo/infoContrato/duracao/clauAssec
-            'company_id',                    # //eSocial/evtAdmissao/vinculo/infoContrato/localTrabalho/localTrabGeral/nrInsc
             'weekly_hours',                  # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/qtdHrsSem
             'tp_jornada',                    # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/tpJornada
             'dsc_tp_jorn',                   # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/dscTpJorn
             'tmp_parc',                      # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/tmpParc
-            'working_hours',                 # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/horario **
             'notes',                         # //eSocial/evtAdmissao/vinculo/infoContrato/observacoes/observacao
             'cnpj_empregador_anterior',      # //eSocial/evtAdmissao/vinculo/sucessaoVinc/cnpjEmpregAnt
             'matricula_anterior',            # //eSocial/evtAdmissao/vinculo/sucessaoVinc/matricAnt
             'observacoes_vinculo_anterior',  # //eSocial/evtAdmissao/vinculo/sucessaoVinc/observacao
+
+            # Esses campos só poderão ser feitas alterações e não retificações
+            # 'wage',                          # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/vrSalFx
+            # 'job_id',                        # //eSocial/evtAdmissao/vinculo/infoContrato/codCargo
+            # 'working_hours',                 # //eSocial/evtAdmissao/vinculo/infoContrato/horContratual/horario **
+            # 'company_id',                    # //eSocial/evtAdmissao/vinculo/infoContrato/localTrabalho/localTrabGeral/nrInsc
+            # 'partner_union',                 # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/cnpjSindCategProf
+
         ]
         precisa_atualizar = False
 
@@ -352,10 +355,6 @@ class HrContract(models.Model):
         self.sped_s2200_id.gerar_registro()
 
     @api.multi
-    def atualizar_contrato_s2206(self):  # TODO
-        self.ensure_one()
-
-    @api.multi
     def retificar_contrato_s2300(self):  # TODO
         self.ensure_one()
 
@@ -372,37 +371,6 @@ class HrContract(models.Model):
     @api.multi
     def atualizar_contrato_s2306(self):  # TODO
         self.ensure_one()
-
-        # Valida se pode ser atualizado
-        if not self.sped_s2300_id:
-            raise ValidationError("Este registro não pode ser atualizado pois ainda não foi transmitido inicialmente!")
-
-        if not self.precisa_atualizar:
-            raise ValidationError("Este registro não precisa ser atualizado !")
-
-        # Identifica se já tem um registro S-2306 em aberto
-        s2306 = False
-        for registro in self.sped_s2306_ids:
-            if registro.situacao_esocial != '4':
-                s2306 = registro
-
-        # Se o registro intermediário do S-2306 não existe, criá-lo
-        if not s2306:
-            if self.env.user.company_id.eh_empresa_base:
-                matriz = self.env.user.company_id.id
-            else:
-                matriz = self.env.user.company_id.matriz.id
-
-            vals = {
-                'company_id': matriz,
-                'hr_contract_id': self.id,
-            }
-            if not s2306:
-                s2306 = self.env['sped.esocial.alteracao.contrato.autonomo'].create(vals)
-                self.sped_s2306_ids = [(4, s2306.id)]
-
-        # Cria o registro de retificação
-        s2306.gerar_registro()
 
         # Valida se pode ser atualizado
         if not self.sped_s2300_id:
