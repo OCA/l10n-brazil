@@ -836,8 +836,122 @@ class L10nBrSefip(models.Model):
         for line_id in holerite.line_ids:
             if line_id.code == 'IRPF':
                 return line_id.total
-
         return 0.0
+
+    def gerar_guias_pagamento(self):
+        """
+        Gerar dicionarios contendo os valores das GUIAS
+        :return:
+        """
+        empresas = {}
+        guia_pss = []
+        darfs = {}
+        contribuicao_sindical = {}
+        darf_analitico = []
+
+        for holerite in self.folha_ids:
+            if not empresas.get(holerite.company_id.id):
+                empresas.update({
+                    holerite.company_id.id: {
+                        'INSS_funcionarios': 0.00,
+                        'INSS_empresa': 0.00,
+                        'INSS_outras_entidades': 0.00,
+                        'INSS_rat_fap': 0.00,
+                    }
+                })
+
+            for line in holerite.line_ids:
+                remuneracao = line.slip_id.line_ids.filtered(
+                    lambda x: x.code == 'LIQUIDO')
+                if line.code == 'CONTRIBUICAO_SINDICAL':
+                    id_sindicato = \
+                        line.slip_id.contract_id.partner_union.id or 0
+                    if id_sindicato in contribuicao_sindical:
+                        contribuicao_sindical[id_sindicato][
+                            'contribuicao_sindicato'] += line.total
+                        contribuicao_sindical[id_sindicato][
+                            'qtd_contribuintes'] += 1
+                        contribuicao_sindical[id_sindicato][
+                            'total_remuneracao'] += remuneracao.total
+                    else:
+                        contribuicao_sindical[id_sindicato] = {}
+                        contribuicao_sindical[id_sindicato][
+                            'contribuicao_sindicato'] = line.total
+                        contribuicao_sindical[id_sindicato][
+                            'qtd_contribuintes'] = 1
+                        contribuicao_sindical[id_sindicato][
+                            'total_remuneracao'] = remuneracao.total
+                elif line.code in ['INSS', 'INSS_13']:
+                    empresas[line.slip_id.company_id.id][
+                        'INSS_funcionarios'] += line.total
+                elif line.code == 'INSS_EMPRESA':
+                    empresas[line.slip_id.company_id.id][
+                        'INSS_empresa'] += line.total
+                elif line.code == 'INSS_OUTRAS_ENTIDADES':
+                    empresas[line.slip_id.company_id.id][
+                        'INSS_outras_entidades'] += line.total
+                elif line.code == 'INSS_RAT_FAP':
+                    empresas[line.slip_id.company_id.id][
+                        'INSS_rat_fap'] += line.total
+
+                #
+                # GERAR DARF
+                #
+                # Para rubricas de PSS patronal gerar para cpf do
+                # funcionario
+                elif line.code in ['PSS_PATRONAL']:
+                    guia_pss.append({
+                        'code': '1850',
+                        'valor': line.total,
+                        'partner_id': line.employee_id.address_home_id})
+
+                # Para rubricas de PSS do funcionario
+                elif line.code in ['PSS']:
+                    guia_pss.append({
+                        'code': '1661',
+                        'valor': line.total,
+                        'partner_id': line.employee_id.address_home_id})
+                    # partner_id = line.employee_id.address_home_id
+                    # financial_move_darf = self.gerar_financial_move_darf(
+                    #     '1661', line.total, partner_id)
+                    # created_ids.append(financial_move_darf.id)
+
+                # para gerar a DARF, identificar a categoria de contrato pois
+                # cada categoria tem um código de emissao diferente
+                elif line.code in ['IRPF', 'IRPF_13', 'IRPF_FERIAS']:
+
+                    if line.slip_id.contract_id.categoria in \
+                            ['721', '722']:
+                        codigo_darf = '0588'
+                    else:
+                        codigo_darf = '0561'
+
+                    if darfs.get(codigo_darf):
+                        darfs[codigo_darf] += line.total
+                    else:
+                        darfs.update({
+                            codigo_darf: line.total
+                        })
+
+                    darf_analitico.append({
+                        'nome': line.slip_id.contract_id.display_name,
+                        'code': line.code,
+                        'codigo_darf': codigo_darf,
+                        'valor': line.total,
+                    })
+
+            # buscar o valor do IRPF do holerite de 13º
+            valor_13 = self.buscar_IRPF_holerite_13(holerite.contract_id)
+            darfs[codigo_darf] += valor_13
+
+            if valor_13:
+                darf_analitico.append({
+                    'nome': line.slip_id.contract_id.display_name,
+                    'code': 'DECIMO_TERCEIRO',
+                    'valor': line.total,
+                })
+
+        return empresas, darfs, contribuicao_sindical, guia_pss, darf_analitico
 
     @api.multi
     def gerar_boletos(self):
@@ -850,105 +964,14 @@ class L10nBrSefip(models.Model):
         # Excluir registros financeiros anteriores
         #
         for boleto_id in self.boletos_ids:
-           boleto_id.unlink()
-
-        valor_totas_13 = 0
-        contribuicao_sindical = {}
+            boleto_id.unlink()
 
         for record in self:
+
             created_ids = []
-            empresas = {}
-            darfs = {}
 
-            for holerite in self.folha_ids:
-
-                if not empresas.get(holerite.company_id.id):
-                    empresas.update({
-                        holerite.company_id.id: {
-                            'INSS_funcionarios': 0.00,
-                            'INSS_empresa': 0.00,
-                            'INSS_outras_entidades': 0.00,
-                            'INSS_rat_fap': 0.00,
-                        }
-                    })
-
-                for line in holerite.line_ids:
-                    remuneracao = line.slip_id.line_ids.filtered(
-                        lambda x: x.code == 'LIQUIDO')
-                    if line.code == 'CONTRIBUICAO_SINDICAL':
-                        id_sindicato = \
-                            line.slip_id.contract_id.partner_union.id or 0
-                        if id_sindicato in contribuicao_sindical:
-                            contribuicao_sindical[id_sindicato][
-                                'contribuicao_sindicato'] += line.total
-                            contribuicao_sindical[id_sindicato][
-                                'qtd_contribuintes'] += 1
-                            contribuicao_sindical[id_sindicato][
-                                'total_remuneracao'] += remuneracao.total
-                        else:
-                            contribuicao_sindical[id_sindicato] = {}
-                            contribuicao_sindical[id_sindicato][
-                                'contribuicao_sindicato'] = line.total
-                            contribuicao_sindical[id_sindicato][
-                                'qtd_contribuintes'] = 1
-                            contribuicao_sindical[id_sindicato][
-                                'total_remuneracao'] = remuneracao.total
-                    elif line.code in ['INSS', 'INSS_13']:
-                        empresas[line.slip_id.company_id.id][
-                            'INSS_funcionarios'] += line.total
-                    elif line.code == 'INSS_EMPRESA':
-                        empresas[line.slip_id.company_id.id][
-                            'INSS_empresa'] += line.total
-                    elif line.code == 'INSS_OUTRAS_ENTIDADES':
-                        empresas[line.slip_id.company_id.id][
-                            'INSS_outras_entidades'] += line.total
-                    elif line.code == 'INSS_RAT_FAP':
-                        empresas[line.slip_id.company_id.id][
-                            'INSS_rat_fap'] += line.total
-
-                    # para gerar a DARF, identificar a categoria de contrato pois
-                    # cada categoria tem um código de emissao diferente
-                    elif line.code in ['IRPF', 'IRPF_13', 'IRPF_FERIAS']:
-
-                        if line.slip_id.contract_id.categoria in \
-                                ['721', '722']:
-                            codigo_darf = '0588'
-                        else:
-                            codigo_darf = '0561'
-
-                        if darfs.get(codigo_darf):
-                            darfs[codigo_darf] += line.total
-                        else:
-                            darfs.update({
-                                codigo_darf: line.total
-                            })
-
-                    # Para rubricas de PSS patronal gerar para cpf do
-                    # funcionario
-                    elif line.code in ['PSS_PATRONAL']:
-                        partner_id = line.employee_id.address_home_id
-                        financial_move_darf = self.gerar_financial_move_darf(
-                            '1850', line.total, partner_id)
-                        created_ids.append(financial_move_darf.id)
-
-                    # Para rubricas de PSS do funcionario
-                    elif line.code in ['PSS']:
-                        partner_id = line.employee_id.address_home_id
-                        financial_move_darf = self.gerar_financial_move_darf(
-                            '1661', line.total, partner_id)
-                        created_ids.append(financial_move_darf.id)
-
-                # buscar o valor do IRPF do holerite de 13º
-                valor_13 = record.buscar_IRPF_holerite_13(holerite.contract_id)
-                valor_totas_13 += valor_13
-                darfs[codigo_darf] += valor_13
-
-            for sindicato in contribuicao_sindical:
-                vals = self.prepara_financial_move(
-                    sindicato, contribuicao_sindical[sindicato])
-
-                financial_move = self.env['financial.move'].create(vals)
-                created_ids.append(financial_move.id)
+            empresas, darfs, contribuicao_sindical, pss, darf_analitico = \
+                self.gerar_guias_pagamento()
 
             for company in empresas:
                 dados_empresa = empresas[company]
@@ -959,7 +982,17 @@ class L10nBrSefip(models.Model):
             for cod_darf in darfs:
                 financial_move_darf = \
                     self.gerar_financial_move_darf(cod_darf, darfs[cod_darf])
+                created_ids.append(financial_move_darf.id)
 
+            for sindicato in contribuicao_sindical:
+                vals = self.prepara_financial_move(
+                    sindicato, contribuicao_sindical[sindicato])
+                financial_move = self.env['financial.move'].create(vals)
+                created_ids.append(financial_move.id)
+
+            for guia_pss in pss:
+                financial_move_darf = self.gerar_financial_move_darf(
+                    guia_pss.get('code'), guia_pss.get('valor'),guia_pss.get('partner_id'))
                 created_ids.append(financial_move_darf.id)
 
             return {
