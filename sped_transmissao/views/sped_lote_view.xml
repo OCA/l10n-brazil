@@ -39,6 +39,7 @@
                                         <field name="company_id" />
                                         <field name="tipo" />
                                         <field name="grupo" />
+                                        <field name="ordem_registro" />
                                         <field name="quantidade" />
                                     </group>
                                     <group colspan="2" col="2">
@@ -109,6 +110,7 @@
                     <field name="company_id"/>
                     <field name="tipo"/>
                     <field name="grupo"/>
+                    <field name="ordem_registro" />
                     <field name="quantidade" />
                     <field name="situacao"/>
                 </tree>
