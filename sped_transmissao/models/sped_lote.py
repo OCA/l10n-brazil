@@ -696,15 +696,13 @@ class SpedLote(models.Model, ):
         lote_para_transmitir = self.env['sped.lote'].search([
             ('grupo', '=', 'na'),
             ('situacao', '=', '1'),
-        ], limit=1, order='create_date')
+        ], limit=1, order='ordem_registro ASC')
 
         # Se não tem um lote do grupo NA então busca um dos grupos numéricos
-        for x in range(1, 5):
-            if not lote_para_transmitir:
-                lote_para_transmitir = self.env['sped.lote'].search([
-                    ('grupo', '=', str(x)),
-                    ('situacao', '=', '1'),
-                ], limit=1, order='create_date')
+        if not lote_para_transmitir:
+            lote_para_transmitir = self.env['sped.lote'].search([
+                ('situacao', '=', '1'),
+            ], limit=1, order='ordem_registro ASC')
 
         # Transmite o lote identificado
         if lote_para_transmitir:
