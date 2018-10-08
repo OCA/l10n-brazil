@@ -82,8 +82,7 @@ class AccountFiscalPosition(models.Model):
     @api.multi
     def _map_tax(self, product_id, taxes):
         result = {}
-        product = self.env['product.product'].browse(product_id)
-        product_fc = product.fiscal_classification_id
+        product_fc = product_id.fiscal_classification_id
         if self.company_id and \
                 self.env.context.get('type_tax_use') in ('sale', 'all'):
             if self.env.context.get('fiscal_type', 'product') == 'product':
@@ -126,7 +125,7 @@ class AccountFiscalPosition(models.Model):
                         fc = tax_def.fiscal_classification_id
                         if (not fc and not tax_def.cest_id) or \
                                 (fc == product_fc or
-                                 tax_def.cest_id == product.cest_id):
+                                 tax_def.cest_id == product_id.cest_id):
                             taxes |= tax_def.tax_id
 
                             result[tax_def.tax_id.domain] = {
@@ -147,24 +146,24 @@ class AccountFiscalPosition(models.Model):
                     if map.tax_dest_id.id or tax.tax_code_id.id:
                         map_taxes |= map
                         if map.fiscal_classification_id.id == \
-                                product.fiscal_classification_id.id:
+                                product_id.fiscal_classification_id.id:
                             map_taxes_ncm |= map
-                        if product.cest_id:
-                            if map.cest_id == product.cest_id:
+                        if product_id.cest_id:
+                            if map.cest_id == product_id.cest_id:
                                 map_taxes_cest |= map
-                        if map.origin == product.origin:
+                        if map.origin == product_id.origin:
                             map_taxes_origin |= map
                         if (map.fiscal_classification_id.id ==
-                                product.fiscal_classification_id.id and
-                                map.origin == product.origin):
+                                product_id.fiscal_classification_id.id and
+                                map.origin == product_id.origin):
                             map_taxes_origin_ncm |= map
                         else:
                             map_taxes |= map
             else:
-                if result.get(tax.domain):
-                    result[tax.domain].update({'tax': tax})
+                if result.get(tax.tax_group_id.name):
+                    result[tax.tax_group_id.name].update({'tax': tax})
                 else:
-                    result[tax.domain] = {'tax': tax}
+                    result[tax.tax_group_id.name] = {'tax': tax}
 
         result.update(self._map_tax_code(map_taxes))
         result.update(self._map_tax_code(map_taxes_origin))
@@ -192,9 +191,9 @@ class AccountFiscalPosition(models.Model):
         return result
 
     @api.v8
-    def map_tax(self, taxes):
+    def map_tax(self, taxes, product=None, partner=None):
         result = self.env['account.tax'].browse()
-        taxes_codes = self._map_tax(self.env.context.get('product_id'), taxes)
+        taxes_codes = self._map_tax(product, taxes)
         for tax in taxes_codes:
             if taxes_codes[tax].get('tax'):
                 result |= taxes_codes[tax].get('tax')
