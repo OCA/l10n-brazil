@@ -766,14 +766,14 @@ class AccountInvoiceLine(models.Model):
     #    return result
 
     @api.model
-    def _fiscal_position_map(self, result, **kwargs):
+    def _fiscal_position_map(self, **kwargs):
         ctx = dict(self.env.context)
         ctx.update({'use_domain': ('use_invoice', '=', True)})
         ctx.update({'partner_id': kwargs.get('partner_id')})
         ctx.update({'product_id': kwargs.get('product_id')})
         account_obj = self.env['account.account']
         obj_fp_rule = self.env['account.fiscal.position.rule']
-        partner = self.env['res.partner'].browse(kwargs.get('partner_id'))
+        partner = kwargs.get('partner_id')
 
         product_fiscal_category_id = obj_fp_rule.with_context(
             ctx).product_fiscal_category_map(
@@ -783,16 +783,12 @@ class AccountInvoiceLine(models.Model):
         if product_fiscal_category_id:
             kwargs['fiscal_category_id'] = product_fiscal_category_id
 
-        result_rule = obj_fp_rule.with_context(ctx).apply_fiscal_mapping(
-            result, **kwargs)
-        result_rule['value']['fiscal_category_id'] = \
-            kwargs.get('fiscal_category_id')
-        if result_rule['value'].get('fiscal_position_id'):
-            fp = self.env['account.fiscal.position'].browse(
-                result_rule['value']['fiscal_position_id'])
+        fp = obj_fp_rule.with_context(ctx).apply_fiscal_mapping(**kwargs)
+        self.fiscal_category_id = kwargs.get('fiscal_category_id')
+        if fp:
+            self.fiscal_position_id = fp
             if kwargs.get('product_id'):
-                product = self.env['product.product'].browse(
-                    kwargs['product_id'])
+                product = kwargs['product_id']
                 taxes = self.env['account.tax']
                 ctx['fiscal_type'] = product.fiscal_type
                 if ctx.get('type') in ('out_invoice', 'out_refund'):
@@ -809,12 +805,13 @@ class AccountInvoiceLine(models.Model):
                     elif kwargs.get('account_id'):
                         account_id = kwargs['account_id']
                         taxes |= account_obj.browse(account_id).tax_ids
-                tax_ids = fp.with_context(ctx).map_tax(taxes)
-                result_rule['value']['invoice_line_tax_ids'] = tax_ids.ids
-                result['value'].update(self._get_tax_codes(
+                tax_ids = fp.with_context(ctx).map_tax(
+                    taxes, kwargs.get('product_id'))
+                self.invoice_line_tax_ids = tax_ids
+                self.update(self._get_tax_codes(
                     kwargs['product_id'], fp, tax_ids))
 
-        return result_rule
+        return fp
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='',
@@ -861,20 +858,20 @@ class AccountInvoiceLine(models.Model):
         else:
             ctx.update({'type_tax_use': 'purchase'})
 
-        partner_id = self.invoice_id.partner_id.id or ctx.get('partner_id')
-        company_id = self.invoice_id.company_id.id or ctx.get('company_id')
+        partner_id = self.invoice_id.partner_id or \
+            self.env['res.partner'].browse(ctx.get('partner_id'))
+        company_id = self.invoice_id.company_id or \
+            self.env['res.company'].browse(ctx.get('company_id'))
         if company_id and partner_id and self.fiscal_category_id:
-            result = {'value': {}}
             kwargs = {
                 'company_id': company_id,
                 'partner_id': partner_id,
-                'partner_invoice_id': self.invoice_id.partner_id.id,
-                'product_id': self.product_id.id,
-                'fiscal_category_id': self.fiscal_category_id.id,
+                'partner_invoice_id': self.invoice_id.partner_id,
+                'product_id': self.product_id,
+                'fiscal_category_id': self.fiscal_category_id,
                 'context': ctx
             }
-            result = self.with_context(ctx)._fiscal_position_map(
-                result, **kwargs)
+            result = self.with_context(ctx)._fiscal_position_map(**kwargs)
 
             kwargs.update({
                 'invoice_line_tax_id': [
