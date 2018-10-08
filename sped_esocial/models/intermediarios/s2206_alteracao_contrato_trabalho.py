@@ -73,6 +73,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
     @api.depends('sped_alteracao.situacao', 'sped_retificacao_ids.situacao')
     def compute_situacao_esocial(self):
         for s2206 in self:
+
             situacao_esocial = '1'
             ultima_atualizacao = False
 
@@ -172,9 +173,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
 
         # Popula ideEvento
         S2206.tpInsc = '1'
-        S2206.nrInsc = limpa_formatacao(
-            contrato_id.company_id.cnpj_cpf
-        )[0:8]
+        S2206.nrInsc = limpa_formatacao(contrato_id.company_id.cnpj_cpf)[0:8]
         S2206.evento.ideEvento.indRetif.valor = '1'
         if operacao == 'R':  # Retificação
             S2206.evento.ideEvento.indRetif.valor = '2'
@@ -183,7 +182,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             contrato_id.company_id.esocial_tpAmb
         )
         S2206.evento.ideEvento.procEmi.valor = '1'
-        S2206.evento.ideEvento.verProc.valor = '8.0'
+        S2206.evento.ideEvento.verProc.valor = 'SAB Odoo 8.0'
 
         # Popula ideEmpregador (Dados do Empregador)
         S2206.evento.ideEmpregador.tpInsc.valor = '1'

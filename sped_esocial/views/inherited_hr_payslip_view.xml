@@ -18,7 +18,8 @@
                 </field>
 
                 <xpath expr="//notebook[last()]" position="inside">
-                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user">
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user"
+                                attrs="{'invisible': ['|',('tipo_de_folha','!=','rescisao'),('sped_s2299','!=',False)]}" >
                         <separator string="Registro S-2299 Desligamento" />
                         <group>
                             <group>
