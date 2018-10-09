@@ -12,6 +12,7 @@ class LinhaDarf(object):
     def __init__(self):
         self.nome = ''
         self.valor = ''
+        self.base = ''
 
 
 def format_money_mask(value):
@@ -33,9 +34,7 @@ def darf_analitico(pool, cr, uid, localcontext, context):
 
     self = localcontext['objects']
 
-    empresas, darfs, contribuicao_sindical, pss, darf_analitico = \
-        self.gerar_guias_pagamento()
-
+    # LOGO
     company_logo = self.env.user.company_id.logo
     company_nfe_logo = self.env.user.company_id.nfe_logo
 
@@ -44,53 +43,45 @@ def darf_analitico(pool, cr, uid, localcontext, context):
     localcontext['company_logo2'] = \
         company_nfe_logo if company_nfe_logo else company_logo
 
-    #
-    # # Variaveis de Informações
-    # data_atual = datetime.now()
-    # dia_atual = \
-    #     str(data_atual.day) + "/" + str(data_atual.month) + "/" + \
-    #     str(data_atual.year)
-    #
-    # # Buscar ligacoes dentro do lote
-    # domain = [
-    #     ('id', 'in', self.slip_ids._ids),
-    #     ('ligacoes_ids', '!=', False),
-    # ]
-    #
-    # holerites_ids = self.slip_ids.search(domain)
+    # Variaveis de Informações
+    data_atual = datetime.now()
+    dia_atual = \
+        str(data_atual.day) + "/" + str(data_atual.month) + "/" + \
+        str(data_atual.year)
+
+    empresas, darfs, contribuicao_sindical, pss, darf_analitico = \
+        self.gerar_guias_pagamento()
 
     totalizador_darf_funcionarios = []
     totalizador_darf_dirigentes = []
     total_darf_funcionarios = 0
     total_darf_dirigentes = 0
+    base_total_darf_funcionarios = 0
+    base_total_darf_dirigentes = 0
 
     for linha in darf_analitico:
         darf_line = LinhaDarf()
         darf_line.nome = linha.get('nome')
         darf_line.valor = format_money_mask(linha.get('valor'))
+        darf_line.base = format_money_mask(linha.get('base'))
 
         if linha.get('codigo_darf') == '0588':
             totalizador_darf_dirigentes.append(darf_line)
             total_darf_dirigentes += linha.get('valor')
+            base_total_darf_dirigentes += linha.get('base')
         else:
             totalizador_darf_funcionarios.append(darf_line)
             total_darf_funcionarios += linha.get('valor')
+            base_total_darf_funcionarios += linha.get('base')
 
     data = {
+        'object': self,
         'totalizador_darf_dirigentes': totalizador_darf_dirigentes,
         'totalizador_darf_funcionarios': totalizador_darf_funcionarios,
         'total_darf_dirigentes': format_money_mask(total_darf_dirigentes),
         'total_darf_funcionarios': format_money_mask(total_darf_funcionarios),
-        # 'name': self.company_id.name,
-        # 'legal_name': self.company_id.legal_name,
-        # 'company_logo': company_logo,
-        # 'mes_do_ano':
-        #     dict(self._fields['mes_do_ano'].selection).get(self.mes_do_ano),
-        # 'ano': self.ano,
-        # 'data_atual': dia_atual,
-        # 'ligacoes': totalizador_ligacoes,
+        'base_total_darf_funcionarios': format_money_mask(base_total_darf_funcionarios),
+        'base_total_darf_dirigentes': format_money_mask(base_total_darf_dirigentes),
+        'data_atual': dia_atual,
     }
     localcontext.update(data)
-
-
-

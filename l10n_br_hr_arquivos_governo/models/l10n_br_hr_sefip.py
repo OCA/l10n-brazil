@@ -835,8 +835,9 @@ class L10nBrSefip(models.Model):
         ])
         for line_id in holerite.line_ids:
             if line_id.code == 'IRPF':
-                return line_id.total
-        return 0.0
+                return line_id.total, holerite.line_ids.filtered(
+                    lambda x: x.code == 'BASE_IRPF').total or 0.00
+        return 0.0, 0.0
 
     def gerar_guias_pagamento(self):
         """
@@ -938,10 +939,13 @@ class L10nBrSefip(models.Model):
                         'code': line.code,
                         'codigo_darf': codigo_darf,
                         'valor': line.total,
+                        'base': line.slip_id.line_ids.filtered(
+                            lambda x: x.code=='BASE_IRPF').total or 0.0,
                     })
 
             # buscar o valor do IRPF do holerite de 13º
-            valor_13 = self.buscar_IRPF_holerite_13(holerite.contract_id)
+            valor_13, base_13 = \
+                self.buscar_IRPF_holerite_13(holerite.contract_id)
             darfs[codigo_darf] += valor_13
 
             if valor_13:
@@ -949,6 +953,7 @@ class L10nBrSefip(models.Model):
                     'nome': line.slip_id.contract_id.display_name,
                     'code': 'DECIMO_TERCEIRO',
                     'valor': line.total,
+                    'base': base_13,
                 })
 
         return empresas, darfs, contribuicao_sindical, guia_pss, darf_analitico
