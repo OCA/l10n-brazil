@@ -270,5 +270,17 @@
             </field>
         </record>
 
+        <record id="hr_contract_view_search" model="ir.ui.view">
+            <field name="name">hr.contract.view.search (sped_esocial)</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_search" />
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="after" >
+                    <field name="matricula_contrato" domain="[]" context="{'group_by':'matricula_contrato'}"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>
