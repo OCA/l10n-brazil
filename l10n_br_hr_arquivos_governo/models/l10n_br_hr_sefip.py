@@ -921,11 +921,7 @@ class L10nBrSefip(models.Model):
                 # cada categoria tem um código de emissao diferente
                 elif line.code in ['IRPF', 'IRPF_13', 'IRPF_FERIAS']:
 
-                    if line.slip_id.contract_id.categoria in \
-                            ['721', '722']:
-                        codigo_darf = '0588'
-                    else:
-                        codigo_darf = '0561'
+                    codigo_darf = line.slip_id.contract_id.codigo_guia_darf
 
                     if darfs.get(codigo_darf):
                         darfs[codigo_darf] += line.total
@@ -936,6 +932,7 @@ class L10nBrSefip(models.Model):
 
                     darf_analitico.append({
                         'nome': line.slip_id.contract_id.display_name,
+                        'company_id': line.slip_id.contract_id.company_id.id,
                         'code': line.code,
                         'codigo_darf': codigo_darf,
                         'valor': line.total,
@@ -951,9 +948,11 @@ class L10nBrSefip(models.Model):
             if valor_13:
                 darf_analitico.append({
                     'nome': line.slip_id.contract_id.display_name,
-                    'code': 'DECIMO_TERCEIRO',
+                    'code': line.code + '_DECIMO_TERCEIRO',
                     'valor': line.total,
+                    'codigo_darf': codigo_darf,
                     'base': base_13,
+                    'company_id': line.slip_id.contract_id.company_id.id,
                 })
 
         return empresas, darfs, contribuicao_sindical, guia_pss, darf_analitico
