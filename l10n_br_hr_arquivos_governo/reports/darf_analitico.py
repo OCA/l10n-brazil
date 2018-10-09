@@ -13,6 +13,24 @@ class LinhaDarf(object):
         self.nome = ''
         self.valor = ''
         self.base = ''
+        self.company_id = ''
+        self.codigo_darf = ''
+
+
+class Darf(object):
+    def __init__(self):
+        self.codigo = ''
+        self.base = 0
+        self.valor = 0
+        self.linhas = []
+
+
+class Empresa(object):
+    def __init__(self):
+        self.guias = []
+        self.total = ''
+        self.titulo = ''
+
 
 
 def format_money_mask(value):
@@ -43,6 +61,9 @@ def darf_analitico(pool, cr, uid, localcontext, context):
     localcontext['company_logo2'] = \
         company_nfe_logo if company_nfe_logo else company_logo
 
+    # footer
+    localcontext['footer'] = self.company_id.rml_footer
+
     # Variaveis de Informações
     data_atual = datetime.now()
     dia_atual = \
@@ -52,36 +73,52 @@ def darf_analitico(pool, cr, uid, localcontext, context):
     empresas, darfs, contribuicao_sindical, pss, darf_analitico = \
         self.gerar_guias_pagamento()
 
-    totalizador_darf_funcionarios = []
-    totalizador_darf_dirigentes = []
-    total_darf_funcionarios = 0
-    total_darf_dirigentes = 0
-    base_total_darf_funcionarios = 0
-    base_total_darf_dirigentes = 0
+    # Empresas que tem guias DARF
+    company_ids = set(map(lambda x: x.get('company_id'), darf_analitico))
 
-    for linha in darf_analitico:
-        darf_line = LinhaDarf()
-        darf_line.nome = linha.get('nome')
-        darf_line.valor = format_money_mask(linha.get('valor'))
-        darf_line.base = format_money_mask(linha.get('base'))
+    result = []
 
-        if linha.get('codigo_darf') == '0588':
-            totalizador_darf_dirigentes.append(darf_line)
-            total_darf_dirigentes += linha.get('valor')
-            base_total_darf_dirigentes += linha.get('base')
-        else:
-            totalizador_darf_funcionarios.append(darf_line)
-            total_darf_funcionarios += linha.get('valor')
-            base_total_darf_funcionarios += linha.get('base')
+    for company_id in company_ids:
+
+        empresa = Empresa()
+
+        res_company = self.env['res.company'].browse(company_id)
+        empresa.titulo = res_company.name
+
+        codigos_darf = set(map(lambda x: x.get('codigo_darf'), darf_analitico))
+
+        for codigo_darf in codigos_darf:
+
+            darf = Darf()
+
+            darf.codigo = codigo_darf
+
+            for linha in filter(
+                    lambda x: x.get('company_id') == company_id and
+                              x.get('codigo_darf') == codigo_darf,
+                    darf_analitico):
+
+                darf_line = LinhaDarf()
+                darf_line.nome = linha.get('nome')
+                darf_line.valor = format_money_mask(linha.get('valor'))
+                darf_line.base = format_money_mask(linha.get('base'))
+                darf_line.company_id = linha.get('company_id')
+                darf_line.codigo_darf = linha.get('codigo_darf')
+
+                darf.linhas.append(darf_line)
+                darf.base += linha.get('base')
+                darf.valor += linha.get('valor')
+
+            if darf.valor :
+                darf.base = format_money_mask(darf.base)
+                darf.valor = format_money_mask(darf.valor)
+                empresa.guias.append(darf)
+
+        result.append(empresa)
 
     data = {
         'object': self,
-        'totalizador_darf_dirigentes': totalizador_darf_dirigentes,
-        'totalizador_darf_funcionarios': totalizador_darf_funcionarios,
-        'total_darf_dirigentes': format_money_mask(total_darf_dirigentes),
-        'total_darf_funcionarios': format_money_mask(total_darf_funcionarios),
-        'base_total_darf_funcionarios': format_money_mask(base_total_darf_funcionarios),
-        'base_total_darf_dirigentes': format_money_mask(base_total_darf_dirigentes),
+        'result': result,
         'data_atual': dia_atual,
     }
     localcontext.update(data)
