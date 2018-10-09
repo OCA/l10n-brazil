@@ -623,17 +623,10 @@ class HrContract(models.Model):
         related='salary_unit.code',
     )
 
-    @api.multi
-    def _compute_prefixo_matricula(self):
-        if self:
-            cnpj_empresa = self.company_id.cnpj_cpf
-            identificacao_empresa = cnpj_empresa.split('/')[1].split('-')[0]
-
-            return identificacao_empresa
-
     prefixo_empresa_matricula = fields.Char(
         string='Prefixo Matricula por Empresa',
-        default=_compute_prefixo_matricula,
+        compute='_compute_prefixo_matricula',
+        store=True,
     )
 
     matricula_contrato = fields.Char(
@@ -647,11 +640,16 @@ class HrContract(models.Model):
     @api.multi
     @api.depends('company_id')
     def _compute_prefixo_matricula(self):
+        """
+        Função responsável para gerar o prefixo da matricula utilizando o pedaço
+        de identificação da filial do cnpj
+        """
         for record in self:
-            cnpj_empresa = record.company_id.cnpj_cpf
-            identificacao_empresa = cnpj_empresa.split('/')[1].split('-')[0]
+            if record.company_id and not record.prefixo_empresa_matricula:
+                cnpj_empresa = record.company_id.cnpj_cpf
+                identificacao_empresa = cnpj_empresa.split('/')[1].split('-')[0]
 
-            record.prefixo_empresa_matricula = identificacao_empresa
+                record.prefixo_empresa_matricula = identificacao_empresa
 
     @api.multi
     @api.depends('categoria')
@@ -732,3 +730,8 @@ class HrContract(models.Model):
             sped_registro = record.sped_s2399_id
             if not sped_registro.sped_s2399_registro_inclusao:
                 sped_registro.gerar_registro()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.employee_id
