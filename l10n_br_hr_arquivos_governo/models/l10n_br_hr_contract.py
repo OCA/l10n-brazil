@@ -14,9 +14,14 @@ class HrContract(models.Model):
         default=40,
     )
 
+    codigo_guia_darf = fields.Char(
+        string='Código DARF',
+        help='Código para geração da Guia DARF',
+        default='0561',
+    )
+
     @api.constrains('weekly_hours')
     def _check_weekly_hours(self):
         if self.weekly_hours < 1:
             raise exceptions.Warning(
                 _('A quantidade de horas semanais deve estar entre 1 e 44.'))
-
