@@ -919,7 +919,7 @@ class L10nBrSefip(models.Model):
 
                 # para gerar a DARF, identificar a categoria de contrato pois
                 # cada categoria tem um código de emissao diferente
-                elif line.code in ['IRPF', 'IRPF_13', 'IRPF_FERIAS']:
+                elif line.code in ['IRPF', 'IRPF_13', 'IRPF_FERIAS', 'IRPF_FERIAS_FERIAS']:
 
                     codigo_darf = line.slip_id.contract_id.codigo_guia_darf
 
@@ -930,14 +930,19 @@ class L10nBrSefip(models.Model):
                             codigo_darf: line.total
                         })
 
+                    if 'FERIAS' in line.code:
+                        base = 0.00
+                    else:
+                        base = line.slip_id.line_ids.filtered(
+                            lambda x: x.code == 'BASE_IRPF').total
+
                     darf_analitico.append({
                         'nome': line.slip_id.contract_id.display_name,
                         'company_id': line.slip_id.contract_id.company_id.id,
                         'code': line.code,
                         'codigo_darf': codigo_darf,
                         'valor': line.total,
-                        'base': line.slip_id.line_ids.filtered(
-                            lambda x: x.code=='BASE_IRPF').total or 0.0,
+                        'base': base or 0.0,
                     })
 
             # buscar o valor do IRPF do holerite de 13º
