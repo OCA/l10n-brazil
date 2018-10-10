@@ -136,9 +136,9 @@
                                 </tree>
                             </field>
                             <group col="6" string="Totais">
-                                <button name="button_reset_taxes" states="draft,proforma2"
+                                <!-- <button name="button_reset_taxes" states="draft,proforma2"
                                         string="(update)" class="oe_link oe_edit_only"
-                                        type="object" help="Recompute taxes and total"/>
+                                        type="object" help="Recompute taxes and total"/> -->
                                 <newline/>
                                 <field name="icms_base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="icms_base_other" widget="monetary" options="{'currency_field': 'currency_id'}"/>
