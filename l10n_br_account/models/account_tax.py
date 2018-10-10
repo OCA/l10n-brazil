@@ -2,11 +2,15 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, api
+from odoo import models, fields, api
 
 
 class AccountTax(models.Model):
     _inherit = 'account.tax'
+
+    domain = fields.Selection(
+        related='tax_group_id.domain',
+        string='Tax Domain')
 
     @api.model
     def _compute_tax(self, taxes, total_line,
