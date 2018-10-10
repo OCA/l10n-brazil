@@ -25,7 +25,7 @@ class L10nBrAccountProductInvoiceCostsRatio(models.TransientModel):
         for delivery in self:
             for invoice in self.env['account.invoice'].browse(
                     self._context.get('active_ids', [])):
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
                     vals = {
                         'freight_value': calc_price_ratio(
                             line.price_gross,
@@ -41,5 +41,5 @@ class L10nBrAccountProductInvoiceCostsRatio(models.TransientModel):
                             invoice.amount_gross),
                         }
                     line.write(vals)
-                invoice.button_reset_taxes()
+                invoice._compute_amount()
         return True
