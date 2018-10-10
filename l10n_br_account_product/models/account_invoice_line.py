@@ -678,12 +678,12 @@ class AccountInvoiceLine(models.Model):
         if values.get('invoice_line_tax_ids'):
             tax_ids = values.get('invoice_line_tax_ids', [[6, 0, []]])[
                 0][2] or self.invoice_line_tax_ids.ids
-        partner_id = values.get('partner_id') or self.partner_id.id
-        currency_id = values.get('currency_id') or self.currency_id.id
-        product_id = values.get('product_id') or self.product_id.id
+        partner_id = values.get('partner_id') or self.partner_id
+        currency_id = values.get('currency_id') or self.currency_id
+        product_id = values.get('product_id') or self.product_id
         quantity = values.get('quantity') or self.quantity
         fiscal_position = values.get(
-            'fiscal_position') or self.fiscal_position_id.id
+            'fiscal_position') or self.fiscal_position_id
 
         if not product_id or not quantity or not fiscal_position:
             return {}
@@ -700,18 +700,15 @@ class AccountInvoiceLine(models.Model):
             partner = self.invoice_id.partner_id
             currency = self.invoice_id.currency_id
         else:
-            partner = self.env['res.partner'].browse(partner_id)
-            currency = self.env['res.currency'].browse(currency_id)
+            partner = partner_id
+            currency = currency_id
 
         taxes = self.env['account.tax'].browse(tax_ids)
-        fiscal_position = self.env['account.fiscal.position'].browse(
-            fiscal_position)
 
         price = price_unit * (1 - discount / 100.0)
 
         if product_id:
-            product = self.pool.get('product.product').browse(
-                self._cr, self._uid, product_id, context=context)
+            product = product_id
             if product.type == 'service':
                 result['product_type'] = 'service'
                 result['service_type_id'] = product.service_type_id.id
@@ -731,7 +728,7 @@ class AccountInvoiceLine(models.Model):
             result['icms_origin'] = product.origin
 
         taxes_calculed = taxes.compute_all(
-            price, quantity, currecy=currency, partner=partner,
+            price, quantity=quantity, currency=currency, partner=partner,
             fiscal_position=fiscal_position,
             insurance_value=insurance_value,
             freight_value=freight_value,
