@@ -919,7 +919,9 @@ class L10nBrSefip(models.Model):
 
                 # para gerar a DARF, identificar a categoria de contrato pois
                 # cada categoria tem um código de emissao diferente
-                elif line.code in ['IRPF', 'IRPF_13', 'IRPF_FERIAS', 'IRPF_FERIAS_FERIAS']:
+                elif line.code in ['IRPF', 'IRPF_13', 'IRPF_FERIAS',
+                                   'IRPF_FERIAS_FERIAS',
+                                   'IRRF_13_SALARIO_ESPECIFICA']:
 
                     codigo_darf = line.slip_id.contract_id.codigo_guia_darf
 
