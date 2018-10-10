@@ -645,8 +645,7 @@ class AccountInvoiceLine(models.Model):
         else:
             ctx.update({'type_tax_use': 'purchase'})
 
-        product = self.env['product.product'].browse(product_id)
-        ctx.update({'fiscal_type': product.fiscal_type})
+        ctx.update({'fiscal_type': product_id.fiscal_type})
         result['cfop_id'] = fiscal_position.cfop_id.id
 
         tax_codes = fiscal_position.with_context(
