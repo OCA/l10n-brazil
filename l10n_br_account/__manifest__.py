@@ -16,6 +16,7 @@
         'account_fiscal_position_rule',
     ],
     'data': [
+        'data/account_tax_group_data.xml',
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_data.xml',
         'data/l10n_br_account.cnae.csv',

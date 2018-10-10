@@ -22,7 +22,7 @@
             </field>
             <page name="account_mapping" position="after">
                 <page string="Fiscal">
-                    <group colspan="4" col="4">
+                    <group>
                         <field name="fiscal_category_id"/>
                         <field name="type" invisible="1"/>
                         <field name="asset_operation"/>
