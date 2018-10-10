@@ -38,3 +38,5 @@
 "l10n_br_tax_icms_partition_user","l10n_br_tax.icms_partition","model_l10n_br_tax_icms_partition","account.group_account_invoice",1,0,0,0
 "l10n_br_account_product_cest_user","l10n_br_account_product.cest","model_l10n_br_account_product_cest","base.group_user",1,0,0,0
 "l10n_br_account_product_cest_manager","l10n_br_account_product.cest","model_l10n_br_account_product_cest","account.group_account_manager",1,1,1,1
+"l10n_br_account_product_cst_user","l10n_br_account_product.cst","model_l10n_br_account_product_cst","base.group_user",1,0,0,0
+"l10n_br_account_product_cst_manager","l10n_br_account_product.cst","model_l10n_br_account_product_cst","account.group_account_manager",1,1,1,1
