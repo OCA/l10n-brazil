@@ -18,6 +18,7 @@
         'data/l10n_br_base_data.xml',
         'data/res.country.state.csv',
         'data/res.bank.csv',
+        'data/res_company_data.xml',
         'views/l10n_br_base_view.xml',
         'views/res_bank_view.xml',
         'views/res_country_view.xml',
