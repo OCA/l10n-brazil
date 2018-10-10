@@ -206,26 +206,43 @@ class AccountFiscalPositionTax(models.Model):
 
     fiscal_classification_id = fields.Many2one(
         comodel_name='account.product.fiscal.classification',
-        string='NCM'
-    )
+        string='NCM')
+
     origin = fields.Selection(
         selection=PRODUCT_ORIGIN,
-        string=u'Origem'
-    )
+        string=u'Origem')
+
     cest_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cest',
-        string=u'CEST'
-    )
+        string=u'CEST')
+
     tax_ipi_guideline_id = fields.Many2one(
         comodel_name='l10n_br_account_product.ipi_guideline',
-        string=u'Enquadramento IPI'
-    )
+        string=u'Enquadramento IPI')
+
     tax_icms_relief_id = fields.Many2one(
         comodel_name='l10n_br_account_product.icms_relief',
-        string=u'Desoneração ICMS'
-    )
+        string=u'Desoneração ICMS')
+
     cst_dest_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST',
-        required=False
-    )
+        required=False)
+
+    @api.onchange('tax_dest_id',
+                  'tax_group_id',
+                  'position_id')
+    def _onchange_tax_group(self):
+        onchange = super(
+            AccountFiscalPositionTax,
+            self)._onchange_tax_group()
+
+        if onchange:
+            onchange['domain'].update(
+                {'cst_dest_id': onchange['domain']['tax_dest_id']})
+        print onchange.update(
+            {'readonly': {'tax_icms_relief_id':
+                [('tax_dest_id.domain', '=', 'icms')]}})
+        return onchange.update(
+            {'readonly': {'tax_icms_relief_id':
+                [('tax_dest_id.domain', '=', 'icms')]}})
