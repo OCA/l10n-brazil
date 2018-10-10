@@ -6,6 +6,9 @@
         <field name="model">account.tax</field>
         <field name="inherit_id" ref="account.view_tax_form"/>
         <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="domain" invisible="1"/>
+            </field>
             <notebook position="inside">
                 <page string="ICMS" attrs="{'invisible': [('domain', '!=', 'icms')]}">
                     <group>
