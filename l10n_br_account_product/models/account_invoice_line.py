@@ -867,7 +867,7 @@ class AccountInvoiceLine(models.Model):
                 'fiscal_category_id': self.fiscal_category_id,
                 'context': ctx
             }
-            result = self.with_context(ctx)._fiscal_position_map(**kwargs)
+            self.with_context(ctx)._fiscal_position_map(**kwargs)
 
             kwargs.update({
                 'invoice_line_tax_id': [
@@ -875,13 +875,13 @@ class AccountInvoiceLine(models.Model):
                 'quantity': self.quantity,
                 'price_unit': self.price_unit,
                 'discount': self.discount,
-                'fiscal_position_id': self.fiscal_position.id,
+                'fiscal_position_id': self.fiscal_position_id,
                 'insurance_value': self.insurance_value,
                 'freight_value': self.freight_value,
                 'other_costs_value': self.other_costs_value,
             })
-            result['value'].update(self._validate_taxes(kwargs))
-            self.update(result['value'])
+
+            self.update(self._validate_taxes(kwargs))
 
     @api.model
     def tax_exists(self, domain=None):
