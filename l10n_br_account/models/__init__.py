@@ -17,7 +17,9 @@ from . import res_partner
 from . import res_company
 from . import res_config
 from . import account_journal
+from . import account_tax_group
 from . import account_tax
+from . import account_tax_template
 from . import account_invoice
 from . import account_invoice_line
 from . import product_template
