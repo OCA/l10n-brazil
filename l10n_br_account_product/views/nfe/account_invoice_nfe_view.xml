@@ -114,7 +114,9 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Produtos e Serviços">
-                            <field name="invoice_line_ids" nolabel="1" widget="one2many_list" context="{'type': type, 'fiscal_type': 'product', 'partner_id': partner_id, 'company_id': company_id, 'form_view_ref': 'l10n_br_account_product.l10n_br_account_product_nfe_line_form'}">
+                            <field name="invoice_line_ids" nolabel="1" widget="one2many_list"
+                                   context="{'type': type, 'fiscal_type': 'product', 'partner_id': partner_id, 'company_id': company_id,
+                                   'default_fiscal_category_id': fiscal_category_id, 'default_fiscal_position_id': fiscal_position_id, 'form_view_ref': 'l10n_br_account_product.l10n_br_account_product_nfe_line_form'}">
                                 <tree string="Invoice Lines">
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id"
