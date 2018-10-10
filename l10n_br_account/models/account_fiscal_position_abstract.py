@@ -10,36 +10,34 @@ from .l10n_br_account import TYPE
 class AccountFiscalPositionAbstract(object):
 
     fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category',
-        u'Categoria Fiscal'
-    )
+        comodel_name='l10n_br_account.fiscal.category',
+        string=u'Categoria Fiscal')
+
     type = fields.Selection(
-        TYPE,
+        selection=TYPE,
         related='fiscal_category_id.type',
         readonly=True,
         store=True,
-        string=u'Fiscal Type'
-    )
+        string=u'Fiscal Type')
+
     inv_copy_note = fields.Boolean(
-        string=u'Copiar Observação na Nota Fiscal'
-    )
+        string=u'Copiar Observação na Nota Fiscal')
 
     asset_operation = fields.Boolean(
         string=u'Operação de Aquisição de Ativo',
-        help=u"""Caso seja marcada essa opção, será incluido o IPI na base de
-        calculo do ICMS."""
-    )
+        help=u"Caso seja marcada essa opção, será "
+             "incluido o IPI na base de calculo do ICMS.")
+
     state = fields.Selection(
-        [('draft', u'Rascunho'),
-         ('review', u'Revisão'),
-         ('approved', u'Aprovada'),
-         ('unapproved', u'Não Aprovada')],
-        string='Status',
+        selection=[('draft', u'Rascunho'),
+                   ('review', u'Revisão'),
+                   ('approved', u'Aprovada'),
+                   ('unapproved', u'Não Aprovada')],
+        string=u'Status',
         readonly=True,
         track_visibility='onchange',
         index=True,
-        default='draft'
-    )
+        default='draft')
 
 
 class AccountFiscalPositionTaxAbstract(object):
@@ -52,11 +50,13 @@ class AccountFiscalPositionTaxAbstract(object):
     @api.onchange('tax_src_id',
                   'tax_group_id',
                   'position_id')
-    def onchange_tax_group(self):
+    def _onchange_tax_group(self):
         type_tax_use = {'input': 'purchase', 'output': 'sale'}
+        domain = []
 
-        domain = [('type_tax_use', 'in',
-                  (type_tax_use.get(self.position_id.type), 'none'))]
+        if self.position_id.type:
+            domain = [('type_tax_use', '=',
+                      (type_tax_use.get(self.position_id.type)))]
 
         if self.tax_group_id:
             domain.append(('tax_group_id', '=', self.tax_group_id.id))
