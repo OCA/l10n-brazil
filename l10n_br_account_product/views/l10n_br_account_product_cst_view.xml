@@ -17,6 +17,7 @@
         </field>
     </record>
 
+    <record id="l10n_br_account_product_cst_search" model="ir.ui.view">
         <field name="name">l10n_br_account_product.cst.search</field>
         <field name="model">l10n_br_account_product.cst</field>
         <field name="arch" type="xml">

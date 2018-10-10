@@ -150,8 +150,8 @@ class AccountInvoice(models.Model):
         'Emitente',
         default='0',
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     # FIXME
     internal_number = fields.Char(
         string='Invoice Number',
@@ -159,18 +159,18 @@ class AccountInvoice(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
         help="""Unique number of the invoice, computed
-            automatically when the invoice is created."""
-    )
+            automatically when the invoice is created.""")
+
     type = fields.Selection(
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     vendor_serie = fields.Char(
         string=u'Série NF Entrada',
         size=12,
         readonly=True,
         states={'draft': [('readonly', False)]},
-        help=u"Série do número da Nota Fiscal do Fornecedor"
-    )
+        help=u"Série do número da Nota Fiscal do Fornecedor")
+
     nfe_version = fields.Selection(
         selection=[('1.10', '1.10'),
                    ('2.00', '2.00'),
@@ -178,15 +178,15 @@ class AccountInvoice(models.Model):
         string=u'Versão NFe',
         readonly=True,
         default=_default_nfe_version,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     date_hour_invoice = fields.Datetime(
         string=u'Data e hora de emissão',
         readonly=True,
         states={'draft': [('readonly', False)]},
         index=True,
-        help="Deixe em branco para usar a data atual"
-    )
+        help="Deixe em branco para usar a data atual")
+
     ind_final = fields.Selection(
         selection=[('0', u'Não'),
                    ('1', u'Sim')],
@@ -195,8 +195,8 @@ class AccountInvoice(models.Model):
         related='fiscal_position_id.ind_final',
         states={'draft': [('readonly', False)]},
         required=False,
-        help=u'Indica operação com Consumidor final.'
-    )
+        help=u'Indica operação com Consumidor final.')
+
     ind_pres = fields.Selection(
         selection=[('0', u'Não se aplica'),
                    ('1', u'Operação presencial'),
@@ -211,18 +211,18 @@ class AccountInvoice(models.Model):
         default='0',
         help=u'Indicador de presença do comprador no\n'
              u'estabelecimento comercial no momento\n'
-             u'da operação.',
-    )
+             u'da operação.',)
+
     fiscal_document_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.document',
         string=u'Documento',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document
-    )
+        default=_default_fiscal_document)
+
     fiscal_document_electronic = fields.Boolean(
-        related='fiscal_document_id.electronic'
-    )
+        related='fiscal_document_id.electronic')
+
     document_serie_id = fields.Many2one(
         comodel_name='l10n_br_account.document.serie',
         string=u'Série',
@@ -230,47 +230,47 @@ class AccountInvoice(models.Model):
             ('company_id','=',company_id)]",
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_fiscal_document_serie
-    )
+        default=_default_fiscal_document_serie)
+
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Categoria Fiscal',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_fiscal_category,
-    )
+        default=_default_fiscal_category)
+
     date_in_out = fields.Datetime(
         string=u'Data de Entrada/Saida',
         readonly=True,
         states={'draft': [('readonly', False)]},
         index=True,
         copy=False,
-        help="Deixe em branco para usar a data atual"
-    )
+        help="Deixe em branco para usar a data atual")
+
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
         string=u'Tipo Fiscal',
-        default=PRODUCT_FISCAL_TYPE_DEFAULT
-    )
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+
     partner_shipping_id = fields.Many2one(
         comodel_name='res.partner',
         string=u'Endereço de Entrega',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        help="Shipping address for current sales order."
-    )
+        help="Shipping address for current sales order.")
+
     shipping_state_id = fields.Many2one(
         comodel_name='res.country.state',
-        string=u'Estado de Embarque'
-    )
+        string=u'Estado de Embarque')
+
     shipping_location = fields.Char(
         string=u'Local de Embarque',
-        size=32
-    )
+        size=32)
+
     expedition_location = fields.Char(
         string='Local de Despacho',
-        size=32
-    )
+        size=32)
+
     nfe_purpose = fields.Selection(
         selection=[('1', 'Normal'),
                    ('2', 'Complementar'),
@@ -279,255 +279,256 @@ class AccountInvoice(models.Model):
         string=u'Finalidade da Emissão',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_nfe_purpose
-    )
+        default=_default_nfe_purpose)
+
     nfe_access_key = fields.Char(
         string=u'Chave de Acesso NFE',
         size=44,
         readonly=True, states={'draft': [('readonly', False)]},
-        copy=False
-    )
+        copy=False)
+
     nfe_protocol_number = fields.Char(
         string=u'Protocolo',
         size=15,
         readonly=True,
-        copy=False, states={'draft': [('readonly', False)]}
-    )
+        copy=False, states={'draft': [('readonly', False)]})
+
     nfe_status = fields.Char(
         string=u'Status na Sefaz',
         size=44,
         readonly=True,
-        copy=False
-    )
+        copy=False)
+
     nfe_date = fields.Datetime(
         string=u'Data do Status NFE',
         readonly=True,
-       copy=False
-    )
+       copy=False)
+
     nfe_export_date = fields.Datetime(
         string=u'Exportação NFE',
-        readonly=True
-    )
+        readonly=True)
+
     cfop_ids = fields.Many2many(
         comodel_name='l10n_br_account_product.cfop',
         string=u'CFOP',
         copy=False,
-        compute='_compute_cfops'
-    )
+        compute='_compute_cfops')
+
     fiscal_document_related_ids = fields.One2many(
         comodel_name='l10n_br_account_product.document.related',
         inverse_name='invoice_id',
         string=u'Fiscal Document Related',
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     carrier_name = fields.Char(
         string=u'Nome Transportadora',
-        size=32
-    )
+        size=32)
+
     vehicle_plate = fields.Char(
         string=u'Placa do Veículo',
-        size=7
-    )
+        size=7)
+
     vehicle_state_id = fields.Many2one(
         comodel_name='res.country.state',
-        string=u'UF da Placa'
-    )
+        string=u'UF da Placa')
+
     vehicle_l10n_br_city_id = fields.Many2one(
         comodel_name='l10n_br_base.city',
         string=u'Município',
-        domain="[('state_id', '=', vehicle_state_id)]"
-    )
+        domain="[('state_id', '=', vehicle_state_id)]")
+
     amount_untaxed = fields.Float(
         string=u'Untaxed',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     amount_tax = fields.Float(
         string=u'Tax',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     amount_total = fields.Float(
         string=u'Total',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     amount_gross = fields.Float(
         string=u'Vlr. Bruto',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
-        readonly=True
-    )
+        readonly=True)
+
     amount_discount = fields.Float(
         string=u'Desconto',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     icms_base = fields.Float(
         string=u'Base ICMS',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
+
     icms_base_other = fields.Float(
         string=u'Base ICMS Outras',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
         readonly=True)
+
     icms_value = fields.Float(
         string=u'Valor ICMS',
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
-        store=True
-    )
+        store=True)
+
     icms_st_base = fields.Float(
         string=u'Base ICMS ST',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     icms_st_value = fields.Float(
         string=u'Valor ICMS ST',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     ipi_base = fields.Float(
         string=u'Base IPI',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     ipi_base_other = fields.Float(
         string=u'Base IPI Outras',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     ipi_value = fields.Float(
         string=u'Valor IPI',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     pis_base = fields.Float(
         string=u'Base PIS',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     pis_value = fields.Float(
         string=u'Valor PIS',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     cofins_base = fields.Float(
         string=u'Base COFINS',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     cofins_value = fields.Float(
         string=u'Valor COFINS',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
-        readonly=True
-    )
+        readonly=True)
+
     ii_value = fields.Float(
         string=u'Valor II',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
-        readonly=True
-    )
+        readonly=True)
+
     icms_fcp_value = fields.Float(
         string=u'Valor total do Fundo de Combate à Pobreza (FCP)',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
-        readonly=True
-    )
+        readonly=True)
+
     icms_dest_value = fields.Float(
         string=u'Valor total do ICMS Interestadual para a UF de destino',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
-        readonly=True
-    )
+        readonly=True)
+
     icms_origin_value = fields.Float(
         string=u'Valor total do ICMS Interestadual para a UF do remetente',
         store=True,
         digits=dp.get_precision('Account'),
         compute='_compute_amount',
-        readonly=True
-    )
+        readonly=True)
+
     weight = fields.Float(
         string=u'Gross weight',
         states={'draft': [('readonly', False)]},
         help="The gross weight in Kg.",
-        readonly=True
-    )
+        readonly=True)
+
     weight_net = fields.Float(
         string=u'Net weight',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        help="The net weight in Kg."
-    )
+        help="The net weight in Kg.")
+
     number_of_packages = fields.Integer(
         string=u'Volume',
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     kind_of_packages = fields.Char(
         string=u'Espécie',
         size=60,
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     brand_of_packages = fields.Char(
         string=u'Brand',
         size=60,
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     notation_of_packages = fields.Char(
         string=u'Numeração',
         size=60,
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     amount_insurance = fields.Float(
         string=u'Valor do Seguro',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     amount_freight = fields.Float(
         string=u'Valor do Frete',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     amount_costs = fields.Float(
         string=u'Outros Custos',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
+
     amount_total_taxes = fields.Float(
         string=u'Total de Tributos',
         store=True,
         digits=dp.get_precision('Account'),
-        compute='_compute_amount'
-    )
+        compute='_compute_amount')
 
     @api.one
     @api.constrains('number')
