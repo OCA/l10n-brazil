@@ -57,6 +57,7 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
+        inverse='inverse_situacao_esocial',
         store=True,
     )
     precisa_incluir = fields.Boolean(
@@ -85,6 +86,16 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
                 nome += ')'
 
             rubrica.nome = nome
+
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao',
+                 'sped_exclusao.situacao', 'precisa_atualizar')
+    def inverse_situacao_esocial(self):
+        """
+        Função apenas para liberar edição do campo situacao_esocial
+        :return:
+        """
+        for rubrica in self:
+            pass
 
     @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao', 'precisa_atualizar')
     def compute_situacao_esocial(self):
