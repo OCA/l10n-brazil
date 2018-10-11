@@ -7,32 +7,31 @@
             <field name="model">hr.salary.rule</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.l10n_br_hr_payroll_hr_salary_rule_form_view" />
             <field name="arch" type="xml">
+                <xpath expr="//label[@for='name']" position="before">
+                    <header>
+                        <button name="atualizar_rubrica" type="object" colspan="2"
+                             string="Ativar Rubrica no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('sped_rubrica_id', '!=', False), ('ini_valid', '=', False)]}" />
+                        <button name="atualizar_rubrica" type="object" colspan="2"
+                             string="Atualizar Rubrica no e-Social" class="oe_highlight"
+                             attrs="{'invisible': [('situacao_esocial', '!=', '2')]}" />
+                        <button name="atualizar_rubrica" type="object" colspan="2"
+                             string="Excluir Rubrica no e-Social" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('situacao_esocial', '!=', '2'), ('fim_valid', '=', False)]}" />
+                        <button name="transmitir_rubrica" colspan="4" type="object"
+                                string="Transmitir para o e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}" />
+                        <button name="consultar_rubrica" colspan="4" type="object"
+                                string="Consultar Processamento no e-Social" class="oe_highlight"
+                                attrs="{'invisible': [('situacao_esocial', 'not in', ['4'])]}" />
+                        <field name="situacao_esocial" widget="statusbar" select="1"
+                               nolabel="1" statusbar_visible="0" />
+                    </header>
+                </xpath>
+
                 <xpath expr="//page[@string='General']" position="after">
                     <page name="esocial" string="e-Social">
                         <form>
-                            <header>
-                                <button name="atualizar_rubrica" type="object" colspan="2"
-                                     string="Ativar Rubrica no e-Social" class="oe_highlight"
-                                     attrs="{'invisible': ['|', ('sped_rubrica_id', '!=', False), ('ini_valid', '=', False)]}"
-                                />
-                                <button name="atualizar_rubrica" type="object" colspan="2"
-                                     string="Atualizar Rubrica no e-Social" class="oe_highlight"
-                                     attrs="{'invisible': [('situacao_esocial', '!=', '2')]}"
-                                />
-                                <button name="atualizar_rubrica" type="object" colspan="2"
-                                     string="Excluir Rubrica no e-Social" class="oe_highlight"
-                                     attrs="{'invisible': ['|', ('situacao_esocial', '!=', '2'), ('fim_valid', '=', False)]}"
-                                />
-                                <button name="transmitir_rubrica" colspan="4" type="object"
-                                        string="Transmitir para o e-Social" class="oe_highlight"
-                                        attrs="{'invisible': [('situacao_esocial', 'not in', ['3', '5'])]}" />
-                                <button name="consultar_rubrica" colspan="4" type="object"
-                                        string="Consultar Processamento no e-Social" class="oe_highlight"
-                                        attrs="{'invisible': [('situacao_esocial', 'not in', ['4'])]}" />
-                                <field name="situacao_esocial" widget="statusbar" select="1"
-                                       nolabel="1" statusbar_visible="0"
-                                       readonly="1" />
-                            </header>
                             <group colspan="4" col="4">
                                 <group colspan="2" col="2" string="Identificação">
                                     <field name="codigo"
@@ -58,8 +57,7 @@
                             <group colspan="4" col="4">
                                 <field name="nat_rubr" colspan="4"
                                        options="{'no_create': True, 'no_open': True}"
-                                       attrs="{'required': [('ini_valid', '!=', False)]}"
-                                />
+                                       attrs="{'required': [('ini_valid', '!=', False)]}" />
                             </group>
                             <notepad>
                                 <page string="Dados Requeridos pelo e-Social" attrs="{'invisible': [('nat_rubr', '=', False)]}">
@@ -109,10 +107,14 @@
                                         <field name="cod_inc_fgts" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
                                         <separator colspan="4" string="Código de Incidência tributária da rubrica para a Contribuição Sindical" />
                                         <field name="cod_inc_sind" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
-                                        <field name="sped_rubrica_id" invisible="1" />
+
                                     </group>
                                 </page>
                             </notepad>
+
+                            <separator colspan="4" string="Envio ao e-Social" />
+                            <field name="sped_rubrica_id"/>
+
                         </form>
                     </page>
                 </xpath>
