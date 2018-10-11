@@ -34,9 +34,6 @@ class HrSalaryRule(models.Model):
         related='sped_rubrica_id.situacao_esocial',
         readonly=True,
     )
-    precisa_atualizar = fields.Boolean(
-        string='Precisa Atualizar',
-    )
 
     # Campos necessários para o e-Social que não existem ainda
     codigo = fields.Char(
@@ -317,18 +314,13 @@ class HrSalaryRule(models.Model):
             'cod_inc_sind',     # //eSocial/evtRubrica/infoRubrica//dadosRubrica/codIncSIND
             'note',             # //eSocial/evtRubrica/infoRubrica//dadosRubrica/observacao
         ]
-        precisa_atualizar = False
-
+        
         # Roda o vals procurando se algum desses campos está na lista
         # Empregador
-        if self.sped_rubrica_id and self.situacao_esocial == '1':
+        if self.sped_rubrica_id and self.sped_rubrica_id.situacao_esocial == '1':
             for campo in campos_monitorados:
                 if campo in vals:
-                    precisa_atualizar = True
-
-            # Se precisa_atualizar == True, inclui ele no vals
-            if precisa_atualizar:
-                vals['precisa_atualizar'] = precisa_atualizar
+                    self.sped_rubrica_id.precisa_atualizar = True
 
         # Grava os dados
         return super(HrSalaryRule, self).write(vals)

@@ -65,7 +65,6 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
     )
     precisa_atualizar = fields.Boolean(
         string='Precisa atualizar dados?',
-        related='rubrica_id.precisa_atualizar',
     )
     precisa_excluir = fields.Boolean(
         string='Precisa excluir dados?',
@@ -340,8 +339,8 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
-
-        self.rubrica_id.precisa_atualizar = False
+        self.precisa_atualizar = False
+        self.situacao_esocial = '1'
 
     @api.multi
     def transmitir(self):
