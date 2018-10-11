@@ -44,6 +44,7 @@ class SpedEsocial(models.Model):
     company_id = fields.Many2one(
         string='Empresa',
         comodel_name='res.company',
+        default=lambda self: self._default_company_base(),
     )
     company_id_readonly = fields.Many2one(
         string='Empresa',
@@ -160,6 +161,14 @@ class SpedEsocial(models.Model):
     def compute_tem_registros(self):
         for periodo in self:
             periodo.tem_registros = True if periodo.registro_ids else False
+
+    @api.model
+    def _default_company_base(self):
+        """
+        """
+        empresas_base_ids = \
+            self.env['res.company'].search([('eh_empresa_base', '=', True)])
+        return empresas_base_ids[0]
 
     @api.multi
     def compute_registro_ids(self):
