@@ -238,7 +238,7 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
                 if not reg:
                     values['operacao'] = 'A'
                     sped_alteracao = self.env['sped.registro'].create(values)
-                    self.sped_inclusao = sped_alteracao
+                    self.sped_alteracao = sped_alteracao
             elif self.precisa_excluir and not self.sped_exclusao:
                 values['operacao'] = 'E'
                 sped_exclusao = self.env['sped.registro'].create(values)
@@ -393,15 +393,6 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
                 if self.sped_exclusao == '2':
                     registro = self.sped_exclusao
 
-            # Com o registro identificado, é só rodar o método consulta_lote() do registro
+            # Com o registro identificado, é só rodar o método consulta_lote()
             if registro:
                 registro.consulta_lote()
-
-
-# class HrSalaryRule(models.Model):
-#     _inherit = "hr.salary.rule"
-#
-#     sped_esocial_rubrica_ids = fields.One2many(
-#         comodel_name='sped.esocial.rubrica',
-#         inverse_name='rubrica_id',
-#     )
