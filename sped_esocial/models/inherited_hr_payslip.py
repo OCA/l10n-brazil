@@ -10,7 +10,7 @@ class HrPaylisp(models.Model):
 
     # Campo motificado para utilizar a tabela de campos do e-Social
     # Tabela 19 - Motivos de Desligamento
-    mtv_deslig = fields.Many2one(
+    mtv_deslig_esocial = fields.Many2one(
         string='Motivo Desligamento',
         comodel_name='sped.motivo_desligamento',
         help="e-Social: S-2299 - mtvDeslig"
@@ -46,7 +46,32 @@ class HrPaylisp(models.Model):
             if holerite.state == 'draft':
                 if holerite.tipo_de_folha == 'rescisao':
                     holerite.contract_id.resignation_cause_id = \
-                        holerite.mtv_deslig
+                        holerite.mtv_deslig_esocial
                     holerite.contract_id.resignation_date = \
                         holerite.data_afastamento
             super(HrPaylisp, holerite).hr_verify_sheet()
+
+    @api.model
+    def create(self, vals):
+        if vals.get('mtv_deslig_esocial'):
+            vals['mtv_deslig'] = self.retorna_motivo_desligamento(vals['mtv_deslig_esocial'])
+
+        return super(HrPaylisp, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        for record in self:
+            if vals.get('mtv_deslig_esocial'):
+                vals['mtv_deslig'] = record.retorna_motivo_desligamento(vals['mtv_deslig_esocial'])
+            super(HrPaylisp, record).write(vals)
+
+        return True
+
+    def retorna_motivo_desligamento(self, motivo_id):
+        """
+        Função responsável por retornor o código e a descrição do motivo de desligamento por extenso através do
+        id do motivo.
+        """
+        mtv_desligamento_esocial = self.env['sped.motivo_desligamento'].browse(motivo_id)
+
+        return '{}-{}'.format(mtv_desligamento_esocial.codigo, mtv_desligamento_esocial.nome)
