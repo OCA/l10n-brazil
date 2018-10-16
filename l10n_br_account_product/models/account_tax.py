@@ -140,7 +140,7 @@ class AccountTax(models.Model):
             tax['percent'] = tax_brw.amount
             tax['base_reduction'] = tax_brw.base_reduction
             tax['amount_mva'] = tax_brw.amount_mva
-            tax['tax_discount'] = tax_brw.base_code_id.tax_discount
+            tax['tax_discount'] = tax_brw.tax_group_id.tax_discount
 
             if tax.get('domain') == 'icms':
                 tax['icms_base_type'] = tax_brw.icms_base_type
