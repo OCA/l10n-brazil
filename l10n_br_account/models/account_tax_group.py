@@ -4,6 +4,7 @@
 
 from odoo import models, fields
 
+
 class AccountTaxGroup(models.Model):
 
     _inherit = 'account.tax.group'
@@ -23,3 +24,8 @@ class AccountTaxGroup(models.Model):
                    ('csll', 'CSLL'),
                    ('other', 'Outra')],
         string='Tax Domain')
+
+    tax_discount = fields.Boolean(
+        string='Discount this Tax in Prince',
+        help="Mark it for (ICMS, PIS, COFINS and others taxes included).",
+    )
