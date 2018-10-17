@@ -262,6 +262,9 @@ def informacoes_adicionais(data, payslips):
     mes_do_ano = payslips[0].mes_do_ano
     ano = payslips[0].ano
 
+    company_logo = empresa_id.logo
+    company_nfe_logo = empresa_id.nfe_logo
+
     mes_vencimento = mes_do_ano + 1 if mes_do_ano < 12 else 1
     data_vencimento = \
         '20/' + ('0' + str(mes_vencimento)) if mes_vencimento < 10 else str(
@@ -272,6 +275,7 @@ def informacoes_adicionais(data, payslips):
         str(data_atual.year)
 
     data.update({
+        'object': payslips[0],
         'legal_name': legal_name,
         'endereco': endereco,
         'telefone': telefone if telefone else "",
@@ -280,10 +284,12 @@ def informacoes_adicionais(data, payslips):
         'estado': estado,
         'cep': cep,
         'cnpj_cpf': cnpj_cpf,
-        'mes_do_ano': mes_do_ano,
+        'mes_do_ano': '{:02d}'.format(mes_do_ano),
         'ano': ano,
         'data_atual': dia_atual,
         'data_vencimento': data_vencimento,
+        'company_logo': company_nfe_logo if company_nfe_logo else company_logo,
+        'company_logo2': company_nfe_logo if company_nfe_logo else company_logo,
     })
 
 def totalizadores_sefip(data, payslip_lines_sefip):
