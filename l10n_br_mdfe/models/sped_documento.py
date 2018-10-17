@@ -330,7 +330,9 @@ class SpedDocumento(models.Model):
                 self.situacao_mdfe = SITUACAO_MDFE_ENCERRADA
             return {}
 
-        resposta = mdfe.autorizacao(envio).resposta
+        processo = mdfe.autorizacao(envio)
+        xml_str = processo.retorno.request.body
+        resposta = processo.resposta
         if resposta.cStat != '103':
             self.mensagem_nfe = 'Código de retorno: ' + resposta.cStat + \
                                 '\nMensagem: ' + resposta.xMotivo
