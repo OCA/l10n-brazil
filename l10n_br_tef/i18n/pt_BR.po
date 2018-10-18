@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-28 19:06+0000\n"
-"PO-Revision-Date: 2018-08-28 19:06+0000\n"
+"POT-Creation-Date: 2018-10-18 21:01+0000\n"
+"PO-Revision-Date: 2018-10-18 21:01+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,9 +30,11 @@ msgid "A TEF terminal is available on the Proxy"
 msgstr "Um terminal TEF ficará disponível no Proxy"
 
 #. module: l10n_br_tef
+#: code:addons/l10n_br_tef/l10n_br_tef.py:16
 #: selection:pos.config,institution_selection:0
-msgid "Administradora"
-msgstr "Administradora"
+#, python-format
+msgid "Administrator"
+msgstr "Administrador"
 
 #. module: l10n_br_tef
 #. openerp-web
@@ -64,25 +66,30 @@ msgstr "Número do Cartão"
 
 #. module: l10n_br_tef
 #. openerp-web
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:118
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:126
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:127
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:135
 #, python-format
 msgid "Close"
 msgstr "Fechar"
 
 #. module: l10n_br_tef
 #. openerp-web
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:123
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:132
 #, python-format
 msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: l10n_br_tef
-#. openerp-web
-#: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:53
+#: code:addons/l10n_br_tef/l10n_br_tef.py:25
 #, python-format
-msgid "DD/mm/yy"
-msgstr "DD/mm/yy"
+msgid "Credit Approval Server"
+msgstr "Servidor de Homologação de Crédito"
+
+#. module: l10n_br_tef
+#: code:addons/l10n_br_tef/l10n_br_tef.py:30
+#, python-format
+msgid "Debit Approval Server"
+msgstr "Servidor de Homologação de Débito"
 
 #. module: l10n_br_tef
 #. openerp-web
@@ -92,16 +99,23 @@ msgid "Document Number"
 msgstr "Número do Documento"
 
 #. module: l10n_br_tef
-#: selection:pos.config,institution_selection:0
-msgid "Estabelecimento"
-msgstr "Estabelecimento"
-
-#. module: l10n_br_tef
 #. openerp-web
 #: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:84
 #, python-format
 msgid "Expiring Date"
 msgstr "Data de Vencimento"
+
+#. module: l10n_br_tef
+#: view:pos.config:l10n_br_tef.view_pos_config_form_tef
+msgid "Hardware Proxy"
+msgstr "Hardware Proxy"
+
+#. module: l10n_br_tef
+#: code:addons/l10n_br_tef/l10n_br_tef.py:17
+#: selection:pos.config,institution_selection:0
+#, python-format
+msgid "Institute"
+msgstr "Instituto"
 
 #. module: l10n_br_tef
 #: field:pos.config,institution_selection:0
@@ -131,7 +145,7 @@ msgstr "Senha"
 
 #. module: l10n_br_tef
 #. openerp-web
-#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:713
+#: code:addons/l10n_br_tef/static/src/js/l10n_br_tef.js:747
 #, python-format
 msgid "Please, wait!"
 msgstr "Por favor, aguarde!"
@@ -159,6 +173,11 @@ msgid "TEF"
 msgstr "TEF"
 
 #. module: l10n_br_tef
+#: view:pos.config:l10n_br_tef.view_pos_config_form_tef
+msgid "TEF Configuration"
+msgstr "Configurações TEF"
+
+#. module: l10n_br_tef
 #. openerp-web
 #: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:52
 #, python-format
@@ -177,7 +196,21 @@ msgstr "Valor da Transação"
 #: code:addons/l10n_br_tef/static/src/xml/l10n_br_tef.xml:46
 #, python-format
 msgid "User"
-msgstr ""
+msgstr "Usuário"
+
+#. module: l10n_br_tef
+#: code:addons/l10n_br_tef/l10n_br_tef.py:26
+#: help:pos.config,credit_server:0
+#, python-format
+msgid "Which credit approval server should be used"
+msgstr "Qual servidor de homologação de Crédito deve ser usado"
+
+#. module: l10n_br_tef
+#: code:addons/l10n_br_tef/l10n_br_tef.py:31
+#: help:pos.config,debit_server:0
+#, python-format
+msgid "Which debit approval server should be used"
+msgstr "Qual servidor de homologação de Dédito deve ser usado"
 
 #. module: l10n_br_tef
 #. openerp-web
