@@ -953,8 +953,11 @@ openerp.l10n_br_tef = function(instance){
             var ls_product_type = '';
             var ls_transaction_type = '';
 
+            var debit_server = this.pos.config.debit_server;
+            var credit_server = this.pos.config.credit_server;
+
             if(ls_global_operation === "purchase"){
-                var ls_product_type = (payment_type === "CD01")? "Debito-Bin" : "Credito-Bin";
+                var ls_product_type = (payment_type === "CD01")? debit_server : credit_server;
                 var ls_transaction_type = "Cartao Vender";
             } else if (ls_global_operation === "cancellation"){
                 var ls_transaction_type = "Administracao Cancelar";

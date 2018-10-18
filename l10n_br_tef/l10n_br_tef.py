@@ -20,3 +20,13 @@ class PosConfig(models.Model):
         help=_("Institution selection for installment payments"),
         default='Estabelecimento',
     )
+
+    credit_server = fields.Char(
+        string=_("Credit Approval Server"),
+        help=_("Which credit approval server should be used"),
+    )
+
+    debit_server = fields.Char(
+        string=_("Debit Approval Server"),
+        help=_("Which debit approval server should be used"),
+    )

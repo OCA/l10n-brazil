@@ -14,6 +14,8 @@
                 <group string="Hardware Proxy" position="after">
                     <group string="Configuraçoes TEF" attrs="{'invisible': [('iface_tef', '=', False)]}">
                         <field name="institution_selection"/>
+                        <field name="credit_server"/>
+                        <field name="debit_server"/>
                     </group>
                 </group>
 
