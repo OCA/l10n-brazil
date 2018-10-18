@@ -11,9 +11,12 @@
                     <field name="iface_tef"/>
                 </field>
 
-                <field name="group_by" position="after">
-                    <field name="institution_selection"/>
-                </field>
+                <group string="Hardware Proxy" position="after">
+                    <group string="Configuraçoes TEF" attrs="{'invisible': [('iface_tef', '=', False)]}">
+                        <field name="institution_selection"/>
+                    </group>
+                </group>
+
             </field>
         </record>
 
