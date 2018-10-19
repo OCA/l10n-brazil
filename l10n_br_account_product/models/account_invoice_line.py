@@ -874,7 +874,7 @@ class AccountInvoiceLine(models.Model):
             self.with_context(ctx)._fiscal_position_map(**kwargs)
 
             kwargs.update({
-                'invoice_line_tax_id': [
+                'invoice_line_tax_ids': [
                     (6, 0, self.invoice_line_tax_ids.ids)],
                 'quantity': self.quantity,
                 'price_unit': self.price_unit,
