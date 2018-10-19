@@ -80,7 +80,9 @@ class AccountFiscalPosition(models.Model):
         return result
 
     @api.multi
-    def _map_tax(self, product_id, taxes):
+    def _map_tax(self, product_id, taxes, partner=None):
+        if partner is None:
+            partner = self.env.context.get('partner_id')
         result = {}
         product_fc = product_id.fiscal_classification_id
         if self.company_id and \
@@ -113,25 +115,22 @@ class AccountFiscalPosition(models.Model):
                     'ipi_guideline':  ncm_tax_def.tax_ipi_guideline_id,
                 }
 
-        if self.env.context.get('partner_id'):
-            partner = self.env['res.partner'].browse(
-                self.env.context.get('partner_id'))
-            if (self.env.context.get('type_tax_use') in ('sale', 'all') and
-                    self.env.context.get('fiscal_type',
-                                         'product') == 'product'):
-                state_taxes = partner.state_id.product_tax_definition_line
-                for tax_def in state_taxes:
-                    if tax_def.tax_id:
-                        fc = tax_def.fiscal_classification_id
-                        if (not fc and not tax_def.cest_id) or \
-                                (fc == product_fc or
-                                 tax_def.cest_id == product_id.cest_id):
-                            taxes |= tax_def.tax_id
+        if (self.env.context.get('type_tax_use') in ('sale', 'all') and
+                self.env.context.get('fiscal_type',
+                                     'product') == 'product'):
+            state_taxes = partner.state_id.product_tax_definition_line
+            for tax_def in state_taxes:
+                if tax_def.tax_id:
+                    fc = tax_def.fiscal_classification_id
+                    if (not fc and not tax_def.cest_id) or \
+                            (fc == product_fc or
+                             tax_def.cest_id == product_id.cest_id):
+                        taxes |= tax_def.tax_id
 
-                            result[tax_def.tax_id.domain] = {
-                                'tax': tax_def.tax_id,
-                                'tax_code': tax_def.tax_code_id,
-                            }
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                        }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
         map_taxes_ncm = self.env['account.fiscal.position.tax'].browse()
@@ -190,10 +189,10 @@ class AccountFiscalPosition(models.Model):
                 })
         return result
 
-    @api.v8
+    @api.model
     def map_tax(self, taxes, product=None, partner=None):
-        result = self.env['account.tax'].browse()
-        taxes_codes = self._map_tax(product, taxes)
+        result = self.env['account.tax']
+        taxes_codes = self._map_tax(product, taxes, partner)
         for tax in taxes_codes:
             if taxes_codes[tax].get('tax'):
                 result |= taxes_codes[tax].get('tax')
