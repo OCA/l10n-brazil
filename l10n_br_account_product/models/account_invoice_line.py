@@ -206,7 +206,7 @@ class AccountInvoiceLine(models.Model):
     icms_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST ICMS',
-        domain=[('domain', '=', 'icms')])
+        domain=[('tax_group_id.domain', '=', 'icms')])
     icms_relief_id = fields.Many2one(
         comodel_name='l10n_br_account_product.icms_relief',
         string=u'Desoneração ICMS'
@@ -284,7 +284,7 @@ class AccountInvoiceLine(models.Model):
     ipi_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST IPI',
-        domain=[('domain', '=', 'ipi')]
+        domain=[('tax_group_id.domain', '=', 'ipi')]
     )
     ipi_guideline_id = fields.Many2one(
         comodel_name='l10n_br_account_product.ipi_guideline',
@@ -328,7 +328,7 @@ class AccountInvoiceLine(models.Model):
     pis_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST PIS',
-        domain=[('domain', '=', 'pis')]
+        domain=[('tax_group_id.domain', '=', 'pis')]
     )
     pis_st_type = fields.Selection(
         selection=[('percent', 'Percentual'),
@@ -392,7 +392,7 @@ class AccountInvoiceLine(models.Model):
     cofins_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST PIS',
-        domain=[('domain', '=', 'cofins')]
+        domain=[('tax_group_id.domain', '=', 'cofins')]
     )
     cofins_st_type = fields.Selection(
         selection=[('percent', 'Percentual'),
