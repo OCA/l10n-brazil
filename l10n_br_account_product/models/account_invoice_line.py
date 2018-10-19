@@ -746,7 +746,11 @@ class AccountInvoiceLine(models.Model):
                 # no documento fiscal, os mesmos são calculados.
                 continue
 
-        taxes_dict = self._get_tax_codes(product_id, fiscal_position, taxes)
+        ctx = self.env.context.copy()
+        ctx['partner_id'] = partner
+
+        taxes_dict = self.with_context(ctx)._get_tax_codes(
+            product_id, fiscal_position, taxes)
 
         for key in taxes_dict:
             result[key] = values.get(key) or taxes_dict[key]
@@ -804,7 +808,7 @@ class AccountInvoiceLine(models.Model):
                 tax_ids = fp.with_context(ctx).map_tax(
                     taxes, kwargs.get('product_id'))
                 self.invoice_line_tax_ids = tax_ids
-                self.update(self._get_tax_codes(
+                self.update(self.with_context(ctx)._get_tax_codes(
                     kwargs['product_id'], fp, tax_ids))
 
         return fp
