@@ -12,7 +12,7 @@
     'version': '8.0.0.0.1',
     'depends': [
         'hr_payroll',
-        'l10n_br_resource',
+        'l10n_br_hr_resource',
         'l10n_br_hr_holiday',
         'l10n_br_hr_contract',
         'l10n_br_hr_vacation',
