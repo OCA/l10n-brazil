@@ -94,7 +94,7 @@ class AccountFiscalPosition(models.Model):
                         taxes |= tax_def.tax_id
                         result[tax_def.tax_id.domain] = {
                             'tax': tax_def.tax_id,
-                            'tax_code': tax_def.tax_code_id,
+                            'tax_code': tax_def.cst_id,
                             'icms_relief': tax_def.tax_icms_relief_id,
                             'ipi_guideline':  tax_def.tax_ipi_guideline_id,
                         }
@@ -110,7 +110,7 @@ class AccountFiscalPosition(models.Model):
             if ncm_tax_def.tax_id:
                 result[ncm_tax_def.tax_id.domain] = {
                     'tax': ncm_tax_def.tax_id,
-                    'tax_code': ncm_tax_def.tax_code_id,
+                    'tax_code': ncm_tax_def.cst_id,
                     'icms_relief': ncm_tax_def.tax_icms_relief_id,
                     'ipi_guideline':  ncm_tax_def.tax_ipi_guideline_id,
                 }
@@ -129,7 +129,7 @@ class AccountFiscalPosition(models.Model):
 
                         result[tax_def.tax_id.domain] = {
                             'tax': tax_def.tax_id,
-                            'tax_code': tax_def.tax_code_id,
+                            'tax_code': tax_def.cst_id,
                         }
 
         map_taxes = self.env['account.fiscal.position.tax'].browse()
