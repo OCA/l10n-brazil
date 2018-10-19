@@ -37,7 +37,7 @@ class AccountInvoiceLine(models.Model):
             self.price_tax_discount = self.invoice_id.currency_id.round(
                 taxes['total_excluded'] - taxes['total_tax_discount'] * sign)
             self.price_subtotal = self.invoice_id.currency_id.round(
-                taxes['total_excluded'] * sign)
+                taxes['base'] * sign)
             self.price_gross = self.invoice_id.currency_id.round(
                 self.price_unit * self.quantity * sign)
             self.discount_value = self.invoice_id.currency_id.round(
@@ -525,8 +525,8 @@ class AccountInvoiceLine(models.Model):
             'icms_base': tax.get('total_base', 0.0),
             'icms_base_other': tax.get('total_base_other', 0.0),
             'icms_value': tax.get('amount', 0.0),
-            'icms_percent': tax.get('percent', 0.0) * 100,
-            'icms_percent_reduction': tax.get('base_reduction') * 100,
+            'icms_percent': tax.get('percent', 0.0),
+            'icms_percent_reduction': tax.get('base_reduction'),
             'icms_base_type': tax.get('icms_base_type', '0'),
         }
         return result
@@ -534,9 +534,9 @@ class AccountInvoiceLine(models.Model):
     def _amount_tax_icmsinter(self, tax=None):
         result = {
             'icms_dest_base': tax.get('total_base', 0.0),
-            'icms_dest_percent': tax.get('percent', 0.0) * 100,
-            'icms_origin_percent': tax.get('icms_origin_percent', 0.0) * 100,
-            'icms_part_percent': tax.get('icms_part_percent', 0.0) * 100,
+            'icms_dest_percent': tax.get('percent', 0.0),
+            'icms_origin_percent': tax.get('icms_origin_percent', 0.0),
+            'icms_part_percent': tax.get('icms_part_percent', 0.0),
             'icms_dest_value': tax.get('icms_dest_value', 0.0),
             'icms_origin_value': tax.get('icms_origin_value', 0.0),
         }
@@ -544,7 +544,7 @@ class AccountInvoiceLine(models.Model):
 
     def _amount_tax_icmsfcp(self, tax=None):
         result = {
-            'icms_fcp_percent': tax.get('percent', 0.0) * 100,
+            'icms_fcp_percent': tax.get('percent', 0.0),
             'icms_fcp_value': tax.get('amount', 0.0),
         }
         return result
@@ -553,10 +553,10 @@ class AccountInvoiceLine(models.Model):
         result = {
             'icms_st_value': tax.get('amount', 0.0),
             'icms_st_base': tax.get('total_base', 0.0),
-            'icms_st_percent': tax.get('icms_st_percent', 0.0) * 100,
+            'icms_st_percent': tax.get('icms_st_percent', 0.0),
             'icms_st_percent_reduction': tax.get(
                 'icms_st_percent_reduction',
-                0.0) * 100,
+                0.0),
             'icms_st_mva': tax.get('amount_mva', 0.0) * 100,
             'icms_st_base_other': tax.get('icms_st_base_other', 0.0),
             'icms_st_base_type': tax.get('icms_st_base_type', '4')
@@ -568,7 +568,7 @@ class AccountInvoiceLine(models.Model):
             'ipi_type': tax.get('type'),
             'ipi_base': tax.get('total_base', 0.0),
             'ipi_value': tax.get('amount', 0.0),
-            'ipi_percent': tax.get('percent', 0.0) * 100,
+            'ipi_percent': tax.get('percent', 0.0),
         }
         return result
 
@@ -577,7 +577,7 @@ class AccountInvoiceLine(models.Model):
             'cofins_base': tax.get('total_base', 0.0),
             'cofins_base_other': tax.get('total_base_other', 0.0),
             'cofins_value': tax.get('amount', 0.0),
-            'cofins_percent': tax.get('percent', 0.0) * 100,
+            'cofins_percent': tax.get('percent', 0.0),
         }
         return result
 
@@ -595,7 +595,7 @@ class AccountInvoiceLine(models.Model):
             'pis_base': tax.get('total_base', 0.0),
             'pis_base_other': tax.get('total_base_other', 0.0),
             'pis_value': tax.get('amount', 0.0),
-            'pis_percent': tax.get('percent', 0.0) * 100,
+            'pis_percent': tax.get('percent', 0.0),
         }
         return result
 
@@ -626,7 +626,7 @@ class AccountInvoiceLine(models.Model):
         result = {
             'issqn_type': issqn_type,
             'issqn_base': tax.get('total_base', 0.0),
-            'issqn_percent': tax.get('percent', 0.0) * 100,
+            'issqn_percent': tax.get('percent', 0.0),
             'issqn_value': tax.get('amount', 0.0),
         }
         return result

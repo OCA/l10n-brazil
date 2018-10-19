@@ -32,42 +32,44 @@ class AccountTax(models.Model):
         required=True,
         default='4')
 
-    # @api.model
-    # def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
-    #                 precision, base_tax=0.0):
-    #     result = {'tax_discount': 0.0, 'taxes': []}
+    @api.model
+    def _compute_tax(self, taxes, total_line, product, product_qty,
+                          precision, base_tax=0.0):
+        result = {'tax_discount': 0.0, 'taxes': []}
 
-    #    for tax in taxes:
-    #        if tax.get('type') == 'weight' and product:
-    #            product_read = self.pool.get('product.product').read(
-    #                cr, uid, product, ['weight_net'])
-    #            tax['amount'] = round((product_qty * product_read.get(
-    #                'weight_net', 0.0)) * tax['percent'], precision)
+        for tax in taxes:
+            if tax.get('type') == 'weight' and product:
+                product_read = self.env['product.product'].read(
+                    product, ['weight_net'])
+                tax['amount'] = round((product_qty * product_read.get(
+                    'weight_net', 0.0)) * tax['percent'], precision)
 
-    #        if base_tax:
-    #            total_line = base_tax
+            if base_tax:
+                total_line = base_tax
 
-    #        if tax.get('type') == 'quantity':
-    #            tax['amount'] = round(product_qty * tax['percent'], precision)
+            if tax.get('type') == 'quantity':
+                tax['amount'] = round(
+                    product_qty * tax['percent'] / 100, precision)
 
-    #        tax['amount'] = round(total_line * tax['percent'], precision)
-    #        tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']),
-    #                              precision)
+            tax['amount'] = round(
+                total_line * tax['percent'] / 100, precision)
+            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']),
+                                  precision)
 
-    #        if tax.get('tax_discount'):
-    #            result['tax_discount'] += tax['amount']
+            if tax.get('tax_discount'):
+                result['tax_discount'] += tax['amount']
 
-    #        if tax['percent']:
-    #            unrounded_base = total_line * (1 - tax['base_reduction'])
-    #            tax['total_base'] = round(unrounded_base, precision)
-    #            tax['total_base_other'] = round(total_line - tax['total_base'],
-    #                                            precision)
-    #        else:
-    #            tax['total_base'] = 0.00
-    #            tax['total_base_other'] = 0.00
+            if tax['percent']:
+                unrounded_base = total_line * (1 - tax['base_reduction'])
+                tax['total_base'] = round(unrounded_base, precision)
+                tax['total_base_other'] = round(total_line - tax['total_base'],
+                                               precision)
+            else:
+                tax['total_base'] = 0.00
+                tax['total_base_other'] = 0.00
 
-    #    result['taxes'] = taxes
-    #    return result
+        result['taxes'] = taxes
+        return result
 
     @api.multi
     def compute_all(self, price_unit, currency=None, quantity=1.0,
@@ -95,48 +97,21 @@ class AccountTax(models.Model):
                 'analytic': boolean,
             }]
         } """
+        precision = currency.decimal_places or \
+            self.env['decimal.precision'].precision_get('Account')
         result = super(AccountTax, self).compute_all(price_unit, currency,
                                                    quantity, product,
                                                    partner)
-        result['total_tax_discount'] = 0.0
-        return result
-        """ Returns all information required to apply taxes
-            (in self + their children in case of a tax goup).
-            We consider the sequence of the parent for group of taxes.
-                Eg. considering letters as taxes and alphabetic
-                    order as sequence :
-                [G, B([A, D, F]), E, C] will be computed as [A, D, F, C, E, G]
-        RETURN: {
-            'total_excluded': 0.0,    # Total without taxes
-            'total_included': 0.0,    # Total with taxes
-            'total_tax_discount': 0.0 # Total tax out of price
-            'taxes': [{               # One dict for each tax in
-                'id': int,            # self and their children
-                'name': str,
-                'amount': float,
-                'sequence': int,
-                'account_id': int,
-                'refund_account_id': int,
-                'analytic': boolean,
-            }]
-        } """
-"""
-        obj_precision = self.pool.get('decimal.precision')
-        precision = obj_precision.precision_get(cr, uid, 'Account')
-        result = super(AccountTax, self).compute_all(cr, uid, taxes,
-                                                     price_unit, quantity,
-                                                     product, partner,
-                                                     force_excluded)
         totaldc = icms_value = 0.0
         ipi_value = 0.0
         calculed_taxes = []
 
         for tax in result['taxes']:
-            tax_list = [tx for tx in taxes if tx.id == tax['id']]
+            tax_list = [tx for tx in self if tx.id == tax['id']]
             if tax_list:
                 tax_brw = tax_list[0]
             tax['domain'] = tax_brw.domain
-            tax['type'] = tax_brw.type
+            tax['type'] = tax_brw.type or tax_brw.amount_type
             tax['percent'] = tax_brw.amount
             tax['base_reduction'] = tax_brw.base_reduction
             tax['amount_mva'] = tax_brw.amount_mva
@@ -151,14 +126,14 @@ class AccountTax(models.Model):
         common_taxes = [tx for tx in result['taxes'] if tx[
             'domain'] not in ['icms', 'icmsst', 'ipi', 'icmsinter',
                               'icmsfcp']]
-        result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
+        result_tax = self._compute_tax(common_taxes, result['base'],
                                        product, quantity, precision, base_tax)
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
 
         # Calcula o IPI
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
-        result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'],
+        result_ipi = self._compute_tax(specific_ipi, result['base'],
                                        product, quantity, precision, base_tax)
         totaldc += result_ipi['tax_discount']
         calculed_taxes += result_ipi['taxes']
@@ -170,7 +145,7 @@ class AccountTax(models.Model):
                          if tx['domain'] == 'icms']
 
         # Adiciona frete seguro e outras despesas na base do ICMS
-        total_base = (result['total'] + insurance_value +
+        total_base = (result['base'] + insurance_value +
                       freight_value + other_costs_value)
 
         # Em caso de operação de ativo adiciona o IPI na base de ICMS
@@ -178,8 +153,6 @@ class AccountTax(models.Model):
             total_base += ipi_value
 
         result_icms = self._compute_tax(
-            cr,
-            uid,
             specific_icms,
             total_base,
             product,
@@ -194,7 +167,7 @@ class AccountTax(models.Model):
         # Calcula a FCP
         specific_fcp = [tx for tx in result['taxes']
                         if tx['domain'] == 'icmsfcp']
-        result_fcp = self._compute_tax(cr, uid, specific_fcp, total_base,
+        result_fcp = self._compute_tax(specific_fcp, total_base,
                                        product, quantity, precision, base_tax)
         totaldc += result_fcp['tax_discount']
         calculed_taxes += result_fcp['taxes']
@@ -203,8 +176,6 @@ class AccountTax(models.Model):
         specific_icms_inter = [tx for tx in result['taxes']
                                if tx['domain'] == 'icmsinter']
         result_icms_inter = self._compute_tax(
-            cr,
-            uid,
             specific_icms_inter,
             total_base,
             product,
@@ -229,7 +200,6 @@ class AccountTax(models.Model):
                 # Procura o percentual de partilha vigente
                 icms_partition_ids = self.pool.get(
                     'l10n_br_tax.icms_partition').search(
-                        cr, uid,
                         [('date_start', '<=',
                           time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
                          ('date_end', '>=',
@@ -239,7 +209,7 @@ class AccountTax(models.Model):
                 if icms_partition_ids:
                     icms_partition = self.pool.get(
                         'l10n_br_tax.icms_partition').browse(
-                            cr, uid, icms_partition_ids[0])
+                            icms_partition_ids[0])
                     result_icms_inter['taxes'][0]['icms_part_percent'] = \
                         icms_partition.rate / 100
 
@@ -263,20 +233,20 @@ class AccountTax(models.Model):
         # Calcula ICMS ST
         specific_icmsst = [tx for tx in result['taxes']
                            if tx['domain'] == 'icmsst']
-        result_icmsst = self._compute_tax(cr, uid, specific_icmsst,
-                                          result['total'], product,
+        result_icmsst = self._compute_tax(specific_icmsst,
+                                          result['total_included'], product,
                                           quantity, precision, base_tax)
         totaldc += result_icmsst['tax_discount']
         if result_icmsst['taxes']:
             icms_st_percent = result_icmsst['taxes'][0]['percent']
             icms_st_percent_reduction = result_icmsst[
                 'taxes'][0]['base_reduction']
-            icms_st_base = round(((result['total'] + ipi_value) *
+            icms_st_base = round(((result['total_included'] + ipi_value) *
                                  (1 - icms_st_percent_reduction)) *
                                  (1 + result_icmsst['taxes'][0]['amount_mva']),
                                  precision)
             icms_st_base_other = round(
-                ((result['total'] + ipi_value) * (
+                ((result['total_included'] + ipi_value) * (
                     1 + result_icmsst['taxes'][0]['amount_mva'])),
                 precision) - icms_st_base
             result_icmsst['taxes'][0]['total_base'] = icms_st_base
@@ -295,16 +265,15 @@ class AccountTax(models.Model):
         if fiscal_position and fiscal_position.asset_operation:
             if product.origin in ('1', '2', '6', '7'):
                 total_taxes = ((result['total_included'] - totaldc) *
-                               product.estd_import_taxes_perct/100)
+                               (product.estd_import_taxes_perct or 0.0)/100)
             else:
                 total_taxes = ((result['total_included'] - totaldc) *
-                               product.estd_national_taxes_perct/100)
+                               (product.estd_national_taxes_perct or 0.0)/100)
             result['total_taxes'] = round(total_taxes, precision)
 
-        return {
-            'total': result['total'],
-            'total_included': result.get('total_included', 0.00),
+        result.update({
             'total_tax_discount': totaldc,
             'taxes': calculed_taxes,
-            'total_taxes': result.get('total_taxes', 0.00),
-        }"""
+        })
+
+        return result
