@@ -453,7 +453,7 @@
             <field name="name">hr.ferias.simulacao.tree</field>
             <field name="model">hr.payslip</field>
             <field name="arch" type="xml">
-                <tree string="Payslips" create="false" delete="false">
+                <tree string="Payslips">
                     <field name="number"/>
                     <field name="employee_id"/>
                     <field name="name"/>
