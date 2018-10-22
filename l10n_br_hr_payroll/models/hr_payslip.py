@@ -2770,6 +2770,11 @@ class HrPayslip(models.Model):
                         AVOS="%d" % (int(round(avos, 2))))
 
                     tipo = line.salary_rule_id.category_id.code
+
+                    # Rurica do INSS esta como referência por causa do e-social
+                    if 'INSS' in line.code:
+                        tipo = 'INSS'
+
                     rescisao_ids.append({
                         'codigo': codigo,
                         'name': descricao,
