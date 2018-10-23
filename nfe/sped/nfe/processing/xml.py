@@ -29,7 +29,7 @@ from pyPdf import PdfFileReader, PdfFileWriter
 from .certificado import Certificado
 from .processor import ProcessadorNFe
 
-from openerp.addons.nfe.tools.misc import mount_path_nfe
+from odoo.addons.nfe.tools.misc import mount_path_nfe
 
 import logging
 _logger = logging.getLogger(__name__)

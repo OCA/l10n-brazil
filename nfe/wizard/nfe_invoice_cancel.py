@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 
 class NfeInvoiceCancel(models.Model):

@@ -17,13 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp.addons.nfe.sped.nfe.processing.xml import check_partner
-from openerp.addons.nfe.sped.nfe.validator.config_check import \
+from odoo.addons.nfe.sped.nfe.processing.xml import check_partner
+from odoo.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration
 import xml.etree.ElementTree as ET
-from openerp.osv import orm
-from openerp.tools.translate import _
-from openerp import models, fields, api
+from odoo.osv import orm
+from odoo.tools.translate import _
+from odoo import models, fields, api
 
 
 class ResPartner(models.Model):

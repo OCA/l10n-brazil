@@ -19,8 +19,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp import models, fields, api
-from openerp.addons.nfe.sped.nfe.processing.xml import send_correction_letter
+from odoo import models, fields, api
+from odoo.addons.nfe.sped.nfe.processing.xml import send_correction_letter
 
 
 class NfeInvoiceCce(models.TransientModel):

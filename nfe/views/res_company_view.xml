@@ -6,7 +6,7 @@
 			<field name="model">res.company</field>
 			<field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form"/>
 			<field name="arch" type="xml">
-                <page string="NFe" position="inside">
+                <page name="nfe" position="inside">
                     <group string="Logo para NFe">
 						<div>
 						<label string="Usar a Logo na Vertical?"/>

@@ -21,16 +21,16 @@ import os
 import logging
 import datetime
 
-from openerp.tools.translate import _
-from openerp import models, fields, api
-from openerp.exceptions import RedirectWarning
+from odoo.tools.translate import _
+from odoo import models, fields, api
+from odoo.exceptions import RedirectWarning
 
-from openerp.addons.nfe.sped.nfe.nfe_factory import NfeFactory
-from openerp.addons.nfe.sped.nfe.validator.xml import XMLValidator
-from openerp.addons.nfe.sped.nfe.processing.xml import send, cancel
-from openerp.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
-from openerp.addons.nfe.sped.nfe.processing.xml import check_key_nfe
-from openerp.addons.nfe.sped.nfe.validator.config_check import \
+from odoo.addons.nfe.sped.nfe.nfe_factory import NfeFactory
+from odoo.addons.nfe.sped.nfe.validator.xml import XMLValidator
+from odoo.addons.nfe.sped.nfe.processing.xml import send, cancel
+from odoo.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
+from odoo.addons.nfe.sped.nfe.processing.xml import check_key_nfe
+from odoo.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration, validate_invoice_cancel
 
 _logger = logging.getLogger(__name__)

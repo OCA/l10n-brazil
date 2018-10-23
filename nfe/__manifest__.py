@@ -45,7 +45,7 @@
         'security/ir.model.access.csv',
         'wizard/nfe_invoice_cce_view.xml',
         'wizard/nfe_invoice_cancel_view.xml',
-        'account_invoice_workflow.xml',
+        # 'account_invoice_workflow.xml',
         'views/l10n_br_account_view.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
@@ -54,5 +54,5 @@
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
 }

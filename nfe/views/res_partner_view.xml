@@ -4,10 +4,10 @@
        <record id="nfe_res_partner_view_buttons" model="ir.ui.view">
             <field name="name">res.partner.view.buttons</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form" />
             <field name="priority" eval="20"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@name='buttons']" position="inside">
+                <xpath expr="//div[@name='button_box']" position="inside">
                 	<button name="sefaz_check" type="object" class="oe_inline oe_stat_button" 
                 		icon="fa-search" string="Consultar SEFAZ">
                 	</button>                	

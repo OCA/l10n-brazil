@@ -17,8 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from openerp.osv import orm
-from openerp.tools.translate import _
+from odoo.osv import orm
+from odoo.tools.translate import _
 
 
 def validate_nfe_invalidate_number(company, record):

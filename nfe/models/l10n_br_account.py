@@ -19,12 +19,12 @@
 
 import datetime
 import logging
-from openerp import models, fields, api
-from openerp.exceptions import RedirectWarning
-from openerp.tools.translate import _
-from openerp.addons.nfe.sped.nfe.validator.config_check import \
+from odoo import models, fields, api
+from odoo.exceptions import RedirectWarning
+from odoo.tools.translate import _
+from odoo.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration, validate_nfe_invalidate_number
-from openerp.addons.nfe.sped.nfe.processing.xml import invalidate
+from odoo.addons.nfe.sped.nfe.processing.xml import invalidate
 
 _logger = logging.getLogger(__name__)
 

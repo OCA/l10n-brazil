@@ -17,10 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp import models, api
-from openerp.osv import orm
-from openerp.tools.translate import _
-from openerp.addons.nfe.sped.nfe.processing.xml import check_key_nfe
+from odoo import models, api
+from odoo.osv import orm
+from odoo.tools.translate import _
+from odoo.addons.nfe.sped.nfe.processing.xml import check_key_nfe
 
 
 class L10n_brAccountDocumentStatusSefaz(models.TransientModel):

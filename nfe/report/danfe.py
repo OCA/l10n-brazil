@@ -18,10 +18,9 @@
 ###############################################################################
 
 from __future__ import with_statement
-from openerp.report.render import render
-from openerp.report.interface import report_int
-from openerp import pooler
-from openerp.addons.nfe.sped.nfe.processing.xml import print_danfe
+from odoo.report.render import render
+from odoo.report.interface import report_int
+from odoo.addons.nfe.sped.nfe.processing.xml import print_danfe
 
 
 class external_pdf(render):
@@ -42,10 +41,9 @@ class report_custom(report_int):
 
     def create(self, cr, uid, ids, datas, context={}):
         active_ids = context.get('active_ids')
-        pool = pooler.get_pool(cr.dbname)
         # list_account_invoice = []
 
-        ai_obj = pool.get('account.invoice')
+        ai_obj = self.env['account.invoice']
         account_invoice = ai_obj.browse(cr, uid, active_ids)
         # for account_invoice in ai_obj.browse(cr, uid, active_ids):
         #     list_account_invoice.append(account_invoice.id)

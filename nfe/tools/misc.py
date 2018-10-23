@@ -19,10 +19,10 @@
 
 import os
 
-from openerp.tools import config
-from openerp.tools.translate import _
-from openerp.exceptions import RedirectWarning
-from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
+from odoo.tools import config
+from odoo.tools.translate import _
+from odoo.exceptions import RedirectWarning
+from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
 def mount_path_nfe(company, document='nfe'):

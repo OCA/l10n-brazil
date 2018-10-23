@@ -29,15 +29,15 @@ class NfeFactory(object):
         :return: Objeto Nfe
         """
         if nfe_version == '4.00':
-            from openerp.addons.l10n_br_account_product.sped.nfe.document \
+            from odoo.addons.l10n_br_account_product.sped.nfe.document \
                 import NFe400
             nfe_obj = NFe400()
         elif nfe_version == '3.10':
-            from openerp.addons.l10n_br_account_product.sped.nfe.document \
+            from odoo.addons.l10n_br_account_product.sped.nfe.document \
                 import NFe310
             nfe_obj = NFe310()
         else:
-            from openerp.addons.l10n_br_account_product.sped.nfe.document \
+            from odoo.addons.l10n_br_account_product.sped.nfe.document \
                 import NFe200
             nfe_obj = NFe200()
         return nfe_obj
