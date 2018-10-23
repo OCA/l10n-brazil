@@ -38,7 +38,7 @@
                             <separator colspan="4" string="Impostos sobre Produtos"/>
                             <field colspan="2" nolabel="1" widget="one2many_list" name="product_tax_definition_line"/>
                         </page>
-                        <page string="NFe">
+                        <page name="nfe" string="NFe">
                             <group>
                                 <field name="nfe_version" required="1"/>
                                 <field name="accountant_cnpj_cpf" required="1"/>
