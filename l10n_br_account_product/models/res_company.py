@@ -36,7 +36,8 @@ class ResCompany(models.Model):
     nfe_version = fields.Selection(
         selection=[('1.10', '1.10'),
                    ('2.00', '2.00'),
-                   ('3.10', '3.10')],
+                   ('3.10', '3.10'),
+                   ('4.00', '4.00')],
         string=u'Versão NFe',
         required=True,
         default='3.10'
