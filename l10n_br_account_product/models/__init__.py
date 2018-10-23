@@ -32,3 +32,4 @@ from . import account_fiscal_position
 from . import account_fiscal_position_template
 from . import res_country_state
 from . import wizard_multi_charts_accounts
+from . import account_payment_mode
