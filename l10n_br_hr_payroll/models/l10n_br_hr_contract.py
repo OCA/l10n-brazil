@@ -118,10 +118,8 @@ class HrContractChange(models.Model):
         self.name = contract.name
         self.change_date = fields.Date.today()
         self.notes = contract.notes
-        self.wage = contract.wage
         if self.change_type == 'remuneracao':
-            self.salary_unit = contract.salary_unit
-            self.struct_id = contract.struct_id
+            self.wage = contract.wage
         elif self.change_type == 'jornada':
             self.working_hours = contract.working_hours
             self.schedule_pay = contract.schedule_pay
@@ -222,8 +220,6 @@ class HrContractChange(models.Model):
             contract = alteracao.contract_id
             if alteracao.change_type == 'remuneracao':
                 contract.wage = alteracao.wage
-                contract.salary_unit = alteracao.salary_unit
-                contract.struct_id = alteracao.struct_id
             elif alteracao.change_type == 'jornada':
                 contract.working_hours = alteracao.working_hours
                 contract.schedule_pay = alteracao.schedule_pay
