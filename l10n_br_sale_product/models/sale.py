@@ -138,11 +138,13 @@ class SaleOrder(models.Model):
         return True
 
     ind_pres = fields.Selection([
-        ('0', u'Não se aplica'),
+        ('0', u'Não se aplica (por exemplo,'
+              u' Nota Fiscal complementar ou de ajuste)'),
         ('1', u'Operação presencial'),
         ('2', u'Operação não presencial, pela Internet'),
         ('3', u'Operação não presencial, Teleatendimento'),
         ('4', u'NFC-e em operação com entrega em domicílio'),
+        ('5', u'Operação presencial, fora do estabelecimento'),
         ('9', u'Operação não presencial, outros')], u'Tipo de operação',
         readonly=True, states={'draft': [('readonly', False)]},
         required=False,
