@@ -322,9 +322,9 @@ class HrPayslipAutonomo(models.Model):
             holerite.inss_fmt = valor.formata_valor(holerite.inss)
             holerite.irpf_fmt = valor.formata_valor(holerite.irpf)
             holerite.data_extenso = data.data_por_extenso(fields.Date.today())
-            holerite.data_retorno = data.formata_data(
-                str((fields.Datetime.from_string(holerite.date_to) +
-                     relativedelta(days=1)).date()))
+            # holerite.data_retorno = data.formata_data(
+            #     str((fields.Datetime.from_string(holerite.date_to) +
+            #          relativedelta(days=1)).date()))
 
             # holerite.data_pagamento = str(
             #     self.compute_payment_day(holerite.date_from))
