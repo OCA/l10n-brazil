@@ -199,11 +199,13 @@ class AccountInvoice(models.Model):
         help=u'Indica operação com Consumidor final.')
 
     ind_pres = fields.Selection(
-        selection=[('0', u'Não se aplica'),
+        selection=[('0', u'Não se aplica (por exemplo,'
+                         u' Nota Fiscal complementar ou de ajuste)'),
                    ('1', u'Operação presencial'),
                    ('2', u'Operação não presencial, pela Internet'),
                    ('3', u'Operação não presencial, Teleatendimento'),
                    ('4', u'NFC-e em operação com entrega em domicílio'),
+                   ('5', u'Operação presencial, fora do estabelecimento'),
                    ('9', u'Operação não presencial, outros')],
         string=u'Tipo de operação',
         readonly=True,
