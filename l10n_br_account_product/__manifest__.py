@@ -13,6 +13,8 @@
     'depends': [
         'account_product_fiscal_classification',
         'l10n_br_account',
+        'account_payment_mode',
+        'account_payment_partner',
     ],
     'data': [
         'l10n_br_account_product_sequence.xml',
@@ -47,6 +49,7 @@
         'views/account_product_fiscal_classification_view.xml',
         'views/product_template_view.xml',
         'views/res_country_view.xml',
+        'views/account_payment_mode.xml',
         'wizard/l10n_br_account_nfe_export_invoice_view.xml',
         'wizard/l10n_br_account_nfe_export_view.xml',
         'wizard/l10n_br_account_document_status_sefaz_view.xml',

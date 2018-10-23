@@ -842,13 +842,15 @@ class NFe400(NFe310):
         super(NFe400, self).__init__()
 
     def _details_pag(self, invoice):
-        # TODO
+        # TODO - implementar campo
         self.pag.vTroco.valor = ''
 
     def _details_pag_data(self, invoice):
-        # TODO
-        self.detPag.tPag.valor = '14'
-        self.detPag.vPag.valor = '0'
+        # TODO - existe a possibilidade de pagar uma parte
+        # em uma forma de pagto e outra parte em outra
+        # ex.: metade em dinheiro e metade boleto
+        self.detPag.tPag.valor = invoice.type_nf_payment
+        self.detPag.vPag.valor = invoice.amount_total
 
     def get_NFe(self):
         try:
