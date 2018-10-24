@@ -33,6 +33,7 @@ openerp.l10n_br_tef = function(instance){
     var ls_global_transaction_method = '';
     var ls_global_plots = 1;
     var ls_global_institution = '';
+    var ls_global_environment = '';
     var transaction_queue = new Array();
     var payment_type;
     var payment_name;
@@ -501,6 +502,7 @@ openerp.l10n_br_tef = function(instance){
                         // check_completed_send();
                         if(check_inserted_card()) return;
                         if(self.check_filled_value()) return;
+                        if(self.check_approval_request()) return;
                         check_filled_value_send();
 
                         if(self.check_payment_method()) return;
@@ -548,7 +550,7 @@ openerp.l10n_br_tef = function(instance){
 
         check_removed_card: function(){
             var self = this;
-            if((io_tags.servico == "executar") && (io_tags.mensagem && io_tags.mensagem.indexOf("APROVADA, RETIRE O CARTAO") > -1)){
+            if((io_tags.servico == "executar") && (io_tags.mensagem && io_tags.mensagem.search(/aprovada\s+\S*\s+,\s+retire o cartao/i) > -1)){
                 confirm(io_tags.sequencial);
 
                 setTimeout(function(){
@@ -559,6 +561,20 @@ openerp.l10n_br_tef = function(instance){
                 return true;
             } else {
                 // Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_approval_request: function(){
+            if(io_tags.automacao_coleta_mensagem === "SOLICITANDO AUTORIZACAO, AGUARDE ..."){
+                collect('');
+
+                this.screenPopupPagamento('Solicitando Autorização');
+
+                io_tags.automacao_coleta_mensagem = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
                 return false;
             }
         },
@@ -758,7 +774,7 @@ openerp.l10n_br_tef = function(instance){
                     if(ls_global_plots)
                         ls_global_plots = parseInt(ls_global_plots[0]);
                     else
-                        ls_global_plots = 1
+                        ls_global_plots = 1;
                 }
 
                 if(!ls_global_institution && ls_global_plots > 1){
@@ -957,14 +973,26 @@ openerp.l10n_br_tef = function(instance){
             var credit_server = this.pos.config.credit_server;
 
             if(ls_global_operation === "purchase"){
-                var ls_product_type = (payment_type === "CD01")? debit_server : credit_server;
                 var ls_transaction_type = "Cartao Vender";
+                ls_card_type = (payment_type === "CD01")? "Debito" : "Credito";
+
+                if(ls_global_environment === "Homologacao")
+                    ls_product_type = (payment_type === "CD01")? debit_server : credit_server;
+                if(ls_global_environment === "Producao")
+                    ls_product_type = "MASTERCARD";
+
             } else if (ls_global_operation === "cancellation"){
                 var ls_transaction_type = "Administracao Cancelar";
             }
 
-            ls_global_transaction_method = (ls_global_plots > 1)? "Parcelado": "A vista";
-
+            if (ls_global_plots > 1){
+                if (ls_global_institution === "Administradora")
+                    ls_global_transaction_method = "2-Financ.Adm."
+                else if (ls_global_institution === "Estabelecimento")
+                    ls_global_transaction_method = "3-Financ.Loja"
+            } else {
+                ls_global_transaction_method = "1-A vista"
+            }
 
              if (ls_transaction_global_value !== "") {
                  ls_transaction_global_value = 'transacao_valor="'+ls_transaction_global_value+'"';
@@ -1028,6 +1056,7 @@ openerp.l10n_br_tef = function(instance){
             if (["CD01", "CC01"].indexOf(line.cashregister.journal.code) > -1 &&
                 this.pos.config.iface_tef) {
                 ls_global_institution = this.pos.config.institution_selection;
+                ls_global_environment = this.pos.config.enviroment_selection;
 
                 payment_type = line.cashregister.journal.code;
                 payment_name = line.cashregister.journal.name;
