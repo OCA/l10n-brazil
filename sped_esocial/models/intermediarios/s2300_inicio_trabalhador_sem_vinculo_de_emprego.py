@@ -43,6 +43,8 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
+            ('7', 'Excluído'),
         ],
         compute="compute_situacao_esocial",
         store=True,
@@ -129,6 +131,26 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             record.name = 'S-2300 - Admissão {}'.\
                 format(record.hr_contract_id.display_name)
 
+    def get_registro_para_retificar(self, sped_registro):
+        """
+        Identificar o registro para retificar
+        :return:
+        """
+        # Se tiver registro de retificação com erro ou nao possuir nenhuma
+        # retificação ainda, retornar o registro que veio no parametro
+        retificacao_com_erro = sped_registro.retificacao_ids.filtered(
+            lambda x: x.situacao in ['1', '3'])
+        if retificacao_com_erro or not sped_registro.retificacao_ids:
+            return sped_registro
+
+        # Do contrario navegar ate as retificacoes com sucesso e efetuar a
+        # verificacao de erro novamente
+        else:
+            registro_com_sucesso = sped_registro.retificacao_ids.filtered(
+                lambda x: x.situacao not in ['1', '3'])
+
+            return self.get_registro_para_retificar(registro_com_sucesso[0])
+
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
         """
@@ -162,6 +184,16 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2300.evento.ideEmpregador.tpInsc.valor = '1'
         S2300.evento.ideEmpregador.nrInsc.valor = \
             limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+        # Retificação
+        if operacao == 'R':  # Retificação
+            S2300.evento.ideEvento.indRetif.valor = '2'
+
+            registro_para_retificar = self.get_registro_para_retificar(
+                self.sped_s2200_registro_inclusao)
+
+            S2300.evento.ideEvento.nrRecibo.valor = \
+                registro_para_retificar.recibo
 
         #
         # Popula "trabalhador" (Dados do Trabalhador)
