@@ -13,9 +13,10 @@
 
                 <group string="Hardware Proxy" position="after">
                     <group string="TEF Configuration" attrs="{'invisible': [('iface_tef', '=', False)]}">
-                        <field name="institution_selection"/>
-                        <field name="credit_server"/>
-                        <field name="debit_server"/>
+                        <field name="environment_selection" attrs="{'required': [('iface_tef','=', True)]}"/>
+                        <field name="institution_selection" attrs="{'required': [('iface_tef','=', True)]}"/>
+                        <field name="credit_server" attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"/>
+                        <field name="debit_server" attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"/>
                     </group>
                 </group>
 

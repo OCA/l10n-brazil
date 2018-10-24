@@ -16,9 +16,19 @@ class PosConfig(models.Model):
             ('Administradora', _('Administrator')),
             ('Estabelecimento', _('Institute'))
         ],
-        string="Institution",
+        string=_("Institution"),
         help=_("Institution selection for installment payments"),
         default='Estabelecimento',
+    )
+
+    environment_selection = fields.Selection(
+        selection=[
+            ('Producao', _('Production')),
+            ('Homologacao', _('Homologation'))
+        ],
+        string=_("Environment"),
+        help=_("Environment Selection"),
+        default='Homologacao',
     )
 
     credit_server = fields.Char(
