@@ -233,7 +233,6 @@ class HrPayslipRun(models.Model):
 
     @api.multi
     def gerar_holerites(self):
-        self.verificar_holerites_gerados()
         for contrato in self.contract_id:
             # Provisionamento de ferias
             if self.tipo_de_folha == 'provisao_ferias':
