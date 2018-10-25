@@ -94,8 +94,7 @@
                 </xpath>
                 <xpath expr="//separator[@string='Payslips']" position="before">
                     <separator string="Contratos"/>
-                    <field name="contract_id" invisible="1"/>
-                    <field name="contract_id_readonly" readonly="1"/>
+                    <field name="contract_id"/>
                 </xpath>
 
             </field>
