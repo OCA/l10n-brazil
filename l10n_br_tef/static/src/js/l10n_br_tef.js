@@ -526,6 +526,7 @@ openerp.l10n_br_tef = function(instance){
                         // check_completed_send();
                         if(check_inserted_card()) return;
                         if(self.check_filled_value()) return;
+                        if(self.check_request_confirmation()) return;
                         if(self.check_approval_request()) return;
                         check_filled_value_send();
 
@@ -706,6 +707,25 @@ openerp.l10n_br_tef = function(instance){
               // Handle Exceptions Here
                 return false;
             }
+        },
+
+        check_request_confirmation: function(){
+            if( (io_tags.automacao_coleta_mensagem && io_tags.automacao_coleta_mensagem.indexOf("Confirma o cancelamento desta transacao") > -1) && (io_tags.automacao_coleta_tipo === "X") ) {
+
+                this.pos_widget.screen_selector.show_popup('ConfirmaCancelamentoCompraPopup', {
+                            purchase_info_header: _t('Purchase Information'),
+                            purchase_info: _t(io_tags.automacao_coleta_mensagem),
+                            });
+
+                io_tags.automacao_coleta_tipo = "";
+                io_tags.automacao_coleta_mensagem = "";
+                return true;
+
+            } else {
+                // Handle Exceptions Here
+                return false;
+            }
+
         },
 
         finishes_operation: function(){
