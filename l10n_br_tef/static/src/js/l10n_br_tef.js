@@ -743,6 +743,10 @@ openerp.l10n_br_tef = function(instance){
             if(self.pos_widget.CancelamentoCompraPopup){
                 self.pos_widget.CancelamentoCompraPopup.hide();
                 self.clearCancelamentoCompraPopup();
+                cancellation_user = "";
+                cancellation_password = "";
+                cancellation_document_number = "";
+                cancellation_transaction_value = "";
             }
             setTimeout(function(){
                     send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="'+(in_sequential_execute)+'"');
