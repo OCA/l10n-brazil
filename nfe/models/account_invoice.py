@@ -169,8 +169,8 @@ class AccountInvoice(models.Model):
                             elif prot.infProt.cStat.valor in ('110', '301',
                                                               '302'):
                                 protNFe["state"] = 'sefaz_denied'
-                        self.attach_file_event(None, 'nfe', 'xml')
-                        self.attach_file_event(None, None, 'pdf')
+                        # self.attach_file_event(None, 'nfe', 'xml')
+                        # self.attach_file_event(None, None, 'pdf')
             except Exception as e:
                 _logger.error(e.message, exc_info=True)
                 vals = {
