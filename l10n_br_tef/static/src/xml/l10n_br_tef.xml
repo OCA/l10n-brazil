@@ -72,6 +72,29 @@
         </div>
     </t>
 
+    <t t-name="ConfirmaCancelamentoCompraPopup">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm confirmaCancelamentoCompraPopup">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <p class="purchase_info_header"><t t-esc=" widget.purchase_info_header" /></p>
+                </div>
+                <div class="modal-body">
+                    <p class="purchase_info"><t t-esc=" widget.purchase_info" /></p>
+                </div>
+                <div class="footer">
+                    <div class="button btn-confirm-cancellation">
+                        SIM
+                    </div>
+                    <div class="button btn-cancel-cancellation">
+                        NÃO
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </t>
+
     <t t-extend="DebugWidget">
         <t t-jquery=".content" t-operation="append">
             <p class="category">TEF</p>
