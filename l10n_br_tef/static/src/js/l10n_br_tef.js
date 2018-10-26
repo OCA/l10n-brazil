@@ -110,6 +110,10 @@ openerp.l10n_br_tef = function(instance){
             $('.btn-cancel-cancellation', this.el).click(function(e){
                 self.pos_widget.product_screen.confirm_proceed_cancellation(false);
             });
+
+            this.message = options.message || '';
+            this.comment = options.comment || '';
+            this.renderElement();
         },
     });
 
@@ -713,8 +717,8 @@ openerp.l10n_br_tef = function(instance){
             if( (io_tags.automacao_coleta_mensagem && io_tags.automacao_coleta_mensagem.indexOf("Confirma o cancelamento desta transacao") > -1) && (io_tags.automacao_coleta_tipo === "X") ) {
 
                 this.pos_widget.screen_selector.show_popup('ConfirmaCancelamentoCompraPopup', {
-                            purchase_info_header: _t('Purchase Information'),
-                            purchase_info: _t(io_tags.automacao_coleta_mensagem),
+                            message: _t('Purchase Information'),
+                            comment: _t(io_tags.automacao_coleta_mensagem),
                             });
 
                 io_tags.automacao_coleta_tipo = "";
