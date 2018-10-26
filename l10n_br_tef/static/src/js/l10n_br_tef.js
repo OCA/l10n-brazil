@@ -998,6 +998,9 @@ openerp.l10n_br_tef = function(instance){
                 return true;
             }else if(io_tags.automacao_coleta_mensagem === "INSIRA OU PASSE O CARTAO"){
                 return true;
+            }else if(io_tags.automacao_coleta_mensagem === "RETIRE O CARTAO"){
+                this.screenPopupPagamento('Operação Cancelada - Retire o Cartão!!!');
+                return true;
             }else if(io_tags.servico === "finalizar"){
                 return true;
             }else if(io_tags.servico === "iniciar"){
