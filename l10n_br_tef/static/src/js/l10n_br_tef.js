@@ -94,6 +94,25 @@ openerp.l10n_br_tef = function(instance){
         },
     });
 
+    module.ConfirmaCancelamentoCompraPopup = module.PopUpWidget.extend({
+       template: 'ConfirmaCancelamentoCompraPopup',
+
+        show: function(options){
+           var self = this;
+           this._super();
+
+            this.el.querySelector('.btn-confirm-cancellation').addEventListener('click',this.search_handler);
+            $('.btn-confirm-cancellation', this.el).click(function(e){
+                self.pos_widget.product_screen.confirm_proceed_cancellation(true);
+            });
+
+            this.el.querySelector('.btn-cancel-cancellation').addEventListener('click',this.search_handler);
+            $('.btn-cancel-cancellation', this.el).click(function(e){
+                self.pos_widget.product_screen.confirm_proceed_cancellation(false);
+            });
+        },
+    });
+
     module.StatusPagementoPopUp = module.PopUpWidget.extend({
         template: 'StatusPagamentoPopUp',
         hotkeys_handlers: {},
@@ -157,6 +176,11 @@ openerp.l10n_br_tef = function(instance){
             this.CancelamentoCompraPopup.appendTo(this.$('.screens'));
             this.CancelamentoCompraPopup.hide();
             this.screen_selector.popup_set['CancelamentoCompraPopup'] = this.CancelamentoCompraPopup;
+
+            this.ConfirmaCancelamentoCompraPopup = new module.ConfirmaCancelamentoCompraPopup(this);
+            this.ConfirmaCancelamentoCompraPopup.appendTo(this.$('.screens'));
+            this.ConfirmaCancelamentoCompraPopup.hide();
+            this.screen_selector.popup_set['ConfirmaCancelamentoCompraPopup'] = this.ConfirmaCancelamentoCompraPopup;
 
          },
     });
@@ -829,6 +853,12 @@ openerp.l10n_br_tef = function(instance){
             send('automacao_coleta_sequencial="' + in_sequential_execute+ '"automacao_coleta_retorno="0"automacao_coleta_informacao="' + ls_transaction_global_value + '"' + cancellation_info);
 
             this.clearCancelamentoCompraPopup();
+        },
+
+        confirm_proceed_cancellation: function(proceed){
+
+            ls_transaction_global_value = proceed ? "Sim" : "Nao";
+            collect('');
         },
 
         check_user_password: function(){
