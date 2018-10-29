@@ -249,7 +249,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         infoDeslig = S2299.evento.infoDeslig
         rescisao_id = self.sped_hr_rescisao_id
 
-        infoDeslig.mtvDeslig.valor = rescisao_id.mtv_deslig.codigo
+        infoDeslig.mtvDeslig.valor = rescisao_id.mtv_deslig_esocial.codigo
         infoDeslig.dtDeslig.valor = rescisao_id.date_to
         if rescisao_id.valor_pgto_aviso_previo_indenizado:
             infoDeslig.indPagtoAPI.valor = 'S'
