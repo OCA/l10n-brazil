@@ -1,0 +1,96 @@
+<openerp>
+	<data noupdate="1">
+		<record id="email_template_nfe" model="mail.template">
+			<field name="name">NF-E - Send by Email</field>
+			<field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+			<field name="subject">${object.company_id.name} NF ${object.document_serie_id.code}/${object.number or 'n/a'}</field>
+			<field name="email_recipients">${object.contact_id and object.contact_id.id or object.partner_id.id}</field>
+			<field name="model_id" ref="account.model_account_invoice"/>
+			<field name="attachment_ids"/> 
+			<field name="auto_delete" eval="True"/>
+			<field name="lang">${object.partner_id.lang}</field>
+			<field name="body_html">
+				<![CDATA[ <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #EEE; ">
+
+    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #EEE; ">
+
+    <p>Olá ${object.partner_id.name},</p>
+
+    <p>Este e-mail refere-se a Nota Fiscal Eletrônica Nacional</p>
+    
+    <p style="border-left: 1px solid #00008e; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERÊNCIAS</strong><br />
+       &nbsp;&nbsp;Razão Social: <strong>${object.partner_id.legal_name}</strong><br />
+       &nbsp;&nbsp;CNPJ: <strong>${object.partner_id.cnpj_cpf}</strong><br />
+       &nbsp;&nbsp;Chave de acesso: <strong>${object.nfe_access_key}</strong><br />
+       % if object.nfe_protocol_number:
+           &nbsp;&nbsp;Protocolo: <strong>${object.nfe_protocol_number or " "}</strong><br />
+       % endif
+       &nbsp;&nbsp;Número: <strong>${object.internal_number}</strong><br />
+       &nbsp;&nbsp;Série: <strong>${object.document_serie_id.code}</strong><br />
+       &nbsp;&nbsp;Data da Fatura: ${object.date_invoice}<br />
+	   &nbsp;&nbsp;Valor Total: <strong>${object.currency_id.symbol} ${object.amount_total} </strong><br />       
+       % if object.origin:
+       &nbsp;&nbsp;Referência
+       % endif
+	   % if object.name:
+       &nbsp;do Cliente
+       % endif
+	   % if object.name:
+       &nbsp;- ${object.name}
+       % endif
+       % if object.origin:
+       &nbsp;- ${object.origin} <br />
+       % endif	
+       % if object.user_id.email:
+       &nbsp;&nbsp;Contato: <a href="mailto:${object.user_id.email or ''}?subject=Invoice%20${object.number}">${object.user_id.name}</a>
+       % endif
+    </p>  
+    
+	<p>Para verificar a autorização da SEFAZ referente à nota acima mencionada, acesse o site http://www.nfe.fazenda.gov.br/portal</p>
+    <br/>
+    <br/>
+    <div style="width: 375px; margin: 0px; padding: 0px; background-color: #00008E; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;">
+        <h3 style="margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #EEE;">
+        <span style="color: #222; margin-bottom: 5px; display: block; ">
+        % if object.company_id.legal_name:
+            Razão Social: ${object.company_id.legal_name}<br/>
+            CNPJ: ${object.company_id.cnpj_cpf}<br/>
+        % endif
+        % if object.company_id.street:
+            Endereço: ${object.company_id.street} &nbsp; ${object.company_id.number or ' '}, ${object.company_id.district}<br/>
+        % endif
+        % if object.company_id.street2:
+            ${object.company_id.street2}<br/>
+        % endif
+        % if object.company_id.city or object.company_id.zip:
+            CEP: ${object.company_id.zip} ${object.company_id.l10n_br_city_id.name}<br/>
+        % endif
+        % if object.company_id.country_id:
+            UF: ${object.company_id.state_id.code and ('%s, ' % object.company_id.state_id.name) or ''} ${object.company_id.country_id.name or ''}<br/>
+        % endif
+        </span>
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Tel:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <hr>
+        <br>
+    </div>
+    % if object.company_id.nfe_email:
+        <p><i>${object.company_id.nfe_email}</i></p>
+    %endif
+</div> ]]>
+			</field>
+		</record>
+	</data>
+</openerp>

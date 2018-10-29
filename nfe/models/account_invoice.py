@@ -20,6 +20,7 @@
 import os
 import logging
 import datetime
+import base64
 
 from odoo.tools.translate import _
 from odoo import models, fields, api
@@ -60,7 +61,104 @@ class AccountInvoice(models.Model):
         :param context:
         :return:
         """
-        return False
+        if seq is None:
+            seq = 1
+
+        for inv in self:
+            company = inv.company_id
+            nfe_key = inv.nfe_access_key
+
+            if att_type != 'nfe' and att_type is not None:
+                str_aux = nfe_key + '-%02d-%s.%s' % (seq, att_type, ext)
+                save_dir = os.path.join(
+                    monta_caminho_nfe(
+                        company,
+                        chave_nfe=nfe_key) +
+                    str_aux)
+
+            elif att_type is None and ext == 'pdf':
+                str_aux = nfe_key + '.%s' % (ext)
+                save_dir = os.path.join(
+                    monta_caminho_nfe(
+                        company,
+                        chave_nfe=nfe_key) +
+                    str_aux)
+
+            elif att_type == 'nfe' and ext == 'xml':
+                str_aux = nfe_key + '-%s.%s' % (att_type, ext)
+                save_dir = os.path.join(
+                    monta_caminho_nfe(
+                        company,
+                        chave_nfe=nfe_key) +
+                    str_aux)
+
+
+            try:
+                file_attc = open(save_dir, 'r')
+                attc = file_attc.read()
+
+                self.env['ir.attachment'].create({
+                    'name': str_aux.format(nfe_key),
+                    'datas': base64.b64encode(attc),
+                    'datas_fname': str_aux.format(nfe_key),
+                    'description': '' or _('No Description'),
+                    'res_model': 'account.invoice',
+                    'res_id': inv.id,
+                    'type': 'binary',
+                })
+            except IOError:
+                pass
+            else:
+                file_attc.close()
+
+        return True
+
+    def action_invoice_sent(self, cr, uid, ids, context=None):
+
+        assert len(ids) == 1, \
+            'This option should only be used for a single id at a time.'
+        ir_model_data = self.pool.get('ir.model.data')
+        attach_obj = self.pool.get('ir.attachment')
+        attachment_ids = attach_obj.search(
+            cr, uid, [
+                ('res_model', '=', 'account.invoice'),
+                ('res_id', '=', ids[0])], context=context)
+        try:
+            template_id = ir_model_data.get_object_reference(
+                cr,
+                uid,
+                'nfe_attach',
+                'email_template_nfe')[1]
+        except ValueError:
+            template_id = False
+        try:
+            compose_form_id = ir_model_data.get_object_reference(
+                cr,
+                uid,
+                'mail',
+                'email_compose_message_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False
+        ctx = dict(context)
+        ctx.update({
+            'default_model': 'account.invoice',
+            'default_res_id': ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_invoice_as_sent': True,
+            'attachment_ids': [(6, 0, attachment_ids)],
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }
 
     def _get_nfe_factory(self, nfe_version):
         return NfeFactory().get_nfe(nfe_version)

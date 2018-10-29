@@ -20,3 +20,4 @@
 from . import l10n_br_account_document_status_sefaz
 from . import nfe_invoice_cce
 from . import nfe_invoice_cancel
+from . import nfe_xml_periodic_export

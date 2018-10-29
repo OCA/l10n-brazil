@@ -17,6 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
+import os
+import base64
+import commands
 import datetime
 import logging
 from odoo import models, fields, api
@@ -24,7 +27,8 @@ from odoo.exceptions import RedirectWarning
 from odoo.tools.translate import _
 from odoo.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration, validate_nfe_invalidate_number
-from odoo.addons.nfe.sped.nfe.processing.xml import invalidate
+from odoo.addons.nfe.sped.nfe.processing.xml import invalidate, \
+    monta_caminho_nfe, monta_caminho_inutilizacao
 
 _logger = logging.getLogger(__name__)
 
@@ -57,7 +61,48 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
         :param context:
         :return:
         """
-        return False
+        if seq is None:
+            seq = 1
+        # monta_caminho_inutilizacao
+        for obj in self:
+            company = obj.company_id
+            number_start = obj.number_start
+            number_end = obj.number_end
+            number_serie = self.document_serie_id.code
+
+            if att_type == 'inu':
+                save_dir = monta_caminho_inutilizacao(
+                    company,
+                    None,
+                    number_serie,
+                    number_start,
+                    number_end)
+                comando = 'ls ' + save_dir + \
+                    '*-inu.xml| grep -E "[0-9]{41}-inu.xml"'
+                if os.system(comando) == 0:
+                    arquivo = commands.getoutput(comando)
+                key = arquivo[-49:-8]
+                str_aux = arquivo[-49:]
+
+
+            try:
+                file_attc = open(arquivo, 'r')
+                attc = file_attc.read()
+
+                self.env['ir.attachment'].create({
+                    'name': str_aux.format(key),
+                    'datas': base64.b64encode(attc),
+                    'datas_fname': str_aux.format(key),
+                    'description': '' or _('No Description'),
+                    'res_model': 'l10n_br_account.invoice.invalid.number',
+                    'res_id': obj.id
+                })
+            except IOError:
+                key = 'erro'
+            else:
+                file_attc.close()
+
+        return True
 
     @api.multi
     def action_draft_done(self):
