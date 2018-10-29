@@ -113,6 +113,14 @@ class AccountInvoice(models.Model):
 
         return True
 
+    def action_confirm_invoice(self):
+        self.nfe_check()
+        self.action_date_assign()
+        self.action_number()
+        self.action_move_create()
+        self.nfe_export()
+        return True
+
     def action_invoice_sent(self, cr, uid, ids, context=None):
 
         assert len(ids) == 1, \
