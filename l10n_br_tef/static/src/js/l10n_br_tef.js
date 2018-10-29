@@ -81,12 +81,14 @@ openerp.l10n_br_tef = function(instance){
            var self = this;
            this._super();
 
+            $( '.btn-report_data' ).unbind( 'click' );
             this.el.querySelector('.btn-report_data').addEventListener('click',this.search_handler);
             $('.btn-report_data', this.el).click(function(e){
 
                 self.pos_widget.product_screen.proceed_cancellation();
             });
 
+            $( '.btn-cancel-operation' ).unbind( 'click' );
             this.el.querySelector('.btn-cancel-operation').addEventListener('click',this.search_handler);
             $('.btn-cancel-operation', this.el).click(function(e){
                 self.pos_widget.product_screen.abort();
@@ -101,11 +103,13 @@ openerp.l10n_br_tef = function(instance){
            var self = this;
            this._super();
 
+            $( '.btn-confirm-cancellation' ).unbind( 'click' );
             this.el.querySelector('.btn-confirm-cancellation').addEventListener('click',this.search_handler);
             $('.btn-confirm-cancellation', this.el).click(function(e){
                 self.pos_widget.product_screen.confirm_proceed_cancellation(true);
             });
 
+            $( '.btn-cancel-cancellation' ).unbind( 'click' );
             this.el.querySelector('.btn-cancel-cancellation').addEventListener('click',this.search_handler);
             $('.btn-cancel-cancellation', this.el).click(function(e){
                 self.pos_widget.product_screen.confirm_proceed_cancellation(false);
@@ -1121,6 +1125,7 @@ openerp.l10n_br_tef = function(instance){
 
                 payment_type = line.cashregister.journal.code;
                 payment_name = line.cashregister.journal.name;
+                $( '.payment-terminal-transaction-start' ).unbind( 'click' );
                 el_node.querySelector('.payment-terminal-transaction-start')
                     .addEventListener('click', function(){
                         start_operation("purchase");
