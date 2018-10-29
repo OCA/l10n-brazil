@@ -48,7 +48,6 @@ class ProcessadorNFe(ProcessadorNFePySped):
         self.salvar_arquivos = False
         self.contingencia_SCAN = False
         self.contingencia = False
-        self.danfe = DANFE()
         self.daede = DAEDE()
         self.caminho_temporario = ''
         self.maximo_tentativas_consulta_recibo = 5
