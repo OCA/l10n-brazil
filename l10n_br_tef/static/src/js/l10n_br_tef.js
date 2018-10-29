@@ -103,6 +103,10 @@ openerp.l10n_br_tef = function(instance){
            var self = this;
            this._super();
 
+            this.message = options.message || '';
+            this.comment = options.comment || '';
+            this.renderElement();
+
             $( '.btn-confirm-cancellation' ).unbind( 'click' );
             this.el.querySelector('.btn-confirm-cancellation').addEventListener('click',this.search_handler);
             $('.btn-confirm-cancellation', this.el).click(function(e){
@@ -114,10 +118,6 @@ openerp.l10n_br_tef = function(instance){
             $('.btn-cancel-cancellation', this.el).click(function(e){
                 self.pos_widget.product_screen.confirm_proceed_cancellation(false);
             });
-
-            this.message = options.message || '';
-            this.comment = options.comment || '';
-            this.renderElement();
         },
     });
 
