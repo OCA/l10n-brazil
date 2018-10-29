@@ -893,9 +893,11 @@ class HrPayslip(models.Model):
             #
             # GET dias FERIAS na competencia SEGUINTE(caso de ferias quebrada)
             #
+            mes_do_ano_ferias = self.mes_do_ano + 1 if self.mes_do_ano < 12 else 1
+            ano_ferias = self.ano if self.mes_do_ano < 12 else self.ano + 1
             primeiro_dia_do_mes_seguinte = \
                 str(datetime.strptime(str(
-                    self.mes_do_ano + 1) + '-' + str(self.ano), '%m-%Y').date())
+                    mes_do_ano_ferias) + '-' + str(ano_ferias), '%m-%Y').date())
             ultimo_dia_do_mes_seguinte = \
                 str(ultimo_dia_mes(primeiro_dia_do_mes_seguinte))
             quantidade_dias_ferias_competencia_seguinte, \
