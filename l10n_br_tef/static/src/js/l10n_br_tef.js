@@ -534,8 +534,6 @@ openerp.l10n_br_tef = function(instance){
                         // check_completed_send();
                         if(check_inserted_card()) return;
                         if(self.check_filled_value()) return;
-                        if(self.check_request_confirmation()) return;
-                        if(self.check_approval_request()) return;
                         check_filled_value_send();
 
                         if(self.check_payment_method()) return;
@@ -548,6 +546,17 @@ openerp.l10n_br_tef = function(instance){
                         if(self.check_approved_transaction()) return;
                         if(self.check_removed_card()) return;
                         if(self.finishes_operation()) return;
+
+                        // Cancellation checks
+                        if(self.check_request_confirmation()) return;
+                        if(self.check_approval_request()) return;
+                        if(self.check_chip_processing()) return;
+                        if(self.check_cancellation_ok()) return;
+                        if(self.check_cancellation_remove_card()) return;
+                        if(self.check_cancellation_finishes()) return;
+
+
+                        // Checking for final errors
                         if(self.check_for_errors()) return;
                     }, 1000);
                 };
@@ -608,6 +617,69 @@ openerp.l10n_br_tef = function(instance){
                 return true;
             } else {
                 //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_chip_processing: function(){
+            if(io_tags.automacao_coleta_mensagem === "Processando o cartao com CHIP"){
+                collect('');
+
+                this.screenPopupPagamento('Processando o cartao com CHIP... Por Favor, Insira a Senha.');
+
+                io_tags.automacao_coleta_mensagem = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_cancellation_ok: function(){
+            if(io_tags.automacao_coleta_mensagem === ">CANCELAMENTO OK"){
+                collect('');
+
+                this.screenPopupPagamento('Cancelamento Autorizado!!!');
+
+                io_tags.automacao_coleta_mensagem = '';
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_cancellation_remove_card: function(){
+            var self = this;
+            if(io_tags.mensagem === ">CANCELAMENTO OK, RETIRE O CARTAO"){
+                confirm(io_tags.sequencial);
+
+                setTimeout(function(){
+                    self.screenPopupPagamento('Retire o Cartão');
+                }, 1500);
+
+                io_tags.mensagem = "";
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_cancellation_finishes: function(){
+            var self = this;
+            if((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Administracao Cancelar") ){
+                finish();
+
+                self.pos_widget.popupStatusPagamento.hide();
+
+                io_tags.transacao = '';
+                setTimeout(function(){
+                    self.consult();
+                }, 2000);
+                return true;
+            } else {
+                // Handle Exceptions Here
                 return false;
             }
         },
@@ -891,6 +963,8 @@ openerp.l10n_br_tef = function(instance){
 
             ls_transaction_global_value = proceed ? "Sim" : "Nao";
             collect('');
+
+            ls_transaction_global_value = "";
         },
 
         check_user_password: function(){
@@ -997,6 +1071,9 @@ openerp.l10n_br_tef = function(instance){
                 return true;
             }else if(io_tags.automacao_coleta_mensagem === "Digite o numero do cartao"){
                 this.screenPopupPagamento('Erro - PinPad não conectado!!!');
+                this.abort();
+            }else if(io_tags.automacao_coleta_mensagem === "TRANSACAO ORIGINAL NAO LOCALIZADA"){
+                this.screenPopupPagamento('Erro - Transação Original não Localizada!!!');
                 this.abort();
             }else if(io_tags.automacao_coleta_mensagem === "Problema na conexao"){
                 this.screenPopupPagamento('Erro - Problema na Conexão!!!');
