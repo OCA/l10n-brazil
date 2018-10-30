@@ -35,9 +35,12 @@ class S2299DesligamentoWizard(models.TransientModel):
         """
         # Identificar qual categoria de contrato para definir o registro sped
         payslip = self.env['hr.payslip'].browse(self.env.context['active_id'])
-
+        if payslip.company_id.eh_empresa_base:
+            matriz = payslip.company_id.id
+        else:
+            matriz = payslip.company_id.matriz.id
         vals = {
-            'company_id': payslip.company_id.id,
+            'company_id': matriz,
             'sped_hr_rescisao_id': payslip.id,
             'pens_alim': self.pens_alim,
         }
