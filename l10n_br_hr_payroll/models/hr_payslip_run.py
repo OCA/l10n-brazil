@@ -76,6 +76,9 @@ class HrPayslipRun(models.Model):
         string='Empresa',
         default=lambda self: self.env.user.company_id or '',
     )
+    eh_mes_comercial = fields.Boolean(
+        string=u"Simulação",
+    )
 
     @api.onchange('tipo_de_folha')
     def fixa_decimo_terceiro(self):
@@ -278,6 +281,7 @@ class HrPayslipRun(models.Model):
                                 'payslip_run_id': self.id,
                                 'periodo_aquisitivo_provisao':
                                     periodo_aquisitivo_provisao,
+                                'eh_mes_comercial': self.eh_mes_comercial,
                             })
                             # payslip._compute_set_dates()
                             payslip.compute_sheet()
@@ -309,6 +313,7 @@ class HrPayslipRun(models.Model):
                         'employee_id': contrato.employee_id.id,
                         'tipo_de_folha': tipo_de_folha,
                         'payslip_run_id': self.id,
+                        'eh_mes_comercial': self.eh_mes_comercial,
                     })
                     payslip._compute_set_dates()
                     payslip._compute_set_employee_id()

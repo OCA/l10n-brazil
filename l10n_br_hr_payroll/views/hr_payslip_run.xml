@@ -86,6 +86,7 @@
                     <group>
                         <group>
                             <field name="company_id" />
+                            <field name="eh_mes_comercial" />
                         </group>
                         <group>
                             <button name="verificar_holerites_gerados" type="object" states="draft" string="Buscar Contratos" class="oe_highlight"/>
