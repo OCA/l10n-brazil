@@ -241,8 +241,8 @@
                     <field name="struct_id"
                            attrs="{'readonly': [('tipo_de_folha', '!=', 'rescisao')]}"
                            domain="[('tipo_estrutura', '=', tipo_de_folha)]" />
+                    <field name="eh_mes_comercial" />
                 </field>
-
                 <xpath expr="//div[@class='oe_title']" position="replace">
                     <label for="contract_id" class="oe_edit_only"/>
                     <h1>
