@@ -4,7 +4,7 @@
         <report
                 id="report_py3o_darf_analitico"
                 string="Analítico DARF"
-                model="l10n_br.hr.sefip"
+                model="hr.payslip.run"
                 report_type="py3o"
                 name="l10n_br_hr_arquivos_governo.report_darf_analitico"
         />

@@ -18,3 +18,8 @@ class FinancialMove(models.Model):
         comodel_name='l10n_br.hr.sefip',
         string='Sefip',
     )
+
+    hr_payslip_run_id = fields.Many2one(
+        comodel_name='hr.payslip.run',
+        string='Lote',
+    )

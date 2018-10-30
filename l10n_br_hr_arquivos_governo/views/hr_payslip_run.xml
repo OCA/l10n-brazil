@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_payslip_run_form_view">
+            <field name="name">hr.payslip.run.form (in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="priority" eval="135"/>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_payslip_run_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Generate Payslips']" position="after">
+                    <button name="gerar_boletos" string="Gerar Guias" type="object" attrs="{'invisible':[('state', '!=', 'close')]}"/>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Boletos"
+                          attrs="{'invisible':[('boletos_ids','=',[])]}">
+                        <group string="Boletos Gerados">
+                            <field nolabel="1" name="boletos_ids" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
