@@ -349,10 +349,16 @@ class HrPayslipRun(models.Model):
 
     @api.multi
     def close_payslip_run(self):
+        """
+        Só fechar lotes, se não tiver nenhum em rascunho
+        """
         for lote in self:
-            for holerite in lote.slip_ids:
-                holerite.hr_verify_sheet()
-        super(HrPayslipRun, self).close_payslip_run()
+            if any(l == 'draft' for l in lote.slip_ids.mapped('state')):
+                raise UserError(
+                    _('Erro no fechamento deste Lote !\n'
+                      'Há holerite(s) não confirmados!')
+                )
+            return super(HrPayslipRun, self).close_payslip_run()
 
     @api.multi
     def unlink(self):
