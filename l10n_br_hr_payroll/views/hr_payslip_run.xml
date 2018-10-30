@@ -54,22 +54,29 @@
             <field name="model">hr.payslip.run</field>
             <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
             <field name="arch" type="xml">
+
+                <field name="credit_note" position="replace"/>
                 <button name="close_payslip_run" position="replace"/>
-                <field name="state" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
+
                 <xpath expr="//button[@string='Generate Payslips']" position="replace">
                     <button name="gerar_holerites" type="object" states="draft" string="Generate Payslips" class="oe_highlight"/>
+                    <button name="close_payslip_run" type="object" string="Fechar Lote"
+                            states="draft"
+                            confirm="Confirma o Fechamento do Lote de holerites dessa competência ?" />
                 </xpath>
+
                 <xpath expr="//label[@string='Period']" position="replace">
                     <label for="date_start" string="Period" invisible="1"/>
                 </xpath>
+
                 <field name="date_start" position="replace">
                     <field name="date_start" class="oe_inline" invisible="1"/>
                 </field>
+
                 <field name="date_end" position="replace">
                     <field name="date_end" class="oe_inline" invisible="1"/>
                 </field>
+
                 <xpath expr="//h1" position="after">
                     <group>
                         <group>
@@ -80,23 +87,33 @@
                         </group>
                     </group>
                     <group>
-                        <!--<field name="tipo_de_folha" attrs="{'invisible': [('mes_do_ano','=',13)]}" />-->
-                        <field name="tipo_de_folha" />
-                    </group>
-                    <group>
                         <group>
-                            <field name="company_id" />
-                            <field name="eh_mes_comercial" />
+                            <field name="tipo_de_folha" />
+                            <field name="eh_mes_comercial" groups="base.group_hr_manager"/>
                         </group>
                         <group>
-                            <button name="verificar_holerites_gerados" type="object" states="draft" string="Buscar Contratos" class="oe_highlight"/>
+                            <field name="company_id" required="1"/>
                         </group>
                     </group>
                 </xpath>
-                <xpath expr="//separator[@string='Payslips']" position="before">
-                    <separator string="Contratos"/>
-                    <field name="contract_id"/>
-                </xpath>
+
+                <separator string="Payslips" position="replace"/>
+                <field name="slip_ids" position="replace">
+                    <notebook>
+                        <page string="Contratos e Holerites">
+                            <button name="verificar_holerites_gerados" type="object" states="draft" string="Buscar Contratos" />
+                            <separator string="Contratos"/>
+                            <field name="contract_id"/>
+                            <separator string="Payslips"/>
+                            <field name="slip_ids"/>
+                        </page>
+
+                        <page string="Rescisões" attrs="{'invisible': [('payslip_rescisao_ids', '=', [])]}">
+                            <field name="payslip_rescisao_ids" />
+                        </page>
+
+                    </notebook>
+                </field>
 
             </field>
         </record>
