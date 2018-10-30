@@ -77,7 +77,7 @@ class HrPayslipRun(models.Model):
         default=lambda self: self.env.user.company_id or '',
     )
     eh_mes_comercial = fields.Boolean(
-        string=u"Simulação",
+        string=u"Mês Comercial?",
     )
 
     @api.onchange('tipo_de_folha')

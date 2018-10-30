@@ -269,7 +269,7 @@ class HrPayslip(models.Model):
     )
 
     eh_mes_comercial = fields.Boolean(
-        string=u"Simulação",
+        string=u"Mês Comercial?",
     )
 
     @api.depends('contract_id', 'dias_aviso_previo_trabalhados')
