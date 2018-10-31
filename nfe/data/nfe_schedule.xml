@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+
+        <record id="ir_cron_download_nfe_scheduler0" model="ir.cron">
+            <field eval="&quot;&quot;&quot;schedule_download&quot;&quot;&quot;"
+                   name="function"/>
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field eval="&quot;&quot;&quot;Agendamento NFe Download&quot;&quot;&quot;"
+                   name="name"/>
+            <field eval="-1" name="numbercall"/>
+            <field eval="5" name="priority"/>
+            <field eval="0" name="doall"/>
+            <field eval="0" name="active"/>
+            <field eval="&quot;&quot;&quot;nfe.schedule&quot;&quot;&quot;"
+                   name="model"/>
+        </record>
+
+
+        <record id="form_nfe_schedule_download_nfe" model="ir.ui.view">
+            <field name="name">nfe.schedule.form</field>
+            <field name="model">nfe.schedule</field>
+            <field name="arch" type="xml">
+                <form string="Verificar downloads pendentes" version="7.0">
+                    <field invisible="1" name="state"/>
+                    <label string="Ao clicar em verificar o Odoo irá buscar as notas fiscais pendentes de processamento no SEFAZ"></label>
+                    <footer states="init">
+                        <button string="Verificar" name="execute_download"
+                                type="object" class="oe_highlight"/>
+                        ou
+                        <button string="Cancel" special="cancel" type="object"
+                                class="oe_link"/>
+                    </footer>
+                    <footer states="done">
+                        <button string="Done" name="done" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_nfe_schedule_download_nfe"
+                model="ir.actions.act_window">
+            <field name="name">Verificar NFe destinada</field>
+            <field name="res_model">nfe.schedule</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="form_nfe_schedule_download_nfe"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem id="menu_l10n_br_accouunt_periodic_processing_nfe_export"
+                  name="Verificar NFe para download"
+                  parent="nfe.menu_l10n_br_account_processamento_periodico"
+                  action="action_nfe_schedule_download_nfe"/>
+
+    </data>
+</openerp>

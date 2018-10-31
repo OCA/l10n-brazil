@@ -1,2 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 access_nfe_invoice_cancel_manager,access_nfe_invoice_cancel,model_nfe_invoice_cancel,account.group_account_manager,1,1,1,1
+access_nfe_mde_manager,nfe.mde.manager,model_nfe_mde,account.group_account_manager,1,1,1,1
+access_nfe_mde_user,nfe.mde.user,model_nfe_mde,account.group_account_user,1,1,1,0
+access_nfe_mde_invoice,nfe.mde.invoice,model_nfe_mde,account.group_account_invoice,1,0,0,0

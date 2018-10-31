@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_nfe_mde_form">
+            <field name="name">nfe_mde.form</field>
+            <field name="model">nfe.mde</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Manifestacao">
+                    <header>
+                        <button name="action_known_emission"
+                                string="Ciência da Emissão"
+                                type="object" states="pending"/>
+                        <button name="action_confirm_operation"
+                                string="Confirmar Operação"
+                                type="object" states="ciente"/>
+                        <button name="action_unknown_operation"
+                                string="Desconhecer Operação"
+                                type="object" states="ciente"/>
+                        <button name="action_not_operation"
+                                string="Operação não Realizada"
+                                type="object" states="ciente"/>
+                        <button name="action_download_xml"
+                                string="Download do XML"
+                                type="object"
+                                states="ciente,confirmado,desconhecido,nao_realizado"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="chNFe" select="1"/>
+                            <field name="nNFe"/>
+                            <field name="nSeqEvento"/>
+                            <field name="CNPJ"/>
+                            <field name="IE"/>
+                            <field name="xNome"/>
+                            <field name="partner_id"/>
+                            <field name="dEmi"/>
+                        </group>
+                        <group>
+                            <field name="currency_id"
+                                   groups="base.group_multi_currency"/>
+                            <field name="tpNF"/>
+                            <field name="vNF" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="cSitNFe"/>
+                            <field name="state"/>
+                            <field name="formInclusao"/>
+                            <field name="dataInclusao"/>
+                        </group>
+                    </group>
+                    <group string="Documentos eletrônicos">
+                        <field nolabel="1" name="document_event_ids"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_nfe_mde_filter" model="ir.ui.view">
+            <field name="name">nfe.mde.select</field>
+            <field name="model">nfe.mde</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar">
+                    <field name="partner_id" string="Fornecedor"/>
+                    <field name="xNome" string="Nome fornecedor"/>
+                    <field name="CNPJ" string="Cnpj fornecedor"/>
+                    <field name="state" string="Situação"/>
+                    <filter name="situacao_pendente" string="Pendentes"
+                            domain="[('state','=','pending')]"/>
+                    <filter name="situacao_confirmado" string="Confirmados"
+                            domain="[('state','=','confirmado')]"/>
+                    <filter name="situacao_ciente" string="Ciente da operação"
+                            domain="[('state','=','ciente')]"/>
+                    <filter name="situacao_desconhecido" string="Desconhecidos"
+                            domain="[('state','=','desconhecido')]"/>
+                    <filter name="situacao_nao_realizado"
+                            string="Não realizados"
+                            domain="[('state','=','nao_realizado')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_nfe_mde_tree">
+            <field name="name">nfe_mde.tree</field>
+            <field name="model">nfe.mde</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="NFe Destinadas" create="false">
+                    <field name="nSeqEvento"/>
+                    <field name="partner_id"/>
+                    <field name="CNPJ"/>
+                    <field name="xNome"/>
+                    <field name="dEmi"/>
+                    <field name="state"/>
+                    <field name="vNF"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_nfe_mde">
+            <field name="name">Manifestação</field>
+            <field name="res_model">nfe.mde</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_nfe_mde_filter"/>
+            <field name="context">{"search_default_situacao_pendente":1}</field>
+        </record>
+
+        <menuitem name="Manifestação do Destinatário"
+                  id="menu_nfe_mde_localizacao"
+                  action="action_nfe_mde"
+                  parent="l10n_br_account.menu_l10n_br_account_fiscal"/>
+        <menuitem name="Manifestação do Destinatário" id="menu_nfe_mde"
+                  action="action_nfe_mde" parent="account.menu_finance_payables"
+                  sequence="1"/>
+
+    </data>
+</openerp>

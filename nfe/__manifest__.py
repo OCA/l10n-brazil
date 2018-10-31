@@ -43,6 +43,7 @@
     ],
     'data': [
         'data/nfe_attach_email.xml',
+        'data/nfe_schedule.xml',
         'security/ir.model.access.csv',
         'wizard/nfe_xml_periodic_export.xml',
         'wizard/nfe_invoice_cce_view.xml',
@@ -52,6 +53,7 @@
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
+        'views/nfe_mde_view.xml',
         'report/report_print_button_view.xml',
     ],
     'demo': [],

@@ -21,3 +21,5 @@ from . import account_invoice
 from . import l10n_br_account
 from . import res_company
 from . import res_partner
+from . import nfe_schedule
+from . import nfe_mde
