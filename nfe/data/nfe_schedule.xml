@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
-    <data>
+<odoo>
 
 
         <record id="ir_cron_download_nfe_scheduler0" model="ir.cron">
@@ -58,5 +57,4 @@
                   parent="nfe.menu_l10n_br_account_processamento_periodico"
                   action="action_nfe_schedule_download_nfe"/>
 
-    </data>
-</openerp>
+</odoo>

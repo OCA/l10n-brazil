@@ -43,11 +43,11 @@
     ],
     'data': [
         'data/nfe_attach_email.xml',
-        'data/nfe_schedule.xml',
         'security/ir.model.access.csv',
         'wizard/nfe_xml_periodic_export.xml',
         'wizard/nfe_invoice_cce_view.xml',
         'wizard/nfe_invoice_cancel_view.xml',
+        'data/nfe_schedule.xml',
         # 'account_invoice_workflow.xml',
         'views/l10n_br_account_view.xml',
         'views/account_invoice_view.xml',
