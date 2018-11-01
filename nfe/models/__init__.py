@@ -23,3 +23,5 @@ from . import res_company
 from . import res_partner
 from . import nfe_schedule
 from . import nfe_mde
+from . import account_fiscal_position
+from . import nfe_import_edit

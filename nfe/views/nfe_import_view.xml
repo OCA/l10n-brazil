@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="nfe_import_edit_form" model="ir.ui.view">
+            <field name="name">nfe_import.edit.form</field>
+            <field name="model">nfe.import.edit</field>
+            <field name="arch" type="xml">
+                <form string="Importação de Documento Eletrônico">
+                    <group string="Revisar os itens e setar os produtos faltantes">
+                        <group>
+                            <field name="import_from_invoice" invisible="1"/>
+                            <field name="account_invoice_id"
+                                   attrs="{'invisible': [('import_from_invoice', '=', False)]}"/>
+                            <field name="supplier_id"/>
+                            <field name="fiscal_category_id"
+                                   domain="[('journal_type','in',('purchase',)),('fiscal_type','=','product'),('type','=','input')]"
+                                   required="1"/>
+                            <field name="fiscal_position" required="1"
+                                   domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
+                        </group>
+                        <group>
+                            <field name="currency_id"
+                                   groups="base.group_multi_currency"/>
+                            <field name="number"/>
+                            <field name="natureza_operacao"/>
+                            <field name="amount_total" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="create_product"
+                                   attrs="{'invisible': [('import_from_invoice', '!=', False)]}"/>
+                            <field name="create_suplierinfo" />
+                            <field name="product_category_id"
+                                   attrs="{'invisible': ['|', ('create_product', '=', False), ('import_from_invoice', '!=', False)] }"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field nolabel="1" name="product_import_ids"
+                               editable="top"/>
+                    </group>
+                    <footer>
+                        <button string="Confirmar Dados" name="confirm_values"
+                                type="object" class="oe_highlight"/>
+                        ou
+                        <button string="Cancel" special="cancel" type="object"
+                                class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_nfe_import_edit_form" model="ir.actions.act_window">
+            <field name="name">Abrir edição importação</field>
+            <field name="res_model">nfe.import.edit</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="nfe_import_edit_form"/>
+        </record>
+
+
+        <record id="nfe_import_products_tree" model="ir.ui.view">
+            <field name="name">nfe_import.products.tree</field>
+            <field name="model">nfe.import.products</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="false" class="nfe_import_tree">
+                    <field name="invoice_id" invisible="1"/>
+                    <field name="invoice_line_id"/>
+                    <field name="product_id"/>
+                    <field name="cfop_id"/>
+                    <field name="uom_id"/>
+                    <field name="code_product_xml"/>
+                    <field name="product_xml"/>
+                    <field name="uom_xml"/>
+                    <field name="cfop_xml"/>
+                    <field name="quantity_xml"/>
+                    <field name="unit_amount_xml"/>
+                    <field name="discount_total_xml"/>
+                    <field name="total_amount_xml"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="l10n_br_account_invoice_import_form" model="ir.ui.view">
+            <field name="name">nfe_import.account_invoice_import.form</field>
+            <field name="model">nfe_import.account_invoice_import</field>
+            <field name="arch" type="xml">
+                <form string="Importação de Documento Eletrônico"
+                      version="7.0">
+                    <field invisible="1" name="state"/>
+                    <group>
+                        <group states="init">
+                            <field name="edoc_input" filename="file_name"
+                                   colspan="2" required="1"/>
+                            <field name="file_name" colspan="2" invisible="1"/>
+                            <field name="account_invoice_id"
+                                   domain="[('issuer', '=', '1'), ('type', '=', 'in_invoice')]"/>
+                            <field name="supplier_partner_id"/>
+                            <field name="create_partner"
+                                   attrs="{ 'invisible': [( 'account_invoice_id', '!=' , False)] }"/>
+                            <field name="fiscal_category_id"
+                                   domain="[('journal_type','in',('purchase',)),('fiscal_type','=','product'),('type','=','input')]"
+                                   required="1"/>
+                            <field name="fiscal_position" required="1"
+                                   domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
+                        </group>
+                        <group states="done">
+                        </group>
+                    </group>
+                    <footer states="init">
+                        <button string="Importar" name="import_edoc"
+                                type="object"
+                                class="oe_highlight"/>
+                        ou
+                        <button string="Cancel" special="cancel" type="object"
+                                class="oe_link"/>
+                    </footer>
+                    <footer states="done">
+                        <button string="Done" name="done" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_l10n_br_account_periodic_processing_edoc_import"
+                model="ir.actions.act_window">
+            <field name="name">Importar Documento Eletronico</field>
+            <field name="res_model">nfe_import.account_invoice_import</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="l10n_br_account_invoice_import_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_l10n_br_account_others"
+                  name="Outros"
+                  parent="l10n_br_account.menu_l10n_br_account"
+                  sequence="20"/>
+
+        <menuitem id="menu_l10n_br_account_nfe_import"
+                  name="Importar Documento Eletrônico"
+                  parent="menu_l10n_br_account_others"
+                  action="action_l10n_br_account_periodic_processing_edoc_import"/>
+
+    </data>
+</openerp>

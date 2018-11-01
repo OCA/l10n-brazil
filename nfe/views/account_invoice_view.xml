@@ -41,3 +41,11 @@
 
 	</data>
 </openerp>
+        <act_window id="nfe_import_xml_nfe" key2="client_action_multi"
+                    name="Importar XML NFe"
+                    res_model="nfe_import.account_invoice_import"
+                    src_model="account.invoice"
+                    view_id="l10n_br_account_invoice_import_form"
+                    view_mode="form" target="new" view_type="form"
+                    context="{'default_account_invoice_id': active_id}"/>
+

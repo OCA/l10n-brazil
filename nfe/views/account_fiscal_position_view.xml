@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="nfe_import_account_fiscal_position_form" model="ir.ui.view">
+            <field name="name">nfe.import.account.fiscal.position.form</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="inherit_id"
+                   ref="l10n_br_account.l10n_br_account_position_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Crédito de impostos"
+                          attrs="{'invisible': [('type', '=', 'output')]}">
+                        <group>
+                            <field name="icms_credit"/>
+                            <field name="ipi_credit"/>
+                            <field name="pis_credit"/>
+                            <field name="cofins_credit"/>
+                        </group>
+                    </page>
+                </notebook>
+                <xpath expr="//tree/field[@name='tax_src_id']" position="after">
+                    <field name="type" invisible="1"/>
+                    <field name="cfop_src_id" domain="[('type', '=', 'input')]"
+                           attrs="{'invisible': [('type', '=', 'output')] }"/>
+                </xpath>
+                <xpath expr="//tree/field[@name='tax_dest_id']"
+                       position="after">
+                    <field name="cfop_dest_id" domain="[('type', '=', 'input')]"
+                           attrs="{'invisible': [('type', '=', 'output')] }"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
