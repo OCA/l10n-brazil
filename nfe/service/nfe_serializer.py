@@ -568,13 +568,13 @@ class NFeSerializer(object):
             cnpj_cpf = self.nfe.infNFe.transp.transporta.CPF.valor
             cnpj_cpf = self._mask_cnpj_cpf(False, cnpj_cpf)
 
-        carrier_ids = self.env['delivery.carrier'].search(
-            [('partner_id.cnpj_cpf', '=', cnpj_cpf)])
-
         # Realizamos a busca do veiculo pelo numero da placa
         placa = self.nfe.infNFe.transp.veicTransp.placa.valor
 
         try:
+
+            carrier_ids = self.env['delivery.carrier'].search(
+                [('partner_id.cnpj_cpf', '=', cnpj_cpf)])
             vehicle_ids = self.env['l10n_br_delivery.carrier.vehicle'].search(
                 [('plate', '=', placa)])
 
