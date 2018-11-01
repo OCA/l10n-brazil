@@ -326,7 +326,7 @@ class NFeSerializer(object):
             [('default_code', '=', self.det.prod.cProd.valor)])
         if len(product_ids) == 0:
             product_ids = self.env['product.product'].search(
-                [('ean13', '=', self.det.prod.cEAN.valor)])
+                [('barcode', '=', self.det.prod.cEAN.valor)])
         if len(product_ids) == 0:
             cnpj_cpf = self._mask_cnpj_cpf(
                 True, self.nfe.infNFe.emit.CNPJ.valor)
