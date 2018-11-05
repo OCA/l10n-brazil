@@ -173,13 +173,13 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
 
         # Popula ideEvento
         S2206.tpInsc = '1'
-        S2206.nrInsc = limpa_formatacao(contrato_id.company_id.cnpj_cpf)[0:8]
+        S2206.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
         S2206.evento.ideEvento.indRetif.valor = '1'
         if operacao == 'R':  # Retificação
             S2206.evento.ideEvento.indRetif.valor = '2'
             S2206.evento.ideEvento.nrRecibo.valor = self.sped_alteracao.recibo
         S2206.evento.ideEvento.tpAmb.valor = int(
-            contrato_id.company_id.esocial_tpAmb
+            self.company_id.esocial_tpAmb
         )
         S2206.evento.ideEvento.procEmi.valor = '1'
         S2206.evento.ideEvento.verProc.valor = 'SAB Odoo 8.0'
@@ -187,7 +187,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         # Popula ideEmpregador (Dados do Empregador)
         S2206.evento.ideEmpregador.tpInsc.valor = '1'
         S2206.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(
-            contrato_id.company_id.cnpj_cpf)[0:8]
+            self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideVinculo (Identificador do Trabalhador e do Vínculo)
         S2206.evento.ideVinculo.cpfTrab.valor = limpa_formatacao(
