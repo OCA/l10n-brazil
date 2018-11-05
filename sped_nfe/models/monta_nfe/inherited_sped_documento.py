@@ -334,13 +334,13 @@ class SpedDocumento(models.Model):
         #
         # Temporário até o início da NF-e 4.00
         #
-        if self.modalidade_frete == MODALIDADE_FRETE_REMETENTE_PROPRIO:
-            transp.modFrete.valor = MODALIDADE_FRETE_REMETENTE_CIF
-        elif self.modalidade_frete == MODALIDADE_FRETE_DESTINATARIO_PROPRIO:
-            transp.modFrete.valor = MODALIDADE_FRETE_DESTINATARIO_FOB
-        else:
-            transp.modFrete.valor = \
-                self.modalidade_frete or MODALIDADE_FRETE_SEM_FRETE
+        # if self.modalidade_frete == MODALIDADE_FRETE_REMETENTE_PROPRIO:
+        #     transp.modFrete.valor = MODALIDADE_FRETE_REMETENTE_CIF
+        # elif self.modalidade_frete == MODALIDADE_FRETE_DESTINATARIO_PROPRIO:
+        #     transp.modFrete.valor = MODALIDADE_FRETE_DESTINATARIO_FOB
+        # else:
+        transp.modFrete.valor = \
+        self.modalidade_frete or MODALIDADE_FRETE_SEM_FRETE
 
         if self.transportadora_id:
             if len(self.transportadora_id.cnpj_cpf) == 14:
