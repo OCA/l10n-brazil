@@ -9,8 +9,8 @@
     'license': 'AGPL-3',
     'author': 'ABGF, Odoo Community Association (OCA)',
     'maintainer': 'ABGF',
-    'website': 'http://www.kmee.com.br',
-    'version': '8.0.0.0.1',
+    'website': 'http://www.abgf.com.br',
+    'version': '8.0.0.0.0',
     'depends': [
     ],
     'data': [
