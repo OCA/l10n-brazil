@@ -12,8 +12,10 @@
     'website': 'http://www.abgf.com.br',
     'version': '8.0.0.0.0',
     'depends': [
+        'l10n_br_account_product',
     ],
     'data': [
+        'views/account_account.xml',
     ],
     'demo': [
     ],
