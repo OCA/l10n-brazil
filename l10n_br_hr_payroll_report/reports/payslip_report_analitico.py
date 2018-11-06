@@ -422,9 +422,10 @@ def analytic_report(pool, cr, uid, local_context, context):
         busca.append(('tipo_de_folha', '=', eval(wizard.tipo_de_folha)))
         payslip_ids = pool['hr.payslip'].search(cr, uid, busca)
         payslips = pool['hr.payslip'].browse(cr, uid, payslip_ids)
-        payslip_lines = get_payslip_lines(
+        payslip_lines_holerites = get_payslip_lines(
             cr, wizard.mes_do_ano, wizard.ano, wizard.company_id.id,
             wizard.tipo_de_folha)
+        payslip_lines_rescisoes = []
 
     # Todas as linhas para Totalizadores gerais
     payslip_lines_total = get_payslip_lines(
@@ -454,14 +455,12 @@ def analytic_report(pool, cr, uid, local_context, context):
     # 
     # Totalizadores
     #
-    if wizard.tipo_de_folha == "('normal', 'rescisao')":
-        total_holerites = totalizadores_linhas_holerites\
-            (payslip_lines_holerites, payslip_autonomo_ids)
-        data.update({'totalizadores_holerites': total_holerites})
+    total_holerites = totalizadores_linhas_holerites\
+        (payslip_lines_holerites, payslip_autonomo_ids)
+    data.update({'totalizadores_holerites': total_holerites})
 
-        total_rescisoes = totalizadores_linhas_holerites(
-            payslip_lines_rescisoes)
-        data.update({'totalizadores_rescisoes': total_rescisoes})
+    total_rescisoes = totalizadores_linhas_holerites(payslip_lines_rescisoes)
+    data.update({'totalizadores_rescisoes': total_rescisoes})
 
     total = totalizadores_linhas_holerites(
         payslip_lines_total, payslip_autonomo_ids)
