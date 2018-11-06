@@ -194,7 +194,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     modalidade_frete = fields.Selection(
         selection=MODALIDADE_FRETE,
         string='Modalidade do frete',
-        default=MODALIDADE_FRETE_DESTINATARIO_FOB,
     )
     natureza_operacao_id = fields.Many2one(
         comodel_name='sped.natureza.operacao',
@@ -1232,7 +1231,13 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         if dados_operacao['emissao'] == TIPO_EMISSAO_PROPRIA:
             campos_operacao.extend(
                 ['regime_tributario', 'ind_forma_pagamento', 'finalidade_nfe',
-                    'modalidade_frete', 'infadfisco'])
+                    'infadfisco'])
+            
+            #
+            # Campos que não devem ser preenchidos se modificados pelo usuário anteriormente
+            #
+            if not self.modalidade_frete:
+                campos_operacao.extend(['modalidade_frete'])
 
             campos_operacao_condicional.extend(
                 ['natureza_operacao_id', 'condicao_pagamento_id', 'serie'])
