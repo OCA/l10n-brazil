@@ -244,6 +244,7 @@ class HrPayslipRun(models.Model):
                 ('is_simulacao', '!=', True),
                 ('mes_do_ano', '=', self.mes_do_ano),
                 ('ano', '=', self.ano),
+                ('company_id', '=', lote.company_id.id),
             ]
             self.payslip_rescisao_ids = self.env['hr.payslip'].search(domain)
 
