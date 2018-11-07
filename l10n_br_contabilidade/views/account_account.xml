@@ -87,8 +87,8 @@
         </record>
 
         <menuitem
-                action="abgf_conta_form"
                 id="abgf_menu_conta_form"
+                action="abgf_conta_form"
                 parent="abgf_menu_contas_contabilidade"
         />
 
@@ -101,9 +101,9 @@
         </record>
 
         <menuitem
+                id="abgf_menu_tipo_conta_form"
                 action="abgf_action_tipo_conta_form"
                 sequence="20"
-                id="abgf_menu_tipo_conta_form"
                 parent="abgf_menu_contas_contabilidade"
         />
 

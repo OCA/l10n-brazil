@@ -16,9 +16,12 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+
+        'data/natureza_conta_data.xml',
+
         'views/account_account.xml',
         'views/account_natureza.xml',
-        'data/natureza_conta_data.xml',
+        'views/account_centro_custo.xml',
     ],
     'demo': [
     ],
