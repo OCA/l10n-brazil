@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="abgf_contabilidade_view_move_form" model="ir.ui.view">
+            <field name="name">abgf_contabilidade.account_move_form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="line_id" position="replace">
+                    <field name="line_id" widget="one2many_list"
+                           context="{'line_id': line_id , 'journal_id': journal_id }">
+                        <form string="Journal Item">
+                                    <group col="6" colspan="4">
+                                        <field name="name"/>
+                                        <field name="ref"/>
+                                        <field name="partner_id"
+                                            domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
+                                            on_change="onchange_partner_id(False, partner_id, account_id, debit, credit, date, journal_id, context)"/>
+
+                                        <field name="journal_id"/>
+                                        <field name="period_id"/>
+                                        <field name="company_id" required="1" groups="base.group_multi_company"/>
+                                    </group>
+                                    <notebook colspan="4">
+                                        <page string="Information">
+                                            <group>
+                                                <group string="Amount">
+                                                    <field name="account_id" domain="[('company_id', '=', parent.company_id), ('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                                                    <field name="debit"/>
+                                                    <field name="credit"/>
+                                                    <field name="quantity"/>
+                                                </group>
+
+                                                <group string="Accounting Documents">
+                                                    <field name="invoice"/>
+                                                    <field name="move_id" required="False"/>
+                                                    <field name="statement_id"/>
+                                                </group>
+
+                                                <group string="Dates">
+                                                    <field name="date"/>
+                                                    <field name="date_maturity"/>
+                                                    <field name="date_created"/>
+                                                </group>
+
+                                                <group string="Taxes">
+                                                    <field name="tax_code_id"/>
+                                                    <field name="tax_amount"/>
+                                                    <field name="account_tax_id" domain="[('parent_id','=',False)]"/>
+                                                </group>
+
+                                                <group string="Currency" groups="base.group_multi_currency">
+                                                    <field name="currency_id"/>
+                                                    <field name="amount_currency"/>
+                                                </group>
+
+                                                <group string="Reconciliation">
+                                                    <field name="reconcile_id"/>
+                                                    <field name="reconcile_partial_id"/>
+                                                </group>
+
+                                                <group string="States">
+                                                    <field name="state"/>
+                                                    <field name="blocked"/>
+                                                </group>
+
+                                                <group groups="analytic.group_analytic_accounting" string="Analytic">
+                                                    <field name="analytic_account_id"/>
+                                                </group>
+                                            </group>
+                                            <separator string="Internal Note"/>
+                                            <field name="narration"/>
+                                        </page>
+                                        <page string="Analytic Lines" groups="analytic.group_analytic_accounting">
+                                            <field colspan="4" name="analytic_lines" nolabel="1" context="{'default_general_account_id':account_id, 'default_name': name, 'default_date':date, 'amount': (debit or 0.0)-(credit or 0.0)}"/>
+                                        </page>
+                                    </notebook>
+                                </form>
+                        <tree colors="blue:state == 'draft';black:state == 'posted'"
+                              editable="top" string="Journal Items">
+                            <field name="name"/>
+                            <field name="partner_id"
+                                   domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
+                                   on_change="onchange_partner_id(False, partner_id, account_id, deb'it, credit, parent.date, parent.journal_id, context)"
+                                    invisible="1"/>
+                            <field name="account_id"
+                                   domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id)]"/>
+                            <field name="date_maturity"/>
+                            <field name="debit" sum="Total Debit"/>
+                            <field name="credit" sum="Total Credit"/>
+                            <field name="analytic_account_id"
+                                   groups="analytic.group_analytic_accounting" invisible="1"/>
+                            <field name="amount_currency" invisible="1"/>
+                            <field name="currency_id"
+                                   groups="base.group_multi_currency" invisible="1"/>
+                            <field name="tax_code_id" invisible="1"/>
+                            <field name="tax_amount" invisible="1"/>
+                            <field name="state"/>
+                            <field name="reconcile_id" invisible="1"/>
+                            <field name="reconcile_partial_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="abgf_action_move_journal_line" model="ir.actions.act_window">
+            <field name="name">Lançamentos Contábeis</field>
+            <field name="res_model">account.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="account.view_move_tree"/>
+            <field name="search_view_id" ref="account.view_account_move_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a journal entry.
+              </p><p>
+                A journal entry consists of several journal items, each of
+                which is either a debit or a credit transaction.
+              </p><p>
+                Odoo automatically creates one journal entry per accounting
+                document: invoice, refund, supplier payment, bank statements,
+                etc. So, you should record journal entries manually only/mainly
+                for miscellaneous operations.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            icon="STOCK_JUSTIFY_FILL"
+            action="abgf_action_move_journal_line"
+            id="abgf_menu_action_move_journal_line_form"
+            parent="abgf_menu_lancamentos_contabilidade"
+            sequence="50" />
+
+    </data>
+</openerp>

@@ -76,6 +76,13 @@
             </field>
         </record>
 
+        <menuitem
+                id="abgf_menu_lancamentos_contabilidade"
+                name="Lançamentos Contábeis"
+                parent="abgf_menu_contabilidade"
+                sequence="3"
+        />
+
         <record id="abgf_conta_form" model="ir.actions.act_window">
             <field name="name">Contas</field>
             <field name="res_model">account.account</field>

@@ -22,6 +22,8 @@
         'views/account_account.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
+        'views/account_move.xml',
+
     ],
     'demo': [
     ],
