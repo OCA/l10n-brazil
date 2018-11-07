@@ -18,6 +18,7 @@
         'security/ir.model.access.csv',
         'views/account_account.xml',
         'views/account_natureza.xml',
+        'data/natureza_conta_data.xml',
     ],
     'demo': [
     ],
