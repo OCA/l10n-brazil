@@ -15,6 +15,7 @@
         'l10n_br_account_product',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/account_account.xml',
         'views/account_natureza.xml',
     ],

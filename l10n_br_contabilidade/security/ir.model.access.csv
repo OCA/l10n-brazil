@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+abgf_contabilidade_conta_natureza_user,abgf_contabilidade_conta_natureza_user,abgf_contabilidade.model_account_natureza,account.group_account_user,1,0,0,0
+abgf_contabilidade_conta_natureza_manager,abgf_contabilidade_conta_natureza_manager,abgf_contabilidade.model_account_natureza,account.group_account_manager,1,1,1,1
