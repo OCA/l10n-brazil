@@ -16,6 +16,7 @@
     ],
     'data': [
         'views/account_account.xml',
+        'views/account_natureza.xml',
     ],
     'demo': [
     ],

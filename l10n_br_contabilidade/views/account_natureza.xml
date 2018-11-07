@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="abgf_view_account_natureza_form" model="ir.ui.view">
+            <field name="name">abgf.account.natureza.form</field>
+            <field name="model">account.natureza</field>
+            <field name="arch" type="xml">
+                <form string="Conta Natureza">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'required': True}"/>
+                            </group>
+                            <group>
+                                <field name="code" attrs="{'required': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="abgf_view_account_natureza_tree" model="ir.ui.view">
+            <field name="name">abgf.account.natureza.tree</field>
+            <field name="model">account.natureza</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="abgf_conta_natureza_form" model="ir.actions.act_window">
+            <field name="name">Natureza Conta</field>
+            <field name="res_model">account.natureza</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="abgf_contabilidade.abgf_view_account_natureza_tree"/>
+        </record>
+
+        <menuitem
+                id="abgf_menu_config_conta_natureza"
+                action="abgf_contabilidade.abgf_conta_natureza_form"
+                parent="abgf_contabilidade.abgf_configuracao_conta_menu"
+                sequence="100"
+        />
+
+    </data>
+</openerp>
