@@ -25,6 +25,15 @@
                                 string="Download do XML"
                                 type="object"
                                 states="ciente,confirmado,desconhecido,nao_realizado"/>
+                        <button name="action_import_xml"
+                                string="Efetuar importação do xml"
+                                class="oe_highlight"
+                                type="object"
+                                attrs="{ 'invisible': ['|', ('xml_downloaded', '=', False), ('xml_imported', '=', True)] }"/>
+                        <button name="action_visualizar_danfe"
+                                string="Visualizar Danfe" class="oe_highlight"
+                                type="object"
+                                attrs="{ 'invisible': [('xml_downloaded', '=', False)] }"/>
                     </header>
                     <group>
                         <group>
@@ -47,6 +56,8 @@
                             <field name="state"/>
                             <field name="formInclusao"/>
                             <field name="dataInclusao"/>
+                            <field name="xml_downloaded" invisible="1"/>
+                            <field name="xml_imported" invisible="1"/>
                         </group>
                     </group>
                     <group string="Documentos eletrônicos">

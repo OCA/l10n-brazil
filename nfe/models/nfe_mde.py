@@ -25,6 +25,7 @@ from odoo import models, api, fields, _
 from odoo.addons.nfe.sped.nfe.validator.config_check import \
     validate_nfe_configuration
 from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning as UserError
 
 from ..service.mde import download_nfe, send_event
 
@@ -86,6 +87,9 @@ class NfeMde(models.Model):
     document_event_ids = fields.One2many(
         'l10n_br_account.document_event',
         'mde_event_id', string="Documentos eletrônicos")
+
+    xml_downloaded = fields.Boolean(u'Xml já baixado?', default=False)
+    xml_imported = fields.Boolean(u'Xml já importado?', default=False)
 
     @api.constrains('CNPJ', 'partner_id')
     def _check_partner_id(self):
@@ -225,6 +229,7 @@ class NfeMde(models.Model):
                         'res_model': 'nfe.mde',
                         'res_id': record.id
                     })
+                record.write({'xml_downloaded': True})
             else:
                 result = False
                 event = record._create_event(
@@ -232,3 +237,36 @@ class NfeMde(models.Model):
                 event = env_events.create(event)
                 record._create_attachment(event, nfe_result)
         return result
+
+    @api.multi
+    def action_import_xml(self):
+        self.ensure_one()
+        attach_xml = self.env['ir.attachment'].search([
+            ('res_id', '=', self.id),
+            ('res_model', '=', 'nfe.mde'),
+            ('name', '=like', 'NFe%')
+        ], limit=1)
+
+        if attach_xml:
+            import_doc = {'edoc_input': attach_xml.datas,
+                          'file_name': attach_xml.datas_fname}
+            nfe_import = self.env[
+                'nfe_import.account_invoice_import'].create(import_doc)
+
+            res = self.env.ref(
+                'nfe.action_l10n_br_account_periodic_processing_edoc_import'
+            ).read()[0]
+            res['domain'] = "[('id', 'in', %s)]" % [nfe_import.id]
+            res['res_id'] = nfe_import.id
+            return res
+
+        else:
+            raise UserError(
+                u'O arquivo xml já não existe mais no caminho especificado\n'
+                u'Contate o responsável pelo sistema')
+
+    @api.multi
+    def action_visualizar_danfe(self):
+        return self.env['report'].get_action(self, 'danfe_nfe_mde',
+                                             data={'ids': self.ids,
+                                                   'model': 'nfe.mde'})

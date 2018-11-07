@@ -64,6 +64,8 @@
         'views/account_fiscal_position_view.xml',
         'views/nfe_import_view.xml',
         'report/report_print_button_view.xml',
+        'report/report_danfe.xml',
+        'wizard/wizard_nfe_import_xml_view.xml',
     ],
     'css': [
         'static/src/css/nfe_import.css'
