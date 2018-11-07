@@ -261,7 +261,7 @@ class NFeSerializer(object):
             emitter['partner_id'] = receiver_partner_ids[0].id
             partner = receiver_partner_ids[0]
             # Busca conta de pagamento do fornecedor
-            emitter['account_id'] = partner.property_account_payable.id
+            emitter['account_id'] = partner.property_account_payable_id.id
         else:  # Retorna os dados para cadastro posteriormente
             partner = {}
 
@@ -394,9 +394,9 @@ class NFeSerializer(object):
             if "ICMSSN" in self.det.imposto.ICMS.nome_tag:  # Simples
                 cst = self.det.imposto.ICMS.CSOSN.valor
 
-            icms_ids = self.env['account.tax.code'].search(
+            icms_ids = self.env['l10n_br_account_product.cst'].search(
                 [('code', '=', cst),
-                 ('domain', '=', 'icms')])
+                 ('tax_group_id.domain', '=', 'icms')])
 
             inv_line['icms_cst_id'] = icms_ids[0].id if icms_ids else False
 
@@ -435,9 +435,9 @@ class NFeSerializer(object):
             #
             # # IPI
             #
-            ipi_ids = self.env['account.tax.code'].search(
+            ipi_ids = self.env['l10n_br_account_product.cst'].search(
                 [('code', '=', self.det.imposto.IPI.CST.valor),
-                 ('domain', '=', 'ipi')])
+                 ('tax_group_id.domain', '=', 'ipi')])
             if self.det.imposto.IPI.vBC.valor and \
                     self.det.imposto.IPI.pIPI.valor:
                 inv_line['ipi_type'] = 'percent'
@@ -450,9 +450,9 @@ class NFeSerializer(object):
                 inv_line['ipi_percent'] = self.det.imposto.IPI.vUnid.valor
 
             else:
-                ipi_ids = self.env['account.tax.code'].search(
+                ipi_ids = self.env['l10n_br_account_product.cst'].search(
                     [('code', '=', '49'),
-                     ('domain', '=', 'ipi')])
+                     ('tax_group_id.domain', '=', 'ipi')])
                 inv_line['ipi_type'] = 'percent'
                 inv_line['ipi_percent'] = Decimal(0)
                 inv_line['ipi_cst_id'] = ipi_ids[0].id if ipi_ids else False
@@ -476,9 +476,9 @@ class NFeSerializer(object):
             inv_line['issqn_type'] = self.det.imposto.ISSQN.cSitTrib.valor
 
         # PIS
-        pis_cst_ids = self.env['account.tax.code'].search(
+        pis_cst_ids = self.env['l10n_br_account_product.cst'].search(
             [('code', '=', self.det.imposto.PIS.CST.valor),
-             ('domain', '=', 'pis')])
+             ('tax_group_id.domain', '=', 'pis')])
 
         inv_line['pis_cst_id'] = pis_cst_ids[0].id if pis_cst_ids else False
         inv_line['pis_base'] = self.det.imposto.PIS.vBC.valor
@@ -498,9 +498,9 @@ class NFeSerializer(object):
         inv_line['pis_st_value'] = self.det.imposto.PISST.vPIS.valor
 
         # COFINS
-        cofins_cst_ids = self.env['account.tax.code'].search(
+        cofins_cst_ids = self.env['l10n_br_account_product.cst'].search(
             [('code', '=', self.det.imposto.COFINS.CST.valor),
-             ('domain', '=', 'cofins')])
+             ('tax_group_id.domain', '=', 'cofins')])
 
         inv_line['cofins_cst_id'] = \
             cofins_cst_ids[0].id if cofins_cst_ids else False

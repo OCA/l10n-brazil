@@ -130,6 +130,8 @@ class NfeImportEdit(models.TransientModel):
     def confirm_values(self):
         self.ensure_one()
         inv_values = cPickle.loads(self.xml_data)
+        inv_values['journal_id'] = self.env['account.journal'].search(
+            [], limit=1).id
 
         for index, item in enumerate(self.product_import_ids):
             line = inv_values['invoice_line'][index][2]
@@ -144,9 +146,9 @@ class NfeImportEdit(models.TransientModel):
                     line['product_id'] = product_created.id
                     line['uos_id'] = product_created.uom_id.id
                     line['account_id'] = (
-                        product_created.property_account_income.id or
-                        product_created.categ_id.
-                        property_account_income_categ.id)
+                        product_created.property_account_income_id.id or
+                        product_created.product_tmpl_id.categ_id.
+                        property_account_income_categ_id.id)
 
                     if self.create_suplierinfo:
                         self.env['product.supplierinfo'].create({
@@ -160,8 +162,9 @@ class NfeImportEdit(models.TransientModel):
             else:
                 line['product_id'] = item.product_id.id
                 line['account_id'] = (
-                    item.product_id.property_account_income.id or
-                    item.product_id.categ_id.property_account_income_categ.id)
+                    item.product_id.property_account_income_id or
+                    item.product_id.categ_id.property_account_income_categ_id
+                ).id
                 line['uos_id'] = item.uom_id.id
                 line['cfop_id'] = item.cfop_id.id
 
@@ -191,11 +194,7 @@ class NfeImportEdit(models.TransientModel):
         self.attach_doc_to_invoice(invoice.id, self.edoc_input,
                                    self.file_name)
 
-        model_obj = self.pool.get('ir.model.data')
-        action_obj = self.pool.get('ir.actions.act_window')
-        action_id = model_obj.get_object_reference(
-            self._cr, self._uid, 'account', 'action_invoice_tree2')[1]
-        res = action_obj.read(self._cr, self._uid, action_id)
+        res = self.env.ref('account.action_invoice_tree2').read()[0]
         res['domain'] = res['domain'][:-1] + \
             ",('id', 'in', %s)]" % [invoice.id]
         return res
@@ -260,15 +259,19 @@ class NfeImportEdit(models.TransientModel):
                     'invoice_id': self.account_invoice_id.id,
                 }
                 line_xml.update(vals)
-                item.invoice_line_id.write(line_xml)
+                if item.invoice_line_id:
+                    item.invoice_line_id.write(line_xml)
+                else:
+                    item.invoice_line_id = \
+                        self.env['account.invoice.line'].create(line_xml)
                 index += 1
 
-            self.account_invoice_id.button_reset_taxes()
+            self.account_invoice_id._compute_amount()
 
             return self.account_invoice_id
         else:
             invoice = self.env['account.invoice'].create(inv_values)
-            invoice.button_reset_taxes()
+            invoice._compute_amount()
 
             return invoice
 
@@ -290,7 +293,7 @@ class NfeImportEdit(models.TransientModel):
             'name': line['product_name_xml'],
             'type': 'product',
             'fiscal_type': 'product',
-            'ncm_id': line['fiscal_classification_id'],
+            'fiscal_classification_id': line['fiscal_classification_id'],
             'default_code': line['product_code_xml'],
         }
 
@@ -298,7 +301,7 @@ class NfeImportEdit(models.TransientModel):
             vals['categ_id'] = default_category.id
 
         if self.env['barcode.nomenclature'].check_ean(line['ean_xml']):
-            vals['ean13'] = line['ean_xml']
+            vals['barcode'] = line['ean_xml']
 
         if item_grid.uom_id:
             vals['uom_id'] = item_grid.uom_id.id
@@ -318,16 +321,19 @@ class NfeImportEdit(models.TransientModel):
         picking_vals = {
             'name': '/',
             'origin': 'Fatura: %s-%s' % (invoice.internal_number,
-                                         invoice.serie_nfe),
+                                         invoice.document_serie_id.code),
             'partner_id': invoice.partner_id.id,
             'invoice_state': 'invoiced',
             'fiscal_category_id': invoice.fiscal_category_id.id,
-            'fiscal_position': invoice.fiscal_position.id,
+            'fiscal_position': invoice.fiscal_position_id.id,
             'picking_type_id': picking_type_id.id,
             'move_lines': [],
             'invoice_ids': [(4, invoice.id)],
+            'location_id': picking_type_id.default_location_src_id.id,
+            'location_dest_id':
+                picking_type_id.default_location_dest_id.id,
         }
-        for line in invoice.invoice_line:
+        for line in invoice.invoice_line_ids:
             move_vals = {
                 'name': line.product_id.name,
                 'product_id': line.product_id.id,

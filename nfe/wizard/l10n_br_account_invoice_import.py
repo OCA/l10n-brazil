@@ -111,7 +111,8 @@ class NfeImportAccountInvoiceImport(models.TransientModel):
                 partner = self.env['res.partner'].create(
                     inv_values['partner_values'])
                 inv_values['partner_id'] = partner.id
-                inv_values['account_id'] = partner.property_account_payable.id
+                inv_values['account_id'] = \
+                    partner.property_account_payable_id.id
             elif not inv_values['partner_id']:
                 raise UserError(
                     u'Fornecedor não cadastrado, o xml não será importado\n'
@@ -172,12 +173,11 @@ class NfeImportAccountInvoiceImport(models.TransientModel):
 
             import_edit = self.env['nfe.import.edit'].create(values)
 
-            model_obj = self.pool.get('ir.model.data')
-            action_obj = self.pool.get('ir.actions.act_window')
+            model_obj = self.env['ir.model.data']
+            action_obj = self.env['ir.actions.act_window']
             action_id = model_obj.get_object_reference(
-                self._cr, self._uid, 'nfe_import',
-                'action_nfe_import_edit_form')[1]
-            res = action_obj.read(self._cr, self._uid, action_id)
+                'nfe', 'action_nfe_import_edit_form')[1]
+            res = action_obj.browse(action_id).read()[0]
             res['res_id'] = import_edit.id
             return res
         except Exception as e:
