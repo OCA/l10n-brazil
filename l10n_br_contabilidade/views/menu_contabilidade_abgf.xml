@@ -32,6 +32,13 @@
         />
 
         <menuitem
+                id="abgf_menu_relatorios_contabilidade"
+                name="Relatórios"
+                parent="abgf_menu_contabilidade"
+                sequence="30"
+        />
+
+        <menuitem
                 id="abgf_menu_configuracao_contabilidade"
                 name="Configurações"
                 parent="abgf_menu_contabilidade"

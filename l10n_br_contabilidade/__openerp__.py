@@ -13,6 +13,7 @@
     'version': '8.0.0.0.0',
     'depends': [
         'l10n_br_account_product',
+        'account_chart_report',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -22,6 +23,7 @@
         'views/menu_contabilidade_abgf.xml',
         # Visão
         'views/account_account.xml',
+        'views/account_chart.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
         'views/account_move.xml',

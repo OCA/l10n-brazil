@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="account.action_account_chart" model="ir.actions.act_window">
+            <field name="name">Plano de Contas</field>
+        </record>
+
+        <menuitem
+                id="menu_abgf_account_chart"
+                icon="STOCK_INDENT"
+                action="account.action_account_chart"
+                parent="abgf_contabilidade.abgf_menu_contas_contabilidade" />
+
+        <record id="account_chart_report.action_print_chart_menu" model="ir.actions.act_window">
+          <field name="name">Imprimir Plano de Contas</field>
+        </record>
+
+        <menuitem
+                id="menu_abgf_wizard_print_chart_account"
+                icon="STOCK_PRINT"
+                action="account_chart_report.action_print_chart_menu"
+                parent="abgf_contabilidade.abgf_menu_contas_contabilidade" />
+
+
+        <record id="account.action_account_general_ledger_menu" model="ir.actions.act_window">
+            <field name="name">Livro Razão</field>
+        </record>
+
+        <menuitem
+                id="menu_abgf_general_ledger"
+                icon="STOCK_PRINT"
+                name="Livro Razão"
+                action="account.action_account_general_ledger_menu"
+                parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
+
+    </data>
+</openerp>
