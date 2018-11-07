@@ -17,25 +17,36 @@
                         <field name="code" class="oe_inline" placeholder="Account code" style="width: 6em"/> -
                         <field name="name" class="oe_inline" placeholder="Account name"/>
                     </h1>
-                    <separator string="Parâmetros da Conta"/>
+
                     <group>
                         <group>
+                            <separator string="Parâmetros da Conta"/>
+                            <newline/>
                             <field name="parent_id"/>
                             <field name="type"/>
                             <field name="user_type"/>
                             <field name="active"/>
                             <field name="company_id" widget="selection" groups="base.group_multi_company"/>
-                        </group>
-                        <group>
                             <field name="natureza_conta_id"/>
                         </group>
+                        <group>
+                            <newline/>
+                        </group>
                     </group>
-                    <separator string="Valores" />
+
                     <group>
-                        <field name="debit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
-                        <field name="credit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
-                        <field name="balance" style='text-align:right'/>
+                        <group>
+                            <separator string="Valores" />
+                            <newline/>
+                            <field name="debit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
+                            <field name="credit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
+                            <field name="balance" style='text-align:right'/>
+                        </group>
+                        <group>
+                            <newline/>
+                        </group>
                     </group>
+
                 </form>
             </field>
         </record>
