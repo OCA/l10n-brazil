@@ -5,83 +5,6 @@
 <openerp>
     <data>
 
-        <record id="account.menu_finance" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6, 0, [ref('base.group_no_one')])]"/>
-        </record>
-
-        <menuitem
-                name="Contabilidade"
-                id="abgf_menu_contabilidade"
-                groups="account.group_account_user,account.group_account_manager,account.group_account_invoice,base.group_no_one"
-                sequence="51"
-        />
-
-        <menuitem
-                id="abgf_menu_contas_contabilidade"
-                name="Contas"
-                parent="abgf_menu_contabilidade"
-                sequence="2"
-        />
-
-        <!-- Conta Contábil -->
-        <record id="abgf_view_conta_form" model="ir.ui.view">
-            <field name="name">abgf.conta.form</field>
-            <field name="model">account.account</field>
-            <field name="arch" type="xml">
-                <form string="Account">
-                    <label for="code" class="oe_edit_only" string="Account Code and Name"/>
-                    <h1>
-                        <field name="code" class="oe_inline" placeholder="Account code" style="width: 6em"/> -
-                        <field name="name" class="oe_inline" placeholder="Account name"/>
-                    </h1>
-                    <separator string="Parâmetros da Conta"/>
-                    <group>
-                        <group>
-                            <field name="parent_id"/>
-                            <field name="type"/>
-                            <field name="user_type"/>
-                            <field name="active"/>
-                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
-                        </group>
-                        <group>
-                            <field name="natureza_conta_id"/>
-                        </group>
-                    </group>
-                    <separator string="Valores" />
-                    <group>
-                        <field name="debit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
-                        <field name="credit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
-                        <field name="balance" style='text-align:right'/>
-                    </group>
-                </form>
-            </field>
-        </record>
-
-        <record id="abgf_view_conta_tree" model="ir.ui.view">
-            <field name="name">abgf.conta.tree</field>
-            <field name="model">account.account</field>
-            <field name="field_parent">child_id</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="parent_id" invisible="1"/>
-                    <field name="user_type" invisible="1"/>
-                    <field name="debit"/>
-                    <field name="credit"/>
-                    <field name="balance"/>
-                    <field name="type"/>
-                    <field name="company_id" groups="base.group_multi_company"/>
-                </tree>
-            </field>
-        </record>
-
-        <menuitem
-                id="abgf_menu_lancamentos_contabilidade"
-                name="Lançamentos Contábeis"
-                parent="abgf_menu_contabilidade"
-                sequence="3"
-        />
 
         <record id="abgf_conta_form" model="ir.actions.act_window">
             <field name="name">Contas</field>
@@ -96,36 +19,7 @@
         <menuitem
                 id="abgf_menu_conta_form"
                 action="abgf_conta_form"
-                parent="abgf_menu_contas_contabilidade"
-        />
-
-        <record id="abgf_action_tipo_conta_form" model="ir.actions.act_window">
-            <field name="name">Tipo Conta</field>
-            <field name="res_model">account.account.type</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="account.view_account_type_search"/>
-        </record>
-
-        <menuitem
-                id="abgf_menu_tipo_conta_form"
-                action="abgf_action_tipo_conta_form"
-                sequence="20"
-                parent="abgf_menu_contas_contabilidade"
-        />
-
-        <menuitem
-                id="abgf_menu_configuracao_contabilidade"
-                name="Configurações"
-                parent="abgf_menu_contabilidade"
-                sequence="3"
-        />
-
-        <menuitem
-                id="abgf_configuracao_conta_menu"
-                name="Conta"
-                parent="abgf_menu_configuracao_contabilidade"
-                sequence="20"
+                parent="abgf_contabilidade.abgf_menu_contas_contabilidade"
         />
 
     </data>

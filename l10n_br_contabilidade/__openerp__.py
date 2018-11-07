@@ -18,11 +18,14 @@
         'security/ir.model.access.csv',
 
         'data/natureza_conta_data.xml',
-
+        # Menus
+        'views/menu_contabilidade_abgf.xml',
+        # Visão
         'views/account_account.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
         'views/account_move.xml',
+        'views/account_account_type.xml',
 
     ],
     'demo': [

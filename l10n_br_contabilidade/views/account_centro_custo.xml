@@ -77,7 +77,7 @@
         action="abgf_contabilidade_account_centro_custo_action"
         id="menu_abgf_contabilidade_account_centro_custo"
         name="Centro de Custo"
-        parent="abgf_contabilidade.abgf_menu_configuracao_contabilidade"
+        parent="abgf_contabilidade.abgf_configuracao_conta_menu"
         sequence="18"
     />
 
