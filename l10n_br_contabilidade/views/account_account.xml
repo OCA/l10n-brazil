@@ -6,6 +6,59 @@
     <data>
 
 
+        <!-- Conta Contábil -->
+        <record id="abgf_view_conta_form" model="ir.ui.view">
+            <field name="name">abgf.conta.form</field>
+            <field name="model">account.account</field>
+            <field name="arch" type="xml">
+                <form string="Account">
+                    <label for="code" class="oe_edit_only" string="Account Code and Name"/>
+                    <h1>
+                        <field name="code" class="oe_inline" placeholder="Account code" style="width: 6em"/> -
+                        <field name="name" class="oe_inline" placeholder="Account name"/>
+                    </h1>
+                    <separator string="Parâmetros da Conta"/>
+                    <group>
+                        <group>
+                            <field name="parent_id"/>
+                            <field name="type"/>
+                            <field name="user_type"/>
+                            <field name="active"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="natureza_conta_id"/>
+                        </group>
+                    </group>
+                    <separator string="Valores" />
+                    <group>
+                        <field name="debit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
+                        <field name="credit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
+                        <field name="balance" style='text-align:right'/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="abgf_view_conta_tree" model="ir.ui.view">
+            <field name="name">abgf.conta.tree</field>
+            <field name="model">account.account</field>
+            <field name="field_parent">child_id</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="user_type" invisible="1"/>
+                    <field name="debit"/>
+                    <field name="credit"/>
+                    <field name="balance"/>
+                    <field name="type"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="abgf_conta_form" model="ir.actions.act_window">
             <field name="name">Contas</field>
             <field name="res_model">account.account</field>
