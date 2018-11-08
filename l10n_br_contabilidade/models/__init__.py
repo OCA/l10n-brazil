@@ -6,3 +6,5 @@ from . import account_account
 from . import account_move
 from . import account_natureza
 from . import account_centro_custo
+from . import account_grupo
+from . import account_ramo

@@ -28,6 +28,8 @@
         'views/account_move.xml',
         'views/account_account_type.xml',
         'views/account_reports.xml',
+        'views/account_grupo.xml',
+        'views/account_ramo.xml',
     ],
     'demo': [
     ],
