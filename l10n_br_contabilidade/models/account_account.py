@@ -4,7 +4,7 @@
 
 from openerp import api, fields, models
 
-class Accountaccount(models.Model):
+class AccountAccount(models.Model):
     _inherit = 'account.account'
 
     natureza_conta_id = fields.Many2one(
