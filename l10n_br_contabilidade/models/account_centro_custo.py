@@ -26,4 +26,4 @@ class AccountCentroCusto(models.Model):
     @api.depends('nome','descricao')
     def compute_name(self):
         for centro in self:
-            centro.name = centro.nome + '-' + centro.descricao
+            centro.name = centro.nome + ' - ' + centro.descricao

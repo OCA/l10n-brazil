@@ -43,6 +43,7 @@
                             <field name="period_id"/>
                             <field name="company_id" required="1" groups="base.group_multi_company"/>
                             <field name="partner_id" invisible="1"/>
+                            <field name="centro_custo_id" widget="many2many_tags" />
                         </group>
                         <group>
                             <field name="ref"/>
@@ -127,7 +128,7 @@
                                     <field name="partner_id"
                                         domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
                                         on_change="onchange_partner_id(False, partner_id, account_id, debit, credit, parent.date, parent.journal_id, context)" invisible="1"/>
-                                    <field name="date_maturity" class="oe_inline" />
+                                    <field name="date_maturity" invisible="1" />
                                     <field name="account_id" domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id)]" />
                                     <field name="debit" sum="Total Debit"/>
                                     <field name="credit" sum="Total Credit"/>
