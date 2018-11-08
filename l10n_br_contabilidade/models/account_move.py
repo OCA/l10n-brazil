@@ -11,9 +11,6 @@ class AccountMove(models.Model):
     @api.multi
     def _get_default_sequence(self):
         ultimo_lancamento = self._get_last_sequence()
-        if ultimo_lancamento.sequencia == 1:
-            return ultimo_lancamento.sequencia
-
         proximo_numero = ultimo_lancamento.sequencia + 1
 
         return proximo_numero
