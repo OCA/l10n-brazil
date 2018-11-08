@@ -2443,19 +2443,11 @@ class SpedCalculoImpostoItem(SpedBase):
             vr_difal = vr_difal.quantize(D('0.01'))
             self.al_difal = al_difal
             self.vr_difal = vr_difal
+            vr_icms_estado_destino = vr_difal * (self.al_partilha_estado_destino/100)
+            vr_icms_estado_origem = vr_difal - vr_icms_estado_destino
 
-            vr_icms = D(self.vr_operacao_tributacao)
-            vr_icms *= D(self.al_interna_destino)
-            vr_icms /= 100
-            vr_icms = vr_icms.quantize(D('0.01'))
-            vr_icms_estado_destino = vr_icms * \
-                D(self.al_partilha_estado_destino) / 100
-            vr_icms_estado_destino = vr_icms_estado_destino.quantize(D('0.01'))
-            vr_icms_estado_origem = vr_icms - \
-                vr_icms_estado_destino
-
-            self.vr_icms_estado_destino = vr_icms_estado_destino
-            self.vr_icms_estado_origem = vr_icms_estado_origem
+            self.vr_icms_estado_destino = vr_icms_estado_destino.quantize(D('0.01'))
+            self.vr_icms_estado_origem = vr_icms_estado_origem.quantize(D('0.01'))
 
             vr_fcp = D(self.vr_operacao_tributacao) * D(self.al_fcp) / 100
             vr_fcp = vr_fcp.quantize(D('0.01'))
