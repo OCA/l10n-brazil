@@ -5,8 +5,26 @@
 <openerp>
     <data>
 
+        <record id="abgf_contabilidade_view_account_move_tree" model="ir.ui.view">
+            <field name="name">account.move.tree (in abgf_contabilidade)</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="period_id"/>
+                    <field name="journal_id"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="to_check"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="abgf_contabilidade_view_account_move_form" model="ir.ui.view">
-            <field name="name">abgf_contabilidade.account_move_form</field>
+            <field name="name">account.move.form (in abgf_contabilidade)</field>
             <field name="model">account.move</field>
             <field name="arch" type="xml">
                 <form string="Account Entry">
@@ -109,7 +127,7 @@
                                     <field name="partner_id"
                                         domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
                                         on_change="onchange_partner_id(False, partner_id, account_id, debit, credit, parent.date, parent.journal_id, context)" invisible="1"/>
-                                    <field name="date_maturity"/>
+                                    <field name="date_maturity" class="oe_inline" />
                                     <field name="account_id" domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id)]" />
                                     <field name="debit" sum="Total Debit"/>
                                     <field name="credit" sum="Total Credit"/>
@@ -134,31 +152,29 @@
             </field>
         </record>
 
-        <record id="abgf_action_move_journal_line" model="ir.actions.act_window">
+        <record id="abgf_account_move_action" model="ir.actions.act_window">
             <field name="name">Lançamentos Contábeis</field>
             <field name="res_model">account.move</field>
-            <field name="view_type">tree</field>
             <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_move_tree_action_view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="abgf_contabilidade_view_account_move_tree"/>
+            <field name="act_window_id" ref="abgf_account_move_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_centro_custo_form_action_view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
             <field name="view_id" ref="abgf_contabilidade_view_account_move_form"/>
-            <field name="search_view_id" ref="account.view_account_move_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to create a journal entry.
-              </p><p>
-                A journal entry consists of several journal items, each of
-                which is either a debit or a credit transaction.
-              </p><p>
-                Odoo automatically creates one journal entry per accounting
-                document: invoice, refund, supplier payment, bank statements,
-                etc. So, you should record journal entries manually only/mainly
-                for miscellaneous operations.
-              </p>
-            </field>
+            <field name="act_window_id" ref="abgf_account_move_action"/>
         </record>
 
         <menuitem
             icon="STOCK_JUSTIFY_FILL"
-            action="abgf_action_move_journal_line"
+            action="abgf_account_move_action"
             id="abgf_menu_action_move_journal_line_form"
             parent="abgf_menu_lancamentos_contabilidade"
             sequence="50" />
