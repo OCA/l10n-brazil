@@ -18,6 +18,7 @@
                     <field name="partner_id" invisible="1"/>
                     <field name="amount" sum="Total Amount"/>
                     <field name="to_check"/>
+                    <field name="sequencia"/>
                     <field name="state"/>
                 </tree>
             </field>
