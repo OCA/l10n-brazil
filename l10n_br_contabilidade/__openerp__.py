@@ -23,12 +23,11 @@
         'views/menu_contabilidade_abgf.xml',
         # Visão
         'views/account_account.xml',
-        'views/account_chart.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
         'views/account_move.xml',
         'views/account_account_type.xml',
-
+        'views/account_reports.xml',
     ],
     'demo': [
     ],

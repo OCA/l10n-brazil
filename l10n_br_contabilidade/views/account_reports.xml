@@ -5,20 +5,21 @@
 <openerp>
     <data>
 
+        <!-- Plano de Contas -->
         <record id="account.action_account_chart" model="ir.actions.act_window">
             <field name="name">Plano de Contas</field>
         </record>
-
         <menuitem
                 id="menu_abgf_account_chart"
                 icon="STOCK_INDENT"
                 action="account.action_account_chart"
                 parent="abgf_contabilidade.abgf_menu_contas_contabilidade" />
 
+
+        <!-- Plano de Contas em PDF -->
         <record id="account_chart_report.action_print_chart_menu" model="ir.actions.act_window">
           <field name="name">Imprimir Plano de Contas</field>
         </record>
-
         <menuitem
                 id="menu_abgf_wizard_print_chart_account"
                 icon="STOCK_PRINT"
@@ -26,16 +27,31 @@
                 parent="abgf_contabilidade.abgf_menu_contas_contabilidade" />
 
 
+        <!-- Livro Razão -->
         <record id="account.action_account_general_ledger_menu" model="ir.actions.act_window">
             <field name="name">Livro Razão</field>
         </record>
-
         <menuitem
                 id="menu_abgf_general_ledger"
                 icon="STOCK_PRINT"
                 name="Livro Razão"
                 action="account.action_account_general_ledger_menu"
+                sequence="10"
                 parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
+
+
+        <!-- Balancete -->
+        <record id="account.action_account_balance_menu" model="ir.actions.act_window">
+            <field name="name">Balancete</field>
+        </record>
+        <menuitem
+                id="menu_abgf_general_Balance_report"
+                icon="STOCK_PRINT"
+                name="Balancete"
+                action="account.action_account_balance_menu"
+                sequence="20"
+                parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
+
 
     </data>
 </openerp>
