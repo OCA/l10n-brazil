@@ -21,6 +21,12 @@ class AccountRamo(models.Model):
         required=True,
     )
 
+    move_ids = fields.One2many(
+        'account.move',
+        'ramo_id',
+        string=u'Lançamentos Contábeis',
+    )
+
     identificador = fields.Char(
         string=u'Identificador',
         size=2,

@@ -26,6 +26,11 @@ class AccountMove(models.Model):
 
         return proximo_numero
 
+    ramo_id = fields.Many2one(
+        'account.ramo',
+        string=u'Ramo',
+    )
+
     def _get_last_sequence(self):
         return self.search(
             [('sequencia', '!=', False)], order='sequencia DESC', limit=1
