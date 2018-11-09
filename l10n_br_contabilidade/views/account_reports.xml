@@ -28,27 +28,27 @@
 
 
         <!-- Livro Razão -->
-        <record id="account.action_account_general_ledger_menu" model="ir.actions.act_window">
+        <record id="account_financial_report_webkit.action_account_general_ledger_menu_webkit" model="ir.actions.act_window">
             <field name="name">Livro Razão</field>
         </record>
         <menuitem
                 id="menu_abgf_general_ledger"
                 icon="STOCK_PRINT"
                 name="Livro Razão"
-                action="account.action_account_general_ledger_menu"
+                action="account_financial_report_webkit.action_account_general_ledger_menu_webkit"
                 sequence="10"
                 parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
 
 
         <!-- Balancete -->
-        <record id="account.action_account_balance_menu" model="ir.actions.act_window">
+        <record id="account_financial_report_webkit.action_account_trial_balance_menu_webkit" model="ir.actions.act_window">
             <field name="name">Balancete</field>
         </record>
         <menuitem
                 id="menu_abgf_general_Balance_report"
                 icon="STOCK_PRINT"
                 name="Balancete"
-                action="account.action_account_balance_menu"
+                action="account_financial_report_webkit.action_account_trial_balance_menu_webkit"
                 sequence="20"
                 parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
 
