@@ -2,22 +2,22 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-============================
-Manifestação do Destinatário
-============================
+======================
+Nota Fiscal Eletrônica
+======================
 
-Implementa a consulta de nfe periodicamente no SEFAZ
+Esse módulo implementa as interações de documentos eletrônicos com o SEFAZ.
 
-Este módulo serve para efetuar download de notas em que são destinada a empresa.
-
-Manifesta a ciência ou desconhecimento da NF-e
-
+Com ele é possível transmitir e consultar NF-e, fazer cartas de correção, inutilizar faixas de numeração,
+importar documentos eletrônicos a partir de arquivos TXT e XML, consultar MD-e, manifestar ciência ou desconhecimento da
+MD-e e importar a NF-e diretamente da MD-e.
 
 Installation
 ============
 
 This module depends on :
- * nfe
+ * l10n_br_account_product
+ * barcodes
 
 This modules is part of the odoo-brazil/odoo-brazil-eletronic-documents suite.
 
