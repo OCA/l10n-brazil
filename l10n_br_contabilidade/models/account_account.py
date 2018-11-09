@@ -4,6 +4,7 @@
 
 from openerp import api, fields, models
 
+
 class AccountAccount(models.Model):
     _inherit = 'account.account'
 
@@ -11,6 +12,27 @@ class AccountAccount(models.Model):
         string='Natureza da Conta',
         comodel_name='account.natureza',
     )
+
+    saldo = fields.Float(
+        string='Saldo',
+        compute='_compute_saldo_conta',
+    )
+
+    @api.depends('balance')
+    def _compute_saldo_conta(self):
+        """
+        Utilizar a natureza da conta para manipular o valor de saldo
+        calculado automáticamente pela funcionalidade do core.
+
+        obs: Este campo está subistituindo o cambo 'balance' do core na visão
+        """
+        for record in self:
+            saldo = record.balance
+            if record.natureza_conta_id == self.env.ref(
+                    'abgf_contabilidade.abgf_account_natureza_credora'):
+                saldo *= -1
+
+            record.saldo = saldo
 
     @api.multi
     def verificar_contas(self):
