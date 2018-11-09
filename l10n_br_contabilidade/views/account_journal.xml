@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="abgf_action_tipo_conta_form" model="ir.actions.act_window">
+            <field name="name">Tipo Conta</field>
+            <field name="res_model">account.account.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="account.view_account_type_search"/>
+        </record>
+
+        <menuitem
+                id="abgf_menu_tipo_conta_form"
+                action="abgf_action_tipo_conta_form"
+                sequence="20"
+                parent="abgf_contabilidade.abgf_configuracao_conta_menu"
+        />
+
+    </data>
+</openerp>
