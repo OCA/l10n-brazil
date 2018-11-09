@@ -17,7 +17,7 @@
                         <field name="name" class="oe_inline" style="width: 10em" placeholder="Nome do Ramo" />
                     </h2>
                     <group>
-                        <field name="identificador" />
+                        <field name="identificador" placeholder="Somente número" />
                         <field name="grupo_id" />
                         <field name="observacao" />
                     </group>

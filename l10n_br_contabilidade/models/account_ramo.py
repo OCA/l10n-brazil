@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 class AccountRamo(models.Model):
     _name = 'account.ramo'
@@ -42,3 +43,11 @@ class AccountRamo(models.Model):
     def compute_code_grupo_ramo(self):
         for record in self:
             record.code = record.grupo_id.code+record.identificador
+
+    @api.onchange('identificador')
+    def _on_change_identificador(self):
+        try:
+            int(self.identificador)
+            pass
+        except ValueError:
+            raise Warning(u'O campo "identificador" deve conter apenas números.')
