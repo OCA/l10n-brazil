@@ -9,27 +9,24 @@ from openerp.exceptions import Warning
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    @api.model
-    def create(self, vals):
-        if not vals.get('debit') and not vals.get('credit'):
+    def _verifica_valores_debito_credito(self, debito, credito):
+        if not debito and not credito:
             raise Warning(
                 'Não é possível criar lançamentos com debito/crédito zerado!'
             )
 
-    @api.model
-    def write(self, vals, check=False):
-        for record in self:
-            if vals.get('debit') == 0:
-                if record.credit == 0:
-                    raise Warning(
-                        'Não é possível criar lançamentos com '
-                        'debito/crédito zerado!'
-                    )
-            elif vals.get('credit') == 0:
-                if record.debit == 0:
-                    raise Warning(
-                        'Não é possível criar lançamentos com '
-                        'debito/crédito zerado!'
-                    )
+        return True
 
-            return super(AccountMoveLine, record).write(vals)
+    @api.model
+    def create(self, vals):
+        self._verifica_valores_debito_credito(
+            vals.get('debit', 0), vals.get('credit', 0))
+
+        return super(AccountMoveLine, self).create(vals)
+
+    @api.multi
+    def write(self, vals, check=False):
+        res = super(AccountMoveLine, self).write(vals)
+        self._verifica_valores_debito_credito(self.debit, self.credit)
+
+        return res
