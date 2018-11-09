@@ -5,6 +5,7 @@
 from openerp import api, fields, models
 from openerp.exceptions import Warning
 
+
 class AccountRamo(models.Model):
     _name = 'account.ramo'
     _description = 'Ramos de seguros para fins de contabilização'
@@ -57,3 +58,8 @@ class AccountRamo(models.Model):
             pass
         except ValueError:
             raise Warning(u'O campo "identificador" deve conter apenas números.')
+
+    @api.one
+    def name_get(self):
+        name = self.code+" - "+self.name
+        return (self.id, name)

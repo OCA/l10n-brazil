@@ -40,7 +40,6 @@ class AccountGrupoRamo(models.Model):
     def _on_change_code(self):
         try:
             int(self.code)
-            print self.code
             pass
         except ValueError:
             raise Warning(u'O campo "Código" deve conter dois dígitos e apenas números.')
