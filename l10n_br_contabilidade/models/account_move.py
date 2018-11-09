@@ -15,7 +15,7 @@ class AccountMove(models.Model):
 
         return proximo_numero
 
-    centro_custo_id = fields.Many2one(
+    centro_custo_id = fields.Many2many(
         string='Centro de Custo',
         comodel_name='account.centro.custo',
     )
