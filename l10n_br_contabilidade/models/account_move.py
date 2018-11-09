@@ -29,6 +29,10 @@ class AccountMove(models.Model):
     ramo_id = fields.Many2one(
         'account.ramo',
         string=u'Ramo',
+
+    historico_padrao_id = fields.Many2one(
+        comodel_name='account.historico.padrao',
+        string=u'Modelo do Histórico Padrão',
     )
 
     def _get_last_sequence(self):
