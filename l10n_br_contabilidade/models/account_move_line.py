@@ -9,6 +9,10 @@ from openerp.exceptions import Warning
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
+    name = fields.Char(
+        required = 'False',
+    )
+
     def _verifica_valores_debito_credito(self, debito, credito):
         if not debito and not credito:
             raise Warning(
@@ -30,3 +34,13 @@ class AccountMoveLine(models.Model):
         self._verifica_valores_debito_credito(self.debit, self.credit)
 
         return res
+
+    @api.onchange('account_id')
+    def compute_name(self):
+        """
+
+        :return:
+        """
+        for record in self:
+            if record.account_id:
+                record.name = record.account_id.display_name

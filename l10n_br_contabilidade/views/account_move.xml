@@ -59,7 +59,7 @@
                             <field name="line_id" widget="one2many_list" context="{'line_id': line_id , 'journal_id': journal_id }">
                                 <form string="Journal Item">
                                     <group col="6" colspan="4">
-                                        <field name="name"/>
+                                        <field name="name" invisible="1"/>
                                         <field name="ref"/>
                                         <field name="partner_id"
                                             domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
@@ -126,7 +126,7 @@
                                 </form>
                                 <tree colors="blue:state == 'draft';black:state == 'posted'" editable="top" string="Journal Items">
                                     <field name="invoice" invisible="1"/>
-                                    <field name="name"/>
+                                    <field name="name" invisible="1"/>
                                     <field name="partner_id"
                                         domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
                                         on_change="onchange_partner_id(False, partner_id, account_id, debit, credit, parent.date, parent.journal_id, context)" invisible="1"/>
