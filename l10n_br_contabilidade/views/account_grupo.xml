@@ -17,7 +17,7 @@
                     <h1><field name="name"/></h1>
 
                     <group>
-                        <field name="code" />
+                        <field name="code" placeholder="Somente número" />
                         <field name="descricao" />
                     </group>
                     <separator string="Ramos"/>

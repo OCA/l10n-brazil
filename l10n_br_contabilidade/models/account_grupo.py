@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import Warning
 
 class AccountGrupoRamo(models.Model):
     _name = 'account.grupo'
@@ -34,3 +35,12 @@ class AccountGrupoRamo(models.Model):
     def name_get(self):
         name = self.code+" - "+self.name
         return (self.id, name)
+
+    @api.onchange('code')
+    def _on_change_code(self):
+        try:
+            int(self.code)
+            print self.code
+            pass
+        except ValueError:
+            raise Warning(u'O campo "Código" deve conter dois dígitos e apenas números.')
