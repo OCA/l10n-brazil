@@ -40,3 +40,15 @@ class AccountAccount(models.Model):
         :return:
         """
         pass
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        res = super(AccountAccount, self).name_search(name)
+
+        if not res:
+            domain_name = '%{}%'.format(name)
+            res = self.search([('code', '=ilike', domain_name)])
+
+            return res.name_get()
+
+        return res
