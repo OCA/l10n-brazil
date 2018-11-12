@@ -5,6 +5,7 @@
 from openerp import api, fields, models
 from openerp.exceptions import Warning
 
+
 class AccountGrupoRamo(models.Model):
     _name = 'account.grupo'
     _description = 'Grupo dos ramos de seguros para fins de contabilização'

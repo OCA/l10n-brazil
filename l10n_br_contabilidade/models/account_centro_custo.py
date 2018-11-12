@@ -4,6 +4,7 @@
 
 from openerp import api, fields, models
 
+
 class AccountCentroCusto(models.Model):
     _name = 'account.centro.custo'
     _description = 'Centro de Custo para lançamentos Contábeis'
