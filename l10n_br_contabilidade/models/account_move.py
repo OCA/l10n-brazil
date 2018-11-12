@@ -17,7 +17,6 @@ class AccountMove(models.Model):
     sequencia = fields.Integer(
         string='Sequência',
         default=lambda self: self._get_default_sequence(),
-        unique=True,
     )
 
     @api.multi
