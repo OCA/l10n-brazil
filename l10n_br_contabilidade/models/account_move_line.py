@@ -31,7 +31,8 @@ class AccountMoveLine(models.Model):
     @api.multi
     def write(self, vals, check=False):
         res = super(AccountMoveLine, self).write(vals)
-        self._verifica_valores_debito_credito(self.debit, self.credit)
+        for record in self:
+            record._verifica_valores_debito_credito(record.debit, record.credit)
 
         return res
 
