@@ -26,13 +26,6 @@ class AccountMove(models.Model):
 
         return proximo_numero
 
-    @api.multi
-    def _get_default_sequence(self):
-        ultimo_lancamento = self._get_last_sequence()
-        proximo_numero = ultimo_lancamento.sequencia + 1
-
-        return proximo_numero
-
     ramo_id = fields.Many2one(
         'account.ramo',
         string=u'Ramo',
