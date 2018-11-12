@@ -6,7 +6,6 @@ from openerp import api, fields, models
 from openerp.exceptions import Warning
 
 
-
 class AccountRamo(models.Model):
     _name = 'account.ramo'
     _description = 'Ramos de seguros para fins de contabilização'
@@ -47,7 +46,7 @@ class AccountRamo(models.Model):
         string=u'Observação',
     )
 
-    @api.depends('grupo_id','identificador')
+    @api.depends('grupo_id', 'identificador')
     def compute_code_grupo_ramo(self):
         for record in self:
             record.code = record.grupo_id.code+record.identificador
@@ -63,4 +62,4 @@ class AccountRamo(models.Model):
     @api.one
     def name_get(self):
         name = self.code+" - "+self.name
-        return (self.id, name)
+        return self.id, name

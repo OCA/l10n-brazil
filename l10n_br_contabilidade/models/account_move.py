@@ -7,6 +7,7 @@ from openerp import api, fields, models
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
+    _sql_constraints = [ ('unique_sequencia','unique(sequencia)',u'Número da sequência já existe.'), ]
 
     centro_custo_id = fields.Many2many(
         string='Centro de Custo',
