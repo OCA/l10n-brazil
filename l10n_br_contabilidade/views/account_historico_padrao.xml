@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 ABGF http://www.abgf.gov.br/
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+    <record model="ir.ui.view" id="abgf_contabilidade_account_historico_padrao_form">
+        <field name="name">account_historico_padrao_form (in abgf_contabilidade)</field>
+        <field name="model">account.historico.padrao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="historico_padrao">
+                <sheet>
+                    <h2>
+                        <label for="name" string="Nome" class="oe_edit_only"/>
+                        <field name="name"/>
+                    </h2>
+                    <group>
+                        <field name="template_historico_padrao" />
+                    </group>
+                    <group col="3" string="Legenda">
+                        <group>
+                            <label colspan="2" string="Ano Atual 4 dígitos: %{AAAA}" />
+                            <label colspan="2" string="Ano Atual 2 dígitos: %{AA}" />
+                            <label colspan="2" string="Mês: %{MM}"/>
+                            <label colspan="2" string="Dia: %{DD}"/>
+                        </group>
+                        <group>
+                            <label colspan="2" string="Dia do Ano: "/>
+                            <label colspan="2" string="Semana do Ano: "/>
+                            <label colspan="2" string="Dia da semana: "/>
+                        </group>
+                        <group>
+                            <label colspan="2" string="Hora 00->24: "/>
+                            <label colspan="2" string="Hora 00->12: "/>
+                            <label colspan="2" string="Minutos: "/>
+                            <label colspan="2" string="Segundos: "/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="abgf_contabilidade_account_historico_padrao_tree">
+        <field name="name">account_historico_padrao_tree (in abgf_contabilidade)</field>
+        <field name="model">account.historico.padrao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="historico_padrao">
+                <field name="name" />
+                <field name="template_historico_padrao" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="abgf_contabilidade_account_historico_padrao_search">
+        <field name="name">account_historico_padrao_search (in abgf_contabilidade)</field>
+        <field name="model">account.historico.padrao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="historico_padrao">
+                <field name="name" />
+                <field name="template_historico_padrao" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="abgf_contabilidade_account_historico_padrao_action">
+        <field name="name">Template para Histórico</field>
+        <field name="res_model">account.historico.padrao</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_historico_padrao_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="abgf_contabilidade_account_historico_padrao_tree"/>
+        <field name="act_window_id" ref="abgf_contabilidade_account_historico_padrao_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_historico_padrao_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="abgf_contabilidade_account_historico_padrao_form"/>
+        <field name="act_window_id" ref="abgf_contabilidade_account_historico_padrao_action"/>
+    </record>
+
+    <menuitem
+        action="abgf_contabilidade_account_historico_padrao_action"
+        id="menu_abgf_contabilidade_account_historico_padrao"
+        parent="abgf_contabilidade.abgf_configuracao_lancamentos_contabeis_menu"
+        sequence="40"
+    />
+
+    </data>
+</openerp>
