@@ -17,7 +17,6 @@ class AccountMove(models.Model):
     sequencia = fields.Integer(
         string='Sequência',
         default=lambda self: self._get_default_sequence(),
-        readonly=True,
     )
 
     def _get_default_sequence(self):
