@@ -45,11 +45,23 @@
             <field name="name">Balancete</field>
         </record>
         <menuitem
-                id="menu_abgf_general_Balance_report"
+                id="menu_abgf_general_balance_report"
                 icon="STOCK_PRINT"
                 name="Balancete"
                 action="account_financial_report_webkit.action_account_trial_balance_menu_webkit"
                 sequence="20"
+                parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
+
+        <!-- Diários -->
+        <record id="account_financial_report_webkit.action_account_print_journal_menu_webkit" model="ir.actions.act_window">
+            <field name="name">Livro Diários</field>
+        </record>
+        <menuitem
+                id="menu_abgf_account_print_journal"
+                icon="STOCK_PRINT"
+                name="Diários"
+                action="account_financial_report_webkit.action_account_print_journal_menu_webkit"
+                sequence="30"
                 parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
 
 
