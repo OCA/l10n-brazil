@@ -2,7 +2,10 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
+from datetime import datetime
+
+from openerp import fields, models
+
 
 class AccountHistoricoPadrao(models.Model):
     _name = 'account.historico.padrao'
@@ -25,10 +28,13 @@ class AccountHistoricoPadrao(models.Model):
         :return:
         """
         if self.template_historico_padrao:
-            historico_padrao = \
-                self.template_historico_padrao.replace('%{AAAA}', '2018')
-            historico_padrao = historico_padrao.replace('%{AA}', '18')
-            historico_padrao = historico_padrao.replace('%{MM}', '11')
-            historico_padrao = historico_padrao.replace('%{DD}', '12')
-
+            hoje = datetime.today()
+            historico_padrao = self.template_historico_padrao.replace(
+                '%{AAAA}', str(hoje.year))
+            historico_padrao = historico_padrao.replace(
+                '%{AA}', str(hoje.year)[-2:])
+            historico_padrao = historico_padrao.replace(
+                '%{MM}', str(hoje.month))
+            historico_padrao = historico_padrao.replace(
+                '%{DD}', str(hoje.day))
             return historico_padrao
