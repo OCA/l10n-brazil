@@ -29,6 +29,7 @@ class AccountMove(models.Model):
     ramo_id = fields.Many2one(
         'account.ramo',
         string=u'Ramo',
+    )
 
     historico_padrao_id = fields.Many2one(
         comodel_name='account.historico.padrao',
@@ -46,3 +47,18 @@ class AccountMove(models.Model):
             vals['sequencia'] = self._get_default_sequence()
 
         return super(AccountMove, self).create(vals)
+
+
+    @api.onchange('journal_id')
+    def onchange_journal_id(self):
+        """
+        :param journal_id:
+        :return:
+        """
+        if self.journal_id:
+
+            historico_padrao = \
+                self.journal_id.template_historico_padrao_id.get_historico_padrao()
+
+            if historico_padrao:
+                self.name = historico_padrao

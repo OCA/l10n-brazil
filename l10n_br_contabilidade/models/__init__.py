@@ -10,3 +10,4 @@ from . import account_centro_custo
 from . import account_grupo
 from . import account_ramo
 from . import account_historico_padrao
+from . import account_journal

@@ -34,9 +34,9 @@
                         <button name="button_cancel" states="posted" string="Cancel Entry" type="object" groups="account.group_account_invoice"/>
                         <field name="state" widget="statusbar"/>
                     </header>
-                    <label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
+                    <label for="name" string="Histórico" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
                     <h1>
-                        <field name="name" readonly="True" attrs="{'invisible':[('name','=','/')]}"/>
+                        <field name="name" attrs="{'invisible':[('name','=','/')]}"/>
                     </h1>
                     <group>
                         <group>

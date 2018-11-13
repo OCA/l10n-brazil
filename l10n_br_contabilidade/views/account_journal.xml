@@ -5,20 +5,22 @@
 <openerp>
     <data>
 
-        <record id="abgf_action_tipo_conta_form" model="ir.actions.act_window">
-            <field name="name">Tipo Conta</field>
-            <field name="res_model">account.account.type</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="account.view_account_type_search"/>
+        <record id="abgf_view_account_journal" model="ir.ui.view">
+            <field name="name">account.journal.form (in abgf_contabilidade)</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="template_historico_padrao_id" />
+                </field>
+            </field>
         </record>
 
         <menuitem
-                id="abgf_menu_tipo_conta_form"
-                action="abgf_action_tipo_conta_form"
-                sequence="20"
-                parent="abgf_contabilidade.abgf_configuracao_conta_menu"
-        />
+                action="account.action_account_journal_form"
+                id="menu_abgf_action_account_journal_form"
+                parent="abgf_menu_configuracao_contabilidade"/>
+
 
     </data>
 </openerp>

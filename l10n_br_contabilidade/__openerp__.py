@@ -23,6 +23,7 @@
         'views/menu_contabilidade_abgf.xml',
         # Visão
         'views/account_account.xml',
+        'views/account_journal.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
         'views/account_move.xml',
@@ -30,6 +31,7 @@
         'views/account_reports.xml',
         'views/account_grupo.xml',
         'views/account_ramo.xml',
+        'views/account_historico_padrao.xml',
     ],
     'demo': [
     ],
