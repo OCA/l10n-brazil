@@ -9,30 +9,26 @@ class AccountHistoricoPadrao(models.Model):
     _description = 'Histórico padrão dos lançamentos contábeis'
     _order = 'name'
 
-    account_move_id = fields.One2many(
-        string=u'Lançamento Contábil',
-        comodel_name='account.move',
-        inverse_name='historico_padrao_id',
-    )
-
     name = fields.Char(
         string=u'Nome',
         required=True,
     )
 
-    template_historico = fields.Char(
+    template_historico_padrao = fields.Char(
         string=u'Template para Histórico'
     )
 
-    def get_historico_padrao(self, account_move_id, complemento=''):
+    def get_historico_padrao(self, account_move_id=False, complemento=''):
         """
-
         :param account_move_id:
         :param complemento:
         :return:
         """
-        return 'Historico Padrao'
+        if self.template_historico_padrao:
+            historico_padrao = \
+                self.template_historico_padrao.replace('%{AAAA}', '2018')
+            historico_padrao = historico_padrao.replace('%{AA}', '18')
+            historico_padrao = historico_padrao.replace('%{MM}', '11')
+            historico_padrao = historico_padrao.replace('%{DD}', '12')
 
-
-
-
+            return historico_padrao
