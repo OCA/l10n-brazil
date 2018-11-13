@@ -21,18 +21,32 @@ class AccountMoveLine(models.Model):
 
         return True
 
+    def _verificar_lancamento_debito_credito(self):
+        if self.debit and self.credit:
+            raise Warning(
+                'Não é possível criar um lançamento com débito e '
+                'crédito ao mesmo tempo!'
+            )
+
+        return True
+
     @api.model
     def create(self, vals):
         self._verifica_valores_debito_credito(
             vals.get('debit', 0), vals.get('credit', 0))
 
-        return super(AccountMoveLine, self).create(vals)
+        res = super(AccountMoveLine, self).create(vals)
+
+        res._verificar_lancamento_debito_credito()
+
+        return res
 
     @api.multi
     def write(self, vals, check=False):
         res = super(AccountMoveLine, self).write(vals)
         for record in self:
             record._verifica_valores_debito_credito(record.debit, record.credit)
+            record._verificar_lancamento_debito_credito()
 
         return res
 
