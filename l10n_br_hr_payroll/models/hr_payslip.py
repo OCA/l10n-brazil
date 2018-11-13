@@ -734,9 +734,12 @@ class HrPayslip(models.Model):
             #
 
             # DIAS no mês
+            # Verificação do 13 salario
+            mes_do_ano = \
+                str(self.mes_do_ano) if str(self.mes_do_ano) != '13' else '12'
             primeiro_dia_do_mes = \
                 str(datetime.strptime(
-                    str(self.mes_do_ano) + '-' + str(self.ano), '%m-%Y'))[:10]
+                    mes_do_ano + '-' + str(self.ano), '%m-%Y'))[:10]
             ultimo_dia_do_mes = str(ultimo_dia_mes(primeiro_dia_do_mes))
             dias_mes = resource_calendar_obj.get_dias_base(
                 fields.Datetime.from_string(primeiro_dia_do_mes),
