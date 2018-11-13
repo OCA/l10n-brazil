@@ -2605,8 +2605,8 @@ class HrPayslip(models.Model):
                 datetime.strptime(str(mes) + '-' +
                                   str(record.ano), '%m-%Y'))
 
-            record.date_from = primeiro_dia_do_mes
             record.date_to = ultimo_dia_do_mes
+            record.date_from = primeiro_dia_do_mes
 
             data_de_inicio = record.contract_id.date_start
             data_final = record.contract_id.date_end
