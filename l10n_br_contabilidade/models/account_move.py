@@ -17,14 +17,19 @@ class AccountMove(models.Model):
     sequencia = fields.Integer(
         string='Sequência',
         default=lambda self: self._get_default_sequence(),
+        readonly=True,
     )
 
-    @api.multi
     def _get_default_sequence(self):
-        ultimo_lancamento = self._get_last_sequence()
-        proximo_numero = ultimo_lancamento.sequencia + 1
+        sequence = [move.sequencia for move in self._get_all_sequence()]
+        full_sequence = range(1, max(sequence))
 
-        return proximo_numero
+        for x in full_sequence:
+            if x not in sequence:
+
+                return x
+
+        return max(sequence) + 1
 
     ramo_id = fields.Many2one(
         'account.ramo',
@@ -36,18 +41,8 @@ class AccountMove(models.Model):
         string=u'Modelo do Histórico Padrão',
     )
 
-    def _get_last_sequence(self):
-        return self.search(
-            [('sequencia', '!=', False)], order='sequencia DESC', limit=1
-        )
-
-    @api.model
-    def create(self, vals):
-        if self._get_last_sequence().sequencia == vals['sequencia']:
-            vals['sequencia'] = self._get_default_sequence()
-
-        return super(AccountMove, self).create(vals)
-
+    def _get_all_sequence(self):
+        return self.search([('sequencia', '!=', False)], order='sequencia')
 
     @api.onchange('journal_id')
     def onchange_journal_id(self):
