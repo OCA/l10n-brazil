@@ -27,7 +27,7 @@
                             <field name="user_type"/>
                             <field name="active"/>
                             <field name="company_id" widget="selection" groups="base.group_multi_company"/>
-                            <field name="natureza_conta_id"/>
+                            <field name="natureza_conta_id" attrs="{'invisible':[('type','=','view')]}"/>
                         </group>
                         <group>
                             <newline/>
