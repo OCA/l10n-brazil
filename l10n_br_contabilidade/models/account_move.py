@@ -7,7 +7,6 @@ from openerp import api, fields, models
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-    _sql_constraints = [ ('unique_sequencia','unique(sequencia)',u'Número da sequência já existe.'), ]
 
     centro_custo_id = fields.Many2many(
         string='Centro de Custo',
@@ -15,20 +14,9 @@ class AccountMove(models.Model):
     )
 
     sequencia = fields.Integer(
-        string='Sequência',
-        default=lambda self: self._get_default_sequence(),
+        string=u'Sequência',
+        required=True,
     )
-
-    def _get_default_sequence(self):
-        sequence = [move.sequencia for move in self._get_all_sequence()]
-        full_sequence = range(1, max(sequence))
-
-        for x in full_sequence:
-            if x not in sequence:
-
-                return x
-
-        return max(sequence) + 1
 
     ramo_id = fields.Many2one(
         'account.ramo',
@@ -40,8 +28,15 @@ class AccountMove(models.Model):
         string=u'Modelo do Histórico Padrão',
     )
 
-    def _get_all_sequence(self):
-        return self.search([('sequencia', '!=', False)], order='sequencia')
+    @api.model
+    def create(self, vals):
+        year = self.env['account.period'].browse(vals['period_id']).fiscalyear_id.name
+        sequence_id = self.env['ir.sequence'].search([('name','=','account_move_sequence_'+year)]).id
+        sequence_id = sequence_id if sequence_id else self.env['ir.sequence'].create(
+            {'name': 'account_move_sequence_'+year, 'implementation': 'no_gap'}).id
+        vals['sequencia'] = self.env['ir.sequence'].next_by_id(sequence_id)
+
+        return super(AccountMove, self).create(vals)
 
     @api.onchange('journal_id')
     def onchange_journal_id(self):
