@@ -393,7 +393,7 @@
         <menuitem action="action_view_hr_decimo_terceiro_view_page"
                   id="menu_decimo_terceiro_page"
                   parent="hr_payroll.menu_hr_root_payroll"
-                  groups="base.group_hr_user,base.group_hr_manager"/>
+                  groups="base.group_user"/>
 
         <!--Aviso Prévio-->
         <record id="view_hr_aviso_previo_tree" model="ir.ui.view">
