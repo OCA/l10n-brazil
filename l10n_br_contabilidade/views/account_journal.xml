@@ -10,6 +10,9 @@
             <field name="model">account.journal</field>
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='sequence_id']" position="attributes">
+                       <attribute name="invisible">1</attribute>
+                </xpath>
                 <field name="type" position="after">
                     <field name="template_historico_padrao_id" />
                 </field>
