@@ -18,6 +18,18 @@ class AccountAccount(models.Model):
         compute='_compute_saldo_conta',
     )
 
+    funcao = fields.Text(
+        string=u'Função',
+    )
+
+    funcionamento = fields.Text(
+        string=u'Funcionamento',
+    )
+
+    observacao = fields.Text(
+        string=u'Observação',
+    )
+
     @api.depends('balance')
     def _compute_saldo_conta(self):
         """

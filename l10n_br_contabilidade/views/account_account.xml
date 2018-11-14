@@ -47,6 +47,17 @@
                             <newline/>
                         </group>
                     </group>
+                    <notebook colspan="3">
+                        <page string="Função">'
+                            <field name="funcao"/>
+                        </page>
+                        <page string="Funcionamento">
+                            <field name="funcionamento"/>
+                        </page>
+                        <page string="Observação">
+                            <field name="observacao"/>
+                        </page>
+                    </notebook>
 
                 </form>
             </field>
