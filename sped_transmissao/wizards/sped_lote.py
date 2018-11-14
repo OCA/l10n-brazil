@@ -154,8 +154,10 @@ class SpedCriacaoWizard(models.TransientModel):
                         'ambiente': registro.ambiente,
                         'grupo': grupo,
                         'company_id': registro.company_id.id,
-                        'ordem_registro': TIPO_REGISTRO[registro.registro],
                     }
+                    if registro.tipo == 'esocial':
+                        vals['ordem_registro'] = TIPO_REGISTRO[registro.registro]
+
                     lote = self.env['sped.lote.wizard'].create(vals)
                     lotes.append(lote.id)
                 else:
@@ -192,9 +194,10 @@ class SpedCriacaoWizard(models.TransientModel):
                 'company_id': lote.company_id.id,
                 'grupo': lote.grupo,
                 'situacao': '1',
-                'ordem_registro': lote.ordem_registro,
                 # 'lote_ids': [(6, 0, lote.registro_ids.ids)]
             }
+            if lote.tipo == 'esocial':
+                vals['ordem_registro'] = lote.ordem_registro
             novo_lote = self.env['sped.lote'].create(vals)
             for registro in lote.registro_ids:
                 registro.lote_ids = [(4, novo_lote.id)]
