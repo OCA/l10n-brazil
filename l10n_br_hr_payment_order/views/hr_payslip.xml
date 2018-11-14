@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
 
             <field name="number" position="after">
-                <field name="paid_order"/>
+                <field name="paid_order" groups="base.group_hr_user"/>
                 <field name="payment_order_id" invisible="1" />
             </field>
 
@@ -24,9 +24,10 @@
                 <button name="action_done" states="verify" string="Concluir" class="oe_highlight" type="object"/>
             </button>
 
-            <!-- Substituir botao de recusaar holerite por botao para gerar ordem de pagamento do holerite-->
+            <!-- Substituir botao de recusar holerite por botao para gerar ordem de pagamento do holerite-->
             <button name="refund_sheet" position="replace">
                 <button name="create_payment_order" type="object"
+                        groups="base.group_hr_user"
                         string="Criar ordem de Pgto"
                         attrs="{'invisible':[('payment_order_id','!=',False)]}" />
             </button>
