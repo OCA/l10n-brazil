@@ -34,11 +34,6 @@ class AccountMove(models.Model):
         compute='onchange_journal_id',
     )
 
-    def _get_last_sequence(self):
-        return self.search(
-            [('sequencia', '!=', False)], order='sequencia DESC', limit=1
-        )
-
     @api.model
     def create(self, vals):
         sequence_id = self.env['account.period'].browse(vals['period_id']).fiscalyear_id.sequence_id.id
