@@ -28,6 +28,17 @@ class AccountMove(models.Model):
         string=u'Modelo do Histórico Padrão',
     )
 
+    resumo = fields.Char(
+        string=u'Resumo',
+        size=250,
+        compute='onchange_journal_id',
+    )
+
+    def _get_last_sequence(self):
+        return self.search(
+            [('sequencia', '!=', False)], order='sequencia DESC', limit=1
+        )
+
     @api.model
     def create(self, vals):
         sequence_id = self.env['account.period'].browse(vals['period_id']).fiscalyear_id.sequence_id.id
@@ -35,7 +46,7 @@ class AccountMove(models.Model):
 
         return super(AccountMove, self).create(vals)
 
-    @api.onchange('journal_id')
+    @api.onchange('journal_id', 'narration')
     def onchange_journal_id(self):
         """
         :param journal_id:
@@ -48,3 +59,6 @@ class AccountMove(models.Model):
 
             if historico_padrao:
                 self.name = historico_padrao
+
+            if self.name and self.narration:
+                self.resumo = str(self.name + ' ' + self.narration)[:250]

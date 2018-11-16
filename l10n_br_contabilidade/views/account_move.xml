@@ -38,6 +38,10 @@
                     <h1>
                         <field name="name" attrs="{'invisible':[('name','=','/')]}"/>
                     </h1>
+                    <label for="resumo" string="Resumo" attrs="{'invisible':[('resumo','=',False)]}"/>
+                    <h2>
+                        <field name="resumo" attrs="{'invisible':[('resumo','=',False)]}"/>
+                    </h2>
                     <group>
                         <group>
                             <field name="journal_id" string="Lote de Lançamentos" options="{'no_create': True}"/>
