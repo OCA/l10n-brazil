@@ -181,7 +181,7 @@ class HrPayslipRun(models.Model):
         contribuicao_sindical = {}
         darf_analitico = []
 
-        for holerite in self.slip_ids:
+        for holerite in self.slip_ids + self.payslip_rescisao_ids:
             if not empresas.get(holerite.company_id.id):
                 empresas.update({
                     holerite.company_id.id: {
