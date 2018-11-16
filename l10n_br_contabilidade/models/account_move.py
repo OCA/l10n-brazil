@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
-
+from openerp.exceptions import Warning
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
@@ -72,3 +72,11 @@ class AccountMove(models.Model):
 
             if self.name and self.narration:
                 self.resumo = str(self.name + ' ' + self.narration)[:250]
+
+    @api.model
+    def write(self, vals):
+        for record in self:
+            if record.state == 'posted' and not vals['state']:
+                raise Warning(u'Não é possível editar um lançamento com status lançado.')
+
+        return super(AccountMove, self).write(vals)
