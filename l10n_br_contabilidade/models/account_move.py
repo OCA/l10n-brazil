@@ -30,10 +30,7 @@ class AccountMove(models.Model):
 
     @api.model
     def create(self, vals):
-        year = self.env['account.period'].browse(vals['period_id']).fiscalyear_id.name
-        sequence_id = self.env['ir.sequence'].search([('name','=','account_move_sequence_'+year)]).id
-        sequence_id = sequence_id if sequence_id else self.env['ir.sequence'].create(
-            {'name': 'account_move_sequence_'+year, 'implementation': 'no_gap'}).id
+        sequence_id = self.env['account.period'].browse(vals['period_id']).fiscalyear_id.sequence_id.id
         vals['sequencia'] = self.env['ir.sequence'].next_by_id(sequence_id)
 
         return super(AccountMove, self).create(vals)
