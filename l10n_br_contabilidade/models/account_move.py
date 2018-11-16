@@ -44,13 +44,6 @@ class AccountMove(models.Model):
     def button_return(self):
         self.state = 'draft'
 
-    @api.multi
-    def _get_default_sequence(self):
-        ultimo_lancamento = self._get_last_sequence()
-        proximo_numero = ultimo_lancamento.sequencia + 1
-
-        return proximo_numero
-
     @api.model
     def create(self, vals):
         sequence_id = self.env['account.period'].browse(vals['period_id']).fiscalyear_id.sequence_id.id
