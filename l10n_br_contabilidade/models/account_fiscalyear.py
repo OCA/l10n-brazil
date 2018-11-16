@@ -12,12 +12,4 @@ class AccountFiscalYear(models.Model):
         'ir.sequence',
         string=u'Sequence',
         readonly=True,
-        compute='_compute_sequence_id',
-        store=True,
     )
-
-    @api.depends('sequence_id')
-    def _compute_sequence_id(self):
-        if not self.sequence_id:
-            self.sequence_id = self.env['ir.sequence'].create(
-                {'name': 'account_move_sequence_'+self.name, 'implementation': 'no_gap'}).id
