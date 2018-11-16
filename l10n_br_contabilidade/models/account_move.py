@@ -18,6 +18,8 @@ class AccountMove(models.Model):
         required=True,
     )
 
+    state = fields.Selection(selection_add=[('cancel', u'Cancelado')])
+
     ramo_id = fields.Many2one(
         'account.ramo',
         string=u'Ramo',
@@ -33,6 +35,21 @@ class AccountMove(models.Model):
         size=250,
         compute='onchange_journal_id',
     )
+
+    @api.multi
+    def button_cancel(self):
+        self.state = 'cancel'
+
+    @api.multi
+    def button_return(self):
+        self.state = 'draft'
+
+    @api.multi
+    def _get_default_sequence(self):
+        ultimo_lancamento = self._get_last_sequence()
+        proximo_numero = ultimo_lancamento.sequencia + 1
+
+        return proximo_numero
 
     @api.model
     def create(self, vals):
