@@ -3023,7 +3023,7 @@ class HrPayslip(models.Model):
 
             dependent_values = self.get_dependent_values_irrf(self.ano)
 
-            if self.tipo_de_folha == 'normal':
+            if self.tipo_de_folha in ['normal', 'decimo_terceiro']:
                 inss = locals[u'INSS']
             else:
                 inss = locals[u'INSS_COMPETENCIA_ATUAL']
@@ -3056,3 +3056,32 @@ class HrPayslip(models.Model):
             ))
 
         return pensao, porcentagem_pensao
+
+    def get_valor_pensao_adiantamente_decimo_terceiro(self):
+        """
+
+        :param locals:
+        :return:
+        """
+        domain = [
+            ('tipo_de_folha', 'in', ['decimo_terceiro', 'ferias']),
+            ('contract_id', '=', self.contract_id.id),
+            ('state', 'in', ['done', 'verify']),
+            ('ano', '=', self.ano),
+            ('is_simulacao', '=', False),
+            ('mes_do_ano', '<=', self.mes_do_ano),
+        ]
+        holerites = self.search(domain, order='mes_do_ano DESC')
+
+        valor = 0
+        if holerites:
+            for holerite in holerites:
+                for line in holerite.line_ids:
+                    if line.code in [
+                        'PENSAO_ALIMENTICIA',
+                    ]:
+                        if not (self.tipo_de_folha == 'ferias'
+                                and holerite.mes_do_ano == self.mes_do_ano):
+                            valor += line.total
+
+        return valor
