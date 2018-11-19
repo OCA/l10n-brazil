@@ -22,8 +22,8 @@ class AccountRamo(models.Model):
         required=True,
     )
 
-    move_ids = fields.One2many(
-        comodel_name='account.move',
+    move_line_ids = fields.One2many(
+        comodel_name='account.move.line',
         inverse_name='ramo_id',
         string=u'Lançamentos Contábeis',
     )

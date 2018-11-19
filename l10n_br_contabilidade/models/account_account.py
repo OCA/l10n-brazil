@@ -30,6 +30,10 @@ class AccountAccount(models.Model):
         string=u'Observação',
     )
 
+    precisa_ramo = fields.Boolean(
+        string=u'É obrigatório definir Ramo?'
+    )
+
     @api.depends('balance')
     def _compute_saldo_conta(self):
         """

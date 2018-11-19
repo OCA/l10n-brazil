@@ -47,7 +47,6 @@
                             <field name="company_id" invisible="1" required="1" groups="base.group_multi_company"/>
                             <field name="partner_id" invisible="1"/>
                             <field name="centro_custo_id" attrs="{'readonly':[('state','=','posted')]}" widget="many2many_tags" />
-                            <field name="ramo_id" options="{'no_create': True}" attrs="{'readonly':[('state','=','posted')]}" />
                         </group>
                         <group>
                             <field name="ref"  attrs="{'readonly':[('state','=','posted')]}" />
@@ -77,6 +76,7 @@
                                             <group>
                                                 <group string="Amount">
                                                     <field name="account_id" domain="[('company_id', '=', parent.company_id), ('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                                                    <field name="ramo_id"/>
                                                     <field name="debit"/>
                                                     <field name="credit"/>
                                                     <field name="quantity"/>
@@ -135,6 +135,8 @@
                                         on_change="onchange_partner_id(False, partner_id, account_id, debit, credit, parent.date, parent.journal_id, context)" invisible="1"/>
                                     <field name="date_maturity" invisible="1" />
                                     <field name="account_id" options="{'no_create': True}" domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id)]" />
+                                    <field name="precisa_ramo" invisible="1"/>
+                                    <field name="ramo_id" attrs="{'required':[('precisa_ramo','=',True)]}"/>
                                     <field name="debit" sum="Total Debit"/>
                                     <field name="credit" sum="Total Credit"/>
                                     <field name="analytic_account_id" groups="analytic.group_analytic_accounting" invisible="1"/>

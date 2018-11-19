@@ -20,11 +20,6 @@ class AccountMove(models.Model):
 
     state = fields.Selection(selection_add=[('cancel', u'Cancelado')])
 
-    ramo_id = fields.Many2one(
-        'account.ramo',
-        string=u'Ramo',
-    )
-
     historico_padrao_id = fields.Many2one(
         comodel_name='account.historico.padrao',
         string=u'Modelo do Histórico Padrão',

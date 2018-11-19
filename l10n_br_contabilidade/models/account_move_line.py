@@ -13,6 +13,15 @@ class AccountMoveLine(models.Model):
         required = 'False',
     )
 
+    ramo_id = fields.Many2one(
+        'account.ramo',
+        string=u'Ramo',
+    )
+
+    precisa_ramo = fields.Boolean(
+        related='account_id.precisa_ramo',
+    )
+
     def _verifica_valores_debito_credito(self, debito, credito):
         if not debito and not credito:
             raise Warning(
