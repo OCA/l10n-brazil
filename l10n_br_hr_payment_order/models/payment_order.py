@@ -100,7 +100,8 @@ class PaymentOrder(models.Model):
 
         payslip_line_ids = self.env['hr.payslip.line'].search([
             ('slip_id', 'in', payslip_ids.ids),
-            ('salary_rule_id', 'in', rubricas_pagaveis.ids)
+            ('salary_rule_id', 'in', rubricas_pagaveis.ids),
+            ('total', '>', 0),
         ])
 
         # Populate the current payment with new lines:
