@@ -40,10 +40,20 @@
                         <group>
                             <separator string="Valores" />
                             <newline/>
-                            <field name="debit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
-                            <field name="credit" attrs="{'readonly':[('type','=','view')]}" style='text-align:right'/>
+                            <group>
+                                <field name="debit" attrs="{'readonly':[('type','=','view')]}" style='text-align:left'/>
+                                <field name="credit" attrs="{'readonly':[('type','=','view')]}" style='text-align:left'/>
+                            </group>
                             <field name="balance" style='text-align:right' invisible="1"/>
-                            <field name="saldo" style='text-align:right'/>
+                            <newline/>
+                            <group>
+                                <group>
+                                    <field name="saldo" style='text-align:right'/>
+                                </group>
+                                <group>
+                                    <field name="identificacao_saldo" style="font-weight:bold;text-align:left" nolabel="1"/>
+                                </group>
+                            </group>
                         </group>
                         <group>
                             <newline/>
@@ -92,10 +102,12 @@
                     <field name="name"/>
                     <field name="parent_id" invisible="1"/>
                     <field name="user_type" invisible="1"/>
+                    <field name="natureza_conta_id"/>
                     <field name="debit"/>
                     <field name="credit"/>
                     <field name="balance" invisible="1"/>
                     <field name="saldo"/>
+                    <field name="identificacao_saldo"/>
                 </tree>
             </field>
         </record>

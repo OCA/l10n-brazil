@@ -18,6 +18,17 @@ class AccountAccount(models.Model):
         compute='_compute_saldo_conta',
     )
 
+    identificacao_saldo = fields.Selection(
+        string='Identificação de Saldo',
+        selection=[
+            ('', ''),
+            ('debito', 'D'),
+            ('credito', 'C'),
+        ],
+        default='debito',
+        compute='_get_identificacao_saldo',
+    )
+
     funcao = fields.Text(
         string=u'Função',
     )
@@ -44,11 +55,20 @@ class AccountAccount(models.Model):
         """
         for record in self:
             saldo = record.balance
-            if record.natureza_conta_id == self.env.ref(
-                    'abgf_contabilidade.abgf_account_natureza_credora'):
+            if saldo < 0:
                 saldo *= -1
 
             record.saldo = saldo
+
+    @api.depends('saldo')
+    def _get_identificacao_saldo(self):
+        for record in self:
+            if record.debit > record.credit:
+                record.identificacao_saldo = 'debito'
+            elif record.debit < record.credit:
+                record.identificacao_saldo = 'credito'
+            else:
+                record.identificacao_saldo = ''
 
     @api.multi
     def verificar_contas(self):
