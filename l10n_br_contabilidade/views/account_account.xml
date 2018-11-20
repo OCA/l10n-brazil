@@ -82,8 +82,6 @@
             </field>
         </record>
 
-
-
         <record id="abgf_view_conta_tree" model="ir.ui.view">
             <field name="name">abgf.conta.tree</field>
             <field name="model">account.account</field>
