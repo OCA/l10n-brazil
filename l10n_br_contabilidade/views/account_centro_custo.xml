@@ -13,17 +13,14 @@
         <field name="arch" type="xml">
             <form string="Centro de Custo">
                 <sheet>
-
                     <label for="nome" class="oe_edit_only"/>
                     <h1><field name="nome"/></h1>
-
                     <group>
                         <group name="geral" colspan="2" col="2">
                             <label for="descricao" />
                             <field name="descricao" colspan="2" nolabel="1" />
                         </group>
                     </group>
-
                 </sheet>
             </form>
         </field>

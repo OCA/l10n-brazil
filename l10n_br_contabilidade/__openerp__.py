@@ -27,6 +27,7 @@
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
         'views/account_move.xml',
+        'views/account_fechamento.xml',
         'views/account_account_type.xml',
         'views/account_reports.xml',
         'views/account_grupo.xml',

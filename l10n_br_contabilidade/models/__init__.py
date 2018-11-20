@@ -4,6 +4,7 @@
 
 from . import account_account
 from . import account_move
+from . import account_fechamento
 from . import account_move_line
 from . import account_natureza
 from . import account_centro_custo

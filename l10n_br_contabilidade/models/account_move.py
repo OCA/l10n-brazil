@@ -18,7 +18,19 @@ class AccountMove(models.Model):
         required=True,
     )
 
-    state = fields.Selection(selection_add=[('cancel', u'Cancelado')])
+    state = fields.Selection(
+        selection_add=[('cancel', u'Cancelado')]
+    )
+
+    account_fechamento_id = fields.Many2one(
+        string=u'Fechamento de período',
+        comodel_name='account.fechamento',
+    )
+
+    lancamento_de_fechamento = fields.Boolean(
+        string=u'Lançamento de Fechamento?',
+        help='Indica se é um lançamento gerado apartir do fechamento',
+    )
 
     historico_padrao_id = fields.Many2one(
         comodel_name='account.historico.padrao',
@@ -71,7 +83,10 @@ class AccountMove(models.Model):
     @api.model
     def write(self, vals):
         for record in self:
-            if record.state == 'posted' and not vals['state']:
-                raise Warning(u'Não é possível editar um lançamento com status lançado.')
-
+            # Só é permitido alterar o state ou vincular a um fechamento o
+            # lançamento contabil ja lançado
+            if not (vals.get('state') or vals.get('account_fechamento_id')):
+                if record.state == 'posted':
+                    raise Warning(u'Não é possível editar um lançamento '
+                                  u'com status lançado.')
         return super(AccountMove, self).write(vals)
