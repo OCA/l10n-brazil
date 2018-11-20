@@ -3,6 +3,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
+from pybrasil.data import formata_data
+
 
 @py3o_report_extender(
     "l10n_br_hr_payroll_report.report_payslip_py3o_report")
@@ -23,7 +25,7 @@ def payslip_report(pool, cr, uid, local_context, context):
     local_context['linhas_holerites'] = payslip_id.line_resume_ids
 
     local_context['data_pagamento'] = \
-        payslip_id.payment_order_id.date_scheduled or ''
+        formata_data(payslip_id.payment_order_id.date_scheduled) or ''
 
     # Competencia
     competencia = dict(payslip_id._fields.get('mes_do_ano').selection).get(
