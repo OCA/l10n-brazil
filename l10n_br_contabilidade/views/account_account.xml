@@ -27,7 +27,7 @@
                             <field name="natureza_conta_id" attrs="{'invisible':[('type','=','view')], 'required':[('type','!=','view')]}" widget="selection"/>
                             <field name="user_type"/>
                             <field name="active"/>
-                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                            <field name="company_id" invisible="1" widget="selection" groups="base.group_multi_company"/>
                             <newline/>
                             <field name="precisa_ramo"/>
                         </group>
@@ -64,6 +64,25 @@
                 </form>
             </field>
         </record>
+
+        <record id="view_account_tree" model="ir.ui.view">
+            <field name="name">account.account.tree</field>
+            <field name="type">form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_tree"/>
+            <field name="arch" type="xml">
+               <data>
+                    <xpath expr="//field[@name='company_id']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                   <xpath expr="//field[@name='type']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+               </data>
+            </field>
+        </record>
+
+
 
         <record id="abgf_view_conta_tree" model="ir.ui.view">
             <field name="name">abgf.conta.tree</field>
