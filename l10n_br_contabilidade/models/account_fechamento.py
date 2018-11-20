@@ -74,8 +74,8 @@ class AccountFechamento(models.Model):
 
             # Lançamentos que não estao em nenhum fechamento
             account_move_ids = self.env['account.move'].search([
-                ('period_id','in', record.account_period_ids.ids),
-                ('state','=','posted'),
+                ('period_id', 'in', record.account_period_ids.ids),
+                ('state', '=', 'posted'),
                 ('account_fechamento_id', '=', False),
             ])
 
@@ -85,73 +85,79 @@ class AccountFechamento(models.Model):
 
     @api.multi
     def button_fechar_periodos(self):
-        def create_move():
-
-            return self.env['account.move'].create({
-                'journal_id':1,
-                'period_id':periodo,
-                'date':data_lancamento,
-            }).id
-
+        # Cria account.move.line
         def create_line(account_id, debito, credito, move_id):
             self.env['account.move.line'].create({
-                'account_id':account_id,
-                'credit':credito,
-                'debit':debito,
-                'move_id':move_id,
+                'account_id': account_id,
+                'credit': credito,
+                'debit': debito,
+                'move_id': move_id,
+                'name': str(move_id)+str(account_id)
             })
 
-        df_are = pd.DataFrame(
-            columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
+        for record in self:
+            # Cria dataframe vazio com colunas
+            df_are = pd.DataFrame(
+                columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
 
-        for move in self.account_move_ids:
-            for line in move.line_id:
-                if line.account_id.user_type.name == 'Resultado':
-                    df_are.loc[line.id] = \
-                        [line.account_id.id, line.debit, line.credit,
-                         move.period_id.id, move.period_id.date_stop]
+            # Popula o dataframe com valores do account.move.line
+            for move in record.account_move_ids:
+                for line in move.line_id:
+                    if line.account_id.user_type.name == 'Resultado' \
+                            and move.state == 'posted':
+                        df_are.loc[line.id] = \
+                            [line.account_id.id, line.debit, line.credit,
+                             move.period_id.id, move.period_id.date_stop]
 
-        data_lancamento = df_are['dt_stop'].max()
-        periodo = df_are[
-            data_lancamento == df_are['dt_stop']].head(1)['periodo']
+            data_lancamento = df_are['dt_stop'].max()
+            periodo_id = df_are[
+                data_lancamento == df_are['dt_stop']].iloc[1]['periodo']
 
-        df_agrupado = df_are.groupby('conta').sum()
-        df_agrupado['result'] = (df_agrupado['debito'] - df_agrupado['credito'])
+            # Agrupa por conta e soma as outras colunas
+            df_agrupado = df_are.groupby('conta').sum()
+            df_agrupado['result'] = \
+                (df_agrupado['debito'] - df_agrupado['credito'])
 
-        are_debito = self.account_journal_id.default_debit_account_id.id
-        are_credito = self.account_journal_id.default_credit_account_id.id
+            # Conta de credito e debito ARE padrão
+            are_debito = record.account_journal_id.default_debit_account_id.id
+            are_credito = record.account_journal_id.default_credit_account_id.id
 
-        for conta in df_agrupado.index:
-            series_conta = df_agrupado.loc[conta]
-            if series_conta['result'] != 0.0:
-                move_id = create_move()
+            for conta in df_agrupado.index:
+                series_conta = df_agrupado.loc[conta]
+                if series_conta['result'] != 0.0:
+                    move_id = record.env['account.move'].create({
+                        'journal_id': 1,
+                        'period_id': periodo_id,
+                        'date': data_lancamento,
+                        'state': 'posted',
+                    }).id
 
-                if series_conta['result'] > 0.0:
-                    create_line(
-                        account_id=conta,
-                        debito=0.0,
-                        credito=series_conta['result'],
-                        move_id=move_id,
-                    )
+                    if series_conta['result'] > 0.0:
+                        create_line(
+                            account_id=conta,
+                            debito=0.0,
+                            credito=series_conta['result'],
+                            move_id=move_id,
+                        )
 
-                    create_line(
-                        account_id=are_debito,
-                        debito=series_conta['result'],
-                        credito=0.0,
-                        move_id=move_id,
-                    )
+                        create_line(
+                            account_id=are_debito,
+                            debito=series_conta['result'],
+                            credito=0.0,
+                            move_id=move_id,
+                        )
 
-                elif series_conta['result'] < 0.0:
-                    create_line(
-                        account_id=conta,
-                        debito=series_conta['result'],
-                        credito=0.0,
-                        move_id=move_id,
-                    )
+                    elif series_conta['result'] < 0.0:
+                        create_line(
+                            account_id=conta,
+                            debito=abs(series_conta['result']),
+                            credito=0.0,
+                            move_id=move_id,
+                        )
 
-                    create_line(
-                        account_id=are_credito,
-                        debito=0.0,
-                        credito=series_conta['result'],
-                        move_id=move_id,
-                    )
+                        create_line(
+                            account_id=are_credito,
+                            debito=0.0,
+                            credito=abs(series_conta['result']),
+                            move_id=move_id,
+                        )

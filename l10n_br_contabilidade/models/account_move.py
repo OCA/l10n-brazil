@@ -69,16 +69,17 @@ class AccountMove(models.Model):
         :param journal_id:
         :return:
         """
-        if self.journal_id:
+        for record in self:
+            if record.journal_id:
 
-            historico_padrao = \
-                self.journal_id.template_historico_padrao_id.get_historico_padrao()
+                historico_padrao = \
+                    record.journal_id.template_historico_padrao_id.get_historico_padrao()
 
-            if historico_padrao:
-                self.name = historico_padrao
+                if historico_padrao:
+                    record.name = historico_padrao
 
-            if self.name and self.narration:
-                self.resumo = str(self.name + ' ' + self.narration)[:250]
+                if record.name and record.narration:
+                    record.resumo = str(record.name + ' ' + record.narration)[:250]
 
     @api.model
     def write(self, vals):
