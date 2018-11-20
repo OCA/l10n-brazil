@@ -16,6 +16,18 @@
                 <field name="type" position="after">
                     <field name="template_historico_padrao_id" />
                 </field>
+
+                <notebook position="inside">
+                    <page string="Fechamento" attrs="{'invisible': [('type','!=','situation')]}">
+                        <group col="4" string="Contas para Fechamento">
+                            <group>
+                                <field name="fechamento_debit_account_id"  attrs="{'required': [('type','=','situation')]}"/>
+                                <field name="fechamento_credit_account_id" attrs="{'required': [('type','=','situation')]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+
             </field>
         </record>
 
