@@ -64,7 +64,6 @@ class AccountFechamento(models.Model):
     @api.multi
     def button_buscar_lancamentos_do_periodo(self):
         """
-
         :return:
         """
         for record in self:
