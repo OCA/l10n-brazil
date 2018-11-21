@@ -220,7 +220,7 @@ class HrPayslipRun(models.Model):
                 # GERAR DARF
                 #
                 # Para rubricas de PSS patronal
-                elif line.code in ['PSS_PATRONAL']:
+                elif line.code in ['PSS_PATRONAL', 'PSS_13_PATRONAL']:
                     guia_pss.append({
                         'code': '1850',
                         'valor': line.total,
@@ -230,7 +230,7 @@ class HrPayslipRun(models.Model):
                     })
 
                 # Para rubricas de PSS do funcionario
-                elif line.code in ['PSS']:
+                elif line.code in ['PSS', 'PSS_13']:
                     guia_pss.append({
                         'code': '1661',
                         'valor': line.total,
