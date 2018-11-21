@@ -75,10 +75,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record id="account.action_account_journal_form" model="ir.actions.act_window">
-            <field name="name">Lote de lançamentos</field>
-        </record>
-
         <menuitem
                 action="abgf_action_account_journal_form"
                 id="menu_abgf_action_account_journal_form"
