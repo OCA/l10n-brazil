@@ -5,6 +5,7 @@
 from openerp import api, fields, models
 from openerp.exceptions import Warning
 
+
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -51,6 +52,11 @@ class AccountMove(models.Model):
     def button_return(self):
         self.state = 'draft'
 
+    def validar_partidas_lancamento_contabil(self):
+        if not self.line_id:
+            raise Warning(
+                'Não é possível gerar um lançamento contábil sem partidas!')
+
     @api.model
     def create(self, vals):
         fiscalyear_id = self.env['account.period'].browse(vals['period_id']).fiscalyear_id
@@ -61,7 +67,11 @@ class AccountMove(models.Model):
 
         vals['sequencia'] = self.env['ir.sequence'].next_by_id(fiscalyear_id.sequence_id.id)
 
-        return super(AccountMove, self).create(vals)
+        res = super(AccountMove, self).create(vals)
+
+        res.validar_partidas_lancamento_contabil()
+
+        return res
 
     @api.onchange('journal_id', 'narration')
     def onchange_journal_id(self):
@@ -90,4 +100,9 @@ class AccountMove(models.Model):
                 if record.state == 'posted':
                     raise Warning(u'Não é possível editar um lançamento '
                                   u'com status lançado.')
-        return super(AccountMove, self).write(vals)
+
+        res = super(AccountMove, self).write(vals)
+
+        res.validar_partidas_lancamento_contabil()
+
+        return res
