@@ -8,6 +8,10 @@ from openerp import api, fields, models
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
+    name = fields.Char(
+        string=u'Nome do Lote',
+    )
+
     template_historico_padrao_id = fields.Many2one(
         string=u'Template Padrão do Lançamento',
         comodel_name='account.historico.padrao',

@@ -8,8 +8,19 @@
         <record id="abgf_view_account_journal" model="ir.ui.view">
             <field name="name">account.journal.form (in abgf_contabilidade)</field>
             <field name="model">account.journal</field>
+            <field eval="1" name="priority"/>
+            <field name="mode">primary</field>
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//label[@for='name']" position="replace">
+                    <label for="name" string="Nome do Lote" class="oe_edit_only"/>
+                </xpath>
+                <field name="name" position="replace">
+                    <field name="name" />
+                </field>
+                <xpath expr="//form[@string='Account Journal']" position="attributes">
+                       <attribute name="string">Lote de Lançamento</attribute>
+                </xpath>
                 <xpath expr="//field[@name='sequence_id']" position="attributes">
                        <attribute name="invisible">1</attribute>
                 </xpath>
@@ -31,12 +42,45 @@
             </field>
         </record>
 
+        <record id="abgf_view_account_journal_tree" model="ir.ui.view">
+            <field name="name">account.journal.tree (in abgf_contabilidade)</field>
+            <field name="model">account.journal</field>
+            <field eval="1" name="priority"/>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="account.view_account_journal_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree[@string='Account Journal']" position="attributes">
+                    <attribute name="string">Lote de Lançamentos</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="abgf_view_account_journal_search" model="ir.ui.view">
+            <field name="name">account.journal.search (in abgf_contabilidade)</field>
+            <field name="model">account.journal</field>
+            <field eval="1" name="priority"/>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="account.view_account_journal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search[@string='Search Account Journal']" position="attributes">
+                    <attribute name="string">Procurar Lote de Lançamentos</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="abgf_action_account_journal_form" model="ir.actions.act_window">
+            <field name="name">Lote de lançamentos</field>
+            <field name="res_model">account.journal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <record id="account.action_account_journal_form" model="ir.actions.act_window">
             <field name="name">Lote de lançamentos</field>
         </record>
 
         <menuitem
-                action="account.action_account_journal_form"
+                action="abgf_action_account_journal_form"
                 id="menu_abgf_action_account_journal_form"
                 parent="abgf_menu_configuracao_contabilidade"/>
 
