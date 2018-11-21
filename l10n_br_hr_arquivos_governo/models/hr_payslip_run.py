@@ -59,8 +59,7 @@ class HrPayslipRun(models.Model):
         # data de vencimento setada na conf da empresa
         dia = str(self.company_id.darf_dia_vencimento)
 
-        data = \
-            str(self.ano) + '-' + '{:02d}'.format(self.mes_do_ano) + '-' + dia
+        data = '{}-{:02d}-{}'.format(self.ano, self.mes_do_ano, dia)
         data_vencimento = \
             fields.Datetime.from_string(data + ' 03:00:00') + timedelta(days=31)
 
