@@ -57,7 +57,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Journal Items">
+                        <page string="Partidas">
                             <field name="line_id" attrs="{'readonly':[('state','=','posted')]}" widget="one2many_list" context="{'line_id': line_id , 'journal_id': journal_id }">
                                 <form string="Journal Item">
                                     <group col="6" colspan="4">
