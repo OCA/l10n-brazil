@@ -29,10 +29,12 @@
 
                      <notebook>
                          <page string="Fechamento" >
-                             <group col="4" string="Períodos para fechamento">
-                                 <field name="account_period_ids" nolabel="1" required="1"/>
+                             <group col="6" string="Períodos para fechamento">
+                                 <field name="periodo_ini" required="1" />
+                                 <field name="periodo_fim" required="1" />
+                                 <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
                              </group>
-                             <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
+
                              <group col="4" string="Lançamentos dos Períodos">
                                  <group>
                                      <field name="account_move_ids" nolabel="1"/>

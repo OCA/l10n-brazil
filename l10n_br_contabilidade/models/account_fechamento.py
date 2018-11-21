@@ -4,6 +4,21 @@
 
 from openerp import api, fields, models
 import pandas as pd
+import datetime
+import calendar
+
+def pega_periodos():
+    periodo_list = []
+    hj = datetime.datetime.now()
+
+    for y in range(int(hj.year)-1, int(hj.year)+1):
+        for m in range(1, 13):
+            periodo_list.append(
+                (str(m).zfill(2)+'.'+str(y), str(m).zfill(2)+'/'+str(y))
+            )
+
+    return periodo_list
+
 
 class AccountFechamento(models.Model):
     _name = 'account.fechamento'
@@ -12,6 +27,16 @@ class AccountFechamento(models.Model):
 
     name = fields.Char(
         string=u'Nome',
+    )
+
+    periodo_ini = fields.Selection(
+        selection=pega_periodos(),
+        string=u'Periodo - Início',
+    )
+
+    periodo_fim = fields.Selection(
+        selection=pega_periodos(),
+        string=u'Periodo - Fim',
     )
 
     account_period_ids = fields.Many2many(
@@ -67,16 +92,23 @@ class AccountFechamento(models.Model):
         :return:
         """
         for record in self:
+            record.account_fechamento_id = False
 
-            # Desfazer relacionamento
-            record.account_move_ids = False
+            dt_ini = str(record.periodo_ini.split('.')[1]) + '-'
+            dt_ini += str(record.periodo_ini.split('.')[0]).zfill(2) + '-'
+            dt_ini += '01'
 
-            # Lançamentos que não estao em nenhum fechamento
-            account_move_ids = self.env['account.move'].search([
-                ('period_id', 'in', record.account_period_ids.ids),
-                ('state', '=', 'posted'),
-                ('account_fechamento_id', '=', False),
-            ])
+            dt_fim = record.periodo_fim.split('.')[1] + '-'
+            dt_fim += record.periodo_fim.split('.')[0].zfill(2) + '-'
+            dt_fim += str(calendar.monthrange(
+                int(record.periodo_fim.split('.')[1]),
+                int(record.periodo_fim.split('.')[0]))[-1])
+
+            account_move_ids = self.env['account.move'].search(
+                [('period_id.date_start', '>=', dt_ini),
+                 ('period_id.date_stop', '<=', dt_fim),
+                 ('state', '=', 'posted'),
+                 ('account_fechamento_id', '=', False)])
 
             # Relacionar os lancamentos ao fechamento atual
             for account_move_id in account_move_ids:
@@ -125,7 +157,7 @@ class AccountFechamento(models.Model):
                 series_conta = df_agrupado.loc[conta]
                 if series_conta['result'] != 0.0:
                     move_id = record.env['account.move'].create({
-                        'journal_id': 1,
+                        'journal_id': record.account_journal_id.id,
                         'period_id': periodo_id,
                         'date': data_lancamento,
                         'state': 'posted',
