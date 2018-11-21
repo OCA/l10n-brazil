@@ -41,8 +41,8 @@
                             <separator string="Valores" />
                             <newline/>
                             <group>
-                                <field name="debit" attrs="{'readonly':[('type','=','view')]}" style='text-align:left'/>
-                                <field name="credit" attrs="{'readonly':[('type','=','view')]}" style='text-align:left'/>
+                                <field name="debit" attrs="{'readonly': True}" style='text-align:left'/>
+                                <field name="credit" attrs="{'readonly': True}" style='text-align:left'/>
                             </group>
                             <field name="balance" style='text-align:right' invisible="1"/>
                             <newline/>
