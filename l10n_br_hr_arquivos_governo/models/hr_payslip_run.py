@@ -59,13 +59,23 @@ class HrPayslipRun(models.Model):
         # data de vencimento setada na conf da empresa
         dia = str(self.company_id.darf_dia_vencimento)
 
-        # ou se forem darfs especificas, cair no dia 05 de cada mes
-        if codigo_receita in ['1850', '1661']:
-            dia = '07'
-
-        data = str(self.ano) + '-' + '{:02d}'.format(self.mes_do_ano) + '-' + dia
+        data = \
+            str(self.ano) + '-' + '{:02d}'.format(self.mes_do_ano) + '-' + dia
         data_vencimento = \
             fields.Datetime.from_string(data + ' 03:00:00') + timedelta(days=31)
+
+        # Código de DARFS de PSS
+        codigo_receita_PSS = ['1850', '1661']
+
+        # Se forem darfs de PSS, sera no primeiro dia
+        if codigo_receita in codigo_receita_PSS:
+            data_vencimento = data_vencimento.replace(day=1)
+
+            # No caso de DARFS para PSS deverá ser no primeiro dia útil.
+            # Caso dia 01 não seja útil, pegar o próximo
+            while not self.company_id.default_resource_calendar_id. \
+                    data_eh_dia_util(data_vencimento):
+                data_vencimento += timedelta(days=1)
 
         # Antecipar data caso caia em feriado
         while not self.company_id.default_resource_calendar_id.\
