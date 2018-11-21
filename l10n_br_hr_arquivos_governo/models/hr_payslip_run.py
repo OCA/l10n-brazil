@@ -22,7 +22,7 @@ class HrPayslipRun(models.Model):
     )
 
     def gerar_financial_move_darf(
-            self, codigo_receita, valor, partner_id=False):
+            self, codigo_receita, valor, partner_id=False, num_referencia=False):
         '''
          Tratar dados do sefip e criar um dict para criar financial.move de
          guia DARF.
@@ -33,7 +33,6 @@ class HrPayslipRun(models.Model):
         # Número do documento da DARF
         sequence_id = self.company_id.darf_sequence_id.id
         doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
-        num_referencia = ''
 
         # Definir quem sera o contribuinte da DARF, se nao passar nenhum
         # nos parametros assume que é a empresa
@@ -52,10 +51,8 @@ class HrPayslipRun(models.Model):
 
         if codigo_receita == '1661':
             descricao += ' - PSS Plano de Seguridade Social'
-            num_referencia = partner_id.cnpj_cpf
 
         if codigo_receita == '1850':
-            num_referencia = self.company_id.partner_id.cnpj_cpf
             descricao += ' - PSS Patronal'
 
         # Calcular data de vencimento da DARF
@@ -229,24 +226,24 @@ class HrPayslipRun(models.Model):
                 #
                 # GERAR DARF
                 #
-                # Para rubricas de PSS patronal gerar para cpf do
-                # funcionario
+                # Para rubricas de PSS patronal
                 elif line.code in ['PSS_PATRONAL']:
                     guia_pss.append({
                         'code': '1850',
                         'valor': line.total,
-                        'partner_id': line.employee_id.address_home_id})
+                        'partner_id': line.employee_id.company_id.partner_id,
+                        'num_referencia':
+                            line.employee_id.address_home_id.cnpj_cpf,
+                    })
 
                 # Para rubricas de PSS do funcionario
                 elif line.code in ['PSS']:
                     guia_pss.append({
                         'code': '1661',
                         'valor': line.total,
-                        'partner_id': line.employee_id.address_home_id})
-                    # partner_id = line.employee_id.address_home_id
-                    # financial_move_darf = self.gerar_financial_move_darf(
-                    #     '1661', line.total, partner_id)
-                    # created_ids.append(financial_move_darf.id)
+                        'partner_id': line.employee_id.address_home_id,
+                        'num_referencia': '',
+                    })
 
                 # para gerar a DARF, identificar a categoria de contrato pois
                 # cada categoria tem um código de emissao diferente
@@ -335,7 +332,8 @@ class HrPayslipRun(models.Model):
 
             for guia_pss in pss:
                 financial_move_darf = self.gerar_financial_move_darf(
-                    guia_pss.get('code'), guia_pss.get('valor'),guia_pss.get('partner_id'))
+                    guia_pss.get('code'), guia_pss.get('valor'),
+                    guia_pss.get('partner_id'), guia_pss.get('num_referencia'))
                 created_ids.append(financial_move_darf.id)
 
             return {
