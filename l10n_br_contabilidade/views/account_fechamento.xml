@@ -23,7 +23,7 @@
                     </h2>
 
                     <group>
-                        <field name="account_journal_id" />
+                        <field name="account_journal_id" required="True" />
                         <field name="fiscalyear_id" />
                     </group>
 

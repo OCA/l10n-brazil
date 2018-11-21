@@ -39,6 +39,14 @@
                     </page>
                 </notebook>
 
+                <field name="default_debit_account_id" position="attributes">
+                    <attribute name="attrs">{'required':[('type','in',('cash', 'bank', 'situation'))]}</attribute>
+                </field>
+
+                <field name="default_credit_account_id" position="attributes">
+                    <attribute name="attrs">{'required':[('type','in',('cash', 'bank', 'situation'))]}</attribute>
+                </field>
+
             </field>
         </record>
 
