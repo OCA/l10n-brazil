@@ -158,25 +158,6 @@ class HrPayslipRun(models.Model):
 
         return financial_move_gps
 
-    def buscar_IRPF_holerite_13(self, contrato):
-        """
-        Buscar o valor do IRPF do holerite de 13º
-        :param contrato:
-        :return:
-        """
-        holerite = self.env['hr.payslip'].search([
-            ('contract_id', '=', contrato.id),
-            ('mes_do_ano', '=', '13'),
-            ('ano', '=', self.ano),
-            ('tipo_de_folha', 'in', ['decimo_terceiro']),
-            ('state', 'in', ['done','verify']),
-        ])
-        for line_id in holerite.line_ids:
-            if line_id.code == 'IRPF':
-                return line_id.total, holerite.line_ids.filtered(
-                    lambda x: x.code == 'BASE_IRPF').total or 0.00
-        return 0.0, 0.0
-
     def gerar_guias_pagamento(self):
         """
         Gerar dicionarios contendo os valores das GUIAS
@@ -285,23 +266,7 @@ class HrPayslipRun(models.Model):
                         'base': base or 0.0,
                     })
 
-            # buscar o valor do IRPF do holerite de 13º
-            valor_13, base_13 = \
-                self.buscar_IRPF_holerite_13(holerite.contract_id)
-            darfs[codigo_darf] += valor_13
-
-            if valor_13:
-                darf_analitico.append({
-                    'nome': line.slip_id.contract_id.display_name,
-                    'code': line.code + '_DECIMO_TERCEIRO',
-                    'valor': line.total,
-                    'codigo_darf': codigo_darf,
-                    'base': base_13,
-                    'company_id': line.slip_id.contract_id.company_id.id,
-                })
-
         return empresas, darfs, contribuicao_sindical, guia_pss, darf_analitico
-
 
     @api.multi
     def gerar_boletos(self):
