@@ -89,17 +89,19 @@ class AccountFechamento(models.Model):
             account_move_line_ids = self.env['account.move.line'].search([
                 ('period_id.date_start', '>=', record.periodo_ini.date_start),
                 ('period_id.date_stop', '<=', record.periodo_fim.date_stop),
-                ('state', '=', 'posted'),
-                ('account_fechamento_id', '=', False),
-                ('account_id.user_type.report_type','in',['income', 'expense']),
+                ('move_id.state', '=', 'posted'),
+                ('move_id.account_fechamento_id', '=', False),
+                # ('account_id.user_type.report_type','in',['income', 'expense']),
             ])
 
-            # Fechar períodos
-            period_ids = \
-                account_move_line_ids.mapped('move_id').mapped('period_id')
+            # Buscar todos periodos do intervalo
+            period_ids = self.periodo_ini.search([
+                ('date_start','>=', record.periodo_ini.date_start),
+                ('date_stop','<=', record.periodo_fim.date_stop),
+            ])
 
             # Validar para Não encontrar períodos fechados no intervalo
-            peridos_fechados = period_ids.filtered(lambda x: x == 'draft')
+            peridos_fechados = period_ids.filtered(lambda x: x.state == 'done')
             if peridos_fechados:
                 raise UserError(
                     u'Períodos já encerrados no intervalo selecionado!')
