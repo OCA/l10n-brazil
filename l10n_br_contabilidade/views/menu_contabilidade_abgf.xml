@@ -31,11 +31,18 @@
                 sequence="20"
         />
 
+                <menuitem
+                id="abgf_conta_mapeamento_menu"
+                name="DePara"
+                parent="abgf_menu_contabilidade"
+                sequence="30"
+        />
+
         <menuitem
                 id="abgf_menu_relatorios_contabilidade"
                 name="Relatórios"
                 parent="abgf_menu_contabilidade"
-                sequence="30"
+                sequence="40"
         />
 
         <menuitem
@@ -57,13 +64,6 @@
                 name="Lançamentos contábeis"
                 parent="abgf_menu_configuracao_contabilidade"
                 sequence="30"
-        />
-
-        <menuitem
-                id="abgf_conta_mapeamento_menu"
-                name="Mapeamento de Contas"
-                parent="abgf_menu_configuracao_contabilidade"
-                sequence="40"
         />
 
     </data>
