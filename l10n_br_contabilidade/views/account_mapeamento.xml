@@ -5,9 +5,9 @@
 <openerp>
     <data>
 
-        <record id="abgf_account_mapeamento_de_para_form_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.de.para.form</field>
-            <field name="model">account.mapeamento.de.para</field>
+        <record id="abgf_account_mapeamento_form_view" model="ir.ui.view">
+            <field name="name">abgf.conta.mapeamento.form</field>
+            <field name="model">account.mapeamento</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -23,8 +23,8 @@
         </record>
 
         <record id="abgf_account_mapeamento_de_para_tree_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.de.para.tree</field>
-            <field name="model">account.mapeamento.de.para</field>
+            <field name="name">abgf.conta.mapeamento.tree</field>
+            <field name="model">account.mapeamento</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="referencia_plano_id"/>
@@ -34,23 +34,23 @@
             </field>
         </record>
 
-        <record id="abgf_account_mapeamento_de_para_form" model="ir.actions.act_window">
-            <field name="name">Mapeamento DePara</field>
-            <field name="res_model">account.mapeamento.de.para</field>
+        <record id="abgf_account_mapeamento_form" model="ir.actions.act_window">
+            <field name="name">Mapeamento de Contas</field>
+            <field name="res_model">account.mapeamento</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
         <menuitem
-                id="abgf_menu_account_mapeamento_de_para_form"
-                action="abgf_account_mapeamento_de_para_form"
-                parent="abgf_contabilidade.abgf_conta_mapeamento_de_para_menu"
+                id="abgf_menu_account_mapeamento_form"
+                action="abgf_account_mapeamento_form"
+                parent="abgf_contabilidade.abgf_conta_mapeamento_menu"
                 sequence="10"
         />
 
-        <record id="abgf_account_mapeamento_referencia_plano_form_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.referencia.plano.form</field>
-            <field name="model">account.mapeamento.ref.plano</field>
+        <record id="abgf_account_mapeamento_referencia_form_view" model="ir.ui.view">
+            <field name="name">abgf.conta.mapeamento.referencia.form</field>
+            <field name="model">account.mapeamento.referencia</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -62,9 +62,9 @@
             </field>
         </record>
 
-        <record id="abgf_account_mapeamento_referencia_plano_tree_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.referencia.plano.tree</field>
-            <field name="model">account.mapeamento.ref.plano</field>
+        <record id="abgf_account_mapeamento_referencia_tree_view" model="ir.ui.view">
+            <field name="name">abgf.conta.mapeamento.referencia.tree</field>
+            <field name="model">account.mapeamento.referencia</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
@@ -72,17 +72,17 @@
             </field>
         </record>
 
-        <record id="abgf_contabilidade_account_mapeamento_referencia_plano_action" model="ir.actions.act_window">
+        <record id="abgf_contabilidade_account_mapeamento_referencia_action" model="ir.actions.act_window">
             <field name="name">Referência Plano de Contas</field>
-            <field name="res_model">account.mapeamento.ref.plano</field>
+            <field name="res_model">account.mapeamento.referencia</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
         <menuitem
-                id="abgf_menu_account_mapeamento_referencia_plano_form"
-                action="abgf_contabilidade_account_mapeamento_referencia_plano_action"
-                parent="abgf_contabilidade.abgf_conta_mapeamento_de_para_menu"
+                id="abgf_menu_account_mapeamento_referencia_form"
+                action="abgf_contabilidade_account_mapeamento_referencia_action"
+                parent="abgf_contabilidade.abgf_conta_mapeamento_menu"
                 sequence="20"
         />
 

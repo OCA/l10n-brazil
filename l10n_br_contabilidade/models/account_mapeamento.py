@@ -6,10 +6,10 @@ from openerp import api, fields, models
 
 
 class AccountMapeamentoDePara(models.Model):
-    _name = 'account.mapeamento.de.para'
+    _name = 'account.mapeamento'
     _description = u'Mapeamento do plano de contas do sistemas para ' \
                    u'os "n" planos de contas necessários'
-    # _order = 'name'
+    _order = 'referencia_plano_id, conta_sistema_id'
 
     name = fields.Char(
         string='Nome',
@@ -18,7 +18,7 @@ class AccountMapeamentoDePara(models.Model):
 
     referencia_plano_id = fields.Many2one(
         string='Referência Plano de Contas',
-        comodel_name='account.mapeamento.ref.plano',
+        comodel_name='account.mapeamento.referencia',
     )
     conta_sistema_id = fields.Many2one(
         string='Conta do Sistema',
@@ -71,7 +71,7 @@ class AccountMapeamentoDePara(models.Model):
 
 
 class AccountMapeamentoReferenciaPlano(models.Model):
-    _name = 'account.mapeamento.ref.plano'
+    _name = 'account.mapeamento.referencia'
     _description = u'Referência dos Planos de Contas Externos'
 
     name = fields.Char(

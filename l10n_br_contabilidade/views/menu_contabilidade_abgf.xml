@@ -60,8 +60,8 @@
         />
 
         <menuitem
-                id="abgf_conta_mapeamento_de_para_menu"
-                name="Mapeamento DePara"
+                id="abgf_conta_mapeamento_menu"
+                name="Mapeamento de Contas"
                 parent="abgf_menu_configuracao_contabilidade"
                 sequence="40"
         />

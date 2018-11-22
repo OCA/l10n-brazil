@@ -33,7 +33,7 @@
         'views/account_grupo.xml',
         'views/account_ramo.xml',
         'views/account_historico_padrao.xml',
-        'views/account_mapeamento_depara.xml',
+        'views/account_mapeamento.xml',
     ],
     'demo': [
     ],
