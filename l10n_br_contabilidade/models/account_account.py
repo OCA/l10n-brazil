@@ -45,6 +45,12 @@ class AccountAccount(models.Model):
         string=u'É obrigatório definir Ramo?'
     )
 
+    depara_ids = fields.One2many(
+        string=u'Mapeamento DePara',
+        comodel_name='account.mapeamento',
+        inverse_name='conta_sistema_id',
+    )
+
     @api.depends('balance')
     def _compute_saldo_conta(self):
         """

@@ -69,6 +69,9 @@
                         <page string="Observação">
                             <field name="observacao"/>
                         </page>
+                        <page string="DePara">
+                            <field name="depara_ids" />
+                        </page>
                     </notebook>
 
                 </form>
