@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="abgf_account_mapeamento_de_para_form_view" model="ir.ui.view">
+            <field name="name">abgf.conta.mapeamento.de.para.form</field>
+            <field name="model">account.mapeamento.de.para</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h2><field name="name" nolabel="1"/></h2>
+                        <group>
+                            <field name="referencia_plano_id" attrs="{'required': True}" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                            <field name="conta_sistema_id" attrs="{'required': True}"/>
+                            <field name="conta_plano_conta_externo" attrs="{'required': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="abgf_account_mapeamento_de_para_tree_view" model="ir.ui.view">
+            <field name="name">abgf.conta.mapeamento.de.para.tree</field>
+            <field name="model">account.mapeamento.de.para</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="referencia_plano_id"/>
+                    <field name="conta_sistema_id"/>
+                    <field name="conta_plano_conta_externo"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="abgf_account_mapeamento_de_para_form" model="ir.actions.act_window">
+            <field name="name">Mapeamento DePara</field>
+            <field name="res_model">account.mapeamento.de.para</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="abgf_menu_account_mapeamento_de_para_form"
+                action="abgf_account_mapeamento_de_para_form"
+                parent="abgf_contabilidade.abgf_conta_mapeamento_de_para_menu"
+                sequence="10"
+        />
+
+        <record id="abgf_account_mapeamento_referencia_plano_form_view" model="ir.ui.view">
+            <field name="name">abgf.conta.mapeamento.referencia.plano.form</field>
+            <field name="model">account.mapeamento.ref.plano</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" attrs="{'required': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="abgf_account_mapeamento_referencia_plano_tree_view" model="ir.ui.view">
+            <field name="name">abgf.conta.mapeamento.referencia.plano.tree</field>
+            <field name="model">account.mapeamento.ref.plano</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="abgf_contabilidade_account_mapeamento_referencia_plano_action" model="ir.actions.act_window">
+            <field name="name">Referência Plano de Contas</field>
+            <field name="res_model">account.mapeamento.ref.plano</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="abgf_menu_account_mapeamento_referencia_plano_form"
+                action="abgf_contabilidade_account_mapeamento_referencia_plano_action"
+                parent="abgf_contabilidade.abgf_conta_mapeamento_de_para_menu"
+                sequence="20"
+        />
+
+    </data>
+</openerp>

@@ -13,3 +13,4 @@ from . import account_ramo
 from . import account_historico_padrao
 from . import account_journal
 from . import account_fiscalyear
+from . import account_mapeamento_de_para

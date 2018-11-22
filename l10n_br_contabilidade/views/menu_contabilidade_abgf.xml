@@ -59,5 +59,12 @@
                 sequence="30"
         />
 
+        <menuitem
+                id="abgf_conta_mapeamento_de_para_menu"
+                name="Mapeamento DePara"
+                parent="abgf_menu_configuracao_contabilidade"
+                sequence="40"
+        />
+
     </data>
 </openerp>
