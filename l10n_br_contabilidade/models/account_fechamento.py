@@ -31,13 +31,13 @@ class AccountFechamento(models.Model):
         string=u'Nome',
     )
 
-    periodo_ini = fields.Selection(
-        selection=pega_periodos(),
+    periodo_ini = fields.Many2one(
+        comodel_name='account.period',
         string=u'Periodo - Início',
     )
 
-    periodo_fim = fields.Selection(
-        selection=pega_periodos(),
+    periodo_fim = fields.Many2one(
+        comodel_name='account.period',
         string=u'Periodo - Fim',
     )
 
