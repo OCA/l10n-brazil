@@ -21,6 +21,8 @@ class SpedDocumento(models.Model):
 
     @api.multi
     def envia_documento(self):
+        self._permite_envio()
+
         _logger.info('Enviando documento fiscal %s', self.ids)
 
         enviar_agora = self.filtered(
