@@ -2,24 +2,12 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
-import pandas as pd
-import datetime
-import calendar
-import string
 import random
+import string
 
-def pega_periodos():
-    periodo_list = []
-    hj = datetime.datetime.now()
-
-    for y in range(int(hj.year)-1, int(hj.year)+1):
-        for m in range(1, 13):
-            periodo_list.append(
-                (str(m).zfill(2)+'.'+str(y), str(m).zfill(2)+'/'+str(y))
-            )
-
-    return periodo_list
+import pandas as pd
+from openerp import api, fields, models
+from openerp.exceptions import Warning as UserError
 
 
 class AccountFechamento(models.Model):
