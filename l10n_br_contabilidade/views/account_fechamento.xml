@@ -27,25 +27,26 @@
                         <field name="fiscalyear_id" />
                     </group>
 
+                    <group col="6" string="Períodos para fechamento">
+                        <field name="periodo_ini" required="1" domain="[('state','=','draft')]" />
+                        <field name="periodo_fim" required="1"  domain="[('state','=','draft')]" />
+                        <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
+                    </group>
+
                      <notebook>
-                         <page string="Fechamento" >
-                             <group col="6" string="Períodos para fechamento">
-                                 <field name="periodo_ini" required="1" domain="[('state','=','draft')]" />
-                                 <field name="periodo_fim" required="1"  domain="[('state','=','draft')]" />
-                                 <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
-                             </group>
+                         <page string="Lançamentos feitos no Período" attrs="{'invisible': [('account_move_ids', '=', [])]}">
 
                              <group col="4" string="Lançamentos dos Períodos">
                                  <group>
-                                     <field name="account_move_ids" nolabel="1"/>
+                                     <field name="account_move_ids" readonly="1" nolabel="1"/>
                                  </group>
                              </group>
                          </page>
 
-                         <page string="ARE" attrs="{'invisible': [('state', '!=', 'draft')]}" >
-                              <group col="4" string="Lançamentos de Fechamento">
-                                  <field name="account_move_fechamento_ids" nolabel="1"/>
-                              </group>
+                         <page string="Lançamentos deste Fechamento" attrs="{'invisible': [('account_move_fechamento_ids', '=', [])]}">
+                             <group string="Lançamentos desta Apuração"  >
+                                <field name="account_move_fechamento_ids" readonly="1" nolabel="1" />
+                             </group>
                          </page>
 
                      </notebook>
