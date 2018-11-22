@@ -1422,12 +1422,18 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                     infcomplementar += ' ' + item.mensagens_complementares
                 item.infcomplementar = infcomplementar
 
+    def _permite_envio(self):
+        if self.filtered(lambda doc: doc.situacao_nfe == SITUACAO_NFE_AUTORIZADA):
+            raise UserError(
+                _("""Um ou mais documentos não permitem envio, pois já foram autorizados !"""))
+
     def envia_documento(self):
         """ Nunca sobrescreva este método, pois ele esta sendo modificado
         pelo sped_queue que não chama o super. Para permtir o envio assincrono
         do documento fiscal
         :return:
         """
+        self._permite_envio()
         return self._envia_documento()
 
     def _envia_documento(self):
