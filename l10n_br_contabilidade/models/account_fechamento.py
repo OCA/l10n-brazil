@@ -96,9 +96,7 @@ class AccountFechamento(models.Model):
         for record in self:
 
             for account_move_id in record.account_move_ids:
-                account_move_id.state = 'draft'
                 account_move_id.account_fechamento_id = False
-                account_move_id.state = 'posted'
 
             dt_ini = str(record.periodo_ini.split('.')[1]) + '-'
             dt_ini += str(record.periodo_ini.split('.')[0]).zfill(2) + '-'
@@ -123,21 +121,6 @@ class AccountFechamento(models.Model):
 
     @api.multi
     def button_fechar_periodos(self):
-        # Cria account.move.line
-        def create_line(account_id, debito, credito, periodo_id):
-
-            return self.env['account.move.line'].with_context(
-                journal_id=self.account_journal_id.id,
-                period_id=int(periodo_id),
-                date=datetime.datetime.now(),
-            ).create({
-                'account_id': account_id,
-                'credit': credito,
-                'debit': debito,
-                'name': ''.join(
-                    random.choice(string.uppercase) for x in range(8))
-            }).id
-
         for record in self:
             # Cria dataframe vazio com colunas
             df_are = pd.DataFrame(

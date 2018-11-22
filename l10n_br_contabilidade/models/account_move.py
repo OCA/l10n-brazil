@@ -96,7 +96,7 @@ class AccountMove(models.Model):
         for record in self:
             # Só é permitido alterar o state ou vincular a um fechamento o
             # lançamento contabil ja lançado
-            if not (vals.get('state') or vals.get('account_fechamento_id')):
+            if not (vals.get('state') or not vals.get('account_fechamento_id')):
                 if record.state == 'posted':
                     raise Warning(u'Não é possível editar um lançamento '
                                   u'com status lançado.')
