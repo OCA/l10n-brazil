@@ -82,8 +82,6 @@ class AccountFechamento(models.Model):
     @api.multi
     def button_fechar_periodos(self):
         """
-
-        :return:
         """
         for record in self:
             record.state = 'close'
@@ -95,28 +93,31 @@ class AccountFechamento(models.Model):
         """
         for record in self:
 
-            for account_move_id in record.account_move_ids:
-                account_move_id.account_fechamento_id = False
+            # Desfazer relacionamentos com os outros lançamentos
+            record.account_move_ids = False
 
-            dt_ini = str(record.periodo_ini.split('.')[1]) + '-'
-            dt_ini += str(record.periodo_ini.split('.')[0]).zfill(2) + '-'
-            dt_ini += '01'
+            # Buscar partidas em que as contas estão configuradas para tipo
+            # resultado
+            account_move_line_ids = self.env['account.move.line'].search([
+                ('period_id.date_start', '>=', record.periodo_ini.date_start),
+                ('period_id.date_stop', '<=', record.periodo_fim.date_stop),
+                ('state', '=', 'posted'),
+                ('account_fechamento_id', '=', False),
+                ('account_id.user_type.report_type','in',['income', 'expense']),
+            ])
 
-            dt_fim = record.periodo_fim.split('.')[1] + '-'
-            dt_fim += record.periodo_fim.split('.')[0].zfill(2) + '-'
-            dt_fim += str(calendar.monthrange(
-                int(record.periodo_fim.split('.')[1]),
-                int(record.periodo_fim.split('.')[0]))[-1])
+            # Fechar períodos
+            period_ids = \
+                account_move_line_ids.mapped('move_id').mapped('period_id')
 
-            account_move_ids = self.env['account.move'].search(
-                [('period_id.date_start', '>=', dt_ini),
-                 ('period_id.date_stop', '<=', dt_fim),
-                 ('state', '=', 'posted'),
-                 ('account_fechamento_id', '=', False),
-                 ('journal_id.type','=','situation')])
+            # Validar para Não encontrar períodos fechados no intervalo
+            peridos_fechados = period_ids.filtered(lambda x: x == 'draft')
+            if peridos_fechados:
+                raise UserError(
+                    u'Períodos já encerrados no intervalo selecionado!')
 
             # Relacionar os lancamentos ao fechamento atual
-            for account_move_id in account_move_ids:
+            for account_move_id in account_move_line_ids.mapped('move_id'):
                 account_move_id.account_fechamento_id = record.id
 
     @api.multi

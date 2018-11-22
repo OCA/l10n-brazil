@@ -30,8 +30,8 @@
                      <notebook>
                          <page string="Fechamento" >
                              <group col="6" string="Períodos para fechamento">
-                                 <field name="periodo_ini" required="1" />
-                                 <field name="periodo_fim" required="1" />
+                                 <field name="periodo_ini" required="1" domain="[('state','=','draft')]" />
+                                 <field name="periodo_fim" required="1"  domain="[('state','=','draft')]" />
                                  <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
                              </group>
 
