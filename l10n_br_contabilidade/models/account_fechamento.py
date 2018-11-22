@@ -6,6 +6,8 @@ from openerp import api, fields, models
 import pandas as pd
 import datetime
 import calendar
+import string
+import random
 
 def pega_periodos():
     periodo_list = []
@@ -92,7 +94,11 @@ class AccountFechamento(models.Model):
         :return:
         """
         for record in self:
-            record.account_fechamento_id = False
+
+            for account_move_id in record.account_move_ids:
+                account_move_id.state = 'draft'
+                account_move_id.account_fechamento_id = False
+                account_move_id.state = 'posted'
 
             dt_ini = str(record.periodo_ini.split('.')[1]) + '-'
             dt_ini += str(record.periodo_ini.split('.')[0]).zfill(2) + '-'
@@ -108,7 +114,8 @@ class AccountFechamento(models.Model):
                 [('period_id.date_start', '>=', dt_ini),
                  ('period_id.date_stop', '<=', dt_fim),
                  ('state', '=', 'posted'),
-                 ('account_fechamento_id', '=', False)])
+                 ('account_fechamento_id', '=', False),
+                 ('journal_id.type','=','situation')])
 
             # Relacionar os lancamentos ao fechamento atual
             for account_move_id in account_move_ids:
@@ -117,14 +124,19 @@ class AccountFechamento(models.Model):
     @api.multi
     def button_fechar_periodos(self):
         # Cria account.move.line
-        def create_line(account_id, debito, credito, move_id):
-            self.env['account.move.line'].create({
+        def create_line(account_id, debito, credito, periodo_id):
+
+            return self.env['account.move.line'].with_context(
+                journal_id=self.account_journal_id.id,
+                period_id=int(periodo_id),
+                date=datetime.datetime.now(),
+            ).create({
                 'account_id': account_id,
                 'credit': credito,
                 'debit': debito,
-                'move_id': move_id,
-                'name': str(move_id)+str(account_id)
-            })
+                'name': ''.join(
+                    random.choice(string.uppercase) for x in range(8))
+            }).id
 
         for record in self:
             # Cria dataframe vazio com colunas
@@ -134,11 +146,9 @@ class AccountFechamento(models.Model):
             # Popula o dataframe com valores do account.move.line
             for move in record.account_move_ids:
                 for line in move.line_id:
-                    if line.account_id.user_type.name == 'Resultado' \
-                            and move.state == 'posted':
-                        df_are.loc[line.id] = \
-                            [line.account_id.id, line.debit, line.credit,
-                             move.period_id.id, move.period_id.date_stop]
+                    df_are.loc[line.id] = [line.account_id.id, line.debit,
+                                           line.credit, move.period_id.id,
+                                           move.period_id.date_stop]
 
             data_lancamento = df_are['dt_stop'].max()
             periodo_id = df_are[
@@ -156,39 +166,50 @@ class AccountFechamento(models.Model):
             for conta in df_agrupado.index:
                 series_conta = df_agrupado.loc[conta]
                 if series_conta['result'] != 0.0:
-                    move_id = record.env['account.move'].create({
+                    if series_conta['result'] > 0.0:
+                        conta_id = {
+                            'account_id': int(conta),
+                            'debit': 0.0,
+                            'credit': series_conta['result'],
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                        are_id = {
+                            'account_id': int(are_debito),
+                            'debit': series_conta['result'],
+                            'credit': 0.0,
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                    elif series_conta['result'] < 0.0:
+                        conta_id = {
+                            'account_id': int(conta),
+                            'debit': abs(series_conta['result']),
+                            'credit': 0.0,
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                        are_id = {
+                            'account_id': int(are_credito),
+                            'debit':  0.0,
+                            'credit': abs(series_conta['result']),
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                    record.env['account.move'].create({
                         'journal_id': record.account_journal_id.id,
                         'period_id': periodo_id,
                         'date': data_lancamento,
                         'state': 'posted',
-                    }).id
+                        'line_id':[(0, 0, conta_id), (0, 0, are_id)]
+                    })
 
-                    if series_conta['result'] > 0.0:
-                        create_line(
-                            account_id=conta,
-                            debito=0.0,
-                            credito=series_conta['result'],
-                            move_id=move_id,
-                        )
-
-                        create_line(
-                            account_id=are_debito,
-                            debito=series_conta['result'],
-                            credito=0.0,
-                            move_id=move_id,
-                        )
-
-                    elif series_conta['result'] < 0.0:
-                        create_line(
-                            account_id=conta,
-                            debito=abs(series_conta['result']),
-                            credito=0.0,
-                            move_id=move_id,
-                        )
-
-                        create_line(
-                            account_id=are_credito,
-                            debito=0.0,
-                            credito=abs(series_conta['result']),
-                            move_id=move_id,
-                        )
+            record.state = 'close'

@@ -103,6 +103,6 @@ class AccountMove(models.Model):
 
         res = super(AccountMove, self).write(vals)
 
-        res.validar_partidas_lancamento_contabil()
+        self.validar_partidas_lancamento_contabil()
 
         return res
