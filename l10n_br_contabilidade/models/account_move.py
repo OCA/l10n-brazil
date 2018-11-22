@@ -52,20 +52,29 @@ class AccountMove(models.Model):
     def button_return(self):
         self.state = 'draft'
 
+    @api.multi
     def validar_partidas_lancamento_contabil(self):
-        if not self.line_id:
-            raise Warning(
-                'Não é possível gerar um lançamento contábil sem partidas!')
+        """
+        :return:
+        """
+        for record in self:
+            if record and not record.line_id:
+                raise Warning(
+                    'Não é possível gerar um lançamento contábil sem partidas!')
 
     @api.model
     def create(self, vals):
-        fiscalyear_id = self.env['account.period'].browse(vals['period_id']).fiscalyear_id
+        fiscalyear_id = \
+            self.env['account.period'].browse(vals['period_id']).fiscalyear_id
 
         if not fiscalyear_id.sequence_id.id:
-            fiscalyear_id.sequence_id = self.env['ir.sequence'].create(
-                {'name': 'account_move_sequence_'+fiscalyear_id.name, 'implementation': 'no_gap'}).id
+            fiscalyear_id.sequence_id = self.env['ir.sequence'].create({
+                'name': 'account_move_sequence_' + fiscalyear_id.name,
+                'implementation': 'no_gap'
+            }).id
 
-        vals['sequencia'] = self.env['ir.sequence'].next_by_id(fiscalyear_id.sequence_id.id)
+        vals['sequencia'] = \
+            self.env['ir.sequence'].next_by_id(fiscalyear_id.sequence_id.id)
 
         res = super(AccountMove, self).create(vals)
 
