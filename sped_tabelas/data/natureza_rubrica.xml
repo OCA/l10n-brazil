@@ -70,8 +70,8 @@
 
     <record id="tab03_1020" model="sped.natureza_rubrica">
         <field name="codigo">1020</field>
-        <field name="nome">Férias - gozadas</field>
-        <field name="descricao">Valor correspondente a remuneração a que faz jus na época da concessão das férias e o adicional constitucional a que o trabalhador adquiriu direito, inclusive o adiantamento de férias, quando pagas antecipadamente</field>
+        <field name="nome">Férias</field>
+        <field name="descricao">Valor correspondente à remuneração a que faz jus na época da concessão das férias e o adicional constitucional a que o trabalhador adquiriu direito, inclusive o adiantamento de férias, quando pagas antecipadamente – nessa opção deve ser classificado também o valor pago mensalmente ao trabalhador avulso e ao empregado com contrato de trabalho intermitente, a título de férias</field>
     </record>
 
     <record id="tab03_1021" model="sped.natureza_rubrica">
@@ -343,7 +343,7 @@
     <record id="tab03_1623" model="sped.natureza_rubrica">
         <field name="codigo">1623</field>
         <field name="nome">Ressarcimento de provisão</field>
-        <field name="descricao">Ressarcimento de desconto efetuado em recibos de férias relativo a provisão de contribuição previdenciária e IRRF</field>
+        <field name="descricao">Ressarcimento de desconto efetuado em recibos de férias relativo a provisão de contribuição previdenciária</field>
     </record>
 
     <record id="tab03_1629" model="sped.natureza_rubrica">
@@ -493,7 +493,7 @@
     <record id="tab03_5001" model="sped.natureza_rubrica">
         <field name="codigo">5001</field>
         <field name="nome">13o salário</field>
-        <field name="descricao">Valor relativo ao 13° salário de trabalhador, inclusive as médias de 13° salário (horas extras, adicional noturno, etc.), exceto se relativo à primeira parcela ou se pago em rescisão contratual - nessa opção devem ser classificadas também o valor pago mensalmente ao trabalhador avulso, a título de 13° salário</field>
+        <field name="descricao">Valor relativo ao 13° salário de trabalhador, inclusive as médias de 13° salário (horas extras, adicional noturno, etc.), exceto se relativo à primeira parcela ou se pago em rescisão contratual – nessa opção deve ser classificado também o valor pago mensalmente ao trabalhador avulso e ao empregado com contrato de trabalho intermitente, a título de 13° salário</field>
     </record>
 
     <record id="tab03_5005" model="sped.natureza_rubrica">
@@ -812,6 +812,12 @@
         <field name="codigo">9258</field>
         <field name="nome">Convênios</field>
         <field name="descricao">Desconto relativos a convênios diversos com empresas para fornecimento de produtos ou serviços ao empregado, sem pagamento imediato, mas com posterior desconto em folha de pagamento como farmácias, supermercados, etc.</field>
+    </record>
+
+    <record id="tab03_9260" model="sped.natureza_rubrica">
+        <field name="codigo">9260</field>
+        <field name="nome">Fies - desconto</field>
+        <field name="descricao">Desconto referente à amortização de financiamento do Fundo de Financiamento Estudantil (Fies), para repasse à instituição consignatária.</field>
     </record>
 
     <record id="tab03_9270" model="sped.natureza_rubrica">

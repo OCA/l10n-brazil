@@ -88,8 +88,10 @@
 
     <record id="tab18_17" model="sped.motivo_afastamento">
         <field name="codigo">17</field>
-        <field name="nome">Licença Maternidade - 120 dias e suas prorrogações/antecipações</field>
-        <field name="descricao">Licença Maternidade - 120 dias e suas prorrogações/antecipações, inclusive para o cônjuge sobrevivente</field>
+        <field name="nome">Licença Maternidade - 120 dias e suas prorrogações/antecipações, inclusive para o cônjuge sobrevivente</field>
+        <!--Alterado pela nota técnica 09-2018-->
+        <!--https://portal.esocial.gov.br/manuais/nota-tecnica-09-2018.pdf-->
+        <field name="descricao">Licença Maternidade - 120 dias</field>
     </record>
 
     <record id="tab18_18" model="sped.motivo_afastamento">
@@ -186,6 +188,14 @@
         <field name="codigo">34</field>
         <field name="nome">Inatividade do trabalhador avulso</field>
         <field name="descricao">Inatividade do trabalhador avulso (portuário ou não portuário) por período superior a 90 dias</field>
+    </record>
+
+    <!--Código criado pela nota técnica-->
+    <!--https://portal.esocial.gov.br/manuais/nota-tecnica-07-2018.pdf-->
+    <record id="tab18_35" model="sped.motivo_afastamento">
+        <field name="codigo">35</field>
+        <field name="nome">Licença Maternidade</field>
+        <field name="descricao">Antecipação e/ou prorrogação mediante atestado médico. Início de vigência em 01/07/2018</field>
     </record>
 
     </data>

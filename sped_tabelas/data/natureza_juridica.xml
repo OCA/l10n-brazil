@@ -364,7 +364,9 @@
     </record>
 
     <record id="tab21_3306" model="sped.natureza_juridica">
-        <field name="codigo">330-6</field>
+        <field name="codigo">330-1</field>
+        <!--Alteração nota técnica 09-2018-->
+        <!--https://portal.esocial.gov.br/manuais/nota-tecnica-09-2018.pdf-->
         <field name="nome">Organização Social (OS)</field>
     </record>
 
@@ -405,6 +407,8 @@
 
     <record id="tab21_4124" model="sped.natureza_juridica">
         <field name="codigo">412-4</field>
+        <!--Alterado pela nota ténica 09/2018-->
+        <!--https://portal.esocial.gov.br/manuais/nota-tecnica-09-2018.pdf-->
         <field name="nome">Produtor Rural (Pessoa Física)</field>
     </record>
 

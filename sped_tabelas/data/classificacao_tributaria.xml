@@ -64,7 +64,7 @@
     </record>
     <record id="tab08_22" model="sped.classificacao_tributaria">
         <field name="codigo">22</field>
-        <field name="descricao">Segurado Especial</field>
+        <field name="descricao">Segurado Especial, inclusive quando for empregador doméstico</field>
     </record>
     <record id="tab08_60" model="sped.classificacao_tributaria">
         <field name="codigo">60</field>

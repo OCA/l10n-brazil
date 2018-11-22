@@ -228,8 +228,8 @@
         <field name="nome">Comunidade</field>
     </record>
 
-    <record id="tab20_CON" model="sped.tipo_logradouro">
-        <field name="codigo">CON</field>
+    <record id="tab20_COND" model="sped.tipo_logradouro">
+        <field name="codigo">COND</field>
         <field name="nome">Condomínio</field>
     </record>
 
