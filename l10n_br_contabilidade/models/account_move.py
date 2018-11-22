@@ -94,12 +94,19 @@ class AccountMove(models.Model):
     @api.model
     def write(self, vals):
         for record in self:
-            # Só é permitido alterar o state ou vincular a um fechamento o
-            # lançamento contabil ja lançado
-            if not (vals.get('state') or not vals.get('account_fechamento_id')):
-                if record.state == 'posted':
-                    raise Warning(u'Não é possível editar um lançamento '
-                                  u'com status lançado.')
+
+            # Quando lançamento ja estiver lançado validar a alteração
+            if record.state == 'posted':
+
+                # Campos permitidos
+                campos_permitidos = ['state', 'account_fechamento_id']
+
+                # Alteração apenas dos campos permitidos
+                for campo_alterado in vals.keys():
+                    if campo_alterado not in campos_permitidos:
+                        raise Warning(
+                            u'Não é possível editar um lançamento com '
+                            u'status lançado.')
 
         res = super(AccountMove, self).write(vals)
 
