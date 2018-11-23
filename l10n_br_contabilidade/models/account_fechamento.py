@@ -94,6 +94,12 @@ class AccountFechamento(models.Model):
                 ('account_id.user_type.report_type','in',['income', 'expense']),
             ])
 
+            if not account_move_line_ids:
+                raise UserError(
+                    'Não foi encontrado lançamentos no período '
+                    'para realizar o fechamento!'
+                )
+
             # Buscar todos periodos do intervalo
             period_ids = self.periodo_ini.search([
                 ('date_start','>=', record.periodo_ini.date_start),
