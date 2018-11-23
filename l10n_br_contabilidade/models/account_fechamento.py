@@ -37,6 +37,7 @@ class AccountFechamento(models.Model):
     fiscalyear_id = fields.Many2one(
         comodel_name='account.fiscalyear',
         string='Ano base',
+        default=lambda self: self._get_defaults(),
     )
 
     account_move_ids = fields.One2many(
@@ -66,6 +67,10 @@ class AccountFechamento(models.Model):
         string='State',
         default='open',
     )
+
+    def _get_defaults(self):
+        fiscalyear_id = self.env['account.fiscalyear'].find()
+        return fiscalyear_id
 
     @api.multi
     def button_fechar_periodos(self):

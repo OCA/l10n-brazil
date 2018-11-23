@@ -42,8 +42,8 @@
                     </group>
 
                     <group col="6" string="Períodos para fechamento">
-                        <field name="periodo_ini" required="1" domain="[('state','=','draft')]" />
-                        <field name="periodo_fim" required="1"  domain="[('state','=','draft')]" />
+                        <field name="periodo_ini" required="1" domain="[('state','=','draft'), ('fiscalyear_id', '=', fiscalyear_id)]" />
+                        <field name="periodo_fim" required="1"  domain="[('state','=','draft'), ('fiscalyear_id', '=', fiscalyear_id)]" />
                         <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
                     </group>
 
