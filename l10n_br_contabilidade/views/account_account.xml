@@ -72,8 +72,10 @@
                         <page string="DePara">
                             <field name="depara_ids" />
                         </page>
+                        <page string="Contas Filhas" groups="base.group_no_one">
+                            <field name="child_parent_ids"/>
+                        </page>
                     </notebook>
-
                 </form>
             </field>
         </record>
