@@ -16,6 +16,7 @@
                             <field name="referencia_plano_id" attrs="{'required': True}" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                             <field name="conta_sistema_id" attrs="{'required': True}"/>
                             <field name="conta_plano_conta_externo" attrs="{'required': True}"/>
+                            <field name="mapeamento_pai_id"/>
                         </group>
                     </sheet>
                 </form>
@@ -30,6 +31,7 @@
                     <field name="referencia_plano_id"/>
                     <field name="conta_sistema_id"/>
                     <field name="conta_plano_conta_externo"/>
+                    <field name="mapeamento_pai_id"/>
                 </tree>
             </field>
         </record>

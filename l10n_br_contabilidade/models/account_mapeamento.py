@@ -28,6 +28,10 @@ class AccountMapeamentoDePara(models.Model):
         string='Conta Externa',
         help='Conta de um Plano de Contas externo ao sistema',
     )
+    mapeamento_pai_id = fields.Many2one(
+        string='Mapeamento Pai',
+        comodel_name='account.mapeamento',
+    )
 
     @api.multi
     def _get_display_name(self):
