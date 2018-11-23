@@ -144,14 +144,25 @@ class AccountFechamento(models.Model):
 
             # Popula o dataframe com valores do account.move.line
             for move in record.account_move_ids:
-                for line in move.line_id:
+
+                # Busca contas de resultado
+                move_line = move.line_id.filtered(
+                    lambda x: x.account_id.user_type.report_type
+                              in ('income', 'expense'))
+
+                if len(move_line) != 0:
+                    raise UserError(
+                        u'Não encontrada nenhuma conta de resultado'
+                    )
+
+                for line in move_line:
                     df_are.loc[line.id] = [line.account_id.id, line.debit,
                                            line.credit, move.period_id.id,
                                            move.period_id.date_stop]
 
             data_lancamento = df_are['dt_stop'].max()
             periodo_id = df_are[
-                data_lancamento == df_are['dt_stop']].iloc[1]['periodo']
+                data_lancamento == df_are['dt_stop']].iloc[0]['periodo']
 
             # Agrupa por conta e soma as outras colunas
             df_agrupado = df_are.groupby('conta').sum()
