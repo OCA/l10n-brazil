@@ -47,7 +47,7 @@ class AccountFechamento(models.Model):
     )
 
     account_move_fechamento_ids = fields.One2many(
-        string=u'Lançamentos Contábeis de Fechamento',
+        string=u'Lançamentos Contábeis do Fechamento',
         comodel_name='account.move',
         inverse_name='account_fechamento_id',
         domain=[('lancamento_de_fechamento', '=', True)],
@@ -91,7 +91,7 @@ class AccountFechamento(models.Model):
                 ('period_id.date_stop', '<=', record.periodo_fim.date_stop),
                 ('move_id.state', '=', 'posted'),
                 ('move_id.account_fechamento_id', '=', False),
-                # ('account_id.user_type.report_type','in',['income', 'expense']),
+                ('account_id.user_type.report_type','in',['income', 'expense']),
             ])
 
             # Buscar todos periodos do intervalo
@@ -109,6 +109,20 @@ class AccountFechamento(models.Model):
             # Relacionar os lancamentos ao fechamento atual
             for account_move_id in account_move_line_ids.mapped('move_id'):
                 account_move_id.account_fechamento_id = record.id
+
+    @api.multi
+    def button_reopen(self):
+        for record in self:
+            for move in record.mapped('account_move_fechamento_ids'):
+                move.state = 'draft'
+
+            record.account_move_fechamento_ids.unlink()
+
+            for move in record.mapped('account_move_ids'):
+                move.lancamento_de_fechamento = False
+
+            record.account_move_ids = False
+            record.state = 'open'
 
     @api.multi
     def button_fechar_periodos(self):
@@ -183,6 +197,8 @@ class AccountFechamento(models.Model):
                         'period_id': periodo_id,
                         'date': data_lancamento,
                         'state': 'posted',
+                        'account_fechamento_id': record.id,
+                        'lancamento_de_fechamento': True,
                         'line_id':[(0, 0, conta_id), (0, 0, are_id)]
                     })
 

@@ -108,7 +108,8 @@ class AccountMove(models.Model):
             if record.state == 'posted':
 
                 # Campos permitidos
-                campos_permitidos = ['state', 'account_fechamento_id']
+                campos_permitidos = ['state', 'account_fechamento_id',
+                                     'lancamento_de_fechamento']
 
                 # Alteração apenas dos campos permitidos
                 # Removo os campos permitidos do conjunto de campos a alterar

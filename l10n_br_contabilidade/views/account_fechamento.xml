@@ -13,7 +13,21 @@
         <field name="arch" type="xml">
             <form string="fechamento">
                 <header>
-                    <button class="oe_highlight" name="button_fechar_periodos" string='Fechar Períodos' type="object" />
+
+                    <button class="btn btn-primary"
+                            name="button_fechar_periodos"
+                            string='Fechar Períodos'
+                            type="object"
+                            states="open"
+                    />
+
+                    <button class="btn btn-primary"
+                            name="button_reopen"
+                            string='Cancelar Fechamento'
+                            type="object"
+                            states="close"
+                    />
+                    
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
