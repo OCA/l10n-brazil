@@ -111,11 +111,11 @@ class AccountMove(models.Model):
                 campos_permitidos = ['state', 'account_fechamento_id']
 
                 # Alteração apenas dos campos permitidos
-                for campo_alterado in vals.keys():
-                    if campo_alterado not in campos_permitidos:
-                        raise Warning(
-                            u'Não é possível editar um lançamento com '
-                            u'status lançado.')
+                # Removo os campos permitidos do conjunto de campos a alterar
+                if set(vals.keys()) - set(campos_permitidos):
+                    raise Warning(
+                        u'Não é possível editar um lançamento com '
+                        u'status lançado.')
 
         res = super(AccountMove, self).write(vals)
 
