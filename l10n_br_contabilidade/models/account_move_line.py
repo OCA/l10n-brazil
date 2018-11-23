@@ -14,7 +14,7 @@ class AccountMoveLine(models.Model):
     )
 
     ramo_id = fields.Many2one(
-        'account.ramo',
+        comodel_name='account.ramo',
         string=u'Ramo',
     )
 
