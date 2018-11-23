@@ -37,13 +37,17 @@
                     </h2>
 
                     <group>
-                        <field name="account_journal_id" required="1" />
-                        <field name="fiscalyear_id" />
+                        <field name="account_journal_id" required="1" options="{'no_quick_create': True, 'no_create_edit': True}" />
+                        <field name="fiscalyear_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                     </group>
 
                     <group col="6" string="Períodos para fechamento">
-                        <field name="periodo_ini" required="1" domain="[('state','=','draft'), ('fiscalyear_id', '=', fiscalyear_id)]" />
-                        <field name="periodo_fim" required="1"  domain="[('state','=','draft'), ('fiscalyear_id', '=', fiscalyear_id)]" />
+                        <field name="periodo_ini" required="1"
+                               domain="[('state','=','draft'), ('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]"
+                               options="{'no_quick_create': True, 'no_create_edit': True}" />
+                        <field name="periodo_fim" required="1"
+                               domain="[('state','=','draft'), ('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]"
+                               options="{'no_quick_create': True, 'no_create_edit': True}" />
                         <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
                     </group>
 
