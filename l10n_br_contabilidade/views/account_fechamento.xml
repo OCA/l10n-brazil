@@ -48,24 +48,24 @@
                         <field name="periodo_fim" required="1"
                                domain="[('state','=','draft'), ('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]"
                                options="{'no_quick_create': True, 'no_create_edit': True}" />
-                        <button class="btn btn-primary" name="button_buscar_lancamentos_do_periodo" string='Buscar Lançamentos' type="object" />
+                        <button class="btn btn-primary" name="button_buscar_periodos" string='Buscar Períodos' type="object" />
                     </group>
 
                      <notebook>
-                         <page string="Lançamentos feitos no Período" attrs="{'invisible': [('account_move_ids', '=', [])]}">
+                         <page string="Períodos">
 
-                             <group col="4" string="Lançamentos dos Períodos">
+                             <group col="4" string="Períodos do Fechamento">
                                  <group>
-                                     <field name="account_move_ids" readonly="1" nolabel="1"/>
+                                     <field name="account_period_ids" readonly="1" nolabel="1"/>
                                  </group>
                              </group>
                          </page>
 
-                         <page string="Lançamentos deste Fechamento" attrs="{'invisible': [('account_move_fechamento_ids', '=', [])]}">
-                             <group string="Lançamentos desta Apuração"  >
-                                <field name="account_move_fechamento_ids" readonly="1" nolabel="1" />
-                             </group>
-                         </page>
+                         <!--<page string="Lançamentos deste Fechamento" attrs="{'invisible': [('account_move_fechamento_ids', '=', [])]}">-->
+                             <!--<group string="Lançamentos desta Apuração"  >-->
+                                <!--<field name="account_move_fechamento_ids" readonly="1" nolabel="1" />-->
+                             <!--</group>-->
+                         <!--</page>-->
 
                      </notebook>
 

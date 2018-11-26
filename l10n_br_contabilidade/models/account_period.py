@@ -26,9 +26,15 @@ class AccountPeriod(models.Model):
         domain=[('lancamento_de_fechamento', '=', True)],
     )
 
+    account_fechamento_id = fields.Many2one(
+        string=u'Fechamento',
+        comodel_name='account.fechamento',
+    )
+
     account_journal_id = fields.Many2one(
         string=u'Diário de fechamento',
         comodel_name='account.journal',
+        related='account_fechamento_id.account_journal_id',
     )
 
     @api.multi
@@ -40,16 +46,13 @@ class AccountPeriod(models.Model):
 
         for record in self:
             # Cria dataframe vazio com colunas
-            df_are = pd.DataFrame(
-                columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
+            df_are = pd.DataFrame(columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
 
             # Popula o dataframe com valores do account.move.line
-            for move in record.account_move_ids:
+            for move in record.mapped('account_move_ids').filtered(lambda x: x.journal_id):
 
                 # Busca contas de resultado
-                move_line = move.line_id.filtered(
-                    lambda x: x.account_id.user_type.report_type
-                              in ('income', 'expense'))
+                move_line = move.line_id.filtered(lambda x: x.account_id.user_type.report_type in ('income', 'expense'))
 
                 for line in move_line:
                     df_are.loc[line.id] = [
@@ -61,8 +64,6 @@ class AccountPeriod(models.Model):
                     ]
 
             data_lancamento = df_are['dt_stop'].max()
-            # periodo_id = df_are[
-            #     data_lancamento == df_are['dt_stop']].iloc[0]['periodo']
 
             # Agrupa por conta e soma as outras colunas
             df_agrupado = df_are.groupby('conta').sum()
@@ -119,7 +120,6 @@ class AccountPeriod(models.Model):
                         'period_id': record.id,
                         'date': data_lancamento,
                         'state': 'posted',
-                        # 'account_fechamento_id': record.id,
                         'lancamento_de_fechamento': True,
                         'line_id': [(0, 0, conta_id), (0, 0, are_id)]
                     })
@@ -141,5 +141,4 @@ class AccountPeriod(models.Model):
             for move in record.mapped('account_move_ids'):
                 move.lancamento_de_fechamento = False
 
-            record.account_move_ids = False
             record.state = 'draft'

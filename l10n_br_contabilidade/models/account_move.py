@@ -23,9 +23,9 @@ class AccountMove(models.Model):
         selection_add=[('cancel', u'Cancelado')]
     )
 
-    account_fechamento_id = fields.Many2one(
-        string=u'Fechamento de período',
-        comodel_name='account.fechamento',
+    period_id = fields.Many2one(
+        string=u'Período',
+        comodel_name='account.period',
     )
 
     lancamento_de_fechamento = fields.Boolean(
