@@ -73,13 +73,6 @@ class AccountFechamento(models.Model):
         return fiscalyear_id
 
     @api.multi
-    def button_fechar_periodos(self):
-        """
-        """
-        for record in self:
-            record.state = 'close'
-
-    @api.multi
     def button_buscar_lancamentos_do_periodo(self):
         """
         :return:
