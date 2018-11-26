@@ -57,7 +57,7 @@ class AccountFechamento(models.Model):
 
     def _get_defaults(self):
         fiscalyear_id = self.env['account.fiscalyear'].find()
-        
+
         return fiscalyear_id
 
     @api.multi
@@ -84,7 +84,7 @@ class AccountFechamento(models.Model):
     def button_fechar_periodos(self):
         for record in self:
             record.button_buscar_periodos()
-            for period_id in record.mapped('account_period_ids'):
+            for period_id in record.account_period_ids:
                 period_id.fechar_periodo()
 
             record.state = 'close'

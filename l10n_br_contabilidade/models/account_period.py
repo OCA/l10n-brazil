@@ -43,7 +43,6 @@ class AccountPeriod(models.Model):
 
         :return:
         """
-
         for record in self:
             # Cria dataframe vazio com colunas
             df_are = pd.DataFrame(columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
@@ -52,13 +51,14 @@ class AccountPeriod(models.Model):
             for move in record.mapped('account_move_ids').filtered(lambda x: x.journal_id):
 
                 # Busca contas de resultado
-                move_line = move.line_id.filtered(lambda x: x.account_id.user_type.report_type in ('income', 'expense'))
+                partidas_resultado = move.line_id.filtered(
+                    lambda x: x.account_id.user_type.report_type in ('income', 'expense'))
 
-                for line in move_line:
-                    df_are.loc[line.id] = [
-                        line.account_id.id,
-                        line.debit,
-                        line.credit,
+                for partida_resultado in partidas_resultado:
+                    df_are.loc[partida_resultado.id] = [
+                        partida_resultado.account_id.id,
+                        partida_resultado.debit,
+                        partida_resultado.credit,
                         move.period_id.id,
                         move.period_id.date_stop
                     ]
@@ -133,12 +133,12 @@ class AccountPeriod(models.Model):
         :return:
         """
         for record in self:
-            for move in record.mapped('account_move_fechamento_ids'):
+            for move in record.account_move_fechamento_ids:
                 move.state = 'draft'
 
             record.account_move_fechamento_ids.unlink()
 
-            for move in record.mapped('account_move_ids'):
+            for move in record.account_move_ids:
                 move.lancamento_de_fechamento = False
 
             record.state = 'draft'
