@@ -57,6 +57,7 @@ class AccountFechamento(models.Model):
 
     def _get_defaults(self):
         fiscalyear_id = self.env['account.fiscalyear'].find()
+        
         return fiscalyear_id
 
     @api.multi
@@ -65,7 +66,6 @@ class AccountFechamento(models.Model):
         :return:
         """
         for record in self:
-
             # Buscar todos periodos no intervalo indicado
             period_ids = self.env['account.period'].search([
                 ('date_start', '>=', record.periodo_ini.date_start),
@@ -80,7 +80,6 @@ class AccountFechamento(models.Model):
             # Associa o periodo a este fechamento
             record.account_period_ids = period_ids
 
-
     @api.multi
     def button_fechar_periodos(self):
         for record in self:
@@ -89,7 +88,6 @@ class AccountFechamento(models.Model):
                 period_id.fechar_periodo()
 
             record.state = 'close'
-
 
     @api.multi
     def button_reopen(self):
