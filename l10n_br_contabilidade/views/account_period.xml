@@ -5,6 +5,32 @@
 <openerp>
     <data>
 
+        <record id="abgf_view_account_period_form" model="ir.ui.view">
+            <field name="name">account.period.form (in abgf_contabilidade)</field>
+            <field name="model">account.period</field>
+            <field name="inherit_id" ref="account.view_account_period_form" />
+            <field name="arch" type="xml">
+                <button name="%(account.action_account_period_close)d" position="replace">
+                    <button name="fechar_periodo" string="Fechar período" type="object" attrs="{'invisible':[('state','=','done')]}" icon="gtk-find"/>
+                </button>
+
+                <button name="action_draft" position="replace">
+                    <button name="reopen_period" states="done" string="Re-Abrir Período" type="object" groups="account.group_account_manager"/>
+                </button>
+
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                        <field name="account_journal_id" required="1"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Lançamentos Contabeis">
+                            <field name="account_move_ids" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
         <menuitem
                 id="menu_abgf_contabilidade_account_period"
                 name="Competências"
