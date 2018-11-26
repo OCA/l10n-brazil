@@ -42,10 +42,16 @@ class AccountMove(models.Model):
     @api.multi
     def button_cancel(self):
         self.state = 'cancel'
+        for line in self.line_id:
+            line.state = 'cancel'
+            line.situacao_lancamento = 'cancel'
 
     @api.multi
     def button_return(self):
         self.state = 'draft'
+        for line in self.line_id:
+            line.state = 'draft'
+            line.situacao_lancamento = 'draft'
 
     @api.multi
     def validar_partidas_lancamento_contabil(self):
@@ -116,5 +122,14 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).write(vals)
 
         self.validar_partidas_lancamento_contabil()
+
+        return res
+
+    @api.multi
+    def post(self):
+        res = super(AccountMove, self).post()
+
+        for line in self.line_id:
+            line.situacao_lancamento = 'posted'
 
         return res
