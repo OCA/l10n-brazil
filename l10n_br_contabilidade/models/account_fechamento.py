@@ -143,15 +143,14 @@ class AccountFechamento(models.Model):
                     lambda x: x.account_id.user_type.report_type
                               in ('income', 'expense'))
 
-                if len(move_line) != 0:
-                    raise UserError(
-                        u'Não encontrada nenhuma conta de resultado'
-                    )
-
                 for line in move_line:
-                    df_are.loc[line.id] = [line.account_id.id, line.debit,
-                                           line.credit, move.period_id.id,
-                                           move.period_id.date_stop]
+                    df_are.loc[line.id] = [
+                        line.account_id.id,
+                        line.debit,
+                        line.credit,
+                        move.period_id.id,
+                        move.period_id.date_stop
+                    ]
 
             data_lancamento = df_are['dt_stop'].max()
             periodo_id = df_are[
