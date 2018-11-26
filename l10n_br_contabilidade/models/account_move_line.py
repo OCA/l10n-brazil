@@ -22,6 +22,19 @@ class AccountMoveLine(models.Model):
         related='account_id.precisa_ramo',
     )
 
+    state = fields.Selection(
+        selection_add=[('cancel', 'Cancelado')]
+    )
+
+    situacao_lancamento = fields.Selection(
+        selection=[
+            ('draft', 'Unposted'),
+            ('posted', 'Posted'),
+            ('cancel', u'Cancelado'),
+        ],
+        default=lambda ml: ml.move_id.state if ml.move_id else 'draft',
+    )
+
     def _verifica_valores_debito_credito(self, debito, credito):
         if not debito and not credito:
             raise Warning(
@@ -68,3 +81,15 @@ class AccountMoveLine(models.Model):
         for record in self:
             if record.account_id:
                 record.name = record.account_id.display_name
+
+    @api.model
+    def _query_get(self, obj='l'):
+        res = super(AccountMoveLine, self)._query_get(obj)
+        if obj == 'l':
+            res = res.replace(
+                "<> 'draft'",
+                "NOT IN ('draft', 'cancel') AND "
+                "situacao_lancamento not in ('draft', 'cancel')"
+            )
+
+        return res
