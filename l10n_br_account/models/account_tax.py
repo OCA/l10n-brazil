@@ -16,30 +16,19 @@ class AccountTax(models.Model):
     tax_discount = fields.Boolean(
         string='Discount this Tax in Prince',
         help="Mark it for (ICMS, PIS e etc.).",
-        related='tax_group_id.tax_discount'
-    )
+        related='tax_group_id.tax_discount')
+
     base_reduction = fields.Float(
         string='Redution', required=True,
         digits_compute=dp.get_precision('Account'),
         help="Um percentual decimal em % entre 0-1.",
-        default=0.0,
-    )
+        default=0.00)
+
     amount_mva = fields.Float(
         string='MVA Percent', required=True,
         digits_compute=dp.get_precision('Account'),
         help="Um percentual decimal em % entre 0-1.",
-        default=0.0,
-    )
-    type = fields.Selection(
-        string='Tax Type',
-        required=True,
-        selection=[
-            ('percent', 'Percentage'),
-            ('fixed', 'Fixed Amount'),
-            ('none', 'None'),
-            ('code', 'Python Code'),
-            ('balance', 'Balance'),
-            ('quantity', 'Quantity')
-        ],
-        help="The computation method for the tax amount.",
-    )
+        default=0.00)
+
+    amount_type = fields.Selection(
+        add_selection=[('quantity', 'Quantity')])
