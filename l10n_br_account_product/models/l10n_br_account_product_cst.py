@@ -33,5 +33,6 @@ class L10nBrAccountProductCST(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(r.id, u"{0} - {1}".format(r.code, r.name))
+        return [(r.id,
+                u"{0} - {1}".format(r.code, r.name))
                 for r in self]
