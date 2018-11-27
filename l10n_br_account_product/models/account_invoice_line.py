@@ -759,14 +759,6 @@ class AccountInvoiceLine(models.Model):
 
         return result
 
-    # TODO não foi migrado por causa do bug github.com/odoo/odoo/issues/1711
-    # def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-    #                    context=None, toolbar=False, submenu=False):
-    #    result = super(AccountInvoiceLine, self).fields_view_get(
-    #        cr, uid, view_id=view_id, view_type=view_type, context=context,
-    #        toolbar=toolbar, submenu=submenu)
-    #    return result
-
     @api.model
     def _fiscal_position_map(self, **kwargs):
         ctx = dict(self.env.context)
@@ -784,6 +776,8 @@ class AccountInvoiceLine(models.Model):
 
         if product_fiscal_category_id:
             kwargs['fiscal_category_id'] = product_fiscal_category_id
+        else:
+            kwargs['fiscal_category_id'] = kwargs.get('fiscal_category_id').id
 
         fp = obj_fp_rule.with_context(ctx).apply_fiscal_mapping(**kwargs)
         self.fiscal_category_id = kwargs.get('fiscal_category_id')
@@ -815,36 +809,8 @@ class AccountInvoiceLine(models.Model):
 
         return fp
 
-    @api.multi
-    def product_id_change(self, product, uom_id, qty=0, name='',
-                          type='out_invoice', partner_id=False,
-                          fposition_id=False, price_unit=False,
-                          currency_id=False, company_id=None):
-        ctx = dict(self.env.context)
-        if type in ('out_invoice', 'out_refund'):
-            ctx.update({'type_tax_use': 'sale'})
-        else:
-            ctx.update({'type_tax_use': 'purchase'})
-
-        result = super(AccountInvoiceLine, self).product_id_change(
-            product, uom_id, qty, name, type, partner_id,
-            fposition_id, price_unit, currency_id, company_id)
-
-        fiscal_category_id = ctx.get('parent_fiscal_category_id')
-
-        if not fiscal_category_id or not product:
-            return result
-        product_obj = self.env['product.product'].browse(product)
-        result['value']['name'] = product_obj.display_name
-
-        result = self.with_context(ctx)._fiscal_position_map(
-            result, partner_id=partner_id, partner_invoice_id=partner_id,
-            company_id=company_id, product_id=product,
-            fiscal_category_id=fiscal_category_id,
-            account_id=result['value']['account_id'])
-        return result
-
-    @api.onchange('fiscal_category_id',
+    @api.onchange('product_id',
+                  'fiscal_category_id',
                   'fiscal_position_id',
                   'invoice_line_tax_ids',
                   'quantity',
@@ -853,25 +819,24 @@ class AccountInvoiceLine(models.Model):
                   'insurance_value',
                   'freight_value',
                   'other_costs_value')
-    def onchange_fiscal(self):
+    def _onchange_fiscal(self):
         ctx = dict(self.env.context)
         if self.invoice_id.type in ('out_invoice', 'out_refund'):
             ctx.update({'type_tax_use': 'sale'})
         else:
             ctx.update({'type_tax_use': 'purchase'})
 
-        partner_id = self.invoice_id.partner_id or \
-            self.env['res.partner'].browse(ctx.get('partner_id'))
-        company_id = self.invoice_id.company_id or \
-            self.env['res.company'].browse(ctx.get('company_id'))
-        if company_id and partner_id and self.fiscal_category_id:
+        partner = self.invoice_id.partner_id
+        company = self.invoice_id.company_id
+        fiscal_category = self.fiscal_category_id
+
+        if company and partner and fiscal_category:
             kwargs = {
-                'company_id': company_id,
-                'partner_id': partner_id,
-                'partner_invoice_id': self.invoice_id.partner_id,
+                'company_id': company,
+                'partner_id': partner,
+                'partner_invoice_id': partner,
                 'product_id': self.product_id,
-                'fiscal_category_id': self.fiscal_category_id,
-                'context': ctx
+                'fiscal_category_id': fiscal_category,
             }
             self.with_context(ctx)._fiscal_position_map(**kwargs)
 
@@ -905,183 +870,70 @@ class AccountInvoiceLine(models.Model):
                 new_taxes[0][2].append(tax.id)
         return new_taxes
 
-    @api.multi
-    def onchange_tax_icms(self, icms_base_type, icms_base, icms_base_other,
-                          icms_value, icms_percent, icms_percent_reduction,
-                          icms_cst_id, price_unit, discount, quantity,
-                          partner_id, product_id, fiscal_position_id,
-                          insurance_value, freight_value, other_costs_value,
-                          invoice_line_tax_ids):
+    # TODO if ICMS percent is not in account.tax,
+    # create a new account.tax
+    @api.onchange('icms_base_type',
+                  'icms_base',
+                  'icms_base_other',
+                  'icms_value',
+                  'icms_percent',
+                  'icms_percent_reduction')
+    def _onchange_tax_icms(self):
+        pass
 
-        result = {'value': {}}
-        # ctx = dict(self.env.context)
+    # TODO if ICMS ST percent is not in account.tax,
+    # create a new account.tax
+    @api.onchange('icms_st_base_type',
+                  'icms_st_base',
+                  'icms_st_percent',
+                  'icms_st_percent_reduction',
+                  'icms_st_mva',
+                  'icms_st_base_other')
+    def _onchange_tax_icms_st(self):
+        pass
 
-        # Search if exists the tax
-        # domain = [('domain', '=', 'icms')]
-        #
-        # domain.append(('icms_base_type', '=', icms_base_type))
-        #
-        # percent_decimal = icms_percent / 100
-        # domain.append(('amount', '=', percent_decimal))
-        #
-        # reduction_percent = icms_percent_reduction / 100
-        # domain.append(('base_reduction', '=', reduction_percent))
-        #
-        # tax = self.tax_exists(domain)
-        #
-        # # If not exists create a new tax
-        # if not tax:
-        #     tax_template = self.env['account.tax'].search([
-        #         ('type_tax_use', '=', DEFAULT_TAX_TYPE[ctx.get(
-        #             'type_tax_use', 'out_invoice')]),
-        #         ('domain', '=', 'icms'),
-        #         ('amount', '=', '0.0'),
-        #         ('company_id', '=', self.env.user.company_id.id),
-        #     ])
-        #
-        #     if not tax_template:
-        #         raise except_orm(_('Alerta', u'Não existe imposto\
-        #                            do domínio ICMS com aliquita 0%!'))
-        #
-        #     tax_name = 'ICMS Interno Saída {:.2f}%'.format(icms_percent)
-        #
-        #     if icms_percent_reduction:
-        #         tax_name = 'ICMS Interno Saída {:.2f}% Red \
-        #                     {:.2f}%'.format(icms_percent,
-        #                                     icms_percent_reduction)
-        #
-        #     tax_values = {
-        #         'name': tax_name,
-        #         'description': tax_name,
-        #         'type_tax_use': tax_template[0].type_tax_use,
-        #         'company_id': tax_template[0].company_id.id,
-        #         'active': True,
-        #         'type': 'percent',
-        #         'amount': icms_percent / 100,
-        #         'tax_discount': True,
-        #         'base_reduction': icms_percent_reduction / 100,
-        #         'applicable_type': 'true',
-        #         'icms_base_type': icms_base_type,
-        #         'domain': 'icms',
-        #         'account_collected_id': (tax_template[0]
-        #                                  .account_collected_id.id),
-        #         'account_paid_id': tax_template[0].account_paid_id.id,
-        #         'base_code_id': tax_template[0].base_code_id.id,
-        #         'base_sign': 1.0,
-        #         'ref_base_code_id': tax_template[0].ref_base_code_id.id,
-        #         'ref_base_sign': 1.0,
-        #         'tax_code_id': tax_template[0].tax_code_id.id,
-        #         'tax_sign': 1.0,
-        #         'ref_tax_code_id': tax_template[0].ref_tax_code_id.id,
-        #         'ref_tax_sign': 1.0,
-        #     }
-        #     tax = self.env['account.tax'].create(tax_values)
-        #
-        # # Compute the tax
-        # partner = self.env['res.partner'].browse(partner_id)
-        # product = self.env['product.product'].browse(partner_id)
-        # fiscal_position = self.env['account.fiscal.position'].browse(
-        #     fiscal_position_id)
-        # price = price_unit * (1 - discount / 100.0)
-        # tax_compute = tax.compute_all(
-        #     price, quantity, product, partner,
-        #     fiscal_position=fiscal_position,
-        #     insurance_value=insurance_value,
-        #     freight_value=freight_value,
-        #     other_costs_value=other_costs_value,
-        #     base_tax=icms_base)
-        #
-        # # Update tax values to new values
-        # result['value'].update(self._amount_tax_icms(
-        # tax_compute['taxes'][0]))
-        #
-        # # Update invoice_line_tax_id
-        # # Remove all taxes with domain ICMS
-        # result['value']['invoice_line_tax_id'] = (self
-        #      .update_invoice_line_tax_id(tax.id, invoice_line_tax_id,
-        #                                  tax.domain))
-        return result
+    # TODO if IPI percent is not in account.tax,
+    # create a new account.tax
+    @api.onchange(
+        'ipi_type',
+        'ipi_base',
+        'ipi_base_other',
+        'ipi_value',
+        'ipi_percent',
+    )
+    def _onchange_tax_ipi(self):
+        pass
 
-    @api.multi
-    def onchange_tax_icms_st(
-            self,
-            icms_st_base_type,
-            icms_st_base,
-            icms_st_percent,
-            icms_st_percent_reduction,
-            icms_st_mva,
-            icms_st_base_other,
-            price_unit,
-            discount,
-            insurance_value,
-            freight_value,
-            other_costs_value):
-        return {'value': {}}
+    # TODO if PIS percent is not in account.tax,
+    # create a new account.tax
+    @api.onchange('pis_type',
+                  'pis_base',
+                  'pis_base_other',
+                  'pis_value',
+                  'pis_percent',
+                  'pis_st_type',
+                  'pis_st_base',
+                  'pis_st_percent',
+                  'pis_st_value')
+    def _onchange_tax_pis(self):
+        pass
 
-    @api.multi
-    def onchange_tax_ipi(self, ipi_type, ipi_base, ipi_base_other,
-                         ipi_value, ipi_percent, ipi_cst_id,
-                         price_unit, discount, insurance_value,
-                         freight_value, other_costs_value):
-        return {'value': {}}
+    # TODO if COFINS percent is not in account.tax,
+    # create a new account.tax
+    @api.onchange('cofins_type',
+                  'cofins_base',
+                  'cofins_base_other',
+                  'cofins_percent',
+                  'cofins_value',
+                  'cofins_st_type',
+                  'cofins_st_base',
+                  'cofins_st_percent',
+                  'cofins_st_value')
+    def _onchange_tax_cofins(self):
+        pass
 
-    @api.multi
-    def onchange_tax_pis(self, pis_type, pis_base, pis_base_other,
-                         pis_value, pis_percent, pis_cst_id,
-                         price_unit, discount, insurance_value,
-                         freight_value, other_costs_value):
-        return {'value': {}}
-
-    @api.multi
-    def onchange_tax_pis_st(
-            self,
-            pis_st_type,
-            pis_st_base,
-            pis_st_percent,
-            pis_st_value,
-            price_unit,
-            discount,
-            insurance_value,
-            freight_value,
-            other_costs_value):
-        return {'value': {}}
-
-    @api.multi
-    def onchange_tax_cofins(
-            self,
-            cofins_st_type,
-            cofins_st_base,
-            cofins_st_percent,
-            cofins_st_value,
-            price_unit,
-            discount,
-            insurance_value,
-            freight_value,
-            other_costs_value):
-        return {'value': {}}
-
-    @api.multi
-    def onchange_tax_cofins_st(
-            self,
-            cofins_st_type,
-            cofins_st_base,
-            cofins_st_percent,
-            cofins_st_value,
-            price_unit,
-            discount,
-            insurance_value,
-            freight_value,
-            other_costs_value):
-        return {'value': {}}
-
+    # TODO remove
     @api.model
     def create(self, vals):
         vals.update(self._validate_taxes(vals))
         return super(AccountInvoiceLine, self).create(vals)
-
-    # TODO comentado por causa deste bug
-    # https://github.com/odoo/odoo/issues/2197
-    # @api.multi
-    # def write(self, vals):
-    #    vals.update(self._validate_taxes(vals))
-    #    return super(AccountInvoiceLine, self).write(vals)
