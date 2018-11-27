@@ -38,7 +38,7 @@ class AccountTax(models.Model):
         result = {'tax_discount': 0.0, 'taxes': []}
 
         for tax in taxes:
-            if tax.get('type') == 'weight' and product:
+            if tax.get('amount_type') == 'weight' and product:
                 product_read = self.env['product.product'].read(
                     product, ['weight_net'])
                 tax['amount'] = round((product_qty * product_read.get(
@@ -47,7 +47,7 @@ class AccountTax(models.Model):
             if base_tax:
                 total_line = base_tax
 
-            if tax.get('type') == 'quantity':
+            if tax.get('amount_type') == 'quantity':
                 tax['amount'] = round(
                     product_qty * tax['percent'] / 100, precision)
 
@@ -111,7 +111,7 @@ class AccountTax(models.Model):
             if tax_list:
                 tax_brw = tax_list[0]
             tax['domain'] = tax_brw.domain
-            tax['type'] = tax_brw.type or tax_brw.amount_type
+            tax['amount_type'] = tax_brw.amount_type
             tax['percent'] = tax_brw.amount
             tax['base_reduction'] = tax_brw.base_reduction
             tax['amount_mva'] = tax_brw.amount_mva
