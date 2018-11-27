@@ -35,28 +35,27 @@ class ProductTemplate(models.Model):
 
     fiscal_type = fields.Selection(
         selection_add=PRODUCT_FISCAL_TYPE,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT
-    )
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+
     origin = fields.Selection(
         selection=PRODUCT_ORIGIN,
         string=u'Origem',
-        default='0'
-    )
+        default='0')
+
     fci = fields.Char(
         string=u'FCI do Produto',
-        size=36
-    )
+        size=36)
+
     cest_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cest',
-        string=u'CEST'
-    )
+        string=u'CEST')
+
     service_type_id = fields.Many2one(
         comodel_name='l10n_br_account.service.type',
-        string=u'Tipo de Serviço'
-    )
+        string=u'Tipo de Serviço')
+
     estd_import_taxes_perct = fields.Float(
-        related='fiscal_classification_id.estd_import_taxes_perct'
-    )
+        related='fiscal_classification_id.estd_import_taxes_perct')
+
     estd_national_taxes_perct = fields.Float(
-        related='fiscal_classification_id.estd_national_taxes_perct'
-    )
+        related='fiscal_classification_id.estd_national_taxes_perct')

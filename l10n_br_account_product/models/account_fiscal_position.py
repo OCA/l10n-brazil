@@ -238,9 +238,6 @@ class AccountFiscalPositionTax(models.Model):
         if onchange:
             onchange['domain'].update(
                 {'cst_dest_id': onchange['domain']['tax_dest_id']})
-        print onchange.update(
-            {'readonly': {'tax_icms_relief_id':
-                [('tax_dest_id.domain', '=', 'icms')]}})
         return onchange.update(
             {'readonly': {'tax_icms_relief_id':
                 [('tax_dest_id.domain', '=', 'icms')]}})
