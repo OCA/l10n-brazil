@@ -45,85 +45,85 @@ class AccountInvoiceLine(models.Model):
 
     code = fields.Char(
         string=u'Código do Produto',
-        size=60
-    )
+        size=60)
+
     date_invoice = fields.Datetime(
         string=u'Invoice Date',
         readonly=True,
         states={'draft': [('readonly', False)]},
         index=True,
-        help="Keep empty to use the current date"
-    )
+        help="Keep empty to use the current date")
+
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
-        string=u'Categoria Fiscal'
-    )
+        string=u'Categoria Fiscal')
+
     fiscal_position_id = fields.Many2one(
         comodel_name='account.fiscal.position',
-        string=u'Posição Fiscal',
-    )
+        string=u'Posição Fiscal')
+
     cfop_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cfop',
         domain="[('internal_type', '=', 'normal')]",
-        string=u'CFOP'
-    )
+        string=u'CFOP')
+
     fiscal_classification_id = fields.Many2one(
         comodel_name='account.product.fiscal.classification',
-        string=u'Classificação Fiscal'
-    )
+        string=u'Classificação Fiscal')
+
     cest_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cest',
-        string=u'CEST'
-    )
+        string=u'CEST')
+
     fci = fields.Char(
         string=u'FCI do Produto',
-        size=36
-    )
+        size=36)
+
     import_declaration_ids = fields.One2many(
         comodel_name='l10n_br_account_product.import.declaration',
         inverse_name='invoice_line_id',
-        string=u'Declaração de Importação'
-    )
+        string=u'Declaração de Importação')
+
     product_type = fields.Selection(
         selection=[('product', 'Produto'),
                    ('service', u'Serviço')],
         string=u'Tipo do Produto',
         required=True,
-        default='product'
-    )
+        default='product')
+
     discount_value = fields.Float(
         string=u'Vlr. desconto',
         store=True,
         compute='_compute_price',
-        digits=dp.get_precision('Account')
-    )
+        digits=dp.get_precision('Account'))
+
     price_gross = fields.Float(
         string=u'Vlr. Bruto',
         store=True,
         compute='_compute_price',
-        digits=dp.get_precision('Account')
-    )
+        digits=dp.get_precision('Account'))
+
     price_tax_discount = fields.Float(
         string=u'Vlr. s/ Impostos',
         store=True,
         compute='_compute_price',
-        digits=dp.get_precision('Account')
-    )
+        digits=dp.get_precision('Account'))
+
     total_taxes = fields.Float(
         string=u'Total de Tributos',
         requeried=True,
         default=0.00,
-        digits=dp.get_precision('Account')
-    )
+        digits=dp.get_precision('Account'))
+
     icms_manual = fields.Boolean(
         string=u'ICMS Manual?',
-        default=False
-    )
+        default=False)
+
     icms_origin = fields.Selection(
         selection=PRODUCT_ORIGIN,
         string=u'Origem',
-        default='0'
-    )
+        default='0')
+
     icms_base_type = fields.Selection(
         selection=[('0', 'Margem Valor Agregado (%)'),
                    ('1', 'Pauta (valor)'),
@@ -131,36 +131,36 @@ class AccountInvoiceLine(models.Model):
                    ('3', u'Valor da Operação')],
         string=u'Tipo Base ICMS',
         required=True,
-        default='0'
-    )
+        default='0')
+
     icms_base = fields.Float(
         string=u'Base ICMS',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_base_other = fields.Float(
         string=u'Base ICMS Outras',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_value = fields.Float(
         string=u'Valor ICMS',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_percent = fields.Float(
         string=u'Perc ICMS',
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_percent_reduction = fields.Float(
         string=u'Perc Redução de Base ICMS',
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_st_base_type = fields.Selection(
         selection=[('0', u'Preço tabelado ou máximo  sugerido'),
                    ('1', 'Lista Negativa (valor)'),
@@ -170,51 +170,53 @@ class AccountInvoiceLine(models.Model):
                    ('5', 'Pauta (valor)')],
         string=u'Tipo Base ICMS ST',
         required=True,
-        default='4'
-    )
+        default='4')
+
     icms_st_value = fields.Float(
         string=u'Valor ICMS ST',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_st_base = fields.Float(
         string=u'Base ICMS ST',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_st_percent = fields.Float(
         string=u'Percentual ICMS ST',
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_st_percent_reduction = fields.Float(
         string=u'Perc Redução de Base ICMS ST',
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_st_mva = fields.Float(
         string=u'MVA Ajustado ICMS ST',
         digits=dp.get_precision('Discount'), default=0.00)
+
     icms_st_base_other = fields.Float(
         string=u'Base ICMS ST Outras',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST ICMS',
         domain=[('tax_group_id.domain', '=', 'icms')])
+
     icms_relief_id = fields.Many2one(
         comodel_name='l10n_br_account_product.icms_relief',
-        string=u'Desoneração ICMS'
-    )
+        string=u'Desoneração ICMS')
+
     issqn_manual = fields.Boolean(
         string=u'ISSQN Manual?',
-        default=False
-    )
+        default=False)
+
     issqn_type = fields.Selection(
         selection=[('N', 'Normal'),
                    ('R', 'Retida'),
@@ -222,294 +224,294 @@ class AccountInvoiceLine(models.Model):
                    ('I', 'Isenta')],
         string=u'Tipo do ISSQN',
         required=True,
-        default='N'
-    )
+        default='N')
+
     service_type_id = fields.Many2one(
         comodel_name='l10n_br_account.service.type',
-        string=u'Tipo de Serviço'
-    )
+        string=u'Tipo de Serviço')
+
     issqn_base = fields.Float(
         string=u'Base ISSQN',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     issqn_percent = fields.Float(
         string=u'Perc ISSQN',
         required=True,
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     issqn_value = fields.Float(
         string=u'Valor ISSQN',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ipi_manual = fields.Boolean(
         string=u'IPI Manual?',
-        default=False
-    )
+        default=False)
+
     ipi_type = fields.Selection(
         selection=[('percent', 'Percentual'),
                    ('quantity', 'Em Valor')],
         string=u'Tipo do IPI',
         required=True,
-        default='percent'
-    )
+        default='percent')
+
     ipi_base = fields.Float(
         string=u'Base IPI',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ipi_base_other = fields.Float(
         string=u'Base IPI Outras',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ipi_value = fields.Float(
         string=u'Valor IPI',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ipi_percent = fields.Float(
         string=u'Perc IPI',
         required=True,
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     ipi_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST IPI',
-        domain=[('tax_group_id.domain', '=', 'ipi')]
-    )
+        domain=[('tax_group_id.domain', '=', 'ipi')])
+
     ipi_guideline_id = fields.Many2one(
         comodel_name='l10n_br_account_product.ipi_guideline',
-        string=u'Enquadramento Legal IPI'
-    )
+        string=u'Enquadramento Legal IPI')
+
     pis_manual = fields.Boolean(
         string=u'PIS Manual?',
-        default=False
-    )
+        default=False)
+
     pis_type = fields.Selection(
         selection=[('percent', 'Percentual'),
                    ('quantity', 'Em Valor')],
         string=u'Tipo do PIS',
         required=True,
-        default='percent'
-    )
+        default='percent')
+
     pis_base = fields.Float(
         string=u'Base PIS',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     pis_base_other = fields.Float(
         string=u'Base PIS Outras',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     pis_value = fields.Float(
         string=u'Valor PIS',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     pis_percent = fields.Float(
         string=u'Perc PIS',
         required=True,
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     pis_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST PIS',
-        domain=[('tax_group_id.domain', '=', 'pis')]
-    )
+        domain=[('tax_group_id.domain', '=', 'pis')])
+
     pis_st_type = fields.Selection(
         selection=[('percent', 'Percentual'),
                    ('quantity', 'Em Valor')],
         string=u'Tipo do PIS ST',
         required=True,
-        default='percent'
-    )
+        default='percent')
+
     pis_st_base = fields.Float(
         string=u'Base PIS ST',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     pis_st_percent = fields.Float(
         string=u'Perc PIS ST',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     pis_st_value = fields.Float(
         string=u'Valor PIS ST',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     cofins_manual = fields.Boolean(
         string=u'COFINS Manual?',
         default=False)
+
     cofins_type = fields.Selection(
         selection=[('percent', 'Percentual'),
                    ('quantity', 'Em Valor')],
         string=u'Tipo do COFINS',
         required=True,
-        default='percent'
-    )
+        default='percent')
+
     cofins_base = fields.Float(
         string=u'Base COFINS',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     cofins_base_other = fields.Float(
         string=u'Base COFINS Outras',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     cofins_value = fields.Float(
         string=u'Valor COFINS',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     cofins_percent = fields.Float(
         string=u'Perc COFINS',
         required=True,
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     cofins_cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST PIS',
-        domain=[('tax_group_id.domain', '=', 'cofins')]
-    )
+        domain=[('tax_group_id.domain', '=', 'cofins')])
+
     cofins_st_type = fields.Selection(
         selection=[('percent', 'Percentual'),
                    ('quantity', 'Em Valor')],
         string=u'Tipo do COFINS ST',
         required=True,
-        default='percent'
-    )
+        default='percent')
+
     cofins_st_base = fields.Float(
         string=u'Base COFINS ST',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     cofins_st_percent = fields.Float(
         string=u'Perc COFINS ST',
         required=True,
         digits=dp.get_precision('Discount'),
-        default=0.00
-    )
+        default=0.00)
+
     cofins_st_value = fields.Float(
         string=u'Valor COFINS ST',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ii_base = fields.Float(
         string=u'Base II',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ii_value = fields.Float(
         string=u'Valor II',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ii_iof = fields.Float(
         string=u'Valor IOF',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     ii_customhouse_charges = fields.Float(
         string=u'Despesas Aduaneiras',
         required=True,
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     insurance_value = fields.Float(
         string=u'Valor do Seguro',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     other_costs_value = fields.Float(
         string=u'Outros Custos',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     freight_value = fields.Float(
         string=u'Frete',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     fiscal_comment = fields.Text(
-        string=u'Observação Fiscal'
-    )
+        string=u'Observação Fiscal')
+
     icms_dest_base = fields.Float(
         string=u'Valor da BC do ICMS na UF de destino',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_fcp_percent = fields.Float(
         string=u'% Fundo de Combate à Pobreza (FCP)',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_origin_percent = fields.Float(
         string=u'Alíquota interna da UF de destino',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_dest_percent = fields.Float(
         string=u'Alíquota interestadual das UF envolvidas',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_part_percent = fields.Float(
         string=u'Percentual provisório de partilha do ICMS Interestadual',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_fcp_value = fields.Float(
         string=(u'Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)'
                 u' da UF de destino'),
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_dest_value = fields.Float(
         string=u'Valor do ICMS Interestadual para a UF de destino',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     icms_origin_value = fields.Float(
         string=u'Valor do ICMS Interno para a UF do remetente',
         digits=dp.get_precision('Account'),
-        default=0.00
-    )
+        default=0.00)
+
     partner_order = fields.Char(
         string=u'Código do Pedido (xPed)',
-        size=15,
-    )
+        size=15)
+
     partner_order_line = fields.Char(
         string=u'Item do Pedido (nItemPed)',
-        size=6,
-    )
+        size=6)
 
     @api.onchange("partner_order_line")
     def _check_partner_order_line(self):
