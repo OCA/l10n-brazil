@@ -48,7 +48,7 @@ class AccountPeriod(models.Model):
             df_are = pd.DataFrame(columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
 
             # Popula o dataframe com valores do account.move.line
-            for move in record.mapped('account_move_ids').filtered(lambda x: x.journal_id):
+            for move in record.account_move_ids:
 
                 # Busca contas de resultado
                 partidas_resultado = move.line_id.filtered(
