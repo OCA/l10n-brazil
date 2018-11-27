@@ -25,14 +25,13 @@ class ResCountryState(models.Model):
     product_tax_definition_line = fields.One2many(
         comodel_name='l10n_br_tax.definition.state.product',
         inverse_name='state_id',
-        string=u'Taxes Definitions'
-    )
+        string=u'Taxes Definitions')
+
     product_tax_ids = fields.Many2many(
         comodel_name='account.tax',
         string=u'Product Taxes',
         compute='_compute_taxes',
-        store=True
-    )
+        store=True)
 
 
 class L10nBrTaxDefinitionStateProduct(L10nBrTaxDefinitionCompanyProduct,
@@ -41,15 +40,13 @@ class L10nBrTaxDefinitionStateProduct(L10nBrTaxDefinitionCompanyProduct,
 
     state_id = fields.Many2one(
         comodel_name='res.country.state',
-        string=u'Estado'
-    )
+        string=u'Estado')
+
     fiscal_classification_id = fields.Many2one(
         comodel_name='account.product.fiscal.classification',
-        string=u'Classificação Fiscal'
-    )
+        string=u'Classificação Fiscal')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq',
          'unique (tax_id, state_id)',
-         u'Imposto já existente neste estado!')
-    ]
+         u'Imposto já existente neste estado!')]

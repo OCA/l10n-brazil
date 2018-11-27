@@ -17,6 +17,4 @@ class L10nBrAccountFiscalCategory(models.Model):
         selection=PRODUCT_FISCAL_TYPE,
         string=u'Tipo Fiscal',
         required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT
-    )
-
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)

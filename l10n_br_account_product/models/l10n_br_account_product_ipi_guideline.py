@@ -6,18 +6,18 @@ from odoo import models, fields
 
 
 class L10nBrIPIGuideline(models.Model):
-
     _name = 'l10n_br_account_product.ipi_guideline'
     _description = 'IPI Guidelines'
 
     code = fields.Char(
         string=u'Código',
         size=3,
-        required=True
-    )
+        required=True)
+
     name = fields.Text(
         string=u'Descrição Enquadramento Legal do IPI',
         required=True)
+
     cst_group = fields.Selection(
         selection=[('imunidade', u'Imunidade'),
                    ('suspensao', u'Suspensão'),
@@ -25,14 +25,12 @@ class L10nBrIPIGuideline(models.Model):
                    ('reducao', u'Redução'),
                    ('outros', u'Outros')],
         string='Grupo CST',
-        required=True
-    )
+        required=True)
+
     cst_in_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
-        string=u'CST Entrada'
-    )
+        string=u'CST Entrada')
+
     cst_out_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
-        string=u'CST Saída'
-    )
-
+        string=u'CST Saída')
