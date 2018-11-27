@@ -161,11 +161,9 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def name_get(self):
-        lista = []
-        for obj in self:
-            name = obj.number or ''
-            lista.append((obj.id, name))
-        return lista
+        return [(r.id,
+                u"{0}".format(r.number or ''))
+                for r in self]
 
     _sql_constraints = [
         ('number_uniq', 'unique(number, company_id, journal_id,\
