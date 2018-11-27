@@ -38,8 +38,6 @@ class L10nBrAccountServiceType(models.Model):
 
     @api.multi
     def name_get(self):
-        l = []
-        for s in self:
-            name = s.code + ' - ' + s.name
-            l.append((s.id, name))
-        return l
+        return [(r.id,
+                u"{0} - {1}".format(r.code, r.name))
+                for r in self]
