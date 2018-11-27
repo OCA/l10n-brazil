@@ -221,12 +221,12 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(rec.id,
+        return [(r.id,
                  u"{0} ({1}): {2} - {3}".format(
-                     rec.fiscal_document_id.name,
-                     rec.document_serie_id.name,
-                     rec.number_start, rec.number_end)
-                 ) for rec in self]
+                     r.fiscal_document_id.name,
+                     r.document_serie_id.name,
+                     r.number_start, r.number_end)
+                 ) for r in self]
 
     company_id = fields.Many2one(
         comodel_name='res.company',
