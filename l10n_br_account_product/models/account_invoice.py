@@ -685,7 +685,9 @@ class AccountInvoice(models.Model):
                         msg, action.id, _(u'Criar uma nova série'))
                 self.document_serie_id = series[0]
 
-    @api.onchange('fiscal_category_id', 'fiscal_position_id')
+    @api.onchange('partner_id',
+                  'company_id',
+                  'fiscal_category_id')
     def onchange_fiscal(self):
         if self.company_id and self.partner_id and self.fiscal_category_id:
             if self.fiscal_category_id.property_journal:
@@ -696,14 +698,17 @@ class AccountInvoice(models.Model):
                       "Categoria fiscal: '%s', não tem um diário contábil "
                       "para a empresa %s") % (self.fiscal_category_id.name,
                                               self.company_id.name))
+
             kwargs = {
                 'company_id': self.company_id,
                 'partner_id': self.partner_id,
                 'partner_invoice_id': self.partner_id,
-                'partner_shipping_id': self.partner_id,
+                'fiscal_category_id': self.fiscal_category_id.id,
             }
-            self.fiscal_position_id = \
-                self._fiscal_position_map(**kwargs) or self.fiscal_position_id
+
+            fp = self.env['account.fiscal.position.rule'].apply_fiscal_mapping(**kwargs)
+            if fp:
+                self.fiscal_position_id = fp.id
 
     @api.multi
     def action_date_assign(self):
