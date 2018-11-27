@@ -16,6 +16,7 @@
 
                 <button name="action_draft" position="replace">
                     <button name="reopen_period" states="done" string="Re-Abrir Período" type="object" groups="account.group_account_manager"/>
+                    <button name="gerar_saldos" string="Gerar Totalizadores" type="object" />
                 </button>
 
                 <xpath expr="//sheet" position="inside">
@@ -25,6 +26,21 @@
                     <notebook colspan="4">
                         <page string="Lançamentos Contabeis">
                             <field name="account_move_ids" nolabel="1"/>
+                        </page>
+
+                        <page string="Balancete">
+                            <field name="account_saldo_ids" nolabel="1">
+                                <tree>
+                                    <field name="name" invisible="1" />
+                                    <field name="account_account_id" />
+                                    <field name="identificacao_saldo" string="Natureza" style="font-weight:bold" nolabel="1" />
+                                    <field name="saldo_inicial" />
+                                    <field name="debito_periodo" sum="Debitos"/>
+                                    <field name="credito_periodo" sum="Creditos"/>
+                                    <field name="saldo_periodo" />
+                                    <field name="saldo_final" />
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </xpath>

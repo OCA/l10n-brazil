@@ -4,6 +4,7 @@
 
 import random
 import string
+from dateutil.relativedelta import relativedelta
 
 import pandas as pd
 from openerp import api, fields, models
@@ -35,6 +36,12 @@ class AccountPeriod(models.Model):
         string=u'Diário de fechamento',
         comodel_name='account.journal',
         related='account_fechamento_id.account_journal_id',
+    )
+
+    account_saldo_ids = fields.One2many(
+        comodel_name='account.saldo',
+        string='Saldo do Período',
+        inverse_name='account_period_id',
     )
 
     @api.multi
@@ -142,3 +149,69 @@ class AccountPeriod(models.Model):
                 move.lancamento_de_fechamento = False
 
             record.state = 'draft'
+
+
+    def get_period_anterior(self):
+        """
+        Buscar o periodo anterior a partir do periodo instanciado
+        :return: account.period
+        """
+        date_start_periodo_anterior = \
+            fields.Date.from_string(self.date_start) - relativedelta(months=1)
+        return self.search([
+            ('date_start', '=', str(date_start_periodo_anterior))], limit=1)
+
+    def get_saldo_inicial_conta(self, account_id):
+        """
+        Definir o saldo inicial da conta no período
+        :return: float
+        """
+        saldo_id = self.env['account.saldo'].search([
+            ('account_period_id', '=', self.get_period_anterior().id),
+            ('account_account_id', '=', account_id.id),
+        ])
+        return saldo_id.saldo_final or 0.00
+
+    @api.multi
+    def gerar_saldos(self):
+        """
+        Gerar registro de saldos das contas dentro de um período
+        :return:
+        """
+
+        for record in self:
+            # Excluir saldos antigos
+            record.account_saldo_ids.unlink()
+
+            # Contas para gerar saldo. Gerar apenas de contas
+            # que teve lançamentos contábeis
+            contas_ids = \
+                record.account_move_ids.mapped('line_id').mapped('account_id')
+
+            for conta_id in contas_ids:
+
+                # Lançamentos dentro do período
+                partidas = self.account_move_ids.mapped('line_id').\
+                    filtered(lambda x: x.account_id == conta_id)
+
+                # Saldo inicial da conta no período
+                saldo_inicial = self.get_saldo_inicial_conta(conta_id)
+
+                debit = sum(partidas.mapped('debit'))
+                credit = sum(partidas.mapped('credit'))
+                result_period = debit - credit
+
+                result = saldo_inicial + result_period
+
+                if result:
+
+                    self.env['account.saldo'].create({
+                        'name':  conta_id.display_name,
+                        'account_account_id': conta_id.id,
+                        'account_period_id' : record.id,
+                        'saldo_inicial': saldo_inicial,
+                        'debito_periodo': debit,
+                        'credito_periodo': credit,
+                        'saldo_periodo': result_period,
+                        'saldo_final': result,
+                    })
