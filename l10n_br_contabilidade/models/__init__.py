@@ -15,3 +15,4 @@ from . import account_journal
 from . import account_fiscalyear
 from . import account_mapeamento
 from . import account_period
+from . import account_saldo
