@@ -34,7 +34,7 @@ class AccountTax(models.Model):
 
     @api.model
     def _compute_tax(self, taxes, total_line, product, product_qty,
-                          precision, base_tax=0.0):
+                     precision, base_tax=0.0):
         result = {'tax_discount': 0.0, 'taxes': []}
 
         for tax in taxes:
@@ -73,9 +73,9 @@ class AccountTax(models.Model):
 
     @api.multi
     def compute_all(self, price_unit, currency=None, quantity=1.0,
-                   product=None, partner=None, fiscal_position=False,
-                   insurance_value=0.0, freight_value=0.0,
-                   other_costs_value=0.0, base_tax=0.0):
+                    product=None, partner=None, fiscal_position=False,
+                    insurance_value=0.0, freight_value=0.0,
+                    other_costs_value=0.0, base_tax=0.0):
         """ Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
             We consider the sequence of the parent for group of taxes.

@@ -16,8 +16,8 @@ class AccountTaxTemplate(models.Model):
                    ('3', 'Valor da Operação')],
         string=u'Tipo Base ICMS',
         required=True,
-        default='0'
-    )
+        default='0')
+
     icms_st_base_type = fields.Selection(
         selection=[('0', u'Preço tabelado ou máximo  sugerido'),
                    ('1', u'Lista Negativa (valor)'),
@@ -27,5 +27,4 @@ class AccountTaxTemplate(models.Model):
                    ('5', u'Pauta (valor)')],
         string=u'Tipo Base ICMS ST',
         required=True,
-        default='4'
-    )
+        default='4')
