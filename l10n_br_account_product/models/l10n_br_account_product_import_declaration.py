@@ -6,6 +6,7 @@ import re
 
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
+from odoo.addons.l10n_br_base.tools import fiscal
 
 
 class ImportDeclaration(models.Model):
@@ -84,13 +85,12 @@ class ImportDeclaration(models.Model):
         inverse_name='import_declaration_id',
         string=u'Linhas da DI')
 
-    @api.multi
-    def onchange_mask_cnpj_cpf(self, thirdparty_cnpj):
-        result = {'value': {}}
-        if thirdparty_cnpj:
-            val = re.sub('[^0-9]', '', thirdparty_cnpj)
-            if len(val) == 14:
-                thirdparty_cnpj = "%s.%s.%s/%s-%s"\
-                    % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-        result['value'].update({'thirdparty_cnpj': thirdparty_cnpj})
-        return result
+    @api.onchange('thirdparty_cnpj')
+    def _onchange_thirdparty_cnpj(self):
+        country = self.thirdparty_state_id.country_id.code or ''
+        cpf_cnpj = fiscal.format_cpf_cnpj(self.thirdparty_cnpj,
+                                          country,
+                                          True)
+
+        if cpf_cnpj:
+            self.thirdparty_cnpj = cpf_cnpj
