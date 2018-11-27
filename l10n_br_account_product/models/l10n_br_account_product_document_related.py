@@ -14,14 +14,14 @@ class L10nbrAccountDocumentRelated(models.Model):
         comodel_name='account.invoice',
         string=u'Documento Fiscal',
         ondelete='cascade',
-        index=True
-    )
+        index=True)
+
     invoice_related_id = fields.Many2one(
         comodel_name='account.invoice',
         string=u'Documento Fiscal',
         ondelete='cascade',
-        index=True
-    )
+        index=True)
+
     document_type = fields.Selection(
         selection=[('nf', 'NF'),
                    ('nfe', 'NF-e'),
@@ -29,51 +29,49 @@ class L10nbrAccountDocumentRelated(models.Model):
                    ('nfrural', 'NF Produtor'),
                    ('cf', 'Cupom Fiscal')],
         string=u'Tipo Documento',
-        required=True
-    )
+        required=True)
+
     access_key = fields.Char(
         string=u'Chave de Acesso',
-        size=44
-    )
+        size=44)
+
     serie = fields.Char(
         string=u'Série',
-        size=12
-    )
+        size=12)
+
     internal_number = fields.Char(
         string=u'Número',
-        size=32
-    )
+        size=32)
+
     state_id = fields.Many2one(
         comodel_name='res.country.state',
         string=u'Estado',
-        domain="[('country_id.code', '=', 'BR')]"
-    )
+        domain="[('country_id.code', '=', 'BR')]")
+
     cnpj_cpf = fields.Char(
         string=u'CNPJ/CPF',
-        size=18
-    )
+        size=18)
+
     cpfcnpj_type = fields.Selection(
         selection=[('cpf', 'CPF'),
                    ('cnpj', 'CNPJ')],
         string=u'Tipo Doc.',
-        default='cnpj'
-    )
+        default='cnpj')
+
     inscr_est = fields.Char(
         string='Inscr. Estadual/RG',
-        size=16
-    )
+        size=16)
+
     date = fields.Date(
-        string='Data'
-    )
+        string='Data')
+
     fiscal_document_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.document',
-        string='Documento'
-    )
+        string='Documento')
 
     @api.one
     @api.constrains('cnpj_cpf')
     def _check_cnpj_cpf(self):
-
         check_cnpj_cpf = True
 
         if self.cnpj_cpf:

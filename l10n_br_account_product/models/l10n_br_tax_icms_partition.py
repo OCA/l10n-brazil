@@ -12,13 +12,12 @@ class L10nBrTaxIcmsPartition(models.Model):
 
     date_start = fields.Date(
         string=u'Data Inicial',
-        required=True
-    )
+        required=True)
+
     date_end = fields.Date(
         string=u'Data Final',
-        required=True
-    )
+        required=True)
+
     rate = fields.Float(
         string=u'Percentual Interestadual de Rateio',
-        required=True
-    )
+        required=True)

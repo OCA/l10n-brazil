@@ -13,14 +13,13 @@ class L10nBrIcmsRelief(models.Model):
     code = fields.Char(
         string=u'Código',
         size=2,
-        required=True
-    )
+        required=True)
+
     name = fields.Char(
         string=u'Nome',
         size=256,
-        required=True
-    )
+        required=True)
+
     active = fields.Boolean(
         string=u'Ativo',
-        default=True
-    )
+        default=True)
