@@ -17,6 +17,4 @@ class L10nBrAccountDocumentSerie(models.Model):
         selection=PRODUCT_FISCAL_TYPE,
         string='Tipo Fiscal',
         required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT
-    )
-
+        default=PRODUCT_FISCAL_TYPE_DEFAULT)

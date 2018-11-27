@@ -22,8 +22,8 @@ class ResCompany(models.Model):
 
     product_invoice_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.document',
-        string=u'Documento Fiscal'
-    )
+        string=u'Documento Fiscal')
+
     document_serie_product_ids = fields.Many2many(
         comodel_name='l10n_br_account.document.serie',
         relation='res_company_l10n_br_account_document_serie',
@@ -31,8 +31,8 @@ class ResCompany(models.Model):
         column2='document_serie_product_id',
         string=u'Série de Documentos Fiscais',
         domain="[('company_id', '=', active_id),('active','=',True),"
-            "('fiscal_type','=','product')]"
-    )
+               "('fiscal_type','=','product')]")
+
     nfe_version = fields.Selection(
         selection=[('1.10', '1.10'),
                    ('2.00', '2.00'),
@@ -40,99 +40,98 @@ class ResCompany(models.Model):
                    ('4.00', '4.00')],
         string=u'Versão NFe',
         required=True,
-        default='3.10'
-    )
+        default='3.10')
+
     nfe_import_folder = fields.Char(
         string=u'Pasta de Importação',
-        size=254
-    )
+        size=254)
+
     nfe_export_folder = fields.Char(
         string=u'Pasta de Exportação',
-        size=254
-    )
+        size=254)
+
     nfe_backup_folder = fields.Char(
         string=u'Pasta de Backup',
-        size=254
-    )
+        size=254)
+
     nfe_environment = fields.Selection(
         selection=[('1', u'Produção'),
                    ('2', u'Homologação')],
-        string=u'Ambiente Padrão'
-    )
+        string=u'Ambiente Padrão')
+
     file_type = fields.Selection(
         selection=[('xml', 'XML')],
-        string=u'Tipo do Arquivo Padrão'
-    )
+        string=u'Tipo do Arquivo Padrão')
+
     sign_xml = fields.Boolean(
-        string=u'Assinar XML'
-    )
+        string=u'Assinar XML')
+
     export_folder = fields.Boolean(
-        string=u'Salvar na Pasta de Exportação'
-    )
+        string=u'Salvar na Pasta de Exportação')
+
     product_tax_definition_line = fields.One2many(
         comodel_name='l10n_br_tax.definition.company.product',
         inverse_name='company_id',
-        string=u'Taxes Definitions'
-    )
+        string=u'Taxes Definitions')
+
     product_tax_ids = fields.Many2many(
         comodel_name='account.tax',
         string=u'Product Taxes',
         compute='_compute_taxes',
-        store=True
-    )
+        store=True)
+
     in_invoice_fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Categoria Fiscal de Produto Padrão de Entrada',
         domain="[('journal_type','=','purchase'),"
-            " ('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            " ('type','=','input')]"
-    )
+               " ('state', '=', 'approved'), ('fiscal_type','=','product'),"
+               " ('type','=','input')]")
+
     out_invoice_fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Categoria Fiscal de Produto Padrão de Saida',
         domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
-            " ('fiscal_type','=','product'), ('type','=','output')]"
-    )
+            " ('fiscal_type','=','product'), ('type','=','output')]")
+
     in_refund_fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Devolução Entrada',
         domain="[('journal_type','=','purchase_refund'),"
             "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            "('type','=','output')]"
-    )
+            "('type','=','output')]")
+
     out_refund_fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Devolução Saida',
         domain="[('journal_type','=','sale_refund'),"
             "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            " ('type','=','input')]"
-    )
+            " ('type','=','input')]")
+
     nfe_a1_file = fields.Binary(
-        string=u'Arquivo NFe A1'
-    )
+        string=u'Arquivo NFe A1')
+
     nfe_a1_password = fields.Char(
         string=u'Senha NFe A1',
-        size=64
-    )
+        size=64)
+
     freight_tax_id = fields.Many2one(
         comodel_name='account.tax',
         string=u'Freight Sale Tax',
-        domain=[('domain', '=', 'freight')]
-    )
+        domain=[('domain', '=', 'freight')])
+
     insurance_tax_id = fields.Many2one(
         comodel_name='account.tax',
         string=u'Insurance Sale Tax',
-        domain=[('domain', '=', 'insurance')]
-    )
+        domain=[('domain', '=', 'insurance')])
+
     other_costs_tax_id = fields.Many2one(
         comodel_name='account.tax',
         string=u'Other Costs Sale Tax',
-        domain=[('domain', '=', 'other_costs')]
-    )
+        domain=[('domain', '=', 'other_costs')])
+
     accountant_cnpj_cpf = fields.Char(
         size=18,
-        string=u'CNPJ/CPF Contador'
-    )
+        string=u'CNPJ/CPF Contador')
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinitionCompanyProduct,
@@ -141,11 +140,9 @@ class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinitionCompanyProduct,
 
     company_id = fields.Many2one(
         comodel_name='res.company',
-        string=u'Empresa'
-    )
+        string=u'Empresa')
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq',
          'unique (tax_id, company_id)',
-         u'Imposto já existente nesta empresa!')
-    ]
+         u'Imposto já existente nesta empresa!')]

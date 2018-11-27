@@ -52,64 +52,63 @@ class AccountProductFiscalClassification(models.Model):
                    ('normal', 'Normal'),
                    ('extension', u'Extensão')],
         string=u'Tipo',
-        default='normal'
-    )
+        default='normal')
+
     note = fields.Text(
-        string=u'Observações'
-    )
+        string=u'Observações')
+
     inv_copy_note = fields.Boolean(
         string=u'Copiar Observação',
-        help=u"Copia a observação no documento fiscal"
-    )
+        help=u"Copia a observação no documento fiscal")
+
     parent_id = fields.Many2one(
         comodel_name='account.product.fiscal.classification',
         string=u'Parent Fiscal Classification',
         domain="[('type', 'in', ('view', 'normal'))]",
-        index=True
-    )
+        index=True)
+
     child_ids = fields.One2many(
         comodel_name='account.product.fiscal.classification',
         inverse_name='parent_id',
-        string=u'Child Fiscal Classifications'
-    )
+        string=u'Child Fiscal Classifications')
+
     sale_tax_definition_line = fields.One2many(
         comodel_name='l10n_br_tax.definition.sale',
         inverse_name='fiscal_classification_id',
-        string=u'Taxes Definitions'
-    )
+        string=u'Taxes Definitions')
+
     sale_tax_ids = fields.Many2many(
         comodel_name='account.tax',
         string=u'Sale Taxes',
         compute='_compute_taxes',
-        store=True
-    )
+        store=True)
+
     purchase_tax_definition_line = fields.One2many(
         comodel_name='l10n_br_tax.definition.purchase',
         inverse_name='fiscal_classification_id',
-        string=u'Taxes Definitions'
-    )
+        string=u'Taxes Definitions')
+
     purchase_tax_ids = fields.Many2many(
         comodel_name='account.tax',
         string='Purchase Taxes',
         compute='_compute_taxes',
-        store=True
-    )
+        store=True)
+
     tax_estimate_ids = fields.One2many(
         comodel_name='l10n_br_tax.estimate',
         inverse_name='fiscal_classification_id',
         string=u'Impostos Estimados',
-        readonly=True
-    )
+        readonly=True)
+
     estd_import_taxes_perct = fields.Float(
         string=u'Impostos de Importação Estimados(%)',
         compute='_compute_product_estimated_taxes_percent',
-        store=True
-    )
+        store=True)
+
     estd_national_taxes_perct = fields.Float(
         string=u'Impostos Nacionais Estimados(%)',
         compute='_compute_product_estimated_taxes_percent',
-        store=True
-    )
+        store=True)
 
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
@@ -203,8 +202,7 @@ class L10nBrTaxEstimate(models.Model):
     fiscal_classification_id = fields.Many2one(
         comodel_name='account.product.fiscal.classification',
         string=u'Fiscal Classification',
-        index=True
-    )
+        index=True)
 
 
 class L10nBrTaxDefinitionModel(L10nBrTaxDefinition):
@@ -231,8 +229,7 @@ class L10nBrTaxDefinitionModel(L10nBrTaxDefinition):
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
         fiscal_classification_id)',
-         u'Imposto já existente nesta classificação fiscal!')
-    ]
+         u'Imposto já existente nesta classificação fiscal!')]
 
     @api.onchange('tax_id')
     def _onchange_tax_template_id(self):

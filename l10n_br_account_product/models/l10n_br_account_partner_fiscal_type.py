@@ -17,5 +17,4 @@ class L10nBrAccountPartnerFiscalType(models.Model):
         selection=NFE_IND_IE_DEST,
         string=u'Contribuinte do ICMS',
         required=True,
-        default=NFE_IND_IE_DEST_DEFAULT
-    )
+        default=NFE_IND_IE_DEST_DEFAULT)

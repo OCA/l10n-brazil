@@ -11,19 +11,18 @@ class L10nBrAccountProductCest(models.Model):
 
     code = fields.Char(
         string=u'Código',
-        size=9
-    )
+        size=9)
+
     name = fields.Char(
-        string=u'Nome'
-    )
+        string=u'Nome')
+
     segment = fields.Char(
         string=u'Segmento',
-        size=32
-    )
+        size=32)
+
     item = fields.Char(
         string=u'Item',
-        size=4
-    )
+        size=4)
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
