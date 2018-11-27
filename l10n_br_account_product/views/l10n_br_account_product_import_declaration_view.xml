@@ -24,7 +24,7 @@
                     </group>
                     <group string="Terceiros">
                         <field name="thirdparty_state_id"/>
-                        <field name="thirdparty_cnpj" on_change="onchange_mask_cnpj_cpf(thirdparty_cnpj)"/>
+                        <field name="thirdparty_cnpj"/>
                     </group>
                     <group string="Adições" colspan="4">
                         <field name="line_ids" nolabel="1">
