@@ -47,12 +47,7 @@ class L10nBrAccountCNAE(models.Model):
         default='normal')
 
     @api.multi
-    @api.depends('code', 'name')
     def name_get(self):
-        l = []
-        for cnae in self:
-            name = cnae.name
-            if cnae.code:
-                name = cnae.code + ' - ' + cnae.name
-            l.append((cnae.id, name))
-        return l
+        return [(r.id,
+                u"{0} - {1}".format(r.code, r.name))
+                for r in self]
