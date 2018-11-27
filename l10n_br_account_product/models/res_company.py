@@ -40,7 +40,7 @@ class ResCompany(models.Model):
                    ('4.00', '4.00')],
         string=u'Versão NFe',
         required=True,
-        default='3.10')
+        default='4.00')
 
     nfe_import_folder = fields.Char(
         string=u'Pasta de Importação',
