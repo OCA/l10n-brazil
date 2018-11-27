@@ -36,8 +36,6 @@ class L10nBrAccountProductCest(models.Model):
 
     @api.multi
     def name_get(self):
-        result = []
-        for cest in self:
-            name = cest.code + ' - ' + cest.name
-            result.append((cest.id, name))
-        return result
+        return [(r.id,
+                u"{0} - {1}".format(r.code, r.name))
+                for r in self]
