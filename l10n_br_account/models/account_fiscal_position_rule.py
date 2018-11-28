@@ -92,7 +92,6 @@ class AccountFiscalPositionRule(AccountFiscalPositionRuleAbstract,
         domain += [
             ('company_id', '=', company.id), use_domain,
             ('fiscal_type', '=', company.fiscal_type),
-            ('fiscal_category_id', '=', kwargs.get('fiscal_category_id')),
             '|', ('partner_fiscal_type_id', '=', partner_fiscal_type_id),
             ('partner_fiscal_type_id', '=', False),
             '|', ('from_country', '=', from_country),
@@ -107,6 +106,10 @@ class AccountFiscalPositionRule(AccountFiscalPositionRuleAbstract,
             ('revenue_start', '<=', company.annual_revenue),
             '|', ('revenue_end', '=', False),
             ('revenue_end', '>=', company.annual_revenue)]
+
+        if kwargs.get('fiscal_category_id'):
+            fc = kwargs.get('fiscal_category_id')
+            domain += [('fiscal_category_id', '=', fc.id)]
 
         for address_type, address in addrs.items():
             key_country = 'to_%s_country' % address_type
@@ -135,7 +138,7 @@ class AccountFiscalPositionRule(AccountFiscalPositionRuleAbstract,
              '|', ('to_state_id', '=', False),
              ('to_state_id', '=', to_state_id)], limit=1)
         if fiscal_category:
-            result = fiscal_category.fiscal_category_destination_id.id
+            result = fiscal_category.fiscal_category_destination_id
         return result
 
 
