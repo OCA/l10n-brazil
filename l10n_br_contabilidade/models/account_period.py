@@ -44,6 +44,15 @@ class AccountPeriod(models.Model):
         inverse_name='account_period_id',
     )
 
+    detalhar_contas_superiores = fields.Boolean(
+        string='Exibir Contas superiores',
+    )
+
+    exibir_conta_raiz = fields.Boolean(
+        string='Exibir Conta Raiz',
+        default=True,
+    )
+
     @api.multi
     def fechar_periodo(self):
         """
@@ -52,14 +61,16 @@ class AccountPeriod(models.Model):
         """
         for record in self:
             # Cria dataframe vazio com colunas
-            df_are = pd.DataFrame(columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
+            df_are = pd.DataFrame(
+                columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
 
             # Popula o dataframe com valores do account.move.line
             for move in record.account_move_ids:
 
                 # Busca contas de resultado
                 partidas_resultado = move.line_id.filtered(
-                    lambda x: x.account_id.user_type.report_type in ('income', 'expense'))
+                    lambda x: x.account_id.user_type.report_type in
+                              ('income', 'expense'))
 
                 for partida_resultado in partidas_resultado:
                     df_are.loc[partida_resultado.id] = [
@@ -172,8 +183,47 @@ class AccountPeriod(models.Model):
         ])
         return saldo_id.saldo_final or 0.00
 
+
+    def get_parent_account(self, contas_ids):
+        """
+        :param contas_ids:
+        :return:
+        """
+        # Configuracao para exibir a conta 0
+        if not self.exibir_conta_raiz and \
+                contas_ids.user_type.name == 'Raiz/Visão':
+            return self.env['account.account']
+
+        all_contas = contas_ids
+        for conta_id in contas_ids:
+            if conta_id.parent_id:
+                all_contas += self.get_parent_account(conta_id.parent_id)
+            return all_contas
+
+    def gerar_saldos_periodo(self, account_id, saldo_inicial,
+                             debit, credit, result_period, result):
+        """
+        Baseado na movimentação da conta, gerar saldos para o balancete do
+        periodo selecionado
+        """
+        if self.detalhar_contas_superiores:
+            account_id = self.get_parent_account(account_id)
+
+        for conta_id in account_id:
+            if result:
+                self.env['account.saldo'].create({
+                    'name': conta_id.display_name,
+                    'account_account_id': conta_id.id,
+                    'account_period_id': self.id,
+                    'saldo_inicial': saldo_inicial,
+                    'debito_periodo': debit,
+                    'credito_periodo': credit,
+                    'saldo_periodo': result_period,
+                    'saldo_final': result,
+                })
+
     @api.multi
-    def gerar_saldos(self):
+    def gerar_balancete(self):
         """
         Gerar registro de saldos das contas dentro de um período
         :return:
@@ -183,8 +233,8 @@ class AccountPeriod(models.Model):
             # Excluir saldos antigos
             record.account_saldo_ids.unlink()
 
-            # Contas para gerar saldo. Gerar apenas de contas
-            # que teve lançamentos contábeis
+            # Contas para gerar saldo. Gerar apenas de contas, que for
+            # que lançamentos contábeis
             contas_ids = \
                 record.account_move_ids.mapped('line_id').mapped('account_id')
 
@@ -200,18 +250,8 @@ class AccountPeriod(models.Model):
                 debit = sum(partidas.mapped('debit'))
                 credit = sum(partidas.mapped('credit'))
                 result_period = debit - credit
-
                 result = saldo_inicial + result_period
 
-                if result:
-
-                    self.env['account.saldo'].create({
-                        'name':  conta_id.display_name,
-                        'account_account_id': conta_id.id,
-                        'account_period_id' : record.id,
-                        'saldo_inicial': saldo_inicial,
-                        'debito_periodo': debit,
-                        'credito_periodo': credit,
-                        'saldo_periodo': result_period,
-                        'saldo_final': result,
-                    })
+                self.gerar_saldos_periodo(
+                    conta_id, saldo_inicial, debit, credit,
+                    result_period, result)

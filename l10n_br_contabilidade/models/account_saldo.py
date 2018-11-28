@@ -11,7 +11,6 @@ class AccountSaldo(models.Model):
     _description = u'Modelo para guardar saldo das cotas no fechamento dos ' \
                    u'períodos.'
 
-
     name = fields.Char(
         string='Nome',
     )

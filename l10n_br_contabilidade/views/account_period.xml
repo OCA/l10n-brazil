@@ -16,19 +16,48 @@
 
                 <button name="action_draft" position="replace">
                     <button name="reopen_period" states="done" string="Re-Abrir Período" type="object" groups="account.group_account_manager"/>
-                    <button name="gerar_saldos" string="Gerar Totalizadores" type="object" />
+                    <button name="gerar_balancete" string="Gerar Balancete do Período" type="object" />
                 </button>
 
                 <xpath expr="//sheet" position="inside">
                     <group>
                         <field name="account_journal_id" required="1"/>
                     </group>
+                    <group>
+                        <group>
+                            <field name="detalhar_contas_superiores"  />
+                        </group>
+                        <group>
+                            <field name="exibir_conta_raiz" attrs="{'invisible': [('detalhar_contas_superiores', '=', False)]}" />
+                        </group>
+                    </group>
                     <notebook colspan="4">
-                        <page string="Lançamentos Contabeis">
-                            <field name="account_move_ids" nolabel="1"/>
+                        <page string="Lançamentos">
+                            <separator string="Lançamentos Contábeis no período" colspan="4"/>
+                            <field name="account_move_ids"  context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}" nolabel="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="state" class="oe_left"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Fechamento" attrs="{'invisible': [('account_move_fechamento_ids', '=', [])]}">
+                            <separator string="Lançamentos Contábeis de Fechamento" colspan="4"/>
+                            <field name="account_move_fechamento_ids" context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}" nolabel="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="state" class="oe_left"/>
+                                </tree>
+                            </field>
                         </page>
 
                         <page string="Balancete">
+                            <separator string="Balancete do Período" colspan="4"/>
                             <field name="account_saldo_ids" nolabel="1">
                                 <tree>
                                     <field name="name" invisible="1" />
@@ -37,11 +66,12 @@
                                     <field name="saldo_inicial" />
                                     <field name="debito_periodo" sum="Debitos"/>
                                     <field name="credito_periodo" sum="Creditos"/>
-                                    <field name="saldo_periodo" />
+                                    <field name="saldo_periodo" invisible="1"/>
                                     <field name="saldo_final" />
                                 </tree>
                             </field>
                         </page>
+
                     </notebook>
                 </xpath>
             </field>
