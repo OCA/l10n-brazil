@@ -759,55 +759,36 @@ class AccountInvoiceLine(models.Model):
 
         return result
 
-    @api.model
-    def _fiscal_position_map(self, **kwargs):
+    def _set_taxes_new(self):
         ctx = dict(self.env.context)
-        ctx.update({'use_domain': ('use_invoice', '=', True)})
-        ctx.update({'partner_id': kwargs.get('partner_id')})
-        ctx.update({'product_id': kwargs.get('product_id')})
-        account_obj = self.env['account.account']
-        obj_fp_rule = self.env['account.fiscal.position.rule']
-        partner = kwargs.get('partner_id')
-
-        product_fiscal_category_id = obj_fp_rule.with_context(
-            ctx).product_fiscal_category_map(
-            kwargs.get('product_id'), kwargs.get('fiscal_category_id'),
-            partner.state_id.id)
-
-        if product_fiscal_category_id:
-            kwargs['fiscal_category_id'] = product_fiscal_category_id
+        if self.invoice_id.type in ('out_invoice', 'out_refund'):
+            ctx.update({'type_tax_use': 'sale'})
         else:
-            kwargs['fiscal_category_id'] = kwargs.get('fiscal_category_id').id
+            ctx.update({'type_tax_use': 'purchase'})
 
-        fp = obj_fp_rule.with_context(ctx).apply_fiscal_mapping(**kwargs)
-        self.fiscal_category_id = kwargs.get('fiscal_category_id')
-        if fp:
-            self.fiscal_position_id = fp
-            if kwargs.get('product_id'):
-                product = kwargs['product_id']
-                taxes = self.env['account.tax']
-                ctx['fiscal_type'] = product.fiscal_type
-                if ctx.get('type') in ('out_invoice', 'out_refund'):
-                    ctx['type_tax_use'] = 'sale'
-                    if product.taxes_id:
-                        taxes |= product.taxes_id
-                    elif kwargs.get('account_id'):
-                        account_id = kwargs['account_id']
-                        taxes |= account_obj.browse(account_id).tax_ids
-                else:
-                    ctx['type_tax_use'] = 'purchase'
-                    if product.supplier_taxes_id:
-                        taxes |= product.supplier_taxes_id
-                    elif kwargs.get('account_id'):
-                        account_id = kwargs['account_id']
-                        taxes |= account_obj.browse(account_id).tax_ids
-                tax_ids = fp.with_context(ctx).map_tax(
-                    taxes, kwargs.get('product_id'))
-                self.invoice_line_tax_ids = tax_ids
-                self.update(self.with_context(ctx)._get_tax_codes(
-                    kwargs['product_id'], fp, tax_ids))
+        kwargs.update({
+            'invoice_line_tax_ids': [
+                (6, 0, self.invoice_line_tax_ids.ids)],
+            'quantity': self.quantity,
+            'price_unit': self.price_unit,
+            'discount': self.discount,
+            'fiscal_position_id': self.fiscal_position_id,
+            'insurance_value': self.insurance_value,
+            'freight_value': self.freight_value,
+            'other_costs_value': self.other_costs_value,
+        })
 
-        return fp
+        self._set_taxes_codes()
+        self.update(self._validate_taxes(kwargs))
+
+    def _set_taxes_codes(self):
+        product = self.product_id
+        self.product_type = product.fiscal_type
+        self.code = product.default_code
+        if self.product_type == 'product':
+            self.fiscal_classification_id = product.fiscal_classification_id
+            self.cest_id = product.cest_id
+            self.fci = product.fci
 
     @api.onchange('product_id',
                   'fiscal_category_id',
@@ -820,39 +801,37 @@ class AccountInvoiceLine(models.Model):
                   'freight_value',
                   'other_costs_value')
     def _onchange_fiscal(self):
-        ctx = dict(self.env.context)
-        if self.invoice_id.type in ('out_invoice', 'out_refund'):
-            ctx.update({'type_tax_use': 'sale'})
-        else:
-            ctx.update({'type_tax_use': 'purchase'})
-
         partner = self.invoice_id.partner_id
         company = self.invoice_id.company_id
-        fiscal_category = self.fiscal_category_id
+        fiscal_rule = self.env['account.fiscal.position.rule']
 
-        if company and partner and fiscal_category:
+        if company and partner and self.fiscal_category_id:
+            product_fc = fiscal_rule.product_fiscal_category_map(
+                self.product_id, self.fiscal_category_id,
+                partner.state_id.id)
+
+            if product_fc:
+                self.fiscal_category_id = product_fc
+
             kwargs = {
                 'company_id': company,
                 'partner_id': partner,
                 'partner_invoice_id': partner,
                 'product_id': self.product_id,
-                'fiscal_category_id': fiscal_category,
+                'fiscal_category_id': self.fiscal_category_id,
             }
-            self.with_context(ctx)._fiscal_position_map(**kwargs)
 
-            kwargs.update({
-                'invoice_line_tax_ids': [
-                    (6, 0, self.invoice_line_tax_ids.ids)],
-                'quantity': self.quantity,
-                'price_unit': self.price_unit,
-                'discount': self.discount,
-                'fiscal_position_id': self.fiscal_position_id,
-                'insurance_value': self.insurance_value,
-                'freight_value': self.freight_value,
-                'other_costs_value': self.other_costs_value,
-            })
+            context = dict(self.env.context)
+            context.update(
+                {'use_domain': ('use_invoice', '=', True)})
 
-            self.update(self._validate_taxes(kwargs))
+            fp = fiscal_rule.with_context(
+                context).apply_fiscal_mapping(**kwargs)
+            if fp:
+                self.fiscal_position_id = fp.id
+
+            # self._set_taxes()
+            self._set_taxes_codes()
 
     @api.model
     def tax_exists(self, domain=None):
