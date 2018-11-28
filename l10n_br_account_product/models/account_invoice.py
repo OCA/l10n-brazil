@@ -689,7 +689,8 @@ class AccountInvoice(models.Model):
                   'company_id',
                   'fiscal_category_id')
     def onchange_fiscal(self):
-        if self.company_id and self.partner_id and self.fiscal_category_id:
+        if (self.company_id and self.partner_id
+                and self.fiscal_category_id):
             if self.fiscal_category_id.property_journal:
                 self.journal_id = self.fiscal_category_id.property_journal
             else:
@@ -703,10 +704,11 @@ class AccountInvoice(models.Model):
                 'company_id': self.company_id,
                 'partner_id': self.partner_id,
                 'partner_invoice_id': self.partner_id,
-                'fiscal_category_id': self.fiscal_category_id.id,
+                'fiscal_category_id': self.fiscal_category_id,
             }
 
-            fp = self.env['account.fiscal.position.rule'].apply_fiscal_mapping(**kwargs)
+            fiscal_rule = self.env['account.fiscal.position.rule']
+            fp = fiscal_rule.apply_fiscal_mapping(**kwargs)
             if fp:
                 self.fiscal_position_id = fp.id
 
