@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import account_account
+from . import account_account_report
+from . import account_account_report_dre
 from . import account_move
 from . import account_fechamento
 from . import account_move_line

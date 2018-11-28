@@ -1,0 +1,31 @@
+# -*- coding: utf-8 -*-
+# Copyright 2018 ABGF
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from __future__ import division, print_function, unicode_literals
+
+from openerp import api, fields, models
+
+
+class AccountAccountReportDRE(models.Model):
+    _name = b'account.account.report.dre'
+    _order = b'name'
+    _description = 'Modelo para gerenciar contas do DRE.'
+
+    name = fields.Char(
+        string='Nome',
+    )
+
+    account_account_report_id = fields.Many2one(
+        string=u'Conta Demonstrativa',
+        comodel_name='account.account.report',
+    )
+
+    period_id = fields.Many2one(
+        comodel_name='account.period',
+        string='Período',
+    )
+
+    total = fields.Float(
+        string='Total Período'
+    )

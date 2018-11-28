@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 ABGF http://www.abgf.gov.br/
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_form">
+        <field name="name">account_account_report_form (in abgf_contabilidade)</field>
+        <field name="model">account.account.report</field>
+        <field name="arch" type="xml">
+            <form string="Contas Demonstrativas">
+                <sheet>
+                    <label for="name" class="oe_edit_only"/>
+                    <h1><field name="name" required="1" /></h1>
+
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <label for="code" />
+                            <field name="code" colspan="2" nolabel="1" required="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="active" />
+                        <field name="identificacao_saldo" />
+                    </group>
+
+                    <group name="calculo" string="Cálculo da Conta">
+                        <field name="tipo_calculo" />
+                        <newline />
+                        <field name="account_account_id" attrs="{'invisible':[('tipo_calculo','=','formula')]}" >
+                            <tree>
+                                <field name="code" />
+                                <field name="name" />
+                                <field name="natureza_conta_id" />
+                            </tree>
+                        </field>
+                        <field name="python_code" attrs="{'invisible':[('tipo_calculo','=','conta')]}" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_tree">
+        <field name="name">account_account_report_tree (in abgf_contabilidade)</field>
+        <field name="model">account.account.report</field>
+        <field name="arch" type="xml">
+            <tree string="Contas Demonstrativas">
+                <field name="code" />
+                <field name="name" />
+                <field name="identificacao_saldo" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_search">
+        <field name="name">account_account_report_search (in abgf_contabilidade)</field>
+        <field name="model">account.account.report</field>
+        <field name="arch" type="xml">
+            <search string="Contas">
+                <field name="code" />
+                <field name="name" />
+                <filter domain="[('identificacao_saldo','=', 'debito')]" string="Devedora"/>
+                <filter domain="[('identificacao_saldo','=', 'credito')]" string="Credora"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_action">
+        <field name="name">Contas</field>
+        <field name="res_model">account.account.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="abgf_contabilidade_account_account_report_tree"/>
+        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="abgf_contabilidade_account_account_report_form"/>
+        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_action"/>
+    </record>
+
+    <menuitem
+        action="abgf_contabilidade_account_account_report_action"
+        id="menu_abgf_contabilidade_account_account_report"
+        name="Contas  Demonstrativas"
+        parent="abgf_contabilidade.abgf_configuracao_conta_menu"
+        sequence="60"
+    />
+
+    </data>
+</openerp>

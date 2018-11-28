@@ -23,6 +23,8 @@
         'views/menu_contabilidade_abgf.xml',
         # Visão
         'views/account_account.xml',
+        'views/account_account_report.xml',
+        'views/account_account_report_dre.xml',
         'views/account_journal.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
