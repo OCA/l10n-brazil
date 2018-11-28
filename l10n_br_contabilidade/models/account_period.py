@@ -35,7 +35,6 @@ class AccountPeriod(models.Model):
     account_journal_id = fields.Many2one(
         string=u'Diário de fechamento',
         comodel_name='account.journal',
-        related='account_fechamento_id.account_journal_id',
     )
 
     account_saldo_ids = fields.One2many(
