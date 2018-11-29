@@ -26,4 +26,5 @@ from . import res_config
 from . import hr_holidays
 from . import hr_ramal
 from . import hr_telefonia
+from . import hr_contract_ressarcimento
 

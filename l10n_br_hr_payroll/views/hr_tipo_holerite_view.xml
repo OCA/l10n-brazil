@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_tipo_holerite_form_view">
+            <field name="name">hr.tipo.holerite.form (l10n_br_hr_payroll)</field>
+            <field name="model">hr.tipo.holerite</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="tipo_holerite" attrs="{'required': True}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_telefonia_line_tree_view">
+            <field name="name">hr.tipo.holerite.tree (l10n_br_hr_payroll)</field>
+            <field name="model">hr.tipo.holerite</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="tipo_holerite"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Ligações individuais -->
+        <record model="ir.actions.act_window" id="action_hr_tipo_holerite">
+            <field name="name">Tipos de Holerite</field>
+            <field name="res_model">hr.tipo.holerite</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="hr_menu_tipo_holerite"
+                action="action_hr_tipo_holerite"
+                parent="hr_payroll.payroll_configure" sequence="1"
+                groups="base.group_hr_manager"/>
+
+    </data>
+</openerp>

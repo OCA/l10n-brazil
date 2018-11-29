@@ -20,6 +20,13 @@ class HrContractSalaryRule(models.Model):
         required=True,
         string=u"Rúbrica",
     )
+    tipo_holerite_id = fields.Many2many(
+        string="Tipo de Holerite",
+        comodel_name="hr.tipo.holerite",
+        relation='contract_salary_rule_tipo_holerite_rel',
+        column1='contract_salary_rule_id',
+        column2='tipo_holerite_id',
+    )
     date_start = fields.Date(
         string=u"Data de início",
         required=True

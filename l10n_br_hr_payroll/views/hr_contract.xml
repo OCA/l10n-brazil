@@ -45,6 +45,7 @@
                         <field name="specific_rule_ids">
                             <tree editable="bottom">
                                 <field name="rule_id"/>
+                                <field name="tipo_holerite_id" widget="many2many_tags"/>
                                 <field name="date_start"/>
                                 <field name="date_stop"/>
                                 <field name="specific_quantity"/>
