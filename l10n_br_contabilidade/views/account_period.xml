@@ -17,20 +17,26 @@
                 <button name="action_draft" position="replace">
                     <button name="reopen_period" states="done" string="Re-Abrir Período" type="object" groups="account.group_account_manager"/>
                     <button name="gerar_balancete" string="Gerar Balancete do Período" type="object" />
+                    <button name="gerar_dre_periodo" string="Gerar DRE" type="object" />
                 </button>
 
                 <xpath expr="//sheet" position="inside">
                     <group>
                         <field name="account_journal_id" required="1"/>
                     </group>
-                    <group>
+
+
+                    <group string="Parametrização dos demonstrativos">
                         <group>
-                            <field name="detalhar_contas_superiores"  />
+                            <field name="demonstracao_periodo_atual" />
+                            <field name="demonstracao_start_periodo" attrs="{'invisible': [('demonstracao_periodo_atual', '=', True)]}" />
                         </group>
                         <group>
+                            <field name="detalhar_contas_superiores"  />
                             <field name="exibir_conta_raiz" attrs="{'invisible': [('detalhar_contas_superiores', '=', False)]}" />
                         </group>
                     </group>
+
                     <notebook colspan="4">
                         <page string="Lançamentos">
                             <separator string="Lançamentos Contábeis no período" colspan="4"/>
@@ -70,6 +76,11 @@
                                     <field name="saldo_final" />
                                 </tree>
                             </field>
+                        </page>
+
+                        <page string="DRE">
+                            <separator string="DRE" colspan="4"/>
+                            <field name="account_account_report_dre_ids" nolabel="1" />
                         </page>
 
                     </notebook>

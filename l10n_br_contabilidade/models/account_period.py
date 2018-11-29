@@ -52,6 +52,29 @@ class AccountPeriod(models.Model):
         default=True,
     )
 
+    demonstracao_periodo_atual = fields.Boolean(
+        string='Apuração somente do período Atual?',
+        default=True,
+        help='Apurar as demonstrações somente com lançamentos do período '
+             'corrente. Caso não esteja marcado utilizará os lançamentos a '
+             'partir do ultimo período finalizado.',
+    )
+
+    demonstracao_start_periodo = fields.Many2one(
+        string='Período Inicial',
+        comodel_name='account.period',
+        help='Caso opte pelas demonstrações iniciarem a partir do ultimo '
+             'período fechado, esse campo indicará o período que se iniciará '
+             'a busca por lançamentos',
+        default=lambda self: self.default_demonstracao_start_periodo(),
+    )
+
+    account_account_report_dre_ids = fields.One2many(
+        comodel_name='account.account.report.dre',
+        string='Linhas do DRE',
+        inverse_name='period_id',
+    )
+
     @api.multi
     def fechar_periodo(self):
         """
@@ -146,7 +169,6 @@ class AccountPeriod(models.Model):
     @api.multi
     def reopen_period(self):
         """
-
         :return:
         """
         for record in self:
@@ -161,15 +183,63 @@ class AccountPeriod(models.Model):
             record.state = 'draft'
 
 
-    def get_period_anterior(self):
+    @api.onchange('demonstracao_periodo_atual')
+    def onchange_demonstracao_periodo_atual(self):
         """
-        Buscar o periodo anterior a partir do periodo instanciado
+        :return:
+        """
+        for record in self:
+            if record.demonstracao_periodo_atual:
+                record.demonstracao_start_periodo = False
+
+            else:
+                record.demonstracao_start_periodo = \
+                    self.default_demonstracao_start_periodo()
+
+
+    def get_periodo_anterior(self, period_id=False):
+        """
+        Buscar o periodo anterior a partir do periodo do parametro
         :return: account.period
         """
+
+        if self and not period_id:
+            period_id = self
         date_start_periodo_anterior = \
-            fields.Date.from_string(self.date_start) - relativedelta(months=1)
+            fields.Date.from_string(period_id.date_start or fields.Date.today()) - relativedelta(months=1)
         return self.search([
             ('date_start', '=', str(date_start_periodo_anterior))], limit=1)
+
+
+    def get_periodo_seguinte(self, period_id=False):
+        """
+        :return:
+        """
+        if self and not period_id:
+            period_id = self
+        date_start_periodo_atual = \
+            fields.Date.from_string(period_id.date_start or fields.Date.today()) + \
+            relativedelta(months=1)
+        return self.search([
+            ('date_start', '=', str(date_start_periodo_atual))], limit=1)
+
+
+    def get_ultimo_periodo_fechado(self):
+        """
+        :return:
+        """
+        last_closed_period = self.search([
+            ('state', '=', 'done'),
+        ], order='date_start DESC', limit=1)
+
+        return last_closed_period
+
+
+    def default_demonstracao_start_periodo(self):
+        """
+        :return:
+        """
+        return self.get_periodo_seguinte(self.get_ultimo_periodo_fechado())
 
     def get_saldo_inicial_conta(self, account_id):
         """
@@ -177,7 +247,7 @@ class AccountPeriod(models.Model):
         :return: float
         """
         saldo_id = self.env['account.saldo'].search([
-            ('account_period_id', '=', self.get_period_anterior().id),
+            ('account_period_id', '=', self.get_periodo_anterior().id),
             ('account_account_id', '=', account_id.id),
         ])
         return saldo_id.saldo_final or 0.00
@@ -221,6 +291,34 @@ class AccountPeriod(models.Model):
                     'saldo_final': result,
                 })
 
+
+
+    def get_partidas_periodo(self, period_id_inicial, period_final):
+        """
+        :return:
+        """
+        partidas_ids = self.env['account.move.line'].search([
+            ('date', '>=', period_id_inicial.date_start),
+            ('date', '<=', period_final.date_stop),
+            ('move_id.state','=','posted'),
+            ('account_id.user_type.report_type','in',('income', 'expense')),
+        ])
+        return partidas_ids
+
+
+    # def get_contas_periodo(self, period_id_inicial, period_final):
+    #     """
+    #     :return:
+    #     """
+    #     partidas_ids = self.env['account.account'].search(
+    #         ('date', '>=', period_id_inicial.date_start),
+    #         ('date', '<=', period_final.date_stop),
+    #         ('move_id.state','=','posted'),
+    #         ('account_id.user_type.report_type','in',('income', 'expense')),
+    #     )
+    #     return partidas_ids
+
+
     @api.multi
     def gerar_balancete(self):
         """
@@ -232,16 +330,31 @@ class AccountPeriod(models.Model):
             # Excluir saldos antigos
             record.account_saldo_ids.unlink()
 
-            # Contas para gerar saldo. Gerar apenas de contas, que for
-            # que lançamentos contábeis
-            contas_ids = \
-                record.account_move_ids.mapped('line_id').mapped('account_id')
+            # Contas alteradas no período
+            if record.demonstracao_periodo_atual:
+                # Contas para gerar saldo. Definir contas para agrupar partidas
+                contas_ids = \
+                    record.account_move_ids.mapped('line_id').mapped('account_id')
+
+            else:
+                # Partidas desde o ultimo periodo finalizado
+                partidas_periodo_ids = \
+                    self.get_partidas_periodo(record.demonstracao_start_periodo, record)
+
+                contas_ids = partidas_periodo_ids.mapped('account_id')
+
 
             for conta_id in contas_ids:
 
-                # Lançamentos dentro do período
-                partidas = self.account_move_ids.mapped('line_id').\
-                    filtered(lambda x: x.account_id == conta_id)
+                # Lançamentos do período
+                if record.demonstracao_periodo_atual:
+                    partidas = self.account_move_ids.mapped('line_id').\
+                        filtered(lambda x: x.account_id == conta_id)
+
+                # Lançamentos apartir do ultimo fechado
+                if not record.demonstracao_periodo_atual:
+                    partidas = partidas_periodo_ids.\
+                        filtered(lambda x: x.account_id == conta_id)
 
                 # Saldo inicial da conta no período
                 saldo_inicial = self.get_saldo_inicial_conta(conta_id)
@@ -254,3 +367,47 @@ class AccountPeriod(models.Model):
                 self.gerar_saldos_periodo(
                     conta_id, saldo_inicial, debit, credit,
                     result_period, result)
+
+
+    @api.multi
+    def gerar_dre_periodo(self):
+        """
+        :return:
+        """
+        for record in self:
+
+            record.account_account_report_dre_ids.unlink()
+
+            account_reports = {}
+
+            # Contas alteradas no período
+            if record.demonstracao_periodo_atual:
+                # Contas para gerar saldo. Definir contas para agrupar partidas
+                partidas_periodo_ids = self.get_partidas_periodo(record, record)
+
+            else:
+                # Partidas desde o ultimo periodo finalizado
+                partidas_periodo_ids = \
+                    self.get_partidas_periodo(
+                        record.demonstracao_start_periodo, record)
+
+            contas_dre_ids = self.env['account.account.report'].search([
+                ('active','=','True')], order='sequence ASC')
+
+            for contas_dre_id in contas_dre_ids:
+
+                total = contas_dre_id.get_total(
+                    partidas_periodo_ids, account_reports)
+
+                # Criar linha baseado no template do accoun.report
+                account_report_dre = {
+                    'name': contas_dre_id.name,
+                    'account_account_report_id': contas_dre_id.id,
+                    'period_id': record.id,
+                    'total': total,
+                }
+                self.env['account.account.report.dre'].create(account_report_dre)
+
+                # Aproveitar o dicionario e complementar com informações das
+                # linhas ja criadas para ser possivel utilizalas
+                account_reports[contas_dre_id.code] = total

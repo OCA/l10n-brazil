@@ -5,6 +5,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from openerp import api, fields, models
+from openerp.tools.safe_eval import safe_eval
 
 
 class AccountAccountReport(models.Model):
@@ -60,20 +61,28 @@ class AccountAccountReport(models.Model):
     )
 
     @api.multi
-    def get_total(self):
+    def get_total(self, partidas_ids=False, account_reports={}):
         """
-
         :return:
         """
-
         for record in self:
 
             if record.tipo_calculo == 'formula':
-                pass
 
+                safe_eval('result=' + record.python_code,
+                          account_reports, mode='exec', nocopy=True)
+
+                return account_reports.get('result', 0)
 
             elif record.tipo_calculo == 'conta':
-                pass
 
+                partidas_ids = self.env['account.move.line'].search([
+                    ('id', 'in', partidas_ids._ids),
+                    ('account_id', 'in', record.account_account_id._ids),
+                ])
 
-        return 1234
+                total = \
+                    sum(partidas_ids.mapped('debit')) - \
+                    sum(partidas_ids.mapped('credit'))
+
+                return total
