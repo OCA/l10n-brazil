@@ -1227,19 +1227,21 @@ class HrPayslip(models.Model):
     def get_contract_specific_rubrics(self, contract_id, rule_ids):
         contract = self.env['hr.contract'].browse(contract_id.id)
         applied_specific_rule = {}
+        tipo_holerite_id = self.env['hr.tipo.holerite'].search([('tipo_holerite', '=', self.tipo_de_folha)])
         for specific_rule in contract.specific_rule_ids:
-            if self.date_from >= specific_rule.date_start:
-                if not specific_rule.date_stop or \
-                        self.date_to <= specific_rule.date_stop:
-                    
-                    rule_ids.append((specific_rule.rule_id.id, 
-                                     specific_rule.rule_id.sequence))
-                    
-                    if specific_rule.rule_id.id not in applied_specific_rule:
-                        applied_specific_rule[specific_rule.rule_id.id] = []
-                        
-                    applied_specific_rule[specific_rule.rule_id.id].append(
-                        specific_rule)
+            if tipo_holerite_id.id in specific_rule.tipo_holerite_id.ids:
+                if self.date_from >= specific_rule.date_start:
+                    if not specific_rule.date_stop or \
+                            self.date_to <= specific_rule.date_stop:
+
+                        rule_ids.append((specific_rule.rule_id.id,
+                                         specific_rule.rule_id.sequence))
+
+                        if specific_rule.rule_id.id not in applied_specific_rule:
+                            applied_specific_rule[specific_rule.rule_id.id] = []
+
+                        applied_specific_rule[specific_rule.rule_id.id].append(
+                            specific_rule)
                     
         return applied_specific_rule
 
@@ -2478,8 +2480,13 @@ class HrPayslip(models.Model):
                     if obj_rule.satisfy_condition(rule.id, localdict) \
                             and rule.id not in blacklist:
                         # compute the amount of the rule
-                        amount, qty, rate = \
-                            obj_rule.compute_rule(rule.id, localdict)
+                        if rule.id in applied_specific_rule:
+                            amount = payslip.get_specific_rubric_value(rule.id)
+                            qty = 1
+                            rate = 100
+                        else:
+                            amount, qty, rate = \
+                                obj_rule.compute_rule(rule.id, localdict)
                         # Pegar Referencia que irá para o holerite
                         reference = obj_rule.get_reference_rubrica(rule.id, localdict)
 
