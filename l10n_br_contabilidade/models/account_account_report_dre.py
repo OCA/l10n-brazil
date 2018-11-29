@@ -9,7 +9,7 @@ from openerp import api, fields, models
 
 class AccountAccountReportDRE(models.Model):
     _name = b'account.account.report.dre'
-    _order = b'name'
+    _order = b'sequence'
     _description = 'Modelo para gerenciar contas do DRE.'
 
     name = fields.Char(
@@ -29,3 +29,20 @@ class AccountAccountReportDRE(models.Model):
     total = fields.Float(
         string='Total Período'
     )
+
+    sequence = fields.Integer(
+        string='Sequência',
+        help='Sequência de execução das contas',
+        compute='compute_sequence',
+        store=True,
+    )
+
+    @api.multi
+    @api.depends('account_account_report_id')
+    def compute_sequence(self):
+        """
+        :return:
+        """
+        for record in self:
+            if record.account_account_report_id:
+                record.sequence = record.account_account_report_id.sequence

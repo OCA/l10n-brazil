@@ -19,11 +19,13 @@
                         <group name="geral" colspan="2" col="2">
                             <label for="code" />
                             <field name="code" colspan="2" nolabel="1" required="1"/>
+
                         </group>
                     </group>
 
                     <group>
                         <field name="active" />
+                        <field name="sequence" required="1" />
                         <field name="identificacao_saldo" />
                     </group>
 
@@ -49,8 +51,9 @@
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <tree string="Contas Demonstrativas">
-                <field name="code" />
                 <field name="name" />
+                <field name="code" />
+                <field name="sequence" />
                 <field name="identificacao_saldo" />
                 <field name="active" />
             </tree>

@@ -9,7 +9,7 @@ from openerp import api, fields, models
 
 class AccountAccountReport(models.Model):
     _name = b'account.account.report'
-    _order = b'name'
+    _order = b'sequence'
     _description = 'Modelo para gerenciar contas nos relatórios.'
 
     active = fields.Boolean(
@@ -41,6 +41,7 @@ class AccountAccountReport(models.Model):
     sequence = fields.Integer(
         string='Sequência',
         help='Sequência de execução das contas',
+        unique=True,
     )
 
     python_code = fields.Text(
