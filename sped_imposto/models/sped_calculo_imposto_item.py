@@ -1688,8 +1688,7 @@ class SpedCalculoImpostoItem(SpedBase):
 
         else:
             if (self.consumidor_final ==
-                    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
-                    self.cfop_id.eh_venda):
+                    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL):
                 if dados_cfop['posicao'] == POSICAO_CFOP_INTERESTADUAL:
                     vals['calcula_difal'] = True
 
