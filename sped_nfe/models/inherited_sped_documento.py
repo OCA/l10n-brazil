@@ -19,6 +19,8 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
+from odoo.addons.queue_job.job import job
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -984,6 +986,7 @@ class SpedDocumento(models.Model):
 
         self.envia_email(mail_template)
 
+    @job
     def _envia_email(self, mail_template):
         mail_template.send_mail(self.id)
 
