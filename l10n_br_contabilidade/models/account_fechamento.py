@@ -62,6 +62,13 @@ class AccountFechamento(models.Model):
         default='open',
     )
 
+    # @api.onchange('fiscalyear_id')
+    # def _on_change_fiscalyear_id(self):
+    #     self.periodo_ini = self.fiscalyear_id.period_ids.filtered(
+    #     lambda x: x.name == '01/'+self.fiscalyear_id.name)
+    #     self.periodo_fim = self.fiscalyear_id.period_ids.filtered(
+    #     lambda x: x.name == '12/'+self.fiscalyear_id.name)
+
     def _get_default_fiscalyear(self):
         fiscalyear_id = self.env['account.fiscalyear'].find()
         return fiscalyear_id
