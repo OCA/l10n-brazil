@@ -97,7 +97,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="abgf_contabilidade_account_fechamento_action">
-        <field name="name">Fechamento</field>
+        <field name="name">Encerramento</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
     </record>

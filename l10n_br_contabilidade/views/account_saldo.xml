@@ -138,10 +138,10 @@
     <menuitem
             id="menu_abgf_action_account_saldo_graph"
             icon="STOCK_PRINT"
-            name="Saldo dos Períodos"
+            name="Balancete por períodos"
             action="abgf_contabilidade_account_saldo_graph_action"
-            sequence="60"
-            parent="abgf_configuracao_account_period_menu" />
+            sequence="25"
+            parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
 
 
     </data>

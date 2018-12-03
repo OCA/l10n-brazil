@@ -88,11 +88,23 @@
             </field>
         </record>
 
+        <record id="abgf_view_account_period_search" model="ir.ui.view">
+            <field name="name">account.period.search (in abgf_contabilidade)</field>
+            <field name="model">account.period</field>
+            <field name="inherit_id" ref="account.view_account_period_search" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <filter string="Fechado" name="fechado" domain="[('state','=','done')]" icon="terp-dialog-close"/>
+                </field>
+            </field>
+        </record>
+
         <menuitem
                 id="menu_abgf_contabilidade_account_period"
                 name="Competências"
-                parent="abgf_configuracao_account_period_menu"
                 action="account.action_account_period"
+                parent="abgf_menu_lancamentos_contabilidade"
+                sequence="80"
         />
 
     </data>

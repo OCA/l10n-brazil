@@ -51,9 +51,9 @@
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <tree string="Contas Demonstrativas">
+                <field name="sequence" />
                 <field name="name" />
                 <field name="code" />
-                <field name="sequence" />
                 <field name="identificacao_saldo" />
                 <field name="active" />
             </tree>
@@ -96,8 +96,8 @@
     <menuitem
         action="abgf_contabilidade_account_account_report_action"
         id="menu_abgf_contabilidade_account_account_report"
-        name="Contas  Demonstrativas"
-        parent="abgf_contabilidade.abgf_configuracao_conta_menu"
+        name="Estrutura DRE"
+        parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade"
         sequence="60"
     />
 

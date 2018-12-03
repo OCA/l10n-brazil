@@ -368,14 +368,12 @@ class AccountPeriod(models.Model):
                     conta_id, saldo_inicial, debit, credit,
                     result_period, result)
 
-
     @api.multi
     def gerar_dre_periodo(self):
         """
         :return:
         """
         for record in self:
-
             record.account_account_report_dre_ids.unlink()
 
             account_reports = {}
@@ -383,7 +381,8 @@ class AccountPeriod(models.Model):
             # Contas alteradas no período
             if record.demonstracao_periodo_atual:
                 # Contas para gerar saldo. Definir contas para agrupar partidas
-                partidas_periodo_ids = self.get_partidas_periodo(record, record)
+                partidas_periodo_ids = \
+                    self.get_partidas_periodo(record, record)
 
             else:
                 # Partidas desde o ultimo periodo finalizado
@@ -406,7 +405,8 @@ class AccountPeriod(models.Model):
                     'period_id': record.id,
                     'total': total,
                 }
-                self.env['account.account.report.dre'].create(account_report_dre)
+                self.env['account.account.report.dre'].\
+                    create(account_report_dre)
 
                 # Aproveitar o dicionario e complementar com informações das
                 # linhas ja criadas para ser possivel utilizalas
