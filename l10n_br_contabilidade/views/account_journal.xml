@@ -32,8 +32,14 @@
                     <page string="Fechamento" attrs="{'invisible': [('type','!=','situation')]}">
                         <group col="4" string="Contas para Fechamento">
                             <group>
-                                <field name="fechamento_debit_account_id"  attrs="{'required': [('type','=','situation')]}"/>
-                                <field name="fechamento_credit_account_id" attrs="{'required': [('type','=','situation')]}"/>
+                                <field name="journal_account_ids" widget="one2many_list"
+                                       attrs="{'required': [('type','=','situation')]}">
+                                    <tree editable="bottom">
+                                        <field name="account_id" />
+                                        <field name="identificacao" />
+                                        <field name="porcentagem" />
+                                    </tree>
+                                </field>
                             </group>
                         </group>
                     </page>

@@ -17,12 +17,37 @@ class AccountJournal(models.Model):
         comodel_name='account.historico.padrao',
     )
 
-    fechamento_debit_account_id = fields.Many2one(
-        string=u'Conta de Débito para fechamento',
+    journal_account_ids = fields.One2many(
+        string=u'Contas para fechamento',
+        comodel_name='account.journal.account',
+        inverse_name='journal_id',
+    )
+
+
+class AccountJournalAccount(models.Model):
+    _name = 'account.journal.account'
+    _description = 'Vincula Contas ao Fechamento para informar porcentagem'
+    _order = 'account_id'
+
+    account_id = fields.Many2one(
+        string=u'Conta',
         comodel_name='account.account',
     )
 
-    fechamento_credit_account_id = fields.Many2one(
-        string=u'Conta de Crédito para fechamento',
-        comodel_name='account.account',
+    journal_id = fields.Many2one(
+        string=u'Diário',
+        comodel_name='account.journal',
+    )
+
+    identificacao = fields.Selection(
+        string='Identificação de Fechamanto',
+        selection=[
+            ('', ''),
+            ('debito', 'Débito'),
+            ('credito', 'Crédito'),
+        ],
+    )
+
+    porcentagem = fields.Float(
+        string=u'Porcentagem'
     )

@@ -51,6 +51,12 @@ class AccountAccount(models.Model):
         inverse_name='conta_sistema_id',
     )
 
+    journal_account_ids = fields.One2many(
+        string=u'Fechamentos vinculados',
+        comodel_name='account.journal.account',
+        inverse_name='account_id',
+    )
+
     @api.depends('balance')
     def _compute_saldo_conta(self):
         """
