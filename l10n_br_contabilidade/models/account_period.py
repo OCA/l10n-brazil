@@ -156,7 +156,7 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
-                        yield series_conta['result']
+                        yield series_conta['result']*-1
 
                     elif series_conta['result'] < 0.0:
                         conta_id = {
