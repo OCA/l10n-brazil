@@ -31,16 +31,15 @@
                 <notebook position="inside">
                     <page string="Fechamento" attrs="{'invisible': [('type','!=','situation')]}">
                         <group col="4" string="Contas para Fechamento">
-                            <group>
-                                <field name="journal_account_ids" widget="one2many_list"
-                                       attrs="{'required': [('type','=','situation')]}">
-                                    <tree editable="bottom">
-                                        <field name="account_id" />
-                                        <field name="identificacao" />
-                                        <field name="porcentagem" />
-                                    </tree>
-                                </field>
-                            </group>
+                            <field name="journal_account_ids" widget="one2many_list"
+                                   attrs="{'required': [('type','=','situation')]}"
+                                   nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="account_id" required="1" />
+                                    <field name="porcentagem" required="1" />
+                                    <field name="sequencia" />
+                                </tree>
+                            </field>
                         </group>
                     </page>
                 </notebook>
