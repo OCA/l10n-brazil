@@ -2,10 +2,6 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import random
-import string
-
-import pandas as pd
 from openerp import api, fields, models
 from openerp.exceptions import Warning as UserError
 
