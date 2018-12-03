@@ -2,6 +2,9 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import random
+import string
+
 from openerp import api, fields, models
 from openerp.exceptions import Warning as UserError
 
@@ -75,6 +78,56 @@ class AccountFechamento(models.Model):
         ], limit=1)
         return account_journal_id
 
+    def _verifica_apuracao_resultado(self, lines):
+        '''
+        Verifica se o resultado foi positivo ou negativo.
+        Se positivo, cria lançamento rateado entre as contas definidas no diário (divisao_resultado_ids)
+
+        :return:
+        '''
+        for record in self:
+            resultado = 0
+            # "lines" recebe um generator vindo do método "fechar_periodo" em "account.period"
+            # O último item do generator é uma lista contendo o ID do último período e a data do ultimo dia
+            for line in lines:
+                try:
+                    resultado += line
+                except:
+                    dados_periodo = line
+
+            line_list = []
+            # Resultado for positivo -> rateia os valores de acordo com as porcentagens informadas por ordem de conta
+            if resultado > 0:
+                # Valores únicos da sequência ordenados
+                for seq in set([c.sequencia for c in record.account_journal_id.divisao_resultado_ids]):
+                    # Credito total da sequência
+                    credito_total = 0
+
+                    for conta in record.account_journal_id.divisao_resultado_ids.filtered(lambda s: s.sequencia == seq):
+                        # Porcentagem/Valor Fixo do item em cima do total restante do resultado
+                        credito = (conta.porcentagem/100)*resultado if conta.porcentagem != 0.0 else conta.valor_fixo
+                        credito_total += credito
+
+                        # Partida
+                        line_list.append((0, 0, {
+                            'account_id': conta.account_id.id,
+                            'debit': 0.0,
+                            'credit': credito,
+                            'name': ''.join(random.choice(string.uppercase) for x in range(8))
+                        }))
+
+                    resultado = resultado - credito_total
+
+                # Cria lançamento
+                record.env['account.move'].create({
+                    'journal_id': record.account_journal_id.id,
+                    'period_id': dados_periodo[1],
+                    'date': dados_periodo[0],
+                    'state': 'posted',
+                    'lancamento_de_fechamento': True,
+                    'line_id': line_list
+                })
+
     @api.multi
     def button_buscar_periodos(self):
         """
@@ -103,8 +156,9 @@ class AccountFechamento(models.Model):
             for period_id in record.account_period_ids:
                 period_id.account_journal_id = record.account_journal_id
                 period_id.fechar_periodo(record)
-
+            # Fecha período
             record.state = 'close'
+            self._verifica_apuracao_resultado(period_id.fechar_periodo())
 
     @api.multi
     def button_reopen(self):

@@ -88,6 +88,9 @@ class AccountPeriod(models.Model):
         :return:
         """
         for record in self:
+            # Altera estado
+            record.state = 'done'
+
             # Cria dataframe vazio com colunas
             df_are = pd.DataFrame(
                 columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
@@ -153,6 +156,8 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
+                        yield series_conta['result']
+
                     elif series_conta['result'] < 0.0:
                         conta_id = {
                             'account_id': int(conta),
@@ -172,6 +177,8 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
+                        yield abs(series_conta['result'])
+
                     record.env['account.move'].create({
                         'journal_id': record.account_journal_id.id,
                         'period_id': periodo_fechamento.id,
@@ -184,7 +191,7 @@ class AccountPeriod(models.Model):
                         'line_id': [(0, 0, conta_id), (0, 0, are_id)]
                     })
 
-            record.state = 'done'
+            yield [data_lancamento, record.id]
 
     @api.multi
     def reopen_period(self):
