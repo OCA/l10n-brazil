@@ -17,8 +17,5 @@ from . import account_journal
 from . import account_fiscalyear
 from . import account_mapeamento
 from . import account_period
-<<<<<<< ef76ac91bbb5b57a6ad9890eeabe62e64daa23c8
 from . import account_saldo
-=======
 from . import account_divisao_resultado
->>>>>>> [REF] Separado classe para aquivo único e permissões
