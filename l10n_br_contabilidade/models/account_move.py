@@ -54,6 +54,15 @@ class AccountMove(models.Model):
             line.situacao_lancamento = 'draft'
 
     @api.multi
+    def verifica_status_periodo(self):
+        """
+        :return:
+        """
+        for record in self:
+            if record.period_id.state == 'done':
+                raise Warning('Período escolhido para este lançamento esta fechado!')
+
+    @api.multi
     def validar_partidas_lancamento_contabil(self):
         """
         :return:
@@ -119,6 +128,9 @@ class AccountMove(models.Model):
                         u'Não é possível editar um lançamento com '
                         u'status lançado.')
 
+            if 'state' in vals and vals.get('state') == 'posted':
+                self.verifica_status_periodo()
+
         res = super(AccountMove, self).write(vals)
 
         self.validar_partidas_lancamento_contabil()
@@ -128,6 +140,8 @@ class AccountMove(models.Model):
     @api.multi
     def post(self):
         res = super(AccountMove, self).post()
+
+        self.verifica_status_periodo()
 
         for line in self.line_id:
             line.situacao_lancamento = 'posted'
