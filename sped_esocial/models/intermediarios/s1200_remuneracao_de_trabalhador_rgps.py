@@ -163,14 +163,22 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             S1200.evento.ideEvento.nrRecibo.valor = registro_para_retificar.recibo
         S1200.evento.ideEvento.indRetif.valor = indRetif
 
-        if not int(self.periodo_id.code.split('/')[0]) == 13:
-            S1200.evento.ideEvento.indApuracao.valor = '1'
-            S1200.evento.ideEvento.perApur.valor = \
-                self.periodo_id.code[3:7] + '-' + \
-                self.periodo_id.code[0:2]
-        else:
-            S1200.evento.ideEvento.indApuracao.valor = '2'
-            S1200.evento.ideEvento.perApur.valor = self.periodo_id.code[3:7]
+        ind_apuracao = False
+        per_apur = False
+
+        remuneracoes_ids = self.payslip_ids or self.payslip_autonomo_ids
+        for remuneracao in remuneracoes_ids:
+            if remuneracao.tipo_de_folha == 'decimo_terceiro':
+                ind_apuracao = '2'
+                per_apur = self.periodo_id.code[3:7]
+                break
+
+        if not (ind_apuracao and per_apur):
+            ind_apuracao = '1'
+            per_apur = self.periodo_id.code[3:7] + '-' + self.periodo_id.code[0:2]
+
+        S1200.evento.ideEvento.indApuracao.valor = ind_apuracao
+        S1200.evento.ideEvento.perApur.valor = per_apur
         S1200.evento.ideEvento.tpAmb.valor = ambiente
         S1200.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
         S1200.evento.ideEvento.verProc.valor = 'Odoo v.8.0'  # Odoo v.8.0
