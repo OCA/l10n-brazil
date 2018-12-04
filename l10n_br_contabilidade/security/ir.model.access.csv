@@ -27,5 +27,3 @@ abgf_contabilidade_account_account_report_dre_manager,abgf_contabilidade_account
 =======
 abgf_contabilidade_divisao_resultado_user,abgf_contabilidade_divisao_resultado_user,abgf_contabilidade.model_account_divisao_resultado,account.group_account_user,1,0,0,0
 abgf_contabilidade_divisao_resultado_manager,abgf_contabilidade_divisao_resultado_manager,abgf_contabilidade.model_account_divisao_resultado,account.group_account_manager,1,1,1,1
-
->>>>>>> [REF] Separado classe para aquivo único e permissões
