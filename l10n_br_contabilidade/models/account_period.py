@@ -156,6 +156,7 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
+                        # Retorna valor negativo para débito lançado na Apuração de Resultados
                         yield series_conta['result']*-1
 
                     elif series_conta['result'] < 0.0:
@@ -177,6 +178,7 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
+                        # Retorna valor positivo para crédito lançado na Apuração de Resultados
                         yield abs(series_conta['result'])
 
                     record.env['account.move'].create({
@@ -191,6 +193,7 @@ class AccountPeriod(models.Model):
                         'line_id': [(0, 0, conta_id), (0, 0, are_id)]
                     })
 
+            # Último retorno: ID e data final do ultimo período
             yield [data_lancamento, record.id]
 
     @api.multi

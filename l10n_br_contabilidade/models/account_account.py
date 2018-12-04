@@ -51,9 +51,9 @@ class AccountAccount(models.Model):
         inverse_name='conta_sistema_id',
     )
 
-    journal_account_ids = fields.One2many(
+    divisao_resultado_ids = fields.One2many(
         string=u'Fechamentos vinculados',
-        comodel_name='account.journal.account',
+        comodel_name='account.divisao.resultado',
         inverse_name='account_id',
     )
 

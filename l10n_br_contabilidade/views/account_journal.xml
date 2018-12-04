@@ -31,7 +31,7 @@
                 <notebook position="inside">
                     <page string="Fechamento" attrs="{'invisible': [('type','!=','situation')]}">
                         <group col="4" string="Contas para Fechamento">
-                            <field name="journal_account_ids" widget="one2many_list"
+                            <field name="divisao_resultado_ids" widget="one2many_list"
                                    attrs="{'required': [('type','=','situation')]}"
                                    nolabel="1">
                                 <tree editable="bottom">

@@ -17,19 +17,19 @@ class AccountJournal(models.Model):
         comodel_name='account.historico.padrao',
     )
 
-    journal_account_ids = fields.One2many(
+    divisao_resultado_ids = fields.One2many(
         string=u'Contas para fechamento',
-        comodel_name='account.journal.account',
+        comodel_name='account.divisao.resultado',
         inverse_name='journal_id',
     )
 
     @api.multi
-    @api.onchange('journal_account_ids')
+    @api.onchange('divisao_resultado_ids')
     def _verifica_porcentagem_fechamento(self):
         for record in self:
             # Verifica se o somatório das sequencias ultrapassam 100%
-            for r in set([ja.sequencia for ja in record.journal_account_ids]):
-                if sum(a.porcentagem for a in record.journal_account_ids.filtered(lambda x: x.sequencia == r)) > 100:
+            for r in set([ja.sequencia for ja in record.divisao_resultado_ids]):
+                if sum(a.porcentagem for a in record.divisao_resultado_ids.filtered(lambda x: x.sequencia == r)) > 100:
                     raise Warning(u'Porcentagem ultrapassa 100%.')
 
     @api.model
@@ -41,8 +41,8 @@ class AccountJournal(models.Model):
         return res
 
 
-class AccountJournalAccount(models.Model):
-    _name = 'account.journal.account'
+class AccountRateioResultado(models.Model):
+    _name = 'account.divisao.resultado'
     _description = 'Vincula Contas ao Fechamento para informar porcentagem'
     _order = 'account_id'
     _sql_constraints = [
