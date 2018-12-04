@@ -36,7 +36,8 @@
                                    nolabel="1">
                                 <tree editable="bottom">
                                     <field name="account_id" required="1" />
-                                    <field name="porcentagem" required="1" />
+                                    <field name="valor_fixo" attrs="{'required': ['|', ('porcentagem','=', 0), ('porcentagem','=', False)]}"/>
+                                    <field name="porcentagem" attrs="{'required': ['|', ('valor_fixo','=', 0), ('valor_fixo','=', False)]}"/>
                                     <field name="sequencia" />
                                 </tree>
                             </field>

@@ -5,7 +5,7 @@
 from openerp import api, fields, models
 
 
-class AccountRateioResultado(models.Model):
+class AccountDivisaoResultado(models.Model):
     _name = 'account.divisao.resultado'
     _description = 'Vincula Contas ao Fechamento para informar porcentagem'
     _order = 'account_id'
@@ -25,7 +25,11 @@ class AccountRateioResultado(models.Model):
     )
 
     porcentagem = fields.Float(
-        string=u'Porcentagem'
+        string=u'Porcentagem',
+    )
+
+    valor_fixo = fields.Float(
+        string=u'Valor Fixo',
     )
 
     sequencia = fields.Integer(
