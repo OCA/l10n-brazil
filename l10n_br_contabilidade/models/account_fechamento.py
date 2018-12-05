@@ -48,8 +48,8 @@ class AccountFechamento(models.Model):
 
     state = fields.Selection(
         selection=[
-            ('open', 'Open'),
-            ('close', 'Closed'),
+            ('open', 'Aberto'),
+            ('close', 'Fechado'),
         ],
         string='State',
         default='open',

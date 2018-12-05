@@ -79,8 +79,12 @@
         <field name="model">account.fechamento</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="fechamento">
+            <tree string="fechamento" colors="blue:state == 'open';black:state in ('close')" >
                 <field name="name" />
+                <field name="periodo_ini" />
+                <field name="periodo_fim" />
+                <field name="fiscalyear_id" />
+                <field name="state" />
             </tree>
         </field>
     </record>
@@ -92,6 +96,9 @@
         <field name="arch" type="xml">
             <search string="fechamento">
                 <field name="name" />
+                <field name="periodo_ini" />
+                <field name="periodo_fim" />
+                <field name="fiscalyear_id" />
             </search>
         </field>
     </record>
