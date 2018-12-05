@@ -128,7 +128,7 @@ class AccountMove(models.Model):
                         u'Não é possível editar um lançamento com '
                         u'status lançado.')
 
-            if 'state' in vals and vals.get('state') == 'posted':
+            if vals.get('state') == 'posted':
                 self.verifica_status_periodo()
 
         res = super(AccountMove, self).write(vals)
