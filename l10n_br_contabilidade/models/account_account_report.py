@@ -78,6 +78,7 @@ class AccountAccountReport(models.Model):
         comodel_name='account.account.report',
         string='Conta pai',
         ondelete='restrict',
+        domain="[('type', '=', type)]",
         index=True,
     )
 
