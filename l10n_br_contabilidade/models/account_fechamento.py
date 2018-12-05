@@ -99,7 +99,7 @@ class AccountFechamento(models.Model):
             record.button_buscar_periodos()
             for period_id in record.account_period_ids:
                 period_id.account_journal_id = record.account_journal_id
-                period_id.fechar_periodo(record, record.periodo_fim)
+                period_id.fechar_periodo(record)
 
             record.state = 'close'
 

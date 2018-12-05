@@ -82,7 +82,7 @@ class AccountPeriod(models.Model):
             record.fechar_periodo()
 
     @api.multi
-    def fechar_periodo(self, account_fechamento_id=False, periodo_fechamento=False):
+    def fechar_periodo(self, account_fechamento_id=False):
         """
 
         :return:
@@ -110,9 +110,12 @@ class AccountPeriod(models.Model):
                     ]
 
             # Variaveis para lançamentos de fechamento
-            periodo_fechamento = periodo_fechamento or record
+            periodo_fechamento = \
+                account_fechamento_id.periodo_fim \
+                    if account_fechamento_id else record
             data_lancamento = \
-                periodo_fechamento.date_stop or df_are['dt_stop'].max()
+                account_fechamento_id.periodo_fim.date_stop \
+                    if account_fechamento_id else df_are['dt_stop'].max()
 
             # Agrupa por conta e soma as outras colunas
             df_agrupado = df_are.groupby('conta').sum()
