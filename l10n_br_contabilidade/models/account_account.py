@@ -57,6 +57,14 @@ class AccountAccount(models.Model):
         inverse_name='account_id',
     )
 
+    account_account_report_id = fields.Many2one(
+        string=u'Estrutura de Apresentação',
+        comodel_name='account.account.report',
+        # relation='account_account_report_account_account_rel',
+        # column1='account_account_id',
+        # column2='account_account_report_id',
+    )
+
     @api.depends('balance')
     def _compute_saldo_conta(self):
         """

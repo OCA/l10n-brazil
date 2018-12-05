@@ -418,24 +418,5 @@ class AccountPeriod(models.Model):
                     self.get_partidas_periodo(
                         record.demonstracao_start_periodo, record)
 
-            contas_dre_ids = self.env['account.account.report'].search([
-                ('active','=','True')], order='sequence ASC')
-
-            for contas_dre_id in contas_dre_ids:
-
-                total = contas_dre_id.get_total(
-                    partidas_periodo_ids, account_reports)
-
-                # Criar linha baseado no template do account.report
-                account_report_dre = {
-                    'name': contas_dre_id.name,
-                    'account_account_report_id': contas_dre_id.id,
-                    'period_id': record.id,
-                    'total': total,
-                }
-                self.env['account.account.report.dre'].\
-                    create(account_report_dre)
-
-                # Aproveitar o dicionario e complementar com informações das
-                # linhas ja criadas para ser possivel utilizalas
-                account_reports[contas_dre_id.code] = total
+            self.env['account.account.report'].gerar_reports(
+                record, account_move_line_ids)

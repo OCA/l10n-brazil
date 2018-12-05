@@ -6,8 +6,8 @@
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_form">
-        <field name="name">account_account_report_form (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_patrimonial_form">
+        <field name="name">account_account_report_patrimonial_form (in abgf_contabilidade)</field>
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <form string="Contas Demonstrativas">
@@ -53,9 +53,7 @@
                             <field name="python_code" nolabel="1" />
                         </group>
 
-
                         <group string="Contas" attrs="{'invisible':[('tipo_calculo','!=','sintetico')]}" >
-
                             <label for="parent_id" colspan="4"/>
                             <field name="parent_id" colspan="4" />
                             <label for="child_ids" colspan="4"/>
@@ -67,16 +65,14 @@
                             </field>
                         </group>
 
-
                     </group>
-
                 </sheet>
             </form>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_tree">
-        <field name="name">account_account_report_tree (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_patrimonial_tree">
+        <field name="name">account_account_report_patrimonial_tree (in abgf_contabilidade)</field>
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <tree string="Contas Demonstrativas">
@@ -90,8 +86,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_search">
-        <field name="name">account_account_report_search (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_patrimonial_search">
+        <field name="name">account_account_report_patrimonial_search (in abgf_contabilidade)</field>
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <search string="Contas">
@@ -101,32 +97,34 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_action">
+    <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_patrimonial_action">
         <field name="name">Contas</field>
         <field name="res_model">account.account.report</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[('type','=','patrimonial')]</field>
+        <field name="context">{'default_type': 'patrimonial'}</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_tree_action">
+    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_patrimonial_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="abgf_contabilidade_account_account_report_tree"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_action"/>
+        <field name="view_id" ref="abgf_contabilidade_account_account_report_patrimonial_tree"/>
+        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_patrimonial_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_form_action">
+    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_patrimonial_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="abgf_contabilidade_account_account_report_form"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_action"/>
+        <field name="view_id" ref="abgf_contabilidade_account_account_report_patrimonial_form"/>
+        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_patrimonial_action"/>
     </record>
 
     <menuitem
-        action="abgf_contabilidade_account_account_report_action"
-        id="menu_abgf_contabilidade_account_account_report"
-        name="Estrutura de Apresentação"
+        action="abgf_contabilidade_account_account_report_patrimonial_action"
+        id="menu_abgf_contabilidade_account_account_report_patrimonial"
+        name="Balanço Patrimonial"
         parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade"
-        sequence="60"
+        sequence="70"
     />
 
     </data>

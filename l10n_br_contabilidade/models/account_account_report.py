@@ -24,31 +24,43 @@ class AccountAccountReport(models.Model):
 
     code = fields.Char(
         string='Código',
+        help='Código preferencialmente com letras maiúsculas '
+             'separadas por underline _ '
+    )
+
+    type = fields.Selection(
+        selection=[
+            ('resultado','Demonstração de Resultado'),
+            ('patrimonial','Patrimonial'),
+        ],
+        string='Tipo de Apresentação',
     )
 
     account_account_id = fields.Many2many(
         string=u'Contas',
         comodel_name='account.account',
-    )
-
-    identificacao_saldo = fields.Selection(
-        string='Natureza de Conta',
-        selection=[
-            ('debito', 'D'),
-            ('credito', 'C'),
-        ],
+        # inverse_name='account_account_report_id',
+        # relation='account_account_report_account_account_rel',
+        # column1='account_account_report_id',
+        # column2='account_account_id',
     )
 
     sequence = fields.Integer(
         string='Sequência',
-        help='Sequência de execução das contas',
+        help='Sequência de Apresentação das contas',
+        unique=True,
+    )
+
+    sequence_execucao = fields.Integer(
+        string='Sequência de execução',
+        help='Sequência de Execução das contas.\n As contas de menor '
+             'sequência serão processadas primeiro.',
         unique=True,
     )
 
     python_code = fields.Text(
         string='Fórmula',
         default='',
-
     )
 
     tipo_calculo = fields.Selection(
@@ -56,8 +68,22 @@ class AccountAccountReport(models.Model):
         selection=[
             ('conta', 'Contas'),
             ('formula', 'Fórmula'),
+            ('sintetico', 'Sintético'),
         ],
         default='conta',
+    )
+
+    parent_id = fields.Many2one(
+        comodel_name='account.account.report',
+        string='Conta pai',
+        ondelete='restrict',
+        index=True,
+    )
+
+    child_ids = fields.One2many(
+        inverse_name='parent_id',
+        comodel_name='account.account.report',
+        string='Contas Filhas',
     )
 
     @api.multi
@@ -86,3 +112,43 @@ class AccountAccountReport(models.Model):
                     sum(partidas_ids.mapped('credit'))
 
                 return total
+
+            elif record.tipo_calculo == 'sintetico':
+                account_report_ids = \
+                    self.env['account.account.report.line'].search([
+                        ('period_id', '=', record.period_id.id),
+                        ('account_account_report_id','in',
+                         record.child_ids._ids)
+                    ])
+                return sum(account_report_ids.mapped('total'))
+
+    def gerar_reports(self, account_period_id, account_move_line_ids):
+        """
+        :param partidas:
+        :return:
+        """
+
+        account_reports = {}
+
+        account_account_reports_ids = self.search([
+            ('active', '=', 'True'),
+            ('type', '=', 'resultado'),
+        ], order='sequence_execucao ASC')
+
+        for account_account_reports_id in account_account_reports_ids:
+
+            total = account_account_reports_id.get_total(
+                account_move_line_ids, account_reports)
+
+            # Criar linha baseado no template do accoun.report
+            account_report_line = {
+                'name': account_account_reports_id.name,
+                'account_account_report_id': account_account_reports_id.id,
+                'period_id': account_period_id.id,
+                'total': total,
+            }
+            self.env['account.account.report.line'].create(account_report_line)
+
+            # Aproveitar o dicionario e complementar com informações das
+            # linhas ja criadas para ser possivel utilizalas
+            account_reports[account_account_reports_id.code] = total
