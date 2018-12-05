@@ -47,6 +47,12 @@ class AccountFechamento(models.Model):
         default=lambda self: self._get_default_journal(),
     )
 
+    account_move_ids = fields.One2many(
+        string='Lançamentos de Fechamento',
+        comodel_name='account.move',
+        inverse_name='account_fechamento_id',
+    )
+
     state = fields.Selection(
         selection=[
             ('open', 'Aberto'),
@@ -92,7 +98,7 @@ class AccountFechamento(models.Model):
             record.button_buscar_periodos()
             for period_id in record.account_period_ids:
                 period_id.account_journal_id = record.account_journal_id
-                period_id.fechar_periodo()
+                period_id.fechar_periodo(record, record.periodo_fim)
 
             record.state = 'close'
 

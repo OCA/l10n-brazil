@@ -4,10 +4,11 @@
 
 import random
 import string
-from dateutil.relativedelta import relativedelta
 
 import pandas as pd
+from dateutil.relativedelta import relativedelta
 from openerp import api, fields, models
+from openerp.exceptions import Warning as UserError
 
 
 class AccountPeriod(models.Model):
@@ -76,7 +77,12 @@ class AccountPeriod(models.Model):
     )
 
     @api.multi
-    def fechar_periodo(self):
+    def button_fechar_periodo(self):
+        for record in self:
+            record.fechar_periodo()
+
+    @api.multi
+    def fechar_periodo(self, account_fechamento_id=False, periodo_fechamento=False):
         """
 
         :return:
@@ -103,7 +109,10 @@ class AccountPeriod(models.Model):
                         move.period_id.date_stop
                     ]
 
-            data_lancamento = df_are['dt_stop'].max()
+            # Variaveis para lançamentos de fechamento
+            periodo_fechamento = periodo_fechamento or record
+            data_lancamento = \
+                periodo_fechamento.date_stop or df_are['dt_stop'].max()
 
             # Agrupa por conta e soma as outras colunas
             df_agrupado = df_are.groupby('conta').sum()
@@ -113,6 +122,11 @@ class AccountPeriod(models.Model):
             # Conta de credito e debito ARE padrão
             are_debito = record.account_journal_id.default_debit_account_id.id
             are_credito = record.account_journal_id.default_credit_account_id.id
+
+            if not are_credito or not are_debito:
+                raise UserError(
+                    u'Configurar as contas ARE no Lote de '
+                    u'Lançamentos de fechamentos')
 
             for conta in df_agrupado.index:
                 series_conta = df_agrupado.loc[conta]
@@ -157,10 +171,13 @@ class AccountPeriod(models.Model):
 
                     record.env['account.move'].create({
                         'journal_id': record.account_journal_id.id,
-                        'period_id': record.id,
+                        'period_id': periodo_fechamento.id,
                         'date': data_lancamento,
                         'state': 'posted',
                         'lancamento_de_fechamento': True,
+                        'account_fechamento_id':
+                            account_fechamento_id.id
+                            if account_fechamento_id else False,
                         'line_id': [(0, 0, conta_id), (0, 0, are_id)]
                     })
 
@@ -291,8 +308,6 @@ class AccountPeriod(models.Model):
                     'saldo_final': result,
                 })
 
-
-
     def get_partidas_periodo(self, period_id_inicial, period_final):
         """
         :return:
@@ -398,7 +413,7 @@ class AccountPeriod(models.Model):
                 total = contas_dre_id.get_total(
                     partidas_periodo_ids, account_reports)
 
-                # Criar linha baseado no template do accoun.report
+                # Criar linha baseado no template do account.report
                 account_report_dre = {
                     'name': contas_dre_id.name,
                     'account_account_report_id': contas_dre_id.id,

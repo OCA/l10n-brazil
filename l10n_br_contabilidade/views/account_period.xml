@@ -11,7 +11,7 @@
             <field name="inherit_id" ref="account.view_account_period_form" />
             <field name="arch" type="xml">
                 <button name="%(account.action_account_period_close)d" position="replace">
-                    <button name="fechar_periodo" string="Fechar período" type="object" attrs="{'invisible':[('state','=','done')]}" icon="gtk-find"/>
+                    <button name="button_fechar_periodo" string="Fechar período" type="object" attrs="{'invisible':[('state','=','done')]}" class="oe_highlight"/>
                 </button>
 
                 <button name="action_draft" position="replace">

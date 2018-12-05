@@ -28,6 +28,11 @@ class AccountMove(models.Model):
         help='Indica se é um lançamento gerado apartir do fechamento',
     )
 
+    account_fechamento_id = fields.Many2one(
+        comodel_name='account.fechamento',
+        string='Fechamnto relacionado',
+    )
+
     historico_padrao_id = fields.Many2one(
         comodel_name='account.historico.padrao',
         string=u'Modelo do Histórico Padrão',
