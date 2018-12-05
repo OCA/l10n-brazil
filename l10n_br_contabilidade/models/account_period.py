@@ -82,7 +82,7 @@ class AccountPeriod(models.Model):
             record.fechar_periodo()
 
     @api.multi
-    def fechar_periodo(self, account_fechamento_id=False):
+    def fechar_periodo(self):
         """
 
         :return:
@@ -91,6 +91,13 @@ class AccountPeriod(models.Model):
             # Altera estado
             record.state = 'done'
 
+    @api.multi
+    def apurar_periodo(self):
+        """
+
+        :return:
+        """
+        for record in self:
             # Cria dataframe vazio com colunas
             df_are = pd.DataFrame(
                 columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
@@ -114,11 +121,11 @@ class AccountPeriod(models.Model):
 
             # Variaveis para lançamentos de fechamento
             periodo_fechamento = \
-                account_fechamento_id.periodo_fim \
-                    if account_fechamento_id else record
+                record.account_fechamento_id.periodo_fim \
+                    if record.account_fechamento_id else record
             data_lancamento = \
-                account_fechamento_id.periodo_fim.date_stop \
-                    if account_fechamento_id else df_are['dt_stop'].max()
+                record.account_fechamento_id.periodo_fim.date_stop \
+                    if record.account_fechamento_id else df_are['dt_stop'].max()
 
             # Agrupa por conta e soma as outras colunas
             df_agrupado = df_are.groupby('conta').sum()
@@ -156,9 +163,6 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
-                        # Retorna valor negativo para débito lançado na Apuração de Resultados
-                        # yield series_conta['result']*-1
-
                     elif series_conta['result'] < 0.0:
                         conta_id = {
                             'account_id': int(conta),
@@ -178,9 +182,6 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
-                        # Retorna valor positivo para crédito lançado na Apuração de Resultados
-                        # yield abs(series_conta['result'])
-
                     record.env['account.move'].create({
                         'journal_id': record.account_journal_id.id,
                         'period_id': periodo_fechamento.id,
@@ -188,13 +189,10 @@ class AccountPeriod(models.Model):
                         'state': 'posted',
                         'lancamento_de_fechamento': True,
                         'account_fechamento_id':
-                            account_fechamento_id.id
-                            if account_fechamento_id else False,
+                            record.account_fechamento_id.id
+                            if record.account_fechamento_id else False,
                         'line_id': [(0, 0, conta_id), (0, 0, are_id)]
                     })
-
-            # Último retorno: ID e data final do ultimo período
-            # yield [data_lancamento, record.id]
 
     @api.multi
     def reopen_period(self):

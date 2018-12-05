@@ -22,10 +22,24 @@
                     />
 
                     <button class="btn btn-primary"
+                            name="button_apurar_periodos"
+                            string='Apurar Períodos'
+                            type="object"
+                            states="close"
+                    />
+
+                    <button class="btn btn-primary"
+                            name="button_distribuir_resultado"
+                            string='Distribuir Resultados'
+                            type="object"
+                            states="investigated"
+                    />
+
+                    <button class="btn btn-primary"
                             name="button_reopen"
                             string='Cancelar Fechamento'
                             type="object"
-                            states="close"
+                            states="close,investigated,distributed"
                     />
                     
                     <field name="state" widget="statusbar"/>

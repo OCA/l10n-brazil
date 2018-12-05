@@ -56,17 +56,12 @@ class AccountFechamento(models.Model):
         selection=[
             ('open', 'Aberto'),
             ('close', 'Fechado'),
+            ('investigated', 'Apurado'),
+            ('distributed', 'Resultado Distribuído'),
         ],
         string='State',
         default='open',
     )
-
-    # @api.onchange('fiscalyear_id')
-    # def _on_change_fiscalyear_id(self):
-    #     self.periodo_ini = self.fiscalyear_id.period_ids.filtered(
-    #     lambda x: x.name == '01/'+self.fiscalyear_id.name)
-    #     self.periodo_fim = self.fiscalyear_id.period_ids.filtered(
-    #     lambda x: x.name == '12/'+self.fiscalyear_id.name)
 
     def _get_default_fiscalyear(self):
         fiscalyear_id = self.env['account.fiscalyear'].find()
@@ -78,22 +73,63 @@ class AccountFechamento(models.Model):
         ], limit=1)
         return account_journal_id
 
-    def _verifica_apuracao_resultado(self, lines):
-        '''
+    @api.multi
+    def button_buscar_periodos(self):
+        """
+        :return:
+        """
+        for record in self:
+            # Buscar todos periodos no intervalo indicado
+            period_ids = self.env['account.period'].search([
+                ('date_start', '>=', record.periodo_ini.date_start),
+                ('date_stop', '<=', record.periodo_fim.date_stop),
+                ('special', '!=', True),
+            ])
+
+            # Validar para Não encontrar períodos fechados no intervalo
+            peridos_fechados = period_ids.filtered(lambda x: x.state == 'done')
+            if peridos_fechados:
+                raise UserError(u'Períodos já encerrados no intervalo selecionado!')
+
+            # Associa o periodo a este fechamento
+            record.account_period_ids = period_ids
+
+    @api.multi
+    def button_fechar_periodos(self):
+        for record in self:
+            record.state = 'close'
+            record.button_buscar_periodos()
+            for period_id in record.account_period_ids:
+                period_id.account_journal_id = record.account_journal_id
+                period_id.fechar_periodo()
+
+    @api.multi
+    def button_apurar_periodos(self):
+        for record in self:
+            record.state = 'investigated'
+            for period_id in record.account_period_ids:
+                period_id.apurar_periodo()
+
+    @api.multi
+    def button_distribuir_resultado(self):
+        """
         Verifica se o resultado foi positivo ou negativo.
         Se positivo, cria lançamento rateado entre as contas definidas no diário (divisao_resultado_ids)
 
         :return:
-        '''
+        """
         for record in self:
-            resultado = 0
-            # "lines" recebe um generator vindo do método "fechar_periodo" em "account.period"
-            # O último item do generator é uma lista contendo o ID do último período e a data do ultimo dia
-            for line in lines:
-                try:
-                    resultado += line
-                except:
-                    dados_periodo = line
+            debito_are = 0
+            credito_are = 0
+
+            debito_are_id = record.account_journal_id.default_debit_account_id
+            credito_are_id = record.account_journal_id.default_credit_account_id
+
+            for move in record.account_move_ids:
+                debito_are += move.line_id.filtered(lambda x: x.account_id == debito_are_id).debit
+                credito_are += move.line_id.filtered(lambda x: x.account_id == credito_are_id).credit
+
+            resultado = debito_are - credito_are
 
             line_list = []
             # Resultado for positivo -> rateia os valores de acordo com as porcentagens informadas por ordem de conta
@@ -121,8 +157,8 @@ class AccountFechamento(models.Model):
                 # Cria lançamento
                 record.env['account.move'].create({
                     'journal_id': record.account_journal_id.id,
-                    'period_id': dados_periodo[1],
-                    'date': dados_periodo[0],
+                    'period_id': record.periodo_fim.id,
+                    'date': record.periodo_fim.date_stop,
                     'state': 'posted',
                     'lancamento_de_fechamento': True,
                     'line_id': line_list
