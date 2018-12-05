@@ -112,10 +112,6 @@ class AccountFechamento(models.Model):
 
     @api.multi
     def button_reclassificacao(self):
-        """
-
-            :return:
-        """
         for record in self:
             debito_are = 0
             credito_are = 0
