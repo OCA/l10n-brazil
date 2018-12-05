@@ -114,7 +114,7 @@ class AccountFechamento(models.Model):
     def button_reclassificacao(self):
         """
 
-        :return:
+            :return:
         """
         for record in self:
             debito_are = 0
