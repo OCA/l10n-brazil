@@ -5,6 +5,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from openerp import api, fields, models
+from openerp.exceptions import Warning as UserError
 from openerp.tools.safe_eval import safe_eval
 
 
@@ -85,6 +86,21 @@ class AccountAccountReport(models.Model):
         comodel_name='account.account.report',
         string='Contas Filhas',
     )
+
+    @api.multi
+    @api.constrains('active')
+    def _check_active(self):
+        """
+        :return:
+        """
+        for record in self:
+            if not record.active:
+                if record.child_ids or record.parent_id:
+                    raise UserError(
+                        (u'Erro!'),
+                        (u"Não é permitido desativar contas pertecentes a uma "
+                         u"árvore. Certifique-se que essa conta não é pai de"
+                         u" nenhuma outra e que não contenha contas filhas!"))
 
     @api.multi
     def get_total(self, partidas_ids=False, account_reports={}):
