@@ -7,10 +7,10 @@ from __future__ import division, print_function, unicode_literals
 from openerp import api, fields, models
 
 
-class AccountAccountReportDRE(models.Model):
-    _name = b'account.account.report.dre'
+class AccountAccountReportLine(models.Model):
+    _name = b'account.account.report.line'
     _order = b'sequence'
-    _description = 'Modelo para gerenciar contas do DRE.'
+    _description = 'Modelo para gerenciar contas do Line.'
 
     name = fields.Char(
         string='Nome',

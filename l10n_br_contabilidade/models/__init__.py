@@ -4,7 +4,7 @@
 
 from . import account_account
 from . import account_account_report
-from . import account_account_report_dre
+from . import account_account_report_line
 from . import account_move
 from . import account_fechamento
 from . import account_move_line

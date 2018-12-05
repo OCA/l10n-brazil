@@ -70,9 +70,9 @@ class AccountPeriod(models.Model):
         default=lambda self: self.default_demonstracao_start_periodo(),
     )
 
-    account_account_report_dre_ids = fields.One2many(
-        comodel_name='account.account.report.dre',
-        string='Linhas do DRE',
+    account_account_report_line_ids = fields.One2many(
+        comodel_name='account.account.report.line',
+        string='Contas de Apresentação',
         inverse_name='period_id',
     )
 
@@ -402,19 +402,19 @@ class AccountPeriod(models.Model):
         :return:
         """
         for record in self:
-            record.account_account_report_dre_ids.unlink()
+            record.account_account_report_line_ids.unlink()
 
             account_reports = {}
 
             # Contas alteradas no período
             if record.demonstracao_periodo_atual:
                 # Contas para gerar saldo. Definir contas para agrupar partidas
-                partidas_periodo_ids = \
+                account_move_line_ids = \
                     self.get_partidas_periodo(record, record)
 
             else:
                 # Partidas desde o ultimo periodo finalizado
-                partidas_periodo_ids = \
+                account_move_line_ids = \
                     self.get_partidas_periodo(
                         record.demonstracao_start_periodo, record)
 

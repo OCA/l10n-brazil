@@ -80,7 +80,7 @@
 
                         <page string="DRE">
                             <separator string="DRE" colspan="4"/>
-                            <field name="account_account_report_dre_ids" nolabel="1" />
+                            <field name="account_account_report_line_ids" nolabel="1" />
                         </page>
 
                     </notebook>
