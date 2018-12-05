@@ -158,7 +158,7 @@ class AccountFechamento(models.Model):
                 period_id.fechar_periodo(record)
             # Fecha período
             record.state = 'close'
-            self._verifica_apuracao_resultado(period_id.fechar_periodo())
+            # self._verifica_apuracao_resultado(period_id.fechar_periodo())
 
     @api.multi
     def button_reopen(self):
