@@ -292,72 +292,80 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     participante_cnpj_cpf = fields.Char(
         string='CNPJ/CPF',
         size=18,
-        related='participante_id.cnpj_cpf',
-        readonly=True,
+        # related='participante_id.cnpj_cpf',
+        # readonly=True,
     )
     participante_tipo_pessoa = fields.Char(
         string='Tipo pessoa',
         size=1,
-        related='participante_id.tipo_pessoa',
-        readonly=True,
+        # related='participante_id.tipo_pessoa',
+        # readonly=True,
     )
     participante_razao_social = fields.Char(
         string='Razão Social',
         size=60,
-        related='participante_id.razao_social',
-        readonly=True,
+        # related='participante_id.razao_social',
+        # readonly=True,
     )
     participante_fantasia = fields.Char(
         string='Fantasia',
         size=60,
-        related='participante_id.fantasia',
-        readonly=True,
+        # related='participante_id.fantasia',
+        # readonly=True,
     )
     participante_endereco = fields.Char(
         string='Endereço',
         size=60,
-        related='participante_id.endereco',
-        readonly=True,
+        # related='participante_id.endereco',
+        # readonly=True,
+
     )
     participante_numero = fields.Char(
         string='Número',
         size=60,
-        related='participante_id.numero',
+        # related='participante_id.numero',
         readonly=True,
+
     )
     participante_complemento = fields.Char(
         string='Complemento',
         size=60,
-        related='participante_id.complemento',
-        readonly=True,
+        # related='participante_id.complemento',
+        # readonly=True,
+        # store=True,
     )
     participante_bairro = fields.Char(
         string='Bairro',
         size=60,
-        related='participante_id.bairro',
-        readonly=True,
+        # related='participante_id.bairro',
+        # readonly=True,
+        # store=True,
     )
     participante_municipio_id = fields.Many2one(
         comodel_name='sped.municipio',
         string='Município',
-        related='participante_id.municipio_id',
-        readonly=True,
+        # related='participante_id.municipio_id',
+        # readonly=True,
+        # store=True,
     )
     participante_cidade = fields.Char(
         string='Município',
-        related='participante_id.cidade',
-        readonly=True,
+        # related='participante_id.cidade',
+        # readonly=True,
+        # store=True,
     )
     participante_estado = fields.Char(
         string='Estado',
-        related='participante_id.estado',
-        readonly=True,
+        # related='participante_id.estado',
+        # readonly=True,
+        # store=True,
     )
     participante_cep = fields.Char(
         string='CEP',
         size=9,
-        related='participante_id.cep',
-        readonly=True,
+        # related='participante_id.cep',
+        # readonly=True,
+        # store=True,
     )
     #
     # Telefone e email para a emissão da NF-e
@@ -365,26 +373,26 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     participante_fone = fields.Char(
         string='Fone',
         size=18,
-        related='participante_id.fone',
-        readonly=True,
+        # related='participante_id.fone',
+        # readonly=True,
     )
     participante_fone_comercial = fields.Char(
         string='Fone Comercial',
         size=18,
-        related='participante_id.fone_comercial',
+        # related='participante_id.fone_comercial',
         readonly=True,
     )
     participante_celular = fields.Char(
         string='Celular',
         size=18,
-        related='participante_id.celular',
-        readonly=True,
+        # related='participante_id.celular',
+        # readonly=True,
     )
     participante_email = fields.Char(
         string='Email',
         size=60,
-        related='participante_id.email',
-        readonly=True,
+        # related='participante_id.email',
+        # readonly=True,
     )
     #
     # Inscrições e documentos
@@ -393,19 +401,19 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         selection=IE_DESTINATARIO,
         string='Contribuinte',
         default='2',
-        related='participante_id.contribuinte',
-        readonly=True,
+        # related='participante_id.contribuinte',
+        # readonly=True,
     )
     participante_ie = fields.Char(
         string='Inscrição estadual',
         size=18,
-        related='participante_id.ie',
-        readonly=True,
+        # related='participante_id.ie',
+        # readonly=True,
     )
     participante_eh_orgao_publico = fields.Boolean(
         string='É órgão público?',
-        related='participante_id.eh_orgao_publico',
-        readonly=True,
+        # related='participante_id.eh_orgao_publico',
+        # readonly=True,
     )
 
     #
@@ -1329,6 +1337,65 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             if self.participante_id.condicao_pagamento_id:
                 valores['condicao_pagamento_id'] = \
                     self.participante_id.condicao_pagamento_id.id
+        #
+        #Atualiza os campos de dados do participante para garantir que
+        #cada documento fiscal mantenham seus dados
+        #
+
+        if self.participante_id.cnpj_cpf:
+            self.participante_cnpj_cpf = \
+                self.participante_id.cnpj_cpf
+        if self.participante_id.tipo_pessoa:
+            self.participante_tipo_pessoa=\
+                self.participante_id.tipo_pessoa
+        if self.participante_id.razao_social:
+            self.participante_razao_social=\
+                self.participante_id.razao_social
+        if self.participante_id.fantasia:
+            self.participante_fantasia =\
+                self.participante_id.fantasia
+        if self.participante_id.endereco:
+            self.participante_endereco=\
+                self.participante_id.endereco
+        if self.participante_id.numero:
+            self.participante_numero=\
+                self.participante_id.numero
+        if self.participante_id.complemento:
+            self.participante_complemento=\
+                self.participante_id.complemento
+        if self.participante_id.bairro:
+            self.participante_bairro=\
+                self.participante_id.bairro
+        if self.participante_id.municipio_id:
+            self.participante_municipio_id=\
+                self.participante_id.municipio_id
+        if self.participante_id.cidade:
+            self.participante_cidade=\
+                self.participante_id.cidade
+        if self.participante_id.estado:
+            self.participante_estado=\
+                self.participante_id.estado
+        if self.participante_id.cep:
+            self.participante_cep=\
+                self.participante_id.cep
+        if self.participante_id.fone:
+            self.participante_fone=\
+                self.participante_id.fone
+        if self.participante_id.fone_comercial:
+            self.participante_fone_comercial=\
+                self.participante_id.fone_comercial
+        if self.participante_id.celular:
+            self.participante_celular=\
+                self.participante_id.celular
+        if self.participante_id.contribuinte:
+            self.participante_contribuinte=\
+                self.participante_id.contribuinte
+        if self.participante_id.ie:
+            self.participante_ie=\
+                self.participante_id.ie
+        if self.participante_id.eh_orgao_publico:
+            self.participante_eh_orgao_publico=\
+                self.participante_id.eh_orgao_publico
 
         return res
 
