@@ -38,12 +38,13 @@ class AccountFechamento(models.Model):
     fiscalyear_id = fields.Many2one(
         comodel_name='account.fiscalyear',
         string='Ano base',
-        default=lambda self: self._get_defaults(),
+        default=lambda self: self._get_default_fiscalyear(),
     )
 
     account_journal_id = fields.Many2one(
         string=u'Diário de fechamento',
         comodel_name='account.journal',
+        default=lambda self: self._get_default_journal(),
     )
 
     state = fields.Selection(
@@ -55,10 +56,15 @@ class AccountFechamento(models.Model):
         default='open',
     )
 
-    def _get_defaults(self):
+    def _get_default_fiscalyear(self):
         fiscalyear_id = self.env['account.fiscalyear'].find()
-
         return fiscalyear_id
+
+    def _get_default_journal(self):
+        account_journal_id = self.env['account.journal'].search([
+            ('type','=','situation')
+        ], limit=1)
+        return account_journal_id
 
     @api.multi
     def button_buscar_periodos(self):
