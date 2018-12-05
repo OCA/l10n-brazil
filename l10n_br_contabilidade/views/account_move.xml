@@ -10,15 +10,15 @@
             <field name="model">account.move</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
+                    <field name="sequencia"/>
                     <field name="name"/>
-                    <field name="ref"/>
+                    <field name="ref" invisible="1"/>
                     <field name="date"/>
                     <field name="period_id"/>
                     <field name="journal_id" string="Lote"/>
                     <field name="partner_id" invisible="1"/>
                     <field name="amount" sum="Total Amount"/>
                     <field name="to_check"/>
-                    <field name="sequencia"/>
                     <field name="state"/>
                 </tree>
             </field>

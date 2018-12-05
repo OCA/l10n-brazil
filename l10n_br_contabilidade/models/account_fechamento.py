@@ -82,6 +82,7 @@ class AccountFechamento(models.Model):
             period_ids = self.env['account.period'].search([
                 ('date_start', '>=', record.periodo_ini.date_start),
                 ('date_stop', '<=', record.periodo_fim.date_stop),
+                ('special', '!=', True),
             ])
 
             # Validar para Não encontrar períodos fechados no intervalo
