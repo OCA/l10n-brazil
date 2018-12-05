@@ -57,7 +57,7 @@
                         <group string="Contas" attrs="{'invisible':[('tipo_calculo','!=','sintetico')]}" >
 
                             <label for="parent_id" colspan="4"/>
-                            <field name="parent_id" colspan="4" />
+                            <field name="parent_id" nolabel="1" colspan="4" />
                             <label for="child_ids" colspan="4"/>
                             <field name="child_ids" nolabel="1" colspan="4" readonly="True" options="{'no_create': True}" >
                                 <tree>
