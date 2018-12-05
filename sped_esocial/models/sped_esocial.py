@@ -717,6 +717,8 @@ class SpedEsocial(models.Model):
                     mes = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').month
                     ano = datetime.strptime(self.periodo_id.date_start, '%Y-%m-%d').year
 
+                    payslips = False
+                    payslips_decimo_terceiro = False
                     # Trabalhadores autonomos tem holerite separado
                     if trabalhador.tipo != 'autonomo':
                         # Busca os payslips de pagamento mensal deste trabalhador
