@@ -194,7 +194,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             # fim_periodo = self.periodo_id.date_stop
             # if fim_periodo < data:
             #     data = fim_periodo
-            info_pgto.dtPgto.valor = payslip.data_pagamento_competencia
+            info_pgto.dtPgto.valor = payslip.data_pagamento_competencia or fields.Date.today().split(' ')[0]
 
             # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
             # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
