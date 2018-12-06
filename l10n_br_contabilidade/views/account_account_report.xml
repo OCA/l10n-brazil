@@ -54,14 +54,9 @@
                         </group>
 
                         <group string="Contas" attrs="{'invisible':[('tipo_calculo','!=','sintetico')]}" colspan="4">
-                            <group colspan="4">
-                                <label for="parent_id" colspan="4"/>
-                                <field name="parent_id" nolabel="1" colspan="4" />
-                            </group>
-
                             <group attrs="{'invisible':[('child_ids','=',[])]}" colspan="4">
                                 <label for="child_ids" colspan="4"/>
-                                <field name="child_ids" nolabel="1" colspan="4" readonly="True" options="{'no_create': True}" >
+                                <field name="child_ids" nolabel="1" colspan="4" options="{'no_create': True}" >
                                     <tree>
                                         <field name="code" />
                                         <field name="name" />

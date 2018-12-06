@@ -40,10 +40,6 @@ class AccountAccountReport(models.Model):
     account_account_id = fields.Many2many(
         string=u'Contas',
         comodel_name='account.account',
-        # inverse_name='account_account_report_id',
-        # relation='account_account_report_account_account_rel',
-        # column1='account_account_report_id',
-        # column2='account_account_id',
     )
 
     sequence = fields.Integer(
@@ -74,18 +70,13 @@ class AccountAccountReport(models.Model):
         default='conta',
     )
 
-    parent_id = fields.Many2one(
+    child_ids = fields.Many2many(
         comodel_name='account.account.report',
-        string='Conta pai',
-        ondelete='restrict',
+        string='Contas Para totalizar',
+        relation='account_report_account_report_rel',
+        column1='account_report_pai_id',
+        column2='account_report_filha_id',
         domain="[('type', '=', type)]",
-        index=True,
-    )
-
-    child_ids = fields.One2many(
-        inverse_name='parent_id',
-        comodel_name='account.account.report',
-        string='Contas Filhas',
     )
 
     @api.multi
@@ -96,11 +87,11 @@ class AccountAccountReport(models.Model):
         """
         for record in self:
             if not record.active:
-                if record.child_ids or record.parent_id:
+                if record.child_ids:
                     raise UserError(
                         (u'Erro!'),
-                        (u"Não é permitido desativar contas pertecentes a uma "
-                         u"árvore. Certifique-se que essa conta não é pai de"
+                        (u"Não é permitido desativar contas pertecentes a uma"
+                         u" árvore. Certifique-se que essa conta não é pai de"
                          u" nenhuma outra e que não contenha contas filhas!"))
 
     @api.multi
