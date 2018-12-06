@@ -25,12 +25,12 @@ class AccountJournal(models.Model):
 
     account_lucro_id = fields.Many2one(
         comodel_name='account.account',
-        string=u'Conta de Reclassificação - Lucro',
+        string=u'Conta - Lucro',
     )
 
     account_prejuizo_id = fields.Many2one(
         comodel_name='account.account',
-        string=u'Conta de Reclassificação - Prejuízo',
+        string=u'Conta - Prejuízo',
     )
 
     @api.multi

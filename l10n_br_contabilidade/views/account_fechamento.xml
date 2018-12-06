@@ -41,7 +41,13 @@
                             type="object"
                             states="close,investigated,distributed"
                     />
-                    
+
+                    <button class="btn btn-primary"
+                            name="button_reclassificacao"
+                            string='Reclassificação'
+                            type="object"
+                    />
+
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -85,7 +91,7 @@
                          </page>
 
                          <page string="Lançamentos de Fechamento" attrs="{'invisible': [('account_move_ids', '=', [])]}">
-                             <group string="Lançamentos desta Apuração"  >
+                             <group string="Lançamentos desta Apuração">
                                 <field name="account_move_ids" readonly="1" nolabel="1"
                                        context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
                                     <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
@@ -98,6 +104,12 @@
                              </group>
                          </page>
 
+                         <page string="Reclassificação" attrs="{'invisible': [('account_move_reclassificacao_id', '=', [])]}"
+                               context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
+                             <group string="Lançamentos da Reclassificação">
+                                <field name="account_move_reclassificacao_id" readonly="1" />
+                             </group>
+                         </page>
                      </notebook>
                 </sheet>
             </form>
