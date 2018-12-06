@@ -23,6 +23,16 @@ class AccountJournal(models.Model):
         inverse_name='journal_id',
     )
 
+    account_lucro_id = fields.Many2one(
+        comodel_name='account.account',
+        string=u'Conta de Reclassificação - Lucro',
+    )
+
+    account_prejuizo_id = fields.Many2one(
+        comodel_name='account.account',
+        string=u'Conta de Reclassificação - Prejuízo',
+    )
+
     @api.multi
     @api.onchange('divisao_resultado_ids')
     def _verifica_porcentagem_fechamento(self):

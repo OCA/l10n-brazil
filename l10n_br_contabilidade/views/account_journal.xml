@@ -29,8 +29,15 @@
                 </field>
 
                 <notebook position="inside">
-                    <page string="Fechamento" attrs="{'invisible': [('type','!=','situation')]}">
-                        <group col="4" string="Contas para Fechamento">
+                    <page string="Reclassificação" attrs="{'invisible': [('type','!=','situation')]}">
+                        <group col="4" string="Contas de Reclassificação (lucro/prejuízo)">
+                            <field name="account_lucro_id"/>
+                            <field name="account_prejuizo_id"/>
+
+                        </group>
+                    </page>
+                    <page string="Distribuição" attrs="{'invisible': [('type','!=','situation')]}">
+                        <group col="4" string="Contas para Distribuição de Lucros">
                             <field name="divisao_resultado_ids" widget="one2many_list"
                                    attrs="{'required': [('type','=','situation')]}"
                                    nolabel="1">
