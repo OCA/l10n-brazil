@@ -29,6 +29,7 @@
                             <field name="sequence_execucao" required="1" />
                         </group>
                         <group>
+                            <field name="mostrar_no_relatorio" />
                             <field name="type" required="True"/>
                         </group>
                     </group>
@@ -38,7 +39,6 @@
                     </group>
 
                     <group>
-
                         <group string="Contas" attrs="{'invisible':[('tipo_calculo','!=','conta')]}">
                             <field name="account_account_id" nolabel="1" >
                                 <tree>
@@ -96,7 +96,19 @@
         </field>
     </record>
 
-    <!-- Contas de Apresentação do BALANÇO PATRIMONIAL-->
+
+
+    <!-- Menu Item Contas de Apresentação
+         Contabilidade > relatórios > COntas de Apresentação -->
+    <menuitem
+        id="menu_abgf_contabilidade_relatorios_account_account_report"
+        name="Conta de Apresentação"
+        parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade"
+        sequence="60" />
+
+
+
+    <!-- Menu de Contas de Apresentação do BALANÇO PATRIMONIAL-->
     <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_action">
         <field name="name">Balanço Patrimonial</field>
         <field name="res_model">account.account.report</field>
@@ -123,12 +135,12 @@
         action="abgf_contabilidade_account_account_report_action"
         id="menu_abgf_contabilidade_account_account_report_patrimonial"
         name="Balanço Patrimonial"
-        parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade"
-        sequence="60"
+        parent="abgf_contabilidade.menu_abgf_contabilidade_relatorios_account_account_report"
+        sequence="10"
     />
 
 
-    <!-- Contas de Apresentação da APURAÇÂO DE RESULTADOS-->
+    <!-- Menu de Contas de Apresentação da APURAÇÂO DE RESULTADOS-->
     <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_resultado_action">
         <field name="name">Contas</field>
         <field name="res_model">account.account.report</field>
@@ -141,8 +153,8 @@
         action="abgf_contabilidade_account_account_report_resultado_action"
         id="menu_abgf_contabilidade_account_account_report_resultado"
         name="DRE"
-        parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade"
-        sequence="80"
+        parent="abgf_contabilidade.menu_abgf_contabilidade_relatorios_account_account_report"
+        sequence="20"
     />
 
     </data>
