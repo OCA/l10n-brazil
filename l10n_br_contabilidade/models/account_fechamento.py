@@ -111,6 +111,61 @@ class AccountFechamento(models.Model):
                 period_id.apurar_periodo()
 
     @api.multi
+    def button_reclassificacao(self):
+        """
+
+        :return:
+        """
+        for record in self:
+            debito_are = 0
+            credito_are = 0
+
+            debito_are_id = record.account_journal_id.default_debit_account_id
+            credito_are_id = record.account_journal_id.default_credit_account_id
+
+            account_lucro_id = record.account_journal_id.account_lucro_id
+            account_prejuizo_id = record.account_journal_id.account_prejuizo_id
+
+            for move in record.account_move_ids:
+                debito_are += move.line_id.filtered(lambda x: x.account_id == debito_are_id).debit
+                credito_are += move.line_id.filtered(lambda x: x.account_id == credito_are_id).credit
+
+            resultado = debito_are - credito_are
+
+            line_list = []
+            if resultado > 0: # Debito > Crédito = Prejuízo
+                # Cria Partida Partida
+                line_list.append((0, 0, {
+                    'account_id': record.account_journal_id.account_prejuizo_id.id,
+                    'debit': resultado,
+                    'credit': 0.0,
+                    'name': ''.join(random.choice(string.uppercase) for x in range(8))
+                }))
+
+                line_list.append((0, 0, {
+                    'account_id': record.account_journal_id.account_prejuizo_id.id,
+                    'debit': resultado,
+                    'credit': 0.0,
+                    'name': ''.join(random.choice(string.uppercase) for x in range(8))
+                }))
+
+            # elif resultado
+            #
+            #
+            # # Cria lançamento
+            # record.env['account.move'].create({
+            #     'journal_id': record.account_journal_id.id,
+            #     'period_id': record.periodo_fim.id,
+            #     'date': record.periodo_fim.date_stop,
+            #     'state': 'posted',
+            #     'lancamento_de_fechamento': True,
+            #     'line_id': line_list
+            # })
+
+
+
+
+    @api.multi
     def button_distribuir_resultado(self):
         """
         Verifica se o resultado foi positivo ou negativo.
