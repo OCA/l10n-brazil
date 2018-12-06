@@ -29,24 +29,27 @@
                     />
 
                     <button class="btn btn-primary"
+                            name="button_reclassificacao"
+                            string='Reclassificação'
+                            type="object"
+                            states="investigated"
+                    />
+
+                    <button class="btn btn-primary"
                             name="button_distribuir_resultado"
                             string='Distribuir Resultados'
                             type="object"
-                            states="investigated"
+                            states="reclassified"
                     />
 
                     <button class="btn btn-primary"
                             name="button_reopen"
                             string='Cancelar Fechamento'
                             type="object"
-                            states="close,investigated,distributed"
+                            states="close,investigated,distributed,reclassified"
                     />
 
-                    <button class="btn btn-primary"
-                            name="button_reclassificacao"
-                            string='Reclassificação'
-                            type="object"
-                    />
+
 
                     <field name="state" widget="statusbar"/>
                 </header>
@@ -108,6 +111,12 @@
                                context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
                              <group string="Lançamentos da Reclassificação">
                                 <field name="account_move_reclassificacao_id" readonly="1" />
+                             </group>
+                         </page>
+                         <page string="Distribuição" attrs="{'invisible': [('account_move_distribuicao_id', '=', [])]}"
+                               context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
+                             <group string="Lançamentos da Distribuição">
+                                <field name="account_move_distribuicao_id" readonly="1" />
                              </group>
                          </page>
                      </notebook>

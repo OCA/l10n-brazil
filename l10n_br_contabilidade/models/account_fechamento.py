@@ -53,9 +53,15 @@ class AccountFechamento(models.Model):
     )
 
     account_move_reclassificacao_id = fields.Many2one(
-        string=u'Conta de Reclassificação',
+        string=u'Lançamentos da Reclassificação',
         comodel_name='account.move',
     )
+
+    account_move_distribuicao_id = fields.Many2one(
+        string=u'Lançamentos da Distribuição',
+        comodel_name='account.move',
+    )
+
 
     state = fields.Selection(
         selection=[
@@ -148,7 +154,7 @@ class AccountFechamento(models.Model):
                 else record.account_journal_id.default_debit_account_id
 
     @api.multi
-    def conta_distribuicao(self, op):
+    def conta_reclassificacao(self, op):
         """
 
         :param op: L/P (Lucro/Prejuízo)
@@ -177,7 +183,7 @@ class AccountFechamento(models.Model):
             if resultado > 0:
                 # Partida 1 -> Credita valor na conta Lucro
                 line_list.append({
-                    'account_id': self.conta_distribuicao(op='L').id,
+                    'account_id': self.conta_reclassificacao(op='L').id,
                     'debit': 0.0,
                     'credit': resultado,
                 })
@@ -193,7 +199,7 @@ class AccountFechamento(models.Model):
             elif resultado < 0:
                 # Partida 1 -> Debita valor na conta Prejuízo
                 line_list.append({
-                    'account_id': self.conta_distribuicao(op='P').id,
+                    'account_id': self.conta_reclassificacao(op='P').id,
                     'debit': resultado,
                     'credit': 0.0,
                 })
@@ -215,7 +221,7 @@ class AccountFechamento(models.Model):
             # Associa lançamento ao encerramento
             record.account_move_reclassificacao_id = record.gera_lancamento_partidas(move=move, lines=line_list).id
 
-            record.state = 'reclassified' if record.account_move_reclassificacao_id else 'investigated'
+            record.state = 'distributed' if record.account_move_reclassificacao_id else 'reclassified'
 
     @api.multi
     def button_distribuir_resultado(self):
@@ -223,52 +229,55 @@ class AccountFechamento(models.Model):
 
         :return:
         """
-        pass
-        # for record in self:
-        #     debito_are = 0
-        #     credito_are = 0
-        #
-        #     debito_are_id = record.account_journal_id.default_debit_account_id
-        #     credito_are_id = record.account_journal_id.default_credit_account_id
-        #
-        #     for move in record.account_move_ids:
-        #         debito_are += move.line_id.filtered(lambda x: x.account_id == debito_are_id).debit
-        #         credito_are += move.line_id.filtered(lambda x: x.account_id == credito_are_id).credit
-        #
-        #     resultado = debito_are - credito_are
-        #
-        #     line_list = []
-        #     # Resultado for positivo -> rateia os valores de acordo com as porcentagens informadas por ordem de conta
-        #     if resultado > 0:
-        #         # Valores únicos da sequência ordenados
-        #         for seq in set([c.sequencia for c in record.account_journal_id.divisao_resultado_ids]):
-        #             # Credito total da sequência
-        #             credito_total = 0
-        #
-        #             for conta in record.account_journal_id.divisao_resultado_ids.filtered(lambda s: s.sequencia == seq):
-        #                 # Porcentagem/Valor Fixo do item em cima do total restante do resultado
-        #                 credito = (conta.porcentagem/100)*resultado if conta.porcentagem != 0.0 else conta.valor_fixo
-        #                 credito_total += credito
-        #
-        #                 # Partida
-        #                 line_list.append((0, 0, {
-        #                     'account_id': conta.account_id.id,
-        #                     'debit': 0.0,
-        #                     'credit': credito,
-        #                     'name': ''.join(random.choice(string.uppercase) for x in range(8))
-        #                 }))
-        #
-        #             resultado = resultado - credito_total
-        #
-        #         # Cria lançamento
-        #         record.env['account.move'].create({
-        #             'journal_id': record.account_journal_id.id,
-        #             'period_id': record.periodo_fim.id,
-        #             'date': record.periodo_fim.date_stop,
-        #             'state': 'posted',
-        #             'lancamento_de_fechamento': True,
-        #             'line_id': line_list
-        #         })
+        for record in self:
+            # Pega o valor resultado
+            cred_reclass = record.account_move_reclassificacao_id.line_id.filtered(
+                    lambda x: x.account_id == record.conta_reclassificacao(op='L'))
+
+            line_list = []
+
+            # Verifica se existe Lucro
+            if cred_reclass:
+                resultado = cred_reclass.credit
+
+                for seq in set([c.sequencia for c in record.account_journal_id.divisao_resultado_ids]):
+                    # Credito total da sequência
+                    credito_total = 0
+
+                    for conta in record.account_journal_id.divisao_resultado_ids.filtered(lambda s: s.sequencia == seq):
+                        # Porcentagem/Valor Fixo do item em cima do total restante do resultado
+                        credito = (conta.porcentagem/100)*resultado if conta.porcentagem != 0.0 else conta.valor_fixo
+                        credito_total += credito
+
+                        # Debita da conta de Reclassificação Crédito
+                        line_list.append({
+                            'account_id': cred_reclass.account_id.id,
+                            'debit': credito,
+                            'credit': 0.0,
+                        })
+
+                        # Credita na conta rateada
+                        line_list.append({
+                            'account_id': conta.account_id.id,
+                            'debit': 0.0,
+                            'credit': credito,
+                        })
+
+                    # Subtraí o valor creditado do Resultado restante
+                    resultado = resultado - credito_total
+
+                # Lançamento
+                move = {
+                    'journal_id': record.account_journal_id.id,
+                    'period_id': record.periodo_fim.id,
+                    'date': record.periodo_fim.date_stop,
+                }
+
+                # Cria Lançamento e Partidas
+                record.account_move_reclassificacao_id = record.gera_lancamento_partidas(move=move, lines=line_list).id
+
+                record.state = 'reclassified' if record.account_move_reclassificacao_id else 'investigated'
+
 
     @api.multi
     def button_buscar_periodos(self):
@@ -293,6 +302,10 @@ class AccountFechamento(models.Model):
 
     @api.multi
     def button_fechar_periodos(self):
+        """
+
+        :return:
+        """
         for record in self:
             record.button_buscar_periodos()
             record._validar_lancamentos_periodo()
@@ -303,6 +316,10 @@ class AccountFechamento(models.Model):
             record.state = 'close'
 
     def _validar_lancamentos_periodo(self):
+        """
+
+        :return:
+        """
         for period_id in self.account_period_ids:
             if period_id.account_move_ids:
                 return True
@@ -314,9 +331,35 @@ class AccountFechamento(models.Model):
 
     @api.multi
     def button_reopen(self):
+        """
+
+        :return:
+        """
         for record in self:
+            # Abre Períodos
             for period_id in record.mapped('account_period_ids'):
                 period_id.reopen_period()
 
-            record.account_period_ids = False
+            # Abre Lançamentos ARE
+            for move in record.account_move_ids:
+                move.state = 'draft'
+
+            # Apaga Lançamentos ARE
+            record.account_move_ids.unlink()
+
+            if record.account_move_reclassificacao_id:
+                # Abre Lançamento de Reclassificação
+                record.account_move_reclassificacao_id.state = 'draft'
+
+                # Apaga Lançamentos da Reclassificação
+                record.account_move_reclassificacao_id.unlink()
+
+            if record.account_move_distribuicao_id:
+                # Abre Lançamento de Reclassificação
+                record.account_move_distribuicao_id.state = 'draft'
+
+                # Apaga Lançamentos da Reclassificação
+                record.account_move_distribuicao_id.unlink()
+
+            # Abre o Encerramento
             record.state = 'open'
