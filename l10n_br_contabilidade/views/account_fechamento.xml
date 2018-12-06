@@ -19,6 +19,15 @@
                             string='Fechar Períodos'
                             type="object"
                             states="open"
+                            attrs="{'invisible': ['|', ('total_lancamentos_periodos', '=', 0)]}"
+                    />
+                    <button class="btn btn-primary"
+                            name="button_fechar_periodos"
+                            string='Fechar Períodos'
+                            type="object"
+                            states="open"
+                            confirm="Deseja realmente realizar esse fechamento de periodos?"
+                            attrs="{'invisible': ['|', ('total_lancamentos_periodos', '&gt;', 0)]}"
                     />
 
                     <button class="btn btn-primary"

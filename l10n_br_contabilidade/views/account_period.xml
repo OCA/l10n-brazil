@@ -10,10 +10,6 @@
             <field name="model">account.period</field>
             <field name="inherit_id" ref="account.view_account_period_form" />
             <field name="arch" type="xml">
-                <button name="%(account.action_account_period_close)d" position="replace">
-                    <button name="button_fechar_periodo" string="Fechar período" type="object" attrs="{'invisible':[('state','=','done')]}" class="oe_highlight"/>
-                </button>
-
                 <button name="action_draft" position="replace">
                     <button name="reopen_period" states="done" string="Re-Abrir Período" type="object" groups="account.group_account_manager"/>
                     <button name="gerar_balancete" string="Gerar Balancete do Período" type="object" />
