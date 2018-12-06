@@ -240,12 +240,23 @@ class AccountFechamento(models.Model):
     def button_fechar_periodos(self):
         for record in self:
             record.button_buscar_periodos()
+            record._validar_lancamentos_periodo()
             for period_id in record.account_period_ids:
                 period_id.account_journal_id = record.account_journal_id
                 period_id.fechar_periodo(record)
             # Fecha período
             record.state = 'close'
             # self._verifica_apuracao_resultado(period_id.fechar_periodo())
+
+    def _validar_lancamentos_periodo(self):
+        for period_id in self.account_period_ids:
+            if period_id.account_move_ids:
+                return True
+
+        raise UserError(
+            u'Não existem lançamentos nos períodos '
+            u'selecionados para fechamento!'
+        )
 
     @api.multi
     def button_reopen(self):
