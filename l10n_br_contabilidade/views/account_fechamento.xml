@@ -217,13 +217,28 @@
         sequence="90"
     />
 
+    <!--Menu para Reclassificação-->
+    <record model="ir.actions.act_window" id="abgf_contabilidade_reclassificacao_resultado_action">
+        <field name="name">Reclassificar</field>
+        <field name="res_model">account.fechamento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in',['investigated'])]</field>
+    </record>
 
-    <!--Menu para fechar Distribuir resultados-->
+    <menuitem
+        action="abgf_contabilidade_reclassificacao_resultado_action"
+        id="menu_abgf_contabilidade_reclassificacao_resultado"
+        parent="abgf_menu_encerramento_contabilidade"
+        sequence="94"
+    />
+
+
+    <!--Menu para Distribuição resultados-->
     <record model="ir.actions.act_window" id="abgf_contabilidade_distribuicao_resultado_action">
         <field name="name">Distribuir Resultados</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state','in',['investigated', 'distributed'])]</field>
+        <field name="domain">[('state','in',['reclassified', 'distributed'])]</field>
     </record>
 
     <menuitem

@@ -7,12 +7,13 @@ import string
 
 from openerp import api, fields, models
 from openerp.exceptions import Warning as UserError
-
+from pybrasil.valor import formata_valor
 
 class AccountFechamento(models.Model):
     _name = 'account.fechamento'
     _description = 'Modelo para criar os lançamentos de fechamento de períodos'
     _order = 'name'
+    _inherit = ['ir.needaction_mixin']
 
     name = fields.Char(
         string=u'Nome',
@@ -83,6 +84,14 @@ class AccountFechamento(models.Model):
         string='State',
         default='open',
     )
+
+    @api.model
+    def _needaction_domain_get(self):
+        return [('state', '!=', 'distributed')]
+
+    @api.model
+    def _needaction_domain_get(self):
+        return [('state', '=', 'close')]
 
     def _get_default_fiscalyear(self):
         fiscalyear_id = self.env['account.fiscalyear'].find()
@@ -276,7 +285,7 @@ class AccountFechamento(models.Model):
                     lambda x: x.account_id == record.conta_reclassificacao(op='P'))
 
                 raise UserError(u'Não é possível executar Distribuição. Encerramento com prejuízo de: R$ '
-                                + str(account_prejuizo.debit))
+                                + str(formata_valor(account_prejuizo.debit)))
 
             resultado = account_lucro.credit
 
