@@ -29,6 +29,13 @@ class AccountAccountReport(models.Model):
              'separadas por underline _ '
     )
 
+    mostrar_no_relatorio = fields.Boolean(
+        string='Mostrar no relatório?',
+        default=True,
+        help='Algumas contas são de referência para contas totalizadoras não '
+             'devendo aparecer nos relatórios',
+    )
+
     type = fields.Selection(
         selection=[
             ('resultado','Demonstração de Resultado'),
@@ -148,14 +155,16 @@ class AccountAccountReport(models.Model):
             total = account_account_reports_id.get_total(
                 account_move_line_ids, account_reports)
 
-            # Criar linha baseado no template do account.report
-            account_report_line = {
-                'name': account_account_reports_id.name,
-                'account_account_report_id': account_account_reports_id.id,
-                'period_id': account_period_id.id,
-                'total': total,
-            }
-            self.env['account.account.report.line'].create(account_report_line)
+            if account_account_reports_id.mostrar_no_relatorio:
+                # Criar linha baseado no template do account.report
+                account_report_line = {
+                    'name': account_account_reports_id.name,
+                    'account_account_report_id': account_account_reports_id.id,
+                    'period_id': account_period_id.id,
+                    'total': total,
+                }
+                self.env['account.account.report.line'].create(
+                    account_report_line)
 
             # Aproveitar o dicionario e complementar com informações das
             # linhas ja criadas para ser possivel utilizalas
