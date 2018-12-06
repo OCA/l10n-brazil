@@ -46,12 +46,20 @@
         />
 
         <menuitem
+                id="abgf_menu_encerramento_contabilidade"
+                name="Encerramento"
+                parent="abgf_menu_contabilidade"
+                sequence="50"
+        />
+
+        <menuitem
                 id="abgf_menu_configuracao_contabilidade"
                 name="Configurações"
                 parent="abgf_menu_contabilidade"
                 sequence="90"
         />
 
+        <!--SUB MENUS DE CONFIGURAÇÔES -->
         <menuitem
                 id="abgf_configuracao_conta_menu"
                 name="Conta"

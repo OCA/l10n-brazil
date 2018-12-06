@@ -133,10 +133,12 @@
         </field>
     </record>
 
+    <!--Menu para fechar movimento-->
     <record model="ir.actions.act_window" id="abgf_contabilidade_account_fechamento_action">
-        <field name="name">Encerramento</field>
+        <field name="name">Fechar Movimento</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','open')]</field>
     </record>
 
     <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_fechamento_tree_action">
@@ -156,9 +158,42 @@
     <menuitem
         action="abgf_contabilidade_account_fechamento_action"
         id="menu_abgf_contabilidade_account_fechamento"
-        parent="abgf_menu_lancamentos_contabilidade"
+        parent="abgf_menu_encerramento_contabilidade"
         sequence="80"
     />
+
+
+    <!--Menu para fechar movimento-->
+    <record model="ir.actions.act_window" id="abgf_contabilidade_apuracao_resultado_action">
+        <field name="name">Apurar Resultado</field>
+        <field name="res_model">account.fechamento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','close')]</field>
+    </record>
+
+    <menuitem
+        action="abgf_contabilidade_apuracao_resultado_action"
+        id="menu_abgf_contabilidade_apuracao_resultado"
+        parent="abgf_menu_encerramento_contabilidade"
+        sequence="90"
+    />
+
+
+    <!--Menu para fechar Distribuir resultados-->
+    <record model="ir.actions.act_window" id="abgf_contabilidade_distribuicao_resultado_action">
+        <field name="name">Distribuir Resultados</field>
+        <field name="res_model">account.fechamento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in',['investigated', 'distributed'])]</field>
+    </record>
+
+    <menuitem
+        action="abgf_contabilidade_distribuicao_resultado_action"
+        id="menu_abgf_contabilidade_distribuicao_resultado"
+        parent="abgf_menu_encerramento_contabilidade"
+        sequence="96"
+    />
+
 
     </data>
 </openerp>
