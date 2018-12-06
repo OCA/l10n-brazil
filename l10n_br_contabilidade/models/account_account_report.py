@@ -70,9 +70,9 @@ class AccountAccountReport(models.Model):
     tipo_calculo = fields.Selection(
         string='Tipo de Cálculo',
         selection=[
-            ('conta', 'Contas'),
             ('formula', 'Fórmula'),
-            ('sintetico', 'Sintético'),
+            ('conta', 'Conta Analitica'),
+            ('sintetico', 'Conta Sintético'),
         ],
         default='conta',
     )
