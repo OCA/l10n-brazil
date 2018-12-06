@@ -93,6 +93,20 @@ class AccountFechamento(models.Model):
     def _needaction_domain_get(self):
         return [('state', '=', 'close')]
 
+    total_lancamentos_periodos = fields.Integer(
+        string=u'Total de lançamentos',
+        compute='_compute_total_lancamentos_periodos',
+    )
+
+    @api.multi
+    def _compute_total_lancamentos_periodos(self):
+        for record in self:
+            total_lancamentos = 0
+            for period in record.account_period_ids:
+                total_lancamentos += len(period.account_move_ids)
+
+            record.total_lancamentos_periodos = total_lancamentos
+
     def _get_default_fiscalyear(self):
         fiscalyear_id = self.env['account.fiscalyear'].find()
         return fiscalyear_id

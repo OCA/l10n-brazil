@@ -91,6 +91,9 @@
                                      </field>
                                  </group>
                              </group>
+                             <group>
+                                 <field name="total_lancamentos_periodos" />
+                             </group>
                          </page>
 
                          <page string="Lançamentos de Fechamento" attrs="{'invisible': [('account_move_ids', '=', [])]}">
