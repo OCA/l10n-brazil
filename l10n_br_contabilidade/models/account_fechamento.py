@@ -231,7 +231,7 @@ class AccountFechamento(models.Model):
                 credito_are += move.line_id.filtered(lambda x: x.account_id == self.conta_are(op='C')).credit
                 debito_are += move.line_id.filtered(lambda x: x.account_id == self.conta_are(op='D')).debit
 
-            resultado = credito_are - debito_are
+            resultado = round(credito_are, 6) - round(debito_are, 6)
 
             line_list = []
 
@@ -268,22 +268,25 @@ class AccountFechamento(models.Model):
                 })
 
             # Lançamento
-            move = {
-                'name': 'RECLAS',
-                'journal_id': record.account_journal_id.id,
-                'period_id': record.periodo_fim.id,
-                'date': record.periodo_fim.date_stop,
-            }
+            if line_list:
+                move = {
+                    'name': 'RECLAS',
+                    'journal_id': record.account_journal_id.id,
+                    'period_id': record.periodo_fim.id,
+                    'date': record.periodo_fim.date_stop,
+                }
 
-            # Associa lançamento ao encerramento
-            record.account_move_reclassificacao_id = record.gera_lancamento_partidas(move=move, lines=line_list).id
+                # Associa lançamento ao encerramento
+                record.account_move_reclassificacao_id = \
+                    record.gera_lancamento_partidas(move=move, lines=line_list)
 
-            record.state = 'reclassified' if record.account_move_reclassificacao_id else 'investigated'
+            record.state = 'reclassified'
 
     @api.multi
     def button_distribuir_resultado(self):
         """
-        Lançamentos rateados entre as contas definidas no modelo account.journal (Contas para Distribuição de Lucros)
+        Lançamentos rateados entre as contas definidas no modelo
+        account.journal (Contas para Distribuição de Lucros)
         :return:
         """
         for record in self:
