@@ -181,8 +181,16 @@ class AccountFechamento(models.Model):
         :return: account.account
         """
         for record in self:
-            return record.account_journal_id.account_lucro_id if op == 'L' \
-                else record.account_journal_id.account_prejuizo_id
+            conta_reclassificacao_id = \
+                record.account_journal_id.account_lucro_id \
+                    if op == 'L' \
+                    else record.account_journal_id.account_prejuizo_id
+
+            if not conta_reclassificacao_id:
+                raise UserError(
+                    u'Configurar as contas de Classificação no Diário!')
+
+            return conta_reclassificacao_id
 
     @api.multi
     def gera_lancamento_partidas(self, move, lines):
