@@ -80,7 +80,7 @@ class AccountMove(models.Model):
     @api.model
     def create(self, vals):
         fiscalyear_id = \
-            self.env['account.period'].browse(vals['period_id']).fiscalyear_id
+            self.env['account.period'].find(vals['date']).fiscalyear_id
 
         if not fiscalyear_id.sequence_id.id:
             fiscalyear_id.sequence_id = self.env['ir.sequence'].create({
