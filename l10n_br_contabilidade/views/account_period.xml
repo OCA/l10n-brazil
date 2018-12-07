@@ -11,9 +11,9 @@
             <field name="inherit_id" ref="account.view_account_period_form" />
             <field name="arch" type="xml">
                 <button name="action_draft" position="replace">
-                    <button name="reopen_period" states="done" string="Re-Abrir Período" type="object" groups="account.group_account_manager"/>
-                    <button name="gerar_balancete" string="Gerar Balancete do Período" type="object" />
-                    <button name="gerar_dre_periodo" string="Gerar DRE" type="object" />
+                    <button name="reopen_period" groups="base.group_no_one" states="done" string="Re-Abrir Período" type="object"/>
+                    <button name="gerar_balancete" groups="base.group_no_one" string="Gerar Balancete do Período" type="object" />
+                    <button name="gerar_dre_periodo" groups="base.group_no_one" string="Gerar DRE" type="object" />
                 </button>
 
                 <xpath expr="//sheet" position="inside">
