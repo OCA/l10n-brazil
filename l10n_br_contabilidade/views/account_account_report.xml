@@ -80,6 +80,7 @@
                 <field name="code" />
                 <field name="tipo_calculo" />
                 <field name="sequence_execucao" />
+                <field name="mostrar_no_relatorio" />
                 <field name="active" />
             </tree>
         </field>
