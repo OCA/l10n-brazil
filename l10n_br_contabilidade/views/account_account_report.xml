@@ -98,17 +98,6 @@
     </record>
 
 
-
-    <!-- Menu Item Contas de Apresentação
-         Contabilidade > relatórios > COntas de Apresentação -->
-    <menuitem
-        id="menu_abgf_contabilidade_relatorios_account_account_report"
-        name="Conta de Apresentação"
-        parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade"
-        sequence="60" />
-
-
-
     <!-- Menu de Contas de Apresentação do BALANÇO PATRIMONIAL-->
     <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_action">
         <field name="name">Balanço Patrimonial</field>
