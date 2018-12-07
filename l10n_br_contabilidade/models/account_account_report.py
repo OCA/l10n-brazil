@@ -47,6 +47,9 @@ class AccountAccountReport(models.Model):
     account_account_id = fields.Many2many(
         string=u'Contas',
         comodel_name='account.account',
+        relation='account_account_account_report_rel',
+        column1='account_account_id',
+        column2='account_report_id',
     )
 
     sequence = fields.Integer(

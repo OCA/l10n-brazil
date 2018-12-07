@@ -2,7 +2,7 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
+from openerp import _, api, fields, models
 
 
 class AccountAccount(models.Model):
@@ -57,12 +57,26 @@ class AccountAccount(models.Model):
         inverse_name='account_id',
     )
 
-    account_account_report_id = fields.Many2one(
+    account_account_report_id = fields.Many2many(
         string=u'Estrutura de Apresentação',
         comodel_name='account.account.report',
-        # relation='account_account_report_account_account_rel',
-        # column1='account_account_id',
-        # column2='account_account_report_id',
+        relation='account_account_account_report_rel',
+        column1='account_report_id',
+        column2='account_account_id',
+    )
+
+    report_type = fields.Selection(
+        related='user_type.report_type',
+        selection=[
+            ('none', '/'),
+            ('income', _('Profit & Loss (Income account)')),
+            ('expense', _('Profit & Loss (Expense account)')),
+            ('asset', _('Balance Sheet (Asset account)')),
+            ('liability', _('Balance Sheet (Liability account)'))
+        ],
+        help="This field is used to generate legal reports: "
+             "profit and loss, balance sheet.",
+        required=True
     )
 
     @api.depends('balance')
