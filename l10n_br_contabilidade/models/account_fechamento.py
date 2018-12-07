@@ -133,7 +133,8 @@ class AccountFechamento(models.Model):
             # Validar para Não encontrar períodos fechados no intervalo
             peridos_fechados = period_ids.filtered(lambda x: x.state == 'done')
             if peridos_fechados:
-                raise UserError(u'Períodos já encerrados no intervalo selecionado!')
+                raise UserError(u'Períodos já encerrados no '
+                                u'intervalo selecionado!')
 
             # Associa o periodo a este fechamento
             record.account_period_ids = period_ids
@@ -207,11 +208,13 @@ class AccountFechamento(models.Model):
                     'account_id': line.get('account_id'),
                     'debit': abs(line.get('debit')),
                     'credit': abs(line.get('credit')),
-                    'name': ''.join(random.choice(string.uppercase) for x in range(8))
+                    'name': ''.join(
+                        random.choice(string.uppercase) for x in range(8))
                 }))
 
             # Gera nome do lançamento a partir do template
-            name = record.account_journal_id.template_historico_padrao_id.get_historico_padrao()
+            name = record.account_journal_id.\
+                template_historico_padrao_id.get_historico_padrao()
 
             return record.env['account.move'].create({
                 'name': str(name)+'-'+str(move.get('name')),
