@@ -218,7 +218,8 @@ class AccountFechamento(models.Model):
     def button_reclassificacao(self):
         """
         Agrupa valores de debito e crédito feitos nas contas ARE.
-        Faz lançamentos nas contas definidas como "Contas de Reclassificacação" no modelo account.journal de acordo com
+        Faz lançamentos nas contas definidas como "Contas de Reclassificacação"
+         no modelo account.journal de acordo com
         o resultado (Lucro/Prejuízo)
         :return:
         """
@@ -228,8 +229,11 @@ class AccountFechamento(models.Model):
 
             # Soma valores debito/crédito ARE
             for move in record.account_move_ids:
-                credito_are += move.line_id.filtered(lambda x: x.account_id == self.conta_are(op='C')).credit
-                debito_are += move.line_id.filtered(lambda x: x.account_id == self.conta_are(op='D')).debit
+
+                credito_are += move.line_id.filtered(
+                    lambda x: x.account_id == self.conta_are(op='C')).credit
+                debito_are += move.line_id.filtered(
+                    lambda x: x.account_id == self.conta_are(op='D')).debit
 
             resultado = round(credito_are, 6) - round(debito_are, 6)
 
