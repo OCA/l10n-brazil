@@ -171,13 +171,15 @@ class AccountFechamento(models.Model):
         :return: account.account
         """
         for record in self:
-            return record.account_journal_id.default_credit_account_id if op == 'C' \
+            return record.account_journal_id.default_credit_account_id \
+                if op == 'C' \
                 else record.account_journal_id.default_debit_account_id
 
     @api.multi
     def conta_reclassificacao(self, op):
         """
-        Retorna a conta de Reclassificação de acordo com a operação (op) informada
+        Retorna a conta de Reclassificação de acordo com a operação (op)
+        informada
         :param op: L/P (Lucro/Prejuízo)
         :return: account.account
         """
@@ -197,8 +199,11 @@ class AccountFechamento(models.Model):
     def gera_lancamento_partidas(self, move, lines):
         """
         Gera lançamento com partidas
+
         :param move: Dict{'journal_id': '', 'period_id': '',  'date': ''}
-        :param lines: list[Dict{'name': '', 'journal_id': '', 'period_id': '',  'date': ''}, {...}]
+        :param lines: list[Dict{'name': '', 'journal_id': '', 'period_id': '',
+        'date': ''}, {...}]
+
         :return: account.move
         """
         line_list = []
@@ -306,28 +311,37 @@ class AccountFechamento(models.Model):
         """
         for record in self:
             # Pega o valor resultado
-            account_lucro = record.account_move_reclassificacao_id.line_id.filtered(
-                    lambda x: x.account_id == record.conta_reclassificacao(op='L'))
+            account_lucro = record.account_move_reclassificacao_id.line_id.\
+                filtered(lambda x: x.account_id == record.
+                         conta_reclassificacao(op='L'))
 
             line_list = []
 
             # Verifica se existe Lucro
             if not account_lucro:
-                account_prejuizo = record.account_move_reclassificacao_id.line_id.filtered(
-                    lambda x: x.account_id == record.conta_reclassificacao(op='P'))
+                account_prejuizo = record.account_move_reclassificacao_id.\
+                    line_id.\
+                    filtered(lambda x: x.account_id == record.
+                             conta_reclassificacao(op='P'))
 
-                raise UserError(u'Não é possível executar Distribuição. Encerramento com prejuízo de: R$ '
+                raise UserError(u'Não é possível executar Distribuição. '
+                                u'Encerramento com prejuízo de: R$ '
                                 + str(formata_valor(account_prejuizo.debit)))
 
             resultado = account_lucro.credit
 
-            for seq in set([c.sequencia for c in record.account_journal_id.divisao_resultado_ids]):
+            for seq in set([c.sequencia for c in
+                            record.account_journal_id.divisao_resultado_ids]):
                 # Credito total da sequência
                 credito_total = 0
 
-                for conta in record.account_journal_id.divisao_resultado_ids.filtered(lambda s: s.sequencia == seq):
-                    # Porcentagem/Valor Fixo do item em cima do total restante do resultado
-                    credito = (conta.porcentagem/100)*resultado if conta.porcentagem != 0.0 else conta.valor_fixo
+                for conta in record.account_journal_id.divisao_resultado_ids.\
+                        filtered(lambda s: s.sequencia == seq):
+
+                    # Porcentagem/Valor Fixo do item em cima do total restante
+                    # do resultado
+                    credito = (conta.porcentagem/100)*resultado \
+                        if conta.porcentagem != 0.0 else conta.valor_fixo
                     credito_total += credito
 
                     # Debita da conta de Reclassificação Crédito
@@ -356,9 +370,11 @@ class AccountFechamento(models.Model):
             }
 
             # Cria Lançamento e Partidas
-            record.account_move_distribuicao_id = record.gera_lancamento_partidas(move=move, lines=line_list).id
+            record.account_move_distribuicao_id = record.\
+                gera_lancamento_partidas(move=move, lines=line_list).id
 
-            record.state = 'distributed' if record.account_move_distribuicao_id else 'reclassified'
+            record.state = 'distributed' \
+                if record.account_move_distribuicao_id else 'reclassified'
 
     @api.multi
     def button_buscar_periodos(self):
@@ -376,7 +392,8 @@ class AccountFechamento(models.Model):
             # Validar para Não encontrar períodos fechados no intervalo
             peridos_fechados = period_ids.filtered(lambda x: x.state == 'done')
             if peridos_fechados:
-                raise UserError(u'Períodos já encerrados no intervalo selecionado!')
+                raise UserError(u'Períodos já encerrados no '
+                                u'intervalo selecionado!')
 
             # Associa o periodo a este fechamento
             record.account_period_ids = period_ids

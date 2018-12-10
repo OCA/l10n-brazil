@@ -120,12 +120,11 @@ class AccountPeriod(models.Model):
                     ]
 
             # Variaveis para lançamentos de fechamento
-            periodo_fechamento = \
-                record.account_fechamento_id.periodo_fim \
-                    if record.account_fechamento_id else record
-            data_lancamento = \
-                record.account_fechamento_id.periodo_fim.date_stop \
-                    if record.account_fechamento_id else df_are['dt_stop'].max()
+            periodo_fechamento = record.account_fechamento_id.periodo_fim \
+                if record.account_fechamento_id else record
+
+            data_lancamento = record.account_fechamento_id.periodo_fim.date_stop \
+                if record.account_fechamento_id else df_are['dt_stop'].max()
 
             # Agrupa por conta e soma as outras colunas
             df_agrupado = df_are.groupby('conta').sum()
@@ -182,17 +181,19 @@ class AccountPeriod(models.Model):
                                 range(8))
                         }
 
-                    record.env['account.move'].create({
+                    move_id = record.env['account.move'].create({
                         'journal_id': record.account_journal_id.id,
                         'period_id': periodo_fechamento.id,
                         'date': data_lancamento,
-                        'state': 'posted',
+                        'state': 'draft',
                         'lancamento_de_fechamento': True,
                         'account_fechamento_id':
                             record.account_fechamento_id.id
                             if record.account_fechamento_id else False,
                         'line_id': [(0, 0, conta_id), (0, 0, are_id)]
                     })
+
+                    move_id.post()
 
     @api.multi
     def reopen_period(self):
@@ -210,7 +211,6 @@ class AccountPeriod(models.Model):
 
             record.state = 'draft'
 
-
     @api.onchange('demonstracao_periodo_atual')
     def onchange_demonstracao_periodo_atual(self):
         """
@@ -224,7 +224,6 @@ class AccountPeriod(models.Model):
                 record.demonstracao_start_periodo = \
                     self.default_demonstracao_start_periodo()
 
-
     def get_periodo_anterior(self, period_id=False):
         """
         Buscar o periodo anterior a partir do periodo do parametro
@@ -234,10 +233,11 @@ class AccountPeriod(models.Model):
         if self and not period_id:
             period_id = self
         date_start_periodo_anterior = \
-            fields.Date.from_string(period_id.date_start or fields.Date.today()) - relativedelta(months=1)
+            fields.Date.from_string(
+                period_id.date_start or fields.Date.today()) - relativedelta(
+                months=1)
         return self.search([
             ('date_start', '=', str(date_start_periodo_anterior))], limit=1)
-
 
     def get_periodo_seguinte(self, period_id=False):
         """
@@ -246,11 +246,11 @@ class AccountPeriod(models.Model):
         if self and not period_id:
             period_id = self
         date_start_periodo_atual = \
-            fields.Date.from_string(period_id.date_start or fields.Date.today()) + \
+            fields.Date.from_string(
+                period_id.date_start or fields.Date.today()) + \
             relativedelta(months=1)
         return self.search([
             ('date_start', '=', str(date_start_periodo_atual))], limit=1)
-
 
     def get_ultimo_periodo_fechado(self):
         """
@@ -261,7 +261,6 @@ class AccountPeriod(models.Model):
         ], order='date_start DESC', limit=1)
 
         return last_closed_period
-
 
     def default_demonstracao_start_periodo(self):
         """
@@ -279,7 +278,6 @@ class AccountPeriod(models.Model):
             ('account_account_id', '=', account_id.id),
         ])
         return saldo_id.saldo_final or 0.00
-
 
     def get_parent_account(self, contas_ids):
         """
@@ -326,24 +324,10 @@ class AccountPeriod(models.Model):
         partidas_ids = self.env['account.move.line'].search([
             ('date', '>=', period_id_inicial.date_start),
             ('date', '<=', period_final.date_stop),
-            ('move_id.state','=','posted'),
-            ('account_id.user_type.report_type','in',('income', 'expense')),
+            ('move_id.state', '=', 'posted'),
+            ('account_id.user_type.report_type', 'in', ('income', 'expense')),
         ])
         return partidas_ids
-
-
-    # def get_contas_periodo(self, period_id_inicial, period_final):
-    #     """
-    #     :return:
-    #     """
-    #     partidas_ids = self.env['account.account'].search(
-    #         ('date', '>=', period_id_inicial.date_start),
-    #         ('date', '<=', period_final.date_stop),
-    #         ('move_id.state','=','posted'),
-    #         ('account_id.user_type.report_type','in',('income', 'expense')),
-    #     )
-    #     return partidas_ids
-
 
     @api.multi
     def gerar_balancete(self):
@@ -359,27 +343,27 @@ class AccountPeriod(models.Model):
             # Contas alteradas no período
             if record.demonstracao_periodo_atual:
                 # Contas para gerar saldo. Definir contas para agrupar partidas
-                contas_ids = \
-                    record.account_move_ids.mapped('line_id').mapped('account_id')
+                contas_ids = record.account_move_ids.mapped('line_id') \
+                    .mapped('account_id')
 
             else:
                 # Partidas desde o ultimo periodo finalizado
                 partidas_periodo_ids = \
-                    self.get_partidas_periodo(record.demonstracao_start_periodo, record)
+                    self.get_partidas_periodo(
+                        record.demonstracao_start_periodo, record)
 
                 contas_ids = partidas_periodo_ids.mapped('account_id')
-
 
             for conta_id in contas_ids:
 
                 # Lançamentos do período
                 if record.demonstracao_periodo_atual:
-                    partidas = self.account_move_ids.mapped('line_id').\
+                    partidas = self.account_move_ids.mapped('line_id'). \
                         filtered(lambda x: x.account_id == conta_id)
 
                 # Lançamentos apartir do ultimo fechado
                 if not record.demonstracao_periodo_atual:
-                    partidas = partidas_periodo_ids.\
+                    partidas = partidas_periodo_ids. \
                         filtered(lambda x: x.account_id == conta_id)
 
                 # Saldo inicial da conta no período

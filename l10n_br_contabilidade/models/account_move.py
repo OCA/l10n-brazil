@@ -64,8 +64,12 @@ class AccountMove(models.Model):
         :return:
         """
         for record in self:
+            if record.lancamento_de_fechamento:
+                return True
+
             if record.period_id.state == 'done':
-                raise Warning('Período escolhido para este lançamento esta fechado!')
+                raise Warning(u'Período escolhido para '
+                              u'este lançamento esta fechado!')
 
     @api.multi
     def validar_partidas_lancamento_contabil(self):
@@ -106,14 +110,15 @@ class AccountMove(models.Model):
         for record in self:
             if record.journal_id:
 
-                historico_padrao = \
-                    record.journal_id.template_historico_padrao_id.get_historico_padrao()
+                historico_padrao = record.journal_id.\
+                    template_historico_padrao_id.get_historico_padrao()
 
                 if historico_padrao:
                     record.name = historico_padrao
 
                 if record.name and record.narration:
-                    record.resumo = str(record.name + ' ' + record.narration)[:250]
+                    record.resumo = \
+                        str(record.name + ' ' + record.narration)[:250]
 
     @api.model
     def write(self, vals):
