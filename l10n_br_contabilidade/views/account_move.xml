@@ -136,7 +136,7 @@
                                     <field name="date_maturity" invisible="1" />
                                     <field name="account_id" options="{'no_create': True}" domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id)]" />
                                     <field name="precisa_ramo" invisible="1"/>
-                                    <field name="ramo_id" attrs="{'required':[('precisa_ramo','=',True)]}"/>
+                                    <field name="ramo_id" options="{'no_create': True}" attrs="{'required':[('precisa_ramo','=',True)]}"/>
                                     <field name="debit" sum="Total Debit"/>
                                     <field name="credit" sum="Total Credit"/>
                                     <field name="analytic_account_id" groups="analytic.group_analytic_accounting" invisible="1"/>
