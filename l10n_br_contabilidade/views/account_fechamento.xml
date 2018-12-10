@@ -116,6 +116,7 @@
                                 <field name="account_move_ids" readonly="1" nolabel="1"
                                        context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
                                     <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
+                                        <field name="sequencia" />
                                         <field name="name" string="Lançamento"/>
                                         <field name="date"/>
                                         <field name="period_id"/>
@@ -125,30 +126,30 @@
                              </group>
                          </page>
 
-                         <page string="Reclassificação" attrs="{'invisible': [('account_move_line_reclassificacao_ids', '=', [])]}">
+                         <page string="Reclassificação" attrs="{'invisible': [('account_move_reclassificacao_id', '=', [])]}">
                              <group string="Lançamentos da Reclassificação">
-                                <field name="account_move_line_reclassificacao_ids" readonly="1" nolabel="1">
+                                <field name="account_move_reclassificacao_id"  readonly="1" nolabel="1"
+                                       context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
                                     <tree>
-                                        <field name="account_id" string="Conta"/>
+                                        <field name="sequencia" />
+                                        <field name="name" string="Lançamento"/>
                                         <field name="date"/>
                                         <field name="period_id"/>
-                                        <field name="credit"/>
-                                        <field name="debit"/>
                                         <field name="state"/>
                                     </tree>
                                 </field>
                              </group>
                          </page>
 
-                         <page string="Distribuição" attrs="{'invisible': [('account_move_line_distribuicao_ids', '=', [])]}">
+                         <page string="Distribuição" attrs="{'invisible': [('account_move_distribuicao_id', '=', [])]}">
                              <group string="Lançamentos da Distribuição">
-                                <field name="account_move_line_distribuicao_ids" readonly="1" nolabel="1">
+                                <field name="account_move_distribuicao_id" readonly="1" nolabel="1"
+                                       context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
                                     <tree>
-                                        <field name="account_id" string="Conta"/>
+                                        <field name="sequencia" />
+                                        <field name="name" string="Lançamento"/>
                                         <field name="date"/>
                                         <field name="period_id"/>
-                                        <field name="credit"/>
-                                        <field name="debit"/>
                                         <field name="state"/>
                                     </tree>
                                 </field>

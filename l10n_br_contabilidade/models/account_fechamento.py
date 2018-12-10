@@ -53,24 +53,20 @@ class AccountFechamento(models.Model):
         inverse_name='account_fechamento_id',
     )
 
-    account_move_reclassificacao_id = fields.Many2one(
+    account_move_reclassificacao_id = fields.Many2many(
         string=u'Lançamentos da Reclassificação',
         comodel_name='account.move',
+        relation='account_fechamento_account_move_reclassificacao_rel',
+        column1='account_fechamento_id',
+        column2='account_move_id',
     )
 
-    account_move_line_reclassificacao_ids = fields.One2many(
-        string=u'Lançamentos da Reclassificação',
-        related='account_move_reclassificacao_id.line_id',
-    )
-
-    account_move_distribuicao_id = fields.Many2one(
+    account_move_distribuicao_id = fields.Many2many(
         string=u'Lançamentos da Distribuição',
         comodel_name='account.move',
-    )
-
-    account_move_line_distribuicao_ids = fields.One2many(
-        string=u'Lançamentos da Distribuição',
-        related='account_move_distribuicao_id.line_id',
+        relation='account_fechamento_account_move_distribuicao_rel',
+        column1='account_fechamento_id',
+        column2='account_move_id',
     )
 
     state = fields.Selection(
@@ -370,8 +366,8 @@ class AccountFechamento(models.Model):
             }
 
             # Cria Lançamento e Partidas
-            record.account_move_distribuicao_id = record.\
-                gera_lancamento_partidas(move=move, lines=line_list).id
+            record.account_move_distribuicao_id = \
+                record.gera_lancamento_partidas(move=move, lines=line_list)
 
             record.state = 'distributed' \
                 if record.account_move_distribuicao_id else 'reclassified'
