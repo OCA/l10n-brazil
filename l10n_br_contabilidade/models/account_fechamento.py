@@ -432,7 +432,7 @@ class AccountFechamento(models.Model):
 
                     # Apaga Lançamentos da Reclassificação
                     record.account_move_reclassificacao_id.unlink()
-                    record.state = 'investigated'  # Retorna state p/ "Apurado"
+                record.state = 'investigated'  # Retorna state p/ "Apurado"
 
             if record.state == 'distributed':
                 if record.account_move_distribuicao_id:
@@ -441,7 +441,7 @@ class AccountFechamento(models.Model):
 
                     # Apaga Lançamentos da Reclassificação
                     record.account_move_distribuicao_id.unlink()
-                    record.state = 'investigated'  # Retorna state p/ "Reclass."
+                record.state = 'investigated'  # Retorna state p/ "Reclass."
 
     @api.multi
     def button_reopen(self):
