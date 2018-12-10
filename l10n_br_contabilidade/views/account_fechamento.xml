@@ -13,6 +13,21 @@
         <field name="arch" type="xml">
             <form string="fechamento">
                 <header>
+                    <button class="oe_highlight"
+                            name="button_reopen"
+                            string='Cancelar Fechamento'
+                            type="object"
+                            states="close,investigated,distributed,reclassified"
+                            confirm="Esta ação irá retornar ao estágio inicial (Aberto). Deseja prosseguir?"
+                    />
+
+                    <button class="btn btn-primary"
+                            name="button_goback"
+                            string='Voltar estágio anterior'
+                            type="object"
+                            states="close,investigated,distributed,reclassified"
+                            confirm="Esta ação irá retornar ao estágio anterior. Deseja prosseguir?"
+                    />
 
                     <button class="btn btn-primary"
                             name="button_fechar_periodos"
@@ -50,15 +65,6 @@
                             type="object"
                             states="reclassified"
                     />
-
-                    <button class="btn btn-primary"
-                            name="button_reopen"
-                            string='Cancelar Fechamento'
-                            type="object"
-                            states="close,investigated,distributed,reclassified"
-                    />
-
-
 
                     <field name="state" widget="statusbar"/>
                 </header>

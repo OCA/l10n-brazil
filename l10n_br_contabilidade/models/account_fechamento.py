@@ -412,6 +412,42 @@ class AccountFechamento(models.Model):
             record.state = 'close'
 
     @api.multi
+    def button_goback(self):
+        for record in self:
+            if record.state == 'close':
+                # Abre Períodos
+                for period_id in record.mapped('account_period_ids'):
+                    period_id.reopen_period()
+
+                record.state = 'open'  # Retorna state p/ "Aberto"
+
+            if record.state == 'investigated':
+                # Abre Lançamentos ARE
+                for move in record.account_move_ids:
+                    move.state = 'draft'
+
+                record.account_move_ids.unlink()  # Apaga Lançamentos ARE
+                record.state = 'close'  # Retorna state p/ "Fechado"
+
+            if record.state == 'reclassified':
+                if record.account_move_reclassificacao_id:
+                    # Abre Lançamento de Reclassificação
+                    record.account_move_reclassificacao_id.state = 'draft'
+
+                    # Apaga Lançamentos da Reclassificação
+                    record.account_move_reclassificacao_id.unlink()
+                    record.state = 'investigated'  # Retorna state p/ "Apurado"
+
+            if record.state == 'distributed':
+                if record.account_move_distribuicao_id:
+                    # Abre Lançamento de Reclassificação
+                    record.account_move_distribuicao_id.state = 'draft'
+
+                    # Apaga Lançamentos da Reclassificação
+                    record.account_move_distribuicao_id.unlink()
+                    record.state = 'investigated'  # Retorna state p/ "Reclass."
+
+    @api.multi
     def button_reopen(self):
         """
 
