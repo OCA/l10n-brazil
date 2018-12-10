@@ -12,7 +12,7 @@ from pybrasil.valor import formata_valor
 class AccountFechamento(models.Model):
     _name = 'account.fechamento'
     _description = 'Modelo para criar os lançamentos de fechamento de períodos'
-    _order = 'name'
+    _order = 'fiscalyear_id DESC, periodo_ini DESC'
     _inherit = ['ir.needaction_mixin']
 
     name = fields.Char(
