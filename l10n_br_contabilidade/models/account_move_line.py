@@ -35,6 +35,10 @@ class AccountMoveLine(models.Model):
         default=lambda ml: ml.move_id.state if ml.move_id else 'draft',
     )
 
+    @api.multi
+    def _update_journal_check(self, period_id):
+        pass
+
     def _verifica_valores_debito_credito(self, debito, credito):
         if not debito and not credito:
             raise Warning(
