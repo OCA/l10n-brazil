@@ -148,12 +148,15 @@ class SpedEsocialFechamento(models.Model, SpedRegistroIntermediario):
         S1299.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideEvento
-        S1299.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
-                                                        # '1' - Mensal
-                                                        # '2' - Anual (13º salário)
-        S1299.evento.ideEvento.perApur.valor = \
-            self.periodo_id.code[3:7] + '-' + \
-            self.periodo_id.code[0:2]
+        if '13/' not in self.periodo_id.code:
+            S1299.evento.ideEvento.indApuracao.valor = '1'
+            S1299.evento.ideEvento.perApur.valor = \
+                self.periodo_id.code[3:7] + '-' + \
+                self.periodo_id.code[0:2]
+        else:
+            S1299.evento.ideEvento.indApuracao.valor = '2'
+            S1299.evento.ideEvento.perApur.valor = self.periodo_id.code[3:7]
+
         S1299.evento.ideEvento.tpAmb.valor = ambiente
         S1299.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
         S1299.evento.ideEvento.verProc.valor = '8.0'  # Odoo v.8.0
