@@ -92,11 +92,16 @@ class SpedEsocialReabertura(models.Model, SpedRegistroIntermediario):
         S1298.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
 
         # Popula ideEvento
-        S1298.evento.ideEvento.indApuracao.valor = '1'
+        if '13/' not in self.periodo_id.code:
+            S1298.evento.ideEvento.indApuracao.valor = '1'
 
-        S1298.evento.ideEvento.perApur.valor = \
-            self.periodo_id.code[3:7] + '-' + \
-            self.periodo_id.code[0:2]
+            S1298.evento.ideEvento.perApur.valor = \
+                self.periodo_id.code[3:7] + '-' + \
+                self.periodo_id.code[0:2]
+        else:
+            S1298.evento.ideEvento.indApuracao.valor = '2'
+
+            S1298.evento.ideEvento.perApur.valor = self.periodo_id.code[3:7]
 
         S1298.evento.ideEvento.tpAmb.valor = ambiente
         S1298.evento.ideEvento.procEmi.valor = '1'
