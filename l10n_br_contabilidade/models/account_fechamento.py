@@ -5,9 +5,15 @@
 import random
 import string
 
+import logging
+import threading
+
+_logger = logging.getLogger(__name__)
+
 from openerp import api, fields, models
-from openerp.exceptions import Warning as UserError
+from openerp.exceptions import Warning
 from pybrasil.valor import formata_valor
+
 
 class AccountFechamento(models.Model):
     _name = 'account.fechamento'
@@ -94,6 +100,33 @@ class AccountFechamento(models.Model):
         compute='_compute_total_lancamentos_periodos',
     )
 
+    @api.model
+    def _needaction_domain_get(self):
+        return [('state', 'in', ['open', 'close', 'investigated', 'reclassified',
+                                'distributed'])]
+
+    @api.multi
+    def button_buscar_periodos(self):
+        """
+        :return:
+        """
+        for record in self:
+            # Buscar todos periodos no intervalo indicado
+            period_ids = self.env['account.period'].search([
+                ('date_start', '>=', record.periodo_ini.date_start),
+                ('date_stop', '<=', record.periodo_fim.date_stop),
+                ('special', '!=', True),
+            ])
+
+            # Validar para Não encontrar períodos fechados no intervalo
+            peridos_fechados = period_ids.filtered(lambda x: x.state == 'done')
+            if peridos_fechados:
+                raise Warning(u'Períodos já encerrados no '
+                              u'intervalo selecionado!')
+
+            # Associa o periodo a este fechamento
+            record.account_period_ids = period_ids
+
     @api.multi
     def _compute_total_lancamentos_periodos(self):
         for record in self:
@@ -129,37 +162,12 @@ class AccountFechamento(models.Model):
             # Validar para Não encontrar períodos fechados no intervalo
             peridos_fechados = period_ids.filtered(lambda x: x.state == 'done')
             if peridos_fechados:
-                raise UserError(u'Períodos já encerrados no '
+                raise Warning(u'Períodos já encerrados no '
                                 u'intervalo selecionado!')
 
             # Associa o periodo a este fechamento
             record.account_period_ids = period_ids
 
-    @api.multi
-    def button_fechar_periodos(self):
-        """
-        Fecha Períodos
-        :return:
-        """
-        for record in self:
-            record.state = 'close'
-            record.button_buscar_periodos()
-            for period_id in record.account_period_ids:
-                period_id.account_journal_id = record.account_journal_id
-                period_id.fechar_periodo()
-
-    @api.multi
-    def button_apurar_periodos(self):
-        """
-        Apura Períodos
-        :return:
-        """
-        for record in self:
-            record.state = 'investigated'
-            for period_id in record.account_period_ids:
-                period_id.apurar_periodo()
-
-    @api.multi
     def conta_are(self, op):
         """
         Retorna a conta ARE de acordo com a operação (op) informada
@@ -171,7 +179,6 @@ class AccountFechamento(models.Model):
                 if op == 'C' \
                 else record.account_journal_id.default_debit_account_id
 
-    @api.multi
     def conta_reclassificacao(self, op):
         """
         Retorna a conta de Reclassificação de acordo com a operação (op)
@@ -186,12 +193,11 @@ class AccountFechamento(models.Model):
                     else record.account_journal_id.account_prejuizo_id
 
             if not conta_reclassificacao_id:
-                raise UserError(
+                raise Warning(
                     u'Configurar as contas de Classificação no Diário!')
 
             return conta_reclassificacao_id
 
-    @api.multi
     def gera_lancamento_partidas(self, move, lines):
         """
         Gera lançamento com partidas
@@ -226,8 +232,82 @@ class AccountFechamento(models.Model):
                 'line_id': line_list
             })
 
-    @api.multi
-    def button_reclassificacao(self):
+    def distribuir_resultado(self):
+        """
+        Lançamentos rateados entre as contas definidas no modelo
+        account.journal (Contas para Distribuição de Lucros)
+        :return:
+        """
+        for record in self:
+            # Pega o valor resultado
+            account_lucro = record.account_move_reclassificacao_id.line_id.\
+                filtered(lambda x: x.account_id == record.
+                         conta_reclassificacao(op='L'))
+
+            line_list = []
+
+            # Verifica se existe Lucro
+            if not account_lucro:
+                account_prejuizo = record.account_move_reclassificacao_id.\
+                    line_id.\
+                    filtered(lambda x: x.account_id == record.
+                             conta_reclassificacao(op='P'))
+
+                raise Warning(u'Não é possível executar Distribuição. '
+                              u'Encerramento com prejuízo de: R$ '
+                              + str(formata_valor(account_prejuizo.debit)))
+
+            resultado = account_lucro.credit
+
+            for seq in set([c.sequencia for c in
+                            record.account_journal_id.divisao_resultado_ids]):
+                # Credito total da sequência
+                credito_total = 0
+
+                for conta in record.account_journal_id.divisao_resultado_ids.\
+                        filtered(lambda s: s.sequencia == seq):
+
+                    # Porcentagem/Valor Fixo do item em cima do total restante
+                    # do resultado
+                    credito = (conta.porcentagem/100)*resultado \
+                        if conta.porcentagem != 0.0 else conta.valor_fixo
+                    credito_total += credito
+
+                    # Debita da conta de Reclassificação Crédito
+                    line_list.append({
+                        'account_id': account_lucro.account_id.id,
+                        'debit': credito,
+                        'credit': 0.0,
+                    })
+
+                    # Credita na conta rateada
+                    line_list.append({
+                        'account_id': conta.account_id.id,
+                        'debit': 0.0,
+                        'credit': credito,
+                    })
+
+                # Subtraí o valor creditado do Resultado restante
+                resultado = resultado - credito_total
+
+            # Lançamento
+            move = {
+                'name': 'DIST',
+                'journal_id': record.account_journal_id.id,
+                'period_id': record.periodo_fim.id,
+                'date': record.periodo_fim.date_stop,
+            }
+
+            # Cria Lançamento e Partidas
+            record.account_move_distribuicao_id = \
+                record.gera_lancamento_partidas(move=move, lines=line_list)
+
+            record.state = 'distributed' \
+                if record.account_move_distribuicao_id else 'reclassified'
+
+        return u'Distribuição entre contas concluída.'
+
+    def reclassificar(self):
         """
         Agrupa valores de debito e crédito feitos nas contas ARE.
         Faz lançamentos nas contas definidas como "Contas de Reclassificacação"
@@ -298,104 +378,21 @@ class AccountFechamento(models.Model):
 
             record.state = 'reclassified'
 
-    @api.multi
-    def button_distribuir_resultado(self):
+        return u'Reclassificação concluída.'
+
+    def apurar_periodos(self):
         """
-        Lançamentos rateados entre as contas definidas no modelo
-        account.journal (Contas para Distribuição de Lucros)
+        Apura Períodos
         :return:
         """
         for record in self:
-            # Pega o valor resultado
-            account_lucro = record.account_move_reclassificacao_id.line_id.\
-                filtered(lambda x: x.account_id == record.
-                         conta_reclassificacao(op='L'))
+            record.state = 'investigated'
+            for period_id in record.account_period_ids:
+                period_id.apurar_periodo()
 
-            line_list = []
+        return u'Apuração concluída.'
 
-            # Verifica se existe Lucro
-            if not account_lucro:
-                account_prejuizo = record.account_move_reclassificacao_id.\
-                    line_id.\
-                    filtered(lambda x: x.account_id == record.
-                             conta_reclassificacao(op='P'))
-
-                raise UserError(u'Não é possível executar Distribuição. '
-                                u'Encerramento com prejuízo de: R$ '
-                                + str(formata_valor(account_prejuizo.debit)))
-
-            resultado = account_lucro.credit
-
-            for seq in set([c.sequencia for c in
-                            record.account_journal_id.divisao_resultado_ids]):
-                # Credito total da sequência
-                credito_total = 0
-
-                for conta in record.account_journal_id.divisao_resultado_ids.\
-                        filtered(lambda s: s.sequencia == seq):
-
-                    # Porcentagem/Valor Fixo do item em cima do total restante
-                    # do resultado
-                    credito = (conta.porcentagem/100)*resultado \
-                        if conta.porcentagem != 0.0 else conta.valor_fixo
-                    credito_total += credito
-
-                    # Debita da conta de Reclassificação Crédito
-                    line_list.append({
-                        'account_id': account_lucro.account_id.id,
-                        'debit': credito,
-                        'credit': 0.0,
-                    })
-
-                    # Credita na conta rateada
-                    line_list.append({
-                        'account_id': conta.account_id.id,
-                        'debit': 0.0,
-                        'credit': credito,
-                    })
-
-                # Subtraí o valor creditado do Resultado restante
-                resultado = resultado - credito_total
-
-            # Lançamento
-            move = {
-                'name': 'DIST',
-                'journal_id': record.account_journal_id.id,
-                'period_id': record.periodo_fim.id,
-                'date': record.periodo_fim.date_stop,
-            }
-
-            # Cria Lançamento e Partidas
-            record.account_move_distribuicao_id = \
-                record.gera_lancamento_partidas(move=move, lines=line_list)
-
-            record.state = 'distributed' \
-                if record.account_move_distribuicao_id else 'reclassified'
-
-    @api.multi
-    def button_buscar_periodos(self):
-        """
-        :return:
-        """
-        for record in self:
-            # Buscar todos periodos no intervalo indicado
-            period_ids = self.env['account.period'].search([
-                ('date_start', '>=', record.periodo_ini.date_start),
-                ('date_stop', '<=', record.periodo_fim.date_stop),
-                ('special', '!=', True),
-            ])
-
-            # Validar para Não encontrar períodos fechados no intervalo
-            peridos_fechados = period_ids.filtered(lambda x: x.state == 'done')
-            if peridos_fechados:
-                raise UserError(u'Períodos já encerrados no '
-                                u'intervalo selecionado!')
-
-            # Associa o periodo a este fechamento
-            record.account_period_ids = period_ids
-
-    @api.multi
-    def button_fechar_periodos(self):
+    def fechar_periodos(self):
         """
 
         :return:
@@ -406,6 +403,57 @@ class AccountFechamento(models.Model):
                 period_id.account_journal_id = record.account_journal_id
                 period_id.fechar_periodo()
             record.state = 'close'
+
+        return u'Fechamento dos períodos concluído.'
+
+    def acao_st(self):
+        if self.state == 'open':
+            return 'Apurar Resultado', 'fechar_periodos'
+
+        elif self.state == 'close':
+            return 'Reclassificar', 'apurar_periodos'
+
+        elif self.state == 'investigated':
+            return 'Distribuir Resultados', 'reclassificar'
+
+        elif self.state == 'reclassified':
+            return 'Distribuir Resultados', 'distribuir_resultado'
+
+    @api.multi
+    def button_forward(self):
+        """
+
+        :return:
+        """
+        for r in self:
+            _logger.info(u'Iniciando thread...')
+            thread = threading.Thread(target=r.threaded, args=())
+            thread.daemon = True
+            thread.start()
+            raise Warning(u'Processo iniciado. '
+                          u'O resultado estará disponível no menu: '
+                          u'"Encerramento > ' + self.acao_st()[0] +
+                          u'" assim que terminar.')
+
+    def threaded(self):
+
+        with api.Environment.manage():
+
+            new_cr = self.pool.cursor()
+            self = self.with_env(self.env(cr=new_cr))
+
+            try:
+                eval("self." + self.acao_st()[1] + "()")
+            except Exception as e:
+                _logger.error(u'Erro na execução da thread: {}'.format(e),
+                              exc_info=True)
+                raise Warning(u'Erro na execução. Tente mais tarde.')
+            else:
+                new_cr.commit()
+
+            finally:
+                new_cr.close()
+                _logger.info(u'Processo concluído.')
 
     @api.multi
     def button_goback(self):
@@ -418,9 +466,8 @@ class AccountFechamento(models.Model):
                 record.state = 'open'  # Retorna state p/ "Aberto"
 
             if record.state == 'investigated':
-                # Abre Lançamentos ARE
                 for move in record.account_move_ids:
-                    move.state = 'draft'
+                    move.state = 'draft'  # Abre Lançamento ARE
 
                 record.account_move_ids.unlink()  # Apaga Lançamentos ARE
                 record.state = 'close'  # Retorna state p/ "Fechado"

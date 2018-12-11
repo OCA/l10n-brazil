@@ -23,47 +23,17 @@
 
                     <button class="btn btn-primary"
                             name="button_goback"
-                            string='Voltar estágio anterior'
+                            string='Voltar estágio'
                             type="object"
                             states="close,investigated,distributed,reclassified"
                             confirm="Esta ação irá retornar ao estágio anterior. Deseja prosseguir?"
                     />
 
                     <button class="btn btn-primary"
-                            name="button_fechar_periodos"
-                            string='Fechar Períodos'
+                            name="button_forward"
+                            string='Avançar estágio'
                             type="object"
-                            states="open"
-                            attrs="{'invisible': ['|', ('total_lancamentos_periodos', '=', 0)]}"
-                    />
-                    <button class="btn btn-primary"
-                            name="button_fechar_periodos"
-                            string='Fechar Períodos'
-                            type="object"
-                            states="open"
-                            confirm="Deseja realmente realizar esse fechamento de periodos?"
-                            attrs="{'invisible': ['|', ('total_lancamentos_periodos', '&gt;', 0)]}"
-                    />
-
-                    <button class="btn btn-primary"
-                            name="button_apurar_periodos"
-                            string='Apurar Períodos'
-                            type="object"
-                            states="close"
-                    />
-
-                    <button class="btn btn-primary"
-                            name="button_reclassificacao"
-                            string='Reclassificação'
-                            type="object"
-                            states="investigated"
-                    />
-
-                    <button class="btn btn-primary"
-                            name="button_distribuir_resultado"
-                            string='Distribuir Resultados'
-                            type="object"
-                            states="reclassified"
+                            states="open,close,investigated,reclassified"
                     />
 
                     <field name="state" widget="statusbar"/>

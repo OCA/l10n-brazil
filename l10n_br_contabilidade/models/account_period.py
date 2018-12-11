@@ -98,39 +98,6 @@ class AccountPeriod(models.Model):
         :return:
         """
         for record in self:
-            # Cria dataframe vazio com colunas
-            df_are = pd.DataFrame(
-                columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
-
-            # Popula o dataframe com valores do account.move.line
-            for move in record.account_move_ids:
-
-                # Busca contas de resultado
-                partidas_resultado = move.line_id.filtered(
-                    lambda x: x.account_id.user_type.report_type in
-                              ('income', 'expense'))
-
-                for partida_resultado in partidas_resultado:
-                    df_are.loc[partida_resultado.id] = [
-                        partida_resultado.account_id.id,
-                        partida_resultado.debit,
-                        partida_resultado.credit,
-                        move.period_id.id,
-                        move.period_id.date_stop
-                    ]
-
-            # Variaveis para lançamentos de fechamento
-            periodo_fechamento = record.account_fechamento_id.periodo_fim \
-                if record.account_fechamento_id else record
-
-            data_lancamento = record.account_fechamento_id.periodo_fim.date_stop \
-                if record.account_fechamento_id else df_are['dt_stop'].max()
-
-            # Agrupa por conta e soma as outras colunas
-            df_agrupado = df_are.groupby('conta').sum()
-            df_agrupado['result'] = \
-                (df_agrupado['debito'] - df_agrupado['credito'])
-
             # Conta de credito e debito ARE padrão
             are_debito = record.account_journal_id.default_debit_account_id.id
             are_credito = record.account_journal_id.default_credit_account_id.id
@@ -139,6 +106,27 @@ class AccountPeriod(models.Model):
                 raise UserError(
                     u'Configurar as contas ARE no Lote de '
                     u'Lançamentos de fechamentos')
+
+            # Popula o dataframe com valores do account.move.line
+            df_are = pd.DataFrame(
+            record.account_move_ids.mapped('line_id').filtered(
+                lambda x: x.account_id.user_type.report_type in (
+                'income', 'expense')).mapped(
+                lambda r: {'conta': r.account_id.id, 'debito': r.debit,
+                           'credito': r.credit, 'periodo': r.period_id.id,
+                           'dt_stop': r.period_id.date_stop}),
+                columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
+
+            # Variaveis para lançamentos de fechamento
+            periodo_fechamento = record.account_fechamento_id.periodo_fim \
+                if record.account_fechamento_id else record
+
+            data_lancamento = record.account_fechamento_id.periodo_fim.date_stop
+
+            # Agrupa por conta e soma as outras colunas
+            df_agrupado = df_are.groupby('conta').sum()
+            df_agrupado['result'] = \
+                (df_agrupado['debito'] - df_agrupado['credito'])
 
             for conta in df_agrupado.index:
                 series_conta = df_agrupado.loc[conta]
