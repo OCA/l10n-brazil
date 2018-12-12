@@ -63,6 +63,7 @@ class AccountAccount(models.Model):
         relation='account_account_account_report_rel',
         column1='account_report_id',
         column2='account_account_id',
+        domain = "[('type','=',tipo_conta_apresentacao)]",
     )
 
     report_type = fields.Selection(
@@ -78,6 +79,27 @@ class AccountAccount(models.Model):
              "profit and loss, balance sheet.",
         required=True
     )
+
+    tipo_conta_apresentacao = fields.Char(
+        string='Tipo Conta Apresentacao',
+        help=u'Indicar se a conta de apresentacao e do tipo patrimonial ou '
+             u'de resultado',
+        compute='compute_tipo_apresentacao',
+    )
+
+    @api.multi
+    @api.depends('report_type')
+    def compute_tipo_apresentacao(self):
+        """
+        :return:
+        """
+        for record in self:
+            if record.report_type in ['income','expense']:
+                record.tipo_conta_apresentacao = 'resultado'
+            elif record.report_type in ['asset','liability']:
+                record.tipo_conta_apresentacao = 'patrimonial'
+            else:
+                record.tipo_conta_apresentacao = ''
 
     @api.depends('balance')
     def _compute_saldo_conta(self):
