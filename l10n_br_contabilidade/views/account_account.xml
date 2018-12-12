@@ -62,7 +62,7 @@
                         </group>
                     </group>
                     <notebook colspan="3">
-                        <page string="Função">'
+                        <page string="Função">
                             <field name="funcao"/>
                         </page>
                         <page string="Funcionamento">
@@ -75,10 +75,11 @@
                             <field name="depara_ids" />
                         </page>
 
-                        <page string="Apresentação" attrs="{'invisible':[('report_type', 'not in', ['income','expense'])]}">
-                            <separator string="Conta referente ao DRE"/>
+                        <page string="Apresentação" attrs="{'invisible':['|',('report_type','=', False),('type', '!=', 'other')]}">
+                            <separator string="Conta referente ao DRE" attrs="{'invisible':[('report_type', 'in', ['asset','liability'])]}" />
+                            <separator string="Conta referente ao Balanço Patrimonial" attrs="{'invisible':[('report_type', 'in', ['income','expense'])]}" />
                             <group>
-                                <field name="account_account_report_id" attrs="{'required':[('report_type', 'in', ['income','expense'])]}" nolabel="1">
+                                <field name="account_account_report_id" attrs="{'required':[('type', '=', 'other')]}" nolabel="1">
                                     <tree>
                                         <field name="name" />
                                         <field name="code" />
