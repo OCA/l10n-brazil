@@ -771,6 +771,10 @@ class SpedEsocial(models.Model):
                             contratos, matriz, payslips_decimo_terceiro,
                             periodo, trabalhador
                         )
+                            self._gerar_intermediario_s1200(
+                                contratos, matriz, payslips,
+                                periodo, trabalhador
+                            )
                 else:
 
                     # Se não tem contrato válido, remove o registro S-1200 (se existir)
