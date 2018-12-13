@@ -5,7 +5,6 @@
 import random
 import string
 
-import pandas as pd
 from dateutil.relativedelta import relativedelta
 from openerp import api, fields, models
 from openerp.exceptions import Warning as UserError
@@ -90,98 +89,6 @@ class AccountPeriod(models.Model):
         for record in self:
             # Altera estado
             record.state = 'done'
-
-    @api.multi
-    def apurar_periodo(self):
-        """
-
-        :return:
-        """
-        for record in self:
-            # Conta de credito e debito ARE padrão
-            are_debito = record.account_journal_id.default_debit_account_id.id
-            are_credito = record.account_journal_id.default_credit_account_id.id
-
-            if not are_credito or not are_debito:
-                raise UserError(
-                    u'Configurar as contas ARE no Lote de '
-                    u'Lançamentos de fechamentos')
-
-            # Popula o dataframe com valores do account.move.line
-            df_are = pd.DataFrame(
-            record.account_move_ids.mapped('line_id').filtered(
-                lambda x: x.account_id.user_type.report_type in (
-                'income', 'expense')).mapped(
-                lambda r: {'conta': r.account_id.id, 'debito': r.debit,
-                           'credito': r.credit, 'periodo': r.period_id.id,
-                           'dt_stop': r.period_id.date_stop}),
-                columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
-
-            # Variaveis para lançamentos de fechamento
-            periodo_fechamento = record.account_fechamento_id.periodo_fim \
-                if record.account_fechamento_id else record
-
-            data_lancamento = record.account_fechamento_id.periodo_fim.date_stop
-
-            # Agrupa por conta e soma as outras colunas
-            df_agrupado = df_are.groupby('conta').sum()
-            df_agrupado['result'] = \
-                (df_agrupado['debito'] - df_agrupado['credito'])
-
-            for conta in df_agrupado.index:
-                series_conta = df_agrupado.loc[conta]
-                if series_conta['result'] != 0.0:
-                    if series_conta['result'] > 0.0:
-                        conta_id = {
-                            'account_id': int(conta),
-                            'debit': 0.0,
-                            'credit': series_conta['result'],
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
-                        }
-
-                        are_id = {
-                            'account_id': int(are_debito),
-                            'debit': series_conta['result'],
-                            'credit': 0.0,
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
-                        }
-
-                    elif series_conta['result'] < 0.0:
-                        conta_id = {
-                            'account_id': int(conta),
-                            'debit': abs(series_conta['result']),
-                            'credit': 0.0,
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
-                        }
-
-                        are_id = {
-                            'account_id': int(are_credito),
-                            'debit': 0.0,
-                            'credit': abs(series_conta['result']),
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
-                        }
-
-                    move_id = record.env['account.move'].create({
-                        'journal_id': record.account_journal_id.id,
-                        'period_id': periodo_fechamento.id,
-                        'date': data_lancamento,
-                        'state': 'draft',
-                        'lancamento_de_fechamento': True,
-                        'account_fechamento_id':
-                            record.account_fechamento_id.id
-                            if record.account_fechamento_id else False,
-                        'line_id': [(0, 0, conta_id), (0, 0, are_id)]
-                    })
-
-                    move_id.post()
 
     @api.multi
     def reopen_period(self):

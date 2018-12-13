@@ -2,11 +2,12 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 import random
 import string
-
-import logging
 import threading
+
+import pandas as pd
 
 _logger = logging.getLogger(__name__)
 
@@ -386,10 +387,88 @@ class AccountFechamento(models.Model):
         :return:
         """
         for record in self:
-            record.state = 'investigated'
-            for period_id in record.account_period_ids:
-                period_id.apurar_periodo()
 
+            # Lançamentos de todos períodos do fechamento
+            account_move_ids = \
+                record.account_period_ids.mapped('account_move_ids')
+
+            are_debito = record.account_journal_id.default_debit_account_id.id
+            are_credito = record.account_journal_id.default_credit_account_id.id
+
+            if not are_credito or not are_debito:
+                raise Warning(
+                    u'Configurar as contas ARE no Lote de '
+                    u'Lançamentos de fechamentos')
+
+            # Popula o dataframe com valores do account.move.line
+            df_are = pd.DataFrame(
+            account_move_ids.mapped('line_id').filtered(
+                lambda x: x.account_id.user_type.report_type in (
+                'income', 'expense')).mapped(
+                lambda r: {'conta': r.account_id.id, 'debito': r.debit,
+                           'credito': r.credit, 'periodo': r.period_id.id,
+                           'dt_stop': r.period_id.date_stop}),
+                columns=['conta', 'debito', 'credito', 'periodo', 'dt_stop'])
+
+            # Agrupa por conta e soma as outras colunas
+            df_agrupado = df_are.groupby('conta').sum()
+            df_agrupado['result'] = \
+                (df_agrupado['debito'] - df_agrupado['credito'])
+
+            for conta in df_agrupado.index:
+                series_conta = df_agrupado.loc[conta]
+                if round(series_conta['result'], 6) != 0.0:
+                    if series_conta['result'] > 0.0:
+                        conta_id = {
+                            'account_id': int(conta),
+                            'debit': 0.0,
+                            'credit': series_conta['result'],
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                        are_id = {
+                            'account_id': int(are_debito),
+                            'debit': series_conta['result'],
+                            'credit': 0.0,
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                    elif series_conta['result'] < 0.0:
+                        conta_id = {
+                            'account_id': int(conta),
+                            'debit': abs(series_conta['result']),
+                            'credit': 0.0,
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                        are_id = {
+                            'account_id': int(are_credito),
+                            'debit': 0.0,
+                            'credit': abs(series_conta['result']),
+                            'name': ''.join(
+                                random.choice(string.uppercase) for x in
+                                range(8))
+                        }
+
+                    move_id = record.env['account.move'].create({
+                        'journal_id': record.account_journal_id.id,
+                        'period_id': record.periodo_fim.id,
+                        'date': record.periodo_fim.date_stop,
+                        'state': 'draft',
+                        'lancamento_de_fechamento': True,
+                        'account_fechamento_id': record.id,
+                        'line_id': [(0, 0, conta_id), (0, 0, are_id)]
+                    })
+                    move_id.post()
+
+            # Finalizar status do encerramento
+            record.state = 'investigated'
         return u'Apuração concluída.'
 
     def fechar_periodos(self):
@@ -422,7 +501,6 @@ class AccountFechamento(models.Model):
     @api.multi
     def button_forward(self):
         """
-
         :return:
         """
         for r in self:
@@ -432,8 +510,8 @@ class AccountFechamento(models.Model):
             thread.start()
             raise Warning(u'Processo iniciado. '
                           u'O resultado estará disponível no menu: '
-                          u'"Encerramento > ' + self.acao_st()[0] +
-                          u'" assim que terminar.')
+                          u'"\nContabilidade > Encerramento > ' + self.acao_st()[0] +
+                          u'".')
 
     def threaded(self):
 
