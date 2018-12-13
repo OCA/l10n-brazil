@@ -303,7 +303,7 @@ class Sat(Thread):
             _logger.info(u'SAT Impressao: Elgin I9')
             from escpos.impl.elgin import ElginI9 as Printer
         else:
-            self.printer = False
+            return False
         conn = SerialSettings.as_from(
             self.printer_params).get_connection()
 
