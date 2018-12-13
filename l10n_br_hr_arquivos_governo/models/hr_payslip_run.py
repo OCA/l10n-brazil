@@ -59,12 +59,15 @@ class HrPayslipRun(models.Model):
         # data de vencimento setada na conf da empresa
         dia = str(self.company_id.darf_dia_vencimento)
 
-        # Para guias de final de ano
-        mes_do_ano = self.mes_do_ano if self.mes_do_ano <= 12 else 12
+        # Guias para mes subsequente
+        if self.mes_do_ano < 12:
+            mes_do_ano = self.mes_do_ano + 1
+        elif self.mes_do_ano >= 12:
+            mes_do_ano = 1
 
         data = '{}-{:02d}-{}'.format(self.ano, mes_do_ano, dia)
         data_vencimento = \
-            fields.Datetime.from_string(data + ' 03:00:00') + timedelta(days=31)
+            fields.Datetime.from_string(data + ' 03:00:00')
 
         # Código de DARFS de PSS
         codigo_receita_PSS = ['1850', '1661']
