@@ -303,10 +303,7 @@ class AccountFechamento(models.Model):
             record.account_move_distribuicao_id = \
                 record.gera_lancamento_partidas(move=move, lines=line_list)
 
-            record.state = 'distributed' \
-                if record.account_move_distribuicao_id else 'reclassified'
-
-        return u'Distribuição entre contas concluída.'
+        return True
 
     def reclassificar(self):
         """
@@ -377,9 +374,7 @@ class AccountFechamento(models.Model):
                 record.account_move_reclassificacao_id = \
                     record.gera_lancamento_partidas(move=move, lines=line_list)
 
-            record.state = 'reclassified'
-
-        return u'Reclassificação concluída.'
+        return True
 
     def apurar_periodos(self):
         """
@@ -456,7 +451,7 @@ class AccountFechamento(models.Model):
                                 range(8))
                         }
 
-                    move_id = record.env['account.move'].create({
+                    record.env['account.move'].create({
                         'journal_id': record.account_journal_id.id,
                         'period_id': record.periodo_fim.id,
                         'date': record.periodo_fim.date_stop,
@@ -464,13 +459,11 @@ class AccountFechamento(models.Model):
                         'lancamento_de_fechamento': True,
                         'account_fechamento_id': record.id,
                         'line_id': [(0, 0, conta_id), (0, 0, are_id)]
-                    })
-                    move_id.post()
+                    }).post()
 
-            # Finalizar status do encerramento
-            record.state = 'investigated'
-        return u'Apuração concluída.'
+        return True
 
+    @api.multi
     def fechar_periodos(self):
         """
 
@@ -481,57 +474,46 @@ class AccountFechamento(models.Model):
             for period_id in record.account_period_ids:
                 period_id.account_journal_id = record.account_journal_id
                 period_id.fechar_periodo()
-            record.state = 'close'
 
-        return u'Fechamento dos períodos concluído.'
-
-    def acao_st(self):
-        if self.state == 'open':
-            return 'Apurar Resultado', 'fechar_periodos'
-
-        elif self.state == 'close':
-            return 'Reclassificar', 'apurar_periodos'
-
-        elif self.state == 'investigated':
-            return 'Distribuir Resultados', 'reclassificar'
-
-        elif self.state == 'reclassified':
-            return 'Distribuir Resultados', 'distribuir_resultado'
+        return True
 
     @api.multi
     def button_forward(self):
         """
         :return:
         """
-        for r in self:
-            _logger.info(u'Iniciando thread...')
-            thread = threading.Thread(target=r.threaded, args=())
-            thread.daemon = True
-            thread.start()
-            raise Warning(u'Processo iniciado. '
-                          u'O resultado estará disponível no menu: '
-                          u'"\nContabilidade > Encerramento > ' + self.acao_st()[0] +
-                          u'".')
+        for record in self:
+            if record.state == 'open':
+                if record.fechar_periodos():
+                    record.state = 'close'
 
-    def threaded(self):
+            elif record.state == 'close':
+                if record.apurar_periodos():
+                    record.state = 'investigated'
 
-        with api.Environment.manage():
+            elif self.state == 'investigated':
+                if record.reclassificar():
+                    record.state = 'reclassified'
 
-            new_cr = self.pool.cursor()
-            self = self.with_env(self.env(cr=new_cr))
+            elif self.state == 'reclassified':
+                if record.distribuir_resultado():
+                    record.state = 'distributed' \
+                     if record.account_move_distribuicao_id \
+                     else 'reclassified'
 
-            try:
-                eval("self." + self.acao_st()[1] + "()")
-            except Exception as e:
-                _logger.error(u'Erro na execução da thread: {}'.format(e),
-                              exc_info=True)
-                raise Warning(u'Erro na execução. Tente mais tarde.')
-            else:
-                new_cr.commit()
+        context = self._context
+        uid = context.get('uid')
 
-            finally:
-                new_cr.close()
-                _logger.info(u'Processo concluído.')
+        values = {'status': 'draft', 'title': u'Processo concluído!',
+                  'message': "Fechamento preparado para o próximo estágio.",
+                  'partner_ids': [(6, 0, [uid])]}
+
+        self.env['popup.notification'].create(values)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
 
     @api.multi
     def button_goback(self):
