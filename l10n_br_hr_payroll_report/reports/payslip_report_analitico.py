@@ -154,7 +154,7 @@ def totalizadores_linhas_holerites(payslip_lines, payslip_autonomo_ids=[]):
                 inss_funcionario_retido += rubrica['sum']
         if rubrica['code'] in ['BASE_FGTS', 'BASE_FGTS_13']:
                 base_fgts += rubrica['sum']
-        if rubrica['code'] == 'FGTS':
+        if rubrica['code'] in ['FGTS', 'FGTS_F_13']:
             fgts += rubrica['sum']
 
     # INSS dos autonomos
