@@ -105,11 +105,14 @@ class AccountFechamento(models.Model):
         compute='_compute_prejuizo',
     )
 
+    @api.multi
     @api.depends('account_move_reclassificacao_id')
     def _compute_prejuizo(self):
-        self.vl_prejuizo = self.account_move_reclassificacao_id.line_id.\
-            filtered(
-            lambda x: x.account_id == self.conta_reclassificacao(op='P')).debit
+        for record in self:
+            record.vl_prejuizo = \
+                record.account_move_reclassificacao_id.line_id.filtered(
+                lambda x: x.account_id == record.conta_reclassificacao(op='P')
+                ).debit
 
     @api.model
     def _needaction_domain_get(self):
@@ -421,6 +424,7 @@ class AccountFechamento(models.Model):
             for conta in df_agrupado.index:
                 series_conta = df_agrupado.loc[conta]
                 if round(series_conta['result'], 6) != 0.0:
+
                     if series_conta['result'] > 0.0:
                         conta_id = {
                             'account_id': int(conta),
