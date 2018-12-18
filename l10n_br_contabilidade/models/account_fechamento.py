@@ -5,7 +5,6 @@
 import logging
 import random
 import string
-import threading
 
 import pandas as pd
 
@@ -82,7 +81,7 @@ class AccountFechamento(models.Model):
             ('close', 'Fechado'),
             ('investigated', 'Apurado'),
             ('reclassified', 'Reclassificado'),
-            ('distributed', 'Distribuído'),
+            ('completed', 'Concluído'),
         ],
         string='State',
         default='open',
@@ -101,10 +100,21 @@ class AccountFechamento(models.Model):
         compute='_compute_total_lancamentos_periodos',
     )
 
+    vl_prejuizo = fields.Float(
+        string='Prejuízo',
+        compute='_compute_prejuizo',
+    )
+
+    @api.depends('account_move_reclassificacao_id')
+    def _compute_prejuizo(self):
+        self.vl_prejuizo = self.account_move_reclassificacao_id.line_id.\
+            filtered(
+            lambda x: x.account_id == self.conta_reclassificacao(op='P')).debit
+
     @api.model
     def _needaction_domain_get(self):
-        return [('state', 'in', ['open', 'close', 'investigated', 'reclassified',
-                                'distributed'])]
+        return [('state', 'in',
+                 ['open', 'close', 'investigated'])]
 
     @api.multi
     def button_buscar_periodos(self):
@@ -240,23 +250,17 @@ class AccountFechamento(models.Model):
         :return:
         """
         for record in self:
+
+            # Verifica se existe Prejuizo
+            if record.vl_prejuizo:
+                return True
+
             # Pega o valor resultado
             account_lucro = record.account_move_reclassificacao_id.line_id.\
                 filtered(lambda x: x.account_id == record.
                          conta_reclassificacao(op='L'))
 
             line_list = []
-
-            # Verifica se existe Lucro
-            if not account_lucro:
-                account_prejuizo = record.account_move_reclassificacao_id.\
-                    line_id.\
-                    filtered(lambda x: x.account_id == record.
-                             conta_reclassificacao(op='P'))
-
-                raise Warning(u'Não é possível executar Distribuição. '
-                              u'Encerramento com prejuízo de: R$ '
-                              + str(formata_valor(account_prejuizo.debit)))
 
             resultado = account_lucro.credit
 
@@ -410,6 +414,10 @@ class AccountFechamento(models.Model):
             df_agrupado['result'] = \
                 (df_agrupado['debito'] - df_agrupado['credito'])
 
+            if len(df_agrupado) == 0:
+                raise Warning(u'Nenhuma conta de resultado encontrada. '
+                              u'Não é possível prosseguir.')
+
             for conta in df_agrupado.index:
                 series_conta = df_agrupado.loc[conta]
                 if round(series_conta['result'], 6) != 0.0:
@@ -480,6 +488,8 @@ class AccountFechamento(models.Model):
     @api.multi
     def button_forward(self):
         """
+        Avança de acordo com o estágio do Lançamento.
+
         :return:
         """
         for record in self:
@@ -493,22 +503,24 @@ class AccountFechamento(models.Model):
 
             elif self.state == 'investigated':
                 if record.reclassificar():
-                    record.state = 'reclassified'
+                    a_prej = record.account_move_reclassificacao_id. \
+                        line_id. \
+                        filtered(lambda x: x.account_id == record.
+                                 conta_reclassificacao(op='P'))
+
+                    record.state = 'completed' if a_prej else 'reclassified'
 
             elif self.state == 'reclassified':
                 if record.distribuir_resultado():
-                    record.state = 'distributed' \
-                     if record.account_move_distribuicao_id \
-                     else 'reclassified'
+                    record.state = 'completed'
 
-        context = self._context
-        uid = context.get('uid')
-
-        values = {'status': 'draft', 'title': u'Processo concluído!',
-                  'message': "Fechamento preparado para o próximo estágio.",
-                  'partner_ids': [(6, 0, [uid])]}
-
-        self.env['popup.notification'].create(values)
+        if record.state != 'completed':
+            context = self._context
+            uid = context.get('uid')
+            values = {'status': 'draft', 'title': u'Processo concluído!',
+                      'message': "Fechamento preparado para o próximo estágio.",
+                      'partner_ids': [(6, 0, [uid])]}
+            self.env['popup.notification'].create(values)
 
         return {
             'type': 'ir.actions.client',
@@ -541,14 +553,14 @@ class AccountFechamento(models.Model):
                     record.account_move_reclassificacao_id.unlink()
                 record.state = 'investigated'  # Retorna state p/ "Apurado"
 
-            if record.state == 'distributed':
+            if record.state == 'completed':
                 if record.account_move_distribuicao_id:
                     # Abre Lançamento de Reclassificação
                     record.account_move_distribuicao_id.state = 'draft'
 
                     # Apaga Lançamentos da Reclassificação
                     record.account_move_distribuicao_id.unlink()
-                record.state = 'investigated'  # Retorna state p/ "Reclass."
+                record.state = 'reclassified'  # Retorna state p/ "Reclass."
 
     @api.multi
     def button_reopen(self):

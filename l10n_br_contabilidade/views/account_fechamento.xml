@@ -17,7 +17,7 @@
                             name="button_reopen"
                             string='Cancelar Fechamento'
                             type="object"
-                            states="close,investigated,distributed,reclassified"
+                            states="close,investigated,completed,reclassified"
                             confirm="Esta ação irá retornar ao estágio inicial (Aberto). Deseja prosseguir?"
                     />
 
@@ -25,7 +25,7 @@
                             name="button_goback"
                             string='Voltar estágio'
                             type="object"
-                            states="close,investigated,distributed,reclassified"
+                            states="close,investigated,completed,reclassified"
                             confirm="Esta ação irá retornar ao estágio anterior. Deseja prosseguir?"
                     />
 
@@ -39,11 +39,15 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
+                    <div class="alert alert-danger" role="alert"
+                         attrs="{'invisible': [('vl_prejuizo', '=', 0)]}">
+                        Encerramento com prejuízo de:
+                        <strong><field name="vl_prejuizo" /></strong>
+                    </div>
                     <h2>
                         <label for="name" string="Nome" class="oe_edit_only"/>
                         <field name="name" required="True" placeholder="Fechamento 1º Trimestre"/>
                     </h2>
-
                     <group>
                         <field name="account_journal_id" required="1"
                                domain="[('type', '=', 'situation')]"
@@ -222,17 +226,17 @@
     />
 
 
-    <!--Menu para Distribuição resultados-->
-    <record model="ir.actions.act_window" id="abgf_contabilidade_distribuicao_resultado_action">
-        <field name="name">Distribuir Resultados</field>
+    <!--Menu para Encerramentos Concluídos -->
+    <record model="ir.actions.act_window" id="abgf_contabilidade_encerramento_concluido_action">
+        <field name="name">Concluídos</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state','in',['reclassified', 'distributed'])]</field>
+        <field name="domain">[('state','=','completed')]</field>
     </record>
 
     <menuitem
-        action="abgf_contabilidade_distribuicao_resultado_action"
-        id="menu_abgf_contabilidade_distribuicao_resultado"
+        action="abgf_contabilidade_encerramento_concluido_action"
+        id="menu_abgf_contabilidade_encerramento_concluido"
         parent="abgf_menu_encerramento_contabilidade"
         sequence="96"
     />
