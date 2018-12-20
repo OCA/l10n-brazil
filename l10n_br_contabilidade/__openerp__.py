@@ -14,7 +14,7 @@
     'depends': [
         'l10n_br_account_product',
         'account_chart_report',
-        'popup_notifications',
+        'account_financial_report_webkit',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -22,6 +22,8 @@
         'data/natureza_conta_data.xml',
         # Menus
         'views/menu_contabilidade_abgf.xml',
+        # Relatórios
+        'reports/report.xml',
         # Visão
         'views/account_account.xml',
         'views/account_account_report.xml',

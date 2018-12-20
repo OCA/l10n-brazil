@@ -518,14 +518,6 @@ class AccountFechamento(models.Model):
                 if record.distribuir_resultado():
                     record.state = 'completed'
 
-        if record.state != 'completed':
-            context = self._context
-            uid = context.get('uid')
-            values = {'status': 'draft', 'title': u'Processo concluído!',
-                      'message': "Fechamento preparado para o próximo estágio.",
-                      'partner_ids': [(6, 0, [uid])]}
-            self.env['popup.notification'].create(values)
-
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',
