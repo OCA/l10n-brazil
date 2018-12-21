@@ -18,6 +18,7 @@
         'l10n_br_contabilidade',
     ],
     'data': [
+        'security/gefin_custos.xml',
         # 'security/ir.model.access.csv',
         #
         # 'data/natureza_conta_data.xml',
@@ -26,6 +27,7 @@
         # # Relatórios
         # 'reports/report.xml',
         # # Visão
+        'views/gefin_custos.xml',
         # 'wizards/fechamento_reabertura_justificativa_wizard.xml',
         # 'wizards/trial_balance_wizard.xml',
         # 'views/account_account.xml',
@@ -48,5 +50,6 @@
         # 'views/account_saldo.xml',
     ],
     'demo': [
+
     ],
 }
