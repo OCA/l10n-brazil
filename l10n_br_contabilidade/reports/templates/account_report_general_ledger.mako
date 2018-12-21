@@ -179,7 +179,13 @@
                               <div class="act_as_cell amount sep_left">${formatLang(line.get('amount_currency') or 0.0)  | amount }</div>
                           %endif
                           ## identificação do saldo
-                          <div class="act_as_cell amount" style="text-align: right; width:2%;">${line.get('isaldo') or ''}</div>
+                          %if cumul_balance > 0:
+                              <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                          %elif cumul_balance < 0:
+                              <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
+                          %else:
+                            <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                          %endif
                       </div>
                       %endfor
                 </div>
