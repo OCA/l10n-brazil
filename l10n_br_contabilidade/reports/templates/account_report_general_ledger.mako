@@ -86,7 +86,7 @@
               cumul_balance =  0.0
               cumul_balance_curr = 0.0
               %>
-            <div class="act_as_table list_table" style="margin-top: 10px;">
+            <div class="act_as_table list_table" style="margin-top: 10px; margin-bottom: 10px;">
 
                 <div class="act_as_caption account_title">
                     <div> Conta: ${account.code} </div> <div> Descrição: ${account.name} </div>
@@ -94,27 +94,25 @@
                 <div class="act_as_thead">
                     <div class="act_as_row labels">
                         ## date
-                        <div class="act_as_cell first_column" style="width: 50px;">${_('Date')}</div>
-                        ## move
-                        <div class="act_as_cell" style="width: 100px;">${_('Entry')}</div>
-                        ## account code
-                        <div class="act_as_cell" style="width: 65px;">${_('Account')}</div>
+                        <div class="act_as_cell first_column" style="width: 70px;">${_('Date')}</div>
+                        ## Nº Lançamento (Sequencia)
+                        <div class="act_as_cell" style="width: 70px;">Nº Lançamento</div>
                         ## counterpart
                         <div class="act_as_cell" style="width: 100px;">${_('Counter part')}</div>
                         ## Histórico
-                        <div class="act_as_cell">Histórico</div>
+                        <div class="act_as_cell" style="text-align: center; width: 40%;">Histórico</div>
                         ## debit
-                        <div class="act_as_cell amount" style="width: 75px;">${_('Debit')}</div>
+                        <div class="act_as_cell amount" style="width: 7%;">${_('Debit')}</div>
                         ## credit
-                        <div class="act_as_cell amount" style="width: 75px;">${_('Credit')}</div>
+                        <div class="act_as_cell amount" style="width: 7%;">${_('Credit')}</div>
                         ## balance cumulated
-                        <div class="act_as_cell amount" style="width: 75px;">Saldo</div>
+                        <div class="act_as_cell amount" style="width: 7%;">Saldo</div>
                         %if amount_currency(data):
                             ## currency balance
                             <div class="act_as_cell amount sep_left" style="width: 75px;">${_('Curr. Balance')}</div>
-                            ## curency code
-                            <div class="act_as_cell amount" style="width: 30px; text-align: right;">${_('Curr.')}</div>
                         %endif
+                        ## identificação do saldo
+                        <div class="act_as_cell amount" style="width:2%;"></div>
                     </div>
                 </div>
 
@@ -129,14 +127,12 @@
                         <div class="act_as_row initial_balance">
                           ## date
                           <div class="act_as_cell"></div>
-                          ## move
-                          <div class="act_as_cell"></div>
-                          ## account code
+                          ## Nº Lançamento (Sequencia)
                           <div class="act_as_cell"></div>
                           ## counterpart
-                          <div class="act_as_cell" style="font-weight: bold; text-align: right;">Anterior</div>
-                          ## Histórico
                           <div class="act_as_cell"></div>
+                          ## Histórico
+                          <div class="act_as_cell" style="font-weight: bold; text-align: right; text-align: center; width:40%;">Anterior</div>
                           ## debit
                           <div class="act_as_cell amount">${formatLang(init_balance[account.id].get('debit')) | amount}</div>
                           ## credit
@@ -146,10 +142,9 @@
                          %if amount_currency(data):
                               ## currency balance
                               <div class="act_as_cell amount sep_left">${formatLang(cumul_balance_curr) | amount }</div>
-                              ## curency code
-                              <div class="act_as_cell amount"></div>
                          %endif
-
+                          ## identificação do saldo
+                          <div class="act_as_cell amount" style="width:2%;"></div>
                         </div>
                       %endif
                       %for line in ledger_lines[account.id]:
@@ -167,10 +162,8 @@
                       <div class="act_as_row lines">
                           ## date
                           <div class="act_as_cell first_column">${formatLang(line.get('ldate') or '', date=True)}</div>
-                          ## move
-                          <div class="act_as_cell">${line.get('move_name') or ''}</div>
-                          ## account code
-                          <div class="act_as_cell">${account.code}</div>
+                          ## Nº Lançamento (Sequencia)
+                          <div class="act_as_cell">${line.get('sequencia') or ''}</div>
                           ## counterpart
                           <div class="act_as_cell">${line.get('counterparts') or ''}</div>
                           ## Histórico
@@ -184,40 +177,40 @@
                           %if amount_currency(data):
                               ## currency balance
                               <div class="act_as_cell amount sep_left">${formatLang(line.get('amount_currency') or 0.0)  | amount }</div>
-                              ## curency code
-                              <div class="act_as_cell amount" style="text-align: right;">${line.get('currency_code') or ''}</div>
                           %endif
+                          ## identificação do saldo
+                          <div class="act_as_cell amount" style="text-align: right; width:2%;">${line.get('isaldo') or ''}</div>
                       </div>
                       %endfor
                 </div>
-                <div class="act_as_table list_table">
+                <div class="act_as_table list_table" style="padding-top: 10px;">
                     <div class="act_as_row labels" style="font-weight: bold;">
-                        ## date
-                        <div class="act_as_cell first_column">${account.code} - ${account.name}</div>
-                        <div class="act_as_cell"></div>
-                        <div class="act_as_cell"></div>
-                        <div class="act_as_cell" style="font-weight: bold; text-align: right;">Total</div>
+                        ## date / Conta / Nº Lançamento (Sequencia)
+                        <div class="act_as_cell first_column" style="width: 140px;">${account.code} - ${account.name}</div>
+                        ## counterpart
+                        <div class="act_as_cell" style="width: 100px;"></div>
                         ## Histórico
-                        <div class="act_as_cell"></div>
+                        <div class="act_as_cell" style="font-weight: bold; text-align: center; width: 40%;">Total</div>
                         ## debit
-                        <div class="act_as_cell amount">${ formatLang(cumul_debit) | amount }</div>
+                        <div class="act_as_cell amount" style="width: 7%;">${ formatLang(cumul_debit) | amount }</div>
                         ## credit
-                        <div class="act_as_cell amount">${ formatLang(cumul_credit) | amount }</div>
+                        <div class="act_as_cell amount" style="width: 7%;">${ formatLang(cumul_credit) | amount }</div>
                         ## balance cumulated
-                        <div class="act_as_cell amount">${ formatLang(cumul_balance) | amount }</div>
+                        <div class="act_as_cell amount" style="width: 7%;">${ formatLang(cumul_balance) | amount }</div>
                         %if amount_currency(data):
                             %if account.currency_id:
                                 ## currency balance
                                 <div class="act_as_cell amount sep_left">${formatLang(cumul_balance_curr) | amount }</div>
-                                ## curency code
-                                <div class="act_as_cell amount"></div>
+                                ## identificação do saldo
+                                <div class="act_as_cell amount">-</div>
                             %else:
                                 <div class="act_as_cell amount sep_left">-</div>
-                                ## curency code
+                                ## identificação do saldo
                                 <div class="act_as_cell amount"></div>
                             %endif
-
                         %endif
+                          ## identificação do saldo
+                          <div class="act_as_cell amount" style="width:2%;"></div>
                     </div>
                 </div>
             </div>

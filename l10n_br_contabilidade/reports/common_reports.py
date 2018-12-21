@@ -39,7 +39,13 @@ SELECT l.id AS id,
             i.type AS invoice_type,
             i.number AS invoice_number,
             l.date_maturity,
-            m.narration
+            m.narration,
+            m.sequencia,
+            CASE
+              WHEN l.debit > l.credit THEN 'D'
+              WHEN l.debit < l.credit THEN 'C'
+              ELSE ''
+            END AS isaldo
 FROM account_move_line l
     JOIN account_move m on (l.move_id=m.id)
     LEFT JOIN res_currency c on (l.currency_id=c.id)
