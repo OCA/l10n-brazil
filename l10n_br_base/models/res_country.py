@@ -5,15 +5,17 @@
 from odoo import models, fields
 
 
-class ResCountry(models.Model):
+class Country(models.Model):
     _inherit = 'res.country'
 
-    bc_code = fields.Char('Codigo BC', size=5)
-    ibge_code = fields.Char('Codigo IBGE', size=5)
-    siscomex_code = fields.Char('Codigo Siscomex', size=4)
+    bc_code = fields.Char(
+        string='BC Code',
+        size=5)
 
+    ibge_code = fields.Char(
+        string='IBGE Code',
+        size=5)
 
-class ResCountryState(models.Model):
-    _inherit = 'res.country.state'
-
-    ibge_code = fields.Char('Codigo IBGE', size=2)
+    siscomex_code = fields.Char(
+        string='Siscomex Code',
+        size=4)
