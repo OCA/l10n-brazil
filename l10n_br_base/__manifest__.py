@@ -4,14 +4,20 @@
 
 {
     'name': 'Brazilian Localization Base',
+    'summary': 'Customization of base module for implementations in Brazil.',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
+    'author': (
+        'Akretion',
+        'Odoo Community Association (OCA)'
+    ),
     'website': 'http://odoo-brasil.org',
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'depends': [
         'base',
         'base_setup',
+        'base_address_city',
+        'base_address_extends'
     ],
     'data': [
         'data/l10n_br_base.city.csv',
@@ -30,7 +36,6 @@
         'demo/res_partner_demo.xml',
     ],
     'installable': True,
-    'auto_install': False,
     'external_dependencies': {
         'python': ['num2words'],
     }
