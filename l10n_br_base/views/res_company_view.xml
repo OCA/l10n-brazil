@@ -3,8 +3,8 @@
     <!--
     Views: res.company
     -->
-    <record id="view_company_form_inherited" model="ir.ui.view">
-        <field name="name">view_company_form_inherited</field>
+    <record id="l10n_br_base_res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.company.form</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
@@ -12,7 +12,7 @@
             <field name="zip" position="replace"/>
             <field name="street" position="replace">
                 <field name="zip" placeholder="CEP" style="width:50%" />
-                <field name="street" placeholder="Logradouro" class="o_address_street"/>
+                <field name="street_number" placeholder="Logradouro" class="o_address_street"/>
                 <field name="number" placeholder="Número" class="o_address_street"/>
                 <field name="street2" placeholder="Complemento" class="o_address_street"/>
                 <field name="district" placeholder="Bairro" class="o_address_street"/>
@@ -26,10 +26,10 @@
             </field>
             <field name="country_id" position="replace"/>
             <field name="state_id" position="before">
-                <field name="country_id" placeholder="País" />
+                <field name="country_id" placeholder="País" create="False" edit="False"/>
             </field>            
             <field name="state_id" position="after">
-                <field name="l10n_br_city_id" placeholder="Cidade"/>
+                <field name="city_id" placeholder="Cidade" create="False" edit="False"/>
             </field>
             <field name="city" position="replace">
                 <field name="city" invisible="1"/>
@@ -39,19 +39,19 @@
                 <field name="inscr_est" placeholder="Inscr. Estadual"/>
                 <field name="inscr_mun" placeholder="Inscr. Municipal"/>
                 <field name="suframa" placeholder="Suframa"/>
-		<field name="other_inscr_est_lines">
-		    <tree editable="bottom">
-		        <field name="partner_id" invisible="1"/>
-		        <field name="inscr_est"/>
-		        <field name="state_id" domain="[('country_id.id', '=', %(base.br)d)]}" create="False" edit="False"/>
-		    </tree>
-		</field>
+        		<field name="other_inscr_est_lines">
+	        	    <tree editable="bottom">
+	        	        <field name="partner_id" invisible="1"/>
+	        	        <field name="inscr_est"/>
+	        	        <field name="state_id" domain="[('country_id.id', '=', %(base.br)d)]}" create="False" edit="False"/>
+	        	    </tree>
+	        	</field>
             </field>
         </field>
     </record>
 
-    <record id="view_company_tree_inherited" model="ir.ui.view">
-        <field name="name">res.company.tree.inherited</field>
+    <record id="l10n_br_base_res_company_tree" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.company.tree</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_tree"/>
         <field name="field_parent">child_ids</field>
