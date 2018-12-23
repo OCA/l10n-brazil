@@ -20,19 +20,19 @@ class Company(models.Model):
     def _get_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
 
-        for obj in self:
-            obj.legal_name = obj.partner_id.legal_name
-            obj.cnpj_cpf = obj.partner_id.cnpj_cpf
-            obj.number = obj.partner_id.number
-            obj.district = obj.partner_id.district
-            obj.city_id = obj.partner_id.city_id
-            obj.inscr_est = obj.partner_id.inscr_est
-            obj.inscr_mun = obj.partner_id.inscr_mun
-            obj.suframa = obj.partner_id.suframa
-            other_inscr_est_lines = self.env['other.inscricoes.estaduais']
-            for inscr_est_line in obj.partner_id.other_inscr_est_lines:
-                other_inscr_est_lines |= inscr_est_line
-            obj.other_inscr_est_lines = other_inscr_est_lines
+        for c in self:
+            c.legal_name = c.partner_id.legal_name
+            c.cnpj_cpf = c.partner_id.cnpj_cpf
+            c.street_number = c.partner_id.street_number
+            c.district = c.partner_id.district
+            c.city_id = c.partner_id.city_id
+            c.inscr_est = c.partner_id.inscr_est
+            c.inscr_mun = c.partner_id.inscr_mun
+            c.suframa = c.partner_id.suframa
+            state_tax_number_ids = self.env['state.tax.numbers']
+            for state_tax_number in c.partner_id.state_tax_number_ids:
+                state_tax_number_ids |= state_tax_number
+            c.state_tax_number_ids = state_tax_number_ids
 
     def _inverse_legal_name(self):
         """ Write the l10n_br specific functional fields. """
@@ -42,7 +42,7 @@ class Company(models.Model):
     def _inverse_street_number(self):
         """ Write the l10n_br specific functional fields. """
         for company in self:
-            company.partner_id.number = company.number
+            company.partner_id.street_number = company.street_number
 
     def _inverse_district(self):
         """ Write the l10n_br specific functional fields. """
@@ -62,10 +62,10 @@ class Company(models.Model):
     def _inverse_other_inscr_est(self):
         """ Write the l10n_br specific functional fields. """
         for company in self:
-            other_inscr_est_lines = self.env['other.inscricoes.estaduais']
-            for ies in company.other_inscr_est_lines:
-                other_inscr_est_lines |= ies
-            company.partner_id.other_inscr_est_lines = other_inscr_est_lines
+            state_tax_number_ids = self.env['state.tax.numbers']
+            for ies in company.state_tax_number_ids:
+                state_tax_number_ids |= ies
+            company.partner_id.state_tax_number_ids = state_tax_number_ids
 
     def _inverse_inscr_mun(self):
         """ Write the l10n_br specific functional fields. """
@@ -90,7 +90,7 @@ class Company(models.Model):
 
     district = fields.Char(
         string='District',
-        compute='_get_l10n_br_data,
+        compute='_get_l10n_br_data',
         inverse='_set_l10n_br_district',
         size=32)
 
@@ -107,6 +107,9 @@ class Company(models.Model):
         compute='_get_l10n_br_data',
         inverse='_inverse_city_id')
 
+    country_id = fields.Many2one(
+        default=lambda self: self.env.ref('base.br'))
+
     cnpj_cpf = fields.Char(
         string='CNPJ/CPF',
         compute='_get_l10n_br_data',
@@ -120,13 +123,12 @@ class Company(models.Model):
         size=16)
 
     state_tax_number_ids = fields.One2many(
-        string='State tax numbers'
+        string='State Tax Numbers',
         comodel_name='state.tax.numbers',
-        string='partner_id',
+        inverse_name='partner_id',
         compute='_get_l10n_br_data',
         inverse='_set_l10n_br_other_inscr_est',
-        ondelete='cascade'
-    )
+        ondelete='cascade')
 
     inscr_mun = fields.Char(
         string=u'Municipal Tax Number',

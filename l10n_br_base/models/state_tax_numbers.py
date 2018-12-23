@@ -9,6 +9,7 @@ from odoo import models, fields
 
 class StateTaxNumbers(models.Model):
     _name = 'state.tax.numbers'
+    _description = 'State Tax Numbers'
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
