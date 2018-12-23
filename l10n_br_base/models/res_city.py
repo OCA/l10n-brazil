@@ -14,4 +14,5 @@ class City(models.Model):
 
     ibge_code = fields.Char(
         string='IBGE Code',
-        size=7)
+        size=7,
+        index=True)
