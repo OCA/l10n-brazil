@@ -5,8 +5,8 @@
 from odoo import api, fields, models
 
 
-class ResConfig(models.TransientModel):
-    _inherit = 'base.config.settings'
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
 
     allow_cnpj_multi_ie = fields.Boolean(
         string=u'Permitir o cadastro de Customers com CNPJs iguais',
