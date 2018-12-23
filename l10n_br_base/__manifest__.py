@@ -20,7 +20,7 @@
         'base_address_extends'
     ],
     'data': [
-        'data/l10n_br_base.city.csv',
+        'data/res.city.csv',
         'data/l10n_br_base_data.xml',
         'data/res.country.state.csv',
         'data/res.bank.csv',
