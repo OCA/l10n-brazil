@@ -31,11 +31,11 @@
     <record id="base.am" model="res.country">
         <field name="bc_code">00647</field>
     </record>
-
+<!--
     <record id="base.an" model="res.country">
         <field name="bc_code">00477</field>
     </record>
-
+-->
     <record id="base.ao" model="res.country">
         <field name="bc_code">00400</field>
     </record>
@@ -119,6 +119,7 @@
     <record id="base.br" model="res.country">
         <field name="bc_code">01058</field>
         <field name="enforce_cities">1</field>
+        <field name="address_format" eval="'%(street)s, %(street_number)s - %(street2)s\n%(district)s\n%(zip)s - %(city)s - %(state_code)s\n%(country_name)s'"/>
     </record>
 
     <record id="base.bs" model="res.country">
@@ -225,9 +226,9 @@
         <field name="bc_code">07919</field>
     </record>
 
-<record id="base.cw" model="res.country">
-    <field name="bc_code">00200</field>
-</record>
+    <record id="base.cw" model="res.country">
+        <field name="bc_code">00200</field>
+    </record>
 
     <record id="base.de" model="res.country">
         <field name="bc_code">00230</field>
@@ -656,11 +657,11 @@
     <record id="base.nr" model="res.country">
         <field name="bc_code">05088</field>
     </record>
-
+<!--
     <record id="base.nt" model="res.country">
         <field name="bc_code"></field>
     </record>
-
+-->
     <record id="base.nu" model="res.country">
         <field name="bc_code">05312</field>
     </record>
@@ -860,11 +861,11 @@
     <record id="base.to" model="res.country">
         <field name="bc_code">08109</field>
     </record>
-
+<!--
     <record id="base.tp" model="res.country">
         <field name="bc_code">07951</field>
     </record>
-
+-->
     <record id="base.tr" model="res.country">
         <field name="bc_code">08273</field>
     </record>
@@ -956,11 +957,11 @@
     <record id="base.yt" model="res.country">
         <field name="bc_code">04885</field>
     </record>
-
+<!--
     <record id="base.yu" model="res.country">
         <field name="bc_code">04499</field>
     </record>
-
+-->
     <record id="base.za" model="res.country">
         <field name="bc_code">07560</field>
     </record>
@@ -968,11 +969,11 @@
     <record id="base.zm" model="res.country">
         <field name="bc_code">08907</field>
     </record>
-
+<!--
     <record id="base.zr" model="res.country">
         <field name="bc_code">08885</field>
     </record>
-
+-->
     <record id="base.zw" model="res.country">
         <field name="bc_code">06653</field>
     </record>
