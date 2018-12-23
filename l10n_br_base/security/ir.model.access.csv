@@ -1,3 +1,3 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"l10n_br_base_other_ie_user","l10n_br_base_other_ie","model_other_inscricoes_estaduais","base.group_user",1,0,0,0
-"l10n_br_base_other_ie_manager","l10n_br_base_other_ie","model_other_inscricoes_estaduais","base.group_system",1,1,1,1
+"state_tax_numbers_user","State Tax Numbers for User","model_state_tax_numbers","base.group_user",1,0,0,0
+"state_tax_numbers_manager","State Tax Numbers for Manager","model_state_tax_numbers","base.group_system",1,1,1,1
