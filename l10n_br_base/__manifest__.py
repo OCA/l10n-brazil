@@ -17,19 +17,20 @@
         'base',
         'base_setup',
         'base_address_city',
-        'base_address_extends'
+        'base_address_extended'
     ],
     'data': [
+        'security/ir.model.access.csv',
         'data/res.city.csv',
-        'data/l10n_br_base_data.xml',
+        'data/base_data.xml',
         'data/res.country.state.csv',
         'data/res.bank.csv',
-        'views/l10n_br_base_view.xml',
+        'views/res_config_settings_view.xml',
+        'views/res_city_view.xml',
         'views/res_bank_view.xml',
         'views/res_country_view.xml',
         'views/res_partner_view.xml',
-        'views/res_company_view.xml',
-        'security/ir.model.access.csv',
+        'views/res_company_view.xml'
     ],
     'demo': [
         'demo/l10n_br_base_demo.xml',
