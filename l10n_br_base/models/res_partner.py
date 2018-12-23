@@ -4,11 +4,10 @@
 # Copyright (C) 2012 Raphaël Valyi (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
-
 from odoo import models, fields, api
-from ..tools import fiscal
 from odoo.exceptions import ValidationError
+
+from ..tools import fiscal, misc
 
 
 class Partner(models.Model):
@@ -72,6 +71,9 @@ class Partner(models.Model):
 
     city_id = fields.Many2one(
         domain="[('state_id', '=', state_id)]")
+
+    country_id = fields.Many2one(
+        default=lambda self: self.env.ref('base.br'))
 
     district = fields.Char(
         string='District',
