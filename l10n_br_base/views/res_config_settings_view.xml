@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_base_res_config_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='module_portal']/../../.." position="before">
+                <group>
+                    <label for="allow_cnpj_multi_ie" string="Múltiplos IE's"/>
+                    <div name="email">
+                        <div name="email.outgoing_server">
+                            <field name="allow_cnpj_multi_ie" class="oe_inline" />
+                            <label string ="Permite parceiros com CNPJ's iguais e IE's diferentes."/>
+                        </div>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

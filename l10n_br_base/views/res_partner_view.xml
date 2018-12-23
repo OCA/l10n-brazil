@@ -59,29 +59,6 @@
                     <field colspan="4" name="inscr_est" nolabel="1"/>
                 </group>
             </xpath>
-            <field name="street2" position="replace"/>
-            <field name="zip" position="replace"/>
-            <field name="street" position="replace">
-                <field name="zip" placeholder="CEP" style="width:50%"/>
-                <field name="street" placeholder="Logradouro" class="o_address_street"/>
-                <field name="number" placeholder="Número" class="o_address_street"/>
-                <field name="street2" placeholder="Complemento" class="o_address_street"/>
-                <field name="district" placeholder="Bairro" class="o_address_street"/>
-            </field>
-            <field name="state_id" position="attributes">
-                <attribute name="domain">[('country_id','=',country_id)]</attribute>
-                <attribute name="style">width:100%</attribute>
-            </field>
-            <field name="country_id" position="replace"/>
-            <field name="state_id" position="before">
-                <field name="country_id" placeholder="País"/>
-            </field>
-            <field name="state_id" position="after">
-                <field name="l10n_br_city_id" placeholder="Cidade"/>
-            </field>
-            <field name="city" position="replace">
-                <field name="city" invisible="1"/>
-            </field>
             <page position="after" name="sales_purchases">
                 <page string="Fiscal" name="fiscal">
                     <group>
@@ -89,37 +66,22 @@
                         <field name="suframa" attrs="{'invisible': [('is_company','!=', True)]}"/>
                     </group>
                     <group string="Outras Inscrições Estaduais" attrs="{'invisible': [('is_company','!=', True)]}">
-                        <field name="other_inscr_est_lines" nolabel="1">
+                        <field name="state_tax_number_ids" nolabel="1">
                             <tree editable="bottom">
                                 <field name="partner_id" invisible="1"/>
                                 <field name="inscr_est"/>
-                                <field name="state_id" domain="[('country_id.id', '=', %(base.br)d)]}" create="False" edit="False"/>
+                                <field name="state_id" domain="[('country_id', '=', %(base.br)d)]" create="False" edit="False"/>
                             </tree>
                         </field>
                     </group>
                 </page>
             </page>
-            <xpath expr="//div[@name='div_address']/field[@name='street']" position="after">
-                <field name="number" placeholder="Número"/>
-            </xpath>
-            <xpath expr="//div[@name='div_address']/field[@name='street2']" position="attributes">
-                <attribute name="placeholder">Complemento</attribute>
-            </xpath>
-            <xpath expr="//div[@name='div_address']/field[@name='street2']" position="after">
-                <field name="district" placeholder="Bairro"/>
-            </xpath>
-            <xpath expr="//div[@name='div_address']/field[@name='state_id']" position="after">
-                <field name="l10n_br_city_id" placeholder="Cidade" style="width: 40%%"/>
-            </xpath>
-            <xpath expr="//div[@name='div_address']/field[@name='city']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
             <xpath expr="//div[@name='div_address']" position="replace">
                 <div name="div_address">
                     <field name="zip" placeholder="CEP" style="width: 20%"/>
                     <div class="address_format">
                         <field name="street" placeholder="Logradouro" style="width: 70%"/>
-                        <field name="number" placeholder="Número" style="width: 20%"/>
+                        <field name="street_number" placeholder="Número" style="width: 20%"/>
                     </div>
                     <div class="address_format">
                         <field name="street2" placeholder="Complemento" style="width: 45%"/>
@@ -132,7 +94,7 @@
                         <field name="state_id" class="oe_no_button" placeholder="Estado"
                                style="width: 30%" options="{&quot;no_open&quot;: True}"
                                domain="[('country_id','=',country_id)]"/>
-                        <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>
+                        <field name="city_id" placeholder="Cidade" style="width: 30%"/>
                     </div>
                 </div>
             </xpath>
