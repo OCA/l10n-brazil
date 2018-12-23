@@ -118,6 +118,7 @@
 
     <record id="base.br" model="res.country">
         <field name="bc_code">01058</field>
+        <field name="enforce_cities">1</field>
     </record>
 
     <record id="base.bs" model="res.country">
