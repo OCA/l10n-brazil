@@ -10,9 +10,10 @@
 import re
 
 from odoo import models, fields, api
+from ..tools import misc, fiscal
 
 
-class ResCompany(models.Model):
+class Company(models.Model):
     _inherit = 'res.company'
 
     @api.multi
@@ -24,7 +25,7 @@ class ResCompany(models.Model):
             obj.cnpj_cpf = obj.partner_id.cnpj_cpf
             obj.number = obj.partner_id.number
             obj.district = obj.partner_id.district
-            obj.l10n_br_city_id = obj.partner_id.l10n_br_city_id
+            obj.city_id = obj.partner_id.city_id
             obj.inscr_est = obj.partner_id.inscr_est
             obj.inscr_mun = obj.partner_id.inscr_mun
             obj.suframa = obj.partner_id.suframa
@@ -33,147 +34,134 @@ class ResCompany(models.Model):
                 other_inscr_est_lines |= inscr_est_line
             obj.other_inscr_est_lines = other_inscr_est_lines
 
-    @api.multi
-    def _set_l10n_br_legal_name(self):
+    def _inverse_legal_name(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.legal_name = self.legal_name
+        for company in self:
+            company.partner_id.legal_name = company.legal_name
 
-    @api.multi
-    def _set_l10n_br_number(self):
+    def _inverse_street_number(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.number = self.number
+        for company in self:
+            company.partner_id.number = company.number
 
-    @api.multi
-    def _set_l10n_br_district(self):
+    def _inverse_district(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.district = self.district
+        for company in self:
+            company.partner_id.district = company.district
 
-    @api.multi
-    def _set_l10n_br_cnpj_cpf(self):
+    def _inverse_cnpj_cpf(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.cnpj_cpf = self.cnpj_cpf
+        for company in self:
+            company.partner_id.cnpj_cpf = company.cnpj_cpf
 
-    @api.multi
-    def _set_l10n_br_inscr_est(self):
+    def _inverse_inscr_est(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.inscr_est = self.inscr_est
+        for company in self:
+            company.partner_id.inscr_est = company.inscr_est
 
-    @api.multi
-    def _set_l10n_br_other_inscr_est(self):
+    def _inverse_other_inscr_est(self):
         """ Write the l10n_br specific functional fields. """
-        for record in self:
+        for company in self:
             other_inscr_est_lines = self.env['other.inscricoes.estaduais']
-            for inscr_est_line in record.other_inscr_est_lines:
-                other_inscr_est_lines |= inscr_est_line
-            record.partner_id.other_inscr_est_lines = other_inscr_est_lines
+            for ies in company.other_inscr_est_lines:
+                other_inscr_est_lines |= ies
+            company.partner_id.other_inscr_est_lines = other_inscr_est_lines
 
-    @api.multi
-    def _set_l10n_br_inscr_mun(self):
+    def _inverse_inscr_mun(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.inscr_mun = self.inscr_mun
+        for company in self:
+            company.partner_id.inscr_mun = company.inscr_mun
 
-    @api.multi
-    def _set_l10n_br_city_id(self):
+    def _inverse_city_id(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.l10n_br_city_id = self.l10n_br_city_id
+        for company in self:
+            company.partner_id.city_id = company.city_id
 
-    @api.multi
-    def _set_l10n_br_suframa(self):
+    def _inverse_suframa(self):
         """ Write the l10n_br specific functional fields. """
-        self.ensure_one()
-        self.partner_id.suframa = self.suframa
+        for company in self:
+            company.partner_id.suframa = company.suframa
 
     legal_name = fields.Char(
-        string=u'Razão Social',
-        compute=_get_l10n_br_data,
-        inverse=_set_l10n_br_legal_name,
+        string='Legal Name',
+        compute='_get_l10n_br_data',
+        inverse='_set_l10n_br_legal_name',
         size=128)
 
     district = fields.Char(
-        compute=_get_l10n_br_data,
-        string=u'Bairro',
-        inverse=_set_l10n_br_district,
-        size=32,
-        multi='address')
+        string='District',
+        compute='_get_l10n_br_data,
+        inverse='_set_l10n_br_district',
+        size=32)
 
-    number = fields.Char(
-        compute=_get_l10n_br_data,
-        string=u'Número',
-        inverse=_set_l10n_br_number,
-        size=10,
-        multi='address')
+    street_number = fields.Char(
+        string='Number',
+        compute='_get_l10n_br_data',
+        inverse='_set_l10n_br_number',
+        size=10)
+
+    city_id = fields.Many2one(
+        string='City',
+        comodel_name='res.city',
+        domain="[('state_id', '=', state_id)]",
+        compute='_get_l10n_br_data',
+        inverse='_inverse_city_id')
 
     cnpj_cpf = fields.Char(
-        compute=_get_l10n_br_data,
         string='CNPJ/CPF',
-        inverse=_set_l10n_br_cnpj_cpf,
+        compute='_get_l10n_br_data',
+        inverse='_set_l10n_br_cnpj_cpf',
         size=18)
 
     inscr_est = fields.Char(
-        compute=_get_l10n_br_data,
-        string=u'Inscr. Estadual',
-        inverse=_set_l10n_br_inscr_est,
+        string='State Tax Number',
+        compute='_get_l10n_br_data',
+        inverse='_set_l10n_br_inscr_est',
         size=16)
 
     other_inscr_est_lines = fields.One2many(
-        'other.inscricoes.estaduais', 'partner_id',
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_other_inscr_est,
-        string=u'Outras Inscrições Estaduais', ondelete='cascade'
+        string='Others state tax number'
+        comodel_name='other.inscricoes.estaduais',
+        string='partner_id',
+        compute='_get_l10n_br_data',
+        inverse='_set_l10n_br_other_inscr_est',
+        ondelete='cascade'
     )
 
     inscr_mun = fields.Char(
-        compute=_get_l10n_br_data,
-        string=u'Inscr. Municipal',
-        inverse=_set_l10n_br_inscr_mun,
+        string=u'Municipal Tax Number',
+        compute='_get_l10n_br_data',
+        inverse='_set_l10n_br_inscr_mun',
         size=18)
 
     suframa = fields.Char(
-        compute=_get_l10n_br_data,
         string='Suframa',
-        inverse=_set_l10n_br_suframa,
+        compute='_get_l10n_br_data',
+        inverse='_inverse_suframa',
         size=18)
-
-    l10n_br_city_id = fields.Many2one(
-        comodel_name='l10n_br_base.city',
-        string=u'Municipio',
-        domain="[('state_id', '=', state_id)]",
-        compute=_get_l10n_br_data,
-        inverse=_set_l10n_br_city_id)
 
     @api.onchange('cnpj_cpf')
     def _onchange_cnpj_cpf(self):
-        country_code = self.country_id.code or ''
-        if self.cnpj_cpf and country_code.upper() == 'BR':
-            val = re.sub('[^0-9]', '', self.cnpj_cpf)
-            if len(val) == 14:
-                self.cnpj_cpf = "%s.%s.%s/%s-%s" % (
-                    val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
+        country = self.country_id.code or ''
+        self.cnpj_cpf = fiscal.format_cpf_cnpj(self.cnpj_cpf,
+                                               country,
+                                               True)
 
-    @api.onchange('l10n_br_city_id')
-    def _onchange_l10n_br_city_id(self):
+    @api.onchange('city_id')
+    def _onchange_city_id(self):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
         do município para o campo city que é o campo nativo do módulo base
         para manter a compatibilidade entre os demais módulos que usam o
         campo city.
 
-        param int l10n_br_city_id: id do l10n_br_city_id digitado.
+        param int city_id: id do city_id digitado.
 
         return: dicionário com o nome e id do município.
         """
-        if self.l10n_br_city_id:
-            self.city = self.l10n_br_city_id.name
+        self.city = self.city_id.name
 
     @api.onchange('zip')
     def _onchange_zip(self):
-        if self.zip:
-            val = re.sub('[^0-9]', '', self.zip)
-            if len(val) == 8:
-                self.zip = "%s-%s" % (val[0:5], val[5:8])
+        self.zip = misc.format_zipcode(self.zip,
+                                       self.country_id.code)
