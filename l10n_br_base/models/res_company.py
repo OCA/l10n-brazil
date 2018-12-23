@@ -119,9 +119,9 @@ class Company(models.Model):
         inverse='_set_l10n_br_inscr_est',
         size=16)
 
-    other_inscr_est_lines = fields.One2many(
-        string='Others state tax number'
-        comodel_name='other.inscricoes.estaduais',
+    state_tax_number_ids = fields.One2many(
+        string='State tax numbers'
+        comodel_name='state.tax.numbers',
         string='partner_id',
         compute='_get_l10n_br_data',
         inverse='_set_l10n_br_other_inscr_est',
