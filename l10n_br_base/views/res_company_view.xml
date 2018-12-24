@@ -8,36 +8,11 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
-            <field name="street2" position="replace"/>
-            <field name="zip" position="replace"/>
-            <field name="street" position="replace">
-                <field name="zip" placeholder="CEP" style="width:50%" />
-                <field name="street" placeholder="Logradouro" class="o_address_street"/>
-                <field name="street_number" placeholder="Número" class="o_address_street"/>
-                <field name="street2" placeholder="Complemento" class="o_address_street"/>
-                <field name="district" placeholder="Bairro" class="o_address_street"/>
-            </field>
-            <field name="state_id" position="attributes">
-                <attribute name="domain">[('country_id','=',country_id)]</attribute>
-                <attribute name="style">width:100%</attribute>
-            </field>
-            <field name="parent_id" position="before">
-                <field name="legal_name" placeholder="Razão Social"/>
-            </field>
-            <field name="country_id" position="replace"/>
-            <field name="state_id" position="before">
-                <field name="country_id" placeholder="País" create="False" edit="False"/>
-            </field>            
-            <field name="state_id" position="after">
-                <field name="city_id" placeholder="Cidade" create="False" edit="False"/>
-            </field>
-            <field name="city" position="replace">
-                <field name="city" invisible="1"/>
-            </field>
             <field name="company_registry" position="after">
-                <field name="cnpj_cpf" placeholder="CNPJ"/>
-                <field name="inscr_est" placeholder="Inscr. Estadual"/>
-                <field name="inscr_mun" placeholder="Inscr. Municipal"/>
+                <field name="legal_name" placeholder="Legal Name..."/>
+                <field name="cnpj_cpf" placeholder="CNPJ..."/>
+                <field name="inscr_est" placeholder="State Tax Number..."/>
+                <field name="inscr_mun" placeholder="Municipal Tax Number..."/>
                 <field name="suframa" placeholder="Suframa"/>
         		<field name="state_tax_number_ids">
 	        	    <tree editable="bottom">
