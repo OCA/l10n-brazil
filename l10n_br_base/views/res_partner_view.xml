@@ -4,8 +4,8 @@
     <!--
     views: res.partner
     -->
-    <record id="view_l10n_br_base_partner_filter" model="ir.ui.view">
-        <field name="name">l10n_br_base.partner.filter</field>
+    <record id="l10n_br_base_res_partner_filter" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.partner.filter</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_filter"/>
         <field name="arch" type="xml">
@@ -16,8 +16,8 @@
         </field>
     </record>
 
-    <record id="view_l10n_br_base_partner_tree" model="ir.ui.view">
-        <field name="name">l10n_br_base.partner.tree</field>
+    <record id="l10n_br_base_res_partner_tree" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.partner.tree</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
@@ -29,8 +29,8 @@
         </field>
     </record>
 
-    <record id="view_l10n_br_base_partner_form" model="ir.ui.view">
-        <field name="name">l10n_br_base.partner.form</field>
+    <record id="view_l10n_br_base_res_partner_form" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.partner.form</field>
         <field name="model">res.partner</field>
         <field name="priority">99</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
@@ -38,9 +38,9 @@
             <xpath expr="//h1" position="after">
                 <group>
                     <div class="oe_edit_only">
-                        <label for="legal_name" string="Nome e Sobrenome"
+                        <label for="legal_name" string="Full Name"
                                attrs="{'invisible': [('is_company','=', True)]}"/>
-                        <label for="legal_name" string="Razão Social"
+                        <label for="legal_name" string="Legal Name"
                                attrs="{'invisible': [('is_company','!=', True)]}"/>
                     </div>
                     <field colspan="4" name="legal_name" nolabel="1"/>
@@ -51,7 +51,7 @@
                     </div>
                     <field colspan="4" name="cnpj_cpf" nolabel="1"/>
                     <div class="oe_edit_only">
-                        <label for="inscr_est" string="Inscr. Estadual"
+                        <label for="inscr_est" string="State Tax Number"
                                attrs="{'invisible': [('is_company','!=', True)]}"/>
                         <label for="inscr_est" string="RG"
                                attrs="{'invisible': [('is_company','=', True)]}"/>
@@ -65,7 +65,7 @@
                         <field name="inscr_mun" attrs="{'invisible': [('is_company','!=', True)]}"/>
                         <field name="suframa" attrs="{'invisible': [('is_company','!=', True)]}"/>
                     </group>
-                    <group string="Outras Inscrições Estaduais" attrs="{'invisible': [('is_company','!=', True)]}">
+                    <group string="Others State Tax Numbers" attrs="{'invisible': [('is_company','!=', True)]}">
                         <field name="state_tax_number_ids" nolabel="1">
                             <tree editable="bottom">
                                 <field name="partner_id" invisible="1"/>
