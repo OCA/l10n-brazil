@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="True">
 
-    <!-- TODO
-    <function eval="('default',False,'country_id', [('res.partner', False)], ref('base.br'), True, False, False, False, True)" id="country_br_set" model="ir.values" name="set_default"/>
-    -->
     <record id="base.ad" model="res.country">
         <field name="bc_code">00370</field>
     </record>
@@ -120,6 +117,7 @@
         <field name="bc_code">01058</field>
         <field name="enforce_cities">1</field>
         <field name="address_format" eval="'%(street)s, %(street_number)s - %(street2)s\n%(district)s\n%(zip)s - %(city)s - %(state_code)s\n%(country_name)s'"/>
+        <field name="address_view_id" ref="l10n_br_base_res_partner_address"/>
     </record>
 
     <record id="base.bs" model="res.country">
