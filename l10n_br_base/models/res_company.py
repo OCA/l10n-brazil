@@ -14,7 +14,8 @@ from ..tools import misc, fiscal
 
 
 class Company(models.Model):
-    _inherit = 'res.company'
+    _name = 'res.company'
+    _inherit = ['res.company', 'format.address.mixin']
 
     @api.multi
     def _get_l10n_br_data(self):
@@ -39,11 +40,6 @@ class Company(models.Model):
         for company in self:
             company.partner_id.legal_name = company.legal_name
 
-    def _inverse_street_number(self):
-        """ Write the l10n_br specific functional fields. """
-        for company in self:
-            company.partner_id.street_number = company.street_number
-
     def _inverse_district(self):
         """ Write the l10n_br specific functional fields. """
         for company in self:
@@ -59,7 +55,7 @@ class Company(models.Model):
         for company in self:
             company.partner_id.inscr_est = company.inscr_est
 
-    def _inverse_other_inscr_est(self):
+    def _inverse_state_tax_number_ids(self):
         """ Write the l10n_br specific functional fields. """
         for company in self:
             state_tax_number_ids = self.env['state.tax.numbers']
@@ -85,20 +81,14 @@ class Company(models.Model):
     legal_name = fields.Char(
         string='Legal Name',
         compute='_get_l10n_br_data',
-        inverse='_set_l10n_br_legal_name',
+        inverse='_inverse_legal_name',
         size=128)
 
     district = fields.Char(
         string='District',
         compute='_get_l10n_br_data',
-        inverse='_set_l10n_br_district',
+        inverse='_inverse_district',
         size=32)
-
-    street_number = fields.Char(
-        string='Number',
-        compute='_get_l10n_br_data',
-        inverse='_set_l10n_br_number',
-        size=10)
 
     city_id = fields.Many2one(
         string='City',
@@ -111,15 +101,15 @@ class Company(models.Model):
         default=lambda self: self.env.ref('base.br'))
 
     cnpj_cpf = fields.Char(
-        string='CNPJ/CPF',
+        string='CNPJ',
         compute='_get_l10n_br_data',
-        inverse='_set_l10n_br_cnpj_cpf',
+        inverse='_inverse_cnpj_cpf',
         size=18)
 
     inscr_est = fields.Char(
         string='State Tax Number',
         compute='_get_l10n_br_data',
-        inverse='_set_l10n_br_inscr_est',
+        inverse='_inverse_inscr_est',
         size=16)
 
     state_tax_number_ids = fields.One2many(
@@ -127,13 +117,13 @@ class Company(models.Model):
         comodel_name='state.tax.numbers',
         inverse_name='partner_id',
         compute='_get_l10n_br_data',
-        inverse='_set_l10n_br_other_inscr_est',
+        inverse='_inverse_state_tax_number_ids',
         ondelete='cascade')
 
     inscr_mun = fields.Char(
         string=u'Municipal Tax Number',
         compute='_get_l10n_br_data',
-        inverse='_set_l10n_br_inscr_mun',
+        inverse='_inverse_inscr_mun',
         size=18)
 
     suframa = fields.Char(
@@ -141,6 +131,21 @@ class Company(models.Model):
         compute='_get_l10n_br_data',
         inverse='_inverse_suframa',
         size=18)
+
+    @api.model
+    def _fields_view_get(self, view_id=None, view_type='form',
+                         toolbar=False, submenu=False):
+        res = super(Company, self)._fields_view_get(view_id,
+                                                    view_type,
+                                                    toolbar,
+                                                    submenu)
+        if view_type == 'form':
+            res['arch'] = self._fields_view_get_address(res['arch'])
+        return res
+
+    @api.onchange('state_id')
+    def _onchange_state(self):
+        self.city_id = None
 
     @api.onchange('cnpj_cpf')
     def _onchange_cnpj_cpf(self):
