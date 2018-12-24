@@ -22,10 +22,12 @@
     'data': [
         'security/ir.model.access.csv',
         'data/res.city.csv',
-        'data/base_data.xml',
         'data/res.country.state.csv',
         'data/res.bank.csv',
+        'views/webclient_templates.xml',
+        'views/res_partner_address_view.xml',
         'views/res_config_settings_view.xml',
+        'data/base_data.xml',
         'views/res_city_view.xml',
         'views/res_bank_view.xml',
         'views/res_country_view.xml',
