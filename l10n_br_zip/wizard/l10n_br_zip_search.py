@@ -9,24 +9,55 @@ class L10nBrZipSearch(models.TransientModel):
     _name = 'l10n_br.zip.search'
     _description = 'Zipcode Search'
 
-    zip = fields.Char('CEP', size=8)
-    street = fields.Char('Logradouro', size=72)
-    district = fields.Char('Bairro', size=72)
-    country_id = fields.Many2one('res.country', 'Country')
+    zip = fields.Char(
+        string='CEP',
+        size=8)
+    
+    street = fields.Char(
+        string='Logradouro',
+        size=72)
+
+    district = fields.Char(
+        string='District',
+        size=72)
+
+    country_id = fields.Many2one(
+        string='Country',
+        comodel_name='res.country')
+
     state_id = fields.Many2one(
-        "res.country.state", 'Estado',
-        domain="[('country_id','=',country_id)]")
-    l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', 'Cidade',
-        domain="[('state_id','=',state_id)]")
+        comodel_name='res.country.state',
+        string='State',
+        domain="[('country_id', '=', country_id)]")
+
+    city_id = fields.Many2one(
+        comodel_name='res.city',
+        string='Cidade',
+        domain="[('state_id', '=', state_id)]")
+
     zip_ids = fields.Many2many(
-        'l10n_br.zip.result', 'zip_search', 'zip_search_id',
-        'zip_id', 'CEP', readonly=False)
+        comodel_name='l10n_br.zip.result',
+        relation='zip_search',
+        column1='zip_search_id',
+        column2='zip_id',
+        string='CEP',
+        readonly=False)
+
     state = fields.Selection(
-        [('init', 'init'), ('done', 'done')],
-        'state', readonly=True, default='init')
-    address_id = fields.Integer('Id do objeto', invisible=True)
-    object_name = fields.Char('Nome do bjeto', size=100, invisible=True)
+        selection=[('init', 'init'),
+                   ('done', 'done')],
+        string='state',
+        readonly=True,
+        default='init')
+
+    address_id = fields.Integer(
+        string='Id do objeto',
+        invisible=True)
+
+    object_name = fields.Char(
+        string='Nome do Objeto',
+        size=100,
+        invisible=True)
 
     @api.model
     def create(self, vals):
@@ -45,7 +76,7 @@ class L10nBrZipSearch(models.TransientModel):
         data['district'] = context.get('district', False)
         data['country_id'] = context.get('country_id', False)
         data['state_id'] = context.get('state_id', False)
-        data['l10n_br_city_id'] = context.get('l10n_br_city_id', False)
+        data['city_id'] = context.get('city_id', False)
         data['address_id'] = context.get('address_id', False)
         data['object_name'] = context.get('object_name', False)
 
@@ -62,7 +93,7 @@ class L10nBrZipSearch(models.TransientModel):
         domain = obj_zip.set_domain(
             country_id=data['country_id'][0],
             state_id=data['state_id'][0],
-            l10n_br_city_id=data['l10n_br_city_id'][0],
+            city_id=data['city_id'][0],
             district=data['district'],
             street=data['street'],
             zip=data['zip']
@@ -111,23 +142,64 @@ class L10nBrZipResult(models.TransientModel):
     _description = 'Zipcode result'
 
     zip_id = fields.Many2one(
-        'l10n_br.zip', 'Zipcode', readonly=True, invisible=True)
+        comodel_name='l10n_br.zip',
+        string='Zipcode',
+        readonly=True,
+        invisible=True)
+
     search_id = fields.Many2one(
-        'l10n_br.zip.search', 'Search', readonly=True, invisible=True)
-    address_id = fields.Integer('Id do objeto', invisible=True)
-    object_name = fields.Char('Nome do objeto', size=100, invisible=True)
+        comodel_name='l10n_br.zip.search',
+        string='Search',
+        readonly=True,
+        invisible=True)
+
+    address_id = fields.Integer(
+        string='Id do objeto',
+        invisible=True)
+
+    object_name = fields.Char(
+        string='Nome do objeto',
+        size=100,
+        invisible=True)
+
     # ZIPCODE data to be shown
-    zip = fields.Char('CEP', size=9, readonly=True)
-    street = fields.Char('Logradouro', size=72, readonly=True)
-    street_type = fields.Char('Tipo', size=26, readonly=True)
-    district = fields.Char('Bairro', size=72, readonly=True)
-    country_id = fields.Many2one('res.country', 'Country', readonly=True)
-    state_id = fields.Many2one('res.country.state', 'Estado',
-                               domain="[('country_id', '=', country_id)]",
-                               readonly=True)
-    l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', 'Cidade', required=True,
-        domain="[('state_id', '=', state_id)]", readonly=True)
+    zip = fields.Char(
+        string='CEP',
+        size=9,
+        readonly=True)
+
+    street = fields.Char(
+        string='Logradouro',
+        size=72,
+        readonly=True)
+
+    street_type = fields.Char(
+        string='Tipo',
+        size=26,
+        readonly=True)
+
+    district = fields.Char(
+        string='District',
+        size=72,
+        readonly=True)
+
+    country_id = fields.Many2one(
+        comodel_name='res.country',
+        string='Country',
+        readonly=True)
+
+    state_id = fields.Many2one(
+        comodel_name='res.country.state',
+        string='State',
+        domain="[('country_id', '=', country_id)]",
+        readonly=True)
+
+    city_id = fields.Many2one(
+        comodel_name='res.city',
+        string='City',
+        required=True,
+        domain="[('state_id', '=', state_id)]",
+        readonly=True)
 
     def map_to_zip_result(self, zip_data, object_name, address_id):
         obj_zip = self.env['l10n_br.zip']
