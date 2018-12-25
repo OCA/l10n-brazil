@@ -12,12 +12,3 @@ class ResPartner(models.Model):
     def zip_search(self):
         self.ensure_one()
         return self.env['l10n_br.zip'].zip_search(self)
-
-
-class ResPartnerBank(models.Model):
-    _inherit = 'res.partner.bank'
-
-    @api.multi
-    def zip_search(self):
-        self.ensure_one()
-        return self.env['l10n_br.zip'].zip_search(self)
