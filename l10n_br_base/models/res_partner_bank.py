@@ -17,11 +17,6 @@ class ResPartnerBank(models.Model):
         size=64,
         required=False)
 
-    bank = fields.Many2one(
-        comodel_name='res.bank',
-        string='Bank',
-        required=False)
-
     acc_number_dig = fields.Char(
         string='Account Digit',
         size=8)
