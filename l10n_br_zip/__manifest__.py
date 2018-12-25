@@ -4,24 +4,26 @@
 
 {
     'name': 'Brazilian Localisation ZIP Codes',
+    'summary': 'Brazilian Localisation ZIP Codes',
+    'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
-    'version': '10.0.1.0.0',
+    'author': (
+        'Akretion',
+        'Odoo Community Association (OCA)'
+    ),
+    'website': 'http://odoo-brasil.org',
+    'version': '12.0.1.0.0',
     'depends': [
-        'l10n_br_base',
-        'sales_team',
+        'l10n_br_base'
     ],
     'data': [
         'views/l10n_br_zip_view.xml',
         'views/res_partner_view.xml',
-        'views/res_company_view.xml',
-        'views/res_bank_view.xml',
         'wizard/l10n_br_zip_search_view.xml',
         'security/ir.model.access.csv',
     ],
     'test': [
         'test/zip_demo.yml'
     ],
-    'category': 'Localization',
     'installable': True,
 }
