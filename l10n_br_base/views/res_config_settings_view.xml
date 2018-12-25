@@ -4,18 +4,35 @@
     <record id="l10n_br_base_res_config_settings_form" model="ir.ui.view">
         <field name="name">res.config.settings.form</field>
         <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='module_portal']/../../.." position="before">
-                <group>
-                    <label for="allow_cnpj_multi_ie" string="Múltiplos IE's"/>
-                    <div name="email">
-                        <div name="email.outgoing_server">
-                            <field name="allow_cnpj_multi_ie" class="oe_inline" />
-                            <label string ="Permite parceiros com CNPJ's iguais e IE's diferentes."/>
+            <xpath expr="//div[@id='multi_company']" position="after">
+                <div id="l10n_br_base_config">
+                    <field name="company_id" invisible="1"/>
+                    <h2>Localização Brasileira</h2>
+                    <div class="row mt16 o_settings_container" name="l10n_br_base">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="allow_cnpj_multi_ie"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label string="Multiplos parceiros com mesmo CNPJ" for="l10n_br_base"/>
+                                <div class="text-muted">
+                                    Permite criar mais de um parceiro com o mesmo CNPJ e Inscrição Estadual diferentes
+                                </div>
+                            </div>
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_br_zip_correios"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label string="Utilizar consulta de CEP dos Correios" for="l10n_br_base"/>
+                                <div class="text-muted">
+                                    Permite pesquisar o CEP e preencher automaticamente o endereço do parceiro
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </group>
+                </div>
             </xpath>
         </field>
     </record>
