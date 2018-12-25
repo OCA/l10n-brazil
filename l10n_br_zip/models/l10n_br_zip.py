@@ -2,12 +2,10 @@
 # Copyright (C) 2012  Renato Lima (Akretion)                                  #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
-from odoo import models, fields, api
-from odoo.tools.translate import _
-from odoo.exceptions import except_orm
-from odoo.exceptions import Warning as UserError
+from odoo.addons.l10n_br_base.tools import misc
 
 
 class L10nBrZip(models.Model):
@@ -50,18 +48,16 @@ class L10nBrZip(models.Model):
         required=True,
         domain="[('state_id','=',state_id)]")
 
-    def set_domain(self, country_id=False, state_id=False,
-                   city_id=False, district=False,
-                   street=False, zip_code=False):
+    def _set_domain(self, country_id=False, state_id=False,
+                    city_id=False, district=False,
+                    street=False, zip_code=False):
         domain = []
         if zip_code:
-            new_zip = re.sub('[^0-9]', '', zip_code or '')
+            new_zip = misc.punctuation_rm(zip_code or '')
             domain.append(('zip', '=', new_zip))
         else:
-            if not state_id or not city_id or \
-                    len(street or '') == 0:
-                raise except_orm(
-                    u'Parâmetros insuficientes',
+            if not state_id or not city_id or len(street or '') == 0:
+                raise UserError(
                     u'Necessário informar Estado, município e logradouro')
 
             if country_id:
@@ -90,35 +86,28 @@ class L10nBrZip(models.Model):
                 'district': zip_obj.district,
                 'street': ((zip_obj.street_type or '') +
                            ' ' + (zip_obj.street or '')) if
-                zip_obj.street_type else (zip_obj.street or ''),
+                           zip_obj.street_type else
+                           (zip_obj.street or ''),
                 'zip': zip_code,
             }
         else:
             result = {}
         return result
 
-    def zip_search_multi(self, country_id=False,
-                         state_id=False, city_id=False,
-                         district=False, street=False, zip_code=False):
-        domain = self.set_domain(
+    @api.model
+    def zip_search(self, country_id=False, state_id=False,
+                   city_id=False, district=False, street=False,
+                   zip_code=False):
+
+        domain = self._set_domain(
             country_id=country_id,
             state_id=state_id,
             city_id=city_id,
             district=district,
             street=street,
             zip_code=zip_code)
-        return self.search(domain)
 
-    @api.multi
-    def zip_search(self, obj):
-
-        zip_ids = self.zip_search_multi(
-            country_id=obj.country_id.id,
-            state_id=obj.state_id.id,
-            city_id=obj.city_id.id,
-            district=obj.district,
-            street=obj.street,
-            zip_code=obj.zip)
+        zip_ids = self.search(domain)
 
         if len(zip_ids) == 1:
             result = self.set_result(zip_ids[0])
