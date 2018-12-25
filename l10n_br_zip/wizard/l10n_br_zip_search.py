@@ -40,7 +40,7 @@ class L10nBrZipSearch(models.TransientModel):
         relation='zip_search',
         column1='zip_search_id',
         column2='zip_id',
-        string='CEP',
+        string='CEPs',
         readonly=False)
 
     state = fields.Selection(
