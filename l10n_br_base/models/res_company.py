@@ -7,8 +7,6 @@
 #    Copyright (C) Akretion (<http://www.akretion.com>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
-
 from odoo import models, fields, api
 from ..tools import misc, fiscal
 
@@ -91,7 +89,7 @@ class Company(models.Model):
         size=32)
 
     city_id = fields.Many2one(
-        string='City',
+        string='City of Address',
         comodel_name='res.city',
         domain="[('state_id', '=', state_id)]",
         compute='_get_l10n_br_data',
