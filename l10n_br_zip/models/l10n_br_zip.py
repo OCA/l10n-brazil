@@ -95,17 +95,19 @@ class L10nBrZip(models.Model):
         return result
 
     @api.model
-    def zip_search(self, country_id=False, state_id=False,
-                   city_id=False, district=False, street=False,
-                   zip_code=False):
+    def zip_search(self, obj):
 
-        domain = self._set_domain(
-            country_id=country_id,
-            state_id=state_id,
-            city_id=city_id,
-            district=district,
-            street=street,
-            zip_code=zip_code)
+        try:
+            domain = self._set_domain(
+                country_id=obj.country_id,
+                state_id=obj.state_id,
+                city_id=obj.city_id,
+                district=obj.district,
+                street=obj.street,
+                zip_code=obj.zip)
+        except AttributeError as e:
+            raise UserError(
+                _('Erro a Carregar Atributo: ') + str(e))
 
         zip_ids = self.search(domain)
 
