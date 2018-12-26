@@ -603,6 +603,10 @@ class HrPayslip(models.Model):
         string="Data do pagamento"
     )
 
+    data_pagamento_competencia = fields.Date(
+        string="Data do pagamento",
+    )
+
     valor_saldo_fgts = fields.Float(
         string="Valor do Saldo do FGTS"
     )
