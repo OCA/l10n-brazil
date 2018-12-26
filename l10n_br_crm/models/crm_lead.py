@@ -130,8 +130,8 @@ class Lead(models.Model):
 
     @api.onchange('zip')
     def _onchange_zip(self):
-        country_code = self.country_id.code or ''
-        self.zip = misc.format_zipcode(self.zip, country_code)
+        self.zip = misc.format_zipcode(self.zip,
+                                       self.country_id.code)
 
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
