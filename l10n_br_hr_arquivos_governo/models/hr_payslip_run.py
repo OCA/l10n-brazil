@@ -37,7 +37,10 @@ class HrPayslipRun(models.Model):
         # Definir quem sera o contribuinte da DARF, se nao passar nenhum
         # nos parametros assume que é a empresa
         if not partner_id:
-            partner_id = self.company_id.partner_id
+            company_id = self.env['res.company'].search([
+                ('eh_empresa_base', '=', True)
+            ], limit=1)
+            partner_id = company_id.partner_id
 
         # Preencher campo para indicar tipo de financial.move e tambem
         # preencher a data de vencimento
