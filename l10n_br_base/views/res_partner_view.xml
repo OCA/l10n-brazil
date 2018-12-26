@@ -35,6 +35,7 @@
         <field name="priority">99</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <field name="vat" position="replace"/>
             <xpath expr="//h1" position="after">
                 <group>
                     <div class="oe_edit_only">
