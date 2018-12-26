@@ -648,6 +648,7 @@ class SpedEsocial(models.Model):
     remuneracao_ids = fields.Many2many(
         string='Remuneração de Trabalhador',
         comodel_name='sped.esocial.remuneracao',
+        ondelete='cascade',
     )
     msg_remuneracao = fields.Char(
         string='Remunerações',
@@ -725,10 +726,26 @@ class SpedEsocial(models.Model):
                             ('mes_do_ano', '=', mes),
                             ('ano', '=', ano),
                             # ('state', 'in', ['verify', 'done']),
-                            ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro']),
+                            ('tipo_de_folha', 'in', ['normal', 'ferias']),
                             ('is_simulacao', '=', False),
                         ]
+
                         payslips = self.env['hr.payslip'].search(domain_payslip)
+
+                        if mes == 12:
+                            domain_payslip_decimo_terceiro = [
+                                ('company_id', 'in', empresas),
+                                ('contract_id', 'in', contratos_validos),
+                                ('mes_do_ano', '=', 13),
+                                ('ano', '=', ano),
+                                # ('state', 'in', ['verify', 'done']),
+                                ('tipo_de_folha', 'in', ['decimo_terceiro']),
+                                ('is_simulacao', '=', False),
+                            ]
+
+                            payslip_decimo_terceiro = self.env['hr.payslip'].search(domain_payslip_decimo_terceiro)
+
+                            payslips |= payslip_decimo_terceiro
 
                     else:
                         # Busca os payslips de pagamento mensal deste autonomo
@@ -764,8 +781,8 @@ class SpedEsocial(models.Model):
                             vals = {
                                 'company_id': matriz.id,
                                 'trabalhador_id': trabalhador.id,
-                                'periodo_id': periodo.id,
                                 'contract_ids': [(6, 0, contratos.ids)],
+                                'periodo_id': periodo.id,
                             }
 
                             # Criar intermediario de acordo com o tipo de employee
@@ -943,6 +960,7 @@ class SpedEsocial(models.Model):
     pagamento_ids = fields.Many2many(
         string='Pagamentos a Trabalhadores',
         comodel_name='sped.esocial.pagamento',
+        ondelete='cascade',
     )
     msg_pagamento = fields.Char(
         string='Pagamentos',
@@ -1017,26 +1035,40 @@ class SpedEsocial(models.Model):
                     # Trabalhadores autonomos tem holerite separado
                     if beneficiario.tipo != 'autonomo':
 
-                        # Busca os payslips de pagamento mensal deste beneficiário
                         domain_payslip = [
                             ('company_id', 'in', empresas),
                             ('contract_id', 'in', contratos_validos),
                             ('mes_do_ano', '=', mes),
                             ('ano', '=', ano),
                             ('state', 'in', ['verify', 'done']),
-                            ('tipo_de_folha', 'in', ['normal', 'ferias', 'decimo_terceiro', 'rescisao']),
+                            ('tipo_de_folha', 'in', ['normal', 'ferias']),
                             ('is_simulacao', '=', False),
                         ]
                         payslips = self.env['hr.payslip'].search(domain_payslip)
+
+                        if mes == 12:
+                            domain_payslip_decimo_terceiro = [
+                                ('company_id', 'in', empresas),
+                                ('contract_id', 'in', contratos_validos),
+                                ('mes_do_ano', '=', 13),
+                                ('ano', '=', ano),
+                                # ('state', 'in', ['verify', 'done']),
+                                ('tipo_de_folha', '=', 'decimo_terceiro'),
+                                ('is_simulacao', '=', False),
+                            ]
+                            payslips_decimo_terceiro = self.env['hr.payslip'].search(
+                                domain_payslip_decimo_terceiro)
+
+                            payslips |= payslips_decimo_terceiro
 
                     else:
                         # Busca os payslips de pagamento mensal deste autonomo
                         domain_payslip_autonomo = [
                             ('company_id', 'in', empresas),
                             ('contract_id', 'in', contratos_validos),
-                            ('mes_do_ano', '=', mes),
+                            ('mes_do_ano', '=', 13),
                             ('ano', '=', ano),
-                            ('state', 'in', ['verify', 'done']),
+                            # ('state', 'in', ['verify', 'done']),
                             ('tipo_de_folha', 'in',
                              ['normal', 'ferias', 'decimo_terceiro', 'rescisao']),
                         ]
@@ -1861,11 +1893,8 @@ class SpedEsocial(models.Model):
 
             # Periódicos
             esocial.importar_remuneracoes()             # S-1200
-            # esocial.importar_remuneracoes_rpps()        # S-1202 (Por enquanto não deve-se enviar o S-1202)
+            # esocial.importar_remuneracoes_rpps()      # S-1202
             esocial.importar_pagamentos()               # S-1210
-
-            # Calcula os registros para transmitir
-            esocial.compute_registro_ids()
 
             # Relaciona as Rescisões do Período para facilmente visualizá-las
             data = fields.Date.from_string(esocial.periodo_id.date_start)
@@ -1879,6 +1908,9 @@ class SpedEsocial(models.Model):
                 ('is_simulacao', '=', False),
             ])
             esocial.rescisao_ids = [(6, 0, rescisoes.ids)]
+
+            # Calcula os registros para transmitir
+            esocial.compute_registro_ids()
 
     @api.model
     def create(self, vals):
@@ -1898,7 +1930,6 @@ class SpedEsocial(models.Model):
         """
         domain = [
             ('date_start', '>=', '2017-01-01'),
-            ('special', '=', False)
         ]
 
         return domain
