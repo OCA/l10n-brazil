@@ -146,15 +146,15 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                     tem_retificacao = False
             S1210.evento.ideEvento.nrRecibo.valor = registro_para_retificar.recibo
         S1210.evento.ideEvento.indRetif.valor = indRetif
-        S1210.evento.ideEvento.indApuracao.valor = '1'  # TODO Lidar com os holerites de 13º salário
-                                                        # '1' - Mensal
-                                                        # '2' - Anual (13º salário)
+
+        S1210.evento.ideEvento.indApuracao.valor = '1'
         S1210.evento.ideEvento.perApur.valor = \
             self.periodo_id.code[3:7] + '-' + \
             self.periodo_id.code[0:2]
+
         S1210.evento.ideEvento.tpAmb.valor = ambiente
         S1210.evento.ideEvento.procEmi.valor = '1'    # Aplicativo do empregador
-        S1210.evento.ideEvento.verProc.valor = '8.0'  # Odoo v.8.0
+        S1210.evento.ideEvento.verProc.valor = 'Odoo v.8.0'  # Odoo v.8.0
 
         # Popula ideEmpregador (Dados do Empregador)
         S1210.evento.ideEmpregador.tpInsc.valor = '1'
@@ -190,11 +190,11 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
             # TODO Identificar a data do pagamento de acordo com o arquivo CNAB
             # Por enquanto vou usar a data final do período ou a data atual (a que for menor)
-            data = fields.Date.today()
-            fim_periodo = self.periodo_id.date_stop
-            if fim_periodo < data:
-                data = fim_periodo
-            info_pgto.dtPgto.valor = data
+            # data = fields.Date.today()
+            # fim_periodo = self.periodo_id.date_stop
+            # if fim_periodo < data:
+            #     data = fim_periodo
+            info_pgto.dtPgto.valor = payslip.data_pagamento_competencia
 
             # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
             # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
@@ -249,7 +249,13 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                     det_pgto_fl.nrRecArq.valor = registro_para_retificar.recibo
 
                 # Popula infoPgto.detPgtoFl.retPgtoTot
+                beneficiario_pensao = False
                 for line in payslip.line_ids:
+                    if line.salary_rule_id.code == 'PENSAO_ALIMENTICIA_PORCENTAGEM':
+                        beneficiario_pensao = line.partner_id
+                    if payslip.tipo_de_folha == 'decimo_terceiro':
+                        if line.salary_rule_id.code in ['IRPF', 'PENSAO_ALIMENTICIA_PORCENTAGEM']:
+                            continue
 
                     # Somente pega as Rubricas de Retenção de IRRF e Pensão Alimentícia
                     if line.total and line.salary_rule_id.cod_inc_irrf_calculado in \
@@ -267,9 +273,9 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                         if line.salary_rule_id.cod_inc_irrf_calculado in ['51', '52', '53', '54', '55']:
                             pen_alim = pysped.esocial.leiaute.S1210_PenAlim_2()
-                            pen_alim.cpfBenef.valor = limpa_formatacao(line.partner_id.cnpj_cpf)
+                            pen_alim.cpfBenef.valor = limpa_formatacao(beneficiario_pensao.cnpj_cpf)
                             # dtNasctoBenef  # TODO Hoje não estou enviando porque não temos esse controle no Odoo
-                            pen_alim.nmBenefic.valor = line.partner_id.name
+                            pen_alim.nmBenefic.valor = beneficiario_pensao.name
                             pen_alim.vlrPensao.valor = formata_valor(line.total)
                             ret_pgto_tot.penAlim.append(pen_alim)
 
