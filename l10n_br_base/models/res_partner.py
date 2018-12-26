@@ -156,25 +156,6 @@ class Partner(models.Model):
             if not result:
                 raise ValidationError(u"Inscrição Estadual Invalida!")
 
-    @api.onchange('cnpj_cpf', 'country_id')
-    def _onchange_cnpj_cpf(self):
-        country = self.country_id.code or ''
-        self.cnpj_cpf = fiscal.format_cpf_cnpj(self.cnpj_cpf,
-                                               country,
-                                               self.is_company)
-
-    @api.onchange('zip')
-    def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip,
-                                       self.country_id.code)
-
-    def _address_fields(self):
-        """ Returns the list of address fields that are synced from the parent
-        when the `use_parent_address` flag is set.
-        Extenção para os novos campos do endereço """
-        address_fields = super(Partner, self)._address_fields()
-        return list(address_fields + ['district'])
-
     @api.multi
     @api.constrains('state_tax_number_ids')
     def _check_state_tax_number_ids(self):
@@ -201,3 +182,30 @@ class Partner(models.Model):
                     raise ValidationError(
                         'State Registration already used'
                         ' %s' % duplicate_ie.name)
+
+    @api.model
+    def _address_fields(self):
+        """Returns the list of address
+        fields that are synced from the parent."""
+        return super(Partner, self)._address_fields() + ['district']
+
+    def get_street_fields(self):
+        """Returns the fields that can be used in a street format.
+        Overwrite this function if you want to add your own fields."""
+        return super(Partner, self).get_street_fields() + ('street',)
+
+    @api.onchange('cnpj_cpf', 'country_id')
+    def _onchange_cnpj_cpf(self):
+        country = self.country_id.code or ''
+        self.cnpj_cpf = fiscal.format_cpf_cnpj(self.cnpj_cpf,
+                                               country,
+                                               self.is_company)
+
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        self.zip = misc.format_zipcode(self.zip,
+                                       self.country_id.code)
+
+    @api.onchange('city_id')
+    def _onchange_city_id(self):
+        self.city = self.city_id.name
