@@ -203,10 +203,10 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         # Popula ideEvento
         S2299.tpInsc = '1'
         S2299.nrInsc = limpa_formatacao(
-            self.sped_hr_rescisao_id.company_id.cnpj_cpf
+            self.sped_hr_rescisao_id.sped_s2299.company_id.cnpj_cpf
         )[0:8]
         S2299.evento.ideEvento.tpAmb.valor = int(
-            self.sped_hr_rescisao_id.company_id.esocial_tpAmb
+            self.sped_hr_rescisao_id.sped_s2299.company_id.esocial_tpAmb
         )
 
         # Registro Original
