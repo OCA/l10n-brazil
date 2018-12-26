@@ -38,53 +38,45 @@ class WebServiceClient(object):
         if not self.obj_zip.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
 
             try:
-
                 # Connect Brazil Correios webservice
                 res = self.search_zip_code(zip_str)
 
                 # Search Brazil id
-                country_ids = self.obj_zip.env['res.country'].search(
-                    [('code', '=', 'BR')])
+                country = self.obj_zip.env['res.country'].search(
+                    [('code', '=', 'BR')], limit=1)
 
                 # Search state with state_code and country id
-                state_ids = self.obj_zip.env['res.country.state'].search([
-                    ('code', '=', str(res.uf)),
-                    ('country_id.id', 'in', country_ids.ids)])
-
-                # city name
-                city_name = str(res.cidade.encode('utf8'))
+                state = self.obj_zip.env['res.country.state'].search([
+                    ('code', '=', res.uf),
+                    ('country_id', '=', country.id)], limit=1)
 
                 # search city with name and state
-                city_ids = self.obj_zip.env['l10n_br_base.city'].search([
-                    ('name', '=', city_name),
-                    ('state_id.id', 'in', state_ids.ids)])
+                city = self.obj_zip.env['res.city'].search([
+                    ('name', '=', res.cidade),
+                    ('state_id.id', '=', state.id)], limit=1)
 
                 values = {
                     'zip': zip_str,
-                    'street': str(
-                        res.end.encode('utf8')) if res.end else '',
-                    'district': str(
-                        res.bairro.encode('utf8')) if res.bairro
-                    else '',
-                    'street_type': str(
-                        res.complemento.encode('utf8')) if res.complemento
-                    else '',
-                    'l10n_br_city_id': city_ids.ids[
-                        0] if city_ids else False,
-                    'state_id': state_ids.ids[0] if state_ids else False,
-                    'country_id': country_ids.ids[
-                        0] if country_ids else False,
+                    'street': res.end or '',
+                    'district': res.bairro,
+                    # else '',
+                    # 'street_type': str(
+                    #    res.complemento if hasattr(res, 'complemento')
+                    # else '',
+                    'city_id': city.id or False,
+                    'state_id': state.id or False,
+                    'country_id': country.id or False,
                 }
 
                 # Create zip object
                 return self.obj_zip.env['l10n_br.zip'].create(values)
 
             except TransportError as e:
-                _logger.error(e.message, exc_info=True)
-                raise UserError(_('Error!'), e.message)
+                _logger.error(str(e), exc_info=True)
+                raise UserError(str(e))
             except WebFault as e:
-                _logger.error(e.message, exc_info=True)
-                raise UserError(_('Error!'), e.message)
+                _logger.error(str(e), exc_info=True)
+                raise UserError(str(e))
 
         else:
             return None

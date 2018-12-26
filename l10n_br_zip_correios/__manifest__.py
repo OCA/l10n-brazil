@@ -5,14 +5,18 @@
 
 {
     'name': 'Address from Brazilian Localization ZIP by Correios',
+    'summary': 'Address from Brazilian Localization ZIP by Correios',
+    'category': 'Localization',
     'license': 'AGPL-3',
-    'author': 'KMEE, Odoo Community Association (OCA)',
-    'version': '10.0.1.0.0',
+    'author': (
+        'KMEE',
+        'Odoo Community Association (OCA)'
+    ),
     'website': 'http://odoo-brasil.org',
+    'version': '12.0.1.0.0',
     'depends': [
         'l10n_br_zip',
     ],
-    'category': 'Localization',
     'installable': True,
     'external_dependencies': {
         'python': ['suds'],
