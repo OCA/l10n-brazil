@@ -139,7 +139,7 @@ class Lead(models.Model):
             self.partner_id.id if self.partner_id else False)
 
         if self.partner_id:
-            result['number'] = self.partner_id.number
+            result['street_number'] = self.partner_id.street_number
             result['district'] = self.partner_id.district
             result['city_id'] = self.partner_id.city_id.id
             if self.partner_id.is_company:
