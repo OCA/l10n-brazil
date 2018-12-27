@@ -199,8 +199,8 @@
     <menuitem
         action="l10n_br_contabilidade_account_fechamento_action"
         id="menu_l10n_br_contabilidade_account_fechamento"
-        parent="abgf_menu_encerramento_contabilidade"
-        sequence="80"
+        parent="account.menu_account_end_year_treatments"
+        sequence="580"
     />
 
 
@@ -215,8 +215,8 @@
     <menuitem
         action="l10n_br_contabilidade_apuracao_resultado_action"
         id="menu_l10n_br_contabilidade_apuracao_resultado"
-        parent="abgf_menu_encerramento_contabilidade"
-        sequence="90"
+        parent="account.menu_account_end_year_treatments"
+        sequence="590"
     />
 
     <!--Menu para Reclassificação-->
@@ -230,8 +230,8 @@
     <menuitem
         action="l10n_br_contabilidade_reclassificacao_resultado_action"
         id="menu_l10n_br_contabilidade_reclassificacao_resultado"
-        parent="abgf_menu_encerramento_contabilidade"
-        sequence="94"
+        parent="account.menu_account_end_year_treatments"
+        sequence="594"
     />
 
 
@@ -246,8 +246,8 @@
     <menuitem
         action="l10n_br_contabilidade_encerramento_concluido_action"
         id="menu_l10n_br_contabilidade_encerramento_concluido"
-        parent="abgf_menu_encerramento_contabilidade"
-        sequence="96"
+        parent="account.menu_account_end_year_treatments"
+        sequence="596"
     />
 
 

@@ -38,6 +38,7 @@
         # 'views/account_move.xml',
         # 'views/account_fechamento.xml',
         # 'views/account_fechamento_reabertura_justificativa.xml',
+        'views/account_fechamento.xml',
         # 'views/account_fiscalyear.xml',
         'views/account_account_type.xml',
         # 'views/account_reports.xml',
