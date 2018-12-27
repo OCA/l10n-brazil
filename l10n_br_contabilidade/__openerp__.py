@@ -32,6 +32,7 @@
         # 'views/account_account.xml',
         # 'views/account_account_report.xml',
         'views/account_account.xml',
+        # 'views/account_account_report.xml', TODO: DRE e Balanço Patrimonial, resolver com mis_builder
         'views/account_account_report_line.xml',
         'views/account_journal.xml',
         'views/account_natureza.xml',
@@ -42,12 +43,12 @@
         'views/account_move.xml',
         'views/account_fechamento.xml',
         'views/account_account_type.xml',
-        # 'views/account_reports.xml',
+        # 'views/account_reports.xml',  # já presente no meu account.final_accounting_reports
         'views/account_grupo.xml',
         'views/account_ramo.xml',
         'views/account_period.xml',
         'views/account_historico_padrao.xml',
-        # 'views/account_mapeamento.xml',
+        # 'views/account_mapeamento.xml', TODO: Refatorar usando constas de consolidação
         'views/account_saldo.xml',
     ],
     'demo': [
