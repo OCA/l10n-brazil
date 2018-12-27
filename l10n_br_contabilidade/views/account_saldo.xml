@@ -100,7 +100,7 @@
         action="l10n_br_contabilidade_account_saldo_action"
         id="menu_l10n_br_contabilidade_account_saldo"
         name="Saldos de período"
-        parent="abgf_configuracao_account_period_menu"
+        parent="account.next_id_23"
         sequence="30"
     />
 
@@ -137,11 +137,10 @@
 
     <menuitem
             id="menu_abgf_action_account_saldo_graph"
-            icon="STOCK_PRINT"
             name="Balancete por períodos"
             action="l10n_br_contabilidade_account_saldo_graph_action"
             sequence="25"
-            parent="l10n_br_contabilidade.abgf_menu_relatorios_contabilidade" />
+            parent="account.final_accounting_reports" />
 
 
     </data>
