@@ -126,13 +126,14 @@ class AccountAccount(models.Model):
             else:
                 record.identificacao_saldo = ''
 
-    @api.multi
-    def _check_allow_code_change(self):
+    @api.v7
+    def _check_allow_code_change(self, cr, uid, ids, context=None):
         """
         :return:
         """
-        if not self.user_has_groups('base.group_no_one'):
-            return super(AccountAccount, self)._check_allow_code_change()
+        if not self.user_has_groups(cr, uid, 'base.group_no_one'):
+            return super(AccountAccount, self)._check_allow_code_change(
+                cr, uid, ids, context=context)
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
