@@ -214,7 +214,7 @@
             </field>
         </record>
 
-        <record id="abgf_account_move_action" model="ir.actions.act_window">
+        <record id="l10n_br_contabilidade_account_move_action" model="ir.actions.act_window">
             <field name="name">Lançamentos Contábeis</field>
             <field name="res_model">account.move</field>
             <field name="view_mode">tree,form</field>
@@ -224,22 +224,20 @@
             <field eval="10" name="sequence"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="l10n_br_contabilidade_view_account_move_tree"/>
-            <field name="act_window_id" ref="abgf_account_move_action"/>
+            <field name="act_window_id" ref="l10n_br_contabilidade_account_move_action"/>
         </record>
 
         <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_centro_custo_form_action_view">
             <field eval="20" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="l10n_br_contabilidade_view_account_move_form"/>
-            <field name="act_window_id" ref="abgf_account_move_action"/>
+            <field name="act_window_id" ref="l10n_br_contabilidade_account_move_action"/>
         </record>
 
-        <menuitem
-            icon="STOCK_JUSTIFY_FILL"
-            action="abgf_account_move_action"
-            id="abgf_menu_action_move_journal_line_form"
-            parent="abgf_menu_lancamentos_contabilidade"
-            sequence="50" />
+        <record id="account.menu_action_move_journal_line_form" model="ir.ui.menu" >
+            <field name="action_id" ref="l10n_br_contabilidade_account_move_action"/>
+            <field name="name">Lançamentos Contábeis</field>
+        </record>
 
     </data>
 </openerp>
