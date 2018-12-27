@@ -46,8 +46,8 @@
         <menuitem
                 id="abgf_menu_config_conta_natureza"
                 action="l10n_br_contabilidade.abgf_conta_natureza_form"
-                parent="l10n_br_contabilidade.abgf_configuracao_conta_menu"
-                sequence="100"
+                parent="account.account_account_menu"
+                sequence="500"
         />
 
     </data>
