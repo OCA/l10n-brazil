@@ -78,7 +78,7 @@
         action="l10n_br_contabilidade_account_grupo_action"
         id="menu_l10n_br_contabilidade_account_grupo"
         name="Grupo"
-        parent="l10n_br_contabilidade.abgf_configuracao_lancamentos_contabeis_menu"
+        parent="l10n_br_contabilidade.configuracao_lancamentos_contabeis_menu"
         sequence="15"
     />
 
