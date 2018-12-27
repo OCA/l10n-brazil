@@ -16,8 +16,8 @@
         <menuitem
                 id="abgf_menu_tipo_conta_form"
                 action="abgf_action_tipo_conta_form"
-                sequence="20"
-                parent="l10n_br_contabilidade.abgf_configuracao_conta_menu"
+                sequence="520"
+                parent="account.account_account_menu"
         />
 
     </data>
