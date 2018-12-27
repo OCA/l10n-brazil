@@ -31,7 +31,7 @@
         # 'wizards/trial_balance_wizard.xml',
         # 'views/account_account.xml',
         # 'views/account_account_report.xml',
-        # 'views/account_account_report_line.xml',
+        'views/account_account_report_line.xml',
         # 'views/account_journal.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
