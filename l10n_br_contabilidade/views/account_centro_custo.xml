@@ -74,8 +74,8 @@
         action="l10n_br_contabilidade_account_centro_custo_action"
         id="menu_l10n_br_contabilidade_account_centro_custo"
         name="Centro de Custo"
-        parent="l10n_br_contabilidade.abgf_configuracao_conta_menu"
-        sequence="18"
+        parent="account.account_account_menu"
+        sequence="518"
     />
 
     </data>

@@ -34,7 +34,7 @@
         # 'views/account_account_report_line.xml',
         # 'views/account_journal.xml',
         'views/account_natureza.xml',
-        # 'views/account_centro_custo.xml',
+        'views/account_centro_custo.xml',
         # 'views/account_move.xml',
         # 'views/account_fechamento.xml',
         # 'views/account_fechamento_reabertura_justificativa.xml',
