@@ -6,7 +6,7 @@
     <data>
 
         <record id="abgf_view_account_journal" model="ir.ui.view">
-            <field name="name">account.journal.form (in abgf_contabilidade)</field>
+            <field name="name">account.journal.form (in l10n_br_contabilidade)</field>
             <field name="model">account.journal</field>
             <field eval="1" name="priority"/>
             <field name="mode">primary</field>
@@ -65,7 +65,7 @@
         </record>
 
         <record id="abgf_view_account_journal_tree" model="ir.ui.view">
-            <field name="name">account.journal.tree (in abgf_contabilidade)</field>
+            <field name="name">account.journal.tree (in l10n_br_contabilidade)</field>
             <field name="model">account.journal</field>
             <field eval="1" name="priority"/>
             <field name="mode">primary</field>
@@ -78,7 +78,7 @@
         </record>
 
         <record id="abgf_view_account_journal_search" model="ir.ui.view">
-            <field name="name">account.journal.search (in abgf_contabilidade)</field>
+            <field name="name">account.journal.search (in l10n_br_contabilidade)</field>
             <field name="model">account.journal</field>
             <field eval="1" name="priority"/>
             <field name="mode">primary</field>

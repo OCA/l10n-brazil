@@ -6,8 +6,8 @@
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_fechamento_form">
-        <field name="name">account_fechamento_form (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_fechamento_form">
+        <field name="name">account_fechamento_form (in l10n_br_contabilidade)</field>
         <field name="model">account.fechamento</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -95,7 +95,7 @@
                          <page string="Lançamentos de Fechamento" attrs="{'invisible': [('account_move_ids', '=', [])]}">
                              <group string="Lançamentos desta Apuração">
                                 <field name="account_move_ids" readonly="1" nolabel="1"
-                                       context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
+                                       context="{'form_view_ref': 'l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form'}">
                                     <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
                                         <field name="sequencia" />
                                         <field name="name" string="Lançamento"/>
@@ -110,7 +110,7 @@
                          <page string="Reclassificação" attrs="{'invisible': [('account_move_reclassificacao_id', '=', [])]}">
                              <group string="Lançamentos da Reclassificação">
                                 <field name="account_move_reclassificacao_id"  readonly="1" nolabel="1"
-                                       context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
+                                       context="{'form_view_ref': 'l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form'}">
                                     <tree>
                                         <field name="sequencia" />
                                         <field name="name" string="Lançamento"/>
@@ -125,7 +125,7 @@
                          <page string="Distribuição" attrs="{'invisible': [('account_move_distribuicao_id', '=', [])]}">
                              <group string="Lançamentos da Distribuição">
                                 <field name="account_move_distribuicao_id" readonly="1" nolabel="1"
-                                       context="{'form_view_ref': 'abgf_contabilidade.abgf_contabilidade_view_account_move_form'}">
+                                       context="{'form_view_ref': 'l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form'}">
                                     <tree>
                                         <field name="sequencia" />
                                         <field name="name" string="Lançamento"/>
@@ -145,8 +145,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_fechamento_tree">
-        <field name="name">account_fechamento_tree (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_fechamento_tree">
+        <field name="name">account_fechamento_tree (in l10n_br_contabilidade)</field>
         <field name="model">account.fechamento</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -160,8 +160,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_fechamento_search">
-        <field name="name">account_fechamento_search (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_fechamento_search">
+        <field name="name">account_fechamento_search (in l10n_br_contabilidade)</field>
         <field name="model">account.fechamento</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -175,37 +175,37 @@
     </record>
 
     <!--Menu para fechar movimento-->
-    <record model="ir.actions.act_window" id="abgf_contabilidade_account_fechamento_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_account_fechamento_action">
         <field name="name">Fechar Movimento</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state','=','open')]</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_fechamento_tree_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_fechamento_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="abgf_contabilidade_account_fechamento_tree"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_fechamento_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_fechamento_tree"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_fechamento_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_fechamento_form_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_fechamento_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="abgf_contabilidade_account_fechamento_form"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_fechamento_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_fechamento_form"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_fechamento_action"/>
     </record>
 
     <menuitem
-        action="abgf_contabilidade_account_fechamento_action"
-        id="menu_abgf_contabilidade_account_fechamento"
+        action="l10n_br_contabilidade_account_fechamento_action"
+        id="menu_l10n_br_contabilidade_account_fechamento"
         parent="abgf_menu_encerramento_contabilidade"
         sequence="80"
     />
 
 
     <!--Menu para fechar movimento-->
-    <record model="ir.actions.act_window" id="abgf_contabilidade_apuracao_resultado_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_apuracao_resultado_action">
         <field name="name">Apurar Resultado</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
@@ -213,14 +213,14 @@
     </record>
 
     <menuitem
-        action="abgf_contabilidade_apuracao_resultado_action"
-        id="menu_abgf_contabilidade_apuracao_resultado"
+        action="l10n_br_contabilidade_apuracao_resultado_action"
+        id="menu_l10n_br_contabilidade_apuracao_resultado"
         parent="abgf_menu_encerramento_contabilidade"
         sequence="90"
     />
 
     <!--Menu para Reclassificação-->
-    <record model="ir.actions.act_window" id="abgf_contabilidade_reclassificacao_resultado_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_reclassificacao_resultado_action">
         <field name="name">Reclassificar</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
@@ -228,15 +228,15 @@
     </record>
 
     <menuitem
-        action="abgf_contabilidade_reclassificacao_resultado_action"
-        id="menu_abgf_contabilidade_reclassificacao_resultado"
+        action="l10n_br_contabilidade_reclassificacao_resultado_action"
+        id="menu_l10n_br_contabilidade_reclassificacao_resultado"
         parent="abgf_menu_encerramento_contabilidade"
         sequence="94"
     />
 
 
     <!--Menu para Encerramentos Concluídos -->
-    <record model="ir.actions.act_window" id="abgf_contabilidade_encerramento_concluido_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_encerramento_concluido_action">
         <field name="name">Concluídos</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
@@ -244,8 +244,8 @@
     </record>
 
     <menuitem
-        action="abgf_contabilidade_encerramento_concluido_action"
-        id="menu_abgf_contabilidade_encerramento_concluido"
+        action="l10n_br_contabilidade_encerramento_concluido_action"
+        id="menu_l10n_br_contabilidade_encerramento_concluido"
         parent="abgf_menu_encerramento_contabilidade"
         sequence="96"
     />

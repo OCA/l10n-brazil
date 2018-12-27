@@ -6,8 +6,8 @@
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_grupo_form">
-        <field name="name">account_grupo_form (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_grupo_form">
+        <field name="name">account_grupo_form (in l10n_br_contabilidade)</field>
         <field name="model">account.grupo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -29,8 +29,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_grupo_tree">
-        <field name="name">account_grupo_tree (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_grupo_tree">
+        <field name="name">account_grupo_tree (in l10n_br_contabilidade)</field>
         <field name="model">account.grupo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -42,8 +42,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_grupo_search">
-        <field name="name">account_grupo_search (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_grupo_search">
+        <field name="name">account_grupo_search (in l10n_br_contabilidade)</field>
         <field name="model">account.grupo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -54,31 +54,31 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="abgf_contabilidade_account_grupo_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_account_grupo_action">
         <field name="name">Grupo</field>
         <field name="res_model">account.grupo</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_grupo_tree_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_grupo_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="abgf_contabilidade_account_grupo_tree"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_grupo_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_grupo_tree"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_grupo_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_grupo_form_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_grupo_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="abgf_contabilidade_account_grupo_form"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_grupo_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_grupo_form"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_grupo_action"/>
     </record>
 
     <menuitem
-        action="abgf_contabilidade_account_grupo_action"
-        id="menu_abgf_contabilidade_account_grupo"
+        action="l10n_br_contabilidade_account_grupo_action"
+        id="menu_l10n_br_contabilidade_account_grupo"
         name="Grupo"
-        parent="abgf_contabilidade.abgf_configuracao_lancamentos_contabeis_menu"
+        parent="l10n_br_contabilidade.abgf_configuracao_lancamentos_contabeis_menu"
         sequence="15"
     />
 

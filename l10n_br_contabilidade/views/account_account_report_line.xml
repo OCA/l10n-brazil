@@ -6,8 +6,8 @@
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_line_form">
-        <field name="name">account_account_report_line_form (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_account_report_line_form">
+        <field name="name">account_account_report_line_form (in l10n_br_contabilidade)</field>
         <field name="model">account.account.report.line</field>
         <field name="arch" type="xml">
             <form string="Contas de Apresentação">
@@ -38,8 +38,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_line_tree">
-        <field name="name">account_account_report_line_tree (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_account_report_line_tree">
+        <field name="name">account_account_report_line_tree (in l10n_br_contabilidade)</field>
         <field name="model">account.account.report.line</field>
         <field name="arch" type="xml">
             <tree string="Contas de Apresentação">
@@ -52,8 +52,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_line_search">
-        <field name="name">account_account_report_line_search (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_account_report_line_search">
+        <field name="name">account_account_report_line_search (in l10n_br_contabilidade)</field>
         <field name="model">account.account.report.line</field>
         <field name="arch" type="xml">
             <search string="Contas de Apresentação">
@@ -64,31 +64,31 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_line_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_account_account_report_line_action">
         <field name="name">Contas de Apresentação</field>
         <field name="res_model">account.account.report.line</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_line_tree_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_account_report_line_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="abgf_contabilidade_account_account_report_line_tree"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_line_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_account_report_line_tree"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_account_report_line_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_line_form_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_account_report_line_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="abgf_contabilidade_account_account_report_line_form"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_line_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_account_report_line_form"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_account_report_line_action"/>
     </record>
 
     <menuitem
-        action="abgf_contabilidade_account_account_report_line_action"
-        id="menu_abgf_contabilidade_account_account_report_line"
+        action="l10n_br_contabilidade_account_account_report_line_action"
+        id="menu_l10n_br_contabilidade_account_account_report_line"
         name="Contas de Apresentação"
-        parent="abgf_contabilidade.abgf_configuracao_conta_menu"
+        parent="l10n_br_contabilidade.abgf_configuracao_conta_menu"
         sequence="70"
     />
 

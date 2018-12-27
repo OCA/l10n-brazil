@@ -40,13 +40,13 @@
             <field name="res_model">account.natureza</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="abgf_contabilidade.abgf_view_account_natureza_tree"/>
+            <field name="view_id" ref="l10n_br_contabilidade.abgf_view_account_natureza_tree"/>
         </record>
 
         <menuitem
                 id="abgf_menu_config_conta_natureza"
-                action="abgf_contabilidade.abgf_conta_natureza_form"
-                parent="abgf_contabilidade.abgf_configuracao_conta_menu"
+                action="l10n_br_contabilidade.abgf_conta_natureza_form"
+                parent="l10n_br_contabilidade.abgf_configuracao_conta_menu"
                 sequence="100"
         />
 

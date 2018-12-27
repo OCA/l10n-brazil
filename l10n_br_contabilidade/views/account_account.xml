@@ -146,7 +146,7 @@
         <menuitem
                 id="abgf_menu_conta_form"
                 action="abgf_conta_form"
-                parent="abgf_contabilidade.abgf_menu_contas_contabilidade"
+                parent="l10n_br_contabilidade.abgf_menu_contas_contabilidade"
         />
 
     </data>

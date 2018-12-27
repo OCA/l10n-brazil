@@ -5,8 +5,8 @@
 <openerp>
     <data>
 
-        <record id="abgf_contabilidade_view_account_move_tree" model="ir.ui.view">
-            <field name="name">account.move.tree (in abgf_contabilidade)</field>
+        <record id="l10n_br_contabilidade_view_account_move_tree" model="ir.ui.view">
+            <field name="name">account.move.tree (in l10n_br_contabilidade)</field>
             <field name="model">account.move</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state == 'draft';red:state == 'validacao_criacao';black:state == 'posted'" string="Journal Entries">
@@ -25,7 +25,7 @@
         </record>
 
         <record id="view_account_move_filter" model="ir.ui.view">
-            <field name="name">account.move.select (in abgf_contabilidade)</field>
+            <field name="name">account.move.select (in l10n_br_contabilidade)</field>
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_account_move_filter"/>
             <field name="arch" type="xml">
@@ -42,8 +42,8 @@
             </field>
         </record>
 
-        <record id="abgf_contabilidade_view_account_move_form" model="ir.ui.view">
-            <field name="name">account.move.form (in abgf_contabilidade)</field>
+        <record id="l10n_br_contabilidade_view_account_move_form" model="ir.ui.view">
+            <field name="name">account.move.form (in l10n_br_contabilidade)</field>
             <field name="model">account.move</field>
             <field name="arch" type="xml">
                 <form string="Account Entry">
@@ -220,17 +220,17 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_move_tree_action_view">
+        <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_move_tree_action_view">
             <field eval="10" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="abgf_contabilidade_view_account_move_tree"/>
+            <field name="view_id" ref="l10n_br_contabilidade_view_account_move_tree"/>
             <field name="act_window_id" ref="abgf_account_move_action"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_centro_custo_form_action_view">
+        <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_centro_custo_form_action_view">
             <field eval="20" name="sequence"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="abgf_contabilidade_view_account_move_form"/>
+            <field name="view_id" ref="l10n_br_contabilidade_view_account_move_form"/>
             <field name="act_window_id" ref="abgf_account_move_action"/>
         </record>
 

@@ -6,8 +6,8 @@
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_saldo_form">
-        <field name="name">account_saldo_form (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_saldo_form">
+        <field name="name">account_saldo_form (in l10n_br_contabilidade)</field>
         <field name="model">account.saldo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -34,8 +34,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_saldo_tree">
-        <field name="name">account_saldo_tree (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_saldo_tree">
+        <field name="name">account_saldo_tree (in l10n_br_contabilidade)</field>
         <field name="model">account.saldo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -52,8 +52,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_saldo_search">
-        <field name="name">account_saldo_search (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_saldo_search">
+        <field name="name">account_saldo_search (in l10n_br_contabilidade)</field>
         <field name="model">account.saldo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
@@ -76,29 +76,29 @@
     </record>
 
 
-    <record model="ir.actions.act_window" id="abgf_contabilidade_account_saldo_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_account_saldo_action">
         <field name="name">Saldo no Período</field>
         <field name="res_model">account.saldo</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_saldo_tree_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_saldo_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="abgf_contabilidade_account_saldo_tree"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_saldo_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_saldo_tree"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_saldo_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_saldo_form_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_saldo_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="abgf_contabilidade_account_saldo_form"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_saldo_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_saldo_form"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_saldo_action"/>
     </record>
 
     <menuitem
-        action="abgf_contabilidade_account_saldo_action"
-        id="menu_abgf_contabilidade_account_saldo"
+        action="l10n_br_contabilidade_account_saldo_action"
+        id="menu_l10n_br_contabilidade_account_saldo"
         name="Saldos de período"
         parent="abgf_configuracao_account_period_menu"
         sequence="30"
@@ -108,7 +108,7 @@
 
      <!--Visao cubo-->
     <record id="abgf_account_saldo_report_graph" model="ir.ui.view">
-        <field name="name">account.saldo.report.graph (in abgf_contabilidade)</field>
+        <field name="name">account.saldo.report.graph (in l10n_br_contabilidade)</field>
         <field name="model">account.saldo</field>
         <field name="arch" type="xml">
          <graph string="Saldo dos Períodos" type="pivot">
@@ -123,12 +123,12 @@
         </field>
     </record>
 
-    <record id="abgf_contabilidade_account_saldo_graph_action" model="ir.actions.act_window">
+    <record id="l10n_br_contabilidade_account_saldo_graph_action" model="ir.actions.act_window">
         <field name="name">Saldo nos Períodos</field>
         <field name="res_model">account.saldo</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph</field>
-        <field name="search_view_id" ref="abgf_contabilidade_account_saldo_search"/>
+        <field name="search_view_id" ref="l10n_br_contabilidade_account_saldo_search"/>
         <field name="view_id" ref="abgf_account_saldo_report_graph"/>
         <!--<field name="context">{'group_by':[], 'search_default_usertype':1, 'search_default_thisyear':1, 'group_by_no_leaf':1}</field>-->
         <!--<field name="help">From this view, have an analysis of your different financial accounts. The document shows your debit and credit taking in consideration some criteria you can choose by using the search tool.</field>-->
@@ -139,9 +139,9 @@
             id="menu_abgf_action_account_saldo_graph"
             icon="STOCK_PRINT"
             name="Balancete por períodos"
-            action="abgf_contabilidade_account_saldo_graph_action"
+            action="l10n_br_contabilidade_account_saldo_graph_action"
             sequence="25"
-            parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade" />
+            parent="l10n_br_contabilidade.abgf_menu_relatorios_contabilidade" />
 
 
     </data>

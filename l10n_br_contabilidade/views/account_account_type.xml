@@ -17,7 +17,7 @@
                 id="abgf_menu_tipo_conta_form"
                 action="abgf_action_tipo_conta_form"
                 sequence="20"
-                parent="abgf_contabilidade.abgf_configuracao_conta_menu"
+                parent="l10n_br_contabilidade.abgf_configuracao_conta_menu"
         />
 
     </data>

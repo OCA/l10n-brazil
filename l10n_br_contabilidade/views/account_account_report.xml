@@ -6,8 +6,8 @@
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_form">
-        <field name="name">account_account_report_form (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_account_report_form">
+        <field name="name">account_account_report_form (in l10n_br_contabilidade)</field>
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <form string="Contas Demonstrativas">
@@ -70,8 +70,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_tree">
-        <field name="name">account_account_report_tree (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_account_report_tree">
+        <field name="name">account_account_report_tree (in l10n_br_contabilidade)</field>
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <tree string="Contas Demonstrativas">
@@ -86,8 +86,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="abgf_contabilidade_account_account_report_search">
-        <field name="name">account_account_report_search (in abgf_contabilidade)</field>
+    <record model="ir.ui.view" id="l10n_br_contabilidade_account_account_report_search">
+        <field name="name">account_account_report_search (in l10n_br_contabilidade)</field>
         <field name="model">account.account.report</field>
         <field name="arch" type="xml">
             <search string="Contas">
@@ -99,7 +99,7 @@
 
 
     <!-- Menu de Contas de Apresentação do BALANÇO PATRIMONIAL-->
-    <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_account_account_report_action">
         <field name="name">Balanço Patrimonial</field>
         <field name="res_model">account.account.report</field>
         <field name="view_mode">tree,form</field>
@@ -107,31 +107,31 @@
         <field name="context">{'default_type': 'patrimonial'}</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_tree_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_account_report_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="abgf_contabilidade_account_account_report_tree"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_account_report_tree"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_account_report_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_account_report_form_action">
+    <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_account_report_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="abgf_contabilidade_account_account_report_form"/>
-        <field name="act_window_id" ref="abgf_contabilidade_account_account_report_action"/>
+        <field name="view_id" ref="l10n_br_contabilidade_account_account_report_form"/>
+        <field name="act_window_id" ref="l10n_br_contabilidade_account_account_report_action"/>
     </record>
 
     <menuitem
-        action="abgf_contabilidade_account_account_report_action"
-        id="menu_abgf_contabilidade_account_account_report_patrimonial"
+        action="l10n_br_contabilidade_account_account_report_action"
+        id="menu_l10n_br_contabilidade_account_account_report_patrimonial"
         name="Balanço Patrimonial"
-        parent="abgf_contabilidade.menu_abgf_contabilidade_relatorios_account_account_report"
+        parent="l10n_br_contabilidade.menu_l10n_br_contabilidade_relatorios_account_account_report"
         sequence="10"
     />
 
 
     <!-- Menu de Contas de Apresentação da APURAÇÂO DE RESULTADOS-->
-    <record model="ir.actions.act_window" id="abgf_contabilidade_account_account_report_resultado_action">
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_account_account_report_resultado_action">
         <field name="name">Contas</field>
         <field name="res_model">account.account.report</field>
         <field name="view_mode">tree,form</field>
@@ -140,10 +140,10 @@
     </record>
 
     <menuitem
-        action="abgf_contabilidade_account_account_report_resultado_action"
-        id="menu_abgf_contabilidade_account_account_report_resultado"
+        action="l10n_br_contabilidade_account_account_report_resultado_action"
+        id="menu_l10n_br_contabilidade_account_account_report_resultado"
         name="DRE"
-        parent="abgf_contabilidade.menu_abgf_contabilidade_relatorios_account_account_report"
+        parent="l10n_br_contabilidade.menu_l10n_br_contabilidade_relatorios_account_account_report"
         sequence="20"
     />
 

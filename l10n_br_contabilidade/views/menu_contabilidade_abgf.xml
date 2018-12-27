@@ -68,7 +68,7 @@
         />
 
         <menuitem
-                id="menu_abgf_contabilidade_relatorios_account_account_report"
+                id="menu_l10n_br_contabilidade_relatorios_account_account_report"
                 name="Código de Apresentação"
                 parent="abgf_menu_configuracao_contabilidade"
                 sequence="25" />

@@ -9,29 +9,60 @@
         <record id="account.action_account_chart" model="ir.actions.act_window">
             <field name="name">Plano de Contas</field>
         </record>
+        <menuitem
+                id="menu_abgf_account_chart"
+                icon="STOCK_INDENT"
+                action="account.action_account_chart"
+                parent="l10n_br_contabilidade.abgf_menu_contas_contabilidade" />
 
 
         <!-- Plano de Contas em PDF -->
         <record id="account_chart_report.action_print_chart_menu" model="ir.actions.act_window">
           <field name="name">Imprimir Plano de Contas</field>
         </record>
+        <menuitem
+                id="menu_abgf_wizard_print_chart_account"
+                icon="STOCK_PRINT"
+                action="account_chart_report.action_print_chart_menu"
+                parent="l10n_br_contabilidade.abgf_menu_contas_contabilidade" />
 
 
         <!-- Livro Razão -->
         <record id="account_financial_report_webkit.action_account_general_ledger_menu_webkit" model="ir.actions.act_window">
             <field name="name">Livro Razão</field>
         </record>
+        <menuitem
+                id="menu_abgf_general_ledger"
+                icon="STOCK_PRINT"
+                name="Livro Razão"
+                action="account_financial_report_webkit.action_account_general_ledger_menu_webkit"
+                sequence="10"
+                parent="l10n_br_contabilidade.abgf_menu_relatorios_contabilidade" />
 
 
         <!-- Balancete -->
         <record id="account_financial_report_webkit.action_account_trial_balance_menu_webkit" model="ir.actions.act_window">
             <field name="name">Balancete</field>
         </record>
+        <menuitem
+                id="menu_abgf_general_balance_report"
+                icon="STOCK_PRINT"
+                name="Balancete"
+                action="account_financial_report_webkit.action_account_trial_balance_menu_webkit"
+                sequence="20"
+                parent="l10n_br_contabilidade.abgf_menu_relatorios_contabilidade" />
 
         <!-- Diários -->
         <record id="account_financial_report_webkit.action_account_print_journal_menu_webkit" model="ir.actions.act_window">
             <field name="name">Livro Diários</field>
         </record>
+        <menuitem
+                id="menu_abgf_account_print_journal"
+                icon="STOCK_PRINT"
+                name="Diários"
+                action="account_financial_report_webkit.action_account_print_journal_menu_webkit"
+                sequence="30"
+                parent="l10n_br_contabilidade.abgf_menu_relatorios_contabilidade" />
 
 
     </data>
