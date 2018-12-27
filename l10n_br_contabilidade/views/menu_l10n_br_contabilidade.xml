@@ -5,9 +5,9 @@
 <openerp>
     <data>
 
-        <!-- Renomear menu principal - TODO Não deu certo, tentar depois pela tradução-->
+        <!-- Renomear menu principal -->
         <record id="account.menu_finance" model="ir.ui.menu" >
-            <field name="Faturamento"/>
+            <field name="name">Faturamento</field>
         </record>
 
         <menuitem
