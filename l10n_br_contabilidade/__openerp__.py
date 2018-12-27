@@ -14,6 +14,7 @@
     'depends': [
         'l10n_br_account_product',
         'account_chart_report',
+        'popup_notifications',
     ],
     'data': [
         'security/ir.model.access.csv',
