@@ -91,7 +91,7 @@
     <menuitem
         action="l10n_br_contabilidade_account_historico_padrao_action"
         id="menu_l10n_br_contabilidade_account_historico_padrao"
-        parent="l10n_br_contabilidade.abgf_configuracao_lancamentos_contabeis_menu"
+        parent="l10n_br_contabilidade.configuracao_lancamentos_contabeis_menu"
         sequence="40"
     />
 
