@@ -7,8 +7,8 @@
 
 
         <!-- Conta Contábil -->
-        <record id="abgf_view_conta_form" model="ir.ui.view">
-            <field name="name">abgf.conta.form</field>
+        <record id="l10n_br_contabilidade_view_conta_form" model="ir.ui.view">
+            <field name="name">l10n_br_contabilidade.conta.form</field>
             <field name="model">account.account</field>
             <field name="arch" type="xml">
                 <form string="Account">
@@ -113,8 +113,8 @@
             </field>
         </record>
 
-        <record id="abgf_view_conta_tree" model="ir.ui.view">
-            <field name="name">abgf.conta.tree</field>
+        <record id="l10n_br_contabilidade_view_conta_tree" model="ir.ui.view">
+            <field name="name">l10n_br_contabilidade.conta.tree</field>
             <field name="model">account.account</field>
             <field name="field_parent">child_id</field>
             <field name="arch" type="xml">
@@ -133,20 +133,25 @@
             </field>
         </record>
 
-        <record id="abgf_conta_form" model="ir.actions.act_window">
+        <record id="l10n_br_account_acount_action" model="ir.actions.act_window">
             <field name="name">Contas</field>
             <field name="res_model">account.account</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph</field>
             <!--<field name="search_view_id" ref="account.view_account_search"/>-->
-            <field name="view_id" ref="abgf_view_conta_tree"/>
+            <field name="view_id" ref="l10n_br_contabilidade_view_conta_tree"/>
             <field name="context">{'periods_special': False, 'all_fiscalyear': True}</field>
         </record>
 
+        <record id="account.menu_action_account_form" model="ir.ui.menu" >
+            <field name="action_id" ref="l10n_br_account_acount_action"/>
+            <field name="sequence">-100</field>
+        </record>
+
         <menuitem
-                id="abgf_menu_conta_form"
-                action="abgf_conta_form"
-                parent="l10n_br_contabilidade.abgf_menu_contas_contabilidade"
+                id="menu_conta_form"
+                action="l10n_br_account_acount_action"
+                parent="account.menu_finance_charts"
         />
 
     </data>
