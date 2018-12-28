@@ -5,153 +5,114 @@
 <openerp>
     <data>
 
-
-        <!-- Conta Contábil -->
-        <record id="l10n_br_contabilidade_view_conta_form" model="ir.ui.view">
-            <field name="name">l10n_br_contabilidade.conta.form</field>
+        <record id="view_account_form" model="ir.ui.view">
+            <field name="name">account.account.from in (l10n_br_contabilidade)</field>
+            <field name="type">form</field>
             <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
             <field name="arch" type="xml">
-                <form string="Account">
-                    <label for="code" class="oe_edit_only" string="Account Code and Name"/>
-                    <h1>
-                        <field name="code" class="oe_inline" placeholder="Account code" style="width: 6em"/> -
-                        <field name="name" class="oe_inline" placeholder="Account name"/>
-                    </h1>
-
-                    <group>
-                        <group>
-                            <separator string="Parâmetros"/>
-                            <newline/>
-                            <field name="parent_id"/>
-                            <field name="type"/>
-                            <field name="natureza_conta_id" attrs="{'invisible':[('type','=','view')], 'required':[('type','!=','view')]}" widget="selection"/>
-                            <field name="user_type"/>
-                            <field name="active"/>
-                            <field name="company_id" invisible="1" widget="selection" groups="base.group_multi_company"/>
-                            <newline/>
+                <data>
+                    <field name="type" position="after">
+                        <field name="natureza_conta_id" attrs="{'invisible':[('type','=','view')], 'required':[('type','!=','view')]}" widget="selection"/>
+                    </field>
+                    <field name="tax_ids" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </field>
+                    <field name="reconcile" position="after">
                             <field name="precisa_ramo"/>
                             <field name="report_type" invisible="1"/>
                             <field name="tipo_conta_apresentacao" invisible="1"/>
-                        </group>
-                        <group>
-                            <newline/>
-                        </group>
-                    </group>
+                    </field>
+                    <xpath expr="//field[@name='credit']" position="after">
+                        <div>
+                            <label for="saldo"/>
+                            <field name="saldo" style='text-align:right'/>
+                            <field name="identificacao_saldo" style="font-weight:bold;text-align:left"/>
+                        </div>
+                    </xpath>
+                    <xpath expr="//field[@name='balance']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='note']" position="replace">
+                        <notebook colspan="3">
+                            <page string="Função">
+                                <field name="funcao"/>
+                            </page>
+                            <page string="Funcionamento">
+                                <field name="funcionamento"/>
+                            </page>
+                            <page string="Observação">
+                                <field name="observacao"/>
+                            </page>
+                            <page string="DePara">
+                                <field name="depara_ids"/>
+                            </page>
 
-                    <group>
-                        <group>
-                            <separator string="Valores" />
-                            <newline/>
-                            <group>
-                                <field name="debit" attrs="{'readonly': True}" style='text-align:left'/>
-                                <field name="credit" attrs="{'readonly': True}" style='text-align:left'/>
-                            </group>
-                            <field name="balance" style='text-align:right' invisible="1"/>
-                            <newline/>
-                            <group>
+                            <page string="Apresentação"
+                                  attrs="{'invisible':['|',('report_type','=', False),('type', '!=', 'other')]}">
+                                <separator string="Conta referente ao DRE"
+                                           attrs="{'invisible':[('report_type', 'in', ['asset','liability'])]}"/>
+                                <separator string="Conta referente ao Balanço Patrimonial"
+                                           attrs="{'invisible':[('report_type', 'in', ['income','expense'])]}"/>
                                 <group>
-                                    <field name="saldo" style='text-align:right'/>
+                                    <field name="account_account_report_id"
+                                           attrs="{'required':[('type', '=', 'other')]}" nolabel="1">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="code"/>
+                                        </tree>
+                                    </field>
                                 </group>
-                                <group>
-                                    <field name="identificacao_saldo" style="font-weight:bold;text-align:left" nolabel="1"/>
-                                </group>
-                            </group>
-                        </group>
-                        <group>
-                            <newline/>
-                        </group>
-                    </group>
-                    <notebook colspan="3">
-                        <page string="Função">
-                            <field name="funcao"/>
-                        </page>
-                        <page string="Funcionamento">
-                            <field name="funcionamento"/>
-                        </page>
-                        <page string="Observação">
-                            <field name="observacao"/>
-                        </page>
-                        <page string="DePara">
-                            <field name="depara_ids" />
-                        </page>
+                            </page>
+                            <page string="Contas Filhas" groups="base.group_no_one">
+                                <field name="child_parent_ids"/>
+                            </page>
+                        </notebook>
+                    </xpath>
 
-                        <page string="Apresentação" attrs="{'invisible':['|',('report_type','=', False),('type', '!=', 'other')]}">
-                            <separator string="Conta referente ao DRE" attrs="{'invisible':[('report_type', 'in', ['asset','liability'])]}" />
-                            <separator string="Conta referente ao Balanço Patrimonial" attrs="{'invisible':[('report_type', 'in', ['income','expense'])]}" />
-                            <group>
-                                <field name="account_account_report_id" attrs="{'required':[('type', '=', 'other')]}" nolabel="1">
-                                    <tree>
-                                        <field name="name" />
-                                        <field name="code" />
-                                    </tree>
-                                </field>
-                            </group>
-                        </page>
-
-                        <page string="Contas Filhas" groups="base.group_no_one">
-                            <field name="child_parent_ids"/>
-                        </page>
-                    </notebook>
-                </form>
+                </data>
             </field>
         </record>
 
         <record id="view_account_tree" model="ir.ui.view">
             <field name="name">account.account.tree</field>
-            <field name="type">form</field>
+            <field name="type">tree</field>
             <field name="model">account.account</field>
-            <field name="inherit_id" ref="account.view_account_tree"/>
+            <field name="inherit_id" ref="account.view_account_list"/>
             <field name="arch" type="xml">
                <data>
-                    <xpath expr="//field[@name='company_id']" position="attributes">
+                   <xpath expr="//field[@name='type']" position="attributes">
                         <attribute name="invisible">1</attribute>
                     </xpath>
-                   <xpath expr="//field[@name='type']" position="attributes">
+                   <xpath expr="//field[@name='balance']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                   <field name="debit" position="before">
+                        <field name="natureza_conta_id" string="Natureza"/>
+                    </field>
+                    <field name="balance" position="after">
+                        <field name="saldo"/>
+                        <field name="identificacao_saldo" string=" "/>
+                    </field>
+                   <xpath expr="//field[@name='company_currency_id']" position="attributes">
                         <attribute name="invisible">1</attribute>
                     </xpath>
                </data>
             </field>
         </record>
 
-        <record id="l10n_br_contabilidade_view_conta_tree" model="ir.ui.view">
-            <field name="name">l10n_br_contabilidade.conta.tree</field>
-            <field name="model">account.account</field>
-            <field name="field_parent">child_id</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="parent_id" invisible="1"/>
-                    <field name="user_type" invisible="1"/>
-                    <field name="natureza_conta_id"/>
-                    <field name="debit"/>
-                    <field name="credit"/>
-                    <field name="balance" invisible="1"/>
-                    <field name="saldo"/>
-                    <field name="identificacao_saldo"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="l10n_br_account_acount_action" model="ir.actions.act_window">
-            <field name="name">Contas</field>
-            <field name="res_model">account.account</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph</field>
-            <!--<field name="search_view_id" ref="account.view_account_search"/>-->
-            <field name="view_id" ref="l10n_br_contabilidade_view_conta_tree"/>
-            <field name="context">{'periods_special': False, 'all_fiscalyear': True}</field>
-        </record>
-
         <record id="account.menu_action_account_form" model="ir.ui.menu" >
-            <field name="action_id" ref="l10n_br_account_acount_action"/>
+            <field name="action_id" ref="account.action_account_form"/>
             <field name="sequence">-100</field>
+            <field name="Contas"/>
         </record>
 
         <menuitem
                 id="menu_conta_form"
-                action="l10n_br_account_acount_action"
+                action="account.action_account_form"
                 parent="account.menu_finance_charts"
+                sequence="-100"
+                name="Contas"
         />
 
     </data>

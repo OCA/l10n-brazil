@@ -16,3 +16,8 @@ msgstr ""
 #: model:ir.ui.menu,name:account.menu_finance
 msgid "Accounting"
 msgstr "Faturamento"
+
+#. module: account_chart_report
+#: model:ir.actions.report.xml,name:account_chart_report.account_chart_account
+msgid "Print chart account"
+msgstr "Imprimir plano de contas"
