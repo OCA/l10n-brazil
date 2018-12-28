@@ -18,7 +18,7 @@
                 id="l10n_br_contabilidade"
                 name="Contabilidade"
                 groups="account.group_account_user,account.group_account_manager,account.group_account_invoice,base.group_no_one"
-                sequence="51"
+                sequence="53"
         />
 
         <!-- Trocar o pai dos submenus principal-->

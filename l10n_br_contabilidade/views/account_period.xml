@@ -99,7 +99,7 @@
                 id="menu_l10n_br_contabilidade_account_period"
                 name="Competências"
                 action="account.action_account_period"
-                parent="account.next_id_23"
+                parent="account.menu_finance_entries"
                 sequence="80"
         />
 
