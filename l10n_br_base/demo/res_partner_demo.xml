@@ -39,9 +39,4 @@
         <field name="legal_name">Think Big Systems</field>
     </record>
 
-    <record id="base.res_partner_19" model="res.partner">
-        <field name="name">Seagate</field>
-        <field name="legal_name">Seagate</field>
-    </record>
-
 </odoo>
