@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # @ 2016 Akretion - www.akretion.com.br -
 #   Magno Costa <magno.costa@akretion.com.br>
 #  @ 2016 KMEE - www.kmee.com.br -
