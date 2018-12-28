@@ -21,7 +21,7 @@
         <field name="district">Vila Cordeiro</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_sp"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="city_id" ref="l10n_br_base.city_3550308"/>
         <field name="zip">04583-110</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.intel.com.br</field>
@@ -43,7 +43,7 @@
         <field name="district">Brooklin</field>
         <field name="street2">15º andar - Conjunto 151</field>
         <field name="state_id" ref="base.state_br_sp"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="city_id" ref="l10n_br_base.city_3550308"/>
         <field name="zip">04576-060</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.amd.com/br</field>
@@ -65,7 +65,7 @@
         <field name="district">Distrito Industrial</field>
         <field name="street2">Lote 2.45/1E</field>
         <field name="state_id" ref="base.state_br_am"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+        <field name="city_id" ref="l10n_br_base.city_1302603"/>
         <field name="zip">69075-110</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.lg.com/br</field>
@@ -88,7 +88,7 @@
         <field name="district">Centro</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_pe"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
+        <field name="city_id" ref="l10n_br_base.city_2611606"/>
         <field name="zip">51110-160</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.samsung.com/br</field>
@@ -111,7 +111,7 @@
         <field name="district">Cidade Industrial</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_pr"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_4106902"/>
+        <field name="city_id" ref="l10n_br_base.city_4106902"/>
         <field name="zip">81310-000</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.positivoinformatica.com.br</field>
@@ -134,7 +134,7 @@
         <field name="district">Partenon</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_rs"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
+        <field name="city_id" ref="l10n_br_base.city_4314902"/>
         <field name="zip">90619-900</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.dell.com.br</field>
@@ -157,7 +157,7 @@
         <field name="district">Terreiro de Jesus</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_ba"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_2927408"/>
+        <field name="city_id" ref="l10n_br_base.city_2927408"/>
         <field name="zip">40835-650</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.infobahia.com.br</field>
@@ -180,7 +180,7 @@
         <field name="district">Distrito Industrial</field>
         <field name="street2">Lote 4.45/5E</field>
         <field name="state_id" ref="base.state_br_am"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+        <field name="city_id" ref="l10n_br_base.city_1302603"/>
         <field name="zip">69075-110</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.infomanuas.com/br</field>
@@ -203,7 +203,7 @@
         <field name="district">Brooklin</field>
         <field name="street2">20º andar - Conjunto 151</field>
         <field name="state_id" ref="base.state_br_sp"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="city_id" ref="l10n_br_base.city_3550308"/>
         <field name="zip">04576-060</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente1.com/br</field>
@@ -225,7 +225,7 @@
         <field name="district">Vila Cordeiro</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_sp"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="city_id" ref="l10n_br_base.city_3550308"/>
         <field name="zip">04583-110</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente2.com.br</field>
@@ -247,7 +247,7 @@
         <field name="district">Distrito Industrial</field>
         <field name="street2">Lote 8.45/30E</field>
         <field name="state_id" ref="base.state_br_am"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+        <field name="city_id" ref="l10n_br_base.city_1302603"/>
         <field name="zip">69075-110</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente3.com/br</field>
@@ -270,7 +270,7 @@
         <field name="district">Distrito Industrial</field>
         <field name="street2">Lote 9.45/15E</field>
         <field name="state_id" ref="base.state_br_am"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_1302603"/>
+        <field name="city_id" ref="l10n_br_base.city_1302603"/>
         <field name="zip">69075-110</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente3.com/br</field>
@@ -293,7 +293,7 @@
         <field name="district">Centro</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_pe"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
+        <field name="city_id" ref="l10n_br_base.city_2611606"/>
         <field name="zip">51110-160</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente5.com/br</field>
@@ -316,7 +316,7 @@
         <field name="district">Centro</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_pe"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_2611606"/>
+        <field name="city_id" ref="l10n_br_base.city_2611606"/>
         <field name="zip">51110-160</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente5.com/br</field>
@@ -339,7 +339,7 @@
         <field name="district">Partenon</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_rs"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
+        <field name="city_id" ref="l10n_br_base.city_4314902"/>
         <field name="zip">90619-900</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente7.com.br</field>
@@ -362,7 +362,7 @@
         <field name="district">Partenon</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_rs"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_4314902"/>
+        <field name="city_id" ref="l10n_br_base.city_4314902"/>
         <field name="zip">90619-900</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente8.com.br</field>
@@ -392,9 +392,9 @@
         <field name="number">586</field>
         <field name="phone">(21) 3010 9965</field>
         <field name="street">Rua Paulo Dias</field>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3501152"/>
+        <field name="city_id" ref="l10n_br_base.city_3501152"/>
         <field name="state_id" ref="base.state_br_sp"/>
-                <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
+        <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
     </record>
 
     <record id="res_partner_address_ak2" model="res.partner">
@@ -408,7 +408,7 @@
         <field name="name">Akretion Rio de Janeiro</field>
         <field name="parent_id" ref="res_partner_akretion"/>
         <field name="district">Centro</field>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3304557"/>
+        <field name="city_id" ref="l10n_br_base.city_3304557"/>
         <field name="zip">20081-000</field>
         <field name="country_id" ref="base.br"/>
         <field name="number">47</field>
@@ -429,7 +429,7 @@
         <field name="district">Morro Chic</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_mg"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3132404"/>
+        <field name="city_id" ref="l10n_br_base.city_3132404"/>
         <field name="zip">37500-070</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente9.com.br</field>
@@ -451,7 +451,7 @@
         <field name="district">Morro Chic</field>
         <field name="street2"></field>
         <field name="state_id" ref="base.state_br_mg"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3132404"/>
+        <field name="city_id" ref="l10n_br_base.city_3132404"/>
         <field name="zip">37500-070</field>
         <field name="country_id" ref="base.br"/>
         <field name="website">www.cliente10.com.br</field>
