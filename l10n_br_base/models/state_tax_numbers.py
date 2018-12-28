@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2009 Gabriel C. Stabel
 # Copyright (C) 2009 Renato Lima (Akretion)
 # Copyright (C) 2012 Raphaël Valyi (Akretion)
