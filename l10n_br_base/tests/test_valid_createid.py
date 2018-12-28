@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # @ 2017 Akretion - www.akretion.com.br -
 #   Clément Mombereau <clement.mombereau@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
