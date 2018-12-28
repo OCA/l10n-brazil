@@ -21,10 +21,10 @@ class OtherIETest(TransactionCase):
             'cnpj_cpf': '26.905.703/0001-52',
             'inscr_est': '932.446.119.086',
             'street': 'Rua Paulo Dias',
-            'number': '586',
+            'street_number': '586',
             'district': 'Alumínio',
             'state_id': self.ref('base.state_br_sp'),
-            'l10n_br_city_id': self.ref('l10n_br_base.city_3501152'),
+            'city_id': self.ref('l10n_br_base.city_3501152'),
             'country_id': self.ref('base.br'),
             'city': 'Alumínio',
             'zip': '18125-000',
@@ -35,13 +35,13 @@ class OtherIETest(TransactionCase):
 
     def test_included_valid_ie_in_company(self):
         result = self.company.write({
-            'other_inscr_est_lines': [(0, 0, {
+            'state_tax_number_ids': [(0, 0, {
                 'state_id': self.ref('base.state_br_ba'),
                 'inscr_est': 41902653,
             })]
         })
         self.assertTrue(result, "Error to included valid IE.")
-        for line in self.company.partner_id.other_inscr_est_lines:
+        for line in self.company.partner_id.state_tax_number_ids:
             result = False
             if line.inscr_est == '41902653':
                 result = True
@@ -50,7 +50,7 @@ class OtherIETest(TransactionCase):
 
         try:
             result = self.company.write({
-                'other_inscr_est_lines': [(0, 0, {
+                'state_tax_number_ids': [(0, 0, {
                     'state_id': self.ref('base.state_br_ba'),
                     'inscr_est': 67729139,
                 })]
@@ -65,7 +65,7 @@ class OtherIETest(TransactionCase):
     def test_included_invalid_ie(self):
         try:
             result = self.company.write({
-                'other_inscr_est_lines': [(0, 0, {
+                'state_tax_number_ids': [(0, 0, {
                     'state_id': self.ref('base.state_br_ba'),
                     'inscr_est': 41902652,
                 })]
@@ -77,7 +77,7 @@ class OtherIETest(TransactionCase):
     def test_included_other_valid_ie_to_same_state_of_company(self):
         try:
             result = self.company.write({
-                'other_inscr_est_lines': [(0, 0, {
+                'state_tax_number_ids': [(0, 0, {
                     'state_id': self.ref('base.state_br_sp'),
                     'inscr_est': 692015742119,
                 })]
@@ -90,13 +90,13 @@ class OtherIETest(TransactionCase):
 
     def test_included_valid_ie_on_partner(self):
         result = self.company.partner_id.write({
-            'other_inscr_est_lines': [(0, 0, {
+            'state_tax_number_ids': [(0, 0, {
                 'state_id': self.ref('base.state_br_ba'),
                 'inscr_est': 41902653,
             })]
         })
         self.assertTrue(result, "Error to included valid IE.")
-        for line in self.company.other_inscr_est_lines:
+        for line in self.company.state_tax_number_ids:
             result = False
             if line.inscr_est == '41902653':
                 result = True
