@@ -40,9 +40,12 @@ SELECT l.id AS id,
             i.number AS invoice_number,
             l.date_maturity,
             m.narration,
-            m.sequencia
+            m.sequencia,
+            LEFT(an.name, 1) AS natureza
 FROM account_move_line l
     JOIN account_move m on (l.move_id=m.id)
+    INNER JOIN account_account aa on (l.account_id = aa.id)
+    INNER JOIN account_natureza an on (aa.natureza_conta_id = an.id)
     LEFT JOIN res_currency c on (l.currency_id=c.id)
     LEFT JOIN account_move_reconcile partialrec
         on (l.reconcile_partial_id = partialrec.id)

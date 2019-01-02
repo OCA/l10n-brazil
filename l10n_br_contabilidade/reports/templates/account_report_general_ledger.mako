@@ -180,11 +180,25 @@
                           %endif
                           ## identificação do saldo
                           %if cumul_balance > 0:
-                              <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                              %if line.get('natureza') == 'C':
+                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                              %elif line.get('natureza') == 'D':
+                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
+                              %else:
+                                  <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                              %endif
                           %elif cumul_balance < 0:
-                              <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
-                          %else:
+                              %if line.get('natureza') == 'C':
+                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
+                              %elif line.get('natureza') == 'D':
+                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                              %else:
+                                  <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                              %endif
+                          %elif cumul_balance == 0:
                             <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                          %else:
+                              <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
                           %endif
                       </div>
                       %endfor
