@@ -20,7 +20,11 @@ class AccountMove(models.Model):
     )
 
     state = fields.Selection(
-        selection_add=[('cancel', u'Cancelado')]
+        selection_add=[
+            ('validacao_criacao', u'Validar Criação'),
+            ('cancel', u'Cancelado')
+
+        ],
     )
 
     lancamento_de_fechamento = fields.Boolean(
@@ -42,6 +46,24 @@ class AccountMove(models.Model):
         string=u'Resumo',
         size=250,
         compute='onchange_journal_id',
+    )
+
+    criado_por = fields.Many2one(
+        string='Criado Por',
+        comodel_name='hr.employee',
+    )
+
+    criado_data = fields.Date(
+        string='Criado Em',
+    )
+
+    validado_por = fields.Many2one(
+        string='Validado Por',
+        comodel_name='hr.employee',
+    )
+
+    validado_data = fields.Date(
+        string='Validado Em',
     )
 
     @api.multi
@@ -99,6 +121,9 @@ class AccountMove(models.Model):
 
         res.validar_partidas_lancamento_contabil()
 
+        res.criado_por = self.env.user.employee_ids.id
+        res.criado_data = fields.Date.today()
+
         return res
 
     @api.onchange('journal_id', 'narration')
@@ -147,8 +172,22 @@ class AccountMove(models.Model):
 
         return res
 
+    def verificar_employee_validacao(self):
+        employee_id = self.env.user.employee_ids.id
+
+        if employee_id == self.criado_por.id:
+            raise Warning(
+                'O empregado que criou o lançamento não pode '
+                'validar este mesmo lançamento!'
+            )
+
     @api.multi
     def post(self):
+        self.verificar_employee_validacao()
+
+        self.validado_por = self.env.user.employee_ids.id
+        self.validado_data = fields.Date.today()
+
         res = super(AccountMove, self).post()
 
         self.verifica_status_periodo()
@@ -157,3 +196,8 @@ class AccountMove(models.Model):
             line.situacao_lancamento = 'posted'
 
         return res
+
+    @api.multi
+    def button_validar_criacao(self):
+        for record in self:
+            record.state = 'validacao_criacao'

@@ -31,7 +31,8 @@
                 <form string="Account Entry">
                     <header>
                         <button name="button_return" states="posted,cancel" string='Retornar status inicial' type="object" groups="account.group_account_invoice"/>
-                        <button name="button_validate" states="draft" string="Post" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
+                        <button name="button_validate" states="validacao_criacao" string="Post" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
+                        <button name="button_validar_criacao" states="draft" string="Validar Criação" type="object" class="oe_highlight" groups="account.group_account_invoice" />
                         <button name="button_cancel" states="posted" string="Cancel Entry" type="object" groups="account.group_account_invoice"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -160,6 +161,17 @@
                                 <h2>
                                     <field name="resumo" attrs="{'invisible':[('resumo','=',False)]}"  colspan="4" placeholder="Adicionar Complemento..." nolabel="1" height="50"/>
                                 </h2>
+                            </group>
+                            <separator string="Validações"/>
+                            <group colspan="4" col="4">
+                                <group>
+                                    <field name="criado_por" readonly="True"/>
+                                    <field name="criado_data" readonly="True"/>
+                                </group>
+                                <group>
+                                    <field name="validado_por" readonly="True"/>
+                                    <field name="validado_data" readonly="True"/>
+                                </group>
                             </group>
 
                         </page>
