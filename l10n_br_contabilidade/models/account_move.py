@@ -20,8 +20,10 @@ class AccountMove(models.Model):
     )
 
     state = fields.Selection(
-        selection_add=[
+        selection=[
+            ('draft', 'Unposted'),
             ('validacao_criacao', u'Validar Criação'),
+            ('posted', 'Posted'),
             ('cancel', u'Cancelado')
 
         ],
