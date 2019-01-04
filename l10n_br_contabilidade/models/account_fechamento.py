@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 from openerp import api, fields, models
 from openerp.exceptions import Warning
 from pybrasil.valor import formata_valor
+from openerp import SUPERUSER_ID
 
 
 class AccountFechamento(models.Model):
@@ -463,7 +464,7 @@ class AccountFechamento(models.Model):
                                 range(8))
                         }
 
-                    record.env['account.move'].create({
+                    record.env['account.move'].sudo(SUPERUSER_ID).create({
                         'journal_id': record.account_journal_id.id,
                         'period_id': record.periodo_fim.id,
                         'date': record.periodo_fim.date_stop,

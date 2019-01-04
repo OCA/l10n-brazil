@@ -4,6 +4,7 @@
 
 from openerp import api, fields, models
 from openerp.exceptions import Warning
+from openerp import SUPERUSER_ID
 
 
 class AccountMove(models.Model):
@@ -159,7 +160,9 @@ class AccountMove(models.Model):
 
                 # Campos permitidos
                 campos_permitidos = ['state', 'account_fechamento_id',
-                                     'lancamento_de_fechamento']
+                                     'lancamento_de_fechamento', 'criado_por',
+                                     'criado_data', 'validado_por',
+                                     'validado_data']
 
                 # Alteração apenas dos campos permitidos
                 # Removo os campos permitidos do conjunto de campos a alterar
@@ -179,8 +182,9 @@ class AccountMove(models.Model):
 
     def verificar_employee_validacao(self):
         employee_id = self.env.user.employee_ids.id
+        superuser = self.env.user.id == SUPERUSER_ID
 
-        if employee_id == self.criado_por.id:
+        if not superuser and self.criado_por.id and employee_id == self.criado_por.id:
             raise Warning(
                 'O empregado que criou o lançamento não pode '
                 'validar este mesmo lançamento!'
