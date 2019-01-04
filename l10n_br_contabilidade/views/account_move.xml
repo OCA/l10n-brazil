@@ -30,7 +30,7 @@
             <field name="arch" type="xml">
                 <form string="Account Entry">
                     <header>
-                        <button name="button_return" states="posted,cancel" string='Retornar status inicial' type="object" groups="account.group_account_invoice"/>
+                        <button name="button_return" states="posted,cancel,validacao_criacao" string='Retornar status inicial' type="object" groups="account.group_account_invoice"/>
                         <button name="button_validate" states="validacao_criacao" string="Post" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
                         <button name="button_validar_criacao" states="draft" string="Validar Criação" type="object" class="oe_highlight" groups="account.group_account_invoice" />
                         <button name="button_cancel" states="posted" string="Cancel Entry" type="object" groups="account.group_account_invoice"/>
