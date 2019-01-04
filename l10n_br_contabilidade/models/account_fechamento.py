@@ -244,7 +244,8 @@ class AccountFechamento(models.Model):
                 'period_id': move.get('period_id'),
                 'date': move.get('date'),
                 'state': 'posted',
-                'line_id': line_list
+                'line_id': line_list,
+                'lancamento_de_fechamento': True,
             })
 
     def distribuir_resultado(self):
@@ -376,6 +377,7 @@ class AccountFechamento(models.Model):
                     'journal_id': record.account_journal_id.id,
                     'period_id': record.periodo_fim.id,
                     'date': record.periodo_fim.date_stop,
+                    'lancamento_de_fechamento': True,
                 }
 
                 # Associa lançamento ao encerramento
