@@ -82,6 +82,9 @@ class AccountMove(models.Model):
             line.state = 'draft'
             line.situacao_lancamento = 'draft'
 
+        self.validado_por = False
+        self.validado_data = False
+
     @api.multi
     def verifica_status_periodo(self):
         """
