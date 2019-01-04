@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="mis_report_kpi_form_view">
+            <field name="name">mis.report.kpi.form (in l10n_br_mis_builder)
+            </field>
+            <field name="model">mis.report.kpi</field>
+            <field name="arch" type="xml">
+                <form name="MIS report KPI">
+                    <group>
+                        <field name="sequence" widget="handle"/>
+                        <field name="description"/>
+                        <field name="name"/>
+                        <field name="account_ids"/>
+                        <field name="invert_signal"/>
+                        <field name="expression_type"/>
+                        <field name="expression"/>
+                        <field name="type"/>
+                        <field name="dp"/>
+                        <field name="divider"/>
+                        <field name="prefix"/>
+                        <field name="suffix"/>
+                        <field name="compare_method"/>
+                        <field name="default_css_style"/>
+                        <field name="css_style"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="mis_report_kpi_tree_view">
+            <field name="name">mis.report.kpi.tree (in l10n_br_mis_builder)
+            </field>
+            <field name="model">mis.report.kpi</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence" widget="handle"/>
+                    <field name="description"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="dp"/>
+                    <field name="divider"/>
+                    <field name="prefix"/>
+                    <field name="suffix"/>
+                    <field name="compare_method"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

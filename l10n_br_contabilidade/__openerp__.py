@@ -51,6 +51,9 @@
         'views/account_historico_padrao.xml',
         # 'views/account_mapeamento.xml', TODO: Refatorar usando constas de consolidação
         'views/account_saldo.xml',
+        'views/mis_report.xml',
+        # 'views/mis_report_instance.xml',
+        'views/mis_report_kpi.xml',
     ],
     'demo': [
     ],
