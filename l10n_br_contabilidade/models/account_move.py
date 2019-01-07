@@ -119,6 +119,7 @@ class AccountMove(models.Model):
                 'name': 'account_move_sequence_' + fiscalyear_id.name,
                 'implementation': 'no_gap'
             }).id
+            self.env.cr.commit()
 
         vals['sequencia'] = \
             self.env['ir.sequence'].next_by_id(fiscalyear_id.sequence_id.id)
