@@ -24,6 +24,17 @@
             </field>
         </record>
 
+        <record id="view_account_move_filter" model="ir.ui.view">
+            <field name="name">account.move.select (in abgf_contabilidade)</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_move_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='date']" position="after">
+                    <field name="amount"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="abgf_contabilidade_view_account_move_form" model="ir.ui.view">
             <field name="name">account.move.form (in abgf_contabilidade)</field>
             <field name="model">account.move</field>
