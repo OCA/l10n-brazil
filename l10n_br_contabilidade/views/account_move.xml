@@ -20,7 +20,6 @@
                     <field name="amount" sum="Total Amount"/>
                     <field name="to_check"/>
                     <field name="state"/>
-                    <field name="state"/>
                 </tree>
             </field>
         </record>
