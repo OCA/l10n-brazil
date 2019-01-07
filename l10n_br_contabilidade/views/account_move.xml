@@ -20,6 +20,7 @@
                     <field name="amount" sum="Total Amount"/>
                     <field name="to_check"/>
                     <field name="state"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -31,6 +32,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//search/field[@name='date']" position="after">
                     <field name="amount"/>
+                    <field name="narration" filter_domain="['|',('narration','ilike',self),('name','ilike',self)]" string="Histórico Padrão SUSEP"/>
                 </xpath>
             </field>
         </record>
