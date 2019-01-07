@@ -48,10 +48,17 @@
                         <button name="button_cancel" states="posted" string="Cancel Entry" type="object" groups="account.group_account_invoice"/>
                         <field name="state" widget="statusbar"/>
                     </header>
-                    <label for="name" string="Histórico" class="oe_edit_only" attrs="{'readonly':[('state','=','posted')], 'invisible':[('name','=','/')]}"/>
-                    <h1>
-                        <field name="name" attrs="{'readonly':[('state','=','posted')], 'invisible':[('name','=','/')]}"/>
-                    </h1>
+
+                    <div attrs="{'invisible':['|',('name','=','/'),('resumo','!=',False)]}">
+                        <label for="name" string="Histórico" class="oe_edit_only" attrs="{'readonly':[('state','=','posted')]}"/>
+                        <h1>
+                            <field name="name" attrs="{'readonly':[('state','=','posted')]}"/>
+                        </h1>
+                    </div>
+                    <label for="resumo" string="Histórico padrão SUSEP" class="oe_edit_only" attrs="{'invisible':[('resumo','=',False)]}" colspan="4"/>
+                    <h2>
+                        <field name="resumo" attrs="{'invisible':[('resumo','=',False)]}"  colspan="4" placeholder="Adicionar Complemento..." nolabel="1" height="50"/>
+                    </h2>
 
                     <group>
                         <group>
@@ -168,12 +175,6 @@
                                 <field name="narration" colspan="4" attrs="{'readonly':[('state','=','posted')]}" placeholder="Adicionar Complemento..." nolabel="1" height="50" class="oe_edit_only"/>
                             </group>
 
-                            <group>
-                                <label for="resumo" string="Histórico padrão SUSEP" attrs="{'invisible':[('resumo','=',False)]}" colspan="4"/>
-                                <h2>
-                                    <field name="resumo" attrs="{'invisible':[('resumo','=',False)]}"  colspan="4" placeholder="Adicionar Complemento..." nolabel="1" height="50"/>
-                                </h2>
-                            </group>
                             <separator string="Validações"/>
                             <group colspan="4" col="4">
                                 <group>
