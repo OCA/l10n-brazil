@@ -49,16 +49,24 @@
                         <field name="state" widget="statusbar"/>
                     </header>
 
-                    <div attrs="{'invisible':['|',('name','=','/'),('resumo','!=',False)]}">
-                        <label for="name" string="Histórico" class="oe_edit_only" attrs="{'readonly':[('state','=','posted')]}"/>
+                    <div class="oe_edit_only">
+                        <label for="name" string="Histórico" attrs="{'readonly':[('state','=','posted')]}"/>
                         <h1>
-                            <field name="name" attrs="{'readonly':[('state','=','posted')]}"/>
+                            <field name="name" attrs="{'readonly':[('state','=','posted')]}" height="20"/>
                         </h1>
                     </div>
-                    <label for="resumo" string="Histórico padrão SUSEP" class="oe_edit_only" attrs="{'invisible':[('resumo','=',False)]}" colspan="4"/>
-                    <h2>
-                        <field name="resumo" attrs="{'invisible':[('resumo','=',False)]}"  colspan="4" placeholder="Adicionar Complemento..." nolabel="1" height="50"/>
-                    </h2>
+
+                    <group>
+                        <label for="narration" string="Complemento" class="oe_edit_only"/>
+                        <field name="narration" colspan="4" attrs="{'readonly':[('state','=','posted')]}" placeholder="Adicionar Complemento..." nolabel="1" height="50" class="oe_edit_only"/>
+                    </group>
+
+                    <div>
+                        <label for="resumo" string="Histórico padrão SUSEP" colspan="4"/>
+                        <h2>
+                            <field name="resumo" colspan="4" placeholder="Adicionar Complemento..." nolabel="1" height="50" />
+                        </h2>
+                    </div>
 
                     <group>
                         <group>
@@ -170,10 +178,7 @@
                                 </tree>
                             </field>
 
-                            <group>
-                                <label for="narration" string="Complemento" class="oe_edit_only"/>
-                                <field name="narration" colspan="4" attrs="{'readonly':[('state','=','posted')]}" placeholder="Adicionar Complemento..." nolabel="1" height="50" class="oe_edit_only"/>
-                            </group>
+
 
                             <separator string="Validações"/>
                             <group colspan="4" col="4">
