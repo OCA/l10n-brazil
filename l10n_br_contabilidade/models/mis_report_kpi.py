@@ -35,6 +35,9 @@ class MisReportKpi(models.Model):
         compute='_compute_css_style',
         store=True,
     )
+    style_id = fields.Many2one(
+        comodel_name='mis.report.style',
+    )
     account_ids = fields.Many2many(
         comodel_name='account.account',
         inverse_name='mis_report_kpi_ids'

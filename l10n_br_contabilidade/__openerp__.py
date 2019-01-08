@@ -54,6 +54,7 @@
         'views/mis_report.xml',
         # 'views/mis_report_instance.xml',
         'views/mis_report_kpi.xml',
+        'views/mis_report_style.xml',
     ],
     'demo': [
     ],
