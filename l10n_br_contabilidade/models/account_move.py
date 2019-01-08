@@ -133,7 +133,7 @@ class AccountMove(models.Model):
 
         return res
 
-    @api.depends('journal_id', 'narration')
+    @api.depends('journal_id', 'name', 'narration')
     def compute_journal_id(self):
         """
         :param journal_id:
