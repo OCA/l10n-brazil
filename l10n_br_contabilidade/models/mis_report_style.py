@@ -5,8 +5,8 @@
 
 import sys
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from openerp import api, fields, models, _
+from openerp.exceptions import ValidationError
 
 from .accounting_none import AccountingNone
 from .data_error import DataError

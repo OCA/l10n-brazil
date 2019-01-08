@@ -25,6 +25,7 @@
                         <field name="prefix"/>
                         <field name="suffix"/>
                         <field name="compare_method"/>
+                        <field name="style_id"/>
                         <field name="default_css_style"/>
                         <field name="css_style"/>
                     </group>
@@ -48,6 +49,7 @@
                     <field name="prefix"/>
                     <field name="suffix"/>
                     <field name="compare_method"/>
+                    <field name="style_id"/>
                 </tree>
             </field>
         </record>

@@ -24,6 +24,17 @@ class MisReportKpi(models.Model):
 
     _inherit = 'mis.report.kpi'
 
+    @api.depends('style_id')
+    def _compute_css_style(self):
+        for record in self:
+            record.default_css_style = record.style_id.to_css_style(
+                record.style_id
+            )
+
+    default_css_style = fields.Char(
+        compute='_compute_css_style',
+        store=True,
+    )
     account_ids = fields.Many2many(
         comodel_name='account.account',
         inverse_name='mis_report_kpi_ids'
