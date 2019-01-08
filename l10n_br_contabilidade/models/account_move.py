@@ -48,7 +48,7 @@ class AccountMove(models.Model):
     resumo = fields.Char(
         string=u'Resumo',
         size=250,
-        compute='onchange_journal_id',
+        compute='compute_journal_id',
     )
 
     criado_por = fields.Many2one(
@@ -133,8 +133,8 @@ class AccountMove(models.Model):
 
         return res
 
-    @api.onchange('journal_id', 'narration')
-    def onchange_journal_id(self):
+    @api.depends('journal_id', 'narration')
+    def compute_journal_id(self):
         """
         :param journal_id:
         :return:
@@ -145,12 +145,16 @@ class AccountMove(models.Model):
                 historico_padrao = record.journal_id.\
                     template_historico_padrao_id.get_historico_padrao()
 
-                if historico_padrao:
+                if not record.name and historico_padrao:
                     record.name = historico_padrao
 
-                if record.name and record.narration:
-                    record.resumo = \
-                        str(record.name + ' ' + record.narration)[:250]
+                resumo = ''
+                if record.name:
+                    resumo = str(record.name)[:250]
+                    if record.narration:
+                        resumo += str(' ' + record.narration)
+
+                record.resumo = resumo[:250]
 
     @api.model
     def write(self, vals):
