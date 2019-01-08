@@ -22,7 +22,12 @@ SELECT l.id AS id,
             l.amount_currency,
             l.ref AS lref,
             l.name AS lname,
-            COALESCE(l.debit, 0.0) - COALESCE(l.credit, 0.0) AS balance,
+            CASE
+                WHEN LEFT(an.name, 1) = 'C' THEN
+                    COALESCE(l.debit, 0.0) - COALESCE(l.credit, 0.0)
+                ELSE
+                    COALESCE(l.credit, 0.0) - COALESCE(l.debit, 0.0)
+            END AS balance,
             l.debit,
             l.credit,
             l.period_id AS lperiod_id,
