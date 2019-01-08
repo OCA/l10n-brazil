@@ -145,7 +145,7 @@ class AccountMove(models.Model):
                 historico_padrao = record.journal_id.\
                     template_historico_padrao_id.get_historico_padrao()
 
-                if not record.name and historico_padrao:
+                if (not record.name or record.name == '/') and historico_padrao:
                     record.name = historico_padrao
 
                 resumo = ''
