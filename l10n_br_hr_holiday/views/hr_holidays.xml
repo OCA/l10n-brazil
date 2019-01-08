@@ -60,7 +60,7 @@
             action="l10n_br_hr_holiday_action_ocorrencias"
             parent="hr_holidays.menu_open_ask_holidays"
             groups="base.group_user"
-            sequence="6"/>
+            sequence="8"/>
 
     <record model="ir.actions.act_window" id="open_ask_holidays">
             <field name="name">Pedido de Férias</field>
