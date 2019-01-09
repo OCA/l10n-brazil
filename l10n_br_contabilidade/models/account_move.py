@@ -140,7 +140,7 @@ class AccountMove(models.Model):
 
         return res
 
-    @api.depends('journal_id', 'name', 'narration')
+    @api.depends('journal_id', 'narration')
     def compute_journal_id(self):
         """
         :param journal_id:
@@ -149,19 +149,13 @@ class AccountMove(models.Model):
         for record in self:
             if record.journal_id:
 
-                historico_padrao = record.journal_id.\
-                    template_historico_padrao_id.get_historico_padrao()
+                if not record.narration:
+                    historico_padrao = record.journal_id. \
+                        template_historico_padrao_id.get_historico_padrao()
+                    record.narration = historico_padrao
 
-                if (not record.name or record.name == '/') and historico_padrao:
-                    record.name = historico_padrao
-
-                resumo = ''
-                if record.name:
-                    resumo = str(record.name)[:250]
-                    if record.narration:
-                        resumo += str(' ' + record.narration)
-
-                record.resumo = resumo[:250]
+                record.resumo = record.narration
+                record.name = record.resumo
 
     @api.model
     def write(self, vals):
