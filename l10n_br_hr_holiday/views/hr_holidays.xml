@@ -50,9 +50,9 @@
             id="l10n_br_hr_holiday_action_ocorrencias"
             name="Ocorrências"
             res_model="hr.holidays"
-            view_mode="calendar,form"
+            view_mode="calendar,form,tree"
             context="{'default_tipo':'ocorrencias', 'default_type': 'remove',
-                'search_default_my_leaves':1 }"/>
+                'search_default_my_leaves':1, 'search_default_group_type':1, 'search_default_filter_year_2019':1}"/>
 
     <menuitem
             id="menu_ocorrencias"
