@@ -11,14 +11,14 @@
             <field name="arch" type="xml">
                 <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
                     <field name="sequencia"/>
-                    <field name="name"/>
-                    <field name="ref"/>
                     <field name="date"/>
-                    <field name="period_id"/>
-                    <field name="journal_id" string="Lote"/>
+                    <field name="resumo"/>
+                    <field name="ref"/>
+                    <field name="period_id" invisible="1"/>
+                    <field name="journal_id" invisible="1" string="Lote"/>
                     <field name="partner_id" invisible="1"/>
                     <field name="amount" sum="Total Amount"/>
-                    <field name="to_check"/>
+                    <field name="to_check" invisible="1"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -54,18 +54,26 @@
                         <button name="button_cancel" states="posted" string="Cancel Entry" type="object" groups="account.group_account_invoice"/>
                         <field name="state" widget="statusbar"/>
                     </header>
-
-                    <div class="oe_edit_only">
-                        <label for="name" string="Histórico" attrs="{'readonly':[('state','=','posted')]}"/>
-                        <h1>
-                            <field name="name" attrs="{'readonly':[('state','=','posted')]}" height="20"/>
-                        </h1>
+                    <sheet>
+                    <div class="oe_right oe_button_box">
+                        <label for="sequencia" class="oe_edit_only" colspan="4"/>
+                        <h2><field name="sequencia" class="oe_bold oe_inline oe_stat_button" attrs="{'required': True, 'invisible':[('sequencia','=',0)]}" nolabel="1" readonly="True"/></h2>
                     </div>
 
                     <group>
-                        <label for="narration" string="Complemento" class="oe_edit_only"/>
-                        <field name="narration" colspan="4" attrs="{'readonly':[('state','=','posted')]}" placeholder="Adicionar Complemento..." nolabel="1" height="50" class="oe_edit_only"/>
+                        <group>
+                            <label for="journal_id" string="Lote de Lançamentos" colspan="4"/>
+                                <field name="journal_id" nolabel="1" attrs="{'readonly':[('state','=','posted')]}" options="{'no_create': True}"/>
+                        </group>
                     </group>
+
+                    <div class="oe_edit_only">
+                        <label for="narration" string="Histórico" attrs="{'readonly':[('state','=','posted')]}"/>
+                        <h1>
+                            <field name="name" invisible="True"/>
+                            <field name="narration" attrs="{'readonly':[('state','=','posted')]}" placeholder="Adicionar Complemento..." nolabel="1" class="oe_edit_only"/>
+                        </h1>
+                    </div>
 
                     <div>
                         <label for="resumo" string="Histórico padrão SUSEP" colspan="4"/>
@@ -76,7 +84,6 @@
 
                     <group>
                         <group>
-                            <field name="journal_id" attrs="{'readonly':[('state','=','posted')]}" string="Lote de Lançamentos" options="{'no_create': True}"/>
                             <field name="period_id" attrs="{'readonly':[('state','=','posted')]}" options="{'no_create': True}"/>
                             <field name="company_id" invisible="1" required="1" groups="base.group_multi_company"/>
                             <field name="partner_id" invisible="1"/>
@@ -84,9 +91,8 @@
                         </group>
                         <group>
                             <field name="ref"  attrs="{'readonly':[('state','=','posted')]}" />
-                            <field name="sequencia" attrs="{'required': True, 'invisible':[('sequencia','=',0)]}" readonly="True"/>
                             <field name="date"/>
-                            <field name="to_check"  attrs="{'readonly':[('state','=','posted')]}" />
+                            <field name="to_check" invisible="1" attrs="{'readonly':[('state','=','posted')]}" />
                             <field name="amount" invisible="1"/>
                         </group>
                     </group>
@@ -183,10 +189,8 @@
                                     <field name="reconcile_partial_id" invisible="1"/>
                                 </tree>
                             </field>
-
-
-
-                            <separator string="Validações"/>
+                        </page>
+                        <page string="Validações">
                             <group colspan="4" col="4">
                                 <group>
                                     <field name="criado_por" readonly="True"/>
@@ -197,9 +201,9 @@
                                     <field name="validado_data" readonly="True"/>
                                 </group>
                             </group>
-
                         </page>
                     </notebook>
+                    </sheet>
                 </form>
             </field>
         </record>
