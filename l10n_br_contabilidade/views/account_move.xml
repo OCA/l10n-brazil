@@ -33,6 +33,9 @@
                     <field name="amount"/>
                     <field name="narration" filter_domain="['|',('narration','ilike',self),('name','ilike',self)]" string="Histórico Padrão SUSEP"/>
                 </xpath>
+                <xpath expr="//filter[@string='Period']" position="after">
+                    <filter string="Ano" icon="terp-go-month" domain="[]" context="{'group_by':'fiscalyear_id'}"/>
+                </xpath>
             </field>
         </record>
 

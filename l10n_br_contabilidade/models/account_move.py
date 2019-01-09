@@ -69,6 +69,13 @@ class AccountMove(models.Model):
         string='Validado Em',
     )
 
+    fiscalyear_id = fields.Many2one(
+        string='Ano Fiscal',
+        comodel_name='account.fiscalyear',
+        related='period_id.fiscalyear_id',
+        store=True,
+    )
+
     @api.multi
     def button_cancel(self):
         self.state = 'cancel'
