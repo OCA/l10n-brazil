@@ -53,7 +53,8 @@ class MisReportKpi(models.Model):
     )
     expression = fields.Char(
         compute='_compute_kpi_expression',
-        inverse='_inverse_kpi_expression'
+        inverse='_inverse_kpi_expression',
+        store=True,
     )
     report_mode = fields.Selection(
         string=u'Modalidade de relatório',
