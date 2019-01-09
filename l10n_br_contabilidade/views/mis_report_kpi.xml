@@ -11,14 +11,14 @@
             <field name="model">mis.report.kpi</field>
             <field name="arch" type="xml">
                 <form name="MIS report KPI">
-                    <field name="report_mode"/>
+                    <field name="expression_mode"/>
                     <group>
                         <field name="sequence" widget="handle"/>
                         <field name="description"/>
                         <field name="name"/>
-                        <field name="account_ids" attrs="{'invisible': [('report_mode','!=','contabil')]}"/>
-                        <field name="invert_signal" attrs="{'invisible': [('report_mode','!=','contabil')]}"/>
-                        <field name="expression_type" attrs="{'invisible': [('report_mode','!=','contabil')]}"/>
+                        <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
+                        <field name="invert_signal" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
+                        <field name="expression_type" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                         <field name="expression"/>
                         <field name="type"/>
                         <field name="dp"/>

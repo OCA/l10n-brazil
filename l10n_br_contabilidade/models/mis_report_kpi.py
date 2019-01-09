@@ -21,6 +21,11 @@ EXPRESSION_TYPES = [
     ('debi', 'Débito no início do período'),
 ]
 
+SELECTION_MODE = [
+    ('auto', u'Automático'),
+    ('manual', 'Manual'),
+]
+
 
 class MisReportKpi(models.Model):
 
@@ -56,31 +61,41 @@ class MisReportKpi(models.Model):
         inverse='_inverse_kpi_expression',
         store=True,
     )
-    report_mode = fields.Selection(
-        string=u'Modalidade de relatório',
-        selection=MIS_REPORT_MODE,
-        related='report_id.report_mode'
+    expression_mode = fields.Selection(
+        selection=SELECTION_MODE,
+        default='manual'
     )
 
+    @api.one
+    @api.constrains('account_ids')
+    def _constrains_report_mode(self):
+        if self.report_id.report_mode == 'contabil':
+            if not self.account_ids and self.expression_mode == 'auto':
+                raise UserWarning(
+                    "Não é possível criar um relatório contábil sem "
+                    "preencher as contas da linha"
+                )
 
     @api.depends('account_ids.mis_report_kpi_ids', 'expression_type',
                  'invert_signal')
     def _compute_kpi_expression(self):
         for record in self:
-            if record.report_mode == 'gerencial':
+            if record.expression_mode == 'manual':
                 continue
-            if record.account_ids and record.expression_type:
+            if not record.invert_signal and not record.expression_type and not\
+                    record.account_ids:
+                record.expression = ''
+            else:
                 signal = ''
                 if record.invert_signal:
                     signal = '-'
                 record.expression = (
                         signal +
                         record.expression_type +
-                        '[{}]'.format("".join([str(acc.code) + ',' if acc else ''
+                        '[{}]'.format("".join([str(acc.code) + ',' if
+                                               acc else ''
                                                for acc in record.account_ids])
                  ))
-            else:
-                record.expression = ''
 
     @api.onchange('expression')
     def _onchange_kpi_expression(self):
@@ -91,7 +106,7 @@ class MisReportKpi(models.Model):
 
     def _inverse_kpi_expression(self):
         for record in self:
-            if record.report_mode == 'gerencial':
+            if record.expression_mode == 'manual':
                 continue
 
             exp = record.expression
