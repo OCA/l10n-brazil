@@ -23,3 +23,4 @@ from . import account_divisao_resultado
 from . import mis_report_kpi
 from . import mis_report_style
 from . import gefin_custos
+from . import mis_report

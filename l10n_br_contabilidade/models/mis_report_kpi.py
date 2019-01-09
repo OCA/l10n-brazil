@@ -7,6 +7,8 @@ import re
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning as UserWarning
 
+from .mis_report import MIS_REPORT_MODE
+
 EXPRESSION_TYPES = [
     ('bal', 'Saldo no período'),
     ('bale', 'Saldo no fim do período'),
@@ -53,11 +55,19 @@ class MisReportKpi(models.Model):
         compute='_compute_kpi_expression',
         inverse='_inverse_kpi_expression'
     )
+    report_mode = fields.Selection(
+        string=u'Modalidade de relatório',
+        selection=MIS_REPORT_MODE,
+        related='report_id.report_mode'
+    )
+
 
     @api.depends('account_ids.mis_report_kpi_ids', 'expression_type',
                  'invert_signal')
     def _compute_kpi_expression(self):
         for record in self:
+            if record.report_mode == 'gerencial':
+                continue
             if record.account_ids and record.expression_type:
                 signal = ''
                 if record.invert_signal:
@@ -80,6 +90,9 @@ class MisReportKpi(models.Model):
 
     def _inverse_kpi_expression(self):
         for record in self:
+            if record.report_mode == 'gerencial':
+                continue
+
             exp = record.expression
 
             if exp.startswith('-'):

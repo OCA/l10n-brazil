@@ -10,12 +10,14 @@
         <field name="model">mis.report</field>
         <field name="inherit_id" ref="mis_builder.mis_report_view_form"/>
         <field name="arch" type="xml">
+            <field name="description" position="after">
+                <field name="report_mode"/>
+            </field>
             <xpath expr="//field[@name='kpi_ids']/tree" position="replace">
-                <field name="kpi_ids"/>
+                <field name="kpi_ids" context="{'report_mode': report_mode}"/>
             </xpath>
         </field>
     </record>
-
 
 </data>
 </openerp>
