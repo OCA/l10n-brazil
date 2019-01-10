@@ -51,6 +51,7 @@
             name="Ocorrências"
             res_model="hr.holidays"
             view_mode="calendar,form,tree"
+            domain="[('type','=', 'remove')]"
             context="{'default_tipo':'ocorrencias', 'default_type': 'remove',
                 'search_default_my_leaves':1, 'search_default_group_type':1, 'search_default_filter_year_2019':1}"/>
 
