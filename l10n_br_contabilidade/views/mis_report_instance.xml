@@ -5,47 +5,51 @@
 <openerp>
 <data>
 
-    <record model="ir.ui.view" id="mis_report_instance_form_view">
-        <field name="name">mis.report.instance.form (in l10n_br_mis_builder)</field>
+    <record model="ir.ui.view" id="mis_report_instance_view_form">
+        <field name="name">mis.report.instance.view.form (in l10n_br_contabilidade)</field>
         <field name="model">mis.report.instance</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="inherit_id" ref="mis_builder.mis_report_instance_view_form"/>
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <field name="target_move" position="after">
+                <newline/>
+                <field name="accountant_id" colspan="4"/>
+                <field name="administrator_id" colspan="4"/>
+            </field>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="mis_report_instance_search_view">
-        <field name="name">mis.report.instance.search (in l10n_br_mis_builder)</field>
-        <field name="model">mis.report.instance</field>
-        <field name="inherit_id" ref="TODO othermodule.search_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+    <!--<record model="ir.ui.view" id="mis_report_instance_search_view">-->
+        <!--<field name="name">mis.report.instance.search (in l10n_br_mis_builder)</field>-->
+        <!--<field name="model">mis.report.instance</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+    <!--</record>-->
 
-    <record model="ir.ui.view" id="mis_report_instance_tree_view">
-        <field name="name">mis.report.instance.tree (in l10n_br_mis_builder)</field>
-        <field name="model">mis.report.instance</field>
-        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+    <!--<record model="ir.ui.view" id="mis_report_instance_tree_view">-->
+        <!--<field name="name">mis.report.instance.tree (in l10n_br_mis_builder)</field>-->
+        <!--<field name="model">mis.report.instance</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+    <!--</record>-->
 
-    <record model="ir.actions.act_window" id="mis_report_instance_act_window">
-        <field name="name">Mis Report Instance</field> <!-- TODO -->
-        <field name="res_model">mis.report.instance</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-    </record>
+    <!--<record model="ir.actions.act_window" id="mis_report_instance_act_window">-->
+        <!--<field name="name">Mis Report Instance</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">mis.report.instance</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="domain">[]</field>-->
+        <!--<field name="context">{}</field>-->
+    <!--</record>-->
 
-    <record model="ir.ui.menu" id="mis_report_instance_menu">
-        <field name="name">Mis Report Instance</field>
-        <field name="parent_id" ref="xmlid of parent menu"/> <!-- TODO -->
-        <field name="action" ref="mis_report_instance_act_window"/>
-        <field name="sequence" eval="16"/> <!-- TODO -->
-    </record>
+    <!--<record model="ir.ui.menu" id="mis_report_instance_menu">-->
+        <!--<field name="name">Mis Report Instance</field>-->
+        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="action" ref="mis_report_instance_act_window"/>-->
+        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
+    <!--</record>-->
 
 </data>
 </openerp>

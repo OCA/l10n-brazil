@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="view_account_fiscalyear_form">
+        <field name="name">account.fiscalyear.form (in l10n_br_contabilidade)</field>
+        <field name="model">account.fiscalyear</field>
+        <field name="inherit_id" ref="account.view_account_fiscalyear_form"/>
+        <field name="arch" type="xml">
+            <field name="date_stop" position="after">
+                <field name="accountant_id"/>
+                <field name="administrator_id"/>
+            </field>
+        </field>
+    </record>
+
+</data>
+</openerp>
