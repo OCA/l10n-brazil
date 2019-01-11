@@ -93,8 +93,6 @@ def _compute_initial_balances(self, account_ids, start_period, fiscalyear):
         # Aplicar o raciocinio da natureza da conta
         if acc.natureza_conta_id.code == 'credora':
             # quantidade de creditos maiores que debitos, o raciocinio inverte
-            print ('inverteu valor da conta:')
-            print (acc.code)
             initial_balance = res.get(acc.id).get('init_balance') * -1
             res.get(acc.id).update(init_balance=initial_balance)
 
