@@ -70,4 +70,38 @@ FROM account_move_line l
     return res or []
 
 
+def _compute_initial_balances(self, account_ids, start_period, fiscalyear):
+    res = {}
+    pnl_periods_ids = self._get_period_range_from_start_period(
+        start_period, fiscalyear=fiscalyear, include_opening=True)
+    bs_period_ids = self._get_period_range_from_start_period(
+        start_period, include_opening=True, stop_at_previous_opening=True)
+    opening_period_selected = self.get_included_opening_period(
+        start_period)
+
+    for acc in self.pool.get('account.account').browse(
+            self.cursor, self.uid, account_ids):
+
+        res[acc.id] = self._compute_init_balance(default_values=True)
+        if acc.user_type.close_method == 'none':
+            if pnl_periods_ids and not opening_period_selected:
+                res[acc.id] = self._compute_init_balance(
+                    acc.id, pnl_periods_ids)
+        else:
+            res[acc.id] = self._compute_init_balance(acc.id, bs_period_ids)
+
+        # Aplicar o raciocinio da natureza da conta
+        if acc.natureza_conta_id.code == 'credora':
+            # quantidade de creditos maiores que debitos, o raciocinio inverte
+            print ('inverteu valor da conta:')
+            print (acc.code)
+            initial_balance = res.get(acc.id).get('init_balance') * -1
+            res.get(acc.id).update(init_balance=initial_balance)
+
+    return res
+
+
+CommonReportHeaderWebkit._compute_initial_balances = _compute_initial_balances
+
 CommonReportHeaderWebkit._get_move_line_datas = _get_move_line_datas
+
