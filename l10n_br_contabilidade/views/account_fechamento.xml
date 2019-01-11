@@ -215,7 +215,7 @@
         <field name="name">Reclassificar</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state','in',['investigated'])]</field>
+        <field name="domain">[('state','in',['investigated', 'reclassified'])]</field>
     </record>
 
     <menuitem
