@@ -23,7 +23,7 @@ SELECT l.id AS id,
             l.ref AS lref,
             l.name AS lname,
             CASE
-                WHEN LEFT(an.name, 1) = 'C' THEN
+                WHEN LEFT(an.name, 1) = 'D' THEN
                     COALESCE(l.debit, 0.0) - COALESCE(l.credit, 0.0)
                 ELSE
                     COALESCE(l.credit, 0.0) - COALESCE(l.debit, 0.0)

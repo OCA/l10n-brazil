@@ -112,15 +112,15 @@
                             <div class="act_as_cell amount sep_left" style="width: 75px;">${_('Curr. Balance')}</div>
                         %endif
                         ## identificação do saldo
-                        <div class="act_as_cell amount" style="width:2%;"></div>
+                        <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
                     </div>
                 </div>
 
                 <div class="act_as_tbody">
                       %if display_initial_balance:
                         <%
-                        cumul_debit = init_balance[account.id].get('debit') or 0.0
-                        cumul_credit = init_balance[account.id].get('credit') or 0.0
+                        ## cumul_debit = init_balance[account.id].get('debit') or 0.0
+                        ## cumul_credit = init_balance[account.id].get('credit') or 0.0
                         cumul_balance = init_balance[account.id].get('init_balance') or 0.0
                         cumul_balance_curr = init_balance[account.id].get('init_balance_currency') or 0.0
                         %>
@@ -134,9 +134,11 @@
                           ## Histórico
                           <div class="act_as_cell" style="font-weight: bold; text-align: right; text-align: center; width:40%;">Anterior</div>
                           ## debit
-                          <div class="act_as_cell amount">${formatLang(init_balance[account.id].get('debit')) | amount}</div>
+##                           <div class="act_as_cell amount">${formatLang(init_balance[account.id].get('debit')) | amount}</div>
+                          <div class="act_as_cell amount"></div>
                           ## credit
-                          <div class="act_as_cell amount">${formatLang(init_balance[account.id].get('credit')) | amount}</div>
+##                           <div class="act_as_cell amount">${formatLang(init_balance[account.id].get('credit')) | amount}</div>
+                          <div class="act_as_cell amount"></div>
                           ## balance cumulated
                           <div class="act_as_cell amount" style="padding-right: 1px;">${formatLang(cumul_balance) | amount }</div>
                          %if amount_currency(data):
@@ -144,7 +146,27 @@
                               <div class="act_as_cell amount sep_left">${formatLang(cumul_balance_curr) | amount }</div>
                          %endif
                           ## identificação do saldo
-                          <div class="act_as_cell amount" style="width:2%;"></div>
+                        %if cumul_balance > 0:
+                            %if account.natureza_conta_id.name[0] == 'C':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                            %elif account.natureza_conta_id.name[0] == 'D':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
+                            %else:
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                            %endif
+                        %elif cumul_balance < 0:
+                            %if account.natureza_conta_id.name[0] == 'C':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
+                            %elif account.natureza_conta_id.name[0] == 'D':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                            %else:
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                            %endif
+                        %elif cumul_balance == 0:
+                          <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                        %else:
+                              <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                        %endif
                         </div>
                       %endif
                       %for line in ledger_lines[account.id]:
@@ -230,7 +252,27 @@
                             %endif
                         %endif
                           ## identificação do saldo
-                          <div class="act_as_cell amount" style="width:2%;"></div>
+                        %if cumul_balance > 0:
+                            %if account.natureza_conta_id.name[0] == 'C':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                            %elif account.natureza_conta_id.name[0] == 'D':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
+                            %else:
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                            %endif
+                        %elif cumul_balance < 0:
+                            %if account.natureza_conta_id.name[0] == 'C':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
+                            %elif account.natureza_conta_id.name[0] == 'D':
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
+                            %else:
+                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                            %endif
+                        %elif cumul_balance == 0:
+                          <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                        %else:
+                              <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
+                        %endif
                     </div>
                 </div>
             </div>
