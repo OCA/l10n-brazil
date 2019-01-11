@@ -18,6 +18,23 @@
             return text.replace('-', '&#8209;')  # replace by a non-breaking hyphen (it will not word-wrap between hyphen and numbers)
         %>
 
+        <%!
+
+        def c_d(balance, natureza):
+            if balance > 0:
+                if natureza == 'C':
+                    return 'C'
+                elif natureza == 'D':
+                    return 'D'
+            elif balance < 0:
+                if natureza == 'C':
+                    return 'D'
+                elif natureza == 'D':
+                    return 'C'
+
+            return ''
+        %>
+
         <%setLang(user.lang)%>
 
         <%
@@ -124,7 +141,7 @@
                         cumul_balance = init_balance[account.id].get('init_balance') or 0.0
                         cumul_balance_curr = init_balance[account.id].get('init_balance_currency') or 0.0
 
-##                         cumul_balance = cumul_balance *-1 if account.natureza_conta_id.name[0] == 'C' else cumul_balance
+                        cumul_balance = cumul_balance *-1 if account.natureza_conta_id.name[0] == 'C' else cumul_balance
 
 
                         %>
@@ -150,27 +167,7 @@
                               <div class="act_as_cell amount sep_left">${formatLang(cumul_balance_curr) | amount }</div>
                          %endif
                           ## identificação do saldo
-                        %if cumul_balance > 0:
-                            %if account.natureza_conta_id.name[0] == 'C':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
-                            %elif account.natureza_conta_id.name[0] == 'D':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
-                            %else:
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                            %endif
-                        %elif cumul_balance < 0:
-                            %if account.natureza_conta_id.name[0] == 'C':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
-                            %elif account.natureza_conta_id.name[0] == 'D':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
-                            %else:
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                            %endif
-                        %elif cumul_balance == 0:
-                          <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                        %else:
-                              <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                        %endif
+                          <div class="act_as_cell amount" style="text-align: right; width:2%;">${c_d(cumul_balance, account.natureza_conta_id.name[0])}</div>
                         </div>
                       %endif
                       %for line in ledger_lines[account.id]:
@@ -205,27 +202,7 @@
                               <div class="act_as_cell amount sep_left">${formatLang(line.get('amount_currency') or 0.0)  | amount }</div>
                           %endif
                           ## identificação do saldo
-                          %if cumul_balance > 0:
-                              %if line.get('natureza') == 'C':
-                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
-                              %elif line.get('natureza') == 'D':
-                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
-                              %else:
-                                  <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                              %endif
-                          %elif cumul_balance < 0:
-                              %if line.get('natureza') == 'C':
-                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
-                              %elif line.get('natureza') == 'D':
-                                  <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
-                              %else:
-                                  <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                              %endif
-                          %elif cumul_balance == 0:
-                            <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                          %else:
-                              <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                          %endif
+                          <div class="act_as_cell amount" style="text-align: right; width:2%;">${c_d(cumul_balance, line.get('natureza'))}</div>
                       </div>
                       %endfor
                 </div>
@@ -255,28 +232,8 @@
                                 <div class="act_as_cell amount"></div>
                             %endif
                         %endif
-                          ## identificação do saldo
-                        %if cumul_balance > 0:
-                            %if account.natureza_conta_id.name[0] == 'C':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
-                            %elif account.natureza_conta_id.name[0] == 'D':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
-                            %else:
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                            %endif
-                        %elif cumul_balance < 0:
-                            %if account.natureza_conta_id.name[0] == 'C':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">D</div>
-                            %elif account.natureza_conta_id.name[0] == 'D':
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;">C</div>
-                            %else:
-                                <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                            %endif
-                        %elif cumul_balance == 0:
-                          <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                        %else:
-                              <div class="act_as_cell amount" style="text-align: right; width:2%;"></div>
-                        %endif
+                        ## identificação do saldo
+                        <div class="act_as_cell amount" style="text-align: right; width:2%;">${c_d(cumul_balance, account.natureza_conta_id.name[0])}</div>
                     </div>
                 </div>
             </div>
