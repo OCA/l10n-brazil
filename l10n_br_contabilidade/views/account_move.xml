@@ -12,7 +12,7 @@
                 <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
                     <field name="sequencia"/>
                     <field name="date"/>
-                    <field name="resumo"/>
+                    <field name="resumo" string="Histórico"/>
                     <field name="ref"/>
                     <field name="period_id" invisible="1"/>
                     <field name="journal_id" invisible="1" string="Lote"/>
