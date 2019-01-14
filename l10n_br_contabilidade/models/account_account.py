@@ -138,7 +138,8 @@ class AccountAccount(models.Model):
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
         def ignora_ponto(res):
-            request = "SELECT id, code FROM account_account " \
+            request = "SELECT id, concat_ws(' ', code, name) " \
+                      "FROM account_account " \
                       "WHERE " \
                       "REPLACE(code, '.', '') LIKE " \
                       "REPLACE('{}%', '.', '')".format(name)
