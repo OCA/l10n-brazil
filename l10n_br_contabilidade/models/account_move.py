@@ -176,7 +176,8 @@ class AccountMove(models.Model):
                 # Campos permitidos
                 campos_permitidos = ['state', 'account_fechamento_id',
                                      'lancamento_de_fechamento', 'criado_por',
-                                     'criado_data', 'validado_por',
+                                     'criado_data', 'editado_por',
+                                     'editado_data', 'validado_por',
                                      'validado_data']
 
                 # Alteração apenas dos campos permitidos
@@ -188,6 +189,10 @@ class AccountMove(models.Model):
 
             if vals.get('state') == 'posted':
                 self.verifica_status_periodo()
+
+        if not vals.get('validado_por'):
+            vals['editado_por'] = self.env.user.employee_ids.id
+            vals['editado_data'] = fields.Date.today()
 
         res = super(AccountMove, self).write(vals)
 
