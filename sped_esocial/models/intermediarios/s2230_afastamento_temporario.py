@@ -26,7 +26,6 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
     hr_holiday_id = fields.Many2one(
         string='Afastamento',
         comodel_name='hr.holidays',
-        ondelete='cascade',
     )
     sped_afastamento = fields.Many2one(
         string='Registro Afastamento',

@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, Warning
 
 
 class HrHolidays(models.Model):
@@ -12,6 +12,7 @@ class HrHolidays(models.Model):
     sped_esocial_afastamento_id = fields.Many2one(
         string='Evento e-Social',
         comodel_name='sped.esocial.afastamento.temporario',
+        ondelete='cascade',
     )
     esocial_evento_afastamento_id = fields.Many2one(
         string='Evento e-Social',
@@ -139,3 +140,14 @@ class HrHolidays(models.Model):
             # O que realmente precisará ser feito é tratado no método do
             #  registro intermediário
             self.sped_esocial_afastamento_id.gerar_registro()
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            if record.situacao_esocial == '4':
+                raise Warning(
+                    'Não é possível excluir um '
+                    'afastamento enviado para o e-Social!'
+                )
+
+            return super(HrHolidays, record).unlink()
