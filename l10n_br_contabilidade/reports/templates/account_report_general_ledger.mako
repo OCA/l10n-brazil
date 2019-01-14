@@ -140,10 +140,6 @@
                         ## cumul_credit = init_balance[account.id].get('credit') or 0.0
                         cumul_balance = init_balance[account.id].get('init_balance') or 0.0
                         cumul_balance_curr = init_balance[account.id].get('init_balance_currency') or 0.0
-
-                        cumul_balance = cumul_balance *-1 if account.natureza_conta_id.name[0] == 'C' else cumul_balance
-
-
                         %>
                         <div class="act_as_row initial_balance">
                           ## date
