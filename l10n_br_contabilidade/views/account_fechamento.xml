@@ -215,7 +215,7 @@
         <field name="name">Reclassificar</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state','in',['investigated', 'reclassified'])]</field>
+        <field name="domain">[('state','in',['investigated'])]</field>
     </record>
 
     <menuitem
@@ -231,7 +231,7 @@
         <field name="name">Concluídos</field>
         <field name="res_model">account.fechamento</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state','=','completed')]</field>
+        <field name="domain">[('state','in',['completed', 'reclassified'])]</field>
     </record>
 
     <menuitem
