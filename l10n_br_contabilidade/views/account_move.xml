@@ -67,35 +67,37 @@
                         </group>
                     </group>
 
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="centro_custo_id" attrs="{'readonly':[('state','=','posted')]}" widget="many2many_tags" />
+                            <field name="company_id" invisible="1" required="1" groups="base.group_multi_company"/>
+                            <field name="partner_id" invisible="1"/>
+                            <field name="to_check" invisible="1" attrs="{'readonly':[('state','=','posted')]}" />
+                            <field name="amount" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="period_id" attrs="{'readonly':[('state','=','posted')]}" options="{'no_create': True}" invisible="True"/>
+                            <field name="ref"  attrs="{'readonly':[('state','=','posted')]}" />
+                        </group>
+                    </group>
+
                     <div class="oe_edit_only">
                         <label for="narration" string="Histórico" attrs="{'readonly':[('state','=','posted')]}"/>
                         <h1>
                             <field name="name" invisible="True"/>
-                            <field name="narration" attrs="{'readonly':[('state','=','posted')]}" placeholder="Adicionar Complemento..." nolabel="1" class="oe_edit_only"/>
+                            <field name="narration" attrs="{'readonly':[('state','=','posted')]}"  placeholder="Histórico Padrão..." nolabel="1" class="oe_edit_only"/>
                         </h1>
                     </div>
 
                     <div>
                         <label for="resumo" string="Histórico padrão SUSEP" colspan="4"/>
                         <h2>
-                            <field name="resumo" colspan="4" placeholder="Adicionar Complemento..." nolabel="1" height="50" />
+                            <field name="resumo" colspan="4" nolabel="1" />
                         </h2>
                     </div>
 
-                    <group>
-                        <group>
-                            <field name="period_id" attrs="{'readonly':[('state','=','posted')]}" options="{'no_create': True}"/>
-                            <field name="company_id" invisible="1" required="1" groups="base.group_multi_company"/>
-                            <field name="partner_id" invisible="1"/>
-                            <field name="centro_custo_id" attrs="{'readonly':[('state','=','posted')]}" widget="many2many_tags" />
-                        </group>
-                        <group>
-                            <field name="ref"  attrs="{'readonly':[('state','=','posted')]}" />
-                            <field name="date"/>
-                            <field name="to_check" invisible="1" attrs="{'readonly':[('state','=','posted')]}" />
-                            <field name="amount" invisible="1"/>
-                        </group>
-                    </group>
+
                     <notebook>
                         <page string="Partidas">
                             <field name="line_id" attrs="{'readonly':[('state','=','posted')]}" widget="one2many_list" context="{'line_id': line_id , 'journal_id': journal_id }">
