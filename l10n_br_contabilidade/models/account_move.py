@@ -115,6 +115,14 @@ class AccountMove(models.Model):
                 raise Warning(u'Período escolhido para '
                               u'este lançamento esta fechado!')
 
+    @api.onchange('date')
+    def onchange_date(self):
+        """
+        Definir o periodo de acordo com a data inputada
+        """
+        for record in self:
+            record.period_id = record.period_id.find(record.date)
+
     @api.multi
     def validar_partidas_lancamento_contabil(self):
         """
