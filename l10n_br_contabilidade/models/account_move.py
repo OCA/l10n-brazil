@@ -17,7 +17,6 @@ class AccountMove(models.Model):
 
     sequencia = fields.Integer(
         string=u'Sequência',
-        required=True,
     )
 
     state = fields.Selection(
@@ -135,19 +134,6 @@ class AccountMove(models.Model):
 
     @api.model
     def create(self, vals):
-        fiscalyear_id = \
-            self.env['account.period'].find(vals['date']).fiscalyear_id
-
-        if not fiscalyear_id.sequence_id.id:
-            fiscalyear_id.sequence_id = self.env['ir.sequence'].create({
-                'name': 'account_move_sequence_' + fiscalyear_id.name,
-                'implementation': 'no_gap'
-            }).id
-            self.env.cr.commit()
-
-        vals['sequencia'] = \
-            self.env['ir.sequence'].next_by_id(fiscalyear_id.sequence_id.id)
-
         res = super(AccountMove, self).create(vals)
 
         res.validar_partidas_lancamento_contabil()
@@ -225,12 +211,28 @@ class AccountMove(models.Model):
         self.validado_por = self.env.user.employee_ids.id
         self.validado_data = fields.Date.today()
 
+        if not self.sequencia:
+            fiscalyear_id = \
+                self.env['account.period'].find(self.date).fiscalyear_id
+
+            if not fiscalyear_id.sequence_id.id:
+                fiscalyear_id.sequence_id = self.env['ir.sequence'].create({
+                    'name': 'account_move_sequence_' + fiscalyear_id.name,
+                    'implementation': 'no_gap'
+                }).id
+                self.env.cr.commit()
+
+            self.sequencia = self.env['ir.sequence'].next_by_id(
+                fiscalyear_id.sequence_id.id)
+
         res = super(AccountMove, self).post()
 
         self.verifica_status_periodo()
 
         for line in self.line_id:
             line.situacao_lancamento = 'posted'
+
+
 
         return res
 

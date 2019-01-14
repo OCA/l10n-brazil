@@ -57,7 +57,7 @@
                     <sheet>
                     <div class="oe_right oe_button_box">
                         <label for="sequencia" class="oe_edit_only" colspan="4"/>
-                        <h2><field name="sequencia" class="oe_bold oe_inline oe_stat_button" attrs="{'required': True, 'invisible':[('sequencia','=',0)]}" nolabel="1" readonly="True"/></h2>
+                        <h2><field name="sequencia" class="oe_bold oe_inline oe_stat_button" attrs="{'invisible':[('sequencia','=',0)]}" nolabel="1" readonly="True"/></h2>
                     </div>
 
                     <group>
