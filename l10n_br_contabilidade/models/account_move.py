@@ -60,6 +60,15 @@ class AccountMove(models.Model):
         string='Criado Em',
     )
 
+    editado_por = fields.Many2one(
+        string=u'Última Edição Por',
+        comodel_name='hr.employee',
+    )
+
+    editado_data = fields.Date(
+        string=u'Última Edição Em',
+    )
+
     validado_por = fields.Many2one(
         string='Validado Por',
         comodel_name='hr.employee',

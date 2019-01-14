@@ -196,6 +196,10 @@
                                     <field name="criado_por" readonly="True"/>
                                     <field name="criado_data" readonly="True"/>
                                 </group>
+                                <group attrs="{'invisible': [('editado_por', '=', False)]}">
+                                    <field name="editado_por" readonly="True"/>
+                                    <field name="editado_data" readonly="True"/>
+                                </group>
                                 <group>
                                     <field name="validado_por" readonly="True"/>
                                     <field name="validado_data" readonly="True"/>
