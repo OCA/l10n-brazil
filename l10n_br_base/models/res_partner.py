@@ -168,7 +168,7 @@ class Partner(models.Model):
                 uf = state_code.lower()
                 valid_ie = fiscal.validate_ie(uf, inscr_est_line.inscr_est)
                 if not valid_ie:
-                    raise ValidationError('Invalid State Tax Number!')
+                    raise ValidationError(_('Invalid State Tax Number!'))
                 if inscr_est_line.state_id.id == record.state_id.id:
                     raise ValidationError(_(
                         'There can only be one state tax'
