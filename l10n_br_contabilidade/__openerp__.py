@@ -57,6 +57,9 @@
         'views/mis_report_style.xml',
         'views/account_fiscalyear.xml',
     ],
+    'qweb': [
+        'static/src/xml/*.xml'
+    ],
     'demo': [
     ],
 }

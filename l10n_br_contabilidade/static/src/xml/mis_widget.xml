@@ -1,0 +1,83 @@
+<template>
+    <t t-name="mis_builder.MisReport">
+        <div class="oe_mis_builder_content">
+            <div class="oe_mis_builder_buttons oe_right">
+                <button class="oe_mis_builder_print"><img src="/web/static/src/img/icons/gtk-print.png"/> Print</button>
+                <button class="oe_mis_builder_export"><img src="/web/static/src/img/icons/gtk-go-down.png"/>Export</button>
+                <button style="display: none;" class="oe_mis_builder_settings"><img src="/web/static/src/img/icons/gtk-execute.png"/> Settings</button>
+            </div>
+            <table t-if="widget.mis_report_data" class="oe_list_content mis_builder">
+                <thead>
+                    <tr class="oe_list_header_columns">
+                        <t t-foreach="widget.mis_report_data.header" t-as="h">
+                            <th class="oe_list_header_char">
+                                <div>
+                                    <t t-esc="h_value.kpi_name"/>
+                                </div>
+                            </th>
+                            <th t-foreach="h_value.cols" t-as="col" class="oe_list_header_char mis_builder_ralign">
+                                <div>
+                                    <t t-esc="col.name"/>
+                                </div>
+                                <div>
+                                    <t t-esc="col.date"/>
+                                </div>
+                            </th>
+                        </t>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="widget.mis_report_data.content" t-as="c">
+                        <td t-att="{'style': c_value.default_style}">
+                            <div>
+                                <t t-esc="c_value.kpi_name"/>
+                            </div>
+                        </td>
+                        <t t-foreach="c_value.cols" t-as="value">
+                            <td t-att="{'style': c_value.default_style}" class="mis_builder_ralign">
+                                <div t-att="{'style': value_value.style, 'title': value_value.val_c}">
+                                    <t t-if="value_value.drilldown">
+                                        <a href="javascript:void(0)"
+                                           class="mis_builder_drilldown"
+                                           t-att-data-drilldown="JSON.stringify(value_value.drilldown)"
+                                           t-att-data-period-id="JSON.stringify(value_value.period_id)"
+                                           t-att-data-expr="JSON.stringify(value_value.expr)"
+                                        >
+                                            <t t-esc="value_value.val_r"/>
+                                        </a>
+                                    </t>
+                                    <t t-if="!value_value.drilldown">
+                                        <t t-esc="value_value.val_r"/>
+                                    </t>
+                                </div>
+                            </td>
+                        </t>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <t t-foreach="widget.mis_report_data.footer" t-as="f" class="oe_list_footer">
+                            <th>
+                                <div class="col-xs-6">
+                                    <t t-esc="f_value.administrator.label"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <t t-esc="f_value.administrator.name"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <t t-esc="f_value.accountant.label"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <t t-esc="f_value.accountant.name"/>
+                                </div>
+                            </th>
+                        </t>
+                        <td class="oe_list_footer" />
+                        <td class="oe_list_footer" />
+                        <td class="oe_list_footer" />
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </t>
+</template>

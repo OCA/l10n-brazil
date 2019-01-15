@@ -18,14 +18,38 @@
         </field>
     </record>
 
-    <!--<record model="ir.ui.view" id="mis_report_instance_search_view">-->
-        <!--<field name="name">mis.report.instance.search (in l10n_br_mis_builder)</field>-->
-        <!--<field name="model">mis.report.instance</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
-        <!--<field name="arch" type="xml">-->
-            <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-    <!--</record>-->
+    <template id="report_mis_report_instance" inherit_id="mis_builder.report_mis_report_instance">
+        <table position="after">
+              <div class="footer" style="position:absolute;top:950px; page-break-inside: avoid;text-align:center">
+                <t t-set="space" t-value="20*(' '.replace(' ', u'\xa0').encode('utf-8'))"/>
+                <t t-foreach="docs_computed[o.id]['footer']" class="text-bottom" t-as="h">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <t t-esc="h_value['administrator']['signature']"/>
+                      <t t-esc="space"/>
+                      <t t-esc="h_value['accountant']['signature']"/>
+                    </div>
+                    <div class="col-md-6">
+                      <t t-esc="h_value['administrator']['label']"/>
+                      <t t-esc="space"/>
+                      <t t-esc="space"/>
+                      <t t-esc="space"/>
+                      <t t-esc="space"/>
+                      <t t-esc="h_value['accountant']['label']"/>
+                    </div>
+                    <div class="col-md-6">
+                      <t t-esc="h_value['administrator']['name']"/>
+                      <t t-esc="space"/>
+                      <t t-esc="space"/>
+                      <t t-esc="space"/>
+                      <t t-esc="space"/>
+                      <t t-esc="h_value['accountant']['name']"/>
+                    </div>
+                  </div>
+                </t>
+              </div>
+        </table>
+    </template>
 
     <!--<record model="ir.ui.view" id="mis_report_instance_tree_view">-->
         <!--<field name="name">mis.report.instance.tree (in l10n_br_mis_builder)</field>-->

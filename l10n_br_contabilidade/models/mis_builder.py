@@ -45,3 +45,18 @@ class MisReportInstance(models.Model):
                 record.accountant_id = accountants[0]
             if administrators:
                 record.administrator_id = administrators[0]
+
+    @api.multi
+    def compute(self):
+        res = super(MisReportInstance, self).compute()
+        res['footer'] = [{
+            'administrator': {
+                'signature': '______________________________________________',
+                'label': 'Administrador responsável:',
+                'name': self.administrator_id.name},
+            'accountant': {
+                'signature': '______________________________________________',
+                'label': 'Contador responsável: ',
+                'name': self.accountant_id.name},
+        }]
+        return res
