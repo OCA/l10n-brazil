@@ -9,7 +9,7 @@
             <field name="name">account.move.tree (in abgf_contabilidade)</field>
             <field name="model">account.move</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state == 'draft';black:state == 'posted'" string="Journal Entries">
+                <tree colors="blue:state == 'draft';red:state == 'validacao_criacao';black:state == 'posted'" string="Journal Entries">
                     <field name="sequencia"/>
                     <field name="date"/>
                     <field name="resumo" string="Histórico"/>
