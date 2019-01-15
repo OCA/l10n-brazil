@@ -15,7 +15,7 @@ class Company(models.Model):
     _inherit = ['res.company', 'format.address.mixin']
 
     @api.multi
-    def _get_l10n_br_data(self):
+    def _compute_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
 
         for c in self:
@@ -77,13 +77,13 @@ class Company(models.Model):
 
     legal_name = fields.Char(
         string='Legal Name',
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_legal_name',
         size=128)
 
     district = fields.Char(
         string='District',
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_district',
         size=32)
 
@@ -91,7 +91,7 @@ class Company(models.Model):
         string='City of Address',
         comodel_name='res.city',
         domain="[('state_id', '=', state_id)]",
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_city_id')
 
     country_id = fields.Many2one(
@@ -99,13 +99,13 @@ class Company(models.Model):
 
     cnpj_cpf = fields.Char(
         string='CNPJ',
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_cnpj_cpf',
         size=18)
 
     inscr_est = fields.Char(
         string='State Tax Number',
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_inscr_est',
         size=16)
 
@@ -113,19 +113,19 @@ class Company(models.Model):
         string='State Tax Numbers',
         comodel_name='state.tax.numbers',
         inverse_name='partner_id',
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_state_tax_number_ids',
         ondelete='cascade')
 
     inscr_mun = fields.Char(
         string=u'Municipal Tax Number',
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_inscr_mun',
         size=18)
 
     suframa = fields.Char(
         string='Suframa',
-        compute='_get_l10n_br_data',
+        compute='_compute_l10n_br_data',
         inverse='_inverse_suframa',
         size=18)
 
