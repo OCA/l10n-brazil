@@ -3,7 +3,7 @@
 # Copyright (C) 2012 Raphaël Valyi (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 from ..tools import fiscal, misc
@@ -112,12 +112,12 @@ class Partner(models.Model):
                     for partner in record.env['res.partner'].search(domain):
                         if (partner.inscr_est == record.inscr_est and
                                 not record.inscr_est):
-                            raise ValidationError(
-                                u'Já existe um parceiro cadastrado com esta '
-                                u'Inscrição Estadual !')
+                            raise ValidationError(_(
+                                'There is already a partner record with this'
+                                'Estadual Inscription !'))
                 else:
-                    raise ValidationError(
-                        u'Já existe um parceiro cadastrado com este CNPJ !')
+                    raise ValidationError(_(
+                        'There is already a partner record with this CNPJ !'))
 
     @api.multi
     @api.constrains('cnpj_cpf', 'country_id')
@@ -134,7 +134,7 @@ class Partner(models.Model):
                     result = False
                     document = u'CPF'
             if not result:
-                raise ValidationError(u"{} Invalido!".format(document))
+                raise ValidationError(_("{} Invalid!").format(document))
 
     @api.multi
     @api.constrains('inscr_est', 'state_id')
@@ -153,7 +153,7 @@ class Partner(models.Model):
                 uf = state_code.lower()
                 result = fiscal.validate_ie(uf, record.inscr_est)
             if not result:
-                raise ValidationError(u"Inscrição Estadual Invalida!")
+                raise ValidationError(_("Estadual Inscription Invalid !"))
 
     @api.multi
     @api.constrains('state_tax_number_ids')
@@ -170,17 +170,17 @@ class Partner(models.Model):
                 if not valid_ie:
                     raise ValidationError('Invalid State Tax Number!')
                 if inscr_est_line.state_id.id == record.state_id.id:
-                    raise ValidationError(
+                    raise ValidationError(_(
                         'There can only be one state tax'
-                        ' number per state for each partner!')
+                        ' number per state for each partner!'))
                 duplicate_ie = record.search([
                     ('state_id', '=', inscr_est_line.state_id.id),
                     ('inscr_est', '=', inscr_est_line.inscr_est)
                 ])
                 if duplicate_ie:
-                    raise ValidationError(
+                    raise ValidationError(_(
                         'State Registration already used'
-                        ' %s' % duplicate_ie.name)
+                        ' %s' % duplicate_ie.name))
 
     @api.model
     def _address_fields(self):
