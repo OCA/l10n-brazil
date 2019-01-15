@@ -10,17 +10,17 @@ class MisReportInstance(models.Model):
 
     administrator_id = fields.Many2one(
         string=u'Administrador responsável',
-        comodel_name='res.users',
+        comodel_name='res.partner',
         compute='_compute_responsible',
         readonly=False,
-        store=False,
+        store=True,
     )
     accountant_id = fields.Many2one(
         string=u'Contador responsável',
-        comodel_name='res.users',
+        comodel_name='res.partner',
         compute='_compute_responsible',
         readonly=False,
-        store=False,
+        store=True,
     )
 
     @api.depends('date', 'company_id', 'period_ids')
@@ -52,11 +52,14 @@ class MisReportInstance(models.Model):
         res['footer'] = [{
             'administrator': {
                 'signature': '______________________________________________',
-                'label': 'Administrador responsável:',
-                'name': self.administrator_id.name},
+                'name': self.administrator_id.name or '',
+                'label': 'Administrador - CPF: %s' %
+                         (self.administrator_id.cnpj_cpf or '')},
             'accountant': {
                 'signature': '______________________________________________',
-                'label': 'Contador responsável: ',
-                'name': self.accountant_id.name},
+                'name': self.accountant_id.name,
+                'label': 'Contador - CPF: %s CRC: %s' % (
+                    self.accountant_id.cnpj_cpf or '',
+                    self.accountant_id.crc_number or '')},
         }]
         return res

@@ -16,9 +16,9 @@ class AccountFiscalYear(models.Model):
 
     administrator_id = fields.Many2one(
         string=u'Administrador responsável',
-        comodel_name='res.users',
+        comodel_name='res.partner',
     )
     accountant_id = fields.Many2one(
         string=u'Contador responsável',
-        comodel_name='res.users',
+        comodel_name='res.partner',
     )

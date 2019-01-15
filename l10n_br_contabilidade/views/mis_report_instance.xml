@@ -20,34 +20,67 @@
 
     <template id="report_mis_report_instance" inherit_id="mis_builder.report_mis_report_instance">
         <table position="after">
-              <div class="footer" style="position:absolute;top:950px; page-break-inside: avoid;text-align:center">
-                <t t-set="space" t-value="20*(' '.replace(' ', u'\xa0').encode('utf-8'))"/>
-                <t t-foreach="docs_computed[o.id]['footer']" class="text-bottom" t-as="h">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <t t-esc="h_value['administrator']['signature']"/>
-                      <t t-esc="space"/>
-                      <t t-esc="h_value['accountant']['signature']"/>
-                    </div>
-                    <div class="col-md-6">
-                      <t t-esc="h_value['administrator']['label']"/>
-                      <t t-esc="space"/>
-                      <t t-esc="space"/>
-                      <t t-esc="space"/>
-                      <t t-esc="space"/>
-                      <t t-esc="h_value['accountant']['label']"/>
-                    </div>
-                    <div class="col-md-6">
-                      <t t-esc="h_value['administrator']['name']"/>
-                      <t t-esc="space"/>
-                      <t t-esc="space"/>
-                      <t t-esc="space"/>
-                      <t t-esc="space"/>
-                      <t t-esc="h_value['accountant']['name']"/>
-                    </div>
-                  </div>
-                </t>
-              </div>
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div>
+                            <t t-esc="' '.replace(' ', u'\xa0').encode('utf-8')"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%">
+                        <div>
+                            <span>Reconhecemos a exatidão da presente Demonstração do Resultado, apresentando o lucro de R$. Estando de acordo com os documentos entregues à contabilidade pela empresa/entidade, a qual se responsabiliza pela exatidão, veracidade e idoneidade dos documentos. Ressalva-se que a responsabilidade do profissional fica restrita apenas ao aspecto técnico, uma vez que operou com elementos, dados e comprovantes fornecidos pela empresa/entidade.
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%">
+                        <div style="text-align:center">
+                            <p>
+                                Brasília-DF, xx de xxxxx de xxxx.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div>
+                            <t t-esc="' '.replace(' ', u'\xa0').encode('utf-8')"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <t t-foreach="docs_computed[o.id]['footer']" class="text-bottom" t-as="h">
+                        <td>
+                          <div style="text-align:center">
+                            <t t-esc="h_value['administrator']['signature']"/>
+                          </div>
+                          <div style="text-align:center">
+                            <t t-esc="h_value['administrator']['name']"/>
+                          </div>
+                          <div style="text-align:center">
+                            <t t-esc="h_value['administrator']['label']"/>
+                          </div>
+                        </td>
+                        <td>
+                          <div style="text-align:center">
+                            <t t-esc="h_value['accountant']['signature']"/>
+                          </div>
+                          <div style="text-align:center">
+                            <t t-esc="h_value['accountant']['name']"/>
+                          </div>
+                          <div style="text-align:center">
+                            <t t-esc="h_value['accountant']['label']"/>
+                          </div>
+                        </td>
+                    </t>
+                </tr>
+            </table>
         </table>
     </template>
 

@@ -56,6 +56,7 @@
         'views/mis_report_kpi.xml',
         'views/mis_report_style.xml',
         'views/account_fiscalyear.xml',
+        'views/res_partner.xml',
     ],
     'qweb': [
         'static/src/xml/*.xml'
