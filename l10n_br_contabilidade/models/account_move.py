@@ -232,8 +232,6 @@ class AccountMove(models.Model):
         for line in self.line_id:
             line.situacao_lancamento = 'posted'
 
-
-
         return res
 
     @api.multi
