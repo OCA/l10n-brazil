@@ -33,6 +33,11 @@ class AccountJournal(models.Model):
         string=u'Conta - Prejuízo',
     )
 
+    ref = fields.Char(
+        string='Origem do Lançamento',
+        help='Definir Módulo de origem do lançamento.',
+    )
+
     @api.multi
     @api.onchange('divisao_resultado_ids')
     def _verifica_porcentagem_fechamento(self):

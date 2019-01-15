@@ -26,6 +26,7 @@
                 </xpath>
                 <field name="type" position="after">
                     <field name="template_historico_padrao_id" />
+                    <field name="ref" />
                 </field>
 
                 <notebook position="inside">
