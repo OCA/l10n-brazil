@@ -152,45 +152,33 @@ class Lead(models.Model):
                 result['name_surname'] = self.partner_id.legal_name
         self.update(result)
 
-    @api.model
-    def _lead_create_contact(self, name, is_company,
-                             parent_id=False, lead=False):
-        """ extract data from lead to create a partner.
-            Se passar um lead como parâmetro, extrair dados do parâmetro, senão
-            extrair dados do self.
+    @api.multi
+    def _create_lead_partner_data(self, name, is_company, parent_id=False):
+        """ extract data from lead to create a partner
             :param name : furtur name of the partner
             :param is_company : True if the partner is a company
-            :param lead : lead para extrair os dados
             :param parent_id : id of the parent partner (False if no parent)
             :returns res.partner record
         """
-        partner_id = super(Lead, self)._lead_create_contact(
+        values = super(Lead, self)._create_lead_partner_data(
             name, is_company, parent_id)
-
-        if not lead:
-            lead = self[0]
-
-        value = {
-            'number': lead.number,
-            'district': lead.district,
-            'city_id': lead.city_id.id
-        }
-
+        values.update({
+            'street_number': self.street_number,
+            'district': self.district,
+            'city_id': self.city_id.id
+        })
         if is_company:
-            value.update({
-                'legal_name': lead.legal_name,
-                'cnpj_cpf': lead.cnpj,
-                'inscr_est': lead.inscr_est,
-                'inscr_mun': lead.inscr_mun,
-                'suframa': lead.suframa,
+            values.update({
+                'legal_name': self.legal_name,
+                'cnpj_cpf': self.cnpj,
+                'inscr_est': self.inscr_est,
+                'inscr_mun': self.inscr_mun,
+                'suframa': self.suframa,
             })
         else:
-            value.update({
-                'legal_name': lead.name_surname,
-                'cnpj_cpf': lead.cpf,
-                'inscr_est': lead.rg,
+            values.update({
+                'legal_name': self.name_surname,
+                'cnpj_cpf': self.cpf,
+                'inscr_est': self.rg,
             })
-
-        if partner_id:
-            partner_id.write(value)
-        return partner_id
+        return values
