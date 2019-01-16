@@ -163,7 +163,7 @@ class Partner(models.Model):
         :Return: True or False.
         """
         for record in self:
-            for inscr_est_line in record.other_inscr_est_lines:
+            for inscr_est_line in record.state_tax_number_ids:
                 state_code = inscr_est_line.state_id.code or ''
                 uf = state_code.lower()
                 valid_ie = fiscal.validate_ie(uf, inscr_est_line.inscr_est)
