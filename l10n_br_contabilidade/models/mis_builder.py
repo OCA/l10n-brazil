@@ -4,6 +4,21 @@
 
 from openerp import api, fields, models, _
 
+MONTHS = {
+    '01': 'Janeiro',
+    '02': 'Fevereiro',
+    '03': 'Março',
+    '04': 'Abril',
+    '05': 'Maio',
+    '06': 'Junho',
+    '07': 'Julho',
+    '08': 'Agosto',
+    '09': 'Setembro',
+    '10': 'Outubro',
+    '11': 'Novembro',
+    '12': 'Dezembro',
+}
+
 
 class MisReportInstance(models.Model):
     _inherit = 'mis.report.instance'
@@ -62,4 +77,19 @@ class MisReportInstance(models.Model):
                     self.accountant_id.cnpj_cpf or '',
                     self.accountant_id.crc_number or '')},
         }]
+        resolution = next(
+            d['cols'][0]['val'] for d in res['content']
+            if d['kpi_name'] == self.report_id.kpi_ids.filtered(
+                lambda kpi: kpi.name == 'resultado_liquido_do_periodo'
+            ).description)
+        resolution = '{:,}'.format(float(resolution)).split('.')
+        resolution = resolution[0].replace(',', '.') + ',' + resolution[1]
+        res['resolution'] = resolution
+
+        today = fields.Date.today()
+        res['today'] = {
+            'day': today[-2:],
+            'month': MONTHS[today[5:-3]],
+            'year': today[:4],
+        }
         return res

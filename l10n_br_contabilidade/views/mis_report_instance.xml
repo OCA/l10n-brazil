@@ -20,7 +20,7 @@
 
     <template id="report_mis_report_instance" inherit_id="mis_builder.report_mis_report_instance">
         <table position="after">
-            <table width="100%">
+            <table width="90%" style="margin-left:5%;margin-right:5%">
                 <tr>
                     <td>
                         <div>
@@ -29,19 +29,40 @@
                     </td>
                 </tr>
                 <tr>
-                    <td width="100%">
-                        <div>
-                            <span>Reconhecemos a exatidão da presente Demonstração do Resultado, apresentando o lucro de R$. Estando de acordo com os documentos entregues à contabilidade pela empresa/entidade, a qual se responsabiliza pela exatidão, veracidade e idoneidade dos documentos. Ressalva-se que a responsabilidade do profissional fica restrita apenas ao aspecto técnico, uma vez que operou com elementos, dados e comprovantes fornecidos pela empresa/entidade.
+                    <td>
+                        <div style="text-align:justify">
+                            <span>Reconhecemos a exatidão da presente Demonstração do Resultado, apresentando o </span>
+                            <span t-if="docs_computed[o.id]['resolution'] &lt; 0">prejuízo</span>
+                            <span t-else="">lucro</span>
+                            <span> de R$ </span>
+                            <t t-esc="docs_computed[o.id]['resolution']"/>
+                            <span>. Estando de acordo com os documentos entregues à contabilidade pela empresa/entidade, a qual se responsabiliza pela exatidão, veracidade e idoneidade dos documentos. Ressalva-se que a responsabilidade do profissional fica restrita apenas ao aspecto técnico, uma vez que operou com elementos, dados e comprovantes fornecidos pela empresa/entidade.
                             </span>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td width="100%">
+                    <td>
+                        <div>
+                            <t t-esc="' '.replace(' ', u'\xa0').encode('utf-8')"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <div style="text-align:center">
                             <p>
-                                Brasília-DF, xx de xxxxx de xxxx.
+                                Brasília-DF, <t t-esc="docs_computed[o.id]['today']['day']"/> de
+                                <t t-esc="docs_computed[o.id]['today']['month']"/> de
+                                <t t-esc="docs_computed[o.id]['today']['year']"/>.
                             </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <t t-esc="' '.replace(' ', u'\xa0').encode('utf-8')"/>
                         </div>
                     </td>
                 </tr>
