@@ -31,8 +31,8 @@ class L10nBrCrmOnchangeTest(TransactionCase):
         Call all the onchange methods in l10n_br_crm
         """
         self.crm_lead_01._onchange_cnpj()
-        self.crm_lead_01.onchange_mask_cpf()
-        self.crm_lead_01.onchange_l10n_br_city_id()
+        self.crm_lead_01._onchange_mask_cpf()
+        self.crm_lead_01._onchange_city_id()
         self.crm_lead_01._onchange_zip()
         self.crm_lead_01.partner_id = self.crm_lead_01._create_lead_partner()
         self.crm_lead_01._onchange_partner_id()
