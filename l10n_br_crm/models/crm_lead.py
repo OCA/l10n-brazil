@@ -109,14 +109,14 @@ class Lead(models.Model):
                                            True)
 
     @api.onchange('cpf', 'country_id')
-    def onchange_mask_cpf(self):
+    def _onchange_mask_cpf(self):
         country_code = self.country_id.code or ''
         self.cpf = fiscal.format_cpf_cnpj(self.cpf,
                                           country_code,
                                           False)
 
     @api.onchange('city_id')
-    def onchange_l10n_br_city_id(self):
+    def _onchange_city_id(self):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
         do município para o campo city que é o campo nativo do módulo base
