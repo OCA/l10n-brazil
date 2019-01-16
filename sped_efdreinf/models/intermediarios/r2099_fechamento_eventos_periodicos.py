@@ -167,14 +167,15 @@ class SpedReinfContribuinte(models.Model, SpedRegistroIntermediario):
             'S' if self.reinf_competencia_id.evt_com_prod else 'N'
         R2099.evento.infoFech.evtCPRB.valor = \
             'S' if self.reinf_competencia_id.evt_cprb else 'N'
-        R2099.evento.infoFech.evtPgtos.valor = \
-            'S' if self.reinf_competencia_id.evt_pgtos else 'N'
-        if self.reinf_competencia_id.comp_sem_movto_id:
-            # Calcula o Período Inicial sem Movimento (se necessário)
-            comp_sem_movto = \
-                self.reinf_competencia_id.comp_sem_movto_id.code[3:7] + '-' + \
-                self.reinf_competencia_id.comp_sem_movto_id.code[0:2]
-            R2099.evento.infoFech.compSemMovto.valor = comp_sem_movto
+        if fields.Date.today() <= '2018-08-31':
+            R2099.evento.infoFech.evtPgtos.valor = \
+                'S' if self.reinf_competencia_id.evt_pgtos else 'N'
+            if self.reinf_competencia_id.comp_sem_movto_id:
+                # Calcula o Período Inicial sem Movimento (se necessário)
+                comp_sem_movto = \
+                    self.reinf_competencia_id.comp_sem_movto_id.code[3:7] + '-'\
+                    + self.reinf_competencia_id.comp_sem_movto_id.code[0:2]
+                R2099.evento.infoFech.compSemMovto.valor = comp_sem_movto
 
         return R2099, validacao
 
