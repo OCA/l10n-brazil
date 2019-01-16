@@ -4,6 +4,7 @@
 
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 import logging
 
@@ -33,6 +34,7 @@ class OtherIETest(TransactionCase):
             'website': 'www.companytest.com.br'
         })
 
+    @mute_logger('odoo.sql_db')
     def test_included_valid_ie_in_company(self):
         result = self.company.write({
             'state_tax_number_ids': [(0, 0, {
