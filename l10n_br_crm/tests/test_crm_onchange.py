@@ -18,7 +18,7 @@ class L10nBrCrmOnchangeTest(TransactionCase):
             'contact_name': 'Test Name Contact',
             'name_surname': 'Test NameSurname Contact',
             'cnpj': '56.647.352/0001-98',
-            'l10n_br_city_id': self.env.ref('l10n_br_base.city_3205002').id,
+            'city_id': self.env.ref('l10n_br_base.city_3205002').id,
             'country_id': self.env.ref('base.br').id,
             'zip': '29161-695',
             'cpf': '70531160505',
