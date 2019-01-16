@@ -62,13 +62,16 @@ class HrPayslipRun(models.Model):
         # data de vencimento setada na conf da empresa
         dia = str(self.company_id.darf_dia_vencimento)
 
+        ano = self.ano
+
         # Guias para mes subsequente
         if self.mes_do_ano < 12:
             mes_do_ano = self.mes_do_ano + 1
         elif self.mes_do_ano >= 12:
             mes_do_ano = 1
+            ano = self.ano + 1
 
-        data = '{}-{:02d}-{}'.format(self.ano, mes_do_ano, dia)
+        data = '{}-{:02d}-{}'.format(ano, mes_do_ano, dia)
         data_vencimento = \
             fields.Datetime.from_string(data + ' 03:00:00')
 
