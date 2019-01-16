@@ -406,7 +406,7 @@ def validate_ie_to(inscr_est):
         return False
 
     # Pega apenas os dígitos que entram no cálculo
-    inscr_est = map(int, inscr_est)
+    inscr_est = list(map(int, inscr_est))
     nova_ie = inscr_est[:8]
 
     prod = [9, 8, 7, 6, 5, 4, 3, 2]
