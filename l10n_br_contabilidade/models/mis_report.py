@@ -22,3 +22,6 @@ class MisReport(models.Model):
         selection=MIS_REPORT_MODE,
         default='contabil'
     )
+    considerations = fields.Text(
+        string=u'Considerações finais'
+    )

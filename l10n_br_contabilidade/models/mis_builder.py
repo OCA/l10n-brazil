@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models, _
+from num2words import num2words
+from mako.template import Template
 
 MONTHS = {
     '01': 'Janeiro',
@@ -37,6 +39,47 @@ class MisReportInstance(models.Model):
         readonly=False,
         store=True,
     )
+    considerations = fields.Text(
+        string=u'Considerações finais',
+        compute='_compute_considerations',
+        store=True,
+    )
+    liquid = fields.Char(
+        string=u'Resultado líquido do período',
+        compute='_compute_dummy',
+        store=False,
+    )
+    liquid_in_full = fields.Char(
+        string=u'Resultado líquido por extenso',
+        compute='_compute_dummy',
+        store=False,
+    )
+    today_day = fields.Char(
+        string=u'Dia atual',
+        compute='_compute_dummy',
+        store=False,
+    )
+    today_month = fields.Char(
+        string=u'Mês atual',
+        compute='_compute_dummy',
+        store=False,
+    )
+    today_year = fields.Char(
+        string=u'Ano atual',
+        compute='_compute_dummy',
+        store=False,
+    )
+
+    @api.multi
+    def _compute_dummy(self):
+        pass
+
+    @api.depends('report_id.considerations')
+    def _compute_considerations(self):
+        for record in self:
+            if record.considerations or not record.report_id:
+                continue
+            record.considerations = record.report_id.considerations
 
     @api.depends('date', 'company_id', 'period_ids')
     def _compute_responsible(self):
@@ -64,6 +107,8 @@ class MisReportInstance(models.Model):
     @api.multi
     def compute(self):
         res = super(MisReportInstance, self).compute()
+        if not (self.administrator_id and self.accountant_id):
+            return res
         res['footer'] = [{
             'administrator': {
                 'signature': '______________________________________________',
@@ -77,19 +122,39 @@ class MisReportInstance(models.Model):
                     self.accountant_id.cnpj_cpf or '',
                     self.accountant_id.crc_number or '')},
         }]
-        resolution = next(
-            d['cols'][0]['val'] for d in res['content']
-            if d['kpi_name'] == self.report_id.kpi_ids.filtered(
-                lambda kpi: kpi.name == 'resultado_liquido_do_periodo'
-            ).description)
-        resolution = '{:,}'.format(float(resolution)).split('.')
-        resolution = resolution[0].replace(',', '.') + ',' + resolution[1]
-        res['resolution'] = resolution
+
+        kpi = self.report_id.kpi_ids.filtered(
+            lambda kpi: kpi.name == 'resultado_liquido_do_periodo'
+        )
+        if not kpi:
+            return res
+
+        row = next(d['cols'] and d['cols'][0] for d in res['content']
+                   if d['kpi_name'] == kpi.description) or None
+
+        if not row:
+            return res
+
+        split_val = '{:,}'.format(float(row['val'])).split('.')
+        self.liquid = split_val[0].replace(',', '.') + ',' + split_val[1]
+
+        lang = 'pt_BR'
+        in_full = num2words(int(split_val[0].replace(',', '')), lang=lang) + \
+            ' reais e ' + num2words(int(split_val[1]), lang=lang)
+        self.liquid_in_full = in_full + ' centavos'
 
         today = fields.Date.today()
-        res['today'] = {
-            'day': today[-2:],
-            'month': MONTHS[today[5:-3]],
-            'year': today[:4],
-        }
+        self.today_day = today[-2:]
+        self.today_month = MONTHS[today[5:-3]]
+        self.today_year = today[:4]
+
+        if not self.considerations:
+            res['considerations'] = ''
+            return res
+
+        template = Template(self.considerations.encode('utf-8'),
+                            input_encoding='utf-8', output_encoding='utf-8',
+                            strict_undefined=True)
+        res['considerations'] = template.render(mr=self).decode('utf-8')
+
         return res

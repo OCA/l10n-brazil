@@ -14,6 +14,7 @@
                 <newline/>
                 <field name="accountant_id" colspan="4"/>
                 <field name="administrator_id" colspan="4"/>
+                <field name="considerations" colspan="4"/>
             </field>
         </field>
     </record>
@@ -31,13 +32,7 @@
                 <tr>
                     <td>
                         <div style="text-align:justify">
-                            <span>Reconhecemos a exatidão da presente Demonstração do Resultado, apresentando o </span>
-                            <span t-if="docs_computed[o.id]['resolution'] &lt; 0">prejuízo</span>
-                            <span t-else="">lucro</span>
-                            <span> de R$ </span>
-                            <t t-esc="docs_computed[o.id]['resolution']"/>
-                            <span>. Estando de acordo com os documentos entregues à contabilidade pela empresa/entidade, a qual se responsabiliza pela exatidão, veracidade e idoneidade dos documentos. Ressalva-se que a responsabilidade do profissional fica restrita apenas ao aspecto técnico, uma vez que operou com elementos, dados e comprovantes fornecidos pela empresa/entidade.
-                            </span>
+                            <t t-esc="docs_computed[o.id]['considerations']"/>
                         </div>
                     </td>
                 </tr>
@@ -52,9 +47,9 @@
                     <td>
                         <div style="text-align:center">
                             <p>
-                                Brasília-DF, <t t-esc="docs_computed[o.id]['today']['day']"/> de
-                                <t t-esc="docs_computed[o.id]['today']['month']"/> de
-                                <t t-esc="docs_computed[o.id]['today']['year']"/>.
+                                Brasília-DF, <t t-esc="o.today_day"/> de
+                                <t t-esc="o.today_month"/> de
+                                <t t-esc="o.today_year"/>.
                             </p>
                         </div>
                     </td>
@@ -103,6 +98,38 @@
                 </tr>
             </table>
         </table>
+        <h2 position="replace">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div style="text-align:center;border: 1 black"/>
+                    </td>
+                </tr>
+            </table>
+            <table width="85%" style="margin-left:5%;margin-right:10%">
+                <tr>
+                    <td>
+                        <div style="text-align:center">
+                            <strong t-field="o.report_id.description"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="text-align:left">
+                            <t t-esc="o.company_id.legal_name"/>
+                        </div>
+                        <div style="text-align:left">
+                            <span>CNPJ: </span>
+                            <t t-esc="o.company_id.cnpj_cpf"/>
+                        </div>
+                        <div style="text-align:left">
+                            <span>NIRE: </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </h2>
     </template>
 
     <!--<record model="ir.ui.view" id="mis_report_instance_tree_view">-->

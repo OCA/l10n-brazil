@@ -12,8 +12,9 @@
         <field name="arch" type="xml">
             <field name="description" position="after">
                 <field name="report_mode"/>
+                <field name="considerations"/>
             </field>
-            <xpath expr="//field[@name='kpi_ids']/tree" position="replace">
+            <xpath expr="//field[@name='kpi_ids']" position="replace">
                 <field name="kpi_ids" context="{'report_mode': report_mode}"/>
             </xpath>
         </field>
