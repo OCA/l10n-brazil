@@ -49,7 +49,7 @@ class TestWebServiceClient(TransactionCase):
                          'Get address returns wrong UF')
         self.assertEqual(record.country_id.name, pais,
                          'Get address returns wrong country')
-        self.assertEqual(record.l10n_br_city_id.name, cidade,
+        self.assertEqual(record.city_id.name, cidade,
                          'Get address returns wrong city')
         self.assertEqual(record.street, end,
                          'Get address returns wrong address')
