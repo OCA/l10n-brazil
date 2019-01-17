@@ -22,8 +22,5 @@
         'wizard/l10n_br_zip_search_view.xml',
         'security/ir.model.access.csv',
     ],
-    'test': [
-        'test/zip_demo.yml'
-    ],
     'installable': True,
 }
