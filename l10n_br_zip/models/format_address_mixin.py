@@ -13,4 +13,3 @@ class FormatAddressMixin(models.AbstractModel):
     def zip_search(self):
         self.ensure_one()
         return self.env['l10n_br.zip'].zip_search(self)
-
