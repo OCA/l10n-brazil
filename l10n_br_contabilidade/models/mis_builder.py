@@ -44,35 +44,6 @@ class MisReportInstance(models.Model):
         compute='_compute_considerations',
         store=True,
     )
-    liquid = fields.Char(
-        string=u'Resultado líquido do período',
-        compute='_compute_dummy',
-        store=False,
-    )
-    liquid_in_full = fields.Char(
-        string=u'Resultado líquido por extenso',
-        compute='_compute_dummy',
-        store=False,
-    )
-    today_day = fields.Char(
-        string=u'Dia atual',
-        compute='_compute_dummy',
-        store=False,
-    )
-    today_month = fields.Char(
-        string=u'Mês atual',
-        compute='_compute_dummy',
-        store=False,
-    )
-    today_year = fields.Char(
-        string=u'Ano atual',
-        compute='_compute_dummy',
-        store=False,
-    )
-
-    @api.multi
-    def _compute_dummy(self):
-        pass
 
     @api.depends('report_id.considerations')
     def _compute_considerations(self):
@@ -136,25 +107,30 @@ class MisReportInstance(models.Model):
             return res
 
         split_val = '{:,}'.format(float(row['val'])).split('.')
-        self.liquid = split_val[0].replace(',', '.') + ',' + split_val[1]
+        liquid = split_val[0].replace(',', '.') + ',' + split_val[1]
 
         lang = 'pt_BR'
         in_full = num2words(int(split_val[0].replace(',', '')), lang=lang) + \
-            ' reais e ' + num2words(int(split_val[1]), lang=lang)
-        self.liquid_in_full = in_full + ' centavos'
+            ' reais e ' + num2words(int(split_val[1]), lang=lang) + \
+            ' centavos'
 
         today = fields.Date.today()
-        self.today_day = today[-2:]
-        self.today_month = MONTHS[today[5:-3]]
-        self.today_year = today[:4]
 
         if not self.considerations:
             res['considerations'] = ''
             return res
 
+        res['today'] = {
+            'day': today[-2:],
+            'month': MONTHS[today[5:-3]],
+            'year': today[:4],
+        }
+
         template = Template(self.considerations.encode('utf-8'),
                             input_encoding='utf-8', output_encoding='utf-8',
                             strict_undefined=True)
-        res['considerations'] = template.render(mr=self).decode('utf-8')
+        res['considerations'] = template.render(
+            mr=self, liquid={'val': liquid, 'in_full': in_full},
+            today=res['today']).decode('utf-8')
 
         return res

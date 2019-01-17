@@ -47,9 +47,9 @@
                     <td>
                         <div style="text-align:center">
                             <p>
-                                Brasília-DF, <t t-esc="o.today_day"/> de
-                                <t t-esc="o.today_month"/> de
-                                <t t-esc="o.today_year"/>.
+                                Brasília-DF, <t t-esc="docs_computed[o.id]['today']['day']"/> de
+                                <t t-esc="docs_computed[o.id]['today']['month']"/> de
+                                <t t-esc="docs_computed[o.id]['today']['year']"/>.
                             </p>
                         </div>
                     </td>
