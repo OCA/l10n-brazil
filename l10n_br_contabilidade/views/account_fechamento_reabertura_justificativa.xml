@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 ABGF http://www.abgf.gov.br/
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="account_fechamento_reabertura_justificativa_form">
+            <field name="name">account_fechamento_reabertura_justificativa_form (in abgf_contabilidade)</field>
+            <field name="model">account.fechamento.reabertura.justificativa</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Reaberturas de Fechamento">
+                    <sheet>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="data" />
+                            <field name="motivo" />
+                            <field name="fechamento_id" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_fechamento_reabertura_justificativa_tree">
+            <field name="name">account_fechamento_reabertura_justificativa_tree (in abgf_contabilidade)</field>
+            <field name="model">account.fechamento.reabertura.justificativa</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Reaberturas de Fechamento">
+                    <field name="employee_id" />
+                    <field name="data" />
+                    <field name="motivo" />
+                    <field name="fechamento_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_fechamento_reabertura_justificativa_search">
+            <field name="name">account_fechamento_reabertura_justificativa_search (in abgf_contabilidade)</field>
+            <field name="model">account.fechamento.reabertura.justificativa</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Reaberturas de Fechamento">
+                    <field name="employee_id" />
+                    <field name="data" />
+                    <field name="motivo" />
+                    <field name="fechamento_id" />
+                </search>
+            </field>
+        </record>
+
+        <!--&lt;!&ndash;Menu para fechar movimento&ndash;&gt;-->
+        <!--<record model="ir.actions.act_window" id="abgf_contabilidade_account_fechamento_action">-->
+            <!--<field name="name">Fechar Movimento</field>-->
+            <!--<field name="res_model">account.fechamento</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+            <!--<field name="domain">[('state','=','open')]</field>-->
+        <!--</record>-->
+    <!---->
+        <!--<record model="ir.actions.act_window.view" id="abgf_contabilidade_account_fechamento_tree_action">-->
+            <!--<field eval="1" name="sequence"/>-->
+            <!--<field name="view_mode">tree</field>-->
+            <!--<field name="view_id" ref="abgf_contabilidade_account_fechamento_tree"/>-->
+            <!--<field name="act_window_id" ref="abgf_contabilidade_account_fechamento_action"/>-->
+        <!--</record>-->
+    <!---->
+        <!--<record model="ir.actions.act_window.view" id="abgf_contabilidade_account_fechamento_form_action">-->
+            <!--<field eval="2" name="sequence"/>-->
+            <!--<field name="view_mode">form</field>-->
+            <!--<field name="view_id" ref="abgf_contabilidade_account_fechamento_form"/>-->
+            <!--<field name="act_window_id" ref="abgf_contabilidade_account_fechamento_action"/>-->
+        <!--</record>-->
+    <!---->
+        <!--<menuitem-->
+            <!--action="abgf_contabilidade_account_fechamento_action"-->
+            <!--id="menu_abgf_contabilidade_account_fechamento"-->
+            <!--parent="abgf_menu_encerramento_contabilidade"-->
+            <!--sequence="80"-->
+        <!--/>-->
+
+    </data>
+</openerp>
