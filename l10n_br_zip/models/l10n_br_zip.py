@@ -99,9 +99,9 @@ class L10nBrZip(models.Model):
 
         try:
             domain = self._set_domain(
-                country_id=obj.country_id,
-                state_id=obj.state_id,
-                city_id=obj.city_id,
+                country_id=obj.country_id.id,
+                state_id=obj.state_id.id,
+                city_id=obj.city_id.id,
                 district=obj.district,
                 street=obj.street,
                 zip_code=obj.zip)
