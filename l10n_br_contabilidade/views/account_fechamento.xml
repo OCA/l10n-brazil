@@ -129,7 +129,9 @@
                                 </field>
                              </group>
                          </page>
-
+                         <page string="Reaberturas">
+                             <field name="justificativa_reabertura_ids"/>
+                         </page>
                      </notebook>
                 </sheet>
             </form>

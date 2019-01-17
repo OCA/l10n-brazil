@@ -106,6 +106,12 @@ class AccountFechamento(models.Model):
         compute='_compute_prejuizo',
     )
 
+    justificativa_reabertura_ids = fields.One2many(
+        string='Justificativas',
+        comodel_name='account.fechamento.reabertura.justificativa',
+        inverse_name='fechamento_id',
+    )
+
     @api.multi
     @api.depends('account_move_reclassificacao_id')
     def _compute_prejuizo(self):
