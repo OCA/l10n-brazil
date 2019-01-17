@@ -25,6 +25,7 @@
         # Relatórios
         'reports/report.xml',
         # Visão
+        'wizards/fechamento_reabertura_justificativa_wizard.xml',
         'views/account_account.xml',
         'views/account_account_report.xml',
         'views/account_account_report_line.xml',

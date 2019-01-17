@@ -25,7 +25,7 @@
                             name="button_goback"
                             string='Voltar estágio'
                             type="object"
-                            states="close,investigated,completed,reclassified"
+                            states="close,investigated,reclassified"
                             confirm="Esta ação irá retornar ao estágio anterior. Deseja prosseguir?"
                     />
 
@@ -34,6 +34,13 @@
                             string='Avançar estágio'
                             type="object"
                             states="open,close,investigated,reclassified"
+                    />
+
+                    <button class="btn btn-primary"
+                            name="%(action_fechamento_reabertura_justificativa_wizard)d"
+                            string='Reabrir'
+                            type="action"
+                            states="completed"
                     />
 
                     <field name="state" widget="statusbar"/>
