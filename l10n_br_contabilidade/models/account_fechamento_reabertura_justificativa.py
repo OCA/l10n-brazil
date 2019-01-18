@@ -13,6 +13,11 @@ from openerp.exceptions import Warning
 class AccountFechamentoReaberturaJustificativa(models.Model):
     _name = 'account.fechamento.reabertura.justificativa'
 
+    name = fields.Char(
+        string='Name',
+        compute='_compute_name',
+    )
+
     employee_id = fields.Many2one(
         string='Empregado',
         comodel_name='hr.employee'
@@ -27,3 +32,10 @@ class AccountFechamentoReaberturaJustificativa(models.Model):
         string='Fechamento',
         comodel_name='account.fechamento',
     )
+
+    @api.multi
+    def _compute_name(self):
+        for record in self:
+            record.name = 'Reabertura: {} - {}'.format(
+                record.fechamento_id.name, record.data
+            )
