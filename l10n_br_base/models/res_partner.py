@@ -32,7 +32,7 @@ class Partner(models.Model):
                 'company_name': self.parent_id and self.parent_id.name or ''}
 
             address_field = ['title', 'street', 'street2', 'zip',
-                             'city', 'number', 'district']
+                             'city', 'street_number', 'district']
             for field in address_field:
                 args[field] = getattr(self, field) or ''
             if without_company:
