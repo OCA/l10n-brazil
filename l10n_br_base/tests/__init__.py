@@ -10,3 +10,4 @@ from . import test_valid_createid
 from . import test_base_validate_ie
 from . import test_base_onchange
 from . import test_other_ie
+from . import test_tools_misc

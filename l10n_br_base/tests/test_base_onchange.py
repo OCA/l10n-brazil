@@ -38,3 +38,25 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         self.partner_01._onchange_cnpj_cpf()
         self.partner_01._onchange_city_id()
         self.partner_01._onchange_zip()
+
+    def test_inverse_fields(self):
+        self.company_01.inscr_mun = '692015742119'
+        self.assertEquals(
+            self.company_01.partner_id.inscr_mun, '692015742119',
+            'The inverse function to field inscr_mun failed.'
+        )
+        self.company_01.suframa = '1234'
+        self.assertEquals(
+            self.company_01.partner_id.suframa, '1234',
+            'The inverse function to field suframa failed.'
+        )
+
+    def test_diplay_address(self):
+        partner = self.env.ref('l10n_br_base.res_partner_intel')
+        display_address = partner._display_address()
+        self.assertEquals(
+            display_address, 'Avenida Doutor Chucri Zaidan, 920 -'
+                             ' \nVila Cordeiro\n04583-110 -  - SP\nBrazil',
+            'The function _display_address failed.'
+        )
+
