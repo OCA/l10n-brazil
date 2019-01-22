@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Livro Razão
 from openerp.addons.account_financial_report_webkit.report.general_ledger \
     import CommonReportHeaderWebkit
 
 
+# Livro Razão
 def _get_move_line_datas(self, move_line_ids,
                          order='per.special DESC, l.date ASC, \
                              per.date_start ASC, m.name ASC'):
+    """
+        Livro Razão
+        1 - Altera a query do método do core para trazer a narration e o número
+            da sequencia;
+        2 - Se a natureza da conta for Devedora, então o valor de balance deve
+            ser "debito - crédito", se Credora será "crédito - debito"
+    """
 
     if not move_line_ids:
         return []
@@ -70,6 +79,7 @@ FROM account_move_line l
     return res or []
 
 
+# Livro Razão
 def _compute_initial_balances(self, account_ids, start_period, fiscalyear):
     res = {}
     pnl_periods_ids = self._get_period_range_from_start_period(
@@ -99,6 +109,6 @@ def _compute_initial_balances(self, account_ids, start_period, fiscalyear):
     return res
 
 
+# Livro Razão
 CommonReportHeaderWebkit._compute_initial_balances = _compute_initial_balances
-
 CommonReportHeaderWebkit._get_move_line_datas = _get_move_line_datas

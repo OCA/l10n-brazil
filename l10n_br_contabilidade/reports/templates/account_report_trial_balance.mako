@@ -2,6 +2,7 @@
 <!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+        <meta charset="UTF-8">
         <style type="text/css">
             .account_level_1 {
                 text-transform: uppercase;
@@ -34,12 +35,30 @@
                 margin-bottom: 10px;
                 font-size:10px;
             }
+            
         </style>
     </head>
     <body>
         <%!
         def amount(text):
             return text.replace('-', '&#8209;')  # replace by a non-breaking hyphen (it will not word-wrap between hyphen and numbers)
+        %>
+
+        <%!
+
+        def c_d(balance, natureza):
+            if balance > 0:
+                if natureza == 'C':
+                    return 'C'
+                elif natureza == 'D':
+                    return 'D'
+            elif balance < 0:
+                if natureza == 'C':
+                    return 'D'
+                elif natureza == 'D':
+                    return 'C'
+
+            return ''
         %>
 
         <%setLang(user.lang)%>
@@ -115,23 +134,23 @@
             <div class="act_as_thead">
                 <div class="act_as_row labels">
                     ## code
-                    <div class="act_as_cell first_column" style="width: 20px;">${_('Code')}</div>
+                    <div class="act_as_cell first_column" style="width: 40px;">${_('Account')}</div>
                     ## account name
-                    <div class="act_as_cell" style="width: 80px;">${_('Account')}</div>
+                    <div class="act_as_cell" style="width: 100px;">Descrição</div>
                     %if comparison_mode == 'no_comparison':
                         %if initial_balance_mode:
                             ## initial balance
-                            <div class="act_as_cell amount" style="width: 30px;">${_('Initial Balance')}</div>
+                            <div class="act_as_cell amount" style="width: 40px;">Saldo Anterior</div>
                         %endif
                         ## debit
-                        <div class="act_as_cell amount" style="width: 30px;">${_('Debit')}</div>
+                        <div class="act_as_cell amount" style="width: 25px;">${_('Debit')} no período</div>
                         ## credit
-                        <div class="act_as_cell amount" style="width: 30px;">${_('Credit')}</div>
+                        <div class="act_as_cell amount" style="width: 25px;">${_('Credit')} no período</div>
                     %endif
                     ## balance
-                    <div class="act_as_cell amount" style="width: 30px;">
+                    <div class="act_as_cell amount" style="width: 40px;">
                     %if comparison_mode == 'no_comparison' or not fiscalyear:
-                        ${_('Balance')}
+                        Saldo Atual
                     %else:
                         ${_('Balance %s') % (fiscalyear.name,)}
                     %endif
@@ -154,13 +173,16 @@
                 </div>
             </div>
 
-            <div class="act_as_tbody">
+            <div class="act_as_tbody" style="text-align: center;">
                 <%
                 last_child_consol_ids = []
                 last_level = False
                 %>
                 %for current_account in objects:
                     <%
+                    natureza = current_account.natureza_conta_id.name or ' '
+                    natureza = natureza[0]
+
                     if not to_display_accounts[current_account.id]:
                         continue
 
@@ -177,11 +199,12 @@
                         last_child_consol_ids = [child_consol_id.id for child_consol_id in current_account.child_consol_ids]
                         last_level = current_account.level
                     %>
+
                     <div class="act_as_row lines ${level_class} ${"%s_account_type" % (current_account.type,)}">
                         ## code
-                        <div class="act_as_cell first_column">${current_account.code}</div>
+                        <div class="act_as_cell first_column" style="padding: 5px;">${current_account.code}</div>
                         ## account name
-                        <div class="act_as_cell" style="padding-left: ${level * 5}px;">${current_account.name}</div>
+                        <div class="act_as_cell">${current_account.name}</div>
                         %if comparison_mode == 'no_comparison':
                             %if initial_balance_mode:
                                 ## opening balance
@@ -193,7 +216,7 @@
                             <div class="act_as_cell amount">${formatLang(credit_accounts[current_account.id]) | amount}</div>
                         %endif
                         ## balance
-                        <div class="act_as_cell amount">${formatLang(balance_accounts[current_account.id]) | amount}</div>
+                        <div class="act_as_cell amount">${formatLang(balance_accounts[current_account.id]) | amount} ${c_d(balance_accounts[current_account.id], natureza)}</div>
 
                         %if comparison_mode in ('single', 'multiple'):
                             %for comp_account in comparisons:
