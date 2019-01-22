@@ -28,6 +28,17 @@ class AccountInvoiceLine(models.Model):
             insurance_value=self.insurance_value,
             freight_value=self.freight_value,
             other_costs_value=self.other_costs_value)
+
+        for tax in taxes['taxes']:
+            try:
+                amount_tax = getattr(
+                    self, '_amount_tax_%s' % tax.get('domain', ''))
+                amount_tax(tax)
+            except AttributeError:
+                # Caso não exista campos especificos dos impostos
+                # no documento fiscal, os mesmos são calculados.
+                continue
+
         self.price_tax_discount = 0.0
         self.price_subtotal = 0.0
         self.price_gross = 0.0
@@ -513,273 +524,90 @@ class AccountInvoiceLine(models.Model):
         string=u'Item do Pedido (nItemPed)',
         size=6)
 
-    @api.onchange("partner_order_line")
+    @api.onchange('partner_order_line')
     def _check_partner_order_line(self):
         if (self.partner_order_line and
                 not self.partner_order_line.isdigit()):
             raise ValidationError(
                 _(u"Customer Order Line must "
-                  "be a number with up to six digits")
-            )
+                  "be a number with up to six digits"))
 
     def _amount_tax_icms(self, tax=None):
-        result = {
-            'icms_base': tax.get('total_base', 0.0),
-            'icms_base_other': tax.get('total_base_other', 0.0),
-            'icms_value': tax.get('amount', 0.0),
-            'icms_percent': tax.get('percent', 0.0),
-            'icms_percent_reduction': tax.get('base_reduction'),
-            'icms_base_type': tax.get('icms_base_type', '0'),
-        }
-        return result
+        self.icms_base = tax.get('total_base', 0.0)
+        self.icms_base_other = tax.get('total_base_other', 0.0)
+        self.icms_value = tax.get('amount', 0.0)
+        self.icms_percent = tax.get('percent', 0.0)
+        self.icms_percent_reduction = tax.get('base_reduction')
+        self.icms_base_type = tax.get('icms_base_type', '0')
 
     def _amount_tax_icmsinter(self, tax=None):
-        result = {
-            'icms_dest_base': tax.get('total_base', 0.0),
-            'icms_dest_percent': tax.get('percent', 0.0),
-            'icms_origin_percent': tax.get('icms_origin_percent', 0.0),
-            'icms_part_percent': tax.get('icms_part_percent', 0.0),
-            'icms_dest_value': tax.get('icms_dest_value', 0.0),
-            'icms_origin_value': tax.get('icms_origin_value', 0.0),
-        }
-        return result
+        self.icms_dest_base = tax.get('total_base', 0.0)
+        self.icms_dest_percent = tax.get('percent', 0.0)
+        self.icms_origin_percent = tax.get('icms_origin_percent', 0.0)
+        self.icms_part_percent = tax.get('icms_part_percent', 0.0)
+        self.icms_dest_value = tax.get('icms_dest_value', 0.0)
+        self.icms_origin_value = tax.get('icms_origin_value', 0.0)
 
     def _amount_tax_icmsfcp(self, tax=None):
-        result = {
-            'icms_fcp_percent': tax.get('percent', 0.0),
-            'icms_fcp_value': tax.get('amount', 0.0),
-        }
-        return result
+        self.icms_fcp_percent = tax.get('percent', 0.0)
+        self.icms_fcp_value = tax.get('amount', 0.0)
 
     def _amount_tax_icmsst(self, tax=None):
-        result = {
-            'icms_st_value': tax.get('amount', 0.0),
-            'icms_st_base': tax.get('total_base', 0.0),
-            'icms_st_percent': tax.get('icms_st_percent', 0.0),
-            'icms_st_percent_reduction': tax.get(
-                'icms_st_percent_reduction',
-                0.0),
-            'icms_st_mva': tax.get('amount_mva', 0.0) * 100,
-            'icms_st_base_other': tax.get('icms_st_base_other', 0.0),
-            'icms_st_base_type': tax.get('icms_st_base_type', '4')
-        }
-        return result
+        self.icms_st_value = tax.get('amount', 0.0)
+        self.icms_st_base = tax.get('total_base', 0.0)
+        self.icms_st_percent = tax.get('icms_st_percent', 0.0)
+        self.icms_st_percent_reduction = tax.get(
+            'icms_st_percent_reduction',
+            0.0)
+        self.icms_st_mva = tax.get('amount_mva', 0.0) * 100
+        self.icms_st_base_other = tax.get('icms_st_base_other', 0.0)
+        self.icms_st_base_type = tax.get('icms_st_base_type', '4')
 
     def _amount_tax_ipi(self, tax=None):
-        result = {
-            'ipi_type': tax.get('type'),
-            'ipi_base': tax.get('total_base', 0.0),
-            'ipi_value': tax.get('amount', 0.0),
-            'ipi_percent': tax.get('percent', 0.0),
-        }
-        return result
+        self.ipi_type = tax.get('amount_type')
+        self.ipi_base = tax.get('total_base', 0.0)
+        self.ipi_value = tax.get('amount', 0.0)
+        self.ipi_percent = tax.get('percent', 0.0)
 
     def _amount_tax_cofins(self, tax=None):
-        result = {
-            'cofins_base': tax.get('total_base', 0.0),
-            'cofins_base_other': tax.get('total_base_other', 0.0),
-            'cofins_value': tax.get('amount', 0.0),
-            'cofins_percent': tax.get('percent', 0.0),
-        }
-        return result
+        self.cofins_base = tax.get('total_base', 0.0)
+        self.cofins_base_other = tax.get('total_base_other', 0.0)
+        self.cofins_value = tax.get('amount', 0.0)
+        self.cofins_percent = tax.get('percent', 0.0)
 
     def _amount_tax_cofinsst(self, tax=None):
-        result = {
-            'cofins_st_type': 'percent',
-            'cofins_st_base': 0.0,
-            'cofins_st_percent': 0.0,
-            'cofins_st_value': 0.0,
-        }
-        return result
+        self.cofins_st_type = 'percent'
+        self.cofins_st_base = 0.0
+        self.cofins_st_percent = 0.0
+        self.cofins_st_value = 0.0
 
     def _amount_tax_pis(self, tax=None):
-        result = {
-            'pis_base': tax.get('total_base', 0.0),
-            'pis_base_other': tax.get('total_base_other', 0.0),
-            'pis_value': tax.get('amount', 0.0),
-            'pis_percent': tax.get('percent', 0.0),
-        }
-        return result
+        self.pis_base = tax.get('total_base', 0.0)
+        self.pis_base_other = tax.get('total_base_other', 0.0)
+        self.pis_value = tax.get('amount', 0.0)
+        self.pis_percent = tax.get('percent', 0.0)
 
     def _amount_tax_pisst(self, tax=None):
-        result = {
-            'pis_st_type': 'percent',
-            'pis_st_base': 0.0,
-            'pis_st_percent': 0.0,
-            'pis_st_value': 0.0,
-        }
-        return result
+        self.pis_st_type = 'percent'
+        self.pis_st_base = 0.0
+        self.pis_st_percent = 0.0
+        self.pis_st_value = 0.0
 
     def _amount_tax_ii(self, tax=None):
-        result = {
-            'ii_base': 0.0,
-            'ii_value': 0.0,
-        }
-        return result
+        self.ii_base = 0.0
+        self.ii_value = 0.0
 
     def _amount_tax_issqn(self, tax=None):
-
         # TODO deixar dinamico a definição do tipo do ISSQN
         # assim como todos os impostos
         issqn_type = 'N'
         if not tax.get('amount'):
             issqn_type = 'I'
 
-        result = {
-            'issqn_type': issqn_type,
-            'issqn_base': tax.get('total_base', 0.0),
-            'issqn_percent': tax.get('percent', 0.0),
-            'issqn_value': tax.get('amount', 0.0),
-        }
-        return result
-
-    @api.multi
-    def _get_tax_codes(self, product_id, fiscal_position, taxes):
-
-        result = {}
-        ctx = dict(self.env.context)
-        ctx.update({'use_domain': ('use_invoice', '=', True)})
-        ctx.update({'product_id': product_id})
-
-        if fiscal_position.fiscal_category_id.journal_type in (
-                'sale', 'sale_refund'):
-            ctx.update({'type_tax_use': 'sale'})
-        else:
-            ctx.update({'type_tax_use': 'purchase'})
-
-        ctx.update({'fiscal_type': product_id.fiscal_type})
-        result['cfop_id'] = fiscal_position.cfop_id.id
-
-        tax_codes = fiscal_position.with_context(
-            ctx).map_tax_code(product_id, taxes)
-
-        result['icms_cst_id'] = tax_codes.get('icms')
-        result['ipi_cst_id'] = tax_codes.get('ipi')
-        result['pis_cst_id'] = tax_codes.get('pis')
-        result['cofins_cst_id'] = tax_codes.get('cofins')
-        result['icms_relief_id'] = tax_codes.get('icms_relief')
-        result['ipi_guideline_id'] = tax_codes.get('ipi_guideline')
-        return result
-
-    # TODO
-    @api.multi
-    def _validate_taxes(self, values):
-        """Verifica se o valor dos campos dos impostos estão sincronizados
-        com os impostos do Odoo"""
-        context = self.env.context
-
-        price_unit = values.get('price_unit', 0.0) or self.price_unit
-        discount = values.get('discount', 0.0) or self.discount
-        insurance_value = values.get(
-            'insurance_value', 0.0) or self.insurance_value
-        freight_value = values.get(
-            'freight_value', 0.0) or self.freight_value
-        other_costs_value = values.get(
-            'other_costs_value', 0.0) or self.other_costs_value
-        tax_ids = []
-        if values.get('invoice_line_tax_ids'):
-            tax_ids = values.get('invoice_line_tax_ids', [[6, 0, []]])[
-                0][2] or self.invoice_line_tax_ids.ids
-        partner_id = values.get('partner_id') or self.partner_id
-        currency_id = values.get('currency_id') or self.currency_id
-        product_id = values.get('product_id') or self.product_id
-        quantity = values.get('quantity') or self.quantity
-        fiscal_position = values.get(
-            'fiscal_position') or self.fiscal_position_id
-
-        if not product_id or not quantity or not fiscal_position:
-            return {}
-
-        result = {
-            'code': None,
-            'product_type': 'product',
-            'service_type_id': None,
-            'fiscal_classification_id': None,
-            'fci': None,
-        }
-
-        if self:
-            partner = self.invoice_id.partner_id
-            currency = self.invoice_id.currency_id
-        else:
-            partner = partner_id
-            currency = currency_id
-
-        taxes = self.env['account.tax'].browse(tax_ids)
-
-        price = price_unit * (1 - discount / 100.0)
-
-        if product_id:
-            product = product_id
-            if product.type == 'service':
-                result['product_type'] = 'service'
-                result['service_type_id'] = product.service_type_id.id
-            else:
-                result['product_type'] = 'product'
-            if product.fiscal_classification_id:
-                result['fiscal_classification_id'] = \
-                    product.fiscal_classification_id.id
-
-            if product.cest_id:
-                result['cest_id'] = product.cest_id.id
-
-            if product.fci:
-                result['fci'] = product.fci
-
-            result['code'] = product.default_code
-            result['icms_origin'] = product.origin
-
-        taxes_calculed = taxes.compute_all(
-            price, quantity=quantity, currency=currency, partner=partner,
-            fiscal_position=fiscal_position,
-            insurance_value=insurance_value,
-            freight_value=freight_value,
-            other_costs_value=other_costs_value)
-
-        # result['total_taxes'] = taxes_calculed['total_taxes']
-
-        for tax in taxes_calculed['taxes']:
-            try:
-                amount_tax = getattr(
-                    self, '_amount_tax_%s' % tax.get('domain', ''))
-                result.update(amount_tax(tax))
-            except AttributeError:
-                # Caso não exista campos especificos dos impostos
-                # no documento fiscal, os mesmos são calculados.
-                continue
-
-        ctx = self.env.context.copy()
-        ctx['partner_id'] = partner
-
-        taxes_dict = self.with_context(ctx)._get_tax_codes(
-            product_id, fiscal_position, taxes)
-
-        for key in taxes_dict:
-            result[key] = values.get(key) or taxes_dict[key]
-
-        return result
-
-    def _set_taxes_new(self):
-        ctx = dict(self.env.context)
-        if self.invoice_id.type in ('out_invoice', 'out_refund'):
-            ctx.update({'type_tax_use': 'sale'})
-        else:
-            ctx.update({'type_tax_use': 'purchase'})
-
-        kwargs.update({
-            'invoice_line_tax_ids': [
-                (6, 0, self.invoice_line_tax_ids.ids)],
-            'quantity': self.quantity,
-            'price_unit': self.price_unit,
-            'discount': self.discount,
-            'fiscal_position_id': self.fiscal_position_id,
-            'insurance_value': self.insurance_value,
-            'freight_value': self.freight_value,
-            'other_costs_value': self.other_costs_value,
-        })
-
-        self._set_taxes_codes()
-        self.update(self._validate_taxes(kwargs))
+        self.issqn_type = issqn_type
+        self.issqn_base = tax.get('total_base', 0.0)
+        self.issqn_percent = tax.get('percent', 0.0)
+        self.issqn_value = tax.get('amount', 0.0)
 
     def _set_taxes_codes(self):
         product = self.product_id
@@ -789,6 +617,65 @@ class AccountInvoiceLine(models.Model):
             self.fiscal_classification_id = product.fiscal_classification_id
             self.cest_id = product.cest_id
             self.fci = product.fci
+            self.cest_id = product.cest_id.id
+            self.icms_origin = product.origin
+            self.cfop_id = self.fiscal_position_id.cfop_id.id
+
+        if product.type == 'service':
+            self.product_type = 'service'
+            self.service_type_id = product.service_type_id.id
+
+    def _set_taxes(self):
+        """ Used in on_change to set taxes and price."""
+        ctx = dict(self.env.context)
+        if self.invoice_id.type in ('out_invoice', 'out_refund'):
+            taxes = self.product_id.taxes_id or self.account_id.tax_ids
+            ctx.update({'type_tax_use': 'sale'})
+        else:
+            taxes = (self.product_id.supplier_taxes_id or
+                     self.account_id.tax_ids)
+            ctx.update({'type_tax_use': 'purchase'})
+
+        # Keep only taxes of the company
+        company_id = self.company_id or self.env.user.company_id
+        taxes = taxes.filtered(lambda r: r.company_id == company_id)
+
+        map_tax = self.fiscal_position_id.with_context(ctx).map_tax_code(
+            taxes, self.product_id, self.invoice_id.partner_id)
+
+        fp_taxes = self.env['account.tax'].browse()
+        tax_codes = {}
+        for tax in map_tax:
+            if map_tax[tax].get('tax'):
+                fp_taxes |= map_tax[tax].get('tax')
+                tax_codes.update({
+                    map_tax[tax].get('tax').domain: map_tax[tax].get('cst')})
+
+        self.invoice_line_tax_ids = fp_taxes
+
+        fix_price = self.env['account.tax']._fix_tax_included_price
+        if self.invoice_id.type in ('in_invoice', 'in_refund'):
+            prec = self.env['decimal.precision'].precision_get('Product Price')
+            if not self.price_unit or float_compare(
+                    self.price_unit, self.product_id.standard_price,
+                    precision_digits=prec) == 0:
+                self.price_unit = fix_price(
+                    self.product_id.standard_price, taxes, fp_taxes)
+                self._set_currency()
+        else:
+            self.price_unit = fix_price(
+                self.product_id.lst_price, taxes, fp_taxes)
+            self._set_currency()
+
+        self.icms_cst_id = tax_codes.get('icms')
+        self.ipi_cst_id = tax_codes.get('ipi')
+        self.pis_cst_id = tax_codes.get('pis')
+        self.cofins_cst_id = tax_codes.get('cofins')
+        self.icms_relief_id = tax_codes.get('icms_relief')
+        self.ipi_guideline_id = tax_codes.get('ipi_guideline')
+
+        self._compute_price()
+        self._set_taxes_codes()
 
     @api.onchange('product_id',
                   'fiscal_category_id',
@@ -829,9 +716,7 @@ class AccountInvoiceLine(models.Model):
                 context).apply_fiscal_mapping(**kwargs)
             if fp:
                 self.fiscal_position_id = fp.id
-
-            # self._set_taxes()
-            self._set_taxes_codes()
+            self._set_taxes()
 
     @api.model
     def tax_exists(self, domain=None):
@@ -840,14 +725,6 @@ class AccountInvoiceLine(models.Model):
         if tax:
             result = tax
         return result
-
-    @api.multi
-    def update_invoice_line_tax_ids(self, tax_id, taxes, domain):
-        new_taxes = [(6, 0, [tax_id])]
-        for tax in self.env['account.tax'].browse(taxes[0][2]):
-            if not tax.domain == domain:
-                new_taxes[0][2].append(tax.id)
-        return new_taxes
 
     # TODO if ICMS percent is not in account.tax,
     # create a new account.tax
@@ -910,9 +787,3 @@ class AccountInvoiceLine(models.Model):
                   'cofins_st_value')
     def _onchange_tax_cofins(self):
         pass
-
-    # TODO remove
-    @api.model
-    def create(self, vals):
-        vals.update(self._validate_taxes(vals))
-        return super(AccountInvoiceLine, self).create(vals)
