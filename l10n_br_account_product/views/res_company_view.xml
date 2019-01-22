@@ -70,6 +70,7 @@
         <field name="arch" type="xml">
             <form string="Definição de Impostos">
                 <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
                 <field name="tax_ipi_guideline_id"/>
                 <field name="tax_icms_relief_id"/>
@@ -84,6 +85,7 @@
             <tree string="Definição de Impostos" editable="bottom">
                 <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
                 <field name="cst_id"/>
+                <field name="tax_group_id" invisible="1"/>
                 <field name="tax_ipi_guideline_id"/>
                 <field name="tax_icms_relief_id"/>
             </tree>
