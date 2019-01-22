@@ -24,9 +24,6 @@
 "l10n_br_tax_estimate_template_manager","l10n_br_tax.estimate.template","model_l10n_br_tax_estimate_template","account.group_account_manager",1,1,1,1
 "l10n_br_tax_estimate_user","l10n_br_tax.estimate","model_l10n_br_tax_estimate","account.group_account_invoice",1,0,0,0
 "l10n_br_tax_estimate_manager","l10n_br_tax.estimate","model_l10n_br_tax_estimate","account.group_account_manager",1,1,1,1
-"l10n_br_account_service_type","l10n_br_account.service.type","model_l10n_br_account_service_type","account.group_account_manager",1,1,1,1
-"l10n_br_account_service_type_user","l10n_br_account.service.type","model_l10n_br_account_service_type","account.group_account_user",1,0,0,0
-"l10n_br_account_service_type_invoice","l10n_br_account.service.type","model_l10n_br_account_service_type","account.group_account_invoice",1,0,0,0
 "l10n_br_account_product_icms_relief","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relief","account.group_account_invoice",1,1,1,1
 "l10n_br_account_product_icms_relief_user","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relief","account.group_account_invoice",1,0,0,0
 "l10n_br_account_product_icms_relief_invoice","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relief","account.group_account_invoice",1,0,0,0
