@@ -100,8 +100,8 @@ class AccountTax(models.Model):
         precision = currency.decimal_places or \
             self.env['decimal.precision'].precision_get('Account')
         result = super(AccountTax, self).compute_all(price_unit, currency,
-                                                   quantity, product,
-                                                   partner)
+                                                     quantity, product,
+                                                     partner)
         totaldc = icms_value = 0.0
         ipi_value = 0.0
         calculed_taxes = []
