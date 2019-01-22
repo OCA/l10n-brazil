@@ -22,3 +22,14 @@ class AccountTrialBalanceWizard(models.TransientModel):
         data['form']['lancamento_de_fechamento'] = self.lancamento_de_fechamento
 
         return super(AccountTrialBalanceWizard, self)._print_report(data)
+
+
+class AccountReportGeneralLedgerWizard(models.TransientModel):
+    _inherit = 'general.ledger.webkit'
+
+    def _print_report(self, cr, uid, ids, data, context=None):
+        data = self.pre_print_report(cr, uid, ids, data, context=context)
+
+        return {'type': 'ir.actions.report.xml',
+                'report_name': 'account.abgf_account_report_general_ledger',
+                'datas': data}
