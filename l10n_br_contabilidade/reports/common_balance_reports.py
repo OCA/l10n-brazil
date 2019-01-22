@@ -43,12 +43,12 @@ def compute_balance_data(self, data, filter_report_type=None):
         ctx['account_level'] = int(data['form']['account_level'])
     account_ids = self.get_all_accounts(
         new_ids, only_type=filter_report_type, context=ctx)
+
     ctx['lancamento_de_fechamento'] = data['form']['lancamento_de_fechamento']
     # get details for each account, total of debit / credit / balance
     accounts_by_ids = self._get_account_details(
         account_ids, target_move, fiscalyear, main_filter, start, stop,
-        initial_balance_mode, context=ctx
-    )
+        initial_balance_mode, context=ctx)
 
     comparison_params = []
     comp_accounts_by_ids = []
@@ -71,25 +71,20 @@ def compute_balance_data(self, data, filter_report_type=None):
     balance_accounts = dict.fromkeys(account_ids, False)
 
     for account in objects:
-        debit_display = 0.0
-        credit_display = 0.0
-        balance_display = 0.0
-        init_balance_display = 0.0
         if account.type == 'consolidation':
             to_display_accounts.update(
                 dict([(a.id, False) for a in account.child_consol_ids]))
         elif account.type == 'view':
             to_display_accounts.update(
                 dict([(a.id, True) for a in account.child_id]))
-        debit_display = accounts_by_ids[account.id]['debit']
-        credit_display = accounts_by_ids[account.id]['credit']
-        balance_display = accounts_by_ids[account.id]['balance']
-        init_balance_display = accounts_by_ids[account.id].get('init_balance', 0.0)
-
-        debit_accounts[account.id] = debit_display
-        credit_accounts[account.id] = credit_display
-        balance_accounts[account.id] = balance_display
-        init_balance_accounts[account.id] = init_balance_display
+        debit_accounts[account.id] = \
+            accounts_by_ids[account.id]['debit']
+        credit_accounts[account.id] = \
+            accounts_by_ids[account.id]['credit']
+        balance_accounts[account.id] = \
+            accounts_by_ids[account.id]['balance']
+        init_balance_accounts[account.id] = \
+            accounts_by_ids[account.id].get('init_balance', 0.0)
 
         # if any amount is != 0 in comparisons, we have to display the
         # whole account
@@ -114,7 +109,8 @@ def compute_balance_data(self, data, filter_report_type=None):
                 debit_accounts[account.id],
                 credit_accounts[account.id],
                 balance_accounts[account.id],
-                init_balance_accounts[account.id])
+                init_balance_accounts[account.id]
+            )
         )
         to_display_accounts.update(
             {account.id: display_account and to_display_accounts[account.id]}
@@ -143,140 +139,4 @@ def compute_balance_data(self, data, filter_report_type=None):
     return objects, new_ids, context_report_values
 
 
-def _get_account_details(self, account_ids, target_move, fiscalyear,
-                         main_filter, start, stop, initial_balance_mode,
-                         context=None):
-    """
-    Get details of accounts to display on the report
-    @param account_ids: ids of accounts to get details
-    @param target_move: selection filter for moves (all or posted)
-    @param fiscalyear: browse of the fiscalyear
-    @param main_filter: selection filter period / date or none
-    @param start: start date or start period browse instance
-    @param stop: stop date or stop period browse instance
-    @param initial_balance_mode: False: no calculation,
-           'opening_balance': from the opening period,
-           'initial_balance': computed from previous year / periods
-    @return: dict of list containing accounts details, keys are
-             the account ids
-    """
-    if context is None:
-        context = {}
-
-    account_obj = self.pool.get('account.account')
-    period_obj = self.pool.get('account.period')
-    use_period_ids = main_filter in (
-        'filter_no', 'filter_period', 'filter_opening')
-
-    period_ids = False
-
-    if use_period_ids:
-        if main_filter == 'filter_opening':
-            period_ids = [start.id]
-        else:
-            period_ids = period_obj.build_ctx_periods(
-                self.cursor, self.uid, start.id, stop.id)
-            # never include the opening in the debit / credit amounts
-            period_ids = self.exclude_opening_periods(period_ids)
-
-    init_balance = False
-    if initial_balance_mode == 'opening_balance':
-        init_balance = self._read_opening_balance(account_ids, start)
-    elif initial_balance_mode:
-        init_balance = self._compute_initial_balances(
-            account_ids, start, fiscalyear)
-
-    ctx = context.copy()
-    ctx.update({'state': target_move,
-                'all_fiscalyear': True})
-
-    if use_period_ids:
-        ctx.update({'periods': period_ids})
-    elif main_filter == 'filter_date':
-        ctx.update({'date_from': start,
-                    'date_to': stop})
-
-    accounts = account_obj.read(
-        self.cursor,
-        self.uid,
-        account_ids,
-        ['type', 'code', 'name', 'debit', 'credit',
-            'balance', 'parent_id', 'level', 'child_id', 'type'],
-        context=ctx)
-
-    if 'lancamento_de_fechamento' in context and not \
-            context['lancamento_de_fechamento']:
-        accounts = _remove_close_moves(self, account_ids, accounts, period_ids)
-
-    accounts_by_id = calc_parent_account_balance(
-        self, account_obj, accounts, ctx, init_balance)
-    return accounts_by_id
-
-
-def calc_parent_account_balance(self, account_obj, accounts, ctx, init_balance):
-    accounts_by_id = {}
-    accounts_child = accounts
-    accounts_dict_by_id = {}
-    for acc in accounts_child:
-        accounts_dict_by_id[acc['id']] = acc
-    for account in accounts:
-        if init_balance:
-            # sum for top level views accounts
-            child_ids = account_obj._get_children_and_consol(
-                self.cursor, self.uid, account['id'], ctx)
-            if account['child_id']:
-                child_init_balances = [
-                    init_bal['init_balance']
-                    for acnt_id, init_bal in init_balance.iteritems()
-                    if acnt_id in child_ids]
-                top_init_balance = reduce(add, child_init_balances)
-                account['init_balance'] = top_init_balance
-                debit = 0.0
-                credit = 0.0
-                for child in accounts_child:
-                    if child['id'] in child_ids and \
-                            accounts_dict_by_id[child['id']][
-                                'type'] == u'other':
-                        debit += child['debit']
-                        credit += child['credit']
-                account['debit'] = debit
-                account['credit'] = credit
-            else:
-                account['init_balance'] = init_balance[account['id']][
-                    'init_balance']
-            account['balance'] = account['init_balance'] + \
-                                 account['debit'] - account['credit']
-        accounts_by_id[account['id']] = account
-    return accounts_by_id
-
-
-def _remove_close_moves(self, account_ids, accounts, period_ids):
-    close_moves = {}
-    self.cursor.execute("SELECT account_id, debit, credit"
-                        " FROM account_move_line l"
-                        " JOIN account_move m on (l.move_id=m.id)"
-                        " WHERE l.period_id in %s"
-                        " AND l.account_id in %s"
-                        " AND m.lancamento_de_fechamento = %s",
-                        (tuple(period_ids), tuple(account_ids), True))
-    for move_line in self.cursor.fetchall():
-        close_moves[move_line[0]] = {
-            'debit': move_line[1], 'credit': move_line[2]
-        }
-
-    for account in accounts:
-        if account['type'] == 'other':
-            if account['id'] in close_moves:
-                if close_moves[account['id']]['debit']:
-                    account['debit'] -= close_moves[account['id']]['debit']
-                    account['balance'] -= close_moves[account['id']]['debit']
-                else:
-                    account['credit'] -= close_moves[account['id']]['credit']
-                    account['balance'] += close_moves[account['id']]['credit']
-
-    return accounts
-
-
 CommonBalanceReportHeaderWebkit.compute_balance_data = compute_balance_data
-
-CommonBalanceReportHeaderWebkit._get_account_details = _get_account_details
