@@ -95,5 +95,9 @@ class AccountMoveLine(models.Model):
                 "NOT IN ('draft', 'cancel') AND "
                 "situacao_lancamento not in ('draft', 'cancel')"
             )
+            if 'lancamento_de_fechamento' in self.env.context and not \
+                    self.env.context['lancamento_de_fechamento']:
+                res = "{} AND account_move.lancamento_de_fechamento = {})".\
+                    format(res[:-2], False)
 
         return res
