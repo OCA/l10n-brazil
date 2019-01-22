@@ -26,3 +26,5 @@ from . import gefin_custos
 from . import mis_report
 from . import mis_builder
 from . import res_partner
+from . import mis_report_instance
+from . import mis_builder_report_xls

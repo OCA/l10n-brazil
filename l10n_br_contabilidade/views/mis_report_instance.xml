@@ -16,6 +16,11 @@
                 <field name="administrator_id" colspan="4"/>
                 <field name="considerations" colspan="4"/>
             </field>
+            <sheet position="inside">
+                <group>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </group>
+            </sheet>
         </field>
     </record>
 
