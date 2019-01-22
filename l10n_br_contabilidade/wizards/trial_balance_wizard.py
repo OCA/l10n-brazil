@@ -24,12 +24,17 @@ class AccountTrialBalanceWizard(models.TransientModel):
         return super(AccountTrialBalanceWizard, self)._print_report(data)
 
 
-class AccountReportGeneralLedgerWizard(models.TransientModel):
-    _inherit = 'general.ledger.webkit'
+class AccountTrialBalanceWizard(models.TransientModel):
+    """Will launch trial balance report and pass required args"""
 
-    def _print_report(self, cr, uid, ids, data, context=None):
-        data = self.pre_print_report(cr, uid, ids, data, context=context)
+    _inherit = "trial.balance.webkit"
+
+    # pylint: disable=old-api7-method-defined
+    def _print_report(self, cursor, uid, ids, data, context=None):
+        context = context or {}
+        # we update form with display account value
+        data = self.pre_print_report(cursor, uid, ids, data, context=context)
 
         return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.abgf_account_report_general_ledger',
+                'report_name': 'account.abgf_account_report_trial_balance',
                 'datas': data}
