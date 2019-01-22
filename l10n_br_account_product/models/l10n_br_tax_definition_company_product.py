@@ -14,7 +14,7 @@ class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition):
     cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST',
-        domain="['tax_group_id', '=', tax_id.tax_group_id]")
+        domain="[('tax_group_id', '=', tax_group_id)]")
 
     tax_ipi_guideline_id = fields.Many2one(
         comodel_name='l10n_br_account_product.ipi_guideline',
