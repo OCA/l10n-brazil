@@ -30,7 +30,7 @@ class AccountFiscalPosition(models.Model):
         for d in defitions:
             result[d.tax_id.domain] = {
                 'tax': d.tax_id,
-                'cst': d.cst_dest_id,
+                'cst': d.cst_id,
                 'icms_relief': d.tax_icms_relief_id,
                 'ipi_guideline':  d.tax_ipi_guideline_id,
             }
@@ -38,13 +38,13 @@ class AccountFiscalPosition(models.Model):
 
     def _fill_fiscal_map(self, map_tax):
         result = {}
-        for map in map_tax:
-            domain = map.tax_dest_id.domain or map.tax_group_id.domain
+        for m in map_tax:
+            domain = m.tax_dest_id.domain or m.tax_group_id.domain
             result[domain] = {
-                'tax': map.tax_dest_id,
-                'cst': map.cst_dest_id,
-                'icms_relief': map.tax_icms_relief_id,
-                'ipi_guideline':  map.tax_ipi_guideline_id,
+                'tax': m.tax_dest_id,
+                'cst': m.cst_dest_id,
+                'icms_relief': m.tax_icms_relief_id,
+                'ipi_guideline':  m.tax_ipi_guideline_id,
             }
         return result
 
@@ -58,13 +58,13 @@ class AccountFiscalPosition(models.Model):
                 context.get('type_tax_use') in ('sale', 'all'):
             if context.get('fiscal_type', 'product') == 'product':
                 # Get taxes from company
-                company_taxes = self.company_id.product_tax_definition_line
+                company_tax_def = self.company_id.product_tax_definition_line
                 for tax_def in company_tax_def:
                     if tax_def.tax_id:
                         taxes |= tax_def.tax_id
 
                 # Get taxes from state
-                state_taxes = partner.state_id.product_tax_definition_line
+                state_tax_def = partner.state_id.product_tax_definition_line
                 for tax_def in state_tax_def:
                     if tax_def.tax_id:
                         fc = tax_def.fiscal_classification_id
@@ -134,6 +134,12 @@ class AccountFiscalPosition(models.Model):
             if mapping[tax].get('tax'):
                 result |= mapping[tax].get('tax')
         return result
+
+    @api.model
+    def map_tax_code(self, taxes, product=None, partner=None):
+        result = self.env['account.tax'].browse()
+        mapping = self._map_tax(taxes, product, partner)
+        return mapping
 
 
 class AccountFiscalPositionTax(models.Model):
