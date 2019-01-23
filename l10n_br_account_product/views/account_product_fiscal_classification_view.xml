@@ -61,6 +61,7 @@
         <field name="name">l10n_br_account_product.fiscal_classification_form</field>
         <field name="model">account.product.fiscal.classification</field>
         <field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_form"/>
+        <field name="priority">999</field>
         <field name="arch" type="xml">
             <field name="code" position="after">
                 <field name="type"/>

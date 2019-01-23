@@ -91,21 +91,21 @@ class ResCompany(models.Model):
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Categoria Fiscal de Produto Padrão de Saida',
         domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
-            " ('fiscal_type','=','product'), ('type','=','output')]")
+               " ('fiscal_type','=','product'), ('type','=','output')]")
 
     in_refund_fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Devolução Entrada',
         domain="[('journal_type','=','purchase_refund'),"
-            "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            "('type','=','output')]")
+               "('state', '=', 'approved'), ('fiscal_type','=','product'),"
+               "('type','=','output')]")
 
     out_refund_fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Devolução Saida',
         domain="[('journal_type','=','sale_refund'),"
-            "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-            " ('type','=','input')]")
+               "('state', '=', 'approved'), ('fiscal_type','=','product'),"
+               " ('type','=','input')]")
 
     nfe_a1_file = fields.Binary(
         string=u'Arquivo NFe A1')
@@ -132,6 +132,7 @@ class ResCompany(models.Model):
     accountant_cnpj_cpf = fields.Char(
         size=18,
         string=u'CNPJ/CPF Contador')
+
 
 # FIXME A classe herda ela mesmo? isso deve estar errado
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinitionCompanyProduct,

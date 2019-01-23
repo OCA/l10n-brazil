@@ -4,9 +4,9 @@
 
 from datetime import datetime
 
-from odoo import registry
-from openerp.exceptions import Warning as UserError
-from openerp.tools.translate import _
+from odoo.api import Environment
+from odoo.exceptions import Warning as UserError
+from odoo.tools.translate import _
 
 from openerp.addons.l10n_br_account.sped.document import FiscalDocument
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
@@ -309,7 +309,7 @@ class NFe200(FiscalDocument):
                 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL')
         else:
             self.nfe.infNFe.dest.xNome.valor = (normalize(
-            'NFKD', unicode(
+                'NFKD', unicode(
                     invoice.partner_id.legal_name[:60] or '')
             ).encode('ASCII', 'ignore'))
 
@@ -339,7 +339,8 @@ class NFe200(FiscalDocument):
                 invoice.partner_id.street2 or '')).encode('ASCII', 'ignore'))
         self.nfe.infNFe.dest.enderDest.xBairro.valor = (normalize(
             'NFKD', unicode(
-                invoice.partner_id.district or 'Sem Bairro')).encode('ASCII', 'ignore'))
+                invoice.partner_id.district or 'Sem Bairro')
+        ).encode('ASCII', 'ignore'))
         self.nfe.infNFe.dest.enderDest.cMun.valor = address_invoice_city_code
         self.nfe.infNFe.dest.enderDest.xMun.valor = address_invoice_city
         self.nfe.infNFe.dest.enderDest.UF.valor = address_invoice_state_code
@@ -358,16 +359,18 @@ class NFe200(FiscalDocument):
 
         if invoice_line.product_id:
             self.det.prod.cProd.valor = invoice_line.product_id.code or ''
-            self.det.prod.cEAN.valor = invoice_line.product_id.ean13 or ''
-            self.det.prod.cEANTrib.valor = invoice_line.product_id.ean13 or ''
+            self.det.prod.cEAN.valor =\
+                invoice_line.product_id.barcode or 'SEM GTIN'
+            self.det.prod.cEANTrib.valor =\
+                invoice_line.product_id.barcode or ''
             self.det.prod.xProd.valor = (normalize(
-            'NFKD', unicode(
+                'NFKD', unicode(
                     invoice_line.product_id.name[:120] or '')
             ).encode('ASCII', 'ignore'))
         else:
             self.det.prod.cProd.valor = invoice_line.code or ''
             self.det.prod.xProd.valor = (normalize(
-            'NFKD', unicode(
+                'NFKD', unicode(
                     invoice_line.name[:120] or '')
             ).encode('ASCII', 'ignore'))
 
@@ -554,10 +557,22 @@ class NFe200(FiscalDocument):
     def _encashment_data(self, invoice, move_line):
         """Dados de Cobrança"""
 
-        if invoice.type in ('out_invoice', 'in_refund'):
-            value = move_line.debit
-        else:
-            value = move_line.credit
+        if invoice.journal_id.revenue_expense:
+            for move_line in invoice.move_line_receivable_id:
+
+                if invoice.type in ('out_invoice', 'in_refund'):
+                    value = move_line.debit
+                else:
+                    value = move_line.credit
+
+                dup = self._get_Dup()
+
+                dup.nDup.valor = move_line.name
+                dup.dVenc.valor = (move_line.date_maturity or
+                                   invoice.date_due or
+                                   invoice.date_invoice)
+                dup.vDup.valor = str("%.2f" % value)
+                cobr.dup.append(dup)
 
         self.dup.nDup.valor = move_line.name
         self.dup.dVenc.valor = (move_line.date_maturity or

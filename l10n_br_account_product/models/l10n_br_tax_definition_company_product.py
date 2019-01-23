@@ -2,7 +2,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields
+from odoo import fields
 
 from odoo.addons.l10n_br_account.models.l10n_br_account_tax_definition import (
     L10nBrTaxDefinition
