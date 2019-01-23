@@ -20,21 +20,10 @@ class AccountTrialBalanceWizard(models.TransientModel):
     @api.multi
     def _print_report(self, data):
         data['form']['lancamento_de_fechamento'] = self.lancamento_de_fechamento
+        data = self.pre_print_report(data)
 
-        return super(AccountTrialBalanceWizard, self)._print_report(data)
+        data = super(AccountTrialBalanceWizard, self)._print_report(data)
 
+        data['report_name'] = 'account.abgf_account_report_trial_balance'
 
-class AccountTrialBalanceWizard(models.TransientModel):
-    """Will launch trial balance report and pass required args"""
-
-    _inherit = "trial.balance.webkit"
-
-    # pylint: disable=old-api7-method-defined
-    def _print_report(self, cursor, uid, ids, data, context=None):
-        context = context or {}
-        # we update form with display account value
-        data = self.pre_print_report(cursor, uid, ids, data, context=context)
-
-        return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.abgf_account_report_trial_balance',
-                'datas': data}
+        return data
