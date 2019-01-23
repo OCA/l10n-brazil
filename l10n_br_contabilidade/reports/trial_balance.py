@@ -124,6 +124,7 @@ def compute_balance_data(self, data, filter_report_type=None):
     account_ids = self.get_all_accounts(
         new_ids, only_type=filter_report_type, context=ctx)
 
+    lang_ctx['lancamento_de_fechamento'] = data['form']['lancamento_de_fechamento']
     # get details for each account, total of debit / credit / balance
     accounts_by_ids = self._get_account_details(
         account_ids, target_move, fiscalyear, main_filter, start, stop,
