@@ -63,8 +63,8 @@ class AccountTax(models.Model):
             if tax['percent']:
                 unrounded_base = total_line * (1 - tax['base_reduction'])
                 tax['total_base'] = round(unrounded_base, precision)
-                tax['total_base_other'] = round(total_line - tax['total_base'],
-                                               precision)
+                tax['total_base_other'] = round(
+                    total_line - tax['total_base'], precision)
             else:
                 tax['total_base'] = 0.00
                 tax['total_base_other'] = 0.00
@@ -103,8 +103,7 @@ class AccountTax(models.Model):
         result = super(AccountTax, self).compute_all(price_unit, currency,
                                                      quantity, product,
                                                      partner)
-        totaldc = icms_value = 0.0
-        ipi_value = 0.0
+        totaldc = 0.0
         calculed_taxes = []
 
         for tax in result['taxes']:
