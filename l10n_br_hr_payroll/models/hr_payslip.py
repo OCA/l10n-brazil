@@ -1754,7 +1754,6 @@ class HrPayslip(models.Model):
                 return line.total
         return 0
 
-
     def get_reference(self, competencia='atual'):
         """
         Definir referência da Rubrica
@@ -1766,6 +1765,7 @@ class HrPayslip(models.Model):
             competencia_atual = fields.Datetime.from_string(self.date_from)
             competencia_seguinte = competencia_atual + relativedelta(months=1)
             referencia = str(competencia_seguinte.date())[:7]
+        referencia = '{}-{}'.format(referencia[-2:], referencia[:4])
         return referencia
 
     def get_hr_payslip_line_by_code(self, code, reference):
@@ -1782,6 +1782,48 @@ class HrPayslip(models.Model):
         ]
         line_id = self.env['hr.payslip.line'].search(domain)
         return line_id.total
+
+
+    def get_inss_ferias_da_competencia(self, reference):
+        """
+        Buscar o valor de INSS pago na competencia que vier nos parâmetros
+        """
+        reference_mes = int(reference[:2])
+        reference_ano = int(reference[-4:])
+
+        # Tratar o mes de janeiro que devera buscar apartir do mes de dezembro
+        if reference_mes == 1:
+            mes_inicial = 12
+            ano_inicial = reference_ano - 1
+        else:
+            mes_inicial = reference_mes - 1
+            ano_inicial = reference_ano
+
+        data_inicial = '{}-{}-01'.format(ano_inicial, mes_inicial)
+        data_final = '{}-{}-01'.format(reference_ano, reference_mes+1)
+
+        domain = [
+            ('tipo_de_folha', 'in', ['ferias']),
+            ('contract_id', '=', self.contract_id.id),
+            ('state', 'in', ['done', 'verify']),
+            ('date_from', '>=', data_inicial),
+            ('date_from', '<=', data_final),
+            ('is_simulacao', '=', False),
+        ]
+        holerite_ferias_id = self.search(
+            domain, limit=1, order='date_from DESC')
+
+        # Se o mes da referencia for o mesmo das ferias encontradas,
+        # retornar a rubrica de INSS_COMPETENCIA_ATUAL
+        if holerite_ferias_id.mes_do_ano == reference_mes:
+            return holerite_ferias_id[0].line_ids.filtered(
+                lambda x: x.code == 'INSS_COMPETENCIA_ATUAL').total or 0.0
+
+        if holerite_ferias_id.mes_do_ano == (reference_mes - 1):
+            return holerite_ferias_id[0].line_ids.filtered(
+                lambda x: x.code == 'INSS_COMPETENCIA_SEGUINTE').total or 0.0
+
+        return 0.0
 
     def busca_adiantamento_13(self):
         '''Metodo para recuperar valor pago de adiantamento de 13º no ano
