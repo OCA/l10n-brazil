@@ -61,6 +61,7 @@
         <field name="name">fiscal_classification_template_normal_form_view_form</field>
         <field name="model">account.product.fiscal.classification.template</field>
         <field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_template_form"/>
+        <field name="priority">999</field>
         <field name="arch" type="xml">
             <field name="code" position="after">
                 <field name="type"/>

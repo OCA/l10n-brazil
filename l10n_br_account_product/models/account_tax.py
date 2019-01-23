@@ -62,8 +62,8 @@ class AccountTax(models.Model):
             if tax['percent']:
                 unrounded_base = total_line * (1 - tax['base_reduction'])
                 tax['total_base'] = round(unrounded_base, precision)
-                tax['total_base_other'] = round(total_line - tax['total_base'],
-                                               precision)
+                tax['total_base_other'] = round(
+                    total_line - tax['total_base'], precision)
             else:
                 tax['total_base'] = 0.00
                 tax['total_base_other'] = 0.00

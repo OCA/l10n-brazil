@@ -5,7 +5,6 @@
 from datetime import timedelta, date
 
 from odoo import models, fields, api
-from odoo.addons import decimal_precision as dp
 
 from odoo.addons.l10n_br_account.models.l10n_br_account_tax_definition import (
     L10nBrTaxDefinition
@@ -191,7 +190,7 @@ class AccountProductFiscalClassification(models.Model):
         for ncm in not_estimated + ncm_past_estimated:
             try:
                 ncm.get_ibpt()
-            except:
+            except Exception:
                 pass
 
 
