@@ -65,6 +65,10 @@ class MisReportKpi(models.Model):
         selection=SELECTION_MODE,
         default='manual'
     )
+    column = fields.Integer(
+        string='Column',
+        default=1,
+    )
 
     @api.one
     @api.constrains('account_ids')

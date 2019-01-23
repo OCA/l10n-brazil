@@ -79,7 +79,7 @@ class MisReportInstance(models.Model):
     def compute(self):
         res = super(MisReportInstance, self).compute()
         if not (self.administrator_id and self.accountant_id):
-            return res
+            return [res]
         res['footer'] = [{
             'administrator': {
                 'signature': '______________________________________________',
@@ -94,17 +94,31 @@ class MisReportInstance(models.Model):
                     self.accountant_id.crc_number or '')},
         }]
 
+        if len(set(self.report_id.kpi_ids.mapped('column'))) > 1:
+            result = []
+            for column in set(self.report_id.kpi_ids.mapped('column')):
+                # kpi_ids = self.report_id.kpi_ids.filtered(
+                #     lambda line: line.column == column)
+                result += [{
+                    'header': res['header'],
+                    'content': [
+                        row for row in res['content']
+                        if row['column'] == column],
+                    'footer': res['footer'],
+                }]
+            return result
+
         kpi = self.report_id.kpi_ids.filtered(
             lambda kpi: kpi.name == 'resultado_liquido_do_periodo'
         )
         if not kpi:
-            return res
+            return [res, res]
 
         row = next(d['cols'] and d['cols'][0] for d in res['content']
                    if d['kpi_name'] == kpi.description) or None
 
         if not row:
-            return res
+            return [res]
 
         split_val = '{:,}'.format(float(row['val'])).split('.')
         liquid = split_val[0].replace(',', '.') + ',' + split_val[1]
@@ -115,6 +129,10 @@ class MisReportInstance(models.Model):
             ' centavos'
 
         today = fields.Date.today()
+
+        if not self.considerations:
+            res['considerations'] = ''
+            return [res]
 
         res['today'] = {
             'day': today[-2:],
@@ -133,4 +151,4 @@ class MisReportInstance(models.Model):
             mr=self, liquid={'val': liquid, 'in_full': in_full},
             today=res['today']).decode('utf-8')
 
-        return res
+        return [res]

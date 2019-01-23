@@ -16,6 +16,7 @@
                         <field name="sequence" widget="handle"/>
                         <field name="description"/>
                         <field name="name"/>
+                        <field name="column"/>
                         <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                         <field name="invert_signal" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                         <field name="expression_type" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
@@ -44,6 +45,7 @@
                     <field name="sequence" widget="handle"/>
                     <field name="description"/>
                     <field name="name"/>
+                    <field name="column"/>
                     <field name="type"/>
                     <field name="dp"/>
                     <field name="divider"/>
