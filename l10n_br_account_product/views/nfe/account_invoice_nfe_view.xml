@@ -566,6 +566,4 @@
 
         <menuitem id="l10n_br_account_product_nfe_menu" action="l10n_br_account_product_nfe_action" parent="l10n_br_account.menu_fiscal_document" sequence="10"/>
 
-    </data>
-
-</openerp>
+</odoo>
