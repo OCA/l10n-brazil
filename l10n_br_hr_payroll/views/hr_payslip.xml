@@ -99,6 +99,7 @@
                                     <field name="id" string="Cód Identificador" />
                                     <field name="name"/>
                                     <field name="code"/>
+                                    <field name="reference"/>
                                     <field name="category_id"/>
                                     <field name="sequence" invisible="1"/>
                                     <field name="quantity" digits="(18,2)" />
