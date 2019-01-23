@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-       {#Livro Razão#}
+       <!-- Livro Razão -->
        <record id="abgf_account_report_general_ledger" model="ir.actions.report.xml">
             <field name="report_type">webkit</field>
             <field name="report_name">account.abgf_account_report_general_ledger</field>
@@ -24,7 +24,7 @@
             <field eval="'ir.actions.report.xml,'+str(ref('abgf_contabilidade.abgf_account_report_general_ledger'))" model="ir.actions.report.xml" name="res_id"/>
         </record>
 
-        {#Balancete#}
+        <!-- Balancete -->
         <record id="abgf_account_report_trial_balance" model="ir.actions.report.xml">
              <field name="report_type">webkit</field>
              <field name="report_name">account.abgf_account_report_trial_balance</field>
