@@ -2,8 +2,6 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
-
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning as UserError
 
@@ -119,84 +117,72 @@ class L10nbrAccountDocumentRelated(models.Model):
             raise UserError(
                 _(u'Inscrição Estadual do documento fiscal inválida!'))
 
-    @api.multi
-    def onchange_invoice_related_id(self, invoice_related_id):
-        result = {'value': {}}
+    @api.onchange('invoice_related_id')
+    def _onchange_invoice_related_id(self):
 
-        if not invoice_related_id:
-            return result
+        related = self.invoice_related_id
+        if not related and not related.fiscal_document_id:
+            return False
 
-        inv_related = self.env['account.invoice'].browse(invoice_related_id)
-
-        if not inv_related.fiscal_document_id:
-            return result
-
-        if inv_related.fiscal_document_id.code == '01':
-            result['value']['document_type'] = 'nf'
-        elif inv_related.fiscal_document_id.code == '04':
-            result['value']['document_type'] = 'nfrural'
-        elif inv_related.fiscal_document_id.code == '55':
-            result['value']['document_type'] = 'nfe'
-        elif inv_related.fiscal_document_id.code == '57':
-            result['value']['document_type'] = 'cte'
-        elif inv_related.fiscal_document_id.code in ('2B', '2C', '2D'):
-            result['value']['document_type'] = 'cf'
+        if related.fiscal_document_id.code == '01':
+            self.document_type = 'nf'
+        elif related.fiscal_document_id.code == '04':
+            self.document_type = 'nfrural'
+        elif related.fiscal_document_id.code == '55':
+            self.document_type = 'nfe'
+        elif related.fiscal_document_id.code == '57':
+            self.document_type = 'cte'
+        elif related.fiscal_document_id.code in ('2B', '2C', '2D'):
+            self.document_type = 'cf'
         else:
-            result['value']['document_type'] = False
+            self.document_type = False
 
-        if inv_related.fiscal_document_id.code in ('55', '57'):
-            result['value']['access_key'] = inv_related.nfe_access_key
-            result['value']['serie'] = False
-            result['value']['serie'] = False
-            result['value']['internal_number'] = False
-            result['value']['state_id'] = False
-            result['value']['cnpj_cpf'] = False
-            result['value']['cpfcnpj_type'] = False
-            result['value']['date'] = False
-            result['value']['fiscal_document_id'] = False
-            result['value']['inscr_est'] = False
+        if related.fiscal_document_id.code in ('55', '57'):
+            self.access_key = inv_related.nfe_access_key
+            self.serie = False
+            self.internal_number = False
+            self.state_id = False
+            self.cnpj_cpf = False
+            self.cpfcnpj_type = False
+            self.date = False
+            self.fiscal_document_id = False
+            self.inscr_est = False
 
-        if inv_related.fiscal_document_id.code in ('01', '04'):
-            result['value']['access_key'] = False
-            if inv_related.issuer == '0':
-                result['value']['serie'] = inv_related.document_serie_id and \
-                    inv_related.document_serie_id.code or False
+        if related.fiscal_document_id.code in ('01', '04'):
+            self.access_key = False
+            if related.issuer == '0':
+                self.serie = related.document_serie_id and \
+                    related.document_serie_id.code or False
             else:
-                result['value']['serie'] = inv_related.vendor_serie
+                self.serie = related.vendor_serie
 
-            result['value']['internal_number'] = inv_related.internal_number
-            result['value']['state_id'] = inv_related.partner_id and \
-                inv_related.partner_id.state_id and \
-                inv_related.partner_id.state_id.id or False
-            result['value']['cnpj_cpf'] = inv_related.partner_id and \
-                inv_related.partner_id.cnpj_cpf or False
+            self.internal_number = related.internal_number
+            self.state_id = related.partner_id and \
+                related.partner_id.state_id and \
+                related.partner_id.state_id.id or False
+            self.cnpj_cpf = related.partner_id and \
+                related.partner_id.cnpj_cpf or False
 
-            if inv_related.partner_id.is_company:
-                result['value']['cpfcnpj_type'] = 'cnpj'
+            if related.partner_id.is_company:
+                self.cpfcnpj_type = 'cnpj'
             else:
-                result['value']['cpfcnpj_type'] = 'cpf'
+                self.cpfcnpj_type = 'cpf'
 
-            result['value']['date'] = inv_related.date_invoice
-            result['value']['fiscal_document_id'] = \
-                inv_related.fiscal_document_id and \
-                inv_related.fiscal_document_id.id or False
+            self.date = related.date_invoice
+            self.fiscal_document_id = \
+                related.fiscal_document_id and \
+                related.fiscal_document_id.id or False
 
-        if inv_related.fiscal_document_id.code == '04':
-            result['value']['inscr_est'] = inv_related.partner_id and \
-                inv_related.partner_id.inscr_est or False
+        if related.fiscal_document_id.code == '04':
+            self.inscr_est = related.partner_id and \
+                related.partner_id.inscr_est or False
 
-        return result
-
-    @api.multi
-    def onchange_mask_cnpj_cpf(self, cpfcnpj_type, cnpj_cpf):
-        result = {'value': {}}
-        if cnpj_cpf:
-            val = re.sub('[^0-9]', '', cnpj_cpf)
-            if cpfcnpj_type == 'cnpj' and len(val) == 14:
-                cnpj_cpf = "%s.%s.%s/%s-%s"\
-                    % (val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-            elif cpfcnpj_type == 'cpf' and len(val) == 11:
-                cnpj_cpf = "%s.%s.%s-%s"\
-                    % (val[0:3], val[3:6], val[6:9], val[9:11])
-            result['value'].update({'cnpj_cpf': cnpj_cpf})
-        return result
+    @api.onchange('cnpj_cpf', 'cpfcnpj_type')
+    def _onchange_mask_cnpj_cpf(self):
+        country = 'BR'
+        is_company = True
+        if is_company == 'cpf':
+            is_company = False
+        cpf_cnpj = fiscal.format_cpf_cnpj(self.cnpj_cpf, 'BR', is_company)
+        if cpf_cnpj:
+            self.cnpj_cpf = cpf_cnpj
