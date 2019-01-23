@@ -70,7 +70,7 @@ class AccountFiscalPosition(models.Model):
                         fc = tax_def.fiscal_classification_id
                         if (not fc and not tax_def.cest_id) or \
                                 (fc == product_fc or
-                                 tax_def.cest_id == product_id.cest_id):
+                                 tax_def.cest_id == product.cest_id):
                             taxes |= tax_def.tax_id
 
             # FIXME se tiver com o admin pegar impostos de outras empresas
@@ -137,7 +137,6 @@ class AccountFiscalPosition(models.Model):
 
     @api.model
     def map_tax_code(self, taxes, product=None, partner=None):
-        result = self.env['account.tax'].browse()
         mapping = self._map_tax(taxes, product, partner)
         return mapping
 
@@ -182,5 +181,5 @@ class AccountFiscalPositionTax(models.Model):
             onchange['domain'].update(
                 {'cst_dest_id': onchange['domain']['tax_dest_id']})
         return onchange.update(
-            {'readonly': {'tax_icms_relief_id':
-                [('tax_dest_id.domain', '=', 'icms')]}})
+            {'readonly': {
+                'tax_icms_relief_id': [('tax_dest_id.domain', '=', 'icms')]}})

@@ -7,15 +7,18 @@ import datetime
 from odoo import models, fields, api, _, tools
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import (RedirectWarning,
-                             ValidationError,
                              Warning as UserError)
 
 from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 
+<<<<<<< HEAD
 from .product_template import PRODUCT_ORIGIN
 from odoo.addons.l10n_br_account_product.sped.nfe.validator import txt
+=======
+from .l10n_br_account_product.sped.nfe.validator import txt
+>>>>>>> b53f3f497... [10.0][MIG] PEP8.
 
 
 class AccountInvoice(models.Model):
@@ -305,7 +308,7 @@ class AccountInvoice(models.Model):
     nfe_date = fields.Datetime(
         string=u'Data do Status NFE',
         readonly=True,
-       copy=False)
+        copy=False)
 
     nfe_export_date = fields.Datetime(
         string=u'Exportação NFE',
