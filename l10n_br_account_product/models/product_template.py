@@ -17,8 +17,8 @@ PRODUCT_ORIGIN = [
     ('3', u'3 - Nacional, mercadoria ou bem com Conteúdo de Importação'
         ' superior a 40% (quarenta por cento)'),
     ('4', u'4 - Nacional, cuja produção tenha sido feita em conformidade com'
-        u' os processos produtivos básicos de que tratam o Decreto-Lei nº 288/67,'
-        u' e as Leis nºs 8.248/91, 8.387/91, 10.176/01 e 11.484/07'),
+        u' os processos produtivos básicos de que tratam o Decreto-Lei'
+        u' nº 288/67 e as Leis nºs 8.248/91, 8.387/91, 10.176/01 e 11.484/07'),
     ('5', u'5 - Nacional, mercadoria ou bem com Conteúdo de Importação'
         u' inferior ou igual a 40% (quarenta por cento)'),
     ('6', u'6 - Estrangeira - Importação direta, sem similar nacional,'
