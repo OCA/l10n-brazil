@@ -81,6 +81,7 @@
                 <div class="act_as_cell">${_('Accounts Filter')}</div>
                 <div class="act_as_cell">${_('Target Moves')}</div>
                 <div class="act_as_cell">${_('Initial Balance')}</div>
+                <div class="act_as_cell">${_('Lançamentos de Fechamento')}</div>
             </div>
             <div class="act_as_row">
                 <div class="act_as_cell">${ chart_account.name }</div>
@@ -108,6 +109,7 @@
                 </div>
                 <div class="act_as_cell">${ display_target_move(data) }</div>
                 <div class="act_as_cell">${ initial_balance_text[initial_balance_mode] }</div>
+                <div class="act_as_cell">${ 'Sim' if lancamentos_fechamento else 'Não' }</div>
             </div>
         </div>
 

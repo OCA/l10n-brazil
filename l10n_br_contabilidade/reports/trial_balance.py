@@ -233,6 +233,7 @@ def compute_balance_data(self, data, filter_report_type=None):
         'debit_accounts': debit_accounts,
         'credit_accounts': credit_accounts,
         'balance_accounts': balance_accounts,
+        'lancamentos_fechamento': data['form']['lancamento_de_fechamento'],
     }
 
     return objects, new_ids, context_report_values
