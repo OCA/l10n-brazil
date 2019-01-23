@@ -3009,6 +3009,23 @@ class HrPayslip(models.Model):
 
         return porcentagem_pensao
 
+    def _get_valor_bruto(self, tipo_folha):
+        payslip_id = self.search([
+            ('tipo_de_folha', '=', tipo_folha),
+            ('mes_do_ano', '=', self.mes_do_ano),
+            ('ano', '=', self.ano),
+            ('contract_id', '=', self.contract_id.id),
+        ])
+
+        total_bruto = 0.0
+
+        if payslip_id:
+            for line in payslip_id.line_ids:
+                if line.salary_rule_id.category_id.code == 'PROVENTO':
+                    total_bruto += line.total
+
+        return total_bruto
+
     def get_valor_pensao(self, porcentagem_pensao, locals):
         """
         Função responsável por calcular o valor correto da pensão a partir de
@@ -3024,6 +3041,12 @@ class HrPayslip(models.Model):
         if porcentagem_pensao:
             bruto = locals[u'BRUTO']
             inss = 0
+
+            total_decimo_terceiro = self._get_valor_bruto('decimo_terceiro')
+
+            total_ferias = self._get_valor_bruto('ferias')
+
+            bruto -= total_decimo_terceiro + total_ferias
 
             dependent_values = self.get_dependent_values_irrf(self.ano)
 
