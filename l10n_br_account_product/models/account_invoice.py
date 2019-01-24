@@ -13,12 +13,7 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 
-<<<<<<< HEAD
-from .product_template import PRODUCT_ORIGIN
-from odoo.addons.l10n_br_account_product.sped.nfe.validator import txt
-=======
 from .l10n_br_account_product.sped.nfe.validator import txt
->>>>>>> b53f3f497... [10.0][MIG] PEP8.
 
 
 class AccountInvoice(models.Model):
@@ -536,26 +531,26 @@ class AccountInvoice(models.Model):
         digits=dp.get_precision('Account'),
         compute='_compute_amount')
 
-    type_nf_payment = fields.Selection([
-        ('01', u'01 - Dinheiro'),
-        ('02', u'02 - Cheque'),
-        ('03', u'03 - Cartão de Crédito'),
-        ('04', u'04 - Cartão de Débito'),
-        ('06', u'05 - Crédito Loja'),
-        ('10', u'10 - Vale Alimentação'),
-        ('11', u'11 - Vale Refeição'),
-        ('12', u'12 - Vale Presente'),
-        ('13', u'13 - Vale Combustível'),
-        ('14', u'14 - Duplicata Mercantil'),
-        ('15', u'15 - Boleto Bancário'),
-        ('90', u'90 - Sem pagamento'),
-        ('99', u'99 - Outros')
-    ], string='Tipo de Pagamento da NF', required=True,
-        help=u'Obrigatório o preenchimento do Grupo Informações de Pagamento'
-             u' para NF-e e NFC-e. Para as notas com finalidade de Ajuste'
-             u' ou Devolução o campo Forma de Pagamento deve ser preenchido'
-             u' com 90 - Sem Pagamento.'
-    )
+    type_nf_payment = fields.Selection(
+        selection=[('01', u'01 - Dinheiro'),
+                   ('02', u'02 - Cheque'),
+                   ('03', u'03 - Cartão de Crédito'),
+                   ('04', u'04 - Cartão de Débito'),
+                   ('06', u'05 - Crédito Loja'),
+                   ('10', u'10 - Vale Alimentação'),
+                   ('11', u'11 - Vale Refeição'),
+                   ('12', u'12 - Vale Presente'),
+                   ('13', u'13 - Vale Combustível'),
+                   ('14', u'14 - Duplicata Mercantil'),
+                   ('15', u'15 - Boleto Bancário'),
+                   ('90', u'90 - Sem pagamento'),
+                   ('99', u'99 - Outros')],
+       string='Tipo de Pagamento da NF',
+       required=True,
+       help=u'Obrigatório o preenchimento do Grupo Informações de Pagamento'
+            u' para NF-e e NFC-e. Para as notas com finalidade de Ajuste'
+            u' ou Devolução o campo Forma de Pagamento deve ser preenchido'
+            u' com 90 - Sem Pagamento.')
 
     @api.one
     @api.constrains('number')
@@ -605,6 +600,34 @@ class AccountInvoice(models.Model):
         return super(AccountInvoice, self).fields_view_get(
             view_id=view_id, view_type=view_type,
             toolbar=toolbar, submenu=submenu)
+
+    @api.multi
+    def get_taxes_values(self):
+        tax_grouped = {}
+        round_curr = self.currency_id.round
+        for line in self.invoice_line_ids:
+            price = (line.price_unit * (1 - (line.discount or 0.0) / 100.0))
+
+            taxes = line.invoice_line_tax_ids.compute_all(
+                price, self.currency_id, line.quantity,
+                partner=self.partner_id,
+                fiscal_position=line.fiscal_position_id,
+                insurance_value=line.insurance_value,
+                freight_value=line.freight_value,
+                other_costs_value=line.other_costs_value)['taxes']
+
+            for tax in taxes:
+                val = self._prepare_tax_line_vals(line, tax)
+                key = self.env['account.tax'].browse(
+                    tax['id']).get_grouping_key(val)
+
+                if key not in tax_grouped:
+                    tax_grouped[key] = val
+                    tax_grouped[key]['base'] = round_curr(val['base'])
+                else:
+                    tax_grouped[key]['amount'] += val['amount']
+                    tax_grouped[key]['base'] += round_curr(val['base'])
+        return tax_grouped
 
     # TODO Imaginar em não apagar o internal number para nao ter a necessidade
     # de voltar a numeracão
@@ -663,14 +686,14 @@ class AccountInvoice(models.Model):
         return True
 
     @api.onchange('type')
-    def onchange_type(self):
+    def _onchange_type(self):
         ctx = dict(self.env.context)
         ctx.update({'type': self.type})
         self.fiscal_category_id = (self.with_context(ctx).
                                    _default_fiscal_category())
 
     @api.onchange('fiscal_document_id')
-    def onchange_fiscal_document_id(self):
+    def _onchange_fiscal_document_id(self):
         if self.fiscal_type == 'product':
             if self.issuer == '0':
                 series = [doc_serie for doc_serie in
@@ -691,7 +714,7 @@ class AccountInvoice(models.Model):
     @api.onchange('partner_id',
                   'company_id',
                   'fiscal_category_id')
-    def onchange_fiscal(self):
+    def _onchange_fiscal(self):
         if (self.company_id and self.partner_id
                 and self.fiscal_category_id):
             if self.fiscal_category_id.property_journal:
@@ -707,8 +730,16 @@ class AccountInvoice(models.Model):
                 'company_id': self.company_id,
                 'partner_id': self.partner_id,
                 'partner_invoice_id': self.partner_id,
-                'fiscal_category_id': self.fiscal_category_id,
-            }
+                'fiscal_category_id': self.fiscal_category_id}
+
+            if self.partner_id.property_payment_term_id:
+                payment_term = partner_id.property_payment_term_id
+                # Sobrecreve a opção do parceiro caso a categoria
+                #  fiscal tenha uma opção definida
+                if self.fiscal_category_id.account_payment_term_id:
+                    payment_term = (
+                        self.fiscal_category_id.account_payment_term_id)
+                self.payment_term_id = payment_term
 
             fiscal_rule = self.env['account.fiscal.position.rule']
             fp = fiscal_rule.apply_fiscal_mapping(**kwargs)
@@ -726,68 +757,21 @@ class AccountInvoice(models.Model):
                     date_move = inv.date_in_out
                 else:
                     date_move = inv.date_hour_invoice
+
                 date_hour_invoice = fields.Datetime.context_timestamp(
                     self, datetime.datetime.strptime(
-                        date_move, tools.DEFAULT_SERVER_DATETIME_FORMAT
-                    )
-                )
+                        date_move, tools.DEFAULT_SERVER_DATETIME_FORMAT))
+
             date_invoice = date_hour_invoice.strftime(
                 tools.DEFAULT_SERVER_DATE_FORMAT)
-            res = self.onchange_payment_term_date_invoice(
-                inv.payment_term.id, date_invoice)
-            if res and res['value']:
-                res['value'].update({
-                    'date_invoice': date_invoice
-                })
-                date_time_now = fields.datetime.now()
-                if not inv.date_hour_invoice:
-                    res['value'].update({'date_hour_invoice': date_time_now})
-                if not inv.date_in_out:
-                    res['value'].update({'date_in_out': date_time_now})
-                inv.write(res['value'])
-        return True
+            inv.date_invoice = date_invoice
+            date_time_now = fields.datetime.now()
+            if not inv.date_hour_invoice:
+                inv.date_hour_invoice = date_time_now
+            if not inv.date_in_out:
+                inv.date_in_out = date_time_now
 
-    # TODO: Reavaliar a necessidade do método
-    # @api.multi
-    # def button_reset_taxes(self):
-    #     ait = self.env['account.invoice.tax']
-    #     for invoice in self:
-    #         invoice.read()
-    #         costs = []
-    #         company = invoice.company_id
-    #         if invoice.amount_insurance:
-    #             costs.append((company.insurance_tax_id,
-    #                           invoice.amount_insurance))
-    #         if invoice.amount_freight:
-    #             costs.append((company.freight_tax_id,
-    #                           invoice.amount_freight))
-    #         if invoice.amount_costs:
-    #             costs.append((company.other_costs_tax_id,
-    #                           invoice.amount_costs))
-    #         for tax, cost in costs:
-    #             ait_id = ait.search([
-    #                 ('invoice_id', '=', invoice.id),
-    #                 ('tax_group_id', '=', tax.tax_group_id.id),
-    #             ])
-    #             vals = {
-    #                 'tax_amount': cost,
-    #                 'name': tax.name,
-    #                 'sequence': 1,
-    #                 'invoice_id': invoice.id,
-    #                 'manual': True,
-    #                 'base_amount': cost,
-    #                 'base_code_id': tax.base_code_id.id,
-    #                 'amount': cost,
-    #                 'base': cost,
-    #                 'account_analytic_id':
-    #                     tax.account_analytic_collected_id.id or False,
-    #                 'account_id': tax.account_paid_id.id,
-    #             }
-    #             if ait_id:
-    #                 ait_id.write(vals)
-    #             else:
-    #                 ait.create(vals)
-    #     return {}
+        super(AccountInvoice, self).action_date_assign()
 
     @api.multi
     def open_fiscal_document(self):
