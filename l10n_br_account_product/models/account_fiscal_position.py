@@ -52,7 +52,7 @@ class AccountFiscalPosition(models.Model):
         result = {}
         company_tax_def = state_tax_def = ncm_tax_def = []
         context = self.env.context
-        product_fc = product.fiscal_classification_id
+        product_fc = product and product.fiscal_classification_id or False
 
         if self.company_id and \
                 context.get('type_tax_use') in ('sale', 'all'):
@@ -74,11 +74,13 @@ class AccountFiscalPosition(models.Model):
                             taxes |= tax_def.tax_id
 
             # FIXME se tiver com o admin pegar impostos de outras empresas
-            ncm_tax_def = product_fc.sale_tax_definition_line
+            if product_fc:
+                ncm_tax_def = product_fc.sale_tax_definition_line
 
         else:
             # FIXME se tiver com o admin pegar impostos de outras empresas
-            ncm_tax_def = product_fc.purchase_tax_definition_line
+            if product_fc:
+                ncm_tax_def = product_fc.purchase_tax_definition_line
 
         result.update(self._fill_fiscal_data(company_tax_def))
         result.update(self._fill_fiscal_data(state_tax_def))
@@ -137,8 +139,7 @@ class AccountFiscalPosition(models.Model):
 
     @api.model
     def map_tax_code(self, taxes, product=None, partner=None):
-        mapping = self._map_tax(taxes, product, partner)
-        return mapping
+        return self._map_tax(taxes, product, partner)
 
 
 class AccountFiscalPositionTax(models.Model):
