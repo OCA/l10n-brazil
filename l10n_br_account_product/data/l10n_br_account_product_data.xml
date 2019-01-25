@@ -20,7 +20,6 @@
         <field name="group_invoice_lines" eval="0" />
         <!-- <field name="default_credit_account_id" ref="account_demo_602"/>
         <field name="default_debit_account_id" ref="account_demo_602"/>  -->
-        <field name="user_id" ref="base.user_root"/>
         <field name="company_id" ref="base.main_company"/>
     </record>
 
