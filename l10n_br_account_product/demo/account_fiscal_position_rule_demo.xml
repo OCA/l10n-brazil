@@ -8,9 +8,9 @@
         <field name="description">Vendas para Fora do Estado</field>
         <field name="company_id" ref="base.main_company"/>
         <field name="from_country" ref="base.br"/>
-        <field name="from_state" ref="l10n_br_base.br_sp"/>
+        <field name="from_state" ref="base.state_br_sp"/>
         <field name="to_invoice_country" ref="base.br"/>
-        <field name="to_invoice_state" ref="l10n_br_base.br_ac"/>
+        <field name="to_invoice_state" ref="base.state_br_ac"/>
         <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="use_sale">True</field>
@@ -24,9 +24,9 @@
         <field name="description">Vendas para Fora do Estado</field>
         <field name="company_id" ref="base.main_company"/>
         <field name="from_country" ref="base.br"/>
-        <field name="from_state" ref="l10n_br_base.br_sp"/>
+        <field name="from_state" ref="base.state_br_sp"/>
         <field name="to_invoice_country" ref="base.br"/>
-        <field name="to_invoice_state" ref="l10n_br_base.br_al"/>
+        <field name="to_invoice_state" ref="base.state_br_al"/>
         <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="use_sale">True</field>
@@ -40,9 +40,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_am"/>
+      <field name="to_invoice_state" ref="base.state_br_am"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -56,9 +56,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ap"/>
+      <field name="to_invoice_state" ref="base.state_br_ap"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -72,9 +72,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ba"/>
+      <field name="to_invoice_state" ref="base.state_br_ba"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -88,9 +88,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ce"/>
+      <field name="to_invoice_state" ref="base.state_br_ce"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -104,9 +104,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_df"/>
+      <field name="to_invoice_state" ref="base.state_br_df"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -120,9 +120,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_es"/>
+      <field name="to_invoice_state" ref="base.state_br_es"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -136,9 +136,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_go"/>
+      <field name="to_invoice_state" ref="base.state_br_go"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -152,9 +152,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ma"/>
+      <field name="to_invoice_state" ref="base.state_br_ma"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -168,9 +168,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+      <field name="to_invoice_state" ref="base.state_br_mg"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -184,9 +184,9 @@
       <field name="description">Vendas para Fora do Estado Não Contribuinte</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+      <field name="to_invoice_state" ref="base.state_br_mg"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_pf_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -202,9 +202,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ms"/>
+      <field name="to_invoice_state" ref="base.state_br_ms"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -218,9 +218,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mt"/>
+      <field name="to_invoice_state" ref="base.state_br_mt"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -234,9 +234,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pa"/>
+      <field name="to_invoice_state" ref="base.state_br_pa"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -250,9 +250,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pb"/>
+      <field name="to_invoice_state" ref="base.state_br_pb"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -266,9 +266,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+      <field name="to_invoice_state" ref="base.state_br_pe"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -282,9 +282,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pi"/>
+      <field name="to_invoice_state" ref="base.state_br_pi"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -298,9 +298,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pr"/>
+      <field name="to_invoice_state" ref="base.state_br_pr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -314,9 +314,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rj"/>
+      <field name="to_invoice_state" ref="base.state_br_rj"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -330,9 +330,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rn"/>
+      <field name="to_invoice_state" ref="base.state_br_rn"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -346,9 +346,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ro"/>
+      <field name="to_invoice_state" ref="base.state_br_ro"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -362,9 +362,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rr"/>
+      <field name="to_invoice_state" ref="base.state_br_rr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -378,9 +378,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rs"/>
+      <field name="to_invoice_state" ref="base.state_br_rs"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -394,9 +394,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sc"/>
+      <field name="to_invoice_state" ref="base.state_br_sc"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -410,9 +410,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_se"/>
+      <field name="to_invoice_state" ref="base.state_br_se"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -426,9 +426,9 @@
       <field name="description">Vendas para Dentro do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sp"/>
+      <field name="to_invoice_state" ref="base.state_br_sp"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -442,9 +442,9 @@
       <field name="description">Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_to"/>
+      <field name="to_invoice_state" ref="base.state_br_to"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
       <field name="use_sale">True</field>
@@ -460,9 +460,9 @@
       <field name="description">VendaST para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+      <field name="to_invoice_state" ref="base.state_br_pe"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7"/>
       <field name="use_sale">True</field>
@@ -478,9 +478,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ac"/>
+      <field name="to_invoice_state" ref="base.state_br_ac"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -493,9 +493,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_al"/>
+      <field name="to_invoice_state" ref="base.state_br_al"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -508,9 +508,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_am"/>
+      <field name="to_invoice_state" ref="base.state_br_am"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -523,9 +523,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ap"/>
+      <field name="to_invoice_state" ref="base.state_br_ap"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -538,9 +538,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ba"/>
+      <field name="to_invoice_state" ref="base.state_br_ba"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -553,9 +553,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ce"/>
+      <field name="to_invoice_state" ref="base.state_br_ce"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -568,9 +568,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_df"/>
+      <field name="to_invoice_state" ref="base.state_br_df"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -583,9 +583,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_es"/>
+      <field name="to_invoice_state" ref="base.state_br_es"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -598,9 +598,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_go"/>
+      <field name="to_invoice_state" ref="base.state_br_go"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -613,9 +613,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ma"/>
+      <field name="to_invoice_state" ref="base.state_br_ma"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -628,9 +628,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+      <field name="to_invoice_state" ref="base.state_br_mg"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -643,9 +643,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ms"/>
+      <field name="to_invoice_state" ref="base.state_br_ms"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -658,9 +658,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mt"/>
+      <field name="to_invoice_state" ref="base.state_br_mt"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -673,9 +673,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pa"/>
+      <field name="to_invoice_state" ref="base.state_br_pa"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -688,9 +688,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pb"/>
+      <field name="to_invoice_state" ref="base.state_br_pb"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -703,9 +703,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+      <field name="to_invoice_state" ref="base.state_br_pe"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -718,9 +718,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pi"/>
+      <field name="to_invoice_state" ref="base.state_br_pi"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -733,9 +733,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pr"/>
+      <field name="to_invoice_state" ref="base.state_br_pr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -748,9 +748,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rj"/>
+      <field name="to_invoice_state" ref="base.state_br_rj"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -763,9 +763,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rn"/>
+      <field name="to_invoice_state" ref="base.state_br_rn"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -778,9 +778,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ro"/>
+      <field name="to_invoice_state" ref="base.state_br_ro"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -793,9 +793,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rr"/>
+      <field name="to_invoice_state" ref="base.state_br_rr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -808,9 +808,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rs"/>
+      <field name="to_invoice_state" ref="base.state_br_rs"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -823,9 +823,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sc"/>
+      <field name="to_invoice_state" ref="base.state_br_sc"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -838,9 +838,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_se"/>
+      <field name="to_invoice_state" ref="base.state_br_se"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -853,9 +853,9 @@
       <field name="description">Simples Remessa para Dentro do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sp"/>
+      <field name="to_invoice_state" ref="base.state_br_sp"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -868,9 +868,9 @@
       <field name="description">Simples Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_to"/>
+      <field name="to_invoice_state" ref="base.state_br_to"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
       <field name="use_picking">True</field>
@@ -885,9 +885,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ac"/>
+      <field name="to_invoice_state" ref="base.state_br_ac"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -901,9 +901,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_al"/>
+      <field name="to_invoice_state" ref="base.state_br_al"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -917,9 +917,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_am"/>
+      <field name="to_invoice_state" ref="base.state_br_am"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -933,9 +933,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ap"/>
+      <field name="to_invoice_state" ref="base.state_br_ap"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -949,9 +949,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ba"/>
+      <field name="to_invoice_state" ref="base.state_br_ba"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -965,9 +965,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ce"/>
+      <field name="to_invoice_state" ref="base.state_br_ce"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -981,9 +981,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_df"/>
+      <field name="to_invoice_state" ref="base.state_br_df"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -997,9 +997,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_es"/>
+      <field name="to_invoice_state" ref="base.state_br_es"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1013,9 +1013,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_go"/>
+      <field name="to_invoice_state" ref="base.state_br_go"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1029,9 +1029,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ma"/>
+      <field name="to_invoice_state" ref="base.state_br_ma"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1045,9 +1045,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+      <field name="to_invoice_state" ref="base.state_br_mg"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1061,9 +1061,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ms"/>
+      <field name="to_invoice_state" ref="base.state_br_ms"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1077,9 +1077,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mt"/>
+      <field name="to_invoice_state" ref="base.state_br_mt"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1093,9 +1093,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pa"/>
+      <field name="to_invoice_state" ref="base.state_br_pa"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1109,9 +1109,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pb"/>
+      <field name="to_invoice_state" ref="base.state_br_pb"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1125,9 +1125,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+      <field name="to_invoice_state" ref="base.state_br_pe"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1141,9 +1141,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pi"/>
+      <field name="to_invoice_state" ref="base.state_br_pi"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1157,9 +1157,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pr"/>
+      <field name="to_invoice_state" ref="base.state_br_pr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1173,9 +1173,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rj"/>
+      <field name="to_invoice_state" ref="base.state_br_rj"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1189,9 +1189,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rn"/>
+      <field name="to_invoice_state" ref="base.state_br_rn"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1205,9 +1205,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ro"/>
+      <field name="to_invoice_state" ref="base.state_br_ro"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1221,9 +1221,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rr"/>
+      <field name="to_invoice_state" ref="base.state_br_rr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1237,9 +1237,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rs"/>
+      <field name="to_invoice_state" ref="base.state_br_rs"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1253,9 +1253,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sc"/>
+      <field name="to_invoice_state" ref="base.state_br_sc"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1269,9 +1269,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_se"/>
+      <field name="to_invoice_state" ref="base.state_br_se"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1285,9 +1285,9 @@
       <field name="description">Vendas para Dentro do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sp"/>
+      <field name="to_invoice_state" ref="base.state_br_sp"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_internal_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1301,9 +1301,9 @@
       <field name="description">Devolução de Vendas para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_to"/>
+      <field name="to_invoice_state" ref="base.state_br_to"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
       <field name="use_sale">True</field>
@@ -1319,9 +1319,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ac"/>
+      <field name="to_invoice_state" ref="base.state_br_ac"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1334,9 +1334,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_al"/>
+      <field name="to_invoice_state" ref="base.state_br_al"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1349,9 +1349,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_am"/>
+      <field name="to_invoice_state" ref="base.state_br_am"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1364,9 +1364,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ap"/>
+      <field name="to_invoice_state" ref="base.state_br_ap"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1379,9 +1379,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ba"/>
+      <field name="to_invoice_state" ref="base.state_br_ba"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1394,9 +1394,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ce"/>
+      <field name="to_invoice_state" ref="base.state_br_ce"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1409,9 +1409,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_df"/>
+      <field name="to_invoice_state" ref="base.state_br_df"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1424,9 +1424,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_es"/>
+      <field name="to_invoice_state" ref="base.state_br_es"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1439,9 +1439,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_go"/>
+      <field name="to_invoice_state" ref="base.state_br_go"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1454,9 +1454,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ma"/>
+      <field name="to_invoice_state" ref="base.state_br_ma"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1469,9 +1469,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+      <field name="to_invoice_state" ref="base.state_br_mg"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1484,9 +1484,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ms"/>
+      <field name="to_invoice_state" ref="base.state_br_ms"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1499,9 +1499,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mt"/>
+      <field name="to_invoice_state" ref="base.state_br_mt"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1514,9 +1514,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pa"/>
+      <field name="to_invoice_state" ref="base.state_br_pa"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1529,9 +1529,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pb"/>
+      <field name="to_invoice_state" ref="base.state_br_pb"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1544,9 +1544,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+      <field name="to_invoice_state" ref="base.state_br_pe"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1559,9 +1559,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pi"/>
+      <field name="to_invoice_state" ref="base.state_br_pi"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1574,9 +1574,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pr"/>
+      <field name="to_invoice_state" ref="base.state_br_pr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1589,9 +1589,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rj"/>
+      <field name="to_invoice_state" ref="base.state_br_rj"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1604,9 +1604,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rn"/>
+      <field name="to_invoice_state" ref="base.state_br_rn"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1619,9 +1619,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ro"/>
+      <field name="to_invoice_state" ref="base.state_br_ro"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1634,9 +1634,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rr"/>
+      <field name="to_invoice_state" ref="base.state_br_rr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1649,9 +1649,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rs"/>
+      <field name="to_invoice_state" ref="base.state_br_rs"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1664,9 +1664,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sc"/>
+      <field name="to_invoice_state" ref="base.state_br_sc"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1679,9 +1679,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_se"/>
+      <field name="to_invoice_state" ref="base.state_br_se"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1694,9 +1694,9 @@
       <field name="description">Entrada de Remessa para Dentro do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sp"/>
+      <field name="to_invoice_state" ref="base.state_br_sp"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_internal_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1709,9 +1709,9 @@
       <field name="description">Entrada de Remessa para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_to"/>
+      <field name="to_invoice_state" ref="base.state_br_to"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
       <field name="use_picking">True</field>
@@ -1726,9 +1726,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ac"/>
+      <field name="to_invoice_state" ref="base.state_br_ac"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1742,9 +1742,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_al"/>
+      <field name="to_invoice_state" ref="base.state_br_al"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1758,9 +1758,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_am"/>
+      <field name="to_invoice_state" ref="base.state_br_am"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1774,9 +1774,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ap"/>
+      <field name="to_invoice_state" ref="base.state_br_ap"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1790,9 +1790,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ba"/>
+      <field name="to_invoice_state" ref="base.state_br_ba"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1806,9 +1806,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ce"/>
+      <field name="to_invoice_state" ref="base.state_br_ce"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1822,9 +1822,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_df"/>
+      <field name="to_invoice_state" ref="base.state_br_df"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1838,9 +1838,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_es"/>
+      <field name="to_invoice_state" ref="base.state_br_es"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1854,9 +1854,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_go"/>
+      <field name="to_invoice_state" ref="base.state_br_go"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1870,9 +1870,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ma"/>
+      <field name="to_invoice_state" ref="base.state_br_ma"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1886,9 +1886,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+      <field name="to_invoice_state" ref="base.state_br_mg"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1902,9 +1902,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ms"/>
+      <field name="to_invoice_state" ref="base.state_br_ms"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1918,9 +1918,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mt"/>
+      <field name="to_invoice_state" ref="base.state_br_mt"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1934,9 +1934,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pa"/>
+      <field name="to_invoice_state" ref="base.state_br_pa"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1950,9 +1950,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pb"/>
+      <field name="to_invoice_state" ref="base.state_br_pb"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1966,9 +1966,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+      <field name="to_invoice_state" ref="base.state_br_pe"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1982,9 +1982,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pi"/>
+      <field name="to_invoice_state" ref="base.state_br_pi"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -1998,9 +1998,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pr"/>
+      <field name="to_invoice_state" ref="base.state_br_pr"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2014,9 +2014,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rj"/>
+      <field name="to_invoice_state" ref="base.state_br_rj"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2030,9 +2030,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rn"/>
+      <field name="to_invoice_state" ref="base.state_br_rn"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2046,9 +2046,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ro"/>
+      <field name="to_invoice_state" ref="base.state_br_ro"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2062,9 +2062,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rr"/>
+      <field name="to_invoice_state" ref="base.state_br_rr"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2078,9 +2078,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rs"/>
+      <field name="to_invoice_state" ref="base.state_br_rs"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2094,9 +2094,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sc"/>
+      <field name="to_invoice_state" ref="base.state_br_sc"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2111,9 +2111,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_se"/>
+      <field name="to_invoice_state" ref="base.state_br_se"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2127,9 +2127,9 @@
       <field name="description">Bonificação para Dentro do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sp"/>
+      <field name="to_invoice_state" ref="base.state_br_sp"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_internal_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2143,9 +2143,9 @@
       <field name="description">Bonificação para Fora do Estado</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_to"/>
+      <field name="to_invoice_state" ref="base.state_br_to"/>
       <field name="fiscal_position_id" ref="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
       <field name="use_sale">True</field>
@@ -2160,9 +2160,9 @@
       <field name="description">Compras para Ind</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ac"/>
+      <field name="to_invoice_state" ref="base.state_br_ac"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2176,9 +2176,9 @@
       <field name="description">Compras para Ind</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_al"/>
+      <field name="to_invoice_state" ref="base.state_br_al"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2192,9 +2192,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_am"/>
+      <field name="to_invoice_state" ref="base.state_br_am"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2208,9 +2208,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ap"/>
+      <field name="to_invoice_state" ref="base.state_br_ap"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2224,9 +2224,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ba"/>
+      <field name="to_invoice_state" ref="base.state_br_ba"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2240,9 +2240,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ce"/>
+      <field name="to_invoice_state" ref="base.state_br_ce"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2256,9 +2256,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_df"/>
+      <field name="to_invoice_state" ref="base.state_br_df"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2272,9 +2272,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_es"/>
+      <field name="to_invoice_state" ref="base.state_br_es"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2288,9 +2288,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_go"/>
+      <field name="to_invoice_state" ref="base.state_br_go"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2304,9 +2304,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ma"/>
+      <field name="to_invoice_state" ref="base.state_br_ma"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2320,9 +2320,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mg"/>
+      <field name="to_invoice_state" ref="base.state_br_mg"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2336,9 +2336,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ms"/>
+      <field name="to_invoice_state" ref="base.state_br_ms"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2352,9 +2352,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_mt"/>
+      <field name="to_invoice_state" ref="base.state_br_mt"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2368,9 +2368,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pa"/>
+      <field name="to_invoice_state" ref="base.state_br_pa"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2384,9 +2384,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pb"/>
+      <field name="to_invoice_state" ref="base.state_br_pb"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2400,9 +2400,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pe"/>
+      <field name="to_invoice_state" ref="base.state_br_pe"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2416,9 +2416,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pi"/>
+      <field name="to_invoice_state" ref="base.state_br_pi"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2432,9 +2432,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_pr"/>
+      <field name="to_invoice_state" ref="base.state_br_pr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2448,9 +2448,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rj"/>
+      <field name="to_invoice_state" ref="base.state_br_rj"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2464,9 +2464,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rn"/>
+      <field name="to_invoice_state" ref="base.state_br_rn"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2480,9 +2480,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_ro"/>
+      <field name="to_invoice_state" ref="base.state_br_ro"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2496,9 +2496,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rr"/>
+      <field name="to_invoice_state" ref="base.state_br_rr"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2512,9 +2512,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_rs"/>
+      <field name="to_invoice_state" ref="base.state_br_rs"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2528,9 +2528,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sc"/>
+      <field name="to_invoice_state" ref="base.state_br_sc"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2544,9 +2544,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_se"/>
+      <field name="to_invoice_state" ref="base.state_br_se"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2560,9 +2560,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_sp"/>
+      <field name="to_invoice_state" ref="base.state_br_sp"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
@@ -2576,9 +2576,9 @@
       <field name="description">Compras</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="from_country" ref="base.br"/>
-      <field name="from_state" ref="l10n_br_base.br_sp"/>
+      <field name="from_state" ref="base.state_br_sp"/>
       <field name="to_invoice_country" ref="base.br"/>
-      <field name="to_invoice_state" ref="l10n_br_base.br_to"/>
+      <field name="to_invoice_state" ref="base.state_br_to"/>
       <field name="fiscal_position_id" ref="l10n_br_account_product.fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo"/>
       <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
       <field name="use_purchase">True</field>
