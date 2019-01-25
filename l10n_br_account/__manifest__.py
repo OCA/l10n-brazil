@@ -10,13 +10,12 @@
     'website': 'http://odoobrasil.org',
     'version': '10.0.1.0.0',
     'depends': [
-        'l10n_br',
+        'l10n_br_generic',
         'l10n_br_base',
         'account_cancel',
         'account_fiscal_position_rule',
     ],
     'data': [
-        'data/account_tax_group_data.xml',
         'data/l10n_br_account.fiscal.document.csv',
         'data/l10n_br_account_data.xml',
         'data/l10n_br_account.cnae.csv',
@@ -34,8 +33,7 @@
         'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        'demo/base_demo.xml',
-        'demo/l10n_br_chart_demo.xml',
+        'demo/base_demo.xml'
     ],
     'installable': True,
     'auto_install': False,
