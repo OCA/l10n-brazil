@@ -28,7 +28,8 @@
     ],
     'demo': [
         'demo/l10n_br_base_demo.xml',
-        'demo/res_partner_demo.xml',
+        'demo/res_company_demo.xml',
+        'demo/res_partner_demo.xml'
     ],
     'installable': True,
     'auto_install': False,
