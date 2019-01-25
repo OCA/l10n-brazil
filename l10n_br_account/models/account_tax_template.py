@@ -10,15 +10,6 @@ class AccountTaxTemplate(models.Model):
     """Implement computation method in taxes"""
     _inherit = 'account.tax.template'
 
-    domain = fields.Selection(
-        related='tax_group_id.domain',
-        string='Tax Domain')
-
-    tax_discount = fields.Boolean(
-        string='Discount this Tax in Prince',
-        help="Mark it for (ICMS, PIS e etc.).",
-        related='tax_group_id.tax_discount')
-
     base_reduction = fields.Float(
         string='Redution', required=True,
         digits_compute=dp.get_precision('Account'),
