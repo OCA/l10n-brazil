@@ -4,56 +4,33 @@
 
 <openerp>
     <data>
-
         <record model="ir.ui.view" id="mis_report_kpi_form_view">
-            <field name="name">mis.report.kpi.form (in l10n_br_mis_builder)
-            </field>
+            <field name="name">mis.report.kpi.form (in l10n_br_contabilidade)</field>
             <field name="model">mis.report.kpi</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_kpi_form_view"/>
             <field name="arch" type="xml">
-                <form name="MIS report KPI">
+                <group position="before">
                     <field name="expression_mode"/>
-                    <group>
-                        <field name="sequence" widget="handle"/>
-                        <field name="description"/>
-                        <field name="name"/>
-                        <field name="column"/>
-                        <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
-                        <field name="invert_signal" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
-                        <field name="expression_type" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
-                        <field name="expression"/>
-                        <field name="type"/>
-                        <field name="dp"/>
-                        <field name="divider"/>
-                        <field name="prefix"/>
-                        <field name="suffix"/>
-                        <field name="compare_method"/>
-                        <field name="style_id"/>
-                        <field name="default_css_style"/>
-                        <field name="css_style"/>
-                    </group>
-                </form>
+                </group>
+                <field name="column" position="after">
+                    <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
+                    <field name="invert_signal" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
+                    <field name="expression_type" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
+                </field>
+                <field name="compare_method" position="after">
+                    <field name="style_id"/>
+                </field>
             </field>
         </record>
 
-
         <record model="ir.ui.view" id="mis_report_kpi_tree_view">
-            <field name="name">mis.report.kpi.tree (in l10n_br_mis_builder)
-            </field>
+            <field name="name">mis.report.kpi.tree (in l10n_br_mis_builder)</field>
             <field name="model">mis.report.kpi</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_kpi_tree_view"/>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="sequence" widget="handle"/>
-                    <field name="description"/>
-                    <field name="name"/>
-                    <field name="column"/>
-                    <field name="type"/>
-                    <field name="dp"/>
-                    <field name="divider"/>
-                    <field name="prefix"/>
-                    <field name="suffix"/>
-                    <field name="compare_method"/>
+                <field name="compare_method" position="after">
                     <field name="style_id"/>
-                </tree>
+                </field>
             </field>
         </record>
 
