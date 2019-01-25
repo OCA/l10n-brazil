@@ -17,7 +17,7 @@ class TestGenerateMultiChartsAccounts(TransactionCase):
                 country_id=self.env.ref('base.br').id,
                 currency_id=self.env.ref('base.BRL').id,
                 transfer_account_id=self.env.ref(
-                    'l10n_br.transfer_account_id').id,
+                    'l10n_br_generic.transfer_account_id').id,
             ))
 
         self.account_chart_template_1 = self.env.ref(
@@ -29,7 +29,7 @@ class TestGenerateMultiChartsAccounts(TransactionCase):
                 company_id=self.company_1.id,
                 currency_id=self.env.ref('base.BRL').id,
                 transfer_account_id=self.env.ref(
-                    'l10n_br.transfer_account_id').id,
+                    'l10n_br_generic.transfer_account_id').id,
                 code_digits=6,
                 chart_template_id=self.account_chart_template_1.id,
             ))
