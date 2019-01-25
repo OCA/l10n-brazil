@@ -66,25 +66,27 @@
             <table t-if="widget.mis_report_data" class="oe_list_content mis_builder">
                 <tfoot>
                     <tr>
-                        <t t-foreach="widget.mis_report_data[0].footer" t-as="f" class="oe_list_footer">
-                            <th>
-                                <div class="col-xs-6">
-                                    <t t-esc="f_value.administrator.label"/>
-                                </div>
-                                <div class="col-xs-6">
-                                    <t t-esc="f_value.accountant.label"/>
-                                </div>
-                                <div class="col-xs-6">
-                                    <t t-esc="f_value.administrator.name"/>
-                                </div>
-                                <div class="col-xs-6">
-                                    <t t-esc="f_value.accountant.name"/>
-                                </div>
-                            </th>
+                        <t t-if="widget.mis_report_data[0].footer">
+                            <t t-foreach="widget.mis_report_data[0].footer" t-as="f" class="oe_list_footer">
+                                <th>
+                                    <div class="col-xs-6">
+                                        <t t-esc="f_value.administrator.label"/>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <t t-esc="f_value.accountant.label"/>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <t t-esc="f_value.administrator.name"/>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <t t-esc="f_value.accountant.name"/>
+                                    </div>
+                                </th>
+                            </t>
+                            <td class="oe_list_footer"/>
+                            <td class="oe_list_footer"/>
+                            <td class="oe_list_footer"/>
                         </t>
-                        <td class="oe_list_footer"/>
-                        <td class="oe_list_footer"/>
-                        <td class="oe_list_footer"/>
                     </tr>
                 </tfoot>
             </table>

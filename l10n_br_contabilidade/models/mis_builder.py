@@ -77,56 +77,24 @@ class MisReportInstance(models.Model):
 
     @api.multi
     def compute(self):
-        res = super(MisReportInstance, self).compute()
-        if not (self.administrator_id and self.accountant_id):
-            return [res]
-        res['footer'] = [{
-            'administrator': {
-                'signature': '______________________________________________',
-                'name': self.administrator_id.name or '',
-                'label': 'Administrador - CPF: %s' %
-                         (self.administrator_id.cnpj_cpf or '')},
-            'accountant': {
-                'signature': '______________________________________________',
-                'name': self.accountant_id.name,
-                'label': 'Contador - CPF: %s CRC: %s' % (
-                    self.accountant_id.cnpj_cpf or '',
-                    self.accountant_id.crc_number or '')},
-        }]
-
-        if len(set(self.report_id.kpi_ids.mapped('column'))) > 1:
-            result = []
-            for column in set(self.report_id.kpi_ids.mapped('column')):
-                # kpi_ids = self.report_id.kpi_ids.filtered(
-                #     lambda line: line.column == column)
-                result += [{
-                    'header': res['header'],
-                    'content': [
-                        row for row in res['content']
-                        if row['column'] == column],
-                    'footer': res['footer'],
-                }]
-            return result
-
-        kpi = self.report_id.kpi_ids.filtered(
-            lambda kpi: kpi.name == 'resultado_liquido_do_periodo'
-        )
-        if not kpi:
-            return [res, res]
-
-        row = next(d['cols'] and d['cols'][0] for d in res['content']
-                   if d['kpi_name'] == kpi.description) or None
-
-        if not row:
-            return [res]
-
-        split_val = '{:,}'.format(float(row['val'])).split('.')
-        liquid = split_val[0].replace(',', '.') + ',' + split_val[1]
-
-        lang = 'pt_BR'
-        in_full = num2words(int(split_val[0].replace(',', '')), lang=lang) + \
-            ' reais e ' + num2words(int(split_val[1]), lang=lang) + \
-            ' centavos'
+        result = super(MisReportInstance, self).compute()
+        res = result[0]
+        if self.administrator_id and self.accountant_id:
+            res['footer'] = [{
+                'administrator': {
+                    'signature':
+                        '______________________________________________',
+                    'name': self.administrator_id.name or '',
+                    'label': 'Administrador - CPF: %s' %
+                             (self.administrator_id.cnpj_cpf or '')},
+                'accountant': {
+                    'signature':
+                        '______________________________________________',
+                    'name': self.accountant_id.name,
+                    'label': 'Contador - CPF: %s CRC: %s' % (
+                        self.accountant_id.cnpj_cpf or '',
+                        self.accountant_id.crc_number or '')},
+            }]
 
         today = fields.Date.today()
 
@@ -140,15 +108,28 @@ class MisReportInstance(models.Model):
             'year': today[:4],
         }
 
-        if not self.considerations:
-            res['considerations'] = ''
-            return res
+        kpi = self.report_id.kpi_ids.filtered(
+            lambda k: k.name == 'resultado_liquido_do_periodo'
+        )
+        row = next(d['cols'] and d['cols'][0] for d in res['content']
+                   if d['kpi_name'] == kpi[0].description) if kpi else None
 
-        template = Template(self.considerations.encode('utf-8'),
-                            input_encoding='utf-8', output_encoding='utf-8',
-                            strict_undefined=True)
-        res['considerations'] = template.render(
-            mr=self, liquid={'val': liquid, 'in_full': in_full},
-            today=res['today']).decode('utf-8')
+        if row and self.considerations:
+            val = float(row['val'])
+            split_val = '{:,}'.format(val).split('.')
+            liquid = split_val[0].replace(',', '.') + ',' + split_val[1]
 
-        return [res]
+            lang = 'pt_BR'
+            in_full = num2words(int(split_val[0].replace(',', '')),
+                                lang=lang) + ' reais e ' + \
+                num2words(int(split_val[1]), lang=lang) + ' centavos'
+
+            template = Template(self.considerations.encode('utf-8'),
+                                input_encoding='utf-8',
+                                output_encoding='utf-8',
+                                strict_undefined=True)
+            res['considerations'] = template.render(
+                mr=self, liquid={'val': val, 'f': liquid, 'in_full': in_full},
+                today=res['today']).decode('utf-8')
+
+        return result

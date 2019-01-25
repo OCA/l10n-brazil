@@ -81,13 +81,15 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <div style="text-align:justify">
-                            <t t-esc="docs_computed[o.id][0]['considerations']"/>
-                        </div>
-                    </td>
-                </tr>
+                <t t-if="docs_computed[o.id][0].get('considerations')">
+                    <tr>
+                        <td>
+                            <div style="text-align:justify">
+                                <t t-esc="docs_computed[o.id][0]['considerations']"/>
+                            </div>
+                        </td>
+                    </tr>
+                </t>
                 <tr>
                     <td>
                         <div>
@@ -122,32 +124,34 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <t t-foreach="docs_computed[o.id][0]['footer']" class="text-bottom" t-as="h">
-                        <td>
-                          <div style="text-align:center">
-                            <t t-esc="h_value['administrator']['signature']"/>
-                          </div>
-                          <div style="text-align:center">
-                            <t t-esc="h_value['administrator']['name']"/>
-                          </div>
-                          <div style="text-align:center">
-                            <t t-esc="h_value['administrator']['label']"/>
-                          </div>
-                        </td>
-                        <td>
-                          <div style="text-align:center">
-                            <t t-esc="h_value['accountant']['signature']"/>
-                          </div>
-                          <div style="text-align:center">
-                            <t t-esc="h_value['accountant']['name']"/>
-                          </div>
-                          <div style="text-align:center">
-                            <t t-esc="h_value['accountant']['label']"/>
-                          </div>
-                        </td>
-                    </t>
-                </tr>
+                <t t-if="docs_computed[o.id][0].get('footer')">
+                    <tr>
+                        <t t-foreach="docs_computed[o.id][0]['footer']" class="text-bottom" t-as="h">
+                            <td>
+                              <div style="text-align:center">
+                                <t t-esc="h_value['administrator']['signature']"/>
+                              </div>
+                              <div style="text-align:center">
+                                <t t-esc="h_value['administrator']['name']"/>
+                              </div>
+                              <div style="text-align:center">
+                                <t t-esc="h_value['administrator']['label']"/>
+                              </div>
+                            </td>
+                            <td>
+                              <div style="text-align:center">
+                                <t t-esc="h_value['accountant']['signature']"/>
+                              </div>
+                              <div style="text-align:center">
+                                <t t-esc="h_value['accountant']['name']"/>
+                              </div>
+                              <div style="text-align:center">
+                                <t t-esc="h_value['accountant']['label']"/>
+                              </div>
+                            </td>
+                        </t>
+                    </tr>
+                </t>
             </table>
         </table>
         <h2 position="replace">
