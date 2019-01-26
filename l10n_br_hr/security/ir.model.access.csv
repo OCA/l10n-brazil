@@ -11,7 +11,6 @@ access_hr_chronic_disease_manager,access_hr_chronic_disease_manager,model_hr_chr
 access_hr_chronic_disease,access_hr_chronic_disease,model_hr_chronic_disease,,1,0,0,0
 access_hr_dependent_type_manager,access_hr_dependent_type_manager,model_hr_dependent_type,hr.group_hr_manager,1,1,1,1
 access_hr_dependent_type,access_hr_dependent_type,model_hr_dependent_type,,1,0,0,0
-
 access_hr_ethnicity_manager,access_hr_ethnicity_manager,model_hr_ethnicity,hr.group_hr_manager,1,1,1,1
 access_hr_ethnicity,access_hr_ethnicity,model_hr_ethnicity,,1,0,0,0
 access_hr_educational_attainment_manager,access_hr_educational_attainment_manager,model_hr_educational_attainment,hr.group_hr_manager,1,1,1,1
