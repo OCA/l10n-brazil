@@ -121,7 +121,6 @@ class L10nbrAccountDocumentRelated(models.Model):
 
     @api.onchange('invoice_related_id')
     def _onchange_invoice_related_id(self):
-
         related = self.invoice_related_id
         if not related and not related.fiscal_document_id:
             return False
@@ -140,7 +139,7 @@ class L10nbrAccountDocumentRelated(models.Model):
             self.document_type = False
 
         if related.fiscal_document_id.code in ('55', '57'):
-            self.access_key = inv_related.nfe_access_key
+            self.access_key = related.nfe_access_key
             self.serie = False
             self.internal_number = False
             self.state_id = False
@@ -183,8 +182,10 @@ class L10nbrAccountDocumentRelated(models.Model):
     def _onchange_mask_cnpj_cpf(self):
         country = 'BR'
         is_company = True
-        if is_company == 'cpf':
+
+        if self.cpfcnpj_type == 'cpf':
             is_company = False
+
         cpf_cnpj = fiscal.format_cpf_cnpj(self.cnpj_cpf, 'BR', is_company)
-        if cpf_cnpj:
-            self.cnpj_cpf = cpf_cnpj
+
+        self.cnpj_cpf = cpf_cnpj
