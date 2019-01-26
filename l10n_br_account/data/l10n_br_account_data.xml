@@ -60,10 +60,4 @@
         <field name="icms" eval="False"/>
     </record>
 
-    <!-- res.company -->
-    <record id="base.main_company" model="res.company">
-        <field name="currency_id" ref="base.BRL"/>
-        <field name="fiscal_type">3</field>
-    </record>
-
 </odoo>
