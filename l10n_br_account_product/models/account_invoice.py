@@ -13,7 +13,7 @@ from .l10n_br_account_product import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_DEFAULT)
 
-from .l10n_br_account_product.sped.nfe.validator import txt
+from ..sped.nfe.validator import txt
 
 
 class AccountInvoice(models.Model):
@@ -733,7 +733,7 @@ class AccountInvoice(models.Model):
                 'fiscal_category_id': self.fiscal_category_id}
 
             if self.partner_id.property_payment_term_id:
-                payment_term = partner_id.property_payment_term_id
+                payment_term = self.partner_id.property_payment_term_id
                 # Sobrecreve a opção do parceiro caso a categoria
                 #  fiscal tenha uma opção definida
                 if self.fiscal_category_id.account_payment_term_id:

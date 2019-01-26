@@ -35,4 +35,3 @@ class ImportDeclarationLine(models.Model):
         digits=dp.get_precision('Account'),
         default=0.00
     )
-
