@@ -2,8 +2,6 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
-
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning as UserError
 
@@ -186,6 +184,6 @@ class L10nbrAccountDocumentRelated(models.Model):
         if self.cpfcnpj_type == 'cpf':
             is_company = False
 
-        cpf_cnpj = fiscal.format_cpf_cnpj(self.cnpj_cpf, 'BR', is_company)
+        cpf_cnpj = fiscal.format_cpf_cnpj(self.cnpj_cpf, country, is_company)
 
         self.cnpj_cpf = cpf_cnpj
