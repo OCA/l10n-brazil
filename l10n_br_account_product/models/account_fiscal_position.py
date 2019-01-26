@@ -42,7 +42,7 @@ class AccountFiscalPosition(models.Model):
             domain = m.tax_dest_id.domain or m.tax_group_id.domain
             result[domain] = {
                 'tax': m.tax_dest_id,
-                'cst': m.cst_dest_id,
+                'cst': m.cst_id,
                 'icms_relief': m.tax_icms_relief_id,
                 'ipi_guideline':  m.tax_ipi_guideline_id,
             }
@@ -165,7 +165,7 @@ class AccountFiscalPositionTax(models.Model):
         comodel_name='l10n_br_account_product.icms_relief',
         string=u'Desoneração ICMS')
 
-    cst_dest_id = fields.Many2one(
+    cst_id = fields.Many2one(
         comodel_name='l10n_br_account_product.cst',
         string=u'CST',
         required=False)
@@ -180,7 +180,7 @@ class AccountFiscalPositionTax(models.Model):
 
         if onchange:
             onchange['domain'].update(
-                {'cst_dest_id': onchange['domain']['tax_dest_id']})
+                {'cst_id': onchange['domain']['tax_dest_id']})
         return onchange.update(
             {'readonly': {
                 'tax_icms_relief_id': [('tax_dest_id.domain', '=', 'icms')]}})
