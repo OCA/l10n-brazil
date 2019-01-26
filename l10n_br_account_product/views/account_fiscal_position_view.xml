@@ -15,7 +15,7 @@
                 <field name="cest_id"/>
             </xpath>
             <xpath expr="//field[@name='tax_ids']/tree/field[@name='tax_dest_id']" position="after">
-                <field name="cst_dest_id"/>
+                <field name="cst_id"/>
                 <field name="tax_ipi_guideline_id"/>
                 <field name="tax_icms_relief_id"/>
             </xpath>
