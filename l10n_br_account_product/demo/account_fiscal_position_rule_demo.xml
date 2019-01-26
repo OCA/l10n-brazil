@@ -179,7 +179,7 @@
       <field name="fiscal_type">3</field>
   </record>
 
-  <record id="demo_account_fiscal_position_rule_11" model="account.fiscal.position.rule">
+  <record id="demo_account_fiscal_position_rule_11a" model="account.fiscal.position.rule">
       <field name="name">Vendas</field>
       <field name="description">Vendas para Fora do Estado Não Contribuinte</field>
       <field name="company_id" ref="base.main_company"/>
