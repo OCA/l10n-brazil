@@ -87,7 +87,6 @@
         <field name="fiscal_category_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo" model="account.fiscal.position">
@@ -96,7 +95,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_icms_demo" model="account.fiscal.position.tax">
@@ -112,7 +110,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_icms_demo" model="account.fiscal.position.tax">
@@ -128,7 +125,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
         <field name="ind_final">1</field>
     </record>
 
@@ -145,7 +141,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <!-- Venda ST -->
@@ -155,7 +150,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_icmsst_pe_12_4443_demo" model="account.fiscal.position.tax">
@@ -186,7 +180,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo" model="account.fiscal.position">
@@ -195,7 +188,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo" model="account.fiscal.position">
@@ -204,7 +196,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <!-- Simples Remessa -->
@@ -214,7 +205,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo_pis" model="account.fiscal.position.tax">
@@ -237,7 +227,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo_pis" model="account.fiscal.position.tax">
@@ -260,7 +249,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo_pis" model="account.fiscal.position.tax">
@@ -284,7 +272,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_d9132a81edff5374f33560f58666b792_internal_demo_pis" model="account.fiscal.position.tax">
@@ -307,7 +294,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo_pis" model="account.fiscal.position.tax">
@@ -330,7 +316,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo_pis" model="account.fiscal.position.tax">
@@ -354,7 +339,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo" model="account.fiscal.position">
@@ -363,7 +347,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo" model="account.fiscal.position">
@@ -372,7 +355,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <record id="fp_7817d015cb9832d137d7939a224a79a5_exportation_demo" model="account.fiscal.position">
@@ -381,7 +363,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
-        <field name="type_tax_use">sale</field>
     </record>
 
     <!-- Compras para Industrialização -->
@@ -391,7 +372,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">purchase</field>
     </record>
 
     <record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo" model="account.fiscal.position">
@@ -400,7 +380,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">purchase</field>
     </record>
 
     <record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo" model="account.fiscal.position">
@@ -409,7 +388,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">purchase</field>
     </record>
 
     <record id="fp_b7aafa9c3056c3f020ceae63d7312504_exportation_demo" model="account.fiscal.position">
@@ -418,7 +396,6 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="type_tax_use">purchase</field>
     </record>
 
 </odoo>
