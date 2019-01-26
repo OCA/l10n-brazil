@@ -134,7 +134,6 @@ class ResCompany(models.Model):
         string=u'CNPJ/CPF Contador')
 
 
-# FIXME A classe herda ela mesmo? isso deve estar errado
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinitionCompanyProduct,
                                         models.Model):
     _name = 'l10n_br_tax.definition.company.product'
