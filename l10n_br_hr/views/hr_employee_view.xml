@@ -5,7 +5,7 @@
             <field name="name">l10n_br_hr_employee.form</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
-            <field name="priority">60</field>
+            <field name="priority">999</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='identification_id']" position="replace">
@@ -50,7 +50,7 @@
                                     <field name="civil_certificate_type_id"/>
                                 </group>
                                 <group name="identidade" string="Identidade">
-				    <!-- <field name="identity_type_id"/> -->
+                                    <!-- <field name="identity_type_id"/> -->
                                     <field name="rg" string="Number"/>
                                     <field name="organ_exp"/>
                                     <field name="rg_emission"/>
