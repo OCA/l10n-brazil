@@ -3,8 +3,6 @@
 
 from odoo import fields, models
 
-from odoo.addons.account import account
-
 
 class AccountTax(models.Model):
     """ Add fields used to define some brazilian taxes """
@@ -21,14 +19,14 @@ class AccountTax(models.Model):
 
     base_reduction = fields.Float(
         string='Redution',
-        digits=account.get_precision_tax(),
+        digits=(16, 4),
         default=0.00,
         required=True,
         help="Um percentual decimal em % entre 0-1.")
 
     amount_mva = fields.Float(
         string='MVA Percent',
-        digits=account.get_precision_tax(),
+        digits=(16, 4),
         default=0.00,
         required=True,
         help="Um percentual decimal em % entre 0-1.")
