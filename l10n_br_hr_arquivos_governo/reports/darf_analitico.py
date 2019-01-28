@@ -43,7 +43,7 @@ def format_money_mask(value):
     locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
     value_formated = locale.currency(value, grouping=True)
 
-    return value_formated[3:]
+    return value_formated.replace('R$', '')
 
 @api.model
 @py3o_report_extender(
