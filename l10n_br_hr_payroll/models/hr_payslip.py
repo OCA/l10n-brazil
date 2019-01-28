@@ -1053,7 +1053,7 @@ class HrPayslip(models.Model):
         dependent_values = 0
         for dependente in self.employee_id.dependent_ids:
             if dependente.dependent_verification and \
-                    dependente.dependent_dob < self.date_from:
+                    dependente.dependent_dob <= self.date_to:
                 dependent_values += deducao_dependente_value.amount
         return dependent_values
 
