@@ -1813,6 +1813,10 @@ class HrPayslip(models.Model):
         holerite_ferias_id = self.search(
             domain, limit=1, order='date_from DESC')
 
+        # Se não localizar nenhuma férias retorna 0
+        if not holerite_ferias_id:
+            return 0
+
         # Se o mes da referencia for o mesmo das ferias encontradas,
         # retornar a rubrica de INSS_COMPETENCIA_ATUAL
         if holerite_ferias_id.mes_do_ano == reference_mes:
