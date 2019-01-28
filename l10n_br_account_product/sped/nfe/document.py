@@ -20,19 +20,20 @@ class NFe200(FiscalDocument):
         self.det = None
         self.dup = None
 
-    def _serializer(self, cr, uid, ids, nfe_environment, context=None):
+    def _serializer(self, nfe_environment):
 
         pool = registry.get_pool(cr.dbname)
         nfes = []
 
-        if not context:
-            context = {'lang': 'pt_BR'}
+        # env = Environment(cr, uid, context)
 
-        for invoice in pool.get('account.invoice').browse(cr, uid, ids,
-                                                          context):
+        # if not self.env.context:
+        #    context = {'lang': 'pt_BR'}
 
-            company = pool.get('res.partner').browse(
-                cr, uid, invoice.company_id.partner_id.id, context)
+        for invoice in self:
+
+            company = self.env['res.partner'].browse(
+                invoice.company_id.partner_id.id)
 
             self.nfe = self.get_NFe()
 
@@ -741,10 +742,10 @@ class NFe200(FiscalDocument):
 
         return Dup_200()
 
-    def get_xml(self, cr, uid, ids, nfe_environment, context=None):
+    def get_xml(self, nfe_environment):
         """"""
         result = []
-        for nfe in self._serializer(cr, uid, ids, nfe_environment, context):
+        for nfe in self._serializer(nfe_environment):
             result.append({'key': nfe.infNFe.Id.valor, 'nfe': nfe.get_xml()})
         return result
 
