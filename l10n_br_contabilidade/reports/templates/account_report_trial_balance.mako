@@ -136,21 +136,21 @@
             <div class="act_as_thead">
                 <div class="act_as_row labels">
                     ## code
-                    <div class="act_as_cell first_column" style="width: 40px;">${_('Account')}</div>
+                    <div class="act_as_cell first_column" style="width: 45px;">${_('Account')}</div>
                     ## account name
                     <div class="act_as_cell" style="width: 100px;">Descrição</div>
                     %if comparison_mode == 'no_comparison':
                         %if initial_balance_mode:
                             ## initial balance
-                            <div class="act_as_cell amount" style="width: 40px;">Saldo Anterior</div>
+                            <div class="act_as_cell amount" style="width: 45px;">Saldo Anterior</div>
                         %endif
                         ## debit
-                        <div class="act_as_cell amount" style="width: 25px;">${_('Debit')} no período</div>
+                        <div class="act_as_cell amount" style="width: 45px;">${_('Debit')} no período</div>
                         ## credit
-                        <div class="act_as_cell amount" style="width: 25px;">${_('Credit')} no período</div>
+                        <div class="act_as_cell amount" style="width: 45px;">${_('Credit')} no período</div>
                     %endif
                     ## balance
-                    <div class="act_as_cell amount" style="width: 40px;">
+                    <div class="act_as_cell amount" style="width: 45px;">
                     %if comparison_mode == 'no_comparison' or not fiscalyear:
                         Saldo Atual
                     %else:
