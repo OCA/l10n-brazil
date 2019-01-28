@@ -244,15 +244,18 @@ class AccountFechamento(models.Model):
             name = record.account_journal_id.\
                 template_historico_padrao_id.get_historico_padrao()
 
-            return record.env['account.move'].create({
+            res = record.env['account.move'].sudo(SUPERUSER_ID).create({
                 'name': str(name)+'-'+str(move.get('name')),
                 'journal_id': move.get('journal_id'),
                 'period_id': move.get('period_id'),
                 'date': move.get('date'),
-                'state': 'posted',
                 'line_id': line_list,
                 'lancamento_de_fechamento': True,
             })
+
+            res.post()
+
+            return res
 
     def distribuir_resultado(self):
         """
