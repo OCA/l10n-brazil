@@ -21,9 +21,7 @@ class AccountTrialBalanceWizard(models.TransientModel):
     def _print_report(self, data):
         data['form']['lancamento_de_fechamento'] = self.lancamento_de_fechamento
         data = self.pre_print_report(data)
-
         data = super(AccountTrialBalanceWizard, self)._print_report(data)
-
         data['report_name'] = 'account.abgf_account_report_trial_balance'
 
         return data
