@@ -28,7 +28,7 @@
         # 'reports/report.xml',
         'views/menu_l10n_br_contabilidade.xml',
         # # Visão
-        # 'wizards/fechamento_reabertura_justificativa_wizard.xml',
+        'wizards/fechamento_reabertura_justificativa_wizard.xml',
         # 'wizards/trial_balance_wizard.xml',
         # 'views/account_account.xml',
         # 'views/account_account_report.xml',
