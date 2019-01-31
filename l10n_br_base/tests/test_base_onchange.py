@@ -34,6 +34,7 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         self.company_01._onchange_cnpj_cpf()
         self.company_01._onchange_city_id()
         self.company_01._onchange_zip()
+        self.company_01._onchange_state()
 
         self.partner_01._onchange_cnpj_cpf()
         self.partner_01._onchange_city_id()
@@ -51,11 +52,40 @@ class L10nBrBaseOnchangeTest(TransactionCase):
             'The inverse function to field suframa failed.'
         )
 
-    def test_diplay_address(self):
-        partner = self.env.ref('l10n_br_base.res_partner_intel')
+    def test_display_address(self):
+        partner = self.env.ref('l10n_br_base.res_partner_akretion')
         display_address = partner._display_address()
         self.assertEquals(
-            display_address, 'Avenida Doutor Chucri Zaidan, 920 -'
-                             ' \nVila Cordeiro\n04583-110 -  - SP\nBrazil',
+            display_address, 'Rua Paulo Dias, 586 -'
+                             ' \nCentro\n18125-000 -  - SP\nBrazil',
             'The function _display_address failed.'
+        )
+
+    def test_display_address_parent_id(self):
+        partner = self.env.ref('l10n_br_base.res_partner_address_ak2')
+        display_address = partner._display_address()
+        self.assertEquals(
+            display_address, 'Akretion Sao Paulo\nRua Paulo Dias, 586 -'
+                             ' \nCentro\n18125-000 -  - SP\nBrazil',
+            'The function _display_address with parent_id failed.'
+        )
+
+    def test_other_country_display_address(self):
+        partner = self.env.ref('base.res_partner_12')
+        display_address = partner._display_address()
+        self.assertEquals(
+            display_address, 'Camptocamp\n3404  Edgewood'
+                             ' Road\n\nJonesboro'
+                             ' AR 72401\nUnited States',
+            'The function _display_address for other country failed.'
+        )
+
+    def test_display_address_without_company(self):
+        partner = self.env.ref('l10n_br_base.res_partner_akretion')
+        display_address = partner._display_address(without_company=False)
+        self.assertEquals(
+            display_address, 'Rua Paulo Dias, 586 - \nCentro\n18125-000 -'
+                             '  - SP\nBrazil',
+            'The function _display_address with parameter'
+            ' without_company failed.'
         )
