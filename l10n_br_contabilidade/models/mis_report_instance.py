@@ -12,6 +12,16 @@ class MisReportInstance(models.Model):
     _inherit = 'mis.report.instance'
 
     @api.multi
+    def remove_duplicated_filetype_attachments(self, format):
+        for record in self:
+            duplicated_format_attachments = self.env['ir.attachment'].search(
+                [('res_model', '=', record._name),
+                 ('res_id', '=', record.id)]).filtered(
+                lambda a: a.name.split('.')[-1] == format)
+
+            duplicated_format_attachments.unlink()
+
+    @api.multi
     def _compute_attachments(self):
         for record in self:
             record.attachment_ids = self.env['ir.attachment'].search(
