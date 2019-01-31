@@ -59,4 +59,3 @@ class L10nBrBaseOnchangeTest(TransactionCase):
                              ' \nVila Cordeiro\n04583-110 -  - SP\nBrazil',
             'The function _display_address failed.'
         )
-

@@ -21,6 +21,7 @@
     <record id="view_l10n_br_base_partner_bank_tree" model="ir.ui.view">
         <field name="name">view_l10n_br_base.partner.bank.tree</field>
         <field name="model">res.partner.bank</field>
+        <field name="priority">999</field>
         <field name="inherit_id" ref="base.view_partner_bank_tree"/>
         <field name="arch" type="xml">
             <field name="acc_number" position="replace">
