@@ -12,7 +12,7 @@
                 <group position="before">
                     <field name="expression_mode"/>
                 </group>
-                <field name="column" position="after">
+                <field name="column_title" position="after">
                     <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                     <field name="invert_signal" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                     <field name="expression_type" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
