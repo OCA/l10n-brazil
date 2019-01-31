@@ -20,6 +20,35 @@
                 <field name="compare_method" position="after">
                     <field name="style_id"/>
                 </field>
+                <group position="after">
+                    <group col="2" string="Legend (for kpi expressions)">
+                        <group>
+                            <label colspan="2" string="Expressions are of the form &lt;field&gt;&lt;mode&gt;[accounts][domain]"/>
+                            <label colspan="2" string="Possible values for 'field' can be:"/>
+                            <group>
+                                <label colspan="2" string="* bal for balance (debit - credit)"/>
+                                <label colspan="2" string="* crd for credit"/>
+                                <label colspan="2" string="* deb for debit"/>
+                            </group>
+                            <label colspan="2" string="Possible values for 'mode' are:"/>
+                            <group>
+                                <label colspan="2" string="* nothing or p: variation over the period"/>
+                                <label colspan="2" string="* i: at the beginning of the period"/>
+                                <label colspan="2" string="* e: at the end of the period"/>
+                            </group>
+                            <label colspan="2" string="'accounts' is a comma-separated list of account codes, possibly containing %% wildcards"/>
+                            <label colspan="2" string="'domain' is an optional filter on move lines (eg to filter on analytic accounts or journal)"/>
+                       </group>
+                       <group>
+                            <label colspan="2" string="Examples"/>
+                            <group>
+                                <label colspan="2" string="* bal[70]: variation of the balance of account 70 over the period (it is the same as balp[70]);"/>
+                                <label colspan="2" string="* bali[70,60]: initial balance of accounts 70 and 60;"/>
+                                <label colspan="2" string="* bale[1%%]: balance of accounts starting with 1 at end of period."/>
+                            </group>
+                        </group>
+                    </group>
+                </group>
             </field>
         </record>
 
