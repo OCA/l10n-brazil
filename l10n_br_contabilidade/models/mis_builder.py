@@ -98,15 +98,15 @@ class MisReportInstance(models.Model):
 
         today = fields.Date.today()
 
-        if not self.considerations:
-            res['considerations'] = ''
-            return [res]
-
         res['today'] = {
             'day': today[-2:],
             'month': MONTHS[today[5:-3]],
             'year': today[:4],
         }
+
+        if not self.considerations:
+            res['considerations'] = ''
+            return [res]
 
         kpi = self.report_id.kpi_ids.filtered(
             lambda k: k.name == 'resultado_liquido_do_periodo'
