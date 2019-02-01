@@ -111,6 +111,8 @@ class MisReportKpi(models.Model):
 
             exp = record.expression
 
+            if not exp:
+                continue
             if exp.startswith('-'):
                 invert_signal = True
                 exp_t = exp[1:].partition('[')[0]
