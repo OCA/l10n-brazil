@@ -16,9 +16,7 @@
             </field>
             <field name="kpi_ids" position="attributes">
                 <attribute name="context">{'report_mode': report_mode}</attribute>
-            </field>
-            <field name="kpi_ids" position="replace">
-                <field name="kpi_ids"  nolabel="1" colspan="2" widget="handle" editable="false"/>
+                <attribute name="editable">false</attribute>
             </field>
         </field>
     </record>
