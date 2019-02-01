@@ -9,9 +9,9 @@
             <field name="model">mis.report.kpi</field>
             <field name="inherit_id" ref="mis_builder.mis_report_kpi_form_view"/>
             <field name="arch" type="xml">
-                <group position="before">
+                <field name="sequence" position="after">
                     <field name="expression_mode"/>
-                </group>
+                </field>
                 <field name="column_title" position="after">
                     <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}">
                         <tree>
@@ -75,12 +75,18 @@
                 <field name="prefix" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
-                <!--<field name="css_style" position="attributes">-->
-                    <!--<attribute name="invisible">1</attribute>-->
-                <!--</field>-->
-                <!--<field name="default_css_style" position="attributes">-->
-                    <!--<attribute name="invisible">1</attribute>-->
-                <!--</field>-->
+                <field name="css_style" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="default_css_style" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="type" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="divider" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <field name="compare_method" position="after">
                     <field name="style_id"/>
                 </field>
