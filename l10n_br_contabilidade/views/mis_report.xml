@@ -14,9 +14,9 @@
                 <field name="report_mode"/>
                 <field name="considerations"/>
             </field>
-            <xpath expr="//field[@name='kpi_ids']" position="replace">
-                <field name="kpi_ids" context="{'report_mode': report_mode}"/>
-            </xpath>
+            <field name="kpi_ids" position="attributes">
+                <attribute name="context">{'report_mode': report_mode}</attribute>
+            </field>
         </field>
     </record>
 
