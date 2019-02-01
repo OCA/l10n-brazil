@@ -129,7 +129,7 @@ class MisReportInstance(models.Model):
                                 output_encoding='utf-8',
                                 strict_undefined=True)
             res['considerations'] = template.render(
-                mr=self, liquid={'val': val, 'f': liquid, 'in_full': in_full},
-                today=res['today']).decode('utf-8')
+                liquid={'val': val, 'f': liquid, 'in_full': in_full},
+                mr=self.report_id, today=res['today']).decode('utf-8')
 
         return result
