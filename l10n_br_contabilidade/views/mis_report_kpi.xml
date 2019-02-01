@@ -13,12 +13,21 @@
                     <field name="expression_mode"/>
                 </group>
                 <field name="column_title" position="after">
-                    <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
+                    <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}">
+                        <tree>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="natureza_conta_id"/>
+                        </tree>
+                    </field>
                     <field name="invert_signal" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                     <field name="expression_type" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                 </field>
                 <field name="compare_method" position="after">
                     <field name="style_id"/>
+                </field>
+                <field name="expression" position="attributes">
+                    <attribute name="required">1</attribute>
                 </field>
                 <group position="after">
                     <group col="2" string="Legend (for kpi expressions)">
@@ -57,6 +66,21 @@
             <field name="model">mis.report.kpi</field>
             <field name="inherit_id" ref="mis_builder.mis_report_kpi_tree_view"/>
             <field name="arch" type="xml">
+                <field name="dp" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="suffix" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="prefix" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <!--<field name="css_style" position="attributes">-->
+                    <!--<attribute name="invisible">1</attribute>-->
+                <!--</field>-->
+                <!--<field name="default_css_style" position="attributes">-->
+                    <!--<attribute name="invisible">1</attribute>-->
+                <!--</field>-->
                 <field name="compare_method" position="after">
                     <field name="style_id"/>
                 </field>

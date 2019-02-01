@@ -44,6 +44,7 @@ class MisReportKpi(models.Model):
     )
     style_id = fields.Many2one(
         comodel_name='mis.report.style',
+        string='Estilo',
     )
     account_ids = fields.Many2many(
         comodel_name='account.account',
@@ -60,6 +61,7 @@ class MisReportKpi(models.Model):
         compute='_compute_kpi_expression',
         inverse='_inverse_kpi_expression',
         store=True,
+        required=False,
     )
     expression_mode = fields.Selection(
         selection=SELECTION_MODE,
