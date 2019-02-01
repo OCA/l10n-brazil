@@ -50,7 +50,17 @@
                                                             <t t-esc="value_value.val_r"/>
                                                         </a>
                                                     </t>
-                                                    <t t-if="!value_value.drilldown">
+                                                    <t t-if="value_value.sub_report_ids">
+                                                        <a href="javascript:void(0)"
+                                                           class="mis_builder_sub_report"
+                                                           t-att-data-sub-report-ids="JSON.stringify(value_value.sub_report_ids)"
+                                                           t-att-data-period-id="JSON.stringify(value_value.period_id)"
+                                                           t-att-data-expr="JSON.stringify(value_value.expr)"
+                                                        >
+                                                            <t t-esc="value_value.val_r"/>
+                                                        </a>
+                                                    </t>
+                                                    <t t-if="!value_value.drilldown &amp;&amp; !value_value.sub_report_ids">
                                                         <t t-esc="value_value.val_r"/>
                                                     </t>
                                                 </div>
