@@ -79,7 +79,7 @@
         </record>
 
         <menuitem id="l10n_br_contabilidade_mis_instance_menu"
-                  parent="account.menu_account_reports"
+                  parent="account.menu_finance_legal_statement"
                   name="MIS Reports"
                   action="mis_builder.mis_report_instance_view_action"
                   sequence="101"
