@@ -677,54 +677,6 @@ class AccountInvoice(models.Model):
             result = txt.validate(self)
             return result
 
-<<<<<<< HEAD
-=======
-    def action_payment(self):
-        """ Processa informações dos pagamentos"""
-        for invoice in self:
-            if invoice.nfe_version == '4.00':
-                if invoice.issuer == '0':
-                    # Preenche a forma de pagamento padrão caso ainda não
-                    # Tenha sido preenchida pelo usuário, mesma funcionalidade
-                    # da venda e compras, mas lá é aplicado através de um
-                    # onchange
-                    #
-                    # Não da pra fazer com onchange na invoice pois a ST e
-                    # outros impostos são calculados somente quando salvamos.
-                    #
-                    if (invoice.payment_term_id and invoice.amount_total and
-                            not invoice.account_payment_ids):
-                        date_invoice = invoice.date_invoice
-                        if not date_invoice:
-                            date_invoice = fields.Date.context_today(invoice)
-                        payment_id = invoice.account_payment_ids.new()
-                        payment_id.payment_term_id = invoice.payment_term_id
-                        payment_id.amount = invoice.amount_total
-                        payment_id.date = date_invoice
-                        payment_id.onchange_payment_term_id()
-                        invoice.account_payment_ids |= payment_id
-            if not invoice.account_payment_ids:
-                raise UserError(
-                    _(u'A nota fiscal deve conter dados de pagamento')
-                )
-            elif invoice.amount_change < 0:
-                #
-                # TODO: Implementar lançamento contábil com troco
-                #
-                raise UserError(
-                    _(u'O total de pagamentos deve ser maior ou igual '
-                      u'ao total da nota.\n'
-                      u'Resta realizar o pagamento de %0.2f'
-                      % invoice.amount_change)
-                )
-            else:
-                for item, payment in enumerate(
-                        invoice.account_payment_line_ids):
-                    if payment.number:
-                        continue
-                    payment.number = str(item + 1).zfill(3)
-
->>>>>>> 1a392e116... [MIGR] workflow methods and invoice line sign in compute line
     @api.multi
     def action_number(self):
         # TODO: not correct fix but required a fresh values before reading it.
@@ -757,14 +709,8 @@ class AccountInvoice(models.Model):
                     {'fiscal_number': seq_number,
                      'number': seq_number,
                      'date_hour_invoice': date_time_invoice,
-<<<<<<< HEAD
-                     'date_in_out': date_in_out}
-                )
-=======
                      'date_in_out': date_in_out})
 
-        # self.action_payment()
->>>>>>> 1a392e116... [MIGR] workflow methods and invoice line sign in compute line
         return True
 
     @api.onchange('type')
