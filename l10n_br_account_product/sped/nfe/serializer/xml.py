@@ -7,8 +7,9 @@ from ..document import NFe310
 from ..document import NFe400
 
 
-def nfe_export(cr, uid, ids, nfe_environment='1',
-               nfe_version='2.00', context=None):
+def nfe_export(invoices,
+               nfe_environment='1',
+               nfe_version='4.00'):
 
     if nfe_version == '4.00':
         NFe = NFe400()
@@ -17,6 +18,7 @@ def nfe_export(cr, uid, ids, nfe_environment='1',
     else:
         NFe = NFe200()
 
-    nfes = NFe.get_xml(cr, uid, ids, nfe_environment, context)
+    nfes = NFe.get_xml(invoices,
+                       nfe_environment)
 
     return nfes
