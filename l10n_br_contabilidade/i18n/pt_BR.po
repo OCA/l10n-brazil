@@ -90,7 +90,7 @@ msgstr "Lançamento Contábil"
 #. module: l10n_br_contabilidade
 #: field:mis.report.kpi,account_ids:0
 msgid "Account ids"
-msgstr "IDs da conta"
+msgstr "Contas contabeis"
 
 #. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_account_period
@@ -1056,7 +1056,7 @@ msgstr "Minutos:"
 #. module: l10n_br_contabilidade
 #: field:account.account,mis_report_kpi_ids:0
 msgid "Mis report kpi ids"
-msgstr "ID dos KPIs do Relatório"
+msgstr "Linhas dos relatórios contábeis"
 
 #. module: l10n_br_contabilidade
 #: field:mis.report,report_mode:0
@@ -1421,8 +1421,8 @@ msgstr "Estilo"
 
 #. module: l10n_br_contabilidade
 #: field:mis.report.kpi,style_id:0
-msgid "Style id"
-msgstr "ID do estilo"
+msgid "Style"
+msgstr "Estilo"
 
 #. module: l10n_br_contabilidade
 #: field:mis.report.style,name:0
