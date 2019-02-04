@@ -10,6 +10,7 @@
             <field name="inherit_id" ref="mis_builder.mis_report_kpi_form_view"/>
             <field name="arch" type="xml">
                 <field name="sequence" position="after">
+                    <field name="report_mode" invisible="1"/>
                     <field name="expression_mode"/>
                 </field>
                 <field name="column_title" position="after">

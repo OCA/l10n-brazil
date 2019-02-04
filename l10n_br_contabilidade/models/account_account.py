@@ -90,6 +90,7 @@ class AccountAccount(models.Model):
     mis_report_kpi_ids = fields.Many2many(
         comodel_name='mis.report.kpi',
         inverse_name='account_ids',
+        readonly=True,
     )
 
     @api.multi

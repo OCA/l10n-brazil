@@ -2,28 +2,25 @@
 # Copyright 2018 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import re
-
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning as UserWarning
 
-from .mis_report import MIS_REPORT_MODE
 
 EXPRESSION_TYPES = [
-    ('bal', 'Saldo no período'),
-    ('bale', 'Saldo no fim do período'),
-    ('bali', 'Saldo no início do período'),
-    ('crd', 'Credito no período'),
-    ('crdi', 'Crédito no início do periodo'),
-    ('crde', 'Crédito no fim do periodo'),
-    ('deb', 'Débito no período'),
-    ('debe', 'Débito no fim do período'),
-    ('debi', 'Débito no início do período'),
+    ('bal', u'Saldo no período'),
+    ('bale', u'Saldo no fim do período'),
+    ('bali', u'Saldo no início do período'),
+    ('crd', u'Credito no período'),
+    ('crdi', u'Crédito no início do período'),
+    ('crde', u'Crédito no fim do período'),
+    ('deb', u'Débito no período'),
+    ('debe', u'Débito no fim do período'),
+    ('debi', u'Débito no início do período'),
 ]
 
 SELECTION_MODE = [
-    ('auto', u'Automático'),
-    ('manual', 'Manual'),
+    ('auto', u'Conta Contábil'),
+    ('manual', u'Formula'),
 ]
 
 
@@ -48,7 +45,8 @@ class MisReportKpi(models.Model):
     )
     account_ids = fields.Many2many(
         comodel_name='account.account',
-        inverse_name='mis_report_kpi_ids'
+        inverse_name='mis_report_kpi_ids',
+        string='Contas contabeis'
     )
     invert_signal = fields.Boolean(
         default=False,
@@ -65,8 +63,18 @@ class MisReportKpi(models.Model):
     )
     expression_mode = fields.Selection(
         selection=SELECTION_MODE,
-        default='manual'
     )
+    report_mode = fields.Char(
+        # related='report_id.report_mode'
+    )
+
+    @api.one
+    @api.onchange('report_mode')
+    def onchange_report_mode(self):
+        if self.report_mode == 'contabil':
+            self.expression_mode = 'auto'
+        else:
+            self.expression_mode = 'manual'
 
     @api.one
     @api.constrains('account_ids')
@@ -74,8 +82,8 @@ class MisReportKpi(models.Model):
         if self.report_id.report_mode == 'contabil':
             if not self.account_ids and self.expression_mode == 'auto':
                 raise UserWarning(
-                    "Não é possível criar um relatório contábil sem "
-                    "preencher as contas da linha"
+                    u"Não é possível criar um relatório contábil sem "
+                    u"preencher as contas da linha"
                 )
 
     @api.depends('account_ids.mis_report_kpi_ids', 'expression_type',
@@ -132,4 +140,4 @@ class MisReportKpi(models.Model):
                 record.account_ids = record.env['account.account'].search(
                     [('code', 'in', account_ids)])
             else:
-                raise UserWarning('Invalid expression type!')
+                raise UserWarning(u'Invalid expression type!')
