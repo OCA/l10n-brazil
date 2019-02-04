@@ -30,3 +30,11 @@ class GefinCustos(models.Model):
         string='Outros',
         digits=dp.get_precision('Account'),
     )
+    date_start = fields.Date(
+        related='period_id.date_start',
+        store=True,
+    )
+    date_stop = fields.Date(
+        related='period_id.date_stop',
+        store=True,
+    )
