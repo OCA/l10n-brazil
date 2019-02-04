@@ -40,7 +40,7 @@ class L10nbrAccountDocumentRelated(models.Model):
         string=u'Série',
         size=12)
 
-    internal_number = fields.Char(
+    number = fields.Char(
         string=u'Número',
         size=32)
 
@@ -139,7 +139,7 @@ class L10nbrAccountDocumentRelated(models.Model):
         if related.fiscal_document_id.code in ('55', '57'):
             self.access_key = related.nfe_access_key
             self.serie = False
-            self.internal_number = False
+            self.number = False
             self.state_id = False
             self.cnpj_cpf = False
             self.cpfcnpj_type = False
@@ -155,7 +155,7 @@ class L10nbrAccountDocumentRelated(models.Model):
             else:
                 self.serie = related.vendor_serie
 
-            self.internal_number = related.internal_number
+            self.number = related.fiscal_number
             self.state_id = related.partner_id and \
                 related.partner_id.state_id and \
                 related.partner_id.state_id.id or False
