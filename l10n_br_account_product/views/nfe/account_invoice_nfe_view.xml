@@ -95,7 +95,7 @@
                                 context="{'default_type':'delivery', 'show_address': 1}"/>
                         </group>
                         <group>
-                            <field name="internal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                            <field name="fiscal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
                             <field name="date_invoice" invisible="1"/>
                             <field name="date_hour_invoice" string="Data Emissão"/>
                             <field name="date_in_out" string="Data de Entrada/Saida"/>
@@ -212,7 +212,7 @@
                                 <group>
                                     <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                                     <field name="journal_id" groups="account.group_account_user" options="{'no_create': True}"
-                                        attrs="{'readonly':[('internal_number','!=',False)]}" domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]"/>
+                                        attrs="{'readonly':[('fiscal_number','!=',False)]}" domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]"/>
                                     <label for="currency_id" groups="base.group_multi_currency"/>
                                     <div groups="base.group_multi_currency">
                                         <field name="currency_id" class="oe_inline"/>
@@ -247,7 +247,7 @@
                                     <field name="document_type"/>
                                     <field name="access_key"/>
                                     <field name="serie"/>
-                                    <field name="internal_number"/>
+                                    <field name="number"/>
                                 </tree>
                                 <form string="Documentos Fiscais">
                                     <group>
@@ -261,7 +261,7 @@
                                     </group>
                                     <group string="Nota Fiscal/Produtor/Cupom Fiscal" attrs="{'invisible': [('document_type', 'in', ('nfe','cte', False))]}">
                                         <field name="serie" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
-                                        <field name="internal_number" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+                                        <field name="number" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
                                         <field name="fiscal_document_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
                                         <field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
                                         <field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
