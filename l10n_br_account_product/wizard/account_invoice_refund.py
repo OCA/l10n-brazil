@@ -43,15 +43,15 @@ class AccountInvoiceRefund(models.TransientModel):
                     self.force_fiscal_category_id.id or
                     invoice.fiscal_category_id.refund_fiscal_category_id.id)
 
-                invoice.onchange_fiscal()
+                invoice._onchange_fiscal()
 
                 invoice_values = {
                     'fiscal_category_id': invoice.fiscal_category_id.id,
-                    'fiscal_position': invoice.fiscal_position.id,
+                    'fiscal_position_id': invoice.fiscal_position_id.id,
                     'nfe_purpose': '4'
                 }
 
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
                     if not self.force_fiscal_category_id and not \
                             line.fiscal_category_id.refund_fiscal_category_id:
                         raise UserError(_(u"Categoria Fiscal: %s não possui"
@@ -62,12 +62,12 @@ class AccountInvoiceRefund(models.TransientModel):
                         self.force_fiscal_category_id.id or
                         line.fiscal_category_id.refund_fiscal_category_id.id)
 
-                    line.onchange_fiscal()
+                    line._onchange_fiscal()
 
                     line_values = {
                         'fiscal_category_id': line.fiscal_category_id.id,
-                        'fiscal_position': line.fiscal_position.id,
-                        'cfop_id': line.fiscal_position.cfop_id.id
+                        'fiscal_position_id': line.fiscal_position_id.id,
+                        'cfop_id': line.fiscal_position_id.cfop_id.id
                     }
                     line.write(line_values)
                 invoice.write(invoice_values)
