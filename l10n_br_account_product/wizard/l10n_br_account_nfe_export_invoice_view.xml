@@ -5,7 +5,7 @@
         <field name="name">Exportar Nota Fiscal</field>
         <field name="model">l10n_br_account_product.nfe_export_invoice</field>
         <field name="arch" type="xml">
-            <form string="Exportar Nota Fiscal" version="7.0">
+            <form string="Exportar Nota Fiscal">
                 <field invisible="1" name="state"/>
                 <field name="name" invisible="1" />
                 <group>
@@ -16,14 +16,14 @@
                         <field name="export_folder"/>
                     </group>
                     <group states="done" string="Resultado da Exportação">
-                        <field nolabel="1" readonly="1" colspan="4" name="nfe_export_result">
+                        <field nolabel="1" readonly="1" name="nfe_export_result">
                             <tree colors="green:status == 'success';red:status == 'error'">
                                 <field name="document"/>
                                 <field name="message"/>
                                 <field name="status"/>
                             </tree>
                         </field>
-                        <field name="file" colspan="4" filename="name" attrs="{'invisible': [('export_folder','=', True)]}"/>
+                        <field name="file" filename="name" attrs="{'invisible': [('export_folder','=', True)]}"/>
                     </group>
                 </group>
                 <footer states="init">
