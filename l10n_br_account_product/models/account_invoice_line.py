@@ -42,7 +42,10 @@ class AccountInvoiceLine(models.Model):
         self.price_subtotal = 0.0
         self.price_gross = 0.0
         self.discount_value = 0.0
-        sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
+
+        # sign = self.invoice_id.type in ['in_refund', 'out_refund']
+        #        and -1 or 1
+        sign = 1
         if self.invoice_id:
             self.price_tax_discount = self.invoice_id.currency_id.round(
                 taxes['total_excluded'] - taxes['total_tax_discount'] * sign)
