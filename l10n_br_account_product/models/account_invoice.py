@@ -18,7 +18,7 @@ from ..sped.nfe.validator import txt
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    _order = 'date_hour_invoice DESC, internal_number DESC'
+    _order = 'date_hour_invoice DESC, fiscal_number DESC'
 
     @api.one
     @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount',
@@ -150,11 +150,11 @@ class AccountInvoice(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]})
 
-    # FIXME
-    internal_number = fields.Char(
-        string='Invoice Number',
+    fiscal_number = fields.Char(
+        string='Fiscal Number',
         size=32,
         readonly=True,
+        copy=False,
         states={'draft': [('readonly', False)]},
         help="""Unique number of the invoice, computed
             automatically when the invoice is created.""")
@@ -559,14 +559,14 @@ class AccountInvoice(models.Model):
         if self.number:
             fiscal_document = self.fiscal_document_id and\
                 self.fiscal_document_id.id or False
-            domain.extend([('internal_number', '=', self.number),
+            domain.extend([('fiscal_number', '=', self.number),
                            ('fiscal_type', '=', self.fiscal_type),
                            ('fiscal_document_id', '=', fiscal_document)
                            ])
             if self.issuer == '0':
                 domain.extend([
                     ('company_id', '=', self.company_id.id),
-                    ('internal_number', '=', self.number),
+                    ('fiscal_number', '=', self.number),
                     ('fiscal_document_id', '=', self.fiscal_document_id.id),
                     ('issuer', '=', '0')])
             else:
@@ -632,14 +632,24 @@ class AccountInvoice(models.Model):
     # TODO Imaginar em não apagar o internal number para nao ter a necessidade
     # de voltar a numeracão
     @api.multi
-    def action_cancel_draft(self):
-        result = super(AccountInvoice, self).action_cancel_draft()
+    def action_invoice_draft(self):
+        result = super(AccountInvoice, self).action_invoice_draft()
         self.write({
-            'internal_number': False,
+            'fiscal_number': False,
             'nfe_access_key': False,
             'nfe_status': False,
             'nfe_date': False,
             'nfe_export_date': False})
+        return result
+
+    @api.multi
+    def action_invoice_open(self):
+        self.action_number()
+        self.nfe_check()
+        result = super(AccountInvoice, self).action_invoice_open()
+        for invoice in self:
+            if invoice.fiscal_document_electronic:
+                invoice.write({'state': 'sefaz_export'})
         return result
 
     @api.multi
@@ -648,6 +658,54 @@ class AccountInvoice(models.Model):
             result = txt.validate(self)
             return result
 
+<<<<<<< HEAD
+=======
+    def action_payment(self):
+        """ Processa informações dos pagamentos"""
+        for invoice in self:
+            if invoice.nfe_version == '4.00':
+                if invoice.issuer == '0':
+                    # Preenche a forma de pagamento padrão caso ainda não
+                    # Tenha sido preenchida pelo usuário, mesma funcionalidade
+                    # da venda e compras, mas lá é aplicado através de um
+                    # onchange
+                    #
+                    # Não da pra fazer com onchange na invoice pois a ST e
+                    # outros impostos são calculados somente quando salvamos.
+                    #
+                    if (invoice.payment_term_id and invoice.amount_total and
+                            not invoice.account_payment_ids):
+                        date_invoice = invoice.date_invoice
+                        if not date_invoice:
+                            date_invoice = fields.Date.context_today(invoice)
+                        payment_id = invoice.account_payment_ids.new()
+                        payment_id.payment_term_id = invoice.payment_term_id
+                        payment_id.amount = invoice.amount_total
+                        payment_id.date = date_invoice
+                        payment_id.onchange_payment_term_id()
+                        invoice.account_payment_ids |= payment_id
+            if not invoice.account_payment_ids:
+                raise UserError(
+                    _(u'A nota fiscal deve conter dados de pagamento')
+                )
+            elif invoice.amount_change < 0:
+                #
+                # TODO: Implementar lançamento contábil com troco
+                #
+                raise UserError(
+                    _(u'O total de pagamentos deve ser maior ou igual '
+                      u'ao total da nota.\n'
+                      u'Resta realizar o pagamento de %0.2f'
+                      % invoice.amount_change)
+                )
+            else:
+                for item, payment in enumerate(
+                        invoice.account_payment_line_ids):
+                    if payment.number:
+                        continue
+                    payment.number = str(item + 1).zfill(3)
+
+>>>>>>> 1a392e116... [MIGR] workflow methods and invoice line sign in compute line
     @api.multi
     def action_number(self):
         # TODO: not correct fix but required a fresh values before reading it.
@@ -678,11 +736,17 @@ class AccountInvoice(models.Model):
                                      fields.datetime.now())
                 date_in_out = invoice.date_in_out or fields.datetime.now()
                 self.write(
-                    {'internal_number': seq_number,
+                    {'fiscal_number': seq_number,
                      'number': seq_number,
                      'date_hour_invoice': date_time_invoice,
+<<<<<<< HEAD
                      'date_in_out': date_in_out}
                 )
+=======
+                     'date_in_out': date_in_out})
+
+        # self.action_payment()
+>>>>>>> 1a392e116... [MIGR] workflow methods and invoice line sign in compute line
         return True
 
     @api.onchange('type')
