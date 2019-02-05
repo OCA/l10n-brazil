@@ -47,17 +47,16 @@
         <%!
 
         def c_d(balance, natureza):
-            if balance > 0:
+            if balance < 0:
                 if natureza == 'C':
                     return 'C'
                 elif natureza == 'D':
                     return 'D'
-            elif balance < 0:
+            elif balance > 0:
                 if natureza == 'C':
                     return 'D'
                 elif natureza == 'D':
                     return 'C'
-
             return ''
         %>
 
@@ -67,7 +66,8 @@
         initial_balance_text = {'initial_balance': _('Computed'), 'opening_balance': _('Opening Entries'), False: _('No')}
         %>
 
-        <div class="act_as_table data_table">
+
+        <div class="act_as_table data_table" style="width: 800px; margin: 0 auto 0 auto;">
             <div class="act_as_row labels">
                 <div class="act_as_cell">${_('Chart of Account')}</div>
                 <div class="act_as_cell">${_('Fiscal Year')}</div>
@@ -131,12 +131,13 @@
             </div>
         %endfor
 
-        <div class="act_as_table list_table" style="margin-top: 20px;">
+        <div class="act_as_table list_table" style="width: 800px; margin: 30px auto 0 auto;">
 
-            <div class="act_as_thead">
+            <div class="act_as_thead" style="font-weight: bold;">
                 <div class="act_as_row labels">
                     ## code
                     <div class="act_as_cell first_column" style="width: 45px;">${_('Account')}</div>
+
                     ## account name
                     <div class="act_as_cell" style="width: 100px;">Descrição</div>
                     %if comparison_mode == 'no_comparison':
@@ -174,6 +175,7 @@
                     %endif
                 </div>
             </div>
+
 
             <div class="act_as_tbody" style="text-align: center;">
                 <%
