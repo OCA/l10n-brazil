@@ -26,7 +26,7 @@ class AccountAccount(models.Model):
             ('credito', 'C'),
         ],
         default='debito',
-        compute='_get_identificacao_saldo',
+        compute='_compute_saldo_conta',
     )
 
     funcao = fields.Text(
@@ -101,6 +101,24 @@ class AccountAccount(models.Model):
             else:
                 record.tipo_conta_apresentacao = ''
 
+    def identif_natureza_saldo(self, balance, natureza):
+        """
+        Identifica a natureza do saldo de acordo com o valor do balance e a
+        natureza da conta.
+
+        :param balance:
+        :param natureza: 'C' or 'D'
+        :return:
+        """
+        if balance == 0:
+            return ''
+        elif natureza == 'C':
+            return 'credito' if balance > 0 else 'debito'
+        elif natureza == 'D':
+            return 'debito' if balance > 0 else 'credito'
+
+        return ''
+
     @api.depends('balance')
     def _compute_saldo_conta(self):
         """
@@ -110,21 +128,10 @@ class AccountAccount(models.Model):
         obs: Este campo está subistituindo o cambo 'balance' do core na visão
         """
         for record in self:
-            saldo = record.balance
-            if saldo < 0:
-                saldo *= -1
-
-            record.saldo = saldo
-
-    @api.depends('saldo')
-    def _get_identificacao_saldo(self):
-        for record in self:
-            if record.debit > record.credit:
-                record.identificacao_saldo = 'debito'
-            elif record.debit < record.credit:
-                record.identificacao_saldo = 'credito'
-            else:
-                record.identificacao_saldo = ''
+            record.saldo = abs(record.balance)
+            record.identificacao_saldo = self.identif_natureza_saldo(
+                record.balance, record.natureza_conta_id.name[0]) \
+                if record.natureza_conta_id else ''
 
     @api.v7
     def _check_allow_code_change(self, cr, uid, ids, context=None):
