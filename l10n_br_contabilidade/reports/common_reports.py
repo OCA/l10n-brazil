@@ -79,36 +79,55 @@ FROM account_move_line l
     return res or []
 
 
-# Livro Razão
-def _compute_initial_balances(self, account_ids, start_period, fiscalyear):
+def _compute_init_balance(self, account_id=None, period_ids=None,
+                          mode='computed', default_values=False):
+    if not isinstance(period_ids, list):
+        period_ids = [period_ids]
     res = {}
-    pnl_periods_ids = self._get_period_range_from_start_period(
-        start_period, fiscalyear=fiscalyear, include_opening=True)
-    bs_period_ids = self._get_period_range_from_start_period(
-        start_period, include_opening=True, stop_at_previous_opening=True)
-    opening_period_selected = self.get_included_opening_period(
-        start_period)
 
-    for acc in self.pool.get('account.account').browse(
-            self.cursor, self.uid, account_ids):
+    if not default_values:
+        if not account_id or not period_ids:
+            raise Exception('Missing account or period_ids')
+        try:
 
-        res[acc.id] = self._compute_init_balance(default_values=True)
-        if acc.user_type.close_method == 'none':
-            if pnl_periods_ids and not opening_period_selected:
-                res[acc.id] = self._compute_init_balance(
-                    acc.id, pnl_periods_ids)
-        else:
-            res[acc.id] = self._compute_init_balance(acc.id, bs_period_ids)
+            self.cursor.execute(
+                "SELECT an.name "
+                "FROM account_account aa "
+                "LEFT JOIN  account_natureza an "
+                "   ON (aa.natureza_conta_id = an.id) "
+                "WHERE aa.id = {}".format(account_id))
 
-        # Aplicar o raciocinio da natureza da conta
-        if acc.natureza_conta_id.code == 'credora':
-            # quantidade de creditos maiores que debitos, o raciocinio inverte
-            initial_balance = res.get(acc.id).get('init_balance') * -1
-            res.get(acc.id).update(init_balance=initial_balance)
+            natureza = self.cursor.dictfetchone().get('name')
 
-    return res
+            BALANCE = 'sum(debit)-sum(credit)'
+
+            if natureza and natureza == 'Credora':
+                BALANCE = 'sum(credit)-sum(debit)'
+
+            self.cursor.execute(
+                "SELECT sum(debit) AS debit, "
+                " sum(credit) AS credit, "
+                " {} AS balance, "
+                " sum(amount_currency) AS curr_balance"
+                " FROM account_move_line"
+                " WHERE period_id in {}"
+                " AND account_id = {}".format(
+                    BALANCE, tuple(period_ids), account_id
+                )
+            )
+            res = self.cursor.dictfetchone()
+
+        except Exception:
+            self.cursor.rollback()
+            raise
+
+    return {'debit': res.get('debit') or 0.0,
+            'credit': res.get('credit') or 0.0,
+            'init_balance': res.get('balance') or 0.0,
+            'init_balance_currency': res.get('curr_balance') or 0.0,
+            'state': mode}
 
 
-# Livro Razão
-CommonReportHeaderWebkit._compute_initial_balances = _compute_initial_balances
+
+CommonReportHeaderWebkit._compute_init_balance = _compute_init_balance
 CommonReportHeaderWebkit._get_move_line_datas = _get_move_line_datas

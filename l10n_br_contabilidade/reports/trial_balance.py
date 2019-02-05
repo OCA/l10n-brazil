@@ -124,7 +124,9 @@ def compute_balance_data(self, data, filter_report_type=None):
     account_ids = self.get_all_accounts(
         new_ids, only_type=filter_report_type, context=ctx)
 
-    lang_ctx['lancamento_de_fechamento'] = data['form']['lancamento_de_fechamento']
+    lang_ctx['lancamento_de_fechamento'] = \
+        data['form']['lancamento_de_fechamento']
+
     # get details for each account, total of debit / credit / balance
     accounts_by_ids = self._get_account_details(
         account_ids, target_move, fiscalyear, main_filter, start, stop,
@@ -195,25 +197,6 @@ def compute_balance_data(self, data, filter_report_type=None):
         to_display_accounts.update(
             {account.id: display_account and
                          to_display_accounts[account.id]})
-
-    for init in init_balance_accounts:
-        natureza = accounts_by_ids[init]['natureza_conta_id'][1] \
-            if accounts_by_ids[init]['natureza_conta_id'] else ''
-
-        # Natureza Devedora: debito - crédito
-        if natureza == 'Devedora':
-            final = init_balance_accounts[init] + debit_accounts[init] - \
-                    credit_accounts[init]
-
-        # Natureza Devedora: crédito - debito
-        elif natureza == 'Credora':
-            final = init_balance_accounts[init] + credit_accounts[init] - \
-                    debit_accounts[init]
-
-        else:
-            final = balance_accounts[init]
-
-        balance_accounts[init] = final
 
     context_report_values = {
         'fiscalyear': fiscalyear,
