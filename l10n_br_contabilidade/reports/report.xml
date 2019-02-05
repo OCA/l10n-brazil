@@ -3,47 +3,47 @@
     <data>
 
        <!-- Livro Razão -->
-       <record id="abgf_account_report_general_ledger" model="ir.actions.report.xml">
+       <record id="l10n_br_account_report_general_ledger" model="ir.actions.report.xml">
             <field name="report_type">webkit</field>
-            <field name="report_name">account.abgf_account_report_general_ledger</field>
+            <field name="report_name">account.l10n_br_account_report_general_ledger</field>
             <field eval="[(6,0,[])]" name="groups_id"/>
             <field eval="0" name="multi"/>
             <field eval="0" name="auto"/>
             <field eval="1" name="header"/>
             <field name="model">account.account</field>
             <field name="type">ir.actions.report.xml</field>
-            <field name="name">ABGF_Livro_Razao</field>
-            <field name="report_rml">abgf_contabilidade/reports/templates/account_report_general_ledger.mako</field>
-            <field name="report_file">abgf_contabilidade/reports/templates/account_report_general_ledger.mako</field>
+            <field name="name">l10n_br_Livro_Razao</field>
+            <field name="report_rml">l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako</field>
+            <field name="report_file">l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako</field>
         </record>
 
-        <record id="property_abgf_account_report_general_ledger_webkit" model="ir.property">
-            <field name="name">abgf_account_report_general_ledger</field>
+        <record id="property_l10n_br_account_report_general_ledger_webkit" model="ir.property">
+            <field name="name">l10n_br_account_report_general_ledger</field>
             <field name="fields_id" ref="report_webkit.field_ir_act_report_xml_webkit_header"/>
             <field eval="'ir.header_webkit,'+str(ref('account_financial_report_webkit.financial_landscape_header'))" model="ir.header_webkit" name="value"/>
-            <field eval="'ir.actions.report.xml,'+str(ref('abgf_contabilidade.abgf_account_report_general_ledger'))" model="ir.actions.report.xml" name="res_id"/>
+            <field eval="'ir.actions.report.xml,'+str(ref('l10n_br_contabilidade.l10n_br_account_report_general_ledger'))" model="ir.actions.report.xml" name="res_id"/>
         </record>
 
         <!-- Balancete -->
-        <record id="abgf_account_report_trial_balance" model="ir.actions.report.xml">
+        <record id="l10n_br_account_report_trial_balance" model="ir.actions.report.xml">
              <field name="report_type">webkit</field>
-             <field name="report_name">account.abgf_account_report_trial_balance</field>
+             <field name="report_name">account.l10n_br_account_report_trial_balance</field>
              <field eval="[(6,0,[])]" name="groups_id"/>
              <field eval="0" name="multi"/>
              <field eval="0" name="auto"/>
              <field eval="1" name="header"/>
              <field name="model">account.account</field>
              <field name="type">ir.actions.report.xml</field>
-             <field name="name">ABGF_Balancete</field>
-             <field name="report_rml">abgf_contabilidade/reports/templates/account_report_trial_balance.mako</field>
-             <field name="report_file">abgf_contabilidade/reports/templates/account_report_trial_balance.mako</field>
+             <field name="name">l10n_br_Balancete</field>
+             <field name="report_rml">l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako</field>
+             <field name="report_file">l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako</field>
          </record>
 
-        <record id="property_abgf_account_report_trial_balance" model="ir.property">
-            <field name="name">abgf_account_report_trial_balance</field>
+        <record id="property_l10n_br_account_report_trial_balance" model="ir.property">
+            <field name="name">l10n_br_account_report_trial_balance</field>
             <field name="fields_id" ref="report_webkit.field_ir_act_report_xml_webkit_header"/>
             <field eval="'ir.header_webkit,'+str(ref('account_financial_report_webkit.financial_portrait_header'))" model="ir.header_webkit" name="value"/>
-            <field eval="'ir.actions.report.xml,'+str(ref('abgf_contabilidade.abgf_account_report_trial_balance'))" model="ir.actions.report.xml" name="res_id"/>
+            <field eval="'ir.actions.report.xml,'+str(ref('l10n_br_contabilidade.l10n_br_account_report_trial_balance'))" model="ir.actions.report.xml" name="res_id"/>
         </record>
 
     </data>

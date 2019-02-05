@@ -2,12 +2,12 @@
 <openerp>
     <data>
 
-    <record id="abgf_account_natureza_devedora" model="account.natureza">
+    <record id="l10n_br_account_natureza_devedora" model="account.natureza">
         <field name="name">Devedora</field>
         <field name="code">devedora</field>
     </record>
 
-    <record id="abgf_account_natureza_credora" model="account.natureza">
+    <record id="l10n_br_account_natureza_credora" model="account.natureza">
         <field name="name">Credora</field>
         <field name="code">credora</field>
     </record>
