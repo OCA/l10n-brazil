@@ -107,7 +107,7 @@
 
 
      <!--Visao cubo-->
-    <record id="abgf_account_saldo_report_graph" model="ir.ui.view">
+    <record id="l10n_br_account_saldo_report_graph" model="ir.ui.view">
         <field name="name">account.saldo.report.graph (in l10n_br_contabilidade)</field>
         <field name="model">account.saldo</field>
         <field name="arch" type="xml">
@@ -129,14 +129,14 @@
         <field name="view_type">form</field>
         <field name="view_mode">graph</field>
         <field name="search_view_id" ref="l10n_br_contabilidade_account_saldo_search"/>
-        <field name="view_id" ref="abgf_account_saldo_report_graph"/>
+        <field name="view_id" ref="l10n_br_account_saldo_report_graph"/>
         <!--<field name="context">{'group_by':[], 'search_default_usertype':1, 'search_default_thisyear':1, 'group_by_no_leaf':1}</field>-->
         <!--<field name="help">From this view, have an analysis of your different financial accounts. The document shows your debit and credit taking in consideration some criteria you can choose by using the search tool.</field>-->
     </record>
 
 
     <menuitem
-            id="menu_abgf_action_account_saldo_graph"
+            id="menu_l10n_br_action_account_saldo_graph"
             name="Balancete por períodos"
             action="l10n_br_contabilidade_account_saldo_graph_action"
             sequence="25"

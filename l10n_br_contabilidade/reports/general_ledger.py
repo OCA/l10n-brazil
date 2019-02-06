@@ -9,7 +9,7 @@ from openerp.addons.account_financial_report_webkit.report.webkit_parser_header_
     import HeaderFooterTextWebKitParser
 
 HeaderFooterTextWebKitParser(
-    'report.account.abgf_account_report_general_ledger',
+    'report.account.l10n_br_account_report_general_ledger',
     'account.account',
     'l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako',
     parser=GeneralLedgerWebkit)

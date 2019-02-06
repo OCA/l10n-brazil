@@ -7,7 +7,7 @@
     <data>
 
         <record model="ir.ui.view" id="account_fechamento_reabertura_justificativa_form">
-            <field name="name">account_fechamento_reabertura_justificativa_form (in abgf_contabilidade)</field>
+            <field name="name">account_fechamento_reabertura_justificativa_form (in l10n_br_contabilidade)</field>
             <field name="model">account.fechamento.reabertura.justificativa</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
@@ -26,7 +26,7 @@
         </record>
 
         <record model="ir.ui.view" id="account_fechamento_reabertura_justificativa_tree">
-            <field name="name">account_fechamento_reabertura_justificativa_tree (in abgf_contabilidade)</field>
+            <field name="name">account_fechamento_reabertura_justificativa_tree (in l10n_br_contabilidade)</field>
             <field name="model">account.fechamento.reabertura.justificativa</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
@@ -40,7 +40,7 @@
         </record>
 
         <record model="ir.ui.view" id="account_fechamento_reabertura_justificativa_search">
-            <field name="name">account_fechamento_reabertura_justificativa_search (in abgf_contabilidade)</field>
+            <field name="name">account_fechamento_reabertura_justificativa_search (in l10n_br_contabilidade)</field>
             <field name="model">account.fechamento.reabertura.justificativa</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
@@ -54,30 +54,30 @@
         </record>
 
         <!--Menu para fechar movimento-->
-        <record model="ir.actions.act_window" id="abgf_contabilidade_reabertura_action">
+        <record model="ir.actions.act_window" id="l10n_br_contabilidade_reabertura_action">
             <field name="name">Reabertura</field>
             <field name="res_model">account.fechamento.reabertura.justificativa</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_fechamento_reabertura_tree_action">
+        <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_fechamento_reabertura_tree_action">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="account_fechamento_reabertura_justificativa_tree"/>
-            <field name="act_window_id" ref="abgf_contabilidade_reabertura_action"/>
+            <field name="act_window_id" ref="l10n_br_contabilidade_reabertura_action"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="abgf_contabilidade_account_fechamento_reabertura_form_action">
+        <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_fechamento_reabertura_form_action">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="account_fechamento_reabertura_justificativa_form"/>
-            <field name="act_window_id" ref="abgf_contabilidade_reabertura_action"/>
+            <field name="act_window_id" ref="l10n_br_contabilidade_reabertura_action"/>
         </record>
 
         <menuitem
-            action="abgf_contabilidade_reabertura_action"
-            id="menu_abgf_contabilidade_reabertura"
-            parent="abgf_menu_encerramento_contabilidade"
+            action="l10n_br_contabilidade_reabertura_action"
+            id="menu_l10n_br_contabilidade_reabertura"
+            parent="l10n_br_menu_encerramento_contabilidade"
             sequence="100"
             groups="base.group_no_one"
         />

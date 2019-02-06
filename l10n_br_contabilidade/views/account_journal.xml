@@ -90,7 +90,7 @@
             </field>
         </record>
 
-        <record id="l10n_br_contabilidade_action_account_journal_form" model="ir.actions.act_window">
+        <record id="l10n_br_action_account_journal_form" model="ir.actions.act_window">
             <field name="name">Lote de lançamentos</field>
             <field name="res_model">account.journal</field>
             <field name="view_type">form</field>
@@ -100,7 +100,7 @@
         <record id="account.menu_action_account_journal_form" model="ir.ui.menu" >
             <field name="name">Lote de lançamentos</field>
             <!--TODO: Renomear no resto do sistema Diário para Lote de lançamento -->
-            <field name="action_id" ref="l10n_br_contabilidade_action_account_journal_form"/>
+            <field name="action_id" ref="l10n_br_action_account_journal_form"/>
             <field name="sequence">-100</field>
         </record>
 

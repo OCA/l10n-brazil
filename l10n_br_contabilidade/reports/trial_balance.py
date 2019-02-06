@@ -335,7 +335,7 @@ TrialBalanceWebkit.compute_balance_data = compute_balance_data
 TrialBalanceWebkit._get_account_details = _get_account_details
 
 HeaderFooterTextWebKitParser(
-    'report.account.abgf_account_report_trial_balance',
+    'report.account.l10n_br_account_report_trial_balance',
     'account.account',
     'l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako',
     parser=TrialBalanceWebkit)

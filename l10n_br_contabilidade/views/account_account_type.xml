@@ -5,7 +5,7 @@
 <openerp>
     <data>
 
-        <record id="abgf_action_tipo_conta_form" model="ir.actions.act_window">
+        <record id="l10n_br_action_tipo_conta_form" model="ir.actions.act_window">
             <field name="name">Tipo Conta</field>
             <field name="res_model">account.account.type</field>
             <field name="view_type">form</field>
@@ -14,8 +14,8 @@
         </record>
 
         <menuitem
-                id="abgf_menu_tipo_conta_form"
-                action="abgf_action_tipo_conta_form"
+                id="l10n_br_menu_tipo_conta_form"
+                action="l10n_br_action_tipo_conta_form"
                 sequence="520"
                 parent="account.account_account_menu"
         />

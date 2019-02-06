@@ -5,7 +5,7 @@
 <openerp>
     <data>
 
-        <record id="abgf_view_account_natureza_form" model="ir.ui.view">
+        <record id="l10n_br_view_account_natureza_form" model="ir.ui.view">
             <field name="name">abgf.account.natureza.form</field>
             <field name="model">account.natureza</field>
             <field name="arch" type="xml">
@@ -24,7 +24,7 @@
             </field>
         </record>
 
-        <record id="abgf_view_account_natureza_tree" model="ir.ui.view">
+        <record id="l10n_br_view_account_natureza_tree" model="ir.ui.view">
             <field name="name">abgf.account.natureza.tree</field>
             <field name="model">account.natureza</field>
             <field name="arch" type="xml">
@@ -35,17 +35,17 @@
             </field>
         </record>
 
-        <record id="abgf_conta_natureza_form" model="ir.actions.act_window">
+        <record id="l10n_br_conta_natureza_form" model="ir.actions.act_window">
             <field name="name">Natureza Conta</field>
             <field name="res_model">account.natureza</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="l10n_br_contabilidade.abgf_view_account_natureza_tree"/>
+            <field name="view_id" ref="l10n_br_contabilidade.l10n_br_view_account_natureza_tree"/>
         </record>
 
         <menuitem
-                id="abgf_menu_config_conta_natureza"
-                action="l10n_br_contabilidade.abgf_conta_natureza_form"
+                id="l10n_br_menu_config_conta_natureza"
+                action="l10n_br_contabilidade.l10n_br_conta_natureza_form"
                 parent="account.account_account_menu"
                 sequence="500"
         />
