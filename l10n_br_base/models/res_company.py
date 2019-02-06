@@ -10,6 +10,7 @@
 import re
 
 from odoo import models, fields, api
+from odoo.tools import config
 
 
 class ResCompany(models.Model):
@@ -177,3 +178,15 @@ class ResCompany(models.Model):
             val = re.sub('[^0-9]', '', self.zip)
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
+
+    @api.multi
+    def write(self, values):
+        try:
+            result = super(ResCompany, self).write(values)
+        except Exception:
+            if not config['without_demo'] and values.get('currency_id'):
+                result = models.Model.write(self, values)
+            else:
+                raise Exception
+
+        return result
