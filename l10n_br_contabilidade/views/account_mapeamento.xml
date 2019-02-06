@@ -6,7 +6,7 @@
     <data>
 
         <record id="l10n_br_account_mapeamento_form_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.form</field>
+            <field name="name">l10n_br.conta.mapeamento.form</field>
             <field name="model">account.mapeamento</field>
             <field name="arch" type="xml">
                 <form>
@@ -24,7 +24,7 @@
         </record>
 
         <record id="l10n_br_account_mapeamento_de_para_tree_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.tree</field>
+            <field name="name">l10n_br.conta.mapeamento.tree</field>
             <field name="model">account.mapeamento</field>
             <field name="arch" type="xml">
                 <tree>
@@ -51,7 +51,7 @@
         />
 
         <record id="l10n_br_account_mapeamento_referencia_form_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.referencia.form</field>
+            <field name="name">l10n_br.conta.mapeamento.referencia.form</field>
             <field name="model">account.mapeamento.referencia</field>
             <field name="arch" type="xml">
                 <form>
@@ -65,7 +65,7 @@
         </record>
 
         <record id="l10n_br_account_mapeamento_referencia_tree_view" model="ir.ui.view">
-            <field name="name">abgf.conta.mapeamento.referencia.tree</field>
+            <field name="name">l10n_br.conta.mapeamento.referencia.tree</field>
             <field name="model">account.mapeamento.referencia</field>
             <field name="arch" type="xml">
                 <tree>

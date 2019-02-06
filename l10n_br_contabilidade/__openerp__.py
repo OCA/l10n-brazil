@@ -23,10 +23,9 @@
         #
         'data/natureza_conta_data.xml',
         # # Menus
-        # 'views/menu_contabilidade_abgf.xml',
+        'views/menu_l10n_br_contabilidade.xml',
         # # Relatórios
         'reports/report.xml',
-        'views/menu_l10n_br_contabilidade.xml',
         # # Visão
         'wizards/fechamento_reabertura_justificativa_wizard.xml',
         # 'wizards/trial_balance_wizard.xml',

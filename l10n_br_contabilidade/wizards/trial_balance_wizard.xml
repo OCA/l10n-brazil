@@ -3,7 +3,7 @@
     <data>
 
         <record id="l10n_br_account_trial_balance_view_webkit" model="ir.ui.view">
-            <field name="name">abgf.trial.balance</field>
+            <field name="name">l10n_br.trial.balance</field>
             <field name="model">trial.balance.webkit</field>
             <field name="inherit_id" ref="account_financial_report_webkit.account_trial_balance_view_webkit"/>
             <field name="arch" type="xml">
