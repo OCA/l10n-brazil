@@ -96,13 +96,13 @@
         <field name="act_window_id" ref="l10n_br_contabilidade_account_saldo_action"/>
     </record>
 
-    <menuitem
-        action="l10n_br_contabilidade_account_saldo_action"
-        id="menu_l10n_br_contabilidade_account_saldo"
-        name="Saldos de período"
-        parent="account.next_id_23"
-        sequence="30"
-    />
+    <!--<menuitem-->
+        <!--action="l10n_br_contabilidade_account_saldo_action"-->
+        <!--id="menu_l10n_br_contabilidade_account_saldo"-->
+        <!--name="Saldos de período"-->
+        <!--parent="account.next_id_23"-->
+        <!--sequence="30"-->
+    <!--/>-->
 
 
 
@@ -135,12 +135,12 @@
     </record>
 
 
-    <menuitem
-            id="menu_l10n_br_action_account_saldo_graph"
-            name="Balancete por períodos"
-            action="l10n_br_contabilidade_account_saldo_graph_action"
-            sequence="25"
-            parent="account.final_accounting_reports" />
+    <!--<menuitem-->
+            <!--id="menu_l10n_br_action_account_saldo_graph"-->
+            <!--name="Balancete por períodos"-->
+            <!--action="l10n_br_contabilidade_account_saldo_graph_action"-->
+            <!--sequence="25"-->
+            <!--parent="account.final_accounting_reports" />-->
 
 
     </data>

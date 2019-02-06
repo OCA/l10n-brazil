@@ -6,46 +6,46 @@
     <data>
 
         <!-- Renomear menu principal -->
-        <record id="account.menu_finance" model="ir.ui.menu" >
-            <field name="name">Faturamento</field>
-        </record>
+        <!--<record id="account.menu_finance" model="ir.ui.menu" >-->
+            <!--<field name="name">Faturamento</field>-->
+        <!--</record>-->
 
-        <record id="account_chart_report.menu_wizard_print_chart_account" model="ir.ui.menu" >
-            <field name="name">Imprimir Plano de contas</field>
-        </record>
+        <!--<record id="account_chart_report.menu_wizard_print_chart_account" model="ir.ui.menu" >-->
+            <!--<field name="name">Imprimir Plano de contas</field>-->
+        <!--</record>-->
 
-        <menuitem
-                id="l10n_br_contabilidade"
-                name="Contabilidade"
-                groups="account.group_account_user,account.group_account_manager,account.group_account_invoice,base.group_no_one"
-                sequence="53"
-        />
+        <!--<menuitem-->
+                <!--id="l10n_br_contabilidade"-->
+                <!--name="Contabilidade"-->
+                <!--groups="account.group_account_user,account.group_account_manager,account.group_account_invoice,base.group_no_one"-->
+                <!--sequence="53"-->
+        <!--/>-->
 
         <!-- Trocar o pai dos submenus principal-->
 
-        <record id="account.menu_finance_charts" model="ir.ui.menu" >
-            <field name="name">Contas</field>
-            <field name="parent_id" ref="l10n_br_contabilidade"/>
-            <field name="sequence">10</field>
-        </record>
+        <!--<record id="account.menu_finance_charts" model="ir.ui.menu" >-->
+            <!--<field name="name">Contas</field>-->
+            <!--<field name="parent_id" ref="l10n_br_contabilidade"/>-->
+            <!--<field name="sequence">10</field>-->
+        <!--</record>-->
 
-        <record id="account.menu_finance_entries" model="ir.ui.menu" >
-            <field name="name">Lançamentos Contábeis</field>
-            <field name="parent_id" ref="l10n_br_contabilidade"/>
-            <field name="sequence">30</field>
-        </record>
+        <!--<record id="account.menu_finance_entries" model="ir.ui.menu" >-->
+            <!--<field name="name">Lançamentos Contábeis</field>-->
+            <!--<field name="parent_id" ref="l10n_br_contabilidade"/>-->
+            <!--<field name="sequence">30</field>-->
+        <!--</record>-->
 
-        <record id="account.menu_finance_legal_statement" model="ir.ui.menu" >
-            <field name="parent_id" ref="l10n_br_contabilidade"/>
-            <field name="sequence">40</field>
-        </record>
+        <!--<record id="account.menu_finance_legal_statement" model="ir.ui.menu" >-->
+            <!--<field name="parent_id" ref="l10n_br_contabilidade"/>-->
+            <!--<field name="sequence">40</field>-->
+        <!--</record>-->
 
-        <menuitem
-                id="menu_l10n_br_account_periodical_processing"
-                name="Encerramento"
-                parent="l10n_br_contabilidade"
-                sequence="60"
-        />
+        <!--<menuitem-->
+                <!--id="menu_l10n_br_account_periodical_processing"-->
+                <!--name="Encerramento"-->
+                <!--parent="l10n_br_contabilidade"-->
+                <!--sequence="60"-->
+        <!--/>-->
 
         <!--<record id="account.menu_finance_recurrent_entries" model="ir.ui.menu" >-->
             <!--<field name="parent_id" ref="menu_l10n_br_account_periodical_processing"/>-->
@@ -55,41 +55,41 @@
             <!--<field name="parent_id" ref="menu_l10n_br_account_periodical_processing"/>-->
         <!--</record>-->
 
-        <menuitem
-                id="menu_configuracao_contabilidade"
-                name="Configurações"
-                parent="l10n_br_contabilidade"
-                sequence="90"
-        />
+        <!--<menuitem-->
+                <!--id="menu_configuracao_contabilidade"-->
+                <!--name="Configurações"-->
+                <!--parent="l10n_br_contabilidade"-->
+                <!--sequence="90"-->
+        <!--/>-->
 
-        <record id="account.next_id_23" model="ir.ui.menu" >
-            <field name="parent_id" ref="menu_configuracao_contabilidade"/>
-        </record>
+        <!--<record id="account.next_id_23" model="ir.ui.menu" >-->
+            <!--<field name="parent_id" ref="menu_configuracao_contabilidade"/>-->
+        <!--</record>-->
 
-        <record id="account.menu_journals" model="ir.ui.menu" >
-            <field name="parent_id" ref="menu_configuracao_contabilidade"/>
-        </record>
+        <!--<record id="account.menu_journals" model="ir.ui.menu" >-->
+            <!--<field name="parent_id" ref="menu_configuracao_contabilidade"/>-->
+        <!--</record>-->
 
-        <record id="account.account_account_menu" model="ir.ui.menu" >
-            <field name="parent_id" ref="menu_configuracao_contabilidade"/>
-        </record>
+        <!--<record id="account.account_account_menu" model="ir.ui.menu" >-->
+            <!--<field name="parent_id" ref="menu_configuracao_contabilidade"/>-->
+        <!--</record>-->
 
-        <record id="account.menu_account_reports" model="ir.ui.menu" >
-            <field name="parent_id" ref="menu_configuracao_contabilidade"/>
-        </record>
+        <!--<record id="account.menu_account_reports" model="ir.ui.menu" >-->
+            <!--<field name="parent_id" ref="menu_configuracao_contabilidade"/>-->
+        <!--</record>-->
 
-        <menuitem id="l10n_br_contabilidade_mis_instance_menu"
-                  parent="account.menu_finance_legal_statement"
-                  name="MIS Reports"
-                  action="mis_builder.mis_report_instance_view_action"
-                  sequence="101"
-        />
+        <!--<menuitem id="l10n_br_contabilidade_mis_instance_menu"-->
+                  <!--parent="account.menu_account_reports"-->
+                  <!--name="MIS Reports"-->
+                  <!--action="mis_builder.mis_report_instance_view_action"-->
+                  <!--sequence="101"-->
+        <!--/>-->
 
-        <menuitem
-                id="configuracao_lancamentos_contabeis_menu"
-                name="Lançamentos contábeis"
-                parent="menu_configuracao_contabilidade"
-                sequence="30" />
+        <!--<menuitem-->
+                <!--id="configuracao_lancamentos_contabeis_menu"-->
+                <!--name="Lançamentos contábeis"-->
+                <!--parent="menu_configuracao_contabilidade"-->
+                <!--sequence="30" />-->
 
     </data>
 </openerp>

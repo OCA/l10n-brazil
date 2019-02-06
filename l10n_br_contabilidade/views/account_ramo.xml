@@ -71,13 +71,13 @@
         <field name="act_window_id" ref="l10n_br_contabilidade_account_ramo_action"/>
     </record>
 
-    <menuitem
-        action="l10n_br_contabilidade_account_ramo_action"
-        id="menu_l10n_br_contabilidade_account_ramo"
-        name="Ramo"
-        parent="l10n_br_contabilidade.configuracao_lancamentos_contabeis_menu"
-        sequence="19"
-    />
+    <!--<menuitem-->
+        <!--action="l10n_br_contabilidade_account_ramo_action"-->
+        <!--id="menu_l10n_br_contabilidade_account_ramo"-->
+        <!--name="Ramo"-->
+        <!--parent="l10n_br_contabilidade.configuracao_lancamentos_contabeis_menu"-->
+        <!--sequence="19"-->
+    <!--/>-->
 
     </data>
 </openerp>

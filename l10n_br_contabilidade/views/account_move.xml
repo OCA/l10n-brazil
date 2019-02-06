@@ -228,10 +228,10 @@
             <field name="act_window_id" ref="account.action_move_journal_line"/>
         </record>
 
-        <record id="account.menu_action_move_journal_line_form" model="ir.ui.menu" >
-            <field name="action_id" ref="account.action_move_journal_line"/>
-            <field name="name">Lançamentos Contábeis</field>
-        </record>
+        <!--<record id="account.menu_action_move_journal_line_form" model="ir.ui.menu" >-->
+            <!--<field name="action_id" ref="account.action_move_journal_line"/>-->
+            <!--<field name="name">Lançamentos Contábeis</field>-->
+        <!--</record>-->
 
     </data>
 </openerp>

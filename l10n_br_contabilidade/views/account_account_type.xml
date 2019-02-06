@@ -13,12 +13,12 @@
             <field name="search_view_id" ref="account.view_account_type_search"/>
         </record>
 
-        <menuitem
-                id="l10n_br_menu_tipo_conta_form"
-                action="l10n_br_action_tipo_conta_form"
-                sequence="520"
-                parent="account.account_account_menu"
-        />
+        <!--<menuitem-->
+                <!--id="l10n_br_menu_tipo_conta_form"-->
+                <!--action="l10n_br_action_tipo_conta_form"-->
+                <!--sequence="520"-->
+                <!--parent="account.account_account_menu"-->
+        <!--/>-->
 
     </data>
 </openerp>
