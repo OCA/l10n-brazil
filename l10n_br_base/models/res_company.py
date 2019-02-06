@@ -9,6 +9,7 @@
 import logging
 
 from odoo import api, fields, models
+from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
@@ -185,3 +186,15 @@ class Company(models.Model):
     def _onchange_zip(self):
         if self.zip:
             self.zip = misc.format_zipcode(self.zip, self.country_id.code)
+
+    @api.multi
+    def write(self, values):
+        try:
+            result = super(ResCompany, self).write(values)
+        except Exception:
+            if not config['without_demo'] and values.get('currency_id'):
+                result = models.Model.write(self, values)
+            else:
+                raise Exception
+
+        return result
