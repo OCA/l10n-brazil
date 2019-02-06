@@ -26,9 +26,24 @@ To configure this module, you need to:
 Usage
 =====
 
-To use this module, you need to:
+This module consists in:
 
-* go to ...
+ - Generic Brazilian chart of accounts
+ - Brazilian taxes such as:
+
+        - IPI
+        - ICMS
+        - PIS
+        - COFINS
+        - ISS
+        - IR
+        - IRPJ
+        - CSLL
+
+The field tax_discount has also been added in the account.tax.template and
+account.tax objects to allow the proper computation of some Brazilian VATs
+such as ICMS. The chart of account creation wizard has been extended to
+propagate those new data properly.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot

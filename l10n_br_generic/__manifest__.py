@@ -5,29 +5,6 @@
 {
     'name': 'Brazilian - Generic Accounting',
     'category': 'Localization',
-    'summary': """
-Base module for the Brazilian localization
-==========================================
-
-This module consists in:
-
- - Generic Brazilian chart of accounts
- - Brazilian taxes such as:
-
-        - IPI
-        - ICMS
-        - PIS
-        - COFINS
-        - ISS
-        - IR
-        - IRPJ
-        - CSLL
-
-The field tax_discount has also been added in the account.tax.template and
-account.tax objects to allow the proper computation of some Brazilian VATs
-such as ICMS. The chart of account creation wizard has been extended to
-propagate those new data properly.
-""",
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoobrasil.org',
