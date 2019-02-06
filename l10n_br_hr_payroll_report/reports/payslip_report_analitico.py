@@ -147,11 +147,30 @@ def totalizadores_linhas_holerites(payslip_lines, payslip_autonomo_ids=[]):
         if rubrica['category'] == 'PROVENTO':
             proventos.append(rubrica_obj(rubrica))
             total_proventos += rubrica['sum']
+
         elif rubrica['category'] in ['DEDUCAO', 'INSS', 'IRPF']:
             descontos.append(rubrica_obj(rubrica))
             total_descontos += rubrica['sum']
+
+            # Totalizar INSS descontado de todos funcionários
+            #
+            # INSS DA competencia traz informação do inss de mes anterior
             if rubrica['category'] == 'INSS':
-                inss_funcionario_retido += rubrica['sum']
+
+                # Nao contabilizar essas rubricas quebradas no analitico:
+                #  Competencia seguinte nao deverá sair no analitico
+                #  competencia Atual será substituida pela rubrica da
+                #  INSS_FERIAS_DA_COMPETENCIA para que consiga pegat tb mes ant
+                if rubrica['code'] not in \
+                        ['INSS_COMPETENCIA_SEGUINTE_FERIAS',
+                         'INSS_COMPETENCIA_ATUAL']:
+                    inss_funcionario_retido += rubrica['sum']
+
+        # Totalizar O INSS da Competencia que esta em um rubrica de referencia
+        # Essa rubrica trará INSS de mes anterior adiantado em férias
+        if rubrica['code'] in ['INSS_FERIAS_DA_COMPETENCIA']:
+            inss_funcionario_retido += rubrica['sum']
+
         if rubrica['code'] in ['BASE_FGTS', 'BASE_FGTS_13']:
                 base_fgts += rubrica['sum']
         if rubrica['code'] in ['FGTS', 'FGTS_F_13']:
