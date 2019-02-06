@@ -121,14 +121,6 @@
         <field name="act_window_id" ref="l10n_br_contabilidade_account_account_report_action"/>
     </record>
 
-    <menuitem
-        action="l10n_br_contabilidade_account_account_report_action"
-        id="menu_l10n_br_contabilidade_account_account_report_patrimonial"
-        name="Balanço Patrimonial"
-        parent="l10n_br_contabilidade.menu_l10n_br_contabilidade_relatorios_account_account_report"
-        sequence="10"
-    />
-
 
     <!-- Menu de Contas de Apresentação da APURAÇÂO DE RESULTADOS-->
     <record model="ir.actions.act_window" id="l10n_br_contabilidade_account_account_report_resultado_action">
@@ -138,14 +130,6 @@
         <field name="domain">[('type','=','resultado')]</field>
         <field name="context">{'default_type': 'resultado'}</field>
     </record>
-
-    <menuitem
-        action="l10n_br_contabilidade_account_account_report_resultado_action"
-        id="menu_l10n_br_contabilidade_account_account_report_resultado"
-        name="DRE"
-        parent="l10n_br_contabilidade.menu_l10n_br_contabilidade_relatorios_account_account_report"
-        sequence="20"
-    />
 
     </data>
 </openerp>

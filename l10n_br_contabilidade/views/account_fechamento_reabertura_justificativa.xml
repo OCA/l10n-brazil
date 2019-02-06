@@ -74,13 +74,5 @@
             <field name="act_window_id" ref="l10n_br_contabilidade_reabertura_action"/>
         </record>
 
-        <menuitem
-            action="l10n_br_contabilidade_reabertura_action"
-            id="menu_l10n_br_contabilidade_reabertura"
-            parent="l10n_br_menu_encerramento_contabilidade"
-            sequence="100"
-            groups="base.group_no_one"
-        />
-
     </data>
 </openerp>

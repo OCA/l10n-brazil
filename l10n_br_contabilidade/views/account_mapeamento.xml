@@ -43,13 +43,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem
-                id="l10n_br_menu_account_mapeamento_form"
-                action="l10n_br_account_mapeamento_form"
-                parent="l10n_br_contabilidade.l10n_br_conta_mapeamento_menu"
-                sequence="10"
-        />
-
         <record id="l10n_br_account_mapeamento_referencia_form_view" model="ir.ui.view">
             <field name="name">l10n_br.conta.mapeamento.referencia.form</field>
             <field name="model">account.mapeamento.referencia</field>
@@ -80,13 +73,6 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
-
-        <menuitem
-                id="l10n_br_menu_account_mapeamento_referencia_form"
-                action="l10n_br_contabilidade_account_mapeamento_referencia_action"
-                parent="l10n_br_contabilidade.l10n_br_conta_mapeamento_menu"
-                sequence="20"
-        />
 
     </data>
 </openerp>
