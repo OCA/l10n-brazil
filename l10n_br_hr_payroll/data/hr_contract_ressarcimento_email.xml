@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- Template de Email quando um ressarcimento está para APROVAÇÃO -->
+        <record id="email_template_hr_contract_ressarcimento_confirmado" model="email.template">
+            <field name="name"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name} ]]></field>
+            <field name="email_from"><![CDATA[${user.name} <${user.email|safe}>]]></field>
+            <field name="email_to"><![CDATA[]]></field>
+            <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name} ]]></field>
+            <field name="model_id" ref="l10n_br_hr_payroll.model_hr_contract_ressarcimento"/>
+            <field name="lang">${user.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+            <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: rgb(34, 34, 34); background-color: #FFF; ">
+                <br/><p>Um ressarcimento de contrato foi cadastrado para sua Aprovação.</p><br/>
+
+                <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
+                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>
+                    <p>Valor total do Ressarcimento: <strong> R$ ${object.total} </strong></p>
+                    <p></p>
+                </p>
+            </div>
+            ]]></field>
+        </record>
+
+        <!-- Template de Email quando o Ressarcimento for APROVADO -->
+        <record id="email_template_hr_contract_ressarcimento_aprovado" model="email.template">
+            <field name="name"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name} ]]></field>
+            <field name="email_from"><![CDATA[${object.aprovado_por.name} <${(object.aprovado_por.login or user.email)|safe}>]]></field>
+            <field name="email_to"><![CDATA[]]></field>
+            <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name} ]]></field>
+            <field name="model_id" ref="l10n_br_hr_payroll.model_hr_contract_ressarcimento"/>
+            <field name="lang">${user.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+            <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; ">
+                <p>Ressarcimento de contrato Aprovado!</p>
+
+                <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
+                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>
+                    <p>Valor total do Ressarcimento: <strong> ${object.total} </strong></p>
+                    <p>Aprovado por: <strong> R$ ${object.aprovado_por.name} </strong></p>
+                </p>
+
+                <table width="50%" border="1">
+                    <tr>
+                        <th colspan="2">Detalhamento do Ressarcimento</th>
+                    </tr>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                    </tr>
+                    % for line in object.hr_contract_ressarcimento_line_ids:
+                        <tr style="font-weight:bold;" >
+                            <td>${line.descricao}</td>
+                            <td>${line.total}</td>
+                        </tr>
+                    % endfor
+                </table>
+
+            </div>
+            ]]></field>
+        </record>
+
+    </data>
+</openerp>
