@@ -183,6 +183,7 @@ class AccountInvoice(models.Model):
         string=u'Data e hora de emissão',
         readonly=True,
         states={'draft': [('readonly', False)]},
+        copy=False,
         index=True,
         help="Deixe em branco para usar a data atual")
 
@@ -712,7 +713,7 @@ class AccountInvoice(models.Model):
         self.write({})
 
         for invoice in self:
-            if invoice.issuer == '0':
+            if invoice.issuer == '0' and invoice.fiscal_document_id:
                 sequence_obj = self.env['ir.sequence']
                 sequence = sequence_obj.browse(
                     invoice.document_serie_id.internal_sequence_id.id)
@@ -725,7 +726,6 @@ class AccountInvoice(models.Model):
 
                 if invalid_number:
                     raise UserError(
-                        _(u'Número Inválido !'),
                         _("O número: %s da série: %s, esta inutilizado") % (
                             sequence.number_next,
                             invoice.document_serie_id.name))
