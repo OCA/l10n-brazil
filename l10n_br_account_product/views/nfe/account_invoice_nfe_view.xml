@@ -7,7 +7,7 @@
             <field name="model">account.invoice</field>
             <field name="arch" type="xml">
                 <search string="Pesquisar NFe">
-                    <field name="number" string="NFe" filter_domain="['|','|','|', ('number','ilike',self), ('origin','ilike',self), ('supplier_invoice_number', 'ilike', self), ('partner_id', 'child_of', self)]"/>
+                    <field name="fiscal_number" string="NFe" filter_domain="['|','|','|', ('fiscal_number','ilike',self), ('origin','ilike',self), ('supplier_invoice_number', 'ilike', self), ('partner_id', 'child_of', self)]"/>
                     <filter name="draft" string="Provisorio" domain="[('state','=','draft')]" help="Draft Invoices"/>
                     <filter name="proforma" string="Proforma" domain="[('state','=','proforma2')]" help="Proforma Invoices" groups="account.group_proforma_invoices"/>
                     <filter icon="terp-check" string="Exportada Receita" domain="[('state','=','sefaz_export')]" />
@@ -40,7 +40,7 @@
                     <field name="partner_id" groups="base.group_user"/>
                     <field name="commercial_partner_id" invisible="1"/>
                     <field name="date_invoice"/>
-                    <field name="number"/>
+                    <field name="fiscal_number"/>
                     <field name="reference" invisible="1"/>
                     <field name="name" invisible="1"/>
                     <field name="company_id" groups="base.group_multi_company" widget="selection"/>
