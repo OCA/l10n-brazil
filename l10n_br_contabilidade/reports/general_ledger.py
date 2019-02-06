@@ -8,13 +8,6 @@ from openerp.addons.account_financial_report_webkit.report.general_ledger \
 from openerp.addons.account_financial_report_webkit.report.webkit_parser_header_fix \
     import HeaderFooterTextWebKitParser
 
-from openerp import api
-
-class GeneralLedgerWebkit(GeneralLedgerWebkit):
-
-    def _get_lancamento_de_fechamento(self, data):
-        return self._get_form_param('lancamento_de_fechamento', data)
-
 HeaderFooterTextWebKitParser(
     'report.account.abgf_account_report_general_ledger',
     'account.account',
