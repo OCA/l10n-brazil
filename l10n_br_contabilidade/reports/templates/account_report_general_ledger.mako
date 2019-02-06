@@ -39,6 +39,7 @@
 
         <%
         initial_balance_text = {'initial_balance': _('Computed'), 'opening_balance': _('Opening Entries'), False: _('No')}
+        coluna_saldo_periodo = data.get('form', {}).get('coluna_saldo_periodo', False)
         %>
 
         %if amount_currency(data):
@@ -122,6 +123,10 @@
                         <div class="act_as_cell amount" style="width: 7%;">${_('Debit')}</div>
                         ## credit
                         <div class="act_as_cell amount" style="width: 7%;">${_('Credit')}</div>
+                        ## Saldo no periodo
+                        %if coluna_saldo_periodo:
+                            <div class="act_as_cell amount" style="width: 7%;">Saldo no periodo</div>
+                        %endif
                         ## balance cumulated
                         <div class="act_as_cell amount" style="width: 7%;">Saldo</div>
                         %if amount_currency(data):
@@ -140,6 +145,7 @@
                         ## cumul_credit = init_balance[account.id].get('credit') or 0.0
                         cumul_balance = init_balance[account.id].get('init_balance') or 0.0
                         cumul_balance_curr = init_balance[account.id].get('init_balance_currency') or 0.0
+                        comul_balance_period = 0.0
                         %>
                         <div class="act_as_row initial_balance">
                           ## date
@@ -172,6 +178,7 @@
                         cumul_credit += line.get('credit') or 0.0
                         cumul_balance_curr += line.get('amount_currency') or 0.0
                         cumul_balance += line.get('balance') or 0.0
+
                         label_elements = [line.get('lname') or '']
                         if line.get('invoice_number'):
                           label_elements.append("(%s)" % (line['invoice_number'],))
@@ -191,6 +198,12 @@
                           <div class="act_as_cell amount">${ formatLang(line.get('debit', 0.0)) | amount }</div>
                           ## credit
                           <div class="act_as_cell amount">${ formatLang(line.get('credit', 0.0)) | amount }</div>
+
+                          %if coluna_saldo_periodo:
+                              <% comul_balance_period += line.get('balance') %>
+                              <div class="act_as_cell amount" style="padding-right: 1px;">${ formatLang(comul_balance_period) | amount }</div>
+                          %endif
+
                           ## balance cumulated
                           <div class="act_as_cell amount" style="padding-right: 1px;">${ formatLang(cumul_balance) | amount }</div>
                           %if amount_currency(data):
@@ -214,6 +227,10 @@
                         <div class="act_as_cell amount" style="width: 7%;">${ formatLang(cumul_debit) | amount }</div>
                         ## credit
                         <div class="act_as_cell amount" style="width: 7%;">${ formatLang(cumul_credit) | amount }</div>
+                        ## Saldo no periodo
+                        %if coluna_saldo_periodo:
+                            <div class="act_as_cell amount" style="width: 7%;">${ formatLang(comul_balance_period) | amount }</div>
+                        %endif
                         ## balance cumulated
                         <div class="act_as_cell amount" style="width: 7%;">${ formatLang(cumul_balance) | amount }</div>
                         %if amount_currency(data):

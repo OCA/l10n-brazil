@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="abgf_account_report_general_ledger_view_webkit" model="ir.ui.view">
+            <field name="name">abgf.general.ledger</field>
+            <field name="model">general.ledger.webkit</field>
+            <field name="inherit_id" ref="account_financial_report_webkit.account_report_general_ledger_view_webkit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="before">
+                    <group>
+                        <field name="coluna_saldo_periodo" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
