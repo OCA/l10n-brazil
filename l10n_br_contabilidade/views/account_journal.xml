@@ -5,7 +5,7 @@
 <openerp>
     <data>
 
-        <record id="l10n_br_contabilidade_view_account_journal" model="ir.ui.view">
+        <record id="l10n_br_view_account_journal" model="ir.ui.view">
             <field name="name">account.journal.form (in l10n_br_contabilidade)</field>
             <field name="model">account.journal</field>
             <field eval="1" name="priority"/>
@@ -64,7 +64,7 @@
             </field>
         </record>
 
-        <record id="l10n_br_contabilidade_view_account_journal_tree" model="ir.ui.view">
+        <record id="l10n_br_view_account_journal_tree" model="ir.ui.view">
             <field name="name">account.journal.tree (in l10n_br_contabilidade)</field>
             <field name="model">account.journal</field>
             <field eval="1" name="priority"/>
@@ -77,7 +77,7 @@
             </field>
         </record>
 
-        <record id="l10n_br_contabilidade_view_account_journal_search" model="ir.ui.view">
+        <record id="l10n_br_view_account_journal_search" model="ir.ui.view">
             <field name="name">account.journal.search (in l10n_br_contabilidade)</field>
             <field name="model">account.journal</field>
             <field eval="1" name="priority"/>
