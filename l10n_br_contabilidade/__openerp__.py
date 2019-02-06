@@ -18,6 +18,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        'security/gefin_custos.xml',
         #
         'data/natureza_conta_data.xml',
         # # Menus
@@ -45,6 +46,7 @@
         'views/account_historico_padrao.xml',
         'views/account_mapeamento.xml',
         'views/account_saldo.xml',
+        'views/gefin_custos.xml',
     ],
     'demo': [
     ],

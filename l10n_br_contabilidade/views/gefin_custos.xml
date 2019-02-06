@@ -38,7 +38,7 @@
         <menuitem
                 id="abgf_configuracao_tabelas_menu"
                 name="Tabelas"
-                parent="l10n_br_contabilidade.menu_configuracao_contabilidade"
+                parent="abgf_contabilidade.abgf_menu_configuracao_contabilidade"
                 sequence="50"
         />
 
