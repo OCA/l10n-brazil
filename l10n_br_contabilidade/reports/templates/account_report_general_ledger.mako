@@ -43,9 +43,9 @@
         %>
 
         %if amount_currency(data):
-        <div class="act_as_table data_table" style="width: 1205px;">
+        <div class="act_as_table data_table" style="width: 1205px; margin: 10px auto 10px auto;">
         %else:
-        <div class="act_as_table data_table" style="width: 1100px;">
+        <div class="act_as_table data_table" style="width: 1100px; margin: 10px auto 10px auto;">
         %endif
             <div class="act_as_row labels">
                 <div class="act_as_cell">${_('Chart of Account')}</div>
@@ -104,7 +104,7 @@
               cumul_balance =  0.0
               cumul_balance_curr = 0.0
               %>
-            <div class="act_as_table list_table" style="margin-top: 10px; margin-bottom: 10px;">
+            <div class="act_as_table list_table" style="margin: 10px auto 10px auto;">
 
                 <div class="act_as_caption account_title">
                     <div> Conta: ${account.code} </div> <div> Descrição: ${account.name} </div>
@@ -215,7 +215,7 @@
                       </div>
                       %endfor
                 </div>
-                <div class="act_as_table list_table" style="padding-top: 10px;">
+                <div class="act_as_table list_table" style="padding-top: 10px; margin: 10px auto 10px auto;">
                     <div class="act_as_row labels" style="font-weight: bold;">
                         ## date / Conta / Nº Lançamento (Sequencia)
                         <div class="act_as_cell first_column" style="width: 140px;">${account.code} - ${account.name}</div>
