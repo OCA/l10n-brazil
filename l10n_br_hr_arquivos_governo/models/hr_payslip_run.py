@@ -277,26 +277,6 @@ class HrPayslipRun(models.Model):
                         'base': base or 0.0,
                     })
 
-                # Empresa cidada desconta rubrica de
-                # LICENCA_PATERNIDADE_COMPLEMENTART_EMPRESA da guia de IRRF
-                elif line.code in ['LICENCA_PATERNIDADE_COMPLEMENTART_EMPRESA']:
-
-                    codigo_darf = line.slip_id.contract_id.codigo_guia_darf
-
-                    if darfs.get(codigo_darf):
-                        darfs[codigo_darf] -= line.total
-                    else:
-                        darfs.update({codigo_darf: -line.total})
-
-                    darf_analitico.append({
-                        'nome': line.slip_id.contract_id.display_name,
-                        'company_id': line.slip_id.contract_id.company_id.id,
-                        'code': line.code,
-                        'codigo_darf': codigo_darf,
-                        'valor': -line.total,
-                        'base': 0.0,
-                    })
-
         return empresas, darfs, contribuicao_sindical, guia_pss, darf_analitico
 
     @api.multi
