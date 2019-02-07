@@ -88,12 +88,12 @@
         <field name="act_window_id" ref="l10n_br_contabilidade_account_historico_padrao_action"/>
     </record>
 
-    <!--<menuitem-->
-        <!--action="l10n_br_contabilidade_account_historico_padrao_action"-->
-        <!--id="menu_l10n_br_contabilidade_account_historico_padrao"-->
-        <!--parent="l10n_br_contabilidade.configuracao_lancamentos_contabeis_menu"-->
-        <!--sequence="40"-->
-    <!--/>-->
+    <menuitem
+        action="l10n_br_contabilidade_account_historico_padrao_action"
+        id="menu_l10n_br_contabilidade_account_historico_padrao"
+        parent="l10n_br_contabilidade.configuracao_lancamentos_contabeis_menu"
+        sequence="40"
+    />
 
     </data>
 </openerp>

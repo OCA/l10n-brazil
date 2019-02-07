@@ -97,12 +97,5 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!--<record id="account.menu_action_account_journal_form" model="ir.ui.menu" >-->
-            <!--<field name="name">Lote de lançamentos</field>-->
-            <!--&lt;!&ndash;TODO: Renomear no resto do sistema Diário para Lote de lançamento &ndash;&gt;-->
-            <!--<field name="action_id" ref="l10n_br_action_account_journal_form"/>-->
-            <!--<field name="sequence">-100</field>-->
-        <!--</record>-->
-
     </data>
 </openerp>

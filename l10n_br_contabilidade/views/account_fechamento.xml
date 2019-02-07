@@ -196,12 +196,12 @@
         <field name="act_window_id" ref="l10n_br_contabilidade_account_fechamento_action"/>
     </record>
 
-    <!--<menuitem-->
-        <!--action="l10n_br_contabilidade_account_fechamento_action"-->
-        <!--id="menu_l10n_br_contabilidade_account_fechamento"-->
-        <!--parent="menu_l10n_br_account_periodical_processing"-->
-        <!--sequence="580"-->
-    <!--/>-->
+    <menuitem
+        action="l10n_br_contabilidade_account_fechamento_action"
+        id="menu_l10n_br_contabilidade_account_fechamento"
+        parent="menu_l10n_br_account_periodical_processing"
+        sequence="580"
+    />
 
 
     <!--Menu para fechar movimento-->
@@ -212,12 +212,12 @@
         <field name="domain">[('state','=','close')]</field>
     </record>
 
-    <!--<menuitem-->
-        <!--action="l10n_br_contabilidade_apuracao_resultado_action"-->
-        <!--id="menu_l10n_br_contabilidade_apuracao_resultado"-->
-        <!--parent="menu_l10n_br_account_periodical_processing"-->
-        <!--sequence="590"-->
-    <!--/>-->
+    <menuitem
+        action="l10n_br_contabilidade_apuracao_resultado_action"
+        id="menu_l10n_br_contabilidade_apuracao_resultado"
+        parent="menu_l10n_br_account_periodical_processing"
+        sequence="590"
+    />
 
     <!--Menu para Reclassificação-->
     <record model="ir.actions.act_window" id="l10n_br_contabilidade_reclassificacao_resultado_action">
@@ -227,12 +227,12 @@
         <field name="domain">[('state','in',['investigated'])]</field>
     </record>
 
-    <!--<menuitem-->
-        <!--action="l10n_br_contabilidade_reclassificacao_resultado_action"-->
-        <!--id="menu_l10n_br_contabilidade_reclassificacao_resultado"-->
-        <!--parent="menu_l10n_br_account_periodical_processing"-->
-        <!--sequence="594"-->
-    <!--/>-->
+    <menuitem
+        action="l10n_br_contabilidade_reclassificacao_resultado_action"
+        id="menu_l10n_br_contabilidade_reclassificacao_resultado"
+        parent="menu_l10n_br_account_periodical_processing"
+        sequence="594"
+    />
 
 
     <!--Menu para Encerramentos Concluídos -->
@@ -243,12 +243,12 @@
         <field name="domain">[('state','in',['completed', 'reclassified'])]</field>
     </record>
 
-    <!--<menuitem-->
-        <!--action="l10n_br_contabilidade_encerramento_concluido_action"-->
-        <!--id="menu_l10n_br_contabilidade_encerramento_concluido"-->
-        <!--parent="menu_l10n_br_account_periodical_processing"-->
-        <!--sequence="596"-->
-    <!--/>-->
+    <menuitem
+        action="l10n_br_contabilidade_encerramento_concluido_action"
+        id="menu_l10n_br_contabilidade_encerramento_concluido"
+        parent="menu_l10n_br_account_periodical_processing"
+        sequence="596"
+    />
 
 
     </data>

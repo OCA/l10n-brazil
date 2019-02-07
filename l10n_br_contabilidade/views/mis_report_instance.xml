@@ -188,29 +188,5 @@
         </h2>
     </template>
 
-    <!--<record model="ir.ui.view" id="mis_report_instance_tree_view">-->
-        <!--<field name="name">mis.report.instance.tree (in l10n_br_mis_builder)</field>-->
-        <!--<field name="model">mis.report.instance</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
-        <!--<field name="arch" type="xml">-->
-            <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-    <!--</record>-->
-
-    <!--<record model="ir.actions.act_window" id="mis_report_instance_act_window">-->
-        <!--<field name="name">Mis Report Instance</field> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="res_model">mis.report.instance</field>-->
-        <!--<field name="view_mode">tree,form</field>-->
-        <!--<field name="domain">[]</field>-->
-        <!--<field name="context">{}</field>-->
-    <!--</record>-->
-
-    <!--<record model="ir.ui.menu" id="mis_report_instance_menu">-->
-        <!--<field name="name">Mis Report Instance</field>-->
-        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="action" ref="mis_report_instance_act_window"/>-->
-        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-    <!--</record>-->
-
 </data>
 </openerp>

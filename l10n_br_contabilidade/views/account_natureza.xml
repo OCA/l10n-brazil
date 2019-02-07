@@ -43,12 +43,12 @@
             <field name="view_id" ref="l10n_br_contabilidade.l10n_br_view_account_natureza_tree"/>
         </record>
 
-        <!--<menuitem-->
-                <!--id="l10n_br_menu_config_conta_natureza"-->
-                <!--action="l10n_br_contabilidade.l10n_br_conta_natureza_form"-->
-                <!--parent="account.account_account_menu"-->
-                <!--sequence="500"-->
-        <!--/>-->
+        <menuitem
+                id="l10n_br_menu_config_conta_natureza"
+                action="l10n_br_contabilidade.l10n_br_conta_natureza_form"
+                parent="account.account_account_menu"
+                sequence="500"
+        />
 
     </data>
 </openerp>

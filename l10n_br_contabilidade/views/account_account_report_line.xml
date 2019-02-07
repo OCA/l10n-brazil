@@ -84,13 +84,13 @@
         <field name="act_window_id" ref="l10n_br_contabilidade_account_account_report_line_action"/>
     </record>
 
-    <!--<menuitem-->
-        <!--action="l10n_br_contabilidade_account_account_report_line_action"-->
-        <!--id="menu_l10n_br_contabilidade_account_account_report_line"-->
-        <!--name="Contas de Apresentação"-->
-        <!--parent="account.account_account_menu"-->
-        <!--sequence="570"-->
-    <!--/>-->
+    <menuitem
+        action="l10n_br_contabilidade_account_account_report_line_action"
+        id="menu_l10n_br_contabilidade_account_account_report_line"
+        name="Contas de Apresentação"
+        parent="account.account_account_menu"
+        sequence="570"
+    />
 
     </data>
 </openerp>
