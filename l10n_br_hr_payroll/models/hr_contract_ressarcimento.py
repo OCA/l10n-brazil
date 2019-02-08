@@ -80,15 +80,36 @@ class HrContractRessarcimento(models.Model):
         res_model='res.users',
     )
 
+    @api.onchange('valor_provisionado')
+    def _onchange_valor_provisionado(self):
+        """
+        Caso estado aberto, se for um valor provisionado, precisa que delete informações
+        colocadas referente a competencia e valores não provisionados
+        :return:
+        """
+        if self.state == 'aberto':
+            if self.valor_provisionado:
+                self.account_period_id = False
+                self.hr_contract_ressarcimento_line_ids = False
+            else:
+                self.account_period_provisao_id = False
+                self.hr_contract_ressarcimento_provisionado_line_ids = False
+
     def _get_default_partner_ids(self):
         """
-        Buscar configuração padrão de ressarcimento
+        Busca partners padrões. Se não existir, cria.
         """
-        hr_contract_ressarcimento = self.search(
-            [('partner_ids', '!=', False)],
-            order="create_date desc", limit=1)
+        gecon = self.env['res.partner'].search([('name', 'ilike', 'Gecon')])
+        gefin = self.env['res.partner'].search([('name', 'ilike', 'Gefin')])
 
-        return hr_contract_ressarcimento.partner_ids
+        if not gecon:
+            gecon = self.env['res.partner'].sudo().create(
+                {'name': 'Gecon', 'email': 'gecon@abgf.gov.br'})
+        if not gefin:
+            gefin = self.env['res.partner'].sudo().create(
+                {'name': 'Gefin', 'email': 'gefin@abgf.gov.br'})
+
+        return gecon+gefin
 
     @api.multi
     @api.depends('hr_contract_ressarcimento_line_ids')
