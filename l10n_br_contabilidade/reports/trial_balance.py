@@ -71,16 +71,101 @@ def _get_account_details(self, account_ids, target_move, fiscalyear,
             child_ids = account_obj._get_children_and_consol(
                 self.cursor, self.uid, account['id'], ctx)
             if child_ids:
+
                 child_init_balances = [
-                    init_bal['init_balance']
+                    {'natureza_saldo_inicial': init_bal['natureza_conta'],
+                     'balance': init_bal['init_balance']}
                     for acnt_id, init_bal in init_balance.iteritems()
                     if acnt_id in child_ids]
-                top_init_balance = reduce(add, child_init_balances)
+
+                filhas_devedoras = filter(
+                    lambda x: x.get('natureza_saldo_inicial') == 'Devedora',
+                    child_init_balances)
+                total_debitos_filhas = \
+                    sum(map(lambda x:x.get('balance'), filhas_devedoras))
+
+                filhas_credoras = filter(
+                    lambda x: x.get('natureza_saldo_inicial') == 'Credora',
+                    child_init_balances)
+                total_creditos_filhas = \
+                    sum(map(lambda x:x.get('balance'), filhas_credoras))
+
+                #
+                # Saldo inicial tambem deve levar em consideração a
+                # Natureza da conta
+
+                # Se tiver natureza definida, conta de escrituracao
+                if account.get('natureza_conta_id'):
+                    if account.get('natureza_conta_id')[1] == 'Devedora':
+                        top_init_balance = \
+                            total_debitos_filhas - total_creditos_filhas
+                    if account.get('natureza_conta_id')[1] == 'Credora':
+                        top_init_balance = \
+                            total_creditos_filhas - total_debitos_filhas
+
+                # Conta analitica
+                else:
+                    top_init_balance = \
+                        abs(total_debitos_filhas - total_creditos_filhas)
+
                 account['init_balance'] = top_init_balance
+
+                # Natureza do SALDO INICIAL
+                # Se Conta credora e teve mais creditos, o saldo sera credor
+                # Se Conta devedora e teve mais debitos, o saldo sera devedor
+                # Se o 'balance' for negativo segnifica que a conta teve mais
+                # lançamentos de natureza invertida.Logo a natureza deverá inverter
+                if account.get('natureza_conta_id'):
+                    if account.get('init_balance', 0.00) >= 0:
+                        account['natureza_init_balance'] = \
+                            account.get('natureza_conta_id')[1][:1]
+                    else:
+                        account['natureza_init_balance'] = 'D' \
+                            if account.get('natureza_conta_id')[1][:1] == 'C' \
+                            else 'C'
+                else:
+                    account['natureza_init_balance'] = 'D' \
+                        if total_debitos_filhas > total_creditos_filhas else 'C'
+
             else:
                 account.update(init_balance[account['id']])
+
             account['balance'] = account['init_balance'] + \
                                  account['debit'] - account['credit']
+
+            # Se existir a natureza da conta
+            if account.get('natureza_conta_id') and \
+                    account.get('natureza_conta_id')[1] == 'Credora':
+                account['balance'] = account['init_balance'] + \
+                                     account['credit'] - account['debit']
+
+            # Em contas analiticas, que nao tem natureza definida, levar em
+            # consideracao a natureza do saldo inicial
+            elif not account.get('natureza_conta_id') and \
+                    account.get('natureza_init_balance') == 'C':
+                account['balance'] = account['init_balance'] + \
+                                     account['credit'] - account['debit']
+
+            # Definir Natureza do SALDO FINAL
+            if account.get('balance') > 0.0:
+                natureza_balance = \
+                    account.get('natureza_conta_id')[1][:1] \
+                        if account.get('natureza_conta_id') \
+                        else account.get('natureza_init_balance')
+
+            if account.get('balance') < 0.0:
+                if account.get('natureza_conta_id'):
+                    natureza_balance = 'D' \
+                        if account.get('natureza_conta_id')[1][:1] == 'C' \
+                        else 'C'
+                else:
+                    natureza_balance = 'D' \
+                        if account.get('natureza_init_balance') == 'C' \
+                        else 'C'
+
+            account['natureza_balance'] = \
+                natureza_balance if account.get('balance') else ' '
+
         accounts_by_id[account['id']] = account
     return accounts_by_id
 
@@ -149,6 +234,8 @@ def compute_balance_data(self, data, filter_report_type=None):
 
     to_display_accounts = dict.fromkeys(account_ids, True)
     init_balance_accounts = dict.fromkeys(account_ids, False)
+    natureza_init_balance_accounts = dict.fromkeys(account_ids, False)
+    natureza_balance_accounts = dict.fromkeys(account_ids, False)
     comparisons_accounts = dict.fromkeys(account_ids, [])
     debit_accounts = dict.fromkeys(account_ids, False)
     credit_accounts = dict.fromkeys(account_ids, False)
@@ -169,6 +256,10 @@ def compute_balance_data(self, data, filter_report_type=None):
             accounts_by_ids[account.id]['balance']
         init_balance_accounts[account.id] = \
             accounts_by_ids[account.id].get('init_balance', 0.0)
+        natureza_init_balance_accounts[account.id] = \
+            accounts_by_ids[account.id].get('natureza_init_balance', '')
+        natureza_balance_accounts[account.id] = \
+            accounts_by_ids[account.id].get('natureza_balance', '')
 
         # if any amount is != 0 in comparisons, we have to display the
         # whole account
@@ -212,6 +303,8 @@ def compute_balance_data(self, data, filter_report_type=None):
         'comp_params': comparison_params,
         'to_display_accounts': to_display_accounts,
         'init_balance_accounts': init_balance_accounts,
+        'natureza_init_balance_accounts': natureza_init_balance_accounts,
+        'natureza_balance_accounts': natureza_balance_accounts,
         'comparisons_accounts': comparisons_accounts,
         'debit_accounts': debit_accounts,
         'credit_accounts': credit_accounts,

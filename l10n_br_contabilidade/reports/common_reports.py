@@ -116,6 +116,7 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
                 )
             )
             res = self.cursor.dictfetchone()
+            res.update(natureza_conta=natureza)
 
         except Exception:
             self.cursor.rollback()
@@ -125,8 +126,8 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
             'credit': res.get('credit') or 0.0,
             'init_balance': res.get('balance') or 0.0,
             'init_balance_currency': res.get('curr_balance') or 0.0,
-            'state': mode}
-
+            'state': mode, 'natureza_conta': res.get('natureza_conta', '')
+            }
 
 
 CommonReportHeaderWebkit._compute_init_balance = _compute_init_balance

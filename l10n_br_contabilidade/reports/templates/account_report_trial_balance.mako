@@ -206,13 +206,13 @@
 
                     <div class="act_as_row lines ${level_class} ${"%s_account_type" % (current_account.type,)}">
                         ## code
-                        <div class="act_as_cell first_column" style="padding: 5px;">${current_account.code}</div>
+                        <div class="act_as_cell first_column" style="padding: 5px;">${current_account.code} ${current_account.natureza_conta_id.name or ' '}</div>
                         ## account name
                         <div class="act_as_cell">${current_account.name}</div>
                         %if comparison_mode == 'no_comparison':
                             %if initial_balance_mode:
                                 ## opening balance
-                                <div class="act_as_cell amount">${formatLang(init_balance_accounts[current_account.id]) | amount}</div>
+                                <div class="act_as_cell amount">${formatLang(init_balance_accounts[current_account.id]) | amount} ${natureza_init_balance_accounts[current_account.id]}</div>
                             %endif
                             ## debit
                             <div class="act_as_cell amount">${formatLang(debit_accounts[current_account.id]) | amount}</div>
@@ -220,7 +220,7 @@
                             <div class="act_as_cell amount">${formatLang(credit_accounts[current_account.id]) | amount}</div>
                         %endif
                         ## balance
-                        <div class="act_as_cell amount">${formatLang(balance_accounts[current_account.id]) | amount} ${c_d(balance_accounts[current_account.id], natureza)}</div>
+                        <div class="act_as_cell amount">${formatLang(balance_accounts[current_account.id]) | amount} ${natureza_balance_accounts[current_account.id]}</div>
 
                         %if comparison_mode in ('single', 'multiple'):
                             %for comp_account in comparisons:
