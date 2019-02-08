@@ -83,8 +83,9 @@ class HrContractRessarcimento(models.Model):
     @api.onchange('valor_provisionado')
     def _onchange_valor_provisionado(self):
         """
-        Caso estado aberto, se for um valor provisionado, precisa que delete informações
-        colocadas referente a competencia e valores não provisionados
+        Caso estado aberto, se for um valor provisionado,
+        precisa que delete informações colocadas referente a
+        competencia e valores não provisionados
         :return:
         """
         if self.state == 'aberto':
