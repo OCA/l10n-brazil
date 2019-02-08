@@ -126,7 +126,8 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
             'credit': res.get('credit') or 0.0,
             'init_balance': res.get('balance') or 0.0,
             'init_balance_currency': res.get('curr_balance') or 0.0,
-            'state': mode, 'natureza_conta': res.get('natureza_conta', '')
+            'state': mode, 
+            'natureza_conta': res.get('natureza_conta', ''),
             }
 
 
