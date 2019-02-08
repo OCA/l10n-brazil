@@ -83,8 +83,9 @@ class HrContractRessarcimento(models.Model):
     @api.onchange('valor_provisionado')
     def _onchange_valor_provisionado(self):
         """
-        Caso estado aberto, se for um valor provisionado, precisa que delete informações
-        colocadas referente a competencia e valores não provisionados
+        Caso estado aberto, se for um valor provisionado,
+        precisa que delete informações colocadas referente a
+        competencia e valores não provisionados
         :return:
         """
         if self.state == 'aberto':
@@ -186,8 +187,6 @@ class HrContractRessarcimento(models.Model):
         email_to = ','.join(emails)
         val.update(email_to=email_to)
 
-        import pprint
-        pprint.pprint(val)
         mail_id = mail_obj.create(val)
         mail_obj.send(mail_id)
 
