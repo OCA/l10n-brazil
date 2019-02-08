@@ -88,6 +88,12 @@ class HrContract(models.Model):
         ]
     )
 
+    contract_ressarcimento_ids = fields.One2many(
+        comodel_name="hr.contract.ressarcimento",
+        inverse_name="contract_id",
+        string="Ressarcimento",
+    )
+
     # Desativar o required para contratos de autonomos que nao eh obrigatório
     wage = fields.Float(
         required=False,

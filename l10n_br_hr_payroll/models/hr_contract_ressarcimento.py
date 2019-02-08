@@ -16,7 +16,7 @@ class HrContractRessarcimento(models.Model):
     state = fields.Selection(
         selection=[
             ('aberto', 'Aberto'),
-            ('confirmado', 'Confirmado'),
+            ('confirmado', 'Aguardando aprovação'),
             ('provisionado', 'Provisionado'),
             ('aprovado','Aprovado'),
         ],
@@ -35,10 +35,28 @@ class HrContractRessarcimento(models.Model):
         string='Ressarcimento do Contratro',
     )
 
+    hr_contract_ressarcimento_provisionado_line_ids = fields.One2many(
+        inverse_name='hr_contract_ressarcimento_provisionado_id',
+        comodel_name='hr.contract.ressarcimento.line',
+        string='Ressarcimento do Contratro (provisionado)',
+    )
+
+    account_period_provisao_id = fields.Many2one(
+        comodel_name='account.period',
+        string='Competência da provisão',
+        domain="[('special', '=', False), ('state', '=', 'draft')]",
+    )
+
     account_period_id = fields.Many2one(
         comodel_name='account.period',
         string='Competência',
-        domain="[('special', '=', False)]",
+        domain="[('special', '=', False), ('state', '=', 'draft')]",
+    )
+
+    total_provisionado = fields.Float(
+        string=u"Total de Ressarcimento Provisionado",
+        compute='compute_total_ressarcimento',
+        store=True,
     )
 
     total = fields.Float(
@@ -53,23 +71,24 @@ class HrContractRessarcimento(models.Model):
 
     partner_ids = fields.Many2many(
         comodel_name='res.partner',
-        string='Parceiros para notificar:',
+        string='Parceiros para notificar',
         default=lambda self: self._get_default_partner_ids(),
     )
 
     aprovado_por = fields.Many2one(
-        string='Aprovado por:',
+        string='Aprovado por',
         res_model='res.users',
     )
 
     def _get_default_partner_ids(self):
         """
-        Buscar o último ressarcimento com partner definido e sugerir para o
-        usuário
+        Buscar configuração padrão de ressarcimento
         """
-        ressarcimento_id = self.search([('partner_ids','!=', False)],
-                    order="create_date desc", limit=1)
-        return ressarcimento_id.partner_ids
+        hr_contract_ressarcimento = self.search(
+            [('partner_ids', '!=', False)],
+            order="create_date desc", limit=1)
+
+        return hr_contract_ressarcimento.partner_ids
 
     @api.multi
     @api.depends('hr_contract_ressarcimento_line_ids')
@@ -77,6 +96,9 @@ class HrContractRessarcimento(models.Model):
         for record in self:
             record.total = sum(
                 record.hr_contract_ressarcimento_line_ids.mapped('total'))
+
+            record.total_provisionado = sum(
+                record.hr_contract_ressarcimento_provisionado_line_ids.mapped('total'))
 
     @api.multi
     def name_get(self):
@@ -90,16 +112,6 @@ class HrContractRessarcimento(models.Model):
         return result
 
     @api.multi
-    def button_aprovar(self):
-        """
-        Aprovação
-        """
-        for record in self:
-            record.aprovado_por = self.env.user.id
-            record.state = 'aprovado'
-            record.send_mail(situacao='aprovado')
-
-    @api.multi
     def button_confirm(self):
         """
         Operador confirmando e submetendo para aprovação
@@ -109,11 +121,25 @@ class HrContractRessarcimento(models.Model):
             record.send_mail(situacao='confirmado')
 
     @api.multi
+    def button_aprovar(self):
+        """
+        Aprovação
+        """
+        for record in self:
+            record.aprovado_por = self.env.user.id
+            if record.valor_provisionado and not record.account_period_id:
+                record.state = 'provisionado'
+                record.send_mail(situacao='aprovado')
+            else:
+                record.state = 'aprovado'
+                record.send_mail(situacao='aprovado')
+
+    @api.multi
     def button_send_mail(self):
         """
         """
         for record in self:
-            record.send_mail(record.state)
+            record.send_mail(situacao=record.state)
 
     @api.multi
     def send_mail(self, situacao='aprovado'):
@@ -144,23 +170,6 @@ class HrContractRessarcimento(models.Model):
         mail_id = mail_obj.create(val)
         mail_obj.send(mail_id)
 
-    @api.multi
-    def write(self, values):
-        if values.get('valor_provisionado'):
-            values.update(state='provisionado')
-        return super(HrContractRessarcimento, self).write(values)
-
-    @api.model
-    def create(self, values):
-        if values.get('valor_provisionado'):
-            values.update(state='provisionado')
-
-        ressarcimento_id = super(HrContractRessarcimento, self).create(values)
-
-        # ressarcimento_id.send_mail('create')
-
-        return ressarcimento_id
-
 
 class HrContractRessarcimentoLine(models.Model):
     _name = b'hr.contract.ressarcimento.line'
@@ -172,6 +181,11 @@ class HrContractRessarcimentoLine(models.Model):
         string='Ressarcimento do Contratro',
     )
 
+    hr_contract_ressarcimento_provisionado_id = fields.Many2one(
+        comodel_name='hr.contract.ressarcimento',
+        string='Ressarcimento do Contratro',
+    )
+
     descricao = fields.Char(
         string="Rubricas de Ressarcimento",
     )
@@ -179,3 +193,4 @@ class HrContractRessarcimentoLine(models.Model):
     total = fields.Float(
         string=u"Valor",
     )
+

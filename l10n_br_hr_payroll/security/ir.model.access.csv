@@ -38,3 +38,5 @@
 "access_hr_job_funcionario","access_model_hr_job_funcionario","hr.model_hr_job","base.group_user",1,0,0,0
 "access_account_move_line_funcionario","access_account_move_line_funcionario","account.model_account_move_line","base.group_user",1,0,0,0
 "access_payment_line_funcionario","access_payment_line_funcionario","account_payment.model_payment_line","base.group_user",1,0,0,0
+"access_hr_contract_ressarcimento","access_hr_contract_ressarcimento","model_hr_contract_ressarcimento","base.group_hr_user",1,1,1,1
+"access_hr_contract_ressarcimento_line","access_hr_contract_ressarcimento_line","model_hr_contract_ressarcimento_line","base.group_hr_user",1,1,1,1
