@@ -72,28 +72,23 @@ class HrContractRessarcimento(models.Model):
     partner_ids = fields.Many2many(
         comodel_name='res.partner',
         string='Parceiros para notificar',
+        default=lambda self: self._get_default_partner_ids(),
     )
 
     aprovado_por = fields.Many2one(
         string='Aprovado por',
-        comodel_name='res.users',
+        res_model='res.users',
     )
 
-    @api.onchange('valor_provisionado')
-    def _onchange_valor_provisionado(self):
+    def _get_default_partner_ids(self):
         """
-        Caso estado aberto, se for um valor provisionado,
-        precisa que delete informações colocadas referente a
-        competencia e valores não provisionados
-        :return:
+        Buscar configuração padrão de ressarcimento
         """
-        if self.state == 'aberto':
-            if self.valor_provisionado:
-                self.account_period_id = False
-                self.hr_contract_ressarcimento_line_ids = False
-            else:
-                self.account_period_provisao_id = False
-                self.hr_contract_ressarcimento_provisionado_line_ids = False
+        hr_contract_ressarcimento = self.search(
+            [('partner_ids', '!=', False)],
+            order="create_date desc", limit=1)
+
+        return hr_contract_ressarcimento.partner_ids
 
     @api.multi
     @api.depends('hr_contract_ressarcimento_line_ids')
@@ -103,8 +98,7 @@ class HrContractRessarcimento(models.Model):
                 record.hr_contract_ressarcimento_line_ids.mapped('total'))
 
             record.total_provisionado = sum(
-                record.hr_contract_ressarcimento_provisionado_line_ids
-                    .mapped('total'))
+                record.hr_contract_ressarcimento_provisionado_line_ids.mapped('total'))
 
     @api.multi
     def name_get(self):
@@ -127,9 +121,9 @@ class HrContractRessarcimento(models.Model):
             record.send_mail(situacao='confirmado')
 
     @api.multi
-    def button_aprovar(self):
+    def button_confirm(self):
         """
-        Aprovação
+        Operador confirmando e submetendo para aprovação
         """
         for record in self:
             record.aprovado_por = self.env.user.id
@@ -139,20 +133,6 @@ class HrContractRessarcimento(models.Model):
             else:
                 record.state = 'aprovado'
                 record.send_mail(situacao='aprovado')
-
-    @api.multi
-    def button_reprovar(self):
-        """
-        Reporvar
-        """
-        for record in self:
-            record.aprovado_por = False
-            if record.valor_provisionado and not record.account_period_id:
-                record.state = 'provisionado'
-                record.send_mail(situacao='reprovado', reprovado=True)
-            else:
-                record.state = 'aberto'
-                record.send_mail(situacao='reprovado', reprovado=True)
 
     @api.multi
     def button_send_mail(self):
