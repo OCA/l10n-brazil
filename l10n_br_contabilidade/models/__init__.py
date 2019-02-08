@@ -29,3 +29,4 @@ from . import res_partner
 from . import mis_report_instance
 from . import mis_builder_report_xls
 from . import ir_attachment
+from . import mis_report_instance_period
