@@ -100,8 +100,15 @@ class HrContractRessarcimento(models.Model):
         """
         Busca partners padrões. Se não existir, cria.
         """
+
+        # Busca usuários dos grupos GEFIN e GECON
         gecon = self.env['res.partner'].search([('name', 'ilike', 'Gecon')])
         gefin = self.env['res.partner'].search([('name', 'ilike', 'Gefin')])
+
+        superint = self.env['res.groups'].search(
+            [('name', '=', 'Superintendente'),
+             ('category_id.name', '=', 'Recursos Humanos')]
+        ).users.filtered(lambda x: x.id != 1).mapped('partner_id')
 
         if not gecon:
             gecon = self.env['res.partner'].sudo().create(
@@ -110,7 +117,7 @@ class HrContractRessarcimento(models.Model):
             gefin = self.env['res.partner'].sudo().create(
                 {'name': 'Gefin', 'email': 'gefin@abgf.gov.br'})
 
-        return gecon+gefin
+        return gecon + gefin + superint
 
     @api.multi
     @api.depends('hr_contract_ressarcimento_line_ids')
@@ -120,7 +127,8 @@ class HrContractRessarcimento(models.Model):
                 record.hr_contract_ressarcimento_line_ids.mapped('total'))
 
             record.total_provisionado = sum(
-                record.hr_contract_ressarcimento_provisionado_line_ids.mapped('total'))
+                record.hr_contract_ressarcimento_provisionado_line_ids
+                    .mapped('total'))
 
     @api.multi
     def name_get(self):
@@ -176,12 +184,6 @@ class HrContractRessarcimento(models.Model):
         template_name = \
             'l10n_br_hr_payroll.' \
             'email_template_hr_contract_ressarcimento_{}'.format(situacao)
-
-        # template para valor provisionado
-        if self.valor_provisionado and not self.account_period_id \
-                and not reprovado:
-            template_name = template_name + 'p'
-
         template = self.env.ref(template_name, False)
 
         for record in self:
