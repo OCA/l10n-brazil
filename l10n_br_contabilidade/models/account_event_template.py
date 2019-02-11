@@ -12,6 +12,16 @@ class AccountEventTemplate(models.Model):
         string='Nome',
     )
 
+    account_formula = fields.Selection(
+        string=u'Fórmula',
+        selection=[
+            (1, '1ª Fórumla'),
+            (2, '2ª Fórumla'),
+            (3, '3ª Fórumla'),
+            (4, '4ª Fórumla'),
+        ],
+    )
+
     account_event_template_line_ids = fields.One2many(
         string='Partidas',
         comodel_name='account.event.template.line',

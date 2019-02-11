@@ -15,6 +15,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
+                            <field name="account_formula"/>
                             <field name="account_event_template_line_ids"/>
                         </group>
                     </sheet>
