@@ -44,8 +44,38 @@ class AccountEventTemplate(models.Model):
                         'conta de débito e uma de crédito!'
                     )
 
+    def validar_segunda_terceira_formula(self):
+        if self.account_formula in (2, 3):
+            if self.account_formula == 2:
+                tipo_conta = 'debito'
+            else:
+                tipo_conta = 'credito'
+            contador = 0
+            for partida in self.account_event_template_line_ids:
+                if partida.account_debito_id and partida.account_credito_id:
+                    raise Warning(
+                        'Em 2ª e 3ª fórmula as partidas só '
+                        'podem ter uma conta associada!'
+                    )
+                if tipo_conta == 'debito' and partida.account_debito_id:
+                    contador += 1
+                elif tipo_conta == 'credito' and partida.account_credito_id:
+                    contador += 1
+
+            if contador > 1:
+                raise Warning(
+                    'Nesta fórmula de lançamento só é '
+                    'permitido uma conta do tipo {}!'.format(tipo_conta)
+                )
+            elif not contador:
+                raise Warning(
+                    'Nesta fórmula de lançamento é preciso '
+                    'inserir uma conta do tipo {}'.format(tipo_conta)
+                )
+
     def validar_formula_roteiro_contabil(self):
         self.validar_primeira_formula()
+        self.validar_segunda_terceira_formula()
 
     @api.model
     def create(self, vals):
