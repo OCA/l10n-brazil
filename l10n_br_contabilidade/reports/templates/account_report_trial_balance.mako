@@ -191,7 +191,8 @@
 
                     <div class="act_as_row lines ${level_class} ${"%s_account_type" % (current_account.type,)}">
                         ## code
-                        <div class="act_as_cell first_column" style="padding: 5px;">${current_account.code} ${current_account.natureza_conta_id.name or ' '}</div>
+                        <div class="act_as_cell first_column" style="padding: 5px;">${current_account.code} ${ current_account.natureza_conta_id.name if exibir_natureza else '' }</div>
+
                         ## account name
                         <div class="act_as_cell">${current_account.name}</div>
                         %if comparison_mode == 'no_comparison':

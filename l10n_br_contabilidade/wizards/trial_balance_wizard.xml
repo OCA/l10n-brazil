@@ -9,9 +9,16 @@
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="before">
                     <group>
-                        <field name="lancamento_de_fechamento" />
+                        <group>
+                            <field name="lancamento_de_fechamento" />
+                        </group>
                     </group>
                 </xpath>
+
+                <field name="filter" position="after">
+                    <field name="exibir_natureza" />
+                </field>
+
             </field>
         </record>
 

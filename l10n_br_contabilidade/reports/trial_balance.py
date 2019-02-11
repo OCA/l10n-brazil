@@ -211,6 +211,8 @@ def compute_balance_data(self, data, filter_report_type=None):
 
     lang_ctx['lancamento_de_fechamento'] = \
         data['form']['lancamento_de_fechamento']
+    lang_ctx['exibir_natureza'] = \
+        data['form']['exibir_natureza']
 
     # get details for each account, total of debit / credit / balance
     accounts_by_ids = self._get_account_details(
@@ -310,6 +312,7 @@ def compute_balance_data(self, data, filter_report_type=None):
         'credit_accounts': credit_accounts,
         'balance_accounts': balance_accounts,
         'lancamentos_fechamento': data['form']['lancamento_de_fechamento'],
+        'exibir_natureza': data['form']['exibir_natureza'],
     }
 
     return objects, new_ids, context_report_values
