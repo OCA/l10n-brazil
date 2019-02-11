@@ -44,21 +44,6 @@
             return text.replace('-', '&#8209;')  # replace by a non-breaking hyphen (it will not word-wrap between hyphen and numbers)
         %>
 
-        <%!
-
-        def c_d(balance, natureza):
-            if balance < 0:
-                if natureza == 'C':
-                    return 'C'
-                elif natureza == 'D':
-                    return 'D'
-            elif balance > 0:
-                if natureza == 'C':
-                    return 'D'
-                elif natureza == 'D':
-                    return 'C'
-            return ''
-        %>
 
         <%setLang(user.lang)%>
 
