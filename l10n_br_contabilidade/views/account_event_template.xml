@@ -94,7 +94,7 @@
         <menuitem
             action="l10n_br_contabilidade_eventos_contabeis_action"
             id="l10n_br_contabilidade_eventos_contabeis"
-            parent="l10n_br_contabilidade.menu_l10n_br_eventos_contabeis"
+            parent="l10n_br_contabilidade.menu_l10n_br_roteiro_eventos_contabeis"
             sequence="10"
         />
 

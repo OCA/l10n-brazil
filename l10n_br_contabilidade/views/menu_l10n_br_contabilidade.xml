@@ -23,10 +23,10 @@
                 sequence="30" />
 
         <menuitem
-                id="menu_l10n_br_eventos_contabeis"
-                name="Eventos Contábeis"
+                id="menu_l10n_br_roteiro_eventos_contabeis"
+                name="Roteiro Eventos Contábeis"
                 parent="account.menu_finance_configuration"
-                sequence="80"
+                sequence="45"
         />
 
     </data>
