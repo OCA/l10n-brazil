@@ -15,6 +15,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
+                            <field name="lote_lancamento_id" attrs="{'required': True}"/>
                             <field name="account_formula" attrs="{'required': True}"/>
                         </group>
                         <separator string="Partidas"/>

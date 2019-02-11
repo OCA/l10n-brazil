@@ -12,6 +12,11 @@ class AccountEventTemplate(models.Model):
         string='Nome',
     )
 
+    lote_lancamento_id = fields.Many2one(
+        string=u'Lote de Lançamentos',
+        comodel_name='account.journal',
+    )
+
     account_formula = fields.Selection(
         string=u'Fórmula',
         selection=[
