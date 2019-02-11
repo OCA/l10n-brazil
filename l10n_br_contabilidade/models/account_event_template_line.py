@@ -4,43 +4,43 @@
 
 from openerp import api, fields, models
 
+MODELS = [
+    ('hr.salary.rule', 'Rúbricas Holerite'),
+    ('account.tax', 'Impostos'),
+]
+
 
 class AccountEventTemplate(models.Model):
     _name = 'account.event.template.line'
-
-    name = fields.Char(
-        string='Nome',
-    )
 
     account_event_template_id = fields.Many2one(
         string='Partidas',
         comodel_name='account.event.template',
     )
 
-    model_id = fields.Many2one(
-        comodel_name='ir.model',
-        string='Model',
-    )
-
     res_id = fields.Reference(
-        selection=lambda self: [
-            (m.model, m.name) for m in self.env['ir.model'].search([])
-        ],
-        string='Resource',
+        selection=MODELS,
+        string=u'Rúbrica da partida',
     )
 
     codigo = fields.Char(
         string=u'Código',
     )
 
+    partida_especifica = fields.Boolean(
+        string=u'Específica',
+    )
+
     account_debito_id = fields.Many2one(
         string=u'Conta Débito',
         comodel_name='account.account',
+        domain=[('type', '=', 'other')],
     )
 
     account_credito_id = fields.Many2one(
         string=u'Conta Crédito',
         comodel_name='account.account',
+        domain=[('type', '=', 'other')],
     )
 
     valor = fields.Float(

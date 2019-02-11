@@ -7,7 +7,7 @@
     <data>
 
         <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_form">
-            <field name="name">abgf_contabilidade_eventos_contabeis_form (in abgf_contabilidade)</field>
+            <field name="name">l10n_br_contabilidade_eventos_contabeis_form (in l10n_br_contabilidade)</field>
             <field name="model">account.event.template</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
@@ -15,37 +15,48 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="account_formula"/>
-                            <field name="account_event_template_line_ids"/>
+                            <field name="account_formula" attrs="{'required': True}"/>
                         </group>
+                        <separator string="Partidas"/>
+                        <field name="account_event_template_line_ids" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="res_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                <field name="codigo"/>
+                                <field name="partida_especifica"/>
+                                <field name="account_debito_id" domain="[('type', '=', 'other')]" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                <field name="account_credito_id" domain="[('type', '=', 'other')]" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                <field name="valor"/>
+                            </tree>
+                        </field>
                     </sheet>
                 </form>
             </field>
         </record>
 
         <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_tree">
-            <field name="name">abgf_contabilidade_eventos_contabeis_tree (in abgf_contabilidade)</field>
+            <field name="name">l10n_br_contabilidade_eventos_contabeis_tree (in l10n_br_contabilidade)</field>
             <field name="model">account.event.template</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="account_formula"/>
                     <field name="account_event_template_line_ids"/>
                 </tree>
             </field>
         </record>
 
         <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_line_form">
-            <field name="name">abgf_contabilidade_eventos_contabeis_line_form (in abgf_contabilidade)</field>
+            <field name="name">l10n_br_contabilidade_eventos_contabeis_line_form (in l10n_br_contabilidade)</field>
             <field name="model">account.event.template.line</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-                            <field name="model_id"/>
-                            <field name="res_id"/>
+                            <field name="res_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                             <field name="codigo"/>
+                            <field name="partida_especifica"/>
                             <field name="account_debito_id"/>
                             <field name="account_credito_id"/>
                             <field name="valor"/>
@@ -56,14 +67,14 @@
         </record>
 
         <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_line_tree">
-            <field name="name">abgf_contabilidade_eventos_contabeis_line_tree (in abgf_contabilidade)</field>
+            <field name="name">l10n_br_contabilidade_eventos_contabeis_line_tree (in l10n_br_contabilidade)</field>
             <field name="model">account.event.template.line</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="model_id"/>
-                    <field name="res_id"/>
+                    <field name="res_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                     <field name="codigo"/>
+                    <field name="partida_especifica"/>
                     <field name="account_debito_id"/>
                     <field name="account_credito_id"/>
                     <field name="valor"/>
@@ -73,7 +84,7 @@
 
         <record id="l10n_br_contabilidade_eventos_contabeis_action" model="ir.actions.act_window">
             <field name="name">Roteiros de Eventos Contábeis</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model">account.event.template</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="l10n_br_contabilidade_eventos_contabeis_tree"/>
