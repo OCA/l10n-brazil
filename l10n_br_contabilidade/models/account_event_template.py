@@ -92,3 +92,21 @@ class AccountEventTemplate(models.Model):
         self.validar_formula_roteiro_contabil()
 
         return res
+
+    def validar_dados(self, dados):
+        return
+
+    def preparar_dados_lancamentos(self, dados):
+        return
+
+    def criar_lancamentos(self, dados):
+        account_move_obj = self.env['account.move']
+        for lancamento in dados:
+            account_move_obj.create(lancamento)
+
+    def criar_lancamento_roteiro(self, dados):
+        self.validar_dados(dados)
+        self.preparar_dados_lancamentos(dados)
+        self.criar_lancamentos(dados)
+
+        return True
