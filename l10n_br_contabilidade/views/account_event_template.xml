@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 ABGF http://www.abgf.gov.br/
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_form">
+            <field name="name">abgf_contabilidade_eventos_contabeis_form (in abgf_contabilidade)</field>
+            <field name="model">account.event.template</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="account_event_template_line_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_tree">
+            <field name="name">abgf_contabilidade_eventos_contabeis_tree (in abgf_contabilidade)</field>
+            <field name="model">account.event.template</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="account_event_template_line_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_line_form">
+            <field name="name">abgf_contabilidade_eventos_contabeis_line_form (in abgf_contabilidade)</field>
+            <field name="model">account.event.template.line</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="model_id"/>
+                            <field name="res_id"/>
+                            <field name="codigo"/>
+                            <field name="account_debito_id"/>
+                            <field name="account_credito_id"/>
+                            <field name="valor"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_eventos_contabeis_line_tree">
+            <field name="name">abgf_contabilidade_eventos_contabeis_line_tree (in abgf_contabilidade)</field>
+            <field name="model">account.event.template.line</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="model_id"/>
+                    <field name="res_id"/>
+                    <field name="codigo"/>
+                    <field name="account_debito_id"/>
+                    <field name="account_credito_id"/>
+                    <field name="valor"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_contabilidade_eventos_contabeis_action" model="ir.actions.act_window">
+            <field name="name">Roteiros de Eventos Contábeis</field>
+            <field name="res_model">account.account</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="l10n_br_contabilidade_eventos_contabeis_tree"/>
+        </record>
+
+        <menuitem
+            action="l10n_br_contabilidade_eventos_contabeis_action"
+            id="l10n_br_contabilidade_eventos_contabeis"
+            parent="l10n_br_contabilidade.menu_l10n_br_eventos_contabeis"
+            sequence="10"
+        />
+
+    </data>
+</openerp>

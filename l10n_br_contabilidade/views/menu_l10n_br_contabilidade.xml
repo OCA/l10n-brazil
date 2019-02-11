@@ -22,5 +22,12 @@
                 parent="account.menu_finance_configuration"
                 sequence="30" />
 
+        <menuitem
+                id="menu_l10n_br_eventos_contabeis"
+                name="Eventos Contábeis"
+                parent="account.menu_finance_configuration"
+                sequence="80"
+        />
+
     </data>
 </openerp>
