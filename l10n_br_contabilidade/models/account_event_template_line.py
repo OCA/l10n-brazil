@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import Warning
 
 MODELS = [
     ('hr.salary.rule', 'Rúbricas Holerite'),
@@ -46,3 +47,44 @@ class AccountEventTemplate(models.Model):
     valor = fields.Float(
         string='Valor',
     )
+
+    def validar_identificacao_partida(self):
+        if self.res_id and self.codigo:
+            raise Warning(
+                'Uma partida não pode possuir uma '
+                'rúbrica e um código ao mesmo tempo!'
+            )
+
+    def validar_contas_partida(self):
+        if self.account_debito_id == self.account_credito_id:
+            raise Warning(
+                'Uma partida não pode possuir uma conta de débito '
+                'igual a uma conta de crédito!'
+            )
+
+    def validar_valor_partida(self):
+        if not self.valor:
+            raise Warning(
+                'Uma partida não pode ter o valor zerado!'
+            )
+
+    def validar_partida(self):
+        self.validar_identificacao_partida()
+        self.validar_contas_partida()
+        self.validar_valor_partida()
+
+    @api.model
+    def create(self, vals):
+        res = super(AccountEventTemplate, self).create(vals)
+
+        res.validar_partida()
+
+        return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(AccountEventTemplate, self).write(vals)
+
+        self.validar_partida()
+
+        return res
