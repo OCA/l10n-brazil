@@ -100,7 +100,7 @@
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_icms_demo" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_icms7"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms7"/>
         <field name="cst_id" ref="cst_icms_00"/>
     </record>
 
@@ -115,7 +115,7 @@
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_icms_demo" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_icms12"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms12"/>
         <field name="cst_id" ref="cst_icms_00"/>
     </record>
 
@@ -131,7 +131,7 @@
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_icms_pf_demo" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_pf_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_icms12"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms12"/>
         <field name="cst_id" ref="cst_icms_00"/>
     </record>
 
@@ -169,7 +169,7 @@
     <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_icms_pe_demo" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_icms12"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms12"/>
         <field name="cst_id" ref="cst_icms_10"/>
     </record>
 
@@ -210,14 +210,14 @@
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo_pis" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
         <field name="cst_id" ref="cst_pis_07"/>
     </record>
 
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo_cofins" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
         <field name="cst_id" ref="cst_cofins_07"/>
     </record>
 
@@ -232,14 +232,14 @@
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo_pis" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
         <field name="cst_id" ref="cst_pis_07"/>
     </record>
 
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo_cofins" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
         <field name="cst_id" ref="cst_cofins_07"/>
     </record>
 
@@ -254,14 +254,14 @@
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo_pis" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
         <field name="cst_id" ref="cst_pis_07"/>
     </record>
 
     <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo_cofins" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
         <field name="cst_id" ref="cst_cofins_07"/>
     </record>
 
@@ -277,14 +277,14 @@
     <record id="fp_d9132a81edff5374f33560f58666b792_internal_demo_pis" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_internal_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
         <field name="cst_id" ref="cst_pis_07"/>
     </record>
 
     <record id="fp_d9132a81edff5374f33560f58666b792_internal_demo_cofins" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_internal_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
         <field name="cst_id" ref="cst_cofins_07"/>
     </record>
 
@@ -299,14 +299,14 @@
     <record id="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo_pis" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
         <field name="cst_id" ref="cst_pis_07"/>
     </record>
 
     <record id="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo_cofins" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
         <field name="cst_id" ref="cst_cofins_07"/>
     </record>
 
@@ -321,14 +321,14 @@
     <record id="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo_pis" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
         <field name="cst_id" ref="cst_pis_07"/>
     </record>
 
     <record id="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo_cofins" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
         <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
-        <field name="tax_dest_id" ref="l10n_br_generic.1_tax_template_out_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
         <field name="cst_id" ref="cst_cofins_07"/>
     </record>
 
