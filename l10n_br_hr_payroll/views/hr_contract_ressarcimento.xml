@@ -17,7 +17,7 @@
                     <header>
                         <button string="Submeter para Aprovação" name="button_confirm" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'in', ['confirmado', 'aprovado'])]}"/>
                         <button string="Aprovar e Enviar email" name="button_aprovar" groups="base.group_hr_superintendente" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'not in', ['provisionado','confirmado'])]}"/>
-                        <!--button string="Enviar e-mail" name="button_send_mail" type="object" class="oe_highlight" attrs="{'invisible':[('state', '=', 'aberto')]}"/-->
+                        <!--button string="Não aprovar" name="button_reprovar" type="object" class="oe_highlight" groups="base.group_hr_superintendente" attrs="{'invisible':[('state', '!=', 'confirmado')]}"/-->
                         <field name="state" widget="statusbar" statusbar_visible="aberto,confirmado,provisionado,aprovado" statusbar_colors='{"aberto":"red","provisionado":"red","confirmado":"blue"}'/>
                     </header>
                     <sheet>
