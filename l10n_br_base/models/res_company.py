@@ -187,6 +187,6 @@ class ResCompany(models.Model):
             if not config['without_demo'] and values.get('currency_id'):
                 result = models.Model.write(self, values)
             else:
-                raise Exception
+                raise
 
         return result
