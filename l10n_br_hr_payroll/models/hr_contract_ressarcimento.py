@@ -72,7 +72,6 @@ class HrContractRessarcimento(models.Model):
     partner_ids = fields.Many2many(
         comodel_name='res.partner',
         string='Parceiros para notificar',
-        default=lambda self: self._get_default_partner_ids(),
     )
 
     aprovado_por = fields.Many2one(
@@ -95,29 +94,6 @@ class HrContractRessarcimento(models.Model):
             else:
                 self.account_period_provisao_id = False
                 self.hr_contract_ressarcimento_provisionado_line_ids = False
-
-    def _get_default_partner_ids(self):
-        """
-        Busca partners padrões. Se não existir, cria.
-        """
-
-        # Busca usuários dos grupos GEFIN e GECON
-        gecon = self.env['res.partner'].search([('name', 'ilike', 'Gecon')])
-        gefin = self.env['res.partner'].search([('name', 'ilike', 'Gefin')])
-
-        superint = self.env['res.groups'].search(
-            [('name', '=', 'Superintendente'),
-             ('category_id.name', '=', 'Recursos Humanos')]
-        ).users.filtered(lambda x: x.id != 1).mapped('partner_id')
-
-        if not gecon:
-            gecon = self.env['res.partner'].sudo().create(
-                {'name': 'Gecon', 'email': 'gecon@abgf.gov.br'})
-        if not gefin:
-            gefin = self.env['res.partner'].sudo().create(
-                {'name': 'Gefin', 'email': 'gefin@abgf.gov.br'})
-
-        return gecon + gefin + superint
 
     @api.multi
     @api.depends('hr_contract_ressarcimento_line_ids')
@@ -165,6 +141,20 @@ class HrContractRessarcimento(models.Model):
                 record.send_mail(situacao='aprovado')
 
     @api.multi
+    def button_reprovar(self):
+        """
+        Reporvar
+        """
+        for record in self:
+            record.aprovado_por = False
+            if record.valor_provisionado and not record.account_period_id:
+                record.state = 'provisionado'
+                record.send_mail(situacao='reprovado', reprovado=True)
+            else:
+                record.state = 'aberto'
+                record.send_mail(situacao='reprovado', reprovado=True)
+
+    @api.multi
     def button_send_mail(self):
         """
         """
@@ -184,6 +174,12 @@ class HrContractRessarcimento(models.Model):
         template_name = \
             'l10n_br_hr_payroll.' \
             'email_template_hr_contract_ressarcimento_{}'.format(situacao)
+
+        # template para valor provisionado
+        if self.valor_provisionado and not self.account_period_id \
+                and not reprovado:
+            template_name = template_name + 'p'
+
         template = self.env.ref(template_name, False)
 
         for record in self:
