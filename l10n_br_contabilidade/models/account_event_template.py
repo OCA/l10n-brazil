@@ -77,21 +77,21 @@ class AccountEventTemplate(models.Model):
         self.validar_primeira_formula()
         self.validar_segunda_terceira_formula()
 
-    @api.model
-    def create(self, vals):
-        res = super(AccountEventTemplate, self).create(vals)
+    # @api.model
+    # def create(self, vals):
+    #     res = super(AccountEventTemplate, self).create(vals)
+    #
+    #     res.validar_formula_roteiro_contabil()
+    #
+    #     return res
+    #
+    # @api.multi
+    # def write(self, vals):
+    #     res = super(AccountEventTemplate, self).create(vals)
+    #
+    #     self.validar_formula_roteiro_contabil()
 
-        res.validar_formula_roteiro_contabil()
-
-        return res
-
-    @api.multi
-    def write(self, vals):
-        res = super(AccountEventTemplate, self).create(vals)
-
-        self.validar_formula_roteiro_contabil()
-
-        return res
+        # return res
 
     def validar_dados(self, dados):
         return
