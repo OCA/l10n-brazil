@@ -40,6 +40,11 @@ class AccountEventTemplateLine(models.Model):
         domain=[('type', '=', 'other')],
     )
 
+    account_historico_padrao_id = fields.Many2one(
+        comodel_name='account.historico.padrao',
+        string='Histórico Padrão'
+    )
+
     def validar_identificacao_partida(self):
         if self.res_id and self.codigo:
             raise Warning(
