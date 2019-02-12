@@ -23,10 +23,8 @@
                             <tree editable="bottom">
                                 <field name="res_id" options="{'no_quick_create': True, 'no_create_edit': True}" attrs="{'required': [('codigo', '=', False)]}"/>
                                 <field name="codigo" attrs="{'required': [('res_id', '=', False)]}"/>
-                                <field name="partida_especifica"/>
                                 <field name="account_debito_id" domain="[('type', '=', 'other')]" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                 <field name="account_credito_id" domain="[('type', '=', 'other')]" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                <field name="valor"/>
                             </tree>
                         </field>
                     </sheet>
@@ -57,10 +55,8 @@
                         <group>
                             <field name="res_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                             <field name="codigo"/>
-                            <field name="partida_especifica"/>
                             <field name="account_debito_id"/>
                             <field name="account_credito_id"/>
-                            <field name="valor"/>
                         </group>
                     </sheet>
                 </form>
@@ -75,10 +71,8 @@
                 <tree>
                     <field name="res_id" options="{'no_quick_create': True, 'no_create_edit': True}" attrs="{'required': [('codigo', '=', False)]}"/>
                     <field name="codigo" attrs="{'required': [('res_id', '=', False)]}"/>
-                    <field name="partida_especifica"/>
                     <field name="account_debito_id"/>
                     <field name="account_credito_id"/>
-                    <field name="valor"/>
                 </tree>
             </field>
         </record>

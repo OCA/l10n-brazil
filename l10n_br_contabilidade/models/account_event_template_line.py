@@ -11,7 +11,7 @@ MODELS = [
 ]
 
 
-class AccountEventTemplate(models.Model):
+class AccountEventTemplateLine(models.Model):
     _name = 'account.event.template.line'
 
     account_event_template_id = fields.Many2one(
@@ -28,10 +28,6 @@ class AccountEventTemplate(models.Model):
         string=u'Código',
     )
 
-    partida_especifica = fields.Boolean(
-        string=u'Específica',
-    )
-
     account_debito_id = fields.Many2one(
         string=u'Conta Débito',
         comodel_name='account.account',
@@ -42,10 +38,6 @@ class AccountEventTemplate(models.Model):
         string=u'Conta Crédito',
         comodel_name='account.account',
         domain=[('type', '=', 'other')],
-    )
-
-    valor = fields.Float(
-        string='Valor',
     )
 
     def validar_identificacao_partida(self):
@@ -62,29 +54,18 @@ class AccountEventTemplate(models.Model):
                 'igual a uma conta de crédito!'
             )
 
-    def validar_valor_partida(self):
-        if not self.valor:
-            raise Warning(
-                'Uma partida não pode ter o valor zerado!'
-            )
-
     def validar_partida(self):
         self.validar_identificacao_partida()
         self.validar_contas_partida()
-        self.validar_valor_partida()
 
-    @api.model
-    def create(self, vals):
-        res = super(AccountEventTemplate, self).create(vals)
-
-        res.validar_partida()
-
-        return res
-
-    @api.multi
-    def write(self, vals):
-        res = super(AccountEventTemplate, self).write(vals)
-
-        self.validar_partida()
-
-        return res
+    # @api.model
+    # def create(self, vals):
+    #     res = super(AccountEventTemplateLine, self).create(vals)
+    #     res.validar_partida()
+    #     return res
+    #
+    # @api.multi
+    # def write(self, vals):
+    #     res = super(AccountEventTemplateLine, self).write(vals)
+    #     self.validar_partida()
+    #     return res
