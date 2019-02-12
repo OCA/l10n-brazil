@@ -94,19 +94,105 @@ class AccountEventTemplate(models.Model):
         # return res
 
     def validar_dados(self, dados):
-        return
+        """
+        validar o dict para criacao de lenaçamentos
+
+        Exemplo:
+        {
+            'data':         '2019-01-01',
+            'lines':        [{'LIQUIDO': 100.00}, {'INSS': 123.45}]
+            'ref':          identificação do módulo de origem
+
+            'model':        (opcional) model de origem
+            'res_id':       (opcional) id do registro de origem
+            'period_id'        (opcional) account.period
+            'company_id':   (opcional) res.company
+        }
+
+        """
+        return True
 
     def preparar_dados_lancamentos(self, dados):
-        return
+        """
+        {
+            'data':         '2019-01-01',
+            'lines':        [{'code': 'LIQUIDO', 'valor': 123},
+                             {'code': 'INSS', 'valor': 621.03}],
+            'ref':          identificação do módulo de origem
+            'model':        (opcional) model de origem
+            'res_id':       (opcional) id do registro de origem
+            'period_id'     (opcional) account.period
+            'company_id':   (opcional) res.company
+        }
+        """
 
-    def criar_lancamentos(self, dados):
+        account_move_ids = []
+
+        for line in dados.get('lines'):
+
+            account_template_line_id = self.get_linha_roteiro(line.get('code'))
+
+
+            account_move_debit_line = {
+                'account_id': account_template_line_id.account_debito_id.id,
+                'debit': line.get('valor'),
+                'credit': 0.0,
+                'name': 'NAME',
+            }
+
+            account_move_credit_line = {
+                'account_id': account_template_line_id.account_credito_id.id,
+                'credit': line.get('valor'),
+                'debit': 0.0,
+                'name': 'NAME',
+            }
+
+            historico_padrao_id = \
+                account_template_line_id.historico_padrao_id.get_historico_padrao()
+
+            account_move_id = {
+                'ref': dados.get('ref'),
+                'narration': historico_padrao_id,
+                'resumo': historico_padrao_id,
+                'date': dados.get('data'),
+                'line_id':
+                    [(0, 0, account_move_debit_line),
+                     (0,0, account_move_credit_line)]
+            }
+
+            account_move_ids.append(account_move_id)
+
+        return account_move_ids
+
+
+    def criar_lancamentos(self, vals):
+        """
+        :param vals:
+        :return:
+        """
         account_move_obj = self.env['account.move']
-        for lancamento in dados:
+        for lancamento in vals:
             account_move_obj.create(lancamento)
 
-    def criar_lancamento_roteiro(self, dados):
+
+    def get_linha_roteiro(self, code):
+        """
+        retornar a linha do roteiro contabil
+
+        """
+        return self.account_event_template_line_ids.\
+            filtered(lambda x: x.code == code)
+
+
+    def gerar_contabilizacao(self, dados):
+        """
+        Rotina principal:
+        """
+
         self.validar_dados(dados)
-        self.preparar_dados_lancamentos(dados)
-        self.criar_lancamentos(dados)
+
+        account_move_ids = self.preparar_dados_lancamentos(dados)
+
+        self.criar_lancamentos(account_move_ids)
 
         return True
