@@ -30,7 +30,8 @@
                             <field name="account_period_id" options="{'no_create': 1}" attrs="{'readonly':[('state','not in', ['aberto', 'provisionado'])], 'required':[('valor_provisionado','=',False)], 'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['provisionado', 'aprovado'])]}" />
                             <field name="partner_ids" options="{'no_create': 1}" required="1" widget="many2many_tags" />
                         </group>
-                        <br /><br />
+                        <newline/>
+                        <newline/>
                         <h2 attrs="{'invisible':[('valor_provisionado','=', False)]}">Ressarcimento do contrato (provisionamento)</h2>
                         <field name="hr_contract_ressarcimento_provisionado_line_ids" nolabel="1" attrs="{'readonly':[('state','!=','aberto')], 'required':[('valor_provisionado','=',True)], 'invisible':[('valor_provisionado','=', False)]}" widget="one2many_list" >
                             <tree editable="bottom">

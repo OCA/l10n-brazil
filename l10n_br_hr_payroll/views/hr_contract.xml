@@ -150,7 +150,7 @@
                     <separator string="Outros vínculos/ressarcimentos" />
                     <newline/>
                     <field name="contract_ressarcimento_ids">
-                        <tree>
+                        <tree colors="darkgoldenrod:state == 'provisionado';darkgreen:state == 'aprovado'">
                             <field name="account_period_id" />
                             <field name="total" />
                             <field name="account_period_provisao_id" />
