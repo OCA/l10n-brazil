@@ -169,7 +169,7 @@ class TestCustomerInvoice(TransactionCase):
                           "Invoice should be in state Open")
         invoice_tax = self.invoice_2.tax_line_ids.sorted(
             key=lambda r: r.sequence)
-        self.assertEquals(invoice_tax.mapped('amount'), [50.0, 550.0, 220.0])
+        self.assertEquals(invoice_tax.mapped('amount'), [110.0, 550.0, 220.0])
         self.assertEquals(invoice_tax.mapped('base'), [500.0, 550.0, 1100.0])
         assert self.invoice_2.move_id, "Move not created for open invoice"
         self.invoice_2.pay_and_reconcile(
