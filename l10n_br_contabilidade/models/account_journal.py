@@ -47,10 +47,10 @@ class AccountJournal(models.Model):
                 if sum(a.porcentagem for a in record.divisao_resultado_ids.filtered(lambda x: x.sequencia == r)) > 100:
                     raise Warning(u'Porcentagem ultrapassa 100%.')
 
-    @api.model
-    def write(self, vals):
-        res = super(AccountJournal, self).write(vals)
-
-        self._verifica_porcentagem_fechamento()
-
-        return res
+    # @api.model
+    # def write(self, vals):
+    #     res = super(AccountJournal, self).write(vals)
+    #
+    #     self._verifica_porcentagem_fechamento()
+    #
+    #     return res
