@@ -176,18 +176,19 @@ class AccountEventTemplate(models.Model):
         :param vals:
         :return:
         """
-        account_move_obj = self.env['account.move']
+        account_move_ids = self.env['account.move']
         for lancamento in vals:
-            account_move_obj.create(lancamento)
-
+            account_move_ids += account_move_ids.create(lancamento)
+        return account_move_ids
 
     def get_linha_roteiro(self, code):
         """
         retornar a linha do roteiro contabil
 
         """
-        return self.account_event_template_line_ids.\
-            filtered(lambda x: x.code == code)
+        linha = self.account_event_template_line_ids.\
+            filtered(lambda x: x.codigo == code)
+        return linha
 
 
     def gerar_contabilizacao(self, dados):
@@ -199,6 +200,6 @@ class AccountEventTemplate(models.Model):
 
         account_move_ids = self.preparar_dados_lancamentos(dados)
 
-        self.criar_lancamentos(account_move_ids)
+        account_move_ids = self.criar_lancamentos(account_move_ids)
 
-        return True
+        return account_move_ids
