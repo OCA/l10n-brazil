@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 18:36+0000\n"
-"PO-Revision-Date: 2019-01-31 18:36+0000\n"
+"POT-Creation-Date: 2019-02-13 18:48+0000\n"
+"PO-Revision-Date: 2019-02-13 18:48+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:171
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:85
+#, python-format
+msgid "\n"
+"To"
+msgstr "\n"
+"To"
+
+#. module: l10n_br_contabilidade
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:172
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:190
+#, python-format
 msgid "% Difference"
 msgstr "% Diferença"
 
@@ -76,8 +86,15 @@ msgid "* nothing or p: variation over the period"
 msgstr "* nada ou p: variação pelo período"
 
 #. module: l10n_br_contabilidade
+#: selection:account.fechamento,state:0
+msgid "Aberto"
+msgstr "Aberto"
+
+#. module: l10n_br_contabilidade
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:139
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:153
 #: model:ir.model,name:l10n_br_contabilidade.model_account_account
+#, python-format
 msgid "Account"
 msgstr "Conta"
 
@@ -86,11 +103,6 @@ msgstr "Conta"
 #: model:ir.model,name:l10n_br_contabilidade.model_account_move
 msgid "Account Entry"
 msgstr "Lançamento Contábil"
-
-#. module: l10n_br_contabilidade
-#: field:mis.report.kpi,account_ids:0
-msgid "Account ids"
-msgstr "Contas contabeis"
 
 #. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_account_period
@@ -103,10 +115,17 @@ msgid "Accounting Documents"
 msgstr "Documentos Contábeis"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:59
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:60
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:81
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:59
+#, python-format
 msgid "Accounts Filter"
 msgstr "Filtro de contas"
+
+#. module: l10n_br_contabilidade
+#: field:account.account.report,active:0
+msgid "Active?"
+msgstr "Active?"
 
 #. module: l10n_br_contabilidade
 #: field:account.fiscalyear,administrator_id:0
@@ -115,8 +134,15 @@ msgid "Administrador responsável"
 msgstr "Administrador responsável"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:84
+#: help:account.account.report,mostrar_no_relatorio:0
+msgid "Algumas contas são de referência para contas totalizadoras não devendo aparecer nos relatórios"
+msgstr "Algumas contas são de referência para contas totalizadoras não devendo aparecer nos relatórios"
+
+#. module: l10n_br_contabilidade
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:85
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:107
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:78
+#, python-format
 msgid "All"
 msgstr "Todos"
 
@@ -161,9 +187,19 @@ msgid "Ano Fiscal"
 msgstr "Ano Fiscal"
 
 #. module: l10n_br_contabilidade
+#: field:account.fechamento,fiscalyear_id:0
+msgid "Ano base"
+msgstr "Ano base"
+
+#. module: l10n_br_contabilidade
 #: view:account.account:l10n_br_contabilidade.view_account_form
 msgid "Apresentação"
 msgstr "Apresentação"
+
+#. module: l10n_br_contabilidade
+#: selection:account.fechamento,state:0
+msgid "Apurado"
+msgstr "Apurado"
 
 #. module: l10n_br_contabilidade
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_apuracao_resultado_action
@@ -172,9 +208,14 @@ msgid "Apurar Resultado"
 msgstr "Apurar Resultado"
 
 #. module: l10n_br_contabilidade
-#: selection:mis.report.kpi,expression_mode:0
-msgid "Automático"
-msgstr "Automático"
+#: help:account.period,demonstracao_periodo_atual:0
+msgid "Apurar as demonstrações somente com lançamentos do período corrente. Caso não esteja marcado utilizará os lançamentos a partir do ultimo período finalizado."
+msgstr "Apurar as demonstrações somente com lançamentos do período corrente. Caso não esteja marcado utilizará os lançamentos a partir do ultimo período finalizado."
+
+#. module: l10n_br_contabilidade
+#: field:account.period,demonstracao_periodo_atual:0
+msgid "Apuração somente do período Atual?"
+msgstr "Apuração somente do período Atual?"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
@@ -197,13 +238,24 @@ msgid "Background color inherit"
 msgstr "Cor de fundo herdada"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:157
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:164
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:168
+#, python-format
+msgid "Balance"
+msgstr "Balance"
+
+#. module: l10n_br_contabilidade
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:158
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:165
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:170
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:178
+#, python-format
 msgid "Balance %s"
 msgstr "Saldo %s"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:166
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:167
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:183
+#, python-format
 msgid "Balance C%s"
 msgstr "Saldo C%s"
 
@@ -220,19 +272,29 @@ msgid "Balance Sheet (Liability account)"
 msgstr "Balanço (Conta do passivo)"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Balancete"
 msgstr "Balancete"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Balancete do Período"
 msgstr "Balancete do Período"
 
 #. module: l10n_br_contabilidade
-#: model:ir.ui.menu,name:l10n_br_contabilidade.menu_abgf_action_account_saldo_graph
+#: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_action_account_saldo_graph
 msgid "Balancete por períodos"
 msgstr "Balancete por períodos"
+
+#. module: l10n_br_contabilidade
+#: field:account.saldo,saldo_final:0
+msgid "Balanço"
+msgstr "Balanço"
+
+#. module: l10n_br_contabilidade
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_action
+msgid "Balanço Patrimonial"
+msgstr "Balanço Patrimonial"
 
 #. module: l10n_br_contabilidade
 #: selection:mis.report.style,font_weight:0
@@ -265,6 +327,11 @@ msgid "Cancel Entry"
 msgstr "Cancelar Lançamento"
 
 #. module: l10n_br_contabilidade
+#: selection:account.move.line,situacao_lancamento:0
+msgid "Cancelado"
+msgstr "Cancelado"
+
+#. module: l10n_br_contabilidade
 #: view:fechamento.reabertura.justificativa.wizard:l10n_br_contabilidade.fechamento_reabertura_justificativa_wizard_form
 msgid "Cancelar"
 msgstr "Cancelar"
@@ -275,9 +342,15 @@ msgid "Cancelar Fechamento"
 msgstr "Cancelar Fechamento"
 
 #. module: l10n_br_contabilidade
+#: help:account.period,demonstracao_start_periodo:0
+msgid "Caso opte pelas demonstrações iniciarem a partir do ultimo período fechado, esse campo indicará o período que se iniciará a busca por lançamentos"
+msgstr "Caso opte pelas demonstrações iniciarem a partir do ultimo período fechado, esse campo indicará o período que se iniciará a busca por lançamentos"
+
+#. module: l10n_br_contabilidade
 #: view:account.centro.custo:l10n_br_contabilidade.l10n_br_contabilidade_account_centro_custo_form
 #: view:account.centro.custo:l10n_br_contabilidade.l10n_br_contabilidade_account_centro_custo_search
 #: view:account.centro.custo:l10n_br_contabilidade.l10n_br_contabilidade_account_centro_custo_tree
+#: field:account.move,centro_custo_id:0
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_centro_custo_action
 #: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_account_centro_custo
 msgid "Centro de Custo"
@@ -289,15 +362,18 @@ msgid "Centro de Custo para lançamentos Contábeis"
 msgstr "Centro de Custo para lançamentos Contábeis"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:50
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:51
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:72
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:65
+#, python-format
 msgid "Chart of Account"
 msgstr "Plano de Conta"
 
 #. module: l10n_br_contabilidade
-#: field:mis.report,code:0
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:152
+#, python-format
 msgid "Code"
-msgstr "Código"
+msgstr "Code"
 
 #. module: l10n_br_contabilidade
 #: view:mis.report.style:l10n_br_contabilidade.mis_report_style_view_form
@@ -310,9 +386,10 @@ msgid "Color inherit"
 msgstr "Cor herdada"
 
 #. module: l10n_br_contabilidade
-#: field:mis.report.kpi,column:0
-msgid "Column"
-msgstr "Coluna"
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:116
+#, python-format
+msgid "Comparison"
+msgstr "Comparison"
 
 #. module: l10n_br_contabilidade
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:119
@@ -320,15 +397,23 @@ msgid "Comparison %s"
 msgstr "Comparação %s"
 
 #. module: l10n_br_contabilidade
-#: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_account_period
-msgid "Competências"
-msgstr "Competências"
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:109
+#, python-format
+msgid "Comparisons"
+msgstr "Comparisons"
 
 #. module: l10n_br_contabilidade
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:41
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:67
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:66
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:29
+#, python-format
 msgid "Computed"
 msgstr "Computado"
+
+#. module: l10n_br_contabilidade
+#: selection:account.fechamento,state:0
+msgid "Concluído"
+msgstr "Concluído"
 
 #. module: l10n_br_contabilidade
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_encerramento_concluido_action
@@ -337,25 +422,66 @@ msgid "Concluídos"
 msgstr "Concluídos"
 
 #. module: l10n_br_contabilidade
-#: model:ir.ui.menu,name:l10n_br_contabilidade.menu_configuracao_contabilidade
-msgid "Configurações"
-msgstr "Configurações"
-
-#. module: l10n_br_contabilidade
 #: field:mis.report,considerations:0
 #: field:mis.report.instance,considerations:0
 msgid "Considerações finais"
 msgstr "Considerações finais"
 
 #. module: l10n_br_contabilidade
-#: view:account.natureza:l10n_br_contabilidade.abgf_view_account_natureza_form
+#: field:account.divisao.resultado,account_id:0
+#: field:account.saldo,account_account_id:0
+msgid "Conta"
+msgstr "Conta"
+
+#. module: l10n_br_contabilidade
+#: field:account.journal,account_lucro_id:0
+msgid "Conta - Lucro"
+msgstr "Conta - Lucro"
+
+#. module: l10n_br_contabilidade
+#: field:account.journal,account_prejuizo_id:0
+msgid "Conta - Prejuízo"
+msgstr "Conta - Prejuízo"
+
+#. module: l10n_br_contabilidade
+#: selection:account.account.report,tipo_calculo:0
+msgid "Conta Analitica"
+msgstr "Conta Analitica"
+
+#. module: l10n_br_contabilidade
+#: selection:mis.report.kpi,expression_mode:0
+msgid "Conta Contábil"
+msgstr "Conta Contábil"
+
+#. module: l10n_br_contabilidade
+#: field:account.account.report.line,account_account_report_id:0
+msgid "Conta Demonstrativa"
+msgstr "Conta Demonstrativa"
+
+#. module: l10n_br_contabilidade
+#: field:account.mapeamento,conta_plano_conta_externo:0
+msgid "Conta Externa"
+msgstr "Conta Externa"
+
+#. module: l10n_br_contabilidade
+#: view:account.natureza:l10n_br_contabilidade.l10n_br_view_account_natureza_form
 msgid "Conta Natureza"
 msgstr "Conta Natureza"
 
 #. module: l10n_br_contabilidade
-#: model:ir.ui.menu,name:l10n_br_contabilidade.l10n_br_contabilidade
-msgid "Contabilidade"
-msgstr "Contabilidade"
+#: selection:account.account.report,tipo_calculo:0
+msgid "Conta Sintético"
+msgstr "Conta Sintético"
+
+#. module: l10n_br_contabilidade
+#: help:account.mapeamento,conta_plano_conta_externo:0
+msgid "Conta de um Plano de Contas externo ao sistema"
+msgstr "Conta de um Plano de Contas externo ao sistema"
+
+#. module: l10n_br_contabilidade
+#: field:account.mapeamento,conta_sistema_id:0
+msgid "Conta do Sistema"
+msgstr "Conta do Sistema"
 
 #. module: l10n_br_contabilidade
 #: field:account.fiscalyear,accountant_id:0
@@ -364,10 +490,19 @@ msgid "Contador responsável"
 msgstr "Contador responsável"
 
 #. module: l10n_br_contabilidade
+#: view:account.account.report:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_form
+#: view:account.account.report:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_search
+#: field:account.account.report,account_account_id:0
 #: view:account.saldo:l10n_br_contabilidade.l10n_br_contabilidade_account_saldo_search
-#: model:ir.ui.menu,name:l10n_br_contabilidade.menu_conta_form
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_resultado_action
 msgid "Contas"
 msgstr "Contas"
+
+#. module: l10n_br_contabilidade
+#: view:account.account.report:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_form
+#: view:account.account.report:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_tree
+msgid "Contas Demonstrativas"
+msgstr "Contas Demonstrativas"
 
 #. module: l10n_br_contabilidade
 #: view:account.account:l10n_br_contabilidade.view_account_form
@@ -375,21 +510,32 @@ msgid "Contas Filhas"
 msgstr "Contas Filhas"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,child_ids:0
+msgid "Contas Para totalizar"
+msgstr "Contas Para totalizar"
+
+#. module: l10n_br_contabilidade
+#: field:mis.report.kpi,account_ids:0
+msgid "Contas contabeis"
+msgstr "Contas contabeis"
+
+#. module: l10n_br_contabilidade
 #: view:account.account.report.line:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_line_form
 #: view:account.account.report.line:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_line_search
 #: view:account.account.report.line:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_line_tree
+#: field:account.period,account_account_report_line_ids:0
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_line_action
 #: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_account_account_report_line
 msgid "Contas de Apresentação"
 msgstr "Contas de Apresentação"
 
 #. module: l10n_br_contabilidade
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal
 msgid "Contas de Reclassificação (lucro/prejuízo)"
 msgstr "Contas de Reclassificação (lucro/prejuízo)"
 
 #. module: l10n_br_contabilidade
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal
 msgid "Contas para Distribuição de Lucros"
 msgstr "Contas para Distribuição de Lucros"
 
@@ -399,32 +545,65 @@ msgid "Contas para Fechamento duplicadas."
 msgstr "Contas para Fechamento duplicadas."
 
 #. module: l10n_br_contabilidade
+#: field:account.journal,divisao_resultado_ids:0
+msgid "Contas para fechamento"
+msgstr "Contas para fechamento"
+
+#. module: l10n_br_contabilidade
 #: selection:mis.report,report_mode:0
 msgid "Contábil"
 msgstr "Contábil"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:118
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:119
 msgid "Counter part"
 msgstr "A contrapartida"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,create_uid:0
+#: field:account.account.report.line,create_uid:0
+#: field:account.centro.custo,create_uid:0
+#: field:account.divisao.resultado,create_uid:0
+#: field:account.fechamento,create_uid:0
 #: field:account.fechamento.reabertura.justificativa,create_uid:0
+#: field:account.grupo,create_uid:0
+#: field:account.historico.padrao,create_uid:0
+#: field:account.mapeamento,create_uid:0
+#: field:account.mapeamento.referencia,create_uid:0
+#: field:account.natureza,create_uid:0
+#: field:account.ramo,create_uid:0
+#: field:account.saldo,create_uid:0
 #: field:fechamento.reabertura.justificativa.wizard,create_uid:0
+#: field:gefin.custos,create_uid:0
 #: field:mis.report.style,create_uid:0
 msgid "Created by"
 msgstr "Criado por"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,create_date:0
+#: field:account.account.report.line,create_date:0
+#: field:account.centro.custo,create_date:0
+#: field:account.divisao.resultado,create_date:0
+#: field:account.fechamento,create_date:0
 #: field:account.fechamento.reabertura.justificativa,create_date:0
+#: field:account.grupo,create_date:0
+#: field:account.historico.padrao,create_date:0
+#: field:account.mapeamento,create_date:0
+#: field:account.mapeamento.referencia,create_date:0
+#: field:account.natureza,create_date:0
+#: field:account.ramo,create_date:0
+#: field:account.saldo,create_date:0
 #: field:fechamento.reabertura.justificativa.wizard,create_date:0
+#: field:gefin.custos,create_date:0
 #: field:mis.report.style,create_date:0
 msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:124
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:150
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:125
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:151
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:163
+#, python-format
 msgid "Credit"
 msgstr "Crédito"
 
@@ -434,7 +613,7 @@ msgid "Credito no período"
 msgstr "Credito no período"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Creditos"
 msgstr "Creditos"
 
@@ -454,17 +633,22 @@ msgid "Criado Por"
 msgstr "Criado Por"
 
 #. module: l10n_br_contabilidade
-#: selection:mis.report.kpi,expression_type:0
-msgid "Crédito no fim do periodo"
-msgstr "Crédito no fim do periodo"
+#: field:account.saldo,credito_periodo:0
+msgid "Crédito"
+msgstr "Crédito"
 
 #. module: l10n_br_contabilidade
 #: selection:mis.report.kpi,expression_type:0
-msgid "Crédito no início do periodo"
-msgstr "Crédito no início do periodo"
+msgid "Crédito no fim do período"
+msgstr "Crédito no fim do período"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:129
+#: selection:mis.report.kpi,expression_type:0
+msgid "Crédito no início do período"
+msgstr "Crédito no início do período"
+
+#. module: l10n_br_contabilidade
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:134
 msgid "Curr. Balance"
 msgstr "Saldo Atual"
 
@@ -474,7 +658,25 @@ msgid "Currency"
 msgstr "Moeda"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: view:account.account.report:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_form
+msgid "Cálculo da Conta"
+msgstr "Cálculo da Conta"
+
+#. module: l10n_br_contabilidade
+#: field:account.account.report,code:0
+#: field:account.grupo,code:0
+#: field:account.natureza,code:0
+#: field:account.ramo,code:0
+msgid "Código"
+msgstr "Código"
+
+#. module: l10n_br_contabilidade
+#: help:account.account.report,code:0
+msgid "Código preferencialmente com letras maiúsculas separadas por underline _ "
+msgstr "Código preferencialmente com letras maiúsculas separadas por underline _ "
+
+#. module: l10n_br_contabilidade
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "DRE"
 msgstr "DRE"
 
@@ -484,7 +686,7 @@ msgid "Data"
 msgstr "Data"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:114
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:115
 msgid "Date"
 msgstr "Data"
 
@@ -494,8 +696,11 @@ msgid "Dates"
 msgstr "Datas"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:54
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:55
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:76
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:61
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:119
+#, python-format
 msgid "Dates Filter"
 msgstr "Filtro de datas"
 
@@ -510,13 +715,15 @@ msgid "DePara"
 msgstr "DePara"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:122
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:148
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:123
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:149
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:162
+#, python-format
 msgid "Debit"
 msgstr "Débito"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Debitos"
 msgstr "Debitos"
 
@@ -524,6 +731,17 @@ msgstr "Debitos"
 #: help:account.journal,ref:0
 msgid "Definir Módulo de origem do lançamento."
 msgstr "Definir Módulo de origem do lançamento."
+
+#. module: l10n_br_contabilidade
+#: selection:account.account.report,type:0
+msgid "Demonstração de Resultado"
+msgstr "Demonstração de Resultado"
+
+#. module: l10n_br_contabilidade
+#: field:account.centro.custo,descricao:0
+#: field:account.grupo,descricao:0
+msgid "Descrição"
+msgstr "Descrição"
 
 #. module: l10n_br_contabilidade
 #: view:account.saldo:l10n_br_contabilidade.l10n_br_contabilidade_account_saldo_search
@@ -546,20 +764,35 @@ msgid "Dia: %{DD}"
 msgstr "Dia: %{DD}"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:170
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:171
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:187
+#, python-format
 msgid "Difference"
 msgstr "Diferença"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,display_name:0
+#: field:account.account.report.line,display_name:0
+#: field:account.centro.custo,display_name:0
+#: field:account.divisao.resultado,display_name:0
+#: field:account.fechamento,display_name:0
 #: field:account.fechamento.reabertura.justificativa,display_name:0
+#: field:account.grupo,display_name:0
+#: field:account.historico.padrao,display_name:0
+#: field:account.mapeamento,display_name:0
+#: field:account.mapeamento.referencia,display_name:0
+#: field:account.natureza,display_name:0
+#: field:account.ramo,display_name:0
+#: field:account.saldo,display_name:0
 #: field:fechamento.reabertura.justificativa.wizard,display_name:0
+#: field:gefin.custos,display_name:0
 #: field:mis.report.style,display_name:0
 msgid "Display Name"
 msgstr "Nome"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal
 msgid "Distribuição"
 msgstr "Distribuição"
 
@@ -569,9 +802,25 @@ msgid "Divider inherit"
 msgstr "Divisor herdado"
 
 #. module: l10n_br_contabilidade
+#: field:account.divisao.resultado,journal_id:0
+msgid "Diário"
+msgstr "Diário"
+
+#. module: l10n_br_contabilidade
+#: field:account.fechamento,account_journal_id:0
+#: field:account.period,account_journal_id:0
+msgid "Diário de fechamento"
+msgstr "Diário de fechamento"
+
+#. module: l10n_br_contabilidade
 #: field:mis.report.style,dp_inherit:0
 msgid "Dp inherit"
 msgstr "Dp herdado"
+
+#. module: l10n_br_contabilidade
+#: field:account.saldo,debito_periodo:0
+msgid "Débito"
+msgstr "Débito"
 
 #. module: l10n_br_contabilidade
 #: selection:mis.report.kpi,expression_type:0
@@ -604,6 +853,11 @@ msgid "Encerramento com prejuízo de:"
 msgstr "Encerramento com prejuízo de:"
 
 #. module: l10n_br_contabilidade
+#: field:gefin.custos,date_stop:0
+msgid "End of Period"
+msgstr "End of Period"
+
+#. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
 msgid "Esta ação irá retornar ao estágio anterior. Deseja prosseguir?"
 msgstr "Esta ação irá retornar ao estágio anterior. Deseja prosseguir?"
@@ -614,9 +868,34 @@ msgid "Esta ação irá retornar ao estágio inicial (Aberto). Deseja prosseguir
 msgstr "Esta ação irá retornar ao estágio inicial (Aberto). Deseja prosseguir?"
 
 #. module: l10n_br_contabilidade
+#: field:mis.report.kpi,style_id:0
+msgid "Estilo"
+msgstr "Estilo"
+
+#. module: l10n_br_contabilidade
+#: field:account.account,account_account_report_id:0
+msgid "Estrutura de Apresentação"
+msgstr "Estrutura de Apresentação"
+
+#. module: l10n_br_contabilidade
 #: view:mis.report.kpi:l10n_br_contabilidade.mis_report_kpi_form_view
 msgid "Examples"
 msgstr "Exemplos"
+
+#. module: l10n_br_contabilidade
+#: field:account.period,exibir_conta_raiz:0
+msgid "Exibir Conta Raiz"
+msgstr "Exibir Conta Raiz"
+
+#. module: l10n_br_contabilidade
+#: field:account.period,detalhar_contas_superiores:0
+msgid "Exibir Contas superiores"
+msgstr "Exibir Contas superiores"
+
+#. module: l10n_br_contabilidade
+#: field:general.ledger.webkit,coluna_saldo_periodo:0
+msgid "Exibir coluna saldo no periodo"
+msgstr "Exibir coluna saldo no periodo"
 
 #. module: l10n_br_contabilidade
 #. openerp-web
@@ -641,6 +920,11 @@ msgid "Expressions are of the form <field><mode>[accounts][domain]"
 msgstr "Expressão são na forma <field><mode>[contas][domínio]"
 
 #. module: l10n_br_contabilidade
+#: field:gefin.custos,custo_fopag:0
+msgid "FOPAG + Beneficios"
+msgstr "FOPAG + Beneficios"
+
+#. module: l10n_br_contabilidade
 #: field:mis.report.style,divider:0
 msgid "Factor"
 msgstr "Fator"
@@ -651,13 +935,15 @@ msgid "Factor inherit"
 msgstr "Fator herdado"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_search
+#: selection:account.fechamento,state:0
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_search
 msgid "Fechado"
 msgstr "Fechado"
 
 #. module: l10n_br_contabilidade
 #: field:account.fechamento.reabertura.justificativa,fechamento_id:0
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
+#: field:account.period,account_fechamento_id:0
 msgid "Fechamento"
 msgstr "Fechamento"
 
@@ -667,15 +953,28 @@ msgid "Fechamento 1º Trimestre"
 msgstr "Fechamento 1º Trimestre"
 
 #. module: l10n_br_contabilidade
+#: field:account.account,divisao_resultado_ids:0
+msgid "Fechamentos vinculados"
+msgstr "Fechamentos vinculados"
+
+#. module: l10n_br_contabilidade
+#: field:account.move,account_fechamento_id:0
+msgid "Fechamnto relacionado"
+msgstr "Fechamnto relacionado"
+
+#. module: l10n_br_contabilidade
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_action
 #: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_account_fechamento
 msgid "Fechar Movimento"
 msgstr "Fechar Movimento"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:51
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:52
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:73
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:58
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:128
 #: model:ir.model,name:l10n_br_contabilidade.model_account_fiscalyear
+#, python-format
 msgid "Fiscal Year"
 msgstr "Ano Fiscal"
 
@@ -720,35 +1019,50 @@ msgid "Font weight inherit"
 msgstr "Espessura da fonte herdada"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:67
+#: selection:mis.report.kpi,expression_mode:0
+msgid "Formula"
+msgstr "Formula"
+
+#. module: l10n_br_contabilidade
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:80
+#, python-format
+msgid "From"
+msgstr "From"
+
+#. module: l10n_br_contabilidade
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:68
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:90
 msgid "From:"
 msgstr "De:"
 
 #. module: l10n_br_contabilidade
 #: view:account.account:l10n_br_contabilidade.view_account_form
+#: field:account.account,funcionamento:0
 msgid "Funcionamento"
 msgstr "Funcionamento"
 
 #. module: l10n_br_contabilidade
 #: view:account.account:l10n_br_contabilidade.view_account_form
+#: field:account.account,funcao:0
 msgid "Função"
 msgstr "Função"
+
+#. module: l10n_br_contabilidade
+#: view:account.account.report:l10n_br_contabilidade.l10n_br_contabilidade_account_account_report_form
+#: field:account.account.report,python_code:0
+#: selection:account.account.report,tipo_calculo:0
+msgid "Fórmula"
+msgstr "Fórmula"
+
+#. module: l10n_br_contabilidade
+#: model:ir.model,name:l10n_br_contabilidade.model_gefin_custos
+msgid "Gefin Custos"
+msgstr "Gefin Custos"
 
 #. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_general_ledger_webkit
 msgid "General Ledger Report"
 msgstr "Relatório de Livro Razão"
-
-#. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
-msgid "Gerar Balancete do Período"
-msgstr "Gerar Balancete do Período"
-
-#. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
-msgid "Gerar DRE"
-msgstr "Gerar DRE"
 
 #. module: l10n_br_contabilidade
 #: selection:mis.report,report_mode:0
@@ -764,6 +1078,7 @@ msgstr "Agrupar por"
 #: view:account.grupo:l10n_br_contabilidade.l10n_br_contabilidade_account_grupo_form
 #: view:account.grupo:l10n_br_contabilidade.l10n_br_contabilidade_account_grupo_search
 #: view:account.grupo:l10n_br_contabilidade.l10n_br_contabilidade_account_grupo_tree
+#: field:account.ramo,grupo_id:0
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_grupo_action
 #: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_account_grupo
 msgid "Grupo"
@@ -773,6 +1088,11 @@ msgstr "Grupo"
 #: model:ir.model,name:l10n_br_contabilidade.model_account_grupo
 msgid "Grupo dos ramos de seguros para fins de contabilização"
 msgstr "Grupo dos ramos de seguros para fins de contabilização"
+
+#. module: l10n_br_contabilidade
+#: field:account.grupo,account_ramo_ids:0
+msgid "Grupos"
+msgstr "Grupos"
 
 #. module: l10n_br_contabilidade
 #: field:mis.report.style,hide_always:0
@@ -831,11 +1151,41 @@ msgid "Hora 00->24:"
 msgstr "Hora 00->24:"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,id:0
+#: field:account.account.report.line,id:0
+#: field:account.centro.custo,id:0
+#: field:account.divisao.resultado,id:0
+#: field:account.fechamento,id:0
 #: field:account.fechamento.reabertura.justificativa,id:0
+#: field:account.grupo,id:0
+#: field:account.historico.padrao,id:0
+#: field:account.mapeamento,id:0
+#: field:account.mapeamento.referencia,id:0
+#: field:account.natureza,id:0
+#: field:account.ramo,id:0
+#: field:account.saldo,id:0
 #: field:fechamento.reabertura.justificativa.wizard,id:0
+#: field:gefin.custos,id:0
 #: field:mis.report.style,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_br_contabilidade
+#: field:account.ramo,identificador:0
+msgid "Identificador"
+msgstr "Identificador"
+
+#. module: l10n_br_contabilidade
+#: field:account.account,identificacao_saldo:0
+#: field:account.saldo,identificacao_saldo:0
+msgid "Identificação de Saldo"
+msgstr "Identificação de Saldo"
+
+#. module: l10n_br_contabilidade
+#: field:mis.report.instance,incluir_lancamentos_de_fechamento:0
+#: field:mis.report.instance.period,incluir_lancamentos_de_fechamento:0
+msgid "Incluir lançamentos de fechamento?"
+msgstr "Incluir lançamentos de fechamento?"
 
 #. module: l10n_br_contabilidade
 #: view:mis.report.style:l10n_br_contabilidade.mis_report_style_view_form
@@ -859,13 +1209,27 @@ msgid "Indent level must be greater than or equal to 0"
 msgstr "Nível de recuo deve ser maior ou igual a 0"
 
 #. module: l10n_br_contabilidade
+#: help:account.move,lancamento_de_fechamento:0
+msgid "Indica se é um lançamento gerado apartir do fechamento"
+msgstr "Indica se é um lançamento gerado apartir do fechamento"
+
+#. module: l10n_br_contabilidade
+#: help:account.account,tipo_conta_apresentacao:0
+msgid "Indicar se a conta de apresentacao e do tipo patrimonial ou de resultado"
+msgstr "Indicar se a conta de apresentacao e do tipo patrimonial ou de resultado"
+
+#. module: l10n_br_contabilidade
 #: view:account.move:l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form
 msgid "Information"
 msgstr "Informação"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:61
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:62
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:83
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:63
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:130
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:158
+#, python-format
 msgid "Initial Balance"
 msgstr "Saldo Inicial"
 
@@ -928,17 +1292,33 @@ msgid "Lançamento"
 msgstr "Lançamento"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: field:account.move,lancamento_de_fechamento:0
+msgid "Lançamento de Fechamento?"
+msgstr "Lançamento de Fechamento?"
+
+#. module: l10n_br_contabilidade
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Lançamentos"
 msgstr "Lançamentos"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: field:account.period,account_move_ids:0
+#: field:account.ramo,move_line_ids:0
+msgid "Lançamentos Contábeis"
+msgstr "Lançamentos Contábeis"
+
+#. module: l10n_br_contabilidade
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Lançamentos Contábeis de Fechamento"
 msgstr "Lançamentos Contábeis de Fechamento"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: field:account.period,account_move_fechamento_ids:0
+msgid "Lançamentos Contábeis do Fechamento"
+msgstr "Lançamentos Contábeis do Fechamento"
+
+#. module: l10n_br_contabilidade
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Lançamentos Contábeis no período"
 msgstr "Lançamentos Contábeis no período"
 
@@ -949,16 +1329,19 @@ msgstr "Lançamentos contábeis"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
+#: field:account.fechamento,account_move_distribuicao_id:0
 msgid "Lançamentos da Distribuição"
 msgstr "Lançamentos da Distribuição"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
+#: field:account.fechamento,account_move_reclassificacao_id:0
 msgid "Lançamentos da Reclassificação"
 msgstr "Lançamentos da Reclassificação"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
+#: field:account.fechamento,account_move_ids:0
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:84
 #: field:trial.balance.webkit,lancamento_de_fechamento:0
 msgid "Lançamentos de Fechamento"
@@ -970,22 +1353,61 @@ msgid "Lançamentos desta Apuração"
 msgstr "Lançamentos desta Apuração"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,__last_update:0
+#: field:account.account.report.line,__last_update:0
+#: field:account.centro.custo,__last_update:0
+#: field:account.divisao.resultado,__last_update:0
+#: field:account.fechamento,__last_update:0
 #: field:account.fechamento.reabertura.justificativa,__last_update:0
+#: field:account.grupo,__last_update:0
+#: field:account.historico.padrao,__last_update:0
+#: field:account.mapeamento,__last_update:0
+#: field:account.mapeamento.referencia,__last_update:0
+#: field:account.natureza,__last_update:0
+#: field:account.ramo,__last_update:0
+#: field:account.saldo,__last_update:0
 #: field:fechamento.reabertura.justificativa.wizard,__last_update:0
+#: field:gefin.custos,__last_update:0
 #: field:mis.report.style,__last_update:0
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,write_uid:0
+#: field:account.account.report.line,write_uid:0
+#: field:account.centro.custo,write_uid:0
+#: field:account.divisao.resultado,write_uid:0
+#: field:account.fechamento,write_uid:0
 #: field:account.fechamento.reabertura.justificativa,write_uid:0
+#: field:account.grupo,write_uid:0
+#: field:account.historico.padrao,write_uid:0
+#: field:account.mapeamento,write_uid:0
+#: field:account.mapeamento.referencia,write_uid:0
+#: field:account.natureza,write_uid:0
+#: field:account.ramo,write_uid:0
+#: field:account.saldo,write_uid:0
 #: field:fechamento.reabertura.justificativa.wizard,write_uid:0
+#: field:gefin.custos,write_uid:0
 #: field:mis.report.style,write_uid:0
 msgid "Last Updated by"
 msgstr "Última Atualização por"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,write_date:0
+#: field:account.account.report.line,write_date:0
+#: field:account.centro.custo,write_date:0
+#: field:account.divisao.resultado,write_date:0
+#: field:account.fechamento,write_date:0
 #: field:account.fechamento.reabertura.justificativa,write_date:0
+#: field:account.grupo,write_date:0
+#: field:account.historico.padrao,write_date:0
+#: field:account.mapeamento,write_date:0
+#: field:account.mapeamento.referencia,write_date:0
+#: field:account.natureza,write_date:0
+#: field:account.ramo,write_date:0
+#: field:account.saldo,write_date:0
 #: field:fechamento.reabertura.justificativa.wizard,write_date:0
+#: field:gefin.custos,write_date:0
 #: field:mis.report.style,write_date:0
 msgid "Last Updated on"
 msgstr "Última Atualização em"
@@ -1006,18 +1428,18 @@ msgid "Lote"
 msgstr "Lote"
 
 #. module: l10n_br_contabilidade
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal
 msgid "Lote de Lançamento"
 msgstr "Lote de Lançamento"
 
 #. module: l10n_br_contabilidade
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal_tree
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal_tree
 #: view:account.move:l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form
 msgid "Lote de Lançamentos"
 msgstr "Lote de Lançamentos"
 
 #. module: l10n_br_contabilidade
-#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_action_account_journal_form
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_action_account_journal_form
 msgid "Lote de lançamentos"
 msgstr "Lote de lançamentos"
 
@@ -1034,14 +1456,19 @@ msgid "MIS Report Styles"
 msgstr "Estilos do Relatório"
 
 #. module: l10n_br_contabilidade
-#: model:ir.ui.menu,name:l10n_br_contabilidade.l10n_br_contabilidade_mis_instance_menu
-msgid "MIS Reports"
-msgstr "Relatórios"
+#: field:account.account,depara_ids:0
+msgid "Mapeamento DePara"
+msgstr "Mapeamento DePara"
 
 #. module: l10n_br_contabilidade
-#: selection:mis.report.kpi,expression_mode:0
-msgid "Manual"
-msgstr "Manual"
+#: field:account.mapeamento,mapeamento_pai_id:0
+msgid "Mapeamento Pai"
+msgstr "Mapeamento Pai"
+
+#. module: l10n_br_contabilidade
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_account_mapeamento_form
+msgid "Mapeamento de Contas"
+msgstr "Mapeamento de Contas"
 
 #. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_account_mapeamento
@@ -1064,6 +1491,11 @@ msgid "Modalidade de relatório"
 msgstr "Modalidade de relatório"
 
 #. module: l10n_br_contabilidade
+#: field:account.move,historico_padrao_id:0
+msgid "Modelo do Histórico Padrão"
+msgstr "Modelo do Histórico Padrão"
+
+#. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_account_fechamento
 msgid "Modelo para criar os lançamentos de fechamento de períodos"
 msgstr "Modelo para criar os lançamentos de fechamento de períodos"
@@ -1084,6 +1516,16 @@ msgid "Modelo para guardar saldo das cotas no fechamento dos períodos."
 msgstr "Modelo para guardar saldo das cotas no fechamento dos períodos."
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,mostrar_no_relatorio:0
+msgid "Mostrar no relatório?"
+msgstr "Mostrar no relatório?"
+
+#. module: l10n_br_contabilidade
+#: view:account.fechamento.reabertura.justificativa:l10n_br_contabilidade.account_fechamento_reabertura_justificativa_form
+msgid "Motivo"
+msgstr "Motivo"
+
+#. module: l10n_br_contabilidade
 #: view:account.historico.padrao:l10n_br_contabilidade.l10n_br_contabilidade_account_historico_padrao_form
 msgid "Mês: %{MM}"
 msgstr "Mês: %{MM}"
@@ -1099,38 +1541,61 @@ msgid "NIRE:"
 msgstr "NIRE:"
 
 #. module: l10n_br_contabilidade
+#: field:account.centro.custo,name:0
 #: field:account.fechamento.reabertura.justificativa,name:0
 msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_contabilidade
 #: view:account.account:l10n_br_contabilidade.view_account_tree
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Natureza"
 msgstr "Natureza"
 
 #. module: l10n_br_contabilidade
-#: model:ir.actions.act_window,name:l10n_br_contabilidade.abgf_conta_natureza_form
-#: model:ir.ui.menu,name:l10n_br_contabilidade.abgf_menu_config_conta_natureza
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_conta_natureza_form
+#: model:ir.ui.menu,name:l10n_br_contabilidade.l10n_br_menu_config_conta_natureza
 msgid "Natureza Conta"
 msgstr "Natureza Conta"
 
 #. module: l10n_br_contabilidade
+#: field:account.account,natureza_conta_id:0
+msgid "Natureza da Conta"
+msgstr "Natureza da Conta"
+
+#. module: l10n_br_contabilidade
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:41
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:67
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:66
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:31
+#, python-format
 msgid "No"
 msgstr "No"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report,name:0
+#: field:account.account.report.line,name:0
+#: field:account.centro.custo,nome:0
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
+#: field:account.fechamento,name:0
+#: field:account.grupo,name:0
 #: view:account.historico.padrao:l10n_br_contabilidade.l10n_br_contabilidade_account_historico_padrao_form
+#: field:account.historico.padrao,name:0
+#: field:account.mapeamento,name:0
+#: field:account.natureza,name:0
+#: field:account.ramo,name:0
+#: field:account.saldo,name:0
 msgid "Nome"
 msgstr "Nome"
 
 #. module: l10n_br_contabilidade
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal
 msgid "Nome do Lote"
 msgstr "Nome do Lote"
+
+#. module: l10n_br_contabilidade
+#: field:account.mapeamento.referencia,name:0
+msgid "Nome do Plano de Contas"
+msgstr "Nome do Plano de Contas"
 
 #. module: l10n_br_contabilidade
 #: view:account.ramo:l10n_br_contabilidade.l10n_br_contabilidade_account_ramo_form
@@ -1156,12 +1621,16 @@ msgstr "Número do registro CRC"
 
 #. module: l10n_br_contabilidade
 #: view:account.account:l10n_br_contabilidade.view_account_form
+#: field:account.account,observacao:0
+#: field:account.ramo,observacao:0
 msgid "Observação"
 msgstr "Observação"
 
 #. module: l10n_br_contabilidade
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:41
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:67
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:66
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:30
+#, python-format
 msgid "Opening Entries"
 msgstr "Entradas de Abertura"
 
@@ -1171,7 +1640,22 @@ msgid "Origem do Lançamento"
 msgstr "Origem do Lançamento"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
+#: field:gefin.custos,custo_outros:0
+msgid "Outros"
+msgstr "Outros"
+
+#. module: l10n_br_contabilidade
+#: field:account.account,report_type:0
+msgid "P&L / BS Category"
+msgstr "P&L / BS Category"
+
+#. module: l10n_br_contabilidade
+#: help:account.ramo,code:0
+msgid "Para fins de armazenamento de dados, o código do ramo de seguro é composto pelos campos \"Código Grupo\" e \"Identificador do Ramo\", totalizando quatro dígitos."
+msgstr "Para fins de armazenamento de dados, o código do ramo de seguro é composto pelos campos \"Código Grupo\" e \"Identificador do Ramo\", totalizando quatro dígitos."
+
+#. module: l10n_br_contabilidade
+#: view:account.period:l10n_br_contabilidade.l10n_br_view_account_period_form
 msgid "Parametrização dos demonstrativos"
 msgstr "Parametrização dos demonstrativos"
 
@@ -1186,8 +1670,31 @@ msgid "Partner"
 msgstr "Parceiro"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:56
+#: selection:account.account.report,type:0
+msgid "Patrimonial"
+msgstr "Patrimonial"
+
+#. module: l10n_br_contabilidade
+#: field:gefin.custos,period_id:0
+msgid "Periodo"
+msgstr "Periodo"
+
+#. module: l10n_br_contabilidade
+#: field:account.fechamento,periodo_fim:0
+msgid "Periodo - Fim"
+msgstr "Periodo - Fim"
+
+#. module: l10n_br_contabilidade
+#: field:account.fechamento,periodo_ini:0
+msgid "Periodo - Início"
+msgstr "Periodo - Início"
+
+#. module: l10n_br_contabilidade
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:57
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:78
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:61
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:124
+#, python-format
 msgid "Periods Filter"
 msgstr "Filtro de Períodos"
 
@@ -1197,7 +1704,19 @@ msgid "Periods Filter:"
 msgstr "Filtro de Períodos:"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report.line,period_id:0
+#: field:account.saldo,account_period_id:0
+msgid "Período"
+msgstr "Período"
+
+#. module: l10n_br_contabilidade
+#: field:account.period,demonstracao_start_periodo:0
+msgid "Período Inicial"
+msgstr "Período Inicial"
+
+#. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
+#: field:account.fechamento,account_period_ids:0
 #: view:account.saldo:l10n_br_contabilidade.l10n_br_contabilidade_account_saldo_search
 msgid "Períodos"
 msgstr "Períodos"
@@ -1213,6 +1732,11 @@ msgid "Períodos para fechamento"
 msgstr "Períodos para fechamento"
 
 #. module: l10n_br_contabilidade
+#: field:account.divisao.resultado,porcentagem:0
+msgid "Porcentagem"
+msgstr "Porcentagem"
+
+#. module: l10n_br_contabilidade
 #: view:mis.report.kpi:l10n_br_contabilidade.mis_report_kpi_form_view
 msgid "Possible values for 'field' can be:"
 msgstr "Possíveis valores para 'field' podem ser:"
@@ -1226,6 +1750,11 @@ msgstr "Possíveis valores para 'mode' são:"
 #: view:account.move:l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form
 msgid "Post"
 msgstr "Lançar"
+
+#. module: l10n_br_contabilidade
+#: selection:account.move.line,situacao_lancamento:0
+msgid "Posted"
+msgstr "Posted"
 
 #. module: l10n_br_contabilidade
 #: field:mis.report.style,prefix:0
@@ -1250,7 +1779,7 @@ msgid "Print"
 msgstr "Imprimir"
 
 #. module: l10n_br_contabilidade
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal_search
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal_search
 msgid "Procurar Lote de Lançamentos"
 msgstr "Procurar Lote de Lançamentos"
 
@@ -1267,6 +1796,12 @@ msgid "Profit & Loss (Income account)"
 msgstr "Ganhos & Perdas (Conta de receita)"
 
 #. module: l10n_br_contabilidade
+#: field:res.partner,protocols_ids:0
+msgid "Protocolos Relacionados"
+msgstr "Protocolos Relacionados"
+
+#. module: l10n_br_contabilidade
+#: field:account.move.line,ramo_id:0
 #: view:account.ramo:l10n_br_contabilidade.l10n_br_contabilidade_account_ramo_form
 #: view:account.ramo:l10n_br_contabilidade.l10n_br_contabilidade_account_ramo_search
 #: view:account.ramo:l10n_br_contabilidade.l10n_br_contabilidade_account_ramo_tree
@@ -1286,14 +1821,21 @@ msgid "Ramos de seguros para fins de contabilização"
 msgstr "Ramos de seguros para fins de contabilização"
 
 #. module: l10n_br_contabilidade
-#: view:account.period:l10n_br_contabilidade.l10n_br_contabilidade_view_account_period_form
-msgid "Re-Abrir Período"
-msgstr "Re-Abrir Período"
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_reabertura_action
+msgid "Reabertura"
+msgstr "Reabertura"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
 msgid "Reaberturas"
 msgstr "Reaberturas"
+
+#. module: l10n_br_contabilidade
+#: view:account.fechamento.reabertura.justificativa:l10n_br_contabilidade.account_fechamento_reabertura_justificativa_form
+#: view:account.fechamento.reabertura.justificativa:l10n_br_contabilidade.account_fechamento_reabertura_justificativa_search
+#: view:account.fechamento.reabertura.justificativa:l10n_br_contabilidade.account_fechamento_reabertura_justificativa_tree
+msgid "Reaberturas de Fechamento"
+msgstr "Reaberturas de Fechamento"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
@@ -1303,6 +1845,11 @@ msgid "Reabrir"
 msgstr "Reabrir"
 
 #. module: l10n_br_contabilidade
+#: selection:account.fechamento,state:0
+msgid "Reclassificado"
+msgstr "Reclassificado"
+
+#. module: l10n_br_contabilidade
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_reclassificacao_resultado_action
 #: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_reclassificacao_resultado
 msgid "Reclassificar"
@@ -1310,7 +1857,7 @@ msgstr "Reclassificar"
 
 #. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal
 msgid "Reclassificação"
 msgstr "Reclassificação"
 
@@ -1318,6 +1865,12 @@ msgstr "Reclassificação"
 #: view:account.move:l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form
 msgid "Reconciliation"
 msgstr "Reconciliação"
+
+#. module: l10n_br_contabilidade
+#: field:account.mapeamento,referencia_plano_id:0
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_mapeamento_referencia_action
+msgid "Referência Plano de Contas"
+msgstr "Referência Plano de Contas"
 
 #. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_account_mapeamento_referencia
@@ -1328,6 +1881,16 @@ msgstr "Referência dos Planos de Contas Externos"
 #: model:ir.model,name:l10n_br_contabilidade.model_report
 msgid "Report"
 msgstr "Relatório"
+
+#. module: l10n_br_contabilidade
+#: field:mis.report.kpi,report_mode:0
+msgid "Report mode"
+msgstr "Report mode"
+
+#. module: l10n_br_contabilidade
+#: field:account.move,resumo:0
+msgid "Resumo"
+msgstr "Resumo"
 
 #. module: l10n_br_contabilidade
 #: view:account.move:l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form
@@ -1345,6 +1908,7 @@ msgid "Rounding inherit"
 msgstr "Arredondamento herdado"
 
 #. module: l10n_br_contabilidade
+#: field:account.account,saldo:0
 #: view:account.saldo:l10n_br_contabilidade.l10n_br_contabilidade_account_saldo_form
 #: view:account.saldo:l10n_br_contabilidade.l10n_br_contabilidade_account_saldo_search
 #: view:account.saldo:l10n_br_contabilidade.l10n_br_contabilidade_account_saldo_tree
@@ -1352,7 +1916,34 @@ msgid "Saldo"
 msgstr "Saldo"
 
 #. module: l10n_br_contabilidade
-#: view:account.saldo:l10n_br_contabilidade.abgf_account_saldo_report_graph
+#: help:account.saldo,saldo_final:0
+msgid "Saldo Final da conta no período.\n"
+"Soma do saldo inicial e do saldo do período"
+msgstr "Saldo Final da conta no período.\n"
+"Soma do saldo inicial e do saldo do período"
+
+#. module: l10n_br_contabilidade
+#: field:account.saldo,saldo_inicial:0
+msgid "Saldo Inicial"
+msgstr "Saldo Inicial"
+
+#. module: l10n_br_contabilidade
+#: help:account.saldo,saldo_inicial:0
+msgid "Saldo Inicial da conta no período"
+msgstr "Saldo Inicial da conta no período"
+
+#. module: l10n_br_contabilidade
+#: help:account.saldo,saldo_periodo:0
+msgid "Saldo de lançamentos no período"
+msgstr "Saldo de lançamentos no período"
+
+#. module: l10n_br_contabilidade
+#: field:account.period,account_saldo_ids:0
+msgid "Saldo do Período"
+msgstr "Saldo do Período"
+
+#. module: l10n_br_contabilidade
+#: view:account.saldo:l10n_br_contabilidade.l10n_br_account_saldo_report_graph
 msgid "Saldo dos Períodos"
 msgstr "Saldo dos Períodos"
 
@@ -1397,11 +1988,51 @@ msgid "Semana do Ano:"
 msgstr "Semana do Ano:"
 
 #. module: l10n_br_contabilidade
+#: field:account.fiscalyear,sequence_id:0
+msgid "Sequence"
+msgstr "Sequence"
+
+#. module: l10n_br_contabilidade
+#: field:account.account.report,sequence:0
+#: field:account.account.report.line,sequence:0
+#: field:account.divisao.resultado,sequencia:0
+#: field:account.move,sequencia:0
+msgid "Sequência"
+msgstr "Sequência"
+
+#. module: l10n_br_contabilidade
+#: help:account.account.report,sequence:0
+msgid "Sequência de Apresentação das contas"
+msgstr "Sequência de Apresentação das contas"
+
+#. module: l10n_br_contabilidade
+#: help:account.account.report,sequence_execucao:0
+msgid "Sequência de Execução das contas.\n"
+" As contas de menor sequência serão processadas primeiro."
+msgstr "Sequência de Execução das contas.\n"
+" As contas de menor sequência serão processadas primeiro."
+
+#. module: l10n_br_contabilidade
+#: field:account.account.report,sequence_execucao:0
+msgid "Sequência de execução"
+msgstr "Sequência de execução"
+
+#. module: l10n_br_contabilidade
+#: help:account.account.report.line,sequence:0
+msgid "Sequência de execução das contas"
+msgstr "Sequência de execução das contas"
+
+#. module: l10n_br_contabilidade
 #. openerp-web
 #: code:addons/l10n_br_contabilidade/static/src/xml/mis_widget.xml:7
 #, python-format
 msgid "Settings"
 msgstr "Configurações"
+
+#. module: l10n_br_contabilidade
+#: field:account.move.line,situacao_lancamento:0
+msgid "Situacao lancamento"
+msgstr "Situacao lancamento"
 
 #. module: l10n_br_contabilidade
 #: view:account.grupo:l10n_br_contabilidade.l10n_br_contabilidade_account_grupo_form
@@ -1410,17 +2041,22 @@ msgid "Somente número"
 msgstr "Somente número"
 
 #. module: l10n_br_contabilidade
+#: field:gefin.custos,date_start:0
+msgid "Start of Period"
+msgstr "Start of Period"
+
+#. module: l10n_br_contabilidade
+#: field:account.fechamento,state:0
+msgid "State"
+msgstr "State"
+
+#. module: l10n_br_contabilidade
 #: view:account.move:l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form
 msgid "States"
 msgstr "Situações"
 
 #. module: l10n_br_contabilidade
 #: view:mis.report.style:l10n_br_contabilidade.mis_report_style_view_form
-msgid "Style"
-msgstr "Estilo"
-
-#. module: l10n_br_contabilidade
-#: field:mis.report.kpi,style_id:0
 msgid "Style"
 msgstr "Estilo"
 
@@ -1440,8 +2076,10 @@ msgid "Suffix inherit"
 msgstr "Sufixo herdado"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:60
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:61
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:82
+#: code:addons/l10n_br_contabilidade/reports/trial_balance_xls.py:62
+#, python-format
 msgid "Target Moves"
 msgstr "Movimentos de Destino"
 
@@ -1451,6 +2089,12 @@ msgid "Taxes"
 msgstr "Impostos"
 
 #. module: l10n_br_contabilidade
+#: field:account.journal,template_historico_padrao_id:0
+msgid "Template Padrão do Lançamento"
+msgstr "Template Padrão do Lançamento"
+
+#. module: l10n_br_contabilidade
+#: field:account.historico.padrao,template_historico_padrao:0
 #: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_historico_padrao_action
 #: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_account_historico_padrao
 msgid "Template para Histórico"
@@ -1467,16 +2111,41 @@ msgid "Text color in valid RGB code (from #000000 to #FFFFFF)"
 msgstr "Cor do texto em um código RGB válido (de #000000 a #FFFFFF)"
 
 #. module: l10n_br_contabilidade
-#: model:ir.actions.act_window,name:l10n_br_contabilidade.abgf_action_tipo_conta_form
-#: model:ir.ui.menu,name:l10n_br_contabilidade.abgf_menu_tipo_conta_form
+#: help:account.account,report_type:0
+msgid "This field is used to generate legal reports: profit and loss, balance sheet."
+msgstr "This field is used to generate legal reports: profit and loss, balance sheet."
+
+#. module: l10n_br_contabilidade
+#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_action_tipo_conta_form
+#: model:ir.ui.menu,name:l10n_br_contabilidade.l10n_br_menu_tipo_conta_form
 msgid "Tipo Conta"
 msgstr "Tipo Conta"
 
 #. module: l10n_br_contabilidade
-#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:73
+#: field:account.account,tipo_conta_apresentacao:0
+msgid "Tipo Conta Apresentacao"
+msgstr "Tipo Conta Apresentacao"
+
+#. module: l10n_br_contabilidade
+#: field:account.account.report,type:0
+msgid "Tipo de Apresentação"
+msgstr "Tipo de Apresentação"
+
+#. module: l10n_br_contabilidade
+#: field:account.account.report,tipo_calculo:0
+msgid "Tipo de Cálculo"
+msgstr "Tipo de Cálculo"
+
+#. module: l10n_br_contabilidade
+#: report:addons/l10n_br_contabilidade/reports/templates/account_report_general_ledger.mako:74
 #: report:addons/l10n_br_contabilidade/reports/templates/account_report_trial_balance.mako:96
 msgid "To:"
 msgstr "Até:"
+
+#. module: l10n_br_contabilidade
+#: field:account.saldo,saldo_periodo:0
+msgid "Total"
+msgstr "Total"
 
 #. module: l10n_br_contabilidade
 #: view:account.move:l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_tree
@@ -1494,9 +2163,34 @@ msgid "Total Debit"
 msgstr "Débito Total"
 
 #. module: l10n_br_contabilidade
+#: field:account.account.report.line,total:0
+msgid "Total Período"
+msgstr "Total Período"
+
+#. module: l10n_br_contabilidade
+#: help:account.saldo,credito_periodo:0
+msgid "Total de créditos no período"
+msgstr "Total de créditos no período"
+
+#. module: l10n_br_contabilidade
+#: help:account.saldo,debito_periodo:0
+msgid "Total de débitos no período"
+msgstr "Total de débitos no período"
+
+#. module: l10n_br_contabilidade
+#: field:account.fechamento,total_lancamentos_periodos:0
+msgid "Total de lançamentos"
+msgstr "Total de lançamentos"
+
+#. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_trial_balance_webkit
 msgid "Trial Balance Report"
 msgstr "Relatório de Balancete"
+
+#. module: l10n_br_contabilidade
+#: selection:account.move.line,situacao_lancamento:0
+msgid "Unposted"
+msgstr "Unposted"
 
 #. module: l10n_br_contabilidade
 #: field:account.move,validado_data:0
@@ -1519,6 +2213,11 @@ msgid "Validações"
 msgstr "Validações"
 
 #. module: l10n_br_contabilidade
+#: field:account.divisao.resultado,valor_fixo:0
+msgid "Valor Fixo"
+msgstr "Valor Fixo"
+
+#. module: l10n_br_contabilidade
 #: model:ir.model,name:l10n_br_contabilidade.model_account_divisao_resultado
 msgid "Vincula Contas ao Fechamento para informar porcentagem"
 msgstr "Vincula Contas ao Fechamento para informar porcentagem"
@@ -1539,6 +2238,11 @@ msgid "Voltar estágio"
 msgstr "Voltar estágio"
 
 #. module: l10n_br_contabilidade
+#: view:mis.report:l10n_br_contabilidade.mis_report_form_view
+msgid "false"
+msgstr "false"
+
+#. module: l10n_br_contabilidade
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_search
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_tree
@@ -1551,6 +2255,16 @@ msgstr "fechamento"
 #: view:account.historico.padrao:l10n_br_contabilidade.l10n_br_contabilidade_account_historico_padrao_tree
 msgid "historico_padrao"
 msgstr "historico_padrao"
+
+#. module: l10n_br_contabilidade
+#: model:ir.actions.report.xml,name:l10n_br_contabilidade.l10n_br_account_report_trial_balance
+msgid "l10n_br_Balancete"
+msgstr "l10n_br_Balancete"
+
+#. module: l10n_br_contabilidade
+#: model:ir.actions.report.xml,name:l10n_br_contabilidade.l10n_br_account_report_general_ledger
+msgid "l10n_br_Livro_Razao"
+msgstr "l10n_br_Livro_Razao"
 
 #. module: l10n_br_contabilidade
 #: selection:mis.report.style,font_size:0
@@ -1599,7 +2313,12 @@ msgid "xx-small"
 msgstr "xx-pequeno"
 
 #. module: l10n_br_contabilidade
-#: view:account.journal:l10n_br_contabilidade.l10n_br_contabilidade_view_account_journal
+#: view:mis.report:l10n_br_contabilidade.mis_report_form_view
+msgid "{'default_report_mode':report_mode}"
+msgstr "{'default_report_mode':report_mode}"
+
+#. module: l10n_br_contabilidade
+#: view:account.journal:l10n_br_contabilidade.l10n_br_view_account_journal
 msgid "{'required':[('type','in',('cash', 'bank', 'situation'))]}"
 msgstr "{'required':[('type','in',('cash', 'bank', 'situation'))]}"
 
@@ -1611,6 +2330,12 @@ msgid "µ"
 msgstr "µ"
 
 #. module: l10n_br_contabilidade
+#: field:account.account,precisa_ramo:0
+#: field:account.move.line,precisa_ramo:0
+msgid "É obrigatório definir Ramo?"
+msgstr "É obrigatório definir Ramo?"
+
+#. module: l10n_br_contabilidade
 #: field:account.move,editado_data:0
 msgid "Última Edição Em"
 msgstr "Última Edição Em"
@@ -1619,3 +2344,4 @@ msgstr "Última Edição Em"
 #: field:account.move,editado_por:0
 msgid "Última Edição Por"
 msgstr "Última Edição Por"
+
