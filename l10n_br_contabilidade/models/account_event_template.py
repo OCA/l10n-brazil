@@ -150,13 +150,16 @@ class AccountEventTemplate(models.Model):
                 'name': 'NAME',
             }
 
-            historico_padrao_id = \
-                account_template_line_id.historico_padrao_id.get_historico_padrao()
+            historico_padrao = account_template_line_id. \
+                account_historico_padrao_id.get_historico_padrao() \
+                if account_template_line_id.account_historico_padrao_id \
+                else line.get('code')
 
             account_move_id = {
                 'ref': dados.get('ref'),
-                'narration': historico_padrao_id,
-                'resumo': historico_padrao_id,
+                'journal_id': self.lote_lancamento_id.id,
+                'narration': historico_padrao,
+                'resumo': historico_padrao,
                 'date': dados.get('data'),
                 'line_id':
                     [(0, 0, account_move_debit_line),
