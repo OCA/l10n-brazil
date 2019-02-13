@@ -21,12 +21,15 @@ class AccountHistoricoPadrao(models.Model):
         string=u'Template para Histórico'
     )
 
-    def get_historico_padrao(self, account_move_id=False, complemento=''):
+    def get_historico_padrao(
+            self, account_move_id=False,
+            account_move_line_id=False, complemento={}):
         """
         :param account_move_id:
         :param complemento:
         :return:
         """
+        historico_padrao = ''
         if self.template_historico_padrao:
             hoje = datetime.today()
             historico_padrao = self.template_historico_padrao.replace(
@@ -37,4 +40,29 @@ class AccountHistoricoPadrao(models.Model):
                 '%{MM}', str(hoje.month))
             historico_padrao = historico_padrao.replace(
                 '%{DD}', str(hoje.day))
-            return historico_padrao
+
+            historico_padrao = historico_padrao.replace(
+                '%{DD}', str(hoje.day))
+
+            if complemento:
+                try:
+                    historico_padrao = historico_padrao.format(
+                        **complemento)
+                except:
+                    pass
+
+            if account_move_id:
+                try:
+                    historico_padrao = historico_padrao.format(
+                        **account_move_id.read()[0])
+                except:
+                    pass
+
+            if account_move_line_id:
+                try:
+                    historico_padrao = historico_padrao.format(
+                        **account_move_line_id.read()[0])
+                except:
+                    pass
+
+        return historico_padrao
