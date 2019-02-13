@@ -100,7 +100,8 @@ class AccountEventTemplate(models.Model):
         Exemplo:
         {
             'data':         '2019-01-01',
-            'lines':        [{'LIQUIDO': 100.00}, {'INSS': 123.45}]
+            'lines':        [{'code': 'LIQUIDO', 'valor': 123},
+                             {'code': 'INSS', 'valor': 621.03}],
             'ref':          identificação do módulo de origem
 
             'model':        (opcional) model de origem
@@ -132,6 +133,8 @@ class AccountEventTemplate(models.Model):
 
             account_template_line_id = self.get_linha_roteiro(line.get('code'))
 
+            if not account_template_line_id:
+                continue
 
             account_move_debit_line = {
                 'account_id': account_template_line_id.account_debito_id.id,
