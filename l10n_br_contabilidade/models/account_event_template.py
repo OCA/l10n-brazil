@@ -117,8 +117,17 @@ class AccountEventTemplate(models.Model):
         """
         {
             'data':         '2019-01-01',
-            'lines':        [{'code': 'LIQUIDO', 'valor': 123},
-                             {'code': 'INSS', 'valor': 621.03}],
+            'lines':        [{  # CAMPO CODE E VALOR OBRIGATORIO
+                                'code': 'LIQUIDO', 'valor': 123,
+                                # INCREMENTAR DICIONARIO PARA COMPOR
+                                # HISTORICO PADRAO
+                                'name': 'Liquido do Holerite' }
+                             {  # CAMPO CODE E VALOR OBRIGATORIO
+                                'code': 'INSS', 'valor': 621.03
+                                # INCREMENTAR DICIONARIO PARA COMPOR
+                                # HISTORICO PADRAO
+                                'name': 'Desconto de INSS'}
+                            ],
             'ref':          identificação do módulo de origem
             'model':        (opcional) model de origem
             'res_id':       (opcional) id do registro de origem
@@ -136,30 +145,34 @@ class AccountEventTemplate(models.Model):
             if not account_template_line_id:
                 continue
 
+            # Se encontrar linha no roteiro contabil, tentar gerar historico
+            # padrao da linha
+            if account_template_line_id.account_historico_padrao_id:
+                historico_padrao_linha = account_template_line_id.\
+                    account_historico_padrao_id.get_historico_padrao(
+                    complemento=line)
+            else:
+                historico_padrao_linha = line.get('code')
+
             account_move_debit_line = {
                 'account_id': account_template_line_id.account_debito_id.id,
                 'debit': line.get('valor'),
                 'credit': 0.0,
-                'name': 'NAME',
+                'name': historico_padrao_linha,
             }
 
             account_move_credit_line = {
                 'account_id': account_template_line_id.account_credito_id.id,
                 'credit': line.get('valor'),
                 'debit': 0.0,
-                'name': 'NAME',
+                'name': historico_padrao_linha,
             }
-
-            historico_padrao = account_template_line_id. \
-                account_historico_padrao_id.get_historico_padrao() \
-                if account_template_line_id.account_historico_padrao_id \
-                else line.get('code')
 
             account_move_id = {
                 'ref': dados.get('ref'),
                 'journal_id': self.lote_lancamento_id.id,
-                'narration': historico_padrao,
-                'resumo': historico_padrao,
+                # 'narration': historico_padrao,
+                # 'resumo': historico_padrao,
                 'date': dados.get('data'),
                 'line_id':
                     [(0, 0, account_move_debit_line),
