@@ -7,7 +7,7 @@ from openerp.exceptions import Warning
 
 MODELS = [
     ('hr.salary.rule', 'Rúbricas Holerite'),
-    ('account.tax', 'Impostos'),
+    ('account.invoice', 'Nota Fiscal'),
 ]
 
 
