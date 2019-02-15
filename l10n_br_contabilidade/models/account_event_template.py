@@ -37,7 +37,8 @@ class AccountEventTemplate(models.Model):
     def validar_primeira_formula(self):
         if self.account_formula == 1:
             for partida in self.account_event_template_line_ids:
-                if not partida.account_debito_id or not partida.account_credito_id:
+                if not partida.account_debito_id or not \
+                        partida.account_credito_id:
                     raise Warning(
                         'Nos lançamentos de 1ª Fórmula é '
                         'necessário que todas as partidas possuam uma '
@@ -134,7 +135,7 @@ class AccountEventTemplate(models.Model):
             'period_id'     (opcional) account.period
             'company_id':   (opcional) res.company
         }
-        """
+        """''
 
         account_move_ids = []
 
@@ -175,14 +176,15 @@ class AccountEventTemplate(models.Model):
                 # 'resumo': historico_padrao,
                 'date': dados.get('data'),
                 'line_id':
-                    [(0, 0, account_move_debit_line),
-                     (0,0, account_move_credit_line)]
+                    [
+                        (0, 0, account_move_debit_line),
+                        (0, 0, account_move_credit_line)
+                    ]
             }
 
             account_move_ids.append(account_move_id)
 
         return account_move_ids
-
 
     def criar_lancamentos(self, vals):
         """
@@ -202,7 +204,6 @@ class AccountEventTemplate(models.Model):
         linha = self.account_event_template_line_ids.\
             filtered(lambda x: x.codigo == code)
         return linha
-
 
     def gerar_contabilizacao(self, dados):
         """
