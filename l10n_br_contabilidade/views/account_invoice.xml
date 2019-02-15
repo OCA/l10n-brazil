@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="l10n_br_account_product_nfe_form" model="ir.ui.view">
+            <field name="name">account_product.nfe.form (l10n_br_contabilidade)</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_nfe_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="internal_number" position="after">
+                        <field name="number" attrs="{'invisible': True, 'readonly': True}"/>
+                    </field>
+                    <field name="move_id" position="replace">
+                        <field name="move_id" attrs="{'readonly': True}">
+                            <tree colors="blue:state == 'draft';red:state == 'validacao_criacao';black:state == 'posted'" string="Journal Entries">
+                                <field name="sequencia"/>
+                                <field name="date"/>
+                                <field name="resumo" string="Histórico"/>
+                                <field name="ref"/>
+                                <field name="period_id" invisible="1"/>
+                                <field name="journal_id" invisible="1" string="Lote"/>
+                                <field name="partner_id" invisible="1"/>
+                                <field name="amount" sum="Total Amount"/>
+                                <field name="to_check" invisible="1"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -32,3 +32,4 @@ from . import ir_attachment
 from . import mis_report_instance_period
 from . import account_event_template_line
 from . import account_event_template
+from . import account_invoice
