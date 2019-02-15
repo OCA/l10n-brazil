@@ -12,7 +12,7 @@
 
     <record id="demo_tax_out_icmsfcp2" model="account.tax">
         <field name="description">ICMS FCP 2%</field>
-        <field name="name">ICMS FCP Saida 2%</field>
+        <field name="name">ICMS FCP Saida 2% *</field>
         <field name="amount">2</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0" />
@@ -23,7 +23,7 @@
 
     <record id="demo_tax_out_ipi15" model="account.tax">
         <field name="description">IPI 15%</field>
-        <field name="name">IPI Saída 15%</field>
+        <field name="name">IPI Saída 15% *</field>
         <field name="amount">15</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -33,7 +33,7 @@
 
     <record id="demo_tax_out_icms18" model="account.tax">
         <field name="description">ICMS 18%</field>
-        <field name="name">ICMS Saida 18%</field>
+        <field name="name">ICMS Saida 18% *</field>
         <field name="amount">18</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -43,7 +43,7 @@
 
     <record id="demo_tax_out_icms_subist" model="account.tax">
         <field name="description">ICMS Subist</field>
-        <field name="name">ICMS Saida Subist</field>
+        <field name="name">ICMS Saida Subist *</field>
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -53,7 +53,7 @@
 
     <record id="demo_tax_out_ipi10" model="account.tax">
         <field name="description">IPI 10%</field>
-        <field name="name">IPI Saída 10%</field>
+        <field name="name">IPI Saída 10% *</field>
         <field name="amount">10</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -63,7 +63,7 @@
 
     <record id="demo_tax_in_ipi2" model="account.tax">
         <field name="description">IPI 2%</field>
-        <field name="name">IPI Entrada 2%</field>
+        <field name="name">IPI Entrada 2% *</field>
         <field name="amount">2</field>
         <field name="type_tax_use">purchase</field>
         <field name="price_include" eval="0"/>
@@ -73,7 +73,7 @@
 
     <record id="demo_tax_in_icms_subist" model="account.tax">
         <field name="description">ICMS Subist</field>
-        <field name="name">ICMS Entrada Subist</field>
+        <field name="name">ICMS Entrada Subist *</field>
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field name="price_include" eval="0"/>
@@ -83,7 +83,7 @@
 
     <record id="demo_tax_in_ipi10" model="account.tax">
         <field name="description">IPI 10%</field>
-        <field name="name">IPI Entrada 10%</field>
+        <field name="name">IPI Entrada 10% *</field>
         <field name="amount">10</field>
         <field name="type_tax_use">purchase</field>
         <field name="price_include" eval="0"/>
@@ -93,7 +93,7 @@
 
     <record id="demo_tax_in_icms18" model="account.tax">
         <field name="description">ICMS 18%</field>
-        <field name="name">ICMS Entrada 18%</field>
+        <field name="name">ICMS Entrada 18% *</field>
         <field name="amount">18</field>
         <field name="type_tax_use">purchase</field>
         <field name="price_include" eval="0"/>
@@ -103,7 +103,7 @@
 
     <record id="demo_tax_in_ipi15" model="account.tax">
         <field name="description">IPI 15%</field>
-        <field name="name">IPI Entrada 15%</field>
+        <field name="name">IPI Entrada 15% *</field>
         <field name="amount">15</field>
         <field name="type_tax_use">purchase</field>
         <field name="price_include" eval="0"/>
@@ -113,7 +113,7 @@
 
     <record id="demo_tax_out_ipi2" model="account.tax">
         <field name="description">IPI 2%</field>
-        <field name="name">IPI Saída 2%</field>
+        <field name="name">IPI Saída 2% *</field>
         <field name="amount">2</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -123,7 +123,7 @@
 
     <record id="demo_tax_out_ipi5" model="account.tax">
         <field name="description">IPI 5%</field>
-        <field name="name">IPI Saída 5%</field>
+        <field name="name">IPI Saída 5% *</field>
         <field name="amount">5</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -133,7 +133,7 @@
 
     <record id="demo_tax_in_ipi5" model="account.tax">
         <field name="description">IPI 5%</field>
-        <field name="name">IPI Entrada 5%</field>
+        <field name="name">IPI Entrada 5% *</field>
         <field name="amount">5</field>
         <field name="type_tax_use">purchase</field>
         <field name="price_include" eval="0"/>
@@ -143,7 +143,7 @@
 
     <record id="demo_tax_out_ipi" model="account.tax">
         <field name="description">IPI </field>
-        <field name="name">IPI Saída</field>
+        <field name="name">IPI Saída *</field>
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -153,7 +153,7 @@
 
     <record id="demo_tax_in_ipi" model="account.tax">
         <field name="description">IPI</field>
-        <field name="name">IPI Entrada</field>
+        <field name="name">IPI Entrada *</field>
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field name="price_include" eval="0"/>
@@ -163,7 +163,7 @@
 
     <record id="demo_tax_out_icms7" model="account.tax">
         <field name="description">ICMS 7%</field>
-        <field name="name">ICMS Saida 7%</field>
+        <field name="name">ICMS Saida 7% *</field>
         <field name="amount">7</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -173,7 +173,7 @@
 
     <record id="demo_tax_out_icms12" model="account.tax">
         <field name="description">ICMS 12%</field>
-        <field name="name">ICMS Saida 12%</field>
+        <field name="name">ICMS Saida 12% *</field>
         <field name="amount">12</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -183,7 +183,7 @@
 
     <record id="demo_tax_out_pis" model="account.tax">
         <field name="description">PIS</field>
-        <field name="name">PIS Saida</field>
+        <field name="name">PIS Saida *</field>
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -193,7 +193,7 @@
 
     <record id="demo_tax_out_cofins" model="account.tax">
         <field name="description">COFINS</field>
-        <field name="name">COFINS Saida</field>
+        <field name="name">COFINS Saida * </field>
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -203,7 +203,7 @@
 
     <record id="demo_tax_out_pis065" model="account.tax">
         <field name="description">PIS 0,65%</field>
-        <field name="name">PIS Saida 0,65%</field>
+        <field name="name">PIS Saida 0,65% *</field>
         <field name="amount">0.65</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -213,7 +213,7 @@
 
     <record id="demo_tax_out_cofins3" model="account.tax">
         <field name="description">COFINS 3%</field>
-        <field name="name">COFINS Saida 3%</field>
+        <field name="name">COFINS Saida 3% *</field>
         <field name="amount">3</field>
         <field name="type_tax_use">sale</field>
         <field name="price_include" eval="0"/>
@@ -223,7 +223,7 @@
 
     <record id="demo_tax_out_icms_subist_pe_12_4443_84733041" model="account.tax">
         <field name="description">ICMS Subist PE 12% MVA 44,43%</field>
-        <field name="name">ICMS Subist PE 12% MVA 44,43%</field>
+        <field name="name">ICMS Subist PE 12% MVA 44,43% *</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">0.12</field>
         <field name="amount_mva">0.4443</field>
@@ -234,7 +234,7 @@
 
     <record id="demo_tax_out_icms_subist_pe_12_84717012" model="account.tax">
         <field name="description">ICMS Subist PE 12%</field>
-        <field name="name">ICMS Subist PE 12%</field>
+        <field name="name">ICMS Subist PE 12% *</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">0.12</field>
         <field name="amount_mva">0.00</field>
@@ -245,7 +245,7 @@
 
     <record id="demo_tax_out_icmsinter_18" model="account.tax">
         <field name="description">ICMS Inter 18%</field>
-        <field name="name">ICMS Inter 18%</field>
+        <field name="name">ICMS Inter 18% *</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">0.18</field>
         <field eval="0" name="price_include"/>
