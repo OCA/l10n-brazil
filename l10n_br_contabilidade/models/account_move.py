@@ -19,6 +19,11 @@ class AccountMove(models.Model):
         string=u'Sequência',
     )
 
+    account_invoice_id = fields.Many2one(
+        string='Nota Fiscal',
+        comodel_name='account.invoice',
+    )
+
     state = fields.Selection(
         selection=[
             ('draft', 'Unposted'),
