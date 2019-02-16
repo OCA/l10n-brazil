@@ -127,7 +127,7 @@ class ResPartner(models.Model):
                 raise ValidationError(u"{} Invalido!".format(document))
 
     @api.multi
-    @api.constrains('inscr_est', 'state_id')
+    @api.constrains('inscr_est')
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
@@ -144,6 +144,11 @@ class ResPartner(models.Model):
                 result = fiscal.validate_ie(uf, record.inscr_est)
             if not result:
                 raise ValidationError(u"Inscrição Estadual Invalida!")
+
+    @api.onchange('state_id')
+    def _onchange_state_id(self):
+        for record in self:
+            record.inscr_est = None
 
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):

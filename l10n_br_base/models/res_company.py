@@ -179,6 +179,11 @@ class ResCompany(models.Model):
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
 
+    @api.onchange('state_id')
+    def _onchange_state_id(self):
+        for record in self:
+            record.inscr_est = None
+
     @api.multi
     def write(self, values):
         try:
