@@ -144,36 +144,37 @@ class AccountEventTemplate(models.Model):
             account_template_line_id = self.get_linha_roteiro(line.get('code'))
 
             if not account_template_line_id:
+                # validacao para encontrar todas linhas
                 continue
 
             # Se encontrar linha no roteiro contabil, tentar gerar historico
             # padrao da linha
             if account_template_line_id.account_historico_padrao_id:
-                historico_padrao_linha = account_template_line_id.\
+                historico_padrao = account_template_line_id.\
                     account_historico_padrao_id.get_historico_padrao(
                     complemento=line)
             else:
-                historico_padrao_linha = line.get('code')
+                historico_padrao = line.get('code')
 
             account_move_debit_line = {
                 'account_id': account_template_line_id.account_debito_id.id,
                 'debit': line.get('valor'),
                 'credit': 0.0,
-                'name': historico_padrao_linha,
+                'name': historico_padrao,
             }
 
             account_move_credit_line = {
                 'account_id': account_template_line_id.account_credito_id.id,
                 'credit': line.get('valor'),
                 'debit': 0.0,
-                'name': historico_padrao_linha,
+                'name': historico_padrao,
             }
 
             account_move_id = {
                 'ref': dados.get('ref'),
                 'journal_id': self.lote_lancamento_id.id,
-                # 'narration': historico_padrao,
-                # 'resumo': historico_padrao,
+                'narration': historico_padrao,
+                'resumo': historico_padrao,
                 'date': dados.get('data'),
                 'line_id':
                     [
