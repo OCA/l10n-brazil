@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_contract_ressarcimento","access_contract_ressarcimento","model_contract_ressarcimento","base.group_hr_user",1,1,1,0
+"access_contract_ressarcimento_line","access_contract_ressarcimento_line","model_contract_ressarcimento_line","base.group_hr_user",1,1,1,0
