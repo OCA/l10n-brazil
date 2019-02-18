@@ -26,6 +26,7 @@ class AccountEventTemplate(models.Model):
             (3, '3ª Fórmula'),
             (4, '4ª Fórmula'),
         ],
+        default=1,
     )
 
     account_event_template_line_ids = fields.One2many(

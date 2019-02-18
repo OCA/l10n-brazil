@@ -25,6 +25,91 @@ class AccountInvoice(models.Model):
         copy=False,
     )
 
+    cofins_value = fields.Float(
+        help='Código para roteiro contábil: "cofins_value"',
+    )
+
+    cofins_value_wh = fields.Float(
+        help='Código para roteiro contábil: "cofins_value_wh"',
+    )
+
+    csll_value = fields.Float(
+        help='Código para roteiro contábil: "csll_value"',
+    )
+
+    csll_value_wh = fields.Float(
+        help='Código para roteiro contábil: "csll_value_wh"',
+    )
+
+    amount_discount = fields.Float(
+        help='Código para roteiro contábil: "amount_discount"',
+    )
+
+    icms_dest_value = fields.Float(
+        help='Código para roteiro contábil: "icms_dest_value"',
+    )
+
+    amount_freight = fields.Float(
+        help='Código para roteiro contábil: "amount_freight"',
+    )
+
+    icms_value = fields.Float(
+        help='Código para roteiro contábil: "icms_value"',
+    )
+
+    icms_st_value = fields.Float(
+        help='Código para roteiro contábil: "icms_st_value"',
+    )
+
+    ii_value = fields.Float(
+        help='Código para roteiro contábil: "ii_value"',
+    )
+
+    inss_value_wh = fields.Float(
+        help='Código para roteiro contábil: "inss_value_wh"',
+    )
+
+    ipi_value = fields.Float(
+        help='Código para roteiro contábil: "ipi_value"',
+    )
+
+    irrf_value_wh = fields.Float(
+        help='Código para roteiro contábil: "irrf_value_wh"',
+    )
+
+    issqn_value = fields.Float(
+        help='Código para roteiro contábil: "issqn_value"',
+    )
+
+    issqn_value_wh = fields.Float(
+        help='Código para roteiro contábil: "issqn_value_wh"',
+    )
+
+    amount_costs = fields.Float(
+        help='Código para roteiro contábil: "amount_costs"',
+    )
+
+    pis_value = fields.Float(
+        help='Código para roteiro contábil: "pis_value"',
+    )
+
+    pis_value_wh = fields.Float(
+        help='Código para roteiro contábil: "pis_value_wh"',
+    )
+
+    amount_insurance = fields.Float(
+        help='Código para roteiro contábil: "amount_insurance"',
+    )
+
+    amount_net = fields.Float(
+        help='Código para roteiro contábil: "amount_net"',
+    )
+
+    amount_total = fields.Float(
+        help='Código para roteiro contábil: "amount_total"',
+    )
+
+
     @api.depends('internal_number')
     def _compute_number(self):
         for record in self:
