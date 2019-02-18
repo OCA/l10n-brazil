@@ -3061,7 +3061,9 @@ class HrPayslip(models.Model):
         """
         porcentagem_pensao = 0
         for line in self.contract_id.specific_rule_ids:
-            if line.rule_id.code == 'PENSAO_ALIMENTICIA_PORCENTAGEM':
+            if line.rule_id.code in \
+                    ['PENSAO_ALIMENTICIA_PORCENTAGEM',
+                        'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS']:
                 porcentagem_pensao = line.specific_amount
                 break
 
