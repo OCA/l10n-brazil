@@ -28,13 +28,11 @@
         'data/l10n_br_hr_tabela_IR_dependente.xml',
         'data/l10n_br_hr_tabela_RAT_FAP.xml',
         'data/l10n_br_hr_payroll_decimal_precision.xml',
-        'data/hr_contract_ressarcimento_email.xml',
 
         'security/l10n_br_hr_contract.xml',
         'security/l10n_br_hr_payslip_security_rule.xml',
         'security/l10n_br_hr_rat_fap_security_rule.xml',
         'security/hr_telefonia_line_security_rule.xml',
-        'security/hr_ressarcimento_security.xml',
         'security/ir.model.access.csv',
 
         'views/hr_contract.xml',
@@ -55,7 +53,6 @@
         'views/l10n_br_hr_social_security_tax_view.xml',
         'views/res_config_view.xml',
         'views/hr_telefonia_view.xml',
-        'views/hr_contract_ressarcimento.xml',
 
         # Alterações Contratuais
         'views/l10n_br_hr_contract_change/l10n_br_hr_contract_change_menu.xml',

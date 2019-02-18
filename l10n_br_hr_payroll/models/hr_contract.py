@@ -89,7 +89,7 @@ class HrContract(models.Model):
     )
 
     contract_ressarcimento_ids = fields.One2many(
-        comodel_name="hr.contract.ressarcimento",
+        comodel_name="contract.ressarcimento",
         inverse_name="contract_id",
         string="Ressarcimento",
     )

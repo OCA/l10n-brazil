@@ -149,7 +149,7 @@
                     </field>
                     <separator string="Outros vínculos/ressarcimentos" />
                     <newline/>
-                    <field name="contract_ressarcimento_ids">
+                    <field name="contract_ressarcimento_ids" context="{'default_contract_id':active_id}">
                         <tree colors="darkgoldenrod:state == 'provisionado';darkgreen:state == 'aprovado'">
                             <field name="account_period_id" />
                             <field name="total" />
