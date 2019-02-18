@@ -3,13 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models, _
-from openerp.exceptions import Warning, ValidationError
 from openerp.addons.l10n_br_account_product.constantes import (
     CAMPO_DOCUMENTO_FISCAL,
-    CAMPO_DOCUMENTO_FISCAL_ITEM,
-    ACCOUNT_AUTOMATICO_PARTICIPANTE,
-    ACCOUNT_AUTOMATICO_PRODUTO,
 )
+from openerp.exceptions import Warning, ValidationError
 
 
 class AccountInvoice(models.Model):
@@ -177,7 +174,7 @@ class AccountInvoice(models.Model):
                         'code': info_name,
                         'valor': self[info_name],
                         'mes': self.period_id.code,
-                        'num_documento': '{} - {}'.format(
+                        'num_documento': 'NF-e nº {} - {}'.format(
                             self.internal_number, self.partner_id.name),
                     }
                 )
