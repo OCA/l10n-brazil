@@ -2447,6 +2447,11 @@ class HrPayslip(models.Model):
                 employee = contract.employee_id
                 localdict = dict(
                     baselocaldict, employee=employee, contract=contract)
+                calculated_specifc_rule = [
+                    'PENSAO_ALIMENTICIA_PORCENTAGEM',
+                    'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS',
+                    'PENSAO_ALIMENTICIA_PORCENTAGEM_13',
+                ]
                 for rule in obj_rule.browse(sorted_rule_ids):
                     key = rule.code + '-' + str(contract.id)
                     localdict['result'] = None
@@ -2460,7 +2465,8 @@ class HrPayslip(models.Model):
                     #
                     # Tratamos as rubricas específicas que têm beneficiários
                     #
-                    if rule.id in applied_specific_rule:
+                    if rule.id in applied_specific_rule and \
+                            rule.code not in calculated_specifc_rule:
                         lista_rubricas_especificas = \
                             applied_specific_rule[rule.id]
 
@@ -2480,7 +2486,8 @@ class HrPayslip(models.Model):
                     if obj_rule.satisfy_condition(rule.id, localdict) \
                             and rule.id not in blacklist:
                         # compute the amount of the rule
-                        if rule.id in applied_specific_rule:
+                        if rule.id in applied_specific_rule and \
+                            rule.code not in calculated_specifc_rule:
                             amount = payslip.get_specific_rubric_value(rule.id)
                             qty = 1
                             rate = 100
@@ -3069,8 +3076,11 @@ class HrPayslip(models.Model):
         porcentagem_pensao = 0
         for line in self.contract_id.specific_rule_ids:
             if line.rule_id.code in \
-                    ['PENSAO_ALIMENTICIA_PORCENTAGEM',
-                        'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS']:
+                    [
+                        'PENSAO_ALIMENTICIA_PORCENTAGEM',
+                        'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS',
+                        'PENSAO_ALIMENTICIA_PORCENTAGEM_13'
+                    ]:
                 porcentagem_pensao = line.specific_amount
                 break
 
