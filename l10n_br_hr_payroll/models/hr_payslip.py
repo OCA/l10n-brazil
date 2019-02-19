@@ -1780,8 +1780,8 @@ class HrPayslip(models.Model):
             ('code','ilike', '%{}%'.format(code)),
             ('reference','=', reference),
         ]
-        line_id = self.env['hr.payslip.line'].search(domain)
-        return line_id.total
+        line_ids = self.env['hr.payslip.line'].search(domain)
+        return sum(line_ids.mapped('total'))
 
 
     def get_inss_ferias_da_competencia(self, reference):
