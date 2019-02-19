@@ -130,8 +130,8 @@ class ContractRessarcimento(models.Model):
         Operador confirmando e submetendo para aprovação
         """
         for record in self:
-            record.state = 'confirmado'
             record.send_mail(situacao='confirmado')
+            record.state = 'confirmado'
 
     @api.multi
     def button_aprovar(self):
@@ -142,10 +142,10 @@ class ContractRessarcimento(models.Model):
             record.aprovado_por = self.env.user.id
             if record.valor_provisionado and not record.account_period_id:
                 record.state = 'provisionado'
-                record.send_mail(situacao='aprovado')
             else:
                 record.state = 'aprovado'
-                record.send_mail(situacao='aprovado')
+
+            record.send_mail(situacao='aprovado')
 
     @api.multi
     def button_reprovar(self):

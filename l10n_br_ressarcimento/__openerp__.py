@@ -20,9 +20,6 @@
         'views/contract_ressarcimento.xml',
     ],
     'demo': [
-        # 'demo/hr_contract.xml',
-        # 'demo/l10n_br_hr_payroll_rubricas.xml',
-        # 'demo/l10n_br_hr_payroll_estruturas.xml',
     ],
     'installable': True,
     'auto_install': False,
