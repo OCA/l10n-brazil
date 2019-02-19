@@ -1074,8 +1074,11 @@ class HrPayslip(models.Model):
         """
         inss_vinculo_obj = self.env['hr.contribuicao.inss.vinculos']
 
+        period_id = self.env['account.period'].find(self.date_from)
+
         inss_vinculos_id = inss_vinculo_obj.search([
             ('contrato_id','=', self.contract_id.id),
+            ('period_id','=', period_id.id),
         ], limit=1)
 
         if inss_vinculos_id:
