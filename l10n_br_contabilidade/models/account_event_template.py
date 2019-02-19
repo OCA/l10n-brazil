@@ -136,7 +136,7 @@ class AccountEventTemplate(models.Model):
             'period_id'     (opcional) account.period
             'company_id':   (opcional) res.company
         }
-        """''
+        """
 
         account_move_ids = []
 
@@ -177,6 +177,8 @@ class AccountEventTemplate(models.Model):
                 'narration': historico_padrao,
                 'resumo': historico_padrao,
                 'date': dados.get('data'),
+                'period_id':
+                    self.env['account.period'].find(dados.get('data')).id,
                 'line_id':
                     [
                         (0, 0, account_move_debit_line),
