@@ -91,11 +91,9 @@
                             <div class="oe_clear"/>
                         </page>
 
-                        <page string="Salary Computation" groups="base.group_hr_user,base.group_hr_manager">
+                        <page string="Salary Computation" name="salary_computation" groups="base.group_hr_user,base.group_hr_manager">
                             <field name="line_ids" colspan="4" nolabel="1">
-                                <tree string="Salary Structure"
-                                      editable="bottom"
-                                      colors="orange:total == 0">
+                                <tree string="Salary Structure" name="tree_salary_structure" editable="bottom" colors="orange:total == 0">
                                     <field name="id" string="Cód Identificador" />
                                     <field name="name"/>
                                     <field name="code"/>
@@ -108,19 +106,6 @@
                                     <field name="total"/>
                                     <field name="partner_id"/>
                                 </tree>
-                                <form string="Payslip Line">
-                                    <group col="4">
-                                        <field name="name"/>
-                                        <field name="code"/>
-                                        <field name="category_id"/>
-                                        <field name="sequence"/>
-                                        <field name="quantity"/>
-                                        <field name="rate"/>
-                                        <field name="amount"/>
-                                        <field name="total"/>
-                                        <field name="salary_rule_id"/>
-                                    </group>
-                                </form>
                             </field>
                         </page>
 
