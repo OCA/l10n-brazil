@@ -147,19 +147,6 @@
                             <field name="period_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                         </tree>
                     </field>
-                    <separator string="Outros vínculos/ressarcimentos" />
-                    <newline/>
-                    <field name="contract_ressarcimento_ids" context="{'default_contract_id':active_id}">
-                        <tree colors="darkgoldenrod:state == 'provisionado';darkgreen:state == 'aprovado'">
-                            <field name="account_period_id" />
-                            <field name="total" />
-                            <field name="account_period_provisao_id" />
-                            <field name="total_provisionado" />
-                            <field name="aprovado_por" />
-                            <field name="state" />
-                        </tree>
-                    </field>
-
                 </page>
                 <!--Aba Saúde ocupacional-->
                 <page string="Saúde ocupacional">
