@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!-- Ressarcimento de Contrato contract.ressarcimento -->
+
+        <!--Visão Form -->
+        <record id="hr_contract_form_view" model="ir.ui.view">
+            <field name="name">hr.contract.form (in l10n_br_ressarcimento)</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='contribuicao_inss_ids']" position="after">
+                    <separator string="Outros vínculos/ressarcimentos" />
+                    <field name="contract_ressarcimento_ids" context="{'default_contract_id':active_id}">
+                        <tree colors="darkgoldenrod:state == 'provisionado';darkgreen:state == 'aprovado'">
+                            <field name="account_period_id" />
+                            <field name="total" />
+                            <field name="account_period_provisao_id" />
+                            <field name="total_provisionado" />
+                            <field name="aprovado_por" />
+                            <field name="state" />
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
