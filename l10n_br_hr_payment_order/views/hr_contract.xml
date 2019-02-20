@@ -57,14 +57,14 @@
         </record>
 
         <!--Views-->
-        <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_lotacao_pagamento_automatico_tree_action">
+        <record model="ir.actions.act_window.view" id="contract_change_lotacao_pagamento_automatico_tree_action">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
             <field name="act_window_id" ref="l10n_br_hr_contract_change_lotacao_pagamento_automatico_action"/>
             <field name="view_id" ref="l10n_br_hr_contract_change_lotacao_pagamento_automatico_tree"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_lotacao_pagamento_automatico_form_action">
+        <record model="ir.actions.act_window.view" id="contract_change_lotacao_pagamento_automatico_form_action">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="act_window_id" ref="l10n_br_hr_contract_change_lotacao_pagamento_automatico_action"/>
