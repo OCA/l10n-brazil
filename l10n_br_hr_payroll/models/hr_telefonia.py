@@ -192,6 +192,7 @@ class HrTelefonia(models.Model):
 class HrTelefoniaLine(models.Model):
     _name = 'hr.telefonia.line'
     _rec_name = 'display_name'
+    _order = 'data desc, hora_inicio desc'
 
     @api.multi
     def _get_telefonia_line_name(self):

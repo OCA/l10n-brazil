@@ -206,7 +206,7 @@
                                     <field name="data" />
                                     <field name="inicio" />
                                     <field name="duracao" />
-                                    <field name="valor" />
+                                    <field name="valor" sum="Total"/>
                                     <field name="tipo" />
                                     <field name="state" />
                                 </tree>
