@@ -1308,9 +1308,10 @@ class HrPayslip(models.Model):
                 if medias_obj:
                     if rubrica.rule_id.code not in medias_obj.dict.keys():
                         return 0
-                return rubrica.specific_quantity * \
-                    rubrica.specific_percentual / 100 * \
-                    rubrica.specific_amount
+                return rubrica.specific_quantity * rubrica.specific_percentual\
+                    / 100 * rubrica.specific_amount, \
+                    rubrica.specific_quantity, \
+                    rubrica.specific_percentual
 
     @api.multi
     def get_desconto_ligacao_telefonica(self):
@@ -2488,10 +2489,9 @@ class HrPayslip(models.Model):
                             and rule.id not in blacklist:
                         # compute the amount of the rule
                         if rule.id in applied_specific_rule and \
-                            rule.code not in calculated_specifc_rule:
-                            amount = payslip.get_specific_rubric_value(rule.id)
-                            qty = 1
-                            rate = 100
+                                rule.code not in calculated_specifc_rule:
+                            amount, qty, rate = \
+                                payslip.get_specific_rubric_value(rule.id)
                         else:
                             amount, qty, rate = \
                                 obj_rule.compute_rule(rule.id, localdict)
