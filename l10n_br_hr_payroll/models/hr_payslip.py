@@ -10,6 +10,7 @@ from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, MONTHLY
 from lxml import etree
 from openerp import api, fields, models, exceptions, _
+from openerp.tools import float_compare
 from mako.template import Template
 
 _logger = logging.getLogger(__name__)
@@ -86,6 +87,14 @@ class HrPayslip(models.Model):
                 # Atualizar o controle de férias, o controle de férias do
                 # contrato é baseado nos holerites validados
                 holerite.contract_id.action_button_update_controle_ferias()
+
+                # Validação para confirmação
+                liquido = holerite.line_ids.filtered(
+                    lambda x: x.code == 'LIQUIDO').total
+                if liquido and float_compare(
+                        holerite.total_folha, liquido, precision_digits=2):
+                    raise exceptions.Warning(
+                        _('Rúbrica LIQUIDO com valor inválido!'))
 
                 if holerite.tipo_de_folha == 'rescisao':
                     holerite.contract_id.resignation_cause_id = \
