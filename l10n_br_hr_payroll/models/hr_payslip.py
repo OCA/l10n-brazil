@@ -1227,9 +1227,10 @@ class HrPayslip(models.Model):
     def get_contract_specific_rubrics(self, contract_id, rule_ids):
         contract = self.env['hr.contract'].browse(contract_id.id)
         applied_specific_rule = {}
-        tipo_holerite_id = self.env['hr.tipo.holerite'].search([('tipo_holerite', '=', self.tipo_de_folha)])
+
         for specific_rule in contract.specific_rule_ids:
-            if tipo_holerite_id.id in specific_rule.tipo_holerite_id.ids:
+            tipo_holerite = True if specific_rule.tipo_holerite in [self.tipo_de_folha, 'all'] else False
+            if tipo_holerite:
                 if self.date_from >= specific_rule.date_start:
                     if not specific_rule.date_stop or \
                             self.date_to <= specific_rule.date_stop:
