@@ -194,6 +194,9 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         for contrato in self.trabalhador_id.contract_ids:
             if contrato.contribuicao_inss_ids:
                 for vinculo in contrato.contribuicao_inss_ids:
+                    if not vinculo.period_id.id == self.periodo_id.id:
+                        continue
+
                     info_mv = pysped.esocial.leiaute.S1200_InfoMV_2()
 
                     remun_outr_empr = \

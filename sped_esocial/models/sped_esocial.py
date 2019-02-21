@@ -129,7 +129,7 @@ class SpedEsocial(models.Model):
             for registro in periodo.registro_ids:
                 if registro.situacao == '3':
                     registros.append(registro.id)
-                elif registro.situacao == '4':
+                elif registro.situacao in ['4', '6']:
                     transmitidos += 1
                 elif registro.situacao in ['1', '2']:
                     for lote in registro.lote_ids:

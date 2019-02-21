@@ -135,10 +135,6 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
         else:
             ide_folhapagto.indApuracao.valor = '2'
             ide_folhapagto.perApur.valor = self.sped_registro_id.origem_intermediario.periodo_id.code[3:7]
-           # ide_folhapagto.indApuracao.valor = '1'  # TODO Lidar com registros de 13º (Anual)
-           # ide_folhapagto.perApur.valor = \
-           #     self.sped_registro_id.origem_intermediario.periodo_id.code[3:7] + '-' + \
-           #     self.sped_registro_id.origem_intermediario.periodo_id.code[0:2]
             S3000.evento.infoExclusao.ideFolhaPagto.append(ide_folhapagto)
 
         return S3000, validacao
