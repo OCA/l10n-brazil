@@ -165,6 +165,7 @@ def totalizadores_linhas_holerites(payslip_lines, payslip_autonomo_ids=[]):
                         ['INSS_COMPETENCIA_SEGUINTE_FERIAS',
                          'INSS_COMPETENCIA_ATUAL',
                          'INSS_COMPETENCIA_SEGUINTE',
+                         'INSS_FERIAS_COMPETENCIA_ANTERIOR']:
                     inss_funcionario_retido += rubrica['sum']
 
         # Totalizar O INSS da Competencia que esta em um rubrica de referencia
