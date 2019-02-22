@@ -36,7 +36,6 @@
                         </group>
                         <notebook>
                             <page string="Ressarcimento do contrato" attrs="{'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['confirmado', 'provisionado', 'aprovado'])]}">
-                                <h2 attrs="{'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['confirmado', 'provisionado', 'aprovado'])]}">Ressarcimento do contrato</h2>
                                 <field name="contract_ressarcimento_line_ids" nolabel="1" attrs="{'readonly':[('state','not in', ['aberto', 'provisionado'])], 'required':['|', ('valor_provisionado','=',False), ('state', '=', 'provisionado')], 'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['confirmado', 'provisionado', 'aprovado'])]}" widget="one2many_list" >
                                     <tree editable="bottom">
                                         <field name="descricao" />
@@ -45,7 +44,6 @@
                                 </field>
                             </page>
                             <page string="Ressarcimento do contrato (provisionamento)" attrs="{'invisible':[('valor_provisionado','=', False)]}">
-                                <h2 attrs="{'invisible':[('valor_provisionado','=', False)]}">Ressarcimento do contrato (provisionamento)</h2>
                                 <field name="contract_ressarcimento_provisionado_line_ids" nolabel="1" attrs="{'readonly':[('state','!=','aberto')], 'required':[('valor_provisionado','=',True)], 'invisible':[('valor_provisionado','=', False)]}" widget="one2many_list" >
                                     <tree editable="bottom">
                                         <field name="descricao" />
