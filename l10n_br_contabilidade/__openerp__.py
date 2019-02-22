@@ -29,6 +29,7 @@
         # # Visão
         'wizards/fechamento_reabertura_justificativa_wizard.xml',
         'wizards/trial_balance_wizard.xml',
+        'wizards/general_ledger_wizard.xml',
         'views/account_account.xml',
         'views/account_account_report.xml',
         'views/account_account_report_line.xml',
