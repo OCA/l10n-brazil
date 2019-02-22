@@ -13,8 +13,29 @@
             <field name="model">contract.ressarcimento</field>
             <field name="inherit_id" ref="l10n_br_ressarcimento.hr_contract_ressarcimento_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='partner_ids']" position="after">
+                <!-- Adiciona Roteiro contábil antes Rubricas de Ressarcimento -->
+                <xpath expr="//field[@name='contract_ressarcimento_line_ids']" position="before">
+                    <label for="account_event_template_id" string="Roteiro Contábil"/>
                     <field name="account_event_template_id"/>
+                    <hr />
+                </xpath>
+                <!-- Adiciona Lançamentos feitos para esse ressarcimento após Rubricas de Ressarcimento -->
+                <xpath expr="//field[@name='contract_ressarcimento_line_ids']" position="after">
+                    <hr />
+                    <label for="account_move_ids" attrs="{'invisible':[('account_move_ids', '=', [(6, False, [])])]}" string="Lançamentos Contábeis"/>
+                    <field name="account_move_ids" attrs="{'invisible':[('account_move_ids', '=', [(6, False, [])])]}" readonly="1"/>
+                </xpath>
+                <!-- Adiciona Roteiro contábil antes Rubricas de Ressarcimento (PROVISIONADO) -->
+                <xpath expr="//field[@name='contract_ressarcimento_provisionado_line_ids']" position="before">
+                    <label for="account_event_template_provisao_id" string="Roteiro Contábil"/>
+                    <field name="account_event_template_provisao_id"/>
+                    <hr />
+                </xpath>
+                <!-- Adiciona Lançamentos feitos para esse ressarcimento após Rubricas de Ressarcimento (PROVISIONADO) -->
+                <xpath expr="//field[@name='contract_ressarcimento_provisionado_line_ids']" position="after">
+                    <hr />
+                    <label for="account_move_provisao_ids" attrs="{'invisible':[('account_move_provisao_ids', '=', [(6, False, [])])]}" string="Lançamentos Contábeis"/>
+                    <field name="account_move_provisao_ids" attrs="{'invisible':[('account_move_provisao_ids', '=', [(6, False, [])])]}" readonly="1"/>
                 </xpath>
             </field>
         </record>
