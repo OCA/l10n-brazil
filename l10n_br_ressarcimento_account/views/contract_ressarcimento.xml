@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!-- Ressarcimento de Contrato contract.ressarcimento -->
+
+        <!--Visão Form -->
+        <record id="hr_contract_ressarcimento_form_view" model="ir.ui.view">
+            <field name="name">hr.contract.ressarcimento.form (in l10n_br_ressarcimento_account)</field>
+            <field name="model">contract.ressarcimento</field>
+            <field name="inherit_id" ref="l10n_br_ressarcimento.hr_contract_ressarcimento_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ids']" position="after">
+                    <field name="account_event_template_id"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
