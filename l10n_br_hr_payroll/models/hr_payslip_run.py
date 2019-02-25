@@ -323,11 +323,21 @@ class HrPayslipRun(models.Model):
                     if mes_do_ano == 13:
                         mes_do_ano = 12
 
+                    ultimo_dia_do_mes = str(
+                        self.env['resource.calendar'].get_ultimo_dia_mes(
+                            self.mes_do_ano, self.ano))
+
+                    primeiro_dia_do_mes = str(
+                        datetime.strptime(str(self.mes_do_ano) + '-' +
+                                          str(self.ano), '%m-%Y'))
+
                     payslip = payslip_obj.create({
                         'contract_id': contrato.id,
                         'mes_do_ano': self.mes_do_ano,
                         'mes_do_ano2': mes_do_ano,
                         'ano': self.ano,
+                        'date_from': primeiro_dia_do_mes,
+                        'date_to': ultimo_dia_do_mes,
                         'employee_id': contrato.employee_id.id,
                         'tipo_de_folha': tipo_de_folha,
                         'payslip_run_id': self.id,
