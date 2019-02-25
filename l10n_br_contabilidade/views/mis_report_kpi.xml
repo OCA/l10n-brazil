@@ -22,6 +22,7 @@
                         </tree>
                     </field>
                     <field name="invert_signal" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
+                    <field name="incluir_lancamentos_de_fechamento" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                     <field name="expression_type" attrs="{'invisible': [('expression_mode','!=','auto')]}"/>
                 </field>
                 <field name="compare_method" position="after">
@@ -90,6 +91,7 @@
                 </field>
                 <field name="compare_method" position="after">
                     <field name="style_id"/>
+                    <field name="incluir_lancamentos_de_fechamento"/>
                 </field>
             </field>
         </record>

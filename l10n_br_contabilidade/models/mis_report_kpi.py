@@ -68,6 +68,10 @@ class MisReportKpi(models.Model):
         # related='report_id.report_mode'
     )
 
+    incluir_lancamentos_de_fechamento = fields.Boolean(
+        string=u'Incluir lançamentos de fechamento?'
+    )
+
     @api.one
     @api.onchange('report_mode')
     def onchange_report_mode(self):
@@ -87,7 +91,7 @@ class MisReportKpi(models.Model):
                 )
 
     @api.depends('account_ids.mis_report_kpi_ids', 'expression_type',
-                 'invert_signal')
+                 'invert_signal', 'incluir_lancamentos_de_fechamento')
     def _compute_kpi_expression(self):
         for record in self:
             if record.expression_mode == 'manual':
@@ -102,10 +106,14 @@ class MisReportKpi(models.Model):
                 record.expression = (
                         signal +
                         record.expression_type +
-                        '[{}]'.format("".join([str(acc.code) + ',' if
-                                               acc else ''
-                                               for acc in record.account_ids])
-                 ))
+                        '[{}]'.format(
+                            "".join([str(acc.code) + ','
+                                     if acc else ''
+                                     for acc in record.account_ids])
+                        ) + '[{}]'.format(str(
+                            [('move_id.lancamento_de_fechamento', '=', False)]
+                        ) if record.incluir_lancamentos_de_fechamento else '')
+                )
 
     @api.onchange('expression')
     def _onchange_kpi_expression(self):
