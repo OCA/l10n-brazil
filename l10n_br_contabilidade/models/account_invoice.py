@@ -270,13 +270,7 @@ class AccountInvoice(models.Model):
     def action_move_create(self):
         for inv in self:
             if not inv.fiscal_category_id.account_event_id:
-                raise ValidationError(
-                    _('Error!'),
-                    _(
-                        'Please define a Roteiro de Evento Contábil '
-                        'in the fiscal category.'
-                    )
-                )
+                return
 
             if not inv.invoice_line:
                 raise ValidationError(
@@ -305,3 +299,17 @@ class AccountInvoice(models.Model):
             compute_taxes = account_invoice_tax.compute(
                 inv.with_context(lang=inv.partner_id.lang))
             inv.check_tax_lines(compute_taxes)
+
+    @api.multi
+    def gerar_contabilidade(self):
+        for inv in self:
+            if not inv.fiscal_category_id.account_event_id:
+                raise Warning(
+                    _('Error!'),
+                    _(
+                        'Por favor defina um Roteiro de Evento Contábil '
+                        'na categoria fiscal!.'
+                    )
+                )
+
+            inv.action_move_create()

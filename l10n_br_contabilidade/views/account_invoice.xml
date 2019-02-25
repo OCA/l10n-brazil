@@ -15,6 +15,7 @@
                         <field name="number" attrs="{'invisible': True, 'readonly': True}"/>
                     </field>
                     <field name="move_id" position="replace">
+                        <button name="gerar_contabilidade" states="open" colspan="2" string="Gerar Contabilização" type="object"/>
                         <field name="move_id" attrs="{'readonly': True}">
                             <tree colors="blue:state == 'draft';red:state == 'validacao_criacao';black:state == 'posted'" string="Journal Entries">
                                 <field name="sequencia"/>
