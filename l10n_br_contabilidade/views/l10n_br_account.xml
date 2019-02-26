@@ -10,7 +10,7 @@
                 <xpath expr='//group[@string="Diário Contábil"]' position="after">
                     <separator string="Roteiro Contábil"/>
                     <group colspan="4">
-                        <field name="account_event_id" />
+                        <field name="account_event_template_id" />
                     </group>
                 </xpath>
             </field>
