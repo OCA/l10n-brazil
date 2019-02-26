@@ -110,9 +110,11 @@ class MisReportKpi(models.Model):
                             "".join([str(acc.code) + ','
                                      if acc else ''
                                      for acc in record.account_ids])
-                        ) + '[{}]'.format(str(
-                            ('move_id.lancamento_de_fechamento', '=', False)
-                        ) if record.incluir_lancamentos_de_fechamento else '')
+                        ) + str(
+                            [('move_id.lancamento_de_fechamento', '=', True)]
+                            if record.incluir_lancamentos_de_fechamento
+                            else ''
+                        )
                 )
 
     @api.onchange('expression')
