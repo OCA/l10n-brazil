@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 ABGF http://www.abgf.gov.br/
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_account_event_form">
+            <field name="name">l10n_br_contabilidade_account_event_form (in l10n_br_contabilidade)</field>
+            <field name="model">account.event</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <h2>
+                                <field name="ref" />
+                            </h2>
+                            <field name="data" attrs="{'required': True}"/>
+                        </group>
+
+                        <notebook>
+                            <separator string="Eventos Contábeis"/>
+                            <page string="Eventos">
+                                <field name="account_event_line_ids" widget="one2many_list" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                        <field name="code"/>
+                                        <field name="valor" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_account_event_tree">
+            <field name="name">l10n_br_contabilidade_account_event_tree (in l10n_br_contabilidade)</field>
+            <field name="model">account.event</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="ref"/>
+                    <field name="data"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_account_event_line_form">
+            <field name="name">l10n_br_contabilidade_account_event_line_form (in l10n_br_contabilidade)</field>
+            <field name="model">account.event.line</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="code" />
+                            <field name="name"/>
+                            <field name="valor"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_account_event_line_tree">
+            <field name="name">l10n_br_contabilidade_account_event_line_tree (in l10n_br_contabilidade)</field>
+            <field name="model">account.event.line</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="valor" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_contabilidade_account_event_action" model="ir.actions.act_window">
+            <field name="name">Eventos Contábeis</field>
+            <field name="res_model">account.event</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="l10n_br_contabilidade_account_event_tree"/>
+        </record>
+
+        <menuitem
+            action="l10n_br_contabilidade_account_event_action"
+            id="l10n_br_contabilidade_account_event"
+            parent="account.menu_finance_configuration"
+            sequence="10"
+        />
+
+    </data>
+</openerp>
