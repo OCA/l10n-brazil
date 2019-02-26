@@ -32,6 +32,11 @@ class AccountEvent(models.Model):
         selection=MODELS,
     )
 
+    account_event_template_id = fields.Many2one(
+        string='Roteiro Contábil',
+        comodel_name='account.event.template',
+    )
+
     def gerar_eventos(self, lines):
         """
         [{      # CAMPO CODE E VALOR OBRIGATORIO

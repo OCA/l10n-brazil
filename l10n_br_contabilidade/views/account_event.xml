@@ -45,6 +45,7 @@
                 <tree>
                     <field name="ref"/>
                     <field name="data"/>
+                    <field name="account_event_template_id"/>
                 </tree>
             </field>
         </record>
