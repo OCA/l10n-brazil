@@ -13,11 +13,12 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <h2>
+                            <field name="ref" />
+                        </h2>
                         <group>
-                            <h2>
-                                <field name="ref" />
-                            </h2>
                             <field name="data" attrs="{'required': True}"/>
+                            <field name="account_event_template_id"/>
                         </group>
 
                         <notebook>
