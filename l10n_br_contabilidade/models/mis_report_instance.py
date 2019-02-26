@@ -11,17 +11,6 @@ class MisReportInstance(models.Model):
 
     _inherit = 'mis.report.instance'
 
-    incluir_lancamentos_de_fechamento = fields.Boolean(
-        string=u'Incluir lançamentos de fechamento?'
-    )
-
-    @api.onchange('incluir_lancamentos_de_fechamento')
-    def _onchange_incluir_lancamentos_de_fechamento(self):
-        self.ensure_one()
-        for period in self.period_ids:
-            period.incluir_lancamentos_de_fechamento = \
-                self.incluir_lancamentos_de_fechamento
-
     @api.multi
     def remove_duplicated_filetype_attachments(self, format):
         for record in self:

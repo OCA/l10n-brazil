@@ -111,8 +111,8 @@ class MisReportKpi(models.Model):
                                      if acc else ''
                                      for acc in record.account_ids])
                         ) + str(
-                            [('move_id.lancamento_de_fechamento', '=', True)]
-                            if record.incluir_lancamentos_de_fechamento
+                            [('move_id.lancamento_de_fechamento', '=', False)]
+                            if not record.incluir_lancamentos_de_fechamento
                             else ''
                         )
                 )
