@@ -1954,11 +1954,6 @@ msgid "Saldo no período"
 msgstr "Saldo no período"
 
 #. module: l10n_br_contabilidade
-#: model:ir.actions.act_window,name:l10n_br_contabilidade.l10n_br_contabilidade_account_saldo_graph_action
-msgid "Saldo nos Períodos"
-msgstr "Saldo nos Períodos"
-
-#. module: l10n_br_contabilidade
 #: model:ir.ui.menu,name:l10n_br_contabilidade.menu_l10n_br_contabilidade_account_saldo
 msgid "Saldos de período"
 msgstr "Saldos de período"
