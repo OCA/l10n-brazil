@@ -94,6 +94,11 @@ class AccountMove(models.Model):
         store=True,
     )
 
+    account_event_id = fields.Many2one(
+        string='Evento Contábil',
+        comodel_name='account.event',
+    )
+
     @api.multi
     def button_cancel(self):
         for record in self:

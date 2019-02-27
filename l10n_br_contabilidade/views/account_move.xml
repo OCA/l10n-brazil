@@ -75,6 +75,7 @@
                             <field name="partner_id" invisible="1"/>
                             <field name="to_check" invisible="1" attrs="{'readonly':[('state','=','posted')]}" />
                             <field name="amount" invisible="1"/>
+                            <field name="account_event_id"/>
                         </group>
                         <group>
                             <field name="period_id" attrs="{'readonly':[('state','=','posted')]}" options="{'no_create': True}" invisible="True"/>
