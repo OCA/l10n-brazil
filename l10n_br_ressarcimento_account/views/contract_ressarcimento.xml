@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2018 ABGF
+<!-- Copyright 2019 ABGF
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
@@ -16,7 +16,7 @@
                 <!-- Adiciona Roteiro contábil antes Rubricas de Ressarcimento -->
                 <xpath expr="//field[@name='contract_ressarcimento_line_ids']" position="before">
                     <label for="account_event_id" string="Roteiro Contábil" invisible="1"/>
-                    <hr />
+                    <field name="account_event_id" readonly="1" invisible="1"/>
                 </xpath>
             </field>
         </record>

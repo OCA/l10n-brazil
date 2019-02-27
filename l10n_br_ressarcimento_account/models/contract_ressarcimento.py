@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-# Copyright 2018 ABGF.gov.br Luciano Veras
+# Copyright 2019 ABGF.gov.br Luciano Veras
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from datetime import date
 from openerp import api, fields, models
 
 NOME_LANCAMENTO = {
@@ -19,23 +18,6 @@ class ContractRessarcimento(models.Model):
         comodel_name='account.event',
         ondelete='restrict',
     )
-
-    # account_event_template_provisao_id = fields.Many2one(
-    #     comodel_name='account.event.template',
-    #     string='Roteiro contábil'
-    # )
-    #
-    # account_move_ids = fields.One2many(
-    #     comodel_name='account.move',
-    #     inverse_name='contract_ressarcimento_id',
-    #     string=u'Lançamentos',
-    # )
-    #
-    # account_move_provisao_ids = fields.One2many(
-    #     comodel_name='account.move',
-    #     inverse_name='contract_ressarcimento_provisionado_id',
-    #     string=u'Lançamentos',
-    # )
 
     @api.multi
     def gerar_contabilizacao_rubricas(self):
@@ -83,9 +65,8 @@ class ContractRessarcimento(models.Model):
         :return:
         """
         for record in self:
-            print record.state
             super(ContractRessarcimento, self).button_aprovar()
-            print record.state
+
             # Exclui os Lançamento Contábeis anteriors
             record.account_event_id.unlink()
 
