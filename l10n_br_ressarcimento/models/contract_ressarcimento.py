@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2018 ABGF.gov.br Hendrix Costa
+# Copyright 2019 ABGF.gov.br Luciano Veras
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from __future__ import unicode_literals, division, absolute_import, print_function
