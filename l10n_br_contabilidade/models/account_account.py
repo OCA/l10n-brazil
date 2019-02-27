@@ -57,15 +57,6 @@ class AccountAccount(models.Model):
         inverse_name='account_id',
     )
 
-    account_account_report_id = fields.Many2many(
-        string=u'Estrutura de Apresentação',
-        comodel_name='account.account.report',
-        relation='account_account_account_report_rel',
-        column1='account_report_id',
-        column2='account_account_id',
-        domain = "[('type','=',tipo_conta_apresentacao)]",
-    )
-
     report_type = fields.Selection(
         related='user_type.report_type',
         selection=[

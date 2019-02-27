@@ -48,22 +48,6 @@
                                 <field name="depara_ids"/>
                             </page>
 
-                            <!--<page string="Apresentação"-->
-                                  <!--attrs="{'invisible':['|',('report_type','=', False),('type', '!=', 'other')]}">-->
-                                <!--<separator string="Conta referente ao DRE"-->
-                                           <!--attrs="{'invisible':[('report_type', 'in', ['asset','liability'])]}"/>-->
-                                <!--<separator string="Conta referente ao Balanço Patrimonial"-->
-                                           <!--attrs="{'invisible':[('report_type', 'in', ['income','expense'])]}"/>-->
-                                <!--<group>-->
-                                    <!--<field name="account_account_report_id"-->
-                                           <!--attrs="{'required':[('type', '=', 'other')]}" nolabel="1">-->
-                                        <!--<tree>-->
-                                            <!--<field name="name"/>-->
-                                            <!--<field name="code"/>-->
-                                        <!--</tree>-->
-                                    <!--</field>-->
-                                <!--</group>-->
-                            <!--</page>-->
                             <page string="Apresentação" name="apresentacao">
                                 <group>
                                     <field name="mis_report_kpi_ids">

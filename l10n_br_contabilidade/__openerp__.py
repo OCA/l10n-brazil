@@ -31,8 +31,6 @@
         'wizards/trial_balance_wizard.xml',
         'wizards/general_ledger_wizard.xml',
         'views/account_account.xml',
-        'views/account_account_report.xml',
-        'views/account_account_report_line.xml',
         'views/account_journal.xml',
         'views/account_natureza.xml',
         'views/account_centro_custo.xml',
@@ -46,7 +44,6 @@
         'views/account_period.xml',
         'views/account_historico_padrao.xml',
         'views/account_mapeamento.xml', # TODO: Refatorar usando constas de consolidação
-        'views/account_saldo.xml',
         'views/mis_report.xml',
         'views/mis_report_instance.xml',
         'views/mis_report_kpi.xml',

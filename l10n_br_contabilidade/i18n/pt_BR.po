@@ -207,10 +207,6 @@ msgstr "Apurado"
 msgid "Apurar Resultado"
 msgstr "Apurar Resultado"
 
-#. module: l10n_br_contabilidade
-#: help:account.period,demonstracao_periodo_atual:0
-msgid "Apurar as demonstrações somente com lançamentos do período corrente. Caso não esteja marcado utilizará os lançamentos a partir do ultimo período finalizado."
-msgstr "Apurar as demonstrações somente com lançamentos do período corrente. Caso não esteja marcado utilizará os lançamentos a partir do ultimo período finalizado."
 
 #. module: l10n_br_contabilidade
 #: field:account.period,demonstracao_periodo_atual:0
@@ -340,11 +336,6 @@ msgstr "Cancelar"
 #: view:account.fechamento:l10n_br_contabilidade.l10n_br_contabilidade_account_fechamento_form
 msgid "Cancelar Fechamento"
 msgstr "Cancelar Fechamento"
-
-#. module: l10n_br_contabilidade
-#: help:account.period,demonstracao_start_periodo:0
-msgid "Caso opte pelas demonstrações iniciarem a partir do ultimo período fechado, esse campo indicará o período que se iniciará a busca por lançamentos"
-msgstr "Caso opte pelas demonstrações iniciarem a partir do ultimo período fechado, esse campo indicará o período que se iniciará a busca por lançamentos"
 
 #. module: l10n_br_contabilidade
 #: view:account.centro.custo:l10n_br_contabilidade.l10n_br_contabilidade_account_centro_custo_form
@@ -886,11 +877,6 @@ msgstr "Exemplos"
 #: field:account.period,exibir_conta_raiz:0
 msgid "Exibir Conta Raiz"
 msgstr "Exibir Conta Raiz"
-
-#. module: l10n_br_contabilidade
-#: field:account.period,detalhar_contas_superiores:0
-msgid "Exibir Contas superiores"
-msgstr "Exibir Contas superiores"
 
 #. module: l10n_br_contabilidade
 #: field:general.ledger.webkit,coluna_saldo_periodo:0

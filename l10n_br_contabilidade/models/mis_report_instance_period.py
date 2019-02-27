@@ -15,8 +15,7 @@ class MisReportInstancePeriod(models.Model):
     @api.multi
     def _get_additional_move_line_filter(self):
         self.ensure_one()
-        res = super(MisReportInstancePeriod, self
-                    )._get_additional_move_line_filter()
+        res = super(MisReportInstancePeriod, self)._get_additional_move_line_filter()
         if not self.incluir_lancamentos_de_fechamento:
             res.append(('move_id.lancamento_de_fechamento', '=', False))
         return res
