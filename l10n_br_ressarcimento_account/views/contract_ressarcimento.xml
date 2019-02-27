@@ -15,27 +15,8 @@
             <field name="arch" type="xml">
                 <!-- Adiciona Roteiro contábil antes Rubricas de Ressarcimento -->
                 <xpath expr="//field[@name='contract_ressarcimento_line_ids']" position="before">
-                    <label for="account_event_template_id" string="Roteiro Contábil"/>
-                    <field name="account_event_template_id"/>
+                    <label for="account_event_id" string="Roteiro Contábil" invisible="1"/>
                     <hr />
-                </xpath>
-                <!-- Adiciona Lançamentos feitos para esse ressarcimento após Rubricas de Ressarcimento -->
-                <xpath expr="//field[@name='contract_ressarcimento_line_ids']" position="after">
-                    <hr />
-                    <label for="account_move_ids" attrs="{'invisible':[('account_move_ids', '=', [(6, False, [])])]}" string="Lançamentos Contábeis"/>
-                    <field name="account_move_ids" attrs="{'invisible':[('account_move_ids', '=', [(6, False, [])])]}" readonly="1"/>
-                </xpath>
-                <!-- Adiciona Roteiro contábil antes Rubricas de Ressarcimento (PROVISIONADO) -->
-                <xpath expr="//field[@name='contract_ressarcimento_provisionado_line_ids']" position="before">
-                    <label for="account_event_template_provisao_id" string="Roteiro Contábil"/>
-                    <field name="account_event_template_provisao_id"/>
-                    <hr />
-                </xpath>
-                <!-- Adiciona Lançamentos feitos para esse ressarcimento após Rubricas de Ressarcimento (PROVISIONADO) -->
-                <xpath expr="//field[@name='contract_ressarcimento_provisionado_line_ids']" position="after">
-                    <hr />
-                    <label for="account_move_provisao_ids" attrs="{'invisible':[('account_move_provisao_ids', '=', [(6, False, [])])]}" string="Lançamentos Contábeis"/>
-                    <field name="account_move_provisao_ids" attrs="{'invisible':[('account_move_provisao_ids', '=', [(6, False, [])])]}" readonly="1"/>
                 </xpath>
             </field>
         </record>
