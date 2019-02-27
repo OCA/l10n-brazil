@@ -12,13 +12,19 @@
             <field name="priority">1</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button string="Reverter Evento" name="button_reverter_lancamentos" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('account_event_reversao_id', '!=', False)]}"/>
+                    </header>
                     <sheet>
                         <h2>
                             <field name="ref" />
                         </h2>
                         <group>
+                            <field name="origem" />
                             <field name="data" attrs="{'required': True}"/>
                             <field name="account_event_template_id"/>
+                            <field name="account_event_reversao_id" attrs="{'invisible': [('account_event_reversao_id', '=', False)]}"/>
                         </group>
 
                         <notebook>
