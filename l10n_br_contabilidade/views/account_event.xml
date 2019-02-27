@@ -15,6 +15,11 @@
                     <header>
                         <button string="Reverter Evento" name="button_reverter_lancamentos" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('account_event_reversao_id', '!=', False)]}"/>
+                        <button string="Validar" name="validar_evento" states="open" type="object" class="oe_highlight"/>
+                        <button string="Gerar Lançamentos" name="gerar_contabilizacao" states="validate" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="open,validate,done,reversed"
+                               statusbar_colors="{'open':'blue','validate':'blue','done':'blue', 'reversed':'reversed'}"/>
                     </header>
                     <sheet>
                         <h2>
@@ -38,11 +43,22 @@
                                     </tree>
                                 </field>
                             </page>
-
-                            <page string="Lançamentos Contábeis">
-                                <field name="account_move_ids" nolabel="1" />
+                            <page string="Lançamentos">
+                                <field name="account_move_ids" nolabel="1">
+                                    <tree colors="blue:state == 'draft';red:state == 'validacao_criacao';black:state == 'posted'" string="Journal Entries">
+                                        <field name="sequencia"/>
+                                        <field name="date"/>
+                                        <field name="resumo" string="Histórico"/>
+                                        <field name="ref"/>
+                                        <field name="period_id" invisible="1"/>
+                                        <field name="journal_id" invisible="1" string="Lote"/>
+                                        <field name="partner_id" invisible="1"/>
+                                        <field name="amount" sum="Total Amount"/>
+                                        <field name="to_check" invisible="1"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
                             </page>
-
                         </notebook>
                     </sheet>
                 </form>

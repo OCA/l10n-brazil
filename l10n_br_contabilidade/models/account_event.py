@@ -13,6 +13,17 @@ MODELS = [
 class AccountEvent(models.Model):
     _name = 'account.event'
 
+    state = fields.Selection(
+        string='State',
+        selection=[
+            ('open', 'Aberto'),
+            ('validate', 'Validado'),
+            ('done', 'Contabilizado'),
+            ('reversed', 'Revertido'),
+        ],
+        default='open',
+    )
+
     account_event_line_ids = fields.One2many(
         string='Event Lines',
         comodel_name='account.event.line',
@@ -48,7 +59,7 @@ class AccountEvent(models.Model):
     )
 
     account_move_ids = fields.One2many(
-        string='Roteiro Contábil',
+        string=u'Lançamentos',
         comodel_name='account.move',
         inverse_name='account_event_id',
     )
@@ -58,8 +69,9 @@ class AccountEvent(models.Model):
         """
         """
         for record in self:
-            if record.ref and record.origem and record.origem.name:
-                record.name = '{} {}'.format(record.ref, record.origem.name)
+            if record.ref or record.origem and record.origem.name:
+                record.name = '{} {}'.format(
+                    record.ref or '', record.origem.name or '')
 
     def gerar_eventos(self, lines):
         """
@@ -128,3 +140,68 @@ class AccountEvent(models.Model):
                         'move_id': account_move_reversao.id,
                         'name': description,
                     })
+
+            record.state = 'reversed'
+
+    def criar_lancamentos(self, vals):
+        """
+        :param vals:
+        :return:
+        """
+        account_move_ids = self.env['account.move']
+        for lancamento in vals:
+            account_move_ids += account_move_ids.create(lancamento)
+        return account_move_ids
+
+    def _preparar_dados(self):
+        dados = {}
+
+        dados['ref'] = self.ref
+        dados['data'] = self.data
+
+        period = self.env['account.period']
+        dados['period_id'] = period.find(self.data).id
+        dados['lines'] = []
+
+        for line in self.account_event_line_ids:
+            dados['lines'].append(
+                {
+                    'code': line.code,
+                    'name': line.name,
+                    'description': line.description,
+                    'valor': line.valor,
+                }
+            )
+
+        return dados
+
+    @api.multi
+    def gerar_contabilizacao(self):
+        """
+        Rotina principal:
+        """
+        for record in self:
+            dados = record._preparar_dados()
+
+            record.account_event_template_id.validar_dados(dados)
+
+            account_move_ids = \
+                record.account_event_template_id.preparar_dados_lancamentos(
+                    dados)
+
+            account_move_ids = record.criar_lancamentos(account_move_ids)
+
+            record.account_move_ids = account_move_ids
+
+            record.state = 'done'
+
+    @api.multi
+    def validar_evento(self):
+        for record in self:
+            record.state = 'validate'
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            record.account_move_ids.unlink()
+            return super(AccountEvent, record).unlink()
