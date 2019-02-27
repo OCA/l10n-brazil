@@ -44,6 +44,11 @@ class AccountMove(models.Model):
         string='Fechamnto relacionado',
     )
 
+    account_event_id = fields.Many2one(
+        string='Evento Contábil',
+        comodel_name='account.event',
+    )
+
     historico_padrao_id = fields.Many2one(
         comodel_name='account.historico.padrao',
         string=u'Modelo do Histórico Padrão',

@@ -37,6 +37,11 @@ class AccountEvent(models.Model):
         comodel_name='account.event.template',
     )
 
+    account_move_ids = fields.One2many(
+        string='Roteiro Contábil',
+        comodel_name='account.move',
+        inverse_name='account_event_id',
+    )
     def gerar_eventos(self, lines):
         """
         [{      # CAMPO CODE E VALOR OBRIGATORIO

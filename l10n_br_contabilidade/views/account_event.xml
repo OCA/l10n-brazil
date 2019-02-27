@@ -32,6 +32,11 @@
                                     </tree>
                                 </field>
                             </page>
+
+                            <page string="Lançamentos Contábeis">
+                                <field name="account_move_ids" nolabel="1" />
+                            </page>
+
                         </notebook>
                     </sheet>
                 </form>
