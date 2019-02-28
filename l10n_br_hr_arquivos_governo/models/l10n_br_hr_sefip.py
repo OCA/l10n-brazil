@@ -1264,6 +1264,11 @@ class L10nBrSefip(models.Model):
             result +=  base_fgts if base_fgts > 0 else 0
             result += self._valor_rubrica(folha.line_ids, "BASE_FGTS_FERIAS")
 
+            # Adiantamento de 13 vai em rubrica separada pro SEFIP
+            # Como compoe a rubrica de BASE_FGTS, diminuir a de ADIANTAMENTO
+            result -= \
+                self._valor_rubrica(folha.line_ids, "ADIANTAMENTO_13_FERIAS")
+
         # Para Autonomos pegar as rubricas da categoria de Provento
         # Essa intervenção é temporária enquanto o calculo do RPA de autonomos
         # nao é automatizado e nao contem uma estrutura de salario
