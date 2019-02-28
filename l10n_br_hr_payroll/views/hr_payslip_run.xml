@@ -105,7 +105,15 @@
                             <separator string="Contratos"/>
                             <field name="contract_id"/>
                             <separator string="Payslips"/>
-                            <field name="slip_ids"/>
+                            <field name="slip_ids">
+                                <tree>
+                                    <field name="number" />
+                                    <field name="employee_id" />
+                                    <field name="data_mes_ano" />
+                                    <field name="total_folha" />
+                                    <field name="state" />
+                                </tree>
+                            </field>
                         </page>
 
                         <page string="Rescisões" attrs="{'invisible': [('payslip_rescisao_ids', '=', [])]}">
