@@ -14,7 +14,6 @@
                 <form>
                     <group>
                         <field name="name"  attrs="{'required': True}"/>
-                        <field name="lote_lancamento_id" attrs="{'required': True}"/>
                         <field name="account_formula" groups="base.group_no_one"/>
                     </group>
                     <separator string="Partidas"/>
