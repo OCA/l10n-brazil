@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import Warning
 
 MODELS = [
     ('hr.salary.rule', 'Rúbricas Holerite'),
@@ -198,6 +199,8 @@ class AccountEvent(models.Model):
     @api.multi
     def validar_evento(self):
         for record in self:
+            if not record.account_event_template_id:
+                raise Warning(u'Por favor selecionar Roteiro Contábil.')
             record.state = 'validate'
 
     @api.multi
