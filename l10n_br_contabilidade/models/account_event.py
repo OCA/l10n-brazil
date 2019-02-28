@@ -208,3 +208,19 @@ class AccountEvent(models.Model):
         for record in self:
             record.account_move_ids.unlink()
             return super(AccountEvent, record).unlink()
+
+    @api.multi
+    def postar_lancamentos(self):
+        for record in self:
+            for move in record.account_move_ids:
+                move.post()
+
+    @api.multi
+    def retornar_aberto(self):
+        for record in self:
+            for move in record.account_move_ids:
+                move.button_return()
+
+            record.account_move_ids.unlink()
+
+            record.state = 'open'

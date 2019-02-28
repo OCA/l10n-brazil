@@ -17,6 +17,8 @@
                                 attrs="{'invisible': ['|', ('account_event_reversao_id', '!=', False), ('state', '!=', 'done')]}"/>
                         <button string="Validar" name="validar_evento" states="open" type="object" class="oe_highlight"/>
                         <button string="Gerar Lançamentos" name="gerar_contabilizacao" states="validate" type="object" class="oe_highlight"/>
+                        <button string="Postar Lançamentos" name="postar_lancamentos" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('account_move_ids', '=', False), ('state', '!=', 'done')]}"/>
+                        <button string="Voltar para início" name="retornar_aberto" states="done" type="object" class="oe_highlight"/>
                         <field name="state" widget="statusbar"
                                statusbar_visible="open,validate,done,reversed"
                                statusbar_colors="{'open':'blue','validate':'blue','done':'blue', 'reversed':'reversed'}"/>
