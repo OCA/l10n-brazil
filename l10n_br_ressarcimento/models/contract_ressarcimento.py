@@ -14,6 +14,10 @@ class ContractRessarcimento(models.Model):
     _description = 'Ressarcimentos de outros Vínculos do Contrato'
     _order = "account_period_id DESC"
 
+    name = fields.Char(
+        string='Nome',
+    )
+
     state = fields.Selection(
         selection=[
             ('aberto', 'Aberto'),
@@ -87,6 +91,15 @@ class ContractRessarcimento(models.Model):
         comodel_name='res.users',
     )
 
+    @api.model
+    def create(self, vals):
+        vals['name'] = '{} - {}'.format(
+            self.contract_id.browse(vals.get('contract_id')).name,
+            self.account_period_provisao_id.browse(
+                vals.get('account_period_provisao_id')).name)
+
+        return super(ContractRessarcimento, self).create(vals)
+
     @api.onchange('valor_provisionado')
     def _onchange_valor_provisionado(self):
         """
@@ -121,6 +134,7 @@ class ContractRessarcimento(models.Model):
             name = 'Ressarcimento {} [{}]'.format(
                 record.contract_id.employee_id.name,
                 record.account_period_id.name
+                or record.account_period_provisao_id
             )
             result.append((record['id'], name))
         return result
@@ -208,6 +222,10 @@ class ContractRessarcimentoLine(models.Model):
     _description = 'Linhas dos Ressarcimentos de outros Vínculos'
     _order = 'descricao'
 
+    name = fields.Char(
+        string='Name',
+    )
+
     contract_ressarcimento_id = fields.Many2one(
         comodel_name='contract.ressarcimento',
         string='Ressarcimento do Contratro',
@@ -226,3 +244,13 @@ class ContractRessarcimentoLine(models.Model):
         string=u"Valor",
     )
 
+    @api.model
+    def create(self, vals):
+        vals['name'] = '{} - {}'.format(
+            self.contract_ressarcimento_id.browse(
+                vals.get('contract_ressarcimento_id')).name or
+            self.contract_ressarcimento_provisionado_id.browse(
+                vals.get('contract_ressarcimento_provisionado_id')).name,
+            vals.get('descricao'))
+
+        return super(ContractRessarcimentoLine, self).create(vals)
