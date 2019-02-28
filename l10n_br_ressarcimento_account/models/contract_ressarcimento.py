@@ -5,8 +5,8 @@
 from openerp import api, fields, models
 
 NOME_LANCAMENTO = {
-    'provisionado': u'Ressarcimento(Provisão)',
-    'aprovado': u'Ressarcimento',
+    'provisionado': u'Ressarcimento(Provisão) - ',
+    'aprovado': u'Ressarcimento - ',
 }
 
 
@@ -67,6 +67,7 @@ class ContractRessarcimento(models.Model):
         :return:
         """
         for record in self:
+            # Altera o state do Ressarcimento antes de gerar o evento contábil
             super(ContractRessarcimento, self).button_aprovar()
 
             # Exclui os Lançamento Contábeis anteriors
@@ -75,13 +76,11 @@ class ContractRessarcimento(models.Model):
             rubricas_para_contabilizar = self.gerar_contabilizacao_rubricas()
 
             account_event = {
-                'ref': '{} - {} - {}'.format(
-                    NOME_LANCAMENTO.get(record.state),
-                    record.account_period_id.name
-                    or record.account_period_provisao_id.name,
-                    record.contract_id.employee_id.name),
-                # 'data': record.date_from,
+                'ref': NOME_LANCAMENTO.get(record.state),
+                'data': record.date_provisao if record.state == 'provisionado'
+                else record.date_ressarcimento,
                 'account_event_line_ids': rubricas_para_contabilizar,
+                'origem': '{},{}'.format('contract.ressarcimento', record.id),
             }
 
             record.account_event_id = \

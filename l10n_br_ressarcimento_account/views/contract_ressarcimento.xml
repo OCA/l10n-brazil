@@ -15,8 +15,8 @@
             <field name="arch" type="xml">
                 <!-- Adiciona Roteiro contábil antes Rubricas de Ressarcimento -->
                 <xpath expr="//field[@name='contract_ressarcimento_line_ids']" position="before">
-                    <label for="account_event_id" string="Roteiro Contábil" invisible="1"/>
-                    <field name="account_event_id" readonly="1" invisible="1"/>
+                    <label for="account_event_id" string="Roteiro Contábil" invisible="0"/>
+                    <field name="account_event_id" readonly="1" invisible="0"/>
                 </xpath>
             </field>
         </record>
