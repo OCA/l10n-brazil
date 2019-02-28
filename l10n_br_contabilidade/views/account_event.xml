@@ -17,11 +17,11 @@
                                 attrs="{'invisible': ['|', ('account_event_reversao_id', '!=', False), ('state', '!=', 'done')]}"/>
                         <button string="Validar" name="validar_evento" states="open" type="object" class="oe_highlight"/>
                         <button string="Gerar Lançamentos" name="gerar_contabilizacao" states="validate" type="object" class="oe_highlight"/>
-                        <button string="Postar Lançamentos" name="postar_lancamentos" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('account_move_ids', '=', False), ('state', '!=', 'done')]}"/>
+                        <button string="Postar Lançamentos" name="postar_lancamentos" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('account_move_ids', '=', False), ('state', '!=', 'generated')]}"/>
                         <button string="Voltar para início" name="retornar_aberto" states="done" type="object" class="oe_highlight"/>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="open,validate,done,reversed"
-                               statusbar_colors="{'open':'blue','validate':'blue','done':'blue', 'reversed':'reversed'}"/>
+                               statusbar_visible="open,validate,generated,done,reversed"
+                               statusbar_colors="{'open':'blue','validate':'blue','generated':'blue','done':'blue', 'reversed':'reversed'}"/>
                     </header>
                     <sheet>
                         <h2>
@@ -46,7 +46,7 @@
                                 </field>
                             </page>
                             <page string="Lançamentos">
-                                <field name="account_move_ids" nolabel="1">
+                                <field name="account_move_ids" readonly="1" nolabel="1" context="{'form_view_ref': 'l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form'}">
                                     <tree colors="blue:state == 'draft';red:state == 'validacao_criacao';black:state == 'posted'" string="Journal Entries">
                                         <field name="sequencia"/>
                                         <field name="date"/>
@@ -76,6 +76,7 @@
                     <field name="ref"/>
                     <field name="data"/>
                     <field name="account_event_template_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>

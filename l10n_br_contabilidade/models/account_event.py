@@ -19,6 +19,7 @@ class AccountEvent(models.Model):
         selection=[
             ('open', 'Aberto'),
             ('validate', 'Validado'),
+            ('generated', 'Lançamentos Gerados'),
             ('done', 'Contabilizado'),
             ('reversed', 'Revertido'),
         ],
@@ -194,7 +195,7 @@ class AccountEvent(models.Model):
 
             record.account_move_ids = account_move_ids
 
-            record.state = 'done'
+            record.state = 'generated'
 
     @api.multi
     def validar_evento(self):
@@ -214,6 +215,8 @@ class AccountEvent(models.Model):
         for record in self:
             for move in record.account_move_ids:
                 move.post()
+
+            record.state = 'done'
 
     @api.multi
     def retornar_aberto(self):
