@@ -99,9 +99,8 @@ class AccountTax(models.Model):
         } """
         precision = currency.decimal_places or \
             self.env['decimal.precision'].precision_get('Account')
-        result = super(AccountTax, self).compute_all(price_unit, currency,
-                                                     quantity, product,
-                                                     partner)
+        result = super(AccountTax, self).compute_all(
+            price_unit, currency, quantity, product, partner)
         totaldc = icms_value = 0.0
         ipi_value = 0.0
         calculed_taxes = []
@@ -183,8 +182,9 @@ class AccountTax(models.Model):
             precision,
             base_tax)
 
-        if (specific_icms_inter and fiscal_position and
+        if (specific_icms and specific_icms_inter and fiscal_position and
                 partner.partner_fiscal_type_id.ind_ie_dest == '9'):
+
             if fiscal_position.cfop_id.id_dest == '2':
 
                 # Calcula o DIFAL total
@@ -198,30 +198,27 @@ class AccountTax(models.Model):
                     specific_icms[0]['percent']
 
                 # Procura o percentual de partilha vigente
-                icms_partition_ids = self.pool.get(
-                    'l10n_br_tax.icms_partition').search(
+                icms_partition_id = self.env[
+                    'l10n_br_tax.icms_partition'].search(
                         [('date_start', '<=',
                           time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
                          ('date_end', '>=',
                           time.strftime(DEFAULT_SERVER_DATE_FORMAT))])
 
                 # Calcula o difal de origin e destino
-                if icms_partition_ids:
-                    icms_partition = self.pool.get(
-                        'l10n_br_tax.icms_partition').browse(
-                            icms_partition_ids[0])
+                if icms_partition_id:
                     result_icms_inter['taxes'][0]['icms_part_percent'] = \
-                        icms_partition.rate / 100
+                        icms_partition_id.rate / 100
 
                     result_icms_inter['taxes'][0]['icms_dest_value'] = \
                         round(
                             result_icms_inter['taxes'][0]['amount'] *
-                            (icms_partition.rate / 100),
+                            (icms_partition_id.rate / 100),
                             precision)
                     result_icms_inter['taxes'][0]['icms_origin_value'] = \
                         round(
                             result_icms_inter['taxes'][0]['amount'] *
-                            ((100 - icms_partition.rate) / 100),
+                            ((100 - icms_partition_id.rate) / 100),
                             precision)
 
                 # Atualiza o imposto icmsinter
