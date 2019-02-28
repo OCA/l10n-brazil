@@ -29,6 +29,14 @@ class ContractRessarcimento(models.Model):
         default='aberto',
     )
 
+    date_ressarcimento = fields.Date(
+         string='Data do Ressarcimento',
+    )
+
+    date_provisao = fields.Date(
+         string='Data da Provisão',
+    )
+
     contract_id = fields.Many2one(
         comodel_name="hr.contract",
         string="Contrato",
@@ -51,12 +59,6 @@ class ContractRessarcimento(models.Model):
         inverse_name='contract_ressarcimento_provisionado_id',
         comodel_name='contract.ressarcimento.line',
         string='Ressarcimento do Contratro (provisionado)',
-    )
-
-    account_period_provisao_id = fields.Many2one(
-        comodel_name='account.period',
-        string='Competência da provisão',
-        domain="[('special', '=', False), ('state', '=', 'draft')]",
     )
 
     account_period_id = fields.Many2one(
@@ -93,10 +95,11 @@ class ContractRessarcimento(models.Model):
 
     @api.model
     def create(self, vals):
+        # name = "nome contrato" - "competencia"
         vals['name'] = '{} - {}'.format(
             self.contract_id.browse(vals.get('contract_id')).name,
-            self.account_period_provisao_id.browse(
-                vals.get('account_period_provisao_id')).name)
+            self.account_period_id.browse(
+                vals.get('account_period_id')).name)
 
         return super(ContractRessarcimento, self).create(vals)
 
@@ -110,22 +113,23 @@ class ContractRessarcimento(models.Model):
         """
         if self.state == 'aberto':
             if self.valor_provisionado:
-                self.account_period_id = False
+                self.date_ressarcimento = False
                 self.contract_ressarcimento_line_ids = False
             else:
-                self.account_period_provisao_id = False
+                self.date_provisao = False
                 self.contract_ressarcimento_provisionado_line_ids = False
 
     @api.multi
     @api.depends('contract_ressarcimento_line_ids')
     def compute_total_ressarcimento(self):
+        # somatorio das rubricas de ressarcimento e provisão, separadamente.
         for record in self:
             record.total = sum(
                 record.contract_ressarcimento_line_ids.mapped('total'))
 
             record.total_provisionado = sum(
-                record.contract_ressarcimento_provisionado_line_ids
-                    .mapped('total'))
+                record.contract_ressarcimento_provisionado_line_ids.mapped(
+                    'total'))
 
     @api.multi
     def name_get(self):
@@ -134,7 +138,6 @@ class ContractRessarcimento(models.Model):
             name = 'Ressarcimento {} [{}]'.format(
                 record.contract_id.employee_id.name,
                 record.account_period_id.name
-                or record.account_period_provisao_id
             )
             result.append((record['id'], name))
         return result
@@ -155,7 +158,9 @@ class ContractRessarcimento(models.Model):
         """
         for record in self:
             record.aprovado_por = self.env.user.id
-            if record.valor_provisionado and not record.account_period_id:
+            # Valor provisionado TRUE e não definido data do ressarcimento
+            # A aprovação é para a provisão, se não aprova o ressarcimento
+            if record.valor_provisionado and not record.date_ressarcimento:
                 record.state = 'provisionado'
             else:
                 record.state = 'aprovado'
@@ -169,7 +174,7 @@ class ContractRessarcimento(models.Model):
         """
         for record in self:
             record.aprovado_por = False
-            if record.valor_provisionado and not record.account_period_id:
+            if record.valor_provisionado and not record.date_ressarcimento:
                 record.state = 'provisionado'
                 record.send_mail(situacao='reprovado', reprovado=True)
             else:
@@ -198,7 +203,7 @@ class ContractRessarcimento(models.Model):
             'email_template_contract_ressarcimento_{}'.format(situacao)
 
         # template para valor provisionado
-        if self.valor_provisionado and not self.account_period_id \
+        if self.valor_provisionado and not self.date_ressarcimento \
                 and not reprovado:
             template_name = template_name + 'p'
 

@@ -17,6 +17,7 @@
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                     <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
                     <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>
+                    <p>Data do Ressarcimento: <strong>${object.date_ressarcimento.split('-')[2]+'/'+object.date_ressarcimento.split('-')[1]+'/'+object.date_ressarcimento.split('-')[0] or ''}</strong></p>
                     <p>Valor total do Ressarcimento: <strong> R$ ${"%.2f" % object.total} </strong></p>
                     <p></p>
                 </p>
@@ -36,10 +37,11 @@
                     </tr>
                 % endfor
             </table>
-            %if object.account_period_provisao_id.name:
+            %if object.date_provisao:
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                     <p><strong> PROVISIONAMENTO: </strong></p>
-                    <p>Competência do provisionamento: <strong> ${object.account_period_provisao_id.name} </strong></p>
+                    <p>Competência: <strong> ${object.account_period_id.name} </strong></p>
+                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''} </strong></p>
                     <p>Valor total do Ressarcimento provisionado: <strong> R$ ${"%.2f" % object.total_provisionado} </strong></p>
                     <p></p>
                 </p>
@@ -64,10 +66,10 @@
 
         <!-- Template de Email quando um ressarcimento está PARA APROVAÇÃO (PROVISIONAMENTO) -->
         <record id="email_template_contract_ressarcimento_confirmadop" model="email.template">
-            <field name="name"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} - competência ${object.account_period_provisao_id.name} ]]></field>
+            <field name="name"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} - competência ${object.account_period_id.name} ]]></field>
             <field name="email_from"><![CDATA[${user.name} <${user.email|safe}>]]></field>
             <field name="email_to"><![CDATA[]]></field>
-            <field name="subject"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência (provisão) ${object.account_period_provisao_id.name} ]]></field>
+            <field name="subject"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
             <field name="body_html"><![CDATA[
@@ -76,7 +78,8 @@
 
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                     <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
-                    <p>Competência: <strong> ${object.account_period_provisao_id.name}  </strong></p>
+                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>
+                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''}  </strong></p>
                     <p>Valor total do Ressarcimento (provisionado): <strong> R$ ${"%.2f" % object.total_provisionado} </strong></p>
                     <p></p>
                 </p>
@@ -114,6 +117,7 @@
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                     <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
                     <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>
+                    <p>Data do Ressarcimento: <strong>${object.date_ressarcimento.split('-')[2]+'/'+object.date_ressarcimento.split('-')[1]+'/'+object.date_ressarcimento.split('-')[0] or ''}</strong></p>
                     <p>Valor total do Ressarcimento: <strong> ${"%.2f" % object.total} </strong></p>
                 </p>
             </div>
@@ -133,10 +137,11 @@
                 % endfor
             </table>
 
-            %if object.account_period_provisao_id.name:
+            %if object.date_provisao:
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                     <p><strong> PROVISIONAMENTO: </strong></p>
-                    <p>Competência do provisionamento: <strong> ${object.account_period_provisao_id.name} </strong></p>
+                    <p>Competência da provisão: <strong> ${object.account_period_id.name} </strong></p>
+                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''} </strong></p>
                     <p>Valor total do Ressarcimento provisionado: <strong> R$ ${"%.2f" % object.total_provisionado} </strong></p>
                     <p></p>
                 </p>
@@ -161,10 +166,10 @@
 
         <!-- Template de Email quando o Ressarcimento for APROVADO (PROVISIONAMENTO) -->
         <record id="email_template_contract_ressarcimento_aprovadop" model="email.template">
-            <field name="name"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência (provisão) ${object.account_period_provisao_id.name} ]]></field>
+            <field name="name"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} ]]></field>
             <field name="email_from"><![CDATA[${object.aprovado_por.name} <${(object.aprovado_por.login or user.email)|safe}>]]></field>
             <field name="email_to"><![CDATA[]]></field>
-            <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} - competência (provisão) ${object.account_period_provisao_id.name} - Aprovado ]]></field>
+            <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} - Aprovado ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
             <field name="body_html"><![CDATA[
@@ -173,7 +178,8 @@
 
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                     <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
-                    <p>Competência: <strong> ${object.account_period_provisao_id.name}  </strong></p>
+                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>
+                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''}  </strong></p>
                     <p>Valor total do Ressarcimento: <strong> ${"%.2f" % object.total_provisionado} </strong></p>
                 </p>
 
@@ -198,10 +204,10 @@
 
         <!-- Template de Email quando o Ressarcimento for REPROVADO -->
         <record id="email_template_contract_ressarcimento_reprovado" model="email.template">
-            <field name="name"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência ${object.account_period_id.name or object.account_period_provisao_id.name} - Reprovado ]]></field>
+            <field name="name"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado ]]></field>
             <field name="email_from"><![CDATA[${object.aprovado_por.name} <${(object.aprovado_por.login or user.email)|safe}>]]></field>
             <field name="email_to"><![CDATA[]]></field>
-            <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name or object.account_period_provisao_id.name} - Reprovado ]]></field>
+            <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
             <field name="body_html"><![CDATA[
@@ -210,7 +216,7 @@
 
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                     <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
-                    <p>Competência: <strong> ${object.account_period_id.name or object.account_period_provisao_id.name}  </strong></p>
+                    <p>Competência da provisão: <strong> ${object.account_period_id.name or object.account_period_id.name}  </strong></p>
                     <p>Valor total do Ressarcimento: <strong> ${"%.2f" % object.total} </strong></p>
                 </p>
             </div>

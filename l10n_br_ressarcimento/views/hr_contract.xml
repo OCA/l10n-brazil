@@ -19,7 +19,6 @@
                         <tree colors="darkgoldenrod:state == 'provisionado';darkgreen:state == 'aprovado'">
                             <field name="account_period_id" />
                             <field name="total" />
-                            <field name="account_period_provisao_id" />
                             <field name="total_provisionado" />
                             <field name="aprovado_por" />
                             <field name="state" />
