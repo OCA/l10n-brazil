@@ -665,8 +665,10 @@ class AccountInvoiceLine(models.Model):
                     self.product_id.standard_price, taxes, fp_taxes)
                 self._set_currency()
         else:
+            if not self.price_unit or self.price_unit == 0.0:
+                self.price_unit = self.product_id.lst_price
             self.price_unit = fix_price(
-                self.product_id.lst_price, taxes, fp_taxes)
+                self.price_unit, taxes, fp_taxes)
             self._set_currency()
 
         self.icms_cst_id = tax_codes.get('icms')
