@@ -46,14 +46,16 @@ class ContractRessarcimento(models.Model):
         # Roda as Rubricas e Cria os lançamentos contábeis
         for record in self:
             # se state = provisionado, pega as linhas do valor provisionado
-            line_ids = 'contract_ressarcimento_provisionado_line_ids' \
+            comp, line_ids = ('Ressarcimento(provisão)',
+                              'contract_ressarcimento_provisionado_line_ids') \
                 if record.state == 'provisionado' \
-                else 'contract_ressarcimento_line_ids'
+                else ('Ressarcimento', 'contract_ressarcimento_line_ids')
 
             for line in eval('record.'+line_ids):
                 contabilizacao_rubricas.append((0, 0, {
                     'code': line.descricao,
                     'valor': line.total,
+                    'name': '{} - {}'.format(comp, line.name)
                 }))
 
         return contabilizacao_rubricas
@@ -75,7 +77,8 @@ class ContractRessarcimento(models.Model):
             account_event = {
                 'ref': '{} - {} - {}'.format(
                     NOME_LANCAMENTO.get(record.state),
-                    record.account_period_id.name,
+                    record.account_period_id.name
+                    or record.account_period_provisao_id.name,
                     record.contract_id.employee_id.name),
                 # 'data': record.date_from,
                 'account_event_line_ids': rubricas_para_contabilizar,
@@ -83,5 +86,3 @@ class ContractRessarcimento(models.Model):
 
             record.account_event_id = \
                 self.env['account.event'].create(account_event)
-
-
