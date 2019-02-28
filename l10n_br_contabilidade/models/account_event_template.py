@@ -168,7 +168,7 @@ class AccountEventTemplate(models.Model):
 
             account_move_id = {
                 'ref': dados.get('ref'),
-                'journal_id': self.lote_lancamento_id.id,
+                'journal_id': account_template_line_id.account_journal_id.id,
                 'narration': historico_padrao,
                 'resumo': historico_padrao,
                 'date': dados.get('data'),

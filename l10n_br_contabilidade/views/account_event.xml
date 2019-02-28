@@ -14,7 +14,7 @@
                 <form>
                     <header>
                         <button string="Reverter Evento" name="button_reverter_lancamentos" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('account_event_reversao_id', '!=', False)]}"/>
+                                attrs="{'invisible': ['|', ('account_event_reversao_id', '!=', False), ('state', '!=', 'done')]}"/>
                         <button string="Validar" name="validar_evento" states="open" type="object" class="oe_highlight"/>
                         <button string="Gerar Lançamentos" name="gerar_contabilizacao" states="validate" type="object" class="oe_highlight"/>
                         <field name="state" widget="statusbar"

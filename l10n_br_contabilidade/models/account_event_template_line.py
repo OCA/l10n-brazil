@@ -45,6 +45,11 @@ class AccountEventTemplateLine(models.Model):
         string='Histórico Padrão'
     )
 
+    account_journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        string=u'Lote de Lançamentos',
+    )
+
     def validar_identificacao_partida(self):
         if self.res_id and self.codigo:
             raise Warning(
@@ -74,3 +79,15 @@ class AccountEventTemplateLine(models.Model):
     #     res = super(AccountEventTemplateLine, self).write(vals)
     #     self.validar_partida()
     #     return res
+
+    @api.onchange('account_journal_id')
+    def set_journal_defaults(self):
+        self.account_debito_id = \
+            self.account_journal_id.default_debit_account_id.id if \
+            self.account_journal_id.default_debit_account_id else False
+        self.account_credito_id = \
+            self.account_journal_id.default_credit_account_id.id if \
+            self.account_journal_id.default_credit_account_id else False
+        self.account_historico_padrao_id = \
+            self.account_journal_id.template_historico_padrao_id.id if \
+            self.account_journal_id.template_historico_padrao_id else False
