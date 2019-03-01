@@ -6,7 +6,7 @@
 from __future__ import unicode_literals, division, absolute_import, print_function
 
 
-from openerp import api, fields, models, exceptions, _
+from openerp import api, fields, models, _
 
 
 class ContractRessarcimento(models.Model):
@@ -212,11 +212,6 @@ class ContractRessarcimento(models.Model):
             val.update(partner_ids=partner_ids)
             val.update(email_to=email_to)
 
-            # adiciona anexos
-            if situacao == 'aprovado':
-                attachments = self._get_attachments()
-                val.update(attachment_ids=[(6, 0, attachments.ids)])
-
         return val
 
     @api.multi
@@ -231,26 +226,6 @@ class ContractRessarcimento(models.Model):
         val = self.prepara_mail(situacao=situacao)
         mail_id = mail_obj.create(val)
         mail_obj.send(mail_id)
-
-    def _get_attachments(self):
-        """
-        Pega o anexo do protocolo, contendo a GRU do ressarcimento.
-        :return:
-        """
-        for record in self:
-            attachment_ids = record.protocol_id.mapped(
-                'protocol_line').mapped('attachment_ids').mapped('id')
-
-            domain = ['|',
-                      '&', ('res_model', '=', 'document.protocol'),
-                      ('res_id', 'in', record.protocol_id.ids),
-                      '&', ('res_model', '=', 'document.protocol.line'),
-                      ('id', 'in', attachment_ids)]
-
-            attach_obj = self.env['ir.attachment']
-            attachment_ids = attach_obj.search(domain)
-
-            return attachment_ids
 
 
 class ContractRessarcimentoLine(models.Model):
