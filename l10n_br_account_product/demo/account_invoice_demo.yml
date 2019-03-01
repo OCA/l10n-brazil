@@ -14,4 +14,4 @@
         price_unit: 100.0
         quantity: 10
         uom_id: product.product_uom_unit
-        account_id: l10n_br_generic.1_account_template_3010101010200
+        account_id: 1_account_template_3010101010200_avoid_travis_error
