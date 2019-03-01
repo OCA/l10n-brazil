@@ -166,10 +166,13 @@ class ContractRessarcimento(models.Model):
         for record in self:
             record.send_mail(situacao='confirmado')
             if record.state == 'aberto':
-                record.enviado_por = self.env.user.id
+                if record.valor_provisionado and not record.date_ressarcimento:
+                    record.provisao_enviado_por = self.env.user.id
+                else:
+                    record.enviado_por = self.env.user.id
 
             elif record.state == 'provisionado':
-                record.provisao_enviado_por = self.env.user.id
+                record.enviado_por = self.env.user.id
 
             record.state = 'confirmado'
 
@@ -179,7 +182,6 @@ class ContractRessarcimento(models.Model):
         Aprovação
         """
         for record in self:
-            record.aprovado_por = self.env.user.id
             # Valor provisionado TRUE e não definido data do ressarcimento
             # A aprovação é para a provisão, se não aprova o ressarcimento
             if record.valor_provisionado and not record.date_ressarcimento:
@@ -197,13 +199,20 @@ class ContractRessarcimento(models.Model):
         Reporvar
         """
         for record in self:
-            record.aprovado_por = False
-            if record.valor_provisionado and not record.date_ressarcimento:
+            if record.valor_provisionado is False\
+                    or (record.valor_provisionado
+                        and not record.date_ressarcimento):
                 record.state = 'aberto'
-                record.send_mail(situacao='reprovado', reprovado=True)
-            else:
+                record.aprovado_por = False
+                record.enviado_por = False
+                record.provisao_aprovado_por = False
+                record.provisao_enviado_por = False
+            elif record.valor_provisionado and record.date_ressarcimento:
                 record.state = 'provisionado'
-                record.send_mail(situacao='reprovado', reprovado=True)
+                record.aprovado_por = False
+                record.enviado_por = False
+
+            record.send_mail(situacao='reprovado')
 
     @api.multi
     def button_send_mail(self):
@@ -218,8 +227,7 @@ class ContractRessarcimento(models.Model):
             'email_template_contract_ressarcimento_{}'.format(situacao)
 
         # template para valor provisionado
-        if self.valor_provisionado and not self.date_ressarcimento \
-                and situacao is not 'reprovado':
+        if self.valor_provisionado and not self.date_ressarcimento:
             template_name = template_name + 'p'
 
         template = self.env.ref(template_name, False)
