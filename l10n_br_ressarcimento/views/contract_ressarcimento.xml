@@ -71,6 +71,7 @@
             <field name="model">contract.ressarcimento</field>
             <field name="arch" type="xml">
                 <tree string="Ressarcimento de Contrato">
+                    <field name="contract_id"/>
                     <field name="account_period_id"/>
                     <field name="total"/>
                     <field name="total_provisionado" />
