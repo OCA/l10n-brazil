@@ -26,6 +26,7 @@ from . import res_partner
 from . import mis_report_instance
 from . import mis_builder_report_xls
 from . import ir_attachment
+from . import mis_report_instance_period
 from . import account_event
 from . import account_event_line
 from . import account_event_template_line
