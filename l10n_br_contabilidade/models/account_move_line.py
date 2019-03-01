@@ -8,6 +8,7 @@ from openerp.exceptions import Warning
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
+    _order = 'debit DESC'
 
     name = fields.Char(
         required='False',
