@@ -71,7 +71,7 @@
             <field name="model">account.event</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree colors="blue:state == 'done';red:state == 'reversed';">
                     <field name="name"/>
                     <field name="data"/>
                     <field name="account_event_template_id"/>
@@ -110,8 +110,29 @@
             </field>
         </record>
 
+        <record id="account_event_search" model="ir.ui.view">
+            <field name="name">l10n_br_contabilidade_account_event_search (in l10n_br_contabilidade)</field>
+            <field name="model">account.event</field>
+            <field name="arch" type="xml">
+                <search string="Registros">
+                    <filter name="open" icon="terp-document-new" string="Aberto" domain="[('state', '=', 'open')]" />
+                    <filter name="validate" icon="terp-document-new" string="Validado" domain="[('state', '=', 'validate')]" />
+                    <filter name="generated" icon="terp-document-new" string="Lançamentos Gerados" domain="[('state', '=', 'generated')]"/>
+                    <filter name="done" icon="terp-document-new" string="Contabilizado" domain="[('state', '=', 'done')]" />
+                    <filter name="reversed" icon="terp-document-new" string="Revertido" domain="[('state', '=', 'reversed')]" />
+                    <field name="data" />
+                    <field name="origem" />
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_data" string="Data" context="{'group_by': 'data'}" />
+                        <filter name="group_by_origem" string="Origem" context="{'group_by': 'origem'}" />
+                    </group>
+		        </search>
+            </field>
+        </record>
+
         <record id="l10n_br_contabilidade_account_event_action" model="ir.actions.act_window">
             <field name="name">Eventos Contábeis</field>
+            <field name="context">{'search_default_open': 1, 'search_default_validate': 1, 'search_default_generated': 1}</field>
             <field name="res_model">account.event</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
