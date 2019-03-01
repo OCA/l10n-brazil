@@ -2,7 +2,7 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
+from openerp import api, fields, models, _
 from openerp.exceptions import Warning
 
 MODELS = [
@@ -91,3 +91,8 @@ class AccountEventTemplateLine(models.Model):
         self.account_historico_padrao_id = \
             self.account_journal_id.template_historico_padrao_id.id if \
             self.account_journal_id.template_historico_padrao_id else False
+
+    @api.constrains('codigo')
+    def _codigo_unique(self):
+        if len(self.search([('codigo', '=', self.codigo)])) > 1:
+            raise Warning(_('Codigo precisa ser único!'))
