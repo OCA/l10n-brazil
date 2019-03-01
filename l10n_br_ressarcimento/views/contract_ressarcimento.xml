@@ -67,7 +67,7 @@
 
         <!--Visão Tree -->
         <record model="ir.ui.view" id="hr_contract_ressarcimento_tree_view">
-            <field name="name">hr.contract.ressarcimento.tree (in l10n_br_hr_payroll)</field>
+            <field name="name">hr.contract.ressarcimento.tree (in l10n_br_ressarcimento)</field>
             <field name="model">contract.ressarcimento</field>
             <field name="arch" type="xml">
                 <tree string="Ressarcimento de Contrato">
@@ -80,10 +80,29 @@
             </field>
         </record>
 
+        <!-- Ressarcimento Search -->
+        <record model="ir.ui.view" id="l10n_br_hr_contract_ressarcimento_structure_search">
+            <field name="name">hr.contract.ressarcimento.structure.search (in l10n_br_ressarcimento)</field>
+            <field name="model">contract.ressarcimento</field>
+            <field name="arch" type="xml">
+                <search string="Buscar por:">
+                    <field name="contract_id" />
+                    <field name="account_period_id" />
+                    <field name="state" />
+                    <field name="date_ressarcimento" />
+                    <field name="date_provisao" />
+                    <filter name="contract_id" string="Contrato" />
+                    <filter name="account_period_id" string="Competência" />
+                    <filter name="state" string="Situação" />
+                </search>
+            </field>
+        </record>
+
         <!--Action do ressarcimento do contrato-->
         <record model="ir.actions.act_window" id="hr_contract_ressarcimento_action">
             <field name="name">Ressarcimentos do Contrato</field>
             <field name="res_model">contract.ressarcimento</field>
+            <field name="search_view_id" ref="l10n_br_hr_contract_ressarcimento_structure_search"/>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -101,6 +120,8 @@
             <field name="act_window_id" ref="hr_contract_ressarcimento_action"/>
             <field name="view_id" ref="hr_contract_ressarcimento_form_view"/>
         </record>
+
+
 
         <!-- Menu de resarcimento em HR -->
         <menuitem id="hr.menu_ressarcimento"
