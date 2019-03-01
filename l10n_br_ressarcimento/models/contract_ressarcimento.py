@@ -89,8 +89,23 @@ class ContractRessarcimento(models.Model):
         string='Parceiros para notificar',
     )
 
+    enviado_por = fields.Many2one(
+        string='Enviado por',
+        comodel_name='res.users',
+    )
+
     aprovado_por = fields.Many2one(
         string='Aprovado por',
+        comodel_name='res.users',
+    )
+
+    provisao_aprovado_por = fields.Many2one(
+        string='Aprovado por (provisão)',
+        comodel_name='res.users',
+    )
+
+    provisao_enviado_por = fields.Many2one(
+        string='Enviado por (provisão)',
         comodel_name='res.users',
     )
 
@@ -150,6 +165,12 @@ class ContractRessarcimento(models.Model):
         """
         for record in self:
             record.send_mail(situacao='confirmado')
+            if record.state == 'aberto':
+                record.enviado_por = self.env.user.id
+
+            elif record.state == 'provisionado':
+                record.provisao_enviado_por = self.env.user.id
+
             record.state = 'confirmado'
 
     @api.multi
@@ -162,8 +183,10 @@ class ContractRessarcimento(models.Model):
             # Valor provisionado TRUE e não definido data do ressarcimento
             # A aprovação é para a provisão, se não aprova o ressarcimento
             if record.valor_provisionado and not record.date_ressarcimento:
+                record.provisao_aprovado_por = self.env.user.id
                 record.state = 'provisionado'
             else:
+                record.aprovado_por = self.env.user.id
                 record.state = 'aprovado'
 
             record.send_mail(situacao='aprovado')
@@ -176,10 +199,10 @@ class ContractRessarcimento(models.Model):
         for record in self:
             record.aprovado_por = False
             if record.valor_provisionado and not record.date_ressarcimento:
-                record.state = 'provisionado'
+                record.state = 'aberto'
                 record.send_mail(situacao='reprovado', reprovado=True)
             else:
-                record.state = 'aberto'
+                record.state = 'provisionado'
                 record.send_mail(situacao='reprovado', reprovado=True)
 
     @api.multi
