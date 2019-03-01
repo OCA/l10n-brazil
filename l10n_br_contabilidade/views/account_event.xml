@@ -51,7 +51,6 @@
                                         <field name="sequencia"/>
                                         <field name="date"/>
                                         <field name="resumo" string="Histórico"/>
-                                        <field name="ref"/>
                                         <field name="period_id" invisible="1"/>
                                         <field name="journal_id" invisible="1" string="Lote"/>
                                         <field name="partner_id" invisible="1"/>
@@ -73,7 +72,7 @@
             <field name="priority">1</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="ref"/>
+                    <field name="name"/>
                     <field name="data"/>
                     <field name="account_event_template_id"/>
                     <field name="state"/>
