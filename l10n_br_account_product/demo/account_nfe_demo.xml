@@ -22,10 +22,10 @@
         <field name="quantity">10</field>
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        <field name="account_id" ref="l10n_br_generic.1_account_template_3010101010200"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
-    <!-- Confirm Picking -->
+    <!-- Confirm Invoice -->
     <!--<function model="account.invoice"
               name="action_invoice_open"
               eval="[[ref('l10n_br_account_product_demo_invoice_1_xml')]]"/>-->
@@ -51,7 +51,7 @@
         <field name="quantity">10</field>
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        <field name="account_id" ref="l10n_br_generic.1_account_template_3010101010200"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
         <field name="freight_value">100.0</field>
         <field name="insurance_value">10.0</field>
         <field name="other_costs_value">10.0</field>
@@ -78,7 +78,7 @@
         <field name="quantity">10</field>
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        <field name="account_id" ref="l10n_br_generic.1_account_template_3010101010200"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
         <field name="freight_value">100.0</field>
         <field name="insurance_value">10.0</field>
         <field name="other_costs_value">10.0</field>
