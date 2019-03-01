@@ -21,7 +21,7 @@
         <field name="uom_id" ref="product.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="l10n_br_generic.1_account_template_3010101010200"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
 </odoo>
