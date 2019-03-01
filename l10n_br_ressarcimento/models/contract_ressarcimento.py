@@ -105,7 +105,7 @@ class ContractRessarcimento(models.Model):
         return super(ContractRessarcimento, self).create(vals)
 
     @api.onchange('valor_provisionado')
-    def _onchange_valor_provisionado(self):
+    def onchange_valor_provisionado(self):
         """
         Caso estado aberto, se for um valor provisionado,
         precisa que delete informações colocadas referente a

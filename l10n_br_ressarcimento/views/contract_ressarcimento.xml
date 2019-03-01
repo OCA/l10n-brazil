@@ -27,11 +27,10 @@
                         </group>
                         <group>
                             <field name="default_contract_id" invisible="1"/>
-                            <field name="contract_id" attrs="{'readonly':[('default_contract_id','!=', False)]}" required="1"/>
+                            <field name="contract_id" attrs="{'readonly':['|', ('default_contract_id','!=', False), ('state','!=','aberto')]}" required="1"/>
                         </group>
                         <group>
-                            <field name="account_period_id" options="{'no_create': 1}" required="1" attrs="{'readonly':[('state','not in', ['aberto', 'provisionado'])]}" />
-                            <field name="partner_ids" options="{'no_create': 1}" required="1" widget="many2many_tags"/>
+                            <field name="account_period_id" options="{'no_create': 1}" required="1" attrs="{'readonly':[('state','not in', ['aberto'])]}" />
                         </group>
                         <notebook>
                             <page string="Ressarcimento do contrato" attrs="{'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['confirmado', 'provisionado', 'aprovado'])]}">
@@ -58,6 +57,7 @@
                             </page>
                         </notebook>
                         <group>
+                            <field name="partner_ids" options="{'no_create': 1}" attrs="{'readonly':[('state','=','aprovado')]}" required="1" widget="many2many_tags"/>
                             <field name="aprovado_por" attrs="{'invisible': [('aprovado_por','=', False)]}" readonly="1"/>
                         </group>
                     </sheet>
