@@ -545,6 +545,13 @@ class HrContract(models.Model):
         store=True,
     )
 
+    compor_lote = fields.Boolean(
+        string='Compor Lote?',
+        help='Indica se a busca de contratos do lote de holerites, deverá '
+             'relacionar esse contrato.',
+        default=True,
+    )
+
     @api.multi
     def _inverse_categoria_sefip(self):
         for record in self:

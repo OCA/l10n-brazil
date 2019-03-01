@@ -23,11 +23,9 @@
             <field name="employee_id" position="after">
                 <field name="company_id" />
             </field>
-<!--
-            <field name="struct_id" position="after">
-                <field name="conta_bancaria_id"/>
+            <field name="advantages" position="before">
+                <field name="compor_lote"/>
             </field>
--->
             <field name="weekly_hours" position="attributes">
                 <attribute name="required">1</attribute>
             </field>

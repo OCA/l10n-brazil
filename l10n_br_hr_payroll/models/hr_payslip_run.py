@@ -143,6 +143,7 @@ class HrPayslipRun(models.Model):
             dominio_contratos = [
                 ('date_start', '<=', lote.date_end),
                 ('tipo', '!=', 'autonomo'),
+                ('compor_lote', '=', True),
                 ('company_id', '=', lote.company_id.id),
             ]
 
