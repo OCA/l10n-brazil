@@ -24,5 +24,5 @@
         quantity: 10
         uom_id: product.product_uom_unit
         fiscal_category_id: l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12
-        account_id: l10n_br_generic.1_account_template_3010101010200
+        account_id: 1_account_template_3010101010200_avoid_travis_error
         fiscal_position_id: l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo
