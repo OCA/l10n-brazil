@@ -42,6 +42,7 @@
                                         <field name="name" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                         <field name="code"/>
                                         <field name="valor" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                        <field name="account_move_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                     </tree>
                                 </field>
                             </page>
@@ -91,6 +92,7 @@
                             <field name="code" />
                             <field name="name"/>
                             <field name="valor"/>
+                            <field name="account_move_id"/>
                         </group>
                     </sheet>
                 </form>

@@ -94,6 +94,12 @@ class AccountMove(models.Model):
         store=True,
     )
 
+    account_event_line_ids = fields.One2many(
+        string='Linhas de eventos contábeis',
+        comodel_name='account.event.line',
+        inverse_name='account_move_id',
+    )
+
     @api.multi
     def button_cancel(self):
         for record in self:

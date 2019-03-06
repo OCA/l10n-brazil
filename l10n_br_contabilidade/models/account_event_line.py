@@ -29,3 +29,8 @@ class AccountEventLine(models.Model):
     valor = fields.Float(
         string='Valor',
     )
+
+    account_move_id = fields.Many2one(
+        string=u'Lançamento Relacionado',
+        comodel_name='account.move',
+    )

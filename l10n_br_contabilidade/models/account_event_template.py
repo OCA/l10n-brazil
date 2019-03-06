@@ -178,7 +178,8 @@ class AccountEventTemplate(models.Model):
                     [
                         (0, 0, account_move_debit_line),
                         (0, 0, account_move_credit_line)
-                    ]
+                    ],
+                'account_event_line_ids': [(6, 0, [line.get('event_line_id')])],
             }
 
             account_move_ids.append(account_move_id)

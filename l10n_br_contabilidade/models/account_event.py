@@ -168,6 +168,7 @@ class AccountEvent(models.Model):
         for line in self.account_event_line_ids:
             dados['lines'].append(
                 {
+                    'event_line_id': line.id,
                     'code': line.code,
                     'name': line.name,
                     'description': line.description,
