@@ -4,7 +4,7 @@
 
 <openerp>
     <data>
-        <!-- Configurações Ressarcimento de Contrato contract.ressarcimento -->
+        <!-- Configuracoes Ressarcimento de Contrato contract.ressarcimento -->
 
         <record id="l10n_br_hr_contract_ressarcimento_config_form_view" model="ir.ui.view">
             <field name="name">Contract Ressarcimento Config</field>
@@ -22,7 +22,6 @@
                             <tree editable="bottom">
                                 <field name="contract_id" />
                                 <field name="dia_limite" />
-                                <field name="dia_limite_provisao" />
                             </tree>
                         </field>
                         <hr />
@@ -35,11 +34,10 @@
 
         <!--Action do ressarcimento do contrato-->
         <record model="ir.actions.act_window" id="hr_contract_ressarcimento_config_action">
-            <field name="name">Ressarcimentos do Contrato - Configurações</field>
+            <field name="name">Ressarcimentos do Contrato Configurações</field>
             <field name="res_model">contract.ressarcimento.config</field>
             <field name="view_id" ref="l10n_br_hr_contract_ressarcimento_config_form_view"/>
             <field name="res_id">1</field>
-            <!--field name="view_type">form</field-->
             <field name="view_mode">form</field>
             <field name="target">inline</field>
         </record>
@@ -52,19 +50,19 @@
             sequence="120"/>
     </data>
 
+    <!-- Cron Job - verifica diariamente se existe pendencia de envio -->
     <data noupdate="1">
 
-        <!-- Cron Job - verifica diariamente se existe pendencia de envio -->
         <record id="hr_contract_ressarcimento_config_cron" model="ir.cron">
-            <field name="name">Alerta de ressarcimento nao incluido</field>
+            <field name="name">Alerta de ressarcimento não incluido</field>
             <field name="active" eval="False" />
             <field name="user_id" ref="base.user_root" />
             <field name="interval_number">1</field>
-            <field name="interval_type">minutes</field>
+            <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
-            <field eval="False" name="doall"/>
+            <field eval="True" name="doall"/>
             <field name="model" eval="'contract.ressarcimento.config'" />
-            <field name="function" eval="'check_isset_ressarcimento'" />
+            <field name="function" eval="'notifica_fora_prazo'" />
         </record>
 
     </data>
