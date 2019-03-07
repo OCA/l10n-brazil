@@ -43,10 +43,6 @@
                                         <field name="total" sum="Total de ressarcimento Provisionado" />
                                     </tree>
                                 </field>
-                                <group>
-                                    <field name="enviado_por" attrs="{'invisible': [('enviado_por','=', False)]}" readonly="1"/>
-                                    <field name="aprovado_por" attrs="{'invisible': [('aprovado_por','=', False)]}" readonly="1"/>
-                                </group>
                             </page>
                             <page string="Ressarcimento do contrato (provisionamento)" attrs="{'invisible':[('valor_provisionado','=', False)]}">
                                 <group>
@@ -58,15 +54,17 @@
                                         <field name="total" sum="Total de ressarcimento" />
                                     </tree>
                                 </field>
-                                <group>
-                                    <field name="provisao_enviado_por" attrs="{'invisible': [('provisao_enviado_por','=', False)]}" readonly="1"/>
-                                    <field name="provisao_aprovado_por" attrs="{'invisible': [('provisao_aprovado_por','=', False)]}" readonly="1"/>
-                                </group>
                             </page>
                         </notebook>
                         <group>
                             <field name="partner_ids" options="{'no_create': 1}" attrs="{'readonly':[('state','=','aprovado')]}" required="1" widget="many2many_tags"/>
                         </group>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids"
+                                   widget="mail_followers"
+                                   groups="base.group_user"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
                     </sheet>
                 </form>
             </field>

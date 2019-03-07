@@ -89,26 +89,6 @@ class ContractRessarcimento(models.Model):
         string='Parceiros para notificar',
     )
 
-    enviado_por = fields.Many2one(
-        string='Enviado por',
-        comodel_name='res.users',
-    )
-
-    aprovado_por = fields.Many2one(
-        string='Aprovado por',
-        comodel_name='res.users',
-    )
-
-    provisao_aprovado_por = fields.Many2one(
-        string='Aprovado por (provisão)',
-        comodel_name='res.users',
-    )
-
-    provisao_enviado_por = fields.Many2one(
-        string='Enviado por (provisão)',
-        comodel_name='res.users',
-    )
-
     @api.model
     def create(self, vals):
         # name = "nome contrato" - "competencia"
@@ -165,15 +145,6 @@ class ContractRessarcimento(models.Model):
         """
         for record in self:
             record.send_mail(situacao='confirmado')
-            if record.state == 'aberto':
-                if record.valor_provisionado and not record.date_ressarcimento:
-                    record.provisao_enviado_por = self.env.user.id
-                else:
-                    record.enviado_por = self.env.user.id
-
-            elif record.state == 'provisionado':
-                record.enviado_por = self.env.user.id
-
             record.state = 'confirmado'
 
     @api.multi
@@ -185,10 +156,8 @@ class ContractRessarcimento(models.Model):
             # Valor provisionado TRUE e não definido data do ressarcimento
             # A aprovação é para a provisão, se não aprova o ressarcimento
             if record.valor_provisionado and not record.date_ressarcimento:
-                record.provisao_aprovado_por = self.env.user.id
                 record.state = 'provisionado'
             else:
-                record.aprovado_por = self.env.user.id
                 record.state = 'aprovado'
 
             record.send_mail(situacao='aprovado')
@@ -203,14 +172,8 @@ class ContractRessarcimento(models.Model):
                     or (record.valor_provisionado
                         and not record.date_ressarcimento):
                 record.state = 'aberto'
-                record.aprovado_por = False
-                record.enviado_por = False
-                record.provisao_aprovado_por = False
-                record.provisao_enviado_por = False
             elif record.valor_provisionado and record.date_ressarcimento:
                 record.state = 'provisionado'
-                record.aprovado_por = False
-                record.enviado_por = False
 
             record.send_mail(situacao='reprovado')
 
