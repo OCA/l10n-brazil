@@ -108,6 +108,9 @@ class AccountInvoice(models.Model):
         help='Código para roteiro contábil: "amount_total"',
     )
 
+    account_event_code_sufix = fields.Char(
+        string='Sufixo código rúbrica',
+    )
 
     @api.depends('internal_number')
     def _compute_number(self):
@@ -261,6 +264,8 @@ class AccountInvoice(models.Model):
                     'valor': self[info_name],
                     'name': info[1],
                 }
+                if info_name == 'amount_total':
+                    vals['code'] += self.account_event_code_sufix
 
                 if info_name == 'amount_net':
                     if self.type in ['out_invoice', 'out_refund']:

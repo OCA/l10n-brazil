@@ -19,6 +19,7 @@
                         <br />
                         <group>
                             <field name="account_event_id" attrs="{'readonly': True}"/>
+                            <field name="account_event_code_sufix"/>
                         </group>
                         <br />
                     </field>
