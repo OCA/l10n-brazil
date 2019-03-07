@@ -166,15 +166,22 @@ class AccountEvent(models.Model):
         dados['lines'] = []
 
         for line in self.account_event_line_ids:
-            dados['lines'].append(
-                {
-                    'event_line_id': line.id,
-                    'code': line.code,
-                    'name': line.name,
-                    'description': line.description,
-                    'valor': line.valor,
-                }
-            )
+            vals = {
+                'event_line_id': line.id,
+                'code': line.code,
+                'name': line.name,
+                'description': line.description,
+                'valor': line.valor,
+            }
+
+            if line.conta_debito_exclusivo_id:
+                vals['conta_debito_exclusivo_id'] = \
+                    line.conta_debito_exclusivo_id.id
+            if line.conta_credito_exclusivo_id:
+                vals['conta_credito_exclusivo_id'] = \
+                    line.conta_credito_exclusivo_id.id
+
+            dados['lines'].append(vals)
 
         return dados
 

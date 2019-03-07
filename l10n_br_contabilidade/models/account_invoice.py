@@ -252,17 +252,28 @@ class AccountInvoice(models.Model):
 
     def _get_invoice_move_line_data(self):
         lines = []
+        vals = {}
         for info in CAMPO_DOCUMENTO_FISCAL:
             info_name = info[0]
             if self[info_name]:
-                lines.append(
-                    {
-                        'code': info_name,
-                        'valor': self[info_name],
-                        'name': info[1],
-                    }
-                )
+                vals = {
+                    'code': info_name,
+                    'valor': self[info_name],
+                    'name': info[1],
+                }
 
+                if info_name == 'amount_net':
+                    if self.type in ['out_invoice', 'out_refund']:
+                        if self.partner_id.property_account_receivable:
+                            vals['conta_debito_exclusivo_id'] = \
+                                self.partner_id.property_account_receivable.id
+                    else:
+                        if self.partner_id.property_account_payable:
+                            vals['conta_credito_exclusivo_id'] = \
+                                self.partner_id.property_account_payable.id
+
+                lines.append(vals)
+                vals = {}
         return lines
 
     @api.multi

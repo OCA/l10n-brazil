@@ -153,14 +153,18 @@ class AccountEventTemplate(models.Model):
                 historico_padrao = line.get('code')
 
             account_move_debit_line = {
-                'account_id': account_template_line_id.account_debito_id.id,
+                'account_id': line.get('conta_debito_exclusivo_id') if
+                line.get('conta_debito_exclusivo_id') else
+                account_template_line_id.account_debito_id.id,
                 'debit': line.get('valor'),
                 'credit': 0.0,
                 'name': historico_padrao,
             }
 
             account_move_credit_line = {
-                'account_id': account_template_line_id.account_credito_id.id,
+                'account_id': line.get('conta_credito_exclusivo_id') if
+                line.get('conta_credito_exclusivo_id') else
+                account_template_line_id.account_credito_id.id,
                 'credit': line.get('valor'),
                 'debit': 0.0,
                 'name': historico_padrao,

@@ -30,6 +30,16 @@ class AccountEventLine(models.Model):
         string='Valor',
     )
 
+    conta_debito_exclusivo_id = fields.Many2one(
+        string=u'Conta de débito exclusiva',
+        comodel_name='account.account',
+    )
+
+    conta_credito_exclusivo_id = fields.Many2one(
+        string=u'Conta de crédito exclusiva',
+        comodel_name='account.account',
+    )
+
     account_move_id = fields.Many2one(
         string=u'Lançamento Relacionado',
         comodel_name='account.move',
