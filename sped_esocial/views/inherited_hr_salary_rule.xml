@@ -42,7 +42,7 @@
                                 <group colspan="2" col="2" string="Validade">
                                     <field name="ini_valid"
                                            options="{'no_create': True, 'no_open': True}"
-                                           attrs="{'required': [('sped_rubrica_id', '!=', False)], 'readonly': [('sped_rubrica_id', '!=', False)]}"
+                                           attrs="{'required': [('nat_rubr', '!=', False)], 'readonly': [('sped_rubrica_id', '!=', False)]}"
                                     />
                                     <field name="alt_valid"
                                            options="{'no_create': True, 'no_open': True}"
