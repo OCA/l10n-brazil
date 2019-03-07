@@ -15,6 +15,7 @@
     'data': [
         'data/contract_ressarcimento_email.xml',
         'views/contract_ressarcimento.xml',
+        'views/contract_ressarcimento_config.xml',
         'views/hr_contract.xml',
         'security/ressarcimento_security.xml',
         'security/ir.model.access.csv',

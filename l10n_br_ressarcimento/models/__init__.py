@@ -4,3 +4,4 @@
 
 from . import contract_ressarcimento
 from . import hr_contract
+from . import contract_ressarcimento_config

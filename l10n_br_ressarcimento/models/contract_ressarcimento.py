@@ -5,7 +5,6 @@
 
 from __future__ import unicode_literals, division, absolute_import, print_function
 
-
 from openerp import api, fields, models, _
 
 
@@ -14,6 +13,12 @@ class ContractRessarcimento(models.Model):
     _inherit = ['mail.thread']
     _description = 'Ressarcimentos de outros Vínculos do Contrato'
     _order = "account_period_id DESC"
+
+    _sql_constraints = [('contract_competencia_unique',
+                         'unique (contract_id, account_period_id)',
+         'Já existe Ressarcimento/Provisão cadastrada para esse contrato '
+         'nessa competência.'),
+    ]
 
     name = fields.Char(
         string='Nome',
@@ -96,6 +101,15 @@ class ContractRessarcimento(models.Model):
             self.contract_id.browse(vals.get('contract_id')).name,
             self.account_period_id.browse(
                 vals.get('account_period_id')).name)
+
+        # Verifica se existe alerta para o usuário, se não existir, cria
+        res_config = self.env['contract.ressarcimento.config'].browse(1)
+        if vals.get('contract_id') not in \
+                res_config.contract_ressarcimento_config_line_ids.mapped('id'):
+            res_config.contract_ressarcimento_config_line_ids.create({
+                'contract_id': vals.get('contract_id'),
+                'contract_ressarcimento_config_id': 1
+            })
 
         return super(ContractRessarcimento, self).create(vals)
 
