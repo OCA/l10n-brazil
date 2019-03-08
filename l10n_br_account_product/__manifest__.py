@@ -66,6 +66,7 @@
         'demo/account_invoice_demo.xml',
         'demo/account_nfe_demo.yml',
         'demo/account_nfe_demo.xml',
+        'demo/account_nfe_supplier_demo.xml',
     ],
     'test': [
         # 'test/account_customer_invoice.yml',
