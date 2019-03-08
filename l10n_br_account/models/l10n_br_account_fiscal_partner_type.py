@@ -4,7 +4,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import ValidationError
 
 
 class L10nBrAccountPartnerFiscalType(models.Model):
@@ -40,7 +40,7 @@ class L10nBrAccountPartnerFiscalType(models.Model):
                 ('default', '=', 'True'),
                 ('is_company', '=', fiscal_type.is_company)
             ])) > 1:
-                raise UserError(
+                raise ValidationError(
                     _(u'Mantenha apenas um tipo fiscal padrão'
                       u' para Pessoa Física ou para Pessoa Jurídica!'))
             return True
