@@ -265,7 +265,7 @@ class TestCustomerNFe(TransactionCase):
             self.assertEquals(
                 line.icms_origin_value, 0.0, "ICMS Origin Value is not 0.0")
 
-           # Check ICMS ST
+            # Check ICMS ST
             self.assertEquals(
                 line.icms_st_base, 0.0, "ICMS ST BASE is not 0.0")
             self.assertEquals(
