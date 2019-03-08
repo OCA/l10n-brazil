@@ -805,10 +805,18 @@ class AccountInvoice(models.Model):
                         self.fiscal_category_id.account_payment_term_id)
                 self.payment_term_id = payment_term
 
+            if self.type in ('out_invoice', 'out_refund'):
+                use_domain = ('use_sale', '=', True)
+            else:
+                use_domain = ('use_purchase', '=', True)
+
             fiscal_rule = self.env['account.fiscal.position.rule']
-            fp = fiscal_rule.apply_fiscal_mapping(**kwargs)
+            fp = fiscal_rule.with_context(
+                {'use_domain': use_domain}).apply_fiscal_mapping(**kwargs)
             if fp:
                 self.fiscal_position_id = fp.id
+            else:
+                self.fiscal_position_id = False
 
     @api.multi
     def action_date_assign(self):
