@@ -24,9 +24,13 @@
                                 <field name="dia_limite" />
                             </tree>
                         </field>
-                        <hr />
-                        <label for="partner_ids" string="Parceiros para notificar" />
+                        <br />
+                        <br />
+                        <label for="partner_ids" string="Parceiros para alertar no dia limite" />
                         <field name="partner_ids" options="{'no_create': 1}" required="1" widget="many2many_tags"/>
+                        <group>
+                            <field name="dias_apos_provisao" required="1" />
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -54,8 +58,8 @@
     <data noupdate="1">
 
         <record id="hr_contract_ressarcimento_config_cron" model="ir.cron">
-            <field name="name">Alerta de ressarcimento não incluido</field>
-            <field name="active" eval="False" />
+            <field name="name">Alerta de ressarcimento/provisionamento não incluido</field>
+            <field name="active" eval="True" />
             <field name="user_id" ref="base.user_root" />
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>

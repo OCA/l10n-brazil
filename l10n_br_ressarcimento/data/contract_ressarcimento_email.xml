@@ -265,6 +265,24 @@
             ]]></field>
         </record>
 
+        <!-- Template de Alerta de email quando o Ressarcimento fora do prazo (existe provisionamento, mas sem ressarcimento real) -->
+        <record id="email_template_contract_ressarcimento_alertp" model="email.template">
+            <field name="name"><![CDATA[ SAB Alerta | Ressarcimento fora do prazo ${object.contract_id.display_name} - ${object.account_period} ]]></field>
+            <field name="email_from"><![CDATA[SAB <demandas@abgf.gov.br>]]></field>
+            <field name="email_to"><![CDATA[]]></field>
+            <field name="subject"><![CDATA[  SAB Alerta - Ressarcimento(s) fora do prazo ${object.contract_id.display_name} - ${object.account_period} ]]></field>
+            <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento_config_line"/>
+            <field name="lang">${user.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+            <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; ">
+                <p><strong>Data limite para cadastro de ressarcimento</strong></p>
+                <p>Informamos que existe valor provisionado, mas não consta os valores, data e protocolo do ressarcimento para o contrato abaixo.</p>
+                <p>Competência: <strong> ${object.account_period} </strong> </p>
+                <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
+            </div>
+            ]]></field>
+        </record>
+
 
     </data>
 </openerp>

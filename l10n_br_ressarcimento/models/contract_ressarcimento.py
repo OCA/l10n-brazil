@@ -16,9 +16,8 @@ class ContractRessarcimento(models.Model):
 
     _sql_constraints = [('contract_competencia_unique',
                          'unique (contract_id, account_period_id)',
-         'Já existe Ressarcimento/Provisão cadastrada para esse contrato '
-         'nessa competência.'),
-    ]
+                         'Já existe Ressarcimento/Provisão cadastrada para '
+                         'esse contrato nessa competência.')]
 
     name = fields.Char(
         string='Nome',
@@ -104,8 +103,9 @@ class ContractRessarcimento(models.Model):
 
         # Verifica se existe alerta para o usuário, se não existir, cria
         res_config = self.env['contract.ressarcimento.config'].browse(1)
-        if vals.get('contract_id') not in \
-                res_config.contract_ressarcimento_config_line_ids.mapped('id'):
+        if vals.get('contract_id') not in res_config.\
+                contract_ressarcimento_config_line_ids.mapped('contract_id').\
+                mapped('id'):
             res_config.contract_ressarcimento_config_line_ids.create({
                 'contract_id': vals.get('contract_id'),
                 'contract_ressarcimento_config_id': 1
