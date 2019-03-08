@@ -243,13 +243,16 @@ class AccountInvoice(models.Model):
 
     def _get_invoice_event_data(self):
         vals = {}
+
         # vals['company_id'] = self.company_id.id
         vals['ref'] = 'NF-e: {} - {}'.format(
             self.partner_id.name, self.internal_number)
         vals['data'] = self.date_hour_invoice.split(' ')[0]
-        vals['account_event_template_id'] = \
-            self.fiscal_category_id.account_event_template_id.id
         vals['origem'] = '{},{}'.format('account.invoice', self.id)
+
+        if self.fiscal_category_id.account_event_template_id:
+            vals['account_event_template_id'] = \
+                self.fiscal_category_id.account_event_template_id.id
 
         return vals
 
@@ -284,9 +287,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_move_create(self):
         for inv in self:
-            if not inv.fiscal_category_id.account_event_template_id:
-                return
-
             if not inv.invoice_line:
                 raise ValidationError(
                     _('No Invoice Lines!'),
@@ -319,13 +319,4 @@ class AccountInvoice(models.Model):
     @api.multi
     def gerar_contabilidade(self):
         for inv in self:
-            if not inv.fiscal_category_id.account_event_template_id:
-                raise Warning(
-                    _('Error!'),
-                    _(
-                        'Por favor defina um Roteiro de Evento Contábil '
-                        'na categoria fiscal!.'
-                    )
-                )
-
             inv.action_move_create()
