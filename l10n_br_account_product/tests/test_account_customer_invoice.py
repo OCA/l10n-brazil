@@ -29,7 +29,6 @@ class TestCustomerInvoice(TransactionCase):
         for line in self.invoice_customer_original.invoice_line_ids:
             line._onchange_fiscal()
 
-
         # I change the state of invoice to "Proforma2" by clicking
         # PRO-FORMA button
         self.invoice_customer_original.action_invoice_proforma2()
