@@ -5,9 +5,6 @@
 <openerp>
     <data>
 
-        <!-- Chama função que cria o primeiro registro se não existir -->
-        <function model="contract.ressarcimento.config" name="_cria_config"/>
-
         <!-- Configuracoes Ressarcimento de Contrato contract.ressarcimento -->
         <record id="l10n_br_hr_contract_ressarcimento_config_form_view" model="ir.ui.view">
             <field name="name">Contract Ressarcimento Config</field>
@@ -59,6 +56,11 @@
 
     <!-- Cron Job - verifica diariamente se existe pendencia de envio -->
     <data noupdate="1">
+
+        <!-- cria o primeiro registro se não existir -->
+        <record id="l10n_br_hr_contract_ressarcimento_config_create" model="contract.ressarcimento.config">
+            <field name="dias_apos_provisao">10</field>
+        </record>
 
         <record id="hr_contract_ressarcimento_config_cron" model="ir.cron">
             <field name="name">Alerta de ressarcimento/provisionamento não incluido</field>

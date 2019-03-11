@@ -10,21 +10,6 @@ class ContractRessarcimentoConfig(models.Model):
     _name = b'contract.ressarcimento.config'
     _description = u'Configurações do Ressarcimento de Contrato'
 
-    @api.model
-    def _cria_config(self):
-        '''
-        Procura primeiro registro em contract_ressarcimento_config
-        Se não existir, cria.
-        :return:
-        '''
-        self._cr.execute("""SELECT COUNT(*) FROM contract_ressarcimento_config
-        """)
-        res = self._cr.fetchone()
-        if res[0] < 1:
-            self._cr.execute("""
-            INSERT INTO contract_ressarcimento_config("dias_apos_provisao")
-            VALUES (5)""")
-
     contract_ressarcimento_config_line_ids = fields.One2many(
         inverse_name='contract_ressarcimento_config_id',
         comodel_name='contract.ressarcimento.config.line',
