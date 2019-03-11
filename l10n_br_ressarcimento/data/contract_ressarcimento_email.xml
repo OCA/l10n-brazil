@@ -258,7 +258,7 @@
             <field name="body_html"><![CDATA[
             <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; ">
                 <p><strong>Data limite para cadastro de ressarcimento</strong></p>
-                <p>Informamos que o contrato abaixo estão fora do prazo definido.</p>
+                <p>Informamos que o contrato abaixo esta fora do prazo definido.</p>
                 <p>Competência: <strong> ${object.account_period} </strong> </p>
                 <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>
             </div>

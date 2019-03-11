@@ -54,7 +54,7 @@
             sequence="120"/>
     </data>
 
-    <!-- Cron Job - verifica diariamente se existe pendencia de envio -->
+    <!-- Cron Job - verifica diariamente se existe pendencia de envio  noupdate="1" -->
     <data noupdate="1">
 
         <!-- cria o primeiro registro se não existir -->
