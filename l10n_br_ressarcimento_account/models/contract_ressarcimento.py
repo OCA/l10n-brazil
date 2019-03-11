@@ -71,7 +71,7 @@ class ContractRessarcimento(models.Model):
             super(ContractRessarcimento, self).button_aprovar()
 
             # Exclui os Lançamento Contábeis anteriors
-            record.account_event_id.unlink()
+            record.account_event_id = False
 
             rubricas_para_contabilizar = self.gerar_contabilizacao_rubricas()
 
