@@ -2492,6 +2492,9 @@ class HrPayslip(models.Model):
                                 rule.code not in calculated_specifc_rule:
                             amount, qty, rate = \
                                 payslip.get_specific_rubric_value(rule.id)
+                            if not amount:
+                                amount, qty, rate = \
+                                    obj_rule.compute_rule(rule.id, localdict)
                         else:
                             amount, qty, rate = \
                                 obj_rule.compute_rule(rule.id, localdict)
