@@ -4,8 +4,11 @@
 
 <openerp>
     <data>
-        <!-- Configuracoes Ressarcimento de Contrato contract.ressarcimento -->
 
+        <!-- Chama função que cria o primeiro registro se não existir -->
+        <function model="contract.ressarcimento.config" name="_cria_config"/>
+
+        <!-- Configuracoes Ressarcimento de Contrato contract.ressarcimento -->
         <record id="l10n_br_hr_contract_ressarcimento_config_form_view" model="ir.ui.view">
             <field name="name">Contract Ressarcimento Config</field>
             <field name="model">contract.ressarcimento.config</field>
