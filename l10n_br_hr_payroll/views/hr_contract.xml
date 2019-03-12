@@ -46,6 +46,7 @@
                                 <field name="tipo_holerite"/>
                                 <field name="date_start"/>
                                 <field name="date_stop"/>
+                                <field name="ref"/>
                                 <field name="specific_quantity"/>
                                 <field name="specific_percentual"/>
                                 <field name="specific_amount"/>

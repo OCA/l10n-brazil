@@ -33,6 +33,9 @@ class HrContractSalaryRule(models.Model):
     date_stop = fields.Date(
         string=u"Data Final",
     )
+    ref = fields.Char(
+        string=u'Referência'
+    )
     specific_quantity = fields.Float(
         string=u"Quandidade especifica",
         default=1.0,
