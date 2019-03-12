@@ -1240,9 +1240,17 @@ class HrPayslip(models.Model):
 
                         if specific_rule.rule_id.id not in applied_specific_rule:
                             applied_specific_rule[specific_rule.rule_id.id] = []
+                        else:
+                            applied_specific_rule[
+                                '{}-2'.format(specific_rule.rule_id.id)] = []
 
-                        applied_specific_rule[specific_rule.rule_id.id].append(
-                            specific_rule)
+                        if not applied_specific_rule.get(specific_rule.rule_id.id):
+                            applied_specific_rule[specific_rule.rule_id.id].append(
+                                specific_rule)
+                        else:
+                            applied_specific_rule[
+                                '{}-2'.format(specific_rule.rule_id.id)
+                            ].append(specific_rule)
                     
         return applied_specific_rule
 
@@ -1286,7 +1294,7 @@ class HrPayslip(models.Model):
 
     @api.model
     def get_specific_rubric_value(self, rubrica_id, medias_obj=False,
-                                  rubricas_especificas_calculadas=False):
+                                  rubricas_especificas_calculadas=False, references=False):
         """
         Função dísponivel para as regras de salario, que busca o valor das
         rubricas especificas cadastradas no contrato.
@@ -1301,6 +1309,12 @@ class HrPayslip(models.Model):
             if rubricas_especificas_calculadas and \
                     rubrica.id in rubricas_especificas_calculadas:
                 continue
+
+            if references.get(rubrica.rule_id.id):
+                if rubrica.ref and rubrica.ref in references.get(
+                        rubrica.rule_id.id):
+                    continue
+
             if rubrica.rule_id.id == rubrica_id \
                     and rubrica.date_start <= self.date_from and \
                     (not rubrica.date_stop or rubrica.date_stop >=
@@ -1311,7 +1325,7 @@ class HrPayslip(models.Model):
                 return rubrica.specific_quantity * rubrica.specific_percentual\
                     / 100 * rubrica.specific_amount, \
                     rubrica.specific_quantity, \
-                    rubrica.specific_percentual
+                    rubrica.specific_percentual, rubrica.ref
 
     @api.multi
     def get_desconto_ligacao_telefonica(self):
@@ -2454,8 +2468,13 @@ class HrPayslip(models.Model):
                     'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS',
                     'PENSAO_ALIMENTICIA_PORCENTAGEM_13',
                 ]
+                references = {}
+
                 for rule in obj_rule.browse(sorted_rule_ids):
                     key = rule.code + '-' + str(contract.id)
+                    if result_dict.get(key):
+                        key += '-2'
+
                     localdict['result'] = None
                     localdict['result_qty'] = 1.0
                     localdict['result_rate'] = 100
@@ -2463,14 +2482,19 @@ class HrPayslip(models.Model):
                     localdict['reference'] = ' '
                     id_rubrica_especifica = 0
                     beneficiario_id = False
+                    ref = False
                     
                     #
                     # Tratamos as rubricas específicas que têm beneficiários
                     #
                     if rule.id in applied_specific_rule and \
                             rule.code not in calculated_specifc_rule:
-                        lista_rubricas_especificas = \
-                            applied_specific_rule[rule.id]
+                        if applied_specific_rule.get(rule.id):
+                            lista_rubricas_especificas = \
+                                applied_specific_rule[rule.id]
+                        else:
+                            lista_rubricas_especificas = \
+                                applied_specific_rule['{}-2'.format(rule.id)]
 
                         if len(lista_rubricas_especificas) > 0:
                             rubrica_especifica = lista_rubricas_especificas[0]
@@ -2486,12 +2510,13 @@ class HrPayslip(models.Model):
 
                     # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
-                            and rule.id not in blacklist:
+                            and (rule.id not in blacklist or rule.acordo_coletivo):
                         # compute the amount of the rule
                         if rule.id in applied_specific_rule and \
                                 rule.code not in calculated_specifc_rule:
-                            amount, qty, rate = \
-                                payslip.get_specific_rubric_value(rule.id)
+                            amount, qty, rate, ref = \
+                                payslip.get_specific_rubric_value(
+                                    rule.id, references=references)
                             if not amount:
                                 amount, qty, rate = \
                                     obj_rule.compute_rule(rule.id, localdict)
@@ -2500,6 +2525,13 @@ class HrPayslip(models.Model):
                                 obj_rule.compute_rule(rule.id, localdict)
                         # Pegar Referencia que irá para o holerite
                         reference = obj_rule.get_reference_rubrica(rule.id, localdict)
+                        if ref:
+                            reference = ref
+
+                        if references.get(rule.id):
+                            references[rule.id].append(reference)
+                        else:
+                            references[rule.id] = [reference]
 
                         # se ja tiver sido calculado a media dessa rubrica,
                         # utilizar valor da media e multiplicar
@@ -2526,8 +2558,16 @@ class HrPayslip(models.Model):
                         tot_rule = Decimal(amount or 0) * Decimal(
                             qty or 0) * Decimal(rate or 0) / 100.0
                         tot_rule = tot_rule.quantize(Decimal('0.01'))
-                        localdict[rule.code] = tot_rule
-                        rules[rule.code] = rule
+                        if not localdict.get(rule.code):
+                            localdict[rule.code] = tot_rule
+                        else:
+                            localdict['{}-2'.format(rule.code)] = tot_rule
+                            previous_amount = 0
+
+                        if not rules.get(rule.code):
+                            rules[rule.code] = rule
+                        else:
+                            rules['{}-2'.format(rule.code)] = rule
                         if rule.compoe_base_INSS:
                             localdict['BASE_INSS'] += tot_rule
                         if rule.compoe_base_IR:
