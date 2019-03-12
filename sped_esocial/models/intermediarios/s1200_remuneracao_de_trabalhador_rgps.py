@@ -251,6 +251,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
         remuneracoes_ids = self.payslip_ids or self.payslip_autonomo_ids
         for payslip in remuneracoes_ids:
+            rubricas_convencao_coletiva = []
             if payslip.tipo_de_folha == 'ferias':
                 continue
             dm_dev = pysped.esocial.leiaute.S1200_DmDev_2()
@@ -275,6 +276,10 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
             # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
             for line in payslip.line_ids:
+
+                if line.salary_rule_id.acordo_coletivo:
+                    rubricas_convencao_coletiva.append(line)
+                    continue
 
                 # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
                 # ser transmitida para o e-Social.
@@ -353,8 +358,64 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # # OBS.: as informações previstas nos itens "a", "b" e "d" acima podem se referir ao período de apuração
             # #       definido em {perApur} ou a períodos anteriores a {perApur}.
             # #
-            # info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
-            # info_per_ant.
+            if rubricas_convencao_coletiva:
+                info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
+                ide_adc_ant = pysped.esocial.leiaute.S1200_IdeADC_2()
+                ide_adc_ant.dtAcConv.valor = '2019-03-01'
+                ide_adc_ant.tpAcConv.valor = 'E'
+                ide_adc_ant.compAcConv.valor = '2019-03'
+                ide_adc_ant.dtEfAcConv.valor = '2019-01-01'
+                ide_adc_ant.dsc.valor = 'Convenção Coletiva - Seguritários 2018/2019'
+                ide_adc_ant.remunSuc.valor = 'N'
+
+                periodos_pregressos = self.env['account.period'].search(
+                    [
+                        ('date_start', '>=', '01-01-{}'.format(self.periodo_id.code[3:])),
+                        ('date_stop', '<', self.periodo_id.date_start)
+                    ]
+                )
+
+                for periodo in periodos_pregressos:
+                    if '00' in periodo.code:
+                        continue
+
+                    ide_periodo = pysped.esocial.leiaute.S1200_IdePeriodo_2()
+                    ide_periodo.perRef.valor = '{}-{}'.format(
+                        periodo.code[3:], periodo.code[:2])
+
+                    ide_estab_lot = pysped.esocial.leiaute.S1200_IdePeriodoIdeEstabLot_2()
+                    ide_estab_lot.tpInsc.valor = '1'
+                    ide_estab_lot.nrInsc.valor = limpa_formatacao(payslip.company_id.cnpj_cpf)
+                    ide_estab_lot.codLotacao.valor = payslip.company_id.cod_lotacao
+
+                    ide_estab_lot.remunPerAnt.matricula.valor = payslip.contract_id.matricula
+                    # Somente para a empresa do Simples Nacional
+                    # ide_estab_lot.remunPerAnt.indSimples.valor = ''
+
+                    for line in rubricas_convencao_coletiva:
+                        if line.reference == periodo.code:
+                            itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
+                            itens_remun.codRubr.valor = line.salary_rule_id.codigo
+                            itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
+                            if line.quantity and float(line.quantity) != 1:
+                                itens_remun.qtdRubr.valor = float(line.quantity)
+                                itens_remun.vrUnit.valor = formata_valor(line.amount)
+                            if line.rate and line.rate != 100:
+                                itens_remun.fatorRubr.valor = line.rate
+                            itens_remun.vrRubr.valor = formata_valor(line.total)
+                            ide_estab_lot.remunPerAnt.itensRemun.append(itens_remun)
+
+                            if payslip.contract_id.evento_esocial == 's2200':
+                                info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
+                                # Inserir um campo em algum lugar (no contrato talvez)
+                                info_ag_nocivo.grauExp.valor = 1
+                                ide_estab_lot.remunPerAnt.infoAgNocivo.append(
+                                    info_ag_nocivo)
+
+                    ide_periodo.ideEstabLot.append(ide_estab_lot)
+                    ide_adc_ant.idePeriodo.append(ide_periodo)
+
+                info_per_ant.ideADC.append(ide_adc_ant)
 
             # Popula dmDev.infoComplCont  # Não teremos registros no odoo que não tenham um S2300 nesses casos
             #
@@ -362,6 +423,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # Adiciona o registro nas listas das tags superiores
             info_per_apur.ideEstabLot.remunPerApur.append(remun_per_apur)
             dm_dev.infoPerApur.append(info_per_apur)
+            dm_dev.infoPerAnt.append(info_per_ant)
             S1200.evento.dmDev.append(dm_dev)
 
         return S1200, validacao
