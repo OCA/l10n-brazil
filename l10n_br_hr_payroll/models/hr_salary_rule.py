@@ -93,6 +93,10 @@ class HrSalaryRule(models.Model):
         string='Tipo de Média da Rubrica',
     )
 
+    acordo_coletivo = fields.Boolean(
+        string=u'Acordo Coletivo',
+    )
+
     @api.multi
     def compute_rule(self, rule_id, localdict):
         rule = self.browse(rule_id)

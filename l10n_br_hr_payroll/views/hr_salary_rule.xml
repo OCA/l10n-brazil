@@ -59,6 +59,9 @@
                 <field colspan="4" name="amount_python_compute" readonly="1"
                        attrs="{'invisible':['|',('amount_select','&lt;&gt;','code'),('calculo_nao_padrao','=',True)], 'required':[('calculo_nao_padrao','=',False), ('amount_select','=','code')]}"/>
             </field>
+            <field name="company_id" position="after">
+                <field name="acordo_coletivo"/>
+            </field>
         </field>
     </record>
 
