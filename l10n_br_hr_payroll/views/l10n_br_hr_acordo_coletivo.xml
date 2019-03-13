@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_hr_acordo_coletivo_form" model="ir.ui.view">
+            <field name="name">Acordo Coletivo (in l10n_br_hr_payroll)</field>
+            <field name="model">l10n.br.hr.acordo.coletivo</field>
+            <field name="arch" type="xml">
+                <form string="Acordo Coletivo">
+                    <header>
+                        <button name="buscar_periodos_retroativos" type="object" string="Buscar Períodos Retroativos" class="oe_highlight"/>
+                        <button name="gerar_diferencas_retroativos" type="object" string="Gerar Diferenças Retroativos" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1" />
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="data_assinatura_acordo" required="True"/>
+                            <field name="tipo_acordo" required="True"/>
+                            <field name="competencia_pagamento" required="True"/>
+                            <field name="data_efetivacao" required="True"/>
+                            <field name="descricao" required="True"/>
+                            <field name="remuneracao_relativa_sucessao" required="True"/>
+                            <field name="valor_reajuste_salarial" required="True"/>
+                            <field name="diferenca_salarial_id" required="True"/>
+                            <field name="diferenca_ferias_id" required="True"/>
+                        </group>
+                        <notebook>
+                            <page string="Periodos Retroativos">
+                                <field name="periodo_ids" readonly="True"/>
+                            </page>
+                            <page string="Diferenças">
+                                <field name="diferenca_periodo_ids" readonly="True"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_hr_acordo_coletivo_tree">
+            <field name="name">Acordo Coletivo (in l10n_br_hr_payroll)</field>
+            <field name="model">l10n.br.hr.acordo.coletivo</field>
+            <field name="arch" type="xml">
+                <tree string="Acordo Coletivo" duplicate="false">
+                    <field name="data_assinatura_acordo"/>
+                        <field name="tipo_acordo"/>
+                        <field name="competencia_pagamento"/>
+                        <field name="data_efetivacao"/>
+                        <field name="descricao"/>
+                        <field name="remuneracao_relativa_sucessao"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_hr_acordo_coletivo_search" model="ir.ui.view">
+            <field name="name">Acordo Coletivo (in l10n_br_hr_payroll)</field>
+            <field name="model">l10n.br.hr.acordo.coletivo</field>
+            <field name="arch" type="xml">
+                <search string="Acordo Coletivo">
+                    <field name="data_assinatura_acordo"/>
+                    <field name="tipo_acordo"/>
+                    <field name="competencia_pagamento"/>
+                    <field name="data_efetivacao"/>
+                    <field name="descricao"/>
+                    <field name="remuneracao_relativa_sucessao"/>
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="l10n_br_hr_acordo_coletivo_action">
+            <field name="name">Acordo Coletivo de Trabalho</field>
+            <field name="domain">[]</field>
+            <field name="res_model">l10n.br.hr.acordo.coletivo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_acordo_coletivo_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="l10n_br_hr_acordo_coletivo_form"/>
+            <field name="act_window_id" ref="l10n_br_hr_acordo_coletivo_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_acordo_coletivo_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="l10n_br_hr_acordo_coletivo_tree"/>
+            <field name="act_window_id" ref="l10n_br_hr_acordo_coletivo_action"/>
+        </record>
+
+        <menuitem id="menu_l10n_br_hr_acordo_coletivo"
+                  sequence="7"
+                  action="l10n_br_hr_acordo_coletivo_action"
+                  parent="hr.menu_hr_main"
+        />
+
+        <record model="ir.ui.view" id="l10n_br_hr_acordo_coletivo_line_tree">
+            <field name="name">Acordo Coletivo Line (in l10n_br_hr_payroll)</field>
+            <field name="model">l10n.br.hr.acordo.coletivo.line</field>
+            <field name="arch" type="xml">
+                <tree string="Linha Acordo Coletivo" duplicate="false">
+                    <field name="contract_id"/>
+                    <field name="holerite_id"/>
+                    <field name="period_id"/>
+                    <field name="rubrica_diferenca_id"/>
+                    <field name="valor"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

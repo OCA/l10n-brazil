@@ -27,3 +27,6 @@ from . import hr_holidays
 from . import hr_ramal
 from . import hr_telefonia
 from . import res_partner
+
+from . import l10n_br_hr_acordo_coletivo
+from . import account_period

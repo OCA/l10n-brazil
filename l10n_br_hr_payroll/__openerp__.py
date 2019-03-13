@@ -63,6 +63,7 @@
         'views/l10n_br_hr_contract_change/filiacao_sindical.xml',
         'views/l10n_br_hr_contract_change/cargo_atividade.xml',
 
+        'views/l10n_br_hr_acordo_coletivo.xml',
 
         # wizards
         'wizards/hr_ateste_telefonia_wizard.xml',
