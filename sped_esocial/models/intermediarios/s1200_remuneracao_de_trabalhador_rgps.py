@@ -405,12 +405,11 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                             itens_remun.vrRubr.valor = formata_valor(line.total)
                             ide_estab_lot.remunPerAnt.itensRemun.append(itens_remun)
 
-                            if payslip.contract_id.evento_esocial == 's2200':
-                                info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
-                                # Inserir um campo em algum lugar (no contrato talvez)
-                                info_ag_nocivo.grauExp.valor = 1
-                                ide_estab_lot.remunPerAnt.infoAgNocivo.append(
-                                    info_ag_nocivo)
+                    if payslip.contract_id.evento_esocial == 's2200':
+                        info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
+                        info_ag_nocivo.grauExp.valor = 1
+                        ide_estab_lot.remunPerAnt.infoAgNocivo.append(
+                            info_ag_nocivo)
 
                     ide_periodo.ideEstabLot.append(ide_estab_lot)
                     ide_adc_ant.idePeriodo.append(ide_periodo)
