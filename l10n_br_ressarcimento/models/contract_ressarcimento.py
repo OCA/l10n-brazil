@@ -256,7 +256,12 @@ class ContractRessarcimentoLine(models.Model):
     )
 
     descricao = fields.Char(
-        string="Rubricas de Ressarcimento",
+        string="Descrição",
+    )
+
+    hr_salary_rule_id = fields.Many2one(
+        comodel_name='hr.salary.rule',
+        string='Rubricas de Ressarcimento',
     )
 
     total = fields.Float(
@@ -265,11 +270,16 @@ class ContractRessarcimentoLine(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['name'] = '{} - {}'.format(
-            self.contract_ressarcimento_id.browse(
-                vals.get('contract_ressarcimento_id')).name or
+        # display_name de hr_salary_rule_id
+        name_salary_rule = self.env['hr.salary.rule'].\
+            browse(vals['hr_salary_rule_id']).display_name
+        name = name_salary_rule if name_salary_rule else vals['descricao']
+
+        # name = nome do contrato - display_name hr_salary_rule_id ou descricao
+        vals['name'] = '{} - {}'.format(self.contract_ressarcimento_id.browse(
+            vals.get('contract_ressarcimento_id')).name or
             self.contract_ressarcimento_provisionado_id.browse(
                 vals.get('contract_ressarcimento_provisionado_id')).name,
-            vals.get('descricao'))
+            name)
 
         return super(ContractRessarcimentoLine, self).create(vals)
