@@ -1310,7 +1310,7 @@ class HrPayslip(models.Model):
                     rubrica.id in rubricas_especificas_calculadas:
                 continue
 
-            if references.get(rubrica.rule_id.id):
+            if references and references.get(rubrica.rule_id.id):
                 if rubrica.ref and rubrica.ref in references.get(
                         rubrica.rule_id.id):
                     continue
