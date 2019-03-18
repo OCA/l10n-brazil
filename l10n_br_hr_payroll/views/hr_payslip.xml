@@ -92,7 +92,7 @@
                         </page>
 
                         <page string="Salary Computation" name="salary_computation" groups="base.group_hr_user,base.group_hr_manager">
-                            <button string="Gerar códigos de Contabilização" name="gerar_codigo_contabilizacao" type="object"/>
+                            <button string="Gerar códigos de Contabilização" name="gerar_codigo_contabilizacao" type="object" groups="base.group_no_one"/>
                             <field name="line_ids" colspan="4" nolabel="1">
                                 <tree string="Salary Structure" name="tree_salary_structure" editable="bottom" colors="orange:total == 0">
                                     <field name="id" string="Cód Identificador" />
