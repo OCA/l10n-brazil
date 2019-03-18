@@ -94,5 +94,6 @@ class AccountEventTemplateLine(models.Model):
 
     @api.constrains('codigo')
     def _codigo_unique(self):
+        return True
         if len(self.search([('codigo', '=', self.codigo)])) > 1:
             raise Warning(_('Codigo precisa ser único!'))
