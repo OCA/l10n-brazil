@@ -8,19 +8,20 @@ from openerp.exceptions import Warning as UserError
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    def __levenshtein(self, val, field="email", level=3):
+    def levenshtein(self, val, tabela='res_partner', field="email", level=3):
         '''
-        Verifica verifica se existe correspondência na tabela res_partner
-        com base em uma margem de erro.
+        Verifica verifica se existe correspondência com base em uma
+        margem de erro.
 
         :param val: valor a ser buscado
-        :param field: campo na tabela res_partner
+        :param tabela: tabela
+        :param field: campo na tabela
         :param level: número de divergências possíveis
         :return: True/False
         '''
         request = "CREATE EXTENSION IF NOT EXISTS fuzzystrmatch; " \
-                  "SELECT {} FROM res_partner WHERE levenshtein" \
-                  "('{}', {}) <= {} ".format(field, val, field, level)
+                  "SELECT {} FROM {} WHERE levenshtein" \
+                  "('{}', {}) <= {} ".format(field, tabela, val, field, level)
 
         self.env.cr.execute(request)
 
@@ -28,18 +29,20 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-
-        #CONTINUA DAQUI (VALIDAÇÃO SE O USUÁRIO DESSE PARTNER EXITE)
-        result_user = self.env['res.users'].search([('login', '=', vals['email'])])
+        # verifica e-mail completo na tabela usuário e vinculo com partner
+        result_user = self.env['res.users'].search([
+            ('login', '=', vals['email']),
+            ('partner_id.email', '=', vals['email'])])
 
         email_existe = \
-            self.__levenshtein(vals.get('email'), field='email', level=3)
+            self.levenshtein(vals.get('email'), tabela='res_partner',
+                               field='email', level=3)
         name_existe = \
-            self.__levenshtein(vals.get('name'), field='name', level=3)
+            self.levenshtein(vals.get('name'), field='name', level=3)
 
         # se existir correspondencia do nome + email na tabela res_partner
         # para o processo e impede a inclusão.
-        if email_existe and name_existe:
+        if (email_existe and name_existe) or result_user:
             raise UserError("Parceiro já cadastrado. Por favor, "
                             "verifique na lista ou valide o nome e email.")
 
