@@ -51,6 +51,7 @@
         'views/account_fiscalyear.xml',
         'views/res_partner.xml',
         'views/account_event.xml',
+        'views/account_event_line.xml',
         'views/account_event_template.xml',
         'views/account_invoice.xml',
         'views/l10n_br_account.xml',

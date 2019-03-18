@@ -37,16 +37,7 @@
                         <notebook>
                             <separator string="Eventos Contábeis"/>
                             <page string="Eventos">
-                                <field name="account_event_line_ids" widget="one2many_list" nolabel="1">
-                                    <tree editable="bottom">
-                                        <field name="name" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                        <field name="code"/>
-                                        <field name="conta_debito_exclusivo_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                        <field name="conta_credito_exclusivo_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                        <field name="valor" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                        <field name="account_move_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                    </tree>
-                                </field>
+                                <field name="account_event_line_ids" />
                             </page>
                             <page string="Lançamentos">
                                 <field name="account_move_ids" readonly="1" nolabel="1" context="{'form_view_ref': 'l10n_br_contabilidade.l10n_br_contabilidade_view_account_move_form'}">

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 ABGF http://www.abgf.gov.br/
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_account_event_line_form">
+            <field name="name">l10n_br_contabilidade_account_event_line_form (in l10n_br_contabilidade)</field>
+            <field name="model">account.event.line</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="name" />
+                        </h2>
+                        <group>
+                            <field name="code" />
+                            <field name="valor" />
+                        </group>
+                        <group>
+                            <field name="conta_debito_exclusivo_id" />
+                            <field name="conta_credito_exclusivo_id" />
+                        </group>
+
+                        <notebook>
+                            <page string="Eventos">
+                                <separator string="Lançamento Contábil"/>
+                                <field name="account_move_id" nolabel="1" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_account_event_line_tree">
+            <field name="name">l10n_br_contabilidade_account_event_line_tree (in l10n_br_contabilidade)</field>
+            <field name="model">account.event.line</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="conta_debito_exclusivo_id"/>
+                    <field name="conta_credito_exclusivo_id"/>
+                    <field name="account_move_id"/>
+                    <field name="valor"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>
