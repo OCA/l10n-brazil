@@ -43,7 +43,6 @@
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="priority" eval="105"/>
             <field name="arch" type="xml">
-
                 <!-- Altera botões -->
                 <button name="cancel_sheet" position="replace"/>
                 <button name="hr_verify_sheet" position="attributes">
@@ -56,6 +55,7 @@
                 <button name="549" position="attributes">
                     <attribute name="groups">base.group_hr_user</attribute>
                 </button>
+
                 <!-- Adiciona abas -->
                 <xpath expr="//notebook" position="replace">
                     <notebook>
@@ -92,6 +92,7 @@
                         </page>
 
                         <page string="Salary Computation" name="salary_computation" groups="base.group_hr_user,base.group_hr_manager">
+                            <button string="Gerar códigos de Contabilização" name="gerar_codigo_contabilizacao" type="object"/>
                             <field name="line_ids" colspan="4" nolabel="1">
                                 <tree string="Salary Structure" name="tree_salary_structure" editable="bottom" colors="orange:total == 0">
                                     <field name="id" string="Cód Identificador" />
