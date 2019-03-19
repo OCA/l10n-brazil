@@ -1329,6 +1329,7 @@ class HrPayslip(models.Model):
                     / 100 * rubrica.specific_amount, \
                     rubrica.specific_quantity, \
                     rubrica.specific_percentual, rubrica.ref
+        return 0
 
     @api.multi
     def get_desconto_ligacao_telefonica(self):
@@ -2490,14 +2491,9 @@ class HrPayslip(models.Model):
                     #
                     # Tratamos as rubricas específicas que têm beneficiários
                     #
-                    if rule.id in applied_specific_rule and \
-                            rule.code not in calculated_specifc_rule:
-                        if applied_specific_rule.get(rule.id):
-                            lista_rubricas_especificas = \
-                                applied_specific_rule[rule.id]
-                        else:
-                            lista_rubricas_especificas = \
-                                applied_specific_rule['{}-2'.format(rule.id)]
+                    if rule.id in applied_specific_rule and rule.code not in calculated_specifc_rule:
+
+                        lista_rubricas_especificas = applied_specific_rule[rule.id]
 
                         if len(lista_rubricas_especificas) > 0:
                             rubrica_especifica = lista_rubricas_especificas[0]
@@ -2507,9 +2503,9 @@ class HrPayslip(models.Model):
                                     rubrica_especifica.partner_id.id
                                 
                             del lista_rubricas_especificas[0]
-                            
-                            applied_specific_rule[rule.id] = \
-                                lista_rubricas_especificas
+
+                            # applied_specific_rule[rule.id] = \
+                            #     lista_rubricas_especificas
 
                     # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
@@ -2517,12 +2513,15 @@ class HrPayslip(models.Model):
                         # compute the amount of the rule
                         if rule.id in applied_specific_rule and \
                                 rule.code not in calculated_specifc_rule:
-                            amount, qty, rate, ref = \
+                            result = \
                                 payslip.get_specific_rubric_value(
                                     rule.id, references=references)
-                            if not amount:
+                            if not result:
                                 amount, qty, rate = \
                                     obj_rule.compute_rule(rule.id, localdict)
+                            else:
+                                amount, qty, rate, ref = result
+
                         else:
                             amount, qty, rate = \
                                 obj_rule.compute_rule(rule.id, localdict)
