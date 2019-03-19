@@ -765,6 +765,9 @@ class HrPayslip(models.Model):
             if self.tipo_de_folha == 'ferias' and self.is_simulacao:
                 dias_mes = 30
 
+            if self.tipo_de_folha == 'provisao_ferias':
+                dias_mes = 30
+
             result += [self.get_attendances(
                 u'Dias no Mês Atual', 20, u'DIAS_MES_COMPETENCIA_ATUAL',
                 dias_mes, 0.0, contract_id)]
