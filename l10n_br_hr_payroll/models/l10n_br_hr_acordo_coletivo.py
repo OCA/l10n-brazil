@@ -98,7 +98,7 @@ class L10nBrHrAcordoColetivo(models.Model):
         for record in self:
 
             if not record.periodo_ids:
-                record._get_diferencas_retroativas()
+                record._get_periodos_retroativos()
 
             record.diferenca_periodo_ids.unlink()
 
