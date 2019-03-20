@@ -227,7 +227,7 @@
                     <field name="struct_id"
                            attrs="{'readonly': [('tipo_de_folha', '!=', 'rescisao')]}"
                            domain="[('tipo_estrutura', '=', tipo_de_folha)]" />
-                    <field name="data_pagamento_competencia" required="1"/>
+                    <field name="data_pagamento_competencia" attrs="{'required' : ['|', ('tipo_de_folha', '=', 'ferias'), ('tipo_de_folha', '=', 'rescisao')]}" />
                     <field name="eh_mes_comercial" groups="base.group_hr_user" />
                 </field>
                 <xpath expr="//div[@class='oe_title']" position="replace">
