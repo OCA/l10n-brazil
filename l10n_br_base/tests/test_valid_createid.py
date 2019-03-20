@@ -112,10 +112,10 @@ class ValidCreateIdTest(TransactionCase):
     def test_comp_valid(self):
         """Try do create id with correct CNPJ and correct Inscricao Estadual"""
         try:
-            id = self.env['res.company'].create(self.company_valid)
+            company = self.env['res.company'].create(self.company_valid)
         except:
-            assert id, "Error when using .create() even with valid \
-                         and Inscricao Estadual"
+            assert company, "Error when using .create() even with valid \
+                             and Inscricao Estadual"
 
     def test_comp_invalid_cnpj(self):
         """Test if ValidationError raised during .create() with invalid CNPJ
