@@ -18,9 +18,22 @@ class ContractRessarcimentoConfig(models.Model):
 
     partner_ids = fields.Many2many(
         comodel_name='res.partner',
+        relation='contract_ressarcimento_config_rel',
+        column1='contract_ressarcimento_config_id',
+        column2='partner_id',
         string=u'Parceiros para alertar no dia limite',
         help=u'Parceiros que receberão alertas caso não exista registro '
              u'de ressarcimento/provisão para o contrato.'
+    )
+
+    nt_st_partner_ids = fields.Many2many(
+        comodel_name='res.partner',
+        relation='contract_ressarcimento_rel',
+        column1='contract_ressarcimento_config_id',
+        column2='partner_id',
+        string=u'Parceiros para notificar mudança de status',
+        help=u'Parceiros que receberão alertas da mudança de status do'
+             u'do ressarcimento.'
     )
 
     dias_apos_provisao = fields.Integer(

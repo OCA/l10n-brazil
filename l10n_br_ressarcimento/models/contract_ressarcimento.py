@@ -91,6 +91,8 @@ class ContractRessarcimento(models.Model):
     partner_ids = fields.Many2many(
         comodel_name='res.partner',
         string='Parceiros para notificar',
+        default=lambda self:
+        self.env['contract.ressarcimento.config'].browse(1).nt_st_partner_ids,
     )
 
     @api.model

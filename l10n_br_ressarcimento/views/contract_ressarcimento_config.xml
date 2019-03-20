@@ -31,6 +31,9 @@
                         <group>
                             <field name="dias_apos_provisao" required="1" />
                         </group>
+                        <separator string="Notificação de mudança de status" />
+                        <label for="nt_st_partner_ids" string="Parceiros para notificar mudança de status(Default)"/>
+                            <field name="nt_st_partner_ids" required="1" widget="many2many_tags" />
                     </sheet>
                 </form>
             </field>
