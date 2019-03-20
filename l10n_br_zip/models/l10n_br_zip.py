@@ -40,7 +40,7 @@ class L10nBrZip(models.Model):
         comodel_name='res.country.state',
         string='State',
         domain="[('country_id','=',country_id)]")
-    
+
     city_id = fields.Many2one(
         comodel_name='res.city',
         string='City',
@@ -57,7 +57,7 @@ class L10nBrZip(models.Model):
         else:
             if not state_id or not city_id or len(street or '') == 0:
                 raise UserError(
-                    u'Necessário informar Estado, município e logradouro')
+                    _('Necessário informar Estado, município e logradouro'))
 
             if country_id:
                 domain.append(('country_id', '=', country_id))
@@ -85,8 +85,7 @@ class L10nBrZip(models.Model):
                 'district': zip_obj.district,
                 'street': ((zip_obj.street_type or '') +
                            ' ' + (zip_obj.street or '')) if
-                           zip_obj.street_type else
-                           (zip_obj.street or ''),
+                zip_obj.street_type else (zip_obj.street or ''),
                 'zip': zip_code,
             }
         else:

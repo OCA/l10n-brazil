@@ -11,7 +11,7 @@ class L10nBrZipSearch(models.TransientModel):
     zip = fields.Char(
         string='CEP',
         size=8)
-    
+
     street = fields.Char(
         string='Logradouro',
         size=72)
