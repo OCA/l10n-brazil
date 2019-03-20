@@ -80,15 +80,15 @@ class AccountInvoiceRefund(models.TransientModel):
         result = super(AccountInvoiceRefund, self).fields_view_get(
             view_id, view_type, toolbar, submenu)
 
-        type = self.env.context.get('type', 'out_invoice')
-        journal_type = JOURNAL_TYPE[type]
-        type = OPERATION_TYPE[type]
+        invoice_type = self.env.context.get('type', 'out_invoice')
+        journal_type = JOURNAL_TYPE[invoice_type]
+        invoice_type = OPERATION_TYPE[type]
         eview = etree.fromstring(result['arch'])
         fiscal_categ = eview.xpath("//field[@name='fiscal_category_id']")
         for field in fiscal_categ:
             field.set('domain', "[('journal_type', '=', '%s'),\
                                  ('fiscal_type', '=', 'product'),\
                                  ('type', '=', '%s')]" % (journal_type,
-                                                          type))
+                                                          invoice_type))
         result['arch'] = etree.tostring(eview)
         return result
