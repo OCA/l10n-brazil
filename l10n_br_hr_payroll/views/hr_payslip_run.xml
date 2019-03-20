@@ -95,6 +95,9 @@
                             <field name="company_id" required="1"/>
                         </group>
                     </group>
+                    <group>
+                        <field name="data_de_pagamento" required="1"/>
+                    </group>
                 </xpath>
 
                 <separator string="Payslips" position="replace"/>

@@ -95,6 +95,10 @@ class HrPayslipRun(models.Model):
         column2="hr_payslip_run_id",
     )
 
+    data_de_pagamento = fields.Date(
+        string=u'Data de Pagamento',
+    )
+
     @api.onchange('tipo_de_folha')
     def fixa_decimo_terceiro(self):
         if self.tipo_de_folha == 'adiantamento_13' and self.mes_do_ano == 12:
