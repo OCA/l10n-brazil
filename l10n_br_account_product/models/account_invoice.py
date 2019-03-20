@@ -648,10 +648,28 @@ class AccountInvoice(models.Model):
         self.action_number()
         self.nfe_check()
         result = super(AccountInvoice, self).action_invoice_open()
-        for invoice in self:
-            if invoice.fiscal_document_electronic:
-                invoice.write({'state': 'sefaz_export'})
+        self.invoice_sefaz_export()
         return result
+
+    @api.multi
+    def invoice_sefaz_export(self):
+        to_sefaz_export = self.filtered(
+            lambda inv: inv.state in ('draft', 'open')
+            and inv.fiscal_document_electronic
+            and inv.issuer == '0')
+        return to_sefaz_export.write({'state': 'sefaz_export'})
+
+    @api.multi
+    def action_sefaz_open(self):
+        if self.filtered(
+                lambda inv: inv.state == 'sefaz_export'
+                and not inv.nfe_export_date):
+            raise UserError(_(
+                "A NF-e deve ser exportada antes de validada."))
+        to_open_invoices = self.filtered(
+            lambda inv: inv.state == 'sefaz_export'
+            and inv.nfe_export_date)
+        return to_open_invoices.write({'state': 'open'})
 
     @api.multi
     def nfe_check(self):
