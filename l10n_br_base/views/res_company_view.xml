@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+    Views: res.company
+    -->
+    <record id="l10n_br_base_res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <field name="company_registry" position="after">
+                <field name="legal_name" placeholder="Legal Name..."/>
+                <field name="cnpj_cpf" placeholder="CNPJ..."/>
+                <field name="inscr_est" placeholder="State Tax Number..."/>
+                <field name="inscr_mun" placeholder="Municipal Tax Number..."/>
+                <field name="suframa" placeholder="Suframa"/>
+                <field name="state_tax_number_ids">
+                    <tree editable="bottom">
+                        <field name="partner_id" invisible="1"/>
+                        <field name="inscr_est"/>
+                        <field name="state_id" domain="[('country_id', '=', %(base.br)d)]" create="False" edit="False"/>
+                    </tree>
+                </field>
+            </field>
+        </field>
+    </record>
+
+    <record id="l10n_br_base_res_company_tree" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.company.tree</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_tree"/>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="cnpj_cpf"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
