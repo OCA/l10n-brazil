@@ -5,6 +5,7 @@
 import logging
 from calendar import monthrange
 from datetime import datetime, timedelta
+import random
 
 from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, MONTHLY
@@ -1243,17 +1244,9 @@ class HrPayslip(models.Model):
 
                         if specific_rule.rule_id.id not in applied_specific_rule:
                             applied_specific_rule[specific_rule.rule_id.id] = []
-                        else:
-                            applied_specific_rule[
-                                '{}-2'.format(specific_rule.rule_id.id)] = []
 
-                        if not applied_specific_rule.get(specific_rule.rule_id.id):
-                            applied_specific_rule[specific_rule.rule_id.id].append(
+                        applied_specific_rule[specific_rule.rule_id.id].append(
                                 specific_rule)
-                        else:
-                            applied_specific_rule[
-                                '{}-2'.format(specific_rule.rule_id.id)
-                            ].append(specific_rule)
                     
         return applied_specific_rule
 
@@ -2475,7 +2468,7 @@ class HrPayslip(models.Model):
                 references = {}
 
                 for rule in obj_rule.browse(sorted_rule_ids):
-                    key = rule.code + '-' + str(contract.id)
+                    key = rule.code + '-' + str(payslip.id)
                     if result_dict.get(key):
                         key += '-2'
 
@@ -2508,8 +2501,8 @@ class HrPayslip(models.Model):
                             #     lista_rubricas_especificas
 
                     # check if the rule can be applied
-                    if obj_rule.satisfy_condition(rule.id, localdict) \
-                            and (rule.id not in blacklist or rule.acordo_coletivo):
+                    if rule.id in applied_specific_rule or \
+                            obj_rule.satisfy_condition(rule.id, localdict):
                         # compute the amount of the rule
                         if rule.id in applied_specific_rule and \
                                 rule.code not in calculated_specifc_rule:
@@ -2563,13 +2556,13 @@ class HrPayslip(models.Model):
                         if not localdict.get(rule.code):
                             localdict[rule.code] = tot_rule
                         else:
-                            localdict['{}-2'.format(rule.code)] = tot_rule
+                            localdict[random.randint(0, 1000)] = tot_rule
                             previous_amount = 0
 
                         if not rules.get(rule.code):
                             rules[rule.code] = rule
                         else:
-                            rules['{}-2'.format(rule.code)] = rule
+                            rules[random.randint(0, 1000)] = rule
                         if rule.compoe_base_INSS:
                             localdict['BASE_INSS'] += tot_rule
                         if rule.compoe_base_IR:
@@ -2594,7 +2587,7 @@ class HrPayslip(models.Model):
                                 contract.employee_id.address_home_id.id
 
                         # create/overwrite the rule in the temporary results
-                        result_dict[key] = {
+                        result_dict[random.randint(0, 10000)] = {
                             'salary_rule_id': rule.id,
                             'contract_id': contract.id,
                             'name': rule.name,
@@ -2622,8 +2615,7 @@ class HrPayslip(models.Model):
                             'reference': reference,
                             'partner_id': beneficiario_id or 1,
                         }
-                        
-                        blacklist.append(rule.id)
+
                     else:
                         rules_seq = rule._model._recursive_search_of_rules(
                             self._cr, self._uid, rule, self._context)
