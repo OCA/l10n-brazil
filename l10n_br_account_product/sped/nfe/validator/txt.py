@@ -8,7 +8,7 @@ from odoo.tools.translate import _
 # TODO migrate
 
 
-def validate(cr, uid, ids, context=None):
+def validate(invoices, context=None):
     strErro = u''
     pool = pooler.get_pool(cr.dbname)
 

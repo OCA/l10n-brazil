@@ -93,26 +93,26 @@ class AccountFiscalPosition(models.Model):
         map_taxes_origin_ncm = self.env['account.fiscal.position.tax'].browse()
 
         for tax in taxes:
-            for map in self.tax_ids:
-                if (map.tax_src_id.id == tax.id or
-                        map.tax_dest_id == tax or
-                        map.tax_group_id.id == tax.tax_group_id.id):
-                    if map.tax_dest_id.id or tax.tax_code_id.id:
-                        if map.fiscal_classification_id.id == \
+            for mapping in self.tax_ids:
+                if (mapping.tax_src_id.id == tax.id or
+                        mapping.tax_dest_id == tax or
+                        mapping.tax_group_id.id == tax.tax_group_id.id):
+                    if mapping.tax_dest_id.id or tax.tax_code_id.id:
+                        if mapping.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
                             map_taxes_ncm |= map
                         if product.cest_id:
-                            if map.cest_id == product.cest_id:
+                            if mapping.cest_id == product.cest_id:
                                 map_taxes_cest |= map
-                        if map.origin == product.origin:
+                        if mapping.origin == product.origin:
                             map_taxes_origin |= map
-                        if (map.fiscal_classification_id.id ==
+                        if (mapping.fiscal_classification_id.id ==
                                 product.fiscal_classification_id.id and
-                                map.origin == product.origin):
+                                mapping.origin == product.origin):
                             map_taxes_origin_ncm |= map
-                        if (not map.origin and
-                                not map.fiscal_classification_id and
-                                not map.cest_id):
+                        if (not mapping.origin and
+                                not mapping.fiscal_classification_id and
+                                not mapping.cest_id):
                             map_taxes |= map
             else:
                 if result.get(tax.domain):
