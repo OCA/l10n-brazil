@@ -39,7 +39,7 @@
                                 </group>
                                 <field name="contract_ressarcimento_line_ids" nolabel="1" attrs="{'readonly':[('state','not in', ['aberto', 'provisionado'])], 'required':['|', ('valor_provisionado','=',False), ('state', '=', 'provisionado')], 'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['confirmado', 'provisionado', 'aprovado'])]}" widget="one2many_list" >
                                     <tree editable="bottom">
-                                        <field name="hr_salary_rule_id" options="{'no_create': 1}" />
+                                        <field name="hr_salary_rule_id" required="1" options="{'no_create': 1}" />
                                         <field name="descricao" />
                                         <field name="total" sum="Total de ressarcimento Provisionado" />
                                     </tree>
