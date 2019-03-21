@@ -16,9 +16,9 @@ class L10nBrZip(models.Model):
     """
     _name = 'l10n_br.zip'
     _description = 'CEP'
-    _rec_name = 'zip'
+    _rec_name = 'zip_code'
 
-    zip = fields.Char('CEP', size=8, required=True)
+    zip_code = fields.Char('CEP', size=8, required=True)
     street_type = fields.Char('Tipo', size=26)
     street = fields.Char('Logradouro', size=72)
     district = fields.Char('Bairro', size=72)
@@ -36,7 +36,7 @@ class L10nBrZip(models.Model):
         domain = []
         if zip_code:
             new_zip = re.sub('[^0-9]', '', zip_code or '')
-            domain.append(('zip', '=', new_zip))
+            domain.append(('zip_code', '=', new_zip))
         else:
             if not state_id or not l10n_br_city_id or \
                     len(street or '') == 0:
@@ -59,7 +59,7 @@ class L10nBrZip(models.Model):
 
     def set_result(self, zip_obj=None):
         if zip_obj:
-            zip_code = zip_obj.zip
+            zip_code = zip_obj.zip_code
             if len(zip_code) == 8:
                 zip_code = '%s-%s' % (zip_code[0:5], zip_code[5:8])
             result = {
@@ -119,7 +119,7 @@ class L10nBrZip(models.Model):
                     district=obj.district,
                     street=obj.street,
                     zip_code=obj.zip,
-                    zip_ids=[zip.id for zip in zip_ids]
+                    zip_ids=[z.id for z in zip_ids]
                 )
             else:
                 raise UserError(_('Nenhum registro encontrado'))
@@ -130,7 +130,7 @@ class L10nBrZip(models.Model):
                       zip_ids=False):
         context = dict(self.env.context)
         context.update({
-            'zip': zip_code,
+            'zip_code': zip_code,
             'street': street,
             'district': district,
             'country_id': country_id,
