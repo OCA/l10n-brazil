@@ -9,7 +9,7 @@ class L10nBrZipSearch(models.TransientModel):
     _name = 'l10n_br.zip.search'
     _description = 'Zipcode Search'
 
-    zip = fields.Char('CEP', size=8)
+    zip_code = fields.Char('CEP', size=8)
     street = fields.Char('Logradouro', size=72)
     district = fields.Char('Bairro', size=72)
     country_id = fields.Many2one('res.country', 'Country')
@@ -40,7 +40,7 @@ class L10nBrZipSearch(models.TransientModel):
         data = super(L10nBrZipSearch, self).default_get(fields_list)
 
         context = dict(self._context or {})
-        data['zip'] = context.get('zip', False)
+        data['zip_code'] = context.get('zip_code', False)
         data['street'] = context.get('street', False)
         data['district'] = context.get('district', False)
         data['country_id'] = context.get('country_id', False)
@@ -65,7 +65,7 @@ class L10nBrZipSearch(models.TransientModel):
             l10n_br_city_id=data['l10n_br_city_id'][0],
             district=data['district'],
             street=data['street'],
-            zip=data['zip']
+            zip=data['zip_code']
         )
 
         # Search zips
@@ -117,7 +117,7 @@ class L10nBrZipResult(models.TransientModel):
     address_id = fields.Integer('Id do objeto', invisible=True)
     object_name = fields.Char('Nome do objeto', size=100, invisible=True)
     # ZIPCODE data to be shown
-    zip = fields.Char('CEP', size=9, readonly=True)
+    zip_code = fields.Char('CEP', size=9, readonly=True)
     street = fields.Char('Logradouro', size=72, readonly=True)
     street_type = fields.Char('Tipo', size=26, readonly=True)
     district = fields.Char('Bairro', size=72, readonly=True)
@@ -138,6 +138,9 @@ class L10nBrZipResult(models.TransientModel):
             zip_result_data = zip_data
             zip_result_data['object_name'] = object_name
             zip_result_data['address_id'] = address_id
+            zip_result_data['zip_code'] = zip_result_data.get('zip')
+            zip_result_data.pop('zip')
+            zip_result_data.pop('city')
 
             zip_result_id = self.create(zip_result_data)
             result.append(zip_result_id)

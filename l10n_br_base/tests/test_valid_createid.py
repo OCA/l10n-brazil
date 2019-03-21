@@ -113,9 +113,9 @@ class ValidCreateIdTest(TransactionCase):
     def test_comp_valid(self):
         """Try do create id with correct CNPJ and correct Inscricao Estadual"""
         try:
-            id = self.env['res.company'].create(self.company_valid)
+            company = self.env['res.company'].create(self.company_valid)
         except:
-            assert id, u"Error when using .create() even with valid \
+            assert company, u"Error when using .create() even with valid \
                          and Inscricao Estadual"
 
     def test_comp_invalid_cnpj(self):
@@ -135,9 +135,9 @@ class ValidCreateIdTest(TransactionCase):
     def test_part_valid(self):
         """Try do create id with correct CPF and correct Inscricao Estadual"""
         try:
-            id = self.env['res.partner'].create(self.partner_valid)
+            partner = self.env['res.partner'].create(self.partner_valid)
         except:
-            assert id, u"Error when using .create() even with valid CPF \
+            assert partner, u"Error when using .create() even with valid CPF \
                          and Inscricao Estadual"
 
     def test_part_invalid_cpf(self):
