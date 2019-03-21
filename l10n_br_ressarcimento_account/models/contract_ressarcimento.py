@@ -53,7 +53,7 @@ class ContractRessarcimento(models.Model):
 
             for line in eval('record.'+line_ids):
                 contabilizacao_rubricas.append((0, 0, {
-                    'code': line.descricao,
+                    'code': line.hr_salary_rule_id.code,
                     'valor': line.total,
                     'name': '{} - {}'.format(comp, line.name)
                 }))
