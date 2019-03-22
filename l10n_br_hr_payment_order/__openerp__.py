@@ -21,6 +21,8 @@
         'security/payment_order.xml',
         'security/ir.model.access.csv',
 
+        'reports/report_paymentorder.xml',
+        
         'wizard/payslip_payment_create_order_view.xml',
 
         'views/hr_payslip.xml',
