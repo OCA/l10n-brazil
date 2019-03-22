@@ -26,6 +26,7 @@
                             <field name="contract_id" required="True" attrs="{'readonly': [('state', '=', 'applied')]}"  options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                             <field name="change_reason_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                             <field name="change_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                            <field name="change_date_reference" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         </group>
                         <group name="secundary_group">
                             <field name="wage" invisible="1" />
