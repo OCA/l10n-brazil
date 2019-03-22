@@ -58,6 +58,7 @@ MES_DO_ANO2 = [
 TIPO_DE_FOLHA = [
     ('normal', u'Folha normal'),
     ('rescisao', u'Rescisão'),
+    ('rescisao_complementar', u'Rescisão Complementar'),
     ('ferias', u'Férias'),
     ('decimo_terceiro', u'Décimo terceiro (13º)'),
     ('aviso_previo', u'Aviso Prévio'),
@@ -1373,8 +1374,8 @@ class HrPayslip(models.Model):
 
     @api.multi
     def buscar_estruturas_salario(self):
-        if self.tipo_de_folha == "normal" \
-                or self.tipo_de_folha == "aviso_previo":
+        if self.tipo_de_folha in \
+                ['normal', 'aviso_previo', 'rescisao_complementar']:
             return self.contract_id.struct_id
         elif self.tipo_de_folha == "decimo_terceiro":
             if self.is_simulacao:

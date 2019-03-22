@@ -575,6 +575,39 @@
                   id="menu_rescisao_page"
                   parent="hr_payroll.menu_hr_root_payroll"
                   groups="base.group_hr_user,base.group_hr_manager"/>
+
+        <!-- Rescisão Complementar-->
+        <record id="view_hr_payslip_complementar_tree" model="ir.ui.view">
+            <field name="name">hr.payslip.complementar.tree in (l10n_br_hr_payroll)</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Rescisão Complementar">
+                    <field name="number"/>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                    <field name="payslip_run_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_hr_payslip_complementar_view_tree" model="ir.actions.act_window">
+            <field name="name">Rescisão Complementar</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_payslip_complementar_tree"/>
+            <field name="search_view_id" ref="hr_payroll.view_hr_payslip_filter"/>
+            <field name="context">{'default_tipo_de_folha': 'complementar'}</field>
+            <field name="domain">[('tipo_de_folha','=','complementar')]</field>
+        </record>
+
+        <menuitem action="action_view_hr_payslip_complementar_view_tree"
+                  id="menu_hr_payslip_complementar"
+                  parent="hr_payroll.menu_hr_root_payroll"
+                  groups="base.group_hr_user,base.group_hr_manager"/>
+
         <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
         <!--<field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>-->
         <!--<field name="model">hr.payslip</field>-->
