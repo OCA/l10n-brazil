@@ -25,8 +25,12 @@
                             <field name="descricao" required="True"/>
                             <field name="remuneracao_relativa_sucessao" required="True"/>
                             <field name="valor_reajuste_salarial" required="True"/>
-                            <field name="diferenca_salarial_id" required="True"/>
-                            <field name="diferenca_ferias_id" required="True"/>
+                            <field name="rubrica_ids" widget="one2many_list" required="True">
+                                <tree string="Rúbricas" duplicate="false" editable="bottom">
+                                    <field name="rubrica_holerite_id" required="True"/>
+                                    <field name="rubrica_diferenca_id" required="True"/>
+                                </tree>
+                            </field>
                         </group>
                         <notebook>
                             <page string="Periodos Retroativos">
@@ -109,6 +113,17 @@
                     <field name="period_id"/>
                     <field name="rubrica_diferenca_id"/>
                     <field name="valor"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_hr_acordo_coletivo_rubricas_tree">
+            <field name="name">Acordo Coletivo Rubricas (in l10n_br_hr_payroll)</field>
+            <field name="model">l10n.br.hr.acordo.coletivo.rubricas</field>
+            <field name="arch" type="xml">
+                <tree string="Rúbricas" duplicate="false">
+                    <field name="rubrica_holerite_id" required="True"/>
+                    <field name="rubrica_diferenca_id" required="True"/>
                 </tree>
             </field>
         </record>
