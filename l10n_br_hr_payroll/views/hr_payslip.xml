@@ -592,8 +592,8 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="view_hr_payslip_complementar_tree"/>
             <field name="search_view_id" ref="hr_payroll.view_hr_payslip_filter"/>
-            <field name="context">{'default_tipo_de_folha': 'complementar'}</field>
-            <field name="domain">[('tipo_de_folha','=','complementar')]</field>
+            <field name="context">{'default_tipo_de_folha': 'rescisao_complementar'}</field>
+            <field name="domain">[('tipo_de_folha','=','rescisao_complementar')]</field>
         </record>
 
         <menuitem action="action_view_hr_payslip_complementar_view_tree"
