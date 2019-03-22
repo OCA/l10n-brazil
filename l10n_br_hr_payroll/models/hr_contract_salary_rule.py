@@ -51,3 +51,7 @@ class HrContractSalaryRule(models.Model):
         string=u'Beneficiário',
         comodel_name='res.partner',
     )
+    acordo_coletivo_id = fields.Many2one(
+        string='Acordo Coletivo',
+        comodel_name='l10n.br.hr.acordo.coletivo',
+    )

@@ -25,19 +25,33 @@
                             <field name="descricao" required="True"/>
                             <field name="remuneracao_relativa_sucessao" required="True"/>
                             <field name="valor_reajuste_salarial" required="True"/>
-                            <field name="rubrica_ids" widget="one2many_list" required="True">
-                                <tree string="Rúbricas" duplicate="false" editable="bottom">
-                                    <field name="rubrica_holerite_id" required="True"/>
-                                    <field name="rubrica_diferenca_id" required="True"/>
-                                </tree>
-                            </field>
+
                         </group>
+                        <separator string="Rúbricas"/>
+                        <field name="rubrica_ids" widget="one2many_list" required="True">
+                            <tree string="Rúbricas" duplicate="false" editable="bottom">
+                                <field name="rubrica_holerite_id" required="True"/>
+                                <field name="rubrica_diferenca_id" required="True"/>
+                            </tree>
+                        </field>
                         <notebook>
                             <page string="Periodos Retroativos">
                                 <field name="periodo_ids" readonly="True"/>
                             </page>
                             <page string="Diferenças">
-                                <field name="diferenca_periodo_ids" readonly="True"/>
+                                <field name="diferenca_periodo_ids" readonly="True">
+                                    <tree editable="bottom">
+                                        <field name="contract_id"/>
+                                        <field name="rule_id"/>
+                                        <field name="tipo_holerite"/>
+                                        <field name="date_start"/>
+                                        <field name="date_stop"/>
+                                        <field name="ref"/>
+                                        <field name="specific_quantity"/>
+                                        <field name="specific_percentual"/>
+                                        <field name="specific_amount"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -102,20 +116,6 @@
                   action="l10n_br_hr_acordo_coletivo_action"
                   parent="hr.menu_hr_main"
         />
-
-        <record model="ir.ui.view" id="l10n_br_hr_acordo_coletivo_line_tree">
-            <field name="name">Acordo Coletivo Line (in l10n_br_hr_payroll)</field>
-            <field name="model">l10n.br.hr.acordo.coletivo.line</field>
-            <field name="arch" type="xml">
-                <tree string="Linha Acordo Coletivo" duplicate="false">
-                    <field name="contract_id"/>
-                    <field name="holerite_id"/>
-                    <field name="period_id"/>
-                    <field name="rubrica_diferenca_id"/>
-                    <field name="valor"/>
-                </tree>
-            </field>
-        </record>
 
         <record model="ir.ui.view" id="l10n_br_hr_acordo_coletivo_rubricas_tree">
             <field name="name">Acordo Coletivo Rubricas (in l10n_br_hr_payroll)</field>
