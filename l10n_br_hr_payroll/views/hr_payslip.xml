@@ -60,16 +60,9 @@
                 <xpath expr="//notebook" position="replace">
                     <notebook>
                         <page string="Holerite">
-                            <field name="line_resume_ids" 
-                                   colspan="4" 
-                                   nolabel="1" 
-                                   readonly="1" 
-                                   context="{'order': 'sequence, 
-                                                       valor_provento desc, 
-                                                       valor_desconto desc'}">
-                                <tree string="Salary Structure"
-                                      editable="bottom"
-                                      colors="blue:valor_provento > 0;red:valor_deducao > 0">
+                            <field name="line_resume_ids" colspan="4" nolabel="1" readonly="1"
+                                   context="{'order': 'sequence, valor_provento desc, valor_desconto desc'}">
+                                <tree string="Salary Structure" editable="bottom" colors="blue:valor_provento > 0;red:valor_deducao > 0">
                                     <field name="name"/>
                                     <field name="reference"/>
                                     <field name="valor_provento" sum="valor_provento"/>
@@ -622,31 +615,6 @@
         <!--</field>-->
         <!--</record>-->
 
-        <!--<record model="ir.ui.view" id="hr_payslip_tree_view">-->
-        <!--<field name="name">hr.payslip.tree (in l10n_br_hr_payroll)</field>-->
-        <!--<field name="model">hr.payslip</field>-->
-        <!--<field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!--<field name="state" position="before">-->
-        <!--<field name="tipo_de_folha"/>-->
-        <!--</field>-->
-        <!--</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
-        <!--<field name="name">Hr Payslip</field> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="res_model">hr.payslip</field>-->
-        <!--<field name="view_mode">tree,form</field>-->
-        <!--<field name="domain">[]</field>-->
-        <!--<field name="context">{}</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.ui.menu" id="hr_payslip_menu">-->
-        <!--<field name="name">Hr Payslip</field>-->
-        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="action" ref="hr_payslip_act_window"/>-->
-        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</record>-->
 
         <record id="hr_payroll.menu_department_tree" model="ir.ui.menu">
             <field name="groups_id" eval="[(6, 0, [ref('base.group_user'),ref('base.group_hr_user'),ref('base.group_hr_manager')])]"/>
