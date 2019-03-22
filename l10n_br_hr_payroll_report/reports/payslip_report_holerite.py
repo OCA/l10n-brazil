@@ -12,7 +12,9 @@ def payslip_report(pool, cr, uid, local_context, context):
     payslip_pool = pool['hr.payslip']
     payslip_id = payslip_pool.browse(cr, uid, context['active_id'])
 
-    local_context['footer'] = payslip_id.company_id.rml_footer
+    local_context['footer'] = \
+        u'Telefone: 61-3246-6200 | E-mail: gepes@abgf.gov.br | ' \
+        u'Site: http://www.abgf.gov.br'
 
     company_logo = payslip_id.company_id.logo
     company_nfe_logo = payslip_id.company_id.nfe_logo
