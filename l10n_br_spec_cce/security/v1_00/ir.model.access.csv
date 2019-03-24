@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cce_10_tenvevento,cce.10.tenvevento,model_cce_10_tenvevento,base.group_user,1,1,1,1
+access_cce_10_tevento,cce.10.tevento,model_cce_10_tevento,base.group_user,1,1,1,1
+access_cce_10_tprocevento,cce.10.tprocevento,model_cce_10_tprocevento,base.group_user,1,1,1,1
+access_cce_10_tretenvevento,cce.10.tretenvevento,model_cce_10_tretenvevento,base.group_user,1,1,1,1
+access_cce_10_tretevento,cce.10.tretevento,model_cce_10_tretevento,base.group_user,1,1,1,1
+access_cce_10_detevento,cce.10.detevento,model_cce_10_detevento,base.group_user,1,1,1,1
+access_cce_10_infevento,cce.10.infevento,model_cce_10_infevento,base.group_user,1,1,1,1
+access_cce_10_infevento1,cce.10.infevento1,model_cce_10_infevento1,base.group_user,1,1,1,1
