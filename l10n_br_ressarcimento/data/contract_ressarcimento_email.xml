@@ -10,6 +10,7 @@
             <field name="subject"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência ${object.account_period_id.name} ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
             <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: rgb(34, 34, 34); background-color: #FFF; ">
                 <br/><p>Informamos a disponibilização no SAB dos valores a serem ressarcidos do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme valores abaixo: </p><br/>
@@ -72,6 +73,7 @@
             <field name="subject"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
             <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: rgb(34, 34, 34); background-color: #FFF; ">
                 <br/><p>Informamos a disponibilização no SAB dos valores a serem ressarcidos do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme valores abaixo: </p><br/>
@@ -110,6 +112,7 @@
             <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name} ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
             <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; ">
                 <p>Ressarcimento de contrato Aprovado!</p>
@@ -173,6 +176,7 @@
             <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} - Aprovado ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
             <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; ">
                 <p>Ressarcimento de contrato Aprovado!</p>
@@ -212,6 +216,7 @@
             <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
             <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; ">
                 <p><strong>Ressarcimento de contrato Reprovado.</strong></p>
@@ -234,6 +239,7 @@
             <field name="subject"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} (provisão) - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado ]]></field>
             <field name="model_id" ref="l10n_br_ressarcimento.model_contract_ressarcimento"/>
             <field name="lang">${user.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
             <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; ">
                 <p><strong>Provisão do ressarcimento de contrato Reprovado.</strong></p>
