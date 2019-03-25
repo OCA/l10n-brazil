@@ -2,6 +2,7 @@
 # Copyright 2019 ABGF.gov.br Luciano Veras
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import datetime
 from time import gmtime, strftime
 from openerp import api, fields, models, _
 
@@ -53,28 +54,37 @@ class ContractRessarcimentoConfig(models.Model):
         '''
         Verifica se existe contratos expirados e exclui para que não exista
         mais notificações para o contrato.
+
         :return:
         '''
-        for record in self:
-            record.contract_ressarcimento_config_line_ids.filtered(
-                lambda x: x.contract_id.date_end is not False).unlink()
+        self.ensure_one()
+
+        self.contract_ressarcimento_config_line_ids.filtered(
+            lambda x: x.contract_id.date_end is not False).unlink()
 
     @api.multi
     def contrato_dia_limite_hoje(self, ap_prov=False):
+        '''
+        Busca contratos fora do prazo com base na data atual e o dia
+        estabelecido no parâmetro.
+
+        :param ap_prov:
+        :return:
+        '''
+        self.ensure_one()
+
         hoje = int(strftime("%d", gmtime()))
+        dias_ap_prov = self.dias_apos_provisao if ap_prov else 0
+        c_hoje = self.contract_ressarcimento_config_line_ids.\
+            filtered(lambda x: x.dia_limite+dias_ap_prov <= hoje)
 
-        for record in self:
-            dias_ap_prov = record.dias_apos_provisao if ap_prov else 0
-            c_hoje = self.contract_ressarcimento_config_line_ids.\
-                filtered(lambda x: x.dia_limite+dias_ap_prov <= hoje)
-
-            return c_hoje
+        return c_hoje
 
     @api.multi
     def busca_fora_prazo(self, competencia, ap_prov=False):
         for record in self:
             # Contratos com a mesma data de hoje
-            c_hoje = record.contrato_dia_limite_hoje(ap_prov)
+            c_hoje = record.contrato_dia_limite_hoje(ap_prov=ap_prov)
 
             c_fora_prazo = []
 
@@ -86,13 +96,13 @@ class ContractRessarcimentoConfig(models.Model):
                 comp = ('date_ressarcimento', '!=', False) \
                     if ap_prov else (True, '=', True)
 
-                # Busca contratos sem Ressarcimento para a competência atual
+                # Busca id dos contratos sem Ressarcimento na data limite
                 contract_ids = c_hoje.mapped('contract_id').mapped('id')
 
                 contract_res_ids = self.env['contract.ressarcimento'].\
                     search([('contract_id', 'in', contract_ids),
-                          ('account_period_id.name', '=', competencia), comp]
-                           ).mapped('contract_id').mapped('id')
+                            ('account_period_id.name', '=', competencia),
+                            comp]).mapped('contract_id').mapped('id')
 
                 # IDs dos contratos sem ressarcimento cadastrados fora do prazo
                 c_fora_prazo = list(set(contract_ids) - set(contract_res_ids))
@@ -116,8 +126,12 @@ class ContractRessarcimentoConfig(models.Model):
         # Exclui da lista contratos expirados
         self.exclui_contratos_expirados()
 
-        # mês/ano da data atual
-        competencia = strftime("%m/%Y", gmtime())
+        # pega mês/ano anterior
+        hoje = datetime.date.today()
+        primeiro = hoje.replace(day=1)
+        ultimo_mes = primeiro - datetime.timedelta(days=1)
+        competencia = ultimo_mes.strftime("%m/%Y")
+
         c_fora_prazo = self.busca_fora_prazo(competencia=competencia,
                                              ap_prov=ap_prov)
 
