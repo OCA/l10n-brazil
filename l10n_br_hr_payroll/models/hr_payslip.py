@@ -197,8 +197,8 @@ class HrPayslip(models.Model):
                 total_descontos += line.valor_deducao
                 if line.code in ['BASE_FGTS', 'BASE_FGTS_13']:
                     base_fgts += line.total
-                elif line.code in ['BASE_INSS', 'BASE_INSS_13']:
-                    base_inss += line.total
+                # elif line.code in ['BASE_INSS', 'BASE_INSS_13']:
+                #     base_inss += line.total
                 elif line.code == 'BASE_IRPF':
                     base_irpf = line.total
                 elif line.code == 'FGTS':
@@ -207,11 +207,23 @@ class HrPayslip(models.Model):
                     inss = line.total
                 elif line.code == 'IRPF':
                     irpf = line.total
+
+            base_inss = \
+                holerite.line_ids.filtered(lambda x: x.code == 'BASE_INSS')
+
+            soma_base_inss = base_inss[0].total
+
+            base_inss_13 = \
+                holerite.line_ids.filtered(lambda x: x.code == 'BASE_INSS_13')
+
+            if base_inss_13:
+                soma_base_inss += base_inss_13.total
+
             holerite.total_folha = total
             holerite.total_proventos = total_proventos
             holerite.total_descontos = total_descontos
             holerite.base_fgts = base_fgts
-            holerite.base_inss = base_inss
+            holerite.base_inss = soma_base_inss
             holerite.base_irpf = base_irpf
             holerite.fgts = fgts
             holerite.inss = inss
