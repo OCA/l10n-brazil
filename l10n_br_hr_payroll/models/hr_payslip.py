@@ -208,10 +208,13 @@ class HrPayslip(models.Model):
                 elif line.code == 'IRPF':
                     irpf = line.total
 
+            soma_base_inss = 0
+
             base_inss = \
                 holerite.line_ids.filtered(lambda x: x.code == 'BASE_INSS')
 
-            soma_base_inss = base_inss[0].total
+            if base_inss:
+                soma_base_inss = base_inss[0].total
 
             base_inss_13 = \
                 holerite.line_ids.filtered(lambda x: x.code == 'BASE_INSS_13')
