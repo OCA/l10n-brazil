@@ -2569,11 +2569,11 @@ class HrPayslip(models.Model):
                         tot_rule = Decimal(amount or 0) * Decimal(
                             qty or 0) * Decimal(rate or 0) / 100.0
                         tot_rule = tot_rule.quantize(Decimal('0.01'))
-                        if not localdict.get(rule.code):
-                            localdict[rule.code] = tot_rule
+                        if localdict.get(rule.code) and \
+                                rule.category_id.code == 'PROVENTO':
+                            localdict[rule.code] += tot_rule
                         else:
-                            localdict[random.randint(0, 1000)] = tot_rule
-                            previous_amount = 0
+                            localdict[rule.code] = tot_rule
 
                         if not rules.get(rule.code):
                             rules[rule.code] = rule
