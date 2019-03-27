@@ -50,6 +50,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
         ],
         string='Situação no e-Social',
         compute='compute_situacao_esocial',
