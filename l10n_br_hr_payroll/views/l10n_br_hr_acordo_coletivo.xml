@@ -115,6 +115,7 @@
                   sequence="7"
                   action="l10n_br_hr_acordo_coletivo_action"
                   parent="hr.menu_hr_main"
+                  groups="base.group_no_one"
         />
 
         <record model="ir.ui.view" id="l10n_br_hr_acordo_coletivo_rubricas_tree">

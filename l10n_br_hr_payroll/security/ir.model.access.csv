@@ -38,3 +38,4 @@
 "access_hr_job_funcionario","access_model_hr_job_funcionario","hr.model_hr_job","base.group_user",1,0,0,0
 "access_account_move_line_funcionario","access_account_move_line_funcionario","account.model_account_move_line","base.group_user",1,0,0,0
 "access_payment_line_funcionario","access_payment_line_funcionario","account_payment.model_payment_line","base.group_user",1,0,0,0
+"access_hr_acordo_coletivo","access_hr_acordo_coletivo","l10n_br_hr_payroll.model_l10n_br_hr_acordo_coletivo","base.group_no_one",1,1,1,1
