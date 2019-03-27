@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lote_gnre_v100_gnre_10_tdadosgnre,gnre.10.tdadosgnre,model_gnre_10_tdadosgnre,base.group_user,1,1,1,1
+access_lote_gnre_v100_gnre_10_tlote_gnre,gnre.10.tlote_gnre,model_gnre_10_tlote_gnre,base.group_user,1,1,1,1
+access_lote_gnre_v100_gnre_10_c03_idcontribuinteemitente,gnre.10.c03_idcontribuinteemitente,model_gnre_10_c03_idcontribuinteemitente,base.group_user,1,1,1,1
+access_lote_gnre_v100_gnre_10_c05_referencia,gnre.10.c05_referencia,model_gnre_10_c05_referencia,base.group_user,1,1,1,1
+access_lote_gnre_v100_gnre_10_c35_idcontribuintedestinatario,gnre.10.c35_idcontribuintedestinatario,model_gnre_10_c35_idcontribuintedestinatario,base.group_user,1,1,1,1
+access_lote_gnre_v100_gnre_10_c39_camposextras,gnre.10.c39_camposextras,model_gnre_10_c39_camposextras,base.group_user,1,1,1,1
+access_lote_gnre_v100_gnre_10_campoextra,gnre.10.campoextra,model_gnre_10_campoextra,base.group_user,1,1,1,1
+access_lote_gnre_v100_gnre_10_guias,gnre.10.guias,model_gnre_10_guias,base.group_user,1,1,1,1
