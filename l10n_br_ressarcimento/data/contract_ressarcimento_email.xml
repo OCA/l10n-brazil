@@ -207,7 +207,7 @@
             </table>
             ]]></field>
         </record>
-
+        
         <!-- Template de Email quando o Ressarcimento for REPROVADO -->
         <record id="email_template_contract_ressarcimento_reprovado" model="email.template">
             <field name="name"><![CDATA[ Ressarcimento ${object.contract_id.name} - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado ]]></field>
