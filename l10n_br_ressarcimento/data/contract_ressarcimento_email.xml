@@ -33,7 +33,7 @@
                 </tr>
                 % for line in object.contract_ressarcimento_line_ids:
                     <tr style="font-weight:bold;" >
-                        <td>${line.descricao}</td>
+                        <td>${line.hr_salary_rule_id.name}</td>
                         <td>${"%.2f" % line.total}</td>
                     </tr>
                 % endfor
@@ -56,7 +56,7 @@
                     </tr>
                     % for line in object.contract_ressarcimento_provisionado_line_ids:
                         <tr style="font-weight:bold;" >
-                            <td>${line.descricao}</td>
+                            <td>${line.hr_salary_rule_id.name}</td>
                             <td>${"%.2f" % line.total}</td>
                         </tr>
                     % endfor
@@ -96,7 +96,7 @@
                 </tr>
                 % for line in object.contract_ressarcimento_provisionado_line_ids:
                     <tr style="font-weight:bold;" >
-                        <td>${line.descricao}</td>
+                        <td>${line.hr_salary_rule_id.name}</td>
                         <td>${"%.2f" % line.total}</td>
                     </tr>
                 % endfor
@@ -135,7 +135,7 @@
                 </tr>
                 % for line in object.contract_ressarcimento_line_ids:
                     <tr style="font-weight:bold;" >
-                        <td>${line.descricao}</td>
+                        <td>${line.hr_salary_rule_id.name}</td>
                         <td>${"%.2f" % line.total}</td>
                     </tr>
                 % endfor
@@ -159,7 +159,7 @@
                     </tr>
                     % for line in object.contract_ressarcimento_provisionado_line_ids:
                         <tr style="font-weight:bold;" >
-                            <td>${line.descricao}</td>
+                            <td>${line.hr_salary_rule_id.name}</td>
                             <td>${"%.2f" % line.total}</td>
                         </tr>
                     % endfor
@@ -200,7 +200,7 @@
                 </tr>
                 % for line in object.contract_ressarcimento_provisionado_line_ids:
                     <tr style="font-weight:bold;" >
-                        <td>${line.descricao}</td>
+                        <td>${line.hr_salary_rule_id.name}</td>
                         <td>${"%.2f" % line.total}</td>
                     </tr>
                 % endfor
