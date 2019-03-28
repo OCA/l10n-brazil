@@ -174,6 +174,10 @@ class AccountEvent(models.Model):
                 'valor': line.valor,
             }
 
+            # Adicionar a origem do evento no dicionario para
+            # compor historico padrao
+            vals.update(line.account_event_id.origem.read()[0])
+
             if line.conta_debito_exclusivo_id:
                 vals['conta_debito_exclusivo_id'] = \
                     line.conta_debito_exclusivo_id.id
