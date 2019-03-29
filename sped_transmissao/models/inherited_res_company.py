@@ -43,13 +43,14 @@ class ResCompany(models.Model):
     @api.depends('cnpj_cpf')
     def _compute_empresa_base(self):
         for empresa in self:
-            empresa.eh_empresa_base = ('0001-' in empresa.cnpj_cpf)
+            empresa.eh_empresa_base = ('0001-' in empresa.cnpj_cpf) \
+                if empresa.cnpj_cpf else False
 
     @api.depends('cnpj_cpf')
     def _compute_matriz(self):
         for empresa in self:
             matriz = False
-            if not empresa.eh_empresa_base:
+            if not empresa.eh_empresa_base and empresa.cnpj_cpf:
                 matriz = self.env['res.company'].search([
                     ('cnpj_cpf', 'like', empresa.cnpj_cpf[0:10] + '/0001-')
                 ], limit=1)
