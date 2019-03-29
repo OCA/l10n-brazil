@@ -22,7 +22,6 @@ class AccountTrialBalanceWizard(models.TransientModel):
         default=False,
     )
 
-
     @api.multi
     def _print_report(self, data):
         data['form']['lancamento_de_fechamento'] = \

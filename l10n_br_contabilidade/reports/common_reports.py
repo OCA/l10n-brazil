@@ -79,8 +79,46 @@ FROM account_move_line l
     return res or []
 
 
+def _compute_initial_balances(self, account_ids, start_period, fiscalyear,
+                              situacao_lancamento=False):
+    """We compute initial balance.
+    If form is filtered by date all initial balance are equal to 0
+    This function will sum pear and apple in currency amount if account as
+    no secondary currency"""
+    # if opening period is included in start period we do not need to
+    # compute init balance we just read it from opening entries
+    res = {}
+    # PNL and Balance accounts are not computed the same way look for
+    # attached doc We include opening period in pnl account in order to see
+    # if opening entries were created by error on this account
+    pnl_periods_ids = self._get_period_range_from_start_period(
+        start_period, fiscalyear=fiscalyear, include_opening=True)
+    bs_period_ids = self._get_period_range_from_start_period(
+        start_period, include_opening=True, stop_at_previous_opening=True)
+    opening_period_selected = self.get_included_opening_period(
+        start_period)
+
+    for acc in self.pool.get('account.account').browse(self.cursor,
+                                                       self.uid,
+                                                       account_ids):
+        res[acc.id] = self._compute_init_balance(default_values=True)
+        if acc.user_type.close_method == 'none':
+            # we compute the initial balance for close_method == none only
+            # when we print a GL during the year, when the opening period
+            # is not included in the period selection!
+            if pnl_periods_ids and not opening_period_selected:
+                res[acc.id] = self._compute_init_balance(
+                    acc.id, pnl_periods_ids,
+                    situacao_lancamento=situacao_lancamento)
+        else:
+            res[acc.id] = self._compute_init_balance(
+                acc.id, bs_period_ids, situacao_lancamento=situacao_lancamento)
+    return res
+
+
 def _compute_init_balance(self, account_id=None, period_ids=None,
-                          mode='computed', default_values=False):
+                          mode='computed', default_values=False,
+                          situacao_lancamento=False):
     if not isinstance(period_ids, list):
         period_ids = [period_ids]
     res = {}
@@ -93,7 +131,7 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
             self.cursor.execute(
                 "SELECT an.name "
                 "FROM account_account aa "
-                "LEFT JOIN  account_natureza an "
+                "LEFT JOIN account_natureza an "
                 "   ON (aa.natureza_conta_id = an.id) "
                 "WHERE aa.id = {}".format(account_id))
 
@@ -104,17 +142,18 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
             if natureza and natureza == 'Credora':
                 BALANCE = 'sum(credit)-sum(debit)'
 
-            self.cursor.execute(
-                "SELECT sum(debit) AS debit, "
-                " sum(credit) AS credit, "
-                " {} AS balance, "
-                " sum(amount_currency) AS curr_balance"
-                " FROM account_move_line"
-                " WHERE period_id in {}"
-                " AND account_id = {}".format(
-                    BALANCE, tuple(period_ids), account_id
-                )
-            )
+            domain_query = "SELECT sum(debit) AS debit, sum(credit) AS credit,"\
+                           " {} AS balance, sum(amount_currency) " \
+                           "AS curr_balance FROM account_move_line " \
+                           "WHERE period_id in {} AND move_id in (" \
+                           "SELECT id FROM account_move WHERE " \
+                           "period_id in {}{}) AND account_id = {}".format(
+                            BALANCE, tuple(period_ids), tuple(period_ids),
+                            " AND state = 'posted'" if
+                            situacao_lancamento == 'posted' else '',
+                            account_id)
+
+            self.cursor.execute(domain_query)
             res = self.cursor.dictfetchone()
             res.update(natureza_conta=natureza)
 
@@ -131,5 +170,6 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
             }
 
 
+CommonReportHeaderWebkit._compute_initial_balances = _compute_initial_balances
 CommonReportHeaderWebkit._compute_init_balance = _compute_init_balance
 CommonReportHeaderWebkit._get_move_line_datas = _get_move_line_datas

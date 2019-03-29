@@ -15,6 +15,7 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
     @api.multi
     def _print_report(self, data):
         data['form']['coluna_saldo_periodo'] = self.coluna_saldo_periodo
+        data['form']['target_move'] = self.target_move
         data = self.pre_print_report(data)
 
         return {'type': 'ir.actions.report.xml',
