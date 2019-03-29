@@ -645,7 +645,7 @@ class HrContract(models.Model):
         de identificação da filial do cnpj
         """
         for record in self:
-            if record.company_id and not record.prefixo_empresa_matricula:
+            if record.company_id and record.company_id.cnpj_cpf and not record.prefixo_empresa_matricula:
                 cnpj_empresa = record.company_id.cnpj_cpf
                 identificacao_empresa = cnpj_empresa.split('/')[1].split('-')[0]
 

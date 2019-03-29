@@ -332,7 +332,8 @@ class ResCompany(models.Model):
     @api.depends('cnpj_cpf')
     def _compute_cnpj_cpf_limpo(self):
         for company in self:
-            company.cnpj_cpf_limpo = limpa_formatacao(company.cnpj_cpf)
+            if company.cnpj_cpf:
+                company.cnpj_cpf_limpo = limpa_formatacao(company.cnpj_cpf)
 
     @api.model
     def _field_id_domain(self):
