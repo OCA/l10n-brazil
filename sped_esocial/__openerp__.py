@@ -33,6 +33,7 @@
         'l10n_br_hr',
         'hr_contract',
         'resource',
+        'report_py3o',
     ],
     'data': [
 
