@@ -339,8 +339,8 @@ class SpedRegistro(models.Model):
         self.transmitir_lote()
         self.recibo = False
         self.protocolo = False
-        self.situacao = '1'
         self.origem_intermediario.limpar_db = False
+        self.situacao = '2'
 
     @api.multi
     def consulta_lote(self):
