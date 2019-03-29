@@ -46,5 +46,27 @@
             <field eval="'ir.actions.report.xml,'+str(ref('l10n_br_contabilidade.l10n_br_account_report_trial_balance'))" model="ir.actions.report.xml" name="res_id"/>
         </record>
 
+        <!-- Diario -->
+        <record id="l10n_br_account_report_print_journal" model="ir.actions.report.xml">
+             <field name="report_type">webkit</field>
+             <field name="report_name">account.l10n_br_account_report_print_journal</field>
+             <field eval="[(6,0,[])]" name="groups_id"/>
+             <field eval="0" name="multi"/>
+             <field eval="0" name="auto"/>
+             <field eval="1" name="header"/>
+             <field name="model">account.account</field>
+             <field name="type">ir.actions.report.xml</field>
+             <field name="name">l10n_br_Diario</field>
+             <field name="report_rml">l10n_br_contabilidade/reports/templates/account_report_print_journal_webkit.mako</field>
+             <field name="report_file">l10n_br_contabilidade/reports/templates/account_report_print_journal_webkit.makoo</field>
+         </record>
+
+        <record id="property_l10n_br_account_report_print_journal" model="ir.property">
+            <field name="name">l10n_br_account_report_print_journal</field>
+            <field name="fields_id" ref="report_webkit.field_ir_act_report_xml_webkit_header"/>
+            <field eval="'ir.header_webkit,'+str(ref('account_financial_report_webkit.financial_portrait_header'))" model="ir.header_webkit" name="value"/>
+            <field eval="'ir.actions.report.xml,'+str(ref('l10n_br_contabilidade.l10n_br_account_report_print_journal'))" model="ir.actions.report.xml" name="res_id"/>
+        </record>
+
     </data>
 </openerp>
