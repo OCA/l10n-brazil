@@ -118,7 +118,7 @@ class Company(models.Model):
         ondelete='cascade')
 
     inscr_mun = fields.Char(
-        string=u'Municipal Tax Number',
+        string='Municipal Tax Number',
         compute='_compute_l10n_br_data',
         inverse='_inverse_inscr_mun',
         size=18)
