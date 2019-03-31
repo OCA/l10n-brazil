@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 try:
     from num2words.lang_PT_BR import Num2Word_PT_BR
 except ImportError:
-    _logger.info(u"Biblioteca Num2Words não instalada")
+    _logger.info("Biblioteca Num2Words não instalada")
 
 
 class Num2WordsPTBRTest(TransactionCase):
