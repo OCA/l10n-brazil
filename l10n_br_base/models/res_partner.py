@@ -108,7 +108,7 @@ class Partner(models.Model):
             # se encontrar CNPJ iguais
             if record.env['res.partner'].search(domain):
 
-                if allow_cnpj_multi_ie == u'True':
+                if allow_cnpj_multi_ie == 'True':
                     for partner in record.env['res.partner'].search(domain):
                         if (partner.inscr_est == record.inscr_est and
                                 not record.inscr_est):
@@ -129,10 +129,10 @@ class Partner(models.Model):
                 if record.is_company:
                     if not fiscal.validate_cnpj(record.cnpj_cpf):
                         result = False
-                        document = u'CNPJ'
+                        document = 'CNPJ'
                 elif not fiscal.validate_cpf(record.cnpj_cpf):
                     result = False
-                    document = u'CPF'
+                    document = 'CPF'
             if not result:
                 raise ValidationError(_("{} Invalid!").format(document))
 
