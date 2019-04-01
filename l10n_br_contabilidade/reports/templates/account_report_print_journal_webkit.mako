@@ -76,21 +76,17 @@
             <div class="act_as_thead">
                 <div class="act_as_row labels">
                     ## date
-                    <div class="act_as_cell first_column">${_('Date')}</div>
+                    <div class="act_as_cell first_column" style="width: 60px;">${_('Date')}</div>
                     ## move
-                    <div class="act_as_cell">${_('Entry')}</div>
+                    <div class="act_as_cell" style="width: 100px;">${_('Entry')}</div>
                     ## account code
-                    <div class="act_as_cell">${_('Account')}</div>
-                    ## date
-                    <div class="act_as_cell">${_('Due Date')}</div>
-                    ## partner
-                    <div class="act_as_cell" style="width: 280px;">${_('Partner')}</div>
+                    <div class="act_as_cell" style="width: 95px;">${_('Account')}</div>
                     ## label
-                    <div class="act_as_cell" style="width: 310px;">${_('Label')}</div>
+                    <div class="act_as_cell" style="width: 550px;">${_('Label')}</div>
                     ## debit
-                    <div class="act_as_cell amount">${_('Debit')}</div>
+                    <div class="act_as_cell amount" style="width: 125px;">${_('Debit')}</div>
                     ## credit
-                    <div class="act_as_cell amount">${_('Credit')}</div>
+                    <div class="act_as_cell amount" style="width: 125px;">${_('Credit')}</div>
                     %if amount_currency(data):
                         ## currency balance
                         <div class="act_as_cell amount sep_left">${_('Curr. Balance')}</div>
@@ -112,21 +108,17 @@
                     %>
                     <div class="act_as_row lines">
                         ## date
-                        <div class="act_as_cell first_column">${formatLang(move.date, date=True) if new_move else ''}</div>
+                        <div class="act_as_cell first_column" style="width: 60px;">${formatLang(move.date, date=True) if new_move else ''}</div>
                         ## move
-                        <div class="act_as_cell">${move.name if new_move else ''}</div>
+                        <div class="act_as_cell" style="width: 100px;">${move.name if new_move else ''}</div>
                         ## account code
-                        <div class="act_as_cell">${line.account_id.code}</div>
-                        ## date
-                        <div class="act_as_cell">${formatLang(line.date_maturity or '', date=True)}</div>
-                        ## partner
-                        <div class="act_as_cell overflow_ellipsis" style="width: 280px;">${line.partner_id.name if new_move else ''}</div>
+                        <div class="act_as_cell" style="width: 95px;">${line.account_id.code}</div>
                         ## label
-                        <div class="act_as_cell overflow_ellipsis" style="width: 310px;">${line.name}</div>
+                        <div class="act_as_cell overflow_ellipsis" style="width: 550px;">${line.name}</div>
                         ## debit
-                        <div class="act_as_cell amount">${formatLang(line.debit) if line.debit else ''}</div>
+                        <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.debit) if line.debit else ''}</div>
                         ## credit
-                        <div class="act_as_cell amount">${formatLang(line.credit) if line.credit else ''}</div>
+                        <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.credit) if line.credit else ''}</div>
                         %if amount_currency(data):
                             ## currency balance
                             <div class="act_as_cell amount sep_left">${formatLang(line.amount_currency) if line.amount_currency else ''}</div>
