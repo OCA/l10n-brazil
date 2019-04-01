@@ -100,20 +100,20 @@ class AccountFiscalPosition(models.Model):
                     if mapping.tax_dest_id.id or tax.tax_code_id.id:
                         if mapping.fiscal_classification_id.id == \
                                 product.fiscal_classification_id.id:
-                            map_taxes_ncm |= map
+                            map_taxes_ncm |= mapping
                         if product.cest_id:
                             if mapping.cest_id == product.cest_id:
-                                map_taxes_cest |= map
+                                map_taxes_cest |= mapping
                         if mapping.origin == product.origin:
-                            map_taxes_origin |= map
+                            map_taxes_origin |= mapping
                         if (mapping.fiscal_classification_id.id ==
                                 product.fiscal_classification_id.id and
                                 mapping.origin == product.origin):
-                            map_taxes_origin_ncm |= map
+                            map_taxes_origin_ncm |= mapping
                         if (not mapping.origin and
                                 not mapping.fiscal_classification_id and
                                 not mapping.cest_id):
-                            map_taxes |= map
+                            map_taxes |= mapping
             else:
                 if result.get(tax.domain):
                     result[tax.domain].update({'tax': tax})
