@@ -91,7 +91,7 @@ class MisReportKpi(models.Model):
                 )
 
     @api.depends('account_ids.mis_report_kpi_ids', 'expression_type',
-                 'invert_signal', 'incluir_lancamentos_de_fechamento')
+                 'invert_signal')
     def _compute_kpi_expression(self):
         for record in self:
             if record.expression_mode == 'manual':
@@ -110,10 +110,6 @@ class MisReportKpi(models.Model):
                             "".join([str(acc.code) + ','
                                      if acc else ''
                                      for acc in record.account_ids])
-                        ) + str(
-                            [('move_id.lancamento_de_fechamento', '=', False)]
-                            if not record.incluir_lancamentos_de_fechamento
-                            else ''
                         )
                 )
 
