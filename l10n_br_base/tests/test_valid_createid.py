@@ -134,9 +134,9 @@ class ValidCreateIdTest(TransactionCase):
     def test_part_valid(self):
         """Try do create id with correct CPF and correct Inscricao Estadual"""
         try:
-            id = self.env['res.partner'].create(self.partner_valid)
+            partner = self.env['res.partner'].create(self.partner_valid)
         except:
-            assert id, "Error when using .create() even with valid CPF \
+            assert partner, "Error when using .create() even with valid CPF \
                          and Inscricao Estadual"
 
     def test_part_invalid_cpf(self):
