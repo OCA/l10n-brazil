@@ -47,5 +47,5 @@ class TestSupplierNFe(TransactionCase):
         self.invoice_same_state.with_context(
             {'fiscal_document_code': '55'}).action_invoice_open()
         self.assertEquals(
-            self.invoice_same_state.state, 'sefaz_export',
-            "Invoice should be in state SEFAZ EXPORT")
+            self.invoice_same_state.state, 'open',
+            "Invoice should be in state Open")
