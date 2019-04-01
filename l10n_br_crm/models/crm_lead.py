@@ -45,11 +45,11 @@ class Lead(models.Model):
         size=32)
 
     street_number = fields.Char(
-        string=u'Número',
+        string='Número',
         size=10)
 
     name_surname = fields.Char(
-        string=u'Nome e sobrenome',
+        string='Nome e sobrenome',
         size=128,
         help="Nome utilizado em documentos fiscais")
 
@@ -69,7 +69,7 @@ class Lead(models.Model):
             if record.cnpj and country_code.upper() == 'BR':
                 cnpj = misc.punctuation_rm(record.cnpj)
                 if not fiscal.validate_cnpj(cnpj):
-                    raise ValidationError(_(u'CNPJ inválido!'))
+                    raise ValidationError(_('CNPJ inválido!'))
             return True
 
     @api.multi
@@ -80,7 +80,7 @@ class Lead(models.Model):
             if record.cpf and country_code.upper() == 'BR':
                 cpf = misc.punctuation_rm(record.cpf)
                 if not fiscal.validate_cpf(cpf):
-                    raise ValidationError(_(u'CPF inválido!'))
+                    raise ValidationError(_('CPF inválido!'))
             return True
 
     @api.multi
@@ -98,7 +98,7 @@ class Lead(models.Model):
                 uf = state_code.lower()
                 result = fiscal.validate_ie(uf, record.inscr_est)
             if not result:
-                raise ValidationError(u"Inscrição Estadual Invalida!")
+                raise ValidationError(_("Inscrição Estadual Invalida!"))
 
     @api.onchange('cnpj', 'country_id')
     def _onchange_cnpj(self):
