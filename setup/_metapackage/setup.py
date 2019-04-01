@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo12-addon-l10n_br_base',
+        'odoo12-addon-l10n_br_crm',
         'odoo12-addon-l10n_br_zip',
     ],
     classifiers=[
