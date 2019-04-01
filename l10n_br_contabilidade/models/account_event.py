@@ -214,6 +214,17 @@ class AccountEvent(models.Model):
         for record in self:
             if not record.account_event_template_id:
                 raise Warning(u'Por favor selecionar Roteiro Contábil.')
+
+            template = record.account_event_template_id
+            event_line_ids = record.account_event_line_ids.mapped('code')
+            template_event_line_ids = \
+                template.account_event_template_line_ids.mapped('codigo')
+
+            # Verifica se os códigos dos eventos estão contidos no template
+            if not set(event_line_ids).issubset(template_event_line_ids):
+                raise Warning(u'Os códigos informados precisam estar contidos '
+                              u'no roteiro contábil selecionado.')
+
             record.state = 'validate'
 
     @api.multi
