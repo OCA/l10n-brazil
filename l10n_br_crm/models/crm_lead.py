@@ -98,7 +98,7 @@ class Lead(models.Model):
                 uf = state_code.lower()
                 result = fiscal.validate_ie(uf, record.inscr_est)
             if not result:
-                raise ValidationError(u"Inscrição Estadual Invalida!")
+                raise ValidationError(_("Inscrição Estadual Invalida!"))
 
     @api.onchange('cnpj', 'country_id')
     def _onchange_cnpj(self):
