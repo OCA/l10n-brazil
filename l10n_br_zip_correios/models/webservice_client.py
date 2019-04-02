@@ -56,12 +56,8 @@ class WebServiceClient(object):
 
                 values = {
                     'zip': zip_str,
-                    'street': res.end or '',
+                    'street': res.end,
                     'district': res.bairro,
-                    # else '',
-                    # 'street_type': str(
-                    #    res.complemento if hasattr(res, 'complemento')
-                    # else '',
                     'city_id': city.id or False,
                     'state_id': state.id or False,
                     'country_id': country.id or False,
