@@ -58,7 +58,7 @@
              <field name="type">ir.actions.report.xml</field>
              <field name="name">l10n_br_Diario</field>
              <field name="report_rml">l10n_br_contabilidade/reports/templates/account_report_print_journal_webkit.mako</field>
-             <field name="report_file">l10n_br_contabilidade/reports/templates/account_report_print_journal_webkit.makoo</field>
+             <field name="report_file">l10n_br_contabilidade/reports/templates/account_report_print_journal_webkit.mako</field>
          </record>
 
         <record id="property_l10n_br_account_report_print_journal" model="ir.property">

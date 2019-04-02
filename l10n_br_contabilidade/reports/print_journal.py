@@ -8,6 +8,8 @@ from openerp.addons.account_financial_report_webkit.report.print_journal \
 from openerp.addons.account_financial_report_webkit.report.webkit_parser_header_fix \
     import HeaderFooterTextWebKitParser
 
+import os
+
 
 def set_context(self, objects, data, ids, report_type=None):
     """Populate a ledger_lines attribute on each browse record that will
@@ -98,5 +100,6 @@ PrintJournalWebkit.set_context = set_context
 HeaderFooterTextWebKitParser(
     'report.account.l10n_br_account_report_print_journal',
     'account.journal.period',
-    'l10n_br_contabilidade/reports/templates/account_report_print_journal_webkit.mako',
+    os.path.dirname(os.path.abspath(__file__)) +
+    '/templates/account_report_print_journal_webkit.mako',
     parser=PrintJournalWebkit)
