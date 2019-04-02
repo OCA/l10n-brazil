@@ -274,7 +274,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
         remuneracoes_ids = self.payslip_ids or self.payslip_autonomo_ids
         for payslip in remuneracoes_ids:
-            rubricas_convencao_coletiva = []
+            rubricas_convencao_coletiva = {}
             if payslip.tipo_de_folha == 'ferias':
                 continue
             dm_dev = pysped.esocial.leiaute.S1200_DmDev_2()
@@ -328,8 +328,8 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                             and ind_apur and cod_funcionario else False
 
                         if condicao_pagamento_anterior:
+                            rubricas_convencao_coletiva[line.id] = line
                         else:
-                            if line.salary_rule_id.code == 'BASE_INSS' and line.slip_id.tipo_de_folha == 'ferias':
                             if line.salary_rule_id.code == 'BASE_INSS' and \
                                     line.slip_id.tipo_de_folha == 'ferias':
                                 continue
@@ -394,7 +394,8 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # # OBS.: as informações previstas nos itens "a", "b" e "d" acima podem se referir ao período de apuração
             # #       definido em {perApur} ou a períodos anteriores a {perApur}.
             # #
-            if rubricas_convencao_coletiva:
+            if rubricas_convencao_coletiva and rubricas_convencao_coletiva:
+
                 info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
                 ide_adc_ant = pysped.esocial.leiaute.S1200_IdeADC_2()
                 ide_adc_ant.dtAcConv.valor = \
@@ -418,6 +419,8 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                 )
 
                 for periodo in periodos_pregressos:
+                    if not rubricas_convencao_coletiva:
+                        continue
                     periodo_data = '{}-{}'.format(
                         periodo.code[3:], periodo.code[:2])
                     ide_periodo = pysped.esocial.leiaute.S1200_IdePeriodo_2()
@@ -435,24 +438,31 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                         payslip.contract_id.matricula
                     # Somente para a empresa do Simples Nacional
                     # ide_estab_lot.remunPerAnt.indSimples.valor = ''
-
+                    linhas_processadas = []
                     for line in rubricas_convencao_coletiva:
-                        if line.reference == periodo_data:
+                        if rubricas_convencao_coletiva[line].reference == periodo_data:
                             itens_remun = \
                                 pysped.esocial.leiaute.S1200_ItensRemun_2()
                             itens_remun.codRubr.valor = \
-                                line.salary_rule_id.codigo
+                                rubricas_convencao_coletiva[line].salary_rule_id.codigo
                             itens_remun.ideTabRubr.valor = \
-                                line.salary_rule_id.identificador
-                            if line.quantity and float(line.quantity) != 1:
-                                itens_remun.qtdRubr.valor = float(line.quantity)
+                                rubricas_convencao_coletiva[line].salary_rule_id.identificador
+                            if rubricas_convencao_coletiva[line].quantity and float(rubricas_convencao_coletiva[line].quantity) != 1:
+                                itens_remun.qtdRubr.valor = float(rubricas_convencao_coletiva[line].quantity)
                                 itens_remun.vrUnit.valor = \
-                                    formata_valor(line.amount)
-                            if line.rate and line.rate != 100:
-                                itens_remun.fatorRubr.valor = line.rate
-                            itens_remun.vrRubr.valor = formata_valor(line.total)
+                                    formata_valor(rubricas_convencao_coletiva[line].amount)
+                            if rubricas_convencao_coletiva[line].rate and rubricas_convencao_coletiva[line].rate != 100:
+                                itens_remun.fatorRubr.valor = rubricas_convencao_coletiva[line].rate
+                            itens_remun.vrRubr.valor = formata_valor(rubricas_convencao_coletiva[line].total)
                             ide_estab_lot.remunPerAnt.itensRemun.append(
                                 itens_remun)
+
+                            linhas_processadas.append(line)
+                        elif rubricas_convencao_coletiva[line].salary_rule_id.category_id.code != 'PROVENTO':
+                            linhas_processadas.append(line)
+
+                    for linha in linhas_processadas:
+                        del rubricas_convencao_coletiva[linha]
 
                     if payslip.contract_id.evento_esocial == 's2200':
                         info_ag_nocivo = \
