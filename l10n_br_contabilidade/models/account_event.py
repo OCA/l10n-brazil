@@ -211,6 +211,12 @@ class AccountEvent(models.Model):
 
     @api.multi
     def validar_evento(self):
+        '''
+        Valida se existe roteiro contábil selecionado e se os códigos dos
+        eventos a serem lançados estão contidos no roteiro.
+
+        :return:
+        '''
         for record in self:
             if not record.account_event_template_id:
                 raise Warning(u'Por favor selecionar Roteiro Contábil.')
@@ -222,8 +228,18 @@ class AccountEvent(models.Model):
 
             # Verifica se os códigos dos eventos estão contidos no template
             if not set(event_line_ids).issubset(template_event_line_ids):
+                # Busca itens faltantes
+                falta_list = list(
+                    filter(lambda x: x not in template_event_line_ids,
+                           event_line_ids))
+
+                # Formata os itens em uma string para serem exibidos
+                falta = ''.join('- {};\n'.format(cod) if cod != falta_list[
+                    -1] else '- {}.'.format(cod) for cod in falta_list)
+
                 raise Warning(u'Os códigos informados precisam estar contidos '
-                              u'no roteiro contábil selecionado.')
+                              u'no roteiro contábil selecionado. '
+                              u'Item(ns) faltante(s):\n {}'.format(falta))
 
             record.state = 'validate'
 
