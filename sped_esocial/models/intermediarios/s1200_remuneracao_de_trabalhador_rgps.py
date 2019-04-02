@@ -266,6 +266,11 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         # info_interm.
 
         # Popula dmDev (1 para cada payslip)
+        ind_apur = True if \
+            S1200.evento.ideEvento.indApuracao.valor == '1' \
+            else False
+
+        cod_funcionario = True if contrato.categoria != '410' else False
 
         remuneracoes_ids = self.payslip_ids or self.payslip_autonomo_ids
         for payslip in remuneracoes_ids:
@@ -292,7 +297,6 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # Somente para quando a empresa for do Simples
             # remun_per_apur.indSimples.valor =
 
-
             # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.itensRemun
             for line in payslip.line_ids:
                 # Só adiciona a rubrica se o campo nat_rubr estiver definido, isso define que a rubrica deve
@@ -317,11 +321,17 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                                 and not eh_periodo:
                             continue
 
-                        if eh_periodo and convencao_coletiva_id and (
-                                line.reference <= data_apuracao):
-                            rubricas_convencao_coletiva.append(line)
+                        condicao_pagamento_anterior = True if eh_periodo and \
+                            convencao_coletiva_id and (
+                                line.reference <= data_apuracao) and \
+                            line.salary_rule_id.category_id.code == 'PROVENTO'\
+                            and ind_apur and cod_funcionario else False
+
+                        if condicao_pagamento_anterior:
                         else:
                             if line.salary_rule_id.code == 'BASE_INSS' and line.slip_id.tipo_de_folha == 'ferias':
+                            if line.salary_rule_id.code == 'BASE_INSS' and \
+                                    line.slip_id.tipo_de_folha == 'ferias':
                                 continue
 
                             if line.total != 0:
