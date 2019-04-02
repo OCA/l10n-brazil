@@ -1282,12 +1282,6 @@ class L10nBrSefip(models.Model):
 
         return result
 
-        # Categorias Obrigatórias in ('05', '11', '13', '14', '15', '16',
-        # '17', '18', '22', '23', '24', '25')
-        #
-        # Categorias opcionais in ('01', '02', '03', '04', '06', '07', '12',
-        # '19', '20', '21', '26')
-
     def _trabalhador_remun_13(self, folha):
         """ Registro 30. Item 17
 
