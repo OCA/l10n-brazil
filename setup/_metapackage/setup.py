@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_base',
         'odoo12-addon-l10n_br_crm',
         'odoo12-addon-l10n_br_zip',
+        'odoo12-addon-l10n_br_zip_correios',
     ],
     classifiers=[
         'Programming Language :: Python',
