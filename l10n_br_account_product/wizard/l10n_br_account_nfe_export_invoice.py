@@ -143,7 +143,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
             'l10n_br_account_product.'
             'l10n_br_account_product_nfe_export_invoice_form')
 
-        view_id = view_rec and view_rec[1] or False
+        view_id = view_rec and view_rec.id or False
 
         return {
             'view_type': 'form',
