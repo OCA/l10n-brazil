@@ -57,11 +57,13 @@ class ResCompany(models.Model):
     nfe_environment = fields.Selection(
         selection=[('1', u'Produção'),
                    ('2', u'Homologação')],
-        string=u'Ambiente Padrão')
+        string=u'Ambiente Padrão',
+        default='2')
 
     file_type = fields.Selection(
         selection=[('xml', 'XML')],
-        string=u'Tipo do Arquivo Padrão')
+        string=u'Tipo do Arquivo Padrão',
+        default='xml')
 
     sign_xml = fields.Boolean(
         string=u'Assinar XML')
