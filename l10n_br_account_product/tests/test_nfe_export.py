@@ -3,14 +3,13 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
 from odoo.tests.common import TransactionCase
 
 
-class TestSupplierNFe(TransactionCase):
+class TestNFeExport(TransactionCase):
 
     def setUp(self):
-        super(TestSupplierNFe, self).setUp()
+        super(TestNFeExport, self).setUp()
         self.wizard_export = self.env[
             'l10n_br_account_product.nfe_export_invoice']
         self.invoice_same_state = self.env.ref(

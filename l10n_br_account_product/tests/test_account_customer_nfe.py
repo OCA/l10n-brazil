@@ -200,7 +200,7 @@ class TestCustomerNFe(TransactionCase):
             "Amount Costs is not 10.0")
 
     def test_customer_invoice_difal(self):
-        """Test customer NFe with DIFAL 'Não Contribuinte' """
+        """Test customer NFe with DIFAL 'Nao Contribuinte' """
         self.invoice_difal._onchange_fiscal_document_id()
         self.invoice_difal._onchange_fiscal()
         self.invoice_difal._onchange_partner_id()

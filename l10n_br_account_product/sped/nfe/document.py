@@ -7,8 +7,12 @@ from datetime import datetime
 from odoo.exceptions import Warning as UserError
 from odoo.tools.translate import _
 
-from openerp.addons.l10n_br_account.sped.document import FiscalDocument
-from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
+from odoo.addons.l10n_br_account.sped.document import FiscalDocument
+from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
+
+from ...models.account_invoice_term import (
+    FORMA_PAGAMENTO_CARTOES,
+)
 
 
 class NFe200(FiscalDocument):
