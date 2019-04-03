@@ -34,17 +34,24 @@ install:
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - pip install -r requirements.txt
+  - pip install reportlab
+  - pip install unidecode
+  - pip install suds
+  - pip install signxml
+  - pip install qrcode
+  - pip install py3o.template
+  - pip install sh
   - pip install https://github.com/odoo-brazil/pybrasil/archive/master.zip
   - pip install https://github.com/odoo-brazil/geraldo/archive/master.zip
-  - pip install https://github.com/odoo-brazil/PySPED/archive/master.zip
+  - pip install https://github.com/odoo-brazil/PySPED/archive/10.0.zip
   - travis_install_nightly
   - pip install -r requirements.txt
 
-#before_script:
-#  - chmod +x configure_locale.sh
+before_script:
+  - chmod +x configure_locale.sh
 
 script:
-#  - sudo ./configure_locale.sh
+  - sudo ./configure_locale.sh
   - travis_run_tests
 
 after_success:

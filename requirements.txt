@@ -1,4 +1,8 @@
 unidecode==0.04.20
 suds==0.4
 num2words==0.5.4
--e git+https://github.com/odoo-brazil/pybrasil.git#egg=pybrasil
+# TODO - https://github.com/OCA/l10n-brazil/issues/669
+-e git://github.com/odoo-brazil/PySPED.git@10.0#egg=PySPED
+-e git://github.com/odoo-brazil/pybrasil.git#egg=pybrasil
+sh
+signxml
