@@ -25,7 +25,6 @@ class NFe200(FiscalDocument):
         nfes = []
 
         for invoice in invoices:
-
             company = invoice.company_id.partner_id
 
             self.nfe = self.get_NFe()
@@ -107,7 +106,7 @@ class NFe200(FiscalDocument):
                                             invoice.payment_term.indPag or '0')
         self.nfe.infNFe.ide.mod.valor = invoice.fiscal_document_id.code or ''
         self.nfe.infNFe.ide.serie.valor = invoice.document_serie_id.code or ''
-        self.nfe.infNFe.ide.nNF.valor = invoice.internal_number or ''
+        self.nfe.infNFe.ide.nNF.valor = invoice.fiscal_number or ''
         self.nfe.infNFe.ide.dEmi.valor = invoice.date_invoice or ''
         self.nfe.infNFe.ide.dSaiEnt.valor = datetime.strptime(
             invoice.date_in_out, '%Y-%m-%d %H:%M:%S').date() or ''
