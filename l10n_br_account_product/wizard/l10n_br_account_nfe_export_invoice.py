@@ -33,7 +33,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
     file = fields.Binary('Arquivo', readonly=True)
 
     file_type = fields.Selection(
-        selection=[(u'xml', 'XML')],
+        selection=[('xml', 'XML')],
         string='Tipo do Arquivo',
         default=_default_file_type)
 
