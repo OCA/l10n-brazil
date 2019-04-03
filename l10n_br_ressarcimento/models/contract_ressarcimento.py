@@ -197,8 +197,12 @@ class ContractRessarcimento(models.Model):
     def button_send_mail(self):
         """
         """
+
         for record in self:
-            record.send_mail(situacao=record.state)
+            situacao = 'aprovadop' \
+                if record.state == 'provisionado' else record.state
+
+            record.send_mail(situacao=situacao)
 
     def prepara_mail(self, situacao='aprovado'):
         template_name = \
