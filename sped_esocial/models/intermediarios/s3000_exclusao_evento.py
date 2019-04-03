@@ -127,14 +127,18 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
         if self.sped_registro_id.registro in ['S-1200', 'S-1202', 'S-1207', 'S-1210', 'S-1250',
                                               'S-1260', 'S-1270', 'S-1280', 'S-1295', 'S-1300']:
             ide_folhapagto = pysped.esocial.leiaute.S3000_IdeFolhaPagto_2()
-        if '13/' not in self.sped_registro_id.origem_intermediario.periodo_id.code:
-            ide_folhapagto.indApuracao.valor = '1'  # TODO Lidar com registros de 13º (Anual)
+        if '13/' not in \
+                self.sped_registro_id.origem_intermediario.periodo_id.code:
+            ide_folhapagto.indApuracao.valor = '1'
             ide_folhapagto.perApur.valor = \
-            self.sped_registro_id.origem_intermediario.periodo_id.code[3:7] + '-' + \
-            self.sped_registro_id.origem_intermediario.periodo_id.code[0:2]
+                self.sped_registro_id.origem_intermediario.periodo_id.code[3:7]\
+                + '-' + \
+                self.sped_registro_id.origem_intermediario.periodo_id.code[0:2]
+            S3000.evento.infoExclusao.ideFolhaPagto.append(ide_folhapagto)
         else:
             ide_folhapagto.indApuracao.valor = '2'
-            ide_folhapagto.perApur.valor = self.sped_registro_id.origem_intermediario.periodo_id.code[3:7]
+            ide_folhapagto.perApur.valor = \
+                self.sped_registro_id.origem_intermediario.periodo_id.code[3:7]
             S3000.evento.infoExclusao.ideFolhaPagto.append(ide_folhapagto)
 
         return S3000, validacao
