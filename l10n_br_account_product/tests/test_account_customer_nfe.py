@@ -116,61 +116,61 @@ class TestCustomerNFe(TransactionCase):
             "Invoice should be in state SEFAZ EXPORT")
 
         self.assertEquals(
-            self.invoice_same_state.amount_gross, 1000.0,
-            'Amount Gross is not 1000.0')
+            self.invoice_same_state.amount_gross, 2000.0,
+            'Amount Gross is not 2000.0')
         self.assertEquals(
             self.invoice_same_state.amount_discount, 0.0,
             'Amount Discount is not 0.0')
         self.assertEquals(
-            self.invoice_same_state.amount_untaxed, 1000.0,
-            'Amount Untaxed is not 1000.0')
+            self.invoice_same_state.amount_untaxed, 2000.0,
+            'Amount Untaxed is not 2000.0')
         self.assertEquals(
             self.invoice_same_state.amount_tax, 0.0,
             'Amount Untaxed is not 0.0')
         self.assertEquals(
-            self.invoice_same_state.amount_total, 1000.0,
-            'Amount Total is not 1000.0')
+            self.invoice_same_state.amount_total, 2000.0,
+            'Amount Total is not 2000.0')
         self.assertEquals(
-            self.invoice_same_state.residual, 1000.0,
-            'Amount Residual is not 1000.0')
+            self.invoice_same_state.residual, 2000.0,
+            'Amount Residual is not 2000.0')
 
         # Deveria existir algo ?
         for tax in self.invoice_same_state.tax_line_ids:
             if tax.base_code_id.domain == 'ipi':
                 self.assertEquals(
-                    tax.base, 1000.0, "IPI BASE is not 1000.0")
+                    tax.base, 2000.0, "IPI BASE is not 2000.0")
 
         # TOTAL IPI
         self.assertEquals(
-            self.invoice_same_state.ipi_base, 1000.0,
+            self.invoice_same_state.ipi_base, 2000.0,
             "IPI Total Base is not 1000.0")
         self.assertEquals(
-            self.invoice_same_state.ipi_value, 150.0,
-            "ICMS Total Value is not 150.0 ")
+            self.invoice_same_state.ipi_value, 300.0,
+            "ICMS Total Value is not 300.0 ")
 
         # TOTAL ICMS
         self.assertEquals(
-            self.invoice_same_state.icms_base, 1000.0,
+            self.invoice_same_state.icms_base, 2000.0,
             "ICMS Total Base is not 1000.0 ")
         self.assertEquals(
-            self.invoice_same_state.icms_value, 180.0,
-            "ICMS Total Value is not 180.0 ")
+            self.invoice_same_state.icms_value, 360.0,
+            "ICMS Total Value is not 360.0 ")
 
         # Total PIS
         self.assertEquals(
-            self.invoice_same_state.pis_base, 1000.0,
+            self.invoice_same_state.pis_base, 2000.0,
             "PIS Total BASE is not 1000.0")
         self.assertEquals(
-            self.invoice_same_state.pis_value, 6.50,
-            "PIS Total Value is not 6.50 ")
+            self.invoice_same_state.pis_value, 13.0,
+            "PIS Total Value is not 13.0 ")
 
         # Total COFINS
         self.assertEquals(
-            self.invoice_same_state.cofins_base, 1000.0,
+            self.invoice_same_state.cofins_base, 2000.0,
             "COFINS Total Base is not 1000.0")
         self.assertEquals(
-            self.invoice_same_state.cofins_value, 30.0,
-            "COFINS Total Value is not 30.0 ")
+            self.invoice_same_state.cofins_value, 60.0,
+            "COFINS Total Value is not 60.0 ")
 
     def test_customer_invoice_other_costs(self):
         """Test customer NFe other costs 'Contribuinte' """
