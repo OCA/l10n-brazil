@@ -139,6 +139,24 @@
             <field name="view_id" ref="l10n_br_contabilidade_account_event_tree"/>
         </record>
 
+        <record model="ir.ui.view" id="account_event_valida_codigos_roteiro_wizard_view">
+            <field name="name">Wizard account event valida codigos roteiro view</field>
+            <field name="model">account.event.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <span>Os códigos abaixo não estão contidos no roteiro escolhido. Deseja prosseguir?</span>
+                    </group>
+                    <field name="faltantes" />
+                    <footer>
+                        <button name="validar_codigos_roteiro" string="Continuar" type="object" class="oe_highlight" />
+                        <button string="Cancel" special="cancel" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
         <menuitem
             action="l10n_br_contabilidade_account_event_action"
             id="l10n_br_contabilidade_account_event"
