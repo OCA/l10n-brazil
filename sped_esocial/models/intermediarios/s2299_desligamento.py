@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2018 - ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
+import re
 
 from openerp import api, models, fields
 from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
@@ -193,6 +193,15 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         um contrato de trabalho
         :return:
         """
+        periodo_id = self.periodo_id.find(self.sped_hr_rescisao_id.data_afastamento)
+        convencao_coletiva_id = self.env['l10n.br.hr.acordo.coletivo'].search(
+            [('competencia_pagamento', '=', periodo_id.id)])
+
+        periodo_apuracao = periodo_id.code[3:7] + '-' + \
+                           periodo_id.code[0:2]
+
+        periodo_apuracao_inverso = periodo_id.code[0:2] + '-' + \
+                                   periodo_id.code[3:7]
 
         # Validação
         validacao = ""
@@ -284,6 +293,9 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         ide_estab_lot.codLotacao.valor = \
             rescisao_id.company_id.cod_lotacao
 
+        cod_funcionario = True if rescisao_id.contract_id.categoria != '410' else False
+        rubricas_convencao_coletiva = {}
+
         for rubrica_line in rescisao_id.line_ids:
             # if rubrica_line.salary_rule_id.category_id.id in (
             #         self.env.ref('hr_payroll.PROVENTO').id,
@@ -293,22 +305,36 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                 # if rubrica_line.salary_rule_id.code != 'PENSAO_ALIMENTICIA':
                 #     if rubrica_line.total > 0:
                 #
+                data_apuracao, eh_periodo = \
+                    self.validar_referencia_periodo_linha(
+                        rubrica_line, periodo_apuracao,
+                        periodo_apuracao_inverso)
+
                 if rubrica_line.salary_rule_id.cod_inc_irrf_calculado not in \
                         ['31', '32', '33', '34', '35', '51', '52', '53', '54', '55', '81', '82', '83']:
                     if rubrica_line.total > 0:
-                        det_verbas = pysped.esocial.leiaute.S2299_DetVerbas_2()
-                        det_verbas.codRubr.valor = \
-                            rubrica_line.salary_rule_id.codigo
-                        det_verbas.ideTabRubr.valor = \
-                            rubrica_line.salary_rule_id.identificador
-                        if rubrica_line.quantity and float(rubrica_line.quantity) != 1:
-                            det_verbas.qtdRubr.valor = float(rubrica_line.quantity)
-                            det_verbas.vrUnit.valor = float(rubrica_line.amount)
-                        if rubrica_line.rate and rubrica_line.rate != 100:
-                            det_verbas.fatorRubr.valor = rubrica_line.rate
-                        det_verbas.vrRubr.valor = str(rubrica_line.total)
+                        condicao_pagamento_anterior = True if \
+                            eh_periodo and convencao_coletiva_id and (
+                                    rubrica_line.reference <= data_apuracao) \
+                            and rubrica_line.salary_rule_id.category_id.code ==\
+                            'PROVENTO' and cod_funcionario else False
 
-                        ide_estab_lot.detVerbas.append(det_verbas)
+                        if condicao_pagamento_anterior:
+                            rubricas_convencao_coletiva[rubrica_line.id] = rubrica_line
+                        else:
+                            det_verbas = pysped.esocial.leiaute.S2299_DetVerbas_2()
+                            det_verbas.codRubr.valor = \
+                                rubrica_line.salary_rule_id.codigo
+                            det_verbas.ideTabRubr.valor = \
+                                rubrica_line.salary_rule_id.identificador
+                            if rubrica_line.quantity and float(rubrica_line.quantity) != 1:
+                                det_verbas.qtdRubr.valor = float(rubrica_line.quantity)
+                                det_verbas.vrUnit.valor = float(rubrica_line.amount)
+                            if rubrica_line.rate and rubrica_line.rate != 100:
+                                det_verbas.fatorRubr.valor = rubrica_line.rate
+                            det_verbas.vrRubr.valor = str(rubrica_line.total)
+
+                            ide_estab_lot.detVerbas.append(det_verbas)
 
         info_ag_nocivo = pysped.esocial.leiaute.S2299_InfoAgNocivo_2()
         info_ag_nocivo.grauExp.valor = 1
@@ -317,6 +343,94 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         info_per_apur.ideEstabLot.append(ide_estab_lot)
 
         ide_dm_dev.infoPerApur.append(info_per_apur)
+
+        if convencao_coletiva_id and rubricas_convencao_coletiva:
+
+            info_per_ant = pysped.esocial.leiaute.S2299_InfoPerAnt_2()
+            ide_adc_ant = pysped.esocial.leiaute.S2299_IdeADC_2()
+            ide_adc_ant.dtAcConv.valor = \
+                convencao_coletiva_id.data_assinatura_acordo
+            ide_adc_ant.tpAcConv.valor = \
+                convencao_coletiva_id.tipo_acordo
+            ide_adc_ant.compAcConv.valor = periodo_apuracao
+            ide_adc_ant.dtEfAcConv.valor = \
+                convencao_coletiva_id.data_efetivacao
+            ide_adc_ant.dsc.valor = convencao_coletiva_id.descricao
+
+            periodos_pregressos = self.env['account.period'].search(
+                [
+                    ('date_start', '>=', '01-01-{}'.format(
+                        periodo_id.code[3:])),
+                    ('date_stop', '<=', periodo_id.date_stop),
+                    ('special', '=', False),
+                ]
+            )
+
+            for periodo in periodos_pregressos:
+                if not rubricas_convencao_coletiva:
+                    continue
+                periodo_data = '{}-{}'.format(
+                    periodo.code[3:], periodo.code[:2])
+                ide_periodo = pysped.esocial.leiaute.S2299_IdePeriodo_2()
+                ide_periodo.perRef.valor = periodo_data
+
+                ide_estab_lot = \
+                    pysped.esocial.leiaute.S2299_IdeEstabLot_2()
+                ide_estab_lot.tpInsc.valor = '1'
+                ide_estab_lot.nrInsc.valor = \
+                    limpa_formatacao(self.sped_hr_rescisao_id.company_id.cnpj_cpf)
+                ide_estab_lot.codLotacao.valor = \
+                    self.sped_hr_rescisao_id.company_id.cod_lotacao
+
+                # Somente para a empresa do Simples Nacional
+                # ide_estab_lot.remunPerAnt.indSimples.valor = ''
+                linhas_processadas = []
+                for line in rubricas_convencao_coletiva:
+                    if rubricas_convencao_coletiva[
+                        line].reference == periodo_data:
+                        itens_remun = \
+                            pysped.esocial.leiaute.S2299_DetVerbas_2()
+                        itens_remun.codRubr.valor = \
+                            rubricas_convencao_coletiva[
+                                line].salary_rule_id.codigo
+                        itens_remun.ideTabRubr.valor = \
+                            rubricas_convencao_coletiva[
+                                line].salary_rule_id.identificador
+                        if rubricas_convencao_coletiva[line].quantity and float(
+                                rubricas_convencao_coletiva[
+                                    line].quantity) != 1:
+                            itens_remun.qtdRubr.valor = float(
+                                rubricas_convencao_coletiva[line].quantity)
+                            itens_remun.vrUnit.valor = \
+                                formata_valor(
+                                    rubricas_convencao_coletiva[line].amount)
+                        if rubricas_convencao_coletiva[line].rate and \
+                                rubricas_convencao_coletiva[line].rate != 100:
+                            itens_remun.fatorRubr.valor = \
+                            rubricas_convencao_coletiva[line].rate
+                        itens_remun.vrRubr.valor = formata_valor(
+                            rubricas_convencao_coletiva[line].total)
+                        ide_estab_lot.detVerbas.append(itens_remun)
+
+                        linhas_processadas.append(line)
+                    elif rubricas_convencao_coletiva[
+                        line].salary_rule_id.category_id.code != 'PROVENTO':
+                        linhas_processadas.append(line)
+
+                for linha in linhas_processadas:
+                    del rubricas_convencao_coletiva[linha]
+
+                if self.sped_hr_rescisao_id.contract_id.evento_esocial == 's2200':
+                    info_ag_nocivo = \
+                        pysped.esocial.leiaute.S2299_InfoAgNocivo_2()
+                    info_ag_nocivo.grauExp.valor = 1
+                    ide_estab_lot.infoAgNocivo.append(info_ag_nocivo)
+
+                ide_periodo.ideEstabLot.append(ide_estab_lot)
+                ide_adc_ant.idePeriodo.append(ide_periodo)
+
+            info_per_ant.ideADC.append(ide_adc_ant)
+            ide_dm_dev.infoPerAnt.append(info_per_ant)
 
         verba_rescisoria.dmDev.append(ide_dm_dev)
 
@@ -356,6 +470,18 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
 
         return S2299, validacao
 
+    def validar_referencia_periodo_linha(self, line, periodo_apuracao,
+                                         periodo_apuracao_inverso):
+        eh_periodo = re.search(
+            '[0-9]*\d{2}[-][0-9]*\d{4}', line.reference)
+        if not eh_periodo:
+            eh_periodo = re.search(
+                '[0-9]*\d{4}[-][0-9]*\d{2}', line.reference)
+            data_apuracao = periodo_apuracao
+        else:
+            data_apuracao = periodo_apuracao_inverso
+        return data_apuracao, eh_periodo
+
     @api.multi
     def retorno_sucesso(self, evento):
         """
@@ -386,17 +512,15 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                         ('id_evento', '=', tot.eSocial.evento.Id.valor)
                     ])
 
-                    periodo_id = \
-                        sped_registro.origem_intermediario.periodo_id.id \
-                            if sped_registro.origem_intermediario.periodo_id \
-                            else False
+                    periodo_id = self.periodo_id.find(
+                        self.sped_hr_rescisao_id.data_afastamento)
 
                     # Popula os valores para criar/alterar o registro
                     # intermediário do totalizador
                     vals_intermediario_totalizador = {
                         'company_id': sped_registro.company_id.id,
                         'id_evento': tot.eSocial.evento.Id.valor,
-                        'periodo_id': periodo_id,
+                        'periodo_id': periodo_id.id,
                         'sped_registro_s2299': sped_registro.id,
                         'trabalhador_id':
                             sped_registro.origem_intermediario.trabalhador_id.id,
@@ -425,7 +549,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                         'recibo': tot.eSocial.evento.ideEvento.nrRecArqBase.valor,
                         'trabalhador_id':
                             sped_registro.origem_intermediario.trabalhador_id.id,
-                        'periodo_id': periodo_id,
+                        'periodo_id': periodo_id.id,
                     }
 
                     # Cria/Altera o sped.registro do totalizador
@@ -497,7 +621,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
                     # Adiciona o S-5001 ao Período do e-Social que gerou o S-2299 relacionado
                     periodo = self.env['sped.esocial'].search([
                         ('company_id', '=', self.company_id.id),
-                        ('periodo_id', '=', self.periodo_id.id),
+                        ('periodo_id', '=', periodo_id.id),
                     ])
 
                     if periodo:

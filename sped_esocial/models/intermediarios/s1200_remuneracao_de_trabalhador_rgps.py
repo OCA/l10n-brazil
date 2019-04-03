@@ -394,7 +394,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # # OBS.: as informações previstas nos itens "a", "b" e "d" acima podem se referir ao período de apuração
             # #       definido em {perApur} ou a períodos anteriores a {perApur}.
             # #
-            if rubricas_convencao_coletiva and rubricas_convencao_coletiva:
+            if convencao_coletiva_id and rubricas_convencao_coletiva:
 
                 info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
                 ide_adc_ant = pysped.esocial.leiaute.S1200_IdeADC_2()
