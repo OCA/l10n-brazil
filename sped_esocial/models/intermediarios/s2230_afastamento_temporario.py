@@ -109,7 +109,8 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         if not self.sped_afastamento:
             sped_afastamento = self.env['sped.registro'].create(values)
             self.sped_afastamento = sped_afastamento
-            if self.holiday_id.holiday_status_id.esocial_evento_afastamento_id.codigo == '15':
+            if self.hr_holiday_id.holiday_status_id.\
+                    esocial_evento_afastamento_id.codigo == '15':
                 self.sped_afastamento_encerrado = sped_afastamento
         elif not self.sped_afastamento_encerrado:
             sped_afastamento_encerrado = \
