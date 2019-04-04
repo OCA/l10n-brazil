@@ -44,12 +44,26 @@
                                    nolabel="1">
                                 <tree editable="bottom">
                                     <field name="account_id" required="1" />
-                                    <field name="valor_fixo" attrs="{'required': ['|', ('porcentagem','=', 0), ('porcentagem','=', False)]}"/>
-                                    <field name="porcentagem" attrs="{'required': ['|', ('valor_fixo','=', 0), ('valor_fixo','=', False)]}"/>
+
+                                    <field name="valor_fixo"
+                                           attrs="{'readonly':[('porcentagem', '!=', 0.00)],
+                                           'required':['|',('porcentagem','=', 0),('porcentagem','=', False)]}"/>
+
+                                    <field name="porcentagem"
+                                           attrs="{'readonly':[('valor_fixo', '!=', 0.00)],
+                                           'required':['|',('valor_fixo','=', 0),('valor_fixo','=', False)]}"/>
+
                                     <field name="sequencia" />
                                 </tree>
                             </field>
                         </group>
+                        <div class="alert alert-info" role="alert">
+                          <strong>Avisos:</strong>
+                            <ul>
+                                <li>Se definido um <b>Valor Fixo</b>, a <b>Porcentagem</b> não poderá ser definida até que o <b>Valor Fixo</b> esteja zerado e vice-versa;</li>
+                                <li>A <b>Porcentagem</b> sempre corresponderá a 100%, aceitando casas decimais. Ex: 0,1% de 1000 é igual 1.</li>
+                            </ul>
+                        </div>
                     </page>
                 </notebook>
 
