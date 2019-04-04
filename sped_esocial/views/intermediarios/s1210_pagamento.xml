@@ -8,6 +8,8 @@
             <field name="arch" type="xml">
                 <form string="e-Social - Registro S-1210" edit="false" delete="false" create="false" duplicate="false">
                     <header>
+                        <button name="atualizar_esocial" type="object" string="Gerar Registro" class="oe_highlight"
+                                attrs="{'invisible': [('sped_registro', '!=', False)]}" />
                         <field name="situacao_esocial" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1" />
@@ -17,7 +19,7 @@
                             <field name="codigo" readonly="1" />
                         </h1>
                     </div>
-                    <group colspan="4" col="4">
+                    <group>
                         <group colspan="4" col="4">
                             <field name="company_id" colspan="4" readonly="1"/>
                             <field name="beneficiario_id" colspan="4" readonly="1" />
@@ -62,6 +64,8 @@
                             <field name="sped_registro" readonly="1"/>
                         </group>
                     </group>
+                    <separator string="Registros Excluídos"/>
+                    <field name="sped_registro_excluido_ids" readonly="1" nolabel="1"/>
                 </form>
             </field>
         </record>

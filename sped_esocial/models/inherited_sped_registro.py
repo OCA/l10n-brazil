@@ -41,6 +41,10 @@ class SpedRegistro(models.Model):
         string=u'Remunerações e-Social',
         comodel_name='sped.esocial.remuneracao'
     )
+    s1210_id = fields.Many2one(
+        string=u'Pagamento e-Social',
+        comodel_name='sped.esocial.pagamento'
+    )
 
     @api.depends('registro')
     def compute_pode_excluir(self):
