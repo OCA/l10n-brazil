@@ -88,6 +88,22 @@ class ContractRessarcimento(models.Model):
         string='Valor Provisionado?',
     )
 
+    provisao_aprovado_por = fields.Many2one(
+        string='Provisão aprovada por',
+        comodel_name='res.users',
+        relation='contract_ressarcimento_res_users_provisao_rel',
+        column1='contract_ressarcimento_id',
+        column2='res_users_id',
+    )
+
+    aprovado_por = fields.Many2one(
+        string='Aprovado por',
+        comodel_name='res.users',
+        relation='contract_ressarcimento_res_users_rel',
+        column1='contract_ressarcimento_id',
+        column2='res_users_id',
+    )
+
     partner_ids = fields.Many2many(
         comodel_name='res.partner',
         string='Parceiros para notificar',
@@ -173,8 +189,10 @@ class ContractRessarcimento(models.Model):
             # A aprovação é para a provisão, se não aprova o ressarcimento
             if record.valor_provisionado and not record.date_ressarcimento:
                 record.state = 'provisionado'
+                record.provisao_aprovado_por = self.env.user.id
             else:
                 record.state = 'aprovado'
+                record.aprovado_por = self.env.user.id
 
             record.send_mail(situacao='aprovado')
 

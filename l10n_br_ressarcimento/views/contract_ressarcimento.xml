@@ -36,6 +36,7 @@
                         <notebook>
                             <page string="Ressarcimento do contrato" attrs="{'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['confirmado', 'provisionado', 'aprovado'])]}">
                                 <group>
+                                    <field name="aprovado_por" attrs="{'invisible':[('aprovado_por', '=', False)]}" readonly="True" />
                                     <field name="date_ressarcimento" attrs="{'readonly':[('state','not in', ['aberto', 'provisionado'])], 'required':['|',('valor_provisionado','=',False), ('state','=','provisionado')]}" />
                                 </group>
                                 <field name="contract_ressarcimento_line_ids" nolabel="1" attrs="{'readonly':[('state','not in', ['aberto', 'provisionado'])], 'required':['|', ('valor_provisionado','=',False), ('state', '=', 'provisionado')], 'invisible':[('valor_provisionado','=', True), ('state', 'not in', ['confirmado', 'provisionado', 'aprovado'])]}" widget="one2many_list" >
@@ -48,6 +49,7 @@
                             </page>
                             <page string="Ressarcimento do contrato (provisionamento)" attrs="{'invisible':[('valor_provisionado','=', False)]}">
                                 <group>
+                                    <field name="provisao_aprovado_por" attrs="{'invisible':[('provisao_aprovado_por', '=', False)]}" readonly="True" />
                                     <field name="date_provisao" attrs="{'readonly':[('state','!=','aberto')], 'required':[('valor_provisionado','=',True)]}" />
                                 </group>
                                 <field name="contract_ressarcimento_provisionado_line_ids" nolabel="1" attrs="{'readonly':[('state','!=','aberto')], 'required':[('valor_provisionado','=',True)]}" widget="one2many_list" >
