@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
         <record id="l10n_br_account_product_nfe_search" model="ir.ui.view">
             <field name="name">l10n_br_account_product.nfe.search</field>
@@ -166,26 +165,24 @@
                         <page string="Financeiro" groups="base.group_user">
                             <group>
                                 <group>
-                                    <field name="payment_term_id" class="oe_inline"/>
                                     <field name="payment_mode_id" domain="[]"/>
                                     <field name="type_nf_payment"/>
-                                    <field domain="[('partner_id.ref_company_ids', 'in', [company_id])]" name="partner_bank_id"/>
+                                    <field domain="[('partner_id.ref_company_ids', 'in', [company_id])]" name="partner_bank_id" invisible="1"/>
                                 </group>
                                 <group>
+                                    <field name="payment_term_id" class="oe_inline"/>
                                     <field name="date_due"/>
                                     <field name="residual" groups="account.group_account_user" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                     <field name="reconciled" invisible="1"/>
                                 </group>
                             </group>
-                          <!--  <group string="Vencimentos">
+                            <group string="Vencimentos">
                                 <field nolabel="1" name="move_line_receivable_id">
                                     <tree string="Vencimentos">
                                         <field name="journal_id"/>
-                                        <field name="date"/>
                                         <field name="date_maturity"/>
                                         <field name="name"/>
                                         <field name="ref"/>
-                                        <field name="partner_id"/>
                                         <field name="move_id"/>
                                         <field name="debit"/>
                                         <field name="credit"/>
@@ -195,18 +192,19 @@
                             <group string="Pagamentos">
                                 <field nolabel="1" name="payment_ids">
                                     <tree string="Payments">
-                                        <field name="date"/>
-                                        <field name="move_id"/>
-                                        <field name="ref"/>
-                                        <field name="name"/>
-                                        <field name="journal_id" groups="base.group_user"/>
-                                        <field name="debit"/>
-                                        <field name="credit"/>
-                                        <field name="amount_currency" groups="base.group_multi_currency"/>
-                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                      <field name="payment_date"/>
+                                      <field name="name"/>
+                                      <field name="journal_id"/>
+                                      <field name="payment_method_id"/>
+                                      <field name="partner_id" string="Customer"/>
+                                      <field name="amount" sum="Amount"/>
+                                      <field name="state"/>
+                                      <field name="company_id" groups="base.group_multi_company"/>
+                                      <field name="currency_id" invisible="1"/>
+                                      <field name="partner_type" invisible="1"/>
                                     </tree>
                                 </field>
-                            </group> -->
+                            </group>
                         </page>
                         <page string="Contábil">
                             <group>
@@ -350,6 +348,7 @@
                                     <label for="quantity"/>
                                     <div>
                                         <field name="quantity" class="oe_inline"/>
+                                        <field name="uom_id" class="oe_inline" groups="product.group_uom"/>
                                     </div>
                                     <field name="price_unit"/>
                                     <field name="discount"/>
@@ -359,8 +358,8 @@
                                 </group>
                                 <group>
                                     <field name="product_type" attrs="{'readonly': [('product_id','!=', False)]}"/>
-                                    <field name="code" required="True" attrs="{'readonly': [('product_id','!=', False)]}"/>
-                                    <field name="fiscal_classification_id" required="True" attrs="{'readonly': [('product_id','!=', False)]}"/>
+                                    <field name="code" required="True"/>
+                                    <field name="fiscal_classification_id" required="True"/>
                                     <field name="cest_id" attrs="{'readonly': [('product_id','!=', False)]}"/>
                                     <field name="fci" attrs="{'readonly': [('product_id','!=', False)]}"/>
                                     <field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]"/>
