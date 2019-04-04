@@ -91,15 +91,32 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
     situacao_esocial = fields.Selection(
         string='Situação',
         selection=[
+            ('0', 'Sem Registro'),
             ('1', 'Pendente'),
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
+            ('7', 'Excluido'),
         ],
-        related='sped_registro.situacao',
-        store=True,
+        compute='_compute_situacao'
     )
+    sped_registro_excluido_ids = fields.One2many(
+        string=u'Registros Excluídos',
+        comodel_name='sped.registro',
+        inverse_name='s1200_id',
+    )
+
+    @api.multi
+    def _compute_situacao(self):
+        for record in self:
+            if record.sped_registro:
+                record.situacao_esocial = record.sped_registro.situacao
+            elif record.sped_registro_excluido_ids:
+                record.situacao_esocial = '7'
+            else:
+                record.situacao_esocial = '0'
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
