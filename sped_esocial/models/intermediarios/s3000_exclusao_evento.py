@@ -149,6 +149,10 @@ class SpedEsocialExclusao(models.Model, SpedRegistroIntermediario):
 
         # Mudar o status do registro de origem para 7-Excluído
         self.sped_registro_id.situacao = '7'
+        registro_id = self.sped_registro_id
+        self.sped_registro_id.origem_intermediario.sped_registro_excluido_ids =\
+            [(4, registro_id.id)]
+        self.sped_registro_id.origem_intermediario.sped_registro = False
 
     @api.multi
     def transmitir(self):
