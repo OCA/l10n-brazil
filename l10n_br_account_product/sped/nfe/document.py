@@ -3,16 +3,13 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import datetime
+from unicodedata import normalize
 
 from odoo.exceptions import Warning as UserError
 from odoo.tools.translate import _
 
 from odoo.addons.l10n_br_account.sped.document import FiscalDocument
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
-
-from ...models.account_invoice_term import (
-    FORMA_PAGAMENTO_CARTOES,
-)
 
 
 class NFe200(FiscalDocument):
@@ -25,7 +22,6 @@ class NFe200(FiscalDocument):
 
     def _serializer(self, invoices, nfe_environment):
 
-        pool = registry.get_pool(cr.dbname)
         nfes = []
 
         for invoice in invoices:
@@ -46,7 +42,7 @@ class NFe200(FiscalDocument):
             self._receiver(invoice, company, nfe_environment)
 
             i = 0
-            for inv_line in invoice.invoice_line:
+            for inv_line in invoice.invoice_line_ids:
                 i += 1
                 self.det = self._get_Det()
                 self._details(invoice, inv_line, i)
@@ -66,9 +62,11 @@ class NFe200(FiscalDocument):
                 self.nfe.infNFe.det.append(self.det)
 
             if invoice.journal_id.revenue_expense:
+                numero_dup = 0
                 for move_line in invoice.move_line_receivable_id:
+                    numero_dup += 1
                     self.dup = self._get_Dup()
-                    self._encashment_data(invoice, move_line)
+                    self._encashment_data(invoice, move_line, numero_dup)
                     self.nfe.infNFe.cobr.dup.append(self.dup)
 
             try:
@@ -106,8 +104,9 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.ide.cNF.valor = ''
         self.nfe.infNFe.ide.natOp.valor = (
             invoice.fiscal_category_id.name[:60] or '')
-        self.nfe.infNFe.ide.indPag.valor = (invoice.payment_term and
-                                            invoice.payment_term.indPag or '0')
+        self.nfe.infNFe.ide.indPag.valor = (
+            invoice.payment_term_id and
+            invoice.payment_term_id.indPag or '0')
         self.nfe.infNFe.ide.mod.valor = invoice.fiscal_document_id.code or ''
         self.nfe.infNFe.ide.serie.valor = invoice.document_serie_id.code or ''
         self.nfe.infNFe.ide.nNF.valor = invoice.fiscal_number or ''
@@ -301,9 +300,10 @@ class NFe200(FiscalDocument):
 
         # Se o ambiente for de teste deve ser
         # escrito na razão do destinatário
-        if nfe_environment == '2':
+        if nfe_environment == 2:
             self.nfe.infNFe.dest.xNome.valor = (
                 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL')
+            self.nfe.infNFe.dest.CNPJ.valor = '99999999000191'
         else:
             self.nfe.infNFe.dest.xNome.valor = (normalize(
                 'NFKD', unicode(
@@ -379,7 +379,7 @@ class NFe200(FiscalDocument):
             invoice_line.cest_id.code or '')
         self.det.prod.nFCI.valor = invoice_line.fci or ''
         self.det.prod.CFOP.valor = invoice_line.cfop_id.code
-        self.det.prod.uCom.valor = invoice_line.uos_id.name or ''
+        self.det.prod.uCom.valor = invoice_line.uom_id.name or ''
         self.det.prod.qCom.valor = str("%.4f" % invoice_line.quantity)
         self.det.prod.vUnCom.valor = str("%.7f" % invoice_line.price_unit)
         self.det.prod.vProd.valor = str("%.2f" % invoice_line.price_gross)
@@ -551,27 +551,16 @@ class NFe200(FiscalDocument):
         self.di_line.vDescDI.valor = str(
             "%.2f" % invoice_line_di.amount_discount)
 
-    def _encashment_data(self, invoice, move_line):
+    def _encashment_data(self, invoice, move_line, numero_dup):
         """Dados de Cobrança"""
 
-        if invoice.journal_id.revenue_expense:
-            for move_line in invoice.move_line_receivable_id:
+        if invoice.type in ('out_invoice', 'in_refund'):
+            value = move_line.debit
+        else:
+            value = move_line.credit
 
-                if invoice.type in ('out_invoice', 'in_refund'):
-                    value = move_line.debit
-                else:
-                    value = move_line.credit
+        self.dup.nDup.valor = str(numero_dup).zfill(3)
 
-                dup = self._get_Dup()
-
-                dup.nDup.valor = move_line.name
-                dup.dVenc.valor = (move_line.date_maturity or
-                                   invoice.date_due or
-                                   invoice.date_invoice)
-                dup.vDup.valor = str("%.2f" % value)
-                cobr.dup.append(dup)
-
-        self.dup.nDup.valor = move_line.name
         self.dup.dVenc.valor = (move_line.date_maturity or
                                 invoice.date_due or
                                 invoice.date_invoice)
@@ -763,7 +752,7 @@ class NFe310(NFe200):
             invoice, company, nfe_environment)
 
         self.nfe.infNFe.ide.idDest.valor = (
-            invoice.fiscal_position.cfop_id.id_dest or '')
+            invoice.fiscal_position_id.cfop_id.id_dest or '')
         self.nfe.infNFe.ide.indFinal.valor = invoice.ind_final or ''
         self.nfe.infNFe.ide.indPres.valor = invoice.ind_pres or ''
         self.nfe.infNFe.ide.dhEmi.valor = datetime.strptime(
@@ -861,6 +850,7 @@ class NFe400(NFe310):
         super(NFe400, self).__init__()
 
     def _details_pag(self, invoice):
+
         # TODO - implementar campo
         self.pag.vTroco.valor = ''
 
