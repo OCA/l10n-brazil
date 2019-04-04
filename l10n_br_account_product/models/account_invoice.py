@@ -546,12 +546,13 @@ class AccountInvoice(models.Model):
                    ('15', u'15 - Boleto Bancário'),
                    ('90', u'90 - Sem pagamento'),
                    ('99', u'99 - Outros')],
-       string='Tipo de Pagamento da NF',
-       required=True,
-       help=u'Obrigatório o preenchimento do Grupo Informações de Pagamento'
-            u' para NF-e e NFC-e. Para as notas com finalidade de Ajuste'
-            u' ou Devolução o campo Forma de Pagamento deve ser preenchido'
-            u' com 90 - Sem Pagamento.')
+        string='Tipo de Pagamento da NF',
+        default='99',
+        required=True,
+        help=u'Obrigatório o preenchimento do Grupo Informações de Pagamento'
+             u' para NF-e e NFC-e. Para as notas com finalidade de Ajuste'
+             u' ou Devolução o campo Forma de Pagamento deve ser preenchido'
+             u' com 90 - Sem Pagamento.')
 
     @api.one
     @api.constrains('number')
@@ -762,11 +763,6 @@ class AccountInvoice(models.Model):
 
             if self.partner_id.property_payment_term_id:
                 payment_term = self.partner_id.property_payment_term_id
-                # Sobrecreve a opção do parceiro caso a categoria
-                #  fiscal tenha uma opção definida
-                if self.fiscal_category_id.account_payment_term_id:
-                    payment_term = (
-                        self.fiscal_category_id.account_payment_term_id)
                 self.payment_term_id = payment_term
 
             if self.type in ('out_invoice', 'out_refund'):
