@@ -26,10 +26,13 @@
         'views/menu_l10n_br_contabilidade.xml',
         # # Relatórios
         'reports/report.xml',
-        # # Visão
+
+        # Wizard
         'wizards/fechamento_reabertura_justificativa_wizard.xml',
         'wizards/trial_balance_wizard.xml',
         'wizards/general_ledger_wizard.xml',
+        'wizards/import_account_account.xml',
+
         'views/account_account.xml',
         'views/account_journal.xml',
         'views/account_natureza.xml',
