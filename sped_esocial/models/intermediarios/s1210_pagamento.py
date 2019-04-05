@@ -99,10 +99,9 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
         ],
         compute='_compute_situacao'
     )
-    sped_registro_excluido_ids = fields.One2many(
+    sped_registro_excluido_ids = fields.Many2many(
         string=u'Registros Excluídos',
         comodel_name='sped.registro',
-        inverse_name='s1210_id',
     )
 
     @api.multi

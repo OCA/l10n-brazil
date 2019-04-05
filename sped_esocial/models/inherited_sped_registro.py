@@ -37,14 +37,6 @@ class SpedRegistro(models.Model):
         string='Totalizador da base do INSS (S-5001)',
         comodel_name='sped.contribuicao.inss',
     )
-    s1200_id = fields.Many2one(
-        string=u'Remunerações e-Social',
-        comodel_name='sped.esocial.remuneracao'
-    )
-    s1210_id = fields.Many2one(
-        string=u'Pagamento e-Social',
-        comodel_name='sped.esocial.pagamento'
-    )
 
     @api.depends('registro')
     def compute_pode_excluir(self):
