@@ -63,6 +63,7 @@ class ContractRessarcimento(models.Model):
     @api.multi
     def button_aprovar(self):
         """
+        Gera evento contábil quando aprovado.
 
         :return:
         """
@@ -70,8 +71,11 @@ class ContractRessarcimento(models.Model):
             # Altera o state do Ressarcimento antes de gerar o evento contábil
             super(ContractRessarcimento, self).button_aprovar()
 
-            # Exclui os Lançamento Contábeis anteriors
-            record.account_event_id = False
+            if self.state == 'provisionado':
+                # Reverte o evento contábil gerado a partir da provisão
+                record.account_event_id.button_reverter_lancamentos()
+                # Desassocia o evento contábil da provisão deste ressarcimento
+                record.account_event_id = False
 
             rubricas_para_contabilizar = self.gerar_contabilizacao_rubricas()
 
