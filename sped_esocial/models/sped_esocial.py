@@ -675,7 +675,6 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         if self.empregador_ids:
-            self.remuneracao_ids.unlink()
             # Buscar Trabalhadores
             trabalhadores = self.env['hr.employee'].search([
                 '|',
@@ -691,7 +690,13 @@ class SpedEsocial(models.Model):
 
             # separa somente os trabalhadores com contrato válido neste período e nesta empresa matriz
             # trabalhadores_com_contrato = []
+
+            remuneracao_dicionario = self._get_dicionario_remuneracao()
+
             for trabalhador in trabalhadores:
+                if remuneracao_dicionario.get(trabalhador.id):
+                    remuneracao_dicionario[trabalhador.id].atualizar_esocial()
+                    continue
 
                 # Localiza os contratos válidos deste trabalhador
                 domain = [
@@ -832,6 +837,13 @@ class SpedEsocial(models.Model):
         string='Remunerações RPPS',
         compute='compute_msg_remuneracao_rpps',
     )
+
+    def _get_dicionario_remuneracao(self):
+        vals = {}
+        for remuneracao in self.remuneracao_ids:
+            vals[remuneracao.trabalhador_id.id] = remuneracao
+
+        return vals
 
     @api.depends('remuneracao_rpps_ids')
     def compute_msg_remuneracao_rpps(self):
