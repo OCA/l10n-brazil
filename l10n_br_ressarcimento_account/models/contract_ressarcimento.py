@@ -71,7 +71,7 @@ class ContractRessarcimento(models.Model):
             # Altera o state do Ressarcimento antes de gerar o evento contábil
             super(ContractRessarcimento, self).button_aprovar()
 
-            if self.state == 'provisionado':
+            if record.account_event_id:
                 # Reverte o evento contábil gerado a partir da provisão
                 record.account_event_id.button_reverter_lancamentos()
                 # Desassocia o evento contábil da provisão deste ressarcimento
