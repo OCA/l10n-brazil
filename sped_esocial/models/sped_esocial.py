@@ -1335,7 +1335,8 @@ class SpedEsocial(models.Model):
                 if not contrato.date_end or contrato.date_end >= self.periodo_id.date_start:
 
                     # Cria o S-2200 (se já não existir)
-                    contrato.ativar_contrato_s2200()
+                    if not contrato.sped_s2200_id:
+                        contrato.ativar_contrato_s2200()
 
             # Popula os registros S-2200 já existentes
             admissao_ids = self.env['sped.esocial.contrato'].search([
