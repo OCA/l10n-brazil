@@ -47,3 +47,7 @@ class ResPartner(models.Model):
                             "verifique na lista ou valide o nome e email.")
 
         return super(ResPartner, self).create(vals)
+
+    @api.model
+    def write(self, vals):
+        super(ResPartner, self).create(vals)
