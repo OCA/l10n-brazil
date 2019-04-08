@@ -17,7 +17,10 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         data['form']['coluna_saldo_periodo'] = self.coluna_saldo_periodo
         data['form']['target_move'] = self.target_move
         data = self.pre_print_report(data)
+        data = super(AccountReportGeneralLedgerWizard, self)._print_report(data)
 
-        return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.l10n_br_account_report_general_ledger',
-                'datas': data}
+        if not self.env.context.get('xls_export'):
+            data['report_name'] = \
+                'account.l10n_br_account_report_general_ledger'
+
+        return data
