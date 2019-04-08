@@ -528,8 +528,6 @@ class SpedEfdReinf(models.Model):
         if not self.sped_r2099_registro:
             self.criar_r2099()
 
-        self.sped_r2099_registro.sped_inclusao = False
-        self.sped_r2099_registro.criar_registro()
         if self.sped_r2098_registro.sped_inclusao:
             self.sped_r2098_registro.sped_inclusao = False
 
