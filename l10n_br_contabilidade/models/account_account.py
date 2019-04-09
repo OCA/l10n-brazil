@@ -46,8 +46,8 @@ class AccountAccount(models.Model):
     )
 
     depara_ids = fields.One2many(
-        string=u'Mapeamento DePara',
-        comodel_name='account.mapeamento',
+        string=u'DePara de Contas',
+        comodel_name='account.depara',
         inverse_name='conta_sistema_id',
     )
 
@@ -82,6 +82,13 @@ class AccountAccount(models.Model):
         comodel_name='mis.report.kpi',
         inverse_name='account_ids',
         readonly=True,
+    )
+
+    account_depara_plano_id = fields.Many2one(
+        comodel_name='account.depara.plano',
+        string='Referência Plano de Contas',
+        help='Essa conta pertence a qual Plano de Contas?\n '
+             'Se for o plano oficial deixar em branco',
     )
 
     @api.multi
