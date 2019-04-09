@@ -12,9 +12,20 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         default=False,
     )
 
+    account_depara_plano_id = fields.Many2one(
+        string='Referência Plano de Contas',
+        comodel_name='account.depara.plano',
+    )
+
+    account_ids = fields.Many2many(
+        comodel_name='account.account',
+        domain="[('account_depara_plano_id', '=', account_depara_plano_id)]",
+    )
+
     @api.multi
     def _print_report(self, data):
         data['form']['coluna_saldo_periodo'] = self.coluna_saldo_periodo
+        data['form']['account_depara_plano_id'] = self.account_depara_plano_id.id
         data['form']['target_move'] = self.target_move
         data = self.pre_print_report(data)
         data = super(AccountReportGeneralLedgerWizard, self)._print_report(data)

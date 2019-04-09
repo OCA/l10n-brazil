@@ -12,6 +12,13 @@
                         <field name="coluna_saldo_periodo" />
                     </group>
                 </xpath>
+
+                <field name="account_ids" position="before">
+                    <group>
+                        <field name="account_depara_plano_id" string="Utilizar Depara"/>
+                    </group>
+                    <newline />
+                </field>
             </field>
         </record>
 

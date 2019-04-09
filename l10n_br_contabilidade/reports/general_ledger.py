@@ -9,6 +9,30 @@ from openerp.addons.account_financial_report_webkit.report.webkit_parser_header_
     import HeaderFooterTextWebKitParser
 
 
+def get_account_reference(self, account_ids, account_depara_plano_id):
+    """SELECT conta_sistema_id from account_mapeamento where
+    account_depara_plano_id = 1 AND conta_referencia_id in (2294, 2298)"""
+
+    sql_filters = {
+        'conta_referencia_id': tuple(account_ids),
+        'account_depara_plano_id': account_depara_plano_id,
+    }
+
+    sql_select = "SELECT conta_sistema_id FROM account_depara am"
+
+    sql_where = "WHERE conta_referencia_id IN %(conta_referencia_id)s " \
+                "AND account_depara_plano_id = %(account_depara_plano_id)s"
+
+    sql_order = "order by conta_sistema_id"
+
+    sql = ' '.join((sql_select, sql_where, sql_order))
+    self.cursor.execute(sql, sql_filters)
+    fetch_only_ids = self.cursor.fetchall()
+    if not fetch_only_ids:
+        return []
+    only_ids = [only_id[0] for only_id in fetch_only_ids]
+    return only_ids
+
 def set_context(self, objects, data, ids, report_type=None):
     """Populate a ledger_lines attribute on each browse record that will be
     used by mako template"""
@@ -49,6 +73,10 @@ def set_context(self, objects, data, ids, report_type=None):
                            and self._get_initial_balance_mode(start) or False
 
     # Retrieving accounts
+    if data.get('form').get('account_depara_plano_id'):
+        new_ids = get_account_reference(
+            self, new_ids, data.get('form').get('account_depara_plano_id'))
+
     accounts = self.get_all_accounts(new_ids, exclude_type=['view'])
     if initial_balance_mode == 'initial_balance':
         init_balance_memoizer = self._compute_initial_balances(
