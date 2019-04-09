@@ -122,7 +122,7 @@ class AccountAccount(models.Model):
         Utilizar a natureza da conta para manipular o valor de saldo
         calculado automáticamente pela funcionalidade do core.
 
-        obs: Este campo está subistituindo o cambo 'balance' do core na visão
+        obs: Este campo está substituindo o cambo 'balance' do core na visão
         """
         for record in self:
             record.saldo = abs(record.balance)
@@ -139,5 +139,17 @@ class AccountAccount(models.Model):
             return super(AccountAccount, self)._check_allow_code_change(
                 cr, uid, ids, context=context)
 
+    @api.multi
+    def name_get(self):
+        """
+        Adicionar o nome do plano externo à conta
+        """
+        result = []
 
+        for record in self:
+            name = "{} {}".format(record.code, record.name)
+            if record.account_depara_plano_id:
+                name += " ({})".format(record.account_depara_plano_id.name)
+            result.append((record.id, name))
 
+        return result
