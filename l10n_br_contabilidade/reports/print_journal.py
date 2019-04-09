@@ -66,20 +66,16 @@ def set_context(self, objects, data, ids, report_type=None):
     moves = {}
     account_journal_obj = self.pool.get('account.journal')
     journals = account_journal_obj.browse(self.cursor, self.uid, journal_ids)
-    for journal in journals:
-        domain_arg = [
-            ('journal_id', '=', journal.id),
-            ('period_id', 'in', period_ids),
-        ]
-        if target_move == 'posted':
-            domain_arg += [('state', '=', 'posted')]
-        move_ids = move_obj.search(self.cursor, self.uid, domain_arg,
-                                   order="name")
-        moves[journal.id] = move_obj.browse(self.cursor, self.uid,
-                                                   move_ids)
-        # Sort account move line by account accountant
-        for move in moves[journal.id]:
-            move.line_id.sorted(key=lambda a: (a.date, a.account_id.code))
+
+    domain_arg = [
+        ('period_id', 'in', period_ids),
+    ]
+    if target_move == 'posted':
+        domain_arg += [('state', '=', 'posted')]
+    move_ids = move_obj.search(self.cursor, self.uid, domain_arg,
+                               order="date desc")
+    moves = move_obj.browse(self.cursor, self.uid, move_ids)
+    # Sort account move line by account accountant
 
     self.localcontext.update({
         'fiscalyear': fiscalyear,

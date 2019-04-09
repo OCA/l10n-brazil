@@ -19,7 +19,7 @@
 
         <%setLang(user.lang)%>
 
-        <div class="act_as_table data_table">
+        <div class="act_as_table data_table" style="width: 100%;">
             <div class="act_as_row labels">
                 <div class="act_as_cell">${_('Chart of Account')}</div>
                 <div class="act_as_cell">${_('Fiscal Year')}</div>
@@ -62,14 +62,11 @@
             </div>
         </div>
 
-        %for journal in objects:
         <%
         account_total_debit = 0.0
         account_total_credit = 0.0
         account_total_currency = 0.0
         %>
-
-        <div class="account_title bg" style="width: 1080px; margin-top: 20px; font-size: 12px;">${journal.name}</div>
 
         <!-- we use div with css instead of table for tabular data because div do not cut rows at half at page breaks -->
         <div class="act_as_table list_table" style="margin-top: 5px;">
@@ -78,85 +75,63 @@
                     ## date
                     <div class="act_as_cell first_column" style="width: 60px;">${_('Date')}</div>
                     ## move
-                    <div class="act_as_cell" style="width: 100px;">${_('Entry')}</div>
+                    <div class="act_as_cell" style="width: 150px;">${_('Entry')}</div>
                     ## account code
                     <div class="act_as_cell" style="width: 95px;">${_('Account')}</div>
+                    ## journal
+                    <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${_('Journal')}</div>
                     ## label
-                    <div class="act_as_cell" style="width: 550px;">${_('Label')}</div>
+                    <div class="act_as_cell" style="width: 450px;">${_('Label')}</div>
                     ## debit
                     <div class="act_as_cell amount" style="width: 125px;">${_('Debit')}</div>
                     ## credit
                     <div class="act_as_cell amount" style="width: 125px;">${_('Credit')}</div>
-                    %if amount_currency(data):
-                        ## currency balance
-                        <div class="act_as_cell amount sep_left">${_('Curr. Balance')}</div>
-                        ## curency code
-                        <div class="act_as_cell amount" style="text-align: right;">${_('Curr.')}</div>
-                    %endif
                 </div>
             </div>
-            %for move in moves[journal.id]:
-            <%
-            new_move = True
-            %>
-
-                %for line in move.line_id:
+            %for move in moves:
                 <div class="act_as_tbody">
+                %for line in move.line_id:
+
                     <%
                     account_total_debit += line.debit or 0.0
                     account_total_credit += line.credit or 0.0
                     %>
                     <div class="act_as_row lines">
                         ## date
-                        <div class="act_as_cell first_column" style="width: 60px;">${formatLang(move.date, date=True) if new_move else ''}</div>
+                        <div class="act_as_cell first_column" style="width: 60px;">${formatLang(move.date, date=True)}</div>
                         ## move
-                        <div class="act_as_cell" style="width: 100px;">${move.name if new_move else ''}</div>
+                        <div class="act_as_cell" style="width: 150px;">${move.name}</div>
                         ## account code
                         <div class="act_as_cell" style="width: 95px;">${line.account_id.code}</div>
+                        ## journal
+                        <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${line.journal_id.name}</div>
                         ## label
-                        <div class="act_as_cell overflow_ellipsis" style="width: 550px;">${line.name}</div>
+                        <div class="act_as_cell overflow_ellipsis" style="width: 450px;">${line.name}</div>
                         ## debit
                         <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.debit) if line.debit else ''}</div>
                         ## credit
                         <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.credit) if line.credit else ''}</div>
-                        %if amount_currency(data):
-                            ## currency balance
-                            <div class="act_as_cell amount sep_left">${formatLang(line.amount_currency) if line.amount_currency else ''}</div>
-                            ## curency code
-                            <div class="act_as_cell amount" style="text-align: right;">${line.currency_id.symbol or ''}</div>
-                        %endif
                     </div>
-                    <%
-                    new_move = False
-                    %>
-                </div>
+
                 %endfor
+                </div>
             %endfor
             <div class="act_as_row lines labels">
                 ## date
-                <div class="act_as_cell first_column"></div>
+                <div class="act_as_cell first_column" style="width: 60px;"></div>
                 ## move
-                <div class="act_as_cell"></div>
+                <div class="act_as_cell" style="width: 150px;"></div>
                 ## account code
-                <div class="act_as_cell"></div>
-                ## date
-                <div class="act_as_cell"></div>
-                ## partner
-                <div class="act_as_cell" style="width: 280px;"></div>
+                <div class="act_as_cell" style="width: 95px;"></div>
+                ## journal
+                <div class="act_as_cell overflow_ellipsis" style="width: 100px;"></div>
                 ## label
-                <div class="act_as_cell" style="width: 310px;"></div>
+                <div class="act_as_cell overflow_ellipsis" style="width: 450px;"></div>
                 ## debit
                 <div class="act_as_cell amount">${formatLang(account_total_debit) | amount }</div>
                 ## credit
                 <div class="act_as_cell amount">${formatLang(account_total_credit) | amount }</div>
-                %if amount_currency(data):
-                  ## currency balance
-                  <div class="act_as_cell amount sep_left"></div>
-                  ## currency code
-                  <div class="act_as_cell" style="text-align: right; right;"></div>
-                %endif
             </div>
         </div>
-        %endfor
     </body>
 </html>
