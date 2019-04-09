@@ -8,6 +8,11 @@ from openerp.exceptions import Warning as UserError
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    # sobreescreve os campos do core retirando o grupo
+    signup_token = fields.Char(groups=False)
+    signup_type = fields.Char(groups=False)
+    signup_expiration = fields.Datetime(groups=False)
+
     def levenshtein(self, val, tabela='res_partner', field="email", level=3):
         '''
         Verifica verifica se existe correspondência com base em uma
@@ -47,7 +52,3 @@ class ResPartner(models.Model):
                             "verifique na lista ou valide o nome e email.")
 
         return super(ResPartner, self).create(vals)
-
-    @api.model
-    def write(self, vals):
-        super(ResPartner, self).create(vals)
