@@ -14,7 +14,8 @@ from . import account_ramo
 from . import account_historico_padrao
 from . import account_journal
 from . import account_fiscalyear
-from . import account_mapeamento
+from . import account_depara
+from . import account_depara_plano
 from . import account_period
 from . import account_divisao_resultado
 from . import mis_report_kpi

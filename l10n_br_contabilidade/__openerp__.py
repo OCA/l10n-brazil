@@ -46,7 +46,8 @@
         'views/account_ramo.xml',
         'views/account_period.xml',
         'views/account_historico_padrao.xml',
-        'views/account_mapeamento.xml', # TODO: Refatorar usando constas de consolidação
+        'views/account_depara.xml',
+        'views/account_depara_plano.xml',
         'views/mis_report.xml',
         'views/mis_report_instance.xml',
         'views/mis_report_kpi.xml',
