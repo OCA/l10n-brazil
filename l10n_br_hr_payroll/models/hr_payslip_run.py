@@ -354,6 +354,7 @@ class HrPayslipRun(models.Model):
                         'tipo_de_folha': tipo_de_folha,
                         'payslip_run_id': self.id,
                         'eh_mes_comercial': self.eh_mes_comercial,
+                        'data_pagamento_competencia': self.data_de_pagamento
                     })
                     payslip._compute_set_dates()
                     payslip._compute_set_employee_id()
