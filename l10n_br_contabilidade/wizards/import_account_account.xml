@@ -9,8 +9,9 @@
             <field name="arch" type="xml">
             	<form string="Importar Plano de Contas">
             		<group>
-            			<field name="referencia_plano_id"/>
+            			<field name="account_depara_plano_id"/>
             			<field name="plano_de_contas_file"/>
+                        <field name="instrucao" />
 					</group>
 					<footer>
 						<button name="import_account_account"
