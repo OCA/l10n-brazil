@@ -13,7 +13,7 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="type" position="after">
-                        <field name="natureza_conta_id" attrs="{'invisible':[('type','=','view')], 'required':[('type','!=','view')]}" widget="selection"/>
+                        <field name="natureza_conta_id" attrs="{'required':[('type','!=','view')]}" widget="selection"/>
                     </field>
                     <field name="tax_ids" position="attributes">
                         <attribute name="invisible">1</attribute>
@@ -44,13 +44,22 @@
                             <page string="Observação">
                                 <field name="observacao"/>
                             </page>
+
                             <page string="DePara">
-                                <field name="depara_ids"/>
+                                <group>
+                                    <field name="account_depara_plano_id" attrs="{'invisible': [('depara_ids', '!=', [])]}" />
+                                </group>
+                                <field nolabel="1" name="depara_ids" attrs="{'invisible': [('account_depara_plano_id', '!=', False)]}" context="{'default_conta_sistema_id': active_id}">
+                                    <tree editable="bottom">
+                                        <field name="account_depara_plano_id" />
+                                        <field name="conta_referencia_id" />
+                                    </tree>
+                                </field>
                             </page>
 
                             <page string="Apresentação" name="apresentacao">
                                 <group>
-                                    <field name="mis_report_kpi_ids">
+                                    <field name="mis_report_kpi_ids" nolabel="1" colspan="4">
                                         <tree>
                                             <field name="report_id"/>
                                             <field name="description"/>
@@ -70,7 +79,7 @@
             </field>
         </record>
 
-        <record id="view_account_tree" model="ir.ui.view">
+        <record id="l10n_br_contabilidade_view_account_tree" model="ir.ui.view">
             <field name="name">account.account.tree</field>
             <field name="type">tree</field>
             <field name="model">account.account</field>
@@ -96,6 +105,53 @@
                </data>
             </field>
         </record>
+
+        <record id="l10n_br_contabilidade_view_account_search" model="ir.ui.view">
+            <field name="name">account.account.search in (l10n_br_contabilidade)</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_search"/>
+            <field name="arch" type="xml">
+                <filter string="Internal Type" position="after">
+                        <filter string="Plano de Contas" name="group_reference" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'account_depara_plano_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="account.action_account_form" model="ir.actions.act_window">
+            <field name="domain">[('account_depara_plano_id','=',False)]</field>
+        </record>
+
+        <!-- Módulo DEPARA -->
+        <!-- Planos de contas externos No menu de Depara -->
+        <record id="l10n_br_contabilidade_view_account_externo_tree" model="ir.ui.view">
+            <field name="name">account.account.list (in l10n_br_contabilidade)</field>
+            <field name="type">tree</field>
+            <field name="priority">999</field>
+            <field name="model">account.account</field>
+            <field name="arch" type="xml">
+                <tree  string="Plano de Contas" >
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="user_type" invisible="1"/>
+                    <field name="account_depara_plano_id" invisible="1"/>
+                    <field name="type"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_contabilidade_account_tree_action" model="ir.actions.act_window">
+            <field name="name">Contas Externas</field>
+            <field name="res_model">account.account</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="l10n_br_contabilidade_view_account_search"/>
+            <field name="view_id" ref="l10n_br_contabilidade_view_account_externo_tree"/>
+            <field name="domain">[('account_depara_plano_id','!=',False)]</field>
+            <field name="context">{'search_default_group_reference': 1}</field>
+        </record>
+
 
     </data>
 </openerp>

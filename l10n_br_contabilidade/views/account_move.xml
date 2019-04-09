@@ -117,7 +117,9 @@
                                         <page string="Information">
                                             <group>
                                                 <group string="Amount">
-                                                    <field name="account_id" domain="[('company_id', '=', parent.company_id), ('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                                                    <field name="account_id"
+                                                           domain="[('company_id', '=', parent.company_id), ('type','&lt;&gt;','view'),
+                                                                    ('type','&lt;&gt;','consolidation'),('chils_parent_ids','=',False),('account_depara_plano_id','=',False)]"/>
                                                     <field name="ramo_id"/>
                                                     <field name="debit"/>
                                                     <field name="credit"/>
@@ -176,7 +178,7 @@
                                         domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
                                         on_change="onchange_partner_id(False, partner_id, account_id, debit, credit, parent.date, parent.journal_id, context)" invisible="1"/>
                                     <field name="date_maturity" invisible="1" />
-                                    <field name="account_id" options="{'no_create': True}" domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id)]" />
+                                    <field name="account_id" options="{'no_create': True}" domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id), ('child_parent_ids','=', False)]" />
                                     <field name="precisa_ramo" invisible="1"/>
                                     <field name="ramo_id" options="{'no_create': True}" attrs="{'required':[('precisa_ramo','=',True)]}"/>
                                     <field name="debit" sum="Total Debit"/>
