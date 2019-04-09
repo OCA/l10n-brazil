@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="l10n_br_contabilidade_account_mapeamento_plano_form_view" model="ir.ui.view">
+            <field name="name">l10n_br.conta.mapeamento.referencia.form</field>
+            <field name="model">account.depara.plano</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" attrs="{'required': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_contabilidade_account_mapeamento_plano_tree_view" model="ir.ui.view">
+            <field name="name">l10n_br.conta.mapeamento.referencia.tree</field>
+            <field name="model">account.depara.plano</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_contabilidade_account_mapeamento_plano_action" model="ir.actions.act_window">
+            <field name="name">Plano de Contas Externo</field>
+            <field name="res_model">account.depara.plano</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</openerp>

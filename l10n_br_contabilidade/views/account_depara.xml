@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="l10n_br_contabilidade_account_depara_form_view" model="ir.ui.view">
+            <field name="name">account.depara.form (in l10n_br_contabilidade)</field>
+            <field name="model">account.depara</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h2>
+                            <label for="account_depara_plano_id" string="Plano de Contas" />
+                            <field name="account_depara_plano_id"
+                                   attrs="{'required': True}"
+                                   options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                        </h2>
+
+                        <group colspan="4">
+
+                            <group colspan="2">
+                                <label for="conta_sistema_id" string="Conta Oficial"/>
+                                <newline/>
+                                <field name="conta_sistema_id" attrs="{'required': True}"
+                                       options="{'no_quick_create': True, 'no_create_edit': True}" nolabel="1"/>
+                            </group>
+
+                            <group colspan="2">
+                                <label for="conta_referencia_id"/>
+                                <newline/>
+                                <field name="conta_referencia_id" nolabel="1" attrs="{'required': True}"
+                                       options="{'no_quick_create': True, 'no_create_edit': True}"
+                                       domain="[('account_depara_plano_id', '=', account_depara_plano_id)]"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_contabilidade_account_depara_tree_view" model="ir.ui.view">
+            <field name="name">account.depara.tree (in l10n_br_contabilidade)</field>
+            <field name="model">account.depara</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="account_depara_plano_id" />
+                    <field name="conta_sistema_id"/>
+                    <field name="conta_referencia_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_contabilidade_account_depara_search_view" model="ir.ui.view">
+            <field name="name">account.depara.search in (l10n_br_contabilidade)</field>
+            <field name="model">account.depara</field>
+            <field name="arch" type="xml">
+                <search string="Mapeamento">
+                    <field name="name" filter_domain="['|', ('conta_referencia_id','ilike',self), ('conta_sistema_id','ilike',self)]" string="Mapeamento"/>
+                    <field name="account_depara_plano_id" />
+                    <field name="conta_referencia_id" />
+                    <field name="conta_sistema_id" />
+                     <group expand="0" string="Group By">
+                        <filter string="Plano de Contas" name="group_reference" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'account_depara_plano_id'}"/>
+                     </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Mapeamento de Contas-->
+        <record id="l10n_br_contabilidade_account_depara_action" model="ir.actions.act_window">
+            <field name="name">Depara de Contas</field>
+            <field name="res_model">account.depara</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="l10n_br_contabilidade_account_depara_search_view"/>
+        </record>
+
+    </data>
+</openerp>
