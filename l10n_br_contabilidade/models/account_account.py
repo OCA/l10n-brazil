@@ -139,31 +139,5 @@ class AccountAccount(models.Model):
             return super(AccountAccount, self)._check_allow_code_change(
                 cr, uid, ids, context=context)
 
-    @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        def ignora_ponto(res):
-            request = "SELECT id, concat_ws(' ', code, name) " \
-                      "FROM account_account " \
-                      "WHERE " \
-                      "REPLACE(code, '.', '') LIKE " \
-                      "REPLACE('{}%', '.', '')".format(name)
 
-            self.env.cr.execute(request)
 
-            for row in self.env.cr.fetchall():
-                res.append(row)
-
-            return res
-
-        res = super(AccountAccount, self).name_search(name)
-        if not res:
-            domain_name = '%{}%'.format(name)
-            res = self.search([('code', '=ilike', domain_name)])
-            res = res.name_get()
-            res = ignora_ponto(res)
-
-            return res
-
-        res = ignora_ponto(res)
-
-        return res
