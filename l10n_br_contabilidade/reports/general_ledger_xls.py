@@ -144,8 +144,90 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
         num_format_str=report_xls.decimal_format)
 
     cnt = 0
-    for account in objects:
+    if not data.get('form').get('account_depara'):
+        total_debit = ''
+        total_credit = ''
+        total_balance = ''
+        total_debit, total_credit, total_balance, row_pos = process_account_move_lines(_p, c_specs, c_hdr_cell_style,
+                                   c_hdr_cell_style_decimal,
+                                   c_hdr_cell_style_right, c_hdr_data,
+                                   c_init_cell_style, c_init_cell_style_decimal,
+                                   c_title_cell_style, cnt, data, ll_cell_style,
+                                   ll_cell_style_center, ll_cell_style_date,
+                                   ll_cell_style_decimal, objects, row_pos,
+                                   self, ws)
+    else:
+        cell_format_depara = _xs['bold'] + _xs['fill_blue'] + _xs['borders_all']
+        cell_style_depara = xlwt.easyxf(cell_format_depara)
+        c_hdr_cell_style_decimal_depara = xlwt.easyxf(
+            cell_format_depara + _xs['right'],
+            num_format_str=report_xls.decimal_format)
+        for account_depara in data.get('form').get('account_depara'):
+            account_account_depara_ids = []
+            total_debit = ''
+            total_credit = ''
+            total_balance = ''
+            c_specs = [
+                ('acc_title', 9, 0, 'text',
+                 ' - '.join([account_depara.code, account_depara.name + ' (' + account_depara.account_depara_plano_id.name + ')'])),
+            ]
+            row_data = self.xls_row_template(
+                c_specs, [x[0] for x in c_specs])
+            row_pos = self.xls_write_row(
+                ws, row_pos, row_data, row_style=cell_style_depara)
+            row_pos += 1
 
+            for account in objects:
+                for depara_id in account.depara_ids:
+                    if depara_id.conta_referencia_id.id == account_depara.id:
+                        account_account_depara_ids.append(account)
+            total_debit, total_credit, total_balance, row_pos = process_account_move_lines(_p, c_specs, c_hdr_cell_style,
+                                       c_hdr_cell_style_decimal,
+                                       c_hdr_cell_style_right, c_hdr_data,
+                                       c_init_cell_style, c_init_cell_style_decimal,
+                                       c_title_cell_style, cnt, data, ll_cell_style,
+                                       ll_cell_style_center, ll_cell_style_date,
+                                       ll_cell_style_decimal, account_account_depara_ids, row_pos,
+                                       self, ws)
+            if total_debit[-1] == '+':
+                total_debit = total_debit[:-1]
+            if total_credit[-1] == '+':
+                total_credit = total_credit[:-1]
+            if total_balance[-1] == '+':
+                total_balance = total_balance[:-1]
+
+            row_pos += 1
+            c_specs = [
+                ('acc_title', 5, 0, 'text',
+                 ' - '.join([account_depara.code, account_depara.name + ' (' + account_depara.account_depara_plano_id.name + ')'])),
+                ('cum_bal', 1, 0, 'text',
+                 _('Acumulado na Conta'),
+                 None, c_hdr_cell_style_decimal_depara),
+                ('debit', 1, 0, 'number', None,
+                 total_debit, c_hdr_cell_style_decimal_depara),
+                ('credit', 1, 0, 'number', None,
+                 total_credit, c_hdr_cell_style_decimal_depara),
+                ('balance', 1, 0, 'number', None,
+                 total_balance, c_hdr_cell_style_decimal_depara),
+            ]
+            row_data = self.xls_row_template(
+                c_specs, [x[0] for x in c_specs])
+            row_pos = self.xls_write_row(
+                ws, row_pos, row_data, row_style=cell_style_depara)
+            row_pos += 1
+
+
+def process_account_move_lines(_p, c_specs, c_hdr_cell_style, c_hdr_cell_style_decimal,
+                               c_hdr_cell_style_right, c_hdr_data,
+                               c_init_cell_style, c_init_cell_style_decimal,
+                               c_title_cell_style, cnt, data, ll_cell_style,
+                               ll_cell_style_center, ll_cell_style_date,
+                               ll_cell_style_decimal, objects, row_pos, self,
+                               ws):
+    total_debit = ''
+    total_credit = ''
+    total_balance = ''
+    for account in objects:
         display_initial_balance = _p['init_balance'][account.id] and \
                                   (_p['init_balance'][account.id].get(
                                       'debit', 0.0) != 0.0 or
@@ -162,7 +244,7 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
             cumul_balance = 0.0
             cumul_balance_curr = 0.0
             c_specs = [
-                ('acc_title', 11, 0, 'text',
+                ('acc_title', 9, 0, 'text',
                  ' - '.join([account.code, account.name])),
             ]
             row_data = self.xls_row_template(
@@ -287,6 +369,12 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
             row_pos = self.xls_write_row(
                 ws, row_pos, row_data, c_hdr_cell_style)
             row_pos += 1
+
+            total_debit += debit_formula + '+'
+            total_credit += credit_formula + '+'
+            total_balance += balance_formula + '+'
+
+    return total_debit, total_credit, total_balance, row_pos
 
 
 GeneralLedgerXls.generate_xls_report = generate_xls_report
