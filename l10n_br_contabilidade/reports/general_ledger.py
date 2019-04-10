@@ -18,12 +18,15 @@ def get_account_reference(self, account_ids, account_depara_plano_id):
         'account_depara_plano_id': account_depara_plano_id,
     }
 
-    sql_select = "SELECT conta_sistema_id FROM account_depara am"
+    sql_select = "SELECT adcs.conta_sistema_id " \
+                 "FROM account_depara_conta_sistema_rel adcs " \
+                 "RIGHT JOIN account_depara ad " \
+                 "ON adcs.account_depara_id=ad.id"
 
-    sql_where = "WHERE conta_referencia_id IN %(conta_referencia_id)s " \
-                "AND account_depara_plano_id = %(account_depara_plano_id)s"
+    sql_where = "WHERE ad.conta_referencia_id IN  %(conta_referencia_id)s " \
+                "AND ad.account_depara_plano_id = %(account_depara_plano_id)s"
 
-    sql_order = "order by conta_sistema_id"
+    sql_order = "order by adcs.conta_sistema_id"
 
     sql = ' '.join((sql_select, sql_where, sql_order))
     self.cursor.execute(sql, sql_filters)
