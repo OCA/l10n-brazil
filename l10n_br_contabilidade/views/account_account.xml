@@ -12,6 +12,9 @@
             <field name="inherit_id" ref="account.view_account_form"/>
             <field name="arch" type="xml">
                 <data>
+                    <field name="parent_id" position="before">
+                        <field name="account_depara_plano_id" attrs="{'invisible': [('depara_ids', '!=', [])]}" />
+                    </field>
                     <field name="type" position="after">
                         <field name="natureza_conta_id" attrs="{'required':[('type','!=','view')]}" widget="selection"/>
                     </field>
@@ -46,9 +49,6 @@
                             </page>
 
                             <page string="DePara">
-                                <group>
-                                    <field name="account_depara_plano_id" attrs="{'invisible': [('depara_ids', '!=', [])]}" />
-                                </group>
                                 <field nolabel="1" name="depara_ids" attrs="{'invisible': [('account_depara_plano_id', '!=', False)]}" context="{'default_conta_sistema_id': active_id}">
                                     <tree editable="bottom">
                                         <field name="account_depara_plano_id" />
