@@ -45,10 +45,13 @@ class AccountAccount(models.Model):
         string=u'É obrigatório definir Ramo?'
     )
 
-    depara_ids = fields.One2many(
+    depara_ids = fields.Many2many(
         string=u'DePara de Contas',
         comodel_name='account.depara',
-        inverse_name='conta_sistema_id',
+        relation='account_depara_conta_sistema_rel',
+        column1='conta_sistema_id',
+        column2='account_depara_id',
+        # inverse_name='conta_sistema_id',
     )
 
     divisao_resultado_ids = fields.One2many(
