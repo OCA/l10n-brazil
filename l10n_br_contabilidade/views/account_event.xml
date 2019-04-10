@@ -6,6 +6,13 @@
 <openerp>
     <data>
 
+        <!-- Tela de eventos quebrando com code muito grande-->
+        <template id="l10n_br_contabilidade" name="l10n_br_contabilidade assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/l10n_br_contabilidade/static/src/css/cssfile.css"/>
+            </xpath>
+        </template>
+
         <record model="ir.ui.view" id="l10n_br_contabilidade_account_event_form">
             <field name="name">l10n_br_contabilidade_account_event_form (in l10n_br_contabilidade)</field>
             <field name="model">account.event</field>
@@ -23,7 +30,7 @@
                                statusbar_visible="open,validate,generated,done,reversed"
                                statusbar_colors="{'open':'blue','validate':'blue','generated':'blue','done':'blue', 'reversed':'reversed'}"/>
                     </header>
-                    <sheet>
+                    <sheet class="custom-sheet-account-event">
                         <h2>
                             <field name="ref" />
                         </h2>
