@@ -21,18 +21,18 @@
                         <group colspan="4">
 
                             <group colspan="2">
-                                <label for="conta_sistema_id" string="Conta Oficial"/>
-                                <newline/>
-                                <field name="conta_sistema_id" attrs="{'required': True}"
-                                       options="{'no_quick_create': True, 'no_create_edit': True}" nolabel="1"/>
-                            </group>
-
-                            <group colspan="2">
                                 <label for="conta_referencia_id"/>
                                 <newline/>
                                 <field name="conta_referencia_id" nolabel="1" attrs="{'required': True}"
                                        options="{'no_quick_create': True, 'no_create_edit': True}"
                                        domain="[('account_depara_plano_id', '=', account_depara_plano_id)]"/>
+                            </group>
+
+                            <group colspan="2">
+                                <label for="conta_sistema_id" string="Conta Oficial"/>
+                                <newline/>
+                                <field name="conta_sistema_id" attrs="{'required': True}"
+                                       options="{'no_quick_create': True, 'no_create_edit': True}" nolabel="1"/>
                             </group>
 
                         </group>
@@ -47,8 +47,8 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="account_depara_plano_id" />
-                    <field name="conta_sistema_id"/>
                     <field name="conta_referencia_id"/>
+                    <field name="conta_sistema_id"/>
                 </tree>
             </field>
         </record>
