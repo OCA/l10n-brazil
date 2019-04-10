@@ -79,6 +79,11 @@ def set_context(self, objects, data, ids, report_type=None):
     if data.get('form').get('account_depara_plano_id'):
         new_ids = get_account_reference(
             self, new_ids, data.get('form').get('account_depara_plano_id'))
+        depara_id = self.pool.get('account.account').browse(
+            self.cursor, self.uid,
+            data.get('form').get('account_ids'), context=lang_ctx
+        )
+        data['form']['account_depara'] = depara_id
 
     accounts = self.get_all_accounts(new_ids, exclude_type=['view'])
     if initial_balance_mode == 'initial_balance':
