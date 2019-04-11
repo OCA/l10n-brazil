@@ -43,11 +43,6 @@ class AccountJournal(models.Model):
     @api.onchange('divisao_resultado_ids')
     def _verifica_porcentagem_fechamento(self):
         for record in self:
-
-            for div in record.divisao_resultado_ids:
-                div.porcentagem = False if div.valor_fixo else div.porcentagem
-                div.valor_fixo = False if div.porcentagem else div.valor_fixo
-
             # Verifica se o somatório das sequencias ultrapassam 100%
             for r in set(
                     [ja.sequencia for ja in record.divisao_resultado_ids]):

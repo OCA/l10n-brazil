@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import Warning
 
 
 class AccountDivisaoResultado(models.Model):
@@ -37,3 +38,21 @@ class AccountDivisaoResultado(models.Model):
         default=1,
     )
 
+    @api.model
+    def create(self, vals):
+        if vals['valor_fixo'] and vals['porcentagem']:
+            raise Warning(u'Só pode existir Valor Fixo ou Porcentagem. '
+                          u'Necessário excluir e adicionar novamente a linha '
+                          u'onde os dois valores estão preenchidos')
+        
+        return super(AccountDivisaoResultado, self).create(vals)
+
+    @api.onchange('porcentagem')
+    def onchange_porcentagem(self):
+        self.ensure_one()
+        self.porcentagem = 0 if self.valor_fixo != 0 else self.porcentagem
+
+    @api.onchange('valor_fixo')
+    def onchange_valor_fixo(self):
+        self.ensure_one()
+        self.valor_fixo = 0 if self.porcentagem != 0 else self.valor_fixo
