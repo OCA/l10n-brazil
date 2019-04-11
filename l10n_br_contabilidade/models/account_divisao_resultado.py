@@ -40,11 +40,11 @@ class AccountDivisaoResultado(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals['valor_fixo'] and vals['porcentagem']:
+        if vals.get('valor_fixo') and vals.get('porcentagem'):
             raise Warning(u'Só pode existir Valor Fixo ou Porcentagem. '
                           u'Necessário excluir e adicionar novamente a linha '
                           u'onde os dois valores estão preenchidos')
-        
+
         return super(AccountDivisaoResultado, self).create(vals)
 
     @api.onchange('porcentagem')
