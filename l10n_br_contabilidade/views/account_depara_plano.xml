@@ -13,6 +13,7 @@
                     <sheet>
                         <group>
                             <field name="name" attrs="{'required': True}"/>
+                            <field name="account_account_id"  attrs="{'invisible' : [('account_account_id', '=', False)]}"/>
                         </group>
                     </sheet>
                 </form>
@@ -25,6 +26,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="account_account_id"/>
                 </tree>
             </field>
         </record>
