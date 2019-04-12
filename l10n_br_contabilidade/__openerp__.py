@@ -58,7 +58,7 @@
         'views/account_event_line.xml',
         'views/account_event_template.xml',
         'views/account_invoice.xml',
-        'views/l10n_br_account.xml',
+        'views/l10n_br_account_fiscal_category.xml',
     ],
     'qweb': [
         'static/src/xml/*.xml'
