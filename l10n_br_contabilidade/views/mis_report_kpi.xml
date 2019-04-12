@@ -12,6 +12,7 @@
                 <field name="sequence" position="after">
                     <field name="report_mode" invisible="1"/>
                     <field name="expression_mode"/>
+                    <field name="account_depara_plano_id" string="Plano de Contas Externo"/>
                 </field>
                 <field name="column_title" position="after">
                     <field name="account_ids" attrs="{'invisible': [('expression_mode','!=','auto')]}">

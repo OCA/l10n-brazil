@@ -22,6 +22,7 @@ from . import mis_report_kpi
 from . import mis_report_style
 from . import gefin_custos
 from . import mis_report
+from . import aep
 from . import mis_builder
 from . import res_partner
 from . import mis_report_instance

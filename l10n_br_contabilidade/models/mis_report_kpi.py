@@ -46,7 +46,8 @@ class MisReportKpi(models.Model):
     account_ids = fields.Many2many(
         comodel_name='account.account',
         inverse_name='mis_report_kpi_ids',
-        string='Contas contabeis'
+        string='Contas contabeis',
+        domain="[('account_depara_plano_id', '=', account_depara_plano_id)]",
     )
     invert_signal = fields.Boolean(
         default=False,
@@ -71,6 +72,19 @@ class MisReportKpi(models.Model):
     incluir_lancamentos_de_fechamento = fields.Boolean(
         string=u'Incluir lançamentos de fechamento?'
     )
+
+    account_depara_plano_id = fields.Many2one(
+        string='Plano de Contas Referencial',
+        comodel_name='account.depara.plano',
+        compute='compute_account_depara_plano_id',
+    )
+
+    @api.depends('report_id')
+    def compute_account_depara_plano_id(self):
+        for record in self:
+            record.account_depara_plano_id = \
+                record.report_id.account_depara_plano_id \
+                    if record.report_id.account_depara_plano_id else False
 
     @api.one
     @api.onchange('report_mode')
@@ -143,7 +157,9 @@ class MisReportKpi(models.Model):
 
                 str_account_ids = exp.split('[', 1)[1].split(']')[0]
                 account_ids = str_account_ids.split(',')
-                record.account_ids = record.env['account.account'].search(
-                    [('code', 'in', account_ids)])
+                record.account_ids = record.env['account.account'].search([
+                    ('code', 'in', account_ids),
+                    ('account_depara_plano_id','=',record.account_depara_plano_id.id)
+                ])
             else:
                 raise UserWarning(u'Invalid expression type!')

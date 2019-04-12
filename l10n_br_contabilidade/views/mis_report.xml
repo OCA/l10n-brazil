@@ -11,11 +11,12 @@
         <field name="inherit_id" ref="mis_builder.mis_report_view_form"/>
         <field name="arch" type="xml">
             <field name="description" position="after">
+                <field name="account_depara_plano_id" string="Plano de Contas Externo" widget="selection"/>
                 <field name="report_mode" required="1"/>
                 <field name="considerations"/>
             </field>
             <field name="kpi_ids" position="attributes">
-                <attribute name="context">{'default_report_mode':report_mode}</attribute>
+                <attribute name="context">{'default_report_mode':report_mode, 'default_account_depara_plano_id': account_depara_plano_id}</attribute>
                 <attribute name="editable">false</attribute>
             </field>
         </field>

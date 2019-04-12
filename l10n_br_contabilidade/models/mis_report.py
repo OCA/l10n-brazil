@@ -23,8 +23,14 @@ class MisReport(models.Model):
         selection=MIS_REPORT_MODE,
         default='contabil'
     )
+
     considerations = fields.Text(
         string=u'Considerações finais'
+    )
+
+    account_depara_plano_id = fields.Many2one(
+        comodel_name='account.depara.plano',
+        string='Plano de Contas Referencial',
     )
 
     @api.multi

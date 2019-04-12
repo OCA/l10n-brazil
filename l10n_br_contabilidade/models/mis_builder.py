@@ -114,20 +114,23 @@ class MisReportInstance(models.Model):
         row = next(d['cols'] and d['cols'][0] for d in res['content']
                    if d['kpi_name'] == kpi[0].description) if kpi else None
 
-        if row and self.considerations:
-            val = float(row['val'])
+        if row and row.get('val') and self.considerations:
+            val = float(row.get('val'))
             split_val = '{:,}'.format(val).split('.')
             liquid = split_val[0].replace(',', '.') + ',' + split_val[1]
 
             lang = 'pt_BR'
-            in_full = num2words(int(split_val[0].replace(',', '')),
-                                lang=lang) + ' reais e ' + \
+
+            in_full = num2words(int(split_val[0].replace(',', '')),lang=lang) + ' reais e ' + \
                 num2words(int(split_val[1]), lang=lang) + ' centavos'
 
-            template = Template(self.considerations.encode('utf-8'),
-                                input_encoding='utf-8',
-                                output_encoding='utf-8',
-                                strict_undefined=True)
+            template = Template(
+                self.considerations.encode('utf-8'),
+                input_encoding='utf-8',
+                output_encoding='utf-8',
+                strict_undefined=True
+            )
+
             res['considerations'] = template.render(
                 liquid={'val': val, 'f': liquid, 'in_full': in_full},
                 mr=self.report_id, today=res['today']).decode('utf-8')
