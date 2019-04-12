@@ -13,7 +13,7 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="parent_id" position="before">
-                        <field name="account_depara_plano_id" attrs="{'invisible': [('depara_ids', '!=', [])]}" />
+                        <field name="account_depara_plano_id" string="Plano de Contas Externo" />
                     </field>
                     <field name="type" position="after">
                         <field name="natureza_conta_id" attrs="{'required':[('type','!=','view')]}" widget="selection"/>
@@ -48,8 +48,8 @@
                                 <field name="observacao"/>
                             </page>
 
-                            <page string="DePara">
-                                <field nolabel="1" name="depara_ids" attrs="{'invisible': [('account_depara_plano_id', '!=', False)]}" context="{'default_conta_sistema_id': active_id}">
+                            <page string="DePara" attrs="{'invisible': [('account_depara_plano_id', '!=', False)]}">
+                                <field nolabel="1" name="depara_ids"  context="{'default_conta_sistema_id': [active_id]}">
                                     <tree editable="bottom">
                                         <field name="account_depara_plano_id" />
                                         <field name="conta_referencia_id" />
