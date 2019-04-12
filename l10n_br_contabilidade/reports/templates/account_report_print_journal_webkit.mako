@@ -75,13 +75,13 @@
                     ## date
                     <div class="act_as_cell first_column" style="width: 60px;">${_('Date')}</div>
                     ## move
-                    <div class="act_as_cell" style="width: 150px;">${_('Entry')}</div>
+                    <div class="act_as_cell" style="width: 100px;">Sequência do Lançamento</div>
                     ## account code
                     <div class="act_as_cell" style="width: 95px;">${_('Account')}</div>
                     ## journal
                     <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${_('Journal')}</div>
                     ## label
-                    <div class="act_as_cell" style="width: 450px;">${_('Label')}</div>
+                    <div class="act_as_cell" style="width: 550px;">Histórico</div>
                     ## debit
                     <div class="act_as_cell amount" style="width: 125px;">${_('Debit')}</div>
                     ## credit
@@ -100,7 +100,7 @@
                         ## date
                         <div class="act_as_cell first_column" style="width: 60px;">${formatLang(move.date, date=True)}</div>
                         ## move
-                        <div class="act_as_cell" style="width: 150px;">${move.name}</div>
+                        <div class="act_as_cell" style="width: 100px;">${move.sequencia if new_move else ''}</div>
                         ## account code
                         <div class="act_as_cell" style="width: 95px;">${line.account_id.code}</div>
                         ## journal
