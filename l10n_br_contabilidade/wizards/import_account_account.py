@@ -61,7 +61,7 @@ class WizardImportAccountAccount(models.TransientModel):
                     'parent_id': False,
                     'account_depara_plano_id': record.account_depara_plano_id.id,
                     'user_type':
-                        self.env.ref('account.data_account_type_asset').id,
+                        self.env.ref('account.data_account_type_view').id,
                 }
 
                 account_account_id = self.env['account.account'].create(vals)
@@ -128,7 +128,7 @@ class WizardImportAccountAccount(models.TransientModel):
                         'name': name,
                         'parent_id': parent_id,
                         'user_type':
-                            self.env.ref('account.data_account_type_asset').id,
+                            self.env.ref('account.data_account_type_view').id,
                         'account_depara_plano_id': record.account_depara_plano_id.id,
                     }
 
