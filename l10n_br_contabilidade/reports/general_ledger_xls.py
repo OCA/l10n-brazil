@@ -53,12 +53,12 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
     cell_style = xlwt.easyxf(cell_format)
     cell_style_center = xlwt.easyxf(cell_format + _xs['center'])
     c_specs = [
-        ('coa', 2, 0, 'text', _('Chart of Account')),
-        ('fy', 1, 0, 'text', _('Fiscal Year')),
+        ('coa', 2, 0, 'text', _('Plano de Conta')),
+        ('fy', 1, 0, 'text', _('Ano Fiscal')),
         ('df', 3, 0, 'text', _p.filter_form(data) ==
-         'filter_date' and _('Dates Filter') or _('Periods Filter')),
-        ('af', 1, 0, 'text', _('Accounts Filter')),
-        ('tm', 2, 0, 'text', _('Target Moves')),
+         'filter_date' and _('Filtro de Datas') or _('Filtro de Períodos')),
+        ('af', 1, 0, 'text', _('Filtro de contas')),
+        ('tm', 2, 0, 'text', _('Movimentos de Destino')),
     ]
     row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
     row_pos = self.xls_write_row(
@@ -115,8 +115,8 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
 
     c_specs = [
         ('date', 1, 0, 'text', _('Data'), None, c_hdr_cell_style),
+        ('sequencia', 1, 0, 'text', _('Nº Lançamento'), None, c_hdr_cell_style),
         ('period', 1, 0, 'text', _('Período'), None, c_hdr_cell_style),
-        ('account_code', 1, 0, 'text', _('Conta'), None, c_hdr_cell_style),
         ('label', 2, 0, 'text', _('Histórico'), None, c_hdr_cell_style),
         ('counterpart', 1, 0, 'text', _('Contra Partida'), None, c_hdr_cell_style),
         ('debit', 1, 0, 'text', _('Débito'), None, c_hdr_cell_style_right),
@@ -264,7 +264,7 @@ def process_account_move_lines(_p, c_specs, c_hdr_cell_style, c_hdr_cell_style_d
                 c_specs = [('empty%s' % x, 1, 0, 'text', None)
                            for x in range(3)]
                 c_specs += [
-                    ('init_bal', 2, 0, 'text', _('Initial Balance')),
+                    ('init_bal', 2, 0, 'text', _('Balanço Inicial')),
                     ('counterpart', 1, 0, 'text', None),
                     ('debit', 1, 0, 'number', cumul_debit,
                      None, c_init_cell_style_decimal),
@@ -307,9 +307,9 @@ def process_account_move_lines(_p, c_specs, c_hdr_cell_style, c_hdr_cell_style_d
                         ('ldate', 1, 0, 'text', None),
                     ]
                 c_specs += [
+                    ('sequencia', 1, 0, 'number', line.get('sequencia')),
                     ('period', 1, 0, 'text',
                      line.get('period_code') or ''),
-                    ('account_code', 1, 0, 'text', account.code),
                     ('label', 2, 0, 'text', label),
                     ('counterpart', 1, 0, 'text',
                      line.get('counterparts') or ''),
