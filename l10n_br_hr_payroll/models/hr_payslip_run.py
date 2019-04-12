@@ -370,6 +370,31 @@ class HrPayslipRun(models.Model):
                     payslip.unlink()
                     continue
         self.verificar_holerites_gerados()
+        self.busca_holerite_orfao()
+
+    @api.multi
+    def busca_holerite_orfao(self):
+        '''
+        Busca por holerites orfãos e associa ao lote
+
+        :return:
+        '''
+
+        self.ensure_one()
+
+        payslip_run = self.env['hr.payslip.run']
+        payslip = self.env['hr.payslip']
+
+        payslip_ids = payslip.search([('hr.payslip.run', '=', False)])
+
+        for p in payslip_ids:
+            p_run = payslip_run.search(
+                [('ano', '=', p.ano),
+                 ('mes_do_ano', '=', p.mes_do_ano),
+                 ('tipo_de_folha', '=', p.tipo_de_folha)])
+
+            if len(p_run) == 1:
+                p.payslip_run_id = p_run.id
 
     @api.multi
     def close_payslip_run(self):
