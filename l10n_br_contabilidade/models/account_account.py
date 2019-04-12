@@ -45,13 +45,18 @@ class AccountAccount(models.Model):
         string=u'É obrigatório definir Ramo?'
     )
 
+    parent_id = fields.Many2one(
+        comodel_name='account.account',
+        domain="[('type', '=', 'view'),"
+               "('account_depara_plano_id','=',account_depara_plano_id)]",
+    )
+
     depara_ids = fields.Many2many(
         string=u'DePara de Contas',
         comodel_name='account.depara',
         relation='account_depara_conta_sistema_rel',
         column1='conta_sistema_id',
         column2='account_depara_id',
-        # inverse_name='conta_sistema_id',
     )
 
     divisao_resultado_ids = fields.One2many(
