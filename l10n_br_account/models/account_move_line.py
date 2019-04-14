@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2016-TODAY Akretion <http://www.akretion.com>
 #   @author Magno Costa <magno.costa@akretion.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
