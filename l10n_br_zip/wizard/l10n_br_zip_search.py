@@ -209,6 +209,7 @@ class L10nBrZipResult(models.TransientModel):
             zip_result_data = zip_data
             zip_result_data['object_name'] = object_name
             zip_result_data['address_id'] = address_id
+            del zip_result_data['city']
 
             zip_result_id = self.create(zip_result_data)
             result.append(zip_result_id)
