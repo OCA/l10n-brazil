@@ -22,9 +22,10 @@ class Partner(models.Model):
         else:
             address_format = (
                 self.country_id and self.country_id.address_format or
-                "%(street)s, %(street_number)s\n%(street2)s\n%(city)s"
-                " %(state_code)s%(zip)s\n%(country_name)s")
+                "%(street)s, %(street_number)s %(street2)s\n%(district)s"
+                "\n%(zip)s - %(city)s-%(state_code)s\n%(country_name)s")
             args = {
+                'city_name': self.city_id and self.city_id.name or '',
                 'state_code': self.state_id and self.state_id.code or '',
                 'state_name': self.state_id and self.state_id.name or '',
                 'country_code': self.country_id and self.country_id.code or '',
