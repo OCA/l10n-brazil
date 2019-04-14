@@ -34,6 +34,6 @@
     'demo': [
         'demo/base_demo.xml'
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }
