@@ -54,19 +54,22 @@ class L10nBrBaseOnchangeTest(TransactionCase):
 
     def test_display_address(self):
         partner = self.env.ref('l10n_br_base.res_partner_akretion')
+        partner._onchange_city_id()
         display_address = partner._display_address()
         self.assertEquals(
-            display_address, 'Rua Paulo Dias, 586 -'
-                             ' \nCentro\n18125-000 -  - SP\nBrazil',
+            display_address, 'Rua Paulo Dias, 586 \nCentro'
+                             '\n18125-000 - Alumínio-SP\nBrazil',
             'The function _display_address failed.'
         )
 
     def test_display_address_parent_id(self):
         partner = self.env.ref('l10n_br_base.res_partner_address_ak2')
+        partner._onchange_city_id()
         display_address = partner._display_address()
         self.assertEquals(
-            display_address, 'Akretion Sao Paulo\nRua Paulo Dias, 586 -'
-                             ' \nCentro\n18125-000 -  - SP\nBrazil',
+            display_address, 'Akretion Sao Paulo\n'
+                             'Rua Acre, 47 sala 1310\nCentro'
+                             '\n20081-000 - Rio de Janeiro-RJ\nBrazil',
             'The function _display_address with parent_id failed.'
         )
 
@@ -82,10 +85,11 @@ class L10nBrBaseOnchangeTest(TransactionCase):
 
     def test_display_address_without_company(self):
         partner = self.env.ref('l10n_br_base.res_partner_akretion')
+        partner._onchange_city_id()
         display_address = partner._display_address(without_company=False)
         self.assertEquals(
-            display_address, 'Rua Paulo Dias, 586 - \nCentro\n18125-000 -'
-                             '  - SP\nBrazil',
+            display_address, 'Rua Paulo Dias, 586 \nCentro'
+                             '\n18125-000 - Alumínio-SP\nBrazil',
             'The function _display_address with parameter'
             ' without_company failed.'
         )
