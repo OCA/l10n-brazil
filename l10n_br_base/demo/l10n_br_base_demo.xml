@@ -410,6 +410,7 @@
         <field name="district">Centro</field>
         <field name="city_id" ref="l10n_br_base.city_3304557"/>
         <field name="zip">20081-000</field>
+        <field name="type">other</field>
         <field name="country_id" ref="base.br"/>
         <field name="street_number">47</field>
         <field name="phone">(21) 2516-2954</field>
