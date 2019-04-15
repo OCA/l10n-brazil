@@ -83,7 +83,10 @@ def set_context(self, objects, data, ids, report_type=None):
             self.cursor, self.uid,
             data.get('form').get('account_ids'), context=lang_ctx
         )
-        data['form']['account_depara'] = depara_id
+        depara_account_ids = self.get_all_accounts(
+            depara_id.id, exclude_type=['view'])
+        data['form']['account_depara'] = self.pool.get(
+            'account.account').browse(self.cr, self.uid, depara_account_ids)
 
     accounts = self.get_all_accounts(new_ids, exclude_type=['view'])
     if initial_balance_mode == 'initial_balance':
