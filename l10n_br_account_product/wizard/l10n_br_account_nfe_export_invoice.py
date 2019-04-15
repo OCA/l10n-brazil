@@ -2,8 +2,10 @@
 # Copyright (C) 2011  Vinicius Dittgen - PROGE, Leonardo Santagada - PROGE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from datetime import datetime
 import time
 import base64
+
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning as UserError
 
@@ -121,6 +123,9 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
                 data.file_type, globals(), locals(), data.file_type)
 
             func = getattr(mod_serializer, 'nfe_export')
+
+            for invoice in invoices:
+                invoice.nfe_export_date = datetime.now()
 
             nfes = func(invoices,
                         data.nfe_environment,
