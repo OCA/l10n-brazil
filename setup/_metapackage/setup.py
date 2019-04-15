@@ -9,9 +9,11 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo10-addon-l10n_br_account',
+        'odoo10-addon-l10n_br_account_product',
         'odoo10-addon-l10n_br_base',
         'odoo10-addon-l10n_br_crm',
         'odoo10-addon-l10n_br_crm_zip',
+        'odoo10-addon-l10n_br_generic',
         'odoo10-addon-l10n_br_hr',
         'odoo10-addon-l10n_br_stock',
         'odoo10-addon-l10n_br_zip',
