@@ -123,17 +123,32 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
         period_ids = [period_ids]
     res = {}
 
+    de_para_id = self.pool.get('account.depara').search(
+        self.cr, self.uid, [('conta_referencia_id', '=', account_id)])
+    de_para = self.pool.get('account.depara').browse(
+        self.cr, self.uid, de_para_id)
+
     if not default_values:
         if not account_id or not period_ids:
             raise Exception('Missing account or period_ids')
         try:
-
+            if de_para:
+                where_clause = "WHERE aa.id in {}".format(
+                    de_para.conta_sistema_id.ids).replace(
+                    '[', '(').replace(']', ')')
+                where_clause_domain_query = "account_id in {}".format(
+                    de_para.conta_sistema_id.ids).replace(
+                    '[', '(').replace(']', ')')
+            else:
+                where_clause = "WHERE aa.id = {}".format(account_id)
+                where_clause_domain_query = "account_id = {}".format(
+                    account_id)
             self.cursor.execute(
                 "SELECT an.name "
                 "FROM account_account aa "
                 "LEFT JOIN account_natureza an "
                 "   ON (aa.natureza_conta_id = an.id) "
-                "WHERE aa.id = {}".format(account_id))
+                + where_clause)
 
             natureza = self.cursor.dictfetchone().get('name')
 
@@ -147,11 +162,11 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
                            "AS curr_balance FROM account_move_line " \
                            "WHERE period_id in {} AND move_id in (" \
                            "SELECT id FROM account_move WHERE " \
-                           "period_id in {}{}) AND account_id = {}".format(
+                           "period_id in {}{}) AND {}".format(
                             BALANCE, tuple(period_ids), tuple(period_ids),
                             " AND state = 'posted'" if
                             situacao_lancamento == 'posted' else '',
-                            account_id)
+                            where_clause_domain_query)
 
             self.cursor.execute(domain_query)
             res = self.cursor.dictfetchone()
