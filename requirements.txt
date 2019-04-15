@@ -1,3 +1,10 @@
+reportlab
+unidecode==0.04.20
+suds==0.4
+signxml==2.5.2
+qrcode
+py3o.template==0.9.13
+sh >=1.12.14
 num2words==0.5.4
 pycep-correios
 erpbrasil.base==1.1.0
