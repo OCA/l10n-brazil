@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_product_cfop_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.cfop.name</field>
+        <field name="model">l10n_br_account_product.cfop</field>
+        <field name="arch" type="xml">
+            <form string="CFOP">
+                <sheet>
+                    <group>
+                        <field name="code" select="1"/>
+                        <field name="name" select="1"/>
+                        <field name="small_name" select="2"/>
+                        <field name="type" select="2"/>
+                        <field name="internal_type" select="2"/>
+                        <field name="parent_id"/>
+                        <field name="id_dest"/>
+                    </group>
+                    <group string="Descrição do CFOP" colspan="4">
+                        <field name="description" nolabel="1" colspan="4" select="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_cfop_search" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.cfop.search</field>
+        <field name="model">l10n_br_account_product.cfop</field>
+        <field name="arch" type="xml">
+            <search string="CFOP">
+                <filter string="Entrada" icon="terp-accessories-archiver+" domain="[('type', '=', 'input')]"/>
+                <filter string="Saída" icon="terp-accessories-archiver-minus" domain="[('type','=','output')]"/>
+                <separator orientation="vertical"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="small_name"/>
+                <newline/>
+                <group expand='0' string='Agrupar Por...' groups="base.group_extended">
+                    <filter string='Tipo' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_cfop_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.cfop.tree</field>
+        <field name="model">l10n_br_account_product.cfop</field>
+        <field name="arch" type="xml">
+            <tree string="CFOP">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="type" select="2"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_cfop_structure" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.cfop.structure</field>
+        <field name="model">l10n_br_account_product.cfop</field>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Estrutura do CFOP">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="internal_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_cfop_action" model="ir.actions.act_window">
+        <field name="name">CFOP</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account_product.cfop</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="l10n_br_account_product_cfop_tree"/>
+    </record>
+
+    <record id="l10n_br_account_product_cfop_structure_action" model="ir.actions.act_window">
+        <field name="name">Estrutura do CFOP</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account_product.cfop</field>
+        <field name="view_type">tree</field>
+        <field name="domain">[('parent_id','=',False)]</field>
+        <field name="view_id" ref="l10n_br_account_product_cfop_structure"/>
+    </record>
+
+    <menuitem id="l10n_br_account_product_cfop_menu" name="CFOP" parent="l10n_br_account.menu_l10n_br_account_fiscal_manager" action="l10n_br_account_product_cfop_action" sequence="10"/>
+    <menuitem id="l10n_br_account_product_cfop_structure_menu" name="Estrutura do CFOP" parent="l10n_br_account.menu_l10n_br_account_fiscal_manager" action="l10n_br_account_product_cfop_structure_action" sequence="20"/>
+
+</odoo>

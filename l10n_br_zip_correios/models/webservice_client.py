@@ -35,7 +35,8 @@ class WebServiceClient(object):
 
     def get_address(self, zip_str):
 
-        if not self.obj_zip.env['l10n_br.zip'].search([('zip', '=', zip_str)]):
+        if not self.obj_zip.env['l10n_br.zip'].search(
+                [('zip_code', '=', zip_str)]):
 
             try:
 
@@ -60,7 +61,7 @@ class WebServiceClient(object):
                     ('state_id.id', 'in', state_ids.ids)])
 
                 values = {
-                    'zip': zip_str,
+                    'zip_code': zip_str,
                     'street': str(
                         res.end.encode('utf8')) if res.end else '',
                     'district': str(

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_product_cst_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.cst.name</field>
+        <field name="model">l10n_br_account_product.cst</field>
+        <field name="arch" type="xml">
+            <form string="CST">
+                <sheet>
+                    <group>
+                        <field name="code" select="1"/>
+                        <field name="name" select="1"/>
+                        <field name="tax_group_id" select="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_cst_search" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.cst.search</field>
+        <field name="model">l10n_br_account_product.cst</field>
+        <field name="arch" type="xml">
+            <search string="CST">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="tax_group_id"/>
+                <newline/>
+                <group expand='0' string='Agrupar Por...' groups="base.group_extended">
+                    <filter string='Grupo de Impostos' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'tax_group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_cst_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.cst.tree</field>
+        <field name="model">l10n_br_account_product.cst</field>
+        <field name="arch" type="xml">
+            <tree string="CST">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="tax_group_id" select="2"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_cst_action" model="ir.actions.act_window">
+        <field name="name">CST</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_account_product.cst</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="l10n_br_account_product_cst_tree"/>
+    </record>
+
+    <menuitem id="l10n_br_account_product_cst_menu" name="CST" parent="l10n_br_account.menu_l10n_br_account_fiscal_manager" action="l10n_br_account_product_cst_action" sequence="10"/>
+
+</odoo>

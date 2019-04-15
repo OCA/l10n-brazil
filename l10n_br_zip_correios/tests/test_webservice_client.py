@@ -9,8 +9,7 @@ from suds.client import TransportError
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import Warning as UserError
 
-from odoo.addons.l10n_br_zip_correios.models.webservice_client\
-    import WebServiceClient
+from ..models.webservice_client import WebServiceClient
 
 
 class TestWebServiceClient(TransactionCase):

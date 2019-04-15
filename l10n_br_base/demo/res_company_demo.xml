@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+    Resource: res.company
+    -->
+    <record id="base.main_company" model="res.company">
+        <field name="legal_name">Sua Empresa LTDA</field>
+        <field name="cnpj_cpf">27.861.054/0001-06</field>
+        <field name="inscr_est">282.210.920.279</field>
+        <field name="street">Rua afonso Celso</field>
+        <field name="number">1221</field>
+        <field name="district">Vila Mariana</field>
+        <field name="zip">04119-061</field>
+        <field name="city">São Paulo</field>
+        <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="country_id" ref="base.br"/>
+    </record>
+
+</odoo>

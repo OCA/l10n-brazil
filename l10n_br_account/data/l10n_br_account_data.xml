@@ -1,71 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data noupdate="1">
-        <!-- product.pricelist -->
-        <record id="product.list0" model="product.pricelist">
-            <field name="currency_id" ref="base.BRL"/>
-        </record>
+<odoo noupdate="1">
 
-        <!-- l10n_br_account.document.serie -->
-        <record id="l10n_br_document_serie_1_service" model="l10n_br_account.document.serie">
-            <field name="code">1</field>
-            <field name="name">Série 1</field>
-            <field name="fiscal_document_id" ref="fiscal_document_service"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="active">True</field>
-            <field name="fiscal_type">service</field>
-        </record>
+    <!-- product.pricelist -->
+    <record id="product.list0" model="product.pricelist">
+        <field name="currency_id" ref="base.BRL"/>
+    </record>
 
-        <!-- res.company -->
-        <record id="base.main_company" model="res.company">
-            <field name="service_invoice_id" ref="fiscal_document_service"/>
-            <field name="document_serie_service_id" ref="l10n_br_document_serie_1_service"/>
-            <field name="currency_id" ref="base.BRL"/>
-            <field name="fiscal_type">3</field>
-        </record>
+    <!-- l10n_br_account.document.serie -->
+    <record id="l10n_br_document_serie_1_service" model="l10n_br_account.document.serie">
+        <field name="code">1</field>
+        <field name="name">Série 1</field>
+        <field name="fiscal_document_id" ref="fiscal_document_service"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="active">True</field>
+        <field name="fiscal_type">service</field>
+    </record>
 
-        <!-- l10n_br_account.partner.fiscal.type -->
-        <record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
-            <field name="code">Contribuinte</field>
-            <field name="name">Contribuinte</field>
-            <field name="is_company" eval="True"/>
-            <field name="default" eval="True"/>
-            <field name="ipi" eval="True"/>
-            <field name="icms" eval="True"/>
-        </record>
+    <!-- res.company -->
+    <record id="base.main_company" model="res.company">
+        <field name="service_invoice_id" ref="fiscal_document_service"/>
+        <field name="document_serie_service_id" ref="l10n_br_document_serie_1_service"/>
+        <field name="fiscal_type">3</field>
+    </record>
 
-        <record id="partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
-            <field name="code">Não Contribuinte</field>
-            <field name="name">Não Contribuinte PJ</field>
-            <field name="is_company" eval="True"/>
-            <field name="default" eval="False"/>
-            <field name="ipi" eval="False"/>
-            <field name="icms" eval="False"/>
-        </record>
+    <!-- l10n_br_account.partner.fiscal.type -->
+    <record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
+        <field name="code">Contribuinte</field>
+        <field name="name">Contribuinte</field>
+        <field name="is_company" eval="True"/>
+        <field name="default" eval="True"/>
+        <field name="ipi" eval="True"/>
+        <field name="icms" eval="True"/>
+    </record>
 
-        <record id="partner_fiscal_type_3" model="l10n_br_account.partner.fiscal.type">
-            <field name="code">Simples Nacional</field>
-            <field name="name">Simples Nacional</field>
-            <field name="is_company" eval="True"/>
-            <field name="default" eval="False"/>
-            <field name="ipi" eval="False"/>
-            <field name="icms" eval="False"/>
-        </record>
+    <record id="partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
+        <field name="code">Não Contribuinte</field>
+        <field name="name">Não Contribuinte PJ</field>
+        <field name="is_company" eval="True"/>
+        <field name="default" eval="False"/>
+        <field name="ipi" eval="False"/>
+        <field name="icms" eval="False"/>
+    </record>
 
-        <record id="partner_fiscal_type_4" model="l10n_br_account.partner.fiscal.type">
-            <field name="code">Não Contribuinte</field>
-            <field name="name">Não Contribuinte PF</field>
-            <field name="is_company" eval="False"/>
-            <field name="default" eval="False"/>
-            <field name="ipi" eval="False"/>
-            <field name="icms" eval="False"/>
-        </record>
+    <record id="partner_fiscal_type_3" model="l10n_br_account.partner.fiscal.type">
+        <field name="code">Simples Nacional</field>
+        <field name="name">Simples Nacional</field>
+        <field name="is_company" eval="True"/>
+        <field name="default" eval="False"/>
+        <field name="ipi" eval="False"/>
+        <field name="icms" eval="False"/>
+    </record>
 
-        <!-- res.company -->
-        <record id="base.main_company" model="res.company">
-            <field name="currency_id" ref="base.BRL"/>
-            <field name="fiscal_type">3</field>
-        </record>
+    <record id="partner_fiscal_type_4" model="l10n_br_account.partner.fiscal.type">
+        <field name="code">Não Contribuinte</field>
+        <field name="name">Não Contribuinte PF</field>
+        <field name="is_company" eval="False"/>
+        <field name="default" eval="False"/>
+        <field name="ipi" eval="False"/>
+        <field name="icms" eval="False"/>
+    </record>
 
-    </data>
 </odoo>

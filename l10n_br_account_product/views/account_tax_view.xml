@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_account_product_tax_form">
+        <field name="name">l10n_br_account_product.tax.form</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="domain" invisible="1"/>
+            </field>
+            <notebook position="replace">
+                <separator string="Definition"/>
+                <group>
+                    <group>
+                        <field name="amount_type" modifiers="{'required': true}"/>
+                        <label for="amount" attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}" modifiers="{'invisible': [['amount_type', 'not in', ['fixed', 'percent', 'division']]]}"/>
+                        <div attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}" modifiers="{'invisible': [['amount_type', 'not in', ['fixed', 'percent', 'division']]]}">
+                            <field name="amount" class="oe_inline" on_change="1" modifiers="{'required': true}"/>
+                            <label string="%" class="oe_inline" attrs="{'invisible':[('amount_type','=','fixed')]}" modifiers="{'invisible': [['amount_type', '=', 'fixed']]}"/>
+                        </div>
+                    </group>
+                    <group attrs="{'invisible':[('amount_type','=', 'group')]}" modifiers="{'invisible': [['amount_type', '=', 'group']]}">
+                        <field name="account_id" on_change="1" can_create="true" can_write="true" modifiers="{}"/>
+                        <field name="refund_account_id" can_create="true" can_write="true" modifiers="{}"/>
+                    </group>
+                </group>
+                <field name="children_tax_ids" attrs="{'invisible':['|', ('amount_type','!=','group'), ('type_tax_use','=','none')]}" domain="[('type_tax_use','in',('none',type_tax_use)), ('amount_type','!=','group')]" can_create="true" can_write="true" modifiers="{'invisible': ['|', ['amount_type', '!=', 'group'], ['type_tax_use', '=', 'none']]}"/>
+                <separator string="Opções Avançadas"/>
+                <group>
+                    <group>
+                        <field name="description" attrs="{'invisible':[('amount_type','=', 'group')]}" modifiers="{'invisible': [['amount_type', '=', 'group']]}"/>
+                        <field name="tax_group_id" on_change="1" can_create="true" can_write="true" modifiers="{'required': true}"/>
+                        <field name="tag_ids" domain="[('applicability', '!=', 'accounts')]" widget="many2many_tags" context="{'default_applicability': 'taxes'}" can_create="true" can_write="true" modifiers="{}"/>
+                        <field name="analytic" invisible="1" modifiers="{'invisible': true}"/>
+                        <field name="company_id" options="{'no_create': True}" can_create="true" can_write="true" modifiers="{'required': true}"/>
+                        <field name="active" modifiers="{}"/>
+                    </group>
+                    <group name="advanced_booleans">
+                        <field name="price_include" attrs="{'invisible':[('amount_type','=', 'group')]}" on_change="1" modifiers="{'invisible': [['amount_type', '=', 'group']]}"/>
+                        <field name="include_base_amount" attrs="{'invisible':[('amount_type','=', 'group')]}" modifiers="{'invisible': [['amount_type', '=', 'group']]}"/>
+                        <field name="tax_adjustment" modifiers="{}"/>
+                    </group>
+                </group>
+                <separator string="ICMS" attrs="{'invisible': [('domain', '!=', 'icms')]}"/>
+                <group attrs="{'invisible': [('domain', '!=', 'icms')]}">
+                    <field name="icms_base_type" modifiers="{'required': true}"/>
+                </group>
+                <separator string="ICMS ST" attrs="{'invisible': [('domain', '!=', 'icmsst')]}"/>
+                <group attrs="{'invisible': [('domain', '!=', 'icmsst')]}">
+                    <field name="icms_st_base_type" modifiers="{'required': true}"/>
+                </group>
+                <separator string="IPI" attrs="{'invisible': [('domain', '!=', 'ipi')]}"/>
+                <group attrs="{'invisible': [('domain', '!=', 'ipi')]}"/>
+                <separator string="PIS" attrs="{'invisible': [('domain', '!=', 'pis')]}"/>
+                <group string="PIS" attrs="{'invisible': [('domain', '!=', 'pis')]}"/>
+                <separator string="COFINS" attrs="{'invisible': [('domain', '!=', 'cofins')]}"/>
+                <group attrs="{'invisible': [('domain', '!=', 'cofins')]}"/>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

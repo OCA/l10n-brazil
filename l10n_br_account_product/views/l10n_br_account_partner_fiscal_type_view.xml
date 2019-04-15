@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_product_partner_fiscal_type_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.partner.fiscal.type</field>
+        <field name="model">l10n_br_account.partner.fiscal.type</field>
+        <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_partner_fiscal_type_form"/>
+        <field name="arch" type="xml">
+            <field name="default" position="after">
+                <field name="ind_ie_dest"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

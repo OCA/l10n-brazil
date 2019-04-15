@@ -2,21 +2,16 @@
 # Copyright (C) 2012  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import pooler
-from openerp.exceptions import Warning as UserError
-from openerp.tools.translate import _
+from odoo.exceptions import Warning as UserError
+from odoo.tools.translate import _
 
 # TODO migrate
 
 
-def validate(cr, uid, ids, context=None):
+def validate(invoices, context=None):
     strErro = u''
-    pool = pooler.get_pool(cr.dbname)
 
-    if context is None:
-        context = {}
-
-    for inv in pool.get('account.invoice').browse(cr, uid, ids):
+    for inv in invoices:
 
         partner = inv.partner_id
         company = inv.company_id
@@ -178,7 +173,7 @@ def validate(cr, uid, ids, context=None):
                                     u'Código do BC do país\n')
 
         # produtos
-        for inv_line in inv.invoice_line:
+        for inv_line in inv.invoice_line_ids:
             if inv_line.product_id:
                 if not inv_line.product_id.default_code:
                     strErro += (u'Produtos e Serviços: %s, '
@@ -206,7 +201,7 @@ def validate(cr, uid, ids, context=None):
                             inv_line.product_id.default_code,
                             inv_line.product_id.name,
                             inv_line.quantity)
-                if not inv_line.uos_id:
+                if not inv_line.uom_id:
                     strErro += (u'Produtos e Serviços: %s -'
                                 u' %s, Qtde: %s - Unidade de medida\n') % (
                         inv_line.product_id.default_code,
@@ -283,6 +278,6 @@ def validate(cr, uid, ids, context=None):
                         inv_line.quantity)
     if strErro:
         raise UserError(
-            _('Error !'), ("Error Validating NFE:\n '%s'") % (strErro,))
+            _("Error ! Error Validating NFE:\n '%s'") % (strErro,))
 
     return True

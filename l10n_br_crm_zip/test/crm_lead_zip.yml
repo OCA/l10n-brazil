@@ -2,7 +2,7 @@
   I create a new zip code
 -
   !record {model: l10n_br.zip, id: company_zip_test }:
-    zip: 88032050
+    zip_code: 88032050
     l10n_br_city_id: l10n_br_base.city_4205407
     state_id: base.state_br_sc
     country_id: base.br

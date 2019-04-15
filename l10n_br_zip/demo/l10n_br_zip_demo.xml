@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Demo ZIP -->
+    <record id="demo_l10n_br_zip_1" model="l10n_br.zip">
+        <field name="zip_code">23575460</field>
+        <field name="country_id" ref="base.br"/>
+        <field name="state_id" ref="base.state_br_rj"/>
+        <field name="l10n_br_city_id" ref="l10n_br_base.city_3304557"/>
+        <field name="street">Cristo Redentor</field>
+        <field name="street_type">Rua</field>
+        <field name="district">Paciencia</field>
+    </record>
+
+    <record id="demo_l10n_br_zip_2" model="l10n_br.zip">
+        <field name="zip_code">03120010</field>
+        <field name="country_id" ref="base.br"/>
+        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="l10n_br_city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="street">Curupace</field>
+        <field name="street_type">Rua</field>
+        <field name="district">Mooca</field>
+    </record>
+
+</odoo>

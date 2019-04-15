@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_product_ipi_guideline_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.ipi_guideline.form.view</field>
+        <field name="model">l10n_br_account_product.ipi_guideline</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="cst_group"/>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="cst_in_id"/>
+                        <field name="cst_out_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_ipi_guideline_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.ipi_guideline.tree.view</field>
+        <field name="model">l10n_br_account_product.ipi_guideline</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window id="action_l10n_br_account_product_ipi_guideline_form"
+                name="Enquadramento Ipi"
+                res_model="l10n_br_account_product.ipi_guideline"
+                view_mode="tree,form"/>
+
+    <menuitem id="menu_action_ipi_guideline"
+              name="Enquadramento Ipi"
+              parent="l10n_br_account.menu_l10n_br_account_fiscal_manager"
+              action="action_l10n_br_account_product_ipi_guideline_form"
+              sequence="62"/>
+
+</odoo>
