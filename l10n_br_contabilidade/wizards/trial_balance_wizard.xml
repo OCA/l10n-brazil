@@ -19,6 +19,17 @@
                     <field name="exibir_natureza" />
                 </field>
 
+                <field name="account_ids" position="before">
+                    <group>
+                        <field name="account_depara_plano_id" string="Utilizar Depara"/>
+                    </group>
+                    <newline />
+                </field>
+
+                <field name="account_ids" position="replace">
+                    <field name="account_ids"/>
+                </field>
+
             </field>
         </record>
 

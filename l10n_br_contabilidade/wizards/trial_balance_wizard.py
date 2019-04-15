@@ -22,11 +22,24 @@ class AccountTrialBalanceWizard(models.TransientModel):
         default=False,
     )
 
+    account_depara_plano_id = fields.Many2one(
+        string='Referência Plano de Contas',
+        comodel_name='account.depara.plano',
+    )
+
+    account_ids = fields.Many2many(
+        comodel_name='account.account',
+        domain="[('account_depara_plano_id', '=', account_depara_plano_id)]",
+    )
+
     @api.multi
     def _print_report(self, data):
         data['form']['lancamento_de_fechamento'] = \
             self.lancamento_de_fechamento
         data['form']['exibir_natureza'] = self.exibir_natureza
+        data['form'][
+            'account_depara_plano_id'] = self.account_depara_plano_id.id
+        data['form']['account_depara_id'] = self.account_ids.ids
         data = self.pre_print_report(data)
         data = super(AccountTrialBalanceWizard, self)._print_report(data)
 
