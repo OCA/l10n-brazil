@@ -14,7 +14,7 @@ from openerp.addons.account_financial_report_webkit.report.webkit_parser_header_
 
 def _get_account_details(self, account_ids, target_move, fiscalyear,
                          main_filter, start, stop, initial_balance_mode,
-                         context=None):
+                         context=None, de_para_id=False):
     if context is None:
         context = {}
 
@@ -63,6 +63,9 @@ def _get_account_details(self, account_ids, target_move, fiscalyear,
         ['type', 'code', 'name', 'debit', 'credit',
          'balance', 'parent_id', 'level', 'child_id', 'natureza_conta_id'],
         context=ctx)
+
+    if de_para_id:
+        accounts = _get_debit_credit_balance_de_para(self, accounts, period_ids)
 
     accounts_by_id = {}
     for account in accounts:
@@ -170,6 +173,53 @@ def _get_account_details(self, account_ids, target_move, fiscalyear,
     return accounts_by_id
 
 
+def _get_debit_credit_balance_de_para(self, accounts, period_ids):
+    account_dict_ids = _get_account_details_dict(accounts)
+    for account in reversed(accounts):
+        account_id = self.pool.get('account.account').browse(
+            self.cr, self.uid, account['id'])
+        de_para_id = self.pool.get('account.depara').search(
+            self.cr, self.uid, [('conta_referencia_id', '=', account['id'])])
+
+        total_debitos = 0.0
+        total_creditos = 0.0
+
+        if de_para_id:
+            de_para = self.pool.get('account.depara').browse(
+                self.cr, self.uid, de_para_id)
+            for account_sistema_id in de_para.conta_sistema_id:
+                if account_id.type == 'other':
+                    partida_ids = self.pool.get('account.move.line').search(
+                        self.cr, self.uid,
+                        [
+                            ('account_id', '=', account_sistema_id.id),
+                            ('period_id', 'in', period_ids)
+                        ])
+                    partidas = self.pool.get('account.move.line').browse(
+                        self.cr, self.uid, partida_ids)
+                    if partidas:
+                        total_debitos += sum(x.debit for x in partidas)
+                        total_creditos += sum(x.credit for x in partidas)
+                else:
+
+                    for child_id in account_id.child_parent_ids:
+                        total_debitos += account_dict_ids[child_id.id]['debit']
+                        total_creditos += account_dict_ids[child_id.id]['credit']
+
+            account['debit'] += total_debitos
+            account['credit'] += total_creditos
+
+    return accounts
+
+
+def _get_account_details_dict(accounts):
+    accounts_dict = {}
+    for account in accounts:
+        accounts_dict[account['id']] = account
+
+    return accounts_dict
+
+
 def compute_balance_data(self, data, filter_report_type=None):
     lang = self.localcontext.get('lang')
     lang_ctx = lang and {'lang': lang} or {}
@@ -217,7 +267,8 @@ def compute_balance_data(self, data, filter_report_type=None):
     # get details for each account, total of debit / credit / balance
     accounts_by_ids = self._get_account_details(
         account_ids, target_move, fiscalyear, main_filter, start, stop,
-        initial_balance_mode, context=lang_ctx)
+        initial_balance_mode, context=lang_ctx,
+        de_para_id=data['form']['account_depara_plano_id'])
 
     comparison_params = []
     comp_accounts_by_ids = []
