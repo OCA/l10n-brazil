@@ -78,9 +78,11 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 10.0.1.0.0 | Brazilian Localization Account
+[l10n_br_account_product](l10n_br_account_product/) | 10.0.1.0.0 | Brazilian Localization Account Product
 [l10n_br_base](l10n_br_base/) | 10.0.1.0.0 | Brazilian Localization Base
 [l10n_br_crm](l10n_br_crm/) | 10.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_crm_zip](l10n_br_crm_zip/) | 10.0.1.0.0 | Brazilian Localization CRM Zip
+[l10n_br_generic](l10n_br_generic/) | 10.0.1.0.0 | Brazilian - Generic Accounting
 [l10n_br_hr](l10n_br_hr/) | 10.0.0.0.0 | Brazilian Localization HR
 [l10n_br_stock](l10n_br_stock/) | 10.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 10.0.1.0.0 | Brazilian Localisation ZIP Codes
@@ -91,7 +93,6 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[l10n_br_account_product](l10n_br_account_product/) | 8.0.3.0.0 (unported) | Brazilian Localization Account Product
 [l10n_br_account_product_service](l10n_br_account_product_service/) | 8.0.2.0.0 (unported) | Brazilian Localization Account Product and Service
 [l10n_br_account_service](l10n_br_account_service/) | 8.0.2.0.0 (unported) | Brazilian Localization Account Service
 [l10n_br_data_account_product](l10n_br_data_account_product/) | 8.0.1.0.0 (unported) | Brazilian Localisation Data Extension for Product
