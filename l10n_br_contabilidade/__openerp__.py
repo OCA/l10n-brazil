@@ -32,6 +32,7 @@
         'wizards/trial_balance_wizard.xml',
         'wizards/general_ledger_wizard.xml',
         'wizards/import_account_account.xml',
+        'wizards/print_journal_wizard.xml',
 
         'views/account_account.xml',
         'views/account_journal.xml',

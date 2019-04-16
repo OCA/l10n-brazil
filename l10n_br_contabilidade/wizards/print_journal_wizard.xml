@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_contabilidade_account_report_print_journal" model="ir.ui.view">
+            <field name="name">l10n_br.print.journal</field>
+            <field name="model">print.journal.webkit</field>
+            <field name="inherit_id" ref="account_financial_report_webkit.account_report_print_journal_view_webkit"/>
+            <field name="arch" type="xml">
+                <field name="amount_currency" position="after">
+                    <field name="account_depara_plano_id"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>
