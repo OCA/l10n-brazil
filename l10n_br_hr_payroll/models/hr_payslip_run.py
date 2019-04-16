@@ -385,7 +385,7 @@ class HrPayslipRun(models.Model):
         payslip = self.env['hr.payslip']
 
         payslip_ids = \
-            payslip.search([('hr.payslip.run', '=', False),
+            payslip.search([('payslip_run_id', '=', False),
                             ('ano', '=', self.ano),
                             ('mes_do_ano', '=', self.mes_do_ano),
                             ('tipo_de_folha', '=', self.tipo_de_folha), ])
