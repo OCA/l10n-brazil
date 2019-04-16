@@ -41,7 +41,7 @@
             <xpath expr="//page[@string='Resignation']" position="after">
                     <page string="Rubricas específicas">
                         <field name="specific_rule_ids">
-                            <tree editable="bottom">
+                            <tree editable="top">
                                 <field name="rule_id"/>
                                 <field name="tipo_holerite"/>
                                 <field name="date_start"/>
