@@ -179,7 +179,7 @@
                         </page>
 
                         <page string="Campos de Rescisão"
-                              attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}" groups="base.group_hr_user,base.group_hr_manager">
+                              attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])]}" groups="base.group_hr_user,base.group_hr_manager">
                             <field name="rescisao_ids" colspan="4" nolabel="1">
                                 <tree>
                                     <field name="tipo"/>
@@ -220,7 +220,7 @@
                     <field name="struct_id"
                            attrs="{'readonly': [('tipo_de_folha', '!=', 'rescisao')]}"
                            domain="[('tipo_estrutura', '=', tipo_de_folha)]" />
-                    <field name="data_pagamento_competencia" attrs="{'required' : ['|', ('tipo_de_folha', 'in', ['ferias', 'rescisao'])]}" />
+                    <field name="data_pagamento_competencia" attrs="{'invisible': [('tipo_de_folha', '=', 'rescisao_complementar')], 'required' : ['|', ('tipo_de_folha', 'in', ['ferias', 'rescisao'])]}" />
                     <field name="eh_mes_comercial" groups="base.group_hr_user" />
                 </field>
                 <xpath expr="//div[@class='oe_title']" position="replace">
@@ -298,9 +298,9 @@
                     <field name="is_simulacao" invisible="1"/>
                 </field>
                 <field name="credit_note" position="after">
-                    <field name="data_afastamento" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
-                    <field name="mtv_deslig" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])], 'required': [('tipo_de_folha', '=', 'rescisao')]}"/>
-                    <field name="data_pagamento_demissao" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
+                    <field name="data_afastamento" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])]}"/>
+                    <field name="mtv_deslig" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])], 'required': [('tipo_de_folha', '=', 'rescisao', 'rescisao_complementar')]}"/>
+                    <field name="data_pagamento_demissao" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])]}"/>
                     <field name="valor_saldo_fgts" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
                     <field name="valor_multa_fgts" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
                 </field>
