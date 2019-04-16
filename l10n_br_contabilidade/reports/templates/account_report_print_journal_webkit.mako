@@ -88,31 +88,45 @@
                     <div class="act_as_cell amount" style="width: 125px;">${_('Credit')}</div>
                 </div>
             </div>
+            <% depara_id = data.get('datas').get('form').get('account_depara_plano_id') %>
             %for move in moves:
                 <div class="act_as_tbody">
                 %for line in move.line_id:
-
                     <%
+                    if depara_id:
+                        depara_account_id = False
+                        for depara_line in line.account_id.depara_ids:
+                            if depara_line.account_depara_plano_id.id == depara_id:
+                                depara_account_id = depara_line.conta_referencia_id
+                                break
                     account_total_debit += line.debit or 0.0
                     account_total_credit += line.credit or 0.0
-                    %>
-                    <div class="act_as_row lines">
-                        ## date
-                        <div class="act_as_cell first_column" style="width: 60px;">${formatLang(move.date, date=True)}</div>
-                        ## move
-                        <div class="act_as_cell" style="width: 100px;">${move.sequencia if new_move else ''}</div>
-                        ## account code
-                        <div class="act_as_cell" style="width: 95px;">${line.account_id.code}</div>
-                        ## journal
-                        <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${line.journal_id.name}</div>
-                        ## label
-                        <div class="act_as_cell overflow_ellipsis" style="width: 450px;">${line.name}</div>
-                        ## debit
-                        <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.debit) if line.debit else ''}</div>
-                        ## credit
-                        <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.credit) if line.credit else ''}</div>
-                    </div>
 
+                    account_id = False
+                    if depara_id:
+                        account_id = depara_account_id
+                    else:
+                        account_id = line.account_id
+
+                    %>
+                    %if not depara_id or depara_id and account_id:
+                        <div class="act_as_row lines">
+                            ## date
+                            <div class="act_as_cell first_column" style="width: 60px;">${formatLang(move.date, date=True)}</div>
+                            ## move
+                            <div class="act_as_cell" style="width: 100px;">${move.sequencia if new_move else ''}</div>
+                            ## account code
+                            <div class="act_as_cell" style="width: 95px;">${account_id.code}</div>
+                            ## journal
+                            <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${line.journal_id.name}</div>
+                            ## label
+                            <div class="act_as_cell overflow_ellipsis" style="width: 450px;">${line.name}</div>
+                            ## debit
+                            <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.debit) if line.debit else ''}</div>
+                            ## credit
+                            <div class="act_as_cell amount" style="width: 125px;">${formatLang(line.credit) if line.credit else ''}</div>
+                        </div>
+                    %endif
                 %endfor
                 </div>
             %endfor
