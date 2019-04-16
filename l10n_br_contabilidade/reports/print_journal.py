@@ -16,15 +16,15 @@ def set_context(self, objects, data, ids, report_type=None):
        be used by mako template"""
 
     # Reading form
-    main_filter = self._get_form_param('filter', data, default='filter_no')
-    target_move = self._get_form_param('target_move', data, default='all')
-    start_date = self._get_form_param('date_from', data)
-    stop_date = self._get_form_param('date_to', data)
-    start_period = self.get_start_period_br(data)
-    stop_period = self.get_end_period_br(data)
-    fiscalyear = self.get_fiscalyear_br(data)
-    journal_ids = self._get_form_param('journal_ids', data)
-    chart_account = self._get_chart_account_id_br(data)
+    main_filter = self._get_form_param('filter', data['datas'], default='filter_no')
+    target_move = self._get_form_param('target_move', data['datas'], default='all')
+    start_date = self._get_form_param('date_from', data['datas'])
+    stop_date = self._get_form_param('date_to', data['datas'])
+    start_period = self.get_start_period_br(data['datas'])
+    stop_period = self.get_end_period_br(data['datas'])
+    fiscalyear = self.get_fiscalyear_br(data['datas'])
+    journal_ids = self._get_form_param('journal_ids', data['datas'])
+    chart_account = self._get_chart_account_id_br(data['datas'])
     account_period_obj = self.pool.get('account.period')
     period_ids = account_period_obj.build_ctx_periods(self.cursor,
                                                       self.uid,
