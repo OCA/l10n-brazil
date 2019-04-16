@@ -13,7 +13,7 @@
                 </button>
                 <field name="mtv_deslig" position="before">
                     <field name="mtv_deslig_esocial" options="{'no_create': False, 'no_open': False}"
-                           attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])], 'required': [('tipo_de_folha', '=', 'rescisao')]}"
+                           attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])], 'required': [('tipo_de_folha', 'in', ['rescisao', 'rescisao_complementar'])]}"
                     />
                 </field>
                 <field name="mtv_deslig" position="attributes">
