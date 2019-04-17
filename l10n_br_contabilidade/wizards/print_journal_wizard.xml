@@ -10,7 +10,9 @@
                 <field name="amount_currency" position="after">
                     <field name="account_depara_plano_id"/>
                 </field>
-
+                <xpath expr="//field[@name='filter']" position="after">
+                    <field name="exibe_criador_aprovador" />
+                </xpath>
             </field>
         </record>
 

@@ -12,10 +12,14 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         comodel_name='account.depara.plano',
     )
 
+    exibe_criador_aprovador = fields.Boolean(
+        string='Exibir criador e aprovador')
+
     @api.multi
     def _print_report(self, data):
         data['form']['account_depara_plano_id'] = \
             self.account_depara_plano_id.id
+        data['form']['exibe_criador_aprovador'] = self.exibe_criador_aprovador
         data = self.pre_print_report(data)
         data = super(AccountReportGeneralLedgerWizard, self)._print_report(data)
 

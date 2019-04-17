@@ -67,7 +67,7 @@
         account_total_credit = 0.0
         account_total_currency = 0.0
         %>
-
+        <% exibe_aprov_valid = data.get('datas').get('form').get('exibe_criador_aprovador') %>
         <!-- we use div with css instead of table for tabular data because div do not cut rows at half at page breaks -->
         <div class="act_as_table list_table" style="margin-top: 5px;">
             <div class="act_as_thead">
@@ -80,6 +80,12 @@
                     <div class="act_as_cell" style="width: 95px;">${_('Account')}</div>
                     ## journal
                     <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${_('Journal')}</div>
+                    %if exibe_aprov_valid:
+                        ## Criado por
+                        <div class="act_as_cell" style="width: 100px;">${_('Criado Por')}</div>
+                        ## Aprovado Por
+                        <div class="act_as_cell" style="width: 100px;">${_('Validado Por')}</div>
+                    %endif
                     ## label
                     <div class="act_as_cell" style="width: 550px;">Histórico</div>
                     ## debit
@@ -89,6 +95,7 @@
                 </div>
             </div>
             <% depara_id = data.get('datas').get('form').get('account_depara_plano_id') %>
+
             %for move in moves:
                 <div class="act_as_tbody">
                 %for line in move.line_id:
@@ -119,6 +126,12 @@
                             <div class="act_as_cell" style="width: 95px;">${account_id.code}</div>
                             ## journal
                             <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${line.journal_id.name}</div>
+                        %if exibe_aprov_valid:
+                            ## Criado por
+                            <div class="act_as_cell" style="width: 100px;">${move.criado_por.name}</div>
+                            ## Aprovado Por
+                            <div class="act_as_cell" style="width: 100px;">${move.validado_por.name if move.validado_por.name else ' - '}</div>
+                        %endif
                             ## label
                             <div class="act_as_cell overflow_ellipsis" style="width: 450px;">${line.name}</div>
                             ## debit
@@ -139,6 +152,12 @@
                 <div class="act_as_cell" style="width: 95px;"></div>
                 ## journal
                 <div class="act_as_cell overflow_ellipsis" style="width: 100px;"></div>
+                %if exibe_aprov_valid:
+                    ## Criado por
+                    <div class="act_as_cell" style="width: 100px;"></div>
+                    ## Aprovado Por
+                    <div class="act_as_cell" style="width: 100px;"></div>
+                %endif
                 ## label
                 <div class="act_as_cell overflow_ellipsis" style="width: 450px;"></div>
                 ## debit
