@@ -2743,7 +2743,8 @@ class HrPayslip(models.Model):
             if data_de_inicio and primeiro_dia_do_mes < data_de_inicio:
                 record.date_from = record.contract_id.date_start
 
-            if data_final and ultimo_dia_do_mes > data_final:
+            if data_final and record.tipo_de_folha == 'rescisao' and \
+                    ultimo_dia_do_mes > data_final:
                 record.date_to = record.contract_id.date_end
 
             #
