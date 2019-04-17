@@ -4,7 +4,7 @@
 
 import re
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models, _, exceptions
 from openerp.addons.mis_builder.models.aep import \
     AccountingExpressionProcessor as AEP
 
@@ -42,6 +42,10 @@ class MisReport(models.Model):
         for kpi in self.kpi_ids:
 
             # Limpando o domain existente
+            if not kpi.expression:
+                raise exceptions.Warning(_(
+                    u'Erro no KPI {} ({})!\n'
+                    u'Expressão inválida.'.format(kpi.name, kpi.description)))
             kpi_expression = kpi.expression.replace(domain, '')
 
             # Inserindo o novo domain na expressão
