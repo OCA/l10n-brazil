@@ -52,7 +52,8 @@ class MisReport(models.Model):
             if not kpi.incluir_lancamentos_de_fechamento:
                 kpi_expression = re.sub(r'(\w+\[[\d.,\s]+\])', '\\1' + domain,
                                         kpi_expression)
-            kpi.expression = kpi_expression
+            if kpi.expression != kpi_expression:
+                kpi.expression = kpi_expression
             aep.parse_expr(kpi.expression)
 
         aep.done_parsing(root_account)
