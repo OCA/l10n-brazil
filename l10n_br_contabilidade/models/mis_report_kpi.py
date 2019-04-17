@@ -95,6 +95,12 @@ class MisReportKpi(models.Model):
             self.expression_mode = 'manual'
 
     @api.one
+    @api.onchange('expression_mode')
+    def onchange_report_mode(self):
+        if self.expression_mode == 'manual':
+            self.account_ids = False
+
+    @api.one
     @api.constrains('account_ids')
     def _constrains_report_mode(self):
         if self.report_id.report_mode == 'contabil':
