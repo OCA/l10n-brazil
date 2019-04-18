@@ -121,7 +121,7 @@
                             ## date
                             <div class="act_as_cell first_column" style="width: 60px;">${formatLang(move.date, date=True)}</div>
                             ## move
-                            <div class="act_as_cell" style="width: 100px;">${move.sequencia if new_move else ''}</div>
+                            <div class="act_as_cell" style="width: 100px;">${' ({})'.format(line.move_id.sequencia) if line.move_id.sequencia else ''}</div>
                             ## account code
                             <div class="act_as_cell" style="width: 95px;">${account_id.code}</div>
                             ## journal
