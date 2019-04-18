@@ -13,6 +13,12 @@ class AccountJournal(models.Model):
         string=u'Nome do Lote',
     )
 
+    move_ids = fields.One2many(
+        string=u'Lançamentos contábeis',
+        comodel_name='account.move',
+        inverse_name='journal_id',
+    )
+
     template_historico_padrao_id = fields.Many2one(
         string=u'Template Padrão do Lançamento',
         comodel_name='account.historico.padrao',
@@ -62,11 +68,10 @@ class AccountJournal(models.Model):
         self.ensure_one()
 
         if self.template_historico_padrao_id:
-            account_move_ids = self.env['account.move'].search(
-                [('journal_id', '=', self.id)])
-            for line in account_move_ids.mapped('line_id'):
-                line.name = \
-                    self.template_historico_padrao_id.get_historico_padrao()
+            historico_padrao = \
+                self.template_historico_padrao_id.get_historico_padrao()
+            for line in self.move_ids.mapped('line_id'):
+                line.atualizar_nome(historico_padrao=historico_padrao)
 
         else:
             raise Warning(u'Necessário definir um Template Padrão do '

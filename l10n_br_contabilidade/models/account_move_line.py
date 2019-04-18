@@ -102,3 +102,8 @@ class AccountMoveLine(models.Model):
                     format(res[:-2], False)
 
         return res
+
+    @api.multi
+    def atualizar_nome(self, historico_padrao):
+        self.ensure_one()
+        self.name = historico_padrao
