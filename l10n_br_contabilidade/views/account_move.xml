@@ -30,6 +30,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//search/field[@name='date']" position="after">
                     <field name="amount"/>
+                    <field name="line_id" filter_domain="['|',('line_id.debit','ilike',self),('line_id.credit','ilike',self)]" string="Valor da partida"/>
                     <field name="narration" filter_domain="['|',('narration','ilike',self),('name','ilike',self)]" string="Histórico Padrão SUSEP"/>
                 </xpath>
                 <field name="name" position="before">
