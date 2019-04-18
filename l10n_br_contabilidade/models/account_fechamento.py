@@ -3,16 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-import random
-import string
-
 import pandas as pd
 
 _logger = logging.getLogger(__name__)
 
 from openerp import api, fields, models
 from openerp.exceptions import Warning
-from pybrasil.valor import formata_valor
 from openerp import SUPERUSER_ID
 
 
@@ -236,8 +232,8 @@ class AccountFechamento(models.Model):
                     'account_id': line.get('account_id'),
                     'debit': abs(line.get('debit')),
                     'credit': abs(line.get('credit')),
-                    'name': ''.join(
-                        random.choice(string.uppercase) for x in range(8))
+                    'name': self.account_journal_id.
+                    template_historico_padrao_id.get_historico_padrao(),
                 }))
 
             # Gera nome do lançamento a partir do template
@@ -442,18 +438,18 @@ class AccountFechamento(models.Model):
                             'account_id': int(conta),
                             'debit': 0.0,
                             'credit': series_conta['result'],
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
+                            'name': self.account_journal_id.
+                            template_historico_padrao_id.
+                            get_historico_padrao(),
                         }
 
                         are_id = {
                             'account_id': int(are_debito),
                             'debit': series_conta['result'],
                             'credit': 0.0,
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
+                            'name': self.account_journal_id.
+                            template_historico_padrao_id.
+                            get_historico_padrao(),
                         }
 
                     elif series_conta['result'] < 0.0:
@@ -461,18 +457,18 @@ class AccountFechamento(models.Model):
                             'account_id': int(conta),
                             'debit': abs(series_conta['result']),
                             'credit': 0.0,
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
+                            'name': self.account_journal_id.
+                            template_historico_padrao_id.
+                            get_historico_padrao(),
                         }
 
                         are_id = {
                             'account_id': int(are_credito),
                             'debit': 0.0,
                             'credit': abs(series_conta['result']),
-                            'name': ''.join(
-                                random.choice(string.uppercase) for x in
-                                range(8))
+                            'name': self.account_journal_id.
+                            template_historico_padrao_id.
+                            get_historico_padrao(),
                         }
 
                     record.env['account.move'].sudo(SUPERUSER_ID).create({
