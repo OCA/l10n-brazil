@@ -438,7 +438,7 @@ class AccountFechamento(models.Model):
                             'account_id': int(conta),
                             'debit': 0.0,
                             'credit': series_conta['result'],
-                            'name': self.account_journal_id.
+                            'name': record.account_journal_id.
                             template_historico_padrao_id.
                             get_historico_padrao(),
                         }
@@ -447,7 +447,7 @@ class AccountFechamento(models.Model):
                             'account_id': int(are_debito),
                             'debit': series_conta['result'],
                             'credit': 0.0,
-                            'name': self.account_journal_id.
+                            'name': record.account_journal_id.
                             template_historico_padrao_id.
                             get_historico_padrao(),
                         }
@@ -457,7 +457,7 @@ class AccountFechamento(models.Model):
                             'account_id': int(conta),
                             'debit': abs(series_conta['result']),
                             'credit': 0.0,
-                            'name': self.account_journal_id.
+                            'name': record.account_journal_id.
                             template_historico_padrao_id.
                             get_historico_padrao(),
                         }
@@ -466,7 +466,7 @@ class AccountFechamento(models.Model):
                             'account_id': int(are_credito),
                             'debit': 0.0,
                             'credit': abs(series_conta['result']),
-                            'name': self.account_journal_id.
+                            'name': record.account_journal_id.
                             template_historico_padrao_id.
                             get_historico_padrao(),
                         }
