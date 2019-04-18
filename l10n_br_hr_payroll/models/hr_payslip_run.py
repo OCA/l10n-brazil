@@ -252,7 +252,7 @@ class HrPayslipRun(models.Model):
 
             # Buscar rescisoes da competencia
             domain = [
-                ('tipo_de_folha', '=', 'rescisao', 'rescisao_complementar'),
+                ('tipo_de_folha', 'in', ['rescisao', 'rescisao_complementar']),
                 ('is_simulacao', '!=', True),
                 ('mes_do_ano', '=', self.mes_do_ano),
                 ('ano', '=', self.ano),
