@@ -17,6 +17,7 @@
                 </xpath>
                 <field name="name" position="replace">
                     <field name="name" />
+                    <h4><field name="active" /> Ativo</h4>
                 </field>
                 <xpath expr="//form[@string='Account Journal']" position="attributes">
                        <attribute name="string">Lote de Lançamento</attribute>

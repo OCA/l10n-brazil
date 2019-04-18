@@ -39,6 +39,11 @@ class AccountJournal(models.Model):
         help='Definir Módulo de origem do lançamento.',
     )
 
+    active = fields.Boolean(
+        string='Ativo',
+        default=True,
+    )
+
     @api.multi
     @api.onchange('divisao_resultado_ids')
     def _verifica_porcentagem_fechamento(self):
