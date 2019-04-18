@@ -73,7 +73,7 @@ def set_context(self, objects, data, ids, report_type=None):
     if target_move == 'posted':
         domain_arg += [('state', '=', 'posted')]
     move_ids = move_obj.search(self.cursor, self.uid, domain_arg,
-                               order="date desc")
+                               order="date asc")
     moves = move_obj.browse(self.cursor, self.uid, move_ids)
     # Sort account move line by account accountant
 
