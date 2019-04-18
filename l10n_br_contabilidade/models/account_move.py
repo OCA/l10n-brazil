@@ -196,9 +196,7 @@ class AccountMove(models.Model):
 
                 # Alteração apenas dos campos permitidos
                 # Removo os campos permitidos do conjunto de campos a alterar
-                if set(vals.keys()) - set(campos_permitidos) and \
-                (self._context['params']['model'] != 'account.journal' and
-                 vals['name']):
+                if set(vals.keys()) - set(campos_permitidos):
                     raise Warning(
                         u'Não é possível editar um lançamento com '
                         u'status lançado.')

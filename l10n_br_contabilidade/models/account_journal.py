@@ -64,8 +64,8 @@ class AccountJournal(models.Model):
         if self.template_historico_padrao_id:
             account_move_ids = self.env['account.move'].search(
                 [('journal_id', '=', self.id)])
-            for move in account_move_ids:
-                move.name = \
+            for line in account_move_ids.mapped('line_id'):
+                line.name = \
                     self.template_historico_padrao_id.get_historico_padrao()
 
         else:
