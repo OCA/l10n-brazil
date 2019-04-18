@@ -249,6 +249,10 @@ class AccountInvoice(models.Model):
         # vals['company_id'] = self.company_id.id
         vals['ref'] = 'NF-e: {} - {}'.format(
             self.partner_id.name, self.internal_number)
+        if not self.account_event_entrada_id:
+            vals['ref'] += ' (Entrada)'
+        else:
+            vals['ref'] += ' (Pagamento)'
         vals['data'] = self.date_hour_invoice.split(' ')[0]
         vals['origem'] = '{},{}'.format('account.invoice', self.id)
 
