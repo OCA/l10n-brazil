@@ -60,6 +60,7 @@
         'views/account_event_template.xml',
         'views/account_invoice.xml',
         'views/l10n_br_account.xml',
+        'views/account_product.xml',
     ],
     'qweb': [
         'static/src/xml/*.xml'

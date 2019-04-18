@@ -34,3 +34,4 @@ from . import account_event_template_line
 from . import account_event_template
 from . import account_invoice
 from . import l10n_br_account
+from . import account_product
