@@ -18,8 +18,8 @@
                         <button name="gerar_contabilidade" states="open" colspan="2" string="Gerar Contabilização" type="object"/>
                         <br />
                         <group>
-                            <field name="account_event_id" attrs="{'readonly': True}"/>
-                            <field name="account_event_code_sufix"/>
+                            <field name="account_event_entrada_id" attrs="{'readonly': True}"/>
+                            <field name="account_event_pagamento_id" attrs="{'readonly': True}"/>
                         </group>
                         <br />
                     </field>

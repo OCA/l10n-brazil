@@ -18,8 +18,14 @@ class AccountInvoice(models.Model):
         related=False,
     )
 
-    account_event_id = fields.Many2one(
-        string=u'Eventos Contábeis',
+    account_event_entrada_id = fields.Many2one(
+        string=u'Evento Contábil Entrada',
+        comodel_name='account.event',
+        copy=False,
+    )
+
+    account_event_pagamento_id = fields.Many2one(
+        string=u'Evento Contábil Pagamento',
         comodel_name='account.event',
         copy=False,
     )
@@ -106,10 +112,6 @@ class AccountInvoice(models.Model):
 
     amount_total = fields.Float(
         help='Código para roteiro contábil: "amount_total"',
-    )
-
-    account_event_code_sufix = fields.Char(
-        string='Sufixo código rúbrica',
     )
 
     @api.depends('internal_number')
@@ -259,29 +261,46 @@ class AccountInvoice(models.Model):
     def _get_invoice_move_line_data(self):
         lines = []
         vals = {}
-        for info in CAMPO_DOCUMENTO_FISCAL:
-            info_name = info[0]
-            if self[info_name]:
+        if self.account_event_entrada_id:
+            for info in CAMPO_DOCUMENTO_FISCAL:
+                info_name = info[0]
+                if self[info_name]:
+                    vals = {
+                        'code': info_name,
+                        'valor': self[info_name],
+                        'name': info[1],
+                    }
+
+                    if self.type in ['out_invoice', 'out_refund'] and \
+                            info_name == 'amount_net':
+                        if self.type in ['out_invoice', 'out_refund']:
+                            if self.partner_id.property_account_receivable:
+                                vals['conta_debito_exclusivo_id'] = \
+                                    self.partner_id.property_account_receivable.id
+                        else:
+                            if self.partner_id.property_account_payable:
+                                vals['conta_credito_exclusivo_id'] = \
+                                    self.partner_id.property_account_payable.id
+
+                    lines.append(vals)
+                    vals = {}
+        else:
+            for line in self.invoice_line:
                 vals = {
-                    'code': info_name,
-                    'valor': self[info_name],
-                    'name': info[1],
+                    'code': line.product_id.codigo_contabil,
+                    'valor': line.price_total,
+                    'name': line.product_id.name,
                 }
-                if info_name == 'amount_total':
-                    vals['code'] += self.account_event_code_sufix or ''
-
-                if info_name == 'amount_net':
-                    if self.type in ['out_invoice', 'out_refund']:
-                        if self.partner_id.property_account_receivable:
-                            vals['conta_debito_exclusivo_id'] = \
-                                self.partner_id.property_account_receivable.id
-                    else:
-                        if self.partner_id.property_account_payable:
-                            vals['conta_credito_exclusivo_id'] = \
-                                self.partner_id.property_account_payable.id
-
                 lines.append(vals)
                 vals = {}
+
+            vals = {
+                'code': 'amount_total',
+                'valor': self.amount_total,
+                'name': 'Valor Total',
+            }
+            lines.append(vals)
+
         return lines
 
     @api.multi
@@ -301,20 +320,31 @@ class AccountInvoice(models.Model):
                 self.period_id = self.env['account.period'].find(
                     self.date_hour_invoice)[0]
 
-            account_event_data = self._get_invoice_event_data()
-            account_event_line_data = self._get_invoice_move_line_data()
+            if not inv.account_event_entrada_id:
+                account_event_data = self._get_invoice_event_data()
+                account_event_line_data = self._get_invoice_move_line_data()
 
-            account_event_id = self.env['account.event'].create(
-                account_event_data
-            )
-            account_event_id.gerar_eventos(account_event_line_data)
+                account_event_id = self.env['account.event'].create(
+                    account_event_data
+                )
+                account_event_id.gerar_eventos(account_event_line_data)
 
-            inv.account_event_id = account_event_id
+                inv.account_event_entrada_id = account_event_id
+            else:
+                account_event_data = self._get_invoice_event_data()
+                account_event_line_data = self._get_invoice_move_line_data()
 
-            account_invoice_tax = self.env['account.invoice.tax']
-            compute_taxes = account_invoice_tax.compute(
-                inv.with_context(lang=inv.partner_id.lang))
-            inv.check_tax_lines(compute_taxes)
+                account_event_id = self.env['account.event'].create(
+                    account_event_data
+                )
+                account_event_id.gerar_eventos(account_event_line_data)
+
+                inv.account_event_pagamento_id = account_event_id
+
+                account_invoice_tax = self.env['account.invoice.tax']
+                compute_taxes = account_invoice_tax.compute(
+                    inv.with_context(lang=inv.partner_id.lang))
+                inv.check_tax_lines(compute_taxes)
 
     @api.multi
     def gerar_contabilidade(self):
