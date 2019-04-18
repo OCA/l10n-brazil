@@ -232,7 +232,7 @@ class AccountFechamento(models.Model):
                     'account_id': line.get('account_id'),
                     'debit': abs(line.get('debit')),
                     'credit': abs(line.get('credit')),
-                    'name': self.account_journal_id.
+                    'name': record.account_journal_id.
                     template_historico_padrao_id.get_historico_padrao(),
                 }))
 
