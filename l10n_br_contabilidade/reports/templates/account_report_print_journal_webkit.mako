@@ -128,7 +128,7 @@
                             <div class="act_as_cell overflow_ellipsis" style="width: 100px;">${line.journal_id.name}</div>
                         %if exibe_aprov_valid:
                             ## Criado por
-                            <div class="act_as_cell" style="width: 100px;">${move.criado_por.name}</div>
+                            <div class="act_as_cell" style="width: 100px;">${move.criado_por.name or ' - '}</div>
                             ## Aprovado Por
                             <div class="act_as_cell" style="width: 100px;">${move.validado_por.name if move.validado_por.name else ' - '}</div>
                         %endif

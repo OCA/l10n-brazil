@@ -29,6 +29,11 @@
                     <field name="template_historico_padrao_id" />
                     <field name="ref" />
                 </field>
+                <xpath expr="//notebook" position="before">
+                    <button string="Atualizar histórico dos lançamentos"
+                        name="atualizar_historico_lancamentos"
+                        type="object" groups="base.group_no_one"/>
+                </xpath>
 
                 <notebook position="inside">
                     <page string="Reclassificação" attrs="{'invisible': [('type','!=','situation')]}">
@@ -75,7 +80,6 @@
                 <field name="default_credit_account_id" position="attributes">
                     <attribute name="attrs">{'required':[('type','in',('cash', 'bank', 'situation'))]}</attribute>
                 </field>
-
             </field>
         </record>
 

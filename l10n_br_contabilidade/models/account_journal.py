@@ -56,3 +56,19 @@ class AccountJournal(models.Model):
                            lambda x: x.sequencia == r)) > 100:
 
                     raise Warning(u'Porcentagem ultrapassa 100%.')
+
+    @api.multi
+    def atualizar_historico_lancamentos(self):
+        self.ensure_one()
+
+        if self.template_historico_padrao_id:
+            account_move_ids = self.env['account.move'].search(
+                [('journal_id', '=', self.id)])
+            for move in account_move_ids:
+                move.name = \
+                    self.template_historico_padrao_id.get_historico_padrao()
+
+        else:
+            raise Warning(u'Necessário definir um Template Padrão do '
+                          u'Lançamento para atualização dos históricos '
+                          u'padrões')
