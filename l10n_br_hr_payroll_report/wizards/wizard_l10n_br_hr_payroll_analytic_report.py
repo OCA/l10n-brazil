@@ -14,14 +14,14 @@ class WizardL10n_br_hr_payrollAnalytic_report(models.TransientModel):
     _name = 'wizard.l10n_br_hr_payroll.analytic_report'
 
     tipo_de_folha = fields.Selection(
-        selection=(("('normal', 'rescisao')", "Folha Normal"),
+        selection=(("('normal', 'rescisao', 'rescisao_complementar')", "Folha Normal"),
                    ("('ferias')", "Férias"),
                    ("('decimo_terceiro')", "Décimo Terceiro (13º)"),
                    ("('provisao_decimo_terceiro')", "Provisão 13º Salário"),
                    ("('provisao_ferias')", "Provisão de Férias"),
         ),
         string=u'Tipo de folha',
-        default="('normal', 'rescisao')",
+        default="('normal', 'rescisao', 'rescisao_complementar')",
     )
 
     mes_do_ano = fields.Selection(
@@ -49,7 +49,7 @@ class WizardL10n_br_hr_payrollAnalytic_report(models.TransientModel):
             ('ano', '=', self.ano),
             ('state', 'in', ['done', 'verify']),
         ]
-        if self.tipo_de_folha == "('normal', 'rescisao')":
+        if self.tipo_de_folha == "('normal', 'rescisao', 'rescisao_complementar')":
             busca.append(('tipo_de_folha', 'in', eval(self.tipo_de_folha)))
         else:
             busca.append(('tipo_de_folha', '=', eval(self.tipo_de_folha)))

@@ -421,7 +421,7 @@ def analytic_report(pool, cr, uid, local_context, context):
         ('is_simulacao', '=', False),
     ]
 
-    if wizard.tipo_de_folha == "('normal', 'rescisao')":
+    if wizard.tipo_de_folha == "('normal', 'rescisao', 'rescisao_complementar')":
 
         # Holerites normais
         domain = busca + [('tipo_de_folha', '=', eval(wizard.tipo_de_folha)[0])]
@@ -433,14 +433,14 @@ def analytic_report(pool, cr, uid, local_context, context):
             "('normal')")
 
         # Rescisoes
-        domain = busca + [('tipo_de_folha', '=', eval(wizard.tipo_de_folha)[1])]
+        domain = busca + [('tipo_de_folha', 'in', [eval(wizard.tipo_de_folha)[1], eval(wizard.tipo_de_folha)[2]])]
         payslip_rescisoes_ids = pool['hr.payslip'].search(cr, uid, domain)
         payslips_rescisoes = \
             pool['hr.payslip'].browse(cr, uid, payslip_rescisoes_ids)
         # Linhas das rescisoes para totalizadores
         payslip_lines_rescisoes = get_payslip_lines(
             cr, wizard.mes_do_ano, wizard.ano, wizard.company_id.id,
-            "('rescisao')")
+            "('rescisao', 'rescisao_complementar')")
 
     else:
         busca.append(('tipo_de_folha', '=', eval(wizard.tipo_de_folha)))
