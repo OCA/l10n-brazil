@@ -320,13 +320,13 @@ class AccountInvoice(models.Model):
                 inv.move_id.button_return()
                 inv.move_id.unlink()
 
-            if not self.period_id:
-                self.period_id = self.env['account.period'].find(
-                    self.date_hour_invoice)[0]
+            if not inv.period_id:
+                inv.period_id = self.env['account.period'].find(
+                    inv.date_hour_invoice)[0]
 
             if not inv.account_event_entrada_id:
-                account_event_data = self._get_invoice_event_data()
-                account_event_line_data = self._get_invoice_move_line_data()
+                account_event_data = inv._get_invoice_event_data()
+                account_event_line_data = inv._get_invoice_move_line_data()
 
                 account_event_id = self.env['account.event'].create(
                     account_event_data
@@ -335,8 +335,8 @@ class AccountInvoice(models.Model):
 
                 inv.account_event_entrada_id = account_event_id
             else:
-                account_event_data = self._get_invoice_event_data()
-                account_event_line_data = self._get_invoice_move_line_data()
+                account_event_data = inv._get_invoice_event_data()
+                account_event_line_data = inv._get_invoice_move_line_data()
 
                 account_event_id = self.env['account.event'].create(
                     account_event_data
