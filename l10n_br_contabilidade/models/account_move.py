@@ -258,3 +258,18 @@ class AccountMove(models.Model):
     def button_validar_criacao(self):
         for record in self:
             record.state = 'validacao_criacao'
+
+    @api.multi
+    def atualizar_historico_lancamento(self):
+        self.ensure_one()
+
+        if self.journal_id.template_historico_padrao_id:
+            historico_padrao = self.journal_id.template_historico_padrao_id.\
+                get_historico_padrao()
+            for line in self.mapped('line_id'):
+                line.atualizar_nome(historico_padrao=historico_padrao)
+
+        else:
+            raise Warning(u'Necessário definir um Template Padrão do '
+                          u'Lançamento para atualização dos históricos '
+                          u'padrões')

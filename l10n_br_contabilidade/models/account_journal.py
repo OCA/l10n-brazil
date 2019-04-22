@@ -62,18 +62,3 @@ class AccountJournal(models.Model):
                            lambda x: x.sequencia == r)) > 100:
 
                     raise Warning(u'Porcentagem ultrapassa 100%.')
-
-    @api.multi
-    def atualizar_historico_lancamentos(self):
-        self.ensure_one()
-
-        if self.template_historico_padrao_id:
-            historico_padrao = \
-                self.template_historico_padrao_id.get_historico_padrao()
-            for line in self.move_ids.mapped('line_id'):
-                line.atualizar_nome(historico_padrao=historico_padrao)
-
-        else:
-            raise Warning(u'Necessário definir um Template Padrão do '
-                          u'Lançamento para atualização dos históricos '
-                          u'padrões')

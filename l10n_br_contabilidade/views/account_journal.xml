@@ -29,11 +29,6 @@
                     <field name="template_historico_padrao_id" />
                     <field name="ref" />
                 </field>
-                <xpath expr="//notebook" position="before">
-                    <button string="Atualizar histórico dos lançamentos"
-                        name="atualizar_historico_lancamentos"
-                        type="object" groups="base.group_no_one"/>
-                </xpath>
 
                 <notebook position="inside">
                     <page string="Reclassificação" attrs="{'invisible': [('type','!=','situation')]}">

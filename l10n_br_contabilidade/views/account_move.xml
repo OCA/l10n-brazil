@@ -48,6 +48,7 @@
             <field name="arch" type="xml">
                 <form string="Account Entry">
                     <header>
+                        <button string="Atualizar histórico dos lançamentos" name="atualizar_historico_lancamento" type="object" groups="base.group_no_one"/>
                         <button name="button_return" states="posted,cancel,validacao_criacao" string='Retornar status inicial' type="object" groups="account.group_account_invoice"/>
                         <button name="button_validate" states="validacao_criacao" string="Post" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
                         <button name="button_validar_criacao" states="draft" string="Validar Criação" type="object" class="oe_highlight" groups="account.group_account_invoice" />
