@@ -317,7 +317,8 @@ class SaleOrderLine(models.Model):
                 'fiscal_type': obj_product.fiscal_type,
                 'type_tax_use': 'sale', 'product_id': obj_product.id})
             taxes = obj_product.taxes_id
-            tax_ids = obj_fiscal_position.with_context(context).map_tax(taxes)
+            tax_ids = obj_fiscal_position.with_context(context).map_tax(
+                taxes, obj_product, partner_invoice)
             result['value']['tax_id'] = tax_ids
 
         return result
