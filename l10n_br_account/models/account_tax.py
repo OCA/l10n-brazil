@@ -89,6 +89,14 @@ class AccountTax(models.Model):
                 'analytic': boolean,
             }]
         } """
+
+        if len(self) == 0:
+            company_id = self.env.user.company_id
+        else:
+            company_id = self[0].company_id
+        if not currency:
+            currency = company_id.currency_id
+
         precision = currency.decimal_places or \
             self.env['decimal.precision'].precision_get('Account')
         result = super(AccountTax, self).compute_all(price_unit, currency,
