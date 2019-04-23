@@ -31,7 +31,8 @@ def get_account_reference(self, account_ids, account_depara_plano_id):
     only_ids = [str(only_id[0]) for only_id in fetch_only_ids]
     return only_ids
 
-def _load_account_codes(self, account_codes, root_account):
+def _load_account_codes(
+        self, account_codes, root_account, account_depara_plano_id=False):
     """
     """
     # Se contas possuirem mapeamento no depara
@@ -42,7 +43,8 @@ def _load_account_codes(self, account_codes, root_account):
         ('parent_id', 'child_of', root_account.id),
     ])
 
-    contas_referencia = set(get_account_reference(self, account_ids._ids, 1))
+    contas_referencia = set(get_account_reference(
+        self, account_ids._ids, account_depara_plano_id.id))
 
     if contas_referencia:
         account_codes = set(contas_referencia)
@@ -93,9 +95,15 @@ def _load_account_codes(self, account_codes, root_account):
             else:
                 self._account_ids_by_code[like_code].add(account.id)
 
+def done_parsing(self, root_account, account_depara_id):
+    """Load account codes and replace account codes by
+    account ids in map."""
+    for key, account_codes in self._map_account_ids.items():
+        self._load_account_codes(account_codes, root_account, account_depara_id)
+        account_ids = set()
+        for account_code in account_codes:
+            account_ids.update(self._account_ids_by_code[account_code])
+        self._map_account_ids[key] = list(account_ids)
 
-
-
-
-
+AccountingExpressionProcessor.done_parsing = done_parsing
 AccountingExpressionProcessor._load_account_codes = _load_account_codes

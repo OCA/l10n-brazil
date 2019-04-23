@@ -56,5 +56,5 @@ class MisReport(models.Model):
                 kpi.expression = kpi_expression
             aep.parse_expr(kpi.expression)
 
-        aep.done_parsing(root_account)
+        aep.done_parsing(root_account, self.account_depara_plano_id)
         return aep
