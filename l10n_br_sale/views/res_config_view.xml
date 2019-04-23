@@ -6,7 +6,7 @@
         <field name="model">sale.config.settings</field>
         <field name="inherit_id" ref="sale.view_sales_config"/>
         <field name="arch" type="xml">
-            <separator string="Invoicing Process" position="after">
+            <group name="customers" position="after">
                 <group>
                     <label for="id" string="Observação"/>
                     <div>
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </group>
-            </separator>
+            </group>
         </field>
     </record>
 
