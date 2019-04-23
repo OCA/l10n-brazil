@@ -29,7 +29,7 @@
                     </div>
                 </group>
             </field>
-            <field name="fiscal_position" position="replace">
+            <field name="fiscal_position_id" position="replace">
                 <field name="fiscal_category_id" required="1"/>
                 <field name="fiscal_position_id"/>
             </field>
@@ -65,7 +65,7 @@
                     </div>
                 </group>
             </xpath>
-            <xpath expr="//tree[@string='Sales Order Lines']/field[@name='price_unit']"
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']"
                    position="after">
                 <field name="price_gross"/>
                 <field name="discount_value"
