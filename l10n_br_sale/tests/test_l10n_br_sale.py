@@ -16,10 +16,12 @@ class TestL10nBRSale(common.TransactionCase):
         )
         self.fiscal_categ_venda = self.env[
             'l10n_br_account.fiscal.category'].browse(
-            self.ref('l10n_br_sale.fiscal_category_venda'))
+            self.ref(
+                'l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'))
         self.fiscal_categ_venda_st = self.env[
             'l10n_br_account.fiscal.category'].browse(
-            self.ref('l10n_br_sale.fiscal_category_venda_st'))
+            self.ref(
+                'l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7'))
 
     def test_l10n_br_sale_order(self):
         self.sale_order_1.onchange_partner_id()
@@ -43,6 +45,7 @@ class TestL10nBRSale(common.TransactionCase):
             "after change fiscal category."
         )
         for line in self.sale_order_1.order_line:
+            line.fiscal_category_id = self.fiscal_categ_venda_st.id
             line.product_id_change()
             line.onchange_fiscal()
             self.assertTrue(
@@ -51,8 +54,8 @@ class TestL10nBRSale(common.TransactionCase):
             )
             for tax in line.tax_id:
                 self.assertEquals(
-                    tax.name, u'IPI Saída 3%',
-                    u"Error to mapping correct TAX ( IPI Saída 3% )."
+                    tax.name, u'IPI Saída 5% *',
+                    u"Error to mapping correct TAX ( IPI Saída 5% *)."
                 )
             # Change Fiscal Category
             line.fiscal_category_id = self.fiscal_categ_venda.id
@@ -63,15 +66,16 @@ class TestL10nBRSale(common.TransactionCase):
                 "after change fiscal category."
             )
             self.assertEquals(
-                line.fiscal_position_id.name, 'Venda SP',
+                line.fiscal_position_id.name, 'Venda para Dentro do Estado',
                 "Error to mapping correct Fiscal Position on Sale Order Line"
-                "after change fiscal category."
+                " after change fiscal category."
             )
             for tax in line.tax_id:
-                self.assertEquals(
-                    tax.name, u'IPI Saída 2%',
-                    u"Error to mapping correct TAX ( IPI Saída 2% )."
-                )
+                if tax.tax_group_id.name == 'IPI':
+                    self.assertEquals(
+                        tax.name, u'IPI Saída 2% *',
+                        u"Error to mapping correct TAX ( IPI Saída 2% )."
+                    )
         self.sale_order_1.action_confirm()
 
         # Create and check invoice
@@ -97,10 +101,11 @@ class TestL10nBRSale(common.TransactionCase):
                     "Error to mapping Fiscal Position on Sale Order Line."
                 )
                 for tax in line.invoice_line_tax_ids:
-                    self.assertEquals(
-                        tax.name, u'IPI Saída 2%',
-                        u"Error to mapping correct TAX ( IPI Saída 2% )."
-                    )
+                    if tax.tax_group_id.name == 'IPI':
+                        self.assertEquals(
+                            tax.name, u'IPI Saída 2% *',
+                            u"Error to mapping correct TAX ( IPI Saída 2% *)."
+                        )
 
     def test_l10n_br_sale_discount(self):
         self.sale_discount = self.sale_object.create(dict(
@@ -116,7 +121,8 @@ class TestL10nBRSale(common.TransactionCase):
             team_id=self.env.ref('sales_team.crm_team_1').id,
             state='draft',
             fiscal_category_id=self.env.ref(
-                'l10n_br_sale.fiscal_category_venda').id,
+                'l10n_br_account_product.'
+                'fc_78df616ab31e95ee46c6a519a2ce9e12').id,
             order_line=[(0, 0, dict(
                 name='TESTE DISCOUNT',
                 product_id=self.env.ref('product.product_product_27').id,
@@ -124,7 +130,8 @@ class TestL10nBRSale(common.TransactionCase):
                 product_uom=self.env.ref('product.product_uom_unit').id,
                 price_unit=100,
                 fiscal_category_id=self.env.ref(
-                    'l10n_br_sale.fiscal_category_venda').id
+                    'l10n_br_account_product.'
+                    'fc_78df616ab31e95ee46c6a519a2ce9e12').id
             ))]
         ))
         self.sale_discount.onchange_partner_id()
@@ -133,7 +140,7 @@ class TestL10nBRSale(common.TransactionCase):
         self.sale_discount.onchange_discount_rate()
         # Test Discount
         self.assertEquals(
-            self.sale_discount.amount_total, 90.0,
+            self.sale_discount.amount_total, 91.8,
             u"Error to apply discount on sale order."
         )
         self.sale_discount.action_confirm()
