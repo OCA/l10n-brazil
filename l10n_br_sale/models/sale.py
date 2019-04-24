@@ -48,17 +48,14 @@ class SaleOrder(models.Model):
     @api.model
     def _amount_line_tax(self, line):
         value = 0.0
-        # TODO - MIG - tax_code_id removed, now we need to change to
-        # tax_group_id ( or reimplement it ? ) ,
-        # waiting https://github.com/OCA/l10n-brazil/pull/602
-        # price = line._calc_line_base_price()
-        # qty = line._calc_line_quantity()
-        # for computed in line.tax_id.compute_all(
-        #        price, quantity=qty, product=line.product_id,
-        #        partner=line.order_id.partner_invoice_id)['taxes']:
-        #     tax = self.env['account.tax'].browse(computed['id'])
-        #     if not tax.tax_code_id.tax_discount:
-        #         value += computed.get('amount', 0.0)
+        price = line._calc_line_base_price()
+        qty = line._calc_line_quantity()
+        for computed in line.tax_id.compute_all(
+                price, quantity=qty, product=line.product_id,
+                partner=line.order_id.partner_invoice_id)['taxes']:
+            tax = self.env['account.tax'].browse(computed['id'])
+            if not tax.tax_group_id.tax_discount:
+                value += computed.get('amount', 0.0)
         return value
 
     @api.multi
