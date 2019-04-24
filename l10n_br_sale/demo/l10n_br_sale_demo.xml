@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Account -->
+    <!-- Account
     <record id="sales_account" model="account.account">
         <field name="code">X1020</field>
         <field name="name">Product Sales - (test)</field>
         <field name="user_type_id" ref="account.data_account_type_revenue"/>
         <field name="reconcile">True</field>
-    </record>
+    </record> -->
 
-    <!-- Sales Journal -->
+    <!-- Sales Journal
     <record id="sales_journal" model="account.journal">
         <field name="name">Sales Journal - (test)</field>
         <field name="code">TSAJ</field>
@@ -18,9 +18,9 @@
         <field name="default_debit_account_id" ref="sales_account"/>
         <field name="default_credit_account_id" ref="sales_account"/>
         <field name="revenue_expense">True</field>
-    </record>
+    </record> -->
 
-    <!-- Fiscal Position - Venda SP -->
+    <!-- Fiscal Position - Venda SP
     <record id="fiscal_position_venda_sp" model="account.fiscal.position">
         <field name="name">Venda SP</field>
         <field name="active">True</field>
@@ -31,9 +31,9 @@
         <field name="position_id" ref="fiscal_position_venda_sp"/>
         <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_out_ipi"/>
         <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_ipi2"/>
-    </record>
+    </record> -->
 
-    <!-- Account Fiscal Position Rule - Venda SP -->
+    <!-- Account Fiscal Position Rule - Venda SP
     <record id="fiscal_position_rule_venda_sp" model="account.fiscal.position.rule">
         <field name="name">Venda SP</field>
         <field name="company_id" ref="base.main_company"/>
@@ -46,7 +46,14 @@
         <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
         <field name="fiscal_position_id" ref="fiscal_position_venda_sp"/>
         <field name="use_sale">True</field>
-    </record>
+    </record> -->
+
+    <record id="fiscal_position_tax_venda_sp" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
+        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_out_ipi"/>
+        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_ipi2"/>
+    </record> -->
+
 
     <!-- Fiscal Position - Venda SP ST -->
     <record id="fiscal_position_venda_sp_st" model="account.fiscal.position">
