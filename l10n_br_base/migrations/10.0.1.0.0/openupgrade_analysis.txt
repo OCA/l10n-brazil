@@ -1,0 +1,74 @@
+---Fields in module 'l10n_br_base'---
+l10n_br_base / res.partner.bank         / bank (many2one)               : previously in module base
+l10n_br_base / res.partner.bank         / country_id (many2one)         : previously in module base
+l10n_br_base / res.partner.bank         / state_id (many2one)           : previously in module base
+l10n_br_base / res.partner.bank         / street (char)                 : previously in module base
+l10n_br_base / res.partner.bank         / zip (char)                    : previously in module base
+---XML records in module 'l10n_br_base'---
+DEL ir.ui.menu: l10n_br_base.menu_action_l10n_br_base_city_form
+NEW res.country.state: base.state_br_ac
+NEW res.country.state: base.state_br_al
+NEW res.country.state: base.state_br_am
+NEW res.country.state: base.state_br_ap
+NEW res.country.state: base.state_br_ba
+NEW res.country.state: base.state_br_ce
+NEW res.country.state: base.state_br_df
+NEW res.country.state: base.state_br_es
+NEW res.country.state: base.state_br_go
+NEW res.country.state: base.state_br_ma
+NEW res.country.state: base.state_br_mg
+NEW res.country.state: base.state_br_ms
+NEW res.country.state: base.state_br_mt
+NEW res.country.state: base.state_br_pa
+NEW res.country.state: base.state_br_pb
+NEW res.country.state: base.state_br_pe
+NEW res.country.state: base.state_br_pi
+NEW res.country.state: base.state_br_pr
+NEW res.country.state: base.state_br_rj
+NEW res.country.state: base.state_br_rn
+NEW res.country.state: base.state_br_ro
+NEW res.country.state: base.state_br_rr
+NEW res.country.state: base.state_br_rs
+NEW res.country.state: base.state_br_sc
+NEW res.country.state: base.state_br_se
+NEW res.country.state: base.state_br_sp
+NEW res.country.state: base.state_br_to
+DEL res.country.state: l10n_br_base.br_ac
+DEL res.country.state: l10n_br_base.br_al
+DEL res.country.state: l10n_br_base.br_am
+DEL res.country.state: l10n_br_base.br_ap
+DEL res.country.state: l10n_br_base.br_ba
+DEL res.country.state: l10n_br_base.br_ce
+DEL res.country.state: l10n_br_base.br_df
+DEL res.country.state: l10n_br_base.br_es
+DEL res.country.state: l10n_br_base.br_go
+DEL res.country.state: l10n_br_base.br_ma
+DEL res.country.state: l10n_br_base.br_mg
+DEL res.country.state: l10n_br_base.br_ms
+DEL res.country.state: l10n_br_base.br_mt
+DEL res.country.state: l10n_br_base.br_pa
+DEL res.country.state: l10n_br_base.br_pb
+DEL res.country.state: l10n_br_base.br_pe
+DEL res.country.state: l10n_br_base.br_pi
+DEL res.country.state: l10n_br_base.br_pr
+DEL res.country.state: l10n_br_base.br_rj
+DEL res.country.state: l10n_br_base.br_rn
+DEL res.country.state: l10n_br_base.br_ro
+DEL res.country.state: l10n_br_base.br_rr
+DEL res.country.state: l10n_br_base.br_rs
+DEL res.country.state: l10n_br_base.br_sc
+DEL res.country.state: l10n_br_base.br_se
+DEL res.country.state: l10n_br_base.br_sp
+DEL res.country.state: l10n_br_base.br_to
+DEL res.partner.bank.type: l10n_br_base.fund
+DEL res.partner.bank.type.field: l10n_br_base.bank_acc_bank_field
+DEL res.partner.bank.type.field: l10n_br_base.bank_acc_number_dig_field
+DEL res.partner.bank.type.field: l10n_br_base.bank_acc_number_field
+DEL res.partner.bank.type.field: l10n_br_base.bank_bra_number_dig_field
+DEL res.partner.bank.type.field: l10n_br_base.bank_bra_number_field
+DEL res.partner.bank.type.field: l10n_br_base.fund_acc_number_dig_field
+DEL res.partner.bank.type.field: l10n_br_base.fund_acc_number_field
+DEL res.partner.bank.type.field: l10n_br_base.fund_bank_field
+DEL res.partner.bank.type.field: l10n_br_base.fund_bra_number_dig_field
+DEL res.partner.bank.type.field: l10n_br_base.fund_bra_number_field
+DEL res.partner.bank.type.field: l10n_br_base.fund_contry_field
