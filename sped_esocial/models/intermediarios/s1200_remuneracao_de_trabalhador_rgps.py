@@ -297,18 +297,19 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             dm_dev.ideDmDev.valor = payslip.number
             dm_dev.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
 
-            # Popula dmDev.infoPerApur
-            info_per_apur = pysped.esocial.leiaute.S1200_InfoPerApur_2()
-            info_per_apur.ideEstabLot.tpInsc.valor = '1'  # CNPJ
-            info_per_apur.ideEstabLot.nrInsc.valor = limpa_formatacao(payslip.company_id.cnpj_cpf)
-            info_per_apur.ideEstabLot.codLotacao.valor = payslip.company_id.cod_lotacao
+            if not payslip.contract_id.date_end:
+                # Popula dmDev.infoPerApur
+                info_per_apur = pysped.esocial.leiaute.S1200_InfoPerApur_2()
+                info_per_apur.ideEstabLot.tpInsc.valor = '1'  # CNPJ
+                info_per_apur.ideEstabLot.nrInsc.valor = limpa_formatacao(payslip.company_id.cnpj_cpf)
+                info_per_apur.ideEstabLot.codLotacao.valor = payslip.company_id.cod_lotacao
 
-            # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur
-            remun_per_apur = pysped.esocial.leiaute.S1200_RemunPerApur_2()
+                # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur
+                remun_per_apur = pysped.esocial.leiaute.S1200_RemunPerApur_2()
 
-            # Só preencher matricula de EMPREGADO com vinculo
-            if payslip.contract_id.evento_esocial == 's2200':
-                remun_per_apur.matricula.valor = payslip.contract_id.matricula
+                # Só preencher matricula de EMPREGADO com vinculo
+                if payslip.contract_id.evento_esocial == 's2200':
+                    remun_per_apur.matricula.valor = payslip.contract_id.matricula
 
             # Somente para quando a empresa for do Simples
             # remun_per_apur.indSimples.valor =
@@ -346,6 +347,9 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                         if condicao_pagamento_anterior:
                             rubricas_convencao_coletiva[line.id] = line
                         else:
+                            if payslip.contract_id.date_end:
+                                continue
+
                             if line.salary_rule_id.code == 'BASE_INSS' and \
                                     line.slip_id.tipo_de_folha == 'ferias':
                                 continue
@@ -382,14 +386,15 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # aposentadoria especial.
             #
 
-            # Preencher com o código que representa o grau de exposição a
-            # agentes nocivos, conforme tabela 2. Preencher apenas para
-            # trabalhadores com vinculo S2200
-            if payslip.contract_id.evento_esocial == 's2200':
-                info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
-                # Inserir um campo em algum lugar (no contrato talvez)
-                info_ag_nocivo.grauExp.valor = 1
-                remun_per_apur.infoAgNocivo.append(info_ag_nocivo)
+            if not payslip.contract_id.date_end:
+                # Preencher com o código que representa o grau de exposição a
+                # agentes nocivos, conforme tabela 2. Preencher apenas para
+                # trabalhadores com vinculo S2200
+                if payslip.contract_id.evento_esocial == 's2200':
+                    info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
+                    # Inserir um campo em algum lugar (no contrato talvez)
+                    info_ag_nocivo.grauExp.valor = 1
+                    remun_per_apur.infoAgNocivo.append(info_ag_nocivo)
 
             # # Popula dmDev.infoPerApur.ideEstabLot.remunPerApur.infoTrabInterm  # TODO Quando tivermos controle
             # #                                                                   # trabalho intermitente
@@ -414,13 +419,13 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
                 info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
                 ide_adc_ant = pysped.esocial.leiaute.S1200_IdeADC_2()
-                ide_adc_ant.dtAcConv.valor = \
-                    convencao_coletiva_id.data_assinatura_acordo
+                # ide_adc_ant.dtAcConv.valor = \
+                #     convencao_coletiva_id.data_assinatura_acordo
                 ide_adc_ant.tpAcConv.valor = \
                     convencao_coletiva_id.tipo_acordo
-                ide_adc_ant.compAcConv.valor = periodo_apuracao
-                ide_adc_ant.dtEfAcConv.valor = \
-                    convencao_coletiva_id.data_efetivacao
+                # ide_adc_ant.compAcConv.valor = periodo_apuracao
+                # ide_adc_ant.dtEfAcConv.valor = \
+                #     convencao_coletiva_id.data_efetivacao
                 ide_adc_ant.dsc.valor = convencao_coletiva_id.descricao
                 ide_adc_ant.remunSuc.valor = \
                     convencao_coletiva_id.remuneracao_relativa_sucessao
@@ -439,6 +444,8 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                         continue
                     periodo_data = '{}-{}'.format(
                         periodo.code[3:], periodo.code[:2])
+                    periodo_data_inverso = '{}-{}'.format(
+                        periodo.code[:2],periodo.code[3:])
                     ide_periodo = pysped.esocial.leiaute.S1200_IdePeriodo_2()
                     ide_periodo.perRef.valor = periodo_data
 
@@ -455,27 +462,28 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                     # Somente para a empresa do Simples Nacional
                     # ide_estab_lot.remunPerAnt.indSimples.valor = ''
                     linhas_processadas = []
-                    for line in rubricas_convencao_coletiva:
-                        if rubricas_convencao_coletiva[line].reference == periodo_data:
+                    for line_holerite in rubricas_convencao_coletiva:
+                        if rubricas_convencao_coletiva[line_holerite].reference == periodo_data or \
+                                rubricas_convencao_coletiva[line_holerite].reference == periodo_data_inverso:
                             itens_remun = \
                                 pysped.esocial.leiaute.S1200_ItensRemun_2()
                             itens_remun.codRubr.valor = \
-                                rubricas_convencao_coletiva[line].salary_rule_id.codigo
+                                rubricas_convencao_coletiva[line_holerite].salary_rule_id.codigo
                             itens_remun.ideTabRubr.valor = \
-                                rubricas_convencao_coletiva[line].salary_rule_id.identificador
-                            if rubricas_convencao_coletiva[line].quantity and float(rubricas_convencao_coletiva[line].quantity) != 1:
-                                itens_remun.qtdRubr.valor = float(rubricas_convencao_coletiva[line].quantity)
+                                rubricas_convencao_coletiva[line_holerite].salary_rule_id.identificador
+                            if rubricas_convencao_coletiva[line_holerite].quantity and float(rubricas_convencao_coletiva[line_holerite].quantity) != 1:
+                                itens_remun.qtdRubr.valor = float(rubricas_convencao_coletiva[line_holerite].quantity)
                                 itens_remun.vrUnit.valor = \
-                                    formata_valor(rubricas_convencao_coletiva[line].amount)
-                            if rubricas_convencao_coletiva[line].rate and rubricas_convencao_coletiva[line].rate != 100:
-                                itens_remun.fatorRubr.valor = rubricas_convencao_coletiva[line].rate
-                            itens_remun.vrRubr.valor = formata_valor(rubricas_convencao_coletiva[line].total)
+                                    formata_valor(rubricas_convencao_coletiva[line_holerite].amount)
+                            if rubricas_convencao_coletiva[line_holerite].rate and rubricas_convencao_coletiva[line_holerite].rate != 100:
+                                itens_remun.fatorRubr.valor = rubricas_convencao_coletiva[line_holerite].rate
+                            itens_remun.vrRubr.valor = formata_valor(rubricas_convencao_coletiva[line_holerite].total)
                             ide_estab_lot.remunPerAnt.itensRemun.append(
                                 itens_remun)
 
-                            linhas_processadas.append(line)
-                        elif rubricas_convencao_coletiva[line].salary_rule_id.category_id.code != 'PROVENTO':
-                            linhas_processadas.append(line)
+                            linhas_processadas.append(line_holerite)
+                        elif rubricas_convencao_coletiva[line_holerite].salary_rule_id.category_id.code != 'PROVENTO':
+                            linhas_processadas.append(line_holerite)
 
                     for linha in linhas_processadas:
                         del rubricas_convencao_coletiva[linha]
@@ -495,23 +503,28 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # Popula dmDev.infoComplCont  # Não teremos registros no odoo que não tenham um S2300 nesses casos
             #
 
-            # Adiciona o registro nas listas das tags superiores
-            info_per_apur.ideEstabLot.remunPerApur.append(remun_per_apur)
-            dm_dev.infoPerApur.append(info_per_apur)
+            if not payslip.contract_id.date_end:
+                # Adiciona o registro nas listas das tags superiores
+                info_per_apur.ideEstabLot.remunPerApur.append(remun_per_apur)
+                dm_dev.infoPerApur.append(info_per_apur)
             S1200.evento.dmDev.append(dm_dev)
 
         return S1200, validacao
 
     def validar_referencia_periodo_linha(self, line, periodo_apuracao,
                                          periodo_apuracao_inverso):
-        eh_periodo = re.search(
-            '[0-9]*\d{2}[-][0-9]*\d{4}', line.reference)
-        if not eh_periodo:
+        if line.reference and line.reference.replace(' ', ''):
             eh_periodo = re.search(
-                '[0-9]*\d{4}[-][0-9]*\d{2}', line.reference)
-            data_apuracao = periodo_apuracao
+                '[0-9]*\d{2}[-][0-9]*\d{4}', line.reference)
+            if not eh_periodo:
+                eh_periodo = re.search(
+                    '[0-9]*\d{4}[-][0-9]*\d{2}', line.reference)
+                data_apuracao = periodo_apuracao
+            else:
+                data_apuracao = periodo_apuracao_inverso
         else:
-            data_apuracao = periodo_apuracao_inverso
+            data_apuracao = False
+            eh_periodo = False
         return data_apuracao, eh_periodo
 
     @api.multi
