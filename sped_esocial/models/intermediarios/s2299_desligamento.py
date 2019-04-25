@@ -472,14 +472,18 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
 
     def validar_referencia_periodo_linha(self, line, periodo_apuracao,
                                          periodo_apuracao_inverso):
-        eh_periodo = re.search(
-            '[0-9]*\d{2}[-][0-9]*\d{4}', line.reference)
-        if not eh_periodo:
+        if line.reference and line.reference.replace(' ', ''):
             eh_periodo = re.search(
-                '[0-9]*\d{4}[-][0-9]*\d{2}', line.reference)
-            data_apuracao = periodo_apuracao
+                '[0-9]*\d{2}[-][0-9]*\d{4}', line.reference)
+            if not eh_periodo:
+                eh_periodo = re.search(
+                    '[0-9]*\d{4}[-][0-9]*\d{2}', line.reference)
+                data_apuracao = periodo_apuracao
+            else:
+                data_apuracao = periodo_apuracao_inverso
         else:
-            data_apuracao = periodo_apuracao_inverso
+            data_apuracao = False
+            eh_periodo = False
         return data_apuracao, eh_periodo
 
     @api.multi
