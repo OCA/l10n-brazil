@@ -590,7 +590,7 @@ class L10nBrSefip(models.Model):
         :return:
         """
         mes_do_ano = self.mes
-        tipo_de_folha = ['normal', 'rescisao']
+        tipo_de_folha = ['normal', 'rescisao', 'rescisao_complementar']
 
         # No caso do demonstrativo de decimo terceiro
         if mes_do_ano == '13':
