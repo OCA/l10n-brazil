@@ -265,45 +265,39 @@ class AccountInvoice(models.Model):
     def _get_invoice_move_line_data(self):
         lines = []
         vals = {}
-        if self.account_event_entrada_id:
-            for info in CAMPO_DOCUMENTO_FISCAL:
-                info_name = info[0]
-                if self[info_name]:
-                    vals = {
-                        'code': info_name,
-                        'valor': self[info_name],
-                        'name': info[1],
-                    }
-
-                    if self.type in ['out_invoice', 'out_refund'] and \
-                            info_name == 'amount_net':
-                        if self.type in ['out_invoice', 'out_refund']:
-                            if self.partner_id.property_account_receivable:
-                                vals['conta_debito_exclusivo_id'] = \
-                                    self.partner_id.property_account_receivable.id
-                        else:
-                            if self.partner_id.property_account_payable:
-                                vals['conta_credito_exclusivo_id'] = \
-                                    self.partner_id.property_account_payable.id
-
-                    lines.append(vals)
-                    vals = {}
-        else:
-            for line in self.invoice_line:
+        for info in CAMPO_DOCUMENTO_FISCAL:
+            info_name = info[0]
+            if self[info_name]:
                 vals = {
-                    'code': line.product_id.codigo_contabil,
-                    'valor': line.price_total,
-                    'name': line.product_id.name,
+                    'code': info_name,
+                    'valor': self[info_name],
+                    'name': info[1],
                 }
+
+                if self.type in ['out_invoice', 'out_refund'] and \
+                        info_name == 'amount_net':
+                    if self.type in ['out_invoice', 'out_refund']:
+                        if self.partner_id.property_account_receivable:
+                            vals['conta_debito_exclusivo_id'] = \
+                                self.partner_id.property_account_receivable.id
+                    else:
+                        if self.partner_id.property_account_payable:
+                            vals['conta_credito_exclusivo_id'] = \
+                                self.partner_id.property_account_payable.id
+
                 lines.append(vals)
                 vals = {}
 
+        for line in self.invoice_line:
             vals = {
-                'code': 'amount_total',
-                'valor': self.amount_total,
-                'name': 'Valor Total',
+                'code': line.product_id.codigo_contabil,
+                'valor': line.price_total,
+                'name': line.product_id.name,
             }
             lines.append(vals)
+            vals = {}
+
+        lines.append(vals)
 
         return lines
 
