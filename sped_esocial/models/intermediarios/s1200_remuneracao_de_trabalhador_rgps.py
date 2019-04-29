@@ -341,7 +341,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                         condicao_pagamento_anterior = True if eh_periodo and \
                             convencao_coletiva_id and (
                                 line.reference <= data_apuracao) and \
-                            line.salary_rule_id.category_id.code == 'PROVENTO'\
+                            line.salary_rule_id.category_id.code in ['PROVENTO', 'INSS']\
                             and ind_apur and cod_funcionario else False
 
                         if condicao_pagamento_anterior:
@@ -436,7 +436,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                             self.periodo_id.code[3:])),
                         ('date_stop', '<=', self.periodo_id.date_stop),
                         ('special', '=', False),
-                    ]
+                    ], order='date_start ASC'
                 )
 
                 for periodo in periodos_pregressos:
@@ -482,7 +482,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                                 itens_remun)
 
                             linhas_processadas.append(line_holerite)
-                        elif rubricas_convencao_coletiva[line_holerite].salary_rule_id.category_id.code != 'PROVENTO':
+                        elif rubricas_convencao_coletiva[line_holerite].salary_rule_id.category_id.code not in ['PROVENTO', 'INSS']:
                             linhas_processadas.append(line_holerite)
 
                     for linha in linhas_processadas:
@@ -495,8 +495,9 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                         ide_estab_lot.remunPerAnt.infoAgNocivo.append(
                             info_ag_nocivo)
 
-                    ide_periodo.ideEstabLot.append(ide_estab_lot)
-                    ide_adc_ant.idePeriodo.append(ide_periodo)
+                    if ide_estab_lot.remunPerAnt.itensRemun:
+                        ide_periodo.ideEstabLot.append(ide_estab_lot)
+                        ide_adc_ant.idePeriodo.append(ide_periodo)
 
                 info_per_ant.ideADC.append(ide_adc_ant)
                 dm_dev.infoPerAnt.append(info_per_ant)
