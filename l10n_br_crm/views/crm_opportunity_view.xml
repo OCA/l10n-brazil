@@ -13,8 +13,8 @@
                 <field name="inscr_mun"/>
                 <field name="suframa"/>
             </field>
-            <field name="email_from" position="before">
-                <field name="name_surname" />
+            <field name="is_blacklisted" position="before">
+                <field name="name_surname"/>
                 <field name="cpf"/>
                 <field name="rg"/>
             </field>

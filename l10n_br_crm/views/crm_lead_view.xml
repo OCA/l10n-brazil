@@ -11,8 +11,8 @@
                 <field name="cnpj"/>
                 <field name="inscr_est"/>
             </field>
-            <field name="email_from" position="before">
-                <field name="name_surname" />
+            <field name="is_blacklisted" position="before">
+                <field name="name_surname"/>
                 <field name="cpf"/>
                 <field name="rg"/>
             </field>
