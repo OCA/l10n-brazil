@@ -2,7 +2,6 @@
 from . import l10n_br_account
 from . import l10n_br_account_fiscal_category
 from . import l10n_br_account_service_type
-from . import l10n_br_account_fiscal_document_serie
 from . import l10n_br_account_fiscal_partner_type
 from . import l10n_br_account_tax_definition
 from . import account_fiscal_position_abstract
