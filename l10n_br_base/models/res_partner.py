@@ -192,7 +192,13 @@ class Partner(models.Model):
     def get_street_fields(self):
         """Returns the fields that can be used in a street format.
         Overwrite this function if you want to add your own fields."""
-        return super(Partner, self).get_street_fields() + ('street',)
+        return super(Partner, self).get_street_fields() + ['street']
+
+    @api.multi
+    def _set_street(self):
+        company_country = self.env.user.company_id.country_id
+        if company_country.code.upper() != 'BR':
+            return super(Partner, self)._set_street()
 
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
