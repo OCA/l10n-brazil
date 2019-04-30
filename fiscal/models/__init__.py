@@ -1,5 +1,6 @@
 
 from . import cnae
+from . import document_type
 # from . import l10n_br_account_product
 # from . import l10n_br_account_product_cst
 # from . import l10n_br_account_fiscal_category
