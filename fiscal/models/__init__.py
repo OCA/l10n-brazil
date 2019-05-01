@@ -13,6 +13,7 @@ from . import document_type
 from . import document_serie
 from . import product_genre
 from . import certificado
+from . import product_template
 # from . import l10n_br_account_product
 # from . import l10n_br_account_fiscal_category
 # from . import l10n_br_account_partner_fiscal_type
@@ -28,7 +29,6 @@ from . import certificado
 # from . import account_invoice_line
 # from . import account_payment_term
 # from . import account_tax_template
-# from . import product_template
 # from . import account_fiscal_position
 # from . import account_fiscal_position_template
 # from . import res_country_state
