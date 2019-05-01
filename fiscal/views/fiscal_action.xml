@@ -127,4 +127,22 @@
           </field>
       </record>
 
+      # Fiscal Document Type
+      <record id="document_type_action" model="ir.actions.act_window">
+          <field name="name">Fiscal Document</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">fiscal.document.type</field>
+          <field name="view_mode">tree,form</field>
+          <field name="view_type">form</field>
+          <field name="view_id" ref="document_type_tree"/>
+          <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Add a new Fiscal Document
+              </p><p>
+                All Documents supported by Brazilian
+                Fiscal modulo for Odoo.
+              </p>
+          </field>
+      </record>
+
 </odoo>
