@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    # CNAE
+    <record id="cnae_action" model="ir.actions.act_window">
+        <field name="name">CNAE</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.cnae</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="cnae_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new CNAE
+            </p><p>
+              A CNAE is necessary to determine the
+              fiscal definitions for your company.
+            </p>
+        </field>
+    </record>
+
 </odoo>

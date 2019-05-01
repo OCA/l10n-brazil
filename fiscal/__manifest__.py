@@ -35,6 +35,7 @@
         'data/fiscal.cest.csv',
 
         # Views
+        'views/cnae_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
 
