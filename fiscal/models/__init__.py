@@ -2,6 +2,7 @@
 from . import cfop
 from . import cst
 from . import cnae
+from . import tax
 from . import document_type
 from . import document_serie
 # from . import l10n_br_account_product
@@ -23,7 +24,6 @@ from . import document_serie
 # from . import account_invoice_line
 # from . import account_payment_term
 # from . import account_tax_template
-# from . import account_tax
 # from . import product_template
 # from . import account_fiscal_position
 # from . import account_fiscal_position_template
