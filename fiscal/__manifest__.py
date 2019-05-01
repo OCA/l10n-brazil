@@ -24,6 +24,7 @@
         'data/fiscal.product.genre.csv',
         'data/fiscal.cfop.csv',
         'data/fiscal.ncm.csv',
+        'data/fiscal.nbs.csv',
         'data/fiscal.cest.csv',
         'data/fiscal.cst.csv',
         'data/fiscal.tax.csv',
