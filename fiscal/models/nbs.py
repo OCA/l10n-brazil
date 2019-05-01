@@ -1,25 +1,25 @@
-# Copyright (C) 2012  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
-from .ibpt.taxes import DeOlhoNoImposto, get_ibpt_product
+from .ibpt.taxes import DeOlhoNoImposto, get_ibpt_service
 
 
-class Ncm(models.Model):
-    _name = 'fiscal.ncm'
-    _description = 'NCM'
+class Nbs(models.Model):
+    _name = 'fiscal.nbs'
+    _description = 'NBS'
 
     code = fields.Char(
         string='Code',
-        size=10,
+        size=12,
         required=True,
         index=True)
 
     code_unmasked = fields.Char(
          string='Unmasked Code',
-         size=8,
+         size=10,
          compute='_compute_code_unmasked',
          store=True,
          index=True)
@@ -28,33 +28,15 @@ class Ncm(models.Model):
         string='Name',
         index=True)
 
-    exception = fields.Char(
-        string='Exception',
-        size=2)
-
-    tax_ipi_id = fields.Many2one(
-        comodel_name='fiscal.tax',
-        string='Tax IPI',
-        domain="[('tax_domain', '=', 'ipi')]")
-
-    tax_ii_id = fields.Many2one(
-        comodel_name='fiscal.tax',
-        string='Tax II',
-        domain="[('tax_domain', '=', 'ii')]")
-
-    tax_uom_id = fields.Many2one(
-        comodel_name='uom.uom',
-        string='Tax Unit')
-
     tax_estimate_ids = fields.One2many(
         comodel_name='fiscal.tax.estimate',
-        inverse_name='ncm_id',
+        inverse_name='nbs_id',
         string=u'Estimae Taxes',
         readonly=True)
 
     _sql_constraints = [
-        ('fiscal_ncm_code_exception_uniq', 'unique (code, exception)',
-         'NCM already exists with this code !')]
+        ('fiscal_ncm_code_extension_uniq', 'unique (code)',
+         'NBS already exists with this code !')]
 
     @api.depends('code')
     def _compute_code_unmasked(self):
@@ -78,14 +60,13 @@ class Ncm(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(r.id,
-                 "{0} - {1}".format(r.code, r.name))
+        return [(r.id, "{0} - {1}".format(r.code, r.name))
                 for r in self]
 
     @api.multi
     def get_ibpt(self):
 
-        for ncm in self:
+        for nbs in self:
 
             company = self.env.user.company_id
 
@@ -94,13 +75,13 @@ class Ncm(models.Model):
                 punctuation_rm(company.cnpj_cpf),
                 company.state_id.code)
 
-            result = get_ibpt_product(
+            result = get_ibpt_service(
                 config,
-                ncm.code_unmasked,
+                nbs.code_unmasked,
             )
 
             values = {
-                'ncm_id': ncm.id,
+                'nbs_id': nbs.id,
                 'origin': 'IBPT-WS',
                 'state_id': company.state_id.id,
                 'state_taxes': result.estadual,
