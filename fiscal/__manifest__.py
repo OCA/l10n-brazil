@@ -18,6 +18,7 @@
     ],
     'data': [
         # Data
+        'data/fiscal_data.xml',
         'data/uom_data.xml',
         'data/fiscal.cnae.csv',
         'data/fiscal.document.type.csv',
