@@ -16,4 +16,7 @@
     # CFOP
     <menuitem id="cfop_menu" action="cfop_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="20"/>
 
+    # CST
+    <menuitem id="cst_menu" action="cst_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="30"/>
+
 </odoo>
