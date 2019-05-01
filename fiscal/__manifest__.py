@@ -18,11 +18,11 @@
     ],
     'data': [
         # Data
+        'data/uom_data.xml',
         'data/fiscal.document.type.csv',
         'data/fiscal.cfop.csv',
 
         # 'data/l10n_br_account_product_sequence.xml',
-
         # 'data/l10n_br_account_data.xml',
         # 'data/l10n_br_account_product_data.xml',
         # 'data/l10n_br_tax.icms_partition.csv',
