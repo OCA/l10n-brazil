@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="document_serie_tree" model="ir.ui.view">
+        <field name="name">fiscal.document.serie.tree</field>
+        <field name="model">fiscal.document.serie</field>
+        <field name="arch" type="xml">
+            <tree string="Fiscal Document Serie">
+                <field name="name"/>
+                <field name="fiscal_document_id"/>
+                <field name="company_id"/>
+                <field name="internal_sequence_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_serie_form" model="ir.ui.view">
+        <field name="name">fiscal.document.serie.form</field>
+        <field name="model">fiscal.document.serie</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Document Serie">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="fiscal_document_id"/>
+                        <field name="company_id"/>
+                        <field name="internal_sequence_id"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
