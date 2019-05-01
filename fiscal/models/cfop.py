@@ -1,78 +1,61 @@
-# Copyright (C) 2013  Renato Lima - Akretion
+# Copyright (C) 2013  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
+from odoo.osv import expression
 
-from odoo.addons.l10n_br_account.models.l10n_br_account import TYPE
+from .constants.fiscal import FISCAL_IN_OUT, CFOP_DESTINATION
 
-
-class L10nbrAccountCFOP(models.Model):
-    """CFOP - Código Fiscal de Operações e Prestações"""
-    _name = 'l10n_br_account_product.cfop'
+class Cfop(models.Model):
+    _name = 'fiscal.cfop'
+    _order = 'code'
     _description = 'CFOP'
 
     code = fields.Char(
-        string=u'Código',
+        string='Code',
         size=4,
         required=True)
 
     name = fields.Char(
-        string=u'Nome',
+        string='Name',
         size=256,
         required=True)
 
     small_name = fields.Char(
-        string=u'Nome Reduzido',
+        string='Small Name',
         size=32,
         required=True)
 
-    description = fields.Text(
-        string=u'Descrição')
-
     type = fields.Selection(
-        selection=TYPE,
-        string=u'Tipo',
+        selection=FISCAL_IN_OUT,
+        string='Type',
         required=True)
 
-    parent_id = fields.Many2one(
-        comodel_name='l10n_br_account_product.cfop',
-        string=u'CFOP Pai')
-
-    child_ids = fields.One2many(
-        comodel_name='l10n_br_account_product.cfop',
-        inverse_name='parent_id',
-        string=u'CFOP Filhos')
-
-    internal_type = fields.Selection(
-        selection=[('view', u'Visualização'),
-                   ('normal', 'Normal')],
-        string=u'Tipo Interno',
-        required=True, default='normal')
-
-    id_dest = fields.Selection(
-        selection=[('1', u'Operação interna'),
-                   ('2', u'Operação interestadual'),
-                   ('3', u'Operação com exterior')],
-        string=u'Local de destino da operação',
-        help=u'Identificador de local de destino da operação.')
+    destination = fields.Selection(
+        selection=CFOP_DESTINATION,
+        string=u'Destination',
+        required=True,
+        help=u'Identifies the operation destination.')
 
     _sql_constraints = [
-        ('l10n_br_account_cfop_code_uniq', 'unique (code)',
-         u'Já existe um CFOP com esse código !')
-    ]
+        ('fiscal_cfop_code_uniq', 'unique (code)',
+         'CFOP already exists with this code !')]
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(self, name, args=None, operator='ilike',
+                     limit=100, name_get_uid=None):
         args = args or []
-        recs = self.browse()
+        domain = []
         if name:
-            recs = self.search([('code', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search([('name', operator, name)] + args, limit=limit)
-        return recs.name_get()
+            domain = ['|', ('code', operator, name)
+                      ('name', operator, name)]
+
+        recs = self._search(expression.AND([domain, args]), limit=limit,
+                            access_rights_uid=name_get_uid)
+        return self.browse(recs).name_get()
 
     @api.multi
     def name_get(self):
         return [(r.id,
-                u"{0} - {1}".format(r.code, r.name))
+                 u"{0} - {1}".format(r.code, r.name))
                 for r in self]
