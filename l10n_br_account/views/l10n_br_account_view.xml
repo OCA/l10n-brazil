@@ -208,40 +208,6 @@
     </record>
 
 
-    <record id="view_l10n_br_account_document_serie_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.document.serie</field>
-        <field name="model">l10n_br_account.document.serie</field>
-        <field name="arch" type="xml">
-            <form string="Serie de Documentos Fiscais">
-                <sheet>
-                    <group>
-                        <field name="code" select="1"/>
-                        <field name="active"/>
-                        <field name="name" select="1"/>
-                        <field name="fiscal_document_id" select="1"/>
-                        <field name="fiscal_type"/>
-                        <field name="internal_sequence_id" select="1"/>
-                        <field name="company_id"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="view_l10n_br_account_document_serie_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.document.serie</field>
-        <field name="model">l10n_br_account.document.serie</field>
-        <field name="arch" type="xml">
-            <tree string="Serie de Documentos Fiscais">
-                <field name="code" select="1"/>
-                <field name="name" select="1"/>
-                <field name="fiscal_document_id" select="1"/>
-                <field name="company_id" select="1"/>
-                <field name="active" select="1"/>
-            </tree>
-        </field>
-    </record>
-
     <record id="l10n_br_account_document_event_form" model="ir.ui.view">
         <field name="name">l10n_br_account.document_event.form</field>
         <field name="model">l10n_br_account.document_event</field>
@@ -333,15 +299,6 @@
         <field name="view_id" ref="view_l10n_br_account_fiscal_category_tree"/>
     </record>
 
-    <record id="action_l10n_br_account_document_serie_form" model="ir.actions.act_window">
-        <field name="name">Document Serie</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_account.document.serie</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_l10n_br_account_document_serie_tree"/>
-    </record>
-
     <record id="action_l10n_br_account_document_event" model="ir.actions.act_window">
         <field name="name">Eventos Eletronicos</field>
         <field name="type">ir.actions.act_window</field>
@@ -405,8 +362,6 @@
     <menuitem id="menu_action_l10n_br_account_partner_special_fiscal_type_form" name="Regime especial do parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_special_fiscal_type_form"/>
 
     <menuitem id="menu_action_l10n_br_account_fiscal_category_form" name="Categoria Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
-
-    <menuitem id="menu_action_document_serie_form" name="Serie de Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
 
     <menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_event"/>
 
