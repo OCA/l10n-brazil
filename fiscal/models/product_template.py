@@ -1,60 +1,62 @@
-# Copyright (C) 2013  Renato Lima - Akretion
+# Copyright (C) 2013  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields
+from odoo import models, fields, api
 
-from .l10n_br_account_product import (
+from .constants.fiscal import (
     PRODUCT_FISCAL_TYPE,
-    PRODUCT_FISCAL_TYPE_DEFAULT)
+    PRODUCT_FISCAL_TYPE_SERVICE,
+    NCM_FOR_SERVICE)
 
-PRODUCT_ORIGIN = [
-    ('0', u'0 - Nacional, exceto as indicadas nos códigos 3 a 5'),
-    ('1', u'1 - Estrangeira - Importação direta, exceto a indicada no código'
-        ' 6'),
-    ('2', u'2 - Estrangeira - Adquirida no mercado interno, exceto a indicada'
-        u' no código 7'),
-    ('3', u'3 - Nacional, mercadoria ou bem com Conteúdo de Importação'
-        ' superior a 40% (quarenta por cento)'),
-    ('4', u'4 - Nacional, cuja produção tenha sido feita em conformidade com'
-        u' os processos produtivos básicos de que tratam o Decreto-Lei'
-        u' nº 288/67 e as Leis nºs 8.248/91, 8.387/91, 10.176/01 e 11.484/07'),
-    ('5', u'5 - Nacional, mercadoria ou bem com Conteúdo de Importação'
-        u' inferior ou igual a 40% (quarenta por cento)'),
-    ('6', u'6 - Estrangeira - Importação direta, sem similar nacional,'
-        u' constante em lista de Resolução CAMEX'),
-    ('7', u'7 - Estrangeira - Adquirida no mercado interno, sem similar'
-        u' nacional, constante em lista de Resolução CAMEX'),
-    ('8', u'8 - Nacional, mercadoria ou bem com Conteúdo de Importação'
-        u' superior a 70%')
-]
+from .constants.icms import ICMS_ORIGIN
 
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     fiscal_type = fields.Selection(
-        selection_add=PRODUCT_FISCAL_TYPE,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
+        selection=PRODUCT_FISCAL_TYPE,
+        string='Fiscal Type')
 
     origin = fields.Selection(
         selection=PRODUCT_ORIGIN,
         string=u'Origem',
         default='0')
 
-    fci = fields.Char(
-        string=u'FCI do Produto',
-        size=36)
+    ncm_id = fields.Many2one(
+        comodel_name='fiscal.ncm',
+        index=True,
+        string='NCM')
+
+    fiscal_genre_id = fields.Many2one(
+        comodel_name='fiscal.product.genre',
+        string='Fiscal Genre')
+
+    fiscal_genre_code = fields.Char(
+        related='fiscal_genre_id.code',
+        store=True,
+        string='Fiscal Genre Code')
+
+    nbs_id = fields.Many2one(
+        comodel_name='fiscal.nbs',
+        index=True,
+        string='NBS')
 
     cest_id = fields.Many2one(
-        comodel_name='l10n_br_account_product.cest',
-        string=u'CEST')
+        comodel_name='fiscal.cest',
+        index=True,
+        string='CEST',
+        domain="[('ncm_ids', '=', ncm_id)]")
 
-    service_type_id = fields.Many2one(
-        comodel_name='l10n_br_account.service.type',
-        string=u'Tipo de Serviço')
+    # TODO add percent of estimate taxes
 
-    estd_import_taxes_perct = fields.Float(
-        related='fiscal_classification_id.estd_import_taxes_perct')
+    @api.onchange('ncm_id', 'fiscal_genre_id')
+    def _onchange_ncm_id(self):
+        for r in self:
+            if r.ncm_id:
+                r.fiscal_genre_id = self.env['fiscal.product.genre'].search(
+                    [('code', '=', r.ncm_id.code[0:2])])
 
-    estd_national_taxes_perct = fields.Float(
-        related='fiscal_classification_id.estd_national_taxes_perct')
+            if r.fiscal_genre_id.code == PRODUCT_FISCAL_TYPE_SERVICE:
+                r.ncm_id = self.env['fiscal.ncm'].search(
+                    [('code', '=', NCM_FOR_SERVICE)])
