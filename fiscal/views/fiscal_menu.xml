@@ -10,4 +10,7 @@
     # Fiscal Data
     <menuitem id="fiscal_data_menu" name="Fiscal Data" groups="fiscal.group_manager" parent="configuration_menu" sequence="10"/>
 
+    # CNAE
+    <menuitem id="cnae_menu" action="cnae_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="10"/>
+
 </odoo>
