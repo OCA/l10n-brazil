@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="fiscal_cfop_search" model="ir.ui.view">
+    <record id="cfop_search" model="ir.ui.view">
         <field name="name">fiscal.cfop.search</field>
         <field name="model">fiscal.cfop</field>
         <field name="arch" type="xml">
