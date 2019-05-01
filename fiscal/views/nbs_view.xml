@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="nbs_search" model="ir.ui.view">
+        <field name="name">fiscal.nbs.search</field>
+        <field name="model">fiscal.nbs</field>
+        <field name="arch" type="xml">
+            <search string="CST">
+                <field name="code"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="nbs_tree" model="ir.ui.view">
+        <field name="name">fiscal.nbs.tree</field>
+        <field name="model">fiscal.nbs</field>
+        <field name="arch" type="xml">
+            <tree string="NBS">
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="nbs_form" model="ir.ui.view">
+        <field name="name">fiscal.nbs.form</field>
+        <field name="model">fiscal.nbs</field>
+        <field name="arch" type="xml">
+            <form string="NBS">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="tax_estimate_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

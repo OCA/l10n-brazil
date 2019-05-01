@@ -91,4 +91,22 @@
           </field>
       </record>
 
+      # NBS
+      <record id="nbs_action" model="ir.actions.act_window">
+          <field name="name">NBS</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">fiscal.nbs</field>
+          <field name="view_mode">tree,form</field>
+          <field name="view_type">form</field>
+          <field name="view_id" ref="nbs_tree"/>
+          <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Add a new NBS
+              </p><p>
+                A NBS is necessary to create
+                fiscal operations for your fiscal moves.
+              </p>
+          </field>
+      </record>
+
 </odoo>
