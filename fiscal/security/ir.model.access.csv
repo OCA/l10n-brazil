@@ -1,39 +1,25 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"l10n_br_account_cfop","l10n_br_account.cfop","model_l10n_br_account_product_cfop","account.group_account_invoice",1,1,1,1
-"l10n_br_account_cfop_user","l10n_br_account.cfop","model_l10n_br_account_product_cfop","account.group_account_invoice",1,0,0,0
-"l10n_br_account_cfop_invoice","l10n_br_account.cfop","model_l10n_br_account_product_cfop","account.group_account_invoice",1,0,0,0
-"l10n_br_tax_definition_sale_template_manager","l10n_br_tax.definition.sale.template","model_l10n_br_tax_definition_sale_template","account.group_account_manager",1,1,1,1
-"l10n_br_tax_definition_purchase_template_manager","l10n_br_tax.definition.purchase.template","model_l10n_br_tax_definition_purchase_template","account.group_account_manager",1,1,1,1
-"l10n_br_tax_definition_sale_manager","l10n_br_tax.definition.sale","model_l10n_br_tax_definition_sale","account.group_account_manager",1,1,1,1
-"l10n_br_tax_definition_purchase_manager","l10n_br_tax.definition.purchase","model_l10n_br_tax_definition_purchase","account.group_account_manager",1,1,1,1
-"l10n_br_tax_definition_sale_template_user","l10n_br_tax.definition.sale.template","model_l10n_br_tax_definition_sale_template","account.group_account_invoice",1,0,0,0
-"l10n_br_tax_definition_purchase_template_user","l10n_br_tax.definition.purchase.template","model_l10n_br_tax_definition_purchase_template","account.group_account_invoice",1,0,0,0
-"l10n_br_tax_definition_purchase_user","l10n_br_tax_definition_purchase_user","model_l10n_br_tax_definition_purchase","base.group_user",1,0,0,0
-"l10n_br_tax_definition_sale_user","l10n_br_tax_definition_sale_user","model_l10n_br_tax_definition_sale","base.group_user",1,0,0,0
-"l10n_br_account_product_document_related_user","l10n_br_account_product.document.related","model_l10n_br_account_product_document_related","account.group_account_invoice",1,1,1,1
-"l10n_br_account_product_document_related_manager","l10n_br_account_product.document.related","model_l10n_br_account_product_document_related","account.group_account_manager",1,1,1,1
-"l10n_br_tax_definition_company_product_manager","l10n_br_tax.definition.company.product","model_l10n_br_tax_definition_company_product","account.group_account_manager",1,1,1,1
-"l10n_br_tax_definition_company_product_user","l10n_br_tax.definition.company.product","model_l10n_br_tax_definition_company_product","account.group_account_invoice",1,0,0,0
-"l10n_br_tax_definition_state_product_manager","l10n_br_tax.definition.state.product","model_l10n_br_tax_definition_state_product","account.group_account_manager",1,1,1,1
-"l10n_br_tax_definition_state_product_user","l10n_br_tax.definition.state.product","model_l10n_br_tax_definition_state_product","account.group_account_invoice",1,0,0,0
-"l10n_br_account_product_import_declaration_user","l10n_br_account_product.import.declaration","model_l10n_br_account_product_import_declaration","account.group_account_invoice",1,1,1,1
-"l10n_br_account_product_import_declaration_manager","l10n_br_account_product.import.declaration","model_l10n_br_account_product_import_declaration","account.group_account_manager",1,1,1,1
-"l10n_br_account_product_import_declaration_line_user","l10n_br_account_product.import.declaration.line","model_l10n_br_account_product_import_declaration_line","account.group_account_invoice",1,1,1,1
-"l10n_br_account_product_import_declaration_line_manager","l10n_br_account_product.import.declaration.line","model_l10n_br_account_product_import_declaration_line","account.group_account_manager",1,1,1,1
-"l10n_br_tax_estimate_template_user","l10n_br_tax.estimate.template","model_l10n_br_tax_estimate_template","account.group_account_invoice",1,0,0,0
-"l10n_br_tax_estimate_template_manager","l10n_br_tax.estimate.template","model_l10n_br_tax_estimate_template","account.group_account_manager",1,1,1,1
-"l10n_br_tax_estimate_user","l10n_br_tax.estimate","model_l10n_br_tax_estimate","account.group_account_invoice",1,0,0,0
-"l10n_br_tax_estimate_manager","l10n_br_tax.estimate","model_l10n_br_tax_estimate","account.group_account_manager",1,1,1,1
-"l10n_br_account_product_icms_relief","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relief","account.group_account_invoice",1,1,1,1
-"l10n_br_account_product_icms_relief_user","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relief","account.group_account_invoice",1,0,0,0
-"l10n_br_account_product_icms_relief_invoice","l10n_br_account_product.icms_relief","model_l10n_br_account_product_icms_relief","account.group_account_invoice",1,0,0,0
-"l10n_br_account_product_ipi_guideline","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,1,1,1
-"l10n_br_account_product_ipi_guideline_user","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,0,0,0
-"l10n_br_account_product_ipi_guideline_invoice","l10n_br_account_product.ipi_guideline","model_l10n_br_account_product_ipi_guideline","account.group_account_invoice",1,0,0,0
-"ir_sequence_account_invoice","ir_sequence account_invoice","base.model_ir_sequence","account.group_account_invoice",1,1,1,0
-"l10n_br_tax_icms_partition_manager","l10n_br_tax.icms_partition","model_l10n_br_tax_icms_partition","account.group_account_manager",1,1,1,1
-"l10n_br_tax_icms_partition_user","l10n_br_tax.icms_partition","model_l10n_br_tax_icms_partition","account.group_account_invoice",1,0,0,0
-"l10n_br_account_product_cest_user","l10n_br_account_product.cest","model_l10n_br_account_product_cest","base.group_user",1,0,0,0
-"l10n_br_account_product_cest_manager","l10n_br_account_product.cest","model_l10n_br_account_product_cest","account.group_account_manager",1,1,1,1
-"l10n_br_account_product_cst_user","l10n_br_account_product.cst","model_l10n_br_account_product_cst","base.group_user",1,0,0,0
-"l10n_br_account_product_cst_manager","l10n_br_account_product.cst","model_l10n_br_account_product_cst","account.group_account_manager",1,1,1,1
+"fiscal_cnae_user","CNAE for User","model_fiscal_cnae","fiscal.group_user",1,0,0,0
+"fiscal_cnae_manager","CNAE for Manager","model_fiscal_cnae","fiscal.group_manager",1,1,1,1
+"fiscal_cfop_user","Fiscal CFOP for User","model_fiscal_cfop","fiscal.group_user",1,0,0,0
+"fiscal_cfop_manager","Fiscal CFOP for Manager","model_fiscal_cfop","fiscal.group_manager",1,1,1,1
+"fiscal_cst_user","Fiscal CST for User","model_fiscal_cst","fiscal.group_user",1,0,0,0
+"fiscal_cst_manager","Fiscal CST for Manager","model_fiscal_cst","fiscal.group_manager",1,1,1,1
+"fiscal_tax_user","Fiscal Tax for User","model_fiscal_tax","fiscal.group_user",1,0,0,0
+"fiscal_tax_manager","Fiscal Tax for Manager","model_fiscal_tax","fiscal.group_manager",1,1,1,1
+"fiscal_tax_estimate_user","Fiscal Tax Estimate for User","model_fiscal_tax_estimate","fiscal.group_user",1,0,0,0
+"fiscal_tax_estimate_manager","Fiscal Tax Estimate for Manager","model_fiscal_tax_estimate","fiscal.group_manager",1,1,1,1
+"fiscal_ncm_user","Fiscal NCM for User","model_fiscal_ncm","fiscal.group_user",1,0,0,0
+"fiscal_ncm_manager","Fiscal NCM for Manager","model_fiscal_ncm","fiscal.group_manager",1,1,1,1
+"fiscal_nbs_user","Fiscal NBS for User","model_fiscal_nbs","fiscal.group_user",1,0,0,0
+"fiscal_nbs_manager","Fiscal NBS for Manager","model_fiscal_nbs","fiscal.group_manager",1,1,1,1
+"fiscal_cest_user","Fiscal CEST for User","model_fiscal_cest","fiscal.group_user",1,0,0,0
+"fiscal_cest_manager","Fiscal CEST for Manager","model_fiscal_cest","fiscal.group_manager",1,1,1,1
+"fiscal_product_genre_user","Fiscal Product Genre for User","model_fiscal_product_genre","fiscal.group_user",1,0,0,0
+"fiscal_product_genre_manager","Fiscal Product Genre for Manager","model_fiscal_product_genre","fiscal.group_manager",1,1,1,1
+"fiscal_document_user","Fiscal Document for User","model_fiscal_document","fiscal.group_user",1,0,0,0
+"fiscal_document_manager","Fiscal Document for Manager","model_fiscal_document","fiscal.group_manager",1,1,1,1
+"fiscal_document_serie_user","Fiscal Document Serie for User","model_fiscal_document_serie","fiscal.group_user",1,0,0,0
+"fiscal_document_serie_manager","Fiscal Document Serie for Manager","model_fiscal_document_serie","fiscal.group_manager",1,1,1,1
+"fiscal_certificate_user","Fiscal Certificate for User","model_fiscal_certificate","fiscal.group_user",1,0,0,0
+"fiscal_certificate_manager","Fiscal Certificate for Manager","model_fiscal_certificate","fiscal.group_manager",1,1,1,1
