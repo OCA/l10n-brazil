@@ -5,6 +5,7 @@ from . import cnae
 from . import tax
 from . import document_type
 from . import document_serie
+from . import ncm
 # from . import l10n_br_account_product
 # from . import l10n_br_account_fiscal_category
 # from . import l10n_br_account_partner_fiscal_type
@@ -17,9 +18,6 @@ from . import document_serie
 # from . import l10n_br_account_product_cest
 # from . import res_company
 # from . import l10n_br_tax_definition_company_product
-# from . import account_product_fiscal_classification_template
-# from . import account_product_fiscal_classification
-# from . import wizard_account_product_fiscal_classification
 # from . import account_invoice
 # from . import account_invoice_line
 # from . import account_payment_term
