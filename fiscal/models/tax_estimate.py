@@ -57,3 +57,9 @@ class TaxEstimate(models.Model):
     origin = fields.Char(
         string='Fonte',
         size=32)
+
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company',
+        default=lambda self: self.env['res.company']._company_default_get(
+            'fiscal.tax.estimate'))
