@@ -23,6 +23,7 @@
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
         'data/fiscal.cfop.csv',
+        'data/fiscal.cst.csv',
         'data/fiscal.tax.csv',
 
         # 'data/l10n_br_account_product_sequence.xml',
@@ -30,7 +31,6 @@
         # 'data/l10n_br_account_product_data.xml',
         # 'data/l10n_br_tax.icms_partition.csv',
         # 'data/ir_cron.xml',
-        # 'data/l10n_br_account_product_cst_data.xml',
         # 'views/l10n_br_account_fiscal_category_view.xml',
         # 'views/l10n_br_account_partner_fiscal_type_view.xml',
         # 'views/l10n_br_account_product_cfop_view.xml',
