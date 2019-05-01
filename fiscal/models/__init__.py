@@ -11,6 +11,7 @@ from . import tax
 from . import tax_estimate
 from . import document_type
 from . import document_serie
+from . import product_genre
 # from . import l10n_br_account_product
 # from . import l10n_br_account_fiscal_category
 # from . import l10n_br_account_partner_fiscal_type
