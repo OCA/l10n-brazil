@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_genre_form" model="ir.ui.view">
+        <field name="name">fiscal.product.genre.form</field>
+        <field name="model">fiscal.product.genre</field>
+        <field name="arch" type="xml">
+            <form string="Product Genre">
+                <sheet>
+                    <group>
+                      <field name="code"/>
+                      <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_genre_tree" model="ir.ui.view">
+        <field name="name">fiscal.product.genre.tree</field>
+        <field name="model">fiscal.product.genre</field>
+        <field name="arch" type="xml">
+            <tree string="Product Genre">
+              <field name="code"/>
+              <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
