@@ -6,6 +6,7 @@ from . import cnae
 from . import nbs
 from . import ncm
 from . import cest
+from . import ncm_cest
 from . import tax
 from . import tax_estimate
 from . import document_type
