@@ -37,6 +37,7 @@
         # Views
         'views/cnae_view.xml',
         'views/cfop_view.xml',
+        'views/cst_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
 
@@ -47,7 +48,6 @@
         # 'data/ir_cron.xml',
         # 'views/l10n_br_account_fiscal_category_view.xml',
         # 'views/l10n_br_account_partner_fiscal_type_view.xml',
-        # 'views/l10n_br_account_product_cst_view.xml',
         # 'views/l10n_br_account_product_ipi_guideline_view.xml',
         # 'views/l10n_br_account_product_icms_relief_view.xml',
         # 'views/l10n_br_account_product_import_declaration_view.xml',
