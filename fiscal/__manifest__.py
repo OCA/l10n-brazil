@@ -20,6 +20,7 @@
         # Data
         'data/uom_data.xml',
         'data/fiscal.document.type.csv',
+        'data/fiscal.product.genre.csv',
         'data/fiscal.cfop.csv',
 
         # 'data/l10n_br_account_product_sequence.xml',
