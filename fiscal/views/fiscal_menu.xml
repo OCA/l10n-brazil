@@ -4,6 +4,21 @@
     # Main Menu
     <menuitem id="fiscal_menu" name="Fiscal" groups="fiscal.group_user,fiscal.group_manager" web_icon="fiscal/static/description/icon.png" sequence="30"/>
 
+    # Product and Service
+    <menuitem id="product_service_menu" name="Product and Service" groups="fiscal.group_manager" parent="fiscal_menu" sequence="30"/>
+
+    # Product
+    <menuitem id="product_menu" action="product_action" groups="fiscal.group_manager" parent="product_service_menu" sequence="10"/>
+
+    # Service
+    <menuitem id="menu_service" action="service_action" groups="fiscal.group_manager" parent="product_service_menu" sequence="20"/>
+
+    # Product Category
+    <menuitem id="product_category_menu" action="product.product_category_action_form" groups="fiscal.group_manager" parent="product_service_menu" sequence="30"/>
+
+    # Product UOM
+    <menuitem id="uom_menu" action="uom.product_uom_form_action" groups="fiscal.group_manager" parent="product_service_menu" sequence="40"/>
+
     # Configuration Menu
     <menuitem id="configuration_menu" name="Configuration" groups="fiscal.group_manager" parent="fiscal_menu" sequence="999"/>
 
