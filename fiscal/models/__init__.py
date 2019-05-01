@@ -5,6 +5,7 @@ from . import cst
 from . import cnae
 from . import nbs
 from . import ncm
+from . import cest
 from . import tax
 from . import tax_estimate
 from . import document_type
@@ -18,7 +19,6 @@ from . import document_serie
 # from . import l10n_br_account_product_icms_relief
 # from . import l10n_br_account_product_ipi_guideline
 # from . import l10n_br_tax_icms_partition
-# from . import l10n_br_account_product_cest
 # from . import res_company
 # from . import l10n_br_tax_definition_company_product
 # from . import account_invoice
