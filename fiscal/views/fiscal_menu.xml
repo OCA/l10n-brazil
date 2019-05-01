@@ -19,4 +19,7 @@
     # CST
     <menuitem id="cst_menu" action="cst_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="30"/>
 
+    # Tax
+    <menuitem id="tax_menu" action="tax_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="40"/>
+
 </odoo>
