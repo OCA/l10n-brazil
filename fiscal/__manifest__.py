@@ -23,6 +23,7 @@
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
         'data/fiscal.cfop.csv',
+        'data/fiscal.tax.csv',
 
         # 'data/l10n_br_account_product_sequence.xml',
         # 'data/l10n_br_account_data.xml',
