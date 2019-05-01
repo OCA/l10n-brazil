@@ -1,10 +1,10 @@
 
 from . import cfop
+from . import cst
 from . import cnae
 from . import document_type
 from . import document_serie
 # from . import l10n_br_account_product
-# from . import l10n_br_account_product_cst
 # from . import l10n_br_account_fiscal_category
 # from . import l10n_br_account_partner_fiscal_type
 # from . import l10n_br_account_product_document_related
