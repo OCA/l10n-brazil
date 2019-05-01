@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    # Main Menu
+    <menuitem id="fiscal_menu" name="Fiscal" groups="fiscal.group_user,fiscal.group_manager" web_icon="fiscal/static/description/icon.png" sequence="30"/>
+
+    # Configuration Menu
+    <menuitem id="configuration_menu" name="Configuration" groups="fiscal.group_manager" parent="fiscal_menu" sequence="999"/>
+
+    # Fiscal Data
+    <menuitem id="fiscal_data_menu" name="Fiscal Data" groups="fiscal.group_manager" parent="configuration_menu" sequence="10"/>
+
+</odoo>
