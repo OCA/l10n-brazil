@@ -67,34 +67,6 @@
         </field>
     </record>
 
-    <record id="view_l10n_br_account_fiscal_document_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.fiscal.document</field>
-        <field name="model">l10n_br_account.fiscal.document</field>
-        <field name="arch" type="xml">
-            <form string="Documento Fiscal">
-                <sheet>
-                    <group>
-                        <field name="code" select="1"/>
-                        <field name="name" select="1"/>
-                        <field name="electronic" select="2"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="view_l10n_br_account_fiscal_document_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.fiscal.document</field>
-        <field name="model">l10n_br_account.fiscal.document</field>
-        <field name="arch" type="xml">
-            <tree string="Documento Fiscal">
-                <field name="code" select="1"/>
-                <field name="name" select="1"/>
-                <field name="electronic" select="2"/>
-            </tree>
-        </field>
-    </record>
-
     <record id="view_l10n_br_account_fiscal_category_form" model="ir.ui.view">
         <field name="name">l10n_br_account.fiscal.category.form</field>
         <field name="model">l10n_br_account.fiscal.category</field>
@@ -350,15 +322,6 @@
         </field>
     </record>
 
-    <record id="action_l10n_br_account_fiscal_document_form" model="ir.actions.act_window">
-        <field name="name">Documento Fiscal</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_account.fiscal.document</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_l10n_br_account_fiscal_document_tree"/>
-    </record>
-
     <record id="action_l10n_br_account_fiscal_category_form" model="ir.actions.act_window">
         <field name="name">Categoria Fiscal</field>
         <field name="type">ir.actions.act_window</field>
@@ -442,8 +405,6 @@
     <menuitem id="menu_action_l10n_br_account_partner_special_fiscal_type_form" name="Regime especial do parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_special_fiscal_type_form"/>
 
     <menuitem id="menu_action_l10n_br_account_fiscal_category_form" name="Categoria Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
-
-    <menuitem id="menu_action_l10n_br_account_fiscal_document_form" name="Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_document_form"/>
 
     <menuitem id="menu_action_document_serie_form" name="Serie de Documento Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_document_serie_form"/>
 
