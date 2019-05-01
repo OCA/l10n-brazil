@@ -23,6 +23,7 @@
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
         'data/fiscal.cfop.csv',
+        'data/fiscal.cest.csv',
         'data/fiscal.cst.csv',
         'data/fiscal.tax.csv',
 
