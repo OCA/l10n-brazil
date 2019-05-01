@@ -13,4 +13,7 @@
     # CNAE
     <menuitem id="cnae_menu" action="cnae_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="10"/>
 
+    # CFOP
+    <menuitem id="cfop_menu" action="cfop_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="20"/>
+
 </odoo>
