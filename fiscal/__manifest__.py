@@ -39,6 +39,7 @@
         'views/cfop_view.xml',
         'views/cst_view.xml',
         'views/tax_view.xml',
+        'views/ncm_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
 
@@ -60,8 +61,6 @@
         # 'views/nfe/account_invoice_nfe_view.xml',
         # 'views/account_fiscal_position_view.xml',
         # 'views/res_company_view.xml',
-        # 'views/account_product_fiscal_classification_template_view.xml',
-        # 'views/account_product_fiscal_classification_view.xml',
         # 'views/product_template_view.xml',
         # 'views/res_country_view.xml',
         # 'views/account_payment_mode.xml',
