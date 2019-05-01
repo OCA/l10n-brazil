@@ -31,4 +31,7 @@
     # CEST
     <menuitem id="cest_menu" action="cest_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="70"/>
 
+    # Product Genre
+    <menuitem id="product_genre_menu" action="product_genre_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="80"/>
+
 </odoo>
