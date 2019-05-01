@@ -55,4 +55,22 @@
           </field>
       </record>
 
+      # Tax
+      <record id="tax_action" model="ir.actions.act_window">
+          <field name="name">Tax</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">fiscal.tax</field>
+          <field name="view_mode">tree,form</field>
+          <field name="view_type">form</field>
+          <field name="view_id" ref="tax_tree"/>
+          <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Add a new Tax
+              </p><p>
+                A Tax is necessary to create
+                fiscal operations for your fiscal moves.
+              </p>
+          </field>
+      </record>
+
 </odoo>
