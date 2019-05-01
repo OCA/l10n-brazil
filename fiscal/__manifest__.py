@@ -17,6 +17,10 @@
         'l10n_br_base'
     ],
     'data': [
+        # security
+        'security/fiscal_security.xml',
+        'security/ir.model.access.csv',
+
         # Data
         'data/fiscal_data.xml',
         'data/uom_data.xml',
@@ -61,8 +65,6 @@
         # 'wizards/l10n_br_account_nfe_export_view.xml',
         # 'wizards/l10n_br_account_document_status_sefaz_view.xml',
         # 'wizards/account_invoice_refund_view.xml',
-        # 'security/l10n_br_account_product_security.xml',
-        # 'security/ir.model.access.csv',
         # 'report/account_invoice_report_view.xml',
     ],
     'demo': [
