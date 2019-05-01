@@ -19,6 +19,7 @@
     'data': [
         # Data
         'data/uom_data.xml',
+        'data/fiscal.cnae.csv',
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
         'data/fiscal.cfop.csv',
