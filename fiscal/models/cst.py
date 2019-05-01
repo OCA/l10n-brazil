@@ -2,35 +2,56 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
+from odoo.osv import expression
 
+from .constants.fiscal import FISCAL_IN_OUT, TAX_DOMAIN
 
-class L10nBrAccountProductCST(models.Model):
-    _name = 'l10n_br_account_product.cst'
+class Cst(models.Model):
+    _name = 'fiscal.cst'
+    _order = 'tax_domain, code'
+    _description = 'CST'
 
     code = fields.Char(
-        string=u'Código',
+        string='Code',
+        size=4,
         required=True)
 
     name = fields.Char(
-        string=u'Nome',
+        string='Name',
+        size=256,
         required=True)
 
-    tax_group_id = fields.Many2one(
-        comodel_name='account.tax.group',
-        required=True,
-        string=u'Grupo de Impostos')
+    type = fields.Selection(
+        selection=[('in', 'In'),
+                   ('out', 'Out'),
+                   ('all', 'All')],
+        string='Type',
+        required=True)
+
+    tax_domain = fields.Selection(
+        selection=TAX_DOMAIN,
+        string='Tax Domain',
+        required=True)
+
+    _sql_constraints = [
+        ('fiscal_cst_code_tax_domain_uniq', 'unique (code, tax_domain)',
+         'CST already exists with this code !')]
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(self, name, args=None, operator='ilike',
+                     limit=100, name_get_uid=None):
         args = args or []
-        recs = self.browse()
+        domain = []
         if name:
-            recs = self.search([('code', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search([('name', operator, name)] + args, limit=limit)
-        return recs.name_get()
+            domain = ['|', ('code', operator, name)
+                      ('name', operator, name)]
+
+        recs = self._search(expression.AND([domain, args]), limit=limit,
+                            access_rights_uid=name_get_uid)
+        return self.browse(recs).name_get()
 
     @api.multi
     def name_get(self):
-        return [(r.id, u"{0} - {1}".format(r.code, r.name))
+        return [(r.id,
+                 u"{0} - {1}".format(r.code, r.name))
                 for r in self]
