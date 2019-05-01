@@ -1,128 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_l10n_br_taxdefinition_classification_sale_form" model="ir.ui.view">
-        <field name="name">l10n_br_tax.definition.sale.form</field>
-        <field name="model">l10n_br_tax.definition.sale</field>
+    <record id="ncm_search" model="ir.ui.view">
+        <field name="name">fiscal.ncm.search</field>
+        <field name="model">fiscal.ncm</field>
         <field name="arch" type="xml">
-            <form string="Definição de Impostos">
-                <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
-                <field name="tax_group_id" invisible="1"/>
-                <field name="cst_id"/>
-                <field name="tax_ipi_guideline_id"/>
-                <field name="tax_icms_relief_id"/>
-            </form>
+            <search string="NCM">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="exception"/>
+                <group expand='0' string='Group By...'>
+                    <filter string='IPI' name="tax_ipi_id" domain="[]" context="{'group_by' : 'tax_ipi_id'}"/>
+                    <filter string='II' name="tax_ii_id" domain="[]" context="{'group_by' : 'tax_ii_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
-    <record id="l10n_br_tax_definition_sale_tree" model="ir.ui.view">
-        <field name="name">l10n_br_tax.definition.sale.tree</field>
-        <field name="model">l10n_br_tax.definition.sale</field>
+    <record id="ncm_tree" model="ir.ui.view">
+        <field name="name">fiscal.ncm.tree</field>
+        <field name="model">fiscal.ncm</field>
         <field name="arch" type="xml">
-            <tree string="Definição de Impostos" editable="bottom">
-                <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
-                <field name="tax_group_id" invisible="1"/>
-                <field name="cst_id"/>
-                <field name="tax_ipi_guideline_id"/>
-                <field name="tax_icms_relief_id"/>
+            <tree string="NCM">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="exception"/>
+                <field name="tax_ipi_id"/>
+                <field name="tax_ii_id"/>
+                <field name="tax_uom_id"/>
             </tree>
         </field>
     </record>
 
-    <record id="l10n_br_tax_definition_purchase_form" model="ir.ui.view">
-        <field name="name">l10n_br_tax.definition.purchase.form</field>
-        <field name="model">l10n_br_tax.definition.purchase</field>
+    <record id="ncm_form" model="ir.ui.view">
+        <field name="name">fiscal.ncm.form</field>
+        <field name="model">fiscal.ncm</field>
         <field name="arch" type="xml">
-            <form string="Definição de Impostos">
-                <field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]"/>
-                <field name="tax_group_id" invisible="1"/>
-                <field name="cst_id"/>
-                <field name="tax_ipi_guideline_id"/>
-                <field name="tax_icms_relief_id"/>
+            <form string="NCM">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="get_ibpt" type="object" class="oe_stat_button" icon="fa-file">
+                      </button>
+                    </div>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="exception"/>
+                        <field name="tax_ipi_id"/>
+                        <field name="tax_ii_id"/>
+                        <field name="tax_uom_id"/>
+                        <field name="cest_ids"/>
+                        <field name="tax_estimate_ids"/>
+                    </group>
+                </sheet>
             </form>
-        </field>
-    </record>
-
-    <record id="view_l10n_br_taxdefinition_purchase_tree" model="ir.ui.view">
-        <field name="name">l10n_br_tax.definition.purchase.tree</field>
-        <field name="model">l10n_br_tax.definition.purchase</field>
-        <field name="arch" type="xml">
-            <tree string="Definição de Impostos" editable="bottom">
-                <field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]"/>
-                <field name="tax_group_id" invisible="1"/>
-                <field name="cst_id"/>
-                <field name="tax_ipi_guideline_id"/>
-                <field name="tax_icms_relief_id"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="l10n_br_account_product_fiscal_classification_form" model="ir.ui.view">
-        <field name="name">l10n_br_account_product.fiscal_classification_form</field>
-        <field name="model">account.product.fiscal.classification</field>
-        <field name="inherit_id" ref="account_product_fiscal_classification.view_account_product_fiscal_classification_form"/>
-        <field name="priority">999</field>
-        <field name="arch" type="xml">
-            <field name="code" position="after">
-                <field name="type"/>
-                <field name="parent_id"/>
-            </field>
-            <field name="description" position="after">
-                <field name="inv_copy_note" colspan="4"/>
-                <field name="note" colspan="4"/>
-            </field>
-            <xpath expr="//group[@name='tax_ids']" position="replace">
-                <notebook>
-                    <page string="Impostos">
-                        <group name="taxes" colspan="2">
-                            <separator string="Sale Taxes"/>
-                            <field colspan="2" nolabel="1" widget="one2many_list" name="sale_tax_definition_line"/>
-                            <separator string="Purchase Taxes"/>
-                            <field colspan="2" nolabel="1" widget="one2many_list" name="purchase_tax_definition_line"/>
-                        </group>
-                    </page>
-                    <page string="Impostos Estimados">
-                        <div class="oe_right oe_button_box" name="buttons">
-                            <button class="oe_inline oe_stat_button" type="object" name="get_ibpt" icon="fa-search">
-                                <div>Consultar<br/>IBPT</div>
-                            </button>
-                        </div>
-                        <div>
-                            <field name="estd_import_taxes_perct" invisible="1"/>
-                            <field name="estd_national_taxes_perct" invisible="1"/>
-                        </div>
-                        <field name="tax_estimate_ids" nolabel="1">
-                            <tree>
-                                <field name="state_id"/>
-                                <field name="federal_taxes_national"/>
-                                <field name="federal_taxes_import"/>
-                                <field name="state_taxes"/>
-                                <field name="municipal_taxes"/>
-                                <field name="origin"/>
-                            </tree>
-                            <form>
-                                <group>
-                                    <group>
-                                        <field name="fiscal_classification_id"/>
-                                        <field name="origin"/>
-                                        <field name="version"/>
-                                        <field name="state_id"/>
-                                        <field name="create_date"/>
-                                    </group>
-                                    <group>
-                                        <field name="active"/>
-                                        <field name="key"/>
-                                        <field name="federal_taxes_national"/>
-                                        <field name="federal_taxes_import"/>
-                                        <field name="state_taxes"/>
-                                        <field name="municipal_taxes"/>
-                                    </group>
-                                </group>
-                            </form>
-                        </field>
-                    </page>
-                </notebook>
-            </xpath>
         </field>
     </record>
 
