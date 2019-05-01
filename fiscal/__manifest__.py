@@ -19,9 +19,9 @@
     'data': [
         # Data
         'data/fiscal.document.type.csv',
+        'data/fiscal.cfop.csv',
 
         # 'data/l10n_br_account_product_sequence.xml',
-        # 'data/l10n_br_account_product.cfop.csv',
 
         # 'data/l10n_br_account_data.xml',
         # 'data/l10n_br_account_product_data.xml',
