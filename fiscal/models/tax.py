@@ -4,32 +4,93 @@
 import time
 
 from odoo import models, fields, api
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+
+from .constants.fiscal import TAX_DOMAIN
+
+from .constants.icms import (
+    ICMS_BASE_TYPE
+    ICMS_BASE_TYPE_DEFAULT
+    ICMS_ST_BASE_TYPE
+    ICMS_ST_BASE_TYPE_DEFAULT)
 
 
-class AccountTax(models.Model):
-    """Implement computation method in taxes"""
-    _inherit = 'account.tax'
+class Tax(models.Model):
+    _name = 'fiscal.tax'
+    _order = 'tax_domain, name'
+    _description = 'Tax'
+
+    name = fields.Char(
+        string='Name',
+        size=256,
+        required=True)
+
+    percent_amount = fields.Float(
+        string='Percent',
+        default='0.00',
+        required=True)
+
+    percent_reduction = fields.Float(
+        string='Percent Reduction',
+        default='0.00',
+        required=True)
+
+    tax_domain = fields.Selection(
+        selection=TAX_DOMAIN,
+        string='Tax Domain',
+        required=True)
+
+    cst_in_id = fields.Many2one(
+        comodel_name='fiscal.cst',
+        string='CST In',
+        domain="[('type', 'in', ('in', 'all')), "
+               "('tax_domain', '=', tax_domain)]")
+
+    cst_out_id = fields.Many2one(
+        comodel_name='fiscal.cst',
+        string='CST Out',
+        domain="[('type', 'in', ('out', 'all')), "
+               "('tax_domain', '=', tax_domain)]")
 
     icms_base_type = fields.Selection(
-        selection=[('0', u'Margem Valor Agregado (%)'),
-                   ('1', u'Pauta (valor)'),
-                   ('2', u'Preço Tabelado Máximo (valor)'),
-                   ('3', u'Valor da Operação')],
+        selection=ICMS_BASE_TYPE,
         string=u'Tipo Base ICMS',
         required=True,
-        default='0')
+        default=ICMS_BASE_TYPE_DEFAULT)
 
     icms_st_base_type = fields.Selection(
-        selection=[('0', u'Preço tabelado ou máximo  sugerido'),
-                   ('1', u'Lista Negativa (valor)'),
-                   ('2', u'Lista Positiva (valor)'),
-                   ('3', u'Lista Neutra (valor)'),
-                   ('4', 'Margem Valor Agregado (%)'),
-                   ('5', 'Pauta (valor)')],
+        selection=ICMS_ST_BASE_TYPE,
         string=u'Tipo Base ICMS ST',
         required=True,
-        default='4')
+        default=ICMS_ST_BASE_TYPE_DEFAULT)
+
+    _sql_constraints = [
+        ('fiscal_tax_code_uniq', 'unique (name)',
+         'Tax already exists with this name !')]
+
+    def _compute_ipi(self):
+        pass
+
+    def _compute_icms(self):
+        pass
+
+    def _compute_icmsst(self):
+        pass
+
+    def _compute_icms_difal(self):
+        pass
+
+    def _compute_ii(self):
+        pass
+
+    def _compute_pis(self):
+        pass
+
+    def _compute_cofins(self):
+        pass
+
+    @api.multi
+    def compute_taxes(self):
+        pass
 
     @api.model
     def _compute_tax(self, taxes, total_line, product, product_qty,
