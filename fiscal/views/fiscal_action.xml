@@ -19,4 +19,22 @@
         </field>
     </record>
 
+    # CFOP
+      <record id="cfop_action" model="ir.actions.act_window">
+          <field name="name">CFOP</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">fiscal.cfop</field>
+          <field name="view_mode">tree,form</field>
+          <field name="view_type">form</field>
+          <field name="view_id" ref="cfop_tree"/>
+          <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Add a new CFOP
+              </p><p>
+                A CFOP is necessary to determine the
+                fiscal operations for your fiscal moves.
+              </p>
+          </field>
+      </record>
+
 </odoo>
