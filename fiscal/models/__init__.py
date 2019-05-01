@@ -12,7 +12,7 @@ from . import tax_estimate
 from . import document_type
 from . import document_serie
 from . import product_genre
-from . import certificado
+from . import certificate
 from . import product_template
 # from . import l10n_br_account_product
 # from . import l10n_br_account_fiscal_category

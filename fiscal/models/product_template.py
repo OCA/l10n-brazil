@@ -19,7 +19,7 @@ class ProductTemplate(models.Model):
         string='Fiscal Type')
 
     origin = fields.Selection(
-        selection=PRODUCT_ORIGIN,
+        selection=ICMS_ORIGIN,
         string=u'Origem',
         default='0')
 
