@@ -350,51 +350,6 @@
         </field>
     </record>
 
-    <record id="view_l10n_br_account_cnae_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.cnae.form</field>
-        <field name="model">l10n_br_account.cnae</field>
-        <field name="arch" type="xml">
-            <form string="CNAE">
-                <sheet>
-                    <group>
-                        <field name="code" select="1"/>
-                        <field name="name" select="1"/>
-                        <field name="version" select="1"/>
-                        <field name="internal_type" select="1"/>
-                        <field name="parent_id"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="view_l10n_br_account_cnae_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.cnae.tree</field>
-        <field name="model">l10n_br_account.cnae</field>
-        <field name="arch" type="xml">
-            <tree string="CNAE">
-                <field name="code" select="1"/>
-                <field name="name" select="1"/>
-                <field name="version" select="1"/>
-                <field name="parent_id" select="1"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="view_l10n_br_account_cnae_structure" model="ir.ui.view">
-        <field name="name">l10n_br_account.cnae.structure</field>
-        <field name="model">l10n_br_account.cnae</field>
-        <field name="field_parent">child_ids</field>
-        <field name="arch" type="xml">
-            <tree string="Estrutura do CNAE">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="version"/>
-                <field name="internal_type"/>
-            </tree>
-        </field>
-    </record>
-
     <record id="view_l10n_br_account_service_type_form" model="ir.ui.view">
         <field name="name">l10n_br_account.service.type.form</field>
         <field name="model">l10n_br_account.service.type</field>
@@ -504,24 +459,6 @@
         <field name="view_id" ref="view_l10n_br_account_partner_special_fiscal_type_tree"/>
     </record>
 
-    <record id="action_l10n_br_account_cnae_form" model="ir.actions.act_window">
-        <field name="name">CNAE</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_account.cnae</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_l10n_br_account_cnae_tree"/>
-    </record>
-
-    <record id="action_l10n_br_account_cnae_structure" model="ir.actions.act_window">
-        <field name="name">Estrutura do CNAE</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_account.cnae</field>
-        <field name="view_type">tree</field>
-        <field name="domain">[('parent_id','=',False)]</field>
-        <field name="view_id" ref="view_l10n_br_account_cnae_structure"/>
-    </record>
-
     <record id="action_l10n_br_account_service_type_form" model="ir.actions.act_window">
         <field name="name">Tipo de Serviço</field>
         <field name="type">ir.actions.act_window</field>
@@ -559,10 +496,6 @@
     </record>
 
     <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_configuration_fiscal" sequence="0"/>
-
-    <menuitem id="menu_action_cnae_form" name="CNAE" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_form" sequence="30" />
-
-    <menuitem id="menu_action_cnae_structure" name="Estrutura do CNAE" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cnae_structure" sequence="40" />
 
     <menuitem id="menu_action_service_type_form" name="Tipo de Serviço" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_service_type_form" sequence="50" />
 
