@@ -22,4 +22,7 @@
     # Tax
     <menuitem id="tax_menu" action="tax_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="40"/>
 
+    # NCM
+    <menuitem id="ncm_menu" action="ncm_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="50"/>
+
 </odoo>
