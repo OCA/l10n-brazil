@@ -37,4 +37,7 @@
     # Fiscal Document
     <menuitem id="document_type_menu" action="document_type_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="90"/>
 
+    # Fiscal Document Serie
+    <menuitem id="document_serie_menu" action="document_serie_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="100"/>
+
 </odoo>
