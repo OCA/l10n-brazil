@@ -22,3 +22,25 @@ ICMS_ORIGIN = (
          'nacional, constante em lista de Resolução CAMEX e gás natural'),
     ('8', '8 – Nacional – mercadoria ou bem com Conteúdo de Importação '
          'superior a 70% (setenta por cento). (cf. Ajuste SINIEF 15/2013)'))
+
+
+ICMS_BASE_TYPE = [
+    ('0', u'Margem Valor Agregado (%)'),
+    ('1', u'Pauta (valor)'),
+    ('2', u'Preço Tabelado Máximo (valor)'),
+    ('3', u'Valor da Operação')]
+
+
+ICMS_BASE_TYPE_DEFAULT = '0'
+
+
+ICMS_ST_BASE_TYPE = [
+    ('0', u'Preço tabelado ou máximo  sugerido'),
+    ('1', u'Lista Negativa (valor)'),
+    ('2', u'Lista Positiva (valor)'),
+    ('3', u'Lista Neutra (valor)'),
+    ('4', 'Margem Valor Agregado (%)'),
+    ('5', 'Pauta (valor)')]
+
+
+ICMS_ST_BASE_TYPE_DEFAULT = '4'
