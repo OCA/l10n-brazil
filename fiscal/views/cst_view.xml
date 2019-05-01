@@ -2,16 +2,15 @@
 <odoo>
 
     <record id="cst_search" model="ir.ui.view">
-        <field name="name">l10n_br_account_product.cst.search</field>
-        <field name="model">l10n_br_account_product.cst</field>
+        <field name="name">fiscal.cst.search</field>
+        <field name="model">fiscal.cst</field>
         <field name="arch" type="xml">
             <search string="CST">
                 <field name="code"/>
                 <field name="name"/>
-                <field name="domain"/>
-                <newline/>
-                <group expand='0' string='Group By...' groups="base.group_extended">
-                    <filter string='Domain' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'domain'}"/>
+                <field name="tax_domain"/>
+                <group expand='0' string='Group By...'>
+                    <filter string='Domain' name="tax_domain" domain="[]" context="{'group_by' : 'tax_domain'}"/>
                 </group>
             </search>
         </field>

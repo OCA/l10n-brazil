@@ -6,15 +6,14 @@
         <field name="model">fiscal.cfop</field>
         <field name="arch" type="xml">
             <search string="CFOP">
-                <filter string="Entrada" icon="terp-accessories-archiver+" domain="[('type', '=', 'input')]"/>
-                <filter string="Saída" icon="terp-accessories-archiver-minus" domain="[('type','=','output')]"/>
-                <separator orientation="vertical"/>
+                <filter string="Input" name="type_input" domain="[('type', '=', 'input')]"/>
+                <filter string="Output" name="type_output" domain="[('type','=','output')]"/>
+                <separator/>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="small_name"/>
-                <newline/>
-                <group expand='0' string='Group By...' groups="base.group_extended">
-                    <filter string='Tipo' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'type'}"/>
+                <group expand='0' string='Group By...'>
+                    <filter string='Type' name="type" domain="[]" context="{'group_by' : 'type'}"/>
                 </group>
             </search>
         </field>
