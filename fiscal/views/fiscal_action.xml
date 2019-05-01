@@ -109,4 +109,22 @@
           </field>
       </record>
 
+      # Product Genre
+      <record id="product_genre_action" model="ir.actions.act_window">
+          <field name="name">Product Genre</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">fiscal.product.genre</field>
+          <field name="view_mode">tree,form</field>
+          <field name="view_type">form</field>
+          <field name="view_id" ref="product_genre_tree"/>
+          <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Add a new Product Genre
+              </p><p>
+                An Product Genre is necessary to create
+                EFD operations for your fiscal moves.
+              </p>
+          </field>
+      </record>
+
 </odoo>

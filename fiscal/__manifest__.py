@@ -42,6 +42,7 @@
         'views/ncm_view.xml',
         'views/nbs_view.xml',
         'views/cest_view.xml',
+        'views/product_genre_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
 
