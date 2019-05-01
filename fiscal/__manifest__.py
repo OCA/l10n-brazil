@@ -38,6 +38,7 @@
         'views/cnae_view.xml',
         'views/cfop_view.xml',
         'views/cst_view.xml',
+        'views/tax_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
 
@@ -52,9 +53,7 @@
         # 'views/l10n_br_account_product_icms_relief_view.xml',
         # 'views/l10n_br_account_product_import_declaration_view.xml',
         # 'views/l10n_br_tax_icms_partition_view.xml',
-        # 'views/account_tax_template_view.xml',
         # 'views/account_payment_term_view.xml',
-        # 'views/account_tax_view.xml',
         # 'views/account_payment_term_view.xml',
         # 'views/account_invoice_view.xml',
         # 'wizards/l10n_br_account_invoice_costs_ratio_view.xml',
@@ -73,7 +72,6 @@
         # 'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        # 'demo/account_tax_demo.xml',
         # 'demo/base_demo.xml',
         # 'demo/product_demo.xml',
         # 'demo/l10n_br_account_product_demo.xml',
