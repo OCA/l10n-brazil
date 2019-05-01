@@ -24,11 +24,11 @@
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
         'data/fiscal.cfop.csv',
+        'data/fiscal.cst.csv',
+        'data/fiscal.tax.csv',
         'data/fiscal.ncm.csv',
         'data/fiscal.nbs.csv',
         'data/fiscal.cest.csv',
-        'data/fiscal.cst.csv',
-        'data/fiscal.tax.csv',
 
         # 'data/l10n_br_account_product_sequence.xml',
         # 'data/l10n_br_account_data.xml',
