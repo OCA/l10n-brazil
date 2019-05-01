@@ -45,6 +45,7 @@
         'views/product_genre_view.xml',
         'views/document_type_view.xml',
         'views/document_serie_view.xml',
+        'views/product_template_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
 
@@ -66,7 +67,6 @@
         # 'views/nfe/account_invoice_nfe_view.xml',
         # 'views/account_fiscal_position_view.xml',
         # 'views/res_company_view.xml',
-        # 'views/product_template_view.xml',
         # 'views/res_country_view.xml',
         # 'views/account_payment_mode.xml',
         # 'wizards/l10n_br_account_nfe_export_invoice_view.xml',
