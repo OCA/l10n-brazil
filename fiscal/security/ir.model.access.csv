@@ -17,8 +17,8 @@
 "fiscal_cest_manager","Fiscal CEST for Manager","model_fiscal_cest","fiscal.group_manager",1,1,1,1
 "fiscal_product_genre_user","Fiscal Product Genre for User","model_fiscal_product_genre","fiscal.group_user",1,0,0,0
 "fiscal_product_genre_manager","Fiscal Product Genre for Manager","model_fiscal_product_genre","fiscal.group_manager",1,1,1,1
-"fiscal_document_user","Fiscal Document for User","model_fiscal_document","fiscal.group_user",1,0,0,0
-"fiscal_document_manager","Fiscal Document for Manager","model_fiscal_document","fiscal.group_manager",1,1,1,1
+"fiscal_document_user","Fiscal Document for User","model_fiscal_document_type","fiscal.group_user",1,0,0,0
+"fiscal_document_manager","Fiscal Document for Manager","model_fiscal_document_type","fiscal.group_manager",1,1,1,1
 "fiscal_document_serie_user","Fiscal Document Serie for User","model_fiscal_document_serie","fiscal.group_user",1,0,0,0
 "fiscal_document_serie_manager","Fiscal Document Serie for Manager","model_fiscal_document_serie","fiscal.group_manager",1,1,1,1
 "fiscal_certificate_user","Fiscal Certificate for User","model_fiscal_certificate","fiscal.group_user",1,0,0,0
