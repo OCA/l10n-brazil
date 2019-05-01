@@ -28,4 +28,7 @@
     # NBS
     <menuitem id="nbs_menu" action="nbs_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="60"/>
 
+    # CEST
+    <menuitem id="cest_menu" action="cest_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="70"/>
+
 </odoo>
