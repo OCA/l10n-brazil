@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cest_form" model="ir.ui.view">
+        <field name="name">fiscal.cest.form</field>
+        <field name="model">fiscal.cest</field>
+        <field name="arch" type="xml">
+            <form string="CEST">
+                <sheet>
+                    <group>
+                      <field name="code"/>
+                      <field name="item"/>
+                      <field name="name"/>
+                      <field name="segment"/>
+                      <field name="ncms"/>
+                      <field name="ncm_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cest_tree" model="ir.ui.view">
+        <field name="name">fiscal.cest.tree</field>
+        <field name="model">fiscal.cest</field>
+        <field name="arch" type="xml">
+            <tree string="CEST">
+                <field name="code"/>
+                <field name="item"/>
+                <field name="name"/>
+                <field name="segment"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
