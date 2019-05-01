@@ -34,6 +34,10 @@
         'data/fiscal.nbs.csv',
         'data/fiscal.cest.csv',
 
+        # Views
+        'views/fiscal_action.xml',
+        'views/fiscal_menu.xml',
+
         # 'data/l10n_br_account_product_sequence.xml',
         # 'data/l10n_br_account_data.xml',
         # 'data/l10n_br_account_product_data.xml',
