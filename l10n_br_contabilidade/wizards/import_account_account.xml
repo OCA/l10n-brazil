@@ -13,6 +13,14 @@
             			<field name="plano_de_contas_file"/>
                         <field name="instrucao" />
 					</group>
+                    <group>
+                        <field name="config_nivel_ids" required="True" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="nivel" required="True"/>
+                                <field name="algarismos" required="True"/>
+                            </tree>
+                        </field>
+                    </group>
 					<footer>
 						<button name="import_account_account"
                                 string="Importar" type="object"

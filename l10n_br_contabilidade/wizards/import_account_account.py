@@ -31,6 +31,12 @@ class WizardImportAccountAccount(models.TransientModel):
         compute='compute_instrucao',
     )
 
+    config_nivel_ids = fields.One2many(
+        string='Configuração dos níveis',
+        comodel_name='wizard.import.account.nivel',
+        inverse_name='wizard_import_account_account_id',
+    )
+
     @api.multi
     def compute_instrucao(self):
         for record in self:
@@ -144,3 +150,28 @@ class WizardImportAccountAccount(models.TransientModel):
                     _logger.info('ZCOnta Criada: {} '.format(name))
 
             _logger.info(erro)
+
+class WizardImportAccountNivel(models.TransientModel):
+    _name = 'wizard.import.account.nivel'
+
+    nivel = fields.Selection(
+        string=u'Nível',
+        selection=[
+            (1, '1'),
+            (2, '2'),
+            (3, '3'),
+            (4, '4'),
+            (5, '5'),
+            (6, '6'),
+            (7, '7'),
+            (8, '8'),
+        ],
+    )
+
+    algarismos = fields.Integer(
+        string=u'Quantidade de Algarismos',
+    )
+
+    wizard_import_account_account_id = fields.Many2one(
+        comodel_name='wizard.import.account.account',
+    )
