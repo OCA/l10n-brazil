@@ -60,29 +60,33 @@ class WizardImportAccountAccount(models.TransientModel):
                 qtd_max_colunas = 0
                 erro = ''
 
-                # Definir a conta 0 - PAi de todas
-                vals = {
-                    'code': '0',
-                    'name': record.account_depara_plano_id.name.upper(),
-                    'parent_id': False,
-                    'account_depara_plano_id': record.account_depara_plano_id.id,
-                    'user_type':
-                        self.env.ref('account.data_account_type_view').id,
+                conta_raiz_id = \
+                    record.account_depara_plano_id.account_account_id.id
+
+                xml_id_root = record.env['ir.model.data'].search(
+                    [
+                        ('model', '=', 'account.account'),
+                        ('res_id', '=', conta_raiz_id)
+                    ]
+                )
+
+                if not xml_id_root:
+                    xml_id_root = 'account_account_{}_{}'.format(
+                        record.account_depara_plano_id.name.upper(), '0')
+
+                    self.env['ir.model.data'].create({
+                        'module': 'account',
+                        'name': xml_id_root,
+                        'model': 'account.account',
+                        'res_id': conta_raiz_id,
+                    })
+
+                parent_ids = {
+                    0: {
+                        'xml_id': xml_id_root,
+                        'id': conta_raiz_id
+                    }
                 }
-
-                account_account_id = self.env['account.account'].create(vals)
-
-                xml_id_root = 'account_account_{}_{}'.format(
-                    record.account_depara_plano_id.name.upper(), '0')
-
-                self.env['ir.model.data'].create({
-                    'module': 'account',
-                    'name': xml_id_root,
-                    'model': 'account.account',
-                    'res_id': account_account_id.id,
-                })
-
-                parent_ids = {0: xml_id_root}
 
                 arq = base64.b64decode(record.plano_de_contas_file)
                 linhas = arq.splitlines(True)
@@ -96,6 +100,8 @@ class WizardImportAccountAccount(models.TransientModel):
                     raise Warning(
                         'Primeira linha deverá ser header com id,nome ou'
                         ' code e em seguida informar as colunas')
+
+                dicionario_niveis = record._get_dicionario_niveis_conta_pai()
 
                 # Pular primeira por ser cabeçalho
                 for linha in linhas[1:]:
@@ -119,27 +125,23 @@ class WizardImportAccountAccount(models.TransientModel):
                     xml_id = 'account_account_{}_{}'.format(
                         record.account_depara_plano_id.name.upper(), code)
 
-                    parent_ids[code] = xml_id
-                    parent_id = parent_ids.get(code[:-1], xml_id_root)
-
-                    try:
-                        if parent_id:
-                            parent_id = self.env.ref(
-                                'account.{}'.format(parent_id)).id
-                    except ValueError:
-                        pass
+                    parent_ids[code] = {'xml_id': xml_id, 'id': False}
+                    parent_code = self._get_parent_code(code, dicionario_niveis)
 
                     vals = {
                         'code': code,
                         'name': name,
-                        'parent_id': parent_id,
+                        'parent_id': parent_ids[parent_code]['id'],
                         'user_type':
                             self.env.ref('account.data_account_type_view').id,
-                        'account_depara_plano_id': record.account_depara_plano_id.id,
+                        'account_depara_plano_id':
+                            record.account_depara_plano_id.id,
                     }
 
                     account_account_id = \
                         self.env['account.account'].create(vals)
+
+                    parent_ids[code]['id'] = account_account_id.id
 
                     self.env['ir.model.data'].create({
                         'module': 'account',
@@ -147,9 +149,34 @@ class WizardImportAccountAccount(models.TransientModel):
                         'model': 'account.account',
                         'res_id': account_account_id.id,
                     })
-                    _logger.info('ZCOnta Criada: {} '.format(name))
+                    _logger.info('COnta Criada: {} - {}'.format(code, name))
 
             _logger.info(erro)
+
+    def _get_dicionario_niveis_conta_pai(self):
+        niveis = {}
+        valor_inicial = 0
+        somatorio_niveis = 1
+        for line in self.config_nivel_ids:
+            if line.nivel == 1:
+                niveis[somatorio_niveis] = 0
+            else:
+                niveis[somatorio_niveis] = somatorio_niveis - valor_inicial
+            valor_inicial = line.algarismos
+            somatorio_niveis += line.algarismos
+
+        return niveis
+
+    def _get_parent_code(self, code, dicionario_niveis):
+        code_result = False
+        if code in ['1', '2', '3', '4', '5']:
+            code_result = 0
+            return code_result
+
+        code_result = code[:dicionario_niveis[len(code)]]
+
+        return code_result
+
 
 class WizardImportAccountNivel(models.TransientModel):
     _name = 'wizard.import.account.nivel'
