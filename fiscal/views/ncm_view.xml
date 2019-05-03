@@ -39,7 +39,7 @@
             <form string="NCM">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="get_ibpt" type="object" class="oe_stat_button" icon="fa-file">
+                        <button name="get_ibpt" string="Update Tax Estimate" type="object" class="oe_stat_button" icon="fa-file">
                       </button>
                     </div>
                     <group>
@@ -49,9 +49,15 @@
                         <field name="tax_ipi_id"/>
                         <field name="tax_ii_id"/>
                         <field name="tax_uom_id"/>
-                        <field name="cest_ids"/>
-                        <field name="tax_estimate_ids"/>
                     </group>
+                    <notebook>
+                        <page string="Related CEST" name="cest">
+                            <field name="cest_ids"/>
+                        </page>
+                        <page string="Estimate Taxes" name="tax_estimate">
+                            <field name="tax_estimate_ids"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
