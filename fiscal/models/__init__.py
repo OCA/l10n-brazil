@@ -14,6 +14,8 @@ from . import document_serie
 from . import product_genre
 from . import certificate
 from . import product_template
+from . import simplified_tax
+from . import simplified_tax_range
 # from . import l10n_br_account_product
 # from . import l10n_br_account_fiscal_category
 # from . import l10n_br_account_partner_fiscal_type
