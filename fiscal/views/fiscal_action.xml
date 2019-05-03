@@ -109,6 +109,24 @@
         </field>
     </record>
 
+    # CEST
+    <record id="cest_action" model="ir.actions.act_window">
+        <field name="name">CEST</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.cest</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="cest_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new CEST
+            </p><p>
+              A CEST is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
     # Product Genre
     <record id="product_genre_action" model="ir.actions.act_window">
         <field name="name">Product Genre</field>
@@ -159,6 +177,24 @@
             </p><p>
               All Serie for Documents supported by
               Brazilian Fiscal modulo for Odoo.
+            </p>
+        </field>
+    </record>
+
+    # Simplefied Tax
+    <record id="simplified_tax_action" model="ir.actions.act_window">
+        <field name="name">Simplified Tax</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.simplified.tax</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="simplified_tax_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Simplified Tax
+            </p><p>
+              A Simplified Tax is necessary to determine the
+              fiscal definitions for your company.
             </p>
         </field>
     </record>
