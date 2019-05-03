@@ -23,3 +23,7 @@
 "fiscal_document_serie_manager","Fiscal Document Serie for Manager","model_fiscal_document_serie","fiscal.group_manager",1,1,1,1
 "fiscal_certificate_user","Fiscal Certificate for User","model_fiscal_certificate","fiscal.group_user",1,0,0,0
 "fiscal_certificate_manager","Fiscal Certificate for Manager","model_fiscal_certificate","fiscal.group_manager",1,1,1,1
+"fiscal_simplified_tax_user","Fiscal Simplified Tax for User","model_fiscal_simplified_tax","fiscal.group_user",1,0,0,0
+"fiscal_simplified_tax_manager","Fiscal Simplified Tax for Manager","model_fiscal_simplified_tax","fiscal.group_manager",1,1,1,1
+"fiscal_simplified_tax_range_user","Fiscal Simplified Range Tax for User","model_fiscal_simplified_tax_range","fiscal.group_user",1,0,0,0
+"fiscal_simplified_tax_range_manager","Fiscal Simplified Range Tax for Manager","model_fiscal_simplified_tax_range","fiscal.group_manager",1,1,1,1
