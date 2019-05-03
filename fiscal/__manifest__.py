@@ -49,6 +49,7 @@
         'views/simplified_tax_view.xml',
         'views/simplified_tax_range_view.xml',
         'views/product_template_view.xml',
+        'views/tax_estimate_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
 
