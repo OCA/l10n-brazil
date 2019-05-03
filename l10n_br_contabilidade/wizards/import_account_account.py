@@ -110,11 +110,13 @@ class WizardImportAccountAccount(models.TransientModel):
 
                     # As linnhas só serão processadas
                     if qtd_max_colunas and len(l) != qtd_max_colunas:
-                        erro += ' Erro linha: {} \n'.format(l)
-                        continue
+                        for linha_texto in l[2:]:
+                            l[1] += ' ' + linha_texto.replace('"', '')
 
                     name = l[1]
                     code = l[0]
+
+                    code = code.replace('#', '').replace('@', '').replace('!', '')
 
                     if not name or not code:
                         erro += ' Erro linha: {} \n'.format(l)
@@ -127,6 +129,12 @@ class WizardImportAccountAccount(models.TransientModel):
 
                     parent_ids[code] = {'xml_id': xml_id, 'id': False}
                     parent_code = self._get_parent_code(code, dicionario_niveis)
+
+                    if not parent_ids.get(parent_code):
+                        raise Warning(
+                            'Conta pai não localizada '
+                            'para a conta {} - {}'.format(code, name)
+                        )
 
                     vals = {
                         'code': code,
@@ -192,6 +200,10 @@ class WizardImportAccountNivel(models.TransientModel):
             (6, '6'),
             (7, '7'),
             (8, '8'),
+            (9, '9'),
+            (10, '10'),
+            (11, '11'),
+            (12, '12'),
         ],
     )
 
