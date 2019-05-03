@@ -37,22 +37,25 @@
     # Tax
     <menuitem id="tax_menu" action="tax_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="40"/>
 
+    # Simplified Tax
+    <menuitem id="simplified_tax_menu" action="simplified_tax_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="50"/>
+
     # NCM
-    <menuitem id="ncm_menu" action="ncm_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="50"/>
+    <menuitem id="ncm_menu" action="ncm_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="60"/>
 
     # NBS
-    <menuitem id="nbs_menu" action="nbs_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="60"/>
+    <menuitem id="nbs_menu" action="nbs_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="70"/>
 
     # CEST
-    <menuitem id="cest_menu" action="cest_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="70"/>
+    <menuitem id="cest_menu" action="cest_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="80"/>
 
     # Product Genre
-    <menuitem id="product_genre_menu" action="product_genre_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="80"/>
+    <menuitem id="product_genre_menu" action="product_genre_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="90"/>
 
     # Fiscal Document
-    <menuitem id="document_type_menu" action="document_type_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="90"/>
+    <menuitem id="document_type_menu" action="document_type_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="100"/>
 
     # Fiscal Document Serie
-    <menuitem id="document_serie_menu" action="document_serie_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="100"/>
+    <menuitem id="document_serie_menu" action="document_serie_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="110"/>
 
 </odoo>

@@ -33,6 +33,7 @@
         'data/fiscal.ncm.csv',
         'data/fiscal.nbs.csv',
         'data/fiscal.cest.csv',
+        'data/simplified_tax_data.xml',
 
         # Views
         'views/cnae_view.xml',
@@ -45,6 +46,8 @@
         'views/product_genre_view.xml',
         'views/document_type_view.xml',
         'views/document_serie_view.xml',
+        'views/simplified_tax_view.xml',
+        'views/simplified_tax_range_view.xml',
         'views/product_template_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
