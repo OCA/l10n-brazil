@@ -1,20 +1,20 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
-class L10nBrIPIGuideline(models.Model):
-    _name = 'l10n_br_account_product.ipi_guideline'
+class TaxIpiGuideline(models.Model):
+    _name = 'fiscal.tax.ipi.guideline'
     _description = 'IPI Guidelines'
 
     code = fields.Char(
-        string=u'Código',
+        string='Code',
         size=3,
         required=True)
 
     name = fields.Text(
-        string=u'Descrição Enquadramento Legal do IPI',
+        string='Description',
         required=True)
 
     cst_group = fields.Selection(
@@ -23,13 +23,36 @@ class L10nBrIPIGuideline(models.Model):
                    ('isencao', u'Isenção'),
                    ('reducao', u'Redução'),
                    ('outros', u'Outros')],
-        string='Grupo CST',
+        string='Group',
         required=True)
 
     cst_in_id = fields.Many2one(
-        comodel_name='l10n_br_account_product.cst',
-        string=u'CST Entrada')
+        comodel_name='fiscal.cst',
+        domain=[('domain', '=', 'ipi'),
+                ('type', '=', 'in')],
+        string=u'CST In')
 
     cst_out_id = fields.Many2one(
-        comodel_name='l10n_br_account_product.cst',
-        string=u'CST Saída')
+        comodel_name='fiscal.cst',
+        domain=[('domain', '=', 'ipi'),
+                ('type', '=', 'out')],
+        string=u'CST Out')
+
+    @api.model
+    def _name_search(self, name, args=None, operator='ilike',
+                     limit=100, name_get_uid=None):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('code', operator, name + '%')
+                      ('name', operator, name)]
+
+        recs = self._search(expression.AND([domain, args]), limit=limit,
+                            access_rights_uid=name_get_uid)
+        return self.browse(recs).name_get()
+
+    @api.multi
+    def name_get(self):
+        return [(r.id,
+                 "{0} - {1}".format(r.code, r.name))
+                for r in self]
