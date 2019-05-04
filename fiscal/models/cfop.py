@@ -16,9 +16,8 @@ class Cfop(models.Model):
         size=4,
         required=True)
 
-    name = fields.Char(
+    name = fields.Text(
         string='Name',
-        size=256,
         required=True)
 
     small_name = fields.Char(

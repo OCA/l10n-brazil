@@ -24,8 +24,9 @@ class Ncm(models.Model):
          store=True,
          index=True)
 
-    name = fields.Char(
+    name = fields.Text(
         string='Name',
+        required=True,
         index=True)
 
     exception = fields.Char(
