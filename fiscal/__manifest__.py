@@ -30,7 +30,7 @@
         'data/fiscal.cfop.csv',
         'data/fiscal.cst.csv',
         'data/fiscal.tax.csv',
-        'data/tax.ipi.guideline.csv',
+        'data/fiscal.tax.ipi.guideline.csv',
         'data/fiscal.ncm.csv',
         'data/fiscal.nbs.csv',
         'data/fiscal.cest.csv',
