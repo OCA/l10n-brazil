@@ -24,9 +24,8 @@ class Cnae(models.Model):
          store=True,
          index=True)
 
-    name = fields.Char(
+    name = fields.Text(
         string='Description',
-        size=64,
         required=True)
 
     version = fields.Char(
