@@ -73,6 +73,24 @@
         </field>
     </record>
 
+    # Tax IPI Guideline
+    <record id="tax_ipi_guideline_action" model="ir.actions.act_window">
+        <field name="name">Tax IPI Guideline</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.tax.ipi.guideline</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="tax_ipi_guideline_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Tax IPI Guideline
+            </p><p>
+              A Tax IPI guideline is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
     # NCM
     <record id="ncm_action" model="ir.actions.act_window">
         <field name="name">NCM</field>

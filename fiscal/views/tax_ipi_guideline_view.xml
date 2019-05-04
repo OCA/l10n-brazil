@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="l10n_br_account_product_ipi_guideline_form_view" model="ir.ui.view">
-        <field name="name">l10n_br_account_product.ipi_guideline.form.view</field>
-        <field name="model">l10n_br_account_product.ipi_guideline</field>
-        <field name="priority" eval="16"/>
+    <record id="tax_ipi_guideline_search" model="ir.ui.view">
+        <field name="name">fiscal.tax.ipi.guideline.tree</field>
+        <field name="model">fiscal.tax.ipi.guideline</field>
+        <field name="arch" type="xml">
+            <search string="IPI Guideline">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="cst_in_id"/>
+                <field name="cst_out_id"/>
+                <group expand='0' string='Group By...'>
+                    <filter string='Group' name="cst_group" domain="[]" context="{'group_by' : 'cst_group'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="tax_ipi_guideline_tree" model="ir.ui.view">
+        <field name="name">fiscal.tax.ipi.guideline.tree</field>
+        <field name="model">fiscal.tax.ipi.guideline</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="cst_in_id"/>
+                <field name="cst_out_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="tax_ipi_guideline_form" model="ir.ui.view">
+        <field name="name">fiscal.tax.ipi.guideline.form</field>
+        <field name="model">fiscal.tax.ipi.guideline</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -21,28 +49,5 @@
             </form>
         </field>
     </record>
-
-    <record id="l10n_br_account_product_ipi_guideline_tree_view" model="ir.ui.view">
-        <field name="name">l10n_br_account_product.ipi_guideline.tree.view</field>
-        <field name="model">l10n_br_account_product.ipi_guideline</field>
-        <field name="priority" eval="16"/>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="code"/>
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
-
-    <act_window id="action_l10n_br_account_product_ipi_guideline_form"
-                name="Enquadramento Ipi"
-                res_model="l10n_br_account_product.ipi_guideline"
-                view_mode="tree,form"/>
-
-    <menuitem id="menu_action_ipi_guideline"
-              name="Enquadramento Ipi"
-              parent="l10n_br_account.menu_l10n_br_account_fiscal_manager"
-              action="action_l10n_br_account_product_ipi_guideline_form"
-              sequence="62"/>
 
 </odoo>
