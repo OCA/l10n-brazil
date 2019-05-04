@@ -8,6 +8,7 @@ from . import ncm
 from . import cest
 from . import ncm_cest
 from . import tax
+from . import tax_ipi_guideline
 from . import tax_estimate
 from . import document_type
 from . import document_serie
@@ -23,7 +24,6 @@ from . import simplified_tax_range
 # from . import l10n_br_account_product_import_declaration
 # from . import l10n_br_account_product_import_declaration_line
 # from . import l10n_br_account_product_icms_relief
-# from . import l10n_br_account_product_ipi_guideline
 # from . import l10n_br_tax_icms_partition
 # from . import res_company
 # from . import l10n_br_tax_definition_company_product
