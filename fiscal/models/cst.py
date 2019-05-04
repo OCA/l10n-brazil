@@ -16,9 +16,8 @@ class Cst(models.Model):
         size=4,
         required=True)
 
-    name = fields.Char(
+    name = fields.Text(
         string='Name',
-        size=256,
         required=True)
 
     type = fields.Selection(
