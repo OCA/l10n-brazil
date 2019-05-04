@@ -24,8 +24,9 @@ class Nbs(models.Model):
          store=True,
          index=True)
 
-    name = fields.Char(
+    name = fields.Text(
         string='Name',
+        required=True,
         index=True)
 
     tax_estimate_ids = fields.One2many(
