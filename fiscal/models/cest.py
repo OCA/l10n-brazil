@@ -79,7 +79,7 @@ class Cest(models.Model):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('code', operator, name + '%')
+            domain = ['|', ('code', operator, name + '%'),
                       ('code_unmasked', operator, name),
                       ('name', operator, name)]
 
