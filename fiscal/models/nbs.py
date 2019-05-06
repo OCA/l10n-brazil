@@ -1,15 +1,22 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
+import logging
+
+from odoo import models, fields, api, _
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
+from odoo.osv import expression
 
 from .ibpt.taxes import DeOlhoNoImposto, get_ibpt_service
+
+_logger = logging.getLogger(__name__)
 
 
 class Nbs(models.Model):
     _name = 'fiscal.nbs'
+    _inherit = ['mail.thread']
     _description = 'NBS'
+    _order = 'code'
 
     code = fields.Char(
         string='Code',
@@ -35,9 +42,26 @@ class Nbs(models.Model):
         string=u'Estimae Taxes',
         readonly=True)
 
+    product_tmpl_ids = fields.One2many(
+        comodel_name='product.template',
+        string='Products',
+        compute='_compute_product_tmpl_info')
+
+    product_tmpl_qty = fields.Integer(
+        string='Products Quantity',
+        compute='_compute_product_tmpl_info')
+
     _sql_constraints = [
         ('fiscal_ncm_code_extension_uniq', 'unique (code)',
          'NBS already exists with this code !')]
+
+    @api.one
+    def _compute_product_tmpl_info(self):
+        product_tmpls = self.env['product.template'].search([
+            ('nbs_id', '=', self.id), '|',
+            ('active', '=', False), ('active', '=', True)])
+        self.product_tmpl_ids = product_tmpls
+        self.product_tmpl_qty = len(product_tmpls)
 
     @api.depends('code')
     def _compute_code_unmasked(self):
@@ -51,7 +75,7 @@ class Nbs(models.Model):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('code', operator, name + '%')
+            domain = ['|', '|', ('code', operator, name + '%'),
                       ('code_unmasked', operator, name),
                       ('name', operator, name)]
 
@@ -61,32 +85,94 @@ class Nbs(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(r.id, "{0} - {1}".format(r.code, r.name))
+        def truncate_name(name):
+            if len(name) > 60:
+                name = '{0}...'.format(name[:60])
+            return name
+
+        return [(r.id,
+                 "{0} - {1}".format(r.code, truncate_name(r.name)))
                 for r in self]
 
     @api.multi
     def get_ibpt(self):
-
         for nbs in self:
+            try:
+                company = self.env.user.company_id
 
-            company = self.env.user.company_id
+                config = DeOlhoNoImposto(
+                    company.ibpt_token,
+                    punctuation_rm(company.cnpj_cpf),
+                    company.state_id.code)
 
-            config = DeOlhoNoImposto(
-                company.ipbt_token,
-                punctuation_rm(company.cnpj_cpf),
-                company.state_id.code)
+                result = get_ibpt_service(
+                    config,
+                    nbs.code_unmasked,
+                )
 
-            result = get_ibpt_service(
-                config,
-                nbs.code_unmasked,
-            )
+                values = {
+                    'nbs_id': nbs.id,
+                    'origin': 'IBPT-WS',
+                    'state_id': company.state_id.id,
+                    'state_taxes': result.estadual,
+                    'federal_taxes_national': result.nacional,
+                    'federal_taxes_import': result.importado}
 
-            values = {
-                'nbs_id': nbs.id,
-                'origin': 'IBPT-WS',
-                'state_id': company.state_id.id,
-                'state_taxes': result.estadual,
-                'federal_taxes_national': result.nacional,
-                'federal_taxes_import': result.importado}
+                self.env['fiscal.tax.estimate'].create(values)
 
-            self.env['fiscal.tax.estimate'].create(values)
+                nbs.message_post(
+                    body=_('NBS Tax Estimate Updated'),
+                    subject=_('NBS Tax Estimate Updated'))
+
+            except Exception as e:
+                _logger.warning('NBS Tax Estimate Failure: %s' % e)
+                nbs.message_post(
+                    body=str(e),
+                    subject=_('NBS Tax Estimate Failure'))
+                continue
+
+    @api.model
+    def _scheduled_update(self):
+        _logger.info('Scheduled NBS estimate taxes update...')
+
+        config_date = self.env['account.config.settings'].browse(
+            [1]).ibpt_update_days
+        today = date.today()
+        data_max = today - timedelta(days=config_date)
+
+        all_ncm = self.env['fiscal.ncm'].search([])
+
+        not_estimated = all_ncm.filtered(
+            lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids)
+
+        query = (
+            "WITH nbs_max_date AS ("
+            "   SELECT "
+            "       nbs_id, "
+            "       max(create_date) "
+            "   FROM  "
+            "       fiscal_tax_estimate "
+            "   GROUP BY "
+            "       nbs_id"
+            ") SELECT nbs_id "
+            "FROM "
+            "   nbs_max_date "
+            "WHERE "
+            "   max < %(create_date)s  ")
+
+        query_params = {'create_date': data_max.strftime('%Y-%m-%d')}
+
+        self.env.cr.execute(self.env.cr.mogrify(query, query_params))
+        past_estimated = self.env.cr.fetchall()
+
+        ids = [estimate[0] for estimate in past_estimated]
+
+        nbs_past_estimated = self.env['fiscal.ncm'].browse(ids)
+
+        for nbs in not_estimated + nbs_past_estimated:
+            try:
+                nbs.get_ibpt()
+            except Exception:
+                continue
+
+        _logger.info('Scheduled NBS estimate taxes update complete.')

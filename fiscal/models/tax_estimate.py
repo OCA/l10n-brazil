@@ -13,13 +13,11 @@ class TaxEstimate(models.Model):
 
     ncm_id = fields.Many2one(
         comodel_name='fiscal.ncm',
-        string=u'NCM',
-        required=True)
+        string=u'NCM')
 
     nbs_id = fields.Many2one(
         comodel_name='fiscal.nbs',
-        string=u'NBS',
-        required=True)
+        string=u'NBS')
 
     state_id = fields.Many2one(
         comodel_name='res.country.state',
