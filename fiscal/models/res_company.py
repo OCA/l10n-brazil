@@ -2,15 +2,66 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
+from odoo.addons import decimal_precision as dp
 
-from .l10n_br_tax_definition_company_product import (
-    L10nBrTaxDefinitionCompanyProduct
-)
+from .constants.fiscal import TAX_FRAMEWORK, TAX_FRAMEWORK_DEFAULT
 
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
+    cnae_main_id = fields.Many2one(
+        comodel_name='fiscal.cnae',
+        domain="[('internal_type', '=', 'normal'), "
+               "('id', 'not in', cnae_secondary_ids)]",
+        string='Main CNAE')
+
+    cnae_secondary_ids = fields.Many2many(
+        comodel_name='fiscal.cnae',
+        relation='res_company_fiscal_cnae_rel',
+        colunm1='company_id',
+        colunm2='cnae_id',
+        domain="[('internal_type', '=', 'normal'), "
+               "('id', '!=', cnae_main_id)]",
+        string='Secondary CNAE')
+
+    tax_framework = fields.Selection(
+        selection=TAX_FRAMEWORK,
+        default=TAX_FRAMEWORK_DEFAULT,
+        string='Tax Framework')
+
+    annual_revenue = fields.Monetary(
+        string='Annual Revenue',
+        currency_field='currency_id',
+        default=0.00,
+        digits=dp.get_precision('Fiscal Documents'))
+
+    simplifed_tax_id = fields.Many2one(
+        comodel_name='fiscal.simplified.tax',
+        domain="[('cnae_ids', '=', cnae_main_id)]",
+        string='Simplified Tax')
+
+    ibpt_token = fields.Char(
+        string=u'IPBT Token')
+
+    ibpt_update_days = fields.Integer(
+        string=u'IPBT Token Updates')
+
+    certificate_ecnpj_id = fields.Many2one(
+        comodel_name='fiscal.certificate',
+        string='E-CNPJ',
+        domain="[('type', '=', 'e-cnpj'), ('is_valid', '=', True)]")
+
+    certificate_nfe_id = fields.Many2one(
+        comodel_name='fiscal.certificate',
+        string='NFe',
+        domain="[('type', '=', 'nf-e'), ('is_valid', '=', True)]")
+
+    accountant_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Accountant')
+
+"""
     @api.one
     @api.depends('product_tax_definition_line.tax_id')
     def _compute_taxes(self):
@@ -31,44 +82,6 @@ class ResCompany(models.Model):
         string=u'Série de Documentos Fiscais',
         domain="[('company_id', '=', active_id),('active','=',True),"
                "('fiscal_type','=','product')]")
-
-    nfe_version = fields.Selection(
-        selection=[('1.10', '1.10'),
-                   ('2.00', '2.00'),
-                   ('3.10', '3.10'),
-                   ('4.00', '4.00')],
-        string=u'Versão NFe',
-        required=True,
-        default='4.00')
-
-    nfe_import_folder = fields.Char(
-        string=u'Pasta de Importação',
-        size=254)
-
-    nfe_export_folder = fields.Char(
-        string=u'Pasta de Exportação',
-        size=254)
-
-    nfe_backup_folder = fields.Char(
-        string=u'Pasta de Backup',
-        size=254)
-
-    nfe_environment = fields.Selection(
-        selection=[('1', u'Produção'),
-                   ('2', u'Homologação')],
-        string=u'Ambiente Padrão',
-        default='2')
-
-    file_type = fields.Selection(
-        selection=[('xml', 'XML')],
-        string=u'Tipo do Arquivo Padrão',
-        default='xml')
-
-    sign_xml = fields.Boolean(
-        string=u'Assinar XML')
-
-    export_folder = fields.Boolean(
-        string=u'Salvar na Pasta de Exportação')
 
     product_tax_definition_line = fields.One2many(
         comodel_name='l10n_br_tax.definition.company.product',
@@ -108,13 +121,6 @@ class ResCompany(models.Model):
                "('state', '=', 'approved'), ('fiscal_type','=','product'),"
                " ('type','=','input')]")
 
-    nfe_a1_file = fields.Binary(
-        string=u'Arquivo NFe A1')
-
-    nfe_a1_password = fields.Char(
-        string=u'Senha NFe A1',
-        size=64)
-
     freight_tax_id = fields.Many2one(
         comodel_name='account.tax',
         string=u'Freight Sale Tax',
@@ -130,10 +136,6 @@ class ResCompany(models.Model):
         string=u'Other Costs Sale Tax',
         domain=[('domain', '=', 'other_costs')])
 
-    accountant_cnpj_cpf = fields.Char(
-        size=18,
-        string=u'CNPJ/CPF Contador')
-
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinitionCompanyProduct,
                                         models.Model):
@@ -147,3 +149,4 @@ class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinitionCompanyProduct,
         ('l10n_br_tax_definition_tax_id_uniq',
          'unique (tax_id, company_id)',
          u'Imposto já existente nesta empresa!')]
+"""
