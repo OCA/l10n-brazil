@@ -27,14 +27,20 @@ def _response_to_dict(response):
 
 
 def _request(ws_url, params):
-
-
     try:
         response = requests.get(ws_url, params=params)
-        if response.status_code == requests.codes.ok:
+        if response.ok:
             data = response.json()
-            return Produto(**{k.lower():v for k,v in data.items()})
+            return namedtuple(
+                'Result',
+                [k.lower() for k in data.keys()])(
+                    **{k.lower():v for k,v in data.items()})
         elif response.status_code == requests.codes.forbidden:
+            raise UserError(_('IBPT Forbidden - token={!r}, '
+                              'cnpj={!r}, UF={!r}'.format(
+                              config.token, config.cnpj, config.estado)))
+        elif response.status_code == requests.codes.not_found:
+            # TODO
             raise UserError(_('IBPT Forbidden - token={!r}, '
                               'cnpj={!r}, UF={!r}'.format(
                               config.token, config.cnpj, config.estado)))
@@ -61,7 +67,6 @@ def get_ibpt_product(config, ncm, ex='0', reference=None, description=None,
 
 
 def get_ibpt_service(config, nbs, description=None, uom=None, amount=None):
-
     data = {
         'token': config.token,
         'cnpj': config.cnpj,
@@ -71,4 +76,4 @@ def get_ibpt_service(config, nbs, description=None, uom=None, amount=None):
         'unidadeMedida': uom,
         'valor': amount}
 
-    return _request(WS_IBPT[WS_PRODUTOS], data)
+    return _request(WS_IBPT[WS_SERVICOS], data)
