@@ -14,6 +14,11 @@ from .constants.icms import ICMS_ORIGIN
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
+    def _get_default_ncm_id(self):
+        if self.env.context.get('default_fiscal_type') == '09':
+            ncm_id = self.env.ref('fiscal.ncm_00000000')
+            return ncm_id
+
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
         string='Fiscal Type')
@@ -26,6 +31,7 @@ class ProductTemplate(models.Model):
     ncm_id = fields.Many2one(
         comodel_name='fiscal.ncm',
         index=True,
+        default=_get_default_ncm_id,
         string='NCM')
 
     fiscal_genre_id = fields.Many2one(

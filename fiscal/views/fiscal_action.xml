@@ -217,6 +217,23 @@
         </field>
     </record>
 
+    # Partner
+      <record id="action_partner" model="ir.actions.act_window">
+          <field name="name">Partner</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">res.partner</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">kanban,tree,form</field>
+          <field name="search_view_id" ref="base.view_res_partner_filter"/>
+          <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Create a new partner in your address book
+            </p><p>
+              Odoo helps you easily track all activities related to a partner.
+            </p>
+          </field>
+      </record>
+
     # Product
     <record id="product_action" model="ir.actions.act_window">
         <field name="name">Products</field>
@@ -224,7 +241,7 @@
         <field name="res_model">product.template</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="domain">['|', ('fiscal_type', '=', 'product'), ('fiscal_type', '=', False)]</field>
+        <field name="domain">['|', ('fiscal_type', '!=', '09'), ('fiscal_type', '=', False), ('type', '!=', 'service')]</field>
         <field name="view_id" ref="product_template_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -242,8 +259,8 @@
         <field name="res_model">product.template</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="domain">['|', ('fiscal_type', '=', 'service'), ('fiscal_type', '=', False)]</field>
-        <field name="context">{'default_fiscal_type': '09', 'default_type': 'service', 'default_ncm_id': ref('fiscal.ncm_00000000')}</field>
+        <field name="domain">['|', ('fiscal_type', '=', '09'), ('fiscal_type', '=', False), ('type', '=', 'service')]</field>
+        <field name="context">{'default_fiscal_type': '09', 'default_type': 'service'}</field>
         <field name="view_id" ref="product_template_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
