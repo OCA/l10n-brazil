@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
+from odoo.osv import expression
 
 
 class ProductGenre(models.Model):
@@ -25,7 +26,7 @@ class ProductGenre(models.Model):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('code', operator, name)
+            domain = ['|', ('code', operator, name),
                       ('name', operator, name)]
 
         recs = self._search(expression.AND([domain, args]), limit=limit,
@@ -34,6 +35,11 @@ class ProductGenre(models.Model):
 
     @api.multi
     def name_get(self):
+        def truncate_name(name):
+            if len(name) > 60:
+                name = '{0}...'.format(name[:60])
+            return name
+
         return [(r.id,
-                u"{0} - {1}".format(r.code, r.name))
+                 "{0} - {1}".format(r.code, truncate_name(r.name)))
                 for r in self]
