@@ -17,6 +17,7 @@ from . import certificate
 from . import product_template
 from . import simplified_tax
 from . import simplified_tax_range
+from . import res_company
 # from . import l10n_br_account_product
 # from . import l10n_br_account_fiscal_category
 # from . import l10n_br_account_partner_fiscal_type
@@ -25,7 +26,6 @@ from . import simplified_tax_range
 # from . import l10n_br_account_product_import_declaration_line
 # from . import l10n_br_account_product_icms_relief
 # from . import l10n_br_tax_icms_partition
-# from . import res_company
 # from . import l10n_br_tax_definition_company_product
 # from . import account_invoice
 # from . import account_invoice_line
