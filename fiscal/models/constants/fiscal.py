@@ -125,3 +125,12 @@ CEST_SEGMENT = (
     ('23', 'Veículos automotores'),
     ('24', 'Veículos de duas e três rodas motorizados'),
     ('25', 'Venda de mercadorias pelo sistema porta a porta'))
+
+
+NFE_IND_IE_DEST = [
+    ('1', '1 - Contribuinte do ICMS'),
+    ('2', '2 - Contribuinte Isento do ICMS'),
+    ('9', '9 - Não Contribuinte')
+]
+
+NFE_IND_IE_DEST_DEFAULT = NFE_IND_IE_DEST[0][0]
