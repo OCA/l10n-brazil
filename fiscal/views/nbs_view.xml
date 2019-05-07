@@ -35,7 +35,7 @@
                                 class="oe_stat_button"
                                 id="product_tmpl_button"
                                 icon="fa-bars"
-                                name="%(service_action)d"
+                                name="%(product.product_template_action_all)d"
                                 domain="['|', ('fiscal_type', '=', '09'), ('fiscal_type', '=', False), ('type', '=', 'service')]"
                                 context="{'search_default_nbs_id': active_id, 'default_fiscal_type': '09', 'default_type': 'service'}"
                                 attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}">
