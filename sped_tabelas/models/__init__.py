@@ -32,3 +32,4 @@ from . import codigo_aliquota_FPAS
 from . import FPAS_classificacao_tributaria
 from . import tipos_lotacao_classificacao
 from . import procedimentos_diagnosticos
+from . import atividades_perigosas_insalubres

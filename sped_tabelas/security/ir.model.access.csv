@@ -54,3 +54,5 @@ access_sped_gerente_27,Gerente (Todas permissões),model_sped_pais,sped_tabelas.
 access_sped_pais,Países e-Social(Leitura),model_sped_pais,base.group_hr_user,1,0,0,0
 access_sped_user_28,Operador (Leitura),model_sped_procedimentos_diagnosticos,sped_tabelas.group_user,1,0,0,0
 access_sped_gerente_28,Gerente (Todas permissões),model_sped_procedimentos_diagnosticos,sped_tabelas.group_manager,1,1,1,1
+access_sped_user_29,Operador (Leitura),model_sped_atividades_perigosas_insalubres,sped_tabelas.group_user,1,0,0,0
+access_sped_gerente_29,Gerente (Todas permissões),model_sped_atividades_perigosas_insalubres,sped_tabelas.group_manager,1,1,1,1

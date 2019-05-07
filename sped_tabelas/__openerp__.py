@@ -55,6 +55,7 @@
         'views/codificacao_acidente_trabalho.xml',
         'views/fatores_meio_ambiente.xml',
         'views/procedimentos_diagnosticos.xml',
+        'views/atividades_perigosas_insalubres.xml',
 
         # Data
         'data/classificacao_servico.xml',
@@ -82,6 +83,7 @@
         'data/fatores_meio_ambiente.xml',
         'data/codigo_aliquota_FPAS.xml',
         'data/sped.procedimentos_diagnosticos.csv',
+        'data/sped.atividades_perigosas_insalubres.csv',
     ],
     'application': True,
 }
