@@ -67,89 +67,6 @@
         </field>
     </record>
 
-    <record id="view_l10n_br_account_fiscal_category_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.fiscal.category.form</field>
-        <field name="model">l10n_br_account.fiscal.category</field>
-        <field name="arch" type="xml">
-            <form string="Categoria Fiscal">
-                <header>
-                    <button name="fiscal_category_review" states="draft" string="Revisar" groups="account.group_account_invoice"/>
-                    <button name="fiscal_category_approved" states="draft,review" string="Aprovar" groups="account.group_account_manager"/>
-                    <button name="fiscal_category_unapproved" states="review,approved" string="Reprovar" groups="account.group_account_manager"/>
-                    <button name="action_unapproved_draft" type="object" states="unapproved" string="Voltar para Rascunho" groups="account.group_account_manager"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,review,approved,unapproved" statusbar_colors='{"unapproved": "red","draft": "blue", "review": "yellow", "approved": "green"}'/>
-                </header>
-                <sheet>
-                    <group>
-                        <field name="code" select="1"/>
-                        <field name="name" select="1"/>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="type" select="1"/>
-                            <field name="fiscal_type" invisible="1"/>
-                        </group>
-                        <group>
-                            <field name="reverse_fiscal_category_id"/>
-                            <field name="refund_fiscal_category_id" select="1"/>
-                        </group>
-                        <newline/>
-                        <group colspan="4" string="Diário Contábil">
-                            <field name="journal_type" select="1" on_change="onchange_journal_type(journal_type)"/>
-                            <field required="1" name="property_journal" domain="[('type', '=', journal_type)]"/>
-                        </group>
-                        <group colspan="4" string="Posições Fiscais">
-                            <field name="fiscal_position_ids" nolabel="1">
-                                <tree string="Posições Fiscais">
-                                    <field name="name"/>
-                                    <field name="company_id"/>
-                                    <field name="state"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </group>
-                    <group string="Observações">
-                        <field name="note" nolabel="1"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="l10n_br_account_fiscal_category_search" model="ir.ui.view">
-        <field name="name">l10n_br_account.fiscal.category.search</field>
-        <field name="model">l10n_br_account.fiscal.category</field>
-        <field name="arch" type="xml">
-            <search string="Pesquisar Categorias Fiscais">
-                <field name="name" string="Categoria Fiscal" filter_domain="[('name','ilike',self)]"/>
-                <separator/>
-                <filter icon="terp-document-new" string="Rascunho" name="draft" domain="[('state', '=', 'draft')]"/>
-                <filter icon="terp-document-new" string="Revisão" name="review" domain="[('state', '=', 'review')]"/>
-                <filter icon="terp-document-new" string="Aprovada" name="approved" domain="[('state', '=', 'approved')]"/>
-                <filter icon="terp-document-new" string="Não Aprovada" name="unapproved" domain="[('state', '=', 'unapproved')]"/>
-                <group expand="0" string="Agrupar Por...">
-                    <filter string="Status" icon="terp-personal" domain="[]" context="{'group_by': 'state'}"/>
-                    <filter string="Tipo do Diário" icon="terp-personal" domain="[]" context="{'group_by': 'journal_type'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <record id="view_l10n_br_account_fiscal_category_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.fiscal.category.tree</field>
-        <field name="model">l10n_br_account.fiscal.category</field>
-        <field name="arch" type="xml">
-            <tree string="Categoria Fiscal" colors="grey:state=='unapproved';blue:state in ('draft','review');red:state=='unapproved'">
-                <field name="code" select="1"/>
-                <field name="name" select="1"/>
-                <field name="type" select="1"/>
-                <field name="reverse_fiscal_category_id"/>
-                <field name="refund_fiscal_category_id"/>
-                <field name="state"/>
-            </tree>
-        </field>
-    </record>
-
     <record id="view_l10n_br_account_partner_fiscal_type_form" model="ir.ui.view">
         <field name="name">l10n_br_account.partner.fiscal.type</field>
         <field name="model">l10n_br_account.partner.fiscal.type</field>
@@ -288,17 +205,6 @@
         </field>
     </record>
 
-    <record id="action_l10n_br_account_fiscal_category_form" model="ir.actions.act_window">
-        <field name="name">Categoria Fiscal</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_account.fiscal.category</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
-        <field name="context">{"search_default_approved":1}</field>
-        <field name="search_view_id" ref="l10n_br_account_fiscal_category_search"/>
-        <field name="view_id" ref="view_l10n_br_account_fiscal_category_tree"/>
-    </record>
-
     <record id="action_l10n_br_account_document_event" model="ir.actions.act_window">
         <field name="name">Eventos Eletronicos</field>
         <field name="type">ir.actions.act_window</field>
@@ -360,8 +266,6 @@
     <menuitem id="menu_action_l10n_br_account_partner_fiscal_type_form" name="Tipo Fiscal de Parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_fiscal_type_form"/>
 
     <menuitem id="menu_action_l10n_br_account_partner_special_fiscal_type_form" name="Regime especial do parceiro" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_partner_special_fiscal_type_form"/>
-
-    <menuitem id="menu_action_l10n_br_account_fiscal_category_form" name="Categoria Fiscal" parent="menu_l10n_br_account_configuration_fiscal" action="action_l10n_br_account_fiscal_category_form"/>
 
     <menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal" action="action_l10n_br_account_document_event"/>
 

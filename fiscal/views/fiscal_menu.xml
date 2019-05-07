@@ -85,4 +85,7 @@
     # Fiscal Document Serie
     <menuitem id="document_serie_menu" action="document_serie_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="120"/>
 
+    # Operation
+    <menuitem id="operation_menu" action="operation_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="130"/>
+
 </odoo>

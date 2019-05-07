@@ -29,3 +29,7 @@
 "fiscal_simplified_tax_range_manager","Fiscal Simplified Range Tax for Manager","model_fiscal_simplified_tax_range","fiscal.group_manager",1,1,1,1
 "fiscal_tax_ipi_guideline_user","Fiscal Tax IPI Guideline for User","model_fiscal_tax_ipi_guideline","fiscal.group_user",1,0,0,0
 "fiscal_tax_ipi_guideline_manager","Fiscal Tax IPI Guideline for Manager","model_fiscal_tax_ipi_guideline","fiscal.group_manager",1,1,1,1
+"fiscal_operation_user","Fiscal Operation for User","model_fiscal_operation","fiscal.group_user",1,0,0,0
+"fiscal_operation_manager","Fiscal Operation for Manager","model_fiscal_operation","fiscal.group_manager",1,1,1,1
+"fiscal_operation_line_user","Fiscal Operation Line for User","model_fiscal_operation_line","fiscal.group_user",1,0,0,0
+"fiscal_operation_line_manager","Fiscal Operation Line for Manager","model_fiscal_operation_line","fiscal.group_manager",1,1,1,1
