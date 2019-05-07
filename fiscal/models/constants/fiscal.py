@@ -70,6 +70,13 @@ FISCAL_IN_OUT = (
 )
 
 
+FISCAL_IN_OUT_ALL = (
+    ('in', 'In'),
+    ('out', 'Out'),
+    ('all', 'All')
+)
+
+
 FISCAL_IN_OUT_DEFAULT = 'in'
 
 
