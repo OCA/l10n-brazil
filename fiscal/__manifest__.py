@@ -55,6 +55,7 @@
         'views/product_template_view.xml',
         'views/tax_estimate_view.xml',
         'views/partner_profile_view.xml',
+        'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'views/fiscal_action.xml',
         'views/fiscal_menu.xml',
