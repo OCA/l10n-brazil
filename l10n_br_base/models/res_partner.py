@@ -236,6 +236,10 @@ class ResPartnerBank(models.Model):
     bra_number_dig = fields.Char(u'Dígito Agência', size=8)
     zip = fields.Char('CEP', size=24, change_default=True)
     country_id = fields.Many2one('res.country', 'País', ondelete='restrict')
+    bra_bank_bic = fields.Char(
+        string='BIC/Swift Final Code.',
+        size=3,
+        help='Last part of BIC/Swift Code.')
 
     @api.multi
     def onchange_partner_id(self, partner_id):
