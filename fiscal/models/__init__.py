@@ -18,6 +18,7 @@ from . import product_template
 from . import simplified_tax
 from . import simplified_tax_range
 from . import operation
+from . import operation_line
 from . import res_company
 # from . import l10n_br_account_product
 # from . import l10n_br_account_partner_fiscal_type

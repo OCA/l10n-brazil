@@ -51,6 +51,7 @@
         'views/simplified_tax_view.xml',
         'views/simplified_tax_range_view.xml',
         'views/operation_view.xml',
+        'views/operation_line_view.xml',
         'views/product_template_view.xml',
         'views/tax_estimate_view.xml',
         'views/res_company_view.xml',

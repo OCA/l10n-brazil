@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="operation_line_tree" model="ir.ui.view">
+        <field name="name">fiscal.operation.line.tree</field>
+        <field name="model">fiscal.operation.line</field>
+        <field name="arch" type="xml">
+            <tree string="Fiscal Operation Line">
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="operation_line_form" model="ir.ui.view">
+        <field name="name">fiscal.operation.line.form</field>
+        <field name="model">fiscal.operation.line</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Operation Line">
+                <sheet>
+                    <field name="cfop_destination" invisible="1"/>
+                    <group>
+                        <field name="code"/>
+                        <field name="cfop_id"/>
+                        <field name="type"/>
+                    </group>
+                    <group>
+                        <field name="stock_move"/>
+                        <field name="finance_move"/>
+                        <field name="account_move"/>
+                        <field name="company_id"/>
+                    </group>
+                    <group string="Related Operations" name="relaterd_operation">
+                        <field name="line_inverse_id"/>
+                        <field name="line_refund_id"/>
+                    </group>
+                    <group string="Tax Framework" name="tax_framework">
+                        <field name="partner_tax_framework"/>
+                        <field name="company_tax_framework"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

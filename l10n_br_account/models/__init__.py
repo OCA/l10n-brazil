@@ -16,7 +16,7 @@ from . import account_tax_template
 from . import account_invoice
 from . import account_invoice_line
 from . import product_template
-from . import l10n_br_account_product_category
+from . import operation
 from . import account_fiscal_position_rule
 from . import account_move_line
 from . import wizard_multi_charts_accounts
