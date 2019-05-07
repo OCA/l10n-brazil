@@ -4,7 +4,7 @@
 from odoo import models, fields, api
 from odoo.osv import expression
 
-from .constants.fiscal import FISCAL_IN_OUT, TAX_DOMAIN
+from .constants.fiscal import FISCAL_IN_OUT_ALL, TAX_DOMAIN
 
 class Cst(models.Model):
     _name = 'fiscal.cst'
@@ -21,9 +21,7 @@ class Cst(models.Model):
         required=True)
 
     type = fields.Selection(
-        selection=[('in', 'In'),
-                   ('out', 'Out'),
-                   ('all', 'All')],
+        selection=FISCAL_IN_OUT_ALL,
         string='Type',
         required=True)
 

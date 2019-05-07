@@ -46,7 +46,7 @@ class Cfop(models.Model):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('code', operator, name)
+            domain = ['|', ('code', operator, name),
                       ('name', operator, name)]
 
         recs = self._search(expression.AND([domain, args]), limit=limit,
@@ -55,6 +55,11 @@ class Cfop(models.Model):
 
     @api.multi
     def name_get(self):
+        def truncate_name(name):
+            if len(name) > 60:
+                name = '{0}...'.format(name[:60])
+            return name
+
         return [(r.id,
-                 u"{0} - {1}".format(r.code, r.name))
+                 "{0} - {1}".format(r.code, truncate_name(r.name)))
                 for r in self]
