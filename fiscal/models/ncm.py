@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
+from datetime import timedelta
 
 from odoo import models, fields, api, _
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
@@ -154,9 +155,8 @@ class Ncm(models.Model):
     def _scheduled_update(self):
         _logger.info('Scheduled NCM estimate taxes update...')
 
-        config_date = self.env['account.config.settings'].browse(
-            [1]).ibpt_update_days
-        today = date.today()
+        config_date = self.env.user.company_id.ibpt_update_days
+        today = fields.date.today()
         data_max = today - timedelta(days=config_date)
 
         all_ncm = self.env['fiscal.ncm'].search([])

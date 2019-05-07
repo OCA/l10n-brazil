@@ -32,23 +32,6 @@
         </field>
     </record>
 
-    # Product
-    <record id="product_all_action" model="ir.actions.act_window">
-        <field name="name">Products</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">product.template</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="product_template_tree"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-              Add a new Product
-            </p><p>
-              Create new products.
-            </p>
-        </field>
-    </record>
-
     <record id="ncm_form" model="ir.ui.view">
         <field name="name">fiscal.ncm.form</field>
         <field name="model">fiscal.ncm</field>
@@ -61,7 +44,7 @@
                                 class="oe_stat_button"
                                 id="product_tmpl_button"
                                 icon="fa-bars"
-                                name="%(product_all_action)d"
+                                name="%(product.product_template_action_all)d"
                                 context="{'search_default_ncm_id': active_id}"
                                 attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}">
                             <field string="Products" widget="statinfo" name="product_tmpl_qty"/>
