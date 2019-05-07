@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
+from datetime import timedelta
 
 from odoo import models, fields, api, _
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
@@ -135,14 +136,13 @@ class Nbs(models.Model):
     def _scheduled_update(self):
         _logger.info('Scheduled NBS estimate taxes update...')
 
-        config_date = self.env['account.config.settings'].browse(
-            [1]).ibpt_update_days
-        today = date.today()
+        config_date = self.env.user.company_id.ibpt_update_days
+        today = fields.date.today()
         data_max = today - timedelta(days=config_date)
 
-        all_ncm = self.env['fiscal.ncm'].search([])
+        all_nbs = self.env['fiscal.nbs'].search([])
 
-        not_estimated = all_ncm.filtered(
+        not_estimated = all_nbs.filtered(
             lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids)
 
         query = (
@@ -167,7 +167,7 @@ class Nbs(models.Model):
 
         ids = [estimate[0] for estimate in past_estimated]
 
-        nbs_past_estimated = self.env['fiscal.ncm'].browse(ids)
+        nbs_past_estimated = self.env['fiscal.nbs'].browse(ids)
 
         for nbs in not_estimated + nbs_past_estimated:
             try:
