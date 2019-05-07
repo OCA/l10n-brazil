@@ -56,6 +56,7 @@
         'views/fatores_meio_ambiente.xml',
         'views/procedimentos_diagnosticos.xml',
         'views/atividades_perigosas_insalubres.xml',
+        'views/treinamentos_capacitacoes.xml',
 
         # Data
         'data/classificacao_servico.xml',
@@ -84,6 +85,7 @@
         'data/codigo_aliquota_FPAS.xml',
         'data/sped.procedimentos_diagnosticos.csv',
         'data/sped.atividades_perigosas_insalubres.csv',
+        'data/sped.treinamentos_capacitacoes.csv',
     ],
     'application': True,
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2019 ABGF - Luiz Felipe do Divino <luiz.divino@abgf.gov.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+    <record model="ir.ui.view" id="sped_tabelas.treinamentos_capacitacoes_form">
+        <field name="name">sped_tabelas.treinamentos_capacitacoes_form</field>
+        <field name="model">sped.treinamentos_capacitacoes</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Treinamentos, Capacitações, Exercícios Simulados"
+            edit="false" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="nome" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_tabelas.treinamentos_capacitacoes_tree">
+        <field name="name">sped_tabelas.treinamentos_capacitacoes_view</field>
+        <field name="model">sped.treinamentos_capacitacoes</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Treinamentos, Capacitações, Exercícios Simulados"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="treinamentos_capacitacoes_search">
+        <field name="name">sped_tabelas.treinamentos_capacitacoes_search</field>
+        <field name="model">sped.treinamentos_capacitacoes</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Treinamentos, Capacitações, Exercícios Simulados">
+                <field name="codigo" />
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="treinamentos_capacitacoes_action">
+        <field name="name">Motivos de Cessação de Benefícios Previdenciários</field>
+        <field name="res_model">sped.treinamentos_capacitacoes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="treinamentos_capacitacoes_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="treinamentos_capacitacoes_tree"/>
+        <field name="act_window_id" ref="treinamentos_capacitacoes_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="treinamentos_capacitacoes_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="treinamentos_capacitacoes_form"/>
+        <field name="act_window_id" ref="treinamentos_capacitacoes_action"/>
+    </record>
+
+    <menuitem
+        action="sped_tabelas.treinamentos_capacitacoes_action"
+        id="menu_sped_treinamentos_capacitacoes"
+        name="29-Treinamentos, Capacitações, Exercícios Simulados"
+        parent="menu_sped_tabelas_esocial"
+        sequence="29"
+    />
+
+    </data>
+</openerp>
