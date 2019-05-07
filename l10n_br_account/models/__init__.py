@@ -7,7 +7,6 @@ from . import l10n_br_account_tax_definition
 from . import account_fiscal_position_abstract
 from . import account_fiscal_position_template
 from . import account_fiscal_position
-from . import res_partner
 from . import res_company
 from . import res_config
 from . import account_journal
