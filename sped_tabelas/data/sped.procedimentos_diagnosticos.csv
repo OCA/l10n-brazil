@@ -804,7 +804,11 @@
 "proc_diagn_0803","0797","Leishmaniose - IgG"
 "proc_diagn_0804","0798","Leishmaniose - IgM"
 "proc_diagn_0805","0799","Leptina"
+<<<<<<< c190a1fdce3bcd313d92996c8b3fc340f361eb12
 "proc_diagn_0806","1406","Leptospira (pesquisa)"
+=======
+"proc_diagn_0806","0140"6",Leptospira (pesquisa)"
+>>>>>>> [ADD] Tabela 27 e-Social
 "proc_diagn_0807","0800","Leptospirose - IgG"
 "proc_diagn_0808","0801","Leptospirose - IgM"
 "proc_diagn_0809","0802","Leucino aminopeptidase"
