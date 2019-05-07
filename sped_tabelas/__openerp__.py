@@ -54,6 +54,7 @@
         'views/tipo_beneficio.xml',
         'views/codificacao_acidente_trabalho.xml',
         'views/fatores_meio_ambiente.xml',
+        'views/procedimentos_diagnosticos.xml',
 
         # Data
         'data/classificacao_servico.xml',
@@ -80,6 +81,7 @@
         'data/codificacao_acidente_trabalho.xml',
         'data/fatores_meio_ambiente.xml',
         'data/codigo_aliquota_FPAS.xml',
+        'data/sped.procedimentos_diagnosticos.csv',
     ],
     'application': True,
 }
