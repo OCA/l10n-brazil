@@ -23,41 +23,4 @@
         <field name="fiscal_type">3</field>
     </record>
 
-    <!-- l10n_br_account.partner.fiscal.type -->
-    <record id="partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
-        <field name="code">Contribuinte</field>
-        <field name="name">Contribuinte</field>
-        <field name="is_company" eval="True"/>
-        <field name="default" eval="True"/>
-        <field name="ipi" eval="True"/>
-        <field name="icms" eval="True"/>
-    </record>
-
-    <record id="partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
-        <field name="code">Não Contribuinte</field>
-        <field name="name">Não Contribuinte PJ</field>
-        <field name="is_company" eval="True"/>
-        <field name="default" eval="False"/>
-        <field name="ipi" eval="False"/>
-        <field name="icms" eval="False"/>
-    </record>
-
-    <record id="partner_fiscal_type_3" model="l10n_br_account.partner.fiscal.type">
-        <field name="code">Simples Nacional</field>
-        <field name="name">Simples Nacional</field>
-        <field name="is_company" eval="True"/>
-        <field name="default" eval="False"/>
-        <field name="ipi" eval="False"/>
-        <field name="icms" eval="False"/>
-    </record>
-
-    <record id="partner_fiscal_type_4" model="l10n_br_account.partner.fiscal.type">
-        <field name="code">Não Contribuinte</field>
-        <field name="name">Não Contribuinte PF</field>
-        <field name="is_company" eval="False"/>
-        <field name="default" eval="False"/>
-        <field name="ipi" eval="False"/>
-        <field name="icms" eval="False"/>
-    </record>
-
 </odoo>
