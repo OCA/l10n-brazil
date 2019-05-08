@@ -28,6 +28,20 @@
             <field name="country" position="replace"/>
             <field name="state" position="replace"/>
             <field name="city" position="replace"/>
+            <field name="bic" position="before">
+                <field name="code_bc"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="l10n_br_base-view_res_bank_tree" model="ir.ui.view">
+        <field name="name">l10n_br_base-res.bank.tree</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_tree"/>
+        <field name="arch" type="xml">
+            <field name="bic" position="before">
+                <field name="code_bc"/>
+            </field>
         </field>
     </record>
 
@@ -46,6 +60,13 @@
                 <newline/>
                 <field name="bra_number" select="1"/>
                 <field name="bra_number_dig" select="1"/>
+            </field>
+            <field name="bank_id" position="after">
+                <label string="BIC/Swift Code"/>
+                <div>
+                    <field name="bank_bic" class="oe_inline" readonly="True"/>
+                    <field name="bra_bank_bic" class="oe_inline"/>
+                </div>
             </field>
         </field>
     </record>

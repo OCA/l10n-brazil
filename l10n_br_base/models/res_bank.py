@@ -35,6 +35,12 @@ class ResBank(models.Model):
         string=u'Municipio',
         domain="[('state_id','=',state_id)]")
 
+    code_bc = fields.Char(
+        string=u'Brazilian Bank Code',
+        size=3,
+        help=u'Brazilian Bank Code ex.: 001 is the code of Banco do Brasil'
+    )
+
     @api.onchange('l10n_br_city_id')
     def _onchange_l10n_br_city_id(self):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional

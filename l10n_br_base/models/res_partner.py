@@ -231,12 +231,15 @@ class ResPartnerBank(models.Model):
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")
     acc_number = fields.Char("Account Number", size=64, required=False)
-    bank = fields.Many2one('res.bank', 'Bank', required=False)
     acc_number_dig = fields.Char('Digito Conta', size=8)
     bra_number = fields.Char(u'Agência', size=8)
     bra_number_dig = fields.Char(u'Dígito Agência', size=8)
     zip = fields.Char('CEP', size=24, change_default=True)
     country_id = fields.Many2one('res.country', 'País', ondelete='restrict')
+    bra_bank_bic = fields.Char(
+        string='BIC/Swift Final Code.',
+        size=3,
+        help='Last part of BIC/Swift Code.')
 
     @api.multi
     def onchange_partner_id(self, partner_id):
