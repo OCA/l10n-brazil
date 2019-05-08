@@ -36,9 +36,9 @@ TAX_DOMAIN = (
 
 
 TAX_FRAMEWORK = (
-    ('1', 'Simples Nacional'),
-    ('2', 'Simples Nacional – excesso de sublimite da receita bruta'),
-    ('3', 'Regime Normal')
+    ('1', '1 - Simples Nacional'),
+    ('2', '2 - Simples Nacional – excesso de sublimite da receita bruta'),
+    ('3', '3 - Regime Normal')
 )
 
 
