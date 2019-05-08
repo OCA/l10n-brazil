@@ -8,7 +8,7 @@
     <menuitem id="partners_menu" name="Partners" groups="fiscal.group_user,fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
 
     # Partner
-    <menuitem id="partner_menu" action="action_partner" name="Partner" groups="fiscal.group_user,fiscal.group_manager" parent="partners_menu" sequence="10"/>
+    <menuitem id="partner_menu" action="partner_action" name="Partner" groups="fiscal.group_user,fiscal.group_manager" parent="partners_menu" sequence="10"/>
 
     # Company
     <menuitem id="company_menu" action="base.action_res_company_form" name="Company" groups="fiscal.group_user,fiscal.group_manager" parent="partners_menu" sequence="20"/>
@@ -87,5 +87,8 @@
 
     # Operation
     <menuitem id="operation_menu" action="operation_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="130"/>
+
+    # Partner Profile
+    <menuitem id="partner_profile_menu" action="partner_profile_action" groups="fiscal.group_manager" parent="fiscal_data_menu" sequence="140"/>
 
 </odoo>

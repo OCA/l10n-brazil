@@ -35,6 +35,7 @@
         'data/fiscal.nbs.csv',
         'data/fiscal.cest.csv',
         'data/simplified_tax_data.xml',
+        'data/partner_profile_data.xml',
 
         # Views
         'views/cnae_view.xml',
