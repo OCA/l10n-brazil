@@ -18,16 +18,14 @@ class ResCurrencyRateProviderBCB(models.Model):
     def _get_supported_currencies(self):
         self.ensure_one()
         if self.service == 'BCB':
-            url = ('https://olinda.bcb.gov.br/olinda/servico/PTAX/versao'
-                   '/v1/odata/Moedas?$top=100&$format=json&$select=simbolo')
+            # List of currencies obrained from:
+            # https://olinda.bcb.gov.br/olinda/servico/PTAX/versao
+            # /v1/odata/Moedas?$top=100&$format=json&$select=simbolo
+            return [
+                'AUD', 'CAD', 'CHF', 'DKK',
+                'EUR', 'GBP', 'JPY', 'NOK',
+                'SEK', 'USD']
 
-            currencies = []
-            response = requests.get(url)
-            if response.ok:
-                data = response.json()
-                currencies = [x.get('simbolo') for x in data.get('value')]
-
-            return currencies
         return super()._get_supported_currencies()
 
     @api.model

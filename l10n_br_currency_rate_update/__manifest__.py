@@ -4,7 +4,7 @@
 {
     'name': 'Currency Rate Update BR',
     'summary': 'Update exchange rates using OCA modules for Brazil',
-    'version': '12.0.1.1.0',
+    'version': '12.0.1.0.0',
     'author':
         'Akretion, '
         'Odoo Community Association (OCA)',
@@ -14,6 +14,5 @@
     'depends': [
         'currency_rate_update',
     ],
-    'data': [],
     'installable': True,
 }
