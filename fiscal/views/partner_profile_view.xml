@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="l10n_br_account_product_partner_fiscal_type_form" model="ir.ui.view">
-        <field name="name">l10n_br_account_product.partner.fiscal.type</field>
-        <field name="model">l10n_br_account.partner.fiscal.type</field>
-        <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_partner_fiscal_type_form"/>
+    <record id="partner_profile_search" model="ir.ui.view">
+        <field name="name">fiscal.partner.profile.search</field>
+        <field name="model">fiscal.partner.profile</field>
         <field name="arch" type="xml">
-            <field name="default" position="after">
+            <search string="Fiscal Partner Profile">
+                <field name="code"/>
+                <field name="name"/>
+                <group expand='0' string='Group By...'>
+                    <filter string='Is Company?' name="is_company" domain="[]" context="{'group_by' : 'is_company'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="partner_profile_tree" model="ir.ui.view">
+        <field name="name">fiscal.partner.profile.tree</field>
+        <field name="model">fiscal.partner.profile</field>
+        <field name="arch" type="xml">
+            <tree string="Fiscal Partner Profile">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="is_company"/>
+                <field name="default"/>
                 <field name="ind_ie_dest"/>
-            </field>
+                <field name="tax_framework"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_profile_form" model="ir.ui.view">
+        <field name="name">fiscal.partner.profile.form</field>
+        <field name="model">fiscal.partner.profile</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Partner Profile">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="action"
+                                class="oe_stat_button"
+                                id="partner_button"
+                                icon="fa-bars"
+                                name="%(base.action_partner_other_form)d"
+                                context="{'search_default_fiscal_profile_id': active_id}"
+                                attrs="{'invisible': [('partner_qty', '=', 0)]}">
+                            <field string="Partners" widget="statinfo" name="partner_qty"/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="is_company"/>
+                        <field name="default"/>
+                        <field name="ind_ie_dest"/>
+                        <field name="tax_framework" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Related Partners" name="partner_related">
+                            <field name="partner_ids"/>
+                        </page>
+                        <page string="Notes" name="notes">
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
         </field>
     </record>
 

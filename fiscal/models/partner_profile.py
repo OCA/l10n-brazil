@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 from .constants.fiscal import (
     NFE_IND_IE_DEST,
@@ -14,18 +15,19 @@ from .constants.fiscal import (
 
 class PartnerProfile(models.Model):
     _name = 'fiscal.partner.profile'
+    _description = 'Fiscal Partner Profile'
 
     code = fields.Char(
-        string=u'Código',
+        string='Code',
         size=16,
         required=True)
 
     name = fields.Char(
-        string=u'Descrição',
+        string='Name',
         size=64)
 
     is_company = fields.Boolean(
-        string=u'Pessoa Jurídica?')
+        string='Is Company?')
 
     default = fields.Boolean(
         string=u'Default Profile',
@@ -33,7 +35,7 @@ class PartnerProfile(models.Model):
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
-        string=u'Contribuinte do ICMS',
+        string='Contribuinte do ICMS',
         required=True,
         default=NFE_IND_IE_DEST_DEFAULT)
 
@@ -42,19 +44,40 @@ class PartnerProfile(models.Model):
         default=TAX_FRAMEWORK_DEFAULT,
         string='Tax Framework')
 
-    cnae_main_id = fields.Many2one(
-        comodel_name='fiscal.cnae',
-        domain="[('internal_type', '=', 'normal')]",
-        string='Main CNAE')
+    partner_ids = fields.One2many(
+        comodel_name='res.partner',
+        string='Partner',
+        compute='_compute_partner_info')
+
+    partner_qty = fields.Integer(
+        string='Partner Quantity',
+        compute='_compute_partner_info')
+
+    _sql_constraints = [
+        ('fiscal_partner_profile_code_uniq', 'unique (code)',
+         'Fiscal Partner Profile already exists with this code !')]
+
+    @api.one
+    def _compute_partner_info(self):
+        partners = self.env['res.partner'].search([
+            ('fiscal_profile_id', '=', self.id), '|',
+            ('active', '=', False), ('active', '=', True)])
+        self.partner_ids = partners
+        self.partner_qty = len(partners)
 
     @api.constrains('default', 'is_company')
     def _check_default(self):
-        for fiscal_type in self:
-            if len(fiscal_type.search([
+        for profile in self:
+            if len(profile.search([
                 ('default', '=', 'True'),
-                ('is_company', '=', fiscal_type.is_company)
+                ('is_company', '=', profile.is_company)
             ])) > 1:
                 raise ValidationError(
                     _(u'Mantenha apenas um tipo fiscal padrão'
                       u' para Pessoa Física ou para Pessoa Jurídica!'))
             return True
+
+    @api.onchange('is_company')
+    def _onchange_is_company(self):
+        if not self.is_company:
+            self.tax_framework = False
