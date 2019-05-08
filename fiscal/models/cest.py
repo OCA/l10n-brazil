@@ -89,6 +89,11 @@ class Cest(models.Model):
 
     @api.multi
     def name_get(self):
+        def truncate_name(name):
+            if len(name) > 60:
+                name = '{0}...'.format(name[:60])
+            return name
+
         return [(r.id,
-                 u"{0} - {1}".format(r.code, r.name))
+                 "{0} - {1}".format(r.code, truncate_name(r.name)))
                 for r in self]
