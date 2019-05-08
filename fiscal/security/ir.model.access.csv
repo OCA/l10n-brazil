@@ -33,3 +33,5 @@
 "fiscal_operation_manager","Fiscal Operation for Manager","model_fiscal_operation","fiscal.group_manager",1,1,1,1
 "fiscal_operation_line_user","Fiscal Operation Line for User","model_fiscal_operation_line","fiscal.group_user",1,0,0,0
 "fiscal_operation_line_manager","Fiscal Operation Line for Manager","model_fiscal_operation_line","fiscal.group_manager",1,1,1,1
+"fiscal_partner_profile_user","Fiscal Partner Profile for User","model_fiscal_partner_profile","fiscal.group_user",1,0,0,0
+"iscal_partner_profile_manager","Fiscal Partner Profile for Manager","model_fiscal_partner_profile","fiscal.group_manager",1,1,1,1
