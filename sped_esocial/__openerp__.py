@@ -39,6 +39,7 @@
 
         # Menus
         'views/sped_esocial_menu.xml',
+        'views/hr_menu.xml',
 
         # Views
         'wizards/s2299_desligamento_wizard_view.xml',
@@ -60,6 +61,7 @@
         'views/inherited_hr_holidays_status_view.xml',
         'views/inherited_hr_holidays_view.xml',
         'views/inherited_sped_registro.xml',
+        'views/hr_ambiente_trabalho.xml',
 
         # Intermediarios
         'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',
@@ -68,6 +70,7 @@
         'views/intermediarios/s1020_lotacao_tributaria_view.xml',
         'views/intermediarios/s1030_cargos_empregos_publicos_view.xml',
         'views/intermediarios/s1050_turnos_trabalho_view.xml',
+        'views/intermediarios/s1060_ambiente_trabalho.xml',
         'views/intermediarios/s1200_remuneracao_de_trabalhador_rgps.xml',
         'views/intermediarios/s1202_remuneracao_de_servidor_rpps.xml',
         'views/intermediarios/s1210_pagamento.xml',

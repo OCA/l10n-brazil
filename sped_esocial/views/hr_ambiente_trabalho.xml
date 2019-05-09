@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_ambiente_trabalho_form_view">
+            <field name="name">hr.ambiente.trabalho.form</field>
+            <field name="model">hr.ambiente.trabalho</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>
+                        <button name="button_alterar_esocial" string="Atualizar no e-Social" type="object" class="oe_highlight"/>
+                        <button name="button_exclusao_esocial" string="Excluir no e-Social" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" select="1" nolabel="1" statusbar_visible="0"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="cod_ambiente" required="True"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_quick_create': True, 'no_create_edit' : True}" required="True"/>
+                        </group>
+                        <group attrs="{'invisible': ['|', ('cod_ambiente', '=', False), ('company_id', '=', False)]}">
+                            <group>
+                                <field name="data_inicio" options="{'no_quick_create': True, 'no_create_edit' : True}" required="True"/>
+                            </group>
+                            <group>
+                                <field name="data_fim" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Dados Ambiente">
+                                <group>
+                                    <field name="nome_ambiente" required="True"/>
+                                    <field name="desc_ambiente" required="True"/>
+                                    <field name="local_ambiente"/>
+                                    <field name="tipo_inscricao" options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'invisible': [('local_ambiente', '=', 2)], 'required': [('local_ambiente', '!=', 2)]}"/>
+                                    <field name="num_inscricao" attrs="{'invisible': [('local_ambiente', '=', 2)], 'required': [('local_ambiente', '!=', 2)]}"/>
+                                    <field name="cod_lotacao" attrs="{'invisible': [('local_ambiente', '!=', 2)]}"/>
+                                </group>
+                            </page>
+                            <page string="e-Social">
+                                <group>
+                                    <field name="sped_intermediario_id"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_ambiente_trabalho_tree_view">
+            <field name="name">hr.ambiente.trabalho.tree</field>
+            <field name="model">hr.ambiente.trabalho</field>
+            <field name="arch" type="xml">
+                <tree string="Ambientes de Trabalho" >
+                    <field name="cod_ambiente"/>
+                    <field name="data_inicio"/>
+                    <field name="data_fim"/>
+                    <field name="local_ambiente"/>
+                    <field name="tipo_inscricao"/>
+                    <field name="num_inscricao"/>
+                    <field name="cod_lotacao"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_ambiente_trabalho">
+            <field name="name">Ambientes de Trabalho</field>
+            <field name="res_model">hr.ambiente.trabalho</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_ambiente_trabalho">
+            <field name="name">Ambientes de Trabalho</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_sst" />
+            <field name="action" ref="sped_esocial.action_hr_ambiente_trabalho" />
+            <field name="sequence" eval="3" />
+        </record>
+
+    </data>
+</openerp>
