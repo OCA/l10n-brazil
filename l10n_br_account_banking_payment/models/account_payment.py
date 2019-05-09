@@ -38,7 +38,6 @@ class PaymentLine(models.Model):
             record.amount_interest = round(
                 record.amount_currency * (
                     record.percent_interest / 100), precision)
-            # self.line.mode.percent_interest
 
     linha_digitavel = fields.Char(string=u"Linha Digitável")
     percent_interest = fields.Float(string=u"Percentual de Juros",
@@ -46,10 +45,3 @@ class PaymentLine(models.Model):
     amount_interest = fields.Float(string=u"Valor Juros",
                                    compute='_compute_interest',
                                    digits=dp.get_precision('Account'))
-
-    #
-    # # TODO: Implementar total de juros e outras despesas acessórias.
-    # @api.depends('line_ids', 'line_ids.amount')
-    # @api.one
-    # def _compute_total(self):
-    #     self.total = sum(self.mapped('line_ids.amount') or [0.0])

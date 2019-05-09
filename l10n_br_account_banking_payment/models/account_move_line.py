@@ -11,7 +11,6 @@ class AccountMoveLine(models.Model):
 
     date_scheduled = fields.Date(string='Data Prevista')
 
-    # TODO: Verificar informação ref a numeração na localização brasileira
     @api.multi
     def _get_journal_entry_ref(self):
         for record in self:
@@ -38,6 +37,3 @@ class AccountMoveLine(models.Model):
         for line in self:
             total += (line.debit or 0.0) - (line.credit or 0.0)
         return total
-
-    # TODO: Criar metodos para implementação de juros e outros
-        # detalhes pertinentes.
