@@ -21,6 +21,7 @@
         'views/account_payment.xml',
     ],
     'demo': [
+        'demo/account_banking_payment_demo.xml'
     ],
     'installable': True,
 }
