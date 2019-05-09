@@ -84,6 +84,18 @@ class TestPaymentOrder(TransactionCase):
         self.assertEquals(len(payment_order.payment_line_ids), 2)
         self.assertEquals(len(payment_order.bank_line_ids), 0)
 
+        for line in payment_order.payment_line_ids:
+            line.percent_interest = 1.5
+            self.assertEquals(line._get_info_partner(
+                self.invoice_customer_original.partner_id),
+                'AKRETION LTDA',
+                "Error with method _get_info_partner"
+            )
+            test_amount_interest = line.amount_interest
+        self.assertEquals(
+            test_amount_interest, 10.5,
+            "Error with compute field amount_interest.")
+
         # Open payment order
         payment_order.draft2open()
 
