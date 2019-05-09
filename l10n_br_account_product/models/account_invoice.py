@@ -548,7 +548,6 @@ class AccountInvoice(models.Model):
                    ('99', u'99 - Outros')],
         string='Tipo de Pagamento da NF',
         default='99',
-        required=True,
         help=u'Obrigatório o preenchimento do Grupo Informações de Pagamento'
              u' para NF-e e NFC-e. Para as notas com finalidade de Ajuste'
              u' ou Devolução o campo Forma de Pagamento deve ser preenchido'
