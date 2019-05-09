@@ -28,6 +28,15 @@
                                 <field name="data_fim" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                             </group>
                         </group>
+                        <separator string="Novas data na alteração"/>
+                        <group attrs="{'invisible': ['|', ('cod_ambiente', '=', False), ('company_id', '=', False)]}">
+                            <group>
+                                <field name="nova_data_inicio" options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'invisible': [('sped_intermediario_id', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="nova_data_fim" options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'invisible': [('sped_intermediario_id', '=', False)]}"/>
+                            </group>
+                        </group>
                         <notebook>
                             <page string="Dados Ambiente">
                                 <group>
@@ -76,7 +85,7 @@
             <field name="name">Ambientes de Trabalho</field>
             <field name="parent_id" ref="sped_esocial.menu_hr_root_sst" />
             <field name="action" ref="sped_esocial.action_hr_ambiente_trabalho" />
-            <field name="sequence" eval="3" />
+            <field name="sequence" eval="1" />
         </record>
 
     </data>

@@ -10,5 +10,13 @@
                 groups="base.group_user"
         />
 
+        <menuitem
+                id="menu_hr_root_condicao_ambiente_trabalho"
+                parent="sped_esocial.menu_hr_root_sst"
+                name="Condição do Ambiente de Trabalho"
+                sequence="2"
+                groups="base.group_user"
+        />
+
     </data>
 </openerp>

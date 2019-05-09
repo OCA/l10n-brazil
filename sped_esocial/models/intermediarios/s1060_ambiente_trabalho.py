@@ -177,6 +177,8 @@ class SpedEsocialAmbienteTrabalho(models.Model, SpedRegistroIntermediario):
                 inclusao.dadosAmbiente.nrInsc.valor = self.hr_ambiente_trabalho_id.num_inscricao
             else:
                 inclusao.dadosAmbiente.codLotacao.valor = self.hr_ambiente_trabalho_id.cod_lotacao
+
+            S1060.evento.infoAmbiente.inclusao.append(inclusao)
         elif operacao == 'A':
             alteracao = pysped.esocial.leiaute.S1060_Alteracao()
 
@@ -199,6 +201,18 @@ class SpedEsocialAmbienteTrabalho(models.Model, SpedRegistroIntermediario):
                 alteracao.dadosAmbiente.nrInsc.valor = self.hr_ambiente_trabalho_id.num_inscricao
             else:
                 alteracao.dadosAmbiente.codLotacao.valor = self.hr_ambiente_trabalho_id.cod_lotacao
+
+            if self.hr_ambiente_trabalho_id.nova_data_inicio:
+                nova_validade = pysped.esocial.leiaute.s1060_NovaValidade_2()
+                nova_validade.iniValid.valor = '{}-{}'.format(
+                    self.hr_ambiente_trabalho_id.nova_data_inicio.code[3:7],
+                    self.hr_ambiente_trabalho_id.nova_data_inicio.code[0:2])
+                if self.hr_ambiente_trabalho_id.nova_data_fim:
+                    nova_validade.fimValid.valor = '{}-{}'.format(
+                       self.hr_ambiente_trabalho_id.nova_data_fim.code[3:7],
+                       self.hr_ambiente_trabalho_id.nova_data_fim.code[0:2])
+
+                alteracao.novaValidade.append(nova_validade)
 
             S1060.evento.infoAmbiente.alteracao.append(alteracao)
         elif operacao == 'E':
