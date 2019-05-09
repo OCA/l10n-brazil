@@ -3,10 +3,9 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 from odoo.tools.float_utils import float_round as round
-from odoo.exceptions import ValidationError
 
 
 class PaymentLine(models.Model):

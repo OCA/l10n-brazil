@@ -57,7 +57,7 @@ class TestPaymentOrder(TransactionCase):
             "Payment Mode field is not filled."
         for line in self.invoice_customer_original.move_id.line_ids.filtered(
                 lambda l: l.account_id.id ==
-                          self.invoice_customer_original.account_id.id):
+                self.invoice_customer_original.account_id.id):
             self.assertEquals(
                 line.journal_entry_ref, 'INV/2019/0004',
                 "Error with compute field journal_entry_ref")
