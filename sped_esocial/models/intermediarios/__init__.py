@@ -9,6 +9,7 @@ from . import s1010_rubrica
 from . import s1020_lotacao_tributaria
 from . import s1030_cargos_empregos_publicos
 from . import s1050_turnos_trabalho
+from . import s1060_ambiente_trabalho
 
 # Registros Periódicos
 from . import s1200_remuneracao_de_trabalhador_rgps
