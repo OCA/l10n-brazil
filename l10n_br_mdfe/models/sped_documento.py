@@ -5,6 +5,9 @@
 from __future__ import division, print_function, unicode_literals
 import tempfile
 import time
+import base64
+from pynfe.utils import etree
+import re
 
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import (
@@ -330,7 +333,7 @@ class SpedDocumento(models.Model):
                 self.situacao_mdfe = SITUACAO_MDFE_ENCERRADA
             return {}
 
-        processo = mdfe.autorizacao(envio)
+        processo = mdfe.autorizacao(envio).resposta
         xml_str = processo.retorno.request.body
         resposta = processo.resposta
         if resposta.cStat != '103':
@@ -367,6 +370,12 @@ class SpedDocumento(models.Model):
             if recibo.protMDFe.infProt.cStat == '100':
                 self.protocolo_autorizacao = recibo.protMDFe.infProt.nProt
                 self.situacao_mdfe = SITUACAO_NFE_AUTORIZADA
+
+            # xml_str += self._retorno(recibo)
+            arquivo = {}
+            arquivo['xml'] = xml_str
+            arquivo['chave'] = self.chave
+            self.grava_xml(arquivo)
         else:
             #
             # Rejeitada por outros motivos, falha no schema etc. etc.
@@ -445,3 +454,55 @@ class SpedDocumento(models.Model):
         mensagem += '\nMensagem: ' + \
                     processo.resposta.infEvento.xMotivo
         self.mensagem_nfe = mensagem
+
+    def _grava_anexo(self, nome_arquivo='', conteudo='',
+                     tipo='application/xml', model='sped.documento'):
+        self.ensure_one()
+
+        attachment = self.env['ir.attachment']
+
+        busca = [
+            ('res_model', '=', 'sped.documento'),
+            ('res_id', '=', self.id),
+            ('name', '=', nome_arquivo),
+        ]
+        attachment_ids = attachment.search(busca)
+        attachment_ids.unlink()
+
+        dados = {
+            'name': nome_arquivo,
+            'datas_fname': nome_arquivo,
+            'res_model': 'sped.documento',
+            'res_id': self.id,
+            'datas': base64.b64encode(conteudo),
+            'mimetype': tipo,
+        }
+
+        anexo_id = self.env['ir.attachment'].create(dados)
+
+        return anexo_id
+
+    def grava_xml(self, nfe):
+        self.ensure_one()
+        nome_arquivo = nfe['chave'] + '-mdfe.xml'
+        conteudo = nfe['xml'].encode('utf-8')
+        self.arquivo_xml_id = False
+        self.arquivo_xml_id = self._grava_anexo(nome_arquivo, conteudo)
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/content/{id}/{nome}'.format(
+                id=self.arquivo_xml_id.id,
+                nome=self.arquivo_xml_id.name),
+            'target': 'new',
+        }
+
+    def _retorno(self, retorno):
+
+        match = re.search('<soap:Body>(.*?)</soap:Body>', retorno)
+
+        if match:
+            resultado = etree.tostring(etree.fromstring(match.group(1))[0])
+            resposta = resultado.encode('utf-8')
+
+            return resposta
