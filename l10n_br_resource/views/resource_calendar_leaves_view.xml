@@ -2,9 +2,7 @@
 <!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<openerp>
-<data>
-
+<odoo>
     <record model="ir.ui.view" id="resource_calendar_leaves_form_view">
         <field name="name">resource.calendar.leaves.form (in l10n_br_resource)</field>
         <field name="model">resource.calendar.leaves</field>
@@ -45,6 +43,4 @@
             </field>
         </field>
     </record>
-
-</data>
-</openerp>
+</odoo>
