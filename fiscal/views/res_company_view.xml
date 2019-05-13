@@ -19,6 +19,8 @@
                                 </group>
                                 <group>
                                     <field name="simplifed_tax_id"/>
+                                    <field name="simplifed_tax_range_id"/>
+                                    <field name="simplifed_tax_percent"/>
                                 </group>
                             </group>
                             <group string="CNAE">
