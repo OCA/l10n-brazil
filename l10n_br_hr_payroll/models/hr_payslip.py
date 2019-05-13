@@ -2160,7 +2160,7 @@ class HrPayslip(models.Model):
 
         # Variavel para contabilizar os avos na contabilização do
         # adiantamento do decimo terceiro salario
-        adiantamento_avos_13 = 12
+        adiantamento_avos_13 = 6
 
         #
         # Calcula os Avos do payslip para Provisão de 13º Salário
@@ -2186,7 +2186,7 @@ class HrPayslip(models.Model):
 
             avos_13 = int(mes_do_ano) - int(mes_inicio_contrato) + 1
 
-            adiantamento_avos_13 = 13 - int(mes_inicio_contrato)
+            adiantamento_avos_13 = 7 - int(mes_inicio_contrato)
             
             # Se trabalhou mais do que 15 dias no mes, contar o mes nos avos
             # de adiantamento de 13 salario. Senao trabalhou pelo menos 15
