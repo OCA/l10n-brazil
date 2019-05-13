@@ -6,7 +6,7 @@ from odoo import models, fields, api
 from .constants.fiscal import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_SERVICE,
-    NCM_FOR_SERVICE)
+    NCM_FOR_SERVICE_REF)
 
 from .constants.icms import ICMS_ORIGIN
 
@@ -15,8 +15,9 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     def _get_default_ncm_id(self):
-        if self.env.context.get('default_fiscal_type') == '09':
-            ncm_id = self.env.ref('fiscal.ncm_00000000')
+        fiscal_type = self.env.context.get('default_fiscal_type')
+        if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
+            ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
             return ncm_id
 
     fiscal_type = fields.Selection(
@@ -55,6 +56,12 @@ class ProductTemplate(models.Model):
         domain="[('ncm_ids', '=', ncm_id)]")
 
     # TODO add percent of estimate taxes
+
+    @api.onchange('fiscal_type')
+    def _onchange_fiscal_type(self):
+        for r in self:
+            if r.fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
+                r.ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
 
     @api.onchange('ncm_id', 'fiscal_genre_id')
     def _onchange_ncm_id(self):
