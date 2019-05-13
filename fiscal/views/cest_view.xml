@@ -36,14 +36,34 @@
         <field name="arch" type="xml">
             <form string="CEST">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="action"
+                                class="oe_stat_button"
+                                id="product_tmpl_button"
+                                icon="fa-bars"
+                                name="%(product.product_template_action_all)d"
+                                context="{'search_default_cest_id': active_id}"
+                                attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}">
+                            <field string="Products" widget="statinfo" name="product_tmpl_qty"/>
+                        </button>
+                    </div>
                     <group>
-                      <field name="code"/>
-                      <field name="item"/>
-                      <field name="name"/>
-                      <field name="segment"/>
-                      <field name="ncms"/>
-                      <field name="ncm_ids"/>
+                        <field name="code"/>
+                        <field name="item"/>
+                        <field name="name"/>
+                        <field name="segment"/>
                     </group>
+                    <notebook>
+                        <page string="Related Produts" name="tax_product_tmpl">
+                            <field name="product_tmpl_ids"/>
+                        </page>
+                        <page string="Related NCM" name="ncm">
+                            <group>
+                                <field name="ncms"/>
+                            </group>
+                            <field name="ncm_ids"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
