@@ -36,8 +36,7 @@ class DocumentType(models.Model):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('code', operator, name + '%')
-                      ('code_unmasked', operator, name),
+            domain = ['|', ('code', operator, name),
                       ('name', operator, name)]
 
         recs = self._search(expression.AND([domain, args]), limit=limit,
