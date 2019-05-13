@@ -16,13 +16,14 @@
         'l10n_br_base',
         'resource',
     ],
+    "maintainers": ["mileo", "hendixcosta", "lfdivino"],
     'external_dependencies': {
         'python': ['pybrasil'],
     },
     'data': [
-        'views/resource_calendar.xml',
-        'views/resource_calendar_leaves.xml',
-        'views/menu_resource_calendar.xml',
-        'wizard/workalendar_holiday_import.xml',
+        'views/resource_calendar_view.xml',
+        'views/resource_calendar_leaves_view.xml',
+        'views/resource_calendar_menu.xml',
+        'wizards/workalendar_holiday_import_wizard.xml',
     ],
 }
