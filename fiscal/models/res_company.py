@@ -10,8 +10,39 @@ from .constants.fiscal import TAX_FRAMEWORK, TAX_FRAMEWORK_DEFAULT
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
+    @api.multi
+    def _compute_l10n_br_data(self):
+        """ Read the l10n_br specific functional fields. """
+        super(ResCompany, self)._compute_l10n_br_data()
+        for c in self:
+            c.tax_framework = c.partner_id.tax_framework
+            c.cnae_main_id = c.partner_id.cnae_main_id
+
+    def _inverse_cnae_main_id(self):
+        """ Write the l10n_br specific functional fields. """
+        for c in self:
+            c.partner_id.cnae_main_id = c.cnae_main_id
+
+    def _inverse_tax_framework(self):
+        """ Write the l10n_br specific functional fields. """
+        for c in self:
+            c.partner_id.tax_framework = c.tax_framework
+
+    @api.one
+    @api.depends('simplifed_tax_id', 'annual_revenue')
+    def _compute_simplifed_tax_range(self):
+        range = self.env['fiscal.simplified.tax.range'].search(
+            [('inital_revenue', '<=', self.annual_revenue),
+             ('final_revenue', '>=', self.annual_revenue)],
+            limit=1)
+
+        if range:
+            self.simplifed_tax_range_id = range.id
+
     cnae_main_id = fields.Many2one(
         comodel_name='fiscal.cnae',
+        compute='_compute_l10n_br_data',
+        inverse='_inverse_cnae_main_id',
         domain="[('internal_type', '=', 'normal'), "
                "('id', 'not in', cnae_secondary_ids)]",
         string='Main CNAE')
@@ -28,6 +59,8 @@ class ResCompany(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_DEFAULT,
+        compute='_compute_l10n_br_data',
+        inverse='_inverse_tax_framework',
         string='Tax Framework')
 
     annual_revenue = fields.Monetary(
@@ -40,6 +73,20 @@ class ResCompany(models.Model):
         comodel_name='fiscal.simplified.tax',
         domain="[('cnae_ids', '=', cnae_main_id)]",
         string='Simplified Tax')
+
+    simplifed_tax_range_id = fields.Many2one(
+        comodel_name='fiscal.simplified.tax.range',
+        domain="[('simplified_tax_id', '=', simplifed_tax_id)]",
+        compute='_compute_simplifed_tax_range',
+        store=True,
+        readyonly=True,
+        string='Simplified Tax Range')
+
+    simplifed_tax_percent = fields.Float(
+        string='Simplifed Tax Percent',
+        default=0.00,
+        related='simplifed_tax_range_id.total_tax_percent',
+        digits=dp.get_precision('Fiscal Tax Percent'))
 
     ibpt_token = fields.Char(
         string=u'IPBT Token')
@@ -60,6 +107,15 @@ class ResCompany(models.Model):
     accountant_id = fields.Many2one(
         comodel_name='res.partner',
         string='Accountant')
+
+    @api.onchange('cnae_main_id')
+    def _onchange_cnae_main_id(self):
+        simplified_tax = self.env['fiscal.simplified.tax'].search(
+            [('cnae_ids', '=', self.cnae_main_id.id)],
+            limit=1)
+
+        if simplified_tax:
+            self.simplifed_tax_id = simplified_tax.id
 
 """
     @api.one
