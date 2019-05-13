@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo12-addon-l10n_br_base',
         'odoo12-addon-l10n_br_crm',
+        'odoo12-addon-l10n_br_currency_rate_update',
         'odoo12-addon-l10n_br_zip',
         'odoo12-addon-l10n_br_zip_correios',
     ],
