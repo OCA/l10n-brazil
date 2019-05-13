@@ -25,7 +25,6 @@
         'views/l10n_br_account_view.xml',
         'views/product_view.xml',
         'views/res_company_view.xml',
-        'views/res_config_view.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_account_security.xml',
         'report/account_invoice_report_view.xml',
