@@ -10,6 +10,7 @@ from odoo.addons import decimal_precision as dp
 class TaxEstimate(models.Model):
     _name = 'fiscal.tax.estimate'
     _description = 'Fiscal Tax Estimate'
+    _order = 'create_date desc'
 
     ncm_id = fields.Many2one(
         comodel_name='fiscal.ncm',
