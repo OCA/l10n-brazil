@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import fields
-import openerp.tests.common as test_common
+from odoo import fields
+import odoo.tests.common as test_common
 
 
 class TestResourceCalendar(test_common.SingleTransactionCase):
