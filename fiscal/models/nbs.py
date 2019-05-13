@@ -6,6 +6,7 @@ from datetime import timedelta
 
 from odoo import models, fields, api, _
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
+from odoo.addons import decimal_precision as dp
 from odoo.osv import expression
 
 from .ibpt.taxes import DeOlhoNoImposto, get_ibpt_service
@@ -18,6 +19,21 @@ class Nbs(models.Model):
     _inherit = ['mail.thread']
     _description = 'NBS'
     _order = 'code'
+
+    @api.one
+    @api.depends('tax_estimate_ids')
+    def _compute_amount(self):
+        last_estimated = self.env['fiscal.tax.estimate'].search(
+            [('nbs_id', '=', self.id)],
+            order='create_date DESC',
+            limit=1)
+
+        self.estimate_tax_imported = (
+            last_estimated.federal_taxes_import +
+            last_estimated.state_taxes + last_estimated.municipal_taxes)
+        self.estimate_tax_national = (
+            last_estimated.federal_taxes_national +
+            last_estimated.state_taxes + last_estimated.municipal_taxes)
 
     code = fields.Char(
         string='Code',
@@ -51,6 +67,20 @@ class Nbs(models.Model):
     product_tmpl_qty = fields.Integer(
         string='Products Quantity',
         compute='_compute_product_tmpl_info')
+
+    estimate_tax_national = fields.Float(
+        string='Estimate Tax Nacional Percent',
+        store=True,
+        readonly=True,
+        digits=dp.get_precision('Fiscal Tax Percent'),
+        compute='_compute_amount')
+
+    estimate_tax_imported = fields.Float(
+        string='Estimate Tax Imported Percent',
+        store=True,
+        readonly=True,
+        digits=dp.get_precision('Fiscal Tax Percent'),
+        compute='_compute_amount')
 
     _sql_constraints = [
         ('fiscal_ncm_code_extension_uniq', 'unique (code)',

@@ -9,4 +9,12 @@
         <field name="code">records.get_ibpt()</field>
     </record>
 
+    <record id="nbs_get_get_ibpt_action" model="ir.actions.server">
+        <field name="name">Update Tax Estimate</field>
+        <field name="model_id" ref="model_fiscal_nbs"/>
+        <field name="binding_model_id" ref="model_fiscal_nbs"/>
+        <field name="state">code</field>
+        <field name="code">records.get_ibpt()</field>
+    </record>
+
 </odoo>
