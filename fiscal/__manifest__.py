@@ -24,18 +24,10 @@
         # Data
         'data/fiscal_data.xml',
         'data/uom_data.xml',
-        'data/fiscal.cnae.csv',
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
-        'data/fiscal.cfop.csv',
-        'data/fiscal.cst.csv',
-        'data/fiscal.tax.csv',
-        'data/fiscal.tax.ipi.guideline.csv',
-        'data/fiscal.ncm.csv',
-        'data/fiscal.nbs.csv',
-        'data/fiscal.cest.csv',
-        'data/simplified_tax_data.xml',
         'data/partner_profile_data.xml',
+        'data/ir_cron.xml',
 
         # Views
         'views/cnae_view.xml',
@@ -65,7 +57,6 @@
         # 'data/l10n_br_account_data.xml',
         # 'data/l10n_br_account_product_data.xml',
         # 'data/l10n_br_tax.icms_partition.csv',
-        # 'data/ir_cron.xml',
         # 'views/l10n_br_account_product_ipi_guideline_view.xml',
         # 'views/l10n_br_account_product_icms_relief_view.xml',
         # 'views/l10n_br_account_product_import_declaration_view.xml',
@@ -97,6 +88,7 @@
         # 'demo/account_nfe_supplier_demo.xml',
     ],
     'test': [],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'auto_install': False,
 }
