@@ -210,7 +210,7 @@ class HrPayslipRun(models.Model):
             # Buscar payslips dos contratos validos que ja foram processadas
             payslips = self.env['hr.payslip'].search(dominio_payslips)
 
-            # grupo contendo os contratos que ja foram processados naquele período
+            # grupo contendo contratos que ja foram processados naquele período
             contratos_com_holerites = []
             for payslip in payslips:
                 if payslip.contract_id.id not in contratos_com_holerites:
@@ -234,7 +234,7 @@ class HrPayslipRun(models.Model):
             # com aquela rubrica
             if lote.tipo_de_folha == 'adiantamento_13':
                 # buscar as rubricas que foram processadas de adiantamento 13
-                rubricas_ids = self.env['hr.payslip.line'].search([
+                rubricas_to_remove_ids = self.env['hr.payslip.line'].search([
                     ('contract_id', 'in', contratos_sem_holerite),
                     ('code', '=', 'ADIANTAMENTO_13'),
                     ('slip_id.ano', '=', self.ano),
@@ -243,8 +243,16 @@ class HrPayslipRun(models.Model):
                     ('total', '>', 0),
                 ])
 
+                # Identificado as rubricas de decimo terceiro adiantadas em
+                # férias, verificar se o valor adiantado foi exatamente
+                # metade do salario, pois há casos de alterações salariais
+                # no período.
+                rubricas_to_remove_ids = rubricas_to_remove_ids.filtered(
+                    lambda x: abs(
+                        x.total - (x.slip_id.contract_id.wage / 2)) <= 0.01)
+
                 # filtrar os contratos dessas rubricas
-                contratos_ids = rubricas_ids.mapped('contract_id')
+                contratos_ids = rubricas_to_remove_ids.mapped('contract_id')
 
                 # remover esses contratos dos contratos validos
                 contratos_sem_holerite = \
