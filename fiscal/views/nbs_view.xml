@@ -30,7 +30,7 @@
             <form string="NBS">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="get_ibpt" string="Update Tax Estimate" type="object" class="oe_stat_button" icon="fa-file"/>
+                        <button name="get_ibpt" string="Update Tax Estimate" invisible="1" type="object" class="oe_stat_button" icon="fa-file"/>
                         <button type="action"
                                 class="oe_stat_button"
                                 id="product_tmpl_button"
@@ -65,6 +65,7 @@
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread"/>
                 </div>
             </form>
