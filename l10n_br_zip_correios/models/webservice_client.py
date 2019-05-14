@@ -67,9 +67,9 @@ class WebServiceClient(object):
                     'district': str(
                         res.bairro.encode('utf8')) if res.bairro
                     else '',
-                    'street_type': str(
-                        res.complemento.encode('utf8')) if res.complemento
-                    else '',
+                    'zip_complement': str(
+                        res.complemento2.encode('utf8')
+                    )[:200] if res.complemento2 else '',
                     'l10n_br_city_id': city_ids.ids[
                         0] if city_ids else False,
                     'state_id': state_ids.ids[0] if state_ids else False,
