@@ -1209,12 +1209,22 @@ class HrPayslip(models.Model):
                     data_de_inicio = str(self.ano - 1) + '-12-01'
                 data_final = str(self.ano) + '-11-30'
 
+                """
+                Considerando que as gratificações, prêmios e adicionais fixos,
+                 habitualmente pagos ao empregado, integram o salário para
+                  apuração do 13º salário por sua média duodecimal, 
+                  independentemente da periodicidade de seu pagamento, 
+                  bem como todas as verbas estabelecidas no artigo 457 da CLT. 
+                  As horas extras e horas noturnas, se habituais, possuem 
+                  natureza salarial, integrando ao salário do empregado para 
+                  todos os efeitos legais,conforme as Súmulas TST nºs 60 e 347.
+                  10 de maio de 2019.
+                """
                 # Para calculo da media de substituicao no adiantamento de
-                #  13º salario, contar apenas o mes ate maio.
-                # Logo a media devera ser de apenas 5 meses
+                #  13º salario, a média sera duodecimal
                 if tipo_de_folha == 'adiantamento':
-                    data_final = str(self.ano) + '-04-30'
-                    meses = 5
+                    data_final = str(self.ano) + '-12-31'
+                    meses = 12
 
             #
             #  Buscar Holerites do Período
