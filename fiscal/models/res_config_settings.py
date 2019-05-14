@@ -1,18 +1,28 @@
-#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
-#    @author Luis Felipe Miléo (mileo@kmee.com.br)
+# Copyright (C) 2015  Luis Felipe Miléo - KMEE <mileo@kmee.com.br>
+# Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields
 
 
-class ResConfig(models.TransientModel):
-    _inherit = 'account.config.settings'
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
 
-    ipbt_token = fields.Char(
-        string=u'IPBT Token',
-        related='company_id.ipbt_token'
-    )
+    ibpt_api = fields.Boolean(
+        string='Use IBPT API',
+        related='company_id.ibpt_api',
+        readonly=False)
+
+    ibpt_token = fields.Char(
+        string='IPBT Token',
+        related='company_id.ibpt_token',
+        readonly=False)
+
     ibpt_update_days = fields.Integer(
-        string=u'Quantidade de dias para Atualizar',
-        related='company_id.ibpt_update_days'
-    )
+        string='IBPT Update',
+        related='company_id.ibpt_update_days',
+        readonly=False)
+
+    document_type_ids = fields.Many2many(
+        related='company_id.document_type_ids',
+        readonly=False)
