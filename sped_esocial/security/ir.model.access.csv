@@ -14,6 +14,7 @@ access_s1050_gerente,Gerente S-1050(Escrita),model_sped_hr_turnos_trabalho,sped_
 access_s1060_operador,Operador S-1060(Leitura),model_sped_hr_turnos_trabalho,sped_tabelas.group_user,1,0,0,0
 access_s1060_gerente,Gerente S-1060(Escrita),model_sped_hr_ambiente_trabalho,base.group_hr_user,1,1,1,1
 access_hr_ambiente_trabalho_gerente,Gerente Ambiente Trabalho,model_hr_ambiente_trabalho,base.group_hr_user,1,1,1,1
+access_hr_responsavel_ambiental_gerente,Gerente Responsavel de Registro Ambiental,model_hr_responsavel_ambiente,base.group_hr_user,1,1,1,1
 access_s1200_operador,Operador S-1200(Leitura),model_sped_esocial_remuneracao,sped_tabelas.group_user,1,0,0,0
 access_s1200_gerente,Gerente S-1200(Escrita),model_sped_esocial_remuneracao,sped_tabelas.group_manager,1,1,1,1
 access_s1202_operador,Operador S-1202(Leitura),model_sped_esocial_remuneracao_rpps,sped_tabelas.group_user,1,0,0,0

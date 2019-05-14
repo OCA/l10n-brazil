@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_responsavel_ambiental_form_view">
+            <field name="name">hr.responsavel.ambiente.form</field>
+            <field name="model">hr.responsavel.ambiente</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <label for="nome" string="Nome do Responsável"/>
+                        <h1>
+                            <field name="nome" required="True"/>
+                        </h1>
+                        <group>
+                            <field name="cpf_responsavel" required="True"/>
+                            <field name="nis_responsavel" required="True"/>
+                        </group>
+                        <separator string="Dados do Orgão Responsável"/>
+                        <group>
+                            <group>
+                                <field name="identificacao_ordem_classe" required="True"/>
+                                <field name="descricao_ordem_classe"/>
+                            </group>
+                            <group>
+                                <field name="num_inscricao" required="True"/>
+                                <field name="uf" required="True"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_responsavel_ambiental_tree_view">
+            <field name="name">hr.responsavel.ambiente.tree</field>
+            <field name="model">hr.responsavel.ambiente</field>
+            <field name="arch" type="xml">
+                <tree string="Responsavel Registro Ambiental" >
+                    <field name="cpf_responsavel"/>
+                    <field name="nis_responsavel"/>
+                    <field name="nome"/>
+                    <field name="identificacao_ordem_classe"/>
+                    <field name="descricao_ordem_classe"/>
+                    <field name="num_inscricao"/>
+                    <field name="uf"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_responsavel_ambiental">
+            <field name="name">Responsavel Registro Ambiental</field>
+            <field name="res_model">hr.responsavel.ambiente</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_responsavel_ambiental">
+            <field name="name">Responsavel Registro Ambiental</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_condicao_ambiente_trabalho" />
+            <field name="action" ref="sped_esocial.action_hr_responsavel_ambiental" />
+            <field name="sequence" eval="7" />
+        </record>
+
+    </data>
+</openerp>
