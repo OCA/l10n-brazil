@@ -62,6 +62,7 @@
         'views/inherited_hr_holidays_view.xml',
         'views/inherited_sped_registro.xml',
         'views/hr_ambiente_trabalho.xml',
+        'views/hr_informativo_atividade_trabalho.xml',
         'views/hr_responsavel_ambiental.xml',
 
         # Intermediarios

@@ -39,4 +39,5 @@ from . import hr_turnos_trabalho
 from . import sped_esocial
 from . import inherited_sped_registro
 from . import hr_ambiente_trabalho
+from . import hr_informativo_atividade_trabalho
 from . import hr_responsavel_ambiental

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_informativo_atividade_trabalho_form_view">
+            <field name="name">hr.informativo.atividade.trabalho.form</field>
+            <field name="model">hr.informativo.atividade.trabalho</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <label for="desc_atividade" string="Descrição da Atividade"/>
+                        <field name="desc_atividade"/>
+                        <newline />
+                        <separator string="Atividades" />
+                        <field name="cod_atividade_ids"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_informativo_atividade_trabalho_tree_view">
+            <field name="name">hr.informativo.atividade.trabalho.tree</field>
+            <field name="model">hr.informativo.atividade.trabalho</field>
+            <field name="arch" type="xml">
+                <tree string="Informativos de Atividade de Trabalho" >
+                    <field name="desc_atividade"/>
+                    <field name="cod_atividade_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_informativo_atividade_trabalho">
+            <field name="name">Informativo de Atividade de Trabalho</field>
+            <field name="res_model">hr.informativo.atividade.trabalho</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_informativo_atividade_trabalho">
+            <field name="name">Informativo de Atividade de Trabalho</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_condicao_ambiente_trabalho" />
+            <field name="action" ref="sped_esocial.action_hr_informativo_atividade_trabalho" />
+            <field name="sequence" eval="3" />
+        </record>
+
+    </data>
+</openerp>
