@@ -10,11 +10,10 @@ from .constants.fiscal import FISCAL_IN_OUT, FISCAL_IN_OUT_DEFAULT
 class DocumentSerie(models.Model):
     _name = 'fiscal.document.serie'
     _description = 'Fiscal Document Serie'
+    _inherit = 'fiscal.data.abstract'
 
     code = fields.Char(
-        string='Code',
-        size=3,
-        required=True)
+        size=3)
 
     name = fields.Char(
         string='Name',
