@@ -27,6 +27,7 @@
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
         'data/partner_profile_data.xml',
+        'data/fiscal_server_action.xml',
         'data/ir_cron.xml',
 
         # Views
