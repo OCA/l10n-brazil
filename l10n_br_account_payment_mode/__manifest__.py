@@ -12,10 +12,9 @@
     'author': "KMEE, Odoo Community Association (OCA)",
     "website": "https://odoo-community.org/",
     'depends': [
-        'l10n_br_data_base',
+        'l10n_br_account_banking_payment',
         'l10n_br_account_product',
         'account_due_list_payment_mode',
-        'l10n_br_account_banking_payment',
     ],
     'data': [
         'views/payment_mode_view.xml',
