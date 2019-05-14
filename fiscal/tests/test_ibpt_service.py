@@ -29,6 +29,8 @@ class TestIbptService(common.TransactionCase):
             'cnpj_cpf': '02.960.895/0002-12',
             'country_id': self.env.ref('base.br').id,
             'state_id': self.env.ref('base.state_br_es').id,
+            'ibpt_api': True,
+            'ibpt_update_days': 0,
             'ibpt_token': ('dsaaodNP5i6RCu007nPQjiOPe5XIefnx'
                            'StS2PzOV3LlDRVNGdVJ5OOUlwWZhjFZk')
         })
