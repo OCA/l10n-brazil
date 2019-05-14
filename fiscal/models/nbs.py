@@ -3,11 +3,12 @@
 
 import logging
 from datetime import timedelta
+from lxml import etree
 
 from odoo import models, fields, api, _
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 from odoo.addons import decimal_precision as dp
-from odoo.osv import expression
+from odoo.osv import orm
+from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 from .ibpt.taxes import DeOlhoNoImposto, get_ibpt_service
 
@@ -16,15 +17,15 @@ _logger = logging.getLogger(__name__)
 
 class Nbs(models.Model):
     _name = 'fiscal.nbs'
-    _inherit = ['mail.thread']
     _description = 'NBS'
-    _order = 'code'
+    _inherit = ['fiscal.data.abstract', 'mail.thread', 'mail.activity.mixin']
 
     @api.one
     @api.depends('tax_estimate_ids')
     def _compute_amount(self):
         last_estimated = self.env['fiscal.tax.estimate'].search(
-            [('nbs_id', '=', self.id)],
+            [('nbs_id', '=', self.id),
+             ('company_id', '=', self.env.user.company_id.id)],
             order='create_date DESC',
             limit=1)
 
@@ -36,22 +37,10 @@ class Nbs(models.Model):
             last_estimated.state_taxes + last_estimated.municipal_taxes)
 
     code = fields.Char(
-        string='Code',
-        size=12,
-        required=True,
-        index=True)
+        size=12)
 
     code_unmasked = fields.Char(
-         string='Unmasked Code',
-         size=10,
-         compute='_compute_code_unmasked',
-         store=True,
-         index=True)
-
-    name = fields.Text(
-        string='Name',
-        required=True,
-        index=True)
+         size=10)
 
     tax_estimate_ids = fields.One2many(
         comodel_name='fiscal.tax.estimate',
@@ -83,7 +72,7 @@ class Nbs(models.Model):
         compute='_compute_amount')
 
     _sql_constraints = [
-        ('fiscal_ncm_code_extension_uniq', 'unique (code)',
+        ('fiscal_nbs_code_uniq', 'unique (code)',
          'NBS already exists with this code !')]
 
     @api.one
@@ -94,39 +83,11 @@ class Nbs(models.Model):
         self.product_tmpl_ids = product_tmpls
         self.product_tmpl_qty = len(product_tmpls)
 
-    @api.depends('code')
-    def _compute_code_unmasked(self):
-        for r in self:
-            # TODO mask code and unmasck
-            r.code_unmasked = punctuation_rm(r.code)
-
-    @api.model
-    def _name_search(self, name, args=None, operator='ilike',
-                     limit=100, name_get_uid=None):
-        args = args or []
-        domain = []
-        if name:
-            domain = ['|', '|', ('code', operator, name + '%'),
-                      ('code_unmasked', operator, name),
-                      ('name', operator, name)]
-
-        recs = self._search(expression.AND([domain, args]), limit=limit,
-                            access_rights_uid=name_get_uid)
-        return self.browse(recs).name_get()
-
-    @api.multi
-    def name_get(self):
-        def truncate_name(name):
-            if len(name) > 60:
-                name = '{0}...'.format(name[:60])
-            return name
-
-        return [(r.id,
-                 "{0} - {1}".format(r.code, truncate_name(r.name)))
-                for r in self]
-
     @api.multi
     def get_ibpt(self):
+        if not self.env.user.company_id.ibpt_api:
+            return False
+
         for nbs in self:
             try:
                 company = self.env.user.company_id
@@ -206,3 +167,20 @@ class Nbs(models.Model):
                 continue
 
         _logger.info('Scheduled NBS estimate taxes update complete.')
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+        res = super(Nbs, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
+        if view_type == 'form':
+            xml = etree.XML(res['arch'])
+            xml_button = xml.xpath("//button[@name='get_ibpt']")
+            if xml_button and not self.env.user.company_id.ibpt_api:
+                xml_button[0].attrib['invisible'] = '1'
+                orm.setup_modifiers(xml_button[0])
+                res['arch'] = etree.tostring(xml, pretty_print=True)
+        if res.get('toolbar') and not self.env.user.company_id.ibpt_api:
+            res['toolbar']['action'] = []
+        return res
