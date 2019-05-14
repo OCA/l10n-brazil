@@ -34,20 +34,19 @@ class AccountPaymentMode(models.Model):
     ]
 
 
-class PaymentModeType(models.Model):
-    _inherit = 'payment.mode.type'
-    _description = 'Payment Mode Type'
+class AccountPaymentMethod(models.Model):
+    _inherit = 'account.payment.method'
 
-    payment_order_type = fields.Selection(
+    payment_type = fields.Selection(
         selection_add=[
             ('cobranca', u'Cobrança'),
         ])
 
 
-class PaymentOrder(models.Model):
-    _inherit = 'payment.order'
+class AccountPaymentOrder(models.Model):
+    _inherit = 'account.payment.order'
 
-    payment_order_type = fields.Selection(
+    payment_type = fields.Selection(
         selection_add=[
             ('cobranca', u'Cobrança'),
         ])
