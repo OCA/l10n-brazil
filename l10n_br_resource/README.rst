@@ -25,7 +25,7 @@ L10n Br Resource
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
+This module extends the core resource module to add data for Brazil. It defines a Brazilian calendar and some tools to compute dates used in financial and payroll modules.
 
 **Table of contents**
 
