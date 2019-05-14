@@ -8,17 +8,12 @@ from .constants.fiscal import FISCAL_IN_OUT, CFOP_DESTINATION
 
 class Cfop(models.Model):
     _name = 'fiscal.cfop'
+    _inherit = 'fiscal.data.abstract'
     _order = 'code'
     _description = 'CFOP'
 
     code = fields.Char(
-        string='Code',
-        size=4,
-        required=True)
-
-    name = fields.Text(
-        string='Name',
-        required=True)
+        size=4,)
 
     small_name = fields.Char(
         string='Small Name',
@@ -39,27 +34,3 @@ class Cfop(models.Model):
     _sql_constraints = [
         ('fiscal_cfop_code_uniq', 'unique (code)',
          'CFOP already exists with this code !')]
-
-    @api.model
-    def _name_search(self, name, args=None, operator='ilike',
-                     limit=100, name_get_uid=None):
-        args = args or []
-        domain = []
-        if name:
-            domain = ['|', ('code', operator, name),
-                      ('name', operator, name)]
-
-        recs = self._search(expression.AND([domain, args]), limit=limit,
-                            access_rights_uid=name_get_uid)
-        return self.browse(recs).name_get()
-
-    @api.multi
-    def name_get(self):
-        def truncate_name(name):
-            if len(name) > 60:
-                name = '{0}...'.format(name[:60])
-            return name
-
-        return [(r.id,
-                 "{0} - {1}".format(r.code, truncate_name(r.name)))
-                for r in self]

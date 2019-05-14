@@ -11,8 +11,8 @@ from .constants.fiscal import CEST_SEGMENT
 
 class Cest(models.Model):
     _name = 'fiscal.cest'
-    _order = 'code'
     _description = 'CEST'
+    _inherit = 'fiscal.data.abstract'
 
     code = fields.Char(
         string='Code',
@@ -70,15 +70,9 @@ class Cest(models.Model):
         self.product_tmpl_ids = product_tmpls
         self.product_tmpl_qty = len(product_tmpls)
 
-    @api.depends('code')
-    def _compute_code_unmasked(self):
-        for r in self:
-            # TODO mask code and unmasck
-            r.code_unmasked = punctuation_rm(r.code)
-
     @api.depends('ncms')
     def _compute_ncms(self):
-        ncm_ids = self.env['fiscal.ncm']
+        ncm = self.env['fiscal.ncm']
         for r in self:
             if r.ncms:
                 ncms = r.ncms.split(",")
@@ -87,30 +81,4 @@ class Cest(models.Model):
                           for n in ncms if len(n) == 8]
                 domain += [('code_unmasked', '=ilike', n + '%')
                            for n in ncms if len(n) < 8]
-                ncm_ids = self.env['fiscal.ncm'].search(domain)
-                r.ncm_ids = ncm_ids
-
-    @api.model
-    def _name_search(self, name, args=None, operator='ilike',
-                     limit=100, name_get_uid=None):
-        args = args or []
-        domain = []
-        if name:
-            domain = ['|', ('code', operator, name + '%'),
-                      ('code_unmasked', operator, name),
-                      ('name', operator, name)]
-
-        recs = self._search(expression.AND([domain, args]), limit=limit,
-                            access_rights_uid=name_get_uid)
-        return self.browse(recs).name_get()
-
-    @api.multi
-    def name_get(self):
-        def truncate_name(name):
-            if len(name) > 60:
-                name = '{0}...'.format(name[:60])
-            return name
-
-        return [(r.id,
-                 "{0} - {1}".format(r.code, truncate_name(r.name)))
-                for r in self]
+                r.ncm_ids = ncm.search(domain)
