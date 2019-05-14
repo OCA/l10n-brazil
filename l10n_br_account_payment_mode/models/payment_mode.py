@@ -6,8 +6,8 @@
 from odoo import models, fields
 
 
-class PaymentMode(models.Model):
-    _inherit = 'payment.mode'
+class AccountPaymentMode(models.Model):
+    _inherit = 'account.payment.mode'
 
     type_sale_payment = fields.Selection(
         [('00', u'00 - Duplicata'),
