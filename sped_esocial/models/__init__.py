@@ -40,4 +40,6 @@ from . import sped_esocial
 from . import inherited_sped_registro
 from . import hr_ambiente_trabalho
 from . import hr_informativo_atividade_trabalho
+from . import hr_fator_risco
+from . import hr_equipamento_protecao
 from . import hr_responsavel_ambiental

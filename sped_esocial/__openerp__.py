@@ -63,6 +63,8 @@
         'views/inherited_sped_registro.xml',
         'views/hr_ambiente_trabalho.xml',
         'views/hr_informativo_atividade_trabalho.xml',
+        'views/hr_fator_risco.xml',
+        'views/hr_equipamento_protecao.xml',
         'views/hr_responsavel_ambiental.xml',
 
         # Intermediarios

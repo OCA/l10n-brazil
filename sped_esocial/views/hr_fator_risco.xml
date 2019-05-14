@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_fator_risco_form_view">
+            <field name="name">hr.fator.risco.form</field>
+            <field name="model">hr.fator.risco</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <label for="cod_fator_risco_id" string="Fator de Risco"/>
+                        <h2>
+                            <field name="cod_fator_risco_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        </h2>
+                        <group>
+                            <field name="tp_avaliacao" required="True"/>
+                            <field name="intensidade_concentracao" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
+                            <field name="limite_tolerancia" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
+                            <field name="unidade_medida" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
+                            <field name="tec_medicao" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
+                        </group>
+                        <separator string="Exposições e Aposentadoria"/>
+                        <group>
+                            <field name="insalubridade"/>
+                            <field name="periculosidade"/>
+                            <field name="aposentadoria_especial"/>
+                        </group>
+                        <separator string="Equipamentos de Proteção"/>
+                        <newline/>
+                        <field name="epc_id" required="True"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_fator_risco_tree_view">
+            <field name="name">hr.fator.risco.tree</field>
+            <field name="model">hr.fator.risco</field>
+            <field name="arch" type="xml">
+                <tree string="Informativos de Atividade de Trabalho" >
+                    <field name="cod_fator_risco_id"/>
+                    <field name="tp_avaliacao"/>
+                    <field name="intensidade_concentracao"/>
+                    <field name="limite_tolerancia"/>
+                    <field name="unidade_medida"/>
+                    <field name="tec_medicao"/>
+                    <field name="insalubridade"/>
+                    <field name="periculosidade"/>
+                    <field name="aposentadoria_especial"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_fator_risco">
+            <field name="name">Fatores de Risco</field>
+            <field name="res_model">hr.fator.risco</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_fator_risco">
+            <field name="name">Fatores de Risco</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_condicao_ambiente_trabalho" />
+            <field name="action" ref="sped_esocial.action_hr_fator_risco" />
+            <field name="sequence" eval="4" />
+        </record>
+
+    </data>
+</openerp>

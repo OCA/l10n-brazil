@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_equipamento_protecao_individual_form_view">
+            <field name="name">hr.equipamento.protecao.individual.form</field>
+            <field name="model">hr.equipamento.protecao.individual</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="utilizacao_epc" required="True"/>
+                            <field name="eficiencia_epc" attrs="{'invisible': [('utilizacao_epc', '!=', 2)]}"/>
+                            <field name="utilizacao_epi" required="True"/>
+                        </group>
+                        <newline/>
+                        <separator string="Equipamentos de Proteção Individual" attrs="{'invisible': [('utilizacao_epi', '!=', 2)]}"/>
+                        <field name="epi_ids" attrs="{'invisible': [('utilizacao_epi', '!=', 2)]}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_equipamento_protecao_individual_tree_view">
+            <field name="name">hr.equipamento.protecao.individual.tree</field>
+            <field name="model">hr.equipamento.protecao.individual</field>
+            <field name="arch" type="xml">
+                <tree string="Equipamento de proteção individual">
+                    <field name="utilizacao_epc"/>
+                    <field name="eficiencia_epc"/>
+                    <field name="utilizacao_epi"/>
+                    <field name="epi_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_equipamento_protecao_individual_line_form_view">
+            <field name="name">hr.equipamento.protecao.individual.line.form</field>
+            <field name="model">hr.equipamento.protecao.individual.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <separator string="Dados EPI"/>
+                        <group>
+                            <field name="certificado_aprovacao"/>
+                            <field name="desc_epi"/>
+                        </group>
+                        <separator string="Informações EPI"/>
+                        <group>
+                            <field name="eficiencia_epi" required="True"/>
+                            <field name="med_protecao_coletiva" required="True"/>
+                            <field name="uso_ininterrupto" required="True"/>
+                            <field name="prazo_validade_certificado_epi" required="True"/>
+                            <field name="periodicidade_troca" required="True"/>
+                            <field name="higienizacao" required="True"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_equipamento_protecao_individual_line_tree_view">
+            <field name="name">hr.equipamento.protecao.individual.line.tree</field>
+            <field name="model">hr.equipamento.protecao.individual.line</field>
+            <field name="arch" type="xml">
+                <tree string="Equipamento de proteção individual Line">
+                    <field name="certificado_aprovacao"/>
+                    <field name="desc_epi"/>
+                    <field name="eficiencia_epi"/>
+                    <field name="med_protecao_coletiva"/>
+                    <field name="uso_ininterrupto"/>
+                    <field name="prazo_validade_certificado_epi"/>
+                    <field name="periodicidade_troca"/>
+                    <field name="higienizacao"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_equipamento_protecao_individual">
+            <field name="name">Equipamento de Proteção Individual</field>
+            <field name="res_model">hr.equipamento.protecao.individual</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_equipamento_protecao_individual">
+            <field name="name">Equipamento de Proteção Individual</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_condicao_ambiente_trabalho" />
+            <field name="action" ref="sped_esocial.action_hr_equipamento_protecao_individual" />
+            <field name="sequence" eval="5" />
+        </record>
+
+    </data>
+</openerp>
