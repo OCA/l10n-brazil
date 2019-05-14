@@ -8,17 +8,12 @@ from .constants.fiscal import FISCAL_IN_OUT_ALL, TAX_DOMAIN
 
 class Cst(models.Model):
     _name = 'fiscal.cst'
+    _inherit = 'fiscal.data.abstract'
     _order = 'tax_domain, code'
     _description = 'CST'
 
     code = fields.Char(
-        string='Code',
-        size=4,
-        required=True)
-
-    name = fields.Text(
-        string='Name',
-        required=True)
+        size=4)
 
     type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
@@ -33,22 +28,3 @@ class Cst(models.Model):
     _sql_constraints = [
         ('fiscal_cst_code_tax_domain_uniq', 'unique (code, tax_domain)',
          'CST already exists with this code !')]
-
-    @api.model
-    def _name_search(self, name, args=None, operator='ilike',
-                     limit=100, name_get_uid=None):
-        args = args or []
-        domain = []
-        if name:
-            domain = ['|', ('code', operator, name)
-                      ('name', operator, name)]
-
-        recs = self._search(expression.AND([domain, args]), limit=limit,
-                            access_rights_uid=name_get_uid)
-        return self.browse(recs).name_get()
-
-    @api.multi
-    def name_get(self):
-        return [(r.id,
-                 u"{0} - {1}".format(r.code, r.name))
-                for r in self]
