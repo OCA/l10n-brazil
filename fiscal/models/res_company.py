@@ -88,11 +88,23 @@ class ResCompany(models.Model):
         related='simplifed_tax_range_id.total_tax_percent',
         digits=dp.get_precision('Fiscal Tax Percent'))
 
+    ibpt_api = fields.Boolean(
+        string='Use IBPT API',
+        default=False)
+
     ibpt_token = fields.Char(
-        string=u'IPBT Token')
+        string='IPBT Token')
 
     ibpt_update_days = fields.Integer(
-        string=u'IPBT Token Updates')
+        string='IPBT Token Updates',
+        default=15)
+
+    document_type_ids = fields.Many2many(
+        comodel_name='fiscal.document.type',
+        relation='res_company_fiscal_document_ref',
+        column1='company_id',
+        column2='document_id',
+        string='Documents')
 
     certificate_ecnpj_id = fields.Many2one(
         comodel_name='fiscal.certificate',
