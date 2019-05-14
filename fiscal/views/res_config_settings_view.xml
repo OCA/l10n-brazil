@@ -1,32 +1,53 @@
 <?xml version="1.0"?>
 <odoo>
 
-    <record id="view_account_config_settings_l10n_br_account" model="ir.ui.view">
-        <field name="name">account.config.settings.l10n_br_account</field>
-        <field name="model">account.config.settings</field>
-        <field name="inherit_id" ref="account.view_account_config_settings" />
+    <record id="fiscal_res_config_settings_form" model="ir.ui.view">
+        <field name="name">fiscal.res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="40"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <data>
-                <xpath expr="//group[@name='bank_cash']" position="after">
-                    <group name="l10n_br_account" string="Contabilidade Brasil">
-                        <label for="id" string="Configuration"/>
-                        <div>
-                            <div>
-                                <label string="IPBT Token:"/>
-                            </div>
-                            <div>
-                               <field name="ipbt_token" class="oe_inline" />
-                            </div>
-                            <div>
-                                <label string="Quantidade de dias para Atualizar:"/>
-                            </div>
-                            <div>
-                                <field name="ibpt_update_days"/>
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Fiscal" string="Fiscal" data-key="fiscal" groups="fiscal.group_manager">
+                    <h2>Fiscal Documents</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="document_type_ids" widget="many2many_tags" options="{'no_create_edit': True}"/>
                             </div>
                         </div>
-                    </group>
-                </xpath>
-            </data>
+                    </div>
+                    <h2>Estimate Taxes</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="ibpt_api"/>
+                            </div>
+                            <div class="o_setting_right_pane" id="ibpt_api_settings">
+                                <label for="ibpt_api"/>
+                                <div class="text-muted">
+                                    Use IBPT API to Update Estimate Taxes for products and services
+                                </div>
+                                <div attrs="{'invisible': [('ibpt_api', '=', False)]}">
+                                    <div class="content-group mt16">
+                                        <label for="ibpt_update_days" class="o_light_label"/>
+                                        <field name="ibpt_update_days" attrs="{'required': [('ibpt_api', '=', True)]}"/> dias
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <label for="ibpt_token" class="o_light_label"/>
+                                        <field name="ibpt_token" attrs="{'required': [('ibpt_api', '=', True)]}"/>
+                                    </div>
+                                    <div>
+                                        <a href="https://deolhonoimposto.ibpt.org.br" class="oe_link" target="_blank">
+                                            <i class="fa fa-arrow-right"/> Generate an Access Key
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
         </field>
     </record>
 
