@@ -11,16 +11,13 @@ from .constants.fiscal import DOCUMENT_TYPE
 class DocumentType(models.Model):
     _name = 'fiscal.document.type'
     _description = 'Fiscal Document Type'
+    _inheirt = 'fiscal.data.abstract'
 
     code = fields.Char(
-        string='Code',
-        size=8,
-        required=True)
+        size=8)
 
     name = fields.Char(
-        string='Name',
-        size=128,
-        required=True)
+        size=128)
 
     electronic = fields.Boolean(
         string='Is Eletronic')
@@ -29,22 +26,3 @@ class DocumentType(models.Model):
         selection=DOCUMENT_TYPE,
         string='Document Type',
         required=True)
-
-    @api.model
-    def _name_search(self, name, args=None, operator='ilike',
-                     limit=100, name_get_uid=None):
-        args = args or []
-        domain = []
-        if name:
-            domain = ['|', ('code', operator, name),
-                      ('name', operator, name)]
-
-        recs = self._search(expression.AND([domain, args]), limit=limit,
-                            access_rights_uid=name_get_uid)
-        return self.browse(recs).name_get()
-
-    @api.multi
-    def name_get(self):
-        return [(r.id,
-                 "{0} - {1}".format(r.code, r.name))
-                for r in self]
