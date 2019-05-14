@@ -85,6 +85,7 @@ addon | version | summary
 [l10n_br_crm_zip](l10n_br_crm_zip/) | 10.0.1.0.0 | Brazilian Localization CRM Zip
 [l10n_br_generic](l10n_br_generic/) | 10.0.1.0.0 | Brazilian - Generic Accounting
 [l10n_br_hr](l10n_br_hr/) | 10.0.0.0.0 | Brazilian Localization HR
+[l10n_br_resource](l10n_br_resource/) | 10.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_stock](l10n_br_stock/) | 10.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 10.0.1.0.0 | Brazilian Localisation ZIP Codes
 [l10n_br_zip_correios](l10n_br_zip_correios/) | 10.0.1.0.0 | Address from Brazilian Localization ZIP by Correios
