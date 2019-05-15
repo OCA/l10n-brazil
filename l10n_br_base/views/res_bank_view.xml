@@ -8,6 +8,20 @@
         <field name="priority">999</field>
         <field name="arch" type="xml">
             <xpath expr="//group[2]/group[1]" position="replace"/>
+            <field name="bic" position="before">
+                <field name="code_bc"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="l10n_br_base_bank_tree" model="ir.ui.view">
+        <field name="name">l10n_br_base.bank.tree</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_tree"/>
+        <field name="arch" type="xml">
+            <field name="bic" position="before">
+                <field name="code_bc"/>
+            </field>
         </field>
     </record>
 
