@@ -66,5 +66,5 @@ class ResCompany(models.Model):
         string=u'IPBT Token'
     )
     ibpt_update_days = fields.Integer(
-        string=u'IPBT Token'
+        string=u'Quantidade de dias para Atualizar',
     )
