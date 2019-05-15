@@ -13,6 +13,11 @@
                 <xpath expr="//field[@name='filter']" position="after">
                     <field name="exibe_criador_aprovador" />
                 </xpath>
+
+                <xpath expr="//button[@name='check_report']" position="after">
+                    <button name="xls_report" string="Exportar xls" context="{'xls_export':1}" type="object" />
+                </xpath>
+
             </field>
         </record>
 
