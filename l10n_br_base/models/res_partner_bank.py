@@ -27,3 +27,8 @@ class ResPartnerBank(models.Model):
     bra_number_dig = fields.Char(
         string='Bank Branch Digit',
         size=8)
+
+    bra_bank_bic = fields.Char(
+        string='BIC/Swift Final Code.',
+        size=3,
+        help='Last part of BIC/Swift Code.')
