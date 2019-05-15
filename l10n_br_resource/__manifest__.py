@@ -11,7 +11,7 @@
     'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
-    'website': 'www.odoobrasil.org.br',
+    'website': 'https://github.com/OCA/l10n-brazil',
     'depends': [
         'l10n_br_base',
         'resource',
