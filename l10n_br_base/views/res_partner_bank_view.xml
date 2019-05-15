@@ -15,6 +15,13 @@
                 <field name="bra_number" select="1"/>
                 <field name="bra_number_dig" select="1"/>
             </field>
+            <field name="bank_id" position="after">
+                <label for="bank_bic" string="BIC/Swift Code"/>
+                <div>
+                    <field name="bank_bic" class="oe_inline" readonly="True"/>
+                    <field name="bra_bank_bic" class="oe_inline"/>
+                </div>
+            </field>
         </field>
     </record>
 
