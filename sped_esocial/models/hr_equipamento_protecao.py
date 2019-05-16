@@ -128,6 +128,13 @@ class HrEquipamentoProtecaoIndividualLine(models.Model):
             ('N', 'Não'),
         ],
     )
+    cond_funcionamento = fields.Selection(
+        string=u'Condições de funcionamento ajustadas',
+        selection=[
+            ('S', 'Sim'),
+            ('N', 'Não'),
+        ],
+    )
     uso_ininterrupto = fields.Selection(
         string=u'Uso Ininterrupto',
         selection=[

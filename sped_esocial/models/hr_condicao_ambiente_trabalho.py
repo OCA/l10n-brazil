@@ -99,6 +99,10 @@ class HrCondicaoAmbienteTrabalho(models.Model):
         string='Intermediário do e-Social',
         comodel_name='sped.hr.condicao.ambiente.trabalho',
     )
+    sped_intermediario_id = fields.Many2one(
+        string='Intermediário do e-Social',
+        comodel_name='sped.hr.condicao.ambiente.trabalho',
+    )
 
     @api.multi
     def _compute_name(self):
