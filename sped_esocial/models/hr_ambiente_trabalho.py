@@ -45,7 +45,6 @@ class AmbienteTrabalho(models.Model):
     company_id = fields.Many2one(
         string=u'Localidade',
         comodel_name='res.company',
-        domain=[('situacao_esocial', '=', 1)]
     )
     data_inicio = fields.Many2one(
         string=u'Data de início',
