@@ -309,7 +309,7 @@ class HrContract(models.Model):
         inverse_name='contract_id',
         string=u"Lotação/Local de trabalho",
         domain=[
-            ('change_type', '=', 'filiacao-sindical')
+            ('change_type', '=', 'lotacao-local')
         ],
     )
     company_id = fields.Many2one(
