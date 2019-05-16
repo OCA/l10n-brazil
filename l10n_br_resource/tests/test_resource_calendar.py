@@ -129,26 +129,26 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertFalse(data_eh_feriado_emendado)
 
     def test_06_obter_proximo_dia_util(self):
-        """ Dado uma data obter proximo dia útil """
-        # 21-03 é feriado
+        """Dado uma data obter proximo dia util"""
+        # 21-03 e feriado
         anterior_ao_feriado = fields.Datetime.from_string(
             '2016-03-20 00:00:01')
         proximo_dia_util = self.municipal_calendar_id.proximo_dia_util(
             anterior_ao_feriado)
         self.assertEqual(proximo_dia_util,
                          fields.Datetime.from_string('2016-03-22 00:00:01'),
-                         u'Partindo de um feriado, próximo dia util inválido')
+                         u'Partindo de um feriado, proximo dia util invalido')
 
         anterior_ao_fds = fields.Datetime.from_string('2016-12-16 00:00:01')
         proximo_dia_util = self.municipal_calendar_id.proximo_dia_util(
             anterior_ao_fds)
         self.assertEqual(proximo_dia_util,
                          fields.Datetime.from_string('2016-12-19 00:00:01'),
-                         u'Partindo de um fds, próximo dia util inválido')
+                         u'Partindo de um fds, proximo dia util invalido')
 
     def test_07_get_dias_base(self):
         """ Dado um intervalo de tempo, fornecer a quantidade de dias base
-        para cálculos da folha de pagamento"""
+        para calculos da folha de pagamento"""
         data_inicio = fields.Datetime.from_string('2017-01-01 00:00:01')
         data_final = fields.Datetime.from_string('2017-01-31 23:59:59')
 
@@ -164,7 +164,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                          'Calculo de Dias Base de Fev incorreto')
 
     def test_08_data_eh_dia_util(self):
-        """ Verificar se datas são dias uteis
+        """ Verificar se datas sao dias uteis
         """
         segunda = fields.Datetime.from_string('2017-01-09 00:00:01')
         terca = fields.Datetime.from_string('2017-01-10 00:00:01')
@@ -177,7 +177,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             u"ERRO: Segunda eh dia util!")
         self.assertTrue(
             self.municipal_calendar_id.data_eh_dia_util(terca),
-            u"ERRO: Terça eh dia util!")
+            u"ERRO: Terca eh dia util!")
 
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(sabado),
@@ -212,7 +212,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         total_dias_uteis = self.resource_calendar.quantidade_dias_uteis(
             data_inicio, data_final)
         self.assertEqual(total_dias_uteis, 22,
-                         u'ERRO: Total dias uteis mes Jan/2017 inválido')
+                         u'ERRO: Total dias uteis mes Jan/2017 invalido')
 
         data_inicio = fields.Datetime.from_string('2018-01-01 00:00:01')
         data_final = fields.Datetime.from_string('2018-01-31 23:59:59')
@@ -220,15 +220,15 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         total_dias_uteis = self.resource_calendar.quantidade_dias_uteis(
             data_inicio, data_final)
         self.assertEqual(total_dias_uteis, 23,
-                         u'ERRO: Total dias uteis mes Jan/2018 inválido')
+                         u'ERRO: Total dias uteis mes Jan/2018 invalido')
 
     def test_10_data_eh_feriado_bancario(self):
         """
-         Validar se data eh feriado bancário.
+         Validar se data eh feriado bancario.
         """
-        # adicionando feriado bancário
+        # adicionando feriado bancario
         self.resource_leaves.create({
-            'name': u'Feriado Bancário',
+            'name': u'Feriado Bancario',
             'date_from': fields.Datetime.from_string('2017-01-13 00:00:00'),
             'date_to': fields.Datetime.from_string('2017-01-13 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
@@ -242,7 +242,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
     def test_12_get_country_from_calendar(self):
         """
-        Validar se o retorno do país do holiday esta correto
+        Validar se o retorno do pais do holiday esta correto
         :return:
         """
         holiday = self.holiday_import.create({
@@ -251,7 +251,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         })
 
         country_id = self.holiday_import.get_country_from_calendar(holiday)
-        self.assertEqual(country_id.code, u'BR', u'País incorreto.')
+        self.assertEqual(country_id.code, u'BR', u'Pais incorreto.')
 
     def test_16_proximo_dia_util_bancario(self):
         data = fields.Datetime.from_string('2017-01-13 00:00:00')
