@@ -10,3 +10,4 @@ num2words==0.5.4
 -e git://github.com/odoo-brazil/pybrasil.git#egg=pybrasil
 -e git://github.com/odoo-brazil/geraldo.git#egg=geraldo
 -e git://github.com/odoo-brazil/PySPED.git@10.0#egg=PySPED
+zeep==3.3.1
