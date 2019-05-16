@@ -69,6 +69,7 @@
         account_total_currency = 0.0
         %>
         <% exibe_aprov_valid = data.get('datas').get('form').get('exibe_criador_aprovador') %>
+        <% exibe_diario_origem = data.get('datas').get('form').get('exibe_diario_origem') %>
         <!-- we use div with css instead of table for tabular data because div do not cut rows at half at page breaks -->
         <div class="act_as_table list_table" style="margin-top: 5px; width: 100%;">
             <div class="act_as_thead">
@@ -79,8 +80,10 @@
                     <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">Sequência do Lançamento</div>
                     ## account code
                     <div class="act_as_cell" style="width: 12%;">${_('Account')}</div>
-                    ## journal
-                    <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">${_('Journal')}</div>
+                    %if exibe_diario_origem:
+                        ## journal
+                        <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">${_('Journal')}</div>
+                    %endif
                     %if exibe_aprov_valid:
                         ## Criado por
                         <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">${_('Criado Por')}</div>
@@ -124,8 +127,10 @@
                             <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">${' ({})'.format(line.move_id.sequencia) if line.move_id.sequencia else ''}</div>
                             ## account code
                             <div class="act_as_cell" style="width: 12%;">${account_id.code}</div>
+                        %if exibe_diario_origem:
                             ## journal
                             <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">${line.journal_id.name}</div>
+                        %endif
                         %if exibe_aprov_valid:
                             ## Criado por
                             <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">${move.criado_por.name or ' - '}</div>
@@ -150,8 +155,10 @@
                 <div class="act_as_cell" style="min-width: 10%; overflow: hidden;"></div>
                 ## account code
                 <div class="act_as_cell" style="width: 12%;"></div>
-                ## journal
-                <div class="act_as_cell" style="min-width: 10%; overflow: hidden;"></div>
+                %if exibe_diario_origem:
+                    ## journal
+                    <div class="act_as_cell" style="min-width: 10%; overflow: hidden;"></div>
+                %endif
                 %if exibe_aprov_valid:
                     ## Criado por
                     <div class="act_as_cell" style="min-width: 10%; overflow: hidden;"></div>

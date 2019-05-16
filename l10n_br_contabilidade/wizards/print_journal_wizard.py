@@ -5,7 +5,6 @@ from openerp import models, fields, api
 from datetime import datetime, timedelta
 import pandas as pd
 import base64
-import xlsxwriter
 
 
 class AccountReportGeneralLedgerWizard(models.TransientModel):
@@ -18,6 +17,11 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
 
     exibe_criador_aprovador = fields.Boolean(
         string='Exibir criador e aprovador')
+
+    exibe_diario_origem = fields.Boolean(
+        string='Exibir diário de origem',
+        default=True,
+    )
 
     diario_xls = fields.Binary(string='Diario')
 
@@ -44,6 +48,13 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
 
         return period_range
 
+    def letra_numero(self, num):
+        abc = []
+        for k in range(ord('A'), ord('Z') + 1):
+            abc.append(chr(k))
+
+        return abc[num]
+
     @api.multi
     def xls_report(self):
         '''
@@ -60,6 +71,9 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
             period_from=data['datas']['form']['period_from'],
             period_to=data['datas']['form']['period_to'])
 
+        depara_id = data.get('datas').get('form').\
+            get('account_depara_plano_id')
+
         # Pega os as partidas dos movimentos.
         line_ids = self.env['account.move'].search([
             ('journal_id', 'in', data['datas']['form']['journal_ids']),
@@ -69,44 +83,65 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
 
         # Cria a dict para receber as informações da busca.
         diario = {u'Data': [], u'Sequência do Lançamento': [], u'Conta': [],
-                  u'Diário': [], u'Criado por': [], u'Validado por': [],
-                  u'Histórico': [], u'Débito': [], u'Crédito': []} \
-            if data['datas']['form']['exibe_criador_aprovador'] \
-            else {u'Data': [], u'Sequência do Lançamento': [], u'Conta': [],
-                  u'Diário': [], u'Histórico': [], u'Débito': [],
-                  u'Crédito': []}
+                  u'Histórico': [], u'Débito': [], u'Crédito': []}
+
+        if data['datas']['form']['exibe_diario_origem']:
+            diario.update({u'Diário': []})
+
+        # Adiciona quem criou e aprovou o lançamento.
+        if data['datas']['form']['exibe_criador_aprovador']:
+            diario.update({u'Criado por': [], u'Validado por': []})
 
         for line in line_ids:
-            diario[u'Data'].append(line.move_id.date or None)
-            diario[u'Sequência do Lançamento'].append(line.move_id.sequencia
-                                                     or None)
-            diario[u'Conta'].append(line.account_id.code or None)
-            diario[u'Diário'].append(line.journal_id.name or None)
-            diario[u'Histórico'].append(line.name or None)
-            diario[u'Débito'].append(line.debit or 0)
-            diario[u'Crédito'].append(line.credit or 0)
-            if data['datas']['form']['exibe_criador_aprovador']:
-                diario[u'Criado por'].append(
-                    line.move_id.criado_por.name or None)
-                diario[u'Validado por'].append(
-                    line.move_id.validado_por.name or None)
+            if depara_id:
+                depara_account_id = False
+                for depara_line in line.account_id.depara_ids:
+                    if depara_line.account_depara_plano_id.id == depara_id:
+                        depara_account_id = depara_line.conta_referencia_id
+                        break
+            if depara_id:
+                account_id = depara_account_id
+            else:
+                account_id = line.account_id
+            if not depara_id or depara_id and account_id:
+                diario[u'Data'].append(line.move_id.date or None)
+                diario[u'Sequência do Lançamento'].append(
+                    line.move_id.sequencia or None)
+                diario[u'Conta'].append(account_id.code or None)
+                if data['datas']['form']['exibe_diario_origem']:
+                    diario[u'Diário'].append(line.journal_id.name or None)
+                diario[u'Histórico'].append(line.name or None)
+                diario[u'Débito'].append(line.debit or 0)
+                diario[u'Crédito'].append(line.credit or 0)
+                if data['datas']['form']['exibe_criador_aprovador']:
+                    diario[u'Criado por'].append(
+                        line.move_id.criado_por.name or None)
+                    diario[u'Validado por'].append(
+                        line.move_id.validado_por.name or None)
 
         # Colunas do dataframe.
-        columns = [u'Data', u'Sequência do Lançamento', u'Conta', u'Diário',
-                   u'Criado por', u'Validado por', u'Histórico', u'Débito',
-                   u'Crédito'] \
-            if data['datas']['form']['exibe_criador_aprovador'] else \
-            [u'Data', u'Sequência do Lançamento', u'Conta', u'Diário',
-             u'Histórico', u'Débito', u'Crédito']
+        columns = [u'Data', u'Sequência do Lançamento', u'Conta', u'Histórico',
+                   u'Débito', u'Crédito']
+        if data['datas']['form']['exibe_diario_origem']:
+            columns.insert(columns.index(u'Conta')+1, u'Diário')
+        if data['datas']['form']['exibe_criador_aprovador']:
+            columns.insert(columns.index(u'Diário')+1
+                           if u'Diário' in columns
+                           else columns.index(u'Conta')+1, u'Validado Por')
+            columns.insert(columns.index(u'Validado Por')+1, u'Criado por')
 
         # Cria o Dataframe e define a ordem das colunas.
         df = pd.DataFrame.from_dict(diario)
         df = df.reindex(columns=columns)
 
+        # Converte e formata a coluna para o tipo data
+        df['Data'] = pd.to_datetime(df['Data'])
+        df['Data'] = df['Data'].dt.strftime('%d-%m-%Y')
+
         # Cria o arquivo e passa o dataframe para o excel
         filename = 'diario_xls.xlsx'
         writer = pd.ExcelWriter(filename, engine='xlsxwriter')
-        df.to_excel(writer, sheet_name='Sheet1', index=False, startrow=4)
+        df.to_excel(writer, sheet_name='Sheet1', index=False, startrow=5)
 
         workbook = writer.book
         worksheet = writer.sheets['Sheet1']
@@ -118,16 +153,40 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
              'valign': 'top',
              'fg_color': '#D7E4BC',
              'border': 1})
+        header_format.set_align('center')
+        header_format.set_font_size(13)
+
+        # Formato dos parametros
+        parametros_format = workbook.add_format(
+            {'bold': True,
+             'text_wrap': True,
+             'valign': 'top',
+             'fg_color': '#D7E4BC',
+             'border': 1})
+        parametros_format.set_align('center')
 
         ano_fiscal = self.env['account.fiscalyear'].browse(
             data['datas']['form']['fiscalyear_id']).name
 
-        worksheet.write(0, 0, 'Ano Fiscal', header_format)
-        worksheet.write(1, 0, ano_fiscal, header_format)
+        ultima_coluna = self.letra_numero(int(round(len(columns) - 1)))
 
-        worksheet.write(0, 1, 'Filtro de Períodos', header_format)
-        worksheet.write(1, 1, 'De: {} até {}'.format(periods[0], periods[-1]),
-                        header_format)
+        # Header
+        worksheet.merge_range('A2:{}2'.format(ultima_coluna),
+                              'ABGF - Livro Diário', header_format)
+
+        # Ajustes das colunas de acordo com o número de colunas
+        fim_coluna_1 = self.letra_numero(int(round((len(columns)-1)/2)))
+        inicio_coluna_2 = self.letra_numero(int((round(len(columns)-1)/2))+1)
+
+        # Parametros
+        worksheet.merge_range('A4:{}4'.format(fim_coluna_1),
+                              'Ano Fiscal: {}'.format(ano_fiscal),
+                              parametros_format)
+
+        worksheet.merge_range('{}4:{}4'.format(inicio_coluna_2, ultima_coluna),
+                              'Períodos: De: {} até {}'.format(periods[0],
+                                                               periods[-1]),
+                              parametros_format)
 
         writer.save()
 
@@ -145,6 +204,7 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
     @api.multi
     def _print_report(self, data):
         data['form']['exibe_criador_aprovador'] = self.exibe_criador_aprovador
+        data['form']['exibe_diario_origem'] = self.exibe_diario_origem
         data['form']['account_depara_plano_id'] = \
             self.account_depara_plano_id.id
         data = self.pre_print_report(data)
