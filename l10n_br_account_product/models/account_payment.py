@@ -14,12 +14,11 @@ class PaymentMode(models.Model):
         ('02', u'02 - Cheque'),
         ('03', u'03 - Cartão de Crédito'),
         ('04', u'04 - Cartão de Débito'),
-        ('06', u'05 - Crédito Loja'),
+        ('05', u'05 - Crédito Loja'),
         ('10', u'10 - Vale Alimentação'),
         ('11', u'11 - Vale Refeição'),
         ('12', u'12 - Vale Presente'),
         ('13', u'13 - Vale Combustível'),
-        ('14', u'14 - Duplicata Mercantil'),
         ('15', u'15 - Boleto Bancário'),
         ('90', u'90 - Sem pagamento'),
         ('99', u'99 - Outros')
