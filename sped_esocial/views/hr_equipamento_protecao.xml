@@ -49,6 +49,7 @@
                         <group>
                             <field name="eficiencia_epi" required="True"/>
                             <field name="med_protecao_coletiva" required="True"/>
+                            <field name="cond_funcionamento" required="True"/>
                             <field name="uso_ininterrupto" required="True"/>
                             <field name="prazo_validade_certificado_epi" required="True"/>
                             <field name="periodicidade_troca" required="True"/>
@@ -68,6 +69,7 @@
                     <field name="desc_epi"/>
                     <field name="eficiencia_epi"/>
                     <field name="med_protecao_coletiva"/>
+                    <field name="cond_funcionamento"/>
                     <field name="uso_ininterrupto"/>
                     <field name="prazo_validade_certificado_epi"/>
                     <field name="periodicidade_troca"/>

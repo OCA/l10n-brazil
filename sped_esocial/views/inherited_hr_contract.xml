@@ -164,6 +164,26 @@
                 <field name="resignation_cause_id" position="after">
                     <field name="nr_cert_obito" attrs="{'invisible': [('resignation_code', 'not in', ['09', '10'])]}" />
                 </field>
+                <xpath expr="//page[@string='Saúde ocupacional']" position="inside">
+                    <newline/>
+                    <label for="condicoes_ambientais_ids" string="Condições Ambientais do Trabalho - Fatores de Risco"/>
+                    <field name="condicoes_ambientais_ids"/>
+                </xpath>
+                <field name="exame_ids" positon="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="estado_crm" positon="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="nome_medico_encarregado" positon="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="numero_crm" positon="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="data_atestado_saude" positon="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
             </field>
         </record>
 

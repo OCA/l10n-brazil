@@ -5,6 +5,7 @@
 #
 
 from openerp import api, fields, models, _
+from openerp.exceptions import Warning
 
 
 class HrCondicaoAmbienteTrabalho(models.Model):
@@ -53,7 +54,7 @@ class HrCondicaoAmbienteTrabalho(models.Model):
         column1='hr_ambiente_trabalho_id',
         column2='hr_condicao_ambiente_trabalho_id',
     )
-    hr_atividade_ids = fields.Many2one(
+    hr_atividade_id = fields.Many2one(
         string='Atividades',
         comodel_name='hr.informativo.atividade.trabalho',
     )
@@ -73,6 +74,10 @@ class HrCondicaoAmbienteTrabalho(models.Model):
         string=u'Observações Complementares',
         size=999,
     )
+    sped_intermediario_id = fields.Many2one(
+        string='Intermediário do e-Social',
+        comodel_name='sped.hr.condicao.ambiente.trabalho',
+    )
 
     @api.multi
     def _compute_name(self):
@@ -88,7 +93,35 @@ class HrCondicaoAmbienteTrabalho(models.Model):
             else:
                 record.state = record.sped_intermediario_id.situacao_esocial
 
+    def gerar_intermediario(self):
+        if not self.sped_intermediario_id:
+            vals = {
+                'company_id': self.contract_id.company_id.id if
+                self.contract_id.company_id.eh_empresa_base else
+                self.contract_id.company_id.matriz.id,
+                'hr_condicao_ambiente_trabalho_id': self.id,
+            }
+            self.sped_intermediario_id = self.env[
+                'sped.hr.condicao.ambiente.trabalho'].create(vals)
+            self.sped_intermediario_id.gerar_registro()
+
     @api.multi
-    def _compute_state(self):
+    def button_enviar_esocial(self):
+        self.gerar_intermediario()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.contract_id.employee_id
+
+    @api.multi
+    def unlink(self):
         for record in self:
-            record.state = '0'
+            for registro in record.sped_intermediario_id.sped_inclusao:
+                if registro.situacao == '4':
+                    raise Warning(
+                        'Não é possível excluír um registro '
+                        'que foi transmitido para o e-Social!'
+                    )
+            record.sped_intermediario_id.unlink()
+            super(HrCondicaoAmbienteTrabalho, record).unlink()

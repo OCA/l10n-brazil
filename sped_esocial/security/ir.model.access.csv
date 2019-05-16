@@ -34,6 +34,8 @@ access_s2206_operador,Operador S-2206(Leitura),model_sped_esocial_alteracao_cont
 access_s2206_gerente,Gerente S-2206(Escrita),model_sped_esocial_alteracao_contrato,sped_tabelas.group_manager,1,1,1,1
 access_s2230_operador,Operador S-2230(Leitura),model_sped_esocial_afastamento_temporario,sped_tabelas.group_user,1,0,0,0
 access_s2230_gerente,Gerente S-2230(Escrita),model_sped_esocial_afastamento_temporario,sped_tabelas.group_manager,1,1,1,1
+access_s2240_operador,Operador S-2240(Leitura),model_sped_hr_condicao_ambiente_trabalho,sped_tabelas.group_user,1,0,0,0
+access_s2240_gerente,Gerente S-2240(Escrita),model_sped_hr_condicao_ambiente_trabalho,sped_tabelas.group_manager,1,1,1,1
 access_s2299_operador,Operador S-2299(Leitura),model_sped_hr_rescisao,sped_tabelas.group_user,1,0,0,0
 access_s2299_gerente,Gerente S-2299(Escrita),model_sped_hr_rescisao,sped_tabelas.group_manager,1,1,1,1
 access_s2300_operador,Operador S-2300(Leitura),model_sped_esocial_contrato_autonomo,sped_tabelas.group_user,1,1,1,0

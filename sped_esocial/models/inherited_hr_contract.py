@@ -79,6 +79,11 @@ class HrContract(models.Model):
     precisa_atualizar = fields.Boolean(
         string='Precisa Atualizar',
     )
+    condicoes_ambientais_ids = fields.One2many(
+        string='Condições Ambientais de Trabalho',
+        comodel_name='hr.condicao.ambiente.trabalho',
+        inverse_name='contract_id',
+    )
 
     # Método que calcula a situação do contrato no e-Social
     @api.depends('sped_s2200_id', 'sped_s2206_ids', 'sped_s2299_ids', 'sped_s2300_id', 'sped_s2306_ids', 'sped_s2399_id')

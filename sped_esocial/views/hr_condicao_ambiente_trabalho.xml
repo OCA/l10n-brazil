@@ -8,11 +8,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight"/>
-<!--                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>-->
-                        <button name="button_alterar_esocial" string="Atualizar no e-Social" type="object" class="oe_highlight"/>
-                        <button name="button_exclusao_esocial" string="Excluir no e-Social" type="object" class="oe_highlight"/>
-                        <field name="state" widget="statusbar" select="1" nolabel="1" statusbar_visible="0"/>
+                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>
+                        <field name="state" widget="statusbar" select="1" nolabel="1" readonly="1" />
                     </header>
                     <sheet>
                         <group>
@@ -26,9 +23,9 @@
                                 <field name="hr_ambiente_ids" required="True"/>
                             </page>
                             <page string="Atividade Exercida">
-                                <label for="hr_atividade_ids" string="Descrição das Atividades Desempenhadas"/>
+                                <label for="hr_atividade_id" string="Descrição das Atividades Desempenhadas"/>
                                 <newline />
-                                <field name="hr_atividade_ids" required="True"/>
+                                <field name="hr_atividade_id" required="True"/>
                             </page>
                             <page string="Fatores de Risco">
                                 <field name="hr_fator_risco_ids" required="True"/>
@@ -41,6 +38,11 @@
                                 <field name="metodologia_erg"/>
                                 <label for="obs_complementares" string="Observações Complementares"/>
                                 <field name="obs_complementares"/>
+                            </page>
+                            <page string="e-Social">
+                                <group>
+                                    <field name="sped_intermediario_id" readonly="True"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>

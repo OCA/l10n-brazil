@@ -24,5 +24,5 @@ class HrInformativoAtividadeTrabalho(models.Model):
     )
     condicao_ambiente_trabalho_id = fields.One2many(
         comodel_name='hr.condicao.ambiente.trabalho',
-        inverse_name='hr_atividade_ids',
+        inverse_name='hr_atividade_id',
     )
