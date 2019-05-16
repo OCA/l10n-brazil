@@ -8,11 +8,9 @@
             <field name="acc_number_dig">8</field>
             <field name="bra_number">7030</field>
             <field name="bra_number_dig">8</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_1"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_1"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANCO DO BRASIL S.A.</field>
-            <field name="bank_bic">001</field>
         </record>
 
         <record id="main_company_bank_hsbc" model="res.partner.bank">
@@ -20,12 +18,10 @@
             <field name="acc_number_dig">0</field>
             <field name="bra_number">0100</field>
             <field name="bra_number_dig">3</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_76"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_76"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">HSBC BANK BRASIL S.A. - BANCO MULTIPLO
             </field>
-            <field name="bank_bic">399</field>
         </record>
 
         <record id="main_company_bank_itau" model="res.partner.bank">
@@ -33,11 +29,9 @@
             <field name="acc_number_dig">0</field>
             <field name="bra_number">8515</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_70"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_70"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANCO ITAÚ S.A.</field>
-            <field name="bank_bic">341</field>
         </record>
 
         <record id="main_company_bank_santander" model="res.partner.bank">
@@ -45,11 +39,9 @@
             <field name="acc_number_dig">0</field>
             <field name="bra_number">0707</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_12"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_12"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANCO SANTANDER (BRASIL) S.A.</field>
-            <field name="bank_bic">033</field>
         </record>
 
         <record id="main_company_bank_cef" model="res.partner.bank">
@@ -57,11 +49,9 @@
             <field name="acc_number_dig">3</field>
             <field name="bra_number">1565</field>
             <field name="bra_number_dig">1</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_38"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_38"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">CAIXA ECONOMICA FEDERAL</field>
-            <field name="bank_bic">104</field>
         </record>
 
         <record id="main_company_bank_bradesco" model="res.partner.bank">
@@ -69,11 +59,9 @@
             <field name="acc_number_dig">0</field>
             <field name="bra_number">1611</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_56"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_56"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANCO BRADESCO S.A.</field>
-            <field name="bank_bic">237</field>
         </record>
 
         <record id="main_company_bank_nordeste" model="res.partner.bank">
@@ -81,70 +69,59 @@
             <field name="acc_number_dig">0</field>
             <field name="bra_number">1234</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_3"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_3"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANCO DO NORDESTE DO BRASIL S.A.</field>
-            <field name="bank_bic">004</field>
         </record>
 
         <record id="main_company_bank_banrisul" model="res.partner.bank">
-            <field name="acc_number">123</field>
+            <field name="acc_number">321</field>
             <field name="acc_number_dig">0</field>
             <field name="bra_number">1234</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_16"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_16"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANCO DO ESTADO DO RIO GRANDE DO SUL S.A.</field>
-            <field name="bank_bic">041</field>
         </record>
 
         <record id="main_company_bank_banestes" model="res.partner.bank">
-            <field name="acc_number">123</field>
+            <field name="acc_number">231</field>
             <field name="acc_number_dig">0</field>
             <field name="bra_number">1234</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_7"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_7"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANESTES S.A. BANCO DO ESTADO DO ESPIRITO SANTO</field>
-            <field name="bank_bic">021</field>
         </record>
 
         <record id="main_company_bank_sicoob" model="res.partner.bank">
-            <field name="acc_number">123</field>
+            <field name="acc_number">312</field>
             <field name="acc_number_dig">0</field>
             <field name="bra_number">1234</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_115"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_115"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">BANCO COOPERATIVO DO BRASIL S.A. (SICOOB)</field>
-            <field name="bank_bic">756</field>
         </record>
 
         <record id="main_company_bank_sicredi" model="res.partner.bank">
-            <field name="acc_number">123</field>
+            <field name="acc_number">331</field>
             <field name="acc_number_dig">0</field>
             <field name="bra_number">1234</field>
             <field name="bra_number_dig">0</field>
-            <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_116"/>
+            <field name="bank_id" ref="l10n_br_base.res_bank_116"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">Sicredi - Instituição Financeira Cooperativa</field>
-            <field name="bank_bic">748</field>
         </record>
 
-        <record id="payment_mode_cheque" model="payment.mode">
+        <record id="payment_mode_cheque" model="account.payment.mode">
             <field name="name">Cheque</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id" ref="main_company_bank_bradesco"/>
+            <field name="fixed_journal_id" ref="l10n_br_account_product.aj_78df616ab31e95ee46c6a519a2ce9e12"/>
+            <field name="bank_account_link">variable</field>
+            <!--<field name="bank_id" ref="main_company_bank_bradesco"/>-->
             <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
+            <field name="payment_method_id"
+                   ref="account.account_payment_method_manual_out"/>
             <field name="type_payment">99</field>
         </record>
 
