@@ -14,8 +14,7 @@ class ResPartnerBank(models.Model):
     @api.constrains('bra_number')
     def check_bra_number(self):
         for record in self:
-            # TODO - https://github.com/OCA/l10n-brazil/issues/588
-            if record.bank.bic == '033':
+            if record.bank_id.code_bc == '033':
                 if len(record.bra_number) > 4:
                     raise UserError(_(
                         u'O cógido da Agencia Bancaria do Santander'
