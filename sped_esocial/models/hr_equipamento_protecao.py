@@ -121,6 +121,13 @@ class HrEquipamentoProtecaoIndividualLine(models.Model):
              u'tempo, conforme especificação técnica do fabricante nacional '
              u'ou importador, ajustadas às condições de campo?',
     )
+    cond_funcionamento = fields.Selection(
+        string=u'Condições de funcionamento ajustadas',
+        selection=[
+            ('S', 'Sim'),
+            ('N', 'Não'),
+        ],
+    )
     uso_ininterrupto = fields.Selection(
         string=u'Uso Ininterrupto',
         selection=[
