@@ -594,18 +594,18 @@
     - invoice_line[0].icms_fcp_percent == 2.00
     - invoice_line[0].icms_dest_percent == 18.00
     - invoice_line[0].icms_origin_percent == 12.00
-    - invoice_line[0].icms_part_percent == 80.00
+    - invoice_line[0].icms_part_percent == 100.00
     - invoice_line[0].icms_fcp_value == 48.00
-    - invoice_line[0].icms_dest_value == 115.20
-    - invoice_line[0].icms_origin_value == 28.80
+    - invoice_line[0].icms_dest_value == 144.0
+    - invoice_line[0].icms_origin_value == 0.00
     - invoice_line[1].icms_dest_base == 550.00
     - invoice_line[1].icms_fcp_percent == 2.00
     - invoice_line[1].icms_dest_percent == 18.00
     - invoice_line[1].icms_origin_percent == 12.00
-    - invoice_line[1].icms_part_percent == 80.00
+    - invoice_line[1].icms_part_percent == 100.00
     - invoice_line[1].icms_fcp_value == 11.00
-    - invoice_line[1].icms_dest_value == 26.40
-    - invoice_line[1].icms_origin_value == 6.60
+    - invoice_line[1].icms_dest_value == 33.0
+    - invoice_line[1].icms_origin_value == 0.00
 -
   I check tax values ICMS ST
 -
