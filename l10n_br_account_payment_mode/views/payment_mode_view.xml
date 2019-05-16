@@ -4,15 +4,11 @@
 
     <record id="view_payment_mode_form_inherit_l10n_br_payment" model="ir.ui.view">
         <field name="name">payment.mode.l10n_br_payment.form.inherit</field>
-        <field name="model">payment.mode</field>
-        <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_mode_form"/>
         <field name="priority" eval="14"/>
         <field name="arch" type="xml">
-
-            <field name="type" position="after">
-                <field name="payment_order_type"/>
-            </field>
-            <xpath expr="//form/group[@string='Note']" position="before">
+            <xpath expr="//form/group[@name='note']" position="before">
                 <group string="Configurações" name='l10n-br-config' col="4">
                     <notebook colspan="4">
                         <page string="Cobrança" attrs="{'invisible': ['|', ('sale_ok', '!=', True),
@@ -52,20 +48,6 @@
                 </group>
             </xpath>
 
-        </field>
-    </record>
-
-    <record id="payment_mode_cnab240_type_sale_payment_form" model="ir.ui.view">
-        <field name="name">payment.mode.type_sale_payment.form.cnab240</field>
-        <field name="model">payment.mode.type</field>
-        <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_type_form"/>
-        <field name="priority" eval="14"/>
-        <field name="arch" type="xml">
-            <data>
-                <xpath expr="//field[@name='ir_model_id']" position="after">
-                    <field name="payment_order_type"/>
-                </xpath>
-            </data>
         </field>
     </record>
 

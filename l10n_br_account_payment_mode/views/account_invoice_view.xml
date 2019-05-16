@@ -6,7 +6,7 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_nfe_form"/>
         <field name="arch" type="xml">
-            <field name="payment_term" position="after">
+            <field name="payment_term_id" position="after">
                 <field name="payment_mode_id" domain="[('active', '=', True)]"
                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
             </field>
