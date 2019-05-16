@@ -67,6 +67,8 @@
         'views/hr_fator_risco.xml',
         'views/hr_equipamento_protecao.xml',
         'views/hr_responsavel_ambiental.xml',
+        'views/hr_saude_trabalhador.xml',
+        'views/hr_exame_aso.xml',
 
         # Intermediarios
         'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_saude_trabalhador_form_view">
+            <field name="name">hr.saude.trabalhador.form</field>
+            <field name="model">hr.saude.trabalhador</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+<!--                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>-->
+                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" select="1" nolabel="1" readonly="1" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="contract_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        </group>
+                        <group>
+                            <field name="tipo_exame_ocup" required="True"/>
+                        </group>
+                        <notebook>
+                            <page string="ASO">
+                                <group>
+                                    <field name="data_aso" required="True"/>
+                                    <field name="result_aso" required="True"/>
+                                </group>
+                                <notebook>
+                                    <page string="Exames">
+                                        <labe for="" string="Exames"/>
+                                        <field name="exame_aso_ids" required="True"/>
+                                    </page>
+                                    <page string="Médico">
+                                        <group>
+                                            <field name="cpf_medico"/>
+                                            <field name="nis_medico"/>
+                                            <field name="nome_medico" required="True"/>
+                                            <field name="num_crm" required="True"/>
+                                            <field name="uf_crm" required="True"/>
+                                        </group>
+                                    </page>
+                                </notebook>
+                            </page>
+                            <page string="Responsável do PCMSO">
+                                <group>
+                                    <field name="cpf_resp_pcmso"/>
+                                    <field name="nome_resp_pcmso" required="True"/>
+                                    <field name="num_crm_pcmso" required="True"/>
+                                    <field name="uf_crm_pcmso" required="True"/>
+                                </group>
+                            </page>
+                            <page string="e-Social">
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_saude_trabalhador_tree_view">
+            <field name="name">hr.saude.trabalhador.tree</field>
+            <field name="model">hr.saude.trabalhador</field>
+            <field name="arch" type="xml">
+                <tree string="Saúde do Trabalhador" >
+                    <field name="contract_id"/>
+                    <field name="tipo_exame_ocup"/>
+                    <field name="data_aso"/>
+                    <field name="result_aso"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_saude_trabalhador">
+            <field name="name">Saúde do Trabalhador</field>
+            <field name="res_model">hr.saude.trabalhador</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_saude_trabalhador">
+            <field name="name">Saúde do Trabalhador</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_saude_trabalhador" />
+            <field name="action" ref="sped_esocial.action_hr_saude_trabalhador" />
+            <field name="sequence" eval="1" />
+        </record>
+
+    </data>
+</openerp>

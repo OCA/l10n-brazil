@@ -18,5 +18,13 @@
                 groups="base.group_user"
         />
 
+        <menuitem
+                id="menu_hr_root_saude_trabalhador"
+                parent="sped_esocial.menu_hr_root_sst"
+                name="Saúde do Trabalhador"
+                sequence="3"
+                groups="base.group_user"
+        />
+
     </data>
 </openerp>

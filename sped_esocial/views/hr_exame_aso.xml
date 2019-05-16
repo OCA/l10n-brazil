@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_exame_aso_form_view">
+            <field name="name">hr.exame.aso.form</field>
+            <field name="model">hr.exame.aso</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="contract_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="data_exame" required="True"/>
+                            <field name="procedimento_realizado" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="obs_procedimento"/>
+                            <field name="ordem_exame" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="indicacao_resultado"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_exame_aso_tree_view">
+            <field name="name">hr.exame.aso.tree</field>
+            <field name="model">hr.exame.aso</field>
+            <field name="arch" type="xml">
+                <tree string="Exame ASO" >
+                    <field name="contract_id"/>
+                    <field name="data_exame"/>
+                    <field name="procedimento_realizado"/>
+                    <field name="obs_procedimento"/>
+                    <field name="ordem_exame"/>
+                    <field name="indicacao_resultado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_exame_aso">
+            <field name="name">Exame ASO</field>
+            <field name="res_model">hr.exame.aso</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_exame_aso">
+            <field name="name">Exame ASO</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_saude_trabalhador" />
+            <field name="action" ref="sped_esocial.action_hr_exame_aso" />
+            <field name="sequence" eval="2" />
+        </record>
+
+    </data>
+</openerp>

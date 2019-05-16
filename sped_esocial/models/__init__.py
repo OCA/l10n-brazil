@@ -44,3 +44,5 @@ from . import hr_informativo_atividade_trabalho
 from . import hr_fator_risco
 from . import hr_equipamento_protecao
 from . import hr_responsavel_ambiental
+from . import hr_saude_trabalhador
+from . import hr_exame_aso

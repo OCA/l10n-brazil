@@ -20,6 +20,8 @@ access_hr_equipamento_protecao_individual_gerente,Gerente EPC,model_hr_equipamen
 access_hr_equipamento_protecao_individual_line_gerente,Gerente EPI,model_hr_equipamento_protecao_individual_line,base.group_hr_user,1,1,1,1
 access_hr_fator_risco_gerente,Gerente Fator de Risco,model_hr_fator_risco,base.group_hr_user,1,1,1,1
 access_hr_responsavel_ambiental_gerente,Gerente Responsavel de Registro Ambiental,model_hr_responsavel_ambiente,base.group_hr_user,1,1,1,1
+access_hr_saude_trabalhador_gerente,Gerente Saude Trabalhador,model_hr_saude_trabalhador,base.group_hr_user,1,1,1,1
+access_hr_exame_aso_gerente,Gerente Exame ASO,model_hr_exame_aso,base.group_hr_user,1,1,1,1
 access_s1200_operador,Operador S-1200(Leitura),model_sped_esocial_remuneracao,sped_tabelas.group_user,1,0,0,0
 access_s1200_gerente,Gerente S-1200(Escrita),model_sped_esocial_remuneracao,sped_tabelas.group_manager,1,1,1,1
 access_s1202_operador,Operador S-1202(Leitura),model_sped_esocial_remuneracao_rpps,sped_tabelas.group_user,1,0,0,0
