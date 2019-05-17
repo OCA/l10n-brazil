@@ -251,7 +251,12 @@ class NFe200(FiscalDocument):
             company.zip or '')
         self.nfe.infNFe.emit.enderEmit.cPais.valor = (
             company.country_id.bc_code[1:])
-        self.nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
+
+        if company.country_id.name.lower() == 'brazil':
+            self.nfe.infNFe.emit.enderEmit.xPais.valor = 'Brasil'
+        else:
+            self.nfe.infNFe.emit.enderEmit.xPais.valor = company.country_id.name
+
         self.nfe.infNFe.emit.enderEmit.fone.valor = punctuation_rm(
             str(company.phone or '').replace(' ', ''))
         self.nfe.infNFe.emit.IE.valor = punctuation_rm(
@@ -310,18 +315,18 @@ class NFe200(FiscalDocument):
                     invoice.partner_id.legal_name[:60] or '')
             ).encode('ASCII', 'ignore'))
 
-            if invoice.partner_id.is_company:
-                self.nfe.infNFe.dest.IE.valor = punctuation_rm(
-                    invoice.partner_id.inscr_est)
+        if invoice.partner_id.is_company:
+            self.nfe.infNFe.dest.IE.valor = punctuation_rm(
+                invoice.partner_id.inscr_est)
 
-            if invoice.partner_id.country_id.id == \
-                    invoice.company_id.country_id.id:
-                if invoice.partner_id.is_company:
-                    self.nfe.infNFe.dest.CNPJ.valor = punctuation_rm(
-                        invoice.partner_id.cnpj_cpf)
-                else:
-                    self.nfe.infNFe.dest.CPF.valor = punctuation_rm(
-                        invoice.partner_id.cnpj_cpf)
+        if invoice.partner_id.country_id.id == \
+                invoice.company_id.country_id.id:
+            if invoice.partner_id.is_company:
+                self.nfe.infNFe.dest.CNPJ.valor = punctuation_rm(
+                    invoice.partner_id.cnpj_cpf)
+            else:
+                self.nfe.infNFe.dest.CPF.valor = punctuation_rm(
+                    invoice.partner_id.cnpj_cpf)
 
         self.nfe.infNFe.dest.indIEDest.valor = \
             invoice.partner_id.partner_fiscal_type_id.ind_ie_dest
@@ -359,7 +364,7 @@ class NFe200(FiscalDocument):
             self.det.prod.cEAN.valor =\
                 invoice_line.product_id.barcode or 'SEM GTIN'
             self.det.prod.cEANTrib.valor =\
-                invoice_line.product_id.barcode or ''
+                invoice_line.product_id.barcode or 'SEM GTIN'
             self.det.prod.xProd.valor = (normalize(
                 'NFKD', unicode(
                     invoice_line.product_id.name[:120] or '')
