@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2014 KMEE (http://www.kmee.com.br/)
+    @author Luis Felipe Miléo <mileo@kmee.com.br>
+    The licence is in the file __openerp__.py
+-->
+<odoo>
+
+        <record id="l10n_br_banking_account_payment_line_form" model="ir.ui.view">
+            <field name="name">l10n_br_account.payment.line.form.banking</field>
+            <field name="model">account.payment.line</field>
+            <field name="inherit_id"
+                   ref="account_payment_order.account_payment_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="percent_interest"/>
+                    <field name="amount_interest"/>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>
