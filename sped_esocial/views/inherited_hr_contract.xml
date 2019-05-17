@@ -168,6 +168,9 @@
                     <newline/>
                     <label for="condicoes_ambientais_ids" string="Condições Ambientais do Trabalho - Fatores de Risco"/>
                     <field name="condicoes_ambientais_ids"/>
+                    <newline/>
+                    <label for="saude_trabalhador_ids" string="Monitoramento da Saúde do Trabalhador"/>
+                    <field name="saude_trabalhador_ids"/>
                 </xpath>
                 <field name="exame_ids" positon="attributes">
                     <attribute name="invisible">1</attribute>
