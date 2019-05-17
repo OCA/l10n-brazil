@@ -9,19 +9,6 @@ from odoo import models, fields
 class AccountPaymentMode(models.Model):
     _inherit = 'account.payment.mode'
 
-    type_sale_payment = fields.Selection(
-        [('00', u'00 - Duplicata'),
-         ('01', u'01 - Cheque'),
-         ('02', u'02 - Promissória'),
-         ('03', u'03 - Recibo'),
-         ('99', u'99 - Outros')],
-        string='Tipo SPED', required=True, default='99')
-
-    type_payment = fields.Selection(
-        [('00', u'00 - Duplicata'),
-         ('99', u'99 - Outros')],
-        string='Tipo SPED', required=True, default='99')
-
     internal_sequence_id = fields.Many2one('ir.sequence', u'Sequência')
     instrucoes = fields.Text(u'Instruções de cobrança')
     invoice_print = fields.Boolean(
