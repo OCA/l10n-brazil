@@ -105,53 +105,6 @@ class AccountInvoice(models.Model):
         self.nfe_export()
         return True
 
-    def action_invoice_sent(self, cr, uid, ids, context=None):
-
-        assert len(ids) == 1, \
-            'This option should only be used for a single id at a time.'
-        ir_model_data = self.pool.get('ir.model.data')
-        attach_obj = self.pool.get('ir.attachment')
-        attachment_ids = attach_obj.search(
-            cr, uid, [
-                ('res_model', '=', 'account.invoice'),
-                ('res_id', '=', ids[0])], context=context)
-        try:
-            template_id = ir_model_data.get_object_reference(
-                cr,
-                uid,
-                'nfe_attach',
-                'email_template_nfe')[1]
-        except ValueError:
-            template_id = False
-        try:
-            compose_form_id = ir_model_data.get_object_reference(
-                cr,
-                uid,
-                'mail',
-                'email_compose_message_wizard_form')[1]
-        except ValueError:
-            compose_form_id = False
-        ctx = dict(context)
-        ctx.update({
-            'default_model': 'account.invoice',
-            'default_res_id': ids[0],
-            'default_use_template': bool(template_id),
-            'default_template_id': template_id,
-            'default_composition_mode': 'comment',
-            'mark_invoice_as_sent': True,
-            'attachment_ids': [(6, 0, attachment_ids)],
-        })
-        return {
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(compose_form_id, 'form')],
-            'view_id': compose_form_id,
-            'target': 'new',
-            'context': ctx,
-        }
-
     def _get_nfe_factory(self, nfe_version):
         return NfeFactory().get_nfe(nfe_version)
 
