@@ -71,17 +71,13 @@ class WizardImportAccountDepara(models.TransientModel):
                     name = l[1]
                     code_externo = l[2].replace('\n', '')
 
-                    if (not code_oficial or not name) or \
-                            (not code_externo or code_externo == '\n'):
+                    if not code_oficial  or (not code_externo or code_externo == '\n'):
                         erro_csv += ' Erro importação linha: {} \n'.format(l)
                         continue
 
-                    code_oficial = code_oficial.replace('.', '')
+                    code_oficial = code_oficial.replace('.', '_')
                     xmlid_conta_oficial = \
-                        'account.account_account_{}_{}'.format(
-                            record.account_depara_plano_id.name.upper(),
-                            code_oficial
-                        )
+                        'account.account_account_id_{}'.format(code_oficial)
 
                     code_externo = code_externo.replace('.', '')
                     xmlid_conta_externa = \
@@ -90,23 +86,34 @@ class WizardImportAccountDepara(models.TransientModel):
                             code_externo
                         )
 
-                    try:
-                        vals = {
-                            'account_depara_plano_id':
-                                record.account_depara_plano_id.id,
-                            'conta_referencia_id':
-                                self.env.ref(xmlid_conta_externa).id,
-                            'conta_sistema_id':
-                                [(4, self.env.ref(xmlid_conta_oficial).id)],
-                        }
+                    # Se ja existir o mapemaneto, incrementar com conta oficial
+                    account_depara_id = self.env['account.depara'].search([
+                        ('conta_referencia_id', '=',
+                         self.env.ref(xmlid_conta_externa).id),
+                    ])
+                    if account_depara_id:
+                        account_depara_id.conta_sistema_id = \
+                            [(4, self.env.ref(xmlid_conta_oficial).id)]
 
-                        account_depara_id = \
-                            self.env['account.depara'].create(vals)
-                        _logger.info('Mapeamento Criado: {} '.format(name))
+                    # Se ainda nao existir, criar o mapeamento
+                    else:
+                        try:
+                            vals = {
+                                'account_depara_plano_id':
+                                    record.account_depara_plano_id.id,
+                                'conta_referencia_id':
+                                    self.env.ref(xmlid_conta_externa).id,
+                                'conta_sistema_id':
+                                    [(4, self.env.ref(xmlid_conta_oficial).id)],
+                            }
 
-                    except ValueError as e:
-                        erro_conta += \
-                            ("Conta nao encontrada: {}\n ".format(e.message))
+                            account_depara_id = \
+                                self.env['account.depara'].create(vals)
+                            _logger.info('Mapeamento Criado: {} '.format(name))
+
+                        except ValueError as e:
+                            erro_conta += \
+                                ("Conta nao encontrada: {}\n ".format(e.message))
 
             _logger.info(erro_csv)
             _logger.info(erro_conta)

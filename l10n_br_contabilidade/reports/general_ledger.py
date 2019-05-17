@@ -99,10 +99,8 @@ def set_context(self, objects, data, ids, report_type=None):
     ledger_lines_memoizer = self._compute_account_ledger_lines(
         accounts, init_balance_memoizer, main_filter, target_move, start,
         stop)
-    objects = self.pool.get('account.account').browse(self.cursor,
-                                                      self.uid,
-                                                      accounts,
-                                                      context=lang_ctx)
+    objects = self.pool.get('account.account').browse(
+        self.cursor, self.uid, accounts, context=lang_ctx)
 
     init_balance = {}
     ledger_lines = {}
