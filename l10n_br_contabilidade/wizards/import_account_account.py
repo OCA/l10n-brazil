@@ -2,12 +2,16 @@
 # Copyright 2019 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
 import logging
+
+import pandas as pd
 
 _logger = logging.getLogger(__name__)
 
 from openerp import api, fields, models
 from openerp.exceptions import Warning
+from tempfile import TemporaryFile
 
 
 class WizardImportAccountAccount(models.TransientModel):
@@ -90,8 +94,6 @@ PS.: A planilha não pode conter quebras manuais (\\n) e nem aspas (")
         for record in self:
             if record.plano_de_contas_file:
 
-                # import csv
-                import base64
                 qtd_max_colunas = 0
                 erro = ''
 
@@ -190,12 +192,6 @@ PS.: A planilha não pode conter quebras manuais (\\n) e nem aspas (")
         """
         for record in self:
             if record.plano_de_contas_file:
-
-                # import csv
-                import base64
-                from tempfile import TemporaryFile
-                import pandas as pd
-
                 file = record.plano_de_contas_file.decode('base64')
                 fileobj = TemporaryFile('wb+')
                 fileobj.write(file)
