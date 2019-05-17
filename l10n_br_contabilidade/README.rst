@@ -2,11 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-====================
-L10nBR Contabilidade
-====================
+========================
+Contabilidade Brasileira
+========================
 
-Este módulo prevê adaptações à contabilidade para L10nBR
+Este módulo prevê adaptações à contabilidade Brasileira e importações de plano de contas.
 
 Installation
 ============
