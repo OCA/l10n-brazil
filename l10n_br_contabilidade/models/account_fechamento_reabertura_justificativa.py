@@ -2,12 +2,7 @@
 # Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
-
-_logger = logging.getLogger(__name__)
-
 from openerp import api, fields, models
-from openerp.exceptions import Warning
 
 
 class AccountFechamentoReaberturaJustificativa(models.Model):
