@@ -138,7 +138,7 @@
                             <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">${move.validado_por.name if move.validado_por.name else ' - '}</div>
                         %endif
                             ## label
-                            <div class="act_as_cell" style="width: 45%; overflow: hidden;">${line.name}</div>
+                            <div class="act_as_cell" style="width: 450px;word-break: break;">${line.name}</div>
                             ## debit
                             <div class="act_as_cell amount" style="min-width: 10%; overflow: hidden;">${formatLang(line.debit) if line.debit else ''}</div>
                             ## credit
