@@ -22,6 +22,7 @@ access_hr_fator_risco_gerente,Gerente Fator de Risco,model_hr_fator_risco,base.g
 access_hr_responsavel_ambiental_gerente,Gerente Responsavel de Registro Ambiental,model_hr_responsavel_ambiente,base.group_hr_user,1,1,1,1
 access_hr_saude_trabalhador_gerente,Gerente Saude Trabalhador,model_hr_saude_trabalhador,base.group_hr_user,1,1,1,1
 access_hr_exame_aso_gerente,Gerente Exame ASO,model_hr_exame_aso,base.group_hr_user,1,1,1,1
+access_hr_comunicao_acidente_trabalho_gerente,Gerente Comunicação de Acidente de Trabalho,model_hr_comunicacao_acidente_trabalho,base.group_hr_user,1,1,1,1
 access_s1200_operador,Operador S-1200(Leitura),model_sped_esocial_remuneracao,sped_tabelas.group_user,1,0,0,0
 access_s1200_gerente,Gerente S-1200(Escrita),model_sped_esocial_remuneracao,sped_tabelas.group_manager,1,1,1,1
 access_s1202_operador,Operador S-1202(Leitura),model_sped_esocial_remuneracao_rpps,sped_tabelas.group_user,1,0,0,0

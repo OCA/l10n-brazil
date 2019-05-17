@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_acidente_trabalho_form_view">
+            <field name="name">hr.comunicacao.acidente.trabalho.form</field>
+            <field name="model">hr.comunicacao.acidente.trabalho</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+<!--                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>-->
+                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" select="1" nolabel="1" readonly="1" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="contract_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        </group>
+                        <group>
+                            <field name="tipo_acidente" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        </group>
+                        <group>
+                            <field name="data_acidente" required="True"/>
+                        </group>
+                        <notebook>
+                            <page string="Acidente de Trabalho">
+                                <group>
+                                    <field name="hora_acidente"/>
+                                    <field name="tipo_cat" required="True"/>
+                                    <field name="ind_cat_obito" required="True"/>
+                                    <field name="data_obito"/>
+                                    <field name="ind_comunicacao_policia" required="True"/>
+                                    <field name="cod_geradora_acidente" required="True"/>
+                                    <field name="emissao_cat" required="True"/>
+                                    <field name="obs"/>
+                                </group>
+                            </page>
+                            <page string="Local do Acidente">
+                                <group>
+                                    <field name="tipo_local" required="True"/>
+                                    <field name="desc_local"/>
+                                    <field name="cod_ambiente"/>
+                                    <field name="tipo_logradouro" required="True"/>
+                                    <field name="desc_logradouro" required="True"/>
+                                    <field name="num_logradouro" required="True"/>
+                                    <field name="complemento"/>
+                                    <field name="bairro"/>
+                                    <field name="cep" attrs="{'required': [('tipo_local', 'in', ('1', '3', '5'))]}"/>
+                                    <field name="country_id" attrs="{'required': [('tipo_local', '!=', '2')]}"/>
+                                    <field name="uf_id" attrs="{'required': [('tipo_local', '!=', '2')]}"/>
+                                    <field name="city_id" attrs="{'required': [('tipo_local', '!=', '2')]}"/>
+                                    <field name="cod_postal" attrs="{'required': [('tipo_local', '!=', '2')]}"/>
+                                </group>
+                                <separator string="Identificação do Local" attrs="{'invisible': [('cod_ambiente', '=', False)]}"/>
+                                <group>
+                                    <field name="tipo_inscricao_local" attrs="{'invisible': [('cod_ambiente', '=', False)], 'required': [('cod_ambiente', '=', False)]}"/>
+                                    <field name="num_inscricao" attrs="{'invisible': [('cod_ambiente', '=', False)], 'required': [('cod_ambiente', '=', False)]}"/>
+                                </group>
+                            </page>
+                            <page string="Parte Atingida">
+                                <field name="parte_atingida_ids" required="True" editable="bottom"/>
+                            </page>
+                            <page string="Agente Causador">
+                                <field name="agente_causador_ids" required="True" editable="bottom"/>
+                            </page>
+                            <page string="Atestado Médico">
+                                <group>
+
+                                </group>
+                            </page>
+                            <page string="CAT de origem">
+                                <group>
+                                    <field name="num_recibo_cat_original" attrs="{'required': [('tipo_cat', '!=', '2')], 'invisible': [('tipo_cat', '!=', '2')]}"/>
+                                </group>
+                            </page>
+                            <page string="e-Social">
+                                <group>
+                                    <field name="sped_intermediario_id" readonly="True"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_acidente_trabalho_tree_view">
+            <field name="name">hr.comunicacao.acidente.trabalho.tree</field>
+            <field name="model">hr.comunicacao.acidente.trabalho</field>
+            <field name="arch" type="xml">
+                <tree string="Acidente de Trabalho" >
+                    <field name="contract_id"/>
+                    <field name="tipo_acidente"/>
+                    <field name="data_acidente"/>
+                    <field name="hora_acidente"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_acidente_trabalho">
+            <field name="name">Acidente de Trabalho</field>
+            <field name="res_model">hr.comunicacao.acidente.trabalho</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_acidente_trabalho">
+            <field name="name">Acidente de Trabalho</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_acidente_trabalho" />
+            <field name="action" ref="sped_esocial.action_hr_acidente_trabalho" />
+            <field name="sequence" eval="1" />
+        </record>
+
+    </data>
+</openerp>

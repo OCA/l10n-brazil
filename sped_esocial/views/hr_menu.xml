@@ -26,5 +26,13 @@
                 groups="base.group_user"
         />
 
+        <menuitem
+                id="menu_hr_root_acidente_trabalho"
+                parent="sped_esocial.menu_hr_root_sst"
+                name="Acidente de Trabalho"
+                sequence="4"
+                groups="base.group_user"
+        />
+
     </data>
 </openerp>

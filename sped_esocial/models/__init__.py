@@ -46,3 +46,6 @@ from . import hr_equipamento_protecao
 from . import hr_responsavel_ambiental
 from . import hr_saude_trabalhador
 from . import hr_exame_aso
+from . import hr_acidente_trabalho
+from . import hr_acidente_parte_atingida
+from . import hr_agente_causador

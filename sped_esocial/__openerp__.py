@@ -69,6 +69,7 @@
         'views/hr_responsavel_ambiental.xml',
         'views/hr_saude_trabalhador.xml',
         'views/hr_exame_aso.xml',
+        'views/hr_acidente_trabalho.xml',
 
         # Intermediarios
         'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',
