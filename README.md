@@ -79,6 +79,7 @@ addon | version | summary
 --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 10.0.1.0.0 | Brazilian Localization Account
 [l10n_br_account_banking_payment](l10n_br_account_banking_payment/) | 10.0.1.0.0 | Brazilian Banking - Debit and Payments Export Infrastructure
+[l10n_br_account_payment_mode](l10n_br_account_payment_mode/) | 10.0.1.0.0 | Odoo Brazil Payments Mode
 [l10n_br_account_product](l10n_br_account_product/) | 10.0.1.0.0 | Brazilian Localization Account Product
 [l10n_br_base](l10n_br_base/) | 10.0.1.0.0 | Brazilian Localization Base
 [l10n_br_crm](l10n_br_crm/) | 10.0.1.0.0 | Brazilian Localization CRM
