@@ -142,7 +142,7 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         # Cria o arquivo e passa o dataframe para o excel
         filename = 'diario_xls.xlsx'
         writer = pd.ExcelWriter(filename, engine='xlsxwriter')
-        df.to_excel(writer, sheet_name='Sheet1', index=False, startrow=7)
+        df.to_excel(writer, sheet_name='Sheet1', index=False, startrow=9)
 
         workbook = writer.book
         worksheet = writer.sheets['Sheet1']
@@ -160,12 +160,14 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
             worksheet.set_column('{}:{}'.format(cell, cell), max_len,
                                  wrap_format)
 
+        topo_format = workbook.add_format({'fg_color': '#1F295A'})
+
         # Formato do header
         header_format = workbook.add_format({
             'bold': 1,
             'align': 'center',
             'valign': 'vcenter',
-            'fg_color': '#87CEFA', 'font_name': 'Arial'})
+            'fg_color': '#FFFFFF', 'font_name': 'Arial'})
         header_format.set_align('center')
         header_format.set_font_size(20)
 
@@ -173,8 +175,8 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         parametros_format = workbook.add_format({
             'bold': 1,
             'align': 'center',
-            'valign': 'vcenter',
-            'fg_color': '#00BFFF', 'font_name': 'Arial'})
+            'valign': 'vcenter', 'font_color': '#FFFFFF',
+            'fg_color': '#1F295A', 'font_name': 'Arial'})
         parametros_format.set_align('center')
 
         ano_fiscal = self.env['account.fiscalyear'].browse(
@@ -182,8 +184,11 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
 
         ultima_coluna = self.letra_numero(int(round(len(columns) - 1)))
 
+        # TOPO
+        worksheet.merge_range('A1:{}2'.format(ultima_coluna),
+                              '', topo_format)
         # Header
-        worksheet.merge_range('A1:{}5'.format(ultima_coluna),
+        worksheet.merge_range('A3:{}7'.format(ultima_coluna),
                               'Relatórios - Livro Diário', header_format)
 
         # Ajustes de acordo com o número de colunas
@@ -191,11 +196,11 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         inicio_coluna_2 = self.letra_numero(int((round(len(columns)-1)/2))+1)
 
         # Parametros
-        worksheet.merge_range('A6:{}6'.format(fim_coluna_1),
+        worksheet.merge_range('A8:{}8'.format(fim_coluna_1),
                               'Ano Fiscal: {}'.format(ano_fiscal),
                               parametros_format)
 
-        worksheet.merge_range('{}6:{}6'.format(inicio_coluna_2, ultima_coluna),
+        worksheet.merge_range('{}8:{}8'.format(inicio_coluna_2, ultima_coluna),
                               'Períodos: De: {} até {}'.format(periods[0],
                                                                periods[-1]),
                               parametros_format)
@@ -203,7 +208,10 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         # Logo na celula B2
         img = os.path.dirname(os.path.realpath(__file__)
                               ).replace('/wizards', '/data/img/logo.png')
-        worksheet.insert_image('B2', img, {'x_scale': 2, 'y_scale': 2})
+        worksheet.insert_image('B4', img, {'x_scale': 2, 'y_scale': 2})
+
+        # 9 primeiras colunas fixadas.
+        worksheet.freeze_panes(10, 0)
 
         writer.save()
 
