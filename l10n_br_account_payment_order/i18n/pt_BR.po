@@ -1,0 +1,106 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_account_banking_payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-22 14:13+0000\n"
+"PO-Revision-Date: 2017-11-22 14:13+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account_banking_payment
+#: model:ir.model,name:l10n_br_account_banking_payment.model_res_bank
+msgid "Bank"
+msgstr "Banco"
+
+#. module: l10n_br_account_banking_payment
+#: model:ir.model,name:l10n_br_account_banking_payment.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Contas Bancárias"
+
+#. module: l10n_br_account_banking_payment
+#: field:account.move.line,date_scheduled:0
+msgid "Data Prevista"
+msgstr "Data Prevista"
+
+#. module: l10n_br_account_banking_payment
+#: field:payment.order.create,schedule_date:0
+msgid "Data Programada"
+msgstr "Data Programada"
+
+#. module: l10n_br_account_banking_payment
+#: code:addons/l10n_br_account_banking_payment/wizard/payment_order_create.py:108
+#, python-format
+msgid "Entry Lines"
+msgstr "Linhas de Entrada"
+
+#. module: l10n_br_account_banking_payment
+#: code:addons/l10n_br_account_banking_payment/models/account_payment.py:33
+#, python-format
+msgid "Impossible confirm empty line!"
+msgstr "Impossível confirmar linha vazia!"
+
+#. module: l10n_br_account_banking_payment
+#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
+msgid "Journal Entry"
+msgstr "Entrada do Diário"
+
+#. module: l10n_br_account_banking_payment
+#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
+#: model:ir.model,name:l10n_br_account_banking_payment.model_account_move_line
+msgid "Journal Items"
+msgstr "Itens do Diário"
+
+#. module: l10n_br_account_banking_payment
+#: field:payment.line,linha_digitavel:0
+msgid "Linha Digitável"
+msgstr "Linha Digitável"
+
+#. module: l10n_br_account_banking_payment
+#: model:ir.model,name:l10n_br_account_banking_payment.model_payment_line
+msgid "Payment Line"
+msgstr "Linha de Pagamento"
+
+#. module: l10n_br_account_banking_payment
+#: model:ir.model,name:l10n_br_account_banking_payment.model_payment_order
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
+
+#. module: l10n_br_account_banking_payment
+#: code:addons/l10n_br_account_banking_payment/wizard/payment_order_create.py:157
+#, python-format
+msgid "Payment Orders"
+msgstr "Ordens de Pagamentos"
+
+#. module: l10n_br_account_banking_payment
+#: field:payment.line,percent_interest:0
+msgid "Percentual de Juros"
+msgstr "Percentual de Juros"
+
+#. module: l10n_br_account_banking_payment
+#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
+msgid "Total Credit"
+msgstr "Total de Crédito"
+
+#. module: l10n_br_account_banking_payment
+#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
+msgid "Total Debit"
+msgstr "Total de Débito"
+
+#. module: l10n_br_account_banking_payment
+#: field:payment.order.create,all_posted_moves:0
+msgid "Títulos em aberto"
+msgstr "Títulos em aberto"
+
+#. module: l10n_br_account_banking_payment
+#: view:payment.order.create:l10n_br_account_banking_payment.view_create_payment_order_lines
+msgid "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+msgstr "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+
