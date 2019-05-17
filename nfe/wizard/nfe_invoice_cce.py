@@ -71,7 +71,7 @@ class NfeInvoiceCce(models.TransientModel):
                     cStat.valor,
                     'response': '',
                     'company_id': invoice.company_id.id,
-                    'origin': '[CC-E] ' + str(invoice.internal_number),
+                    'origin': '[CC-E] ' + str(invoice.fiscal_number),
                     'message': processo.resposta.retEvento[0].infEvento.
                     xEvento.valor,
                     'state': 'done',
@@ -88,7 +88,7 @@ class NfeInvoiceCce(models.TransientModel):
                     'status': '000',
                     'response': 'response',
                     'company_id': invoice.company_id.id,
-                    'origin': '[CC-E]' + str(invoice.internal_number),
+                    'origin': '[CC-E]' + str(invoice.fiscal_number),
                     'file_sent': 'False',
                     'file_returned': 'False',
                     'message': 'Erro desconhecido ' + e.message,

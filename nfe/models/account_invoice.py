@@ -181,9 +181,7 @@ class AccountInvoice(models.Model):
             nfe_obj = self._get_nfe_factory(inv.nfe_version)
 
             # nfe_obj = NFe310()
-            nfes = nfe_obj.get_xml(self.env.cr, self.env.uid, self.ids,
-                                   int(inv.company_id.nfe_environment),
-                                   self.env.context)
+            nfes = nfe_obj.get_xml(inv, int(inv.company_id.nfe_environment))
 
             for nfe in nfes:
                 # erro = nfe_obj.validation(nfe['nfe'])
@@ -219,7 +217,7 @@ class AccountInvoice(models.Model):
                     event_obj.create({
                         'type': '0',
                         'company_id': inv.company_id.id,
-                        'origin': '[NF-E]' + inv.internal_number,
+                        'origin': '[NF-E]' + inv.fiscal_number,
                         'file_sent': file_path,
                         'create_date': datetime.datetime.now(),
                         'state': 'draft',
@@ -254,7 +252,7 @@ class AccountInvoice(models.Model):
                         'status': processo.resposta.cStat.valor,
                         'response': '',
                         'company_id': inv.company_id.id,
-                        'origin': '[NF-E]' + inv.internal_number,
+                        'origin': '[NF-E]' + inv.fiscal_number,
                         # TODO: Manipular os arquivos manualmente
                         # 'file_sent': processo.arquivos[0]['arquivo'],
                         # 'file_returned': processo.arquivos[1]['arquivo'],
@@ -284,7 +282,7 @@ class AccountInvoice(models.Model):
                     'status': '000',
                     'response': 'response',
                     'company_id': self.company_id.id,
-                    'origin': '[NF-E]' + inv.internal_number,
+                    'origin': '[NF-E]' + inv.fiscal_number,
                     'file_sent': 'False',
                     'file_returned': 'False',
                     'message': 'Erro desconhecido ' + str(e),
@@ -348,7 +346,7 @@ class AccountInvoice(models.Model):
                         'status': processo.resposta.cStat.valor,
                         'response': '',
                         'company_id': self.company_id.id,
-                        'origin': '[NF-E] {0}'.format(inv.internal_number),
+                        'origin': '[NF-E] {0}'.format(inv.fiscal_number),
                         'message': processo.resposta.xMotivo.valor,
                         'state': 'done',
                         'document_event_ids': inv.id}
@@ -391,7 +389,7 @@ class AccountInvoice(models.Model):
                         'status': '000',
                         'response': 'response',
                         'company_id': self.company_id.id,
-                        'origin': '[NF-E] {0}'.format(inv.internal_number),
+                        'origin': '[NF-E] {0}'.format(inv.fiscal_number),
                         'file_sent': 'OpenFalse',
                         'file_returned': 'False',
                         'message': 'Erro desconhecido ' + e.message,
@@ -473,7 +471,7 @@ class AccountInvoice(models.Model):
                     'status': processo.resposta.cStat.valor,
                     'response': '',
                     'company_id': inv.company_id.id,
-                    'origin': '[NF-E]' + inv.internal_number,
+                    'origin': '[NF-E]' + inv.fiscal_number,
                     # TODO: Manipular os arquivos manualmente
                     # 'file_sent': processo.arquivos[0]['arquivo'],
                     # 'file_returned': processo.arquivos[1]['arquivo'],
@@ -504,7 +502,7 @@ class AccountInvoice(models.Model):
                     'status': '000',
                     'response': 'response',
                     'company_id': self.company_id.id,
-                    'origin': '[NF-E]' + inv.internal_number,
+                    'origin': '[NF-E]' + inv.fiscal_number,
                     'file_sent': 'False',
                     'file_returned': 'False',
                     'message': 'Erro desconhecido ' + str(e),

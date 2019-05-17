@@ -320,7 +320,7 @@ class NfeImportEdit(models.TransientModel):
 
         picking_vals = {
             'name': '/',
-            'origin': 'Fatura: %s-%s' % (invoice.internal_number,
+            'origin': 'Fatura: %s-%s' % (invoice.fiscal_number,
                                          invoice.document_serie_id.code),
             'partner_id': invoice.partner_id.id,
             'invoice_state': 'invoiced',

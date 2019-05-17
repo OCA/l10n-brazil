@@ -120,7 +120,7 @@ class NFeSerializer(object):
 
         res['serie_nfe'] = str(self.nfe.infNFe.ide.serie.valor)
         res['supplier_invoice_number'] = self.nfe.infNFe.ide.nNF.valor
-        res['internal_number'] = (
+        res['fiscal_number'] = (
             "{cnpj}:{serie_nfe}:{supplier_invoice_number}".format(
                 cnpj=self.nfe.infNFe.emit.CNPJ.valor, **res
             )
@@ -179,7 +179,7 @@ class NFeSerializer(object):
                 'fiscal_document_id': fiscal_doc_ids[0].id if fiscal_doc_ids
                 else False,
                 'serie': self.nfref.refNF.serie.valor or False,
-                'internal_number': self.nfref.refNF.nNF.valor or False,
+                'fiscal_number': self.nfref.refNF.nNF.valor or False,
             })
 
         elif self.nfref.refNFP.CNPJ.valor:
@@ -202,7 +202,7 @@ class NFeSerializer(object):
                 'fiscal_document_id': fiscal_doc_ids[0].id if fiscal_doc_ids
                 else False,
                 'serie': self.nfref.refNFP.serie.valor,
-                'internal_number': self.nfref.refNFP.nNF.valor,
+                'fiscal_number': self.nfref.refNFP.nNF.valor,
                 'cnpj_cpf': cnpj_cpf,
             })
         elif self.nfref.refNFe.valor:
@@ -225,7 +225,7 @@ class NFeSerializer(object):
                 'fiscal_document_id': fiscal_document_ids[0].id if
                 fiscal_document_ids else False,
                 'serie': self.nfref.refNF.serie.valor,
-                'internal_number': self.nfref.refNF.nNF.valor,
+                'fiscal_number': self.nfref.refNF.nNF.valor,
             })
 
         return nfe_reference
