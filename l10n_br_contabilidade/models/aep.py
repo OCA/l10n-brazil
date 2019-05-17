@@ -12,9 +12,6 @@ def get_account_reference(self, account_ids, account_depara_plano_id):
         'conta_referencia_id': tuple(account_ids),
     }
 
-    if account_depara_plano_id:
-        sql_filters.update(account_depara_plano_id=account_depara_plano_id)
-
     sql_select = "SELECT adcs.conta_sistema_id " \
                  "FROM account_depara_conta_sistema_rel adcs " \
                  "RIGHT JOIN account_depara ad " \
@@ -22,11 +19,12 @@ def get_account_reference(self, account_ids, account_depara_plano_id):
 
     sql_where = "WHERE ad.conta_referencia_id IN  %(conta_referencia_id)s "
 
-    if account_depara_plano_id:
-        sql_where += \
-            " AND ad.account_depara_plano_id = %(account_depara_plano_id)s "
-
     sql_order = "order by adcs.conta_sistema_id"
+
+    if account_depara_plano_id:
+        sql_filters.update(account_depara_plano_id=account_depara_plano_id)
+        sql_where = "{} AND ad.account_depara_plano_id" \
+                    " = %(account_depara_plano_id)s".format(sql_where)
 
     sql = ' '.join((sql_select, sql_where, sql_order))
     self.env.cr.execute(sql, sql_filters)
