@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+
+        <record model="ir.ui.view" id="l10n_br_contabilidade_import_account_depara_wizard">
+            <field name="name">wizard.import.account.depara (in l10n_br_contabilidade)</field>
+            <field name="model">wizard.import.account.depara</field>
+            <field name="arch" type="xml">
+            	<form string="Importar Depara">
+            		<group>
+            			<field name="account_depara_plano_id"/>
+            			<field name="depara_file"/>
+                        <label for="instrucao" />
+                        <field name="instrucao" />
+					</group>
+					<footer>
+
+                        <button name="import_account_depara"
+                                string="Importar Depara" type="object"
+                                class="oe_highlight" />
+						<button string="Cancelar" special="cancel"/>
+					</footer>
+            	</form>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_contabilidade_import_account_depara_act_window">
+        <field name="name">Importar Depara</field>
+        <field name="res_model">wizard.import.account.depara</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.ui.menu" id="wizard_l10n_br_contabilidade_import_account_depara_wizard">
+        <field name="name">Importar Depara</field>
+        <field name="parent_id" ref="abgf_contabilidade.abgf_conta_mapeamento_menu"/>
+        <field name="action" ref="l10n_br_contabilidade_import_account_depara_act_window"/>
+        <field name="sequence" eval="170"/>
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+    </record>
+
+    </data>
+</openerp>
+
