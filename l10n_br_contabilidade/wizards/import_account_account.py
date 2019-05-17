@@ -192,9 +192,9 @@ PS.: A planilha não pode conter quebras manuais (\\n) e nem aspas (")
         """
         for record in self:
             if record.plano_de_contas_file:
-                file = record.plano_de_contas_file.decode('base64')
+                plano_de_contas_decoded = record.plano_de_contas_file.decode('base64')
                 fileobj = TemporaryFile('wb+')
-                fileobj.write(file)
+                fileobj.write(plano_de_contas_decoded)
                 fileobj.seek(0)
                 df = pd.read_csv(fileobj)
 
