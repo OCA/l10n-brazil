@@ -168,3 +168,40 @@ class AccountAccount(models.Model):
             result.append((record.id, name))
 
         return result
+
+    @api.model
+    def create(self, vals):
+        """
+        """
+        res = super(AccountAccount, self).create(vals)
+
+        # Chamar a criação do ir.model.data mesmo pela interface, pois a
+        # importação do depara é baseada nessa cara
+        ident = res.account_depara_plano_id.name.upper() \
+            if res.account_depara_plano_id else 'id'
+        code = res.code.replace('.','_')
+
+        # Para conta raiz. utilizar o name na identificacao
+        if code == '0':
+            ident = res.name
+
+        self.env['ir.model.data'].create({
+            'module': 'account',
+            'name': 'account_account_{}_{}'.format(ident, code),
+            'model': 'account.account',
+            'res_id': res.id,
+        })
+
+        return res
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            ir_model_data = record.env['ir.model.data'].search([
+                ('model', '=', 'account.account'),
+                ('res_id', '=', record.id)
+            ])
+
+            ir_model_data.unlink()
+
+            return super(AccountAccount, record).unlink()
