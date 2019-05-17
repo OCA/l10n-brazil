@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-		<record id="view_l10n_br_envio_account_invoice_form" model="ir.ui.view">
-			<field name="name">l10n_br_envio_account.invoice.form</field>
-			<field name="model">account.invoice</field>
-			<field name="priority">32</field>
-			<field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_nfe_form"/>
-			<field name="arch" type="xml">
+        <record id="view_l10n_br_envio_account_invoice_form" model="ir.ui.view">
+            <field name="name">l10n_br_envio_account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">999</field>
+            <field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_nfe_form"/>
+            <field name="arch" type="xml">
                             <button name="action_invoice_open" position="replace">
                                         <button name="action_invoice_open"
                                                         attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}"
@@ -35,8 +35,8 @@
                                 <xpath expr="//field[@name='ind_pres']" position="after">
                                         <field name="is_danfe_printed"/>
                                 </xpath>
-			</field>
-		</record>
+            </field>
+        </record>
 
         <act_window id="nfe_import_xml_nfe" key2="client_action_multi"
                     name="Importar XML NFe"

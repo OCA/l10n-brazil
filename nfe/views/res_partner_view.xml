@@ -1,21 +1,20 @@
 <?xml version="1.0"?>
-<openerp>
-    <data>
-       <record id="nfe_res_partner_view_buttons" model="ir.ui.view">
-            <field name="name">res.partner.view.buttons</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form" />
-            <field name="priority" eval="20"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[@name='button_box']" position="inside">
-                	<button name="sefaz_check" type="object" class="oe_inline oe_stat_button" 
-                		icon="fa-search" string="Consultar SEFAZ">
-                	</button>                	
-                </xpath>
-                <field name="partner_fiscal_type_id" position="after">
-					<field name="habilitado_sintegra" />
-				</field>
+<odoo>
+    <record id="nfe_res_partner_view_buttons" model="ir.ui.view">
+        <field name="name">res.partner.view.buttons</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form"/>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="sefaz_check" type="object" class="oe_inline oe_stat_button"
+                        icon="fa-search" string="Consultar SEFAZ">
+                </button>
+            </xpath>
+            <field name="partner_fiscal_type_id" position="after">
+                <field name="habilitado_sintegra"/>
             </field>
-        </record>      
-    </data>
-</openerp>
+        </field>
+    </record>
+
+</odoo>

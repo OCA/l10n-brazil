@@ -1,23 +1,8 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#                                                                             #
-# Copyright (C) 2013  Danimar Ribeiro 22/08/2013                              #
-# Copyright (C) 2013  Renato Lima - Akretion                                  #
-# Copyright (C) 2014  Luis Felipe Mileo - KMEE - www.kmee.com.br              #
-#                                                                             #
-# This program is free software: you can redistribute it and/or modify        #
-# it under the terms of the GNU Affero General Public License as published by #
-# the Free Software Foundation, either version 3 of the License, or           #
-# (at your option) any later version.                                         #
-#                                                                             #
-# This program is distributed in the hope that it will be useful,             #
-# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
-# GNU Affero General Public License for more details.                         #
-#                                                                             #
-# You should have received a copy of the GNU Affero General Public License    #
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
-###############################################################################
+# Copyright (C) 2013  Danimar Ribeiro 22/08/2013
+# Copyright (C) 2013  Renato Lima - Akretion
+# Copyright (C) 2014  Luis Felipe Mileo - KMEE - www.kmee.com.br
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
 import os
@@ -29,7 +14,7 @@ from pyPdf import PdfFileReader, PdfFileWriter
 from .certificado import Certificado
 from .processor import ProcessadorNFe
 
-from odoo.addons.nfe.tools.misc import mount_path_nfe
+from ....tools.misc import mount_path_nfe
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -102,7 +87,7 @@ def send(company, nfe):
     p.danfe.salvar_arquivo = company.danfe_automatic_generate
     p.danfe.nome_sistema = company.nfe_email or \
         u"""Odoo/OpenERP - Sistema de Gestao Empresarial de Codigo Aberto
-        - 100%% WEB - www.openerpbrasil.org"""
+        - 100%% WEB - www.odoobrasil.org"""
 
     return p.processar_notas(nfe)
 

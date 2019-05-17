@@ -1,26 +1,11 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#
-# Copyright (C) 2014  Luis Felipe Mileo - KMEE, www.kmee.com.br
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###############################################################################
+# Copyright (C) 2015  Luis Felipe Mileo - KMEE - www.kmee.com.br
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, api
 from odoo.osv import orm
 from odoo.tools.translate import _
-from odoo.addons.nfe.sped.nfe.processing.xml import check_key_nfe
+from ..sped.nfe.processing.xml import check_key_nfe
 
 
 class L10nBrAccountDocumentStatusSefaz(models.TransientModel):

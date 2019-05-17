@@ -1,25 +1,11 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#                                                                             #
-# Copyright (C) 2015 Trustcode - www.trustcode.com.br                         #
-#    Authors: Luis Felipe Mileo                                               #
-#            Fernando Marcato Rodrigues                                       #
-#            Daniel Sadamo Hirayama                                           #
-#            Danimar Ribeiro <danimaribeiro@gmail.com>                        #
-# This program is free software: you can redistribute it and/or modify        #
-# it under the terms of the GNU Affero General Public License as published by #
-# the Free Software Foundation, either version 3 of the License, or           #
-# (at your option) any later version.                                         #
-#                                                                             #
-# This program is distributed in the hope that it will be useful,             #
-# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
-# GNU General Public License for more details.                                #
-#                                                                             #
-# You should have received a copy of the GNU General Public License           #
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
-#                                                                             #
-###############################################################################
+# Copyright (C)
+#            Luis Felipe Mileo
+#            Fernando Marcato Rodrigues
+#            Daniel Sadamo Hirayama
+#            Danimar Ribeiro <danimaribeiro@gmail.com>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
 
 import base64
 import re
@@ -764,9 +750,9 @@ class NFeSerializer(object):
         return cnpj_cpf
 
     @staticmethod
-    def _mask_zip(zip):
-        if zip:
-            zip = re.sub('[^0-9]', '', zip)
-            if len(zip) == 8:
-                zip = "%s-%s" % (zip[0:4], zip[4:7])
-        return zip
+    def _mask_zip(zip_code):
+        if zip_code:
+            zip_code = re.sub('[^0-9]', '', zip_code)
+            if len(zip_code) == 8:
+                zip_code = "%s-%s" % (zip_code[0:4], zip_code[4:7])
+        return zip_code

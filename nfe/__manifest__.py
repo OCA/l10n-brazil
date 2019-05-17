@@ -1,43 +1,15 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#
 # Copyright (C) 2013  Renato Lima - Akretion
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###############################################################################
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
 
 {
     'name': 'NFE',
-    'version': '8.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Generic Modules',
-    'author': 'Akretion, Danimar Ribeiro, KMEE',
+    'author': 'Akretion, Danimar Ribeiro, KMEE, Odoo Community Association (OCA)',
     'license': 'AGPL-3',
-    'website': 'http://www.openerpbrasil.org',
-    'description': """
-        Implementa a exportação de notas fiscais através de
-                        arquivos XML
-      Este módulo é complementar para enviar para a receita a nfe,
-      inutilização e cancelamento de notas.
-      Dependencias: pysped, geraldo, pyxmlsec
-      Instalando pyxmlsec
-        sudo pip install pyxmlsec
-        Dependencias ->
-        sudo apt-get install libxmlsec1-dev
-        sudo apt-get install libxml2-dev
-      Instalando geraldo
-        sudo pip install geraldo
-    """,
+    'website': 'http://odoo-brasil.org',
     'external_dependencies': {
         'python': [
             'pysped'

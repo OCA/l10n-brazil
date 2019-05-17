@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#                                                                             #
-# Copyright (C) 2015 Trustcode - www.trustcode.com.br                         #
-#              Danimar Ribeiro <danimaribeiro@gmail.com>                      #
-#                                                                             #
-# This program is free software: you can redistribute it and/or modify        #
-# it under the terms of the GNU Affero General Public License as published by #
-# the Free Software Foundation, either version 3 of the License, or           #
-# (at your option) any later version.                                         #
-#                                                                             #
-# This program is distributed in the hope that it will be useful,             #
-# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
-# GNU General Public License for more details.                                #
-#                                                                             #
-# You should have received a copy of the GNU General Public License           #
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
-#                                                                             #
-###############################################################################
+# Copyright (C) 2015 Trustcode - www.trustcode.com.br
+#              Danimar Ribeiro <danimaribeiro@gmail.com>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import cPickle
 
@@ -223,9 +207,9 @@ class NfeImportEdit(models.TransientModel):
             else:
                 if (selected_nfe_key and
                         selected_nfe_key != inv_values['nfe_access_key']):
-                    raise UserError(
+                    raise UserError(_(
                         'A NFe a ser vinculada possui chave de acesso ' +
-                        'diferente da que consta no XML fornecido.')
+                        'diferente da que consta no XML fornecido.'))
 
             vals = {
                 'serie_nfe': inv_values['serie_nfe'],

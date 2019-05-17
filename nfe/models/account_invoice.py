@@ -1,21 +1,6 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#
 # Copyright (C) 2013  Danimar Ribeiro 26/06/2013
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###############################################################################
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import os
 import logging
@@ -26,12 +11,12 @@ from odoo.tools.translate import _
 from odoo import models, fields, api
 from odoo.exceptions import RedirectWarning
 
-from odoo.addons.nfe.sped.nfe.nfe_factory import NfeFactory
-from odoo.addons.nfe.sped.nfe.validator.xml import XMLValidator
-from odoo.addons.nfe.sped.nfe.processing.xml import send, cancel
-from odoo.addons.nfe.sped.nfe.processing.xml import monta_caminho_nfe
-from odoo.addons.nfe.sped.nfe.processing.xml import check_key_nfe
-from odoo.addons.nfe.sped.nfe.validator.config_check import \
+from ..sped.nfe.nfe_factory import NfeFactory
+from ..sped.nfe.validator.xml import XMLValidator
+from ..sped.nfe.processing.xml import send, cancel
+from ..sped.nfe.processing.xml import monta_caminho_nfe
+from ..sped.nfe.processing.xml import check_key_nfe
+from ..sped.nfe.validator.config_check import \
     validate_nfe_configuration, validate_invoice_cancel
 
 _logger = logging.getLogger(__name__)

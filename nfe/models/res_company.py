@@ -1,28 +1,14 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#
 # Copyright (C) 2014  KMEE  - www.kmee.com.br - Rafael da Silva Lima
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###############################################################################
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
 import base64
 import logging
 import re
 from datetime import datetime
 from lxml import objectify
 
-from odoo.addons.nfe.sped.nfe.validator.config_check import \
+from ..sped.nfe.validator.config_check import \
     validate_nfe_configuration
 from odoo.exceptions import Warning as UserError
 from ..service.mde import distribuicao_nfe
@@ -103,7 +89,8 @@ class ResCompany(models.Model):
                         u'Verifique o log')
             else:
                 if company.last_nsu_nfe:
-                    # do this here instead of in get_last_dfe_nsu() in case the
+                    # do this here instead of in get_last_dfe_nsu() in case
+                    # the
                     # exception gets swallowed in the `except` above.
                     company.sudo().last_nsu_nfe = ''
                 env_events = self.env['l10n_br_account.document_event']
@@ -214,8 +201,10 @@ class ResCompany(models.Model):
                                         str(root.dhEmi)[:19],
                                         '%Y-%m-%dT%H:%M:%S'),
                                     'company_id': company.id,
-                                    'formInclusao': u'Verificação agendada - '
-                                                    u'manifestada por outro app'
+                                    'formInclusao': (
+                                        u'Verificação agendada - '
+                                        u'manifestada por outro app'
+                                    )
                                 }
 
                                 obj_nfe = env_mde.create(invoice_eletronic)

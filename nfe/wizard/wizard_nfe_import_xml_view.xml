@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
+
         <record id="nfe_import_from_mde_import_xml_form" model="ir.ui.view">
             <field name="name">nfe_import_from_mde.import.xml.form</field>
             <field name="model">nfe_import.account_invoice_import</field>
@@ -17,5 +17,4 @@
             </field>
         </record>
 
-    </data>
-</openerp>
+</odoo>

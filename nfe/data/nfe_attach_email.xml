@@ -1,16 +1,16 @@
-<openerp>
-	<data noupdate="1">
-		<record id="email_template_nfe" model="mail.template">
-			<field name="name">NF-E - Send by Email</field>
-			<field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
-			<field name="subject">${object.company_id.name} NF ${object.document_serie_id.code}/${object.number or 'n/a'}</field>
-			<field name="email_recipients">${object.contact_id and object.contact_id.id or object.partner_id.id}</field>
-			<field name="model_id" ref="account.model_account_invoice"/>
-			<field name="attachment_ids"/> 
-			<field name="auto_delete" eval="True"/>
-			<field name="lang">${object.partner_id.lang}</field>
-			<field name="body_html">
-				<![CDATA[ <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #EEE; ">
+<odoo noupdate="1">
+
+        <record id="email_template_nfe" model="mail.template">
+            <field name="name">NF-E - Send by Email</field>
+            <field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">${object.company_id.name} NF ${object.document_serie_id.code}/${object.number or 'n/a'}</field>
+            <field name="email_recipients">${object.contact_id and object.contact_id.id or object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="attachment_ids"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html">
+                <![CDATA[ <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #EEE; ">
 
     <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #EEE; ">
 
@@ -29,14 +29,14 @@
        &nbsp;&nbsp;Número: <strong>${object.internal_number}</strong><br />
        &nbsp;&nbsp;Série: <strong>${object.document_serie_id.code}</strong><br />
        &nbsp;&nbsp;Data da Fatura: ${object.date_invoice}<br />
-	   &nbsp;&nbsp;Valor Total: <strong>${object.currency_id.symbol} ${object.amount_total} </strong><br />       
+       &nbsp;&nbsp;Valor Total: <strong>${object.currency_id.symbol} ${object.amount_total} </strong><br />
        % if object.origin:
        &nbsp;&nbsp;Referência
        % endif
-	   % if object.name:
+       % if object.name:
        &nbsp;do Cliente
        % endif
-	   % if object.name:
+       % if object.name:
        &nbsp;- ${object.name}
        % endif
        % if object.origin:
@@ -47,7 +47,7 @@
        % endif
     </p>  
     
-	<p>Para verificar a autorização da SEFAZ referente à nota acima mencionada, acesse o site http://www.nfe.fazenda.gov.br/portal</p>
+    <p>Para verificar a autorização da SEFAZ referente à nota acima mencionada, acesse o site http://www.nfe.fazenda.gov.br/portal</p>
     <br/>
     <br/>
     <div style="width: 375px; margin: 0px; padding: 0px; background-color: #00008E; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;">
@@ -90,7 +90,7 @@
         <p><i>${object.company_id.nfe_email}</i></p>
     %endif
 </div> ]]>
-			</field>
-		</record>
-	</data>
-</openerp>
+            </field>
+        </record>
+
+</odoo>
