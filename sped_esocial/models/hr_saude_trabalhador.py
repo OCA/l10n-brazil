@@ -184,6 +184,10 @@ class HrSaudeTrabalhador(models.Model):
         string='Intermediário do e-Social',
         comodel_name='sped.hr.saude.trabalhador',
     )
+    sped_intermediario_id = fields.Many2one(
+        string='Intermediário do e-Social',
+        comodel_name='sped.hr.saude.trabalhador',
+    )
 
     @api.model
     def _compute_name(self):
