@@ -8,17 +8,17 @@ from openerp import api, fields, models, _
 from openerp.exceptions import Warning
 
 TP_EXAME = [
-    (0, 'Exame médico admissional'),
-    (1, 'Exame médico periódico, conforme NR7 do MTb e/ou planejamento do PCMSO'),
-    (2, 'Exame médico de retorno ao trabalho'),
-    (3, 'Exame médico de mudança de função'),
-    (4, 'Exame médico de monitoração pontual, não enquadrado nos demais casos'),
-    (9, 'Exame médico demissional'),
+    ('0', 'Exame médico admissional'),
+    ('1', 'Exame médico periódico, conforme NR7 do MTb e/ou planejamento do PCMSO'),
+    ('2', 'Exame médico de retorno ao trabalho'),
+    ('3', 'Exame médico de mudança de função'),
+    ('4', 'Exame médico de monitoração pontual, não enquadrado nos demais casos'),
+    ('9', 'Exame médico demissional'),
 ]
 
 RESULT_ASO = [
-    (1, 'Apto'),
-    (2, 'Inapto'),
+    ('1', 'Apto'),
+    ('2', 'Inapto'),
 ]
 
 UF = [
@@ -140,6 +140,10 @@ class HrSaudeTrabalhador(models.Model):
         string=u'UF do CRM do PCMSO',
         selection=UF,
     )
+    sped_intermediario_id = fields.Many2one(
+        string='Intermediário do e-Social',
+        comodel_name='sped.hr.saude.trabalhador',
+    )
 
     @api.model
     def _compute_name(self):
@@ -154,8 +158,40 @@ class HrSaudeTrabalhador(models.Model):
     @api.multi
     def _compute_state(self):
         for record in self:
-            record.state = 0
-            # if not record.sped_intermediario_id:
-            #     record.state = 0
-            # else:
-            #     record.state = record.sped_intermediario_id.situacao_esocial
+            if not record.sped_intermediario_id:
+                record.state = 0
+            else:
+                record.state = record.sped_intermediario_id.situacao_esocial
+
+    def gerar_intermediario(self):
+        if not self.sped_intermediario_id:
+            vals = {
+                'company_id': self.contract_id.company_id.id if
+                self.contract_id.company_id.eh_empresa_base else
+                self.contract_id.company_id.matriz.id,
+                'hr_saude_trabalhador_id': self.id,
+            }
+            self.sped_intermediario_id = self.env[
+                'sped.hr.saude.trabalhador'].create(vals)
+            self.sped_intermediario_id.gerar_registro()
+
+    @api.multi
+    def button_enviar_esocial(self):
+        self.gerar_intermediario()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.contract_id.employee_id
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            for registro in record.sped_intermediario_id.sped_inclusao:
+                if registro.situacao == '4':
+                    raise Warning(
+                        'Não é possível excluír um registro '
+                        'que foi transmitido para o e-Social!'
+                    )
+            record.sped_intermediario_id.unlink()
+            super(HrSaudeTrabalhador, record).unlink()

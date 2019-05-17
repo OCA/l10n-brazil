@@ -50,7 +50,9 @@
                                 </group>
                             </page>
                             <page string="e-Social">
-
+                                <group>
+                                    <field name="sped_intermediario_id" readonly="True"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>

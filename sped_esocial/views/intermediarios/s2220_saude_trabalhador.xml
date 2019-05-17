@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sped_esocial_s2220_form" model="ir.ui.view">
+            <field name="name">e-Social S-2220</field>
+            <field name="model">sped.hr.saude.trabalhador</field>
+            <field name="arch" type="xml">
+                <form string="e-Social - Registro S-2220" edit="false" delete="false" create="false" duplicate="false">
+                    <header>
+                        <button name="gerar_registro" colspan="4" type="object" string="Ativar/Atualizar e-Social" class="oe_highlight" attrs="{'invisible': [('situacao_esocial', 'not in', ['0', '7'])]}"/>
+                        <field name="situacao_esocial" widget="statusbar" select="1" nolabel="1" readonly="1"/>
+                    </header>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <group colspan="4" col="2">
+                            <field name="company_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="hr_saude_trabalhador_id" readonly="1"/>
+                        </group>
+                        <group colspan="4" col="2">
+                            <field name="sped_inclusao" readonly="1"/>
+                        </group>
+                        <group colspan="4" col="2">
+                            <field name="ultima_atualizacao" />
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_esocial_s2220_tree">
+            <field name="name">S-2220 (Saúde do Trabalhador)</field>
+            <field name="model">sped.hr.saude.trabalhador</field>
+            <field name="arch" type="xml">
+                <tree string="S-2220 (Saúde do Trabalhador)" duplicate="false" edit="false" delete="false" create="false">
+                    <field name="company_id"/>
+                    <field name="hr_saude_trabalhador_id" />
+                    <field name="ultima_atualizacao" />
+                    <field name="situacao_esocial"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_esocial_s2220_search" model="ir.ui.view">
+            <field name="name">S-2220 (Saúde do Trabalhador)</field>
+            <field name="model">sped.hr.saude.trabalhador</field>
+            <field name="arch" type="xml">
+                <search string="S-2220 (Saúde do Trabalhador)">
+                    <field name="company_id" />
+                    <field name="hr_saude_trabalhador_id" />
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_esocial_s2220_action">
+            <field name="name">S-2220 (Saúde do Trabalhador)</field>
+            <field name="domain">[]</field>
+            <field name="res_model">sped.hr.saude.trabalhador</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s2220_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_esocial_s2220_form"/>
+            <field name="act_window_id" ref="sped_esocial_s2220_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_esocial_s2220_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_esocial_s2220_tree"/>
+            <field name="act_window_id" ref="sped_esocial_s2220_action"/>
+        </record>
+
+        <menuitem id="menu_sped_esocial_s2220"
+                  name="S-2220 (Saúde do Trabalhador)"
+                  sequence="2220"
+                  action="sped_esocial.sped_esocial_s2220_action"
+                  parent="sped_esocial.menu_sped_esocial_intermediarios"
+        />
+
+    </data>
+</openerp>
