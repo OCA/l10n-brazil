@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo10-addon-l10n_br_account',
         'odoo10-addon-l10n_br_account_banking_payment',
+        'odoo10-addon-l10n_br_account_payment_mode',
         'odoo10-addon-l10n_br_account_product',
         'odoo10-addon-l10n_br_base',
         'odoo10-addon-l10n_br_crm',
