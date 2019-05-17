@@ -34,6 +34,7 @@ NFE_NAMESPACE_MAP = dict(
     nfe='http://www.portalfiscal.inf.br/nfe',
 )
 
+
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
@@ -137,9 +138,9 @@ class ResCompany(models.Model):
                     env_mde = self.env['nfe.mde']
                     for nfe in nfe_result['list_nfe']:
                         exists_nsu = self.env['nfe.mde'].search(
-                                    [('nSeqEvento', '=', nfe['NSU']),
-                                     ('company_id', '=', company.id),
-                                     ]).id
+                            [('nSeqEvento', '=', nfe['NSU']),
+                             ('company_id', '=', company.id),
+                             ]).id
                         nfe_xml = nfe['xml'].encode('utf-8')
                         root = objectify.fromstring(nfe_xml)
                         if nfe['schema'] == u'procNFe_v3.10.xsd' and \
@@ -188,7 +189,7 @@ class ResCompany(models.Model):
                                 not exists_nsu:
                             chave_nfe = root.chNFe
                             exists_chnfe = self.env['nfe.mde'].search(
-                            [('chNFe', '=', chave_nfe)]).id
+                                [('chNFe', '=', chave_nfe)]).id
 
                             if not exists_chnfe:
                                 cnpj_forn = self._mask_cnpj(

@@ -92,7 +92,6 @@ class AccountInvoice(models.Model):
                         chave_nfe=nfe_key) +
                     str_aux)
 
-
             try:
                 file_attc = open(save_dir, 'r')
                 attc = file_attc.read()

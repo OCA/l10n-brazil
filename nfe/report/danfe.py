@@ -23,7 +23,7 @@ from odoo.report.interface import report_int
 from odoo.addons.nfe.sped.nfe.processing.xml import print_danfe
 
 
-class external_pdf(render):
+class ExternalPdf(render):
 
     def __init__(self, pdf):
         render.__init__(self)
@@ -34,7 +34,7 @@ class external_pdf(render):
         return self.pdf
 
 
-class report_custom(report_int):
+class ReportCustom(report_int):
     '''
         Custom report for return danfe
     '''
@@ -51,10 +51,10 @@ class report_custom(report_int):
 
         pdf_string = print_danfe(account_invoice)
 
-        self.obj = external_pdf(pdf_string)
+        self.obj = ExternalPdf(pdf_string)
 
         self.obj.render()
         return (self.obj.pdf, 'pdf')
 
 
-report_custom('report.danfe_account_invoice')
+ReportCustom('report.danfe_account_invoice')

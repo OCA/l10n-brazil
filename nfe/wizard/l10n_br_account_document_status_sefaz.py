@@ -23,7 +23,7 @@ from odoo.tools.translate import _
 from odoo.addons.nfe.sped.nfe.processing.xml import check_key_nfe
 
 
-class L10n_brAccountDocumentStatusSefaz(models.TransientModel):
+class L10nBrAccountDocumentStatusSefaz(models.TransientModel):
 
     _inherit = 'l10n_br_account_product.document_status_sefaz'
 

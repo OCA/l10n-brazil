@@ -33,7 +33,7 @@ from odoo.addons.nfe.sped.nfe.processing.xml import invalidate, \
 _logger = logging.getLogger(__name__)
 
 
-class L10n_brAccountInvoiceInvalidNumber(models.Model):
+class L10nBrAccountInvoiceInvalidNumber(models.Model):
     _inherit = 'l10n_br_account.invoice.invalid.number'
 
     state = fields.Selection([('draft', 'Rascunho'),
@@ -83,7 +83,6 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
                     arquivo = commands.getoutput(comando)
                 key = arquivo[-49:-8]
                 str_aux = arquivo[-49:]
-
 
             try:
                 file_attc = open(arquivo, 'r')
@@ -176,7 +175,7 @@ class L10n_brAccountInvoiceInvalidNumber(models.Model):
             return processo
 
 
-class L10n_brDocumentEvent(models.Model):
+class L10nBrDocumentEvent(models.Model):
     _inherit = 'l10n_br_account.document_event'
 
     @api.multi
