@@ -11,19 +11,16 @@
             		<group>
             			<field name="account_depara_plano_id"/>
             			<field name="plano_de_contas_file"/>
-                        <field name="instrucao" />
 					</group>
-                    <group>
-                        <field name="config_nivel_ids" required="True" widget="one2many_list">
-                            <tree editable="bottom">
-                                <field name="nivel" required="True"/>
-                                <field name="algarismos" required="True"/>
-                            </tree>
-                        </field>
+                    <group colspan="4" col="4">
+                        <field name="instrucao" nolabel="1" colspan="4" col="4"/>
                     </group>
 					<footer>
 						<button name="import_account_account"
                                 string="Importar" type="object"
+                                class="oe_highlight" />
+						<button name="analise_account_account"
+                                string="Analisar" type="object"
                                 class="oe_highlight" />
 						<button string="Cancelar" special="cancel"/>
 					</footer>
