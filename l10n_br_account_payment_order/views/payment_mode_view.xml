@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="view_payment_mode_form_inherit_l10n_br_payment" model="ir.ui.view">
+        <field name="name">payment.mode.l10n_br_payment.form.inherit</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_mode_form"/>
+        <field name="priority" eval="14"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/group[@name='note']" position="before">
+                <group string="Configurações" name='l10n-br-config' col="4">
+                    <notebook colspan="4">
+                        <page string="Cobrança" attrs="{'invisible': [('payment_type', '!=', 'cobranca')]}">
+                            <group>
+                                <field name="internal_sequence_id"
+                                       attrs="{'invisible': [('type_sale_payment', '!=', '00')]}"/>
+                                <field name="instrucoes"/>
+                                <field name="invoice_print"/>
+                            </group>
+                        </page>
+                        <page string="Pagamento" attrs="{'invisible': [('purchase_ok', '!=', True)]}">
+                            <group>
+                                <field name="internal_sequence_id" required='True'/>
+                                <field name="instrucoes"
+                                       attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
+                                <field name="invoice_print"
+                                       attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
