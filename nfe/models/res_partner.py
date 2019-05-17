@@ -46,8 +46,6 @@ class ResPartner(models.Model):
                 ie = ie if ie != 'ISENTO' else None
 
                 processo = check_partner(self.company_id, cnpj_cpf, estato, ie)
-
-                (company, partner.state_id.code, partner.inscr_est, )
                 xml = processo.resposta.xml.encode('utf-8')
 
                 tree = ET.fromstring(xml)

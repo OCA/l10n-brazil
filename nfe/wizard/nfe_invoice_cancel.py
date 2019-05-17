@@ -22,7 +22,7 @@ from odoo import models, fields, api
 
 class NfeInvoiceCancel(models.Model):
     _name = 'nfe.invoice_cancel'
-    
+
     justificativa = fields.Text('Justificativa', size=255, required=True)
 
     @api.multi

@@ -39,7 +39,8 @@ class report_custom(report_int):
         Custom report for return danfe
     '''
 
-    def create(self, cr, uid, ids, datas, context={}):
+    def create(self, cr, uid, ids, datas, context=None):
+        context = context or {}
         active_ids = context.get('active_ids')
         # list_account_invoice = []
 

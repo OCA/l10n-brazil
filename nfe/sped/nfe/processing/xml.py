@@ -46,7 +46,6 @@ def __processo(company):
 
     p = ProcessadorNFe(company)
     p.ambiente = int(company.nfe_environment)
-    #p.versao = company.nfe_version
     p.estado = company.partner_id.l10n_br_city_id.state_id.code
     p.certificado = Certificado(company)
     p.salvar_arquivos = True
@@ -191,18 +190,14 @@ def print_danfe(invoices):
     output = PdfFileWriter()
     s = StringIO()
 
-    # merge dos pdf criados
     for path in paths:
         pdf = PdfFileReader(file(path, "rb"))
-
         for i in range(pdf.getNumPages()):
             output.addPage(pdf.getPage(i))
-
         output.write(s)
 
     str_pdf = s.getvalue()
     s.close()
-
     return str_pdf
 
 
