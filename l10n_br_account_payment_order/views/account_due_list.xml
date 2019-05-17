@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_payments_mode_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account_banking_payment.aml</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_due_list.view_payments_tree"/>
+        <field name="arch" type="xml">
+            <field name="date_maturity" position="after">
+                <field name="date_scheduled"/>
+            </field>
+        </field>
+    </record>
+</odoo>
