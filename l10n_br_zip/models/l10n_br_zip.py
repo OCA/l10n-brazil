@@ -13,9 +13,9 @@ class L10nBrZip(models.Model):
     """
     _name = 'l10n_br.zip'
     _description = 'CEP'
-    _rec_name = 'zip'
+    _rec_name = 'zip_code'
 
-    zip = fields.Char(
+    zip_code = fields.Char(
         string='CEP',
         size=8,
         required=True)
@@ -23,6 +23,11 @@ class L10nBrZip(models.Model):
     street_type = fields.Char(
         string='Street Type',
         size=26)
+
+    zip_complement = fields.Char(
+        string='Range',
+        size=200
+    )
 
     street = fields.Char(
         string='Logradouro',
