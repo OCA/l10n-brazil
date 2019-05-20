@@ -114,15 +114,36 @@
             <field name="bank_name">Sicredi - Instituição Financeira Cooperativa</field>
         </record>
 
-        <record id="payment_mode_cheque" model="account.payment.mode">
-            <field name="name">Cheque</field>
-            <field name="fixed_journal_id" ref="l10n_br_account_product.aj_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="bank_account_link">variable</field>
-            <!--<field name="bank_id" ref="main_company_bank_bradesco"/>-->
+        <!-- Account Journal -->
+        <record id="l10n_br_account_payment_order-account_journal" model="account.journal">
+            <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
+            <field name="code">TPO</field>
+            <field name="type">sale</field>
+            <!-- <field name="default_credit_account_id" ref="account.a_sale"/>
+            <field name="default_debit_account_id" ref="account.a_sale"/>
+            <field name="analytic_journal_id" ref="account.cose_journal_sale"/> -->
+            <field eval="1" name="revenue_expense"/>
             <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- Account Payment Method -->
+        <record id="account_payment_method_cobranca_in" model="account.payment.method">
+            <field name="name">Cobranca</field>
+            <field name="code">cobranca</field>
+            <field name="payment_type">cobranca</field>
+        </record>
+
+        <!-- Account Payment Mode -->
+        <record id="payment_mode_boleto" model="account.payment.mode">
+            <field name="name">Boleto Bancario</field>
+            <field name="fixed_journal_id" ref="l10n_br_account_payment_order-account_journal"/>
+            <field name="bank_account_link">variable</field>
+            <field name="bank_id" ref="main_company_bank_bradesco"/>
+            <field name="company_id" ref="base.main_company"/>
+            <!--<field name="payment_method_id"
+                   ref="account_payment_method_cobranca_in"/>-->
             <field name="payment_method_id"
-                   ref="account.account_payment_method_manual_out"/>
-            <field name="type_payment">99</field>
+                   ref="account.account_payment_method_manual_in"/>
         </record>
 
     </data>
