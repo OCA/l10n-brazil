@@ -7,6 +7,7 @@ from odoo import models, fields, api
 
 class HrContractAdmissionType(models.Model):
     _name = 'hr.contract.admission.type'
+    _description = u'Tipo de admissão do trabalhador'
 
     name = fields.Char(string='Admission type')
     code = fields.Char(string='Code')
