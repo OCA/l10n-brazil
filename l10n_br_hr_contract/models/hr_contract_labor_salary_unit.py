@@ -7,6 +7,7 @@ from odoo import models, fields, api
 
 class HrContractSalaryUnit(models.Model):
     _name = 'hr.contract.salary.unit'
+    _description = u'Unidade de pagamento da parte fixa da remuneração'
 
     name = fields.Char(string='Salary unit')
     code = fields.Char(string='Code')
