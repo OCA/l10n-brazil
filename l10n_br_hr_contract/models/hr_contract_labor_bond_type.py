@@ -9,8 +9,15 @@ class HrContractLaborBondType(models.Model):
     _name = 'hr.contract.labor.bond.type'
     _description = 'Labor bond type'
 
-    name = fields.Char(string='Labor bond')
-    code = fields.Char(string='Code')
+    name = fields.Char(
+        string='Labor bond type',
+        required=True,
+    )
+
+    code = fields.Char(
+        string='Code',
+        required=True,
+    )
 
     @api.multi
     def name_get(self):
