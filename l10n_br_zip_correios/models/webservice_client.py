@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2015 KMEE (http://www.kmee.com.br)
 # @author Michell Stuttgart <michell.stuttgart@kmee.com.br>
+# @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -8,17 +9,10 @@ from odoo.exceptions import Warning as UserError
 from odoo.tools.translate import _
 
 try:
-    from suds import WebFault
-    from suds.client import Client, TransportError
+    from zeep import Client
+    from zeep.exceptions import TransportError, Error
 except ImportError:
-    raise UserError(_(u'Erro!'), _(u"Biblioteca Suds não instalada!"))
-
-try:
-    # to pip install suds (version: 0.4)
-    from suds.client import TransportError
-except ImportError as ex:
-    # to apt-get install python-suds (version: 0.7~git20150727.94664dd-3)
-    from suds.transport import TransportError
+    raise UserError(_(u'Erro!'), _(u"Biblioteca Zeep não instalada!"))
 
 _logger = logging.getLogger(__name__)
 
@@ -28,10 +22,10 @@ class WebServiceClient(object):
 
     def __init__(self, l10n_br_zip_record):
         self.obj_zip = l10n_br_zip_record
-        self.url = 'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl' # noqa
+        self.client = Client('https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl') # noqa
 
     def search_zip_code(self, cep):
-        return Client(self.url).service.consultaCEP(cep)
+        return self.client.service.consultaCEP(cep)
 
     def get_address(self, zip_str):
 
@@ -67,9 +61,9 @@ class WebServiceClient(object):
                     'district': str(
                         res.bairro.encode('utf8')) if res.bairro
                     else '',
-                    'street_type': str(
-                        res.complemento.encode('utf8')) if res.complemento
-                    else '',
+                    'zip_complement': str(
+                        res.complemento2.encode('utf8')
+                    )[:200] if res.complemento2 else '',
                     'l10n_br_city_id': city_ids.ids[
                         0] if city_ids else False,
                     'state_id': state_ids.ids[0] if state_ids else False,
@@ -83,7 +77,7 @@ class WebServiceClient(object):
             except TransportError as e:
                 _logger.error(e.message, exc_info=True)
                 raise UserError(_('Error!'), e.message)
-            except WebFault as e:
+            except Error as e:
                 _logger.error(e.message, exc_info=True)
                 raise UserError(_('Error!'), e.message)
 
