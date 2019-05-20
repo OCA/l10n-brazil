@@ -6,10 +6,11 @@
         <field name="model">l10n_br.zip</field>
         <field name="arch" type="xml">
             <tree string="CEPs">
-                <field name="zip" select="1"/>
+                <field name="zip_code" select="1"/>
                 <field name="district" select="1"/>
                 <field name="street_type" select="1"/>
                 <field name="street" select="1"/>
+                <field name="zip_complement" select="1"/>
             </tree>
         </field>
     </record>
@@ -20,9 +21,10 @@
         <field name="arch" type="xml">
             <form string="CEPs">
                 <group>             
-                    <field name="zip" select="1"/>
+                    <field name="zip_code" select="1"/>
                     <field name="street_type" select="1"/>
                     <field name="street" select="1"/>
+                    <field name="zip_complement" select="1"/>
                     <field name="district" select="2"/>
                     <field name="country_id" select="2"/>
                     <field name="state_id" select="2"/>
