@@ -14,7 +14,7 @@ class TestPaymentOrder(TransactionCase):
         super(TestPaymentOrder, self).setUp()
 
         self.invoice_customer_original = self.env.ref(
-            'l10n_br_account_banking_payment.demo_invoice_payment_order'
+            'l10n_br_account_payment_order.demo_invoice_payment_order'
         )
 
         # Payment Mode
