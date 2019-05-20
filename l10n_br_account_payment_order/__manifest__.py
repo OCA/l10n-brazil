@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Brazilian Banking - Debit and Payments Export Infrastructure',
+    'name': 'Brazilian Payment Order',
     'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': "KMEE, "
@@ -19,9 +19,11 @@
     'data': [
         'views/account_due_list.xml',
         'views/account_payment.xml',
+        'views/payment_mode_view.xml',
     ],
     'demo': [
-        'demo/account_banking_payment_demo.xml'
+        'demo/account_banking_payment_demo.xml',
+        'demo/payment_demo.xml'
     ],
     'installable': True,
 }
