@@ -9,4 +9,7 @@ class HrContractNoticeTermination(models.Model):
     _name = 'hr.contract.notice.termination'
     _description = u'Tipo de aviso prévio'
 
-    name = fields.Char(string='Notice of termination type')
+    name = fields.Char(
+        string='Notice of termination type',
+        required=True,
+    )
