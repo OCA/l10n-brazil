@@ -5,3 +5,5 @@
 
 from . import account_payment
 from . import account_move_line
+from . import payment_mode
+from . import res_partner_bank
