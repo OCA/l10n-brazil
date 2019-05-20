@@ -7,6 +7,7 @@ from odoo import models, fields, api
 
 class HrContractLaborRegime(models.Model):
     _name = 'hr.contract.labor.regime'
+    _description = u'Tipo de regime trabalhista'
 
     name = fields.Char(string='Labor regime')
     short_name = fields.Char(string='Short name')
