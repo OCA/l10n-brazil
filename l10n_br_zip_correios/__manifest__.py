@@ -16,6 +16,6 @@
     ],
     'installable': True,
     'external_dependencies': {
-        'python': ['suds'],
+        'python': ['zeep'],
     }
 }
