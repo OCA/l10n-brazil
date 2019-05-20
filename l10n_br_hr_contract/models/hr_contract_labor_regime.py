@@ -9,9 +9,20 @@ class HrContractLaborRegime(models.Model):
     _name = 'hr.contract.labor.regime'
     _description = u'Tipo de regime trabalhista'
 
-    name = fields.Char(string='Labor regime')
-    short_name = fields.Char(string='Short name')
-    code = fields.Char(string='Code', size=1)
+    name = fields.Char(
+        string='Labor regime',
+        required=True,
+    )
+
+    short_name = fields.Char(
+        string='Short name',
+    )
+
+    code = fields.Char(
+        string='Code',
+        size=1,
+        required=True,
+    )
 
     @api.multi
     def name_get(self):

@@ -9,8 +9,15 @@ class HrContractSalaryUnit(models.Model):
     _name = 'hr.contract.salary.unit'
     _description = u'Unidade de pagamento da parte fixa da remuneração'
 
-    name = fields.Char(string='Salary unit')
-    code = fields.Char(string='Code')
+    name = fields.Char(
+        string='Salary unit',
+        required=True,
+    )
+
+    code = fields.Char(
+        string='Code',
+        required=True,
+    )
 
     @api.multi
     def name_get(self):
