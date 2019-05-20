@@ -18,3 +18,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * [MIG] Migração para a versão 10.
+
+10.0.1.0.0 (2018-05-17)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* [REF] Modulo foi unido com o l10n_br_account_payment_mode e renomeado para l10n_br_account_payment_order.
