@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_agente_causador_form_view">
+            <field name="name">hr.agente.causador.form</field>
+            <field name="model">hr.agente.causador</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="acidente_trabalho_id" invisible="True"/>
+                            <field name="cod_agente_causador_id" attrs="{'required': [('cod_agente_causador_doenca_id', '=', False)]}"/>
+                            <field name="cod_agente_causador_doenca_id" attrs="{'required': [('cod_agente_causador_id', '=', False)]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_agente_causador_tree_view">
+            <field name="name">hr.agente.causador.tree</field>
+            <field name="model">hr.agente.causador</field>
+            <field name="arch" type="xml">
+                <tree string="Agente Causador" >
+                    <field name="acidente_trabalho_id"/>
+                    <field name="cod_agente_causador_id"/>
+                    <field name="cod_agente_causador_doenca_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_agente_causador">
+            <field name="name">Agente Causador</field>
+            <field name="res_model">hr.agente.causador</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_agente_causador">
+            <field name="name">Agente Causador</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_acidente_trabalho" />
+            <field name="action" ref="sped_esocial.action_hr_agente_causador" />
+            <field name="sequence" eval="3" />
+        </record>
+
+    </data>
+</openerp>

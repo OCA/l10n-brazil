@@ -49,3 +49,4 @@ from . import hr_exame_aso
 from . import hr_acidente_trabalho
 from . import hr_acidente_parte_atingida
 from . import hr_agente_causador
+from . import hr_atestado_medico

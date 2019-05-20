@@ -23,6 +23,9 @@ access_hr_responsavel_ambiental_gerente,Gerente Responsavel de Registro Ambienta
 access_hr_saude_trabalhador_gerente,Gerente Saude Trabalhador,model_hr_saude_trabalhador,base.group_hr_user,1,1,1,1
 access_hr_exame_aso_gerente,Gerente Exame ASO,model_hr_exame_aso,base.group_hr_user,1,1,1,1
 access_hr_comunicao_acidente_trabalho_gerente,Gerente Comunicação de Acidente de Trabalho,model_hr_comunicacao_acidente_trabalho,base.group_hr_user,1,1,1,1
+access_hr_acidente_parte_atingida_gerente,Gerente Parte Atingida no Acidente,model_hr_acidente_parte_atingida,base.group_hr_user,1,1,1,1
+access_hr_agente_causador_gerente,Gerente Agente Causador,model_hr_agente_causador,base.group_hr_user,1,1,1,1
+access_hr_atestado_medico_gerente,Gerente Atestado Médico,model_hr_atestado_medico,base.group_hr_user,1,1,1,1
 access_s1200_operador,Operador S-1200(Leitura),model_sped_esocial_remuneracao,sped_tabelas.group_user,1,0,0,0
 access_s1200_gerente,Gerente S-1200(Escrita),model_sped_esocial_remuneracao,sped_tabelas.group_manager,1,1,1,1
 access_s1202_operador,Operador S-1202(Leitura),model_sped_esocial_remuneracao_rpps,sped_tabelas.group_user,1,0,0,0

@@ -58,15 +58,16 @@
                                 </group>
                             </page>
                             <page string="Parte Atingida">
+                                <separator string="Parte Atingida"/>
                                 <field name="parte_atingida_ids" required="True" editable="bottom"/>
                             </page>
                             <page string="Agente Causador">
+                                <separator string="Agente Causador"/>
                                 <field name="agente_causador_ids" required="True" editable="bottom"/>
                             </page>
                             <page string="Atestado Médico">
-                                <group>
-
-                                </group>
+                                <separator string="Atestado Médico"/>
+                                <field name="atestado_medico_id" editable="bottom"/>
                             </page>
                             <page string="CAT de origem">
                                 <group>

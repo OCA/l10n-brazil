@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_atestado_medico_form_view">
+            <field name="name">hr.atestado.medico.form</field>
+            <field name="model">hr.atestado.medico</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="contract_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="data_atendimento" required="True"/>
+                            <field name="cod_cnes"/>
+                            <field name="duracao_tratamento" required="True"/>
+                            <field name="indicativo_internacao" required="True"/>
+                            <field name="descricao_lesao_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="desc_complementar_lesao"/>
+                            <field name="diagnostico_provavel"/>
+                            <field name="cod_cid" required="True"/>
+                            <field name="observacoes"/>
+                        </group>
+                        <separator string="Dados do Emitente"/>
+                        <group>
+                            <field name="nome_emitente" required="True"/>
+                            <field name="identidade_orgao_classe" required="True"/>
+                            <field name="num_inscricao_orgao" required="True"/>
+                            <field name="uf_orgao_classe"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_atestado_medico_tree_view">
+            <field name="name">hr.atestado.medico.tree</field>
+            <field name="model">hr.atestado.medico</field>
+            <field name="arch" type="xml">
+                <tree string="Atestado Médico" >
+                    <field name="contract_id"/>
+                    <field name="data_atendimento"/>
+                    <field name="descricao_lesao_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_atestado_medico">
+            <field name="name">Atestado Médico</field>
+            <field name="res_model">hr.atestado.medico</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_atestado_medico">
+            <field name="name">Atestado Médico</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_acidente_trabalho" />
+            <field name="action" ref="sped_esocial.action_hr_atestado_medico" />
+            <field name="sequence" eval="4" />
+        </record>
+
+    </data>
+</openerp>

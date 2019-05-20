@@ -4,8 +4,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from openerp import api, fields, models, _
-from openerp.exceptions import Warning
+from openerp import fields, models
 
 
 class HrAgenteCausador(models.Model):

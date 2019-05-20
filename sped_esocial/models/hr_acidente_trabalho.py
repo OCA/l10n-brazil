@@ -181,6 +181,10 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
         comodel_name='hr.agente.causador',
         inverse_name='acidente_trabalho_id',
     )
+    atestado_medico_id = fields.Many2one(
+        string=u'Atestado Médico',
+        comodel_name='hr.atestado.medico',
+    )
     num_recibo_cat_original = fields.Char(
         string=u'Número Recibo CAT Original',
         size=40,
