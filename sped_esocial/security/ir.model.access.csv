@@ -38,6 +38,8 @@ access_s2205_operador,Operador S-2205(Leitura),model_sped_esocial_alteracao_func
 access_s2205_gerente,Gerente S-2205(Escrita),model_sped_esocial_alteracao_funcionario,sped_tabelas.group_manager,1,1,1,1
 access_s2206_operador,Operador S-2206(Leitura),model_sped_esocial_alteracao_contrato,sped_tabelas.group_user,1,0,0,0
 access_s2206_gerente,Gerente S-2206(Escrita),model_sped_esocial_alteracao_contrato,sped_tabelas.group_manager,1,1,1,1
+access_s2210_operador,Operador S-2210(Leitura),model_sped_hr_comunicacao_acidente_trabalho,sped_tabelas.group_user,1,0,0,0
+access_s2210_gerente,Gerente S-2210(Escrita),model_sped_hr_comunicacao_acidente_trabalho,sped_tabelas.group_manager,1,1,1,1
 access_s2220_operador,Operador S-2220(Leitura),model_sped_hr_saude_trabalhador,sped_tabelas.group_user,1,0,0,0
 access_s2220_gerente,Gerente S-2220(Escrita),model_sped_hr_saude_trabalhador,sped_tabelas.group_manager,1,1,1,1
 access_s2230_operador,Operador S-2230(Leitura),model_sped_esocial_afastamento_temporario,sped_tabelas.group_user,1,0,0,0

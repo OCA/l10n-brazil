@@ -71,15 +71,15 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
         comodel_name='hr.contract',
         domain=[('situacao_esocial', '=', 1)]
     )
-    data_acidente = fields.Date(
+    data_acidente = fields.Datetime(
         string=u'Data do Acidente',
     )
     tipo_acidente = fields.Many2one(
         string=u'Tipo do Acidente',
         comodel_name='sped.codificacao_acidente_trabalho',
     )
-    hora_acidente = fields.Char(
-        string='Hora e Minuto',
+    horas_trab_antes_acidente = fields.Char(
+        string=u'Horas Trabalhadas Antes',
         size=4,
     )
     tipo_cat = fields.Selection(
@@ -191,7 +191,7 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
     )
     sped_intermediario_id = fields.Many2one(
         string='Intermediário do e-Social',
-        comodel_name='sped.hr.saude.trabalhador',
+        comodel_name='sped.hr.comunicacao.acidente.trabalho',
     )
     @api.model
     def _compute_name(self):
@@ -215,10 +215,10 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
                 'company_id': self.contract_id.company_id.id if
                 self.contract_id.company_id.eh_empresa_base else
                 self.contract_id.company_id.matriz.id,
-                'hr_saude_trabalhador_id': self.id,
+                'hr_comunicacao_acidente_trabalho_id': self.id,
             }
             self.sped_intermediario_id = self.env[
-                'sped.hr.saude.trabalhador'].create(vals)
+                'sped.hr.comunicacao.acidente.trabalho'].create(vals)
             self.sped_intermediario_id.gerar_registro()
 
     @api.multi

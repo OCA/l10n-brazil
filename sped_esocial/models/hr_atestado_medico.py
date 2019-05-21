@@ -124,6 +124,6 @@ class HrAtestadoMedico(models.Model):
     def _compute_name(self):
         for record in self:
             record.name = '{} - {} - {}'.format(
-                record.data_atendimento, record.descricao_lesao,
-                record.contract_id
+                record.data_atendimento, record.descricao_lesao_id.nome,
+                record.contract_id.name
             )

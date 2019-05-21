@@ -91,6 +91,7 @@
         'views/intermediarios/s2200_cadastramento_inicial_vinculo_admissao_trabalhador_view.xml',
         'views/intermediarios/s2205_alteracao_dados_cadastrais_trabalhador_view.xml',
         'views/intermediarios/s2206_alteracao_contrato_trabalho_view.xml',
+        'views/intermediarios/s2210_comunicacao_acidente_trabalho.xml',
         'views/intermediarios/s2220_saude_trabalhador.xml',
         'views/intermediarios/s2230_afastamento_temporario_view.xml',
         'views/intermediarios/s2240_condicao_ambiente_trabalho.xml',

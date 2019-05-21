@@ -20,6 +20,7 @@ from . import s1298_reaberturaPeriodo
 from . import s1299_fechamento
 
 # Registros Não Periódicos
+from . import s2210_comunicacao_acidente_trabalho
 from . import s2200_cadastramento_inicial_vinculo_admissao_trabalhador
 from . import s2205_alteracao_dados_cadastrais_trabalhador
 from . import s2206_alteracao_contrato_trabalho
