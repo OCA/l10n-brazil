@@ -18,8 +18,8 @@
     ],
     'data': [
         'views/account_due_list.xml',
-        'views/account_payment.xml',
-        'views/payment_mode_view.xml',
+        'views/account_payment_line.xml',
+        'views/account_payment_mode.xml',
     ],
     'demo': [
         'demo/account_banking_payment_demo.xml',
