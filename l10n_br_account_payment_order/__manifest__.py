@@ -22,8 +22,8 @@
         'views/account_payment_mode.xml',
     ],
     'demo': [
-        'demo/account_banking_payment_demo.xml',
-        'demo/payment_demo.xml'
+        'demo/account_payment_order_demo.xml',
+        'demo/account_payment_mode_demo.xml'
     ],
     'installable': True,
 }
