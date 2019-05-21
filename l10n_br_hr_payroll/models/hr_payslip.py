@@ -3183,11 +3183,11 @@ class HrPayslip(models.Model):
             bruto = locals.get(u'BRUTO', 0)
             inss = 0
 
-            total_decimo_terceiro = self._get_valor_bruto('decimo_terceiro')
+            # total_decimo_terceiro = self._get_valor_bruto('decimo_terceiro')
 
             total_ferias = self._get_valor_bruto('ferias')
 
-            bruto -= total_decimo_terceiro + total_ferias
+            bruto -= total_ferias
 
             dependent_values = self.get_dependent_values_irrf(self.ano)
 
