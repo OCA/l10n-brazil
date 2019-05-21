@@ -200,44 +200,47 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             S1210.evento.ideBenef.vrDedDep.valor = formata_valor(dependentes * valor)
 
         # Popula infoPgto (1 para cada payslip)
+        info_pgto = False
         for payslip in self.payslip_ids or self.payslip_autonomo_ids:
 
-            info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
+            if not info_pgto or payslip.tipo_de_folha in ['ferias', 'rescisao']:
+                info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
 
-            # TODO Identificar a data do pagamento de acordo com o arquivo CNAB
-            # Por enquanto vou usar a data final do período ou a data atual (a que for menor)
-            # data = fields.Date.today()
-            # fim_periodo = self.periodo_id.date_stop
-            # if fim_periodo < data:
-            #     data = fim_periodo
-            info_pgto.dtPgto.valor = payslip.data_pagamento_competencia or fields.Date.today().split(' ')[0]
+                # TODO Identificar a data do pagamento de acordo com o arquivo CNAB
+                # Por enquanto vou usar a data final do período ou a data atual (a que for menor)
+                # data = fields.Date.today()
+                # fim_periodo = self.periodo_id.date_stop
+                # if fim_periodo < data:
+                #     data = fim_periodo
 
-            # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
-            # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
-            # 2 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2299;
-            # 3 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2399;
-            # 5 - Pagamento de remuneração conforme apurado em {dmDev} do S-1202;
-            # 6 - Pagamento de Benefícios Previdenciários, conforme apurado em {dmDev} do S-1207;
-            # 7 - Recibo de férias;
-            # 9 - Pagamento relativo a competências anteriores ao início da obrigatoriedade dos eventos
-            #     periódicos para o contribuinte;
-            #
-            tipo = '1'
-            if payslip.tipo_de_folha == 'rescisao':
-                tipo = '2'
-            if payslip.contract_id.tp_reg_prev == '2':
-                tipo = '5'
-            if payslip.tipo_de_folha == 'ferias':
-                tipo = '7'
-            info_pgto.tpPgto.valor = tipo
-            info_pgto.indResBr.valor = 'S'  # TODO Lidar com pagamentos a pessoas do exterior quando o Odoo
-                                            # tiver isso disponível
+                info_pgto.dtPgto.valor = payslip.data_pagamento_competencia or fields.Date.today().split(' ')[0]
+
+                # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
+                # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
+                # 2 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2299;
+                # 3 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2399;
+                # 5 - Pagamento de remuneração conforme apurado em {dmDev} do S-1202;
+                # 6 - Pagamento de Benefícios Previdenciários, conforme apurado em {dmDev} do S-1207;
+                # 7 - Recibo de férias;
+                # 9 - Pagamento relativo a competências anteriores ao início da obrigatoriedade dos eventos
+                #     periódicos para o contribuinte;
+                #
+                tipo = '1'
+                if payslip.tipo_de_folha == 'rescisao':
+                    tipo = '2'
+                if payslip.contract_id.tp_reg_prev == '2':
+                    tipo = '5'
+                if payslip.tipo_de_folha == 'ferias':
+                    tipo = '7'
+                info_pgto.tpPgto.valor = tipo
+                info_pgto.indResBr.valor = 'S'  # TODO Lidar com pagamentos a pessoas do exterior quando o Odoo
+                                                # tiver isso disponível
 
             if tipo != '7':
                 # Popula detPgtoFl
                 det_pgto_fl = pysped.esocial.leiaute.S1210_DetPgtoFl_2()
 
-                if payslip.tipo_de_folha == 'decimo_terceiro':
+                if payslip.tipo_de_folha == 'decimo_terceiro' and payslip.mes_do_ano == 13:
                     periodo = self.periodo_id.fiscalyear_id.code
                 elif payslip.tipo_de_folha == 'rescisao':
                     periodo = ''
@@ -267,9 +270,9 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 # Popula infoPgto.detPgtoFl.retPgtoTot
                 beneficiario_pensao = False
                 for line in payslip.line_ids:
-                    if line.salary_rule_id.code == 'PENSAO_ALIMENTICIA_PORCENTAGEM':
+                    if line.salary_rule_id.code in 'PENSAO_ALIMENTICIA_PORCENTAGEM':
                         beneficiario_pensao = line.partner_id
-                    if payslip.tipo_de_folha == 'decimo_terceiro':
+                    if payslip.tipo_de_folha == 'decimo_terceiro' and payslip.mes_do_ano == 13:
                         if line.salary_rule_id.code in ['IRPF', 'PENSAO_ALIMENTICIA_PORCENTAGEM']:
                             continue
 
@@ -350,8 +353,8 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 # Popula a tag detPgtoFl
                 info_pgto.detPgtoFer.append(det_pgto_fer)
 
-            # Popula infoPgto
-            S1210.evento.ideBenef.infoPgto.append(info_pgto)
+        # Popula infoPgto
+        S1210.evento.ideBenef.infoPgto.append(info_pgto)
 
         return S1210, validacao
 
