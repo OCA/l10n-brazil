@@ -19,21 +19,3 @@ class AccountPaymentMode(models.Model):
          'unique(internal_sequence_id)',
          u'Sequência já usada! Crie uma sequência unica para cada modo')
     ]
-
-
-class AccountPaymentMethod(models.Model):
-    _inherit = 'account.payment.method'
-
-    payment_type = fields.Selection(
-        selection_add=[
-            ('cobranca', u'Cobrança'),
-        ])
-
-
-class AccountPaymentOrder(models.Model):
-    _inherit = 'account.payment.order'
-
-    payment_type = fields.Selection(
-        selection_add=[
-            ('cobranca', u'Cobrança'),
-        ])
