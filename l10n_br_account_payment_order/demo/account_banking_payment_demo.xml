@@ -11,7 +11,6 @@
         <field name="reconcile" eval="True"/>
     </record>
 
-
     <!-- Invoice -->
     <record model="account.invoice" id="demo_invoice_payment_order">
         <field name="name">Test Payment Order</field>
