@@ -747,7 +747,7 @@ class SpedEsocial(models.Model):
                                 ('ano', '=', ano),
                                 # ('state', 'in', ['verify', 'done']),
                                 ('tipo_de_folha', 'in',
-                                 ['normal', 'ferias', 'rescisao_complementar']),
+                                 ['normal', 'ferias', 'rescisao_complementar', 'decimo_terceiro']),
                                 ('is_simulacao', '=', False),
                             ]
 
@@ -1055,7 +1055,7 @@ class SpedEsocial(models.Model):
                             ('mes_do_ano', '=', mes),
                             ('ano', '=', ano),
                             ('state', 'in', ['verify', 'done']),
-                            ('tipo_de_folha', 'in', ['normal', 'ferias', 'rescisao', 'rescisao_complementar']),
+                            ('tipo_de_folha', 'in', ['normal', 'ferias', 'rescisao', 'rescisao_complementar', 'decimo_terceiro']),
                             ('is_simulacao', '=', False),
                         ]
                         payslips = self.env['hr.payslip'].search(domain_payslip)
