@@ -43,11 +43,11 @@ def _load_account_codes(
         ('parent_id', 'child_of', root_account.id),
     ])
 
-    contas_referencia = set(get_account_reference(
-        self, account_ids._ids, account_depara_plano_id.id))
-
-    if contas_referencia:
-        account_codes = set(contas_referencia)
+    if account_depara_plano_id:
+        contas_referencia = set(get_account_reference(
+            self, account_ids._ids, account_depara_plano_id.id))
+        if contas_referencia:
+            account_codes = set(contas_referencia)
 
     # TODO: account_obj is necessary because _get_children_and_consol
     #       does not work in new API?
@@ -95,7 +95,7 @@ def _load_account_codes(
             else:
                 self._account_ids_by_code[like_code].add(account.id)
 
-def done_parsing(self, root_account, account_depara_id):
+def done_parsing(self, root_account, account_depara_id=False):
     """Load account codes and replace account codes by
     account ids in map."""
     for key, account_codes in self._map_account_ids.items():
