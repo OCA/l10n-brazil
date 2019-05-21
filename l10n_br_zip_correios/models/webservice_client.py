@@ -12,7 +12,7 @@ try:
     from zeep import Client
     from zeep.exceptions import TransportError, Error
 except ImportError:
-    raise UserError(_(u'Erro!'), _(u"Biblioteca Zeep não instalada!"))
+    raise UserError(_(u"Biblioteca Zeep não instalada!"))
 
 _logger = logging.getLogger(__name__)
 
@@ -76,10 +76,10 @@ class WebServiceClient(object):
 
             except TransportError as e:
                 _logger.error(e.message, exc_info=True)
-                raise UserError(_('Error!'), e.message)
+                raise UserError(e.message)
             except Error as e:
                 _logger.error(e.message, exc_info=True)
-                raise UserError(_('Error!'), e.message)
+                raise UserError(e.message)
 
         else:
             return None
