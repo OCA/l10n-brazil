@@ -7,15 +7,15 @@
 from openerp import api, fields, models
 
 ORDEM_EXAME = [
-    (1, 'Inicial'),
-    (2, 'Sequencial'),
+    ('1', 'Inicial'),
+    ('2', 'Sequencial'),
 ]
 
 IND_RESULTADO = [
-    (1, 'Normal'),
-    (2, 'Alterado'),
-    (3, u'Estável'),
-    (4, 'Agravamento'),
+    ('1', 'Normal'),
+    ('2', 'Alterado'),
+    ('3', u'Estável'),
+    ('4', 'Agravamento'),
 ]
 
 
