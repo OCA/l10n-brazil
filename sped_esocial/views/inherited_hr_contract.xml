@@ -166,27 +166,28 @@
                 </field>
                 <xpath expr="//page[@string='Saúde ocupacional']" position="inside">
                     <newline/>
-                    <label for="condicoes_ambientais_ids" string="Condições Ambientais do Trabalho - Fatores de Risco"/>
+                    <separator string="Condições Ambientais do Trabalho - Fatores de Risco"/>
                     <field name="condicoes_ambientais_ids"/>
-                    <newline/>
-                    <label for="saude_trabalhador_ids" string="Monitoramento da Saúde do Trabalhador"/>
+                    <separator string="Monitoramento da Saúde do Trabalhador"/>
                     <field name="saude_trabalhador_ids"/>
+                    <separator string="Comunicação Acidente de Trabalho"/>
+                    <field name="acidente_trabalho_ids"/>
                 </xpath>
-                <field name="exame_ids" positon="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
-                <field name="estado_crm" positon="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
-                <field name="nome_medico_encarregado" positon="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
-                <field name="numero_crm" positon="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
-                <field name="data_atestado_saude" positon="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
+<!--                <field name="exame_ids" positon="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': True}</attribute>-->
+<!--                </field>-->
+<!--                <field name="estado_crm" positon="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': True}</attribute>-->
+<!--                </field>-->
+<!--                <field name="nome_medico_encarregado" positon="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': True}</attribute>-->
+<!--                </field>-->
+<!--                <field name="numero_crm" positon="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': True}</attribute>-->
+<!--                </field>-->
+<!--                <field name="data_atestado_saude" positon="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': True}</attribute>-->
+<!--                </field>-->
             </field>
         </record>
 

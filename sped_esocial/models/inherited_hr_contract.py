@@ -89,6 +89,11 @@ class HrContract(models.Model):
         comodel_name='hr.saude.trabalhador',
         inverse_name='contract_id',
     )
+    acidente_trabalho_ids = fields.One2many(
+        string=u'Comunicação de Acidente de Trabalho',
+        comodel_name='hr.comunicacao.acidente.trabalho',
+        inverse_name='contract_id',
+    )
     # Método que calcula a situação do contrato no e-Social
     @api.depends('sped_s2200_id', 'sped_s2206_ids', 'sped_s2299_ids', 'sped_s2300_id', 'sped_s2306_ids', 'sped_s2399_id')
     def compute_situacao_esocial(self):
