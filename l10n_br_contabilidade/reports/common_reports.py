@@ -157,6 +157,10 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
             if natureza and natureza == 'Credora':
                 BALANCE = 'sum(credit)-sum(debit)'
 
+            state_move = " AND state = 'posted'" \
+                if situacao_lancamento == 'posted' \
+                else " AND state != 'cancel' "
+
             domain_query = "SELECT sum(debit) AS debit, sum(credit) AS credit,"\
                            " {} AS balance, sum(amount_currency) " \
                            "AS curr_balance FROM account_move_line " \
@@ -164,9 +168,7 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
                            "SELECT id FROM account_move WHERE " \
                            "period_id in {}{}) AND {}".format(
                             BALANCE, tuple(period_ids), tuple(period_ids),
-                            " AND state = 'posted'" if
-                            situacao_lancamento == 'posted' else '',
-                            where_clause_domain_query)
+                            state_move, where_clause_domain_query)
 
             self.cursor.execute(domain_query)
             res = self.cursor.dictfetchone()
