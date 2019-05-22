@@ -128,12 +128,8 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
             self.hr_condicao_ambiente_trabalho_id.contract_id.employee_id.cpf)
         S2240.evento.ideVinculo.nisTrab.valor = limpa_formatacao(
             self.hr_condicao_ambiente_trabalho_id.contract_id.employee_id.pis_pasep)
-        if self.hr_condicao_ambiente_trabalho_id.contract_id.sped_s2200_id:
-            S2240.evento.ideVinculo.matricula.valor = \
-                self.hr_condicao_ambiente_trabalho_id.contract_id.matricula
-        if self.hr_condicao_ambiente_trabalho_id.contract_id.sped_s2300_id:
-            S2240.evento.ideVinculo.codCateg.valor = \
-                self.hr_condicao_ambiente_trabalho_id.contract_id.categoria
+        S2240.evento.ideVinculo.matricula.valor = \
+            self.hr_condicao_ambiente_trabalho_id.contract_id.matricula
 
         S2240.evento.infoExpRisco.dtIniCondicao.valor = \
             self.hr_condicao_ambiente_trabalho_id.inicio_condicao
