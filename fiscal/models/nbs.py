@@ -17,8 +17,8 @@ _logger = logging.getLogger(__name__)
 
 class Nbs(models.Model):
     _name = 'fiscal.nbs'
-    _description = 'NBS'
     _inherit = ['fiscal.data.abstract', 'mail.thread', 'mail.activity.mixin']
+    _description = 'NBS'
 
     @api.one
     @api.depends('tax_estimate_ids')
@@ -45,7 +45,7 @@ class Nbs(models.Model):
     tax_estimate_ids = fields.One2many(
         comodel_name='fiscal.tax.estimate',
         inverse_name='nbs_id',
-        string=u'Estimae Taxes',
+        string=u'Estimate Taxes',
         readonly=True)
 
     product_tmpl_ids = fields.One2many(
