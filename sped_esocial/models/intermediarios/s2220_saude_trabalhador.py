@@ -128,6 +128,8 @@ class SpedEsocialSaudeTrabalhador(models.Model, SpedRegistroIntermediario):
             self.hr_saude_trabalhador_id.contract_id.employee_id.cpf)
         S2220.evento.ideVinculo.nisTrab.valor = limpa_formatacao(
             self.hr_saude_trabalhador_id.contract_id.employee_id.pis_pasep)
+        S2220.evento.ideVinculo.matricula.valor = \
+            self.hr_saude_trabalhador_id.contract_id.matricula
 
         S2220.evento.exMedOcup.tpExameOcup.valor = \
             self.hr_saude_trabalhador_id.tipo_exame_ocup
@@ -178,7 +180,7 @@ class SpedEsocialSaudeTrabalhador(models.Model, SpedRegistroIntermediario):
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
-        self.hr_turnos_trabalho_id.precisa_atualizar = False
+        self.hr_saude_trabalhador_id.precisa_atualizar = False
 
     @api.multi
     def transmitir(self):

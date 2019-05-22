@@ -236,7 +236,7 @@ class SpedEsocialAmbienteTrabalho(models.Model, SpedRegistroIntermediario):
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
-        self.hr_turnos_trabalho_id.precisa_atualizar = False
+        self.hr_ambiente_trabalho_id.precisa_atualizar = False
 
     @api.multi
     def transmitir(self):

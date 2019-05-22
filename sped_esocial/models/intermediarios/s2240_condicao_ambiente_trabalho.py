@@ -128,6 +128,8 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
             self.hr_condicao_ambiente_trabalho_id.contract_id.employee_id.cpf)
         S2240.evento.ideVinculo.nisTrab.valor = limpa_formatacao(
             self.hr_condicao_ambiente_trabalho_id.contract_id.employee_id.pis_pasep)
+        S2240.evento.ideVinculo.matricula.valor = \
+            self.hr_condicao_ambiente_trabalho_id.contract_id.matricula
 
         S2240.evento.infoExpRisco.dtIniCondicao.valor = \
             self.hr_condicao_ambiente_trabalho_id.inicio_condicao
@@ -174,7 +176,8 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
                 fator_risco.aposentadoria_especial
 
             fatrisc.epcEpi.utilizEPC.valor = fator_risco.epc_id.utilizacao_epc
-            fatrisc.epcEpi.eficEpc.valor = fator_risco.epc_id.eficiencia_epc
+            if fator_risco.epc_id.eficiencia_epc:
+                fatrisc.epcEpi.eficEpc.valor = fator_risco.epc_id.eficiencia_epc
             fatrisc.epcEpi.utilizEPI.valor = fator_risco.epc_id.utilizacao_epi
 
             for epi in fator_risco.epc_id.epi_ids:
@@ -201,7 +204,8 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
             resp_reg.nisResp.valor = responsavel.nis_responsavel
             resp_reg.nmResp.valor = responsavel.nome
             resp_reg.ideOC.valor = responsavel.identificacao_ordem_classe
-            resp_reg.dscOC.valor = responsavel.descricao_ordem_classe
+            if responsavel.descricao_ordem_classe:
+                resp_reg.dscOC.valor = responsavel.descricao_ordem_classe
             resp_reg.nrOC.valor = responsavel.num_inscricao
             resp_reg.ufOC.valor = responsavel.uf
 
@@ -226,7 +230,7 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
     def retorno_sucesso(self, evento):
         self.ensure_one()
 
-        self.hr_turnos_trabalho_id.precisa_atualizar = False
+        self.hr_condicao_ambiente_trabalho_id.precisa_atualizar = False
 
     @api.multi
     def transmitir(self):
