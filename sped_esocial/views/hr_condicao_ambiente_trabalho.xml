@@ -57,6 +57,7 @@
                 <tree string="Condições Ambientais de Trabalho" >
                     <field name="inicio_condicao"/>
                     <field name="contract_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>

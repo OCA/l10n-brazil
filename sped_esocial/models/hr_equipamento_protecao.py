@@ -7,18 +7,18 @@
 from openerp import api, fields, models, _
 
 UTILIZACAO_EPC = [
-    (0, 'Não se aplica'),
-    (1, 'Não implementa'),
-    (2, 'Implementa'),
+    ('0', 'Não se aplica'),
+    ('1', 'Não implementa'),
+    ('2', 'Implementa'),
 ]
 EFICIENCIA_EPC = [
     ('S', 'Sim'),
     ('N', 'Não'),
 ]
 UTILIZACAO_EPI = [
-    (0, 'Não se aplica'),
-    (1, 'Não utilizado'),
-    (2, 'utilizado'),
+    ('0', 'Não se aplica'),
+    ('1', 'Não utilizado'),
+    ('2', 'utilizado'),
 ]
 
 
