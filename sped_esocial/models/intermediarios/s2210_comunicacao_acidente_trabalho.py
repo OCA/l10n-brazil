@@ -128,6 +128,12 @@ class SpedEsocialComunicacaoAcidenteTrabalho(models.Model, SpedRegistroIntermedi
             self.hr_comunicacao_acidente_trabalho_id.contract_id.employee_id.cpf)
         S2210.evento.ideVinculo.nisTrab.valor = limpa_formatacao(
             self.hr_comunicacao_acidente_trabalho_id.contract_id.employee_id.pis_pasep)
+        if self.hr_comunicacao_acidente_trabalho_id.contract_id.sped_s2200_id:
+            S2210.evento.ideVinculo.matricula.valor = \
+                self.hr_comunicacao_acidente_trabalho_id.contract_id.matricula
+        if self.hr_comunicacao_acidente_trabalho_id.contract_id.sped_s2300_id:
+            S2210.evento.ideVinculo.codCateg.valor = \
+                self.hr_comunicacao_acidente_trabalho_id.contract_id.sped.categoria_trabalhador
 
         S2210.evento.cat.dtAcid.valor = self.hr_comunicacao_acidente_trabalho_id.data_acidente.split(' ')[0]
         S2210.evento.cat.tpAcid.valor = self.hr_comunicacao_acidente_trabalho_id.tipo_acidente.codigo
