@@ -17,8 +17,8 @@ _logger = logging.getLogger(__name__)
 
 class Ncm(models.Model):
     _name = 'fiscal.ncm'
-    _description = 'NCM'
     _inherit = ['fiscal.data.abstract', 'mail.thread', 'mail.activity.mixin']
+    _description = 'NCM'
 
     @api.one
     @api.depends('tax_estimate_ids')
@@ -64,7 +64,7 @@ class Ncm(models.Model):
     tax_estimate_ids = fields.One2many(
         comodel_name='fiscal.tax.estimate',
         inverse_name='ncm_id',
-        string=u'Estimae Taxes',
+        string=u'Estimate Taxes',
         readonly=True)
 
     product_tmpl_ids = fields.One2many(
