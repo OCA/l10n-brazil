@@ -1,9 +1,2423 @@
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_l10n_br_account_product
-msgid "Brazilian Localization Account Product"
-msgstr "Localização Brasileira - Módulo Informações Contabéis do Produto"
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* fiscal
+#
+msgid ""
+msgstr ""
+"L10n-brazil: Odoo Brazil 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 18:21+0000\n"
+"PO-Revision-Date: 2019-05-21 18:21+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: pt_BR\n"
 
-#. module: base
-#: model:ir.module.module,description:base.module_l10n_br_account_product
-msgid "Brazilian Localization Account Product"
-msgstr "Localização Brasileira - Fornece funcionalidades para venda de produtos com os impostos brasileiros"
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Purchase Commerce"
+msgstr "Compra Para Comercialização"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Purchase Asset"
+msgstr "Compra de Ativo"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Purchase Industry"
+msgstr "Compra Para Industrialização"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Purchase Own Use"
+msgstr "Compra para Uso Próprio"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Purchase Redund"
+msgstr "Devolução de Compra"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Purchase Service"
+msgstr "Compra de Serviço"
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.partner.profile,ind_ie_dest:0
+#: selection:res.partner,ind_ie_dest:0
+msgid "1 - Contribuinte do ICMS"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "1 - Estrangeira – importação direta, exceto a indicada no código 6"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.operation.line,company_tax_framework:0
+#: selection:fiscal.operation.line,partner_tax_framework:0
+#: selection:fiscal.partner.profile,tax_framework:0
+#: selection:res.company,tax_framework:0
+#: selection:res.partner,tax_framework:0
+msgid "1 - Simples Nacional"
+msgstr ""
+
+#. module: fiscal
+#: model:uom.uom,name:fiscal.uom_1000un
+msgid "1000UN"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.partner.profile,ind_ie_dest:0
+#: selection:res.partner,ind_ie_dest:0
+msgid "2 - Contribuinte Isento do ICMS"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.operation.line,company_tax_framework:0
+#: selection:fiscal.operation.line,partner_tax_framework:0
+#: selection:fiscal.partner.profile,tax_framework:0
+#: selection:res.company,tax_framework:0
+#: selection:res.partner,tax_framework:0
+msgid "2 - Simples Nacional – excesso de sublimite da receita bruta"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "2 – Estrangeira – adquirida no mercado interno, exceto a indicada no código 7"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.operation.line,company_tax_framework:0
+#: selection:fiscal.operation.line,partner_tax_framework:0
+#: selection:fiscal.partner.profile,tax_framework:0
+#: selection:res.company,tax_framework:0
+#: selection:res.partner,tax_framework:0
+msgid "3 - Regime Normal"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "3 – Nacional – mercadoria ou bem com Conteúdo de Importação superior a 40% (quarenta por cento) e inferior ou igual a 70% (setenta por cento)"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "4 – Nacional – cuja produção tenha sido feita em conformidade com os processos produtivos básicos de que tratam o Decreto-lei n° 288/67 e as Leis (federais) nos 8.428/91, 8.397/91, 10.176/2001 e 11.484/2007"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "5 – Nacional – mercadoria ou bem com Conteúdo de Importação inferior ou igual a 40% (quarenta por cento)"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "6 – Estrangeira – importação direta, sem similar nacional, constante em lista de Resolução CAMEX e gás natural"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "7 – Estrangeira – adquirida no mercado interno, sem similar nacional, constante em lista de Resolução CAMEX e gás natural"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,origin:0
+msgid "8 – Nacional – mercadoria ou bem com Conteúdo de Importação superior a 70% (setenta por cento). (cf. Ajuste SINIEF 15/2013)"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.partner.profile,ind_ie_dest:0
+#: selection:res.partner,ind_ie_dest:0
+msgid "9 - Não Contribuinte"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_config_settings_form
+msgid "<i class=\"fa fa-arrow-right\"/> Generate an Access Key"
+msgstr "<i class=\"fa fa-arrow-right\"/>Gerar Chave de Acesso "
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cest_action
+msgid "A CEST is necessary to create\n"
+"              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cfop_action
+msgid "A CFOP is necessary to determine the\n"
+"              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cnae_action
+msgid "A CNAE is necessary to determine the\n"
+"              fiscal definitions for your company."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cst_action
+msgid "A CST is necessary to create\n"
+"              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.nbs_action
+msgid "A NBS is necessary to create\n"
+"              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.ncm_action
+msgid "A NCM is necessary to create\n"
+"              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: code:addons/fiscal/models/account_invoice.py:667
+#, python-format
+msgid "A NF-e deve ser exportada antes de validada."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.simplified_tax_action
+msgid "A Simplified Tax is necessary to determine the\n"
+"              fiscal definitions for your company."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.tax_ipi_guideline_action
+msgid "A Tax IPI guideline is necessary to create\n"
+"              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.tax_action
+msgid "A Tax is necessary to create\n"
+"              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.certificate,subtype:0
+msgid "A1"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.certificate,subtype:0
+msgid "A3"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__account_move
+msgid "Account Move?"
+msgstr "Movimentação Contábil"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__accountant_id
+msgid "Accountant"
+msgstr "Contador"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_needaction
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_needaction
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_needaction
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_needaction
+msgid "Action Needed"
+msgstr "Ação Necessária"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__activity_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__activity_ids
+msgid "Activities"
+msgstr "Atividades"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__activity_state
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__activity_state
+msgid "Activity State"
+msgstr "Estado de Atividade"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cest_action
+msgid "Add a new CEST"
+msgstr "Adicionar nova CEST"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cfop_action
+msgid "Add a new CFOP"
+msgstr "Adicionar novo CFOP"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cnae_action
+msgid "Add a new CNAE"
+msgstr "Adicionar novo CNAE"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.cst_action
+msgid "Add a new CST"
+msgstr "Adicionar nova CST"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.document_type_action
+msgid "Add a new Fiscal Document"
+msgstr "Adicionar novo Documento Fiscal"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.document_serie_action
+msgid "Add a new Fiscal Document Serie"
+msgstr "Adicionar nova Série de Documento Fiscal"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.nbs_action
+msgid "Add a new NBS"
+msgstr "Adicionar novo NBS"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.ncm_action
+msgid "Add a new NCM"
+msgstr "Adicionar novo NCM"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.product_action
+msgid "Add a new Product"
+msgstr "Adicionar novo Produto"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.product_genre_action
+msgid "Add a new Product Genre"
+msgstr "Adicionar novo Gênero de Produto"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.service_action
+msgid "Add a new Service"
+msgstr "Adicionar novo Serviço"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.simplified_tax_action
+msgid "Add a new Simplified Tax"
+msgstr "Adicionar novo Anexo do Simples Nacional"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.tax_action
+msgid "Add a new Tax"
+msgstr "Adicionar novo Imposto"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.tax_ipi_guideline_action
+msgid "Add a new Tax IPI Guideline"
+msgstr "Adicionar novo Enquadramento do IPI"
+
+#. module: fiscal
+#: selection:fiscal.cst,type:0
+#: selection:fiscal.operation.line,type:0
+msgid "All"
+msgstr "Todos"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.document_type_action
+msgid "All Documents supported by Brazilian\n"
+"              Fiscal modulo for Odoo."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.document_serie_action
+#: model_terms:ir.actions.act_window,help:fiscal.service_action
+msgid "All Serie for Documents supported by\n"
+"              Brazilian Fiscal modulo for Odoo."
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__amount_deduced
+msgid "Amount to be Deducted"
+msgstr "Valor a Deduzir"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.product_genre_action
+msgid "An Product Genre is necessary to create\n"
+"              EFD operations for your fiscal moves."
+msgstr ""
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.andresses_menu
+msgid "Andresses"
+msgstr "Endereços"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__annual_revenue
+msgid "Annual Revenue"
+msgstr "Receita Anual"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__assent_move
+msgid "Assent Move?"
+msgstr "Operação de Ativo?"
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Ativo Imobilizado"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_attachment_count
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_attachment_count
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_attachment_count
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_attachment_count
+msgid "Attachment Count"
+msgstr "Contagem de Anexos"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Autopeças"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Bebidas alcoólicas, exceto cerveja e chope"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.cest_action
+#: model:ir.model,name:fiscal.model_fiscal_cest
+#: model:ir.model.fields,field_description:fiscal.field_product_product__cest_id
+#: model:ir.model.fields,field_description:fiscal.field_product_template__cest_id
+#: model:ir.ui.menu,name:fiscal.cest_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_form
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_search
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_tree
+#: model_terms:ir.ui.view,arch_db:fiscal.product_template_search
+msgid "CEST"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__cest_ids
+msgid "CESTs"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.cfop_action
+#: model:ir.model,name:fiscal.model_fiscal_cfop
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__cfop_id
+#: model:ir.ui.menu,name:fiscal.cfop_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_form
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_search
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_tree
+msgid "CFOP"
+msgstr ""
+
+#. module: fiscal
+#: sql_constraint:fiscal.cfop:0
+msgid "CFOP already exists with this code !"
+msgstr "CFOP já existe com este código !"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__cfop_destination
+msgid "CFOP destination"
+msgstr "CFOP de Destino"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.cnae_action
+#: model:ir.model,name:fiscal.model_fiscal_cnae
+#: model:ir.ui.menu,name:fiscal.cnae_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.cnae_form
+#: model_terms:ir.ui.view,arch_db:fiscal.cnae_search
+#: model_terms:ir.ui.view,arch_db:fiscal.cnae_tree
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_company_form
+msgid "CNAE"
+msgstr ""
+
+#. module: fiscal
+#: sql_constraint:fiscal.cnae:0
+msgid "CNAE already exists with this code !"
+msgstr "CNAE já existe com este código !"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__cnae_ids
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_form
+msgid "CNAEs"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__owner_cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: fiscal
+#: code:addons/fiscal/models/l10n_br_account_product_document_related.py:85
+#, python-format
+msgid "CNPJ/CPF do documento relacionado Ã© invalido!"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+msgid "COFINS"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "COFINS %"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "CPP %"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "CSLL %"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.cst_action
+#: model:ir.model,name:fiscal.model_fiscal_cst
+#: model:ir.ui.menu,name:fiscal.cst_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.cst_form
+#: model_terms:ir.ui.view,arch_db:fiscal.cst_search
+#: model_terms:ir.ui.view,arch_db:fiscal.cst_tree
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_search
+msgid "CST"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__cst_in_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__cst_in_id
+msgid "CST In"
+msgstr "CST de Entrada"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__cst_out_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__cst_out_id
+msgid "CST Out"
+msgstr "CST de Saída"
+
+#. module: fiscal
+#: sql_constraint:fiscal.cst:0
+msgid "CST already exists with this code !"
+msgstr "CST já existe com este código !"
+
+#. module: fiscal
+#: code:addons/fiscal/models/certificate.py:80
+#, python-format
+msgid "Cannot load Certificate !"
+msgstr "Não foi possível carregar o certificado !"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_certificate
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_company_form
+msgid "Certificate"
+msgstr "Certificado"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__type
+msgid "Certificate Type"
+msgstr "Tipo do Certificado"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_company_form
+msgid "Certificates"
+msgstr "Certificados"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Cervejas, chopes, refrigerantes, águas e outras bebidas"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__key
+msgid "Chave"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__child_ids
+msgid "Children CNAEs"
+msgstr "CNAE Filhos"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Cigarros e outros produtos derivados do fumo"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Cimentos"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.city_menu
+msgid "City"
+msgstr "Cidade"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_data_abstract__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__code
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__code
+msgid "Code"
+msgstr "Código"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Combustíveis e lubrificantes"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__company_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__company_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__company_id
+#: model:ir.ui.menu,name:fiscal.company_menu
+msgid "Company"
+msgstr "Empresa"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajuste de configurações"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.configuration_menu
+msgid "Configuration"
+msgstr "Configuração"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_res_partner
+msgid "Contact"
+msgstr "Contato"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__ind_ie_dest
+#: model:ir.model.fields,field_description:fiscal.field_res_partner__ind_ie_dest
+#: model:ir.model.fields,field_description:fiscal.field_res_users__ind_ie_dest
+msgid "Contribuinte do ICMS"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__company_tax_framework
+msgid "Copmpany Tax Framework"
+msgstr "Regine Tributário"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.country_menu
+msgid "Country"
+msgstr "País"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.country_group_menu
+msgid "Country Group"
+msgstr "Grupo de País"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.partner_profile_action
+msgid "Create a new Fiscal Partner Profile"
+msgstr "Criar um novo Perfil Fiscal"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.operation_action
+msgid "Create a new fiscal operation"
+msgstr "Criar uma nova Operação Fiscal"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.partner_action
+msgid "Create a new partner in your address book"
+msgstr "Criar um novo Parceiro em seus contatos"
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.product_action
+msgid "Create new products."
+msgstr "Criar novos Produtos"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__create_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__create_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: fiscal
+#: code:addons/fiscal/models/account_invoice.py:739
+#, python-format
+msgid "Criar uma nova sÃ©rie"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: fiscal
+#: code:addons/fiscal/models/account_invoice_line.py:533
+#, python-format
+msgid "Customer Order Line must be a number with up to six digits"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__create_date
+msgid "Data de Criação"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__default
+msgid "Default Profile"
+msgstr "Perfil Padrão"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__description
+msgid "Description"
+msgstr "Descrição"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__destination
+msgid "Destination"
+msgstr "Destino"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_data_abstract__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__display_name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__subtype
+msgid "Document SubType"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__type
+msgid "Document Type"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__document_type_ids
+#: model:ir.model.fields,field_description:fiscal.field_res_config_settings__document_type_ids
+#: model:ir.ui.menu,name:fiscal.documents_menu
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cst_search
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_search
+msgid "Domain"
+msgstr "Domínio"
+
+#. module: fiscal
+#: selection:fiscal.certificate,type:0
+#: model:ir.model.fields,field_description:fiscal.field_res_company__certificate_ecnpj_id
+msgid "E-CNPJ"
+msgstr "E-CNPJ"
+
+#. module: fiscal
+#: selection:fiscal.certificate,type:0
+msgid "E-CPF"
+msgstr "E-CPF"
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Embalagem"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Energia elétrica"
+msgstr ""
+
+#. module: fiscal
+#: code:addons/fiscal/models/ibpt/taxes.py:48
+#, python-format
+msgid "Error in the request: {0}"
+msgstr "Erro na requisição: {0}"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__state_id
+msgid "Estado"
+msgstr "Estado"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__tax_estimate_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__tax_estimate_ids
+msgid "Estimate Taxes"
+msgstr "Impostos Estimados"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_estimate_tree
+msgid "Estimate Tax"
+msgstr "Imposto Estimado"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__estimate_tax_imported
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__estimate_tax_imported
+msgid "Estimate Tax Imported Percent"
+msgstr "Imposto Estimado Importado %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__estimate_tax_national
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__estimate_tax_national
+msgid "Estimate Tax Nacional Percent"
+msgstr "Imposto Estimado Nacional %"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_config_settings_form
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_form
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_form
+msgid "Estimate Taxes"
+msgstr "Impostos Estimados"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__exception
+msgid "Exception"
+msgstr "Exceção"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__date_expiration
+msgid "Expiration Date"
+msgstr "Data de Expiração"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Ferramentas"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__file_name
+msgid "File Name"
+msgstr "Nome do Arquivo"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__final_revenue
+msgid "Final Revenue"
+msgstr "Faixa Final"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__finance_move
+msgid "Finance Moves?"
+msgstr "Movimentação Financeira?"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.fiscal_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_company_form
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_config_settings_form
+#: model_terms:ir.ui.view,arch_db:fiscal.product_template_form
+msgid "Fiscal"
+msgstr "Fiscal"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_data_abstract
+msgid "Fiscal Data Abstract"
+msgstr "Dados Abstratos Fiscais"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.document_type_action
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__fiscal_document_id
+#: model:ir.ui.menu,name:fiscal.document_type_menu
+msgid "Fiscal Document"
+msgstr "Documento Fiscal"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.document_serie_action
+#: model:ir.model,name:fiscal.model_fiscal_document_serie
+#: model:ir.ui.menu,name:fiscal.document_serie_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.document_serie_form
+#: model_terms:ir.ui.view,arch_db:fiscal.document_serie_tree
+msgid "Fiscal Document Serie"
+msgstr "Série de Documento Fiscal"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_document_type
+#: model_terms:ir.ui.view,arch_db:fiscal.document_type_form
+#: model_terms:ir.ui.view,arch_db:fiscal.document_type_tree
+msgid "Fiscal Document Type"
+msgstr "Tipo de Documento Fiscal"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_config_settings_form
+msgid "Fiscal Documents"
+msgstr "Documentos Fiscais"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_product_product__fiscal_genre_id
+#: model:ir.model.fields,field_description:fiscal.field_product_template__fiscal_genre_id
+msgid "Fiscal Genre"
+msgstr "Gênero"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_product_product__fiscal_genre_code
+#: model:ir.model.fields,field_description:fiscal.field_product_template__fiscal_genre_code
+msgid "Fiscal Genre Code"
+msgstr "Código do Gênero"
+
+#. module: fiscal
+#: model:res.groups,name:fiscal.group_manager
+msgid "Fiscal Manager"
+msgstr "Gerente da Contabilidade Tributária"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_operation
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_form
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_search
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_tree
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_operation_line
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_line_form
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_line_tree
+msgid "Fiscal Operation Line"
+msgstr "Linha da Operação Fiscal"
+
+#. module: fiscal
+#: sql_constraint:fiscal.operation.line:0
+msgid "Fiscal Operation Line already exists with this code !"
+msgstr "Linha da Operação Fiscal já existe com este código !"
+
+#. module: fiscal
+#: sql_constraint:fiscal.operation:0
+msgid "Fiscal Operation already exists with this code !"
+msgstr "Operação Fiscal já existe com este código !"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_partner_profile
+#: model:ir.model.fields,field_description:fiscal.field_res_partner__fiscal_profile_id
+#: model:ir.model.fields,field_description:fiscal.field_res_users__fiscal_profile_id
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_form
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_search
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_tree
+msgid "Fiscal Partner Profile"
+msgstr "Perfil Fiscal de Parceiro"
+
+#. module: fiscal
+#: sql_constraint:fiscal.partner.profile:0
+msgid "Fiscal Partner Profile already exists with this code !"
+msgstr "Perfil Fiscal já existe com este código !"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_product_genre
+msgid "Fiscal Product Genre"
+msgstr "Gênero Fiscal do Produto"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_form
+msgid "Fiscal Profile"
+msgstr "Perfil Fiscal"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_tax_estimate
+msgid "Fiscal Tax Estimate"
+msgstr "Impostos Estimados"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_product_product__fiscal_type
+#: model:ir.model.fields,field_description:fiscal.field_product_template__fiscal_type
+msgid "Fiscal Type"
+msgstr "Tipo Fiscal"
+
+#. module: fiscal
+#: model:res.groups,name:fiscal.group_user
+msgid "Fiscal User"
+msgstr "Usuário Tributário"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_follower_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_follower_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_follower_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_channel_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_channel_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_channel_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canais)"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_partner_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_partner_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_partner_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Parceiros)"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__origin
+msgid "Source"
+msgstr "Fonte"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__cst_group
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_ipi_guideline_search
+msgid "Group"
+msgstr "Agrupar"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_search
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_search
+#: model_terms:ir.ui.view,arch_db:fiscal.cnae_search
+#: model_terms:ir.ui.view,arch_db:fiscal.cst_search
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_search
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_search
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_search
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_ipi_guideline_search
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_search
+msgid "Group By..."
+msgstr "Agrupado Por..."
+
+#. module: fiscal
+#: code:addons/fiscal/models/ibpt/taxes.py:40
+#: code:addons/fiscal/models/ibpt/taxes.py:45
+#, python-format
+msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
+msgstr "IBPT Forbidden (acesso negado) - token={!r}, cnpj={!r}, UF={!r}"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_config_settings__ibpt_update_days
+msgid "IBPT Update"
+msgstr "Intervalo de Atualização"
+
+#. module: fiscal
+#: selection:fiscal.document.type,type:0
+msgid "ICMS"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "ICMS %"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+msgid "ICMS - Interstatual"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+msgid "ICMS - Próprio"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+msgid "ICMS - Subistituição Tributária"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+msgid "ICMS FCP - Fundo de Combate a Pobreza"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_data_abstract__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__id
+msgid "ID"
+msgstr "ID"
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_search
+msgid "II"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__ibpt_token
+#: model:ir.model.fields,field_description:fiscal.field_res_config_settings__ibpt_token
+msgid "IPBT Token"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__ibpt_update_days
+msgid "IPBT Token Updates"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_search
+msgid "IPI"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "IPI %"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_ipi_guideline_search
+msgid "IPI Guideline"
+msgstr "Enquadramento do IPI"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_tax_ipi_guideline
+msgid "IPI Guidelines"
+msgstr "Enquadramentos do IPI"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "IRPJ %"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "ISS %"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_cfop__destination
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation_line__cfop_destination
+msgid "Identifies the operation destination."
+msgstr "Identifica a operação de destino."
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_nbs__message_unread
+#: model:ir.model.fields,help:fiscal.field_fiscal_ncm__message_unread
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation__message_unread
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation_line__message_unread
+msgid "If checked new messages require your attention."
+msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_nbs__message_needaction
+#: model:ir.model.fields,help:fiscal.field_fiscal_ncm__message_needaction
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation__message_needaction
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation_line__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado novas mensagens solicitarão sua atenção."
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_nbs__message_has_error
+#: model:ir.model.fields,help:fiscal.field_fiscal_ncm__message_has_error
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation__message_has_error
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation_line__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens tem erro de entrega."
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__state_taxes
+msgid "Impostos Estaduais Nacional"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__federal_taxes_import
+msgid "Impostos Federais Importado"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__federal_taxes_national
+msgid "Impostos Federais Nacional"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__municipal_taxes
+msgid "Impostos Municipais Nacional"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax.ipi.guideline,cst_group:0
+msgid "Imunidade"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_in_out:0
+#: selection:fiscal.cst,type:0
+#: selection:fiscal.document.serie,fiscal_type:0
+#: selection:fiscal.operation,type:0
+#: selection:fiscal.operation.line,type:0
+msgid "In"
+msgstr "Entrada"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__inital_revenue
+msgid "Initial Revenue"
+msgstr "Faixa Inicial"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_search
+msgid "Input"
+msgstr "Entrada"
+
+#. module: fiscal
+#: code:addons/fiscal/models/l10n_br_account_product_document_related.py:117
+#, python-format
+msgid "InscriÃ§Ã£o Estadual do documento fiscal invÃ¡lida!"
+msgstr "Inscrição Estadual do documento fiscal Inválida!"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__internal_type
+msgid "Internal Type"
+msgstr "Tipo Interno"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__cfop_inverse_id
+msgid "Inverse CFOP"
+msgstr "CFOP Inverso"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__is_company
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_search
+msgid "Is Company?"
+msgstr "É Pessoa Juridica?"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__electronic
+msgid "Is Eletronic"
+msgstr "Eletrônico?"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_is_follower
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_is_follower
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_is_follower
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_is_follower
+msgid "Is Follower"
+msgstr "É um seguidor"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__is_valid
+msgid "Is Valid?"
+msgstr "É válido?"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_data_abstract____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate____last_update
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline____last_update
+msgid "Last Modified on"
+msgstr "Última modificação em"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__write_uid
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__write_date
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_st_base_type:0
+msgid "Lista Negativa (valor)"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_st_base_type:0
+msgid "Lista Neutra (valor)"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_st_base_type:0
+msgid "Lista Positiva (valor)"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_main_attachment_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_main_attachment_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_main_attachment_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Anexo Principal"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__cnae_main_id
+#: model:ir.model.fields,field_description:fiscal.field_res_partner__cnae_main_id
+#: model:ir.model.fields,field_description:fiscal.field_res_users__cnae_main_id
+msgid "Main CNAE"
+msgstr "CNAE Principal"
+
+#. module: fiscal
+#: code:addons/fiscal/models/partner_profile.py:76
+#, python-format
+msgid "Mantenha apenas um tipo fiscal padrÃ£o para Pessoa FÃ­sica ou para Pessoa JurÃ­dica!"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_base_type:0
+#: selection:fiscal.tax,icms_st_base_type:0
+msgid "Margem Valor Agregado (%)"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Materiais de construção e congêneres"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Materiais de limpeza"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Materiais elétricos"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Material de Uso e Consumo"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Matéria-prima"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Medicamentos de uso humano e outros produtos farmacêuticos para uso humano ou veterinário"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Mercadoria para Revenda"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_has_error
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_has_error
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_has_error
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro de entrega de Mensagem"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.nbs_action
+#: model:ir.model,name:fiscal.model_fiscal_nbs
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__nbs_id
+#: model:ir.model.fields,field_description:fiscal.field_product_product__nbs_id
+#: model:ir.model.fields,field_description:fiscal.field_product_template__nbs_id
+#: model:ir.ui.menu,name:fiscal.nbs_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_form
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_tree
+#: model_terms:ir.ui.view,arch_db:fiscal.product_template_search
+msgid "NBS"
+msgstr ""
+
+#. module: fiscal
+#: code:addons/fiscal/models/nbs.py:123
+#, python-format
+msgid "NBS Tax Estimate Failure"
+msgstr "NBS Atualização dos Impostos Estimados Falhou!"
+
+#. module: fiscal
+#: code:addons/fiscal/models/nbs.py:116
+#: code:addons/fiscal/models/nbs.py:117
+#, python-format
+msgid "NBS Tax Estimate Updated"
+msgstr "NBS Impostos Estimados Atualizado"
+
+#. module: fiscal
+#: sql_constraint:fiscal.nbs:0
+msgid "NBS already exists with this code !"
+msgstr "NBS já existe um NBS com este código !"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.ncm_action
+#: model:ir.model,name:fiscal.model_fiscal_ncm
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__ncms
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_estimate__ncm_id
+#: model:ir.model.fields,field_description:fiscal.field_product_product__ncm_id
+#: model:ir.model.fields,field_description:fiscal.field_product_template__ncm_id
+#: model:ir.ui.menu,name:fiscal.ncm_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_form
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_search
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_tree
+#: model_terms:ir.ui.view,arch_db:fiscal.product_template_search
+msgid "NCM"
+msgstr ""
+
+#. module: fiscal
+#: code:addons/fiscal/models/ncm.py:142
+#, python-format
+msgid "NCM Tax Estimate Failure"
+msgstr "NCM Atualização dos Impostos Estimados Falhou!"
+
+#. module: fiscal
+#: code:addons/fiscal/models/ncm.py:135
+#: code:addons/fiscal/models/ncm.py:136
+#, python-format
+msgid "NCM Tax Estimate Updated"
+msgstr "NCM Impostos Estimados Atualizado"
+
+#. module: fiscal
+#: sql_constraint:fiscal.ncm:0
+msgid "NCM already exists with this code !"
+msgstr "Já existe um NCM com este código !"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__ncm_ids
+msgid "NCMs"
+msgstr ""
+
+#. module: fiscal
+#: code:addons/fiscal/models/account_invoice.py:811
+#: selection:fiscal.certificate,type:0
+#, python-format
+msgid "NF-e"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__certificate_nfe_id
+msgid "NFe"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_data_abstract__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_type__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__name
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_simplified_tax
+msgid "National Simplified Tax"
+msgstr "Simples Nacional"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_fiscal_simplified_tax_range
+msgid "National Simplified Tax Range"
+msgstr "Faixa do Simples Nacional"
+
+#. module: fiscal
+#: code:addons/fiscal/models/account_invoice.py:752
+#, python-format
+msgid "Nenhum DiÃ¡rio !\n"
+"Categoria fiscal: '%s', nÃ£o tem um diÃ¡rio contÃ¡bil para a empresa %s"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__activity_date_deadline
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Prazo final para Próxima Atividade"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__activity_summary
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__activity_summary
+msgid "Next Activity Summary"
+msgstr "Próximo Sumário de Atividade"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__activity_type_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo da Próxima Atividade"
+
+#. module: fiscal
+#: selection:fiscal.cnae,internal_type:0
+msgid "Normal"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_form
+msgid "Notes"
+msgstr "Observações"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_needaction_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_needaction_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_needaction_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de ações"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_has_error_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_has_error_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_has_error_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_has_error_counter
+msgid "Number of error"
+msgstr "Número do erro"
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_nbs__message_needaction_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_ncm__message_needaction_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation__message_needaction_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation_line__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensagens que requer uma ação"
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_nbs__message_has_error_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_ncm__message_has_error_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation__message_has_error_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation_line__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de entrega"
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_nbs__message_unread_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_ncm__message_unread_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation__message_unread_counter
+#: model:ir.model.fields,help:fiscal.field_fiscal_operation_line__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Quantidade de mensagens não lidas."
+
+#. module: fiscal
+#: code:addons/fiscal/models/account_invoice.py:699
+#, python-format
+msgid "O nÃºmero: %s da sÃ©rie: %s, esta inutilizado"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.operation_action
+#: model_terms:ir.actions.act_window,help:fiscal.partner_profile_action
+msgid "Odoo helps you easily track all activities\n"
+"            related to a fiscal operation."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.actions.act_window,help:fiscal.partner_action
+msgid "Odoo helps you easily track all activities related to a partner."
+msgstr ""
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.operation_action
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__operation_id
+#: model:ir.ui.menu,name:fiscal.operation_menu
+msgid "Operation"
+msgstr "Operação"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__operation_line_ids
+msgid "Operation Line"
+msgstr "Linha da Operação"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__line_inverse_id
+msgid "Operation Line Inverse"
+msgstr "Linha da Operação Inversa"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__line_refund_id
+msgid "Operation Line Refund"
+msgstr "Linha da Operação de Devolução"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.operations_config_menu
+msgid "Operations"
+msgstr "Operações"
+
+#. module: fiscal
+#: selection:fiscal.cfop,destination:0
+msgid "Operação Interestadual"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cfop,destination:0
+msgid "Operação Interna"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cfop,destination:0
+msgid "Operação com Exterior"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_product_product__origin
+#: model:ir.model.fields,field_description:fiscal.field_product_template__origin
+msgid "Origem"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Other"
+msgstr "Outro"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.others_config_menu
+msgid "Others"
+msgstr "Outros"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_in_out:0
+#: selection:fiscal.cst,type:0
+#: selection:fiscal.document.serie,fiscal_type:0
+#: selection:fiscal.operation,type:0
+#: selection:fiscal.operation.line,type:0
+msgid "Out"
+msgstr "Saída"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_search
+msgid "Output"
+msgstr "Saída"
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Outras"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+#: selection:fiscal.tax.ipi.guideline,cst_group:0
+msgid "Outros"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Outros insumos"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.nbs,activity_state:0
+#: selection:fiscal.ncm,activity_state:0
+msgid "Overdue"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__owner_name
+msgid "Owner"
+msgstr "Proprietário"
+
+#. module: fiscal
+#: model:uom.uom,name:fiscal.uom_pares
+msgid "PARES"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+msgid "PIS"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "PIS %"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Papéis, plásticos, produtos cerâmicos e vidros"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cnae_search
+msgid "Parent"
+msgstr "Pai"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__parent_id
+msgid "Parent CNAE"
+msgstr "CANE Pai"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.partner_action
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__partner_ids
+#: model:ir.ui.menu,name:fiscal.partner_menu
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.partner_profile_action
+#: model:ir.ui.menu,name:fiscal.partner_profile_menu
+msgid "Partner Profile"
+msgstr "Perfil Fiscal de Parceiro"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__partner_qty
+msgid "Partner Quantity"
+msgstr "Parceiros"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__partner_tax_framework
+msgid "Partner Tax Framework"
+msgstr "Regime Fiscal"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.partners_config_menu
+#: model:ir.ui.menu,name:fiscal.partners_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_form
+msgid "Partners"
+msgstr "Parceiros"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__password
+msgid "Password"
+msgstr "Senha"
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_base_type:0
+#: selection:fiscal.tax,icms_st_base_type:0
+msgid "Pauta (valor)"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__percent_amount
+msgid "Percent"
+msgstr "Percentual"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__percent_reduction
+msgid "Percent Reduction"
+msgstr "Percentual de Redução de Base"
+
+#. module: fiscal
+#: selection:fiscal.nbs,activity_state:0
+#: selection:fiscal.ncm,activity_state:0
+msgid "Planned"
+msgstr "Planejado"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Pneumáticos, câmaras de ar e protetores de borracha"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_base_type:0
+msgid "Preço Tabelado Máximo (valor)"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_st_base_type:0
+msgid "Preço tabelado ou máximo  sugerido"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.product_template_tree
+msgid "Product"
+msgstr "Produto"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.product_category_menu
+msgid "Product Categories"
+msgstr "Categoria de Produtos"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.product_genre_action
+#: model:ir.ui.menu,name:fiscal.product_genre_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.product_genre_form
+#: model_terms:ir.ui.view,arch_db:fiscal.product_genre_search
+#: model_terms:ir.ui.view,arch_db:fiscal.product_genre_tree
+msgid "Product Genre"
+msgstr "Gênero de Produtos"
+
+#. module: fiscal
+#: model:ir.model,name:fiscal.model_product_template
+msgid "Product Template"
+msgstr "Modelo de Produto"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.product_service_menu
+msgid "Product and Service"
+msgstr "Produtos e Serviços"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_kanban
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_kanban
+msgid "Product(s)"
+msgstr "Produto(s)"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.product_action
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__product_tmpl_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__product_tmpl_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__product_tmpl_ids
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__product_tmpl_ids
+#: model:ir.ui.menu,name:fiscal.product_menu
+#: model:ir.ui.menu,name:fiscal.products_config_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_form
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_form
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_form
+#: model_terms:ir.ui.view,arch_db:fiscal.product_genre_form
+msgid "Products"
+msgstr "Produtos"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__product_tmpl_qty
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__product_tmpl_qty
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__product_tmpl_qty
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__product_tmpl_qty
+msgid "Products Quantity"
+msgstr "Produtos"
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Produto Acabado"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Produto Intermediário"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Produto em Processo"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Produtos alimentícios"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Produtos de papelaria"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Produtos de perfumaria e de higiene pessoal e cosméticos"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Produtos eletrônicos, eletroeletrônicos e eletrodomésticos"
+msgstr ""
+
+#. module: fiscal
+#: model:uom.uom,name:fiscal.uom_quilat
+msgid "QUILAT"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Rações para animais domésticos"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax.ipi.guideline,cst_group:0
+msgid "Redução"
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_form
+msgid "Related CEST"
+msgstr "CEST Relacionadas"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_form
+msgid "Related NCM"
+msgstr "NCM Relacionados"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.partner_profile_form
+msgid "Related Partners"
+msgstr "Parceiros Relacionados"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_form
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_form
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_form
+msgid "Related Produts"
+msgstr "Produtos Relacionados"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__activity_user_id
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__activity_user_id
+msgid "Responsible User"
+msgstr "Usuário Responsável"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__cfop_return_id
+msgid "Return CFOP"
+msgstr "CFOP de Devolução"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Return Out"
+msgstr "Devolução de Saída"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Return in"
+msgstr "Devolução de Entrada"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Sale Asset"
+msgstr "Venda de Ativo"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Sale Commerce"
+msgstr "Venda Recebida de Terceiro"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Sale Industry"
+msgstr "Venda de Produção Própria"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Sale Own Use"
+msgstr "Venda para Uso Próprio"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Sale Refund"
+msgstr "Devolução de Venda"
+
+#. module: fiscal
+#: selection:fiscal.cfop,type_move:0
+msgid "Sale Service"
+msgstr "Venda de Serviço"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__cnae_secondary_ids
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_company_form
+msgid "Secondary CNAE"
+msgstr "CNAE Secundários"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__segment
+#: model_terms:ir.ui.view,arch_db:fiscal.cest_search
+msgid "Segment"
+msgstr "Segmento"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__internal_sequence_id
+msgid "Sequence"
+msgstr "Seqüência"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.service_action
+#: model:ir.ui.menu,name:fiscal.menu_service
+msgid "Services"
+msgstr "Serviços"
+
+#. module: fiscal
+#: selection:fiscal.document.type,type:0
+msgid "Serviço Municipal"
+msgstr ""
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Serviços"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.config_action
+#: model:ir.ui.menu,name:fiscal.fiscal_config_menu
+msgid "Settings"
+msgstr "Configurações"
+
+#. module: fiscal
+#: selection:fiscal.cst,tax_domain:0
+#: selection:fiscal.tax,tax_domain:0
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_company_form
+msgid "Simples Nacional"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__simplifed_tax_percent
+msgid "Simplifed Tax Percent"
+msgstr "Percentual Simples Nacional"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_form
+msgid "Simplified Range"
+msgstr "Faixa do Simples Nacional"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.simplified_tax_action
+#: model:ir.model.fields,field_description:fiscal.field_res_company__simplifed_tax_id
+#: model:ir.ui.menu,name:fiscal.simplified_tax_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_form
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_tree
+msgid "Simplified Tax"
+msgstr "Simples Nacional"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__simplified_tax_id
+msgid "Simplified Tax ID"
+msgstr "Simples Nacional Tax ID"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax__simplified_tax_range_ids
+#: model:ir.model.fields,field_description:fiscal.field_res_company__simplifed_tax_range_id
+msgid "Simplified Tax Range"
+msgstr "Faixa do Simples Nacional"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__small_name
+msgid "Small Name"
+msgstr "Nome Reduzido"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Sorvetes e preparados para fabricação de sorvetes em máquinas"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.state_menu
+msgid "State"
+msgstr "Estado"
+
+#. module: fiscal
+#: model:ir.model.fields,help:fiscal.field_fiscal_nbs__activity_state
+#: model:ir.model.fields,help:fiscal.field_fiscal_ncm__activity_state
+msgid "Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Status baseado em atividades\n"
+"Atrasado: Data definida já passou\n"
+"Hoje: Data de atividade é hoje\n"
+"Planejado: Atividades futuras."
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__stock_move
+msgid "Stock Moves?"
+msgstr "Movimentação do Estoque?"
+
+#. module: fiscal
+#: selection:product.template,fiscal_type:0
+msgid "Subproduto"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.tax.ipi.guideline,cst_group:0
+msgid "Suspensão"
+msgstr ""
+
+#. module: fiscal
+#: model:uom.uom,name:fiscal.uom_ton
+msgid "TON"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.tax_action
+#: model:ir.model,name:fiscal.model_fiscal_tax
+#: model:ir.ui.menu,name:fiscal.tax_menu
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_form
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_search
+#: model_terms:ir.ui.view,arch_db:fiscal.tax_tree
+msgid "Tax"
+msgstr "Imposto"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.simplified_tax_range_tree
+msgid "Tax %"
+msgstr "Alíquota %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_cofins_percent
+msgid "Tax COFINS Percent"
+msgstr "COFINS %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_cpp_percent
+msgid "Tax CPP Percent"
+msgstr "CPP %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_csll_percent
+msgid "Tax CSLL Percent"
+msgstr "CSLL %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__tax_domain
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__tax_domain
+msgid "Tax Domain"
+msgstr "Domínio"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_partner_profile__tax_framework
+#: model:ir.model.fields,field_description:fiscal.field_res_company__tax_framework
+#: model:ir.model.fields,field_description:fiscal.field_res_partner__tax_framework
+#: model:ir.model.fields,field_description:fiscal.field_res_users__tax_framework
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_company_form
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_line_form
+msgid "Tax Framework"
+msgstr "Regime Fiscal"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_icms_percent
+msgid "Tax ICMS Percent"
+msgstr "ICMS %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__tax_ii_id
+msgid "Tax II"
+msgstr "II %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__tax_ipi_id
+msgid "Tax IPI"
+msgstr "IPI %"
+
+#. module: fiscal
+#: model:ir.actions.act_window,name:fiscal.tax_ipi_guideline_action
+#: model:ir.ui.menu,name:fiscal.tax_ipi_guideline_menu
+msgid "Tax IPI Guideline"
+msgstr "Enquadramento do IPI"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_ipi_percent
+msgid "Tax IPI Percent"
+msgstr "IPI %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_irpj_percent
+msgid "Tax IRPJ Percent"
+msgstr "IRPJ %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_iss_percent
+msgid "Tax ISS Percent"
+msgstr "ISS %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__tax_pis_percent
+msgid "Tax PIS Percent"
+msgstr "PIS %"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_simplified_tax_range__total_tax_percent
+msgid "Tax Percent"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__tax_uom_id
+msgid "Tax Unit"
+msgstr "Unidade"
+
+#. module: fiscal
+#: sql_constraint:fiscal.tax:0
+msgid "Tax already exists with this name !"
+msgstr "Imposto já existe com este nome !"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.taxes_config_menu
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Tintas e vernizes"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__icms_base_type
+msgid "Tipo Base ICMS"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax__icms_st_base_type
+msgid "Tipo Base ICMS ST"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.nbs,activity_state:0
+#: selection:fiscal.ncm,activity_state:0
+msgid "Today"
+msgstr "Hoje"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__type_in_out
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__type
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__fiscal_type
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__type
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__type
+#: model_terms:ir.ui.view,arch_db:fiscal.operation_search
+msgid "Type"
+msgstr "Tipo"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_search
+msgid "Type In Out"
+msgstr "Tipo (Entrada, Saída)"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__type_move
+#: model_terms:ir.ui.view,arch_db:fiscal.cfop_search
+msgid "Type Move"
+msgstr "Tipo da Movimentação"
+
+#. module: fiscal
+#: model:ir.ui.menu,name:fiscal.uom_menu
+msgid "Units of Measure"
+msgstr "Unidade de Medida"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cest__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cfop__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cst__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_data_abstract__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_document_serie__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_product_genre__code_unmasked
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_tax_ipi_guideline__code_unmasked
+msgid "Unmasked Code"
+msgstr "Código sem Mascara"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_unread
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_unread
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_unread
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_unread
+msgid "Unread Messages"
+msgstr "Mensagens não lidas"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_nbs__message_unread_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_ncm__message_unread_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation__message_unread_counter
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_operation_line__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de Mensagens Não Lidas"
+
+#. module: fiscal
+#: model:ir.actions.server,name:fiscal.fiscal_nbs_scheduler_cron_ir_actions_server
+#: model:ir.cron,cron_name:fiscal.fiscal_nbs_scheduler_cron
+#: model:ir.cron,name:fiscal.fiscal_nbs_scheduler_cron
+msgid "Update NBS Estimate Taxes"
+msgstr "Atualiza Impostos Estimados para NBS"
+
+#. module: fiscal
+#: model:ir.actions.server,name:fiscal.fiscal_ncm_scheduler_cron_ir_actions_server
+#: model:ir.cron,cron_name:fiscal.fiscal_ncm_scheduler_cron
+#: model:ir.cron,name:fiscal.fiscal_ncm_scheduler_cron
+msgid "Update NCM Estimate Taxes"
+msgstr "Atualiza Impostos Estimados para NCM"
+
+#. module: fiscal
+#: model:ir.actions.server,name:fiscal.nbs_get_get_ibpt_action
+#: model:ir.actions.server,name:fiscal.ncm_get_get_ibpt_action
+#: model_terms:ir.ui.view,arch_db:fiscal.nbs_form
+#: model_terms:ir.ui.view,arch_db:fiscal.ncm_form
+msgid "Update Tax Estimate"
+msgstr "Impostos Estimados"
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_res_company__ibpt_api
+#: model:ir.model.fields,field_description:fiscal.field_res_config_settings__ibpt_api
+msgid "Use IBPT API"
+msgstr "Usar API IBPT"
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_config_settings_form
+msgid "Use IBPT API to Update Estimate Taxes for products and services"
+msgstr "Usar a API IBPT para atualizar os impostos estimados em produtos e serviços"
+
+#. module: fiscal
+#: selection:fiscal.tax,icms_base_type:0
+msgid "Valor da Operação"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Venda de mercadorias pelo sistema porta a porta"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_cnae__version
+msgid "Version"
+msgstr "Versão"
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Veículos automotores"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cest,segment:0
+msgid "Veículos de duas e três rodas motorizados"
+msgstr ""
+
+#. module: fiscal
+#: selection:fiscal.cnae,internal_type:0
+msgid "View"
+msgstr "Visualização"
+
+#. module: fiscal
+#: code:addons/fiscal/models/account_invoice.py:736
+#, python-format
+msgid "VocÃª deve ser uma sÃ©rie de documento fiscalpara este documento fiscal."
+msgstr ""
+
+#. module: fiscal
+#: model_terms:ir.ui.view,arch_db:fiscal.fiscal_res_config_settings_form
+msgid "dias"
+msgstr ""
+
+#. module: fiscal
+#: model:ir.model.fields,field_description:fiscal.field_fiscal_certificate__file
+msgid "file"
+msgstr "arquivo"
+
+#. module: fiscal
+#: model:uom.uom,name:fiscal.uom_meter2
+msgid "m2"
+msgstr ""
+
+#. module: fiscal
+#: model:uom.uom,name:fiscal.uom_meter3
+msgid "m3"
+msgstr ""
