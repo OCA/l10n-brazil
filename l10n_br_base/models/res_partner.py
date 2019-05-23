@@ -114,7 +114,7 @@ class Partner(models.Model):
                         if (partner.inscr_est == record.inscr_est and
                                 not record.inscr_est):
                             raise ValidationError(_(
-                                'There is already a partner record with this'
+                                'There is already a partner record with this '
                                 'Estadual Inscription !'))
                 else:
                     raise ValidationError(_(
@@ -180,7 +180,7 @@ class Partner(models.Model):
                 ])
                 if duplicate_ie:
                     raise ValidationError(_(
-                        'State Registration already used'
+                        'State Tax Number already used'
                         ' %s' % duplicate_ie.name))
 
     @api.model
