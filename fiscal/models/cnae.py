@@ -7,8 +7,8 @@ from odoo import models, fields
 
 class Cnae(models.Model):
     _name = 'fiscal.cnae'
-    _description = 'CNAE'
     _inherit = 'fiscal.data.abstract'
+    _description = 'CNAE'
 
     code = fields.Char(
         size=16)

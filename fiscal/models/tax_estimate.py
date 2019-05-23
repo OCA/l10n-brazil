@@ -54,7 +54,7 @@ class TaxEstimate(models.Model):
         size=32)
 
     origin = fields.Char(
-        string='Fonte',
+        string='Source',
         size=32)
 
     company_id = fields.Many2one(
