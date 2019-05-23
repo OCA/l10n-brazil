@@ -15,11 +15,10 @@ from .constants.fiscal import (
 class Certificate(models.Model):
     _name = 'fiscal.certificate'
     _description = 'Certificate'
-    _rec_name = 'description'
     _order = 'date_expiration desc'
 
-    description = fields.Char(
-        string='Description',
+    name = fields.Char(
+        string='Name',
         compute='_compute_description',
         store=False)
 
