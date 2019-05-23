@@ -1,4 +1,4 @@
-# Copyright (C) 2019  Renato Lima - Akretion
+# Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
@@ -139,3 +139,23 @@ NFE_IND_IE_DEST_DEFAULT = NFE_IND_IE_DEST[0][0]
 NFE_IND_IE_DEST_1 = '1'
 NFE_IND_IE_DEST_2 = '2'
 NFE_IND_IE_DEST_3 = '9'
+
+
+CFOP_TYPE_MOVE = [
+    ('purchase_industry', 'Purchase Industry'),
+    ('purchase_commerce', 'Purchase Commerce'),
+    ('purchase_asset', 'Purchase Asset'),
+    ('purchase_ownuse', 'Purchase Own Use'),
+    ('purchase_service', 'Purchase Service'),
+    ('purchase_refund', 'Purchase Redund'),
+    ('return_in', 'Return in'),
+    ('sale_industry', 'Sale Industry'),
+    ('sale_commerce', 'Sale Commerce'),
+    ('sale_asset', 'Sale Asset'),
+    ('sale_ownuse', 'Sale Own Use'),
+    ('sale_service', 'Sale Service'),
+    ('sale_refund', 'Sale Refund'),
+    ('return_out', 'Return Out'),
+    ('other', 'Other')]
+
+CFOP_TYPE_MOVE_DEFAULT = 'other'
