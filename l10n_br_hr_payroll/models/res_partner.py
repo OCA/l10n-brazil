@@ -35,9 +35,9 @@ class ResPartner(models.Model):
     @api.model
     def create(self, vals):
         # verifica e-mail completo na tabela usuário e vinculo com partner
-        result_user = self.env['res.users'].search([
-            ('login', '=', vals['email']),
-            ('partner_id.email', '=', vals['email'])])
+        result_user = self.env['res.users'].search(
+            ['|', ('login', '=', vals['email']),
+             ('partner_id.email', '=', vals['email'])])
 
         email_existe = \
             self.levenshtein(vals.get('email'), tabela='res_partner',
@@ -47,7 +47,7 @@ class ResPartner(models.Model):
 
         # se existir correspondencia do nome + email na tabela res_partner
         # para o processo e impede a inclusão.
-        if (email_existe and name_existe) or result_user:
+        if email_existe or name_existe or result_user:
             raise UserError("Parceiro já cadastrado. Por favor, "
                             "verifique na lista ou valide o nome e email.")
 
