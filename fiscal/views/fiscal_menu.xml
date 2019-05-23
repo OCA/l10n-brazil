@@ -4,6 +4,9 @@
     # Main Menu
     <menuitem id="fiscal_menu" name="Fiscal" groups="fiscal.group_user,fiscal.group_manager" web_icon="fiscal,static/description/icon.png" sequence="30"/>
 
+    # Fiscal Documents
+    <menuitem id="documents_menu" name="Documents" groups="fiscal.group_user,fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+
     # Partners
     <menuitem id="partners_menu" name="Partners" groups="fiscal.group_user,fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
 
@@ -105,5 +108,8 @@
 
     # Fiscal Document Serie
     <menuitem id="document_serie_menu" action="document_serie_action" groups="fiscal.group_manager" parent="others_config_menu" sequence="20"/>
+
+    # Fiscal Document Serie
+    <menuitem id="certificate_menu" action="certificate_action" groups="fiscal.group_manager" parent="others_config_menu" sequence="30"/>
 
 </odoo>

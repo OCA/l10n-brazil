@@ -42,6 +42,7 @@
         'views/product_genre_view.xml',
         'views/document_type_view.xml',
         'views/document_serie_view.xml',
+        'views/certificate_view.xml',
         'views/simplified_tax_view.xml',
         'views/simplified_tax_range_view.xml',
         'views/operation_view.xml',
