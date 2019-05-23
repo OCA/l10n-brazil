@@ -6,12 +6,6 @@ from odoo.osv import expression
 
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
-SEARCH_FIELDS_DEFAULT = ['code', 'name']
-
-NAME_GET_FORMAT_DEFAULT = {
-    'format': "{0} - {1}",
-    'fields': ['code', 'name']}
-
 
 class DataAbstract(models.AbstractModel):
     _name = 'fiscal.data.abstract'
@@ -34,12 +28,6 @@ class DataAbstract(models.AbstractModel):
          store=True,
          index=True)
 
-    def _set_search_domain(self):
-        return SEARCH_DOMAIN_DEFAULT
-
-    def _set_name_get_format(self):
-        return NAME_GET_FORMAT_DEFAULT
-
     @api.depends('code')
     def _compute_code_unmasked(self):
         for r in self:
@@ -52,10 +40,9 @@ class DataAbstract(models.AbstractModel):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('code', operator, name + '%'),
-                      ('code_unmasked', operator, name),
+            domain = ['|', '|', ('code', operator, name),
+                      ('code_unmasked', 'ilike', name  + '%'),
                       ('name', operator, name)]
-
         recs = self._search(expression.AND([domain, args]), limit=limit,
                             access_rights_uid=name_get_uid)
         return self.browse(recs).name_get()
