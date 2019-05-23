@@ -27,9 +27,9 @@
                                 <field name="module_l10n_br_zip_correios"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <label string="Use brazilian postal service API" for="l10n_br_base"/>
+                                <label string="Use Brazilian postal service API" for="l10n_br_base"/>
                                 <div class="text-muted">
-                                    Use brazilian postal service API to search partner address using postal zip code
+                                    Use Brazilian postal service API to search partner address using postal zip code
                                 </div>
                             </div>
                         </div>
