@@ -96,7 +96,7 @@
         <field name="name">NCM</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">fiscal.ncm</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="ncm_tree"/>
         <field name="help" type="html">
@@ -114,7 +114,7 @@
         <field name="name">NBS</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">fiscal.nbs</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="nbs_tree"/>
         <field name="help" type="html">
@@ -194,6 +194,24 @@
               Add a new Fiscal Document Serie
             </p><p>
               All Serie for Documents supported by
+              Brazilian Fiscal modulo for Odoo.
+            </p>
+        </field>
+    </record>
+
+    # Certificate
+    <record id="certificate_action" model="ir.actions.act_window">
+        <field name="name">Certificate</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.certificate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="certificate_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Certificate
+            </p><p>
+              All Certificate by
               Brazilian Fiscal modulo for Odoo.
             </p>
         </field>
