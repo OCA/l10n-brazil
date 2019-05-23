@@ -342,6 +342,12 @@ def compute_balance_data(self, data, filter_report_type=None):
             {account.id: display_account and
                          to_display_accounts[account.id]})
 
+        # Se for exibir uma conta filha, exibir a conta pai
+        # independente se estiver zerada.
+        if display_account and account.parent_id:
+            if not to_display_accounts.get(account.parent_id.id):
+                to_display_accounts.update({account.parent_id.id : True})
+
     context_report_values = {
         'fiscalyear': fiscalyear,
         'start_date': start_date,
