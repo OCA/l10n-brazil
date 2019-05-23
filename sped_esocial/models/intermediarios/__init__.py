@@ -27,6 +27,7 @@ from . import s2206_alteracao_contrato_trabalho
 from . import s2220_saude_trabalhador
 from . import s2230_afastamento_temporario
 from . import s2240_condicao_ambiente_trabalho
+from . import s2245_treinamento_capacitacao
 from . import s2299_desligamento
 from . import s2300_inicio_trabalhador_sem_vinculo_de_emprego
 from . import s2306_alteracao_contrato_sem_vinculo

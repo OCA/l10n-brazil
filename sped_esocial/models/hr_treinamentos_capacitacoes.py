@@ -21,6 +21,11 @@ TIPO_TREI = [
     ('5', 'Outros'),
 ]
 
+SIM_NAO = [
+    ('S', 'Sim'),
+    ('N', 'Não'),
+]
+
 
 class HrTreinamentosCapacitacoes(models.Model):
     _name = 'hr.treinamentos.capacitacoes'
@@ -30,6 +35,21 @@ class HrTreinamentosCapacitacoes(models.Model):
     name = fields.Char(
         string=u'Nome Condição',
         compute='_compute_name',
+    )
+    state = fields.Selection(
+        string='Situação',
+        selection=[
+            ('0', 'Inativo'),
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
+            ('7', 'Excluído'),
+        ],
+        default='0',
+        compute='_compute_state',
     )
     contract_id = fields.Many2one(
         string=u'Contrato de Trabalho',
@@ -44,8 +64,8 @@ class HrTreinamentosCapacitacoes(models.Model):
         string=u'Observação',
         size=999,
     )
-    info_complementares = fields.Boolean(
-        string=u'Preencher Informações Complementares',
+    codigo_treinamento = fields.Char(
+        string=u'Cod treinamento',
     )
     data_treinamento = fields.Date(
         string=u'Data',
@@ -62,11 +82,18 @@ class HrTreinamentosCapacitacoes(models.Model):
         string=u'Tipo',
         selection=TIPO_TREI,
     )
+    treinamento_antes_admissao = fields.Selection(
+        string=u'Treinamento antes da Admissão',
+        selection=SIM_NAO,
+    )
     professor_ids = fields.Many2many(
         string=u'Professor Treinamento/Capitação',
         comodel_name='hr.professor.treinamento',
     )
-
+    sped_intermediario_id = fields.Many2one(
+        string='Intermediário do e-Social',
+        comodel_name='sped.hr.treinamentos.capacitacoes',
+    )
     @api.model
     def _compute_name(self):
         for record in self:
@@ -75,3 +102,49 @@ class HrTreinamentosCapacitacoes(models.Model):
                 record.contract_id.name
             )
 
+    @api.onchange('cod_treinamento_cap_id')
+    def _onchange_cod_treinamento_cap(self):
+        for record in self:
+            if record.cod_treinamento_cap_id:
+                record.codigo_treinamento = record.cod_treinamento_cap_id.codigo
+
+    @api.multi
+    def _compute_state(self):
+        for record in self:
+            if not record.sped_intermediario_id:
+                record.state = 0
+            else:
+                record.state = record.sped_intermediario_id.situacao_esocial
+
+    def gerar_intermediario(self):
+        if not self.sped_intermediario_id:
+            vals = {
+                'company_id': self.contract_id.company_id.id if
+                self.contract_id.company_id.eh_empresa_base else
+                self.contract_id.company_id.matriz.id,
+                'hr_treinamento_capacitacao_id': self.id,
+            }
+            self.sped_intermediario_id = self.env[
+                'sped.hr.treinamentos.capacitacoes'].create(vals)
+            self.sped_intermediario_id.gerar_registro()
+
+    @api.multi
+    def button_enviar_esocial(self):
+        self.gerar_intermediario()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.contract_id.employee_id
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            for registro in record.sped_intermediario_id.sped_inclusao:
+                if registro.situacao == '4':
+                    raise Warning(
+                        'Não é possível excluír um registro '
+                        'que foi transmitido para o e-Social!'
+                    )
+            record.sped_intermediario_id.unlink()
+            super(HrTreinamentosCapacitacoes, record).unlink()
