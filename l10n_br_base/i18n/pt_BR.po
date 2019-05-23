@@ -355,7 +355,7 @@ msgstr "Código do Sindicato"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
-msgid "Use brazilian postal service API to search partner address using postal zip code"
+msgid "Use Brazilian postal service API to search partner address using postal zip code"
 msgstr "Usar a API dos Correios de consulta de CEP para preencher automaticamente o endereço dos parceiros"
 
 #. module: l10n_br_base
@@ -367,7 +367,7 @@ msgstr "Usado nos documentos fiscais"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__module_l10n_br_zip_correios
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
-msgid "Use brazilian postal service API"
+msgid "Use Brazilian postal service API"
 msgstr "Utilizar consulta de CEP dos Correios"
 
 #. module: l10n_br_base
