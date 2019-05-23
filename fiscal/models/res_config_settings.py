@@ -22,7 +22,3 @@ class ResConfigSettings(models.TransientModel):
         string='IBPT Update',
         related='company_id.ibpt_update_days',
         readonly=False)
-
-    document_type_ids = fields.Many2many(
-        related='company_id.document_type_ids',
-        readonly=False)
