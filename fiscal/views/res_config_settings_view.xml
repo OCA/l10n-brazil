@@ -9,14 +9,6 @@
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('settings')]" position="inside">
                 <div class="app_settings_block" data-string="Fiscal" string="Fiscal" data-key="fiscal" groups="fiscal.group_manager">
-                    <h2>Fiscal Documents</h2>
-                    <div class="row mt16 o_settings_container">
-                        <div class="col-12 col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="document_type_ids" widget="many2many_tags" options="{'no_create_edit': True}"/>
-                            </div>
-                        </div>
-                    </div>
                     <h2>Estimate Taxes</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-6 o_setting_box">
@@ -25,6 +17,7 @@
                             </div>
                             <div class="o_setting_right_pane" id="ibpt_api_settings">
                                 <label for="ibpt_api"/>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
                                 <div class="text-muted">
                                     Use IBPT API to Update Estimate Taxes for products and services
                                 </div>
