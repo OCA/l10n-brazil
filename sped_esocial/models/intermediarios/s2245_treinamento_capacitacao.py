@@ -160,7 +160,7 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
                 professor_tag = pysped.esocial.leiaute.S2245_IdeProfResp_2()
 
                 if dados_professor.cpf:
-                    professor_tag.cpfProf.valor = limpa_formatacao(dados_professor.cpf)
+                    professor_tag.cpfProf.valor = dados_professor.cpf
                 professor_tag.nmProf.valor = dados_professor.nome
                 professor_tag.tpProf.valor = dados_professor.tipo_vinculo
                 professor_tag.formProf.valor = dados_professor.formacao

@@ -114,6 +114,10 @@ class HrTreinamentosCapacitacoes(models.Model):
         string=u'Treinamento antes da Admissão',
         selection=SIM_NAO,
     )
+    treinamento_antes_admissao = fields.Selection(
+        string=u'Treinamento antes da Admissão',
+        selection=SIM_NAO,
+    )
     professor_ids = fields.Many2many(
         string=u'Professor Treinamento/Capitação',
         comodel_name='hr.professor.treinamento',
