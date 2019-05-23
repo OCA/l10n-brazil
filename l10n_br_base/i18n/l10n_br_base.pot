@@ -18,17 +18,17 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number_dig
 msgid "Account Digit"
-msgstr "Dígito da Conta"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number
 msgid "Account Number"
-msgstr "Número da Conta"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Allows you to create more than one partner with the same CNPJ and different State Tax Number"
-msgstr "Permite Criar mais de um parceiro com o mesmo CNPJ e diferentes Inscrições Estaduais"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country__bc_code
@@ -38,22 +38,22 @@ msgstr "Código do BC"
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr "Contas Bancárias"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number
 msgid "Bank Branch"
-msgstr "Número da Agência"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number_dig
 msgid "Bank Branch Digit"
-msgstr "Dígito da Agência"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Brazilian Localization"
-msgstr "Localização Brasileira"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
@@ -73,43 +73,48 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "CNPJ/Vat Number"
-msgstr "CNPJ/Id Estrangeiro"
+msgid "CNPJ/Id Estrangeiro"
+msgstr ""
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "CPF"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_city
 msgid "City"
-msgstr "Cidade"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__city_id
 msgid "City of Address"
-msgstr "Cidade do Endereço"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "City..."
-msgstr "Cidade..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Complement..."
-msgstr "Complemento..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_config_settings
 msgid "Config Settings"
-msgstr "Configurações"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.partner.title,name:l10n_br_base.res_partner_title_pvt_ltd
 #: model:res.partner.title,shortcut:l10n_br_base.res_partner_title_pvt_ltd
 msgid "Corp."
-msgstr "Ltda."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_country
@@ -118,99 +123,99 @@ msgstr "Ltda."
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__country_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Country"
-msgstr "País"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_country_state
 msgid "Country state"
-msgstr "Estado"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Country..."
-msgstr "País..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__create_uid
 msgid "Created by"
-msgstr "Criado por"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__create_date
 msgid "Created on"
-msgstr "Criado em"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
 msgid "Display Name"
-msgstr "Nome a ser Exibido"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__district
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__district
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__district
 msgid "District"
-msgstr "Bairro..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "District..."
-msgstr "Bairro..."
+msgstr ""
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:157
 #, python-format
 msgid "Estadual Inscription Invalid !"
-msgstr "Inscrição Estadual Inválida !"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Fiscal"
-msgstr "Fiscal"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Fiscal Infos"
-msgstr "Informações Fiscais"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Full Name"
-msgstr "Nome Completo"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__ibge_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country__ibge_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__ibge_code
 msgid "IBGE Code"
-msgstr "Código do IBGE"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:172
 #, python-format
 msgid "Invalid State Tax Number!"
-msgstr "Inscrição Estadual Inválida!"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers____last_update
 msgid "Last Modified on"
-msgstr "Última Modificação por"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__write_uid
 msgid "Last Updated by"
-msgstr "Última Atualização por"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__write_date
 msgid "Last Updated on"
-msgstr "Última Atualização em"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__legal_name
@@ -218,108 +223,117 @@ msgstr "Última Atualização em"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Legal Name"
-msgstr "Razão Social..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "Legal Name..."
-msgstr "Razão Social..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__allow_cnpj_multi_ie
 msgid "Multiple partners with the same CNPJ"
-msgstr "Multiplos parceiros com mesmo CNPJ"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__allow_cnpj_multi_ie
+msgid "Multiplos parceiros com mesmo CNPJ"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_mun
 msgid "Municipal Tax Number"
-msgstr "Inscrição Municipal"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "Municipal Tax Number..."
-msgstr "Inscrição Municipal..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Number..."
-msgstr "Número..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Other Infos"
-msgstr "Outras Informações"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__state_tax_number_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__state_tax_number_ids
 msgid "Others State Tax Number"
-msgstr "Outras Inscrição Estaduais"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__partner_id
 msgid "Partner"
-msgstr "Parceiro"
+msgstr ""
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "RG"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country__siscomex_code
 msgid "Siscomex Code"
-msgstr "Código Siscomex"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__state_id
 msgid "State"
-msgstr "Estado"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__inscr_est
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "State Tax Number"
-msgstr "Inscrição Estadual"
+msgstr ""
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:182
 #, python-format
 msgid "State Tax Number already used %s"
-msgstr "Inscrição estadual %s já utilizada!"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "State Tax Number..."
-msgstr "Inscrição Estadual..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
 msgid "State Tax Number/RG"
-msgstr "Inscrição Estadual/RG"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_state_tax_numbers
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__state_tax_number_ids
 msgid "State Tax Numbers"
-msgstr "Inscrições Estaduais"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "State..."
-msgstr "Estado..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street number..."
-msgstr "Número..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street..."
-msgstr "Logradouro..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__suframa
@@ -333,55 +347,59 @@ msgstr ""
 #: code:addons/l10n_br_base/models/res_partner.py:174
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
-msgstr "Só pode existir uma Inscrição Estadual por Parceiro!"
+msgstr ""
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:120
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
-msgstr "Já existe um parceiro com este CNPJ !"
+msgstr ""
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:116
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
-msgstr "Já existe um parceiro com esta Inscrição Estadual !"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__union_entity_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__union_entity_code
 msgid "Union Entity code"
-msgstr "Código do Sindicato"
+msgstr ""
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Use brazilian postal service API"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Use brazilian postal service API to search partner address using postal zip code"
-msgstr "Usar a API dos Correios de consulta de CEP para preencher automaticamente o endereço dos parceiros"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__legal_name
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__legal_name
 msgid "Used in fiscal documents"
-msgstr "Usado nos documentos fiscais"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__module_l10n_br_zip_correios
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
-msgid "Use brazilian postal service API"
-msgstr "Utilizar consulta de CEP dos Correios"
+msgid "Utilizar consulta de CEP dos Correios"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Zip code..."
-msgstr "CEP..."
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Zip..."
-msgstr "CEP..."
+msgstr ""
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:138
 #, python-format
 msgid "{} Invalid!"
-msgstr "{} Inválido!"
+msgstr ""
