@@ -99,13 +99,6 @@ class ResCompany(models.Model):
         string='IPBT Token Updates',
         default=15)
 
-    document_type_ids = fields.Many2many(
-        comodel_name='fiscal.document.type',
-        relation='res_company_fiscal_document_ref',
-        column1='company_id',
-        column2='document_id',
-        string='Documents')
-
     certificate_ecnpj_id = fields.Many2one(
         comodel_name='fiscal.certificate',
         string='E-CNPJ',
