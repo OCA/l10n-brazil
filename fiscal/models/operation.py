@@ -10,6 +10,7 @@ from .constants.fiscal import (
 
 class Operation(models.Model):
     _name = 'fiscal.operation'
+    _description = 'Fiscal Operation'
     _inherit = ['mail.thread']
 
     code = fields.Char(
