@@ -26,6 +26,8 @@ access_hr_comunicao_acidente_trabalho_gerente,Gerente Comunicação de Acidente 
 access_hr_acidente_parte_atingida_gerente,Gerente Parte Atingida no Acidente,model_hr_acidente_parte_atingida,base.group_hr_user,1,1,1,1
 access_hr_agente_causador_gerente,Gerente Agente Causador,model_hr_agente_causador,base.group_hr_user,1,1,1,1
 access_hr_atestado_medico_gerente,Gerente Atestado Médico,model_hr_atestado_medico,base.group_hr_user,1,1,1,1
+access_hr_treinamentos_capacitacoes_gerente,Gerente Treinamento e Capacitações,model_hr_treinamentos_capacitacoes,base.group_hr_user,1,1,1,1
+access_hr_professor_treinamento_gerente,Gerente Professor do Treinamento ou Capacitação,model_hr_professor_treinamento,base.group_hr_user,1,1,1,1
 access_s1200_operador,Operador S-1200(Leitura),model_sped_esocial_remuneracao,sped_tabelas.group_user,1,0,0,0
 access_s1200_gerente,Gerente S-1200(Escrita),model_sped_esocial_remuneracao,sped_tabelas.group_manager,1,1,1,1
 access_s1202_operador,Operador S-1202(Leitura),model_sped_esocial_remuneracao_rpps,sped_tabelas.group_user,1,0,0,0

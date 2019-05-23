@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_professor_treinamento_form_view">
+            <field name="name">hr.professor.treinamento.form</field>
+            <field name="model">hr.professor.treinamento</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="cpf"/>
+                            <field name="nome" required="True"/>
+                            <field name="tipo_vinculo" required="True"/>
+                            <field name="formacao" required="True"/>
+                            <field name="cod_CBO" required="True"/>
+                            <field name="nacionalidade" required="True"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_professor_treinamento_tree_view">
+            <field name="name">hr.professor.treinamento.tree</field>
+            <field name="model">hr.professor.treinamento</field>
+            <field name="arch" type="xml">
+                <tree string="Professor do Treinamento/Capacitação" >
+                    <field name="cpf"/>
+                    <field name="nome"/>
+                    <field name="tipo_vinculo"/>
+                    <field name="formacao"/>
+                    <field name="cod_CBO"/>
+                    <field name="nacionalidade"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_professor_treinamento">
+            <field name="name">Professor do Treinamento/Capacitação</field>
+            <field name="res_model">hr.professor.treinamento</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_professor_treinamento">
+            <field name="name">Professor do Treinamento/Capacitação</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_treinamento_capacitacao" />
+            <field name="action" ref="sped_esocial.action_hr_professor_treinamento" />
+            <field name="sequence" eval="2" />
+        </record>
+
+    </data>
+</openerp>

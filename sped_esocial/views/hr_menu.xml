@@ -34,5 +34,13 @@
                 groups="base.group_user"
         />
 
+        <menuitem
+                id="menu_hr_root_treinamento_capacitacao"
+                parent="sped_esocial.menu_hr_root_sst"
+                name="Treinamentos e Capacitações"
+                sequence="5"
+                groups="base.group_user"
+        />
+
     </data>
 </openerp>

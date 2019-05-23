@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_treinamentos_capacitacoes_form_view">
+            <field name="name">hr.treinamentos.capacitacoes.form</field>
+            <field name="model">hr.treinamentos.capacitacoes</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="contract_id" required="True"/>
+                            <field name="cod_treinamento_cap_id" required="True"/>
+                            <field name="obs"/>
+                            <field name="info_complementares"/>
+                            <field name="data_treinamento" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
+                            <field name="duracao" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
+                            <field name="modalidade" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
+                            <field name="tipo" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
+                        </group>
+                        <separator string="Professores" attrs="{'invisible': [('info_complementares', '=', False)]}"/>
+                        <field name="professor_ids" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_treinamentos_capacitacoes_tree_view">
+            <field name="name">hr.treinamentos.capacitacoes.tree</field>
+            <field name="model">hr.treinamentos.capacitacoes</field>
+            <field name="arch" type="xml">
+                <tree string="Treinamentos e Capacitações" >
+                    <field name="contract_id"/>
+                    <field name="cod_treinamento_cap_id"/>
+                    <field name="obs"/>
+                    <field name="professor_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_treinamentos_capacitacoes">
+            <field name="name">Treinamentos e Capacitações</field>
+            <field name="res_model">hr.treinamentos.capacitacoes</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_treinamentos_capacitacoes">
+            <field name="name">Treinamentos e Capacitações</field>
+            <field name="parent_id" ref="sped_esocial.menu_hr_root_treinamento_capacitacao" />
+            <field name="action" ref="sped_esocial.action_hr_treinamentos_capacitacoes" />
+            <field name="sequence" eval="1" />
+        </record>
+
+    </data>
+</openerp>
