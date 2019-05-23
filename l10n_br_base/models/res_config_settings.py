@@ -13,4 +13,4 @@ class ResConfigSettings(models.TransientModel):
         default=False)
 
     module_l10n_br_zip_correios = fields.Boolean(
-        string='Use brazilian postal service API')
+        string='Use Brazilian postal service API')
