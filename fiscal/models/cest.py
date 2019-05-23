@@ -11,8 +11,8 @@ from .constants.fiscal import CEST_SEGMENT
 
 class Cest(models.Model):
     _name = 'fiscal.cest'
-    _description = 'CEST'
     _inherit = 'fiscal.data.abstract'
+    _description = 'CEST'
 
     code = fields.Char(
         string='Code',
