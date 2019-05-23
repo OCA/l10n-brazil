@@ -24,14 +24,7 @@
                         <field name="type"/>
                     </group>
                     <group>
-                        <field name="stock_move"/>
-                        <field name="finance_move"/>
-                        <field name="account_move"/>
                         <field name="company_id"/>
-                    </group>
-                    <group string="Related Operations" name="relaterd_operation">
-                        <field name="line_inverse_id"/>
-                        <field name="line_refund_id"/>
                     </group>
                     <group string="Tax Framework" name="tax_framework">
                         <field name="partner_tax_framework"/>

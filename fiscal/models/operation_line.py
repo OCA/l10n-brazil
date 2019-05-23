@@ -12,6 +12,7 @@ from .constants.fiscal import (
 
 class OperationLine(models.Model):
     _name = 'fiscal.operation.line'
+    _description = 'Fiscal Operation Line'
     _inherit = ['mail.thread']
 
     operation_id = fields.Many2one(
@@ -38,18 +39,6 @@ class OperationLine(models.Model):
         string='Type',
         required=True)
 
-    stock_move = fields.Boolean(
-        string='Stock Moves?',
-        default=False)
-
-    finance_move = fields.Boolean(
-        string='Finance Moves?',
-        default=False)
-
-    account_move = fields.Boolean(
-        string='Account Move?',
-        default=True)
-
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company',
@@ -59,14 +48,13 @@ class OperationLine(models.Model):
     line_inverse_id = fields.Many2one(
         comodel_name='fiscal.operation.line',
         string='Operation Line Inverse',
-        domain="[('destination', '=', cfop_destination),"
-               "('type', '!=', type)]",
+        domain="[('cfop_destination', '=', cfop_destination),('type', '!=', type)]",
         copy=False)
 
     line_refund_id = fields.Many2one(
         comodel_name='fiscal.operation.line',
         string='Operation Line Refund',
-        domain="[('destination', '=', cfop_destination),"
+        domain="[('cfop_destination', '=', cfop_destination),"
                "('type', '!=', type)]",
         copy=False)
 
@@ -76,7 +64,6 @@ class OperationLine(models.Model):
 
     company_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        related='company_id.tax_framework',
         string='Copmpany Tax Framework')
 
     _sql_constraints = [
