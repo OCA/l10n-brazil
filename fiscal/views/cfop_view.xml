@@ -13,7 +13,8 @@
                 <field name="name"/>
                 <field name="small_name"/>
                 <group expand='0' string='Group By...'>
-                    <filter string='Type' name="type" domain="[]" context="{'group_by' : 'type'}"/>
+                    <filter string='Type In Out' name="type_in_out" domain="[]" context="{'group_by' : 'type_in_out'}"/>
+                    <filter string='Type Move' name="type_move" domain="[]" context="{'group_by' : 'type_move'}"/>
                 </group>
             </search>
         </field>
@@ -26,8 +27,9 @@
             <tree string="CFOP">
                 <field name="code"/>
                 <field name="name"/>
-                <field name="type"/>
+                <field name="type_in_out"/>
                 <field name="destination"/>
+                <field name="type_move"/>
             </tree>
         </field>
     </record>
@@ -42,8 +44,15 @@
                         <field name="code"/>
                         <field name="name"/>
                         <field name="small_name"/>
-                        <field name="type"/>
+                        <field name="type_in_out"/>
                         <field name="destination"/>
+                        <field name="cfop_inverse_id"/>
+                        <field name="cfop_return_id"/>
+                        <field name="type_move"/>
+                        <field name="stock_move"/>
+                        <field name="finance_move"/>
+                        <field name="account_move"/>
+                        <field name="assent_move"/>
                     </group>
                 </sheet>
             </form>
