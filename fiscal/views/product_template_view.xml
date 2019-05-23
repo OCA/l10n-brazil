@@ -24,7 +24,7 @@
                     <group>
                         <group>
                             <field name="fiscal_type" required="1"/>
-                            <field name="origin" attrs="{'required': [('fiscal_type', '=', 'product')]}"/>
+                            <field name="origin" attrs="{'required': [('fiscal_type', '=', 'product')], 'invisible': [('fiscal_type', '=', '09')]}"/>
                             <field name="ncm_id" required="1"/>
                         </group>
                         <group>

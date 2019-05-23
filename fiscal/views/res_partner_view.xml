@@ -6,7 +6,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form"/>
         <field name="arch" type="xml">
-            <group name="fiscal" position="inside">
+            <group name="fiscal_numbers" position="after">
                 <group string="Fiscal Profile" name="fiscal_profile">
                     <field name="fiscal_profile_id" widget="radio" required="1"/>
                     <field name="ind_ie_dest" attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"/>
