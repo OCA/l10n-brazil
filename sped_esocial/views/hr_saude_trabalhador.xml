@@ -8,8 +8,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-<!--                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>-->
-                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight"/>
+                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>
                         <field name="state" widget="statusbar" select="1" nolabel="1" readonly="1" />
                     </header>
                     <sheet>

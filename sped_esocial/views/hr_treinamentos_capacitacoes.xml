@@ -7,19 +7,27 @@
             <field name="model">hr.treinamentos.capacitacoes</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="button_enviar_esocial" string="Enviar para e-Social" type="object" class="oe_highlight" attrs="{'invisible': [('sped_intermediario_id', '!=', False)]}"/>
+                        <field name="state" widget="statusbar" select="1" nolabel="1" readonly="1" />
+                    </header>
                     <sheet>
                         <group>
                             <field name="contract_id" required="True"/>
                             <field name="cod_treinamento_cap_id" required="True"/>
                             <field name="obs"/>
-                            <field name="info_complementares"/>
-                            <field name="data_treinamento" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
-                            <field name="duracao" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
-                            <field name="modalidade" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
-                            <field name="tipo" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
+                            <field name="codigo_treinamento" invisible="True"/>
+                            <field name="data_treinamento" attrs="{'invisible': [('codigo_treinamento', 'in', ['1006', '1207'])], 'required': [('codigo_treinamento', 'not in', ['1006', '1207'])]}"/>
+                            <field name="duracao" attrs="{'invisible': [('codigo_treinamento', 'in', ['1006', '1207'])], 'required': [('codigo_treinamento', 'not in', ['1006', '1207'])]}"/>
+                            <field name="modalidade" attrs="{'invisible': [('codigo_treinamento', 'in', ['1006', '1207'])], 'required': [('codigo_treinamento', 'not in', ['1006', '1207'])]}"/>
+                            <field name="tipo" attrs="{'invisible': [('codigo_treinamento', 'in', ['1006', '1207'])], 'required': [('codigo_treinamento', 'not in', ['1006', '1207'])]}"/>
+                            <field name="treinamento_antes_admissao" attrs="{'invisible': [('codigo_treinamento', 'in', ['1006', '1207'])], 'required': [('codigo_treinamento', 'not in', ['1006', '1207'])]}"/>
                         </group>
-                        <separator string="Professores" attrs="{'invisible': [('info_complementares', '=', False)]}"/>
-                        <field name="professor_ids" attrs="{'invisible': [('info_complementares', '=', False)], 'required': [('info_complementares', '=', True)]}"/>
+                        <separator string="Professores" attrs="{'invisible': [('codigo_treinamento', 'in', ['1006', '1207'])]}"/>
+                        <field name="professor_ids" attrs="{'invisible': [('codigo_treinamento', 'in', ['1006', '1207'])], 'required': [('codigo_treinamento', 'not in', ['1006', '1207'])]}"/>
+                        <group>
+                            <field name="sped_intermediario_id"/>
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -34,6 +42,7 @@
                     <field name="cod_treinamento_cap_id"/>
                     <field name="obs"/>
                     <field name="professor_ids"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>

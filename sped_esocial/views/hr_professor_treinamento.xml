@@ -9,12 +9,13 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="cpf"/>
                             <field name="nome" required="True"/>
+                            <field name="nacionalidade" required="True"/>
+                            <field name="cpf" attrs="{'required': [('nacionalidade', '=', '1')]}"/>
                             <field name="tipo_vinculo" required="True"/>
                             <field name="formacao" required="True"/>
                             <field name="cod_CBO" required="True"/>
-                            <field name="nacionalidade" required="True"/>
+
                         </group>
                     </sheet>
                 </form>
