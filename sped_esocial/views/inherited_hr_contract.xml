@@ -172,6 +172,8 @@
                     <field name="saude_trabalhador_ids"/>
                     <separator string="Comunicação Acidente de Trabalho"/>
                     <field name="acidente_trabalho_ids"/>
+                    <separator string="Treinamentos, Capacitações, Exercícios Simulados e Outras Anotações"/>
+                    <field name="treinamento_capacitacao_ids"/>
                 </xpath>
 <!--                <field name="exame_ids" positon="attributes">-->
 <!--                    <attribute name="attrs">{'invisible': True}</attribute>-->
