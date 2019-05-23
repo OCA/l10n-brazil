@@ -192,7 +192,7 @@ class AccountMove(models.Model):
                                      'lancamento_de_fechamento', 'criado_por',
                                      'criado_data', 'editado_por',
                                      'editado_data', 'validado_por',
-                                     'validado_data']
+                                     'validado_data', 'narration']
 
                 # Alteração apenas dos campos permitidos
                 # Removo os campos permitidos do conjunto de campos a alterar
