@@ -33,6 +33,7 @@ GRUPO_2 = [
     'S-2230',   # Afastamento Temporário
     'S-2240',   # Condições Ambientais do Trabalho - Fatores de Risco
     'S-2241',   # Insalubridade, Periculosidade e Aposentadoria Especial
+    'S-2245',   # Treinamentos, Capacitações, Exercícios Simulados e Outras Anotações
     'S-2250',   # Aviso Prévio
     'S-2260',   # Convocação para Trabalho Intermitente
     'S-2298',   # Reintegração
