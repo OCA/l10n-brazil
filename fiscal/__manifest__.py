@@ -38,6 +38,7 @@
         'views/tax_ipi_guideline_view.xml',
         'views/ncm_view.xml',
         'views/nbs_view.xml',
+        'views/service_type_view.xml',
         'views/cest_view.xml',
         'views/product_genre_view.xml',
         'views/document_type_view.xml',
