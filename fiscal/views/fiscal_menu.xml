@@ -67,14 +67,17 @@
     # NBS
     <menuitem id="nbs_menu" action="nbs_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="10"/>
 
+    # Service Type
+    <menuitem id="service_type_menu" action="service_type_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="20"/>
+
     # NCM
-    <menuitem id="ncm_menu" action="ncm_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="20"/>
+    <menuitem id="ncm_menu" action="ncm_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="30"/>
 
     # CEST
-    <menuitem id="cest_menu" action="cest_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="30"/>
+    <menuitem id="cest_menu" action="cest_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="40"/>
 
     # Product Genre
-    <menuitem id="product_genre_menu" action="product_genre_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="40"/>
+    <menuitem id="product_genre_menu" action="product_genre_action" groups="fiscal.group_manager" parent="products_config_menu" sequence="50"/>
 
     # Taxes Settings
     <menuitem id="taxes_config_menu" name="Taxes" groups="fiscal.group_manager" parent="configuration_menu" sequence="30"/>
