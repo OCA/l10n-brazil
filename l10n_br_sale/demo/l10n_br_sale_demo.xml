@@ -1,39 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Account
-    <record id="sales_account" model="account.account">
-        <field name="code">X1020</field>
-        <field name="name">Product Sales - (test)</field>
-        <field name="user_type_id" ref="account.data_account_type_revenue"/>
-        <field name="reconcile">True</field>
-    </record> -->
-
-    <!-- Sales Journal
-    <record id="sales_journal" model="account.journal">
-        <field name="name">Sales Journal - (test)</field>
-        <field name="code">TSAJ</field>
+    <!-- account.journal -->
+    <record id="demo_sale_journal" model="account.journal">
+        <field name="name">Diário de Vendas-l10n_br_sale</field>
+        <field name="code">TSAJ-Teste</field>
         <field name="type">sale</field>
-        <field name="refund_sequence">True</field>
-        <field name="default_debit_account_id" ref="sales_account"/>
-        <field name="default_credit_account_id" ref="sales_account"/>
-        <field name="revenue_expense">True</field>
-    </record> -->
+        <field eval="1" name="revenue_expense"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
 
-    <!-- Fiscal Position - Venda SP
-    <record id="fiscal_position_venda_sp" model="account.fiscal.position">
-        <field name="name">Venda SP</field>
-        <field name="active">True</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+    <!-- Tax Tests -->
+    <record id="demo_sale_tax-out_ipi" model="account.tax">
+        <field name="description">IPI </field>
+        <field name="name">IPI Saída - l10n_br_sale</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include" eval="0"/>
+        <field name="tax_discount" eval="0"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_ipi"/>
+    </record>
+
+    <record id="demo_sale_tax-out_ipi2" model="account.tax">
+        <field name="description">IPI 2%</field>
+        <field name="name">IPI Saída 2% - l10n_br_sale</field>
+        <field name="amount">2</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include" eval="0"/>
+        <field name="tax_discount" eval="0" />
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_ipi"/>
+    </record>
+
+    <record id="demo_sale_tax-out_ipi5" model="account.tax">
+        <field name="description">IPI 5%</field>
+        <field name="name">IPI Saída 5% - l10n_br_sale</field>
+        <field name="amount">5</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include" eval="0"/>
+        <field name="tax_discount" eval="0"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_ipi"/>
+    </record>
+
+    <!-- Venda -->
+    <record id="demo_fiscal_category-venda" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="demo_sale_journal"/>
+        <field name="code">Venda-l10n_br_sale</field>
+        <field name="name">Venda</field>
+    </record>
+
+    <record id="l10n_br_sale-fiscal_position_internal_demo" model="account.fiscal.position">
+        <field name="name">Venda para Dentro do Estado</field>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
     </record>
 
     <record id="fiscal_position_tax_venda_sp" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fiscal_position_venda_sp"/>
-        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_out_ipi"/>
-        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_ipi2"/>
-    </record> -->
+        <field name="position_id" ref="l10n_br_sale-fiscal_position_internal_demo"/>
+        <field name="tax_src_id" ref="demo_sale_tax-out_ipi"/>
+        <field name="tax_dest_id" ref="demo_sale_tax-out_ipi2"/>
+    </record>
 
-    <!-- Account Fiscal Position Rule - Venda SP
+    <!-- Account Fiscal Position Rule - Venda SP -->
     <record id="fiscal_position_rule_venda_sp" model="account.fiscal.position.rule">
         <field name="name">Venda SP</field>
         <field name="company_id" ref="base.main_company"/>
@@ -43,29 +71,29 @@
         <field name="to_invoice_state" ref="base.state_br_sp"/>
         <field name="to_shipping_country" ref="base.br"/>
         <field name="to_shipping_state" ref="base.state_br_sp"/>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-        <field name="fiscal_position_id" ref="fiscal_position_venda_sp"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
+        <field name="fiscal_position_id" ref="l10n_br_sale-fiscal_position_internal_demo"/>
         <field name="use_sale">True</field>
-    </record> -->
-
-    <record id="fiscal_position_tax_venda_sp" model="account.fiscal.position.tax">
-        <field name="position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_out_ipi"/>
-        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_ipi2"/>
-    </record> -->
-
-
-    <!-- Fiscal Position - Venda SP ST -->
-    <record id="fiscal_position_venda_sp_st" model="account.fiscal.position">
-        <field name="name">Venda SP c/ ST</field>
-        <field name="active">True</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7"/>
     </record>
 
-    <record id="fiscal_position_tax_venda_sp_st" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fiscal_position_venda_sp_st"/>
-        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_out_ipi"/>
-        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_out_ipi5"/>
+    <!-- VendaST -->
+    <record id="demo_fiscal_category-venda_sp_st" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="demo_sale_journal"/>
+        <field name="code">VendaST-l10n_br_sale</field>
+        <field name="name">VendaST</field>
+    </record>
+
+    <!-- Fiscal Position - Venda SP ST -->
+    <record id="demo_fiscal_position-venda_sp_st" model="account.fiscal.position">
+        <field name="name">Venda SP c/ ST</field>
+        <field name="active">True</field>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda_sp_st"/>
+    </record>
+
+    <record id="demo_fiscal_position_tax-venda_sp_st" model="account.fiscal.position.tax">
+        <field name="position_id" ref="demo_fiscal_position-venda_sp_st"/>
+        <field name="tax_src_id" ref="demo_sale_tax-out_ipi"/>
+        <field name="tax_dest_id" ref="demo_sale_tax-out_ipi5"/>
     </record>
 
     <!-- Account Fiscal Position Rule - Venda SP ST -->
@@ -78,24 +106,24 @@
         <field name="to_invoice_state" ref="base.state_br_sp"/>
         <field name="to_shipping_country" ref="base.br"/>
         <field name="to_shipping_state" ref="base.state_br_sp"/>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7"/>
-        <field name="fiscal_position_id" ref="fiscal_position_venda_sp_st"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda_sp_st"/>
+        <field name="fiscal_position_id" ref="demo_fiscal_position-venda_sp_st"/>
         <field name="use_sale">True</field>
     </record>
 
     <!-- Empresa - Configura Categoria Fiscal de Vendas Padrão -->
     <record id="base.main_company" model="res.company">
-        <field name="sale_fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="sale_fiscal_category_id" ref="demo_fiscal_category-venda"/>
     </record>
 
     <!-- Produtos -->
     <record id="product.product_product_27" model="product.product">
-        <field name="taxes_id" eval="[(6,0,[ref('l10n_br_account_product.demo_tax_out_ipi')])]"/>
+        <field name="taxes_id" eval="[(6,0,[ref('demo_sale_tax-out_ipi')])]"/>
         <field name="invoice_policy">order</field>
     </record>
 
     <record id="product.product_product_12" model="product.product">
-        <field name="taxes_id" eval="[(6,0,[ref('l10n_br_account_product.demo_tax_out_ipi')])]"/>
+        <field name="taxes_id" eval="[(6,0,[ref('demo_sale_tax-out_ipi')])]"/>
         <field name="invoice_policy">order</field>
     </record>
 
@@ -109,7 +137,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="team_id" ref="sales_team.crm_team_1"/>
         <field name="state">draft</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
         <field name="note">TESTE</field>
     </record>
 
@@ -120,7 +148,7 @@
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="product.product_uom_unit"/>
         <field name="price_unit">3645.00</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
     </record>
 
     <record id="sale_order_line_teste_1-2" model="sale.order.line">
@@ -130,7 +158,7 @@
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="product.product_uom_unit"/>
         <field name="price_unit">12.50</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
     </record>
 
     <!-- Sale Order Teste - 2 -->
@@ -143,7 +171,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="team_id" ref="sales_team.crm_team_1"/>
         <field name="state">draft</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
         <field name="note">TESTE</field>
     </record>
 
@@ -154,7 +182,7 @@
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="product.product_uom_unit"/>
         <field name="price_unit">3645.00</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
     </record>
 
     <record id="sale_order_line_teste_2-2" model="sale.order.line">
@@ -164,7 +192,7 @@
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="product.product_uom_unit"/>
         <field name="price_unit">12.50</field>
-        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
     </record>
 
     <!-- Confirmar Ordem de Venda -->
