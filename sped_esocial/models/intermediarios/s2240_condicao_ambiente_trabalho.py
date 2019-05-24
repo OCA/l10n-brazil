@@ -133,7 +133,7 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
                 self.hr_condicao_ambiente_trabalho_id.contract_id.matricula
         if self.hr_condicao_ambiente_trabalho_id.contract_id.sped_s2300_id:
             S2240.evento.ideVinculo.codCateg.valor = \
-                self.hr_condicao_ambiente_trabalho_id.contract_id.sped.categoria_trabalhador
+                self.hr_condicao_ambiente_trabalho_id.contract_id.categoria
 
         S2240.evento.infoExpRisco.dtIniCondicao.valor = \
             self.hr_condicao_ambiente_trabalho_id.inicio_condicao
@@ -176,8 +176,12 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
                 fator_risco.insalubridade
             fatrisc.periculosidade.valor = \
                 fator_risco.periculosidade
-            fatrisc.aposentEsp.valor = \
-                fator_risco.aposentadoria_especial
+            if self.hr_condicao_ambiente_trabalho_id.contract_id.sped_s2200_id and self.hr_condicao_ambiente_trabalho_id.contract_id.tp_reg_prev == '1' and not self.hr_condicao_ambiente_trabalho_id.contract_id.categoria == '104':
+                fatrisc.aposentEsp.valor = \
+                    fator_risco.aposentadoria_especial
+            if self.hr_condicao_ambiente_trabalho_id.contract_id.sped_s2300_id and self.hr_condicao_ambiente_trabalho_id.contract_id.categoria in ['201', '202', '731', '734', '738']:
+                fatrisc.aposentEsp.valor = \
+                    fator_risco.aposentadoria_especial
 
             fatrisc.epcEpi.utilizEPC.valor = fator_risco.epc_id.utilizacao_epc
             if fator_risco.epc_id.eficiencia_epc:
