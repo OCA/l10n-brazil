@@ -16,11 +16,11 @@ class TestL10nBRSale(common.TransactionCase):
         self.fiscal_categ_venda = self.env[
             'l10n_br_account.fiscal.category'].browse(
             self.ref(
-                'l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12'))
+                'l10n_br_sale.demo_fiscal_category-venda'))
         self.fiscal_categ_venda_st = self.env[
             'l10n_br_account.fiscal.category'].browse(
             self.ref(
-                'l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7'))
+                'l10n_br_sale.demo_fiscal_category-venda_sp_st'))
 
     def test_l10n_br_sale_order(self):
         self.sale_order_1.onchange_partner_id()
@@ -53,8 +53,9 @@ class TestL10nBRSale(common.TransactionCase):
             )
             for tax in line.tax_id:
                 self.assertEquals(
-                    tax.name, u'IPI Saída 5% *',
-                    u"Error to mapping correct TAX ( IPI Saída 5% *)."
+                    tax.name, u'IPI Saída 5% - l10n_br_sale',
+                    u"Error to mapping correct TAX ( IPI Saída 5%"
+                    u" - l10n_br_sale)."
                 )
             # Change Fiscal Category
             line.fiscal_category_id = self.fiscal_categ_venda.id
@@ -72,8 +73,9 @@ class TestL10nBRSale(common.TransactionCase):
             for tax in line.tax_id:
                 if tax.tax_group_id.name == 'IPI':
                     self.assertEquals(
-                        tax.name, u'IPI Saída 2% *',
-                        u"Error to mapping correct TAX ( IPI Saída 2% )."
+                        tax.name, u'IPI Saída 2% - l10n_br_sale',
+                        u"Error to mapping correct TAX ("
+                        u" IPI Saída 2% - l10n_br_sale)."
                     )
         self.sale_order_1.action_confirm()
 
@@ -102,8 +104,9 @@ class TestL10nBRSale(common.TransactionCase):
                 for tax in line.invoice_line_tax_ids:
                     if tax.tax_group_id.name == 'IPI':
                         self.assertEquals(
-                            tax.name, u'IPI Saída 2% *',
-                            u"Error to mapping correct TAX ( IPI Saída 2% *)."
+                            tax.name, u'IPI Saída 2% - l10n_br_sale',
+                            u"Error to mapping correct TAX ("
+                            u" IPI Saída 2% - l10n_br_sale)."
                         )
 
     def test_l10n_br_sale_discount(self):
@@ -139,7 +142,7 @@ class TestL10nBRSale(common.TransactionCase):
         self.sale_discount.onchange_discount_rate()
         # Test Discount
         self.assertEquals(
-            self.sale_discount.amount_total, 91.8,
+            self.sale_discount.amount_total, 90.0,
             u"Error to apply discount on sale order."
         )
         self.sale_discount.action_confirm()
