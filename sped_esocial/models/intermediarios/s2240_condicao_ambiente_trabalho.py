@@ -133,7 +133,7 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
                 self.hr_condicao_ambiente_trabalho_id.contract_id.matricula
         if self.hr_condicao_ambiente_trabalho_id.contract_id.sped_s2300_id:
             S2240.evento.ideVinculo.codCateg.valor = \
-                self.hr_condicao_ambiente_trabalho_id.contract_id.sped.categoria_trabalhador
+                self.hr_condicao_ambiente_trabalho_id.contract_id.categoria
 
         S2240.evento.infoExpRisco.dtIniCondicao.valor = \
             self.hr_condicao_ambiente_trabalho_id.inicio_condicao
