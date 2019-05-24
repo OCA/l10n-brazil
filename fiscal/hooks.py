@@ -14,6 +14,7 @@ def post_init_hook(cr, registry):
         'data/fiscal.ncm.csv',
         'data/fiscal.cest.csv',
         'data/fiscal.nbs.csv',
+        'data/fiscal.service.type.csv',
         'data/simplified_tax_data.xml',
     ]
 
