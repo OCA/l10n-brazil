@@ -90,11 +90,11 @@ class AccountTax(models.Model):
             }]
         } """
 
-        if len(self) == 0:
-            company_id = self.env.user.company_id
-        else:
-            company_id = self[0].company_id
         if not currency:
+            if len(self) == 0:
+                company_id = self.env.user.company_id
+            else:
+                company_id = self[0].company_id
             currency = company_id.currency_id
 
         precision = currency.decimal_places or \
