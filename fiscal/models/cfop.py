@@ -14,7 +14,6 @@ from .constants.fiscal import (
 class Cfop(models.Model):
     _name = 'fiscal.cfop'
     _inherit = 'fiscal.data.abstract'
-    _order = 'code'
     _description = 'CFOP'
 
     code = fields.Char(

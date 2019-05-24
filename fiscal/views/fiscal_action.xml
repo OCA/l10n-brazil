@@ -127,6 +127,24 @@
         </field>
     </record>
 
+    # Service Type
+    <record id="service_type_action" model="ir.actions.act_window">
+        <field name="name">Service Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.service.type</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="service_type_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Service Type
+            </p><p>
+              A Service Type is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
     # CEST
     <record id="cest_action" model="ir.actions.act_window">
         <field name="name">CEST</field>
