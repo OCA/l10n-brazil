@@ -19,10 +19,6 @@ class SaleConfiguration(models.TransientModel):
 
     @api.multi
     def set_sale_defaults(self):
-        result = super(SaleConfiguration, self).set_sale_defaults()
-        wizard = self
-        ir_values = self.env['ir.values']
-        user = self.env['res.users'].browse(self._uid)
-        ir_values.set_default('sale.order', 'copy_note', wizard.copy_note,
-                              company_id=user.company_id.id)
-        return result
+        return self.env['ir.values'].sudo().set_default(
+            'sale.order', 'copy_note', self.copy_note,
+            company_id=self.env.user.company_id.id)
