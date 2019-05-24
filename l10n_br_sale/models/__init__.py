@@ -5,3 +5,4 @@
 from . import res_company
 from . import res_config
 from . import sale
+from . import sale_line
