@@ -5,6 +5,7 @@ from . import cfop
 from . import cst
 from . import cnae
 from . import nbs
+from . import service_type
 from . import ncm
 from . import cest
 from . import ncm_cest
