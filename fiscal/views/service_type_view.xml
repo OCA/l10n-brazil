@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="service_type_search" model="ir.ui.view">
+        <field name="name">fiscal.service.type.search</field>
+        <field name="model">fiscal.service.type</field>
+        <field name="arch" type="xml">
+            <search string="Service Type">
+                <field name="code"/>
+                <field name="name"/>
+                <group expand='0' string='Group By...'>
+                    <filter string='Parent' name="parent_id" domain="[]" context="{'group_by' : 'parent_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="service_type_tree" model="ir.ui.view">
+        <field name="name">fiscal.service.type.tree</field>
+        <field name="model">fiscal.service.type</field>
+        <field name="field_parent">children_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Service Type">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="parent_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="service_type_form" model="ir.ui.view">
+        <field name="name">fiscal.service.type.form</field>
+        <field name="model">fiscal.service.type</field>
+        <field name="arch" type="xml">
+            <form string="Service Type">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="internal_type"/>
+                        <field name="parent_id"/>
+                        <field name="child_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
