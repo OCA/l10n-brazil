@@ -1,1 +1,2 @@
-This module extends the standard Odoo sale module for Brazil. Especially it deals with the propagation of the fiscal operation and fiscal comment. This module can be used both with or without the "NFe" electronic invoicing so it does not provide the NFe support itself.
+This module was written to extend the functionality of Sale to support
+and allow you to in Brazil.
