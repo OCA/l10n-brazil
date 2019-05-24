@@ -51,7 +51,7 @@
                                attrs="{'invisible': [('is_company','!=', True)]}"/>
                     </div>
                     <field colspan="4" name="cnpj_cpf" nolabel="1"/>
-                    <div class="oe_edit_only">
+                    <div class="oe_edit_only" name="inscr_est">
                         <label for="inscr_est" name="inscr_est" string="State Tax Number"
                                attrs="{'invisible': [('is_company','!=', True)]}"/>
                         <label for="inscr_est" name="inscr_est_rg" string="RG"
