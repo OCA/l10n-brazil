@@ -22,7 +22,6 @@
         'report/sale_report_view.xml',
         'views/res_company_view.xml',
     ],
-    'test': [],
     'demo': [
         'demo/l10n_br_sale_demo.xml',
     ],
