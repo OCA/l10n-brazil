@@ -43,22 +43,10 @@ class AccountInvoiceLine(models.Model):
                 'in_refund', 'out_refund'] and -1 or 1
             record.price_subtotal_signed = price_subtotal_signed * sign
 
-    fiscal_category_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.category',
-        string='Categoria Fiscal'
-    )
-
-    fiscal_position_id = fields.Many2one(
-        comodel_name='account.fiscal.position',
-        string=u'Posição Fiscal',
-        domain="[('fiscal_category_id', '=', fiscal_category_id)]"
-    )
-
     amount_tax_discount = fields.Float(
         string='Amount Tax discount',
         store=True,
         digits=dp.get_precision('Account'),
         readonly=True,
         compute='_compute_price',
-        oldname='price_tax_discount'
-    )
+        oldname='price_tax_discount')
