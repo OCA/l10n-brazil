@@ -13,9 +13,13 @@
         'l10n_br_base',
         'account_cancel',
         'fiscal',
-        'account_fiscal_position_rule',
+        # 'account_fiscal_position_rule',
     ],
     'data': [
+        # Views
+        'views/account_tax_view.xml',
+        #'views/account_tax_template_view.xml',
+
         #'security/ir.model.access.csv',
         #'data/l10n_br_account_data.xml',
         #'views/account_view.xml',
@@ -25,7 +29,7 @@
         #'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        'demo/base_demo.xml'
+        # 'demo/base_demo.xml'
     ],
     'installable': True,
     'auto_install': False,
