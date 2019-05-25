@@ -4,7 +4,7 @@
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
-from .constants.fiscal import TAX_FRAMEWORK, TAX_FRAMEWORK_DEFAULT
+from ..constants.fiscal import TAX_FRAMEWORK, TAX_FRAMEWORK_DEFAULT
 
 
 class ResCompany(models.Model):
