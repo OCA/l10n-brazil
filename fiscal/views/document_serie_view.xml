@@ -8,8 +8,9 @@
             <tree string="Fiscal Document Serie">
                 <field name="name"/>
                 <field name="fiscal_document_id"/>
+                <field name="sequence_number_next"/>
                 <field name="company_id"/>
-                <field name="internal_sequence_id"/>
+                <field name="active" widget="boolean_toggle"/>
             </tree>
         </field>
     </record>
@@ -33,6 +34,7 @@
                         <field name="fiscal_document_id"/>
                         <field name="company_id"/>
                         <field name="internal_sequence_id"/>
+                        <field name="sequence_number_next"/>
                     </group>
                 </sheet>
             </form>
