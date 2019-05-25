@@ -8,8 +8,8 @@
         <field name="arch" type="xml">
             <group name="fiscal_numbers" position="after">
                 <group string="Fiscal Profile" name="fiscal_profile">
-                    <field name="fiscal_profile_id" widget="radio" required="1"/>
-                    <field name="ind_ie_dest" attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"/>
+                    <field name="fiscal_profile_id" force_save="1" widget="radio" required="1"/>
+                    <field name="ind_ie_dest" force_save="1" attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"/>
                     <field name="tax_framework" attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"/>
                     <field name="cnae_main_id"/>
                 </group>
@@ -20,9 +20,9 @@
             <field name="inscr_est" position="attributes">
                 <attribute name="attrs">{'invisible': [('ind_ie_dest','=', '9')]}</attribute>
             </field>
-            <label name="inscr_est" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_company','!=', True), ('ind_ie_dest','=', '9')]}</attribute>
-            </label>
+            <div name="inscr_est" position="attributes">
+                <attribute name="attrs">{'invisible': [('ind_ie_dest','=', '9')]}</attribute>
+            </div>
         </field>
     </record>
 
