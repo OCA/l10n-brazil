@@ -5,9 +5,9 @@ import time
 
 from odoo import models, fields, api
 
-from .constants.fiscal import TAX_DOMAIN
+from ..constants.fiscal import TAX_DOMAIN
 
-from .constants.icms import (
+from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_ST_BASE_TYPE,

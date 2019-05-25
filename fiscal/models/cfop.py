@@ -4,7 +4,7 @@
 from odoo import models, fields
 from odoo.osv import expression
 
-from .constants.fiscal import (
+from ..constants.fiscal import (
     FISCAL_IN_OUT,
     CFOP_DESTINATION,
     CFOP_TYPE_MOVE,

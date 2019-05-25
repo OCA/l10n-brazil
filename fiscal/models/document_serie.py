@@ -4,7 +4,7 @@
 
 from odoo import models, fields, api
 
-from .constants.fiscal import FISCAL_IN_OUT, FISCAL_IN_OUT_DEFAULT
+from ..constants.fiscal import FISCAL_IN_OUT, FISCAL_IN_OUT_DEFAULT
 
 
 class DocumentSerie(models.Model):
@@ -44,6 +44,9 @@ class DocumentSerie(models.Model):
         comodel_name='ir.sequence',
         domain="[('company_id', '=', company_id)]",
         string='Sequence')
+
+    sequence_number_next = fields.Integer(
+        related='internal_sequence_id.number_next')
 
     @api.model
     def _create_sequence(self, values):
