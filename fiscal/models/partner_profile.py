@@ -5,7 +5,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-from .constants.fiscal import (
+from ..constants.fiscal import (
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_DEFAULT,
     TAX_FRAMEWORK,

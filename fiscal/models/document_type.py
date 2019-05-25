@@ -5,7 +5,7 @@
 from odoo import models, fields, api
 from odoo.osv import expression
 
-from .constants.fiscal import DOCUMENT_TYPE
+from ..constants.fiscal import DOCUMENT_TYPE
 
 
 class DocumentType(models.Model):
