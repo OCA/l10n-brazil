@@ -3,7 +3,7 @@
 
 from odoo import models, fields
 
-from .constants.fiscal import (
+from ..constants.fiscal import (
     FISCAL_IN_OUT_ALL,
     TAX_FRAMEWORK,
     CFOP_DESTINATION

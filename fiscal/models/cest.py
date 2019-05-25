@@ -6,7 +6,7 @@ from odoo.osv import expression
 
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
-from .constants.fiscal import CEST_SEGMENT
+from ..constants.fiscal import CEST_SEGMENT
 
 
 class Cest(models.Model):
