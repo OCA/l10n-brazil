@@ -3,12 +3,12 @@
 
 from odoo import models, fields, api
 
-from .constants.fiscal import (
+from ..constants.fiscal import (
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_SERVICE,
     NCM_FOR_SERVICE_REF)
 
-from .constants.icms import ICMS_ORIGIN
+from ..constants.icms import ICMS_ORIGIN
 
 
 class ProductTemplate(models.Model):
@@ -38,6 +38,11 @@ class ProductTemplate(models.Model):
     fiscal_genre_id = fields.Many2one(
         comodel_name='fiscal.product.genre',
         string='Fiscal Genre')
+
+    service_type_id = fields.Many2one(
+        comodel_name='fiscal.service.type',
+        string='Service Type',
+        domain="[('internal_type', '=', 'normal')]")
 
     fiscal_genre_code = fields.Char(
         related='fiscal_genre_id.code',
