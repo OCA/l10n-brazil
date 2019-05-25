@@ -4,7 +4,7 @@
 from odoo import models, fields
 from odoo.osv import expression
 
-from .constants.fiscal import FISCAL_IN_OUT_ALL, TAX_DOMAIN
+from ..constants.fiscal import FISCAL_IN_OUT_ALL, TAX_DOMAIN
 
 class Cst(models.Model):
     _name = 'fiscal.cst'

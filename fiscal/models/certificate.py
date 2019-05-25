@@ -4,7 +4,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-from .constants.fiscal import (
+from ..constants.fiscal import (
     CERTIFICATE_TYPE,
     CERTIFICATE_TYPE_DEFAULT,
     CERTIFICATE_SUBTYPE,

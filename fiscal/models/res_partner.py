@@ -3,7 +3,7 @@
 
 from odoo import models, fields, api
 
-from .constants.fiscal import (
+from ..constants.fiscal import (
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_DEFAULT,
     NFE_IND_IE_DEST_3,
@@ -51,12 +51,6 @@ class ResPartner(models.Model):
     def _onchange_is_company(self):
         self.fiscal_profile_id = self._default_fiscal_profile_id(
             self.is_company)
-
-    @api.onchange('fiscal_profile_id')
-    def _onchange_fiscal_profile_id(self):
-        if self.fiscal_profile_id:
-            self.ind_ie_dest = self.fiscal_profile_id.ind_ie_dest
-            self.tax_framework = self.fiscal_profile_id.tax_framework
 
     @api.onchange('ind_ie_dest')
     def _onchange_ind_ie_dest(self):
