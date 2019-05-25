@@ -3,20 +3,6 @@
 
 from odoo import models, fields, api, _
 
-OPERATION_TYPE = {
-    'out_invoice': 'output',
-    'in_invoice': 'input',
-    'out_refund': 'input',
-    'in_refund': 'output'
-}
-
-JOURNAL_TYPE = {
-    'out_invoice': 'sale',
-    'in_invoice': 'purchase',
-    'out_refund': 'sale_refund',
-    'in_refund': 'purchase_refund'
-}
-
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -88,76 +74,6 @@ class AccountInvoice(models.Model):
             ('sefaz_cancelled', 'Cancelado no Sefaz'),
             ('sefaz_denied', 'Denegada no Sefaz')])
 
-    move_line_receivable_id = fields.Many2many(
-        comodel_name='account.move.line',
-        string=u'Receivables',
-        compute='_compute_receivables')
-
-    document_serie_id = fields.Many2one(
-        comodel_name='l10n_br_account.document.serie',
-        string=u'Série',
-        domain="[('fiscal_document_id', '=', fiscal_document_id),"
-               "('company_id', '=', company_id)]",
-        readonly=True,
-        states={'draft': [('readonly', False)]})
-
-    fiscal_document_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.document',
-        string=u'Documento',
-        readonly=True,
-        states={'draft': [('readonly', False)]})
-
-    fiscal_document_electronic = fields.Boolean(
-        related='fiscal_document_id.electronic',
-        store=True,
-        readonly=True,
-        string='Electronic')
-
-    fiscal_document_code = fields.Char(
-        related='fiscal_document_id.code',
-        store=True,
-        readonly=True,
-        string='Document Code')
-
-    fiscal_category_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.category',
-        string=u'Categoria Fiscal',
-        readonly=True,
-        states={'draft': [('readonly', False)]})
-
-    fiscal_position_id = fields.Many2one(
-        comodel_name='account.fiscal.position',
-        string=u'Fiscal Position',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        oldname='fiscal_position')
-
-    account_document_event_ids = fields.One2many(
-        comodel_name='l10n_br_account.document_event',
-        inverse_name='document_event_ids',
-        string=u'Eventos')
-
-    fiscal_comment = fields.Text(
-        string=u'Observação Fiscal')
-
-    cnpj_cpf = fields.Char(
-        string=u'CNPJ/CPF',
-        related='partner_id.cnpj_cpf')
-
-    legal_name = fields.Char(
-        string=u'Razão Social',
-        related='partner_id.legal_name')
-
-    ie = fields.Char(
-        string=u'Inscrição Estadual',
-        related='partner_id.inscr_est')
-
-    revenue_expense = fields.Boolean(
-        related='journal_id.revenue_expense',
-        readonly=True,
-        store=True,
-        string=u'Gera Financeiro')
-
     @api.multi
     def name_get(self):
         return [(r.id,
@@ -209,21 +125,3 @@ class AccountInvoice(models.Model):
             result[i]['price'] = l.price_subtotal - l.amount_tax_discount
             i += 1
         return result
-
-    @api.multi
-    def open_fiscal_document(self):
-        ctx = self.env.context.copy()
-        ctx.update({
-            'fiscal_document_code': self.fiscal_document_code,
-            'type': self.type
-        })
-        return {
-            'name': _('Documento Fiscal'),
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'account.invoice',
-            'context': ctx,
-            'type': 'ir.actions.act_window',
-            'nodestroy': True,
-            'res_id': self.id
-        }
