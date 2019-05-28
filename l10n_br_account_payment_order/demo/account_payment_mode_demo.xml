@@ -123,13 +123,6 @@
             <field name="company_id" ref="base.main_company"/>
         </record>
 
-        <!-- Account Payment Method -->
-        <record id="account_payment_method_cobranca_in" model="account.payment.method">
-            <field name="name">Cobranca</field>
-            <field name="code">cobranca</field>
-            <field name="payment_type">cobranca</field>
-        </record>
-
         <!-- Account Payment Mode -->
         <record id="payment_mode_boleto" model="account.payment.mode">
             <field name="name">Boleto Bancario</field>
@@ -137,8 +130,6 @@
             <field name="bank_account_link">variable</field>
             <field name="bank_id" ref="main_company_bank_bradesco"/>
             <field name="company_id" ref="base.main_company"/>
-            <!--<field name="payment_method_id"
-                   ref="account_payment_method_cobranca_in"/>-->
             <field name="payment_method_id"
                    ref="account.account_payment_method_manual_in"/>
         </record>
