@@ -128,67 +128,129 @@ nas células pois a estrutura do CSV entenderá como uma coluna a mais.
                 arq = base64.b64decode(record.plano_de_contas_file)
                 linhas = arq.splitlines(True)
 
-                # HEADER da planilha
+                # HEADER da planilha Validar HEADER
                 cabecalho = linhas[0]
-                if cabecalho.split(',')[0] in ['id', 'code', 'name']:
-                    qtd_max_colunas = len(cabecalho.split(','))
-                else:
-                    raise Warning(
-                        'Primeira linha deverá ser header com id,nome ou'
-                        ' code e em seguida informar as colunas')
+                # if cabecalho.split(',')[0] in ['code', 'name']:
+                #     qtd_max_colunas = len(cabecalho.split(','))
+                # else:
+                #     raise Warning(
+                #         'Primeira linha deverá ser header com code, name, parent')
 
                 # Pular primeira por ser cabeçalho
                 for linha in linhas[1:]:
 
-                    l = linha.split(',')
+                    l = linha.replace('\n', '').split(',')
 
                     # As linhas só serão processadas
                     if qtd_max_colunas and len(l) != qtd_max_colunas:
                         for linha_texto in l[2:]:
                             l[1] += ' ' + linha_texto.replace('"', '')
 
+                    # Validar Coluna 0 - code
+                    #
                     code = l[0]
-                    name = l[1]
+                    code = \
+                        code.replace('#', '').replace('@', '').replace('!', '')
+                    if not code:
+                        raise Warning(
+                            'ERRO Linha deverá conter code {}'.format(l))
 
+                    # Validar Coluna 1 - name
+                    #
+                    name = l[1]
+                    if not name:
+                        erro += ' Erro linha: {} \n'.format(l)
+                        continue
+
+                    # Validar Coluna 2 - parent
+                    #
                     try:
                         parent_code = l[2]
                     except IndexError:
                         raise ValueError(
                             'PAI inexistente ou nao preenchido. '
-                            'Conta: {} - {} '.format(code, name)
-                        )
+                            'Conta: {} - {} '.format(code, name))
 
-                    code = \
-                        code.replace('#', '').replace('@', '').replace('!', '')
+                    # Validar Coluna 3 - tipo_interno - type
+                    #
+                    tipo_interno = l[3].lower()
 
-                    if not name or not code:
-                        erro += ' Erro linha: {} \n'.format(l)
-                        continue
+                    if tipo_interno in ['visão', 'visao', 'view']:
+                        tipo_interno = 'view'
 
-                    # code = code.replace('.', '')
+                    elif tipo_interno in ['other', 'comum']:
+                        tipo_interno = 'other'
+
+                    else:
+                        raise Warning('Tipo Interno não localizado: {} \n'
+                                      'Linha: {} '
+                                      .format(tipo_interno, linha))
+
+                    # Validar Coluna 4 - natureza
+                    natureza = l[4].lower().strip()
+                    if natureza not in ['credora', 'devedora', 'd/c']:
+                        raise Warning(
+                            'Natureza da Conta deverá ser credora ou devedora')
+                    if natureza == 'devedora':
+                        natureza_id = self.env.ref(
+                            'l10n_br_contabilidade.'
+                            'l10n_br_account_natureza_devedora')
+                    elif natureza == 'credora':
+                        natureza_id = \
+                            self.env.ref('l10n_br_contabilidade.'
+                                         'l10n_br_account_natureza_credora')
+                    elif natureza == 'd/c':
+                        natureza_id = \
+                            self.env.ref('l10n_br_contabilidade.'
+                                         'l10n_br_account_natureza_credora')
+                    else:
+                        raise Warning('Natureza de Conta não localizada: {} \n'
+                                      'Linha: {} '
+                                      .format(tipo_conta, linha))
+
+                    # Validar Coluna 5 - tipo_conta - user_type
+                    tipo_conta = l[5].lower()
+                    if tipo_conta in ['ativo', 'passivo', 'despesa', 'receita', 'resultado']:
+                        if tipo_conta == 'ativo':
+                            tipo_conta = \
+                                self.env.ref('account.data_account_type_asset')
+                        elif tipo_conta == 'passivo':
+                            tipo_conta = \
+                                self.env.ref('l10n_br.passivo')
+                        elif tipo_conta == 'receita':
+                            tipo_conta = \
+                                self.env.ref('account.data_account_type_income')
+                        elif tipo_conta == 'despesa':
+                            tipo_conta = \
+                                self.env.ref('account.data_account_type_expense')
+                        elif natureza == 'resultado':
+                            pass
+                        else:
+                            raise Warning('Tipo de COnta não localizado: {} \n'
+                                          'Linha: {} '
+                                          .format(tipo_conta, linha))
 
                     xml_id = 'account_account_{}_{}'.format(
                         record.account_depara_plano_id.name.upper(),
                         code.replace('.', ''))
 
                     parent_ids[code] = {'xml_id': xml_id, 'id': False}
-                    parent_code = l[2]
 
                     if not parent_ids.get(parent_code):
                         raise Warning(
                             'Conta pai não localizada '
-                            'para a conta {} - {}'.format(code, name)
-                        )
+                            'para a conta {} - {}'.format(code, name))
 
                     vals = {
                         'code': code,
                         'name': name,
                         'parent_id': parent_ids[parent_code]['id'],
-                        'user_type':
-                            self.env.ref('account.data_account_type_view').id,
+                        'user_type': tipo_conta.id,
                         'account_depara_plano_id':
                             record.account_depara_plano_id.id,
-                        'type': 'view',
+                        'type': tipo_interno,
+                        'natureza_conta_id':
+                            natureza_id.id if natureza_id else False,
                     }
 
                     account_account_id = \
@@ -196,7 +258,7 @@ nas células pois a estrutura do CSV entenderá como uma coluna a mais.
 
                     parent_ids[code]['id'] = account_account_id.id
 
-                    _logger.info('COnta Criada: {} - {}'.format(code, name))
+                    _logger.info('Conta Criada: {} - {}'.format(code, name))
 
             _logger.info(erro)
 
