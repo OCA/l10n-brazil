@@ -207,22 +207,80 @@ nas células pois a estrutura do CSV entenderá como uma coluna a mais.
         """
         for record in self:
             if record.plano_de_contas_file:
-                plano_de_contas_decoded = record.plano_de_contas_file.decode('base64')
+                plano_de_contas_decoded = \
+                    record.plano_de_contas_file.decode('base64')
                 fileobj = TemporaryFile('wb+')
                 fileobj.write(plano_de_contas_decoded)
                 fileobj.seek(0)
                 df = pd.read_csv(fileobj)
+                erro = ''
 
-                df['result'] = df['Conta Superior'].apply(
+                # Validar
+                # l[2] - parent
+                df['result_parent'] = df['parent'].apply(
                     lambda x: x in df['code'].values)
 
-                df_erro = df[(df.result != True)]
-                if not df_erro.empty:
-                    df_erro['erro'] = \
-                        df_erro['code'].apply(str) + ' - ' + df_erro['name']
+                df_erro_parent = df[(df.result_parent != True)]
+                if not df_erro_parent.empty:
+                    df_erro_parent['erro'] = \
+                        df_erro_parent['code'].apply(str) + ' - ' + df_erro_parent['name']
 
-                    erro = '\n'.join(map(
+                    erro += '\n'.join(map(
                         lambda x:
-                        'Conta sem pai: {}'.format(x), df_erro['erro'].values))
+                        'Conta sem pai: {}'.format(x), df_erro_parent['erro'].values))
 
-                    raise Warning(erro)
+                # Validar
+                # l[3] - type []
+                valid_types = ['visão', 'visao', 'view', 'other', 'comum']
+                df['result_type'] = df['type'].apply(
+                    lambda x: x.lower() in valid_types)
+
+                df_erro_type = df[(df.result_type != True)]
+                if not df_erro_type.empty:
+                    df_erro_type['erro'] = \
+                        df_erro_type['type'].apply(str) + ' - ' + \
+                        df_erro_type['code'].apply(str) + ' ' + df_erro_type['name']
+
+                    erro += '\n'.join(map(
+                        lambda x:
+                        'Tipo inválido: {}'.format(x), df_erro_type['erro'].values))
+
+                # Validar
+                # l[4] - Natureza []
+                valid_types = ['credora', 'devedora', 'd', 'c', 'd/c']
+                df['result_natureza'] = df['natureza'].apply(
+                    lambda x: x.lower().replace('\n', '').strip() in valid_types)
+
+                df_erro_natureza = df[(df.result_natureza != True)]
+                if not df_erro_natureza.empty:
+                    df_erro_natureza['erro'] = \
+                        df_erro_natureza['natureza'].apply(str) + ' - ' + \
+                        df_erro_natureza['code'].apply(str) + ' ' + \
+                        df_erro_natureza['name']
+
+                    erro += '\n'.join(map(
+                        lambda x:
+                        'Natureza inválida: {} '.format(x), df_erro_natureza['erro'].values))
+
+
+                # Validar
+                # l[5] - User_type []
+                valid_types = ['ativo', 'passivo', 'receita', 'depesa', 'resultado']
+                df['result_default_type'] = df['user_type'].apply(
+                    lambda x: x.lower().replace('\n', '').strip() in valid_types)
+
+                df_erro_user_type = df[(df.result_natureza != True)]
+                if not df_erro_user_type.empty:
+                    df_erro_user_type['erro'] = \
+                        df_erro_user_type['user_type'].apply(str) + ' - ' + \
+                        df_erro_user_type['code'].apply(str) + ' ' + \
+                        df_erro_user_type['name']
+
+                    erro += '\n'.join(map(
+                        lambda x:
+                        'Tipo de Conta inválida: {} '.format(x), df_erro_user_type['erro'].values))
+
+
+                if not erro:
+                    'PARABENS! Tudo parece válido'
+                raise Warning(erro)
