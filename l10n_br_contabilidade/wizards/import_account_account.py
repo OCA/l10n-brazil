@@ -54,51 +54,51 @@ class WizardImportAccountAccount(models.TransientModel):
 .tg .tg-0lax{text-align:left;vertical-align:top}
 </style>
 <table class="tg" class="oe_center">
-  <tr>
-    <th class="tg-0pky">Código</th>
-    <th class="tg-0pky">Nome</th>
-    <th class="tg-0pky">Código da Conta Pai</th>
-    <th class="tg-0pky">Tipo Interno</th>
-    <th class="tg-0pky">Natureza</th>
-    <th class="tg-0pky">Tipo da conta</th>
-  </tr>
-  <tr>
-    <td class="tg-phtq">1</td>
-    <td class="tg-phtq">Ativo</td>
-    <td class="tg-phtq">0</td>
-    <td class="tg-phtq">sintetica</td>
-    <td class="tg-phtq">devedora</th>
-    <td class="tg-phtq">ativo</th>
-  </tr>
-  <tr>
-    <td class="tg-0pky">1.1</td>
-    <td class="tg-0pky">Ativo Circulante</td>
-    <td class="tg-0pky">1</td>
-    <td class="tg-0pky">sintetica</td>
-    <td class="tg-0pky">devedora</th>
-    <td class="tg-0pky">ativo</th>
-  </tr>
-  <tr>
-    <td class="tg-phtq">1.1.01</td>
-    <td class="tg-phtq">Disponibilidades</td>
-    <td class="tg-phtq">1.1</td>
-    <td class="tg-phtq">sintetica</td>
-    <td class="tg-phtq">devedora</th>
-    <td class="tg-phtq">ativo</th>
-  </tr>
-  <tr>
-    <td class="tg-0pky">1.1.01.0001</td>
-    <td class="tg-0pky">Caixa</td>
-    <td class="tg-0pky">1.1.01</td>
-    <td class="tg-0pky">analitica</td>
-    <td class="tg-0pky">devedora</th>
-    <td class="tg-0pky">ativo</th>
-  </tr>
+    <tr>
+        <th class="tg-0pky">code</th>
+        <th class="tg-0pky">name</th>
+        <th class="tg-0pky">parent</th>
+        <th class="tg-0pky">type (visão/comum)</th>
+        <th class="tg-0pky">natureza (devedora/credora)</th>
+        <th class="tg-0pky">user_type (ativo/passivo/receita/despesa)</th>
+    </tr>
+    <tr>
+        <td class="tg-phtq">1</td>
+        <td class="tg-phtq">Ativo</td>
+        <td class="tg-phtq">0</td>
+        <td class="tg-phtq">visão</td>
+        <td class="tg-phtq">devedora</th>
+        <td class="tg-phtq">ativo</th>
+    </tr>
+    <tr>
+        <td class="tg-0pky">1.1</td>
+        <td class="tg-0pky">Ativo Circulante</td>
+        <td class="tg-0pky">1</td>
+        <td class="tg-0pky">visão</td>
+        <td class="tg-0pky">devedora</th>
+        <td class="tg-0pky">ativo</th>
+    </tr>
+    <tr>
+        <td class="tg-phtq">1.1.01</td>
+        <td class="tg-phtq">Disponibilidades</td>
+        <td class="tg-phtq">1.1</td>
+        <td class="tg-phtq">visão</td>
+        <td class="tg-phtq">devedora</th>
+        <td class="tg-phtq">ativo</th>
+    </tr>
+    <tr>
+        <td class="tg-0pky">1.1.01.0001</td>
+        <td class="tg-0pky">Caixa</td>
+        <td class="tg-0pky">1.1.01</td>
+        <td class="tg-0pky">comum</td>
+        <td class="tg-0pky">devedora</th>
+        <td class="tg-0pky">ativo</th>
+    </tr>
 </table>
 <br />
 <br />PS1.: Tipo de Conta pode ser Ativo/Passivo/Patrimônio Líquido/Receita/Despesa/Apuração do Resultado
 <br />PS2.: A planilha não pode conter quebras manuais (\\n) e nem aspas (")
- nas células pois a estrutura do CSV entenderá como uma coluna a mais.
+nas células pois a estrutura do CSV entenderá como uma coluna a mais.
         
         """
 
