@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# © 2012 KMEE INFORMATICA LTDA
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 COBRANCA = '01'
 BOLETO_PAGAMENTO_ELETRONICO = '03'
