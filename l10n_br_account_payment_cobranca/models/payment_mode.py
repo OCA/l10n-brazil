@@ -15,7 +15,7 @@ selection = getBoletoSelection()
 
 
 class PaymentMode(models.Model):
-    _inherit = "payment.mode"
+    _inherit = "account.payment.mode"
 
     condicao_emissao_papeleta = fields.Selection(
         [('1', 'Banco emite e Processa'),
