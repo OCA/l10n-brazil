@@ -284,7 +284,6 @@ class BoletoCaixaSigcb(Boleto):
         Boleto.__init__(self, move_line, nosso_numero)
         self.boleto.nosso_numero = self.nosso_numero
 
-
 class BoletoSicredi(Boleto):
 
     def __init__(self, move_line, nosso_numero):
