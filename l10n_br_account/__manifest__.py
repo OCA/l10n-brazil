@@ -28,11 +28,15 @@
         'views/product_view.xml',
         'views/res_company_view.xml',
         'views/res_config_view.xml',
+        'views/l10n_br_account_move_template_line.xml',
+        'views/l10n_br_account_move_template.xml',
         'security/ir.model.access.csv',
         'security/l10n_br_account_security.xml',
         'report/account_invoice_report_view.xml',
     ],
     'demo': [
+        'demo/l10n_br_account_move_template_line.xml',
+        'demo/l10n_br_account_move_template.xml',
         'demo/base_demo.xml'
     ],
     'installable': True,

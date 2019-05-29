@@ -25,3 +25,5 @@ from . import product_template
 from . import l10n_br_account_product_category
 from . import account_fiscal_position_rule
 from . import account_move_line
+from . import l10n_br_account_move_template
+from . import l10n_br_account_move_template_line
