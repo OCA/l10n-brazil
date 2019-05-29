@@ -125,7 +125,7 @@ class PaymentOrderCreate(models.TransientModel):
         """
 
         self.ensure_one()
-        payment_lines = self.env['payment.line'].\
+        payment_lines = self.env['payment.line']. \
             search([('order_id.state', 'in', ('draft', 'open', 'done')),
                     ('move_line_id', 'in', lines.ids)])
         # Se foi exportada e o cnab_rejeitado dela for true, pode adicionar

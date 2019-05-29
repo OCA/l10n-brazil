@@ -31,6 +31,7 @@ from ..boleto.document import BoletoException
 
 _logger = logging.getLogger(__name__)
 
+
 # ESTADOS_CNAB = [
 #     ('draft', u'Inicial'),
 #     ('added', u'Adicionada à ordem de pagamento'),
@@ -79,7 +80,8 @@ class AccounMoveLine(models.Model):
                         else:
                             nosso_numero = self.env['ir.sequence'].next_by_id(
                                 move_line.payment_mode_id.
-                                internal_sequence_id.id)
+                                internal_sequence_id.id
+                            )
                     else:
                         nosso_numero = move_line.boleto_own_number
 
