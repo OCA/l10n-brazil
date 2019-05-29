@@ -6,7 +6,11 @@
 
 import logging
 
-from odoo import models, api
+from odoo import models, api, _
+from odoo.exceptions import UserError
+from ..constantes import (
+    SEQUENCIAL_EMPRESA, SEQUENCIAL_FATURA, SEQUENCIAL_CARTEIRA
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -15,15 +19,34 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.multi
+    def get_invoice_fiscal_number(self):
+        """ Como neste modulo nao temos o numero do documento fiscal,
+        vamos retornar o numero do core e deixar este metodo
+        para caso alguem queira sobrescrever"""
+
+        self.ensure_one()
+        return self.number
+
+    @api.multi
     def action_move_create(self):
-        value = super(AccountInvoice, self).action_move_create()
 
         for invoice in self:
-            sequence = self.env['ir.sequence'].next_by_id(
-                self.company_id.transaction_id_sequence.id)
-            invoice.transaction_id = sequence
+            if invoice.company_id.own_number_type == SEQUENCIAL_EMPRESA:
+                sequence = invoice.company_id.get_own_number_sequence()
+            elif invoice.company_id.own_number_type == SEQUENCIAL_FATURA:
+                sequence = invoice.get_invoice_fiscal_number()
+            elif invoice.company_id.own_number_type == SEQUENCIAL_CARTEIRA:
+                # TODO: Implementar uma sequencia na carteira de cobranca
+                raise NotImplementedError
+            else:
+                raise UserError(
+                    _(u"Favor acessar aba Cobrança da configuração da sua "
+                      u"empresa para determinar o tipo de sequencia utilizada"
+                      u" nas cobrancas")
+                )
 
-        return value
+            invoice.transaction_id = sequence
+        return super(AccountInvoice, self).action_move_create()
 
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
