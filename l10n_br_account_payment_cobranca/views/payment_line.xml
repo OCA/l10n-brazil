@@ -2,14 +2,17 @@
     <data>
         <record id="view_payment_order_form" model="ir.ui.view">
             <field name="name">payment.order.form</field>
-            <field name="inherit_id" ref="account_banking_payment_export.view_payment_order_form" />
+            <field name="inherit_id"
+                   ref="account_banking_payment_export.view_payment_order_form"/>
             <field name="model">payment.order</field>
             <field name="arch" type="xml">
                 <field name="line_ids" position="attributes">
                     <attribute name="context">{'order_id': active_id or False,
-                                               'default_mode': mode}</attribute>
+                        'default_mode': mode}
+                    </attribute>
                 </field>
-                <xpath expr="//field[@name='line_ids']/form/notebook" position="before">
+                <xpath expr="//field[@name='line_ids']/form/notebook"
+                       position="before">
                     <group name="cnab">
                         <field name="seu_numero"/>
                         <field name="codigo_finalidade_doc"/>

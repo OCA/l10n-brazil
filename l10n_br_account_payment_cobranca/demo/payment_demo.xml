@@ -86,7 +86,8 @@
             <field name="boleto_convenio">99999999</field>
             <field name="boleto_carteira">109</field>
             <field name="boleto_modalidade">DM</field>
-            <field name="internal_sequence_id" ref="sequence_boleto_own_number"/>
+            <field name="internal_sequence_id"
+                   ref="sequence_boleto_own_number"/>
             <!--<field name="boleto_variacao">19</field>-->
             <!--<field name="aceite">N</field>-->
         </record>

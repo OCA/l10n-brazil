@@ -203,10 +203,10 @@ class PagFor500(Cnab):
             'cedente_agencia': int(self.order.mode.bank_id.bra_number),
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_agencia_conta_dv':
-            self.order.mode.bank_id.bra_number_dig,
+                self.order.mode.bank_id.bra_number_dig,
             'nome_empresa_pagadora': self.order.company_id.legal_name,
             'cedente_codigo_agencia_digito':
-            self.order.mode.bank_id.bra_number_dig,
+                self.order.mode.bank_id.bra_number_dig,
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
             'reservado_empresa': u'BRADESCO PAG FOR',
@@ -276,7 +276,7 @@ class PagFor500(Cnab):
                 self.rmchar(line.partner_id.cnpj_cpf)[12:14]),
             'nome_forn': line.partner_id.legal_name,
             'endereco_forn': (
-                line.partner_id.street + ' ' + line.partner_id.number),
+                    line.partner_id.street + ' ' + line.partner_id.number),
             'cep_forn': int(prefixo),
             'cep_complemento_forn': int(sulfixo),
 
@@ -445,7 +445,6 @@ class PagFor500(Cnab):
         vals = {
             'conta_complementar': int(self.order.mode.bank_id.acc_number),
             'especie_titulo': line.order_id.mode.type_purchase_payment,
-
 
             # TODO: código do banco. Para a Modalidade de Pagamento valor
             # pode variar

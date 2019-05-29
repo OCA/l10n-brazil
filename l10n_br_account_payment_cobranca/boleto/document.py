@@ -30,7 +30,6 @@ try:
 except ImportError as err:
     _logger.debug = err
 
-
 try:
     from cStringIO import StringIO
 except ImportError:
@@ -283,6 +282,7 @@ class BoletoCaixaSigcb(Boleto):
         # end bank specific
         Boleto.__init__(self, move_line, nosso_numero)
         self.boleto.nosso_numero = self.nosso_numero
+
 
 class BoletoSicredi(Boleto):
 

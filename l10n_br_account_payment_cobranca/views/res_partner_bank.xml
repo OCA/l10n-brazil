@@ -6,12 +6,13 @@
         <record id="view_cnab_partner_bank_form" model="ir.ui.view">
             <field name="name">view_cnab_bank_acc_dig.partner.bank.form</field>
             <field name="model">res.partner.bank</field>
-            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_bank_form" />
+            <field name="inherit_id"
+                   ref="l10n_br_base.view_l10n_br_base_partner_bank_form"/>
             <field name="priority" eval="15"/>
             <field name="arch" type="xml">
                 <data>
                     <!--<field name="bank_name" position="attributes">-->
-                        <!--<attribute name="attrs">{'readonly': True}</attribute>-->
+                    <!--<attribute name="attrs">{'readonly': True}</attribute>-->
                     <!--</field>-->
 
                     <field name="bank_bic" position="attributes">
