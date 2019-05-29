@@ -20,7 +20,7 @@
                         </page>
                         <page string="Pagamento" attrs="{'invisible': [('payment_type', '=', 'inbound')]}">
                             <group>
-                                <field name="internal_sequence_id" required='True'/>
+                                <field name="internal_sequence_id"/>
                                 <field name="instrucoes"/>
                                 <field name="invoice_print"/>
                             </group>
