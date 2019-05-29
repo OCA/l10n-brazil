@@ -3,7 +3,7 @@
 
     <record id="payment_cnab_payment_order_sequence" model="ir.ui.view">
         <field name="name">payment.order.form.sequence</field>
-        <field name="model">payment.order</field>
+        <field name="model">account.payment.order</field>
         <field name="inherit_id"
                ref="account_banking_payment_export.view_payment_order_form"/>
         <field name="priority" eval="15"/>

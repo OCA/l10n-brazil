@@ -9,7 +9,7 @@ from ..constantes import COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, \
 
 
 class PaymentLine(models.Model):
-    _inherit = 'payment.line'
+    _inherit = 'account.payment.line'
 
     @api.model
     def default_get(self, fields_list):

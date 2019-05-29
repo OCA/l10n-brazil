@@ -1,10 +1,10 @@
 <odoo>
     <data>
         <record id="view_payment_order_form" model="ir.ui.view">
-            <field name="name">payment.order.form</field>
+            <field name="name">account.payment.order.form</field>
             <field name="inherit_id"
                    ref="account_banking_payment_export.view_payment_order_form"/>
-            <field name="model">payment.order</field>
+            <field name="model">account.payment.order</field>
             <field name="arch" type="xml">
                 <field name="line_ids" position="attributes">
                     <attribute name="context">{'order_id': active_id or False,
