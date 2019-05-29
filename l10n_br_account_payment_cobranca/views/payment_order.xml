@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
-        <record id="payment_cnab_payment_order_sequence" model="ir.ui.view">
-            <field name="name">payment.order.form.sequence</field>
-            <field name="model">payment.order</field>
-            <field name="inherit_id"
-                   ref="account_banking_payment_export.view_payment_order_form"/>
-            <field name="priority" eval="15"/>
-            <field name="arch" type="xml">
-                <field name="bank_line_count" position="after">
-                    <field name="tipo_servico"/>
-                    <field name="forma_lancamento"/>
-                    <field name="codigo_convenio"/>
-                    <field name="cnab_filename" invisible="1"/>
-                    <field name="cnab_file"
-                           attrs="{'invisible': [('cnab_file', '=', False)]}"
-                           filename="cnab_filename"/>
-                </field>
-
-                <field name="company_id" position="after">
-                    <field name="indicativo_forma_pagamento"/>
-                    <field name="codigo_instrucao_movimento"/>
-                    <field name="tipo_movimento"/>
-                </field>
-
+    <record id="payment_cnab_payment_order_sequence" model="ir.ui.view">
+        <field name="name">payment.order.form.sequence</field>
+        <field name="model">payment.order</field>
+        <field name="inherit_id"
+               ref="account_banking_payment_export.view_payment_order_form"/>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <field name="bank_line_count" position="after">
+                <field name="tipo_servico"/>
+                <field name="forma_lancamento"/>
+                <field name="codigo_convenio"/>
+                <field name="cnab_filename" invisible="1"/>
+                <field name="cnab_file"
+                       attrs="{'invisible': [('cnab_file', '=', False)]}"
+                       filename="cnab_filename"/>
             </field>
-        </record>
 
+            <field name="company_id" position="after">
+                <field name="indicativo_forma_pagamento"/>
+                <field name="codigo_instrucao_movimento"/>
+                <field name="tipo_movimento"/>
+            </field>
 
-    </data>
-</openerp>
+        </field>
+    </record>
+
+</odoo>

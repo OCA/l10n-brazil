@@ -1,28 +1,11 @@
 # -*- coding: utf-8 -*-
-# #############################################################################
-#
-#
-#    Copyright (C) 2012 KMEE (http://www.kmee.com.br)
-#    @author Fernando Marcato Rodrigues
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2012 KMEE INFORMATICA LTDA
+#   @author Fernando Marcato <fernando.marcato@kmee.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, fields, models
-from openerp.exceptions import ValidationError
-from openerp.addons import decimal_precision as dp
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from odoo.addons import decimal_precision as dp
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, AVISO_FAVORECIDO
 
