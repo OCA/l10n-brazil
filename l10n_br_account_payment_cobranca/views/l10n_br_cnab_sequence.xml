@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="l10n_br_cnab_sequence_form_view" model="ir.ui.view">
+            <field name="name">l10n_br_cnab_sequence.form.view</field>
+            <field name="model">l10n_br_cnab.sequence</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="internal_sequence_id"/>
+                            <field name="parent_payment_mode"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="l10n_br_cnab_sequence_tree_view" model="ir.ui.view">
+            <field name="name">l10n_br_cnab_sequence.tree.view</field>
+            <field name="model">l10n_br_cnab.sequence</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <act_window id="action_l10n_br_cnab_sequence_form"
+                    name="Sequencias CNAB"
+                    res_model="l10n_br_cnab.sequence"
+                    view_mode="tree,form"/>
+
+        <menuitem id="menu_cnab_sequence"
+                  name="Sequencias CNAB"
+                  parent="l10n_br_account.menu_l10n_br_account_configuration_fiscal"
+                  sequence="70"
+                  action="action_l10n_br_cnab_sequence_form"/>
+
+
+    </data>
+</openerp>
