@@ -3,7 +3,11 @@
 #   @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields
+from odoo import api, models, fields
+
+from ..constantes import (
+    SEQUENCIAL_EMPRESA, SEQUENCIAL_FATURA, SEQUENCIAL_CARTEIRA
+)
 
 
 class ResCompany(models.Model):
@@ -11,9 +15,9 @@ class ResCompany(models.Model):
 
     own_number_type = fields.Selection(
         selection=[
-            ('0', u'Sequêncial único por empresa'),
-            ('1', u'Numero sequêncial da Fatura'),
-            ('2', u'Sequêncial único por modo de pagamento'), ],
+            (SEQUENCIAL_EMPRESA, u'Sequêncial único por empresa'),
+            (SEQUENCIAL_FATURA, u'Numero sequêncial da Fatura'),
+            (SEQUENCIAL_CARTEIRA, u'Sequêncial único por carteira'), ],
         string=u'Tipo de nosso número',
         default='2'
     )
@@ -23,5 +27,7 @@ class ResCompany(models.Model):
         string=u'Sequência do Nosso Número'
     )
 
-    transaction_id_sequence = fields.Many2one('ir.sequence',
-                                              string=u'Sequência da fatura')
+    @api.multi
+    def get_own_number_sequence(self):
+        self.ensure_one()
+        return self.own_number_sequence.next_by_id()
