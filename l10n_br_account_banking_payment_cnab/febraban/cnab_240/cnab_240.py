@@ -37,7 +37,7 @@ from ..cnab import Cnab
 
 _logger = logging.getLogger(__name__)
 try:
-    from cnab240.tipos import Arquivo
+    from cnab240.tipos import Arquivo, Lote
 except ImportError as err:
     _logger.debug = err
 
@@ -76,7 +76,7 @@ class Cnab240(Cnab):
         else:
             return Cnab240
 
-    def inscricao_tipo(self, partner_id):
+    def get_inscricao_tipo(self, partner_id):
         # TODO: Implementar codigo para PIS/PASEP
         if partner_id.is_company:
             return 2
@@ -244,19 +244,12 @@ class Cnab240(Cnab):
         # Função para retornar a numeração sequencial do arquivo
         return 1
 
-    def sacado_inscricao_tipo(self, partner_id):
-        # TODO: Implementar codigo para PIS/PASEP
-        if partner_id.is_company:
-            return 2
-        else:
-            return 1
-
     def _prepare_cobranca(self, line):
         """
         :param line:
         :return:
         """
-        # prefixo, sulfixo = self.cep(line.partner_id.zip)
+        # prefixo, sufixo = self.cep(line.partner_id.zip)
 
         aceite = u'N'
         if not self.order.mode.boleto_aceite == 'S':
@@ -305,15 +298,15 @@ class Cnab240(Cnab):
             'juros_mora_taxa_dia': Decimal('0.00'),
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
-                self.sacado_inscricao_tipo(line.partner_id)),
+                self.get_inscricao_tipo(line.partner_id)),
             'sacado_inscricao_numero': int(
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
                 line.partner_id.street + ' ' + line.partner_id.number),
             'sacado_bairro': line.partner_id.district,
-            'sacado_cep': int(prefixo),
-            'sacado_cep_sufixo': int(sulfixo),
+            'sacado_cep': self.get_cep('prefixo', line.partner_id.zip),
+            'sacado_cep_sufixo': self.get_cep('sufixo', line.partner_id.zip),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
             'codigo_protesto': int(self.order.mode.boleto_protesto),
@@ -500,6 +493,17 @@ class Cnab240(Cnab):
         if order.payment_order_type == 'payment':
             incluir = self.arquivo.incluir_debito_pagamento
             prepare = self._prepare_pagamento
+
+            header = self.bank.registros.HeaderLotePagamento(
+                **self._prepare_header_lote())
+
+            trailer = self.bank.registros.TrailerLotePagamento()
+            trailer.somatoria_valores = Decimal('0.00')
+            trailer.somatoria_quantidade_moedas = Decimal('0.00000')
+
+            lote_pagamento = Lote(self.bank, header, trailer)
+            self.arquivo.adicionar_lote(lote_pagamento)
+
         else:
             incluir = self.arquivo.incluir_cobranca
             prepare = self._prepare_cobranca
@@ -508,11 +512,11 @@ class Cnab240(Cnab):
             # para cada linha da payment order adicoinar como um novo evento
             # self._adicionar_evento(line)
             # try:
-            incluir(**prepare(line))
+            incluir(tipo_lote=30, **prepare(line))
             # except:
             #     from openerp import exceptions
             #     raise exceptions.ValidationError("Erro")
-            self.arquivo.lotes[0].header.servico_servico = 1
+            # self.arquivo.lotes[0].header.servico_servico = 30
             # TODO: tratar soma de tipos de cobranca
             # cobrancasimples_valor_titulos += line.amount_currency
             # self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
@@ -520,8 +524,7 @@ class Cnab240(Cnab):
             #         Decimal('1.00'))
 
         remessa = unicode(self.arquivo)
-        return unicodedata.normalize(
-            'NFKD', remessa).encode('ascii', 'ignore')
+        return unicodedata.normalize('NFKD', remessa).encode('ascii', 'ignore')
 
     def get_cep(self, tipo, value):
         '''
@@ -535,10 +538,10 @@ class Cnab240(Cnab):
             else:
                 return ''
         value = punctuation_rm(value)
-        sulfixo = format[-3:]
-        prefixo = format[:5]
-        if tipo == 'sulfixo':
-            return sulfixo
+        sufixo = value[-3:]
+        prefixo = value[:5]
+        if tipo == 'sufixo':
+            return sufixo
         else:
             return prefixo
 
