@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_account_move_template_form_view">
+        <field name="name">l10n_br_account.move.template.form (in l10n_br_account)</field>
+        <field name="model">l10n_br_account.move.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="model_ids" widget="many2many_tags"/>
+                        <field name="parent_id" />
+                        <field name="child_ids" widget="many2many_tags"/>
+                        <field name="item_ids"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_account_move_template_search_view">
+        <field name="name">l10n_br_account.move.template.search (in l10n_br_account)</field>
+        <field name="model">l10n_br_account.move.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="model_ids"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_account_move_template_tree_view">
+        <field name="name">l10n_br_account.move.template.tree (in l10n_br_account)</field>
+        <field name="model">l10n_br_account.move.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="model_ids" widget="many2manytags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_account_move_template_act_window">
+        <field name="name">Modelo de partidas dobradas</field>
+        <field name="res_model">l10n_br_account.move.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_account_move_template_menu">
+        <field name="name">Modelo de partidas dobradas</field>
+        <field name="parent_id" ref="l10n_br_account.menu_l10n_br_account_configuration"/>
+        <field name="action" ref="l10n_br_account_move_template_act_window"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
+</odoo>
