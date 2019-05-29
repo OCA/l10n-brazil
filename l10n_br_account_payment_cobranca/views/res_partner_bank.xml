@@ -21,7 +21,7 @@
                     <attribute name="attrs">{'required': True}</attribute>
                 </field>
 
-                <field name="state" position="after">
+                <field name="acc_number" position="after">
                     <field name="tipo_de_conta"/>
                 </field>
 
