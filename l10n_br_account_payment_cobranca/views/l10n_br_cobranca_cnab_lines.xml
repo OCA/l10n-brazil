@@ -3,7 +3,7 @@
 
     <record id="view_cobranca_lines_tree" model="ir.ui.view">
         <field name="name">Linhas de Cobrança</field>
-        <field name="model">payment.line</field>
+        <field name="model">account.payment.line</field>
         <field name="field_parent">order_id</field>
         <field name="view_type">tree</field>
         <field name="priority" eval="20"/>
@@ -21,10 +21,10 @@
                 <field name="move_line_id"/>
                 <field name="partner_id"/>
                 <field name="ml_maturity_date"/>
-                <field name="amount" sum="Total"/>
-                <field name="ml_inv_ref"/>
+                <field name="amount_currency" sum="Total"/>
+                <field name="name"/>
                 <field name="communication"/>
-                <field name="bank_id"/>
+                <field name="partner_bank_id"/>
 
 
                 <!--<field name="create_date" invisible="1"/>-->
@@ -37,7 +37,7 @@
     <!-- distinguish between payment orders and debit orders in the menu -->
     <record id="view_cobranca_line_search" model="ir.ui.view">
         <field name="name">Linhas de Cobrança Select</field>
-        <field name="model">payment.line</field>
+        <field name="model">account.payment.line</field>
         <field name="priority" eval="20"/>
         <field name="arch" type="xml">
             <search string="Busque cobranças">
@@ -84,7 +84,7 @@
 
     <record id="action_cobranca_lines" model="ir.actions.act_window">
         <field name="name">Linhas de cobrança</field>
-        <field name="res_model">payment.line</field>
+        <field name="res_model">account.payment.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{}</field>
@@ -95,9 +95,13 @@
         <field name="help">Lista das linhas cnab 400.</field>
     </record>
 
-    <menuitem action="action_cobranca_lines" id="menu_action_cobranca_lines"
-              parent="account_payment.menu_main_payment" sequence="6"
-              groups="group_cnab_cobranca"/>
+
+<!--    <menuitem action="action_cobranca_lines" id="menu_action_cobranca_lines"-->
+<!--              parent="account_payment.menu_main_payment" sequence="6"-->
+<!--              groups="group_cnab_cobranca"/>-->
+
+
+
 
     <!--<record id="view_payment_order_form" model="ir.ui.view">-->
     <!--<field name="name">payment.order.form</field>-->
