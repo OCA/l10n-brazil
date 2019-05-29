@@ -18,9 +18,8 @@
                    'pyboleto'],
     },
     'depends': [
-        'l10n_br_account_payment_boleto',
-        'l10n_br_account_payment_mode',
-        'l10n_br_account_product',
+        'base_transaction_id',
+        'l10n_br_account_payment_order',
     ],
     'data': [
         'security/cnab_cobranca_security.xml',
