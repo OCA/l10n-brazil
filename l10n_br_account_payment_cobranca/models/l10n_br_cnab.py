@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# Copyright 2017 KMEE - Luiz Felipe do Divino Costa <luiz.divino@kmee.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# © 2012 KMEE INFORMATICA LTDA
+#   @author  Luiz Felipe do Divino Costa <luiz.divino@kmee.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import base64
 import codecs
@@ -8,7 +9,7 @@ import logging
 from datetime import datetime
 from ..constantes import CODIGO_OCORRENCIAS
 
-from openerp import api, models, fields, exceptions
+from odoo import api, models, fields, exceptions
 
 _logger = logging.getLogger(__name__)
 try:

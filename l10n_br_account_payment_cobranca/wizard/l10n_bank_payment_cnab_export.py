@@ -1,31 +1,15 @@
-# coding: utf-8
-# ###########################################################################
-#
-#    Author: Luis Felipe Mileo
-#            Fernando Marcato Rodrigues
-#            Daniel Sadamo Hirayama
-#    Copyright 2015 KMEE - www.kmee.com.br
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2012 KMEE INFORMATICA LTDA
+#   @author Luis Felipe Mileo <mileo@kmee.com.br>
+#   @author Daniel Sadamo <daniel.sadamo@kmee.com.br>
+#   @author Fernando Marcato <fernando.marcato@kmee.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import base64
 import time
 
-from openerp import models, api, workflow, fields, _
-from openerp.exceptions import Warning as UserError
+from odoo import models, api, workflow, fields, _
+from odoo.exceptions import Warning as UserError
 from ..febraban.cnab import Cnab
 
 import logging
@@ -70,7 +54,7 @@ class L10nPaymentCnab(models.TransientModel):
             try:
                 remessa = cnab.remessa(order)
             except Cnab240Error as e:
-                from openerp import exceptions
+                from odoo import exceptions
                 raise exceptions.ValidationError(
                     "Campo preenchido incorretamente \n\n{0}".format(e))
 

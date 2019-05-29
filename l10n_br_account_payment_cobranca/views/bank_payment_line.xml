@@ -1,37 +1,35 @@
-<openerp>
-    <data>
+<odoo>
 
-        <record id="bank_payment_line_form" model="ir.ui.view">
-            <field name="name">bank.payment.line.form</field>
-            <field name="model">bank.payment.line</field>
-            <field name="inherit_id"
-                   ref="account_banking_payment_export.bank_payment_line_form"/>
-            <field name="arch" type="xml">
-                <group name="main" position="after">
-                    <group>
-                        <field name="codigo_finalidade_doc"/>
-                        <field name="codigo_finalidade_ted"/>
-                        <field name="codigo_finalidade_complementar"/>
-                        <field name="abatimento"/>
-                        <field name="desconto"/>
-                        <field name="mora"/>
-                        <field name="multa"/>
-                        <field name="aviso_ao_favorecido"/>
-                    </group>
-                    <xpath expr="//group[@string='Related Payment Lines'"
-                           position="after">
-                        <group string="Histórico de Eventos CNAB Relacionados"
-                               name="evento-lines">
-                            <field name="evento_id" nolabel="1"/>
-                        </group>
-                    </xpath>
+    <record id="bank_payment_line_form" model="ir.ui.view">
+        <field name="name">bank.payment.line.form</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id"
+               ref="account_banking_payment_export.bank_payment_line_form"/>
+        <field name="arch" type="xml">
+            <group name="main" position="after">
+                <group>
+                    <field name="codigo_finalidade_doc"/>
+                    <field name="codigo_finalidade_ted"/>
+                    <field name="codigo_finalidade_complementar"/>
+                    <field name="abatimento"/>
+                    <field name="desconto"/>
+                    <field name="mora"/>
+                    <field name="multa"/>
+                    <field name="aviso_ao_favorecido"/>
                 </group>
-            </field>
-        </record>
+                <xpath expr="//group[@string='Related Payment Lines'"
+                       position="after">
+                    <group string="Histórico de Eventos CNAB Relacionados"
+                           name="evento-lines">
+                        <field name="evento_id" nolabel="1"/>
+                    </group>
+                </xpath>
+            </group>
+        </field>
+    </record>
 
-        <menuitem id="menu_banking_payment_line"
-                  name="Linhas Bancárias de Pagamento"
-                  action="account_banking_payment_export.bank_payment_line_action"
-                  parent="account_payment.menu_main_payment" sequence="7"/>
-    </data>
-</openerp>
+    <menuitem id="menu_banking_payment_line"
+              name="Linhas Bancárias de Pagamento"
+              action="account_banking_payment_export.bank_payment_line_action"
+              parent="account_payment.menu_main_payment" sequence="7"/>
+</odoo>
