@@ -25,6 +25,8 @@
         'views/fiscal_operation_line_view.xml',
         'views/account_invoice_view.xml',
         'views/account_invoice_line_view.xml',
+        'views/l10n_br_account_move_template_line.xml',
+        'views/l10n_br_account_move_template.xml',
 
         # Wizards
         'wizards/account_invoice_refund_view.xml',
@@ -32,6 +34,8 @@
     "demo": [
         "demo/account_journal_demo.xml",
         "demo/fiscal_operation_demo.xml"
+        'demo/l10n_br_account_move_template_line.xml',
+        'demo/l10n_br_account_move_template.xml',
     ],
     "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
