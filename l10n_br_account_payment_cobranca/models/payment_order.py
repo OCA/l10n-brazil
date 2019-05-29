@@ -13,7 +13,7 @@ from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
 
 
 class PaymentOrder(models.Model):
-    _inherit = b'payment.order'
+    _inherit = b'account.payment.order'
 
     file_number = fields.Integer(
         string=u'Número sequencial do arquivo',
