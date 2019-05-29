@@ -25,6 +25,18 @@
                         <field name="codigo_finalidade_complementar"/>
                         <field name="aviso_ao_favorecido"/>
                     </group>
+                    <group string="Boleto">
+                        <field name="boleto_type"/>
+                        <field name="boleto_convenio"/>
+                        <field name="boleto_carteira"/>
+                        <field name="boleto_modalidade"/>
+                        <field name="boleto_variacao"/>
+                        <field name="boleto_cnab_code"/>
+                        <field name="boleto_aceite"/>
+                        <field name="boleto_especie"/>
+                        <field name="boleto_protesto"/>
+                        <field name="boleto_protesto_prazo"/>
+                    </group>
                 </group>
             </field>
         </record>

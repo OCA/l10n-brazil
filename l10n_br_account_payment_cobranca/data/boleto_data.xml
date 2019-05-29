@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="sequence_boleto_own_number" model="ir.sequence">
+            <field name="name">Nosso número</field>
+            <field eval="5" name="padding"/>
+        </record>
+        <record id="sequence_transaction_id_invoice" model="ir.sequence">
+            <field name="name">Sequêncial Único da Fatura</field>
+            <field eval="5" name="padding"/>
+        </record>
+        <record id="base.main_company" model="res.company">
+            <field name="own_number_sequence" ref="sequence_boleto_own_number"/>
+            <field name="transaction_id_sequence"
+                   ref="sequence_transaction_id_invoice"/>
+        </record>
+    </data>
+</openerp>
