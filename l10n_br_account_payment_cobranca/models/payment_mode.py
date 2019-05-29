@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 from openerp.addons import decimal_precision as dp
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \

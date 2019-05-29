@@ -4,7 +4,8 @@
 
         <record id="group_cnab_cobranca" model="res.groups">
             <field name="name">CNAB Cobranca</field>
-            <field name="category_id" ref="base.module_category_accounting_and_finance"/>
+            <field name="category_id"
+                   ref="base.module_category_accounting_and_finance"/>
         </record>
 
     </data>

@@ -3,13 +3,14 @@
     <data noupdate="1">
 
         <!-- payment.mode.type -->
-         <!-- CNAB 240 -->
+        <!-- CNAB 240 -->
         <record id="payment_mode_type_cnab240" model="payment.mode.type">
             <field name="code">240</field>
             <field name="name">Cnab240</field>
             <field name="active">True</field>
             <field name="payment_order_type">payment</field>
-            <field name="ir_model_id" ref="l10n_br_account_payment_cobranca.model_payment_cnab"/>
+            <field name="ir_model_id"
+                   ref="l10n_br_account_payment_cobranca.model_payment_cnab"/>
             <field name="suitable_bank_types"
                    eval="[(6,0,[ref('l10n_br_base.fund')])]"/>
             <!--<field name="company_id" ref="base.main_company"/>-->

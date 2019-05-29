@@ -355,17 +355,17 @@ class Cnab400(Cnab):
         distrito = self.check_address_item_filled(partner_item.district)
 
         str_endereco = (
-            street +
-            ' ' +
-            number +
-            ' ' +
-            complemento +
-            ' ' +
-            distrito
-            # + ' ' +
-            # partner_item.l10n_br_city_id.name +
-            # '  ' + partner_item.state_id.name
-        )
+                street +
+                ' ' +
+                number +
+                ' ' +
+                complemento +
+                ' ' +
+                distrito
+                # + ' ' +
+                # partner_item.l10n_br_city_id.name +
+                # '  ' + partner_item.state_id.name
+            )
         return str_endereco
 
     def check_address_item_filled(self, item):

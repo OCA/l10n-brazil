@@ -7,12 +7,13 @@
             <field name="arch" type="xml">
                 <form string="Remessa de CNAB" version="7.0">
                     <field invisible="1" name="state"/>
-                    <field name="name" invisible="1" />
+                    <field name="name" invisible="1"/>
                     <group>
                         <group states="init">
                         </group>
                         <group states="done">
-                            <field name="cnab_file" colspan="4" filename="name"/>
+                            <field name="cnab_file" colspan="4"
+                                   filename="name"/>
                         </group>
                     </group>
                     <footer states="init">
