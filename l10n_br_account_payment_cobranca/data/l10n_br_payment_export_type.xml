@@ -9,7 +9,7 @@
             <field name="name">Cnab240</field>
             <field name="active">True</field>
             <field name="payment_order_type">payment</field>
-            <field name="ir_model_id" ref="l10n_br_account_banking_payment_cnab.model_payment_cnab"/>
+            <field name="ir_model_id" ref="l10n_br_account_payment_cobranca.model_payment_cnab"/>
             <field name="suitable_bank_types"
                    eval="[(6,0,[ref('l10n_br_base.fund')])]"/>
             <!--<field name="company_id" ref="base.main_company"/>-->
@@ -21,7 +21,7 @@
             <field name="name">Cnab400</field>
             <field name="active">True</field>
             <field name="ir_model_id"
-                   ref="l10n_br_account_banking_payment_cnab.model_payment_cnab"/>
+                   ref="l10n_br_account_payment_cobranca.model_payment_cnab"/>
             <field name="suitable_bank_types"
                    eval="[(6,0,[ref('l10n_br_base.fund')])]"/>
             <!--<field name="company_id" ref="base.main_company"/>-->
@@ -34,7 +34,7 @@
             <field name="active">True</field>
             <field name="payment_order_type">payment</field>
             <field name="ir_model_id"
-                   ref="l10n_br_account_banking_payment_cnab.model_payment_cnab"/>
+                   ref="l10n_br_account_payment_cobranca.model_payment_cnab"/>
             <field name="suitable_bank_types"
                    eval="[(6,0,[ref('l10n_br_base.fund')])]"/>
             <!--<field name="company_id" ref="base.main_company"/>-->
