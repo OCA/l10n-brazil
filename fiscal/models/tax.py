@@ -34,8 +34,13 @@ class Tax(models.Model):
         default='0.00',
         required=True)
 
+    fiscal_tax_group_id = fields.Many2one(
+        comodel_name='fiscal.tax.group',
+        string='Fiscal Tax Group')
+
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
+        related='fiscal_tax_group_id.tax_domain',
         string='Tax Domain',
         required=True)
 

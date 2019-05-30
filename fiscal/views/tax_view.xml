@@ -10,7 +10,7 @@
                 <field name="tax_domain"/>
                 <separator/>
                 <group expand='0' string='Group By...'>
-                    <filter string='Domain' name="tax_domain" domain="[]" context="{'group_by' : 'tax_domain'}"/>
+                    <filter string='Tax Group' name="fiscal_tax_group_id" domain="[]" context="{'group_by' : 'fiscal_tax_group_id'}"/>
                 </group>
             </search>
         </field>
@@ -24,7 +24,7 @@
                 <field name="name"/>
                 <field name="percent_amount"/>
                 <field name="percent_reduction"/>
-                <field name="tax_domain"/>
+                <field name="fiscal_tax_group_id"/>
                 <field name="cst_in_id"/>
                 <field name="cst_out_id"/>
             </tree>
@@ -41,6 +41,7 @@
                         <field name="name"/>
                         <field name="percent_amount"/>
                         <field name="percent_reduction"/>
+                        <field name="fiscal_tax_group_id"/>
                         <field name="tax_domain"/>
                         <field name="cst_in_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'ipi', 'pis', 'cofins'])]}"/>
                         <field name="cst_out_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'ipi', 'pis', 'cofins'])]}"/>
