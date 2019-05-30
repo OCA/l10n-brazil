@@ -88,14 +88,16 @@ class PaymentMode(models.Model):
         ('17', u'CONTA DE PRESTAÇÃO DE SERVIÇOS'),
         ('99', u'DIVERSOS'),
     ], string=u'Espécie do Título', default='01')
-    boleto_protesto = fields.Selection([
-        ('0', u'Sem instrução'),
-        ('1', u'Protestar (Dias Corridos)'),
-        ('2', u'Protestar (Dias Úteis)'),
-        ('3', u'Não protestar'),
-        ('7', u'Negativar (Dias Corridos)'),
-        ('8', u'Não Negativar')
-    ], string=u'Códigos de Protesto', default='0')
+    boleto_protesto = fields.Char(
+        # [ Deixado manualmente, pois cada banco parece ter sua tabela.
+        # ('0', u'Sem instrução'),
+        # ('1', u'Protestar (Dias Corridos)'),
+        # ('2', u'Protestar (Dias Úteis)'),
+        # ('3', u'Não protestar'),
+        # ('7', u'Negativar (Dias Corridos)'),
+        # ('8', u'Não Negativar')
+    # ]
+        string=u'Códigos de Protesto', default='0')
     boleto_protesto_prazo = fields.Char(u'Prazo protesto', size=2)
 
     @api.constrains('boleto_type', 'boleto_carteira',
