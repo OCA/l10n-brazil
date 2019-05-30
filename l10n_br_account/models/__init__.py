@@ -1,4 +1,5 @@
 
+from . import account_tax_group
 from . import account_tax_abstract
 from . import account_tax_template
 from . import account_tax
