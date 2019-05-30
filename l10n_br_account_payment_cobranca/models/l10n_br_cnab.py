@@ -182,9 +182,16 @@ class L10nBrHrCnab(models.Model):
                 self.env['l10n.br.cnab.evento'].create(vals_evento)
                 if evento.ocorrencias and bank_payment_line_id:
                     if '00' in ocorrencias:
-                        bank_payment_line_id.write({'state2': 'paid'})
+                        bank_state = 'paid'
+                        cnab_state = 'accepted'
+
                     else:
-                        bank_payment_line_id.write({'state2': 'exception'})
+                        bank_state = 'exception'
+                        cnab_state = 'not_accepted'
+
+                    bank_payment_line_id.state2 = bank_state
+                    for payment_line in bank_payment_line_id.payment_line_ids:
+                        payment_line.move_line_id.state_cnab = cnab_state
 
         return self.write({'state': 'done'})
 

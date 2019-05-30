@@ -139,7 +139,7 @@ class PaymentOrderCreate(models.TransientModel):
         if paylines:
             move_lines_ids = [
                 payline.move_line_id.id for payline in paylines
-                if not payline.move_line_id.is_cnab_rejected
+                if payline.move_line_id.state_cnab == 'not_accepted'
             ]
             domain += [('id', 'not in', move_lines_ids)]
 

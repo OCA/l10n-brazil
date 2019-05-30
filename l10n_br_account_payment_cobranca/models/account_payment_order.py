@@ -72,6 +72,14 @@ class PaymentOrder(models.Model):
     )
 
     @api.multi
+    def open2generated(self):
+        action = super(PaymentOrder, self).open2generated()
+        if self.state == 'generated':
+            for payment_line in self.payment_line_ids:
+                payment_line.move_line_id.state_cnab = 'exported'
+        return action
+
+    @api.multi
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
