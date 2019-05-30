@@ -24,6 +24,7 @@
         # Data
         'data/fiscal_data.xml',
         'data/uom_data.xml',
+        'data/fiscal.tax.group.csv',
         'data/fiscal.document.type.csv',
         'data/fiscal.product.genre.csv',
         'data/partner_profile_data.xml',
@@ -34,6 +35,7 @@
         'views/cnae_view.xml',
         'views/cfop_view.xml',
         'views/cst_view.xml',
+        'views/tax_group_view.xml',
         'views/tax_view.xml',
         'views/tax_ipi_guideline_view.xml',
         'views/ncm_view.xml',
