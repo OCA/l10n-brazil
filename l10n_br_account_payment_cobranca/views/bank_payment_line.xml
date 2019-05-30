@@ -4,7 +4,7 @@
         <field name="name">bank.payment.line.form</field>
         <field name="model">bank.payment.line</field>
         <field name="inherit_id"
-               ref="account_banking_payment_export.bank_payment_line_form"/>
+               ref="account_payment_order.bank_payment_line_form"/>
         <field name="arch" type="xml">
             <group name="main" position="after">
                 <group>
@@ -17,7 +17,7 @@
                     <field name="multa"/>
                     <field name="aviso_ao_favorecido"/>
                 </group>
-                <xpath expr="//group[@string='Related Payment Lines'"
+                <xpath expr="//group[@name='payment-lines'"
                        position="after">
                     <group string="Histórico de Eventos CNAB Relacionados"
                            name="evento-lines">
@@ -28,8 +28,4 @@
         </field>
     </record>
 
-    <menuitem id="menu_banking_payment_line"
-              name="Linhas Bancárias de Pagamento"
-              action="account_banking_payment_export.bank_payment_line_action"
-              parent="account_payment.menu_main_payment" sequence="7"/>
 </odoo>

@@ -13,8 +13,8 @@ class BankPaymentLine(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super(BankPaymentLine, self).default_get(fields_list)
-        mode = self.env['payment.order'].browse(
-            self.env.context.get('order_id')).mode
+        mode = self.env['account.payment.order'].browse(
+            self.env.context.get('order_id')).payment_mode_id
         if mode.codigo_finalidade_doc:
             res.update({
                 'codigo_finalidade_doc': mode.codigo_finalidade_doc})
@@ -104,7 +104,7 @@ class BankPaymentLine(models.Model):
 
         # TODO: Implementar campo brasileiros que permitem mesclar linhas
 
-        # same_fields = [
+        same_fields = []  # Por segurança não vamos mesclar nada
         #     'currency', 'partner_id',
         #     'bank_id', 'date', 'state']
 

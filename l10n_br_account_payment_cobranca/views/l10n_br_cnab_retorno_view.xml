@@ -202,15 +202,15 @@
     </record>
 
     <record id="action_cnab_retorno" model="ir.actions.act_window">
-        <field name="name">CNAB Retorno</field>
+        <field name="name">Importar Retorno Bancário CNAB</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n.br.cnab</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_cnab_retorno" parent="menu_main_cnab"
-              name="CNAB Retorno" sequence="1"
+    <menuitem id="menu_cnab_retorno" parent="account_payment_order.payment_root"
+              name="Importar Retorno" sequence="1"
               action="action_cnab_retorno"/>
 
 </odoo>

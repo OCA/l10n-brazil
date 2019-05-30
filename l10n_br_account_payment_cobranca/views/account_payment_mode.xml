@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cnab_view_payment_mode_form_inherit_l10n_br_payment"
+            model="ir.ui.view">
+        <field name="name">cnab.payment.mode.l10n_br_payment.form.inherit
+        </field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id"
+               ref="l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment"/>
+        <field name="priority" eval="40"/>
+        <field name="arch" type="xml">
+            <group name="l10n_br_account_payment_order-geral" position="inside">
+                <field name="condicao_emissao_papeleta"/>
+                <field name="cnab_percent_interest"/>
+                <field name="comunicacao_2"/>
+            </group>
+            <notebook name="l10n_br_account_payment_order" position="inside">
+                <page string="Cobranca">
+                    <group>
+                        <field name="boleto_type"/>
+                        <field name="boleto_convenio"/>
+                        <field name="boleto_carteira"/>
+                        <field name="boleto_modalidade"/>
+                        <field name="boleto_variacao"/>
+                        <field name="boleto_cnab_code"/>
+                        <field name="boleto_aceite"/>
+                        <field name="boleto_especie"/>
+                        <field name="boleto_protesto"/>
+                        <field name="boleto_protesto_prazo"/>
+                    </group>
+                </page>
+                <page string="Pagamento">
+                    <group>
+                        <field name="tipo_servico"/>
+                        <field name="forma_lancamento"/>
+                        <field name="codigo_convenio"/>
+                        <field name="codigo_finalidade_doc"/>
+                        <field name="codigo_finalidade_ted"/>
+                        <field name="codigo_finalidade_complementar"/>
+                        <field name="aviso_ao_favorecido"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
