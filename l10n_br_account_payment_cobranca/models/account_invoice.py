@@ -32,38 +32,44 @@ class AccountInvoice(models.Model):
         result = super(AccountInvoice, self).action_move_create()
 
         for inv in self:
-            # Verificar se é boleto para criar o numero
-            if inv.company_id.own_number_type == SEQUENCIAL_EMPRESA:
-                sequence = inv.company_id.get_own_number_sequence()
-            elif inv.company_id.own_number_type == SEQUENCIAL_FATURA:
-                sequence = inv.get_invoice_fiscal_number()
-            elif inv.company_id.own_number_type == SEQUENCIAL_CARTEIRA:
-                # TODO: Implementar uma sequencia na carteira de cobranca
-                raise NotImplementedError
-            else:
-                raise UserError(
-                    _(u"Favor acessar aba Cobrança da configuração da sua "
-                      u"empresa para determinar o tipo de sequencia utilizada"
-                      u" nas cobrancas")
-                )
-            inv.transaction_id = sequence
+
+            # inv.transaction_id = sequence
             for index, interval in enumerate(inv.move_line_receivable_id):
-                nosso_numero = (
-                    inv.transaction_id + '/' + str(index+1)
+                numero_documento = (
+                        inv.get_invoice_fiscal_number() +
+                        '/' +
+                        str(index + 1).zfill(2)
                 )
-                interval.transaction_ref = nosso_numero
-                interval.nosso_numero = nosso_numero
-                interval.numero_documento = inv.get_invoice_fiscal_number()
+
+                # Verificar se é boleto para criar o numero
+                if inv.company_id.own_number_type == SEQUENCIAL_EMPRESA:
+                    sequence = inv.company_id.get_own_number_sequence()
+                elif inv.company_id.own_number_type == SEQUENCIAL_FATURA:
+                    sequence = numero_documento.replace('/', '')
+                elif inv.company_id.own_number_type == SEQUENCIAL_CARTEIRA:
+                    # TODO: Implementar uma sequencia na carteira de cobranca
+                    raise NotImplementedError
+                else:
+                    raise UserError(_(
+                        u"Favor acessar aba Cobrança da configuração da"
+                        u" sua empresa para determinar o tipo de "
+                        u"sequencia utilizada nas cobrancas"
+                    ))
+
+                interval.transaction_ref = sequence
+                interval.nosso_numero = sequence
+                interval.numero_documento = numero_documento
+                interval.identificacao_titulo_empresa = hex(
+                    interval.id
+                ).upper()
 
         return result
-
 
     @api.multi
     def invoice_validate(self):
         result = super(AccountInvoice, self).invoice_validate()
         self.create_account_payment_line()
         return result
-
 
     # @api.multi
     # def finalize_invoice_move_lines(self, move_lines):
