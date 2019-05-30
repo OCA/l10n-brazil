@@ -95,6 +95,9 @@ class BankPaymentLine(models.Model):
     numero_documento = fields.Char(
         string=u'Número documento'
     )
+    identificacao_titulo_empresa = fields.Char(
+        string=u'Identificação Titulo Empresa',
+    )
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):

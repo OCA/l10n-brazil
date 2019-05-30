@@ -47,6 +47,9 @@ class AccounMoveLine(models.Model):
     numero_documento = fields.Char(
         string=u'Número documento'
     )
+    identificacao_titulo_empresa = fields.Char(
+        string=u'Identificação Titulo Empresa',
+    )
 
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
@@ -55,7 +58,8 @@ class AccounMoveLine(models.Model):
         )
         vals['nosso_numero'] = self.nosso_numero
         vals['numero_documento'] = self.numero_documento
-        vals['communication'] = self.id
+        vals['identificacao_titulo_empresa'] = \
+            self.identificacao_titulo_empresa
         return vals
 
     @api.multi

@@ -76,7 +76,8 @@ class PaymentOrder(models.Model):
         result = super(PaymentOrder, self)._prepare_bank_payment_line(paylines)
         result['nosso_numero'] = paylines.nosso_numero
         result['numero_documento'] = paylines.numero_documento
-        result['communication'] = paylines.move_line_id.id
+        result['identificacao_titulo_empresa'] = \
+            paylines.identificacao_titulo_empresa
         return result
 
     @api.multi

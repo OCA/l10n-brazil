@@ -7,12 +7,10 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <field name="blocked" position="after">
-                <group>
-                    <field name="state_cnab"/>
-                    <field name="nosso_numero"/>
-                    <field name="numero_documento"/>
-                </group>
-
+                <field name="state_cnab"/>
+                <field name="nosso_numero"/>
+                <field name="numero_documento"/>
+                <field name="identificacao_titulo_empresa"/>
             </field>
         </field>
     </record>
