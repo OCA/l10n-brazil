@@ -67,7 +67,9 @@ class AccounMoveLine(models.Model):
                 #     else:
                 #         nosso_numero = move_line.boleto_own_number
 
-            boleto = Boleto.getBoleto(move_line, move_line.id)
+            boleto = Boleto.getBoleto(
+                move_line, move_line.transaction_ref.replace('/','')
+            )
                 # if boleto:
                     # move_line.date_payment_created = date.today()
                     # move_line.transaction_ref = \
