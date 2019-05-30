@@ -41,8 +41,22 @@ class AccounMoveLine(models.Model):
     #                               related='name')
     date_payment_created = fields.Date(
         u'Data da criação do pagamento', readonly=True)
-    boleto_own_number = fields.Char(
-        u'Nosso Número', readonly=True)
+    nosso_numero = fields.Char(
+        string=u'Nosso Numero',
+    )
+    numero_documento = fields.Char(
+        string=u'Número documento'
+    )
+
+    @api.multi
+    def _prepare_payment_line_vals(self, payment_order):
+        vals = super(AccounMoveLine, self)._prepare_payment_line_vals(
+            payment_order
+        )
+        vals['nosso_numero'] = self.nosso_numero
+        vals['numero_documento'] = self.numero_documento
+        vals['communication'] = self.id
+        return vals
 
     @api.multi
     def create_payment_line_from_move_line(self, payment_order):

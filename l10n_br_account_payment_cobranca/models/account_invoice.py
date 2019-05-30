@@ -48,9 +48,12 @@ class AccountInvoice(models.Model):
                 )
             inv.transaction_id = sequence
             for index, interval in enumerate(inv.move_line_receivable_id):
-                interval.transaction_ref = (
+                nosso_numero = (
                     inv.transaction_id + '/' + str(index+1)
                 )
+                interval.transaction_ref = nosso_numero
+                interval.nosso_numero = nosso_numero
+                interval.numero_documento = inv.get_invoice_fiscal_number()
 
         return result
 
