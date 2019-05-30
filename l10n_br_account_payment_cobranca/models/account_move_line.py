@@ -6,34 +6,35 @@
 import logging
 from datetime import date
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 from ..boleto.document import Boleto
 from ..boleto.document import BoletoException
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
 
-# ESTADOS_CNAB = [
-#     ('draft', u'Inicial'),
-#     ('added', u'Adicionada à ordem de pagamento'),
-#     ('exported', u'Exportada'),
-#     ('accepted', u'Aceita'),
-#     ('not_accepted', u'Não aceita pelo banco'), # importar novamente
-# ]
+ESTADOS_CNAB = [
+    ('draft', u'Inicial'),                           # ok
+    ('added', u'Adicionada à ordem de pagamento'),   # ok
+    ('exported', u'Exportada'),                      # ok
+    ('accepted', u'Aceita'),
+    ('not_accepted', u'Não aceita pelo banco'), # importar novamente
+]
 
 
 class AccounMoveLine(models.Model):
     _inherit = "account.move.line"
-    #
-    # state_cnab = fields.Selection(
-    #     ESTADOS_CNAB, u'Estados CNAB', default='draft')
 
-    is_cnab_rejected = fields.Boolean(
-        u'Pode ser exportada novamente', default=False,
-        help='Marque esse campo para indicar um título que pode ser '
-             'exportado novamente pelo CNAB')
-    cnab_rejected_code = fields.Char(u'Rejeição')
+    state_cnab = fields.Selection(
+        ESTADOS_CNAB, u'Estados CNAB', default='draft')
+
+    # is_cnab_rejected = fields.Boolean(
+    #     u'Pode ser exportada novamente', default=False,
+    #     help='Marque esse campo para indicar um título que pode ser '
+    #          'exportado novamente pelo CNAB')
+    # cnab_rejected_code = fields.Char(u'Rejeição')
     # transaction_ref = fields.char('Transaction Ref.',
     #                               select=True,
     #                               store=True,
@@ -44,10 +45,36 @@ class AccounMoveLine(models.Model):
         u'Nosso Número', readonly=True)
 
     @api.multi
+    def create_payment_line_from_move_line(self, payment_order):
+        """
+        Altera estado do cnab para adicionado a ordem
+        :param payment_order:
+        :return:
+        """
+        self.state_cnab = 'added'
+        return super(AccounMoveLine, self).create_payment_line_from_move_line(
+            payment_order
+        )
+
+
+    @api.multi
     def generate_boleto(self):
         boleto_list = []
 
         for move_line in self:
+
+            if move_line.state_cnab != 'accepted':
+                if move_line.state_cnab == 'not_accepted':
+                    raise UserError(_(
+                        u'O arquivo CNAB relacionado a essa nota foi '
+                        u'transmitido com erro, é necessário corrigi-lo '
+                        u'e reenviá-lo'
+                    ))
+                raise UserError(_(
+                    u'É necessário transmitir e processar o retorno do CNAB'
+                    u' referente a essa nota para garantir que o '
+                    u'boleto está registrado no banco'
+                ))
             # try:
 
                 # if move_line.payment_mode_id.type_payment == '00':
