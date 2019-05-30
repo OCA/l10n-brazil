@@ -6,10 +6,19 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import models, fields
+from odoo import api, models, fields
 
+from ..febraban.cnab import Cnab
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     INDICATIVO_FORMA_PAGAMENTO, TIPO_MOVIMENTO, CODIGO_INSTRUCAO_MOVIMENTO
+
+import logging
+
+_logger = logging.getLogger(__name__)
+try:
+    from cnab240.errors import (Cnab240Error)
+except ImportError as err:
+    _logger.debug = err
 
 
 class PaymentOrder(models.Model):
@@ -74,3 +83,20 @@ class PaymentOrder(models.Model):
     # @api.multi
     # def write_added_state_to_move_line(self, mov_line):
     #     mov_line.state_cnab = 'added'
+
+    @api.multi
+    def generate_payment_file(self):
+        """Returns (payment file as string, filename)"""
+        self.ensure_one()
+        if self.payment_method_id.code in ('240', '400', '500'):
+            try:
+                cnab = Cnab.get_cnab(
+                    self.company_partner_bank_id.bank_id.code_bc,
+                    self.payment_mode_id.payment_method_id.code
+                )()
+                return (cnab.remessa(self), self.name + '.REM')
+            except Cnab240Error as e:
+                from odoo import exceptions
+                raise exceptions.ValidationError(
+                    "Campo preenchido incorretamente \n\n{0}".format(e))
+        return super(PaymentOrder, self).generate_payment_file()

@@ -106,7 +106,9 @@ class Cnab400(Cnab):
         :return:
         """
         return {
-            'controle_banco': int(self.order.mode.bank_id.bank_bic),
+            'controle_banco': int(
+                self.order.company_partner_bank_id.bank_id.code_bc
+            ),
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
@@ -115,21 +117,22 @@ class Cnab400(Cnab):
             'cedente_inscricao_numero': int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)),
             'cedente_agencia': int(
-                self.order.mode.bank_id.bra_number),
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_conta_dv': (self.order.mode.bank_id.acc_number_dig),
-            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
+                self.order.company_partner_bank_id.bra_number),
+            'cedente_conta': int(self.order.company_partner_bank_id.acc_number),
+            'cedente_conta_dv': (self.order.company_partner_bank_id.acc_number_dig),
+            'cedente_agencia_dv': self.order.company_partner_bank_id.bra_number_dig,
             'cedente_nome': self.order.company_id.legal_name,
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
-            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
-            'codigo_empresa': int(self.order.mode.boleto_convenio),
+            'nome_banco': unicode(self.order.company_partner_bank_id.bank_name),
+            'codigo_empresa': int(self.order.payment_mode_id.boleto_convenio),
         }
 
     def get_file_numeration(self):
-        numero = self.order.get_next_number()
-        if not numero:
-            numero = 1
+        # TODO: FIX ME
+        # numero = self.order.get_next_number()
+        # if not numero:
+        numero = 1
         return numero
 
     def format_date(self, srt_date):
@@ -166,22 +169,22 @@ class Cnab400(Cnab):
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
         aceite = u'N'
-        if not self.order.mode.boleto_aceite == 'S':
+        if not self.order.payment_mode_id.boleto_aceite == 'S':
             aceite = u'A'
 
         codigo_protesto = 0
         dias_protestar = 0
-        if self.order.mode.boleto_protesto == '3' \
-                or self.order.mode.boleto_protesto == '0':
+        if self.order.payment_mode_id.boleto_protesto == '3' \
+                or self.order.payment_mode_id.boleto_protesto == '0':
             codigo_protesto = 0
             dias_protestar = 0
-        elif self.order.mode.boleto_protesto == '1' \
-                or self.order.mode.boleto_protesto == '2':
+        elif self.order.payment_mode_id.boleto_protesto == '1' \
+                or self.order.payment_mode_id.boleto_protesto == '2':
             codigo_protesto = 6
-            if (int(self.order.mode.boleto_protesto_prazo)) < 5:
+            if (int(self.order.payment_mode_id.boleto_protesto_prazo)) < 5:
                 dias_protestar = 5
             else:
-                dias_protestar = int(self.order.mode.boleto_protesto_prazo)
+                dias_protestar = int(self.order.payment_mode_id.boleto_protesto_prazo)
 
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
 
@@ -209,37 +212,39 @@ class Cnab400(Cnab):
             'segunda_instrucao': dias_protestar,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
-            'sacador_avalista': self.order.mode.comunicacao_2,
+            'sacador_avalista': self.order.payment_mode_id.comunicacao_2,
             # 'sacador_avalista': u'Protestar após 5 dias',
             'num_seq_registro': self.controle_linha,
 
-            'controle_banco': int(self.order.mode.bank_id.bank_bic),
-            'cedente_agencia': int(self.order.mode.bank_id.bra_number),
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
-            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
+            'controle_banco': int(
+                self.order.company_partner_bank_id.bank_id.code_bc
+            ),
+            'cedente_agencia': int(self.order.company_partner_bank_id.bra_number),
+            'cedente_conta': int(self.order.company_partner_bank_id.acc_number),
+            'cedente_conta_dv': self.order.company_partner_bank_id.acc_number_dig,
+            'cedente_agencia_dv': self.order.company_partner_bank_id.bra_number_dig,
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
-            'identificacao_titulo_empresa': line.move_line_id.move_id.name,
+            'identificacao_titulo_empresa': line.name,  # FIXME
 
             'vencimento_titulo': self.format_date(
-                line.ml_maturity_date),
+                line.date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
                 Decimal('1.00')),
             # TODO: Código adotado para identificar o título de cobrança.
             # 8 é Nota de cŕedito comercial
-            'especie_titulo': int(self.order.mode.boleto_especie),
+            'especie_titulo': int(self.order.payment_mode_id.boleto_especie),
             'aceite_titulo': aceite,
             'data_emissao_titulo': self.format_date(
-                line.ml_date_created),
+                line.date), # FIXME
             # TODO: trazer taxa de juros do Odoo. Depende do valor do 27.3P
             # CEF/FEBRABAN e Itaú não tem.
             'juros_mora_data': self.format_date(
-                line.ml_maturity_date),
+                line.date),
 
             # 'juros_mora_taxa_dia': Decimal('0.20'),
             'juros_mora_taxa_dia': self.calcula_valor_juros_dia(
-                line.amount_currency, line.percent_interest),
+                line.amount_currency,  0), # line.percent_interest
 
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
@@ -261,8 +266,9 @@ class Cnab400(Cnab):
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
-            'cobranca_carteira': int(self.order.mode.boleto_carteira),
-
+            'cobranca_carteira': int(
+                self.order.payment_mode_id.boleto_carteira
+            ),
             'primeira_mensagem': u'',
             # Trazer da nova tela do payment_mode
             'identificacao_ocorrencia': 1,
@@ -282,7 +288,7 @@ class Cnab400(Cnab):
         """
         self.order = order
         self.arquivo = ArquivoCobranca400(self.bank, **self._prepare_header())
-        for line in order.line_ids:
+        for line in order.bank_line_ids:
             self.arquivo.incluir_cobranca(**self._prepare_cobranca(line))
             self.arquivo.trailer.num_seq_registro = self.controle_linha
 

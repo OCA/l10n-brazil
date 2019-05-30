@@ -50,8 +50,8 @@ class Bradesco400(Cnab400):
             vals['cedente_conta_dv']), "utf-8")
         vals['cedente_agencia_dv'] = unicode(str(
             vals['cedente_agencia_dv']), "utf-8")
-        vals['cedente_dv_ag_cc'] = unicode(str(
-            vals['cedente_dv_ag_cc']), "utf-8")
+        # vals['cedente_dv_ag_cc'] = unicode(str(
+        #     vals['cedente_dv_ag_cc']), "utf-8")
 
         vals['sacado_cc_dv'] = u'0'
         vals['identificacao_empresa_beneficiaria_banco'] = \
@@ -77,14 +77,14 @@ class Bradesco400(Cnab400):
         dig_conta = 7
 
         carteira = self.adiciona_digitos(
-            self.order.mode.boleto_carteira, dig_cart)
+            self.order.payment_mode_id.boleto_carteira, dig_cart)
         agencia = self.adiciona_digitos(
-            self.order.mode.bank_id.bra_number, dig_ag)
+            self.order.company_partner_bank_id.bra_number, dig_ag)
         conta = self.adiciona_digitos(
-            self.order.mode.bank_id.acc_number, dig_conta)
+            self.order.company_partner_bank_id.acc_number, dig_conta)
 
         ident = u'0' + (carteira) + (agencia) + (conta) + \
-                (self.order.mode.bank_id.acc_number_dig)
+                (self.order.company_partner_bank_id.acc_number_dig)
         return ident
 
     def adiciona_digitos(self, campo, num_digitos):

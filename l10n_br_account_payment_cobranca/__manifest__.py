@@ -22,7 +22,7 @@
         'l10n_br_account_payment_order',
     ],
     'data': [
-        # 'data/l10n_br_payment_export_type.xml',
+        'data/l10n_br_payment_export_type.xml',
         'data/boleto_data.xml',
 
         'security/cnab_cobranca_security.xml',
