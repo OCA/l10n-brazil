@@ -52,6 +52,6 @@ class HrAcidenteParteAtingida(models.Model):
     def _compute_name(self):
         for record in self:
             record.name = '{} - {} - {}'.format(
-                record.data_acidente, record.contract_id.name,
-                record.tipo_acidente.nome
+                record.contract_id.name, record.cod_parte_atingida.nome,
+                record.lateralidade
             )

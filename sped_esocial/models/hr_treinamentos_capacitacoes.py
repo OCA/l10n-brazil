@@ -99,9 +99,6 @@ class HrTreinamentosCapacitacoes(models.Model):
     tipo = fields.Selection(
         string=u'Tipo',
         selection=TIPO_TREI,
-        help=u'Nome Layout: tpTreiCap - Tamanho: Até 1 Caracteres - Tipo de '
-             u'treinamento/capacitação/exercício simulado, '
-             u'conforme opções abaixo',
     )
     treinamento_antes_admissao = fields.Selection(
         string=u'Treinamento antes da Admissão',
@@ -109,14 +106,6 @@ class HrTreinamentosCapacitacoes(models.Model):
         help=u'Nome Layout: indTreinAnt - Tamanho: Até 1 Caracteres - Indicar'
              u' se o treinamento ocorreu antes da admissão, '
              u'em outro empregador',
-    )
-    treinamento_antes_admissao = fields.Selection(
-        string=u'Treinamento antes da Admissão',
-        selection=SIM_NAO,
-    )
-    treinamento_antes_admissao = fields.Selection(
-        string=u'Treinamento antes da Admissão',
-        selection=SIM_NAO,
     )
     professor_ids = fields.Many2many(
         string=u'Professor Treinamento/Capitação',
