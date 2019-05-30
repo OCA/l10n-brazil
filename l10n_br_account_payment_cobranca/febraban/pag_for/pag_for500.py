@@ -184,13 +184,13 @@ class PagFor500(Cnab):
                 self.order.company_id.cnpj_cpf)[9:12]),
             'sufixo_cnpj': int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)[12:14]),
-            'cedente_agencia': int(self.order.mode.bank_id.bra_number),
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            'cedente_agencia': int(self.order.company_partner_bank_id.bra_number),
+            'cedente_conta': int(self.order.company_partner_bank_id.acc_number),
             'cedente_agencia_conta_dv':
-                self.order.mode.bank_id.bra_number_dig,
+                self.order.company_partner_bank_id.bra_number_dig,
             'nome_empresa_pagadora': self.order.company_id.legal_name,
             'cedente_codigo_agencia_digito':
-                self.order.mode.bank_id.bra_number_dig,
+                self.order.company_partner_bank_id.bra_number_dig,
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
             'reservado_empresa': u'BRADESCO PAG FOR',
@@ -247,7 +247,7 @@ class PagFor500(Cnab):
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
         segmento = {
-            'conta_complementar': int(self.order.mode.bank_id.acc_number),
+            'conta_complementar': int(self.order.company_partner_bank_id.acc_number),
             # 'especie_titulo': 8,
 
             'tipo_inscricao': int(
@@ -327,8 +327,8 @@ class PagFor500(Cnab):
             # FIXME: lib nao reconhece campo
             'sequencial_trailer': int(self.get_file_numeration()),
             'sequencial_transacao': self.controle_linha,
-            'codigo_protesto': int(self.order.mode.boleto_protesto),
-            'prazo_protesto': int(self.order.mode.boleto_protesto_prazo),
+            'codigo_protesto': int(self.order.payment_mode_id.boleto_protesto),
+            'prazo_protesto': int(self.order.payment_mode_id.boleto_protesto_prazo),
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
@@ -410,7 +410,7 @@ class PagFor500(Cnab):
             'numero_pagamento': self.adiciona_digitos_num_pag(
                 line.communication),
 
-            'carteira': int(self.order.mode.boleto_carteira),
+            'carteira': int(self.order.payment_mode_id.boleto_carteira),
 
             'nosso_numero': 0,
 
@@ -427,7 +427,7 @@ class PagFor500(Cnab):
         # modalidade 08.
 
         vals = {
-            'conta_complementar': int(self.order.mode.bank_id.acc_number),
+            'conta_complementar': int(self.order.company_partner_bank_id.acc_number),
             'especie_titulo': line.order_id.mode.type_purchase_payment,
 
             # TODO: código do banco. Para a Modalidade de Pagamento valor
@@ -453,7 +453,7 @@ class PagFor500(Cnab):
 
             'fator_vencimento': 0,  # FIXME
 
-            # 'modalidade_pagamento': int(self.order.mode.boleto_especie),
+            # 'modalidade_pagamento': int(self.order.payment_mode_id.boleto_especie),
 
             'tipo_movimento': 0,
             # TODO Tipo de Movimento.
@@ -487,7 +487,7 @@ class PagFor500(Cnab):
             self.ler_linha_digitavel_codigos_ag_cc(line.linha_digitavel)
 
         vals = {
-            'conta_complementar': int(self.order.mode.bank_id.acc_number),
+            'conta_complementar': int(self.order.company_partner_bank_id.acc_number),
             'especie_titulo': line.order_id.mode.type_purchase_payment,
 
             # extrair do código de barras

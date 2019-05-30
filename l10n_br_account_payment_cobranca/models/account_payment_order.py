@@ -71,19 +71,6 @@ class PaymentOrder(models.Model):
         default='0',
     )
 
-    # @api.multi
-    # def set_to_draft(self, *args):
-    #     super(PaymentOrder, self).set_to_draft(*args)
-    #
-    #     for order in self:
-    #         for line in order.line_ids:
-    #             self.write_added_state_to_move_line(line.move_line_id)
-    #     return True
-
-    # @api.multi
-    # def write_added_state_to_move_line(self, mov_line):
-    #     mov_line.state_cnab = 'added'
-
     @api.multi
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
