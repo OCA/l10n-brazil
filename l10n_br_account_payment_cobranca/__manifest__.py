@@ -27,18 +27,21 @@
 
         'security/cnab_cobranca_security.xml',
 
-        'views/l10n_br_payment_cnab.xml',
-        'views/payment_order.xml',
-        'views/l10n_br_cnab_sequence.xml',
-        #'views/l10n_br_cobranca_cnab.xml',
-        'views/l10n_br_cobranca_cnab_lines.xml',
-        'views/account_move_line.xml',
-        'views/res_partner_bank.xml',
-        'views/l10n_br_cnab_retorno_view.xml',
-        'views/payment_mode.xml',
         'views/res_company.xml',
-        # 'views/payment_line.xml',
-        # 'views/bank_payment_line.xml',
+        'views/account_payment_mode.xml',
+        'views/res_partner_bank.xml',
+        'views/account_payment_order.xml',
+        'views/account_payment_line.xml',
+        'views/bank_payment_line.xml',
+
+        'views/account_move_line.xml',
+        'views/l10n_br_cnab_retorno_view.xml',
+
+        # 'views/l10n_br_payment_cnab.xml',
+        # 'views/l10n_br_cnab_sequence.xml',
+        # 'views/l10n_br_cobranca_cnab.xml',
+        # 'views/l10n_br_cobranca_cnab_lines.xml',
+
         'security/ir.model.access.csv',
     ],
     'demo': [

@@ -14,8 +14,8 @@ class PaymentLine(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super(PaymentLine, self).default_get(fields_list)
-        mode = self.env['payment.order'].browse(
-            self.env.context.get('order_id')).mode
+        mode = self.env['account.payment.order'].browse(
+            self.env.context.get('order_id')).payment_mode_id
         if mode.codigo_finalidade_doc:
             res.update({
                 'codigo_finalidade_doc': mode.codigo_finalidade_doc})
