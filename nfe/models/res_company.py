@@ -3,7 +3,7 @@
 
 from odoo import models, fields, api
 
-from .constants.nfe import (
+from ..constants.nfe import (
     NFE_VERSIONS,
     NFE_VERSION,
     NFE_ENVIRONMENTS,
