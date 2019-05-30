@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <field name="blocked" position="after">
                 <group>
-                    <field name="is_cnab_rejected"/>
+                    <field name="state_cnab"/>
                 </group>
 
             </field>
