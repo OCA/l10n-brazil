@@ -6,7 +6,7 @@
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
-    'website': 'http://odoobrasil.org',
+    'website': 'http://github.com/OCA/l10n-brazil',
     'version': '12.0.1.0.0',
     'depends': [
         'l10n_br',
@@ -16,9 +16,13 @@
         # 'account_fiscal_position_rule',
     ],
     'data': [
+        # data
+        'data/l10n_br_account_tax_data.xml',
+        'data/l10n_br_account_tax_group_data.xml',
+
         # Views
         'views/account_tax_view.xml',
-        #'views/account_tax_template_view.xml',
+        'views/account_tax_template_view.xml',
 
         #'security/ir.model.access.csv',
         #'data/l10n_br_account_data.xml',
