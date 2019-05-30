@@ -38,7 +38,6 @@
         'views/l10n_br_cnab_retorno_view.xml',
 
         # 'views/l10n_br_payment_cnab.xml',
-        # 'views/l10n_br_cnab_sequence.xml',
         # 'views/l10n_br_cobranca_cnab.xml',
         # 'views/l10n_br_cobranca_cnab_lines.xml',
 
