@@ -73,7 +73,7 @@ class Boleto:
         self.boleto.especie = \
             move_line.currency_id and move_line.currency_id.symbol or 'R$'
         self.boleto.quantidade = ''  # str("%.2f" % move_line.amount_currency)
-        self.boleto.numero_documento = move_line.name.encode('utf-8')
+        self.boleto.numero_documento = move_line.numero_documento
 
     def _payment_mode(self, payment_mode_id):
         """
@@ -94,7 +94,7 @@ class Boleto:
         self.boleto.cedente_documento = company.cnpj_cpf.encode('utf-8')
         self.boleto.cedente_bairro = company.district
         self.boleto.cedente_cep = company.zip
-        self.boleto.cedente_cidade = company.city
+        self.boleto.cedente_cidade = company.l10n_br_city_id.name
         self.boleto.cedente_logradouro = company.street + ', ' + company.number
         self.boleto.cedente_uf = company.state_id.code
         self.boleto.agencia_cedente = self.getBranchNumber()
@@ -107,8 +107,8 @@ class Boleto:
         :return:
         """
         self.boleto.sacado_endereco = partner.street + ', ' + partner.number
-        self.boleto.sacado_cidade = partner.city
-        self.boleto.sacado_bairro = partner.district
+        self.boleto.sacado_cidade = partner.l10n_br_city_id.name
+        self.boleto.sacado_bairro = partner.district or ''
         self.boleto.sacado_uf = partner.state_id.code
         self.boleto.sacado_cep = partner.zip
         self.boleto.sacado_nome = partner.legal_name

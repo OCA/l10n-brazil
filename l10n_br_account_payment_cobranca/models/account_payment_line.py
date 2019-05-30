@@ -40,6 +40,9 @@ class PaymentLine(models.Model):
     numero_documento = fields.Char(
         string=u'Número documento'
     )
+    identificacao_titulo_empresa = fields.Char(
+        string=u'Identificação Titulo Empresa',
+    )
     codigo_finalidade_doc = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
         string=u'Complemento do Tipo de Serviço',

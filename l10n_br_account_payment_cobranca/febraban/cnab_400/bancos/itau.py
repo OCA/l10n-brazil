@@ -59,8 +59,8 @@ class Itau400(Cnab400):
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
 
         vals = {
-            'identificacao_titulo_empresa': line.name,
-            'nosso_numero': line.nosso_numero,
+            'identificacao_titulo_empresa': line.identificacao_titulo_empresa,
+            'nosso_numero': int(line.nosso_numero),
             'numero_documento': self.adiciona_digitos_num_doc(
                 line.numero_documento),
             'cedente_inscricao_tipo': self.inscricao_tipo,
