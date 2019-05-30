@@ -5,6 +5,8 @@
 "fiscal_cfop_manager","Fiscal CFOP for Manager","model_fiscal_cfop","fiscal.group_manager",1,1,1,1
 "fiscal_cst_user","Fiscal CST for User","model_fiscal_cst","fiscal.group_user",1,0,0,0
 "fiscal_cst_manager","Fiscal CST for Manager","model_fiscal_cst","fiscal.group_manager",1,1,1,1
+"fiscal_tax_group_user","Fiscal Tax Group for User","model_fiscal_tax_group","fiscal.group_user",1,0,0,0
+"fiscal_tax_group_manager","Fiscal Tax Group for Manager","model_fiscal_tax_group","fiscal.group_manager",1,1,1,1
 "fiscal_tax_user","Fiscal Tax for User","model_fiscal_tax","fiscal.group_user",1,0,0,0
 "fiscal_tax_manager","Fiscal Tax for Manager","model_fiscal_tax","fiscal.group_manager",1,1,1,1
 "fiscal_tax_estimate_user","Fiscal Tax Estimate for User","model_fiscal_tax_estimate","fiscal.group_user",1,0,0,0
