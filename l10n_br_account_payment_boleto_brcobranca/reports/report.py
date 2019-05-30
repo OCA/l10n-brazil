@@ -9,10 +9,10 @@ import requests
 import json
 import tempfile
 
-from openerp import pooler
-from openerp.report.interface import report_int
-from openerp.report.render import render
-from openerp.exceptions import Warning as UserError
+from odoo import pooler
+from odoo.report.interface import report_int
+from odoo.report.render import render
+from odoo.exceptions import Warning as UserError
 
 
 class ExternalPdf(render):
