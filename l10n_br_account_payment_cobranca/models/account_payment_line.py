@@ -34,10 +34,11 @@ class PaymentLine(models.Model):
             })
         return res
 
-    seu_numero = fields.Char(
-        string=u'Seu Número',
-        size=20,
-        help=u'Campo G064'
+    nosso_numero = fields.Char(
+        string=u'Nosso Numero',
+    )
+    numero_documento = fields.Char(
+        string=u'Número documento'
     )
     codigo_finalidade_doc = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,

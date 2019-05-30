@@ -19,7 +19,7 @@ class Itau400(Cnab400):
         super(Cnab400, self).__init__()
         from cnab240.bancos import itau_cobranca_400
         self.bank = itau_cobranca_400
-        self.controle_linha = 2
+        self.controle_linha = 1
 
     @property
     def inscricao_tipo(self):
@@ -35,8 +35,7 @@ class Itau400(Cnab400):
         :param order:
         :return:
         """
-        self.controle_linha = 1
-        return {
+        vals = {
             'cedente_agencia': int(
                 self.order.company_partner_bank_id.bra_number),
             'cedente_conta': int(
@@ -46,9 +45,10 @@ class Itau400(Cnab400):
             'cedente_nome': unicode(self.order.company_id.legal_name),
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
-            # TODO: Número sequencial de arquivo
-            'arquivo_sequencia': int(self.get_file_numeration()),
+            'num_seq_registro':  self.controle_linha,
         }
+        self.controle_linha += 1
+        return vals
 
     def _prepare_cobranca(self, line):
         """
@@ -59,6 +59,10 @@ class Itau400(Cnab400):
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
 
         vals = {
+            'identificacao_titulo_empresa': line.name,
+            'nosso_numero': line.nosso_numero,
+            'numero_documento': self.adiciona_digitos_num_doc(
+                line.numero_documento),
             'cedente_inscricao_tipo': self.inscricao_tipo,
             'cedente_inscricao_numero': int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)),
@@ -70,16 +74,12 @@ class Itau400(Cnab400):
                 self.order.company_partner_bank_id.acc_number_dig
             ),
             'instrucao': 0,  # TODO VERIFICAR
-            'identificacao_titulo_empresa': line.name,
-            'nosso_numero': 0,  # TODO
             'quantidade_moeda': 0,
             'carteira_numero': int(
                 self.order.payment_mode_id.boleto_carteira
             ),
             'carteira_cod': self.order.payment_mode_id.boleto_modalidade,
             'identificacao_ocorrencia': 1,
-            'numero_documento': self.adiciona_digitos_num_doc(
-                line.communication),
             'vencimento_titulo': self.format_date(
                 line.date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(

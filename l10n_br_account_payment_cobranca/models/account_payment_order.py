@@ -71,6 +71,14 @@ class PaymentOrder(models.Model):
         default='0',
     )
 
+    @api.model
+    def _prepare_bank_payment_line(self, paylines):
+        result = super(PaymentOrder, self)._prepare_bank_payment_line(paylines)
+        result['nosso_numero'] = paylines.nosso_numero
+        result['numero_documento'] = paylines.numero_documento
+        result['communication'] = paylines.move_line_id.id
+        return result
+
     @api.multi
     def open2generated(self):
         action = super(PaymentOrder, self).open2generated()
