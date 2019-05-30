@@ -55,6 +55,24 @@
         </field>
     </record>
 
+    # Tax Group
+    <record id="tax_group_action" model="ir.actions.act_window">
+        <field name="name">Tax Group</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.tax.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="tax_group_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Tax Group
+            </p><p>
+              A Tax Group is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
     # Tax
     <record id="tax_action" model="ir.actions.act_window">
         <field name="name">Tax</field>

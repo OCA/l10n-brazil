@@ -82,14 +82,17 @@
     # Taxes Settings
     <menuitem id="taxes_config_menu" name="Taxes" groups="fiscal.group_manager" parent="configuration_menu" sequence="30"/>
 
+    # Tax Group
+    <menuitem id="tax_group_menu" action="tax_group_action" groups="fiscal.group_manager" parent="taxes_config_menu" sequence="10"/>
+
     # Tax
-    <menuitem id="tax_menu" action="tax_action" groups="fiscal.group_manager" parent="taxes_config_menu" sequence="10"/>
+    <menuitem id="tax_menu" action="tax_action" groups="fiscal.group_manager" parent="taxes_config_menu" sequence="20"/>
 
     # Simplified Tax
-    <menuitem id="simplified_tax_menu" action="simplified_tax_action" groups="fiscal.group_manager" parent="taxes_config_menu" sequence="20"/>
+    <menuitem id="simplified_tax_menu" action="simplified_tax_action" groups="fiscal.group_manager" parent="taxes_config_menu" sequence="30"/>
 
     # Tax IPI Guideline
-    <menuitem id="tax_ipi_guideline_menu" action="tax_ipi_guideline_action" groups="fiscal.group_manager" parent="taxes_config_menu" sequence="30"/>
+    <menuitem id="tax_ipi_guideline_menu" action="tax_ipi_guideline_action" groups="fiscal.group_manager" parent="taxes_config_menu" sequence="40"/>
 
     # Operations Settings
     <menuitem id="operations_config_menu" name="Operations" groups="fiscal.group_manager" parent="configuration_menu" sequence="40"/>
