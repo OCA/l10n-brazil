@@ -7,7 +7,7 @@ from odoo.addons import decimal_precision as dp
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
-
+"""
     @api.multi
     @api.depends('price_unit', 'discount', 'invoice_line_tax_ids',
                  'quantity', 'product_id', 'invoice_id.partner_id',
@@ -50,3 +50,4 @@ class AccountInvoiceLine(models.Model):
         readonly=True,
         compute='_compute_price',
         oldname='price_tax_discount')
+"""
