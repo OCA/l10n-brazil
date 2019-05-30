@@ -5,7 +5,7 @@
 
 from __future__ import with_statement
 
-from odoo import pooler
+from odoo.api import Environment
 from odoo.osv import osv
 from odoo.report.interface import report_int
 from odoo.report.render import render
@@ -32,24 +32,26 @@ class ReportCustom(report_int):
     def create(self, cr, uid, ids, datas, context=False):
         if not context:
             context = {}
+
+        env = Environment(cr, uid, {})
+
         active_ids = context.get('active_ids')
         active_model = context.get('active_model')
-        pool = pooler.get_pool(cr.dbname)
+
         ids_move_lines = []
 
-        aml_obj = pool.get('account.move.line')
-
         if active_model == 'account.invoice':
-            ai_obj = pool.get('account.invoice')
-            for account_invoice in ai_obj.browse(cr, uid, active_ids):
-                for move_line in account_invoice.move_line_receivable_id:
-                    ids_move_lines.append(move_line.id)
+            for invoices in env['account.invoice'].browse(active_ids):
+                receivable_ids = invoices.mapped('move_line_receivable_id')
+                if receivable_ids:
+                    ids_move_lines = receivable_ids
         elif active_model == 'account.move.line':
-            ids_move_lines = active_ids
-        else:
+            ids_move_lines = env['account.move.line'].browse(active_ids)
+
+        if not ids_move_lines:
             return False
 
-        boleto_list = aml_obj.send_payment(cr, uid, ids_move_lines)
+        boleto_list = ids_move_lines.generate_boleto()
         if not boleto_list:
             raise osv.except_osv(
                 'Error !', ('Não é possível gerar os boletos\n'
