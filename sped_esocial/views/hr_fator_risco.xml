@@ -12,10 +12,11 @@
                         <h2>
                             <field name="cod_fator_risco_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                         </h2>
+                        <field name="codigo_risco" />
                         <group>
                             <field name="tp_avaliacao" required="True"/>
                             <field name="intensidade_concentracao" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
-                            <field name="limite_tolerancia" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
+                            <field name="limite_tolerancia" attrs="{'required': [('tp_avaliacao', '=', 1),('codigo_risco', 'in', ['02.01.687', '02.01.788'])], 'invisible': ['|',('tp_avaliacao', '=', 2),('codigo_risco', 'not in', ['02.01.687', '02.01.788'])]}"/>
                             <field name="unidade_medida" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
                             <field name="tec_medicao" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>
                         </group>

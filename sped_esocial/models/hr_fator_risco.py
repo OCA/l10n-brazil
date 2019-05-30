@@ -72,26 +72,48 @@ class HrFatorRisco(models.Model):
     cod_fator_risco_id = fields.Many2one(
         string=u'Código do Fator de Risco',
         comodel_name='sped.fatores_meio_ambiente',
+        help=u'Nome Layout: codFatis - Informar o código do fator de risco '
+             u'ao qual o trabalhador está exposto, conforme Tabela 23. '
+             u'Preencher com números e pontos. Caso não haja exposição, '
+             u'informar o código [09.01.001] (Ausência de Fator de Risco). '
+             u'Validação: Deve ser um código existente na Tabela 23 - '
+             u'Fatores de Riscos do Meio Ambiente do Trabalho.',
+    )
+    codigo_risco = fields.Char(
+        string=u'Código do risco',
     )
     tp_avaliacao = fields.Selection(
         strin=u'Tipo de Avaliação',
         selection=TP_AVAL,
+        help=u'Nome Layout: tpAval - Tamanho: Até 1 Caracteres - Tipo de '
+             u'avaliação do fator de risco: 1 - Critério quantitativo; '
+             u'2 - Critério qualitativo.',
     )
     intensidade_concentracao = fields.Integer(
         string=u'Intensidade ou Concentração',
         size=10,
+        help=u'Nome Layout: intConc - Tamanho: Até 10 Caracteres - Intensidade,'
+             u' concentração ou dose da exposição do trabalhador ao '
+             u'fator de risco cujo critério de avaliação seja quantitativo.',
     )
     limite_tolerancia = fields.Integer(
         string=u'Limite de Tolerância',
         size=10,
+        help=u'Nome Layout: limTol - Tamanho: Até 10 Caracteres - Limite de '
+             u'tolerância calculado para agentes específicos, conforme '
+             u'técnica de medição exigida na legislação.',
     )
     unidade_medida = fields.Selection(
         string=u'Unidade de Medida',
         selection=UN_MED,
+        help=u'Nome Layout: unMed - Tamanho: Até 2 - Dose ou unidade de medida'
+             u' da intensidade ou concentração do agente',
     )
     tec_medicao = fields.Char(
         string=u'Técnica Medição',
         size=40,
+        help=u'Nome Layout: tecMedicao - Tamanho: Até 40 Caracteres - Técnica'
+             u' utilizada para medição da intensidade ou concentração.',
     )
     insalubridade = fields.Selection(
         string=u'Insalubridade',
@@ -99,6 +121,10 @@ class HrFatorRisco(models.Model):
             ('S', 'Sim'),
             ('N', 'Não'),
         ],
+        domain='N',
+        help=u'Nome Layout: insalubridade - Tamanho: Até 1 Caracteres - '
+             u'A exposição ao fator de risco/execução da atividade configura '
+             u'trabalho insalubre?',
     )
     periculosidade = fields.Selection(
         string=u'Periculosidade',
@@ -106,6 +132,10 @@ class HrFatorRisco(models.Model):
             ('S', 'Sim'),
             ('N', 'Não'),
         ],
+        domain='N',
+        help=u'Nome Layout: periculosidade - Tamanho: Até 1 Caracteres - '
+             u'A exposição ao fator de risco/execução da atividade '
+             u'configura trabalho perigoso?',
     )
     aposentadoria_especial = fields.Selection(
         string=u'Aposentadoria Especial',
@@ -113,6 +143,11 @@ class HrFatorRisco(models.Model):
             ('S', 'Sim'),
             ('N', 'Não'),
         ],
+        domain='N',
+        help=u'Nome Layout: aposentEsp - Tamanho: Até 1 Caracteres - '
+             u'A exposição ao fator de risco/execução da atividade enseja '
+             u'recolhimento do adicional para o financiamento'
+             u' da aposentadoria especial?',
     )
     epc_id = fields.Many2one(
         string='Equipamentos de Proteção Coletiva',
@@ -128,3 +163,8 @@ class HrFatorRisco(models.Model):
                 record.name = '{} - {}'.format(
                     record.cod_fator_risco_id.name, tp_aval[record.tp_avaliacao]
                 )
+
+    @api.onchange('cod_fator_risco_id')
+    def _get_codigo_fator_risco(self):
+        if self.cod_fator_risco_id:
+            self.codigo_risco = self.cod_fator_risco_id.codigo

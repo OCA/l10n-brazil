@@ -161,7 +161,7 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
             fatrisc.codFatRis.valor = fator_risco.cod_fator_risco_id.codigo
             fatrisc.tpAval.valor = fator_risco.tp_avaliacao
             if fator_risco.intensidade_concentracao:
-                fatrisc.initConc.valor = \
+                fatrisc.intConc.valor = \
                     fator_risco.intensidade_concentracao
             if fator_risco.limite_tolerancia:
                 fatrisc.limTol.valor = \

@@ -37,6 +37,10 @@ class AmbienteTrabalho(models.Model):
     cod_ambiente = fields.Char(
         string=u'Código do Ambiente',
         size=30,
+        help=u'Nome layout: codAmb - Tamanho: Até 30 Caracteres - '
+             'Preencher com o código atribuído pela empresa ao Ambiente '
+             'de Trabalho. Validação: O código atribuído não pode conter '
+             'a expressão "eSocial" nas 7(sete) primeiras posições.',
     )
     company_id = fields.Many2one(
         string=u'Localidade',
@@ -46,51 +50,83 @@ class AmbienteTrabalho(models.Model):
         string=u'Data de início',
         comodel_name='account.period',
         domain=[('special', '=', False)],
+        help=u'Nome layout: iniValid - Tamanho: Até 7 Caracteres - Preencher '
+             u'com o mês e ano de início da validade das informações '
+             u'prestadas no evento, no formato AAAA-MM.',
     )
     data_fim = fields.Many2one(
         string=u'Data de Fim',
         comodel_name='account.period',
         domain=[('special', '=', False)],
+        help=u'Nome layout: fimValid - Tamanho: Até 7 Caracteres - Preencher '
+             u'com o mês e ano de término da validade das informações, '
+             u'se houver.',
     )
     nova_data_inicio = fields.Many2one(
         string=u'Data de início',
         comodel_name='account.period',
         domain=[('special', '=', False)],
+        help=u'Nome layout: iniValid - Tamanho: Até 7 Caracteres - Preencher '
+             u'com o mês e ano de início da validade das informações '
+             u'prestadas no evento, no formato AAAA-MM.',
     )
     nova_data_fim = fields.Many2one(
         string=u'Data de Fim',
         comodel_name='account.period',
         domain=[('special', '=', False)],
+        help=u'Nome layout: fimValid - Tamanho: Até 7 Caracteres - Preencher '
+             u'com o mês e ano de término da validade das informações, '
+             u'se houver.',
     )
     nome_ambiente = fields.Char(
         string='Nome do Ambiente',
         size=100,
+        help=u'Nome layout: nmAmb - Tamanho: Até 100 Caracteres - Informar o '
+             u'nome do ambiente de trabalho.',
     )
     desc_ambiente = fields.Text(
         string='Descrição',
         size=8000,
+        help=u'Nome layout: dscAmb - Tamanho: Até 8000 Caracteres - Descrição '
+             u'do ambiente de trabalho.',
     )
     local_ambiente = fields.Selection(
         string='Tipo do local',
         selection=[
             (1, 'Estabelecimento do próprio empregador'),
             (2, 'Estabelecimento de terceiros'),
-            (3, 'Prestação de serviços em instalações de terceiros não consideradas como lotações'),
+            (3, 'Prestação de serviços em instalações de terceiros '
+                'não consideradas como lotações'),
         ],
         default=1,
+        help=u'Nome layout: localAmb - Tamanho: Até 1 Caracteres - Preencher '
+             u'com uma das opções: 1 - Estabelecimento do próprio empregador; '
+             u'2 - Estabelecimento de terceiros; '
+             u'3 - Prestação de serviços em instalações de terceiros não '
+             u'consideradas como lotações dos tipos 03 a 09 da Tabela 10.',
     )
     tipo_inscricao = fields.Many2one(
         string='Tipo de Inscrição',
         comodel_name='sped.tipos_inscricao',
+        help=u'Nome layout: tpInsc - Tamanho: Até 1 Caracteres - Preencher '
+             u'com o código correspondente ao tipo de inscrição, '
+             u'conforme Tabela 05. Validação: Preenchimento obrigatório e '
+             u'exclusivo se {local_ambiente} = [1, 3].',
     )
     num_inscricao = fields.Char(
         string='Número de Inscrição',
         size=15,
+        help=u'Nome layout: nrInsc - Tamanho: Até 15 Caracteres - Número de '
+             u'inscrição onde está localizado o ambiente.',
     )
     cod_lotacao = fields.Char(
         string='Código de Lotação Tributária',
         size=30,
         compute='_compute_lotacao_tributaria',
+        help=u'Nome layout: codLotacao - Tamanho: Até 30 Caracteres - Informar '
+             u'o código atribuído pela empresa para a lotação tributária. '
+             u'Se informado, deve ser um código existente '
+             u'em S-1020 - Tabela de Lotações Tributárias.',
     )
     sped_intermediario_id = fields.Many2one(
         string='Intermediario S-1060',
@@ -114,10 +150,12 @@ class AmbienteTrabalho(models.Model):
     def gerar_intermediario(self):
         if not self.sped_intermediario_id:
             vals = {
-                'company_id': self.company_id.id if self.company_id.eh_empresa_base else self.company_id.matriz.id,
+                'company_id': self.company_id.id if
+                self.company_id.eh_empresa_base else self.company_id.matriz.id,
                 'hr_ambiente_trabalho_id': self.id,
             }
-            self.sped_intermediario_id = self.env['sped.hr.ambiente.trabalho'].create(vals)
+            self.sped_intermediario_id = \
+                self.env['sped.hr.ambiente.trabalho'].create(vals)
             self.sped_intermediario_id.gerar_registro('I')
 
     @api.multi

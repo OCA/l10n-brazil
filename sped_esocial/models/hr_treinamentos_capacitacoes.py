@@ -63,28 +63,52 @@ class HrTreinamentosCapacitacoes(models.Model):
     obs = fields.Text(
         string=u'Observação',
         size=999,
+        help=u'Nome Layout: obsTreiCap - Tamanho: Até 999 Caracteres - '
+             u'Observação referente ao '
+             u'treinamento/capacitação/exercício simulado.',
     )
     codigo_treinamento = fields.Char(
         string=u'Cod treinamento',
     )
     data_treinamento = fields.Date(
         string=u'Data',
+        help=u'Nome Layout: dtTreiCap - Informar a data de início do '
+             u'treinamento/capacitação/exercício simulado ou a data '
+             u'de início da obrigatoriedade deste evento para o '
+             u'empregador no eSocial, a que for mais recente. '
+             u'Validação: Deve ser uma data válida, igual ou anterior à '
+             u'data atual e igual ou posterior à data de admissão do '
+             u'vínculo a que se refere. Não pode ser anterior à data'
+             u' de início da obrigatoriedade deste evento para o '
+             u'empregador no eSocial.',
     )
     duracao = fields.Integer(
         string=u'Duração em Horas',
         size=6,
+        help=u'Nome Layout: durTreiCap - Tamanho: Até 6 Caracteres - '
+             u'Informar a duração do treinamento/capacitação/exercício'
+             u' simulado, em horas.',
     )
     modalidade = fields.Selection(
         string=u'Modelidade',
         selection=MOD_TREI,
+        help=u'Nome Layout: modTreiCap - Tamanho: Até 1 Caracteres - '
+             u'Modalidade do treinamento/capacitação/exercício simulado, '
+             u'conforme opções abaixo',
     )
     tipo = fields.Selection(
         string=u'Tipo',
         selection=TIPO_TREI,
+        help=u'Nome Layout: tpTreiCap - Tamanho: Até 1 Caracteres - Tipo de '
+             u'treinamento/capacitação/exercício simulado, '
+             u'conforme opções abaixo',
     )
     treinamento_antes_admissao = fields.Selection(
         string=u'Treinamento antes da Admissão',
         selection=SIM_NAO,
+        help=u'Nome Layout: indTreinAnt - Tamanho: Até 1 Caracteres - Indicar'
+             u' se o treinamento ocorreu antes da admissão, '
+             u'em outro empregador',
     )
     professor_ids = fields.Many2many(
         string=u'Professor Treinamento/Capitação',

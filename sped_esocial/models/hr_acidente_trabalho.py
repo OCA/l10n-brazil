@@ -73,6 +73,7 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
     )
     data_acidente = fields.Datetime(
         string=u'Data do Acidente',
+        help=u'Nome Layout: dtAcid - Data do Acidente.',
     )
     tipo_acidente = fields.Many2one(
         string=u'Tipo do Acidente',
@@ -81,21 +82,32 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
     horas_trab_antes_acidente = fields.Char(
         string=u'Horas Trabalhadas Antes',
         size=4,
+        help=u'Nome Layout: hrsTrabAntesAcid - Tamanho: Até 4 Caracteres - '
+             u'Horas trabalhadas antes da ocorrência do acidente, '
+             u'no formato HHMM.',
     )
     tipo_cat = fields.Selection(
         string='Tipo de CAT',
         selection=TP_CAT,
+        help=u'Nome Layout: tpCat - Tamanho: Até 1 Caracteres - Tipo de CAT, '
+             u'conforme opções abaixo: 1 - Inicial; 2 - Reabertura;'
+             u' 3 - Comunicação de Óbito.',
     )
     ind_cat_obito = fields.Selection(
         string=u'Houve Óbito',
         selection=SIM_NAO,
+        help=u'Nome Layout: indCatObito - Tamanho: Até 1 Caracteres - '
+             u'Houve Óbito? S - Sim; N - Não.',
     )
     data_obito = fields.Date(
         string=u'Data do Óbito',
+        help=u'Nome Layout: dtObito - Data do óbito.',
     )
     ind_comunicacao_policia = fields.Selection(
         string=u'Houve comunicação com a Polícia',
         selection=SIM_NAO,
+        help=u'Nome Layout: indComunPolicia - Tamanho: Até 1 Caracteres - '
+             u'Houve comunicação à autoridade policial? S - Sim; N - Não.',
     )
     cod_geradora_acidente = fields.Many2one(
         string=u'Código da Situação Geradora do Acidente',
@@ -104,18 +116,31 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
     emissao_cat = fields.Selection(
         string=u'Emissor da CAT',
         selection=EMISSOR_CAT,
+        help=u'Nome Layout: iniciatCat - Tamanho: Até 1 Caracteres - A CAT foi'
+             u' emitida por: 1 - Iniciativa do empregador; 2 - Ordem judicial;'
+             u' 3 - Determinação de órgão fiscalizador.',
     )
     obs = fields.Text(
         string=u'Observações',
         size=999,
+        help=u'Nome Layout: obsCAT - Tamanho: Até 999 Caracteres - Observação',
     )
     tipo_local = fields.Selection(
         string=u'Tipo do Local',
         selection=TP_LOCAL,
+        help=u'Nome Layout: tpLocal - Tamanho: Até 1 Caracteres - Tipo de '
+             u'local do acidente: 1 - Estabelecimento do empregador no Brasil;'
+             u' 2 - Estabelecimento do empregador no Exterior; '
+             u'3 - Estabelecimento de terceiros onde o empregador'
+             u' presta serviços; 4 - Via pública; 5 - Área rural; '
+             u'6 - Embarcação; 9 - Outros.',
     )
     desc_local = fields.Text(
         string=u'Descrição',
         size=255,
+        help=u'Nome Layout: dscLocal - Tamanho: Até 255 Caracteres - '
+             u'Especificação do local do acidente (pátio, rampa de acesso,'
+             u' posto de trabalho, etc.).',
     )
     cod_ambiente = fields.Many2one(
         string=u'Código do Ambiente',
@@ -128,40 +153,59 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
     desc_logradouro = fields.Char(
         string=u'Descrição do Logradouro',
         size=100,
+        help=u'Nome Layout: dscLograd - Tamanho: Até 100 Caracteres - '
+             u'Descrição do logradouro.',
     )
     num_logradouro = fields.Char(
         string=u'Número do Logradouro',
         size=10,
+        help=u'Nome Layout: 10 - Tamanho: Até 10 Caracteres - Número do '
+             u'logradouro. Se não houver número a ser informado, '
+             u'preencher com "S/N".',
     )
     complemento = fields.Char(
         string=u'Complemento',
         size=30,
+        help=u'Nome Layout: complemento - Tamanho: Até 30 Caracteres - '
+             u'Complemento do logradouro',
     )
     bairro = fields.Char(
         string=u'Bairro',
         size=90,
+        help=u'Nome Layout: bairro - Tamanho: Até 90 Caracteres - '
+             u'Nome do bairro/distrito',
     )
     cep = fields.Char(
         string=u'CEP',
         size=8,
+        help=u'Nome Layout: cep - Tamanho: Até 8 Caracteres - Código de '
+             u'Endereçamento Postal - CEP.',
     )
     country_id = fields.Many2one(
         string=u'País',
         comodel_name='res.country',
+        help=u'Nome Layout: pais - Tamanho: Até 3 Caracteres - Preencher com '
+             u'o código do país, conforme Tabela 06.',
     )
     uf_id = fields.Many2one(
         string=u'UF',
         comodel_name='res.country.state',
         domain="[('country_id', '=', country_id)]",
+        help=u'Nome Layout: uf - Tamanho: Até 2 Caracteres - Preencher com '
+             u'a sigla da Unidade da Federação.',
     )
     city_id = fields.Many2one(
         string=u'Municipio',
         comodel_name='l10n_br_base.city',
-        domain="[('state_id','=', uf_id)]"
+        domain="[('state_id','=', uf_id)]",
+        help=u'Nome Layout: codMunic - Tamanho: Até 7 Caracteres - Preencher '
+             u'com o código do município, conforme tabela do IBGE.',
     )
     cod_postal = fields.Char(
         string=u'Código Postal',
         size=12,
+        help=u'Nome Layout: codPostal - Tamanho: Até 12 Caracteres - Código de '
+             u'Endereçamento Postal.',
     )
     tipo_inscricao_local = fields.Many2one(
         string=u'Tipo Inscrição do Local',
@@ -170,6 +214,12 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
     num_inscricao = fields.Char(
         string=u'Número Inscrição do Estabelecimento',
         size=15,
+        help=u'Nome Layout: nrInsc - Tamanho: Até 15 Caracteres - Informar o'
+             u' número de inscrição do estabelecimento, de acordo com o tipo'
+             u' de inscrição indicado no campo {Tipo Inscrição do Local}. '
+             u'Se o acidente ou a doença ocupacional ocorreu em local onde'
+             u' o trabalhador presta serviços, deve ser um número de '
+             u'inscrição pertencente à contratante dos serviços.',
     )
     parte_atingida_ids = fields.One2many(
         string=u'Parte Atingida',
@@ -188,6 +238,10 @@ class HrComunicacaoAcidenteTrabalho(models.Model):
     num_recibo_cat_original = fields.Char(
         string=u'Número Recibo CAT Original',
         size=40,
+        help=u'Nome Layout: nrRecCatOrig - Tamanho: Até 40 Caracteres - '
+             u'Informar o número do recibo da CAT de origem. Validação: '
+             u'Deve corresponder ao número do recibo do arquivo relativo à '
+             u'CAT informada anteriormente, pertencente ao mesmo trabalhador.',
     )
     sped_intermediario_id = fields.Many2one(
         string='Intermediário do e-Social',

@@ -35,6 +35,14 @@ class HrAcidenteParteAtingida(models.Model):
     lateralidade = fields.Selection(
         string=u'Lateralidade',
         selection=LATERALIDADE,
+        help=u'Nome Layout: lateralidade - Tamanho: Até 1 Caracter - Preencher'
+             u' com: 0 - Não aplicável; 1 - Esquerda; 2 - Direita; 3 - Ambas. '
+             u'Nos casos de órgãos bilaterais, ou seja, que se situam dos '
+             u'lados do corpo, assinalar o lado (direito ou esquerdo). '
+             u'Exemplo: no caso de o órgão atingido ser uma perna, apontar '
+             u'qual foi a atingida (se a perna direita, se a perna esquerda, '
+             u'ou se ambas). Se o órgão atingido é único (como, por exemplo, '
+             u'a cabeça), assinalar este campo como não aplicável.',
     )
     acidente_trabalho_id = fields.Many2one(
         comodel_name='hr.comunicacao.acidente.trabalho',
@@ -44,6 +52,6 @@ class HrAcidenteParteAtingida(models.Model):
     def _compute_name(self):
         for record in self:
             record.name = '{} - {} - {}'.format(
-                record.data_acidente, record.contract_id.name,
-                record.tipo_acidente.nome
+                record.contract_id.name, record.cod_parte_atingida.nome,
+                record.lateralidade
             )

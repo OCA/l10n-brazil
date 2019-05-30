@@ -91,54 +91,90 @@ class HrSaudeTrabalhador(models.Model):
     tipo_exame_ocup = fields.Selection(
         string=u'Tipo de Exame Ocupacional',
         selection=TP_EXAME,
+        help=u'Nome layout: tpExameOcup - Tamanho: Até 1 Caracteres - Tipo do'
+             u' exame médico ocupacional, conforme opções abaixo: '
+             u'0 - Exame médico admissional; '
+             u'1 - Exame médico periódico, conforme NR7 do MTb e/ou '
+             u'planejamento do PCMSO; '
+             u'2 - Exame médico de retorno ao trabalho; '
+             u'3 - Exame médico de mudança de função; '
+             u'4 - Exame médico de monitoração pontual, '
+             u'não enquadrado nos demais casos; '
+             u'9 - Exame médico demissional. ',
     )
     data_aso = fields.Date(
         string=u'Data emissão',
+        help=u'Nome layout: dtAso - Data de emissão do ASO. Validação: Deve ser'
+             u' uma data válida, igual ou anterior à data atual e '
+             u'igual ou posterior à data de início da obrigatoriedade '
+             u'deste evento para o empregador no eSocial.',
     )
     result_aso = fields.Selection(
         string=u'Resultado do Aso',
         selection=RESULT_ASO,
+        help=u'Nome layout: resAso - Tamanho: Até 1 Caracteres - Resultado '
+             u'do ASO, conforme opções abaixo: 1 - Apto; 2 - Inapto.',
     )
     exame_aso_ids = fields.One2many(
         string=u'Exames ASO',
         comodel_name='hr.exame.aso',
-        inverse_name='hr_saude_trabalhador_id'
+        inverse_name='hr_saude_trabalhador_id',
     )
     cpf_medico = fields.Char(
         string=u'CPF',
         size=11,
+        help=u'Nome layout: cpfMed - Tamanho: Até 11 Caracteres - Preencher '
+             u'com o CPF do médico emitente do ASO.',
     )
     nis_medico = fields.Char(
         string=u'Número de Identificação Social - NIS',
         size=11,
+        help=u'Nome layout: nisMed - Tamanho: Até 11 Caracteres - Preencher '
+             u'com o Número de Identificação Social - NIS do médico emitente '
+             u'do ASO, o qual pode ser o PIS, PASEP ou NIT.',
     )
     nome_medico = fields.Char(
         string=u'Nome',
         size=70,
+        help=u'Nome layout: nmMed - Tamanho: Até 70 Caracteres - Preencher '
+             u'com o nome do médico emitente do ASO.',
     )
     num_crm = fields.Char(
         string=u'Número do CRM',
         size=8,
+        help=u'Nome layout: nrCRM - Tamanho: Até 8 Caracteres - Número de '
+             u'inscrição do médico emitente do ASO no '
+             u'Conselho Regional de Medicina (CRM).',
     )
     uf_crm = fields.Selection(
         string=u'UF do CRM',
         selection=UF,
+        help=u'Nome layout: ufCRM - Tamanho: Até 2 Caracteres - Preencher '
+             u'com a sigla da UF de expedição do CRM.',
     )
     cpf_resp_pcmso = fields.Char(
         string=u'CPF do Responsável do PCMSO',
         size=11,
+        help=u'Nome layout: cpfResp - Tamanho: Até 11 Caracteres - Preencher '
+             u'com o CPF do médico responsável/coordenador do PCMSO.',
     )
     nome_resp_pcmso = fields.Char(
         string=u'Nome',
         size=70,
+        help=u'Nome layout: nmResp - Tamanho: Até 70 Caracteres - Preencher '
+             u'com o nome do médico responsável/coordenador do PCMSO.',
     )
     num_crm_pcmso = fields.Char(
         string=u'Número do CRM do PCMSO',
         size=8,
+        help=u'Nome layout: nrCRM - Tamanho: Até 8 Caracteres - Número de '
+             u'inscrição do médico responsável/coordenador do PCMSO no CRM.',
     )
     uf_crm_pcmso = fields.Selection(
         string=u'UF do CRM do PCMSO',
         selection=UF,
+        help=u'Nome layout: ufCRM - Tamanho: Até 2 Caracteres - Preencher '
+             u'com a sigla da UF de expedição do CRM.',
     )
     sped_intermediario_id = fields.Many2one(
         string='Intermediário do e-Social',

@@ -9,7 +9,7 @@
                 <form>
                     <sheet>
                         <label for="desc_atividade" string="Descrição da Atividade"/>
-                        <field name="desc_atividade"/>
+                        <field name="desc_atividade" required="True"/>
                         <newline />
                         <separator string="Atividades" />
                         <field name="cod_atividade_ids"/>

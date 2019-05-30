@@ -46,6 +46,14 @@ class HrCondicaoAmbienteTrabalho(models.Model):
     )
     inicio_condicao = fields.Date(
         string=u'Data de início',
+        help=u'Nome Layout: {} - Informar a data em que o trabalhador '
+             u'iniciou as atividades nas condições descritas ou a data '
+             u'de início da obrigatoriedade deste evento para o empregador'
+             u' no eSocial, a que for mais recente. Validação: Deve ser uma'
+             u' data válida, igual ou anterior à data atual e igual ou '
+             u'posterior à data de admissão do vínculo a que se refere. '
+             u'Não pode ser anterior à data de início da obrigatoriedade'
+             u' deste evento para o empregador no eSocial.',
     )
     hr_ambiente_ids = fields.Many2many(
         string='Ambientes',
@@ -69,10 +77,19 @@ class HrCondicaoAmbienteTrabalho(models.Model):
     metodologia_erg = fields.Text(
         string=u'Metodologia Levantamento Riscos Ergonômicos',
         size=999,
+        help=u'Nome Layout: metErg - Tamanho: Até 999 Caracteres - Descrição'
+             u' da metodologia utilizada para o levantamento dos riscos'
+             u' ergonômicos. Validação: Preenchimento obrigatório se '
+             u'{Observações Complementares} não for informado.',
     )
     obs_complementares = fields.Text(
         string=u'Observações Complementares',
         size=999,
+        help=u'Nome Layout: obsCompl - Tamanho: Até 99 Caracteres - '
+             u'Observação(ões) complementar(es) referente(s) a registros'
+             u' ambientais. Validação: Preenchimento obrigatório se '
+             u'{Metodologia Levantamento Riscos Ergonômicos} '
+             u'não for informado.',
     )
     sped_intermediario_id = fields.Many2one(
         string='Intermediário do e-Social',
