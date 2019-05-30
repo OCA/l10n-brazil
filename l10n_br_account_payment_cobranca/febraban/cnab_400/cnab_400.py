@@ -88,6 +88,9 @@ class Cnab400(Cnab):
         if bank == '237':
             from .bancos.bradesco import Bradesco400
             return Bradesco400
+        elif bank == '341':
+            from .bancos.itau import Itau400
+            return Itau400
         else:
             return Cnab400
 
@@ -349,9 +352,7 @@ class Cnab400(Cnab):
                 ' ' +
                 number +
                 ' ' +
-                complemento +
-                ' ' +
-                distrito
+                complemento
                 # + ' ' +
                 # partner_item.l10n_br_city_id.name +
                 # '  ' + partner_item.state_id.name
