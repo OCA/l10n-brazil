@@ -9,17 +9,10 @@
         <field name="priority" eval="14"/>
         <field name="arch" type="xml">
             <xpath expr="//form/group[@name='note']" position="before">
-                <group string="Configurações" name='l10n-br-config' col="4">
-                    <notebook colspan="4">
-                        <page string="Cobrança" attrs="{'invisible': [('payment_type', '=', 'outbound')]}">
-                            <group>
-                                <field name="internal_sequence_id"/>
-                                <field name="instrucoes"/>
-                                <field name="invoice_print"/>
-                            </group>
-                        </page>
-                        <page string="Pagamento" attrs="{'invisible': [('payment_type', '=', 'inbound')]}">
-                            <group>
+                <group string="Configurações Brasilerias" name='l10n-br-config' col="4">
+                    <notebook colspan="4" name="l10n_br_account_payment_order">
+                        <page string="Geral">
+                            <group name="l10n_br_account_payment_order-geral">
                                 <field name="internal_sequence_id"/>
                                 <field name="instrucoes"/>
                                 <field name="invoice_print"/>
