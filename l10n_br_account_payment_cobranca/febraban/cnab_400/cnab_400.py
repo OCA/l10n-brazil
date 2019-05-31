@@ -263,7 +263,7 @@ class Cnab400(Cnab):
 
             'sacado_endereco': sacado_endereco,
 
-            'sacado_bairro': line.partner_id.district,
+            'sacado_bairro': line.partner_id.district or '',
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
             'codigo_baixa': 2,

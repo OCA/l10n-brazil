@@ -110,7 +110,7 @@ class Itau400(Cnab400):
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': sacado_endereco,
-            'sacado_bairro': line.partner_id.district,
+            'sacado_bairro': line.partner_id.district or '',
             'sacado_cep': int(line.partner_id.zip.replace('-', '')),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
