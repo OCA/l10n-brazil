@@ -71,24 +71,3 @@ class AccountInvoice(models.Model):
         result = super(AccountInvoice, self).invoice_validate()
         self.create_account_payment_line()
         return result
-
-    # @api.multi
-    # def finalize_invoice_move_lines(self, move_lines):
-    #     """ Propagate the transaction_id from the invoice to the move lines.
-    #
-    #     The transaction id is written on the move lines only if the account is
-    #     the same than the invoice's one.
-    #     """
-    #     move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(
-    #         move_lines)
-    #     for invoice in self:
-    #         if invoice.transaction_id:
-    #             invoice_account_id = invoice.account_id.id
-    #             index = 1
-    #             for line in move_lines:
-    #                 # line is a tuple (0, 0, {values})
-    #                 if invoice_account_id == line[2]['account_id']:
-    #                     line[2]['transaction_ref'] = u'{0}/{1:02d}'.format(
-    #                         invoice.transaction_id, index)
-    #                     index += 1
-    #     return move_lines

@@ -10,7 +10,7 @@ from odoo.osv import osv
 from odoo.report.interface import report_int
 from odoo.report.render import render
 
-from ..boleto.document import Boleto
+from ..febraban.boleto.document import Boleto
 
 
 class ExternalPdf(render):
