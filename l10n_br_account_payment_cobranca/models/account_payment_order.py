@@ -88,19 +88,18 @@ class PaymentOrder(models.Model):
                 payment_line.move_line_id.state_cnab = 'exported'
         return action
 
+    def _generate_payment_file(self):
+        try:
+            return Cnab.gerar_remessa(order=self), self.name + '.REM'
+        except Cnab240Error as e:
+            from odoo import exceptions
+            raise exceptions.ValidationError(
+                "Campo preenchido incorretamente \n\n{0}".format(e))
+
     @api.multi
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
         if self.payment_method_id.code in ('240', '400', '500'):
-            try:
-                cnab = Cnab.get_cnab(
-                    self.company_partner_bank_id.bank_id.code_bc,
-                    self.payment_mode_id.payment_method_id.code
-                )()
-                return (cnab.remessa(self), self.name + '.REM')
-            except Cnab240Error as e:
-                from odoo import exceptions
-                raise exceptions.ValidationError(
-                    "Campo preenchido incorretamente \n\n{0}".format(e))
+            return self._generate_payment_file()
         return super(PaymentOrder, self).generate_payment_file()

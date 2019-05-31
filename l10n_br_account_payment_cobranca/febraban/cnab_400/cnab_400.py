@@ -290,7 +290,7 @@ class Cnab400(Cnab):
         :return:
         """
         self.order = order
-        self.arquivo = ArquivoCobranca400(self.remessa, **self._prepare_header())
+        self.arquivo = ArquivoCobranca400(self.classe_remessa, **self._prepare_header())
         for line in order.bank_line_ids:
             self.arquivo.incluir_cobranca(**self._prepare_cobranca(line))
             self.arquivo.trailer.num_seq_registro = self.controle_linha

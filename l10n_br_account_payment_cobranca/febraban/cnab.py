@@ -37,7 +37,7 @@ class Cnab(object):
             return False
 
     @staticmethod
-    def remessa(order):
+    def gerar_remessa(order):
         cnab = Cnab.get_cnab(
             order.company_partner_bank_id.bank_id.code_bc,
             order.payment_mode_id.payment_method_id.code
@@ -72,3 +72,6 @@ class Cnab(object):
             self.classe_retorno,
             arquivo=arquivo_retorno
         )
+
+    def remessa(self, order):
+        pass
