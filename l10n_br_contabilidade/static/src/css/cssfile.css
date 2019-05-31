@@ -1,3 +1,6 @@
 .oe_form_sheet_width.custom-sheet-account-event {
     max-width: 1080px;
 }
+.oe_form_sheet_width.custom-sheet-account-move {
+    max-width: 1200px;
+}

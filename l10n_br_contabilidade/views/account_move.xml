@@ -5,6 +5,13 @@
 <openerp>
     <data>
 
+        <!-- Tela de Lançamentos ficou pequena pra identificar contas-->
+        <template id="l10n_br_contabilidade" name="l10n_br_contabilidade assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/l10n_br_contabilidade/static/src/css/cssfile.css"/>
+            </xpath>
+        </template>
+
         <record id="l10n_br_contabilidade_view_account_move_tree" model="ir.ui.view">
             <field name="name">account.move.tree (in l10n_br_contabilidade)</field>
             <field name="model">account.move</field>
@@ -55,7 +62,7 @@
                         <button name="button_cancel" states="posted" string="Cancel Entry" type="object" groups="account.group_account_invoice"/>
                         <field name="state" widget="statusbar"/>
                     </header>
-                    <sheet>
+                    <sheet class="custom-sheet-account-move">
                     <div class="oe_right oe_button_box">
                         <label for="sequencia" class="oe_edit_only" colspan="4"/>
                         <h2><field name="sequencia" class="oe_bold oe_inline oe_stat_button" attrs="{'invisible':[('sequencia','=',0)]}" nolabel="1" readonly="True"/></h2>
