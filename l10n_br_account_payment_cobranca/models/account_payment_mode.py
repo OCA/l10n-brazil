@@ -9,7 +9,7 @@ from odoo.addons import decimal_precision as dp
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, AVISO_FAVORECIDO
 
-from ..boleto.document import getBoletoSelection
+from ..febraban.boleto.document import getBoletoSelection
 
 selection = getBoletoSelection()
 
@@ -96,7 +96,7 @@ class PaymentMode(models.Model):
         # ('3', u'Não protestar'),
         # ('7', u'Negativar (Dias Corridos)'),
         # ('8', u'Não Negativar')
-    # ]
+        # ]
         string=u'Códigos de Protesto', default='0')
     boleto_protesto_prazo = fields.Char(u'Prazo protesto', size=2)
     gera_nosso_numero = fields.Boolean(
