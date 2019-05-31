@@ -290,7 +290,7 @@ class Cnab240(Cnab):
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
                     line.partner_id.street + ' ' + line.partner_id.number),
-            'sacado_bairro': line.partner_id.district,
+            'sacado_bairro': line.partner_id.district or '',
             'sacado_cep': self.get_cep('prefixo', line.partner_id.zip),
             'sacado_cep_sufixo': self.get_cep('sufixo', line.partner_id.zip),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
