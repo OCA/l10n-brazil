@@ -18,6 +18,7 @@
                 <page string="Cobranca">
                     <group>
                         <field name="boleto_type"/>
+                        <field name="gera_nosso_numero"/>
                         <field name="boleto_convenio"/>
                         <field name="boleto_carteira"/>
                         <field name="boleto_modalidade"/>
