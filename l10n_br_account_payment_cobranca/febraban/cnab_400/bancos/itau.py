@@ -22,12 +22,12 @@ class Itau400(Cnab400):
     def remessa(self, order):
         from cnab240.bancos import itau_cobranca_400
         self.classe_remessa = itau_cobranca_400
-        return super(Cnab400, self).remessa(order)
+        return super(Itau400, self).remessa(order)
 
     def retorno(self, arquivo_retorno):
         from cnab240.bancos import itau_cobranca_retorno_400
         self.classe_retorno = itau_cobranca_retorno_400
-        return super(Cnab400, self).retorno(arquivo_retorno)
+        return super(Itau400, self).retorno(arquivo_retorno)
 
     @property
     def inscricao_tipo(self):
