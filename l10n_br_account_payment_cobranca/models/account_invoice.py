@@ -57,7 +57,8 @@ class AccountInvoice(models.Model):
                     ))
 
                 interval.transaction_ref = sequence
-                interval.nosso_numero = sequence
+                interval.nosso_numero = sequence if \
+                    interval.payment_mode_id.gera_nosso_numero else '0'
                 interval.numero_documento = numero_documento
                 interval.identificacao_titulo_empresa = hex(
                     interval.id

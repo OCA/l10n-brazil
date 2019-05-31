@@ -99,6 +99,12 @@ class PaymentMode(models.Model):
     # ]
         string=u'Códigos de Protesto', default='0')
     boleto_protesto_prazo = fields.Char(u'Prazo protesto', size=2)
+    gera_nosso_numero = fields.Boolean(
+        string=u'Gerar nosso número?',
+        help=u'Dependendo da carteira, banco, etc. '
+             u'O nosso número pode ser gerado pelo banco.',
+        default=True
+    )
 
     @api.constrains('boleto_type', 'boleto_carteira',
                     'boleto_modalidade', 'boleto_convenio',
