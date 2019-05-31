@@ -7,12 +7,20 @@
 # TODO: implement abc factory?
 
 from __future__ import division, print_function, unicode_literals
+import base64
+import codecs
+
+try:
+    from cnab240.tipos import ArquivoCobranca400
+except ImportError as err:
+    _logger.debug = (err)
 
 
 class Cnab(object):
 
     def __init__(self):
-        pass
+        self.arquivo = False
+        self.cnab_type = False
 
     @staticmethod
     def get_cnab(bank, cnab_type='240'):
@@ -28,8 +36,39 @@ class Cnab(object):
         else:
             return False
 
-    def remessa(self, order):
-        return False
+    @staticmethod
+    def remessa(order):
+        cnab = Cnab.get_cnab(
+            order.company_partner_bank_id.bank_id.code_bc,
+            order.payment_mode_id.payment_method_id.code
+        )()
+        return cnab.remessa(order)
 
-    def retorno(self, cnab_file):
-        return object
+    @staticmethod
+    def detectar_retorno(cnab_file_object):
+        arquivo_retono = base64.b64decode(cnab_file_object)
+        f = open('/tmp/cnab_retorno.ret', 'wb')
+        f.write(arquivo_retono)
+        f.close()
+        arquivo_retorno = codecs.open(
+            '/tmp/cnab_retorno.ret',
+            encoding='ascii'
+        )
+        header = arquivo_retorno.readline()
+        arquivo_retorno.seek(0)
+
+        if 210 < len(header) < 410:
+            cnab_type = '400'
+            banco = header[76:79]
+        elif len(header) < 210:
+            cnab_type = '240'
+            banco = header[:3]
+
+        cnab = Cnab.get_cnab(banco, cnab_type)()
+        return cnab.retorno(arquivo_retorno)
+
+    def retorno(self, arquivo_retorno):
+        return ArquivoCobranca400(
+            self.classe_retorno,
+            arquivo=arquivo_retorno
+        )
