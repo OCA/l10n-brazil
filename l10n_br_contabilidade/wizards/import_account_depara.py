@@ -44,83 +44,98 @@ class WizardImportAccountDepara(models.TransientModel):
     @api.multi
     def import_account_depara(self):
         """
-
-        :param data:
-        :return:
         """
 
-        for record in self:
-            if record.depara_file:
+        if not self.depara_file:
+            raise Warning("Inserir arquivo para importação")
 
-                # import csv
-                import base64
-                qtd_max_colunas = 0
-                erro_csv = ''
-                erro_conta = ''
+        # import csv
+        import base64
+        erro_csv = ''
+        erro_conta_oficial = ''
+        erro_conta_externa = ''
 
-                arq = base64.b64decode(record.depara_file)
-                linhas = arq.splitlines(True)
+        arq = base64.b64decode(self.depara_file)
+        linhas = arq.splitlines(True)
 
-                # Pular primeira por ser cabeçalho
-                for linha in linhas[1:]:
+        # Pular primeira por ser cabeçalho
+        for linha in linhas[1:]:
 
-                    l = linha.split(',')
+            l = linha.split(',')
 
-                    # As linnhas só serão processadas
-                    code_oficial = l[0]
-                    name = l[1]
-                    code_externo = l[2].replace('\n', '')
+            code_oficial = l[0]
+            name = l[1]
+            code_externo = l[2].replace('\n', '')
 
-                    if not code_oficial  or (not code_externo or code_externo == '\n'):
-                        erro_csv += ' Erro importação linha: {} \n'.format(l)
-                        continue
+            if not code_oficial  or (not code_externo or code_externo == '\n'):
+                erro_csv += ' Erro importação linha: {} \n'.format(l)
+                continue
 
-                    code_oficial = code_oficial.replace('.', '_')
-                    xmlid_conta_oficial = \
-                        'account.account_account_id_{}'.format(code_oficial)
+            # code_oficial = code_oficial.replace('.', '_')
+            # xmlid_conta_oficial = \
+            #     'account.account_account_id_{}'.format(code_oficial)
 
-                    code_externo = code_externo.replace('.', '')
-                    xmlid_conta_externa = \
-                        'account.account_account_{}_{}'.format(
-                            record.account_depara_plano_id.name.upper(),
-                            code_externo
-                        )
+            conta_oficial_id = self.env['account.account'].search([
+                ('custom_code', '=', code_oficial),
+            ], limit=1)
 
-                    # Se ja existir o mapemaneto, incrementar com conta oficial
-                    account_depara_id = self.env['account.depara'].search([
-                        ('conta_referencia_id', '=',
-                         self.env.ref(xmlid_conta_externa).id),
-                    ])
-                    if account_depara_id:
-                        account_depara_id.conta_sistema_id = \
-                            [(4, self.env.ref(xmlid_conta_oficial).id)]
+            if not conta_oficial_id:
+                erro_conta_oficial += ("Conta: {} {}\n ".
+                                       format(code_oficial, name))
+                continue
 
-                    # Se ainda nao existir, criar o mapeamento
-                    else:
-                        try:
-                            vals = {
-                                'account_depara_plano_id':
-                                    record.account_depara_plano_id.id,
-                                'conta_referencia_id':
-                                    self.env.ref(xmlid_conta_externa).id,
-                                'conta_sistema_id':
-                                    [(4, self.env.ref(xmlid_conta_oficial).id)],
-                            }
+            code_externo = code_externo.replace('.', '')
+            xmlid_conta_externa = \
+                'account.account_account_{}_{}'.format(
+                    self.account_depara_plano_id.name.upper(),
+                    code_externo
+                )
 
-                            account_depara_id = \
-                                self.env['account.depara'].create(vals)
-                            _logger.info('Mapeamento Criado: {} '.format(name))
+            try:
+                conta_externa_id = self.env.ref(xmlid_conta_externa)
 
-                        except ValueError as e:
-                            erro_conta += \
-                                ("Conta nao encontrada: {}\n ".format(e.message))
+            except ValueError as e:
+                erro_conta_externa += ("Conta: {}\n ".format(e.message))
+                continue
 
-            _logger.info(erro_csv)
-            _logger.info(erro_conta)
+            # Se ja existir o mapemaneto, incrementar com conta oficial
+            account_depara_id = self.env['account.depara'].search([
+                ('conta_referencia_id', '=', conta_externa_id.id),
+            ])
+            if account_depara_id:
+                account_depara_id.conta_sistema_id = [(4, conta_oficial_id.id)]
 
-            if erro_conta or erro_csv:
-                raise Warning("Identificado inconsistências. Por favor efetue "
-                              "as correções e tente novamente a importação.\n"
-                              "\n\n Erros de Importações:\n {} \n "
-                              "\n\n Erros de Contas: \n {} \n".format(
-                    erro_csv, erro_conta))
+            # Se ainda nao existir, criar o mapeamento
+            else:
+                try:
+                    vals = {
+                        'conta_referencia_id': conta_externa_id.id,
+                        'conta_sistema_id': [(4, conta_oficial_id.id)],
+                        'account_depara_plano_id':
+                            self.account_depara_plano_id.id,
+                    }
+
+                    self.env['account.depara'].create(vals)
+                    _logger.info('Mapeamento Criado: {} '.format(name))
+
+                except ValueError as e:
+                    pass
+
+        if erro_conta_externa or erro_conta_oficial or erro_csv:
+
+            mensagem = 'Identificado inconsistências.\nPor favor efetue as ' \
+                       'correções e tente novamente a importação.'
+
+            if erro_conta_oficial:
+                mensagem += '\n\n Contas Oficiais inválidas:\n {}'.\
+                    format(erro_conta_oficial)
+
+            if erro_conta_externa:
+                mensagem += '\n\n Contas Externas inválidas:\n {}'.\
+                    format(erro_conta_externa)
+
+            if erro_csv:
+                mensagem += '\n\n Erro de importação:\n {}'.\
+                    format(erro_csv)
+
+            raise Warning(mensagem)
