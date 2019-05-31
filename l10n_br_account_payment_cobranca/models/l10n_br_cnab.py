@@ -3,20 +3,14 @@
 #   @author  Luiz Felipe do Divino Costa <luiz.divino@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import base64
-import codecs
 import logging
 from datetime import datetime
 from ..constantes import CODIGO_OCORRENCIAS
+from ..febraban.cnab import Cnab
 
 from odoo import api, models, fields, exceptions
 
 _logger = logging.getLogger(__name__)
-try:
-    from cnab240.bancos import bancodobrasil
-    from cnab240.tipos import Arquivo
-except ImportError as err:
-    _logger.debug = (err)
 
 STATE = [
     ('draft', 'Novo'),
@@ -82,62 +76,92 @@ class L10nBrHrCnab(models.Model):
     _name = "l10n.br.cnab"
     _rec_name = "display_name"
 
+
+    def _busca_conta(self, banco, agencia, conta):
+        return self.env['res.partner.bank'].search([
+            # ('acc_number', '=', str(banco)),
+            ('bra_number', '=', str(agencia)),
+            ('acc_number', '=', str(conta))
+        ]).id
+
+    def _cria_lote(self, header, lote, evento, trailer):
+
+        if lote.header:
+            lote_bank_account_id = self._busca_conta(
+                lote.header.codigo_do_banco,
+                lote.header.cedente_agencia,
+                lote.header.cedente_conta,
+            ).id
+        else:
+            lote_bank_account_id = self.bank_account_id
+
+        vals = {
+            'account_bank_id': lote_bank_account_id.id,
+            # 'empresa_inscricao_numero':
+            #     str(header.empresa_inscricao_numero),
+            # 'empresa_inscricao_tipo':
+            #     TIPO_INSCRICAO_EMPRESA[header.empresa_inscricao_tipo],
+            # 'servico_operacao': TIPO_OPERACAO[header.servico_operacao],
+            # 'tipo_servico': TIPO_SERVICO[str(header.servico_servico)],
+            # 'mensagem': header.mensagem1,
+            # 'total_valores': float(trailer.somatoria_valores),
+            'servico_operacao': header.literal_retorno,
+            'tipo_servico': header.literal_servico,
+            'qtd_registros': trailer.totais_quantidade_registros,
+            'total_valores': float(trailer.valor_total_titulos/100),
+            'cnab_id': self.id,
+        }
+
+        lote_id = self.env['l10n.br.cnab.lote'].create(vals)
+
+        return lote_id, lote_bank_account_id
+
+
     @api.multi
     def processar_arquivo_retorno(self):
-        arquivo_retono = base64.b64decode(self.arquivo_retorno)
-        f = open('/tmp/cnab_retorno.ret', 'wb')
-        f.write(arquivo_retono)
-        f.close()
-        arquivo_retono = codecs.open('/tmp/cnab_retorno.ret', encoding='ascii')
-        arquivo_parser = Arquivo(bancodobrasil, arquivo=arquivo_retono)
-        if not arquivo_parser.header.arquivo_codigo == u'2':
-            raise exceptions.Warning(
-                u"Este não é um arquivo de retorno!"
-            )
+        arquivo_parser = Cnab.detectar_retorno(self.arquivo_retorno)
+        # if not arquivo_parser.header.arquivo_codigo == u'2':
+        #     raise exceptions.Warning(
+        #         u"Este não é um arquivo de retorno!"
+        #     )
         data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
-        self.data_arquivo = fields.Date.from_string(
-            data_arquivo[4:] + "-" + data_arquivo[2:4] + "-" +
-            data_arquivo[0:2]
+        self.data_arquivo = datetime.strptime(data_arquivo, "%d%m%y")
+
+        self.bank_account_id = self._busca_conta(
+            arquivo_parser.header.codigo_do_banco,
+            arquivo_parser.header.cedente_agencia,
+            arquivo_parser.header.cedente_conta,
         )
-        self.bank_account_id = self.env['res.partner.bank'].search(
-            [('acc_number', '=', arquivo_parser.header.cedente_conta)]).id
-        self.num_lotes = arquivo_parser.trailer.totais_quantidade_lotes
+
+        self.num_lotes = len(arquivo_parser.lotes)
         self.num_eventos = arquivo_parser.trailer.totais_quantidade_registros
         for lote in arquivo_parser.lotes:
-            account_bank_id_lote = self.env['res.partner.bank'].search(
-                [('acc_number', '=', lote.header.cedente_conta)]
-            ).id
-            vals = {
-                'account_bank_id': account_bank_id_lote,
-                'empresa_inscricao_numero':
-                    str(lote.header.empresa_inscricao_numero),
-                'empresa_inscricao_tipo':
-                    TIPO_INSCRICAO_EMPRESA[lote.header.empresa_inscricao_tipo],
-                'servico_operacao':
-                    TIPO_OPERACAO[lote.header.servico_operacao],
-                'tipo_servico': TIPO_SERVICO[str(lote.header.servico_servico)],
-                'mensagem': lote.header.mensagem1,
-                'qtd_registros': lote.trailer.quantidade_registros,
-                'total_valores': float(lote.trailer.somatoria_valores),
-                'cnab_id': self.id,
-            }
-            lote_id = self.env['l10n.br.cnab.lote'].create(vals)
+
+            header  = lote.header or arquivo_parser.header
+            trailer  = lote.trailer or arquivo_parser.trailer
+
+            lote_id = False
+
             for evento in lote.eventos:
+                if not lote_id:
+                    lote_id, lote_bank_account_id = self._cria_lote(
+                        header, lote, evento, trailer)
+
                 data_evento = str(
                     evento.credito_data_real)
                 data_evento = fields.Date.from_string(
                     data_evento[4:] + "-" + data_evento[2:4] + "-" +
                     data_evento[0:2]
                 )
-                account_bank_id_lote = self.env['res.partner.bank'].search(
+                lote_bank_account_id = self.env['res.partner.bank'].search(
                     [
                         ('bra_number', '=', evento.favorecido_agencia),
                         ('bra_number_dig', '=', evento.favorecido_agencia_dv),
                         ('acc_number', '=', evento.favorecido_conta),
                         ('acc_number_dig', '=', evento.favorecido_conta_dv)
                     ])
-                account_bank_id_lote = account_bank_id_lote.ids[0] \
-                    if account_bank_id_lote else False
+                lote_bank_account_id = lote_bank_account_id.ids[0] \
+                    if lote_bank_account_id else False
                 favorecido_partner = self.env['res.partner.bank'].search(
                     [('owner_name', 'ilike', evento.favorecido_nome)]
                 )
@@ -160,7 +184,7 @@ class L10nBrHrCnab(models.Model):
                     'data_real_pagamento': data_evento,
                     'segmento': evento.servico_segmento,
                     'favorecido_nome': favorecido_partner,
-                    'favorecido_conta_bancaria': account_bank_id_lote,
+                    'favorecido_conta_bancaria': lote_bank_account_id,
                     'nosso_numero': str(evento.credito_nosso_numero),
                     'seu_numero': evento.credito_seu_numero,
                     'tipo_moeda': evento.credito_moeda_tipo,
