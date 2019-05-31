@@ -96,7 +96,8 @@ class WizardImportAccountAccount(models.TransientModel):
     </tr>
 </table>
 <br />
-<br />PS1.: Tipo de Conta pode ser Ativo/Passivo/Patrimônio Líquido/Receita/Despesa/Apuração do Resultado
+<br />PS1.: Tipo de Conta pode ser Ativo/Passivo/Patrimônio 
+Líquido/Receita/Despesa/Apuração do Resultado
 <br />PS2.: A planilha não pode conter quebras manuais (\\n) e nem aspas (")
 nas células pois a estrutura do CSV entenderá como uma coluna a mais.
         
@@ -306,7 +307,7 @@ nas células pois a estrutura do CSV entenderá como uma coluna a mais.
 
         # Validar
         # l[4] - Natureza []
-        valid_types = ['credora', 'devedora', 'd', 'c', 'd/c']
+        valid_types = ['credora', 'devedora', 'd/c']
         df['result_natureza'] = df['natureza'].apply(
             lambda x: x.lower().replace('\n', '').strip() in valid_types)
 
