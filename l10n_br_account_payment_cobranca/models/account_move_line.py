@@ -69,7 +69,7 @@ class AccounMoveLine(models.Model):
         :param payment_order:
         :return:
         """
-        self.state_cnab = 'added'
+        self.write({'state_cnab': 'added'})
         return super(AccounMoveLine, self).create_payment_line_from_move_line(
             payment_order
         )
