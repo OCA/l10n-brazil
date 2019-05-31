@@ -1289,6 +1289,9 @@ class L10nBrSefip(models.Model):
 
         """
 
+        if folha.contract_id.id == 22:
+            pass
+
         result = 0.00
 
         # Na competencia 13 nao deve ser informado esses campos
@@ -1323,8 +1326,15 @@ class L10nBrSefip(models.Model):
             # Holerites de adiantamento de 13 gerados em maio para funcionarios
             # que nao adiantaram o 13 salario nas ferias, vem com o codigo
             #  de rubrica de PRIMEIRA_PARCELA_13
-            result += \
-                self._valor_rubrica(folha_ids.line_ids, "PRIMEIRA_PARCELA_13")
+            result += self._valor_rubrica(
+                folha_ids.line_ids, "PRIMEIRA_PARCELA_13")
+
+            # Medias de substituicao no adiantamento de 13º Salario
+            result += self._valor_rubrica(
+                folha_ids.line_ids, "MEDIA_SALARIO_SUBSTI_ADIANT_13")
+
+            result += self._valor_rubrica(
+                folha_ids.line_ids, "DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13")
 
             # Holerites de decimo terceiro em dez, a rubrica é SALARIO_13
             base_13 = \
