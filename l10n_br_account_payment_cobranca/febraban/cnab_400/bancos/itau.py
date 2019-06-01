@@ -115,7 +115,7 @@ class Itau400(Cnab400):
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
             'sacado_inscricao_numero': int(
-                self.rmchar(line.partner_id.cnpj_cpf)),
+                punctuation_rm(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': sacado_endereco,
             'sacado_bairro': line.partner_id.district or '',
