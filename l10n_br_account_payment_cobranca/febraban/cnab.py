@@ -79,3 +79,11 @@ class Cnab(object):
 
     def remessa(self, order):
         pass
+
+    def convert_int(self, campo):
+        if campo:
+            return int(campo)
+        # Retornamos de propósito vazio para que a cnab240 acuse o erro do
+        # registro em branco pois, se retornarmos ZERO o erro vai passar
+        # despercebido
+        return ''

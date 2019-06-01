@@ -60,9 +60,9 @@ class Cef240(Cnab240):
             vals['numero_documento']), "utf-8")
         # TODO: campo 27.3P CEF. Código do juros de mora
         vals['juros_cod_mora'] = 3
-        vals['carteira_numero'] = int(carteira)
-        vals['nosso_numero'] = int(nosso_numero)
-        vals['nosso_numero_dv'] = int(digito)
+        vals['carteira_numero'] = self.convert_int(carteira)
+        vals['nosso_numero'] = self.convert_int(nosso_numero)
+        vals['nosso_numero_dv'] = self.convert_int(digito)
         vals['prazo_baixa'] = unicode(str(
             vals['prazo_baixa']), "utf-8")
 

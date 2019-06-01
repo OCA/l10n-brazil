@@ -44,11 +44,11 @@ class Itau400(Cnab400):
         :return:
         """
         vals = {
-            'cedente_agencia': int(
+            'cedente_agencia': self.convert_int(
                 self.order.company_partner_bank_id.bra_number),
-            'cedente_conta': int(
+            'cedente_conta': self.convert_int(
                 self.order.company_partner_bank_id.acc_number),
-            'cedente_conta_dv': int(
+            'cedente_conta_dv': self.convert_int(
                 self.order.company_partner_bank_id.acc_number_dig),
             'cedente_nome': unicode(self.order.company_id.legal_name),
             'arquivo_data_de_geracao': self.data_hoje(),
@@ -68,22 +68,22 @@ class Itau400(Cnab400):
 
         vals = {
             'identificacao_titulo_empresa': line.identificacao_titulo_empresa,
-            'nosso_numero': int(line.nosso_numero),
+            'nosso_numero': self.convert_int(line.nosso_numero),
             'numero_documento': self.adiciona_digitos_num_doc(
                 line.numero_documento),
             'cedente_inscricao_tipo': self.inscricao_tipo,
-            'cedente_inscricao_numero': int(punctuation_rm(
+            'cedente_inscricao_numero': self.convert_int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)),
-            'cedente_agencia': int(
+            'cedente_agencia': self.convert_int(
                 self.order.company_partner_bank_id.bra_number),
-            'cedente_conta': int(
+            'cedente_conta': self.convert_int(
                 self.order.company_partner_bank_id.acc_number),
-            'cedente_conta_dv': int(
+            'cedente_conta_dv': self.convert_int(
                 self.order.company_partner_bank_id.acc_number_dig
             ),
             'instrucao': 0,  # TODO VERIFICAR
             'quantidade_moeda': 0,
-            'carteira_numero': int(
+            'carteira_numero': self.convert_int(
                 self.order.payment_mode_id.boleto_carteira
             ),
             'carteira_cod': self.order.payment_mode_id.boleto_modalidade,
@@ -97,10 +97,10 @@ class Itau400(Cnab400):
             'aceite_titulo': self.order.payment_mode_id.boleto_aceite,
             'data_emissao_titulo': self.format_date(
                 line.date),  # FIXME
-            'primeira_instrucao': int(
+            'primeira_instrucao': self.convert_int(
                 self.order.payment_mode_id.boleto_protesto
             ),
-            'segunda_instrucao': int(
+            'segunda_instrucao': self.convert_int(
                 self.order.payment_mode_id.boleto_protesto_prazo
 
             ),
@@ -112,14 +112,14 @@ class Itau400(Cnab400):
             'valor_desconto': Decimal('0.00'),
             'valor_iof': Decimal('0.00'),
             'valor_abatimento': Decimal('0.00'),
-            'sacado_inscricao_tipo': int(
+            'sacado_inscricao_tipo': self.convert_int(
                 self.sacado_inscricao_tipo(line.partner_id)),
-            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and int(
+            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and self.convert_int(
                 punctuation_rm(line.partner_id.cnpj_cpf)) or '',
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': sacado_endereco,
             'sacado_bairro': line.partner_id.district or '',
-            'sacado_cep': int(line.partner_id.zip.replace('-', '')),
+            'sacado_cep': self.convert_int(line.partner_id.zip.replace('-', '')),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
             'sacador_avalista': self.order.payment_mode_id.comunicacao_2,
