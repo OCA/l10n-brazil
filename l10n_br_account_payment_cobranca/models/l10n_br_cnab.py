@@ -157,8 +157,43 @@ CODIGO_OCORRENCIAS_CNAB200 = {
 
 
 class L10nBrHrCnab(models.Model):
-    _name = "l10n.br.cnab"
+    _name = "l10n_br.cnab"
     _rec_name = "display_name"
+
+    arquivo_retorno = fields.Binary(
+        string='Arquivo Retorno'
+    )
+    bank_account_id = fields.Many2one(
+        string="Conta cedente",
+        comodel_name="res.partner.bank",
+    )
+    data = fields.Date(
+        string="Data CNAB",
+        required=True,
+        default=datetime.now()
+    )
+    data_arquivo = fields.Datetime(
+        string="Data Criação no Banco",
+    )
+    lote_id = fields.One2many(
+        string="Lotes",
+        comodel_name="l10n_br.cnab.lote",
+        inverse_name="cnab_id"
+    )
+    name = fields.Char(
+        string="Name",
+    )
+    num_eventos = fields.Integer(
+        string=u"Número de Eventos",
+    )
+    num_lotes = fields.Integer(
+        string=u"Número de Lotes",
+    )
+    state = fields.Selection(
+        string=u"Estágio",
+        selection=STATE,
+        default="draft",
+    )
 
     def _busca_conta(self, banco, agencia, conta):
         return self.env['res.partner.bank'].search([
@@ -195,7 +230,7 @@ class L10nBrHrCnab(models.Model):
             'cnab_id': self.id,
         }
 
-        lote_id = self.env['l10n.br.cnab.lote'].create(vals)
+        lote_id = self.env['l10n_br.cnab.lote'].create(vals)
 
         return lote_id, lote_bank_account_id
 
@@ -206,15 +241,16 @@ class L10nBrHrCnab(models.Model):
         ])
 
         vals_evento = {
+            'bank_payment_line_id': bank_payment_line_id.id,
             'data_ocorrencia': evento.data_ocorrencia,
             # 'segmento': evento.servico_segmento,
             # 'favorecido_nome': evento.nome_pagador,
             # 'favorecido_conta_bancaria': lote_bank_account_id,
+            'lote_id': lote_id.id,
             'nosso_numero': str(evento.nosso_numero),
+            'ocorrencias': CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             'seu_numero': evento.numero_documento,
             # 'tipo_moeda': evento.credito_moeda_tipo,
-            'valor_pagamento': evento.valor_principal,
-            'ocorrencias': CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             'str_motiv_a': CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             # 'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
             # ocorrencias[0] else '',
@@ -226,10 +262,9 @@ class L10nBrHrCnab(models.Model):
             # ocorrencias[3] else '',
             # 'str_motiv_e': ocorrencias_dic[ocorrencias[4]] if
             # ocorrencias[4] else '',
-            'bank_payment_line_id': bank_payment_line_id.id,
-            'lote_id': lote_id.id,
+            'valor_pagamento': evento.valor_principal,
         }
-        self.env['l10n.br.cnab.evento'].create(vals_evento)
+        self.env['l10n_br.cnab.evento'].create(vals_evento)
 
     def _lote_240(self, evento, lote_id):
         data_evento = str(
@@ -288,7 +323,7 @@ class L10nBrHrCnab(models.Model):
             'lote_id': lote_id.id,
             'bank_payment_line_id': bank_payment_line_id.id,
         }
-        self.env['l10n.br.cnab.evento'].create(vals_evento)
+        self.env['l10n_br.cnab.evento'].create(vals_evento)
         if evento.ocorrencias and bank_payment_line_id:
             if '00' in ocorrencias:
                 bank_state = 'paid'
@@ -350,106 +385,3 @@ class L10nBrHrCnab(models.Model):
         name = self._get_name(vals['data'])
         vals.update({'name': name})
         return super(L10nBrHrCnab, self).create(vals)
-
-    arquivo_retorno = fields.Binary(string='Arquivo Retorno')
-    data = fields.Date(
-        string="Data CNAB",
-        required=True,
-        default=datetime.now()
-    )
-    name = fields.Char(
-        string="Name",
-    )
-    lote_id = fields.One2many(
-        string="Lotes",
-        comodel_name="l10n.br.cnab.lote",
-        inverse_name="cnab_id"
-    )
-    state = fields.Selection(
-        string=u"Estágio",
-        selection=STATE,
-        default="draft",
-    )
-    data_arquivo = fields.Datetime(
-        string="Data Criação no Banco",
-    )
-    bank_account_id = fields.Many2one(
-        string="Conta cedente",
-        comodel_name="res.partner.bank",
-    )
-    num_lotes = fields.Integer(
-        string=u"Número de Lotes",
-    )
-    num_eventos = fields.Integer(
-        string=u"Número de Eventos",
-    )
-
-
-class L10nBrHrCnabLote(models.Model):
-    _name = "l10n.br.cnab.lote"
-
-    account_bank_id = fields.Many2one(
-        string=u"Conta Bancária",
-        comodel_name="res.partner.bank",
-    )
-    empresa_inscricao_numero = fields.Char(string=u"Número de Inscrição")
-    empresa_inscricao_tipo = fields.Char(string=u"Tipo de Inscrição")
-    servico_operacao = fields.Char(string=u"Tipo de Operação")
-    tipo_servico = fields.Char(strin=u"Tipo do Serviço")
-    mensagem = fields.Char(string="Mensagem")
-    qtd_registros = fields.Integer(string="Quantidade de Registros")
-    total_valores = fields.Float(string="Valor Total")
-    evento_id = fields.One2many(
-        string="Eventos",
-        comodel_name="l10n.br.cnab.evento",
-        inverse_name="lote_id",
-    )
-    cnab_id = fields.Many2one(
-        string="CNAB",
-        comodel_name="l10n.br.cnab"
-    )
-    state = fields.Selection(
-        string="State",
-        related="cnab_id.state",
-        selection=STATE,
-        default="draft",
-    )
-
-
-class L10nBrHrCnabEvento(models.Model):
-    _name = "l10n.br.cnab.evento"
-
-    data_real_pagamento = fields.Datetime(string="Data Real do Pagamento")
-    segmento = fields.Char(string="Segmento")
-    favorecido_nome = fields.Many2one(
-        string="Favorecido",
-        comodel_name="res.partner"
-    )
-    favorecido_conta_bancaria = fields.Many2one(
-        string=u"Conta Bancária",
-        comodel_name="res.partner.bank",
-    )
-    nosso_numero = fields.Char(string=u"Nosso Número")
-    seu_numero = fields.Char(string=u"Seu Número")
-    tipo_moeda = fields.Char(string=u"Tipo de Moeda")
-    valor_pagamento = fields.Float(string="Valor do Pagamento")
-    ocorrencias = fields.Char(string=u"Ocorrências")
-    str_motiv_a = fields.Char(u'Motivo da ocorrência 01')
-    str_motiv_b = fields.Char(u'Motivo de ocorrência 02')
-    str_motiv_c = fields.Char(u'Motivo de ocorrência 03')
-    str_motiv_d = fields.Char(u'Motivo de ocorrência 04')
-    str_motiv_e = fields.Char(u'Motivo de ocorrência 05')
-    bank_payment_line_id = fields.Many2one(
-        string="Bank Payment Line",
-        comodel_name="bank.payment.line",
-    )
-    lote_id = fields.Many2one(
-        string="Lote",
-        comodel_name="l10n.br.cnab.lote",
-    )
-    state = fields.Selection(
-        string="State",
-        related="lote_id.state",
-        selection=STATE,
-        default="draft",
-    )
