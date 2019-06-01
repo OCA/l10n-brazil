@@ -98,6 +98,12 @@ class BankPaymentLine(models.Model):
     identificacao_titulo_empresa = fields.Char(
         string=u'Identificação Titulo Empresa',
     )
+    is_erro_exportacao = fields.Boolean(
+        string=u'Contem erro de exportação',
+    )
+    mensagem_erro_exportacao = fields.Char(
+        string=u'Mensagem de erro',
+    )
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):

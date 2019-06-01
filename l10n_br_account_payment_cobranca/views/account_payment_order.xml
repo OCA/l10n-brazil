@@ -8,6 +8,18 @@
                ref="account_payment_order.account_payment_order_form"/>
         <field name="priority" eval="15"/>
         <field name="arch" type="xml">
+            <div class="oe_title" position="before">
+                <div class="alert alert-info" role="alert"
+                     style="margin-bottom:0px;"
+                     attrs="{'invisible': [('bank_line_error_ids','=',[])]}">
+                    <bold>
+                        <a class="alert-link">
+                           Arquivo gerado com problemas...
+                        </a>
+                    </bold>
+                    Verifique-os na aba "Problemas"
+                </div>
+            </div>
             <field name="bank_line_count" position="after">
                 <field name="tipo_servico"/>
                 <field name="forma_lancamento"/>
@@ -18,6 +30,22 @@
                 <field name="codigo_instrucao_movimento"/>
                 <field name="tipo_movimento"/>
             </field>
+            <page name="bank-payment-lines" position="after">
+                <page name="bank-error-lines" string="Problemas"
+                      attrs="{'invisible': [('bank_line_error_ids','=',[])]}">
+                    <field name="bank_line_error_ids"
+                           context="{'default_payment_type': payment_type}">
+                        <tree>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="nosso_numero"/>
+                            <field name="numero_documento"/>
+                            <field name="identificacao_titulo_empresa"/>
+                            <field name="mensagem_erro_exportacao"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
 
         </field>
     </record>

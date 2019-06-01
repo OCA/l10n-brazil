@@ -83,7 +83,7 @@ RETORNO_400_REJEITADA = [
 
 RETORNO_400_LIQUIDACAO = [
     6,
-    7,
+    # 7, TODO: Implementar a baixa parcial;
     8,
 ]
 
@@ -308,6 +308,7 @@ class L10nBrHrCnab(models.Model):
             if cnab_state:
                 for pay_order_line_id in bank_payment_line_id.payment_line_ids:
                     pay_order_line_id.move_line_id.state_cnab = cnab_state
+
             # TODO: Processar liquidacão e baixa de pagamento.
 
     def _lote_240(self, evento, lote_id):
