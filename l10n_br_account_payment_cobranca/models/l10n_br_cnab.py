@@ -72,6 +72,28 @@ TIPO_INSCRICAO_EMPRESA = {
     9: 'Outros',
 }
 
+
+RETORNO_400_CONFIRMADA = [
+    2,
+]
+
+RETORNO_400_REJEITADA = [
+    3,
+]
+
+RETORNO_400_LIQUIDACAO = [
+    6,
+    7,
+    8,
+]
+
+RETORNO_400_BAIXA = [
+    9,
+    10,
+]
+
+
+
 CODIGO_OCORRENCIAS_CNAB200 = {
     2: 'ENTRADA CONFIRMADA COM POSSIBILIDADE DE MENSAGEM (NOTA 20 – TABELA 10)',  # noqa
     3: 'ENTRADA REJEITADA (NOTA 20 – TABELA 1)', # noqa
@@ -237,9 +259,10 @@ class L10nBrHrCnab(models.Model):
 
     def _lote_400(self, evento, lote_id):
 
-        bank_payment_line_id = self.env['bank.payment.line'].search([
-            ('name', '=', evento.nosso_numero)
-        ])
+        bank_payment_line_id = self.env['bank.payment.line'].search([(
+            'identificacao_titulo_empresa', '=',
+            evento.identificacao_titulo_empresa
+        )], limit=1)
 
         vals_evento = {
             'bank_payment_line_id': bank_payment_line_id.id,
@@ -268,6 +291,24 @@ class L10nBrHrCnab(models.Model):
             'valor_pagamento': evento.valor_principal,
         }
         self.env['l10n_br.cnab.evento'].create(vals_evento)
+
+        if evento.codigo_ocorrencia and bank_payment_line_id:
+            cnab_state = False
+            if evento.codigo_ocorrencia in RETORNO_400_CONFIRMADA:
+                cnab_state = 'accepted'
+            elif evento.codigo_ocorrencia in RETORNO_400_REJEITADA:
+                cnab_state = 'not_accepted'
+            elif evento.codigo_ocorrencia in RETORNO_400_LIQUIDACAO:
+                cnab_state = 'accepted'
+                bank_state = 'paid'
+            elif evento.codigo_ocorrencia in RETORNO_400_BAIXA:
+                cnab_state = 'accepted'
+                # bank_state = ''
+
+            if cnab_state:
+                for pay_order_line_id in bank_payment_line_id.payment_line_ids:
+                    pay_order_line_id.move_line_id.state_cnab = cnab_state
+            # TODO: Processar liquidacão e baixa de pagamento.
 
     def _lote_240(self, evento, lote_id):
         data_evento = str(
