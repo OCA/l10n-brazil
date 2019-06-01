@@ -262,8 +262,8 @@ class Cnab400(Cnab):
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.sacado_inscricao_tipo(line.partner_id)),
-            'sacado_inscricao_numero': int(
-                self.rmchar(line.partner_id.cnpj_cpf)),
+            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and int(
+                punctuation_rm(line.partner_id.cnpj_cpf)) or '',
             'sacado_nome': line.partner_id.legal_name,
 
             # 'sacado_endereco': (
