@@ -111,7 +111,6 @@ class BankPaymentLine(models.Model):
             BankPaymentLine, self
         ).same_fields_payment_line_and_bank_payment_line()
 
-
         # TODO: Implementar campo brasileiros que permitem mesclar linhas
 
         same_fields = []  # Por segurança não vamos mesclar nada

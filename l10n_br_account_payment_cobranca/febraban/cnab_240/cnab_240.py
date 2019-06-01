@@ -289,7 +289,7 @@ class Cnab240(Cnab):
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
-                    line.partner_id.street + ' ' + line.partner_id.number),
+                line.partner_id.street + ' ' + line.partner_id.number),
             'sacado_bairro': line.partner_id.district or '',
             'sacado_cep': self.get_cep('prefixo', line.partner_id.zip),
             'sacado_cep_sufixo': self.get_cep('sufixo', line.partner_id.zip),

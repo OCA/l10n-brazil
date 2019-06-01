@@ -17,7 +17,7 @@ ESTADOS_CNAB = [
     ('added', u'Adicionada à ordem de pagamento'),   # ok
     ('exported', u'Exportada'),                      # ok
     ('accepted', u'Aceita'),
-    ('not_accepted', u'Não aceita pelo banco'), # importar novamente
+    ('not_accepted', u'Não aceita pelo banco'),  # importar novamente
 ]
 
 

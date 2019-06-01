@@ -36,9 +36,9 @@ class AccountInvoice(models.Model):
             # inv.transaction_id = sequence
             for index, interval in enumerate(inv.move_line_receivable_id):
                 numero_documento = (
-                        inv.get_invoice_fiscal_number() +
-                        '/' +
-                        str(index + 1).zfill(2)
+                    inv.get_invoice_fiscal_number() +
+                    '/' +
+                    str(index + 1).zfill(2)
                 )
 
                 # Verificar se é boleto para criar o numero
