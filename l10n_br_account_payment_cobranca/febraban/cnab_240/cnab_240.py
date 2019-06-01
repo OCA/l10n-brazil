@@ -300,8 +300,8 @@ class Cnab240(Cnab):
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
                 self.get_inscricao_tipo(line.partner_id)),
-            'sacado_inscricao_numero': int(
-                punctuation_rm(line.partner_id.cnpj_cpf)),
+            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and int(
+                punctuation_rm(line.partner_id.cnpj_cpf)) or '',
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
                 line.partner_id.street + ' ' + line.partner_id.number),
@@ -425,8 +425,8 @@ class Cnab240(Cnab):
             'favorecido_tipo_inscricao':
                 self.get_inscricao_tipo(line.partner_id),
             # 08.3B
-            'favorecido_num_inscricao':
-                int(punctuation_rm(line.partner_id.cnpj_cpf)),
+            'favorecido_num_inscricao': line.partner_id.cnpj_cpf and
+                int(punctuation_rm(line.partner_id.cnpj_cpf)) or '',
             # 09.3B
             'favorecido_endereco_rua': line.partner_id.street or '',
             # 10.3B
