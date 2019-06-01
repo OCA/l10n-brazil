@@ -44,6 +44,7 @@
         <field name="model">l10n_br.cnab.evento</field>
         <field name="arch" type="xml">
             <tree string="CNAB Evento Lines">
+                <field name="bank_payment_line_id"/>
                 <field name="data_real_pagamento"/>
                 <field name="segmento"/>
                 <field name="favorecido_id"/>
@@ -53,11 +54,6 @@
                 <field name="tipo_moeda"/>
                 <field name="valor_pagamento"/>
                 <field name="ocorrencias"/>
-                <field name="str_motiv_a"/>
-                <field name="str_motiv_b"/>
-                <field name="str_motiv_c"/>
-                <field name="str_motiv_d"/>
-                <field name="str_motiv_e"/>
             </tree>
         </field>
     </record>
@@ -163,41 +159,39 @@
                     <field name="state" widget="statusbar" nolabel="1"
                            statusbar_visible="draft,done"/>
                 </header>
-                <sheet>
-                    <h1>
-                        <field name="name" readonly="1"/>
-                    </h1>
+                <h1>
+                    <field name="name" readonly="1"/>
+                </h1>
+                <group>
                     <group>
-                        <group>
-                            <field name="data"
-                                   attrs="{'readonly': [('state', '=', 'done')]}"/>
-                            <field name="arquivo_retorno"
-                                   attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        </group>
-
-                    </group>
-                    <group attrs="{'invisible': [('state','!=', 'done')], 'readonly': [('state', '=', 'done')]}">
-                        <group>
-                            <field name="data_arquivo"
-                                   attrs="{'readonly': [('state', '=', 'done')]}"/>
-                            <field name="bank_account_id"
-                                   attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        </group>
-                        <group>
-                            <field name="num_lotes"
-                                   attrs="{'readonly': [('state', '=', 'done')]}"/>
-                            <field name="num_eventos"
-                                   attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        </group>
-                    </group>
-                    <group string="Lote de Eventos" name="evento-lines"
-                           attrs="{'invisible': [('state','!=', 'done')]}">
-                        <field name="lote_id"
-                               context="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_lote_form_view'}"
-                               nolabel="1"
+                        <field name="data"
+                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="arquivo_retorno"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                     </group>
-                </sheet>
+
+                </group>
+                <group attrs="{'invisible': [('state','!=', 'done')], 'readonly': [('state', '=', 'done')]}">
+                    <group>
+                        <field name="data_arquivo"
+                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="bank_account_id"
+                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                    </group>
+                    <group>
+                        <field name="num_lotes"
+                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="num_eventos"
+                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                    </group>
+                </group>
+                <group string="Lote de Eventos" name="evento-lines"
+                       attrs="{'invisible': [('state','!=', 'done')]}">
+                    <field name="lote_id"
+                           context="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_lote_form_view'}"
+                           nolabel="1"
+                           attrs="{'readonly': [('state', '=', 'done')]}"/>
+                </group>
             </form>
         </field>
     </record>
