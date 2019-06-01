@@ -164,10 +164,6 @@ class Cnab400(Cnab):
         else:
             return 1
 
-    def rmchar(self, format):
-        return re.sub('[%s]' % re.escape(string.punctuation), '',
-                      format or '')
-
     def codificar(self, texto):
         return texto.encode('utf-8')
 
