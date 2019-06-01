@@ -70,6 +70,14 @@ class PaymentOrder(models.Model):
         help='Campo G061 do CNAB',
         default='0',
     )
+    bank_line_error_ids = fields.One2many(
+        comodel_name='bank.payment.line',
+        inverse_name='order_id',
+        string="Bank Payment Error Lines",
+        readonly=True,
+        domain=[('is_erro_exportacao', '=', True)],
+    )
+    
 
     @api.model
     def _prepare_bank_payment_line(self, paylines):
@@ -80,21 +88,11 @@ class PaymentOrder(models.Model):
             paylines.identificacao_titulo_empresa
         return result
 
-    @api.multi
-    def open2generated(self):
-        action = super(PaymentOrder, self).open2generated()
-        if self.state == 'generated':
-            for payment_line in self.payment_line_ids:
-                payment_line.move_line_id.state_cnab = 'exported'
-        return action
-
     def _generate_payment_file(self):
         try:
             return Cnab.gerar_remessa(order=self), self.name + '.REM'
         except Cnab240Error as e:
-            from odoo import exceptions
-            raise exceptions.ValidationError(
-                "Campo preenchido incorretamente \n\n{0}".format(e))
+            _logger.error("Erro ao gerar o arquivo: \n\n{0}".format(e))
 
     @api.multi
     def generate_payment_file(self):
@@ -103,3 +101,15 @@ class PaymentOrder(models.Model):
         if self.payment_method_id.code in ('240', '400', '500'):
             return self._generate_payment_file()
         return super(PaymentOrder, self).generate_payment_file()
+
+    @api.multi
+    def open2generated(self):
+        result = super(PaymentOrder, self).open2generated()
+
+        if self.bank_line_error_ids:
+            self.message_post(
+                'Erro ao gerar o arquivo,'
+                ' verifique a aba "Linhas com problemas"')
+            return False
+        self.message_post('Arquivo gerado com sucesso')
+        return result

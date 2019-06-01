@@ -18,6 +18,7 @@ from ..cnab import Cnab
 _logger = logging.getLogger(__name__)
 try:
     from cnab240.tipos import ArquivoCobranca400
+    from cnab240.errors import Cnab240Error
 except ImportError as err:
     _logger.debug = (err)
 
@@ -306,8 +307,30 @@ class Cnab400(Cnab):
         self.arquivo = ArquivoCobranca400(
             self.classe_remessa, **self._prepare_header())
         for line in order.bank_line_ids:
-            self.arquivo.incluir_cobranca(**self._prepare_cobranca(line))
-            self.arquivo.trailer.num_seq_registro = self.controle_linha
+            try:
+                self.arquivo.incluir_cobranca(**self._prepare_cobranca(line))
+                self.arquivo.trailer.num_seq_registro = self.controle_linha
+                line.is_erro_exportacao = False
+                line.mensagem_erro_exportacao = ''
+
+                for payment_line in line.payment_line_ids:
+                    payment_line.move_line_id.state_cnab = 'exported'
+
+            except Cnab240Error as e:
+                mensagem = ''
+                if hasattr(e, 'campo'):
+                    mensagem += u' Campo ' + e.campo.nome
+                    mensagem += u' valor ' + str(e.campo.valor)
+                    mensagem += u' inválido'
+                else:
+                    mensagem += u' Erro desconhecido'
+                line.is_erro_exportacao = True
+                line.mensagem_erro_exportacao = mensagem
+
+                for payment_line in line.payment_line_ids:
+                    payment_line.move_line_id.state_cnab = 'exporting_error'
+
+                continue
 
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(

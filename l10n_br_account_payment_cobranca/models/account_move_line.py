@@ -16,6 +16,7 @@ ESTADOS_CNAB = [
     ('draft', u'Inicial'),                           # ok
     ('added', u'Adicionada à ordem de pagamento'),   # ok
     ('exported', u'Exportada'),                      # ok
+    ('exporting_error', u'Erro ao exportar'),                      # ok
     ('accepted', u'Aceita'),
     ('not_accepted', u'Não aceita pelo banco'),  # importar novamente
 ]
