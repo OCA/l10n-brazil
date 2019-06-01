@@ -46,7 +46,8 @@
             <tree string="CNAB Evento Lines">
                 <field name="data_real_pagamento"/>
                 <field name="segmento"/>
-                <field name="favorecido_nome"/>
+                <field name="favorecido_id"/>
+                <field name="favorecido_conta_bancaria_id"/>
                 <field name="nosso_numero"/>
                 <field name="seu_numero"/>
                 <field name="tipo_moeda"/>
@@ -76,7 +77,7 @@
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="segmento"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="favorecido_nome"
+                        <field name="favorecido_id"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="nosso_numero"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>

@@ -36,7 +36,7 @@ class Itau240(Cnab240):
         #     vals['cedente_dv_ag_cc'])
         # vals['cedente_agencia_dv'] = int(
         #     vals['cedente_agencia_dv']),
-        # return vals
+        return vals
 
     def _prepare_cobranca(self, line):
         """
