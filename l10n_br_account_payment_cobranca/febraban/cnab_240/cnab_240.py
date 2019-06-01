@@ -98,16 +98,21 @@ class Cnab240(Cnab):
             'cedente_agencia':
                 int(self.order.company_partner_bank_id.bra_number),
             # 09.0
-            'cedente_agencia_dv': self.order.company_partner_bank_id.bra_number_dig,
+            'cedente_agencia_dv':
+                self.order.company_partner_bank_id.bra_number_dig,
             # 10.0
             'cedente_conta':
-                int(punctuation_rm(self.order.company_partner_bank_id.acc_number)),
+                int(punctuation_rm(
+                    self.order.company_partner_bank_id.acc_number)),
             # 11.0
-            'cedente_conta_dv': self.order.company_partner_bank_id.acc_number_dig[0],
+            'cedente_conta_dv':
+                self.order.company_partner_bank_id.acc_number_dig[0],
             # 12.0
             'cedente_agencia_conta_dv':
                 self.order.company_partner_bank_id.acc_number_dig[1]
-                if len(self.order.company_partner_bank_id.acc_number_dig) > 1 else '',
+                if len(
+                    self.order.company_partner_bank_id.acc_number_dig
+                ) > 1 else '',
             # 13.0
             'cedente_nome':
                 self.order.company_partner_bank_id.partner_id.legal_name[:30]
@@ -182,16 +187,21 @@ class Cnab240(Cnab):
             'cedente_agencia':
                 int(self.order.company_partner_bank_id.bra_number),
             # 13.1
-            'cedente_agencia_dv': self.order.company_partner_bank_id.bra_number_dig,
+            'cedente_agencia_dv':
+                self.order.company_partner_bank_id.bra_number_dig,
             # 14.1
             'cedente_conta':
-                int(punctuation_rm(self.order.company_partner_bank_id.acc_number)),
+                int(punctuation_rm(
+                    self.order.company_partner_bank_id.acc_number)),
             # 15.1
-            'cedente_conta_dv': self.order.company_partner_bank_id.acc_number_dig[0],
+            'cedente_conta_dv':
+                self.order.company_partner_bank_id.acc_number_dig[0],
             # 16.1
             'cedente_agencia_conta_dv':
                 self.order.company_partner_bank_id.acc_number_dig[1]
-                if len(self.order.company_partner_bank_id.acc_number_dig) > 1 else '',
+                if len(
+                    self.order.company_partner_bank_id.acc_number_dig
+                ) > 1 else '',
             # 17.1
             'cedente_nome':
                 self.order.company_partner_bank_id.partner_id.legal_name[:30]
@@ -257,11 +267,16 @@ class Cnab240(Cnab):
         # Era cedente_agencia_conta_dv agora é cedente_dv_ag_cc
 
         return {
-            'controle_banco': int(self.order.company_partner_bank_id.code_bc),
-            'cedente_agencia': int(self.order.company_partner_bank_id.bra_number),
-            'cedente_conta': int(self.order.company_partner_bank_id.acc_number),
-            'cedente_conta_dv': self.order.company_partner_bank_id.acc_number_dig,
-            'cedente_agencia_dv': self.order.company_partner_bank_id.bra_number_dig,
+            'controle_banco': int(
+                self.order.company_partner_bank_id.code_bc),
+            'cedente_agencia': int(
+                self.order.company_partner_bank_id.bra_number),
+            'cedente_conta': int(
+                self.order.company_partner_bank_id.acc_number),
+            'cedente_conta_dv':
+                self.order.company_partner_bank_id.acc_number_dig,
+            'cedente_agencia_dv':
+                self.order.company_partner_bank_id.bra_number_dig,
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
@@ -291,16 +306,21 @@ class Cnab240(Cnab):
             'sacado_endereco': (
                 line.partner_id.street + ' ' + line.partner_id.number),
             'sacado_bairro': line.partner_id.district or '',
-            'sacado_cep': self.get_cep('prefixo', line.partner_id.zip),
-            'sacado_cep_sufixo': self.get_cep('sufixo', line.partner_id.zip),
+            'sacado_cep':
+                self.get_cep('prefixo', line.partner_id.zip),
+            'sacado_cep_sufixo':
+                self.get_cep('sufixo', line.partner_id.zip),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
-            'codigo_protesto': int(self.order.payment_mode_id.boleto_protesto),
-            'prazo_protesto': int(self.order.payment_mode_id.boleto_protesto_prazo),
+            'codigo_protesto':
+                int(self.order.payment_mode_id.boleto_protesto),
+            'prazo_protesto':
+                int(self.order.payment_mode_id.boleto_protesto_prazo),
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
-            'cobranca_carteira': int(self.order.payment_mode_id.boleto_carteira),
+            'cobranca_carteira':
+                int(self.order.payment_mode_id.boleto_carteira),
         }
 
     def _prepare_pagamento(self, line):
@@ -316,7 +336,8 @@ class Cnab240(Cnab):
             # SEGMENTO A
             # CONTROLE
             # 01.3A
-            'controle_banco': int(self.order.company_partner_bank_id.code_bc),
+            'controle_banco':
+                int(self.order.company_partner_bank_id.code_bc),
             # 02.3A
             'controle_lote': 1,
             # 03.3A -  3-Registros Iniciais do Lote
@@ -510,7 +531,8 @@ class Cnab240(Cnab):
             #         Decimal('1.00'))
 
         remessa = unicode(self.arquivo)
-        return unicodedata.normalize('NFKD', remessa).encode('ascii', 'ignore')
+        return unicodedata.normalize(
+            'NFKD', remessa).encode('ascii', 'ignore')
 
     def get_cep(self, tipo, value):
         '''

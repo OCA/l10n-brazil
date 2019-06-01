@@ -4,11 +4,15 @@
 #   @author Daniel Sadamo <daniel.sadamo@kmee.com.br>
 #   @author Fernando Marcato <fernando.marcato@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-# TODO: implement abc factory?
 
 from __future__ import division, print_function, unicode_literals
+
+import logging
 import base64
 import codecs
+
+_logger = logging.getLogger(__name__)
+
 
 try:
     from cnab240.tipos import ArquivoCobranca400

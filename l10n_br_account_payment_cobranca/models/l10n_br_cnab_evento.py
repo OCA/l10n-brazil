@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from odoo import api, models, fields, exceptions
+from odoo import models, fields
 from .l10n_br_cnab import STATE
 
 _logger = logging.getLogger(__name__)
@@ -20,11 +20,11 @@ class L10nBrCnabEvento(models.Model):
     data_real_pagamento = fields.Datetime(
         string="Data Real do Pagamento"
     )
-    favorecido_conta_bancaria = fields.Many2one(
+    favorecido_conta_bancaria_id = fields.Many2one(
         string=u"Conta Bancária",
         comodel_name="res.partner.bank",
     )
-    favorecido_nome = fields.Many2one(
+    favorecido_id = fields.Many2one(
         string="Favorecido",
         comodel_name="res.partner"
     )
