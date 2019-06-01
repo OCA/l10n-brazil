@@ -369,7 +369,8 @@ class Cnab400(Cnab):
             # unicode(str_endereco.encode("ascii", errors="replace"))
 
         # Substitui sinal de grau por espaço
-        str_endereco = str_endereco.replace(u"\xb0", u" ")
+        if str_endereco:
+            str_endereco = str_endereco.replace(u"\xb0", u" ")
 
         return str_endereco
 

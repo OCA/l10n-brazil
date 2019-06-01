@@ -119,7 +119,10 @@ class Itau400(Cnab400):
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': sacado_endereco,
             'sacado_bairro': line.partner_id.district or '',
-            'sacado_cep': self.convert_int(line.partner_id.zip.replace('-', '')),
+            'sacado_cep': (
+                line.partner_id.zip and
+                self.convert_int(line.partner_id.zip.replace('-', '')) or ''
+            ),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
             'sacador_avalista': self.order.payment_mode_id.comunicacao_2,
