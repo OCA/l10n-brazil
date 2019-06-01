@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from odoo import api, models, fields, exceptions
+from odoo import models, fields
 from .l10n_br_cnab import STATE
 _logger = logging.getLogger(__name__)
 

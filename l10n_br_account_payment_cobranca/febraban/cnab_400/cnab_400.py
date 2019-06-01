@@ -121,14 +121,20 @@ class Cnab400(Cnab):
                 self.order.company_id.cnpj_cpf)),
             'cedente_agencia': int(
                 self.order.company_partner_bank_id.bra_number),
-            'cedente_conta': int(self.order.company_partner_bank_id.acc_number),
-            'cedente_conta_dv': (self.order.company_partner_bank_id.acc_number_dig),
-            'cedente_agencia_dv': self.order.company_partner_bank_id.bra_number_dig,
-            'cedente_nome': self.order.company_id.legal_name,
+            'cedente_conta':
+                int(self.order.company_partner_bank_id.acc_number),
+            'cedente_conta_dv':
+                self.order.company_partner_bank_id.acc_number_dig,
+            'cedente_agencia_dv':
+                self.order.company_partner_bank_id.bra_number_dig,
+            'cedente_nome':
+                self.order.company_id.legal_name,
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
-            'nome_banco': unicode(self.order.company_partner_bank_id.bank_name),
-            'codigo_empresa': int(self.order.payment_mode_id.boleto_convenio),
+            'nome_banco':
+                unicode(self.order.company_partner_bank_id.bank_name),
+            'codigo_empresa':
+                int(self.order.payment_mode_id.boleto_convenio),
         }
 
     def get_file_numeration(self):
@@ -216,17 +222,23 @@ class Cnab400(Cnab):
             'segunda_instrucao': dias_protestar,
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
-            'sacador_avalista': self.order.payment_mode_id.comunicacao_2,
+            'sacador_avalista':
+                self.order.payment_mode_id.comunicacao_2,
             # 'sacador_avalista': u'Protestar após 5 dias',
-            'num_seq_registro': self.controle_linha,
+            'num_seq_registro':
+                self.controle_linha,
 
             'controle_banco': int(
                 self.order.company_partner_bank_id.bank_id.code_bc
             ),
-            'cedente_agencia': int(self.order.company_partner_bank_id.bra_number),
-            'cedente_conta': int(self.order.company_partner_bank_id.acc_number),
-            'cedente_conta_dv': self.order.company_partner_bank_id.acc_number_dig,
-            'cedente_agencia_dv': self.order.company_partner_bank_id.bra_number_dig,
+            'cedente_agencia': int(
+                self.order.company_partner_bank_id.bra_number),
+            'cedente_conta': int(
+                self.order.company_partner_bank_id.acc_number),
+            'cedente_conta_dv':
+                self.order.company_partner_bank_id.acc_number_dig,
+            'cedente_agencia_dv':
+                self.order.company_partner_bank_id.bra_number_dig,
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.name,  # FIXME
@@ -347,7 +359,7 @@ class Cnab400(Cnab):
         street = self.check_address_item_filled(partner_item.street)
         number = self.check_address_item_filled(partner_item.number)
         complemento = self.check_address_item_filled(partner_item.street2)
-        distrito = self.check_address_item_filled(partner_item.district)
+        # distrito = self.check_address_item_filled(partner_item.district)
 
         str_endereco = (
             street +
