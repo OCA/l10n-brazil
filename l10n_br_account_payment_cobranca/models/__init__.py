@@ -8,9 +8,10 @@ from . import account_payment_mode
 from . import account_payment_order
 from . import bank_payment_line
 from . import l10n_br_cnab
+from . import l10n_br_cnab_evento
+from . import l10n_br_cnab_lote
 from . import res_company
 from . import res_partner_bank
 from . import res_partner
 from .. import constantes
-# from . import l10n_br_cnab_file_sufix_sequence
-# from . import l10n_br_cnab_sequence
+

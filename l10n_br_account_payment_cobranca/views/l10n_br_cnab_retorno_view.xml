@@ -6,7 +6,7 @@
 
     <record id="view_cnab_retorno_tree" model="ir.ui.view">
         <field name="name">cnab.retorno.tree</field>
-        <field name="model">l10n.br.cnab</field>
+        <field name="model">l10n_br.cnab</field>
         <field name="arch" type="xml">
             <tree string="CNAB Retorno Lines">
                 <field name="name"/>
@@ -22,7 +22,7 @@
 
     <record id="view_cnab_lote_tree" model="ir.ui.view">
         <field name="name">cnab.lote.tree</field>
-        <field name="model">l10n.br.cnab.lote</field>
+        <field name="model">l10n_br.cnab.lote</field>
         <field name="arch" type="xml">
             <tree string="CNAB Lotes Lines">
                 <field name="account_bank_id"/>
@@ -41,7 +41,7 @@
 
     <record id="view_cnab_evento_tree" model="ir.ui.view">
         <field name="name">cnab.evento.tree</field>
-        <field name="model">l10n.br.cnab.evento</field>
+        <field name="model">l10n_br.cnab.evento</field>
         <field name="arch" type="xml">
             <tree string="CNAB Evento Lines">
                 <field name="data_real_pagamento"/>
@@ -63,7 +63,7 @@
 
     <record id="cnab_retorno_evento_form_view" model="ir.ui.view">
         <field name="name">cnab.retorno.evento.form.view</field>
-        <field name="model">l10n.br.cnab.evento</field>
+        <field name="model">l10n_br.cnab.evento</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -110,7 +110,7 @@
 
     <record id="cnab_retorno_lote_form_view" model="ir.ui.view">
         <field name="name">cnab.retorno.lote.form.view</field>
-        <field name="model">l10n.br.cnab.lote</field>
+        <field name="model">l10n_br.cnab.lote</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -151,7 +151,7 @@
 
     <record id="cnab_retorno_form_view" model="ir.ui.view">
         <field name="name">cnab.retorno.form.view</field>
-        <field name="model">l10n.br.cnab</field>
+        <field name="model">l10n_br.cnab</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -204,7 +204,7 @@
     <record id="action_cnab_retorno" model="ir.actions.act_window">
         <field name="name">Importar Retorno Bancário CNAB</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n.br.cnab</field>
+        <field name="res_model">l10n_br.cnab</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
