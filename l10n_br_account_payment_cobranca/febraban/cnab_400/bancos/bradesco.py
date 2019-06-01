@@ -44,7 +44,7 @@ class Bradesco400(Cnab400):
         vals['desconto1_percentual'] = Decimal('0.00')
         vals['valor_iof'] = Decimal('0.00')
         # vals['cobrancasimples_valor_titulos'] = Decimal('02.00')
-        vals['identificacao_titulo_banco'] = int(
+        vals['identificacao_titulo_banco'] = self.convert_int(
             vals['identificacao_titulo_banco'])
         vals['cedente_conta_dv'] = unicode(str(
             vals['cedente_conta_dv']), "utf-8")

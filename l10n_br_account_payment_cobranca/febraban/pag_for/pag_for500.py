@@ -176,18 +176,18 @@ class PagFor500(Cnab):
             'arquivo_data_de_geracao': self.data_hoje_pag_for(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
-            'numero_remessa': int(self.get_file_numeration()),
+            'numero_remessa': self.convert_int(self.get_file_numeration()),
             'cedente_inscricao_tipo': self.inscricao_tipo,
-            'cnpj_cpf_base': int(punctuation_rm(
+            'cnpj_cpf_base': self.convert_int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)[0:8]),
-            'cnpj_cpf_filial': int(punctuation_rm(
+            'cnpj_cpf_filial': self.convert_int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)[9:12]),
-            'sufixo_cnpj': int(punctuation_rm(
+            'sufixo_cnpj': self.convert_int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)[12:14]),
             'cedente_agencia':
-                int(self.order.company_partner_bank_id.bra_number),
+                self.convert_int(self.order.company_partner_bank_id.bra_number),
             'cedente_conta':
-                int(self.order.company_partner_bank_id.acc_number),
+                self.convert_int(self.order.company_partner_bank_id.acc_number),
             'cedente_agencia_conta_dv':
                 self.order.company_partner_bank_id.bra_number_dig,
             'nome_empresa_pagadora': self.order.company_id.legal_name,
@@ -197,7 +197,7 @@ class PagFor500(Cnab):
             'servico_operacao': u'R',
             'reservado_empresa': u'BRADESCO PAG FOR',
             # Sequencial crescente e nunca pode ser repetido
-            'numero_lista_debito': int(self.get_file_numeration()),
+            'numero_lista_debito': self.convert_int(self.get_file_numeration()),
             # TODO: Sequencial crescente de
             #  1 a 1 no arquivo. O primeiro header
             #  será sempre 000001
@@ -211,11 +211,11 @@ class PagFor500(Cnab):
         return numero
 
     def format_date(self, srt_date):
-        return int(datetime.datetime.strptime(
+        return self.convert_int(datetime.datetime.strptime(
             srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
 
     def format_date_ano_mes_dia(self, srt_date):
-        return int(datetime.datetime.strptime(
+        return self.convert_int(datetime.datetime.strptime(
             srt_date, '%Y-%m-%d').strftime('%Y%m%d'))
 
     def nosso_numero(self, format):
@@ -248,22 +248,22 @@ class PagFor500(Cnab):
 
         segmento = {
             'conta_complementar':
-                int(self.order.company_partner_bank_id.acc_number),
+                self.convert_int(self.order.company_partner_bank_id.acc_number),
             # 'especie_titulo': 8,
 
-            'tipo_inscricao': int(
+            'tipo_inscricao': self.convert_int(
                 self.sacado_inscricao_tipo(line.partner_id)),
-            'cnpj_cpf_base_forn': line.partner_id.cnpj_cpf and int(
+            'cnpj_cpf_base_forn': line.partner_id.cnpj_cpf and self.convert_int(
                 punctuation_rm(line.partner_id.cnpj_cpf)[0:8]) or '',
-            'cnpj_cpf_filial_forn': line.partner_id.cnpj_cpf and int(
+            'cnpj_cpf_filial_forn': line.partner_id.cnpj_cpf and self.convert_int(
                 punctuation_rm(line.partner_id.cnpj_cpf)[9:12]) or '',
-            'cnpj_cpf_forn_sufixo': line.partner_id.cnpj_cpf and int(
+            'cnpj_cpf_forn_sufixo': line.partner_id.cnpj_cpf and self.convert_int(
                 punctuation_rm(line.partner_id.cnpj_cpf)[12:14]) or '',
             'nome_forn': line.partner_id.legal_name,
             'endereco_forn': (
                 line.partner_id.street + ' ' + line.partner_id.number),
-            'cep_forn': int(prefixo),
-            'cep_complemento_forn': int(sulfixo),
+            'cep_forn': self.convert_int(prefixo),
+            'cep_complemento_forn': self.convert_int(sulfixo),
 
             # TODO quando banco é 237, deve-se extrair da linha
             #  digitável. Do contrário, zeros.
@@ -292,9 +292,9 @@ class PagFor500(Cnab):
             # FIXME
             'tipo_documento': 2,  # NF, Fatura, Duplicata...
             # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
-            'numero_nf': int(line.ml_inv_ref.internal_number),
+            'numero_nf': self.convert_int(line.ml_inv_ref.internal_number),
 
-            'modalidade_pagamento': int(
+            'modalidade_pagamento': self.convert_int(
                 line.order_id.mode.type_purchase_payment),
 
             # Quando não informada o sistema assume a data constante do campo
@@ -326,12 +326,12 @@ class PagFor500(Cnab):
             'totais_quantidade_registros': 0,
             'total_valor_arq': Decimal('0.00'),
             # FIXME: lib nao reconhece campo
-            'sequencial_trailer': int(self.get_file_numeration()),
+            'sequencial_trailer': self.convert_int(self.get_file_numeration()),
             'sequencial_transacao': self.controle_linha,
             'codigo_protesto':
-                int(self.order.payment_mode_id.boleto_protesto),
+                self.convert_int(self.order.payment_mode_id.boleto_protesto),
             'prazo_protesto':
-                int(self.order.payment_mode_id.boleto_protesto_prazo),
+                self.convert_int(self.order.payment_mode_id.boleto_protesto_prazo),
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
@@ -367,13 +367,13 @@ class PagFor500(Cnab):
             'NFKD', remessa).encode('ascii', 'ignore')
 
     def data_hoje(self):
-        return (int(time.strftime("%d%m%Y")))
+        return (self.convert_int(time.strftime("%d%m%Y")))
 
     def data_hoje_pag_for(self):
-        return (int(time.strftime("%Y%m%d")))
+        return (self.convert_int(time.strftime("%Y%m%d")))
 
     def hora_agora(self):
-        return (int(time.strftime("%H%M%S")))
+        return (self.convert_int(time.strftime("%H%M%S")))
 
     @staticmethod
     def modulo11(num, base, r):
@@ -406,15 +406,15 @@ class PagFor500(Cnab):
             'especie_titulo': line.order_id.mode.type_purchase_payment,
 
             'codigo_banco_forn': 237,
-            'codigo_agencia_forn': int(line.bank_id.bra_number),
+            'codigo_agencia_forn': self.convert_int(line.bank_id.bra_number),
             'digito_agencia_forn_transacao': line.bank_id.bra_number_dig,
-            'conta_corrente_forn': int(line.bank_id.acc_number),
+            'conta_corrente_forn': self.convert_int(line.bank_id.acc_number),
             'digito_conta_forn_transacao': line.bank_id.acc_number_dig,
 
             'numero_pagamento': self.adiciona_digitos_num_pag(
                 line.communication),
 
-            'carteira': int(self.order.payment_mode_id.boleto_carteira),
+            'carteira': self.convert_int(self.order.payment_mode_id.boleto_carteira),
 
             'nosso_numero': 0,
 
@@ -432,20 +432,20 @@ class PagFor500(Cnab):
 
         vals = {
             'conta_complementar':
-                int(self.order.company_partner_bank_id.acc_number),
+                self.convert_int(self.order.company_partner_bank_id.acc_number),
             'especie_titulo':
                 line.order_id.mode.type_purchase_payment,
 
             # TODO: código do banco. Para a Modalidade de Pagamento valor
             # pode variar
             'codigo_banco_forn':
-                int(line.bank_id.bank.bic),
+                self.convert_int(line.bank_id.bank.bic),
             'codigo_agencia_forn':
-                int(line.bank_id.bra_number),
+                self.convert_int(line.bank_id.bra_number),
             'digito_agencia_forn_transacao':
                 line.bank_id.bra_number_dig,
             'conta_corrente_forn':
-                int(line.bank_id.acc_number),
+                self.convert_int(line.bank_id.acc_number),
             'digito_conta_forn_transacao':
                 line.bank_id.acc_number_dig,
             # TODO Gerado pelo cliente pagador quando do agendamento de
@@ -466,7 +466,7 @@ class PagFor500(Cnab):
             'fator_vencimento': 0,  # FIXME
 
             # 'modalidade_pagamento':
-            # int(self.order.payment_mode_id.boleto_especie),
+            # self.convert_int(self.order.payment_mode_id.boleto_especie),
 
             'tipo_movimento': 0,
             # TODO Tipo de Movimento.
@@ -501,7 +501,7 @@ class PagFor500(Cnab):
 
         vals = {
             'conta_complementar':
-                int(self.order.company_partner_bank_id.acc_number),
+                self.convert_int(self.order.company_partner_bank_id.acc_number),
             'especie_titulo':
                 line.order_id.mode.type_purchase_payment,
 
@@ -545,22 +545,22 @@ class PagFor500(Cnab):
         # para banco = 237, bradesco
         if (codigo_banco_fornecedor == '237'):
             res = {
-                'codigo_banco_forn': int(codigo_banco_fornecedor),
-                'codigo_agencia_forn': int(linha_digitavel[4:8]),
+                'codigo_banco_forn': self.convert_int(codigo_banco_fornecedor),
+                'codigo_agencia_forn': self.convert_int(linha_digitavel[4:8]),
                 # Calcular usando modulo 11 base 7
                 'digito_agencia_forn_transacao': u'',
-                'conta_corrente_forn': int(linha_digitavel[23:30]),
+                'conta_corrente_forn': self.convert_int(linha_digitavel[23:30]),
                 # Calcular usando modulo 11 base 7
                 'digito_conta_forn_transacao': u'',
 
-                'carteira': int(linha_digitavel[8:10]),
+                'carteira': self.convert_int(linha_digitavel[8:10]),
 
-                'nosso_numero': int(linha_digitavel[11:21])
+                'nosso_numero': self.convert_int(linha_digitavel[11:21])
             }
         # para outros bancos
         else:
             res = {
-                'codigo_banco_forn': int(codigo_banco_fornecedor),
+                'codigo_banco_forn': self.convert_int(codigo_banco_fornecedor),
                 'codigo_agencia_forn': 0,
                 'digito_agencia_forn_transacao': u'',
                 'conta_corrente_forn': 0,
