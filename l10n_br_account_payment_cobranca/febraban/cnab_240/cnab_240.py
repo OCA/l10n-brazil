@@ -301,7 +301,7 @@ class Cnab240(Cnab):
             'sacado_inscricao_tipo': int(
                 self.get_inscricao_tipo(line.partner_id)),
             'sacado_inscricao_numero': int(
-                self.rmchar(line.partner_id.cnpj_cpf)),
+                punctuation_rm(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
                 line.partner_id.street + ' ' + line.partner_id.number),
@@ -564,10 +564,6 @@ class Cnab240(Cnab):
 
     def hora_agora(self):
         return (int(time.strftime("%H%M%S")))
-
-    def rmchar(self, format):
-        return re.sub('[%s]' % re.escape(string.punctuation), '',
-                      format or '')
 
     def nosso_numero(self, format):
         """

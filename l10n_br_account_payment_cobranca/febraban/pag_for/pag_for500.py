@@ -233,10 +233,6 @@ class PagFor500(Cnab):
         else:
             return 1
 
-    def rmchar(self, format):
-        return re.sub('[%s]' % re.escape(
-            string.punctuation), '', format or '')
-
     def _prepare_cobranca(self, line, vals):
         """
 
@@ -260,9 +256,9 @@ class PagFor500(Cnab):
             'cnpj_cpf_base_forn': int(
                 self.rmchar(line.partner_id.cnpj_cpf)[0:8]),
             'cnpj_cpf_filial_forn': int(
-                self.rmchar(line.partner_id.cnpj_cpf)[9:12]),
+                punctuation_rm(line.partner_id.cnpj_cpf)[9:12]),
             'cnpj_cpf_forn_sufixo': int(
-                self.rmchar(line.partner_id.cnpj_cpf)[12:14]),
+                punctuation_rm(line.partner_id.cnpj_cpf)[12:14]),
             'nome_forn': line.partner_id.legal_name,
             'endereco_forn': (
                 line.partner_id.street + ' ' + line.partner_id.number),
