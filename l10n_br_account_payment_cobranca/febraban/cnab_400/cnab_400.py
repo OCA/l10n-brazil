@@ -187,7 +187,8 @@ class Cnab400(Cnab):
             if (int(self.order.payment_mode_id.boleto_protesto_prazo)) < 5:
                 dias_protestar = 5
             else:
-                dias_protestar = int(self.order.payment_mode_id.boleto_protesto_prazo)
+                dias_protestar = int(
+                    self.order.payment_mode_id.boleto_protesto_prazo)
 
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
 
@@ -239,7 +240,7 @@ class Cnab400(Cnab):
             'especie_titulo': int(self.order.payment_mode_id.boleto_especie),
             'aceite_titulo': aceite,
             'data_emissao_titulo': self.format_date(
-                line.date), # FIXME
+                line.date),  # FIXME
             # TODO: trazer taxa de juros do Odoo. Depende do valor do 27.3P
             # CEF/FEBRABAN e Itaú não tem.
             'juros_mora_data': self.format_date(
@@ -247,7 +248,7 @@ class Cnab400(Cnab):
 
             # 'juros_mora_taxa_dia': Decimal('0.20'),
             'juros_mora_taxa_dia': self.calcula_valor_juros_dia(
-                line.amount_currency,  0), # line.percent_interest
+                line.amount_currency,  0),  # line.percent_interest
 
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
@@ -290,7 +291,8 @@ class Cnab400(Cnab):
         :return:
         """
         self.order = order
-        self.arquivo = ArquivoCobranca400(self.classe_remessa, **self._prepare_header())
+        self.arquivo = ArquivoCobranca400(
+            self.classe_remessa, **self._prepare_header())
         for line in order.bank_line_ids:
             self.arquivo.incluir_cobranca(**self._prepare_cobranca(line))
             self.arquivo.trailer.num_seq_registro = self.controle_linha
@@ -348,15 +350,15 @@ class Cnab400(Cnab):
         distrito = self.check_address_item_filled(partner_item.district)
 
         str_endereco = (
-                street +
-                ' ' +
-                number +
-                ' ' +
-                complemento
-                # + ' ' +
-                # partner_item.l10n_br_city_id.name +
-                # '  ' + partner_item.state_id.name
-            )
+            street +
+            ' ' +
+            number +
+            ' ' +
+            complemento
+            # + ' ' +
+            # partner_item.l10n_br_city_id.name +
+            # '  ' + partner_item.state_id.name
+        )
         return str_endereco
 
     def check_address_item_filled(self, item):

@@ -260,7 +260,7 @@ class PagFor500(Cnab):
                 self.rmchar(line.partner_id.cnpj_cpf)[12:14]),
             'nome_forn': line.partner_id.legal_name,
             'endereco_forn': (
-                    line.partner_id.street + ' ' + line.partner_id.number),
+                line.partner_id.street + ' ' + line.partner_id.number),
             'cep_forn': int(prefixo),
             'cep_complemento_forn': int(sulfixo),
 
