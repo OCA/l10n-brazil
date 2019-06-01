@@ -26,7 +26,8 @@ class BradescoPagFor(PagFor500):
         :return:
         """
         vals = super(BradescoPagFor, self)._prepare_header()
-        vals['codigo_comunicacao'] = int(self.order.payment_mode_id.boleto_convenio)
+        vals['codigo_comunicacao'] = int(
+            self.order.payment_mode_id.boleto_convenio)
         return vals
 
     def _prepare_cobranca(self, line, vals):
