@@ -71,11 +71,94 @@ TIPO_INSCRICAO_EMPRESA = {
     9: 'Outros',
 }
 
+CODIGO_OCORRENCIAS_CNAB200 = {
+    2: 'ENTRADA CONFIRMADA COM POSSIBILIDADE DE MENSAGEM (NOTA 20 – TABELA 10)',
+    3: 'ENTRADA REJEITADA (NOTA 20 – TABELA 1)',
+    4: 'ALTERAÇÃO DE DADOS – NOVA ENTRADA OU ALTERAÇÃO/EXCLUSÃO DE DADOS ACATADA',
+    5: 'ALTERAÇÃO DE DADOS – BAIXA',
+    6: 'LIQUIDAÇÃO NORMAL',
+    7: 'LIQUIDAÇÃO PARCIAL – COBRANÇA INTELIGENTE (B2B)',
+    8: 'LIQUIDAÇÃO EM CARTÓRIO',
+    9: 'BAIXA SIMPLES',
+    10: 'BAIXA POR TER SIDO LIQUIDADO',
+    11: 'EM SER (SÓ NO RETORNO MENSAL)',
+    12: 'ABATIMENTO CONCEDIDO',
+    13: 'ABATIMENTO CANCELADO',
+    14: 'VENCIMENTO ALTERADO',
+    15: 'BAIXAS REJEITADAS (NOTA 20 – TABELA 4)',
+    16: 'INSTRUÇÕES REJEITADAS (NOTA 20 – TABELA 3)',
+    17: 'ALTERAÇÃO/EXCLUSÃO DE DADOS REJEITADOS (NOTA 20 – TABELA 2)',
+    18: 'COBRANÇA CONTRATUAL – INSTRUÇÕES/ALTERAÇÕES REJEITADAS/PENDENTES (NOTA 20 – TABELA 5)',
+    19: 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE PROTESTO',
+    20: 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE SUSTAÇÃO DE PROTESTO /TARIFA',
+    21: 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE NÃO PROTESTAR',
+    23: 'TÍTULO ENVIADO A CARTÓRIO/TARIFA',
+    24: 'INSTRUÇÃO DE PROTESTO REJEITADA / SUSTADA / PENDENTE (NOTA 20 – TABELA 7)',
+    25: 'ALEGAÇÕES DO PAGADOR (NOTA 20 – TABELA 6)',
+    26: 'TARIFA DE AVISO DE COBRANÇA',
+    27: 'TARIFA DE EXTRATO POSIÇÃO (B40X)',
+    28: 'TARIFA DE RELAÇÃO DAS LIQUIDAÇÕES',
+    29: 'TARIFA DE MANUTENÇÃO DE TÍTULOS VENCIDOS',
+    30: 'DÉBITO MENSAL DE TARIFAS (PARA ENTRADAS E BAIXAS)',
+    32: 'BAIXA POR TER SIDO PROTESTADO',
+    33: 'CUSTAS DE PROTESTO',
+    34: 'CUSTAS DE SUSTAÇÃO',
+    35: 'CUSTAS DE CARTÓRIO DISTRIBUIDOR',
+    36: 'CUSTAS DE EDITAL',
+    37: 'TARIFA DE EMISSÃO DE BOLETO/TARIFA DE ENVIO DE DUPLICATA',
+    38: 'TARIFA DE INSTRUÇÃO',
+    39: 'TARIFA DE OCORRÊNCIAS',
+    40: 'TARIFA MENSAL DE EMISSÃO DE BOLETO/TARIFA MENSAL DE ENVIO DE DUPLICATA',
+    41: 'DÉBITO MENSAL DE TARIFAS – EXTRATO DE POSIÇÃO (B4EP/B4OX)',
+    42: 'DÉBITO MENSAL DE TARIFAS – OUTRAS INSTRUÇÕES',
+    43: 'DÉBITO MENSAL DE TARIFAS – MANUTENÇÃO DE TÍTULOS VENCIDOS',
+    44: 'DÉBITO MENSAL DE TARIFAS – OUTRAS OCORRÊNCIAS',
+    45: 'DÉBITO MENSAL DE TARIFAS – PROTESTO',
+    46: 'DÉBITO MENSAL DE TARIFAS – SUSTAÇÃO DE PROTESTO',
+    47: 'BAIXA COM TRANSFERÊNCIA PARA DESCONTO',
+    48: 'CUSTAS DE SUSTAÇÃO JUDICIAL',
+    51: 'TARIFA MENSAL REF A ENTRADAS BANCOS CORRESPONDENTES NA CARTEIRA',
+    52: 'TARIFA MENSAL BAIXAS NA CARTEIRA',
+    53: 'TARIFA MENSAL BAIXAS EM BANCOS CORRESPONDENTES NA CARTEIRA',
+    54: 'TARIFA MENSAL DE LIQUIDAÇÕES NA CARTEIRA',
+    55: 'TARIFA MENSAL DE LIQUIDAÇÕES EM BANCOS CORRESPONDENTES NA CARTEIRA',
+    56: 'CUSTAS DE IRREGULARIDADE',
+    57: 'INSTRUÇÃO CANCELADA (NOTA 20 – TABELA 8)',
+    59: 'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG',
+    60: 'ENTRADA REJEITADA CARNÊ (NOTA 20 – TABELA 1)',
+    61: 'TARIFA EMISSÃO AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
+    62: 'DÉBITO MENSAL DE TARIFA – AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
+    63: 'TÍTULO SUSTADO JUDICIALMENTE',
+    64: 'ENTRADA CONFIRMADA COM RATEIO DE CRÉDITO',
+    65: 'PAGAMENTO COM CHEQUE – AGUARDANDO COMPENSAÇÃO',
+    69: 'CHEQUE DEVOLVIDO (NOTA 20 – TABELA 9)',
+    71: 'ENTRADA REGISTRADA, AGUARDANDO AVALIAÇÃO',
+    72: 'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG SEM TÍTULO CORRESPONDENTE',
+    73: 'CONFIRMAÇÃO DE ENTRADA NA COBRANÇA SIMPLES – ENTRADA NÃO ACEITA NA COBRANÇA CONTRATUAL',
+    74: 'INSTRUÇÃO DE NEGATIVAÇÃO EXPRESSA REJEITADA (NOTA 20 – TABELA 11)',
+    75: 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA',
+    76: 'CHEQUE COMPENSADO',
+    77: 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE EXCLUSÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA',
+    78: 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA',
+    79: 'NEGATIVAÇÃO EXPRESSA INFORMACIONAL (NOTA 20 – TABELA 12)',
+    80: 'CONFIRMAÇÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA – TARIFA',
+    82: 'CONFIRMAÇÃO DO CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA – TARIFA',
+    83: 'CONFIRMAÇÃO DE EXCLUSÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO – TARIFA',
+    85: 'TARIFA POR BOLETO (ATÉ 03 ENVIOS) COBRANÇA ATIVA ELETRÔNICA',
+    86: 'TARIFA EMAIL COBRANÇA ATIVA ELETRÔNICA',
+    87: 'TARIFA SMS COBRANÇA ATIVA ELETRÔNICA',
+    88: 'TARIFA MENSAL POR BOLETO (ATÉ 03 ENVIOS) COBRANÇA ATIVA ELETRÔNICA',
+    89: 'TARIFA MENSAL EMAIL COBRANÇA ATIVA ELETRÔNICA',
+    90: 'TARIFA MENSAL SMS COBRANÇA ATIVA ELETRÔNICA',
+    91: 'TARIFA MENSAL DE EXCLUSÃO DE ENTRADA DE NEGATIVAÇÃO EXPRESSA',
+    92: 'TARIFA MENSAL DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA',
+    93: 'TARIFA MENSAL DE EXCLUSÃO DE NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO',
+}
+
 
 class L10nBrHrCnab(models.Model):
     _name = "l10n.br.cnab"
     _rec_name = "display_name"
-
 
     def _busca_conta(self, banco, agencia, conta):
         return self.env['res.partner.bank'].search([
@@ -108,7 +191,7 @@ class L10nBrHrCnab(models.Model):
             'servico_operacao': header.literal_retorno,
             'tipo_servico': header.literal_servico,
             'qtd_registros': trailer.totais_quantidade_registros,
-            'total_valores': float(trailer.valor_total_titulos/100),
+            'total_valores': float(trailer.valor_total_titulos / 100),
             'cnab_id': self.id,
         }
 
@@ -116,10 +199,112 @@ class L10nBrHrCnab(models.Model):
 
         return lote_id, lote_bank_account_id
 
+    def _lote_400(self, evento, lote_id):
+
+        bank_payment_line_id = self.env['bank.payment.line'].search([
+            ('name', '=', evento.nosso_numero)
+        ])
+
+        vals_evento = {
+            'data_ocorrencia': evento.data_ocorrencia,
+            # 'segmento': evento.servico_segmento,
+            # 'favorecido_nome': evento.nome_pagador,
+            # 'favorecido_conta_bancaria': lote_bank_account_id,
+            'nosso_numero': str(evento.nosso_numero),
+            'seu_numero': evento.numero_documento,
+            # 'tipo_moeda': evento.credito_moeda_tipo,
+            'valor_pagamento': evento.valor_principal,
+            'ocorrencias': CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
+            'str_motiv_a': CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
+            # 'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
+            # ocorrencias[0] else '',
+            # 'str_motiv_b': ocorrencias_dic[ocorrencias[1]] if
+            # ocorrencias[1] else '',
+            # 'str_motiv_c': ocorrencias_dic[ocorrencias[2]] if
+            # ocorrencias[2] else '',
+            # 'str_motiv_d': ocorrencias_dic[ocorrencias[3]] if
+            # ocorrencias[3] else '',
+            # 'str_motiv_e': ocorrencias_dic[ocorrencias[4]] if
+            # ocorrencias[4] else '',
+            'bank_payment_line_id': bank_payment_line_id.id,
+            'lote_id': lote_id.id,
+        }
+        self.env['l10n.br.cnab.evento'].create(vals_evento)
+
+    def _lote_240(self, evento, lote_id):
+        data_evento = str(
+            evento.credito_data_real)
+        data_evento = fields.Date.from_string(
+            data_evento[4:] + "-" + data_evento[2:4] + "-" +
+            data_evento[0:2]
+        )
+        lote_bank_account_id = self.env['res.partner.bank'].search(
+            [
+                ('bra_number', '=', evento.favorecido_agencia),
+                ('bra_number_dig', '=', evento.favorecido_agencia_dv),
+                ('acc_number', '=', evento.favorecido_conta),
+                ('acc_number_dig', '=', evento.favorecido_conta_dv)
+            ])
+        lote_bank_account_id = lote_bank_account_id.ids[0] \
+            if lote_bank_account_id else False
+        favorecido_partner = self.env['res.partner.bank'].search(
+            [('owner_name', 'ilike', evento.favorecido_nome)]
+        )
+        favorecido_partner = favorecido_partner[0].partner_id.id \
+            if favorecido_partner else False
+        bank_payment_line_id = self.env['bank.payment.line'].search(
+            [
+                ('name', '=', evento.credito_seu_numero)
+            ]
+        )
+        ocorrencias_dic = dict(CODIGO_OCORRENCIAS)
+        ocorrencias = [
+            evento.ocorrencias[0:2],
+            evento.ocorrencias[2:4],
+            evento.ocorrencias[4:6],
+            evento.ocorrencias[6:8],
+            evento.ocorrencias[8:10]
+        ]
+        vals_evento = {
+            'data_real_pagamento': data_evento,
+            'segmento': evento.servico_segmento,
+            'favorecido_nome': favorecido_partner,
+            'favorecido_conta_bancaria': lote_bank_account_id,
+            'nosso_numero': str(evento.credito_nosso_numero),
+            'seu_numero': evento.credito_seu_numero,
+            'tipo_moeda': evento.credito_moeda_tipo,
+            'valor_pagamento': evento.credito_valor_pagamento,
+            'ocorrencias': evento.ocorrencias,
+            'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
+            ocorrencias[0] else '',
+            'str_motiv_b': ocorrencias_dic[ocorrencias[1]] if
+            ocorrencias[1] else '',
+            'str_motiv_c': ocorrencias_dic[ocorrencias[2]] if
+            ocorrencias[2] else '',
+            'str_motiv_d': ocorrencias_dic[ocorrencias[3]] if
+            ocorrencias[3] else '',
+            'str_motiv_e': ocorrencias_dic[ocorrencias[4]] if
+            ocorrencias[4] else '',
+            'lote_id': lote_id.id,
+            'bank_payment_line_id': bank_payment_line_id.id,
+        }
+        self.env['l10n.br.cnab.evento'].create(vals_evento)
+        if evento.ocorrencias and bank_payment_line_id:
+            if '00' in ocorrencias:
+                bank_state = 'paid'
+                cnab_state = 'accepted'
+
+            else:
+                bank_state = 'exception'
+                cnab_state = 'not_accepted'
+
+            bank_payment_line_id.state2 = bank_state
+            for payment_line in bank_payment_line_id.payment_line_ids:
+                payment_line.move_line_id.state_cnab = cnab_state
 
     @api.multi
     def processar_arquivo_retorno(self):
-        arquivo_parser = Cnab.detectar_retorno(self.arquivo_retorno)
+        cnab_type, arquivo_parser = Cnab.detectar_retorno(self.arquivo_retorno)
         # if not arquivo_parser.header.arquivo_codigo == u'2':
         #     raise exceptions.Warning(
         #         u"Este não é um arquivo de retorno!"
@@ -137,8 +322,8 @@ class L10nBrHrCnab(models.Model):
         self.num_eventos = arquivo_parser.trailer.totais_quantidade_registros
         for lote in arquivo_parser.lotes:
 
-            header  = lote.header or arquivo_parser.header
-            trailer  = lote.trailer or arquivo_parser.trailer
+            header = lote.header or arquivo_parser.header
+            trailer = lote.trailer or arquivo_parser.trailer
 
             lote_id = False
 
@@ -147,76 +332,10 @@ class L10nBrHrCnab(models.Model):
                     lote_id, lote_bank_account_id = self._cria_lote(
                         header, lote, evento, trailer)
 
-                data_evento = str(
-                    evento.credito_data_real)
-                data_evento = fields.Date.from_string(
-                    data_evento[4:] + "-" + data_evento[2:4] + "-" +
-                    data_evento[0:2]
-                )
-                lote_bank_account_id = self.env['res.partner.bank'].search(
-                    [
-                        ('bra_number', '=', evento.favorecido_agencia),
-                        ('bra_number_dig', '=', evento.favorecido_agencia_dv),
-                        ('acc_number', '=', evento.favorecido_conta),
-                        ('acc_number_dig', '=', evento.favorecido_conta_dv)
-                    ])
-                lote_bank_account_id = lote_bank_account_id.ids[0] \
-                    if lote_bank_account_id else False
-                favorecido_partner = self.env['res.partner.bank'].search(
-                    [('owner_name', 'ilike', evento.favorecido_nome)]
-                )
-                favorecido_partner = favorecido_partner[0].partner_id.id \
-                    if favorecido_partner else False
-                bank_payment_line_id = self.env['bank.payment.line'].search(
-                    [
-                        ('name', '=', evento.credito_seu_numero)
-                    ]
-                )
-                ocorrencias_dic = dict(CODIGO_OCORRENCIAS)
-                ocorrencias = [
-                    evento.ocorrencias[0:2],
-                    evento.ocorrencias[2:4],
-                    evento.ocorrencias[4:6],
-                    evento.ocorrencias[6:8],
-                    evento.ocorrencias[8:10]
-                ]
-                vals_evento = {
-                    'data_real_pagamento': data_evento,
-                    'segmento': evento.servico_segmento,
-                    'favorecido_nome': favorecido_partner,
-                    'favorecido_conta_bancaria': lote_bank_account_id,
-                    'nosso_numero': str(evento.credito_nosso_numero),
-                    'seu_numero': evento.credito_seu_numero,
-                    'tipo_moeda': evento.credito_moeda_tipo,
-                    'valor_pagamento': evento.credito_valor_pagamento,
-                    'ocorrencias': evento.ocorrencias,
-                    'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
-                    ocorrencias[0] else '',
-                    'str_motiv_b': ocorrencias_dic[ocorrencias[1]] if
-                    ocorrencias[1] else '',
-                    'str_motiv_c': ocorrencias_dic[ocorrencias[2]] if
-                    ocorrencias[2] else '',
-                    'str_motiv_d': ocorrencias_dic[ocorrencias[3]] if
-                    ocorrencias[3] else '',
-                    'str_motiv_e': ocorrencias_dic[ocorrencias[4]] if
-                    ocorrencias[4] else '',
-                    'lote_id': lote_id.id,
-                    'bank_payment_line_id': bank_payment_line_id.id,
-                }
-                self.env['l10n.br.cnab.evento'].create(vals_evento)
-                if evento.ocorrencias and bank_payment_line_id:
-                    if '00' in ocorrencias:
-                        bank_state = 'paid'
-                        cnab_state = 'accepted'
-
-                    else:
-                        bank_state = 'exception'
-                        cnab_state = 'not_accepted'
-
-                    bank_payment_line_id.state2 = bank_state
-                    for payment_line in bank_payment_line_id.payment_line_ids:
-                        payment_line.move_line_id.state_cnab = cnab_state
-
+                if cnab_type == '240':
+                    self._lote_240(evento, lote_id)
+                else:
+                    self._lote_400(evento, lote_id)
         return self.write({'state': 'done'})
 
     @api.multi
