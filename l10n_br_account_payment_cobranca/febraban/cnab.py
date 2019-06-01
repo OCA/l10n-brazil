@@ -65,7 +65,7 @@ class Cnab(object):
             banco = header[:3]
 
         cnab = Cnab.get_cnab(banco, cnab_type)()
-        return cnab.retorno(arquivo_retorno)
+        return cnab_type, cnab.retorno(arquivo_retorno)
 
     def retorno(self, arquivo_retorno):
         return ArquivoCobranca400(
