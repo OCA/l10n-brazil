@@ -26,7 +26,7 @@ class BradescoPagFor(PagFor500):
         :return:
         """
         vals = super(BradescoPagFor, self)._prepare_header()
-        vals['codigo_comunicacao'] = int(
+        vals['codigo_comunicacao'] = self.convert_int(
             self.order.payment_mode_id.boleto_convenio)
         return vals
 
@@ -57,4 +57,4 @@ class BradescoPagFor(PagFor500):
     def muda_campos_data(self, campo):
         campo = str(campo)
         campo = campo[-4:] + campo[2:4] + campo[:2]
-        return int(campo)
+        return self.convert_int(campo)

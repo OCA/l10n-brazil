@@ -75,7 +75,7 @@ class Cnab240(Cnab):
         header_arquivo = {
             # CONTROLE
             # 01.0
-            'controle_banco': int(
+            'controle_banco': self.convert_int(
                 self.order.company_partner_bank_id.bank_id.code_bc
             ),
             # 02.0 # Sequencia para o Arquivo
@@ -91,18 +91,18 @@ class Cnab240(Cnab):
                 self.get_inscricao_tipo(self.order.company_id.partner_id),
             # 06.0
             'cedente_inscricao_numero':
-                int(punctuation_rm(self.order.company_id.cnpj_cpf)),
+                self.convert_int(punctuation_rm(self.order.company_id.cnpj_cpf)),
             # 07.0
             'cedente_convenio': '0001222130126',
             # 08.0
             'cedente_agencia':
-                int(self.order.company_partner_bank_id.bra_number),
+                self.convert_int(self.order.company_partner_bank_id.bra_number),
             # 09.0
             'cedente_agencia_dv':
                 self.order.company_partner_bank_id.bra_number_dig,
             # 10.0
             'cedente_conta':
-                int(punctuation_rm(
+                self.convert_int(punctuation_rm(
                     self.order.company_partner_bank_id.acc_number)),
             # 11.0
             'cedente_conta_dv':
@@ -131,7 +131,7 @@ class Cnab240(Cnab):
             # 18.0
             'arquivo_hora_de_geracao': self.hora_agora(),
             # 19.0 TODO: Número sequencial de arquivo
-            'arquivo_sequencia': int(self.get_file_numeration()),
+            'arquivo_sequencia': self.convert_int(self.get_file_numeration()),
             # 20.0
             'arquivo_layout': 103,
             # 21.0
@@ -157,7 +157,7 @@ class Cnab240(Cnab):
 
             # CONTROLE
             # 01.1
-            'controle_banco': int(self.order.company_partner_bank_id.code_bc),
+            'controle_banco': self.convert_int(self.order.company_partner_bank_id.code_bc),
             # 02.1  Sequencia para o Arquivo
             'controle_lote': 1,
             # 03.1  0- Header do Arquivo
@@ -185,13 +185,13 @@ class Cnab240(Cnab):
             'cedente_convenio': self.order.codigo_convenio,
             # 12.1
             'cedente_agencia':
-                int(self.order.company_partner_bank_id.bra_number),
+                self.convert_int(self.order.company_partner_bank_id.bra_number),
             # 13.1
             'cedente_agencia_dv':
                 self.order.company_partner_bank_id.bra_number_dig,
             # 14.1
             'cedente_conta':
-                int(punctuation_rm(
+                self.convert_int(punctuation_rm(
                     self.order.company_partner_bank_id.acc_number)),
             # 15.1
             'cedente_conta_dv':
@@ -267,11 +267,11 @@ class Cnab240(Cnab):
         # Era cedente_agencia_conta_dv agora é cedente_dv_ag_cc
 
         return {
-            'controle_banco': int(
+            'controle_banco': self.convert_int(
                 self.order.company_partner_bank_id.code_bc),
-            'cedente_agencia': int(
+            'cedente_agencia': self.convert_int(
                 self.order.company_partner_bank_id.bra_number),
-            'cedente_conta': int(
+            'cedente_conta': self.convert_int(
                 self.order.company_partner_bank_id.acc_number),
             'cedente_conta_dv':
                 self.order.company_partner_bank_id.acc_number_dig,
@@ -288,7 +288,7 @@ class Cnab240(Cnab):
             # TODO: fépefwfwe
             # TODO: Código adotado para identificar o título de cobrança.
             # 8 é Nota de cŕedito comercial
-            'especie_titulo': int(self.order.payment_mode_id.boleto_especie),
+            'especie_titulo': self.convert_int(self.order.payment_mode_id.boleto_especie),
             'aceite_titulo': aceite,
             'data_emissao_titulo': self.format_date(
                 line.ml_date_created),
@@ -298,9 +298,9 @@ class Cnab240(Cnab):
                 line.ml_maturity_date),
             'juros_mora_taxa_dia': Decimal('0.00'),
             'valor_abatimento': Decimal('0.00'),
-            'sacado_inscricao_tipo': int(
+            'sacado_inscricao_tipo': self.convert_int(
                 self.get_inscricao_tipo(line.partner_id)),
-            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and int(
+            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and self.convert_int(
                 punctuation_rm(line.partner_id.cnpj_cpf)) or '',
             'sacado_nome': line.partner_id.legal_name,
             'sacado_endereco': (
@@ -313,14 +313,14 @@ class Cnab240(Cnab):
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
             'codigo_protesto':
-                int(self.order.payment_mode_id.boleto_protesto),
+                self.convert_int(self.order.payment_mode_id.boleto_protesto),
             'prazo_protesto':
-                int(self.order.payment_mode_id.boleto_protesto_prazo),
+                self.convert_int(self.order.payment_mode_id.boleto_protesto_prazo),
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
             'cobranca_carteira':
-                int(self.order.payment_mode_id.boleto_carteira),
+                self.convert_int(self.order.payment_mode_id.boleto_carteira),
         }
 
     def _prepare_pagamento(self, line):
@@ -337,7 +337,7 @@ class Cnab240(Cnab):
             # CONTROLE
             # 01.3A
             'controle_banco':
-                int(self.order.company_partner_bank_id.code_bc),
+                self.convert_int(self.order.company_partner_bank_id.code_bc),
             # 02.3A
             'controle_lote': 1,
             # 03.3A -  3-Registros Iniciais do Lote
@@ -358,9 +358,9 @@ class Cnab240(Cnab):
             # 08.3A - 018-TED 700-DOC
             'favorecido_camara': 0,
             # 09.3A
-            'favorecido_banco': int(line.bank_id.code_bc),
+            'favorecido_banco': self.convert_int(line.bank_id.code_bc),
             # 10.3A
-            'favorecido_agencia': int(line.bank_id.bra_number),
+            'favorecido_agencia': self.convert_int(line.bank_id.bra_number),
             # 11.3A
             'favorecido_agencia_dv': line.bank_id.bra_number_dig,
             # 12.3A
@@ -426,11 +426,11 @@ class Cnab240(Cnab):
                 self.get_inscricao_tipo(line.partner_id),
             # 08.3B
             'favorecido_num_inscricao': line.partner_id.cnpj_cpf and
-                int(punctuation_rm(line.partner_id.cnpj_cpf)) or '',
+                self.convert_int(punctuation_rm(line.partner_id.cnpj_cpf)) or '',
             # 09.3B
             'favorecido_endereco_rua': line.partner_id.street or '',
             # 10.3B
-            'favorecido_endereco_num': int(line.partner_id.number) or 0,
+            'favorecido_endereco_num': self.convert_int(line.partner_id.number) or 0,
             # 11.3B
             'favorecido_endereco_complemento': line.partner_id.street2 or '',
             # 12.3B
@@ -439,7 +439,7 @@ class Cnab240(Cnab):
             'favorecido_endereco_cidade':
                 line.partner_id.l10n_br_city_id.name or '',
             # 14.3B
-            # 'favorecido_cep': int(line.partner_id.zip[:5]) or 0,
+            # 'favorecido_cep': self.convert_int(line.partner_id.zip[:5]) or 0,
             'favorecido_cep': self.get_cep('prefixo', line.partner_id.zip),
             # 15.3B
             'favorecido_cep_complemento':
@@ -556,14 +556,14 @@ class Cnab240(Cnab):
     def format_date(self, srt_date):
         if not srt_date:
             return 0
-        return int(datetime.datetime.strptime(
+        return self.convert_int(datetime.datetime.strptime(
             srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
 
     def data_hoje(self):
-        return (int(time.strftime("%d%m%Y")))
+        return (self.convert_int(time.strftime("%d%m%Y")))
 
     def hora_agora(self):
-        return (int(time.strftime("%H%M%S")))
+        return (self.convert_int(time.strftime("%H%M%S")))
 
     def nosso_numero(self, format):
         """

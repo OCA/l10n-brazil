@@ -32,9 +32,9 @@ class Itau240(Cnab240):
         :return:
         """
         vals = super(Itau240, self)._prepare_header()
-        # vals['cedente_dv_ag_cc'] = int(
+        # vals['cedente_dv_ag_cc'] = self.convert_int(
         #     vals['cedente_dv_ag_cc'])
-        # vals['cedente_agencia_dv'] = int(
+        # vals['cedente_agencia_dv'] = self.convert_int(
         #     vals['cedente_agencia_dv']),
         return vals
 
@@ -49,11 +49,11 @@ class Itau240(Cnab240):
         carteira, nosso_numero, digito = self.nosso_numero(
             line.move_line_id.transaction_ref)
 
-        vals['cedente_dv_ag_cc'] = int(
+        vals['cedente_dv_ag_cc'] = self.convert_int(
             vals['cedente_dv_ag_cc'])
-        vals['carteira_numero'] = int(carteira)
-        vals['nosso_numero'] = int(nosso_numero)
-        vals['nosso_numero_dv'] = int(digito)
+        vals['carteira_numero'] = self.convert_int(carteira)
+        vals['nosso_numero'] = self.convert_int(nosso_numero)
+        vals['nosso_numero_dv'] = self.convert_int(digito)
 
         return vals
 

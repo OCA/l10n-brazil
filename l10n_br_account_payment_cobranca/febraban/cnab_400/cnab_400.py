@@ -110,20 +110,20 @@ class Cnab400(Cnab):
         :return:
         """
         return {
-            'controle_banco': int(
+            'controle_banco': self.convert_int(
                 self.order.company_partner_bank_id.bank_id.code_bc
             ),
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
             # TODO: Número sequencial de arquivo
-            'arquivo_sequencia': int(self.get_file_numeration()),
+            'arquivo_sequencia': self.convert_int(self.get_file_numeration()),
             'cedente_inscricao_tipo': self.inscricao_tipo,
-            'cedente_inscricao_numero': int(punctuation_rm(
+            'cedente_inscricao_numero': self.convert_int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)),
-            'cedente_agencia': int(
+            'cedente_agencia': self.convert_int(
                 self.order.company_partner_bank_id.bra_number),
             'cedente_conta':
-                int(self.order.company_partner_bank_id.acc_number),
+                self.convert_int(self.order.company_partner_bank_id.acc_number),
             'cedente_conta_dv':
                 self.order.company_partner_bank_id.acc_number_dig,
             'cedente_agencia_dv':
@@ -135,7 +135,7 @@ class Cnab400(Cnab):
             'nome_banco':
                 unicode(self.order.company_partner_bank_id.bank_name),
             'codigo_empresa':
-                int(self.order.payment_mode_id.boleto_convenio),
+                self.convert_int(self.order.payment_mode_id.boleto_convenio),
         }
 
     def get_file_numeration(self):
@@ -146,7 +146,7 @@ class Cnab400(Cnab):
         return numero
 
     def format_date(self, srt_date):
-        return int(datetime.datetime.strptime(
+        return self.convert_int(datetime.datetime.strptime(
             srt_date, '%Y-%m-%d').strftime('%d%m%y'))
 
     def nosso_numero(self, format):
@@ -187,10 +187,10 @@ class Cnab400(Cnab):
         elif self.order.payment_mode_id.boleto_protesto == '1' \
                 or self.order.payment_mode_id.boleto_protesto == '2':
             codigo_protesto = 6
-            if (int(self.order.payment_mode_id.boleto_protesto_prazo)) < 5:
+            if (self.convert_int(self.order.payment_mode_id.boleto_protesto_prazo)) < 5:
                 dias_protestar = 5
             else:
-                dias_protestar = int(
+                dias_protestar = self.convert_int(
                     self.order.payment_mode_id.boleto_protesto_prazo)
 
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
@@ -217,20 +217,20 @@ class Cnab400(Cnab):
             'valor_abatimento_concedido_cancelado': Decimal('0.00'),
             'primeira_instrucao': codigo_protesto,
             'segunda_instrucao': dias_protestar,
-            'sacado_cep': int(prefixo),
-            'sacado_cep_sufixo': int(sulfixo),
+            'sacado_cep': self.convert_int(prefixo),
+            'sacado_cep_sufixo': self.convert_int(sulfixo),
             'sacador_avalista':
                 self.order.payment_mode_id.comunicacao_2,
             # 'sacador_avalista': u'Protestar após 5 dias',
             'num_seq_registro':
                 self.controle_linha,
 
-            'controle_banco': int(
+            'controle_banco': self.convert_int(
                 self.order.company_partner_bank_id.bank_id.code_bc
             ),
-            'cedente_agencia': int(
+            'cedente_agencia': self.convert_int(
                 self.order.company_partner_bank_id.bra_number),
-            'cedente_conta': int(
+            'cedente_conta': self.convert_int(
                 self.order.company_partner_bank_id.acc_number),
             'cedente_conta_dv':
                 self.order.company_partner_bank_id.acc_number_dig,
@@ -246,7 +246,7 @@ class Cnab400(Cnab):
                 Decimal('1.00')),
             # TODO: Código adotado para identificar o título de cobrança.
             # 8 é Nota de cŕedito comercial
-            'especie_titulo': int(self.order.payment_mode_id.boleto_especie),
+            'especie_titulo': self.convert_int(self.order.payment_mode_id.boleto_especie),
             'aceite_titulo': aceite,
             'data_emissao_titulo': self.format_date(
                 line.date),  # FIXME
@@ -260,9 +260,9 @@ class Cnab400(Cnab):
                 line.amount_currency,  0),  # line.percent_interest
 
             'valor_abatimento': Decimal('0.00'),
-            'sacado_inscricao_tipo': int(
+            'sacado_inscricao_tipo': self.convert_int(
                 self.sacado_inscricao_tipo(line.partner_id)),
-            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and int(
+            'sacado_inscricao_numero': line.partner_id.cnpj_cpf and self.convert_int(
                 punctuation_rm(line.partner_id.cnpj_cpf)) or '',
             'sacado_nome': line.partner_id.legal_name,
 
@@ -279,7 +279,7 @@ class Cnab400(Cnab):
             'codigo_baixa': 2,
             'prazo_baixa': 0,  # De 5 a 120 dias.
             'controlecob_data_gravacao': self.data_hoje(),
-            'cobranca_carteira': int(
+            'cobranca_carteira': self.convert_int(
                 self.order.payment_mode_id.boleto_carteira
             ),
             'primeira_mensagem': u'',
@@ -333,10 +333,10 @@ class Cnab400(Cnab):
             'NFKD', remessa).encode('ascii', 'ignore')
 
     def data_hoje(self):
-        return (int(time.strftime("%d%m%y")))
+        return (self.convert_int(time.strftime("%d%m%y")))
 
     def hora_agora(self):
-        return (int(time.strftime("%H%M%S")))
+        return (self.convert_int(time.strftime("%H%M%S")))
 
     def calcula_valor_juros_dia(self, total_titulo, percent_juros):
         valor_juros = 0
