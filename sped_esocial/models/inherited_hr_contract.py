@@ -63,7 +63,7 @@ class HrContract(models.Model):
     # Registros que calculam situação do contrato no e-Social
     situacao_esocial = fields.Selection(
         selection=[
-            ('0', 'Inativo'),
+            ('0', 'Inativo no e-Social'),
             ('1', 'Ativo'),
             ('2', 'Precisa Atualizar'),
             ('3', 'Aguardando Transmissão'),
@@ -102,6 +102,7 @@ class HrContract(models.Model):
             # Corrige o campo precisa_atualizar caso não haja nenhum registro intermediário
             if not contrato.sped_s2200_id and not contrato.sped_s2300_id:
                 contrato.precisa_atualizar = False
+                contrato.situacao_esocial = '0'  # InAtivo
                 break
 
             # Se precisa_atualizar ou retificar então é Precisa Atualizar
