@@ -93,10 +93,10 @@ class HrContract(models.Model):
             # Se tiver um registro S-2200 ou um S-2300
             # transmitido com sucesso então é Ativo
             if contrato.sped_s2200_id:
-                if contrato.sped_s2200_id.situacao_esocial == '4':
+                if contrato.sped_s2200_id.situacao_esocial in ['4', '6']:
                     situacao_esocial = '1'  # Ativo
             if contrato.sped_s2300_id:
-                if contrato.sped_s2300_id.situacao_esocial == '4':
+                if contrato.sped_s2300_id.situacao_esocial in ['4', '6']:
                     situacao_esocial = '1'  # Ativo
 
             # Corrige o campo precisa_atualizar caso não haja nenhum registro intermediário
