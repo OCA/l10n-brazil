@@ -133,7 +133,6 @@ class Itau400(Cnab400):
             # 'sacador_avalista': u'Protestar após 5 dias',
             'num_seq_registro': self.controle_linha,
         }
-        self.controle_linha += 1
         return vals
 
     def nosso_numero(self, format):
