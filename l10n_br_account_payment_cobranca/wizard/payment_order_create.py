@@ -6,11 +6,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import models, api
+from odoo import models, api, fields
 
 
 class PaymentOrderCreate(models.TransientModel):
     _inherit = 'account.payment.line.create'
+
+    allow_error = fields.Boolean(
+        string=u"Permitir linhas com erro na exportação, "
+               u"já incluidas em outras ordens"
+    )
+    allow_rejected = fields.Boolean(
+        string="Permitir linhas com retorno rejeitado"
+    )
 
     @api.multi
     def _prepare_move_line_domain(self):
