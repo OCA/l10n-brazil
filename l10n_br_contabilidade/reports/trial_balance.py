@@ -201,7 +201,8 @@ def _get_debit_credit_balance_de_para(self, accounts, period_ids):
                         total_debitos += sum(x.debit for x in partidas)
                         total_creditos += sum(x.credit for x in partidas)
                 else:
-
+                    total_debitos = 0
+                    total_creditos = 0
                     for child_id in account_id.child_parent_ids:
                         total_debitos += account_dict_ids[child_id.id]['debit']
                         total_creditos += account_dict_ids[child_id.id]['credit']
