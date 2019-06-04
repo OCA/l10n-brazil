@@ -308,6 +308,9 @@ class L10nBrHrCnab(models.Model):
             if cnab_state:
                 for pay_order_line_id in bank_payment_line_id.payment_line_ids:
                     pay_order_line_id.move_line_id.state_cnab = cnab_state
+                    pay_order_line_id.move_line_id.nosso_numero = str(
+                        evento.nosso_numero
+                    )
 
             # TODO: Processar liquidacão e baixa de pagamento.
 
