@@ -41,6 +41,7 @@
         # 'views/l10n_br_cobranca_cnab.xml',
         # 'views/l10n_br_cobranca_cnab_lines.xml',
 
+        'wizard/payment_order_create_wizard.xml',
         'reports/report_print_button_view.xml',
 
         'security/ir.model.access.csv',
