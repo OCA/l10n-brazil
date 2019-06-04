@@ -201,9 +201,19 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
         # Popula infoPgto (1 para cada payslip)
         info_pgto = False
-        for payslip in self.payslip_ids or self.payslip_autonomo_ids:
+        folhas_ordenadas = []
+        for payslip in self.payslip_ids:
+            if payslip.tipo_de_folha != 'ferias':
+                folhas_ordenadas.insert(0, payslip)
+            else:
+                folhas_ordenadas.append(payslip)
+
+        for payslip in folhas_ordenadas or self.payslip_autonomo_ids:
 
             if not info_pgto or payslip.tipo_de_folha in ['ferias', 'rescisao']:
+                if info_pgto:
+                    # Popula infoPgto
+                    S1210.evento.ideBenef.infoPgto.append(info_pgto)
                 info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
 
                 # TODO Identificar a data do pagamento de acordo com o arquivo CNAB
@@ -353,7 +363,6 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 # Popula a tag detPgtoFl
                 info_pgto.detPgtoFer.append(det_pgto_fer)
 
-        # Popula infoPgto
         S1210.evento.ideBenef.infoPgto.append(info_pgto)
 
         return S1210, validacao
