@@ -5,14 +5,15 @@
 
 {
     'name': 'Brazilian Payment Order',
-    'version': '10.0.2.0.0',
+    'version': '12.0.1.0.0',
     'license': 'AGPL-3',
     'author': "KMEE, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/l10n-brazil',
     'category': 'Banking addons',
     'depends': [
-        'l10n_br_account',
+        'l10n_br',
+        'l10n_br_base',
         'account_payment_order',
         'account_due_list',
     ],
