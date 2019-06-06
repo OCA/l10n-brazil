@@ -11,11 +11,16 @@
             		<group>
             			<field name="account_depara_plano_id"/>
             			<field name="depara_file"/>
-                        <label for="instrucao" />
-                        <field name="instrucao" />
 					</group>
-					<footer>
 
+                    <group colspan="4" col="4">
+                        <field name="instrucao" nolabel="1" colspan="4" col="4"/>
+                    </group>
+
+					<footer>
+                        <button name="analisar_account_depara"
+                                string="Analisar Depara" type="object"
+                                class="oe_highlight" />
                         <button name="import_account_depara"
                                 string="Importar Depara" type="object"
                                 class="oe_highlight" />
