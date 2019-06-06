@@ -1,1 +1,3 @@
 currency
+bank-payment
+account-payment
