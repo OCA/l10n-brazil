@@ -16,10 +16,10 @@ class PaymentLine(models.Model):
         if not partner_record:
             return False
         st = partner_record.street or ''
-        n = partner_record.number or ''
+        n = partner_record.street_number or ''
         st1 = partner_record.street2 or ''
         zip = partner_record.zip or ''
-        city = partner_record.l10n_br_city_id.name or ''
+        city = partner_record.city_id.name or ''
         uf = partner_record.state_id.code or ''
         zip_city = city + '-' + uf + '\n' + zip
         cntry = partner_record.country_id and \
