@@ -48,7 +48,7 @@ class TestPaymentOrder(TransactionCase):
                 lambda l: l.account_id.id ==
                 self.invoice_customer_original.account_id.id):
             self.assertEquals(
-                line.journal_entry_ref, 'INV/2019/0001',
+                line.journal_entry_ref, 'INV/2019/0005',
                 "Error with compute field journal_entry_ref")
             test_balance_value = line.get_balance()
         self.assertEquals(
