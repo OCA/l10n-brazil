@@ -30,16 +30,6 @@ class TestPaymentOrder(TransactionCase):
         # I check that Initially customer invoice is in the "Draft" state
         self.assertEquals(self.invoice_customer_original.state, 'draft')
 
-        # I change the state of invoice to "Proforma2" by clicking
-        # PRO-FORMA button
-        self.invoice_customer_original.action_invoice_proforma2()
-
-        # I check that the invoice state is now "Proforma2"
-        self.assertEquals(self.invoice_customer_original.state, 'proforma2')
-
-        # I check that there is no move attached to the invoice
-        self.assertEquals(len(self.invoice_customer_original.move_id), 0)
-
         # I validate invoice by creating on
         self.invoice_customer_original.action_invoice_open()
 
@@ -59,11 +49,11 @@ class TestPaymentOrder(TransactionCase):
                 lambda l: l.account_id.id ==
                 self.invoice_customer_original.account_id.id):
             self.assertEquals(
-                line.journal_entry_ref, 'INV/2019/0004',
+                line.journal_entry_ref, 'INV/2019/0001',
                 "Error with compute field journal_entry_ref")
             test_balance_value = line.get_balance()
         self.assertEquals(
-            test_balance_value, 700.0,
+            test_balance_value, 300.0,
             "Error with method get_balance()")
 
     def test_cancel_payment_order(self):
@@ -93,7 +83,7 @@ class TestPaymentOrder(TransactionCase):
             )
             test_amount_interest = line.amount_interest
         self.assertEquals(
-            test_amount_interest, 10.5,
+            test_amount_interest, 4.5,
             "Error with compute field amount_interest.")
 
         # Open payment order
