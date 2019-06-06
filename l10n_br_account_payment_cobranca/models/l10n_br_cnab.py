@@ -312,7 +312,32 @@ class L10nBrHrCnab(models.Model):
                         evento.nosso_numero
                     )
 
-            # TODO: Processar liquidacão e baixa de pagamento.
+            if bank_state == 'paid':
+                ap_obj = self.env['account.payment']
+                inv = pay_order_line_id.move_line_id.invoice_id
+                # self.env['account.invoice'].search([
+                #     ('name', '=', pay_order_line_id.numero_documento)
+                # ])
+
+                payment_values = {
+                    'invoice_ids': [6, 0, [inv.id]],
+                    'payment_type': 'inbound',
+                    'partner_type': 'customer',
+                    'payment_method_id':
+                        bank_payment_line_id.order_id.payment_method_id.id,
+                    'partner_id': bank_payment_line_id.partner_id.id,
+                    'journal_id': bank_payment_line_id.order_id.journal_id.id,
+                    'amount': evento.valor_principal,
+                    'payment_date': evento.data_credito,
+                    'communication': evento.nosso_numero
+                }
+                payment = ap_obj.create(payment_values)
+                payment.post()
+                inv_move_lines = inv.move_line_receivable_id
+                pay_move_lines = payment.move_line_ids.filtered(
+                    lambda x: x.account_id == inv_move_lines.account_id)
+                move_lines = pay_move_lines | inv_move_lines
+                move_lines.reconcile()
 
     def _lote_240(self, evento, lote_id):
         data_evento = str(
