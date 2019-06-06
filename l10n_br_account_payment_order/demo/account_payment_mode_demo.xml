@@ -119,7 +119,6 @@
             <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
             <field name="code">TPO</field>
             <field name="type">sale</field>
-            <field eval="1" name="revenue_expense"/>
             <field name="company_id" ref="base.main_company"/>
         </record>
 
@@ -128,7 +127,6 @@
             <field name="name">Boleto Bancario</field>
             <field name="fixed_journal_id" ref="l10n_br_account_payment_order-account_journal"/>
             <field name="bank_account_link">variable</field>
-            <field name="bank_id" ref="main_company_bank_bradesco"/>
             <field name="company_id" ref="base.main_company"/>
             <field name="payment_method_id"
                    ref="account.account_payment_method_manual_in"/>
