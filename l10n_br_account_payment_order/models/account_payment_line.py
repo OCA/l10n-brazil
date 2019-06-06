@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2016-Today - KMEE (<http://kmee.com.br>).
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -38,9 +37,9 @@ class PaymentLine(models.Model):
                 record.amount_currency * (
                     record.percent_interest / 100), precision)
 
-    linha_digitavel = fields.Char(string=u"Linha Digitável")
-    percent_interest = fields.Float(string=u"Percentual de Juros",
+    linha_digitavel = fields.Char(string="Linha Digitável")
+    percent_interest = fields.Float(string="Percentual de Juros",
                                     digits=dp.get_precision('Account'))
-    amount_interest = fields.Float(string=u"Valor Juros",
+    amount_interest = fields.Float(string="Valor Juros",
                                    compute='_compute_interest',
                                    digits=dp.get_precision('Account'))
