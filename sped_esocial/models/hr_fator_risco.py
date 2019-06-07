@@ -82,6 +82,9 @@ class HrFatorRisco(models.Model):
     codigo_risco = fields.Char(
         string=u'Código do risco',
     )
+    dsc_fat_risco = fields.Text(
+        string=u'Descrição do fator de risco',
+    )
     tp_avaliacao = fields.Selection(
         strin=u'Tipo de Avaliação',
         selection=TP_AVAL,
