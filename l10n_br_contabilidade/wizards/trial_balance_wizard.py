@@ -32,6 +32,15 @@ class AccountTrialBalanceWizard(models.TransientModel):
         domain="[('account_depara_plano_id', '=', account_depara_plano_id)]",
     )
 
+    @api.onchange('account_depara_plano_id')
+    def onchange_account_depara(self):
+        """
+        """
+        for record in self:
+            if record.account_depara_plano_id:
+                record.chart_account_id = \
+                    record.account_depara_plano_id.account_account_id
+
     @api.multi
     def _print_report(self, data):
         data['form']['lancamento_de_fechamento'] = \
