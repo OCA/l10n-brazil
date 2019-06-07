@@ -12,7 +12,7 @@
                         <field name="desc_atividade" required="True"/>
                         <newline />
                         <separator string="Atividades" />
-                        <field name="cod_atividade_ids"/>
+                        <field name="cod_atividade_ids" required="True"/>
                     </sheet>
                 </form>
             </field>
