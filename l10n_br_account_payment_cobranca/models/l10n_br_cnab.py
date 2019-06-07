@@ -289,6 +289,8 @@ class L10nBrHrCnab(models.Model):
             # 'str_motiv_e': ocorrencias_dic[ocorrencias[4]] if
             # ocorrencias[4] else '',
             'valor_pagamento': evento.valor_principal,
+            'identificacao_titulo_empresa':
+                evento.identificacao_titulo_empresa,
         }
         self.env['l10n_br.cnab.evento'].create(vals_evento)
 
