@@ -12,7 +12,10 @@
                         <h2>
                             <field name="cod_fator_risco_id" required="True" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                         </h2>
-                        <field name="codigo_risco" />
+                        <field name="codigo_risco" invisible="True"/>
+                        <group>
+                            <field name="dsc_fat_risco" attrs="{'required': [('codigo_risco', 'in', ['01.01.999', '02.01.999', '03.01.999', '04.01.999', '04.02.999', '04.03.999', '04.04.999', '04.05.999', '05.01.999'])]}"/>
+                        </group>
                         <group>
                             <field name="tp_avaliacao" required="True"/>
                             <field name="intensidade_concentracao" attrs="{'required': [('tp_avaliacao', '=', 1)], 'invisible': [('tp_avaliacao', '=', 2)]}"/>

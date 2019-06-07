@@ -159,6 +159,8 @@ class SpedEsocialCondicaoAmbienteTrabalho(models.Model, SpedRegistroIntermediari
             fatrisc = pysped.esocial.leiaute.S2240_FatRisco_2()
 
             fatrisc.codFatRis.valor = fator_risco.cod_fator_risco_id.codigo
+            if fator_risco.dsc_fat_risco:
+                fatrisc.dscFatRisc.valor = fator_risco.dsc_fat_risco
             fatrisc.tpAval.valor = fator_risco.tp_avaliacao
             if fator_risco.intensidade_concentracao:
                 fatrisc.intConc.valor = \
