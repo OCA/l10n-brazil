@@ -11,6 +11,11 @@ class MisReportInstance(models.Model):
 
     _inherit = 'mis.report.instance'
 
+    year_reference = fields.Char(
+        string='Reference Year',
+        size=4,
+    )
+
     @api.multi
     def remove_duplicated_filetype_attachments(self, format):
         for record in self:

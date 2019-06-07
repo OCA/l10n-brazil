@@ -10,7 +10,6 @@
             <field name="name">Plano de Contas</field>
         </record>
 
-
         <!-- Plano de Contas em PDF -->
         <record id="account_chart_report.action_print_chart_menu" model="ir.actions.act_window">
           <field name="name">Imprimir Plano de Contas</field>
@@ -21,7 +20,6 @@
         <record id="account_financial_report_webkit.action_account_general_ledger_menu_webkit" model="ir.actions.act_window">
             <field name="name">Livro Razão</field>
         </record>
-
 
         <!-- Balancete -->
         <record id="account_financial_report_webkit.action_account_trial_balance_menu_webkit" model="ir.actions.act_window">

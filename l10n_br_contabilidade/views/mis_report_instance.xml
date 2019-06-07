@@ -10,10 +10,13 @@
         <field name="model">mis.report.instance</field>
         <field name="inherit_id" ref="mis_builder.mis_report_instance_view_form"/>
         <field name="arch" type="xml">
+            <field name="report_id" position="after">
+                <field name="year_reference" colspan="4"/>
+            </field>
             <field name="target_move" position="after">
                 <newline/>
-                <field name="accountant_id" colspan="4"/>
-                <field name="administrator_id" colspan="4"/>
+                <field name="accountant_id" colspan="4" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                <field name="administrator_id" colspan="4" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                 <field name="considerations" colspan="4"/>
             </field>
             <sheet position="inside">
@@ -22,6 +25,26 @@
                 </group>
             </sheet>
         </field>
+    </record>
+
+    <record model="ir.ui.view" id="mis_report_instance_view_search">
+        <field name="name">mis.report.instance.view.search (in l10n_br_contabilidade)</field>
+        <field name="model">mis.report.instance</field>
+        <field name="arch" type="xml">
+            <search string="Account Report Filters">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="year_reference"/>
+                <group expand="1" string="Group By">
+                    <filter name="year_reference" string="Ano do Relatório" context="{'group_by':'year_reference'}"/>
+                    <filter name="group_type" string="Modelo" context="{'group_by':'report_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="mis_builder.mis_report_instance_view_action">
+        <field name="context">{'search_default_group_type':1}</field>
     </record>
 
 </data>

@@ -24,6 +24,7 @@ MONTHS = {
 
 class MisReportInstance(models.Model):
     _inherit = 'mis.report.instance'
+    _order = 'date DESC'
 
     administrator_id = fields.Many2one(
         string=u'Administrador responsável',
