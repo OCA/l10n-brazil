@@ -122,7 +122,7 @@ class HrContract(models.Model):
                 if s2206.situacao_esocial == '1':
                     situacao_esocial = '3'
             for s2299 in contrato.sped_s2299_ids:
-                if s2299.situacao_esocial == '1':
+                if s2299.situacao_s2299 == '1':
                     situacao_esocial = '3'
             # for s2298 in contrato.sped_s2298_ids:   # Quando implementarmos o S-2298
             #     if s2298.situacao_esocial == '1':
@@ -147,7 +147,7 @@ class HrContract(models.Model):
                 if s2206.situacao_esocial == '2':
                     situacao_esocial = '4'
             for s2299 in contrato.sped_s2299_ids:
-                if s2299.situacao_esocial == '2':
+                if s2299.situacao_s2299 == '2':
                     situacao_esocial = '4'
             # for s2298 in contrato.sped_s2298_ids:   # Quando implementarmos o S-2298
             #     if s2298.situacao_esocial == '2':
@@ -172,7 +172,7 @@ class HrContract(models.Model):
                 if s2206.situacao_esocial == '3':
                     situacao_esocial = '5'
             for s2299 in contrato.sped_s2299_ids:
-                if s2299.situacao_esocial == '3':
+                if s2299.situacao_s2299 == '3':
                     situacao_esocial = '5'
             # for s2298 in contrato.sped_s2298_ids:   # Quanto implementarmos o S-2298
             #     if s2298.situacao_esocial == '3':
@@ -186,7 +186,7 @@ class HrContract(models.Model):
 
             # Se tiver algum registro S-2299 com sucesso então é Finalizado
             for s2299 in contrato.sped_s2299_ids:
-                if s2299.situacao_esocial == '4':
+                if s2299.situacao_s2299 == '4':
                     situacao_esocial = '9'
 
             # Se tiver registro S-2399 com sucesso então é Finalizado
