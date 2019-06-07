@@ -13,7 +13,7 @@
     <!-- This Menu Item must have a parent and an action -->
     <menuitem id="menu_l10n_br_cnab_evento_action"
               name="Eventos de retorno"
-              parent="account_payment_order.payment_root"
+              parent="l10n_br_account_payment_order.menu_retorno_categ"
               action="action_l10n_br_cnab_evento"
               sequence="2"
     />
