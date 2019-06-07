@@ -692,7 +692,7 @@ class HrContribuicaoInssVinculos(models.Model):
 
     contrato_id = fields.Many2one(
         string='Contrato',
-        comode_name='hr.contract',
+        comodel_name='hr.contract',
         required=True,
     )
     tipo_inscricao_vinculo = fields.Selection(
