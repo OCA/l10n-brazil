@@ -15,9 +15,13 @@
 
                 <field name="account_ids" position="before">
                     <group>
-                        <field name="account_depara_plano_id" string="Utilizar Depara"/>
+                        <field name="account_depara_plano_id" string="Utilizar Depara" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                     </group>
                     <newline />
+                </field>
+
+                <field name="account_ids" position="attributes">
+                    <attribute name="options">{'no_create': True,'no_quick_create': True}</attribute>
                 </field>
             </field>
         </record>
