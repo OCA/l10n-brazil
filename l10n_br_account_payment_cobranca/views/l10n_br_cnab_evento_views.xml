@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--ADD LOTE VIEW TREE ACT WINDOW-->
+    <record id="action_l10n_br_cnab_evento" model="ir.actions.act_window">
+        <field name="name">Lotes do arquivo de retorno</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br.cnab.evento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_cnab_evento_date_search': 1}</field>
+    </record>
+
+    <!--ADD SUBMENU ENTRY -->
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="menu_l10n_br_cnab_evento_action"
+              name="Eventos de retorno"
+              parent="account_payment_order.payment_root"
+              action="action_l10n_br_cnab_evento"
+              sequence="2"
+    />
+
+    <!--GROUP BY LOTE NAME-->
+    <record id="view_l10n_br_cnab_evento_search" model="ir.ui.view">
+        <field name="name">view.l10n_br.cnab.evento.search</field>
+        <field name="model">l10n_br.cnab.evento</field>
+        <field name="arch" type="xml">
+            <search string="Busca evento">
+                <group expand="1" string="Group By">
+                    <filter string="Data Criação"
+                            name="cnab_evento_date_search"
+                            context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

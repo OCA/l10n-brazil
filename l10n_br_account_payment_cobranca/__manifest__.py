@@ -36,6 +36,7 @@
 
         'views/account_move_line.xml',
         'views/l10n_br_cnab_retorno_view.xml',
+        'views/l10n_br_cnab_evento_views.xml',
 
         # 'views/l10n_br_payment_cnab.xml',
         # 'views/l10n_br_cobranca_cnab.xml',
