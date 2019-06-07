@@ -204,7 +204,8 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_cnab_retorno" parent="account_payment_order.payment_root"
+    <menuitem id="menu_cnab_retorno"
+              parent="l10n_br_account_payment_order.menu_retorno_categ"
               name="Processar Retorno" sequence="1"
               action="action_cnab_retorno"/>
 
