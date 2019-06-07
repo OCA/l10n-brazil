@@ -71,3 +71,7 @@ class L10nBrCnabEvento(models.Model):
     valor_pagamento = fields.Float(
         string="Valor do Pagamento"
     )
+    identificacao_titulo_empresa = fields.Char(
+        string="Identificação do Título da Empresa",
+        required=False,
+    )
