@@ -46,7 +46,7 @@ class AccountEvent(models.Model):
     )
 
     origem = fields.Reference(
-        string=u'origem',
+        string=u'Origem',
         selection=MODELS,
     )
 
