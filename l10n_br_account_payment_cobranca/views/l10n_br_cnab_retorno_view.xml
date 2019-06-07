@@ -205,7 +205,7 @@
     </record>
 
     <menuitem id="menu_cnab_retorno" parent="account_payment_order.payment_root"
-              name="Importar Retorno" sequence="1"
+              name="Processar Retorno" sequence="1"
               action="action_cnab_retorno"/>
 
 </odoo>
