@@ -322,7 +322,7 @@ class L10nBrHrCnab(models.Model):
                 # ])
 
                 payment_values = {
-                    'invoice_ids': [6, 0, [inv.id]],
+                    'invoice_ids': [(6, 0, [inv.id])],
                     'payment_type': 'inbound',
                     'partner_type': 'customer',
                     'payment_method_id':
