@@ -339,7 +339,8 @@ class L10nBrHrCnab(models.Model):
                 pay_move_lines = payment.move_line_ids.filtered(
                     lambda x: x.account_id == inv_move_lines.account_id)
                 move_lines = pay_move_lines | inv_move_lines
-                move_lines.reconcile()
+                move_lines.filtered(
+                    lambda l: l.reconciled is False).reconcile()
 
     def _lote_240(self, evento, lote_id):
         data_evento = str(
