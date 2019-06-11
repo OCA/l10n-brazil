@@ -43,6 +43,7 @@
             <field name="arch" type="xml">
                 <tree string="Informativos de Atividade de Trabalho" >
                     <field name="cod_fator_risco_id"/>
+                    <field name="dsc_fat_risco"/>
                     <field name="tp_avaliacao"/>
                     <field name="intensidade_concentracao"/>
                     <field name="limite_tolerancia"/>
