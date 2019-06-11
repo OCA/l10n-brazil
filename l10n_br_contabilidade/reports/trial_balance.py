@@ -178,17 +178,16 @@ def _get_debit_credit_balance_de_para(self, accounts, period_ids):
     for account in reversed(accounts):
         account_id = self.pool.get('account.account').browse(
             self.cr, self.uid, account['id'])
-        de_para_id = self.pool.get('account.depara').search(
-            self.cr, self.uid, [('conta_referencia_id', '=', account['id'])])
 
         total_debitos = 0.0
         total_creditos = 0.0
 
-        if de_para_id:
-            de_para = self.pool.get('account.depara').browse(
-                self.cr, self.uid, de_para_id)
-            for account_sistema_id in de_para.conta_sistema_id:
-                if account_id.type == 'other':
+        if account_id.type == 'other':
+            de_para_id = self.pool.get('account.depara').search(self.cr, self.uid, [('conta_referencia_id', '=', account['id'])])
+            if de_para_id:
+                de_para = self.pool.get('account.depara').browse(
+                    self.cr, self.uid, de_para_id)
+                for account_sistema_id in de_para.conta_sistema_id:
                     partida_ids = self.pool.get('account.move.line').search(
                         self.cr, self.uid,
                         [
@@ -200,15 +199,13 @@ def _get_debit_credit_balance_de_para(self, accounts, period_ids):
                     if partidas:
                         total_debitos += sum(x.debit for x in partidas)
                         total_creditos += sum(x.credit for x in partidas)
-                else:
-                    total_debitos = 0
-                    total_creditos = 0
-                    for child_id in account_id.child_parent_ids:
-                        total_debitos += account_dict_ids[child_id.id]['debit']
-                        total_creditos += account_dict_ids[child_id.id]['credit']
+        else:
+            for child_id in account_id.child_parent_ids:
+                total_debitos += account_dict_ids[child_id.id]['debit']
+                total_creditos += account_dict_ids[child_id.id]['credit']
 
-            account['debit'] += total_debitos
-            account['credit'] += total_creditos
+        account['debit'] += total_debitos
+        account['credit'] += total_creditos
 
     return accounts
 
