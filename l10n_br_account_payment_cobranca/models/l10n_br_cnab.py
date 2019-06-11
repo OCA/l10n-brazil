@@ -296,6 +296,7 @@ class L10nBrHrCnab(models.Model):
 
         if evento.codigo_ocorrencia and bank_payment_line_id:
             cnab_state = False
+            bank_state = False
             if evento.codigo_ocorrencia in RETORNO_400_CONFIRMADA:
                 cnab_state = 'accepted'
             elif evento.codigo_ocorrencia in RETORNO_400_REJEITADA:
@@ -308,39 +309,38 @@ class L10nBrHrCnab(models.Model):
                 # bank_state = ''
 
             if cnab_state:
+                amount = 0.0
+                line_values = []
+                invoices = []
                 for pay_order_line_id in bank_payment_line_id.payment_line_ids:
                     pay_order_line_id.move_line_id.state_cnab = cnab_state
                     pay_order_line_id.move_line_id.nosso_numero = str(
                         evento.nosso_numero
                     )
 
-            if bank_state == 'paid':
-                ap_obj = self.env['account.payment']
-                inv = pay_order_line_id.move_line_id.invoice_id
-                # self.env['account.invoice'].search([
-                #     ('name', '=', pay_order_line_id.numero_documento)
-                # ])
+                    if bank_state == 'paid':
+                        invoice = pay_order_line_id.move_line_id.invoice_id
+                        if invoice.state == 'open':
+                            line_values.append(
+                                (0, 0,
+                                 {
+                                    'name' : evento.nosso_numero,
+                                    'credit' : float(evento.valor_principal),
+                                    'account_id' : invoice.account_id.id,
+                                    'journal_id' :
+                                        bank_payment_line_id.order_id.\
+                                        journal_id.id,
+                                    'date_maturity' : evento.data_ocorrencia,
+                                    'partner_id' : bank_payment_line_id.\
+                                        partner_id.id
+                                 }
+                                )
+                            )
+                            amount += float(evento.valor_principal)
+                            invoices.append(invoice)
 
-                payment_values = {
-                    'invoice_ids': [(6, 0, [inv.id])],
-                    'payment_type': 'inbound',
-                    'partner_type': 'customer',
-                    'payment_method_id':
-                        bank_payment_line_id.order_id.payment_method_id.id,
-                    'partner_id': bank_payment_line_id.partner_id.id,
-                    'journal_id': bank_payment_line_id.order_id.journal_id.id,
-                    'amount': evento.valor_principal,
-                    'payment_date': evento.data_credito,
-                    'communication': evento.nosso_numero
-                }
-                payment = ap_obj.create(payment_values)
-                payment.post()
-                inv_move_lines = inv.move_line_receivable_id
-                pay_move_lines = payment.move_line_ids.filtered(
-                    lambda x: x.account_id == inv_move_lines.account_id)
-                move_lines = pay_move_lines | inv_move_lines
-                move_lines.filtered(
-                    lambda l: l.reconciled is False).reconcile()
+                return line_values, amount, invoices
+        return False, False, []
 
     def _lote_240(self, evento, lote_id):
         data_evento = str(
@@ -437,7 +437,9 @@ class L10nBrHrCnab(models.Model):
             trailer = lote.trailer or arquivo_parser.trailer
 
             lote_id = False
-
+            total_amount = 0.0
+            lines = []
+            inv_list = []
             for evento in lote.eventos:
                 if not lote_id:
                     lote_id, lote_bank_account_id = self._cria_lote(
@@ -446,7 +448,49 @@ class L10nBrHrCnab(models.Model):
                 if cnab_type == '240':
                     self._lote_240(evento, lote_id)
                 else:
-                    self._lote_400(evento, lote_id)
+                    line_vals, line_amount, invoices = \
+                        self._lote_400(evento, lote_id)
+                    for inv in invoices:
+                        inv_list.append(inv)
+                    if line_vals and line_amount:
+                        for line in line_vals:
+                            lines.append(line)
+                        total_amount += line_amount
+
+            if total_amount and lines:
+                counterpart_account_id = self.env['account.journal'].browse(
+                    lines[0][2]['journal_id']).default_debit_account_id.id
+
+                lines.append(
+                    (0, 0, {
+                        'name':'cobranca',
+                        'debit': total_amount,
+                        'account_id': counterpart_account_id,
+                        'journal_id':lines[0][2]['journal_id'],
+                        'date_maturity':False,
+                        'partner_id':False,
+                    })
+                )
+                move = self.env['account.move'].create({
+                    'name': 'RetornoCnab_'+ str(datetime.now()),
+                    'ref': 'ref',
+                    'date': str(datetime.now()),
+                    'line_ids': lines,
+                    'journal_id': lines[0][2]['journal_id']
+                })
+                move.post()
+
+                for inv in inv_list:
+                    if inv.state != 'open':
+                        continue
+                    inv_move_lines = inv.move_line_receivable_id
+                    pay_move_lines = move.line_ids.filtered(
+                        lambda x: x.account_id == inv_move_lines.account_id and
+                        x.partner_id == inv_move_lines.partner_id
+                    )
+                    move_lines = pay_move_lines | inv_move_lines
+                    move_lines.reconcile()
+
         return self.write({'state': 'done'})
 
     @api.multi
