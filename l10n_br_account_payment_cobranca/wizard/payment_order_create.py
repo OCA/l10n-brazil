@@ -9,7 +9,7 @@
 from odoo import models, api, fields
 
 
-class PaymentOrderCreate(models.TransientModel):
+class AccountPaymentLineCreate(models.TransientModel):
     _inherit = 'account.payment.line.create'
 
     allow_error = fields.Boolean(
