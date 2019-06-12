@@ -339,14 +339,18 @@ class L10nBrHrCnab(models.Model):
                 CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             # 'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
             # ocorrencias[0] else '',
-            # 'str_motiv_b': ocorrencias_dic[ocorrencias[1]] if
-            # ocorrencias[1] else '',
-            # 'str_motiv_c': ocorrencias_dic[ocorrencias[2]] if
-            # ocorrencias[2] else '',
-            # 'str_motiv_d': ocorrencias_dic[ocorrencias[3]] if
-            # ocorrencias[3] else '',
-            # 'str_motiv_e': ocorrencias_dic[ocorrencias[4]] if
-            # ocorrencias[4] else '',
+            'str_motiv_b':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[evento.erros[0:1]]
+                if evento.erros[0:1] else '',
+            'str_motiv_c':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[evento.erros[2:3]]
+                if evento.erros[2:3] else '',
+            'str_motiv_d':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[evento.erros[4:5]]
+                if evento.erros[4:5] else '',
+            'str_motiv_e':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[evento.erros[6:7]]
+                if evento.erros[6:7] else '',
             'valor_pagamento': evento.valor_principal,
             'identificacao_titulo_empresa':
                 evento.identificacao_titulo_empresa,
