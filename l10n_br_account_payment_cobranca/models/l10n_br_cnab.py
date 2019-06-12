@@ -335,8 +335,8 @@ class L10nBrHrCnab(models.Model):
                 CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             'seu_numero': evento.numero_documento,
             # 'tipo_moeda': evento.credito_moeda_tipo,
-            'str_motiv_a':
-                CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
+            # 'str_motiv_a':
+            #     CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             # 'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
             # ocorrencias[0] else '',
             'str_motiv_b':
@@ -355,27 +355,33 @@ class L10nBrHrCnab(models.Model):
             'identificacao_titulo_empresa':
                 evento.identificacao_titulo_empresa,
         }
-        self.env['l10n_br.cnab.evento'].create(vals_evento)
+        cnab_event_id = self.env['l10n_br.cnab.evento'].create(vals_evento)
 
         amount = 0.0
         line_values = []
         invoices = []
-        if evento.codigo_ocorrencia and bank_payment_line_id:
+        codigo_ocorrencia = evento.codigo_ocorrencia
+        if codigo_ocorrencia and bank_payment_line_id:
             cnab_state = False
             bank_state = False
-            if evento.codigo_ocorrencia in RETORNO_400_CONFIRMADA:
+            if codigo_ocorrencia in RETORNO_400_CONFIRMADA:
                 cnab_state = 'accepted'
-            elif evento.codigo_ocorrencia in RETORNO_400_REJEITADA:
+                bank_state = 'aberta'
+            elif codigo_ocorrencia in RETORNO_400_REJEITADA:
                 cnab_state = 'not_accepted'
-            elif evento.codigo_ocorrencia in RETORNO_400_LIQUIDACAO:
+                bank_state = 'inicial'
+            elif codigo_ocorrencia in RETORNO_400_LIQUIDACAO:
                 cnab_state = 'accepted'
-                bank_state = 'settled'
-            elif evento.codigo_ocorrencia in RETORNO_400_BAIXA:
+                bank_state = 'liquidada'
+            elif codigo_ocorrencia in RETORNO_400_BAIXA:
                 cnab_state = 'accepted'
-                if evento.codigo_ocorrencia == 9:
-                    bank_state = 'writed_off'
+                if codigo_ocorrencia == 9:
+                    bank_state = 'baixa'
                 else:
-                    bank_state = 'settled'
+                    bank_state = 'baixa_liquidacao'
+            else:
+                cnab_event_id.str_motiv_a = codigo_ocorrencia + \
+                                            ': Ocorrência não tratada'
 
             if cnab_state:
 
@@ -386,30 +392,29 @@ class L10nBrHrCnab(models.Model):
                     )
                     move_line = pay_order_line_id.move_line_id
                     invoice = move_line.invoice_id
-                    if bank_state == 'settled':
-                        move_line.situacao_pagamento = 'liquidado'
-                        move_line.state_cnab = 'done'
-                        if invoice.state == 'open':
-                            line_values.append(
-                                (0, 0,
-                                 {
-                                    'name' : evento.nosso_numero,
-                                    'credit' : float(evento.valor_principal),
-                                    'account_id' : invoice.account_id.id,
-                                    'journal_id' :
-                                        bank_payment_line_id.order_id.\
-                                        journal_id.id,
-                                    'date_maturity' : evento.data_ocorrencia,
-                                    'partner_id' : bank_payment_line_id.\
-                                        partner_id.id
-                                 }
-                                )
-                            )
-                            amount += float(evento.valor_principal)
-                            invoices.append(invoice)
-                    elif bank_state == 'writed_off':
-                        move_line.situacao_pagamento = 'baixa'
-                        move_line.state_cnab = 'done'
+                    if bank_state == 'liquidado' and invoice.state == 'open':
+                        line_values.append(
+                            (0, 0,
+                             {
+                                'name' : evento.nosso_numero,
+                                'credit' : float(evento.valor_principal),
+                                'account_id' : invoice.account_id.id,
+                                'journal_id' :
+                                    bank_payment_line_id.order_id.\
+                                    journal_id.id,
+                                'date_maturity' : evento.data_ocorrencia,
+                                'partner_id' : bank_payment_line_id.\
+                                    partner_id.id
+                             }
+                             )
+                        )
+                        amount += float(evento.valor_principal)
+                        invoices.append(invoice)
+
+                    if bank_state:
+                        move_line.situacao_pagamento = bank_state
+                    if cnab_state:
+                        move_line.state_cnab = cnab_state
 
         return line_values, amount, invoices
 
