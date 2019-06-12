@@ -23,9 +23,11 @@ ESTADOS_CNAB = [
 ]
 
 SITUACAO_PAGAMENTO = [
+    ('inicial', 'Inicial'),
     ('aberta', 'Aberta'),
     ('paga', 'Paga'),
     ('liquidada', 'Liquidada'),
+    ('baixa_liquidacao', 'Baixa por Liquidação em Dinheiro'),
 ]
 
 
@@ -46,7 +48,9 @@ class AccounMoveLine(models.Model):
         string=u'Identificação Titulo Empresa',
     )
     situacao_pagamento = fields.Selection(
-        SITUACAO_PAGAMENTO, u'Situação da baixa', default='aberta'
+        selection=SITUACAO_PAGAMENTO,
+        string=u'Situação do Pagamento',
+        default='inicial'
     )
 
     @api.multi
