@@ -353,6 +353,9 @@ class L10nBrHrCnab(models.Model):
         }
         self.env['l10n_br.cnab.evento'].create(vals_evento)
 
+        amount = 0.0
+        line_values = []
+        invoices = []
         if evento.codigo_ocorrencia and bank_payment_line_id:
             cnab_state = False
             bank_state = False
@@ -362,23 +365,26 @@ class L10nBrHrCnab(models.Model):
                 cnab_state = 'not_accepted'
             elif evento.codigo_ocorrencia in RETORNO_400_LIQUIDACAO:
                 cnab_state = 'accepted'
-                bank_state = 'paid'
+                bank_state = 'settled'
             elif evento.codigo_ocorrencia in RETORNO_400_BAIXA:
                 cnab_state = 'accepted'
-                # bank_state = ''
+                if evento.codigo_ocorrencia == 9:
+                    bank_state = 'writed_off'
+                else:
+                    bank_state = 'settled'
 
             if cnab_state:
-                amount = 0.0
-                line_values = []
-                invoices = []
+
                 for pay_order_line_id in bank_payment_line_id.payment_line_ids:
                     pay_order_line_id.move_line_id.state_cnab = cnab_state
                     pay_order_line_id.move_line_id.nosso_numero = str(
                         evento.nosso_numero
                     )
-
-                    if bank_state == 'paid':
-                        invoice = pay_order_line_id.move_line_id.invoice_id
+                    move_line = pay_order_line_id.move_line_id
+                    invoice = move_line.invoice_id
+                    if bank_state == 'settled':
+                        move_line.situacao_pagamento = 'liquidado'
+                        move_line.state_cnab = 'done'
                         if invoice.state == 'open':
                             line_values.append(
                                 (0, 0,
@@ -397,9 +403,11 @@ class L10nBrHrCnab(models.Model):
                             )
                             amount += float(evento.valor_principal)
                             invoices.append(invoice)
+                    elif bank_state == 'writed_off':
+                        move_line.situacao_pagamento = 'baixa'
+                        move_line.state_cnab = 'done'
 
-                return line_values, amount, invoices
-        return False, False, []
+        return line_values, amount, invoices
 
     def _lote_240(self, evento, lote_id):
         data_evento = str(
