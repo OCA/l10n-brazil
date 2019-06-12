@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="blocked" position="after">
                 <field name="state_cnab"/>
+                <field name="situacao_pagamento"/>
                 <field name="nosso_numero"/>
                 <field name="numero_documento"/>
                 <field name="identificacao_titulo_empresa"/>
