@@ -13,12 +13,19 @@ _logger = logging.getLogger(__name__)
 
 
 ESTADOS_CNAB = [
-    ('draft', u'Inicial'),                           # ok
-    ('added', u'Adicionada à ordem de pagamento'),   # ok
-    ('exported', u'Exportada'),                      # ok
-    ('exporting_error', u'Erro ao exportar'),                      # ok
+    ('draft', u'Inicial'),
+    ('added', u'Adicionada à ordem de pagamento'),
+    ('exported', u'Exportada'),
+    ('exporting_error', u'Erro ao exportar'),
     ('accepted', u'Aceita'),
-    ('not_accepted', u'Não aceita pelo banco'),  # importar novamente
+    ('not_accepted', u'Não aceita pelo banco'),
+    ('done', u'Concluído'),
+]
+
+SITUACAO_PAGAMENTO = [
+    ('aberta', 'Aberta'),
+    ('paga', 'Paga'),
+    ('liquidada', 'Liquidada'),
 ]
 
 
@@ -37,6 +44,9 @@ class AccounMoveLine(models.Model):
     )
     identificacao_titulo_empresa = fields.Char(
         string=u'Identificação Titulo Empresa',
+    )
+    situacao_pagamento = fields.Selection(
+        SITUACAO_PAGAMENTO, u'Situação da baixa', default='aberta'
     )
 
     @api.multi
