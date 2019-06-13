@@ -15,6 +15,7 @@ _logger = logging.getLogger(__name__)
 ESTADOS_CNAB = [
     ('draft', u'Inicial'),
     ('added', u'Adicionada à ordem de pagamento'),
+    ('added_paid', u'Adicionada para Baixa'),
     ('exported', u'Exportada'),
     ('exporting_error', u'Erro ao exportar'),
     ('accepted', u'Aceita'),
@@ -31,7 +32,7 @@ SITUACAO_PAGAMENTO = [
 ]
 
 
-class AccounMoveLine(models.Model):
+class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     state_cnab = fields.Selection(
@@ -55,7 +56,7 @@ class AccounMoveLine(models.Model):
 
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
-        vals = super(AccounMoveLine, self)._prepare_payment_line_vals(
+        vals = super(AccountMoveLine, self)._prepare_payment_line_vals(
             payment_order
         )
         vals['nosso_numero'] = self.nosso_numero
@@ -71,8 +72,13 @@ class AccounMoveLine(models.Model):
         :param payment_order:
         :return:
         """
-        self.write({'state_cnab': 'added'})
-        return super(AccounMoveLine, self).create_payment_line_from_move_line(
+        state_cnab = 'added'
+        if self.invoice_id.state == 'paid':
+            state_cnab = 'added_paid'
+
+        self.state_cnab = state_cnab
+
+        return super(AccountMoveLine, self).create_payment_line_from_move_line(
             payment_order
         )
 
