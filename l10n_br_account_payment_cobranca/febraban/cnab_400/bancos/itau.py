@@ -66,6 +66,17 @@ class Itau400(Cnab400):
         """
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
 
+        move_line_id = \
+            line.env['account.move.line'].search([
+                ('identificacao_titulo_empresa', '=',
+                 line.identificacao_titulo_empresa)
+            ])
+
+        # TODO: Guardar estrutura com códigos de ocorrências
+        identificacao_ocorrencia = 1
+        if move_line_id and move_line_id.state_cnab == 'added_paid':
+            identificacao_ocorrencia = 34
+
         vals = {
             'identificacao_titulo_empresa': line.identificacao_titulo_empresa,
             'nosso_numero': self.convert_int(line.nosso_numero),
@@ -87,7 +98,7 @@ class Itau400(Cnab400):
                 self.order.payment_mode_id.boleto_carteira
             ),
             'carteira_cod': self.order.payment_mode_id.boleto_modalidade,
-            'identificacao_ocorrencia': 1,
+            'identificacao_ocorrencia': identificacao_ocorrencia,
             'vencimento_titulo': self.format_date(
                 line.date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
