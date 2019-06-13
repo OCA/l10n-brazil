@@ -6,6 +6,8 @@ from odoo import models, fields, api
 from ..constantes import COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, \
     AVISO_FAVORECIDO
 
+from .account_move_line import ESTADOS_CNAB
+
 
 class BankPaymentLine(models.Model):
     _inherit = 'bank.payment.line'
@@ -104,6 +106,28 @@ class BankPaymentLine(models.Model):
     mensagem_erro_exportacao = fields.Char(
         string=u'Mensagem de erro',
     )
+    ultimo_estado_cnab = fields.Selection(
+        selection=ESTADOS_CNAB,
+        string=u'Último Estado do CNAB',
+        help=u'Último Estado do CNAB antes da confirmação de '
+             u'pagamento nas Ordens de Pagamento',
+    )
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            if not record.ultimo_estado_cnab:
+                continue
+                
+            move_line_id = \
+                self.env['account.move.line'].search(
+                    [('identificacao_titulo_empresa',
+                      '=',
+                      record.identificacao_titulo_empresa)]
+                )
+            move_line_id.state_cnab = record.ultimo_estado_cnab
+
+        return super(BankPaymentLine, self).unlink()
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
