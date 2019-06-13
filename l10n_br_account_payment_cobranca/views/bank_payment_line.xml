@@ -11,6 +11,7 @@
                     <field name="nosso_numero"/>
                     <field name="numero_documento"/>
                     <field name="identificacao_titulo_empresa"/>
+                    <field name="ultimo_estado_cnab" invisible="1"/>
                     <field name="codigo_finalidade_doc"/>
                     <field name="codigo_finalidade_ted"/>
                     <field name="codigo_finalidade_complementar"/>

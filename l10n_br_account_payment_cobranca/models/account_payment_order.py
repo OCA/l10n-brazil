@@ -86,6 +86,7 @@ class PaymentOrder(models.Model):
         result['numero_documento'] = paylines.numero_documento
         result['identificacao_titulo_empresa'] = \
             paylines.identificacao_titulo_empresa
+        result['ultimo_estado_cnab'] = paylines.move_line_id.state_cnab
         return result
 
     def _generate_payment_file(self):
