@@ -65,6 +65,63 @@ class AccountInvoice(models.Model):
 
         return result
 
+
+    @api.multi
+    def create_account_payment_line_baixa(self):
+
+        for inv in self:
+
+            applicable_lines = inv.move_id.line_ids.filtered(
+                lambda x: (
+                        x.payment_mode_id.payment_order_ok and
+                        x.account_id.internal_type in ('receivable', 'payable')
+                )
+            )
+
+            if not applicable_lines:
+                raise UserError(_(
+                    'No Payment Line created for invoice %s because '
+                    'it\'s internal type isn\'t receivable or payable.') %
+                                inv.number)
+
+            payment_modes = applicable_lines.mapped('payment_mode_id')
+            if not payment_modes:
+                raise UserError(_(
+                    "No Payment Mode on invoice %s") % inv.number)
+
+            result_payorder_ids = []
+            apoo = self.env['account.payment.order']
+            for payment_mode in payment_modes:
+                payorder = apoo.search([
+                    ('payment_mode_id', '=', payment_mode.id),
+                    ('state', '=', 'draft')
+                ], limit=1)
+
+                new_payorder = False
+                if not payorder:
+                    payorder = apoo.create(inv._prepare_new_payment_order(
+                        payment_mode
+                    ))
+                    new_payorder = True
+                result_payorder_ids.append(payorder.id)
+                action_payment_type = payorder.payment_type
+                count = 0
+                for line in applicable_lines.filtered(
+                        lambda x: x.payment_mode_id == payment_mode
+                ):
+                    line.create_payment_line_from_move_line(payorder)
+                    count += 1
+                if new_payorder:
+                    inv.message_post(_(
+                        '%d payment lines added to the new draft payment '
+                        'order %s which has been automatically created.')
+                                     % (count, payorder.name))
+                else:
+                    inv.message_post(_(
+                        '%d payment lines added to the existing draft '
+                        'payment order %s.')
+                                     % (count, payorder.name))
+
     @api.multi
     def invoice_validate(self):
         result = super(AccountInvoice, self).invoice_validate()
