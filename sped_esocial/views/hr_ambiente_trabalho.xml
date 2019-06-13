@@ -71,6 +71,7 @@
                     <field name="tipo_inscricao"/>
                     <field name="num_inscricao"/>
                     <field name="cod_lotacao"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
