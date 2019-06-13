@@ -63,6 +63,10 @@ class AccountMoveLine(models.Model):
         vals['numero_documento'] = self.numero_documento
         vals['identificacao_titulo_empresa'] = \
             self.identificacao_titulo_empresa
+
+        if self.invoice_id.state == 'paid':
+            vals['amount_currency'] = self.credit or self.debit
+
         return vals
 
     @api.multi
