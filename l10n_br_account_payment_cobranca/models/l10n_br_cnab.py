@@ -8,6 +8,7 @@ import logging
 from datetime import datetime
 from ..constantes import CODIGO_OCORRENCIAS
 from ..febraban.cnab import Cnab
+from odoo.exceptions import UserError
 
 from odoo import api, models, fields
 
@@ -91,6 +92,9 @@ RETORNO_400_BAIXA = [
     9,
     10,
 ]
+
+RETORNOS_TRATADOS = \
+    [RETORNO_400_CONFIRMADA, RETORNO_400_REJEITADA, RETORNO_400_LIQUIDACAO, RETORNO_400_BAIXA]
 
 # CODIGO_REGISTROS_REJEITADOS_CNAB400 -> USADO QUANDO HA CODIGO DE OCORRENCIA 03 NA POSIÇÃO 109-110
 CODIGO_REGISTROS_REJEITADOS_CNAB400 = {
@@ -236,6 +240,8 @@ CODIGO_OCORRENCIAS_CNAB200 = {
     92: 'TARIFA MENSAL DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA',
     93: 'TARIFA MENSAL DE EXCLUSÃO DE NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO',
 }
+
+STR_EVENTO_FORMAT = "%d%m%y"
 
 
 class L10nBrHrCnab(models.Model):
@@ -508,6 +514,135 @@ class L10nBrHrCnab(models.Model):
             bank_payment_line_id.state2 = bank_state
             for payment_line in bank_payment_line_id.payment_line_ids:
                 payment_line.move_line_id.state_cnab = cnab_state
+
+    def _reprocessa_lote_240(self, evento, lote_id):
+        raise NotImplementedError("FALTA FAZER")
+
+    def _reprocessa_lote_400(self, evento, lote_id):
+        bank_payment_line_id = self.env['bank.payment.line'].search([(
+            'identificacao_titulo_empresa', '=',
+            evento.identificacao_titulo_empresa
+        )], limit=1)
+
+        cnab_event_id = self.env['l10n_br.cnab.evento'].search([
+            ('nosso_numero', '=', evento.nosso_numero),
+        ])
+
+        vals_evento = {
+            'data_real_pagamento':
+                datetime.strptime(
+                    str(evento.data_ocorrencia), STR_EVENTO_FORMAT)
+                if evento.data_ocorrencia else '',
+            'nosso_numero': str(evento.nosso_numero),
+            'ocorrencias':
+                CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
+            'seu_numero': evento.numero_documento,
+            'str_motiv_a':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[0:2])]
+                if evento.erros[0:2] else '',
+            'str_motiv_b':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[2:4])]
+                if evento.erros[2:4] else '',
+            'str_motiv_c':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[4:6])]
+                if evento.erros[4:6] else '',
+            'str_motiv_d':
+                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[6:8])]
+                if evento.erros[6:8] else '',
+            'identificacao_titulo_empresa':
+                evento.identificacao_titulo_empresa,
+        }
+
+        if not cnab_event_id:
+            raise UserError("A linha de 'nosso_numero' %s não possui evento "
+                            "criado. Esse lote não foi processado "
+                            "corretamente." % evento.nosso_numero)
+        cnab_event_id.write(vals_evento)
+
+        amount = 0.0
+        codigo_ocorrencia = evento.codigo_ocorrencia
+        if codigo_ocorrencia and bank_payment_line_id:
+
+            if not any(codigo_ocorrencia in x for x in RETORNOS_TRATADOS):
+                cnab_event_id.str_motiv_e = codigo_ocorrencia + \
+                                                ': Ocorrência não tratada'
+
+            for pay_order_line_id in bank_payment_line_id.payment_line_ids:
+                pay_order_line_id.move_line_id.nosso_numero = str(
+                    evento.nosso_numero
+                )
+                debit_move_line = pay_order_line_id.move_line_id
+                credit_move_line = self.env['account.move.line'].search([
+                    '|',
+                    ('nosso_numero', '=', evento.nosso_numero),
+                    ('name', '=', evento.nosso_numero),
+                    ('credit', '>', 0),
+                ])
+
+                if not credit_move_line and debit_move_line.full_reconcile_id:
+                    credit_move_line = \
+                        debit_move_line.full_reconcile_id.\
+                            reconciled_line_ids - debit_move_line
+
+                if not credit_move_line:
+                    raise UserError(
+                        "Não foi encontrada uma linha correspondente para a "
+                        "linha de nosso_numero: %s" % evento.nosso_numero)
+
+                line_values = {
+                    'name': evento.nosso_numero,
+                    'nosso_numero': evento.nosso_numero,
+                    'numero_documento': evento.numero_documento,
+                    'identificacao_titulo_empresa':
+                        evento.identificacao_titulo_empresa,
+                    'date_maturity':
+                        datetime.strptime(
+                            str(evento.vencimento),
+                            STR_EVENTO_FORMAT)
+                        if evento.vencimento else '',
+                    'date':
+                        datetime.strptime(
+                            str(evento.data_ocorrencia),
+                            STR_EVENTO_FORMAT)
+                        if evento.data_ocorrencia else '',
+                }
+
+                credit_move_line.with_context(
+                    reprocessing=True).write(line_values)
+
+    @api.multi
+    def reprocessar_arquivo_retorno(self):
+        cnab_type, arquivo_parser = Cnab.detectar_retorno(self.arquivo_retorno)
+        data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
+        self.data_arquivo = datetime.strptime(data_arquivo, "%d%m%y")
+
+        self.bank_account_id = self._busca_conta(
+            arquivo_parser.header.codigo_do_banco,
+            arquivo_parser.header.cedente_agencia,
+            arquivo_parser.header.cedente_conta,
+        )
+
+        self.num_lotes = len(arquivo_parser.lotes)
+        self.num_eventos = arquivo_parser.trailer.totais_quantidade_registros
+        for lote in arquivo_parser.lotes:
+
+            header = lote.header or arquivo_parser.header
+            trailer = lote.trailer or arquivo_parser.trailer
+
+            # TODO: Pesquisar lote
+            lote_id = self.lote_id and self.lote_id[0]
+            for evento in lote.eventos:
+                if not lote_id:
+                    lote_id, lote_bank_account_id = self._cria_lote(
+                        header, lote, evento, trailer)
+
+                if cnab_type == '240':
+                    self._reprocessa_lote_240(evento, lote_id)
+                else:
+                    self._reprocessa_lote_400(evento, lote_id)
+
+            #TODO: Verificar necessidade de atualizar dados do Account.Move
+            return self.write({'state': 'done'})
 
     @api.multi
     def processar_arquivo_retorno(self):

@@ -159,6 +159,9 @@
                             string="Processar Retorno" type="object"
                             class="oe_highlight"
                             attrs="{'invisible': [('state', '=', 'done')]}"/>
+                    <button name="reprocessar_arquivo_retorno" states="done"
+                            string="Reprocessar Retorno" type="object"
+                            class="oe_highlight"/>
                     <field name="state" widget="statusbar" nolabel="1"
                            statusbar_visible="draft,done"/>
                 </header>
