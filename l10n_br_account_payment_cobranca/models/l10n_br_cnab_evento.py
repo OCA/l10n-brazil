@@ -17,8 +17,11 @@ class L10nBrCnabEvento(models.Model):
         string="Bank Payment Line",
         comodel_name="bank.payment.line",
     )
-    data_real_pagamento = fields.Datetime(
-        string="Data Real do Pagamento"
+    data_real_pagamento = fields.Date(
+        string="Data do Crédito"
+    )
+    data_ocorrencia = fields.Date(
+        string="Data da Ocorrência"
     )
     favorecido_conta_bancaria_id = fields.Many2one(
         string=u"Conta Bancária",
