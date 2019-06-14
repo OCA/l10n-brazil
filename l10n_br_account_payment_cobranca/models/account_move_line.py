@@ -109,3 +109,11 @@ class AccountMoveLine(models.Model):
             )
             boleto_list.append(boleto.boleto)
         return boleto_list
+
+    @api.multi
+    def _update_check(self):
+
+        if self._context.get("reprocessing"):
+            return True
+
+        return super(AccountMoveLine, self)._update_check()
