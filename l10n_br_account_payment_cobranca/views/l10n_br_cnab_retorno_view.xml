@@ -45,6 +45,7 @@
         <field name="arch" type="xml">
             <tree string="CNAB Evento Lines">
                 <field name="bank_payment_line_id"/>
+                <field name="data_ocorrencia"/>
                 <field name="data_real_pagamento"/>
                 <field name="segmento"/>
                 <field name="favorecido_id"/>
@@ -69,6 +70,8 @@
                 </header>
                 <group>
                     <group>
+                        <field name="data_ocorrencia"
+                               attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="data_real_pagamento"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="segmento"
