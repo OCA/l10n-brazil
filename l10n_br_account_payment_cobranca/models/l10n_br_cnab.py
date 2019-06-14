@@ -325,7 +325,14 @@ class L10nBrHrCnab(models.Model):
 
         vals_evento = {
             'bank_payment_line_id': bank_payment_line_id.id,
-            'data_ocorrencia': evento.data_ocorrencia,
+            'data_ocorrencia':
+                datetime.strptime(
+                    str(evento.data_ocorrencia), STR_EVENTO_FORMAT)
+                if evento.data_ocorrencia else '',
+            'data_real_pagamento':
+                datetime.strptime(
+                    str(evento.data_credito), STR_EVENTO_FORMAT)
+                if evento.data_credito else '',
             # 'segmento': evento.servico_segmento,
             # 'favorecido_nome': evento.nome_pagador,
             # 'favorecido_conta_bancaria': lote_bank_account_id,
@@ -339,16 +346,16 @@ class L10nBrHrCnab(models.Model):
             #     CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             # 'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
             # ocorrencias[0] else '',
-            'str_motiv_b':
+            'str_motiv_a':
                 CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[0:2])]
                 if evento.erros[0:2] else '',
-            'str_motiv_c':
+            'str_motiv_b':
                 CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[2:4])]
                 if evento.erros[2:4] else '',
-            'str_motiv_d':
+            'str_motiv_c':
                 CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[4:6])]
                 if evento.erros[4:6] else '',
-            'str_motiv_e':
+            'str_motiv_d':
                 CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[6:8])]
                 if evento.erros[6:8] else '',
             'valor_pagamento': evento.valor_principal,
@@ -380,7 +387,7 @@ class L10nBrHrCnab(models.Model):
                 else:
                     bank_state = 'baixa_liquidacao'
             else:
-                cnab_event_id.str_motiv_a = codigo_ocorrencia + \
+                cnab_event_id.str_motiv_e = codigo_ocorrencia + \
                                             ': Ocorrência não tratada'
 
             if cnab_state:
@@ -392,18 +399,31 @@ class L10nBrHrCnab(models.Model):
                     )
                     move_line = pay_order_line_id.move_line_id
                     invoice = move_line.invoice_id
-                    if bank_state == 'liquidado' and invoice.state == 'open':
+                    if bank_state == 'liquidada' and invoice.state == 'open':
                         line_values.append(
                             (0, 0,
                              {
-                                'name' : evento.nosso_numero,
-                                'credit' : float(evento.valor_principal),
-                                'account_id' : invoice.account_id.id,
-                                'journal_id' :
+                                'name': evento.nosso_numero,
+                                'nosso_numero': evento.nosso_numero,
+                                'numero_documento': evento.numero_documento,
+                                'identificacao_titulo_empresa':
+                                    evento.identificacao_titulo_empresa,
+                                'credit': float(evento.valor_principal),
+                                'account_id': invoice.account_id.id,
+                                'journal_id':
                                     bank_payment_line_id.order_id.\
                                     journal_id.id,
-                                'date_maturity' : evento.data_ocorrencia,
-                                'partner_id' : bank_payment_line_id.\
+                                'date_maturity':
+                                    datetime.strptime(
+                                        str(evento.vencimento),
+                                        STR_EVENTO_FORMAT)
+                                    if evento.vencimento else '',
+                                'date':
+                                    datetime.strptime(
+                                        str(evento.data_ocorrencia),
+                                        STR_EVENTO_FORMAT)
+                                    if evento.data_ocorrencia else '',
+                                'partner_id': bank_payment_line_id.\
                                     partner_id.id
                              }
                              )
@@ -539,17 +559,20 @@ class L10nBrHrCnab(models.Model):
 
                 lines.append(
                     (0, 0, {
-                        'name':'cobranca',
+                        'name': 'cobranca',
                         'debit': total_amount,
                         'account_id': counterpart_account_id,
-                        'journal_id':lines[0][2]['journal_id'],
-                        'date_maturity':False,
-                        'partner_id':False,
+                        'journal_id': lines[0][2]['journal_id'],
+                        'date_maturity': False,
+                        'partner_id': False,
                     })
                 )
                 move = self.env['account.move'].create({
-                    'name': 'RetornoCnab_'+ str(datetime.now()),
-                    'ref': 'ref',
+                    'name': 'RetornoCnab_' + fields.Datetime.now(),
+                    'ref':
+                        'Retorno Gerado em %s' %
+                        datetime.strftime(datetime.strptime(
+                            data_arquivo, "%d%m%y"), "%d/%m/%Y"),
                     'date': str(datetime.now()),
                     'line_ids': lines,
                     'journal_id': lines[0][2]['journal_id']
