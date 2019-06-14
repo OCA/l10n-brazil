@@ -35,7 +35,8 @@ class AccountInvoice(models.Model):
 
             # inv.transaction_id = sequence
             for index, interval in enumerate(inv.move_line_receivable_id):
-                inv_number = inv.get_invoice_fiscal_number().split('/')[-1]
+                inv_number = inv.get_invoice_fiscal_number().split(
+                    '/')[-1].zfill(8)
                 numero_documento = (
                     inv_number + '/' + str(index + 1).zfill(2)
                 )
