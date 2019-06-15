@@ -96,8 +96,8 @@ RETORNO_400_BAIXA = [
 RETORNOS_TRATADOS = \
     [RETORNO_400_CONFIRMADA, RETORNO_400_REJEITADA, RETORNO_400_LIQUIDACAO, RETORNO_400_BAIXA]
 
-# CODIGO_REGISTROS_REJEITADOS_CNAB400 -> USADO QUANDO HA CODIGO DE OCORRENCIA 03 NA POSIÇÃO 109-110
-CODIGO_REGISTROS_REJEITADOS_CNAB400 = {
+# COD_REGISTROS_REJEITADOS_CNAB400 -> USADO QUANDO HA CODIGO DE OCORRENCIA 03 NA POSIÇÃO 109-110
+COD_REGISTROS_REJEITADOS_CNAB400 = {
     3: 'AG. COBRADORA - CEP SEM ATENDIMENTO DE PROTESTO NO MOMENTO',
     4: 'ESTADO - SIGLA DO ESTADO INVÁLIDA',
     5: 'DATA VENCIMENTO - PRAZO DA OPERAÇÃO MENOR QUE PRAZO MÍNIMO OU MAIOR QUE O MÁXIMO',
@@ -333,11 +333,11 @@ class L10nBrHrCnab(models.Model):
             'bank_payment_line_id': bank_payment_line_id.id,
             'data_ocorrencia':
                 datetime.strptime(
-                    str(evento.data_ocorrencia), STR_EVENTO_FORMAT)
+                    str(evento.data_ocorrencia).zfill(6), STR_EVENTO_FORMAT)
                 if evento.data_ocorrencia else '',
             'data_real_pagamento':
                 datetime.strptime(
-                    str(evento.data_credito), STR_EVENTO_FORMAT)
+                    str(evento.data_credito).zfill(6), STR_EVENTO_FORMAT)
                 if evento.data_credito else '',
             # 'segmento': evento.servico_segmento,
             # 'favorecido_nome': evento.nome_pagador,
@@ -353,16 +353,16 @@ class L10nBrHrCnab(models.Model):
             # 'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
             # ocorrencias[0] else '',
             'str_motiv_a':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[0:2])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[0:2]))
                 if evento.erros[0:2] else '',
             'str_motiv_b':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[2:4])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[2:4]))
                 if evento.erros[2:4] else '',
             'str_motiv_c':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[4:6])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[4:6]))
                 if evento.erros[4:6] else '',
             'str_motiv_d':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[6:8])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[6:8]))
                 if evento.erros[6:8] else '',
             'valor_pagamento': evento.valor_principal,
             'identificacao_titulo_empresa':
@@ -421,12 +421,12 @@ class L10nBrHrCnab(models.Model):
                                     journal_id.id,
                                 'date_maturity':
                                     datetime.strptime(
-                                        str(evento.vencimento),
+                                        str(evento.vencimento).zfill(6),
                                         STR_EVENTO_FORMAT)
                                     if evento.vencimento else '',
                                 'date':
                                     datetime.strptime(
-                                        str(evento.data_ocorrencia),
+                                        str(evento.data_ocorrencia).zfill(6),
                                         STR_EVENTO_FORMAT)
                                     if evento.data_ocorrencia else '',
                                 'partner_id': bank_payment_line_id.\
@@ -524,40 +524,54 @@ class L10nBrHrCnab(models.Model):
             evento.identificacao_titulo_empresa
         )], limit=1)
 
+
         cnab_event_id = self.env['l10n_br.cnab.evento'].search([
-            ('nosso_numero', '=', evento.nosso_numero),
+            ('lote_id', '=', lote_id.id),
+            ('bank_payment_line_id', '!=', False),
+            ('bank_payment_line_id', '=', bank_payment_line_id.id),
         ])
 
         vals_evento = {
+            'data_ocorrencia':
+                datetime.strptime(
+                    str(evento.data_ocorrencia).zfill(6), STR_EVENTO_FORMAT)
+                if evento.data_ocorrencia else '',
             'data_real_pagamento':
                 datetime.strptime(
-                    str(evento.data_ocorrencia), STR_EVENTO_FORMAT)
-                if evento.data_ocorrencia else '',
+                    str(evento.data_credito).zfill(6), STR_EVENTO_FORMAT)
+                if evento.data_credito else '',
             'nosso_numero': str(evento.nosso_numero),
             'ocorrencias':
                 CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
             'seu_numero': evento.numero_documento,
             'str_motiv_a':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[0:2])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[0:2]))
                 if evento.erros[0:2] else '',
             'str_motiv_b':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[2:4])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[2:4]))
                 if evento.erros[2:4] else '',
             'str_motiv_c':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[4:6])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[4:6]))
                 if evento.erros[4:6] else '',
             'str_motiv_d':
-                CODIGO_REGISTROS_REJEITADOS_CNAB400[int(evento.erros[6:8])]
+                COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[6:8]))
                 if evento.erros[6:8] else '',
             'identificacao_titulo_empresa':
                 evento.identificacao_titulo_empresa,
         }
 
         if not cnab_event_id:
-            raise UserError("A linha de 'nosso_numero' %s não possui evento "
-                            "criado. Esse lote não foi processado "
-                            "corretamente." % evento.nosso_numero)
-        cnab_event_id.write(vals_evento)
+            # raise UserError("A linha de 'nosso_numero' %s não possui evento "
+            #                 "criado. Esse lote não foi processado "
+            #                 "corretamente." % evento.nosso_numero)
+            vals_evento.update({
+                'bank_payment_line_id': bank_payment_line_id.id,
+                'lote_id': lote_id.id,
+                'valor_pagamento': evento.valor_principal,
+            })
+            cnab_event_id = cnab_event_id.create(vals_evento)
+        else:
+            cnab_event_id.write(vals_evento)
 
         amount = 0.0
         codigo_ocorrencia = evento.codigo_ocorrencia
@@ -567,10 +581,12 @@ class L10nBrHrCnab(models.Model):
                 cnab_event_id.str_motiv_e = codigo_ocorrencia + \
                                                 ': Ocorrência não tratada'
 
+            bank_payment_line_id.nosso_numero = str(evento.nosso_numero)
             for pay_order_line_id in bank_payment_line_id.payment_line_ids:
                 pay_order_line_id.move_line_id.nosso_numero = str(
                     evento.nosso_numero
                 )
+                pay_order_line_id.nosso_numero = str(evento.nosso_numero)
                 debit_move_line = pay_order_line_id.move_line_id
                 credit_move_line = self.env['account.move.line'].search([
                     '|',
@@ -585,9 +601,10 @@ class L10nBrHrCnab(models.Model):
                             reconciled_line_ids - debit_move_line
 
                 if not credit_move_line:
-                    raise UserError(
-                        "Não foi encontrada uma linha correspondente para a "
-                        "linha de nosso_numero: %s" % evento.nosso_numero)
+                    return
+                    # raise UserError(
+                    #     "Não foi encontrada uma linha correspondente para a "
+                    #     "linha de nosso_numero: %s" % evento.nosso_numero)
 
                 line_values = {
                     'name': evento.nosso_numero,
@@ -597,12 +614,12 @@ class L10nBrHrCnab(models.Model):
                         evento.identificacao_titulo_empresa,
                     'date_maturity':
                         datetime.strptime(
-                            str(evento.vencimento),
+                            str(evento.vencimento).zfill(6),
                             STR_EVENTO_FORMAT)
                         if evento.vencimento else '',
                     'date':
                         datetime.strptime(
-                            str(evento.data_ocorrencia),
+                            str(evento.data_ocorrencia).zfill(6),
                             STR_EVENTO_FORMAT)
                         if evento.data_ocorrencia else '',
                 }
@@ -629,8 +646,12 @@ class L10nBrHrCnab(models.Model):
             header = lote.header or arquivo_parser.header
             trailer = lote.trailer or arquivo_parser.trailer
 
-            # TODO: Pesquisar lote
             lote_id = self.lote_id and self.lote_id[0]
+            bankless_line_id = \
+                lote_id.evento_id.filtered(
+                    lambda e: not e.bank_payment_line_id)
+            bankless_line_id.unlink()
+
             for evento in lote.eventos:
                 if not lote_id:
                     lote_id, lote_bank_account_id = self._cria_lote(
