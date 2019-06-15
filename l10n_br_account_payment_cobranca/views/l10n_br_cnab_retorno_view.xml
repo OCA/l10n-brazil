@@ -202,6 +202,20 @@
         </field>
     </record>
 
+    <record id="importa_retorno_multi_action_server" model="ir.actions.server">
+        <field name="name">Reprocessar Retorno</field>
+        <field name="model_id" eval="ref('model_l10n_br_cnab')"/>
+        <field name="state">code</field>
+        <field name="code">action = env.get('l10n_br.cnab').reprocessar_retorno_multi()</field>
+    </record>
+
+    <record id="importa_retorno_multi_action" model="ir.values">
+        <field name="name">Reprocessar Retorno</field>
+        <field name="key2">client_action_multi</field>
+        <field name="model">l10n_br.cnab</field>
+        <field name="value" eval="'ir.actions.server,%d' % importa_retorno_multi_action_server" />
+    </record>
+
     <record id="action_cnab_retorno" model="ir.actions.act_window">
         <field name="name">Importar Retorno Bancário CNAB</field>
         <field name="type">ir.actions.act_window</field>

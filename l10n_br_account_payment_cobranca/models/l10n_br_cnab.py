@@ -627,6 +627,14 @@ class L10nBrHrCnab(models.Model):
                 credit_move_line.with_context(
                     reprocessing=True).write(line_values)
 
+    @api.model
+    def reprocessar_retorno_multi(self):
+        active_ids = self._context.get("active_ids")
+
+        for cnab_id in self.browse(active_ids):
+            if cnab_id.state in ['done']:
+                cnab_id.reprocessar_arquivo_retorno()
+
     @api.multi
     def reprocessar_arquivo_retorno(self):
         cnab_type, arquivo_parser = Cnab.detectar_retorno(self.arquivo_retorno)
