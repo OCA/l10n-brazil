@@ -9,7 +9,8 @@ from odoo.addons.l10n_br_base.tools import misc
 try:
     import pycep_correios
 except ImportError:
-    raise UserError(_(u'Erro!'), _(u"Biblioteca PyCEP-Correios não instalada!"))
+    raise UserError(_(u'Erro!'), _(
+        u"Biblioteca PyCEP-Correios não instalada!"))
 
 _logger = logging.getLogger(__name__)
 
