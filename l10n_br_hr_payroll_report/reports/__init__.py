@@ -9,3 +9,4 @@ from . import payslip_report_holerite
 from . import payslip_report_holerite_autonomo_rpa
 from . import payslip_report_rescisao
 from . import payslip_run_report_telefonia
+from . import pyslip_report_ficha_registro

@@ -25,3 +25,14 @@ class HrEmployee(models.Model):
         for empregado in self:
             if empregado.birthday:
                 empregado.birthday_fmt = data.formata_data(empregado.birthday)
+
+    @api.multi
+    def open_ficha_registro(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Ficha Registro',
+            'view_mode': 'form',
+            'target': 'new',
+            'res_model': 'wizard.l10n_br_hr_employee.ficha_registro',
+            'context': {'employee_id': self.id}
+        }

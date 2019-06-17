@@ -1,0 +1,28 @@
+<openerp>
+    <data>
+
+        <report
+            id="report_payslip_py3o_ficha_registro"
+            string="Ficha Registro"
+            model="wizard.l10n_br_hr_employee.ficha_registro"
+            report_type="py3o"
+            groups="base.group_hr_manager"
+            name="l10n_br_hr_payroll_report.report_ficha_registro"
+        />
+
+        <record id="py3o_template_ficha_registro" model="py3o.template">
+            <field name="name">Ficha Registro</field>
+            <field name="filetype">odt</field>
+            <field name="py3o_template_data" type="base64" file="l10n_br_hr_payroll_report/data/ficha_registro.odt"></field>
+        </record>
+
+        <record id="report_payslip_py3o_ficha_registro" model="ir.actions.report.xml">
+            <field name="module">l10n_br_hr_payroll_report</field>
+            <field name="py3o_fusion_filetype"
+                   ref="report_py3o.py3o_fusion_filetype_pdf"/>
+            <field name="py3o_template_fallback">data/ficha_registro.odt</field>
+            <field name="py3o_template_id" ref="py3o_template_ficha_registro"/>
+        </record>
+
+    </data>
+</openerp>

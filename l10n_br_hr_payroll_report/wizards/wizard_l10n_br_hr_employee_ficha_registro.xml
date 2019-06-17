@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="wizard_l10n_br_hr_employee_ficha_funcional_form_view">
+        <field name="name">wizard.l10n_br_hr_employee.ficha_registro.form (in l10n_br_hr_payroll_report)</field>
+        <field name="model">wizard.l10n_br_hr_employee.ficha_registro</field>
+        <field name="arch" type="xml">
+            <form string="Wizard l10n_br_hr_employee ficha_registro">
+                <field name="employee_id" />
+                <field name="image_medium" widget="image" class="oe_left oe_avatar" />
+
+                <group col="4" colspan="4" style="font-size: 11px;">
+                    <field name="name" colspan="4" />
+                    <field name="endereco" colspan="4" />
+                    <field name="father_name" colspan="4" />
+                    <field name="mother_name" colspan="4" />
+
+                    <field name="birthday" />
+                    <field name="naturalidade" />
+
+                    <field name="marital" />
+                    <field name="nacionalidade" />
+
+                    <field name="conjuge" />
+                    <field name="naturalizado" />
+
+                    <field name="blood_type" />
+
+                    <field name="identidade" />
+
+                    <field name="educational_attainment" />
+                    <field name="cpf" />
+
+                    <field name="cargo" />
+                    <field name="ctps" />
+
+                    <field name="date_start" />
+                    <field name="pis_pasep" />
+
+                    <field name="dt_opc_fgts" />
+                    <field name="titulo_eleitoral" />
+
+                    <field name="forma_pg" />
+                    <field name="cbo" />
+
+                    <field name="wage" />
+                    <field name="creservist" />
+
+                    <field name="working_hours" />
+                </group>
+                <hr />
+                <div style="font-size: 11px;">
+                    <div style="width:33%; float:left;">
+                        <h3 style="text-align:center;">Alterações de Salário</h3>
+                        <field name="change_salary_ids">
+                            <tree open="false" create="false" edit="false" delete="false">
+                                <field name="date_start" string="Data" />
+                                <field name="wage" />
+                            </tree>
+                        </field>
+                    </div>
+                    <div style="width:33%; float:left;">
+                        <h3 style="text-align:center;">Alterações de Cargo</h3>
+                        <field name="change_job_ids">
+                            <tree open="false" create="false" edit="false" delete="false">
+                                <field name="date_start" string="Data" />
+                                <field name="job_id" />
+                            </tree>
+                        </field>
+                    </div>
+                    <div style="width:33%; float:left;">
+                        <h3 style="text-align:center;">Férias</h3>
+                        <field name="vacation_control_ids">
+                            <tree open="false" create="false" edit="false" delete="false">
+                                <field name="inicio_aquisitivo" string="Ini. Período Aquisitivo" />
+                                <field name="fim_aquisitivo" string="Fim Período Aquisitivo" />
+                                <field name="inicio_gozo" string="Início do Gozo" />
+                                <field name="fim_gozo" string="Fim do Gozo" />
+                            </tree>
+                        </field>
+                    </div>
+                </div>
+                <footer>
+                    <button name='doit'
+                        string='Gerar Ficha Registro'
+                        class='btn-primary oe_highlight'
+                        type='object'/>
+                    or
+                    <button string='Cancel'
+                        class='btn-default oe_link'
+                        special='cancel'/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</data>
+</openerp>
