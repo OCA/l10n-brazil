@@ -34,12 +34,12 @@ Brazilian Localisation ZIP Codes
 Installation
 ============
 
-Este módulo depende do l10n_br_base.
+Este módulo depende do l10n_br_base e da biblioteca PyCEP-Correios.
 
 Configuration
 =============
 
-Ao ser instalado o módulo de CEP deve ser populado a tabela l10n_br.zip ou instalado o módulo l10n_br_zip_correios para a consulta de CEPs diretamente dos Correios.
+Ao ser instalado o módulo de CEP deve ser populado a tabela l10n_br.zip ou quando o CEP não for encontrado ele será consultado no serviço dos Correios utilizando a biblioteca PyCEP-Correios.
 
 Usage
 =====
@@ -49,7 +49,15 @@ Nos endereços de parceiro, empresa e prospectos será exibido ao lado do campo 
 Known issues / Roadmap
 ======================
 
-* Utilizar a biblioteca pyhton pycep_correios e unir os módulos l10n_br_zip e l10n_br_correios
+
+
+Changelog
+=========
+
+12.0.2.0.0 (2019-06-17)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+ * [REF] Incluida pesquisa e dependência da biblioteca PyCEP-Correios.
 
 Bug Tracker
 ===========
