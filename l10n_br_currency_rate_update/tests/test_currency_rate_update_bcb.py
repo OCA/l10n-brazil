@@ -78,8 +78,10 @@ class TestCurrencyRateUpdateBCB(common.TransactionCase):
         ]).unlink()
 
     def test_update_BCB_scheduled(self):
+        self.bcb_provider.interval_type = 'days'
+        self.bcb_provider.interval_number = 14
         self.bcb_provider.next_run = (
-            fields.Date.today() - relativedelta(days=15)
+            self.today - relativedelta(days=1)
         )
         self.bcb_provider._scheduled_update()
 
@@ -93,8 +95,10 @@ class TestCurrencyRateUpdateBCB(common.TransactionCase):
         ]).unlink()
 
     def test_update_BCB_no_base_update(self):
+        self.bcb_provider.interval_type = 'days'
+        self.bcb_provider.interval_number = 14
         self.bcb_provider.next_run = (
-            fields.Date.today() - relativedelta(days=15)
+            self.today - relativedelta(days=1)
         )
         self.bcb_provider._scheduled_update()
 
