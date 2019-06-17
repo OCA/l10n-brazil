@@ -173,22 +173,22 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         compute='_compute_ficha_registro',
     )
 
-    change_salary_ids = fields.One2many(
+    change_salary_ids = fields.Many2many(
         string='Alterações de Salário',
         comodel_name='l10n_br_hr.contract.change',
-        related='contract_id.change_salary_ids',
+        relation='luciano',
     )
 
-    change_job_ids = fields.One2many(
+    change_job_ids = fields.Many2many(
         string='Alterações de Cargo',
         comodel_name='l10n_br_hr.contract.change',
-        related='contract_id.change_job_ids',
+        relation='luciano',
     )
 
-    vacation_control_ids = fields.One2many(
+    vacation_control_ids = fields.Many2many(
         string='Férias',
         comodel_name='hr.vacation.control',
-        related='contract_id.vacation_control_ids',
+        relation='luciano',
     )
 
     def format_date(self, data):
@@ -294,6 +294,11 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
 
         #CBO
         self.cbo = contract.job_id.cbo_id.code
+
+        # Preencher tabelas Many2Many
+        self.change_salary_ids = contract.change_salary_ids
+        self.change_job_ids = contract.change_job_ids
+        self.vacation_control_ids = contract.vacation_control_ids
 
     @api.multi
     def doit(self):
