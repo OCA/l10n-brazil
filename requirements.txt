@@ -1,2 +1,2 @@
 num2words==0.5.4
-zeep==3.3.1
+pycep-correios
