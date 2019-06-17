@@ -1,10 +1,17 @@
 # Copyright (C) 2012  Renato Lima (Akretion)                                  #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_base.tools import misc
+try:
+    import pycep_correios
+except ImportError:
+    raise UserError(_(u'Erro!'), _(u"Biblioteca PyCEP-Correios não instalada!"))
+
+_logger = logging.getLogger(__name__)
 
 
 class L10nBrZip(models.Model):
@@ -118,25 +125,64 @@ class L10nBrZip(models.Model):
             result = self.set_result(zip_ids[0])
             obj.write(result)
             return True
-        else:
-            if len(zip_ids) > 1:
-                obj_zip_result = self.env['l10n_br.zip.result']
-                zip_ids = obj_zip_result.map_to_zip_result(
-                    zip_ids, obj._name, obj.id)
 
-                return self.create_wizard(
-                    obj._name,
-                    obj.id,
-                    country_id=obj.country_id.id,
-                    state_id=obj.state_id.id,
-                    city_id=obj.city_id.id,
-                    district=obj.district,
-                    street=obj.street,
-                    zip_code=obj.zip,
-                    zip_ids=[zip.id for zip in zip_ids]
-                )
-            else:
-                raise UserError(_('Nenhum registro encontrado'))
+        elif len(zip_ids) > 1:
+
+            obj_zip_result = self.env['l10n_br.zip.result']
+            zip_ids = obj_zip_result.map_to_zip_result(
+                zip_ids, obj._name, obj.id)
+
+            return self.create_wizard(
+                obj._name,
+                obj.id,
+                country_id=obj.country_id.id,
+                state_id=obj.state_id.id,
+                city_id=obj.city_id.id,
+                district=obj.district,
+                street=obj.street,
+                zip_code=obj.zip,
+                zip_ids=[zip.id for zip in zip_ids]
+            )
+        elif not zip_ids:
+
+            zip_str = misc.punctuation_rm(obj.zip)
+            try:
+                res = pycep_correios.consultar_cep(zip_str)
+
+                # Search Brazil id
+                country = self.env['res.country'].search(
+                    [('code', '=', 'BR')], limit=1)
+
+                # Search state with state_code and country id
+                state = self.env['res.country.state'].search([
+                    ('code', '=', res['uf']),
+                    ('country_id', '=', country.id)], limit=1)
+
+                # search city with name and state
+                city = self.env['res.city'].search([
+                    ('name', '=', res['cidade']),
+                    ('state_id.id', '=', state.id)], limit=1)
+
+                values = {
+                    'zip': zip_str,
+                    'street': res['end'],
+                    'district': res['bairro'],
+                    'city_id': city.id or False,
+                    'state_id': state.id or False,
+                    'country_id': country.id or False,
+                }
+
+                # Create zip object
+                self.env['l10n_br.zip'].create(values)
+
+                zip_ids = self.search(domain)
+                result = self.set_result(zip_ids[0])
+                obj.write(result)
+                return True
+
+            except Exception as e:
+                raise UserError(
+                    _('Erro no PyCEP-Correios : ') + str(e))
 
     def create_wizard(self, object_name, address_id, country_id=False,
                       state_id=False, city_id=False,
