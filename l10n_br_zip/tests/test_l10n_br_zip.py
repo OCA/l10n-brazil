@@ -72,3 +72,20 @@ class L10nBRZipTest(TransactionCase):
         self.assertEquals(
             result['context']['state_id'], self.env.ref('base.state_br_sc').id,
             'It should return the correct state')
+
+    def test_return_pycep_correios(self):
+        """Test PyCEP CORREIOS"""
+        self.company.zip = '08746070'
+        self.company.zip_search()
+        self.assertEquals(
+            self.company.district, 'Parque Olimpico',
+            'Error in method zip_search with PyCEP-Correios'
+            'to mapping field district.')
+        self.assertEquals(
+            self.company.street, 'Rua N',
+            'Error in method zip_search with PyCEP-Correios'
+            'to mapping field street.')
+        self.assertEquals(
+            self.company.city_id.name, u'Mogi das Cruzes',
+            'Error in method zip_search with PyCEP-Correios'
+            'to mapping field city.')
