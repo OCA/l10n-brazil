@@ -104,6 +104,38 @@ class HrPayslip(models.Model):
                     holerite.contract_id.resignation_date = \
                         holerite.data_afastamento
 
+                    department_id = self.env['hr.department'].search([
+                        ('state','=','ativo'),
+                        ('manager_id','=', holerite.employee_id.id),
+                    ])
+
+                    if department_id:
+                        raise exceptions.Warning(
+                            _('Funcionário como Gestor do departamento {}.'
+                              'Definir novo gestor antes de finalizar '
+                              'procedimento,'.format(department_id.name)))
+
+                    holidays_ids = self.env['hr.holidays'].search([
+                        ('state','=','confirm'),
+                        ('type','=','remove'),
+                        ('employee_id','=',holerite.employee_id.id),
+                    ])
+
+                    if holidays_ids:
+                        raise exceptions.Warning(
+                            _('Evento pendente:\n {}'
+                              .format(holidays_ids.mapped('name'))))
+
+                    ligacoes_ids = self.env['hr.telefonia.line'].search([
+                        ('state','=','open'),
+                        ('employee_id','=',holerite.employee_id.id),
+                    ])
+
+                    if ligacoes_ids:
+                        raise exceptions.Warning(
+                            _('Ligação em aberto:\n {}'
+                              .format(ligacoes_ids.mapped('name'))))
+
                 # setar as ligacoes telefonicas como debitadas
                 for ligacao_id in holerite.ligacoes_ids:
                     ligacao_id.state = 'paid'
