@@ -102,65 +102,79 @@ class WizardImportAccountDepara(models.TransientModel):
     def analisar_account_depara(self):
         """
         """
-        if not self.depara_file:
-            raise Warning("Inserir arquivo para importação")
-
-        # import csv
-        import base64
-        arq = base64.b64decode(self.depara_file)
-        linhas = arq.splitlines(True)
-        erro_csv = ''
-        erro_conta_oficial = ''
-        erro_conta_externa = ''
-
-        # Pular primeira por ser cabeçalho
-        for linha in linhas[1:]:
-
-            l = linha.split(',')
-
-            code_oficial = l[0]
-            name = l[1]
-            code_externo = l[2].replace('\n', '')
-
-            if not code_oficial or (not code_externo or code_externo == '\n'):
-                erro_csv += ' Erro importação linha: {} \n'.format(l)
-
-            conta_oficial_id = self.env['account.account'].search([
-                ('custom_code', '=', code_oficial),
-            ], limit=1)
-            if not conta_oficial_id:
-                erro_conta_oficial += code_oficial
-
-            conta_externa = self.env['account.account'].search([
-                ('code', '=', code_externo),
-            ], limit=1)
-            if not conta_oficial_id:
-                erro_conta_externa += code_oficial
-
         contas = self._get_all_account_ids(
             self.account_depara_plano_id.account_account_id)
 
-        contas_codigos = contas.mapped('code')
+        # Pular primeira por ser cabeçalho
+        if self.depara_file:
 
-        plano_de_contas_decoded = self.depara_file.decode('base64')
-        fileobj = TemporaryFile('wb+')
-        fileobj.write(plano_de_contas_decoded)
-        fileobj.seek(0)
-        df = pd.read_csv(fileobj)
+            # import csv
+            import base64
+            arq = base64.b64decode(self.depara_file)
+            linhas = arq.splitlines(True)
+            erro_csv = ''
+            erro_conta_oficial = ''
+            erro_conta_externa = ''
 
-        # Validar se todas as contas estão no depara
-        contas_externas = df['code_externo'].apply(lambda x: str(x)).values
-        contas_fora_depara = \
-            filter(lambda x: x not in contas_externas, contas_codigos)
-        mensagem = map(lambda x: 'Conta sem registro no Depara:, {}'.
-                       format(x), contas_fora_depara)
-        erro_contas_sem_depara = '\n'.join(mensagem)
+            for linha in linhas[1:]:
 
-        erro = erro_csv + erro_conta_oficial + \
-               erro_conta_externa + erro_contas_sem_depara
-        if not erro:
-            erro += 'OK! Tudo parece válido'
-        raise Warning(erro)
+                l = linha.split(',')
+
+                code_oficial = l[0]
+                name = l[1]
+                code_externo = l[2].replace('\n', '')
+
+                if not code_oficial or (not code_externo or code_externo == '\n'):
+                    erro_csv += ' Erro importação linha: {} \n'.format(l)
+
+                conta_oficial_id = self.env['account.account'].search([
+                    ('custom_code', '=', code_oficial),
+                ], limit=1)
+                if not conta_oficial_id:
+                    erro_conta_oficial += code_oficial
+
+                conta_externa = self.env['account.account'].search([
+                    ('code', '=', code_externo),
+                ], limit=1)
+                if not conta_oficial_id:
+                    erro_conta_externa += code_oficial
+
+            contas_codigos = contas.mapped('code')
+
+            plano_de_contas_decoded = self.depara_file.decode('base64')
+            fileobj = TemporaryFile('wb+')
+            fileobj.write(plano_de_contas_decoded)
+            fileobj.seek(0)
+            df = pd.read_csv(fileobj)
+
+            # Validar se todas as contas estão no depara
+            contas_externas = df['code_externo'].apply(lambda x: str(x)).values
+            contas_fora_depara = \
+                filter(lambda x: x not in contas_externas, contas_codigos)
+            mensagem = map(lambda x: 'Conta sem registro no Depara:, {}'.
+                           format(x), contas_fora_depara)
+            erro_contas_sem_depara = '\n'.join(mensagem)
+
+            erro = erro_csv + erro_conta_oficial + \
+                   erro_conta_externa + erro_contas_sem_depara
+            if not erro:
+                erro += 'OK! Tudo parece válido'
+            raise Warning(erro)
+
+        else:
+
+            erro_depara = ''
+            contas = contas.filtered(lambda x: x.type=='other')
+            for conta in contas:
+                depara_id = self.env['account.depara'].search([
+                    ('conta_referencia_id','=',conta.id),
+                ])
+                if not depara_id:
+                    erro_depara += '\n {} - {}'.format(conta.code, conta.name)
+
+            if not erro_depara:
+                erro_depara += 'OK! Tudo parece válido'
+            raise Warning(erro_depara)
 
     @api.multi
     def import_account_depara(self):
