@@ -66,7 +66,7 @@ class L10nBrZip(models.Model):
         domain = []
         if zip_code:
             new_zip = misc.punctuation_rm(zip_code or '')
-            domain.append(('zip', '=', new_zip))
+            domain.append(('zip_code', '=', new_zip))
         else:
             if not state_id or not city_id or len(street or '') == 0:
                 raise UserError(
@@ -87,7 +87,7 @@ class L10nBrZip(models.Model):
 
     def set_result(self, zip_obj=None):
         if zip_obj:
-            zip_code = zip_obj.zip
+            zip_code = zip_obj.zip_code
             if len(zip_code) == 8:
                 zip_code = '%s-%s' % (zip_code[0:5], zip_code[5:8])
             result = {
@@ -165,8 +165,9 @@ class L10nBrZip(models.Model):
                     ('state_id.id', '=', state.id)], limit=1)
 
                 values = {
-                    'zip': zip_str,
+                    'zip_code': zip_str,
                     'street': res['end'],
+                    'zip_complement': res['complemento2'],
                     'district': res['bairro'],
                     'city_id': city.id or False,
                     'state_id': state.id or False,
