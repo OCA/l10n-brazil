@@ -192,7 +192,8 @@ def _get_debit_credit_balance_de_para(self, accounts, period_ids):
                         self.cr, self.uid,
                         [
                             ('account_id', '=', account_sistema_id.id),
-                            ('period_id', 'in', period_ids)
+                            ('period_id', 'in', period_ids),
+                            ('state', '!=', 'cancel'),
                         ])
                     partidas = self.pool.get('account.move.line').browse(
                         self.cr, self.uid, partida_ids)

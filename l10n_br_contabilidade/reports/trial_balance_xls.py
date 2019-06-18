@@ -33,7 +33,7 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
                              _p.company.partner_id.name,
                              _p.company.currency_id.name])
     c_specs = [
-        ('report_name', 1, 0, 'text', report_name),
+        ('report_name', 40, 40, 'text', report_name),
     ]
     row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
     row_pos = self.xls_write_row(
