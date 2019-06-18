@@ -127,12 +127,13 @@ class AccountEvent(models.Model):
                 account_move_reversao = account_move_id.copy({
                     'name': description,
                     'narration': description,
-                    'line_id': False,
                     'date': fields.Date.today(),
                     'period_id': period_id.id,
                     'sequencia': False,
                     'account_event_id': account_event_reversao_id.id,
                 })
+
+                lines_remocao = account_move_reversao.line_id.ids
 
                 for line_id in account_move_id.line_id:
                     account_move_line_obj.create({
@@ -142,6 +143,10 @@ class AccountEvent(models.Model):
                         'move_id': account_move_reversao.id,
                         'name': description,
                     })
+
+                for line in account_move_reversao.line_id:
+                    if line.id in lines_remocao:
+                        line.unlink()
 
             record.state = 'reversed'
 
