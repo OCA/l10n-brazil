@@ -1069,7 +1069,10 @@ class HrPayslip(models.Model):
 
         dependent_values = self.get_dependent_values_irrf(ano)
 
-        return TOTAL_IRRF - INSS - dependent_values
+        if TOTAL_IRRF and INSS:
+            return TOTAL_IRRF - INSS - dependent_values
+        else:
+            return 0
 
     def get_dependent_values_irrf(self, ano):
         deducao_dependente_obj = self.env[
