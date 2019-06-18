@@ -149,7 +149,11 @@ class L10nBrZip(models.Model):
             zip_str = misc.punctuation_rm(obj.zip)
             try:
                 res = pycep_correios.consultar_cep(zip_str)
+            except Exception as e:
+                raise UserError(
+                    _('Erro no PyCEP-Correios : ') + str(e))
 
+            if res:
                 # Search Brazil id
                 country = self.env['res.country'].search(
                     [('code', '=', 'BR')], limit=1)
@@ -181,10 +185,6 @@ class L10nBrZip(models.Model):
                 result = self.set_result(zip_ids[0])
                 obj.write(result)
                 return True
-
-            except Exception as e:
-                raise UserError(
-                    _('Erro no PyCEP-Correios : ') + str(e))
 
     def create_wizard(self, object_name, address_id, country_id=False,
                       state_id=False, city_id=False,
