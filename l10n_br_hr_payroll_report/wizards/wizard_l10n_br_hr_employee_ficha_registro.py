@@ -116,6 +116,11 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         compute='_compute_ficha_registro',
     )
 
+    working_hours_dict = fields.Char(
+        string=u'Horário de Trabalho',
+        compute='_compute_ficha_registro',
+    )
+
     naturalidade = fields.Char(
         string=u'Naturalidade',
         compute='_compute_ficha_registro',
@@ -176,23 +181,27 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
     change_salary_ids = fields.Many2many(
         string='Alterações de Salário',
         comodel_name='l10n_br_hr.contract.change',
-        relation='luciano',
+        relation='ficha_registro_change_salary_ids',
+        compute='_compute_ficha_registro',
     )
 
     change_job_ids = fields.Many2many(
         string='Alterações de Cargo',
         comodel_name='l10n_br_hr.contract.change',
-        relation='luciano',
+        relation='ficha_registro_change_job_ids',
+        compute='_compute_ficha_registro',
     )
 
     vacation_control_ids = fields.Many2many(
         string='Férias',
         comodel_name='hr.vacation.control',
-        relation='luciano',
+        relation='ficha_registro_vacation_control_ids',
+        compute='_compute_ficha_registro',
     )
 
     def format_date(self, data):
-        return dt.datetime.strptime(data, "%Y-%m-%d").strftime("%d/%m/%Y")
+        if data:
+            return dt.datetime.strptime(data, "%Y-%m-%d").strftime("%d/%m/%Y")
 
     def create_jornada_trabalho_tb(self, contract):
         att_ids = contract.working_hours.attendance_ids
@@ -223,7 +232,7 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
                 'Saída']
         df = pd.DataFrame(data=data_df, columns=cols)
         df.set_index('Dia(s)', inplace=True)
-        return df.to_html()
+        return df.to_html(), str(data_df)
 
     @api.multi
     @api.depends('employee_id', 'dependent_ids')
@@ -263,7 +272,8 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         self.date_start = dt_start
 
         # Horário de Trabalho
-        self.working_hours = self.create_jornada_trabalho_tb(contract)
+        self.working_hours, self.working_hours_dict = \
+            self.create_jornada_trabalho_tb(contract)
 
         # Identidade
         rg_dt = self.format_date(employee.rg_emission)
@@ -286,8 +296,9 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         self.educational_attainment = employee.educational_attainment.name
 
         # É naturalizado
-        self.naturalizado = 'Não' if 'Brasil' in employee.pais_nac_id.name \
-            else 'Sim'
+        self.naturalizado = 'Não' if not employee.pais_nac_id.name \
+                                     or 'Brasil' in employee.pais_nac_id.name \
+                                  else 'Sim'
 
         # Salário
         self.wage = contract.wage
@@ -301,6 +312,7 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         self.vacation_control_ids = contract.vacation_control_ids
 
     @api.multi
-    def doit(self):
+    def doit(self, vals):
+        super(WizardL10n_br_hr_employee_ficha_registro, self).create(vals)
         return self.env['report'].get_action(
             self, "l10n_br_hr_payroll_report.report_ficha_registro")
