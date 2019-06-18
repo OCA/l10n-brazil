@@ -12,7 +12,7 @@ class L10nBRZipTest(TransactionCase):
         super(L10nBRZipTest, self).setUp()
         self.zip_obj = self.env['l10n_br.zip']
         self.zip_1 = self.zip_obj.create(dict(
-            zip='88032050',
+            zip_code='88032050',
             city_id=self.env.ref('l10n_br_base.city_4205407').id,
             state_id=self.env.ref('base.state_br_sc').id,
             country_id=self.env.ref('base.br').id,
@@ -51,7 +51,7 @@ class L10nBRZipTest(TransactionCase):
 
     def test_return_two_results_zip_search(self):
         self.zip_1 = self.zip_obj.create(dict(
-            zip='88032040',
+            zip_code='88032040',
             city_id=self.env.ref('l10n_br_base.city_4205407').id,
             state_id=self.env.ref('base.state_br_sc').id,
             country_id=self.env.ref('base.br').id,
