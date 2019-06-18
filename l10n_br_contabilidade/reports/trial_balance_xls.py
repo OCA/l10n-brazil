@@ -28,7 +28,7 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
                             False: _('No')}
 
     # Title
-    cell_style = xlwt.easyxf(_xs['xls_title'])
+    cell_style = xlwt.easyxf('font: bold true, height 360;')
     report_name = ' - '.join([_p.report_name.upper(),
                              _p.company.partner_id.name,
                              _p.company.currency_id.name])
@@ -48,6 +48,10 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
         ws, row_pos, row_data, set_column_size=True)
 
     # Header Table
+
+    _xs['fill_blue'] = 'pattern: pattern solid, fore_color 0x38;'
+    _xs['fill_blue'] += ' font: colour white, bold True;'
+
     cell_format = _xs['bold'] + _xs['fill_blue'] + _xs['borders_all']
     cell_style = xlwt.easyxf(cell_format)
     cell_style_center = xlwt.easyxf(cell_format + _xs['center'])
