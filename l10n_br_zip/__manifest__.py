@@ -21,4 +21,7 @@
         'security/ir.model.access.csv',
     ],
     'installable': True,
+    'external_dependencies': {
+        'python': ['pycep_correios'],
+    }
 }
