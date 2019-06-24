@@ -8,7 +8,7 @@
         <field name="name">l10n_br_account.move.template.line.tree (in l10n_br_account)</field>
         <field name="model">l10n_br_account.move.template.line</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree editable="bottom">
                 <field name="template_id" invisible="1"/>
                 <field name="model_ids" invisible="1"/>
                 <field name="field_id"/>
