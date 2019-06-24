@@ -8,6 +8,13 @@ from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import (
     TIPO_DE_FOLHA,
 )
 
+DATE_PREFERED = [
+    ('now', 'Directly'),
+    ('due', 'Due date'),
+    ('fixed', 'Fixed date'),
+    ('dynamic', u'Dinâmica'),
+]
+
 
 class PaymentOrder(models.Model):
     _inherit = 'payment.order'
@@ -39,6 +46,25 @@ class PaymentOrder(models.Model):
 
     cnab_filename = fields.Char("CNAB Filename")
 
+    date_prefered = fields.Selection(
+        selection=DATE_PREFERED,
+    )
+
+    @api.multi
+    def action_open(self):
+        """
+        Validacao ao confirmar ordem:
+        """
+        res = super(PaymentOrder, self).action_open()
+        self.verificar_tipo_data_preferida()
+
+        return res
+
+    def verificar_tipo_data_preferida(self):
+        if self.date_prefered == 'dynamic':
+            for line in self.line_ids:
+                line.date = line.payslip_id.data_pagamento_competencia
+
     @api.multi
     def _prepare_folha_payment_line(self, line):
         self.ensure_one()
@@ -55,6 +81,9 @@ class PaymentOrder(models.Model):
         else:
             banco = line.slip_id.employee_id.bank_account_id.id,
 
+        date = line.slip_id.data_pagamento_competencia if \
+            self.date_prefered == 'dynamic' else self.date_scheduled
+
         res = {
             'amount_currency': amount_currency,
             'bank_id': banco,
@@ -64,7 +93,7 @@ class PaymentOrder(models.Model):
             'communication': communication,
             'state': state,
             # end account banking
-            'date': self.date_scheduled,
+            'date': date,
             'payslip_id': line.slip_id.id,
         }
         return res

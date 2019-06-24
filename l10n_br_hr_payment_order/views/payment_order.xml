@@ -52,8 +52,8 @@
                 </page>
             </xpath>
 
-            <field name="date_scheduled" position="attributes">
-                <attribute name="required">1</attribute>
+            <field name="date_scheduled" position="replace">
+                <field name="date_scheduled" attrs="{'required': [('date_prefered', '=', 'fixed')], 'readonly':[('date_prefered','!=','fixed')]}"/>
             </field>
 
             <field name="user_id" position="attributes">
