@@ -12,7 +12,6 @@ class L10nBrAccountMoveTemplateLine(models.Model):
     template_id = fields.Many2one(
         comodel_name='l10n_br_account.move.template',
         string=u'Modelo',
-        required=True,
         ondelete='cascade',
     )
     model_ids = fields.Many2many(
