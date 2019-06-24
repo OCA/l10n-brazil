@@ -22,9 +22,6 @@ class L10nBrAccountMoveTemplateLine(models.Model):
     )
     field_id = fields.Many2one(
         comodel_name='ir.model.fields',
-        #  TODO: Fix domain
-        # , ('ttype', 'in', ['float', 'monetary'])]",
-        # domain="[('model_id', 'in', model_ids)]",
         string=u'Campo',
         required=True,
     )
@@ -36,3 +33,14 @@ class L10nBrAccountMoveTemplateLine(models.Model):
         comodel_name='account.account',
         string=u'Crédito',
     )
+
+    @api.onchange('model_ids')
+    def _onchange_model_ids(self):
+        return {
+            'domain': {
+                'field_id': [
+                    ('model_id', 'in', self.model_ids.ids),
+                    ('ttype', 'in', ['float', 'monetary'])
+                ]
+            }
+        }
