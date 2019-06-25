@@ -55,7 +55,7 @@ class HrPayslipRun(models.Model):
         if codigo_receita == '1661':
             descricao += ' - PSS Plano de Seguridade Social'
 
-        if codigo_receita == '1850':
+        if codigo_receita == '1769':
             descricao += ' - PSS Patronal'
 
         # Calcular data de vencimento da DARF
@@ -76,7 +76,7 @@ class HrPayslipRun(models.Model):
             fields.Datetime.from_string(data + ' 03:00:00')
 
         # Código de DARFS de PSS
-        codigo_receita_PSS = ['1850', '1661']
+        codigo_receita_PSS = ['1769', '1661']
 
         # Se forem darfs de PSS, sera no primeiro dia
         if codigo_receita in codigo_receita_PSS:
@@ -231,7 +231,7 @@ class HrPayslipRun(models.Model):
                 # Para rubricas de PSS patronal
                 elif line.code in ['PSS_PATRONAL', 'PSS_13_PATRONAL', 'PSS_PATRONAL_MES_ANTERIOR']:
                     guia_pss.append({
-                        'code': '1850',
+                        'code': '1769',
                         'valor': line.total,
                         'partner_id': line.employee_id.company_id.partner_id,
                         'num_referencia':
