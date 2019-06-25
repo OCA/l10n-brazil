@@ -40,6 +40,11 @@ class AccountTrialBalanceWizard(models.TransientModel):
             if record.account_depara_plano_id:
                 record.chart_account_id = \
                     record.account_depara_plano_id.account_account_id
+            else:
+                chart_id = self.env['account.account'].search([
+                    ('parent_id', '=', False),
+                ], order='id ASC', limit=1)
+                record.chart_account_id = chart_id
 
     @api.multi
     def _print_report(self, data):

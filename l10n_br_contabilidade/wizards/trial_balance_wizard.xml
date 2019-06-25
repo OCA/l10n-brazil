@@ -15,6 +15,10 @@
                     </group>
                 </xpath>
 
+                <field name="chart_account_id" position="attributes">
+                    <attribute name="groups">base.group_no_one</attribute>
+                </field>
+
                 <field name="filter" position="after">
                     <field name="exibir_natureza" />
                 </field>
