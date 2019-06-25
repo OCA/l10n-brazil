@@ -59,6 +59,12 @@ class AccountAccount(models.Model):
         column2='account_depara_id',
     )
 
+    reverse_depara_ids = fields.One2many(
+        string=u'DePara conta Externa',
+        comodel_name='account.depara',
+        inverse_name='conta_referencia_id',
+    )
+
     divisao_resultado_ids = fields.One2many(
         string=u'Fechamentos vinculados',
         comodel_name='account.divisao.resultado',

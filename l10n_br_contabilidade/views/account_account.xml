@@ -48,16 +48,34 @@
                                 <field name="observacao"/>
                             </page>
 
+                            <!--Depara Contas oficiais -->
                             <page string="DePara" attrs="{'invisible': [('account_depara_plano_id', '!=', False)]}">
-                                <field nolabel="1" name="depara_ids"  context="{'default_conta_sistema_id': [active_id]}">
+                                <field nolabel="1" name="depara_ids"  context="{'default_conta_sistema_id': [active_id]}" >
                                     <tree editable="bottom">
-                                        <field name="account_depara_plano_id" />
-                                        <field name="conta_referencia_id" />
+                                        <field name="account_depara_plano_id"
+                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                        <field name="conta_referencia_id"
+                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                        <field name="conta_sistema_id"
+                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                     </tree>
                                 </field>
                             </page>
+                            <!--Depara Reverso Contas externas -->
+                            <page string="DePara" attrs="{'invisible': [('account_depara_plano_id', '=', False)]}">
+                                <field nolabel="1" name="reverse_depara_ids"  context="{'default_conta_referencia_id': active_id, 'default_account_depara_plano_id': account_depara_plano_id}">
+                                    <tree>
+                                        <field name="conta_sistema_id" />
+                                        <field name="account_depara_plano_id" />
+                                    </tree>
+                                    <form>
+                                        <field name="conta_sistema_id" options="{'no_quick_create': True, 'no_create_edit': True}" />
+                                        <field name="account_depara_plano_id" />
+                                    </form>
+                                </field>
+                            </page>
 
-                            <page string="Apresentação" name="apresentacao">
+                            <page string="Apresentação" name="apresentacao" groups="base.group_no_one">
                                 <group>
                                     <field name="mis_report_kpi_ids" nolabel="1" colspan="4">
                                         <tree>
@@ -69,8 +87,8 @@
                                     </field>
                                 </group>
                             </page>
-                            <page string="Contas Filhas" groups="base.group_no_one">
-                                <field name="child_parent_ids"/>
+                            <page string="Contas Filhas" >
+                                <field name="child_parent_ids" readonly="1"/>
                             </page>
                         </notebook>
                     </xpath>
