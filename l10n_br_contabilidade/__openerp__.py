@@ -34,6 +34,7 @@
         'wizards/import_account_account.xml',
         'wizards/import_account_depara.xml',
         'wizards/print_journal_wizard.xml',
+        'wizards/verification_account_depara.xml',
 
         'views/account_account.xml',
         'views/account_journal.xml',
