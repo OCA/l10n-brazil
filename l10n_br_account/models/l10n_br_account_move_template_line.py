@@ -43,3 +43,42 @@ class L10nBrAccountMoveTemplateLine(models.Model):
                 ]
             }
         }
+
+    @api.multi
+    def move_line_template_create(self, obj, lines=[]):
+        for item in self:
+            for line in obj:
+                if not getattr(line, item.field_id.name, False):
+                    continue
+
+                value = getattr(line, item.field_id.name, 0.0)
+
+                if item.account_debit_id:
+                    data = {
+                        'invl_id': line.id,
+                        'name': line.name.split('\n')[0][:64],
+                        'narration': item.field_id.name,
+                        'debit': value,
+                        'currency_id': line.currency_id.id,
+                        'account_id': item.account_debit_id.id
+                    }
+
+                    lines.append((0, 0, data))
+
+                if item.account_credit_id:
+                    data = {
+                        'invl_id': line.id,
+                        'name': line.name.split('\n')[0][:64],
+                        'narration': item.field_id.name,
+                        'credit': value,
+                        'currency_id': line.currency_id.id,
+                        'account_id': item.account_credit_id.id
+                    }
+
+                    lines.append((0, 0, data))
+        move_template = self.mapped('template_id')
+        if move_template.parent_id:
+            return move_template.parent_id.item_ids.move_line_template_create(
+                    obj, lines)
+
+        return lines

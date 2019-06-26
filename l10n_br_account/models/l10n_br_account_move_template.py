@@ -32,3 +32,17 @@ class L10nBrAccountMoveTemplate(models.Model):
         inverse_name='template_id',
         string=u'Itens',
     )
+
+    def generate_move(self, obj, ref, journal_id, date, narration):
+
+        lines = self.item_ids.move_line_template_create(
+            obj, [])
+        move_vals = {
+            'ref': ref,
+            'line_ids': lines,
+            'journal_id': journal_id.id,
+            'date': date,
+            'narration': narration,
+        }
+
+        return move_vals

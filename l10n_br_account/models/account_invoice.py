@@ -159,6 +159,11 @@ class AccountInvoice(models.Model):
         store=True,
         string=u'Gera Financeiro')
 
+    move_template_id = fields.Many2one(
+        comodel_name='l10n_br_account.move.template',
+        string=u'Move Template',
+    )
+
     @api.multi
     def name_get(self):
         return [(r.id,
@@ -228,3 +233,37 @@ class AccountInvoice(models.Model):
             'nodestroy': True,
             'res_id': self.id
         }
+
+    @api.multi
+    def action_move_create(self):
+        for inv in self:
+            if not inv.move_template_id:
+                continue
+
+            ctx = dict(self._context, lang=inv.partner_id.lang)
+
+            if not inv.date_invoice:
+                inv.with_context(ctx).write(
+                    {'date_invoice': fields.Date.context_today(self)})
+
+            move_vals = inv.move_template_id.generate_move(
+                inv.invoice_line_ids, inv.reference, inv.journal_id,
+                inv.date or inv.date_invoice, inv.comment)
+            ctx['company_id'] = inv.company_id.id
+            ctx['invoice'] = inv
+            ctx_nolang = ctx.copy()
+            ctx_nolang.pop('lang', None)
+
+            if inv.move_id:
+                inv.move_id.write(move_vals)
+            else:
+                move = self.env['account.move'].with_context(
+                    ctx_nolang).create(move_vals)
+                move.post()
+                vals = {
+                    'move_id': move.id,
+                    'date': inv.date or inv.date_invoice,
+                    'move_name': move.name,
+                }
+                inv.with_context(ctx).write(vals)
+        return super(AccountInvoice, self).action_move_create()
