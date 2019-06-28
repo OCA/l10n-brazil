@@ -4,10 +4,18 @@
 
 <odoo noupdate="1">
 
-    <!-- TODO
     <record model="l10n_br_account.move.template.line" id="l10n_br_account_move_template_line_demo_1">
-       <field name="name">...</field>
+        <field name="template_id" ref="l10n_br_account_move_template_demo_1"/>
+        <field name="field_id" search="[('model', '=', 'account.invoice.line'),('name', '=', 'price_subtotal')]" model="ir.model.fields"/>
+        <field name="account_debit_id" search="[('code','=','3.01.01.01.01.02.00')]" model="account.account"/>
+        <field name="account_credit_id" search="[('code','=','1.01.05.02.00')]" model="account.account"/>
     </record>
-    -->
+
+    <record model="l10n_br_account.move.template.line" id="l10n_br_account_move_template_line_demo_2">
+        <field name="template_id" ref="l10n_br_account_move_template_demo_2"/>
+        <field name="field_id" search="[('model', '=', 'account.invoice.line'),('name', '=', 'price_subtotal')]" model="ir.model.fields"/>
+        <field name="account_debit_id" search="[('code','=','3.01.01.01.01.02.00')]" model="account.account"/>
+        <field name="account_credit_id" search="[('code','=','1.01.05.02.00')]" model="account.account"/>
+    </record>
 
 </odoo>

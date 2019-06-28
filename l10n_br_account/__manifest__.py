@@ -35,8 +35,8 @@
         'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        'demo/l10n_br_account_move_template_line.xml',
         'demo/l10n_br_account_move_template.xml',
+        'demo/l10n_br_account_move_template_line.xml',
         'demo/base_demo.xml'
     ],
     'installable': True,

@@ -155,6 +155,45 @@ class TestCustomerInvoice(TransactionCase):
                 ])],
             })]
         ))
+        move_template = self.env['l10n_br_account.move.template'].create({
+            'name': 'Move Template Test',
+            'model_ids': [(6, 0, [
+                self.env.ref('account.model_account_invoice_line').id])],
+            'item_ids': [(0, 0, {
+                'field_id': self.env['ir.model.fields'].search([
+                    ('model', '=', 'account.invoice.line'),
+                    ('name', '=', 'price_subtotal')
+                ]).id,
+                'account_debit_id': self.env['account.account'].search([
+                    ('code', '=', '1.01.05.02.00')
+                ]).id,
+                'account_credit_id': self.env['account.account'].search([
+                    ('code', '=', '3.01.01.01.01.02.00')
+                ]).id
+            })]
+
+        })
+        self.invoice_4 = self.env['account.invoice'].create(dict(
+            name='Test Customer Invoice',
+            move_template_id=move_template.id,
+            payment_term_id=self.env.ref(
+                'account.account_payment_term_advance').id,
+            fiscal_category_id=self.fiscal_category.id,
+            partner_id=self.env.ref('base.res_partner_3').id,
+            reference_type="none",
+            journal_id=self.sale_journal.id,
+            invoice_line_ids=[(0, 0, {
+                'product_id': self.env.ref('product.product_product_5').id,
+                'quantity': 10.0,
+                'price_unit': 450.0,
+                'account_id': self.env['account.account'].search(
+                    [('user_type_id', '=', self.env.ref(
+                        'account.data_account_type_revenue').id)], limit=1).id,
+                'name': 'product test 5',
+                'uom_id': self.env.ref('product.product_uom_unit').id,
+                'fiscal_category_id': self.fiscal_category.id,
+            })]
+        ))
 
     def test_state(self):
         self.assertEquals(self.invoice_1.state, 'draft',
@@ -213,3 +252,17 @@ class TestCustomerInvoice(TransactionCase):
         assert self.account_invoice_cancel.display_name, \
             'Error with function display_name() of object ' \
             'l10n_br_account.invoice.cancel'
+
+    def test_move_template(self):
+        self.assertEquals(self.invoice_4.state, 'draft',
+                          "Invoice should be in state Draft")
+
+        self.invoice_4.action_invoice_open()
+        assert self.invoice_4.move_id, "Move not created for open invoice"
+
+        itens = self.invoice_4.move_template_id.item_ids
+        for line in self.invoice_4.move_id.line_ids:
+            if line.debit:
+                assert line.account_id in itens.mapped('account_debit_id')
+            if line.credit:
+                assert line.account_id in itens.mapped('account_credit_id')
