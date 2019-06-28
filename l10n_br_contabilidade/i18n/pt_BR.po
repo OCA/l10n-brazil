@@ -2326,3 +2326,8 @@ msgstr "Última Edição Em"
 msgid "Última Edição Por"
 msgstr "Última Edição Por"
 
+#. module: account
+#: code:addons/account/account.py:669
+#, python-format
+msgid "You cannot remove an account that contains journal items."
+msgstr "Não é possível a exclusão de contas que foram movimentadas."
