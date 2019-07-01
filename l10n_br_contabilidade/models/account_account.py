@@ -215,9 +215,13 @@ class AccountAccount(models.Model):
                     [('conta_referencia_id', '=', record.id)])
 
             if de_para_id:
+                depara_nomes = ''
+                for conta in de_para_id.conta_sistema_id:
+                    depara_nomes += ' {} - {},'.format(conta.code, conta.name)
+
                 raise Warning(
-                    'Esta conta está relacionada em um De-Para, '
-                    'por isso não pode ser Excluída!'
+                    'Esta conta está relacionada em um De-Para,'
+                    + depara_nomes + ' por isso não pode ser Excluída!'
                 )
 
             return super(AccountAccount, record).unlink()
