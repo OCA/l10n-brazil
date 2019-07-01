@@ -103,8 +103,6 @@ class AccountEvent(models.Model):
         """
         Reverter Lançamentos do Evento Contábil
         """
-        account_move_line_obj = self.env['account.move.line']
-
         for record in self:
 
             account_event_reversao_id = record.copy({
@@ -116,37 +114,8 @@ class AccountEvent(models.Model):
             record.account_event_reversao_id = account_event_reversao_id
 
             for account_move_id in record.account_move_ids:
-
-                description = 'Reversão do Lançamento: {}/{} - {}'.format(
-                    account_move_id.sequencia,
-                    account_move_id.fiscalyear_id.name, account_move_id.resumo)
-
-                period_id = \
-                    self.env['account.period'].find(fields.Date.today())
-
-                account_move_reversao = account_move_id.copy({
-                    'name': description,
-                    'narration': description,
-                    'date': fields.Date.today(),
-                    'period_id': period_id.id,
-                    'sequencia': False,
-                    'account_event_id': account_event_reversao_id.id,
-                })
-
-                lines_remocao = account_move_reversao.line_id.ids
-
-                for line_id in account_move_id.line_id:
-                    account_move_line_obj.create({
-                        'account_id': line_id.account_id.id,
-                        'debit': line_id.credit,
-                        'credit': line_id.debit,
-                        'move_id': account_move_reversao.id,
-                        'name': description,
-                    })
-
-                for line in account_move_reversao.line_id:
-                    if line.id in lines_remocao:
-                        line.unlink()
+                account_move_id.reverter_lancamento(
+                    account_event_reversao_id)
 
             record.state = 'reversed'
 
