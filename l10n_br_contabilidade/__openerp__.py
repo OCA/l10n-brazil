@@ -20,6 +20,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        'security/account_security.xml',
         #
         'data/natureza_conta_data.xml',
         # # Menus
