@@ -273,3 +273,49 @@ class AccountMove(models.Model):
             raise Warning(u'Necessário definir um Template Padrão do '
                           u'Lançamento para atualização dos históricos '
                           u'padrões')
+
+    @api.multi
+    def reverter_lancamento(self, account_event_reversao_id=False):
+        for record in self:
+            account_move_line_obj = self.env['account.move.line']
+
+            description = 'Reversão do Lançamento: {}/{} - {}'.format(
+                record.sequencia,
+                record.fiscalyear_id.name, record.resumo)
+
+            period_id = \
+                self.env['account.period'].find(fields.Date.today())
+
+            account_move_reversao = record.copy({
+                'name': description,
+                'narration': description,
+                'date': fields.Date.today(),
+                'period_id': period_id.id,
+                'sequencia': False,
+                'validado_por': False,
+                'validado_data': False,
+            })
+
+            if account_event_reversao_id:
+                account_move_reversao['account_event_id'] = \
+                    account_event_reversao_id.id
+
+            lines_remocao = account_move_reversao.line_id.ids
+
+            for line_id in record.line_id:
+                account_move_line_obj.create({
+                    'account_id': line_id.account_id.id,
+                    'debit': line_id.credit,
+                    'credit': line_id.debit,
+                    'move_id': account_move_reversao.id,
+                    'name': description,
+                })
+
+            for line in account_move_reversao.line_id:
+                if line.id in lines_remocao:
+                    line.unlink()
+
+    @api.multi
+    def button_reverter_lancamento(self):
+        for record in self:
+            record.reverter_lancamento()
