@@ -268,7 +268,7 @@
                                    attrs="{'invisible' : ['|', ('periodo_aquisitivo', '!=', False), ('tipo_de_folha', 'not in', ['provisao_ferias'])]}" />
 
                             <field name="saldo_periodo_aquisitivo" />
-
+                            <field name="manual_saldo_periodo_aquisitivo" groups='base.group_no_one' />
                         </group>
                     </group>
                 </xpath>
