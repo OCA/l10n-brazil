@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="periodo_reabertura_justificativa_wizard_form">
+            <field name="name">periodo.reabertura.justificativa.wizard.form (in l10n_br_contabilidade)</field>
+            <field name="model">periodo.reabertura.justificativa.wizard</field>
+            <field name="arch" type="xml">
+            	<form string="Cancel" version="7.0">
+            		<group>
+            			<field name="reason"/>
+					</group>
+					<footer>
+						<button name="action_confirm_reabrir"
+                                string="Reabrir" type="object"
+                                class="oe_highlight"
+                                confirm="Você realmente deseja reabrir este fechamento?" />
+						<button string="Cancelar" special="cancel"/>
+					</footer>
+            	</form>
+            </field>
+        </record>
+		<record model="ir.actions.act_window" id="action_periodo_reabertura_justificativa_wizard">
+            <field name="name">Reabrir</field>
+            <field name="res_model">periodo.reabertura.justificativa.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="periodo_reabertura_justificativa_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+	</data>
+</openerp>

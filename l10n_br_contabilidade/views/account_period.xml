@@ -10,10 +10,17 @@
             <field name="model">account.period</field>
             <field name="inherit_id" ref="account.view_account_period_form" />
             <field name="arch" type="xml">
-                <!--<button name="action_draft" position="replace">-->
-                    <!--<button name="reopen_period" groups="base.group_no_one" states="done" string="Re-Abrir Período" type="object"/>-->
-                <!--</button>-->
-
+                <button name="action_draft" position="replace">
+                    <button name="reopen_period" groups="base.group_no_one" states="validate" string="Aprovação Superintendente" type="object" class="oe_highlight"/>
+                </button>
+                <button name="reopen_period" position="before">
+                    <button class="btn btn-primary"
+                            name="%(action_periodo_reabertura_justificativa_wizard)d"
+                            string='Reabrir'
+                            type="action"
+                            states="done"
+                    />
+                </button>
                 <xpath expr="//sheet" position="inside">
                     <group>
                         <field name="account_journal_id" required="1"/>
