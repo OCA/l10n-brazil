@@ -204,6 +204,9 @@ class AccountAccount(models.Model):
     @api.multi
     def unlink(self):
         for record in self:
+            for child_id in record.child_parent_ids:
+                child_id.unlink()
+
             ir_model_data = record.env['ir.model.data'].search([
                 ('model', '=', 'account.account'),
                 ('res_id', '=', record.id)
@@ -217,7 +220,8 @@ class AccountAccount(models.Model):
             if de_para_id:
                 depara_nomes = ''
                 for conta in de_para_id.conta_sistema_id:
-                    depara_nomes += ' {} - {},'.format(conta.code, conta.name)
+                    depara_nomes += ' {} - {},'.format(
+                        conta.code, conta.name)
 
                 raise Warning(
                     'Esta conta está relacionada em um De-Para,'
