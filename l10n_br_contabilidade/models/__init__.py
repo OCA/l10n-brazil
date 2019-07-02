@@ -18,6 +18,7 @@ from . import account_depara
 from . import account_depara_plano
 from . import account_period
 from . import account_divisao_resultado
+from . import account_reabertura_periodo_justificativa
 from . import mis_report_kpi
 from . import mis_report_style
 from . import gefin_custos

@@ -9,9 +9,19 @@ from dateutil.relativedelta import relativedelta
 from openerp import api, fields, models
 from openerp.exceptions import Warning as UserError
 
+STATES = [
+    ('draft', 'Aberto'),
+    ('done', 'Fechado'),
+    ('validate', 'Validação Superintendente'),
+]
+
 
 class AccountPeriod(models.Model):
     _inherit = 'account.period'
+
+    state = fields.Selection(
+        selection=STATES,
+    )
 
     account_move_ids = fields.One2many(
         string=u'Lançamentos Contábeis',
@@ -35,6 +45,12 @@ class AccountPeriod(models.Model):
     account_journal_id = fields.Many2one(
         string=u'Diário de fechamento',
         comodel_name='account.journal',
+    )
+
+    justificativa_reabertura_ids = fields.One2many(
+        string='Justificativas',
+        comodel_name='account.reabertura.periodo.justificativa',
+        inverse_name='period_id',
     )
 
     @api.multi

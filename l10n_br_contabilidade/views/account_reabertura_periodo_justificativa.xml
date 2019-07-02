@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2019 ABGF http://www.abgf.gov.br/
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="account_reabertura_periodo_justificativa_form">
+            <field name="name">account_reabertura_periodo_justificativa_form (in l10n_br_contabilidade)</field>
+            <field name="model">account.reabertura.periodo.justificativa</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Reaberturas de Periodo">
+                    <sheet>
+                        <h2><field name="period_id" /></h2>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="data" />
+                        </group>
+                        <separator string="Motivo"/>
+                        <field name="motivo" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_reabertura_periodo_justificativa_tree">
+            <field name="name">account_reabertura_periodo_justificativa_tree (in l10n_br_contabilidade)</field>
+            <field name="model">account.reabertura.periodo.justificativa</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Reaberturas de Periodo">
+                    <field name="employee_id" />
+                    <field name="data" />
+                    <field name="motivo" />
+                    <field name="period_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_reabertura_periodo_justificativa_search">
+            <field name="name">account_reabertura_periodo_justificativa_search (in l10n_br_contabilidade)</field>
+            <field name="model">account.reabertura.periodo.justificativa</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Reaberturas de Periodo">
+                    <field name="employee_id" />
+                    <field name="data" />
+                    <field name="motivo" />
+                    <field name="period_id" />
+                </search>
+            </field>
+        </record>
+
+        <!--Menu para fechar movimento-->
+        <record model="ir.actions.act_window" id="l10n_br_contabilidade_reabertura_action">
+            <field name="name">Reabertura</field>
+            <field name="res_model">account.reabertura.periodo.justificativa</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_fechamento_reabertura_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="account_reabertura_periodo_justificativa_tree"/>
+            <field name="act_window_id" ref="l10n_br_contabilidade_reabertura_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="l10n_br_contabilidade_account_fechamento_reabertura_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_reabertura_periodo_justificativa_form"/>
+            <field name="act_window_id" ref="l10n_br_contabilidade_reabertura_action"/>
+        </record>
+
+    </data>
+</openerp>
