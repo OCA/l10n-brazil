@@ -750,9 +750,9 @@ class HrPayslip(models.Model):
                     holerite.periodo_aquisitivo.saldo
             # Campo para configurar o saldo do Período aquisitivo manualmente.
             # Para gerar provisão simulando o passado
-            if holerite.manual_saldo_periodo_aquisitivo:
+            if holerite.saldo_periodo_aquisitivo_manual:
                 holerite.saldo_periodo_aquisitivo = \
-                    holerite.manual_saldo_periodo_aquisitivo
+                    holerite.saldo_periodo_aquisitivo_manual
 
     saldo_periodo_aquisitivo = fields.Integer(
         string="Saldo de dias do Periodo Aquisitivo",
@@ -761,7 +761,7 @@ class HrPayslip(models.Model):
              u'dentro do período aquisitivo selecionado.',
     )
 
-    manual_saldo_periodo_aquisitivo = fields.Integer(
+    saldo_periodo_aquisitivo_manual = fields.Integer(
         string="Forçar Saldo do Periodo Aquisitivo",
     )
 
