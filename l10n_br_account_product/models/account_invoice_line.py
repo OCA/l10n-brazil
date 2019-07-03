@@ -669,7 +669,7 @@ class AccountInvoiceLine(models.Model):
                 self.price_unit = self.product_id.lst_price
             self.price_unit = fix_price(
                 self.price_unit, taxes, fp_taxes)
-            self._set_currency()
+            # self._set_currency()
 
         self.icms_cst_id = tax_codes.get('icms')
         self.ipi_cst_id = tax_codes.get('ipi')

@@ -61,6 +61,12 @@ class NFe200(FiscalDocument):
 
                 self.nfe.infNFe.det.append(self.det)
 
+            cobr = self.nfe.infNFe.cobr
+            cobr.fat.nFat.valor = invoice.number
+            cobr.fat.vOrig.valor = str("%.2f" % invoice.amount_total)
+            cobr.fat.vDesc.valor = str("%.2f" % invoice.amount_discount)
+            cobr.fat.vLiq.valor = str("%.2f" % invoice.amount_total)
+
             if invoice.journal_id.revenue_expense:
                 numero_dup = 0
                 for move_line in invoice.move_line_receivable_id:
