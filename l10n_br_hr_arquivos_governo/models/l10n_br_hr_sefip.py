@@ -1288,10 +1288,6 @@ class L10nBrSefip(models.Model):
         Rúbrica 13 Base do INSS (Somente na rescisão temos o 16 e o 17!)
 
         """
-
-        if folha.contract_id.id == 22:
-            pass
-
         result = 0.00
 
         # Na competencia 13 nao deve ser informado esses campos
@@ -1344,6 +1340,14 @@ class L10nBrSefip(models.Model):
 
             result += base_13
 
+        # uncionários receberam adiantamento de 13° salário na proporção
+        # de 6/12, quando das rescisões só tinham direito à 5/12, com isso
+        # o valor recolhido do FGTS em maio foi a maior, motivo do
+        # desconto em rescisão.
+        # Assim, para os casos de rescisão com saldo negativo do 13° salário,
+        # no campo especifico do valor, deverá ser 0,01
+        if result < 0:
+            result = 0.01
         return result
 
         # #
