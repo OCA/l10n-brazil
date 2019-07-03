@@ -65,7 +65,7 @@ class L10nBrZipSearch(models.TransientModel):
         #  context.update({'search_id': result})
         return result
 
-    @api.multi
+    @api.model
     def default_get(self, fields_list):
         data = super(L10nBrZipSearch, self).default_get(fields_list)
 
