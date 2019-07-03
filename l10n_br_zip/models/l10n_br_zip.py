@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
+
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
@@ -34,8 +35,7 @@ class L10nBrZip(models.Model):
 
     zip_complement = fields.Char(
         string='Range',
-        size=200
-    )
+        size=200)
 
     street = fields.Char(
         string='Logradouro',
@@ -87,7 +87,11 @@ class L10nBrZip(models.Model):
 
     def set_result(self, zip_obj=None):
         if zip_obj:
-            zip_code = zip_obj.zip_code
+            if type(zip_obj).__name__ == 'l10n_br.zip.result':
+                zip_code = zip_obj.zip
+            else:
+                zip_code = zip_obj.zip_code
+
             if len(zip_code) == 8:
                 zip_code = '%s-%s' % (zip_code[0:5], zip_code[5:8])
             result = {
@@ -144,7 +148,7 @@ class L10nBrZip(models.Model):
                 zip_code=obj.zip,
                 zip_ids=[zip.id for zip in zip_ids]
             )
-        elif not zip_ids:
+        elif not zip_ids and obj.zip:
 
             zip_str = misc.punctuation_rm(obj.zip)
             try:
