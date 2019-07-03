@@ -532,12 +532,15 @@ class AccountFechamento(models.Model):
         }
 
     @api.multi
-    def button_goback(self):
+    def button_goback(self, justificativa_id=False):
         for record in self:
             if record.state == 'close':
                 # Abre Períodos
-                for period_id in record.mapped('account_period_ids'):
-                    period_id.reopen_period()
+                if justificativa_id:
+                    for period_id in record.mapped('account_period_ids'):
+                        self.reabertura_periodos_fechamento(
+                            period_id, justificativa_id
+                        )
 
                 record.state = 'open'  # Retorna state p/ "Aberto"
 
@@ -562,20 +565,49 @@ class AccountFechamento(models.Model):
                     # Abre Lançamento de Reclassificação
                     record.account_move_distribuicao_id.state = 'draft'
 
+                    # Abre Períodos
+                    if justificativa_id:
+                        for period_id in record.mapped('account_period_ids'):
+                            self.reabertura_periodos_fechamento(
+                                period_id, justificativa_id
+                            )
+
                     # Apaga Lançamentos da Reclassificação
                     record.account_move_distribuicao_id.unlink()
                 record.state = 'reclassified'  # Retorna state p/ "Reclass."
 
+    def _get_justificativa_periodo_values(self, period_id, justificativa_id):
+        vals = {
+            'employee_id': justificativa_id.employee_id.id,
+            'data': justificativa_id.data,
+            'motivo': justificativa_id.motivo,
+            'period_id': period_id.id,
+        }
+
+        return vals
+
+    def reabertura_periodos_fechamento(self, period_id, justificativa_id):
+        justificativa_periodo_id = \
+            self.env['account.reabertura.periodo.justificativa']
+        justificativa_periodo_id.create(
+            self._get_justificativa_periodo_values(period_id, justificativa_id)
+        )
+        period_id.state = 'validate'
+
     @api.multi
-    def button_reopen(self):
+    def button_reopen(self, justificativa_id=False):
         """
 
         :return:
         """
         for record in self:
             # Abre Períodos
-            for period_id in record.mapped('account_period_ids'):
-                period_id.reopen_period()
+            # Abre Períodos
+            if justificativa_id:
+                for period_id in record.mapped('account_period_ids'):
+                    self.reabertura_periodos_fechamento(
+                        period_id, justificativa_id
+                    )
 
             # Abre Lançamentos ARE
             for move in record.account_move_ids:

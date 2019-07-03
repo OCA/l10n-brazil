@@ -30,6 +30,7 @@ class FechamentoReaberturaJustificativaWizard(models.TransientModel):
         fechamento = self.env['account.fechamento'].browse(
             self.env.context['active_id'])
         vals = self._get_justificativa_values(fechamento.id)
-        self.env['account.fechamento.reabertura.justificativa'].create(vals)
-        fechamento.button_goback()
+        justificativa = self.env[
+            'account.fechamento.reabertura.justificativa'].create(vals)
+        fechamento.button_goback(justificativa_id=justificativa)
         return {'type': 'ir.actions.act_window_close'}
