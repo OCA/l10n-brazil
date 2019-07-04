@@ -684,8 +684,8 @@ class HrPayslip(models.Model):
     company_id = fields.Many2one(
         string="Empresa",
         comodel_name="res.company",
-        related='contract_id.company_id',
-        store=True
+        related=False,
+        store=True,
     )
 
     rescisao_ids = fields.One2many(
@@ -2741,6 +2741,7 @@ class HrPayslip(models.Model):
             record.struct_id = record.buscar_estruturas_salario()
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
+                record.company_id = record.contract_id.company_id
 
     def _compute_data_mes_ano(self):
         for record in self:
