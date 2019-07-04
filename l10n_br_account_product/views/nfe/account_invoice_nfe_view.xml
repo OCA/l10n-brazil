@@ -176,6 +176,12 @@
                                     <field name="reconciled" invisible="1"/>
                                 </group>
                             </group>
+                            <group string="Dados do Pagamento">
+                                <field name="account_payment_ids" nolabel="1"/>
+                            </group>
+                            <group string="Dados da cobrança">
+                                <field name="account_payment_line_ids" nolabel="1" editable="false"/>
+                            </group>
                             <group string="Vencimentos">
                                 <field nolabel="1" name="move_line_receivable_id">
                                     <tree string="Vencimentos">

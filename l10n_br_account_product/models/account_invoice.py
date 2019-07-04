@@ -553,6 +553,17 @@ class AccountInvoice(models.Model):
              u' ou Devolução o campo Forma de Pagamento deve ser preenchido'
              u' com 90 - Sem Pagamento.')
 
+    account_payment_ids = fields.One2many(
+        string='Dados de Pagamento',
+        comodel_name='account.invoice.payment',
+        inverse_name='invoice_id',
+    )
+    account_payment_line_ids = fields.One2many(
+        string='Dados da cobrança',
+        comodel_name='account.invoice.payment.line',
+        inverse_name='invoice_id',
+    )
+
     @api.one
     @api.constrains('number')
     def _check_invoice_number(self):
@@ -710,6 +721,12 @@ class AccountInvoice(models.Model):
                      'number': seq_number,
                      'date_hour_invoice': date_time_invoice,
                      'date_in_out': date_in_out})
+                if not invoice.account_payment_ids and invoice.nfe_version == '4.00':
+                    raise UserError(
+                        _(u'A nota fiscal deve conter dados de pagamento')
+                    )
+                for item, payment in enumerate(invoice.account_payment_line_ids):
+                    payment.number = str(item + 1).zfill(3)
 
         return True
 
