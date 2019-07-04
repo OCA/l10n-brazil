@@ -160,6 +160,7 @@
                                 <field name="amount_costs" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_change" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             </group>
                         </page>
                         <page string="Financeiro" groups="base.group_user">
