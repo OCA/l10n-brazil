@@ -105,21 +105,21 @@
             <field name="arch" type="xml">
                <data>
                    <xpath expr="//field[@name='type']" position="attributes">
-                        <attribute name="invisible">1</attribute>
-                    </xpath>
+                       <attribute name="invisible">1</attribute>
+                   </xpath>
                    <xpath expr="//field[@name='balance']" position="attributes">
-                        <attribute name="invisible">1</attribute>
-                    </xpath>
+                       <attribute name="invisible">1</attribute>
+                   </xpath>
                    <field name="debit" position="before">
-                        <field name="natureza_conta_id" string="Natureza"/>
-                    </field>
-                    <field name="balance" position="after">
-                        <field name="saldo"/>
-                        <field name="identificacao_saldo" string=" "/>
-                    </field>
+                       <field name="natureza_conta_id" string="Natureza"/>
                        <field name="depara_ids" />
+                   </field>
+                   <field name="balance" position="after">
+                       <field name="saldo"/>
+                       <field name="identificacao_saldo" string=" "/>
+                   </field>
                    <xpath expr="//field[@name='company_currency_id']" position="attributes">
-                        <attribute name="invisible">1</attribute>
+                       <attribute name="invisible">1</attribute>
                     </xpath>
                </data>
             </field>
