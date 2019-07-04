@@ -9,7 +9,7 @@ import pandas as pd
 DIAS_SEMANA = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM']
 
 
-class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
+class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
     _name = 'wizard.l10n_br_hr_employee.ficha_registro'
 
     employee_id = fields.Many2one(
@@ -152,6 +152,10 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         compute='_compute_ficha_registro',
     )
 
+    estado_civil = fields.Char(
+        string=u'Estado Civil',
+    )
+
     marital = fields.Selection(
         string=u'Estado Civil',
         related='employee_id.marital',
@@ -173,7 +177,7 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         compute='_compute_ficha_registro',
     )
 
-    wage = fields.Float(
+    wage = fields.Char(
         string=u'Salário',
         compute='_compute_ficha_registro',
     )
@@ -232,6 +236,7 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
                 'Saída']
         df = pd.DataFrame(data=data_df, columns=cols)
         df.set_index('Dia(s)', inplace=True)
+
         return df.to_html(), str(data_df)
 
     @api.multi
@@ -301,7 +306,7 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
                                   else 'Sim'
 
         # Salário
-        self.wage = contract.wage
+        self.wage = self.format_money_mask(contract.wage)
 
         #CBO
         self.cbo = contract.job_id.cbo_id.code
@@ -311,8 +316,20 @@ class WizardL10n_br_hr_employee_ficha_registro(models.TransientModel):
         self.change_job_ids = contract.change_job_ids
         self.vacation_control_ids = contract.vacation_control_ids
 
+    def format_money_mask(self, value):
+        """
+        Function to transform float values to pt_BR currency mask
+        :param value: float value
+        :return: value with brazilian money format
+        """
+        import locale
+        locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
+        value_formated = locale.currency(value, grouping=True)
+
+        return value_formated[3:]
+
     @api.multi
     def doit(self, vals):
-        super(WizardL10n_br_hr_employee_ficha_registro, self).create(vals)
+        super(WizardL10nBrHrEmployeeFichaRegistro, self).create(vals)
         return self.env['report'].get_action(
             self, "l10n_br_hr_payroll_report.report_ficha_registro")
