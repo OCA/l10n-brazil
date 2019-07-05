@@ -983,6 +983,10 @@ class HrPayslip(models.Model):
                     hr_contract, primeiro_dia_do_mes_seguinte,
                     ultimo_dia_do_mes_seguinte)
 
+            # PAra Simulações da rescisao e provisão da folha
+            if self.tipo_de_folha == 'provisao_ferias' or self.is_simulacao:
+                quantidade_dias_ferias_competencia_seguinte = 0
+
             result += [self.get_attendances(
                 u'Quantidade dias em Férias na Competência Seguinte', 39,
                 u'FERIAS_COMPETENCIA_SEGUINTE',
