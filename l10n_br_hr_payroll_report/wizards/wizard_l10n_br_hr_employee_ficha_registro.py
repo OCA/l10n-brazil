@@ -94,9 +94,9 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         readonly=True,
     )
 
-    blood_type = fields.Selection(
+    blood_type = fields.Char(
         string=u'Tipo Sanguíneo',
-        related='employee_id.blood_type',
+        compute='_compute_ficha_registro',
         readonly=True,
     )
 
@@ -154,11 +154,7 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
 
     estado_civil = fields.Char(
         string=u'Estado Civil',
-    )
-
-    marital = fields.Selection(
-        string=u'Estado Civil',
-        related='employee_id.marital',
+        compute='_compute_ficha_registro',
         readonly=True,
     )
 
@@ -272,6 +268,9 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         # Cargo
         self.cargo = contract.job_id.name
 
+        # Tipo Sanguineo
+        self.blood_type = employee.blood_type
+
         # Data da Admissão
         dt_start = self.format_date(contract.date_start)
         self.date_start = dt_start
@@ -310,6 +309,9 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
 
         #CBO
         self.cbo = contract.job_id.cbo_id.code
+
+        # Estado Civil
+        self.estado_civil = employee.marital
 
         # Preencher tabelas Many2Many
         self.change_salary_ids = contract.change_salary_ids

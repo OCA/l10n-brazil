@@ -22,7 +22,7 @@
                     <field name="birthday" />
                     <field name="naturalidade" />
 
-                    <field name="marital" />
+                    <field name="estado_civil" />
                     <field name="nacionalidade" />
 
                     <field name="conjuge" />

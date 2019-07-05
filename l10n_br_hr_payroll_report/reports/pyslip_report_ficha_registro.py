@@ -38,7 +38,8 @@ def payslip_ficha_registro(pool, cr, uid, local_context, context):
     objects.ctps = objects.ctps or '-'
     objects.forma_pg = objects.forma_pg or '-'
     objects.cbo = objects.cbo or '-'
-    objects.estado_civil = MARITAL[objects.marital] or '-'
+    objects.estado_civil = MARITAL[objects.estado_civil] or '-'\
+        if objects.estado_civil else '-'
     objects.father_name = objects.father_name or '-'
     objects.conjuge = objects.conjuge or '-'
     objects.mother_name = objects.mother_name or '-'
