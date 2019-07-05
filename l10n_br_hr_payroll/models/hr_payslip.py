@@ -754,14 +754,14 @@ class HrPayslip(models.Model):
                 holerite.saldo_periodo_aquisitivo = \
                     holerite.saldo_periodo_aquisitivo_manual
 
-    saldo_periodo_aquisitivo = fields.Integer(
+    saldo_periodo_aquisitivo = fields.Float(
         string="Saldo de dias do Periodo Aquisitivo",
         compute='_compute_saldo_periodo_aquisitivo',
         help=u'Saldo de dias do funcionaŕio, de acordo com número de faltas'
              u'dentro do período aquisitivo selecionado.',
     )
 
-    saldo_periodo_aquisitivo_manual = fields.Integer(
+    saldo_periodo_aquisitivo_manual = fields.Float(
         string="Forçar Saldo do Periodo Aquisitivo",
     )
 
