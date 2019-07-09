@@ -332,6 +332,7 @@ class HrPayslipRun(models.Model):
                             payslip.unlink()
                             continue
                 contrato.action_button_update_controle_ferias()
+                self.env.cr.commit()
             else:
                 try:
                     tipo_de_folha = self.tipo_de_folha
