@@ -274,10 +274,12 @@ class HrPayslip(models.Model):
                 valor.formata_valor(holerite.total_proventos)
             holerite.total_descontos_fmt =\
                 valor.formata_valor(holerite.total_descontos)
-            holerite.base_fgts_fmt = valor.formata_valor(holerite.base_fgts)
+            holerite.base_fgts_fmt = valor.formata_valor(holerite.base_fgts) \
+                if holerite.base_fgts > 0 else 0.00
             holerite.base_inss_fmt = valor.formata_valor(holerite.base_inss)
             holerite.base_irpf_fmt = valor.formata_valor(holerite.base_irpf)
-            holerite.fgts_fmt = valor.formata_valor(holerite.fgts)
+            holerite.fgts_fmt = valor.formata_valor(holerite.fgts) \
+                if holerite.fgts > 0 else 0.00
             holerite.inss_fmt = valor.formata_valor(holerite.inss)
             holerite.irpf_fmt = valor.formata_valor(holerite.irpf)
             holerite.data_extenso = data.data_por_extenso(fields.Date.today())
