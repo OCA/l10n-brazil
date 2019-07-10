@@ -71,9 +71,15 @@ class AccountEvent(models.Model):
         """
         """
         for record in self:
-            if record.ref or record.origem and record.origem.name:
-                record.name = '{} {}'.format(
-                    record.ref or '', record.origem.name or '')
+            name = ''
+
+            if record.ref:
+                name += record.ref
+
+            if record.origem and record.origem.name:
+                name += ' - {}'.format(record.origem.name)
+
+            record.name = name
 
     def gerar_eventos(self, lines):
         """
