@@ -173,10 +173,14 @@ def totalizadores_linhas_holerites(payslip_lines, payslip_autonomo_ids=[]):
         if rubrica['code'] in ['INSS_FERIAS_DA_COMPETENCIA']:
             inss_funcionario_retido += rubrica['sum']
 
-        if rubrica['code'] in ['BASE_FGTS', 'BASE_FGTS_13']:
+        # FGTS a maior, valores serão negativos e nao deverão compor FGTS
+        if rubrica['sum'] > 0:
+
+            if rubrica['code'] in ['BASE_FGTS', 'BASE_FGTS_13']:
                 base_fgts += rubrica['sum']
-        if rubrica['code'] in ['FGTS']:
-            fgts += rubrica['sum']
+
+            if rubrica['code'] in ['FGTS']:
+                fgts += rubrica['sum']
 
         if rubrica['code'] in ['LIC_MATERNIDADE', 'LIC_MATERNIDADE_13']:
             licenca_maternidade_deducao = rubrica['sum']
