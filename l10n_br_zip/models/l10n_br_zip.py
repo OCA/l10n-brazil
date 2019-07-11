@@ -146,7 +146,7 @@ class L10nBrZip(models.Model):
                 district=obj.district,
                 street=obj.street,
                 zip_code=obj.zip,
-                zip_ids=[zip.id for zip in zip_ids]
+                zip_ids=zip_ids,
             )
         elif not zip_ids and obj.zip:
 
