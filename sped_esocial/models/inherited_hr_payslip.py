@@ -75,3 +75,38 @@ class HrPaylisp(models.Model):
         mtv_desligamento_esocial = self.env['sped.motivo_desligamento'].browse(motivo_id)
 
         return '{}-{}'.format(mtv_desligamento_esocial.codigo, mtv_desligamento_esocial.nome)
+
+    def INSS(self, BASE_INSS):
+        base_inss_vinculos = 0
+
+        if BASE_INSS:
+            base_inss_vinculos = self.get_base_inss_vinculos()
+
+        inss, aliquota = super(HrPaylisp, self).INSS(
+            BASE_INSS + base_inss_vinculos)
+
+        if BASE_INSS:
+            inss -= self.get_inss_vinculos(base_inss_vinculos, aliquota)
+
+        return inss, aliquota
+
+    def get_base_inss_vinculos(self):
+        base_inss_vinculos = 0
+        if self.contract_id.contribuicao_inss_ids:
+            period_id = self.env['account.period'].find(self.date_from)
+            vinculos = self.env['hr.contribuicao.inss.vinculos'].search([
+                ('contrato_id', '=', self.contract_id.id),
+                ('period_id', '=', period_id.id),
+            ])
+
+            for vinculo in vinculos:
+                base_inss_vinculos += vinculo.valor_remuneracao_vinculo
+
+        return base_inss_vinculos
+
+    def get_inss_vinculos(self, BASE_INSS_VINCULOS, aliquota):
+        inss_vinculos = 0
+        if BASE_INSS_VINCULOS:
+            inss_vinculos = BASE_INSS_VINCULOS * (aliquota / 100)
+
+        return inss_vinculos
