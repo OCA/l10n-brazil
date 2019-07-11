@@ -6,6 +6,7 @@
         <field name="model">l10n_br.zip</field>
         <field name="arch" type="xml">
             <tree string="CEPs">
+                <button name="zip_select" string="Selecionar" type="object" icon="fa-check text-success"/>
                 <field name="zip_code" select="1"/>
                 <field name="district" select="1"/>
                 <field name="street_type" select="1"/>
