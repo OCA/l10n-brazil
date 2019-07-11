@@ -126,16 +126,14 @@ class L10nBrZip(models.Model):
 
         zip_ids = self.search(domain)
 
+        # One ZIP was found
         if len(zip_ids) == 1:
             result = self.set_result(zip_ids[0])
             obj.write(result)
             return True
 
+        # More than one ZIP was found
         elif len(zip_ids) > 1:
-
-            obj_zip_result = self.env['l10n_br.zip.result']
-            zip_ids = obj_zip_result.map_to_zip_result(
-                zip_ids, obj._name, obj.id)
 
             return self.create_wizard(
                 obj._name,
@@ -146,37 +144,39 @@ class L10nBrZip(models.Model):
                 district=obj.district,
                 street=obj.street,
                 zip_code=obj.zip,
-                zip_ids=zip_ids,
+                zip_ids=[zip.id for zip in zip_ids],
             )
+
+        # Address not found in local DB, search by PyCEP-Correios
         elif not zip_ids and obj.zip:
 
             zip_str = misc.punctuation_rm(obj.zip)
             try:
-                res = pycep_correios.consultar_cep(zip_str)
+                result = pycep_correios.consultar_cep(zip_str)
             except Exception as e:
                 raise UserError(
                     _('Erro no PyCEP-Correios : ') + str(e))
 
-            if res:
+            if result:
                 # Search Brazil id
                 country = self.env['res.country'].search(
                     [('code', '=', 'BR')], limit=1)
 
                 # Search state with state_code and country id
                 state = self.env['res.country.state'].search([
-                    ('code', '=', res['uf']),
+                    ('code', '=', result['uf']),
                     ('country_id', '=', country.id)], limit=1)
 
                 # search city with name and state
                 city = self.env['res.city'].search([
-                    ('name', '=', res['cidade']),
+                    ('name', '=', result['cidade']),
                     ('state_id.id', '=', state.id)], limit=1)
 
                 values = {
                     'zip_code': zip_str,
-                    'street': res['end'],
-                    'zip_complement': res['complemento2'],
-                    'district': res['bairro'],
+                    'street': result['end'],
+                    'zip_complement': result['complemento2'],
+                    'district': result['bairro'],
                     'city_id': city.id or False,
                     'state_id': state.id or False,
                     'country_id': country.id or False,
@@ -219,3 +219,15 @@ class L10nBrZip(models.Model):
         }
 
         return result
+
+    @api.one
+    def zip_select(self):
+        data = self
+        address_id = self._context.get('address_id')
+        object_name = self._context.get('object_name')
+        if address_id and object_name:
+            obj = self.env[object_name].browse(address_id)
+            obj_zip = self.env['l10n_br.zip']
+            result = obj_zip.set_result(data)
+            obj.write(result)
+        return True
