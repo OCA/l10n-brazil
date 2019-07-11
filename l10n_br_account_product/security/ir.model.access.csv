@@ -37,3 +37,7 @@
 "l10n_br_account_product_cest_manager","l10n_br_account_product.cest","model_l10n_br_account_product_cest","account.group_account_manager",1,1,1,1
 "l10n_br_account_product_cst_user","l10n_br_account_product.cst","model_l10n_br_account_product_cst","base.group_user",1,0,0,0
 "l10n_br_account_product_cst_manager","l10n_br_account_product.cst","model_l10n_br_account_product_cst","account.group_account_manager",1,1,1,1
+"access_account_invoice_payments_base_user","account.invoice.payment.base.user","model_account_invoice_payment","base.group_user",1,0,0,0
+"access_account_invoice_payments_user","account.invoice.payment.user","model_account_invoice_payment","account.group_account_user",1,1,1,1
+"access_account_invoice_payments_invoice","account.invoice.payment.invoice","model_account_invoice_payment","account.group_account_invoice",1,1,1,1
+"access_account_invoice_payments_manager","account.invoice.payment.manager","model_account_invoice_payment","account.group_account_manager",1,1,1,1
