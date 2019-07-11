@@ -23,7 +23,7 @@ class AccountInvoice(models.Model):
     @api.one
     @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount',
                  'currency_id', 'company_id', 'date_invoice', 'type',
-                 'account_payment_ids.amount')
+                 'account_payment_line_ids')
     def _compute_amount(self):
         self.icms_base = 0.0
         self.icms_base_other = 0.0
@@ -80,10 +80,16 @@ class AccountInvoice(models.Model):
             self.icms_st_base += line.icms_st_base
             self.icms_st_value += line.icms_st_value
 
+        # Calculando o grupo fatura
+        self.amount_payment_original = sum(p.amount_original for p in
+                                           self.account_payment_line_ids)
+        self.amount_discount = sum(p.amount_discount for p in
+                                   self.account_payment_line_ids)
+        self.amount_payment_net = sum(p.amount_net for p in
+                                      self.account_payment_line_ids)
         # Calculando o troco
-        amount_payments = sum(p.amount for p in self.account_payment_ids)
-        if amount_payments:
-            self.amount_change = amount_payments - self.amount_total
+        if self.amount_payment_net:
+            self.amount_change = self.amount_payment_net - self.amount_total
 
     @api.model
     @api.returns('l10n_br_account.fiscal_category')
@@ -574,6 +580,27 @@ class AccountInvoice(models.Model):
         string='Dados da cobrança',
         comodel_name='account.invoice.payment.line',
         inverse_name='invoice_id',
+    )
+    amount_payment_original = fields.Float(
+        string='Vr Original',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount',
+        help='vOrig'
+    )
+    amount_payment_discount = fields.Float(
+        string='Vr Desconto',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount',
+        help='vDesc',
+    )
+    amount_payment_net = fields.Float(
+        string='Vr Liquido',
+        store=True,
+        digits=dp.get_precision('Account'),
+        compute='_compute_amount',
+        help='vLiq',
     )
 
     @api.one

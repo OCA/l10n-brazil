@@ -109,7 +109,9 @@ class AccountInvoicePayment(models.Model):
                 (0, 0, {
                     'payment_id': self.id,
                     'date_due': term[0],
-                    'amount': term[1],
+                    'amount_original': term[1],
+                    'amount_discount': 0.00,
+                    'amount_net': term[1],
                 })
             )
         self.item_ids = item_ids

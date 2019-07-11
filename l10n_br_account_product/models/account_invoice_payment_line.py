@@ -39,8 +39,18 @@ class AccountInvoicePaymentLine(models.Model):
         # related='payment_id.currency_id',
         store=True,
     )
-    amount = fields.Float(
-        string='Valor',
+    amount_original = fields.Float(
+        string='Vr Original',
+        digits=(18, 2),
+        required=True,
+    )
+    amount_discount = fields.Float(
+        string='Vr desconto',
+        digits=(18, 2),
+        required=True,
+    )
+    amount_net = fields.Float(
+        string='Vr liquido',
         digits=(18, 2),
         required=True,
     )
