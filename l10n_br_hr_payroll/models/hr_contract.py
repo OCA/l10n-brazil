@@ -722,7 +722,7 @@ class HrContribuicaoInssVinculos(models.Model):
     )
     valor_alicota_vinculo = fields.Float(
         string='Valor Pago',
-        required=True,
+        compute='_compute_valor_aliquota_vinculo',
     )
     period_id = fields.Many2one(
         string='Competência',
@@ -779,3 +779,17 @@ class HrContribuicaoInssVinculos(models.Model):
                 self.categoria not in categoria_autonomos:
                 raise exceptions.Warning(
                     'Categoria inválida para Contratos de autônomos.')
+
+    @api.depends('valor_remuneracao_vinculo', 'period_id')
+    def _compute_valor_aliquota_vinculo(self):
+        for record in self:
+            valor_aliquota = 0
+
+            if record.period_id and record.valor_remuneracao_vinculo:
+                valor_aliquota, reference = \
+                    self.env['l10n_br.hr.social.security.tax']._compute_inss(
+                        record.valor_remuneracao_vinculo,
+                        record.period_id.date_start
+                    )
+
+            record.valor_alicota_vinculo = valor_aliquota

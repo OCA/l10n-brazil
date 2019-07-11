@@ -143,7 +143,7 @@
                             <field name="cnpj_cpf_vinculo" />
                             <field name="cod_categ_vinculo" />
                             <field name="valor_remuneracao_vinculo" />
-                            <field name="valor_alicota_vinculo" />
+                            <field name="valor_alicota_vinculo" readonly="1"/>
                             <field name="period_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                         </tree>
                     </field>
