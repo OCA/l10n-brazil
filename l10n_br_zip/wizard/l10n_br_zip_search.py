@@ -84,18 +84,20 @@ class L10nBrZipSearch(models.TransientModel):
 
         return data
 
-    @api.one
+    @api.multi
     def zip_search(self):
+
         data = self
         obj_zip = self.env['l10n_br.zip']
         obj_zip_result = self.env['l10n_br.zip.result']
-        domain = obj_zip.set_domain(
-            country_id=data['country_id'][0],
-            state_id=data['state_id'][0],
-            city_id=data['city_id'][0],
-            district=data['district'],
-            street=data['street'],
-            zip=data['zip']
+
+        domain = obj_zip._set_domain(
+            country_id=data.country_id.id,
+            state_id=data.state_id.id,
+            city_id=data.city_id.id,
+            district=data.district,
+            street=data.street,
+            zip_code=data.zip,
         )
 
         # Search zips
@@ -111,7 +113,7 @@ class L10nBrZipSearch(models.TransientModel):
             'res_model': 'l10n_br.zip.search',
             'view_mode': 'form',
             'view_type': 'form',
-            'res_id': data['id'],
+            'res_id': data.id,
             'views': [(False, 'form')],
             'target': 'new',
             'nodestroy': True,
@@ -205,14 +207,19 @@ class L10nBrZipResult(models.TransientModel):
         result = []
 
         for zip_read in zip_data:
-            zip_data = obj_zip.set_result(zip_read)
+            if type(zip_read) is int:
+                zip_obj = self.env['l10n_br.zip'].browse(zip_read)
+            else:
+                zip_obj = zip_read
+
+            zip_data = obj_zip.set_result(zip_obj)
             zip_result_data = zip_data
             zip_result_data['object_name'] = object_name
             zip_result_data['address_id'] = address_id
             del zip_result_data['city']
 
             zip_result_id = self.create(zip_result_data)
-            result.append(zip_result_id)
+            result.append(zip_result_id.id)
         return result
 
     @api.one
