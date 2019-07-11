@@ -9,6 +9,9 @@
         <field name="fiscal_type" position="attributes">
           <attribute name="invisible">0</attribute>
         </field>
+        <field name="fiscal_type" position="after">
+            <field name="account_payment_term_id" />
+        </field>
       </field>
     </record>
 
