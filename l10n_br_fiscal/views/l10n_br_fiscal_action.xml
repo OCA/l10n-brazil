@@ -5,7 +5,7 @@
     <record id="cnae_action" model="ir.actions.act_window">
         <field name="name">CNAE</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.cnae</field>
+        <field name="res_model">l10n_br_fiscal.cnae</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="cnae_tree"/>
@@ -23,7 +23,7 @@
     <record id="cfop_action" model="ir.actions.act_window">
         <field name="name">CFOP</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.cfop</field>
+        <field name="res_model">l10n_br_fiscal.cfop</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="cfop_tree"/>
@@ -41,7 +41,7 @@
     <record id="cst_action" model="ir.actions.act_window">
         <field name="name">CST</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.cst</field>
+        <field name="res_model">l10n_br_fiscal.cst</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="cst_tree"/>
@@ -59,7 +59,7 @@
     <record id="tax_group_action" model="ir.actions.act_window">
         <field name="name">Tax Group</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.tax.group</field>
+        <field name="res_model">l10n_br_fiscal.tax.group</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="tax_group_tree"/>
@@ -77,7 +77,7 @@
     <record id="tax_action" model="ir.actions.act_window">
         <field name="name">Tax</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.tax</field>
+        <field name="res_model">l10n_br_fiscal.tax</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="tax_tree"/>
@@ -95,7 +95,7 @@
     <record id="tax_ipi_guideline_action" model="ir.actions.act_window">
         <field name="name">Tax IPI Guideline</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.tax.ipi.guideline</field>
+        <field name="res_model">l10n_br_fiscal.tax.ipi.guideline</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="tax_ipi_guideline_tree"/>
@@ -113,7 +113,7 @@
     <record id="ncm_action" model="ir.actions.act_window">
         <field name="name">NCM</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.ncm</field>
+        <field name="res_model">l10n_br_fiscal.ncm</field>
         <field name="view_mode">tree,form,kanban</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="ncm_tree"/>
@@ -131,7 +131,7 @@
     <record id="nbs_action" model="ir.actions.act_window">
         <field name="name">NBS</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.nbs</field>
+        <field name="res_model">l10n_br_fiscal.nbs</field>
         <field name="view_mode">tree,form,kanban</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="nbs_tree"/>
@@ -149,7 +149,7 @@
     <record id="service_type_action" model="ir.actions.act_window">
         <field name="name">Service Type</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.service.type</field>
+        <field name="res_model">l10n_br_fiscal.service.type</field>
         <field name="view_mode">tree,form,kanban</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="service_type_tree"/>
@@ -167,7 +167,7 @@
     <record id="cest_action" model="ir.actions.act_window">
         <field name="name">CEST</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.cest</field>
+        <field name="res_model">l10n_br_fiscal.cest</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="cest_tree"/>
@@ -185,7 +185,7 @@
     <record id="product_genre_action" model="ir.actions.act_window">
         <field name="name">Product Genre</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.product.genre</field>
+        <field name="res_model">l10n_br_fiscal.product.genre</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="product_genre_tree"/>
@@ -203,7 +203,7 @@
     <record id="document_type_action" model="ir.actions.act_window">
         <field name="name">Fiscal Document</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.document.type</field>
+        <field name="res_model">l10n_br_fiscal.document.type</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="document_type_tree"/>
@@ -221,7 +221,7 @@
     <record id="document_serie_action" model="ir.actions.act_window">
         <field name="name">Fiscal Document Serie</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.document.serie</field>
+        <field name="res_model">l10n_br_fiscal.document.serie</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="document_serie_tree"/>
@@ -239,7 +239,7 @@
     <record id="certificate_action" model="ir.actions.act_window">
         <field name="name">Certificate</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.certificate</field>
+        <field name="res_model">l10n_br_fiscal.certificate</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="certificate_tree"/>
@@ -257,7 +257,7 @@
     <record id="simplified_tax_action" model="ir.actions.act_window">
         <field name="name">Simplified Tax</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.simplified.tax</field>
+        <field name="res_model">l10n_br_fiscal.simplified.tax</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="simplified_tax_tree"/>
@@ -292,7 +292,7 @@
     <record id="partner_profile_action" model="ir.actions.act_window">
         <field name="name">Partner Profile</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.partner.profile</field>
+        <field name="res_model">l10n_br_fiscal.partner.profile</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="partner_profile_search"/>
@@ -349,7 +349,7 @@
     <record id="operation_action" model="ir.actions.act_window">
         <field name="name">Operation</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fiscal.operation</field>
+        <field name="res_model">l10n_br_fiscal.operation</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="operation_search"/>
@@ -371,7 +371,7 @@
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="target">inline</field>
-        <field name="context">{'module': 'fiscal'}</field>
+        <field name="context">{'module': 'l10n_br_fiscal'}</field>
     </record>
 
 

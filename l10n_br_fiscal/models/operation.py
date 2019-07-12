@@ -9,7 +9,7 @@ from ..constants.fiscal import (
 
 
 class Operation(models.Model):
-    _name = 'fiscal.operation'
+    _name = 'l10n_br_fiscal.operation'
     _description = 'Fiscal Operation'
     _inherit = ['mail.thread']
 
@@ -27,7 +27,7 @@ class Operation(models.Model):
         required=True)
 
     operation_line_ids = fields.One2many(
-        comodel_name='fiscal.operation.line',
+        comodel_name='l10n_br_fiscal.operation.line',
         inverse_name='operation_id',
         string='Operation Line')
 

@@ -16,14 +16,16 @@ _logger = logging.getLogger(__name__)
 
 
 class Ncm(models.Model):
-    _name = 'fiscal.ncm'
-    _inherit = ['fiscal.data.abstract', 'mail.thread', 'mail.activity.mixin']
+    _name = 'l10n_br_fiscal.ncm'
+    _inherit = ['l10n_br_fiscal.data.abstract',
+                'mail.thread',
+                'mail.activity.mixin']
     _description = 'NCM'
 
     @api.one
     @api.depends('tax_estimate_ids')
     def _compute_amount(self):
-        last_estimated = self.env['fiscal.tax.estimate'].search(
+        last_estimated = self.env['l10n_br_fiscal.tax.estimate'].search(
             [('ncm_id', '=', self.id),
              ('company_id', '=', self.env.user.company_id.id)],
             order='create_date DESC',
@@ -48,12 +50,12 @@ class Ncm(models.Model):
         size=2)
 
     tax_ipi_id = fields.Many2one(
-        comodel_name='fiscal.tax',
+        comodel_name='l10n_br_fiscal.tax',
         string='Tax IPI',
         domain="[('tax_domain', '=', 'ipi')]")
 
     tax_ii_id = fields.Many2one(
-        comodel_name='fiscal.tax',
+        comodel_name='l10n_br_fiscal.tax',
         string='Tax II',
         domain="[('tax_domain', '=', 'ii')]")
 
@@ -62,7 +64,7 @@ class Ncm(models.Model):
         string='Tax Unit')
 
     tax_estimate_ids = fields.One2many(
-        comodel_name='fiscal.tax.estimate',
+        comodel_name='l10n_br_fiscal.tax.estimate',
         inverse_name='ncm_id',
         string=u'Estimate Taxes',
         readonly=True)
@@ -129,7 +131,7 @@ class Ncm(models.Model):
                     'federal_taxes_national': result.nacional,
                     'federal_taxes_import': result.importado}
 
-                self.env['fiscal.tax.estimate'].create(values)
+                self.env['l10n_br_fiscal.tax.estimate'].create(values)
 
                 ncm.message_post(
                     body=_('NCM Tax Estimate Updated'),
@@ -150,7 +152,7 @@ class Ncm(models.Model):
         today = fields.date.today()
         data_max = today - timedelta(days=config_date)
 
-        all_ncm = self.env['fiscal.ncm'].search([])
+        all_ncm = self.env['l10n_br_fiscal.ncm'].search([])
 
         not_estimated = all_ncm.filtered(
             lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids)
@@ -161,7 +163,7 @@ class Ncm(models.Model):
             "       ncm_id, "
             "       max(create_date) "
             "   FROM  "
-            "       fiscal_tax_estimate "
+            "       l10n_br_fiscal_tax_estimate "
             "   GROUP BY "
             "       ncm_id"
             ") SELECT ncm_id "
@@ -177,7 +179,7 @@ class Ncm(models.Model):
 
         ids = [estimate[0] for estimate in past_estimated]
 
-        ncm_past_estimated = self.env['fiscal.ncm'].browse(ids)
+        ncm_past_estimated = self.env['l10n_br_fiscal.ncm'].browse(ids)
 
         for ncm in not_estimated + ncm_past_estimated:
             try:

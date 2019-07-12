@@ -13,7 +13,7 @@ from ..constants.fiscal import (
 
 
 class Certificate(models.Model):
-    _name = 'fiscal.certificate'
+    _name = 'l10n_br_fiscal.certificate'
     _description = 'Certificate'
     _order = 'date_expiration desc'
 
