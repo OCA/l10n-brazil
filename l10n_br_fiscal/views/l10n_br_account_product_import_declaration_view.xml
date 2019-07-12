@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_product_import_declaration_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.import.declaration.form</field>
+        <field name="model">l10n_br_account_product.import.declaration</field>
+        <field name="arch" type="xml">
+            <form string="Declaração de Importação">
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="date_registration"/>
+                        <field name="exporting_code"/>
+                        <field name="type_import"/>
+                    </group>
+                    <group>
+                        <field name="state_id"/>
+                        <field name="location"/>
+                        <field name="date_release"/>
+                    </group>
+                    <group string="Transporte Internacional">
+                        <field name="type_transportation"/>
+                        <field name="afrmm_value" attrs="{'invisible': [('type_transportation', '!=', '1')], 'required': [('type_transportation', '=', '1')]}"/>
+                    </group>
+                    <group string="Terceiros">
+                        <field name="thirdparty_state_id"/>
+                        <field name="thirdparty_cnpj"/>
+                    </group>
+                    <group string="Adições" colspan="4">
+                        <field name="line_ids" nolabel="1">
+                            <tree>
+                                <field name="sequence"/>
+                                <field name="name"/>
+                                <field name="manufacturer_code"/>
+                                <field name="amount_discount"/>
+                            </tree>
+                            <form string="Adições">
+                                <group>
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="manufacturer_code"/>
+                                    <field name="amount_discount"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+</odoo>
