@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- account.journal -->
+    <record id="aj_78df616ab31e95ee46c6a519a2ce9e12" model="account.journal">
+        <field name="name">Diário de Vendas</field>
+        <field name="code">TSAJ</field>
+        <field name="type">sale</field>
+        <!-- <field name="default_credit_account_id" ref="account.a_sale"/>
+        <field name="default_debit_account_id" ref="account.a_sale"/>
+        <field name="analytic_journal_id" ref="account.cose_journal_sale"/> -->
+        <field eval="1" name="revenue_expense"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="aj_b7aafa9c3056c3f020ceae63d7312504" model="account.journal">
+        <field name="name">Compras para Ind</field>
+        <field name="code">CMPI</field>
+        <field name="type">purchase</field>
+        <field name="update_posted" eval="1"/>
+        <field name="group_invoice_lines" eval="0"/>
+        <!-- <field name="default_credit_account_id" ref="account_demo_602"/>
+        <field name="default_debit_account_id" ref="account_demo_602"/>  -->
+        <field eval="1" name="revenue_expense"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="aj_86d8c770fc2fb9d9fa242a3bdddd507a" model="account.journal">
+        <field name="name">Simples Remessa</field>
+        <field name="code">SMPR</field>
+        <field name="type">sale</field>
+        <field name="update_posted" eval="1"/>
+        <field name="group_invoice_lines" eval="0"/>
+        <!-- <field name="default_credit_account_id" ref="account_demo_602"/>
+        <field name="default_debit_account_id" ref="account_demo_602"/>  -->
+        <field eval="0" name="revenue_expense"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="aj_d9132a81edff5374f33560f58666b792" model="account.journal">
+        <field name="name">Entrada de Remessa</field>
+        <field name="code">ESMR</field>
+        <field name="type">sale</field>
+        <field name="update_posted" eval="1"/>
+        <field name="group_invoice_lines" eval="0"/>
+        <!-- <field name="default_credit_account_id" ref="account_demo_602"/>
+        <field name="default_debit_account_id" ref="account_demo_602"/>  -->
+        <field eval="0" name="revenue_expense"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <!-- l10n_br_account.fiscal.category -->
+    <!-- Venda -->
+    <record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="aj_78df616ab31e95ee46c6a519a2ce9e12"/>
+    </record>
+
+    <!-- VendaST -->
+    <record id="fc_9ca6c34b77a2c78171252551db171ff7" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="aj_78df616ab31e95ee46c6a519a2ce9e12"/>
+    </record>
+
+    <!-- Devolução de Venda -->
+    <record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="aj_78df616ab31e95ee46c6a519a2ce9e12"/>
+    </record>
+
+    <!-- Simples Remessa -->
+    <record id="fc_86d8c770fc2fb9d9fa242a3bdddd507a" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="aj_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+    </record>
+
+    <!-- Entrada de Remessa -->
+    <record id="fc_d9132a81edff5374f33560f58666b792" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="aj_d9132a81edff5374f33560f58666b792"/>
+    </record>
+
+    <record id="fc_b7aafa9c3056c3f020ceae63d7312504" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="aj_b7aafa9c3056c3f020ceae63d7312504"/>
+    </record>
+
+    <!-- account.fiscal.position - Fiscal position From l10n_br_data_account -->
+    <!-- venda -->
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo" model="account.fiscal.position">
+        <field name="name">Venda para Dentro do Estado</field>
+        <field name="cfop_id" ref="cfop_5101"/>
+        <field name="fiscal_category_id" ref="fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo" model="account.fiscal.position">
+        <field name="name">Venda Fora do Estado ICMS 7%</field>
+        <field name="cfop_id" ref="cfop_6101"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_icms_demo" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms7_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms7"/>
+        <field name="cst_id" ref="cst_icms_00"/>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo" model="account.fiscal.position">
+        <field name="name">Venda Fora do Estado ICMS 12%</field>
+        <field name="cfop_id" ref="cfop_6101"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_icms_demo" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms12"/>
+        <field name="cst_id" ref="cst_icms_00"/>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_pf_demo" model="account.fiscal.position">
+        <field name="name">Venda Fora do Estado ICMS 12% Não Contribuinte</field>
+        <field name="cfop_id" ref="cfop_6107"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+        <field name="ind_final">1</field>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_icms_pf_demo" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_78df616ab31e95ee46c6a519a2ce9e12_external_icms12_pf_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms12"/>
+        <field name="cst_id" ref="cst_icms_00"/>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_exportation_demo" model="account.fiscal.position">
+        <field name="name">Venda Ex</field>
+        <field name="cfop_id" ref="cfop_7101"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <!-- Venda ST -->
+    <record id="fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo" model="account.fiscal.position">
+        <field name="name">VendaST PE</field>
+        <field name="cfop_id" ref="cfop_6401"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_9ca6c34b77a2c78171252551db171ff7"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_icmsst_pe_12_4443_demo" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo"/>
+        <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_mouse"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_icmsst"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms_subist_pe_12_4443_84733041"/>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_icmsst_pe_12_demo" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo"/>
+        <field name="fiscal_classification_id" ref="l10n_br_account_product.demo_fiscal_classification_hd"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_icmsst"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms_subist_pe_12_84717012"/>
+    </record>
+
+    <record id="fp_78df616ab31e95ee46c6a519a2ce9e12_icms_pe_demo" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_9ca6c34b77a2c78171252551db171ff7_external_icmsst_pe_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_icms"/>
+        <field name="tax_dest_id" ref="demo_tax_out_icms12"/>
+        <field name="cst_id" ref="cst_icms_10"/>
+    </record>
+
+    <!-- Bonificação -->
+    <record id="fp_c333f0a13695741d07c872b54016c093_internal_demo" model="account.fiscal.position">
+        <field name="name">Bonificação Dentro do Estado</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_5910"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_c333f0a13695741d07c872b54016c093_external_icms7_demo" model="account.fiscal.position">
+        <field name="name">Bonificação Fora do Estado ICMS 7%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_6910"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_c333f0a13695741d07c872b54016c093_external_icms12_demo" model="account.fiscal.position">
+        <field name="name">Bonificação Fora do Estado ICMS 12%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_6910"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_c333f0a13695741d07c872b54016c093"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <!-- Simples Remessa -->
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo" model="account.fiscal.position">
+        <field name="name">Simples Remessa</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_5949"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo_pis" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
+        <field name="cst_id" ref="cst_pis_07"/>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo_cofins" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
+        <field name="cst_id" ref="cst_cofins_07"/>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo" model="account.fiscal.position">
+        <field name="name">Simples Remessa Fora do Estado ICMS 7%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_6949"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo_pis" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
+        <field name="cst_id" ref="cst_pis_07"/>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo_cofins" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms7_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
+        <field name="cst_id" ref="cst_cofins_07"/>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo" model="account.fiscal.position">
+        <field name="name">Simples Remessa Fora do Estado ICMS 12%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_6949"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo_pis" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
+        <field name="cst_id" ref="cst_pis_07"/>
+    </record>
+
+    <record id="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo_cofins" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_86d8c770fc2fb9d9fa242a3bdddd507a_external_icms12_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
+        <field name="cst_id" ref="cst_cofins_07"/>
+    </record>
+
+    <!-- Entrada de Remessa -->
+    <record id="fp_d9132a81edff5374f33560f58666b792_internal_demo" model="account.fiscal.position">
+        <field name="name">Entrada de Remessa</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_1949"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_internal_demo_pis" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_internal_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
+        <field name="cst_id" ref="cst_pis_07"/>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_internal_demo_cofins" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_internal_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
+        <field name="cst_id" ref="cst_cofins_07"/>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo" model="account.fiscal.position">
+        <field name="name">Entrada de Remessa Fora do Estado ICMS 7%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_6949"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo_pis" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
+        <field name="cst_id" ref="cst_pis_07"/>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo_cofins" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms7_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
+        <field name="cst_id" ref="cst_cofins_07"/>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo" model="account.fiscal.position">
+        <field name="name">Entrada de Remessa Fora do Estado ICMS 12%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_2949"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_d9132a81edff5374f33560f58666b792"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo_pis" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_pis"/>
+        <field name="tax_dest_id" ref="demo_tax_out_pis"/>
+        <field name="cst_id" ref="cst_pis_07"/>
+    </record>
+
+    <record id="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo_cofins" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_d9132a81edff5374f33560f58666b792_external_icms12_demo"/>
+        <field name="tax_group_id" ref="l10n_br_generic.tax_group_cofins"/>
+        <field name="tax_dest_id" ref="demo_tax_out_cofins"/>
+        <field name="cst_id" ref="cst_cofins_07"/>
+    </record>
+
+    <!-- Devolução de Venda -->
+    <record id="fp_7817d015cb9832d137d7939a224a79a5_internal_demo" model="account.fiscal.position">
+        <field name="name">Devolução de Venda</field>
+        <field name="cfop_id" ref="cfop_1201"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms7_demo" model="account.fiscal.position">
+        <field name="name">Devolução de Venda Fora do Estado ICMS 7%</field>
+        <field name="cfop_id" ref="cfop_2201"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_7817d015cb9832d137d7939a224a79a5_external_icms12_demo" model="account.fiscal.position">
+        <field name="name">Devolução de Venda Fora do Estado ICMS 12%</field>
+        <field name="cfop_id" ref="cfop_2201"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_7817d015cb9832d137d7939a224a79a5_exportation_demo" model="account.fiscal.position">
+        <field name="name">Devolução de Venda Ex</field>
+        <field name="cfop_id" ref="cfop_3201"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">output</field>
+    </record>
+
+    <!-- Compras para Industrialização -->
+    <record id="fp_b7aafa9c3056c3f020ceae63d7312504_internal_demo" model="account.fiscal.position">
+        <field name="name">Compras para Ind Interna</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_1101"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms7_demo" model="account.fiscal.position">
+        <field name="name">Compras para Ind ICMS 7%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_2101"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_b7aafa9c3056c3f020ceae63d7312504_external_icms12_demo" model="account.fiscal.position">
+        <field name="name">Compras para Ind ICMS 12%</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_2101"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+    <record id="fp_b7aafa9c3056c3f020ceae63d7312504_exportation_demo" model="account.fiscal.position">
+        <field name="name">Compras para Ind Ex</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_3101"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+    </record>
+
+</odoo>
