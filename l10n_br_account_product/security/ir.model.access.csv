@@ -41,3 +41,7 @@
 "access_account_invoice_payments_user","account.invoice.payment.user","model_account_invoice_payment","account.group_account_user",1,1,1,1
 "access_account_invoice_payments_invoice","account.invoice.payment.invoice","model_account_invoice_payment","account.group_account_invoice",1,1,1,1
 "access_account_invoice_payments_manager","account.invoice.payment.manager","model_account_invoice_payment","account.group_account_manager",1,1,1,1
+"access_account_invoice_payment_line_base_user","account.invoice.payment.line.base.user","model_account_invoice_payment_line","base.group_user",1,0,0,0
+"access_account_invoice_payment_line_user","account.invoice.payment.line.user","model_account_invoice_payment_line","account.group_account_user",1,1,1,1
+"access_account_invoice_payment_line_invoice","account.invoice.payment.line.invoice","model_account_invoice_payment_line","account.group_account_invoice",1,1,1,1
+"access_account_invoice_payment_line_manager","account.invoice.payment.line.manager","model_account_invoice_payment_line","account.group_account_manager",1,1,1,1
