@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- l10n_br_account.partner.fiscal.type -->
+    <!-- Contribuinte -->
+    <record id="l10n_br_account.partner_fiscal_type_1" model="l10n_br_account.partner.fiscal.type">
+        <field name="ind_ie_dest">1</field>
+    </record>
+
+    <!-- Não Contribuinte -->
+    <record id="l10n_br_account.partner_fiscal_type_2" model="l10n_br_account.partner.fiscal.type">
+        <field name="ind_ie_dest">2</field>
+    </record>
+
+    <!-- Simples Nacional -->
+    <record id="l10n_br_account.partner_fiscal_type_3" model="l10n_br_account.partner.fiscal.type">
+        <field name="ind_ie_dest">9</field>
+    </record>
+
+    <!-- Não Contribuinte -->
+    <record id="l10n_br_account.partner_fiscal_type_4" model="l10n_br_account.partner.fiscal.type">
+        <field name="ind_ie_dest">9</field>
+    </record>
+
+</odoo>

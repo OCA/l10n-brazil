@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <act_window id="action_l10n_br_account_product_icms_relief_form"
+        name="Desoneração de ICMS"
+        res_model="l10n_br_account_product.icms_relief"
+        view_mode="tree,form"/>
+
+    <menuitem id="menu_action_icms_relief_form"
+        name="Desoneração de ICMS"
+        parent="l10n_br_account.menu_l10n_br_account_fiscal_manager"
+        action="action_l10n_br_account_product_icms_relief_form"
+        sequence="61"/>
+
+</odoo>
