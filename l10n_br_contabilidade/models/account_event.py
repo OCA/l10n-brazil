@@ -55,6 +55,15 @@ class AccountEvent(models.Model):
         comodel_name='account.event',
     )
 
+    account_event_to_revert_id = fields.Many2one(
+        string='Evento Para reversão',
+        comodel_name='account.event',
+    )
+
+    account_event_revert = fields.Boolean(
+        string='Reverter Ultimo Evento?',
+    )
+
     account_event_template_id = fields.Many2one(
         string='Roteiro Contábil',
         comodel_name='account.event.template',
@@ -175,7 +184,6 @@ class AccountEvent(models.Model):
         """
         for record in self:
             dados = record._preparar_dados()
-
             record.account_event_template_id.validar_dados(dados)
 
             account_move_ids = \
@@ -185,6 +193,10 @@ class AccountEvent(models.Model):
             account_move_ids = record.criar_lancamentos(account_move_ids)
 
             record.account_move_ids = account_move_ids
+
+            # reverter evento
+            if record.account_event_to_revert_id:
+                record.account_event_to_revert_id.button_reverter_lancamentos()
 
             record.state = 'generated'
 
@@ -205,6 +217,18 @@ class AccountEvent(models.Model):
             template_event_line_ids = \
                 template.account_event_template_line_ids.mapped('codigo')
 
+            mensagem = ''
+
+            # Em casaos de reversão
+            if record.account_event_template_id.account_event_revert:
+                if not record.account_event_to_revert_id:
+
+                    mensagem += \
+                        u'<h3>Roteiro selecionado foi configurado para ' \
+                        u'reverter último evento válido. Configure o evento' \
+                        u' a ser revertido ou clique em "Continuar" ' \
+                        u'para não reverter nenhum evento.</h3>'
+
             # Verifica se os códigos dos eventos estão contidos no template
             if not set(event_line_ids).issubset(template_event_line_ids):
                 # Busca itens faltantes
@@ -212,13 +236,16 @@ class AccountEvent(models.Model):
                     filter(lambda x: x not in template_event_line_ids,
                            event_line_ids))
 
+                mensagem += u'\n\n\n Os códigos abaixo não estão contidos ' \
+                            u'no roteiro escolhido. Deseja prosseguir?\n\n'
+
                 # Formata os itens em uma string para serem exibidos
-                falta = ''.join(
+                mensagem += ''.join(
                     '<li>{};</li>\n'.format(cod) if cod != falta_list[-1]
                     else '<li>{}.</li>'.format(cod) for cod in falta_list)
 
                 account_event_wizard_id = self.env['account.event.wizard'].\
-                    create({'faltantes': falta})
+                    create({'faltantes': mensagem})
 
                 return {
                     'type': 'ir.actions.act_window',
@@ -256,12 +283,33 @@ class AccountEvent(models.Model):
 
             record.state = 'open'
 
+    @api.onchange('account_event_template_id', 'data')
+    def onchange_account_event_template_id(self):
+        for record in self:
+
+            # Definir se o evento reverterá outro
+            if record.account_event_template_id:
+                record.account_event_revert = \
+                    record.account_event_template_id.account_event_revert
+
+            if record.account_event_revert and record.data:
+
+                evento_para_to_revert = self.search([
+                    ('account_event_template_id', '=', record.account_event_template_id.id),
+                    ('data','<', record.data),
+                ], order='data DESC', limit=1)
+
+                if evento_para_to_revert:
+                    record.account_event_to_revert_id = evento_para_to_revert
+
 
 class AccountEventWizard(models.TransientModel):
     _name = 'account.event.wizard'
 
-    faltantes = fields.Html(string='Códigos que não constam no roteiro',
-                            readonly=True)
+    faltantes = fields.Html(
+        string='Códigos que não constam no roteiro',
+        readonly=True
+    )
 
     @api.multi
     def validar_codigos_roteiro(self):

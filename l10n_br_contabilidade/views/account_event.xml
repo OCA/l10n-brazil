@@ -40,6 +40,8 @@
                             <field name="data" attrs="{'required': True}"/>
                             <field name="account_event_template_id"/>
                             <field name="account_event_reversao_id" attrs="{'invisible': [('account_event_reversao_id', '=', False)]}"/>
+                            <field name="account_event_revert" invisible="1"/>
+                            <field name="account_event_to_revert_id" attrs="{'invisible': [('account_event_revert', '=', False)]}" domain="[('account_event_template_id','=', account_event_template_id)]" />
                         </group>
 
                         <notebook>
@@ -154,7 +156,7 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <span>Os códigos abaixo não estão contidos no roteiro escolhido. Deseja prosseguir?</span>
+                        <span></span>
                     </group>
                     <field name="faltantes" />
                     <footer>
