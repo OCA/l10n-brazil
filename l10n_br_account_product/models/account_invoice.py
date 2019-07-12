@@ -837,6 +837,25 @@ class AccountInvoice(models.Model):
                 self.fiscal_position_id = fp.id
             else:
                 self.fiscal_position_id = False
+        if (self.fiscal_category_id and
+            self.fiscal_category_id.account_payment_term_id) and \
+                not self.account_payment_ids:
+            account_payments = self.env['account.invoice.payment']
+            values = {
+                'payment_term_id':
+                    self.fiscal_category_id.account_payment_term_id,
+                'amount': self.amount_total,
+            }
+            specs = account_payments._onchange_spec()
+            updates = account_payments.onchange(values, [], specs)
+            value = updates.get('value', {})
+            for name, val in value.iteritems():
+                if isinstance(val, tuple):
+                    value[name] = val[0]
+            values.update(value)
+
+            self.update(
+                {'account_payment_ids': [0, 0, values]})
 
     @api.multi
     def action_date_assign(self):
