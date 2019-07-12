@@ -6,5 +6,5 @@ from odoo import models, fields, api
 
 
 class Operation(models.Model):
-    _name = 'fiscal.operation'
+    _name = 'l10n_br_fiscal.operation'
     _description = 'Fiscal Operation'
