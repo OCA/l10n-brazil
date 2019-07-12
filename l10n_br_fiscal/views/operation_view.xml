@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="operation_search" model="ir.ui.view">
+        <field name="name">fiscal.operation.search</field>
+        <field name="model">fiscal.operation</field>
+        <field name="arch" type="xml">
+            <search string="Fiscal Operation">
+                <field name="code"/>
+                <field name="name"/>
+                <group expand='0' string='Group By...'>
+                    <filter string='Type' name="type" domain="[]" context="{'group_by' : 'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="operation_tree" model="ir.ui.view">
+        <field name="name">fiscal.operation.tree</field>
+        <field name="model">fiscal.operation</field>
+        <field name="arch" type="xml">
+            <tree string="Fiscal Operation">
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="operation_form" model="ir.ui.view">
+        <field name="name">fiscal.operation.form</field>
+        <field name="model">fiscal.operation</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Operation">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="operation_line_ids">
+                            <tree>
+                                <field name="cfop_id"/>
+                                <field name="type"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

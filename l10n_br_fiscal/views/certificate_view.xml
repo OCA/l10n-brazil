@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="certificate_search" model="ir.ui.view">
+        <field name="name">fiscal.certificate.search</field>
+        <field name="model">fiscal.certificate</field>
+        <field name="arch" type="xml">
+            <search string="Certificate">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="certificate_tree" model="ir.ui.view">
+        <field name="name">fiscal.certificate.tree</field>
+        <field name="model">fiscal.certificate</field>
+        <field name="arch" type="xml">
+            <tree string="Certificate">
+                <field name="name"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="certificate_form" model="ir.ui.view">
+        <field name="name">fiscal.certificate.form</field>
+        <field name="model">fiscal.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Certificate">
+                <sheet>
+                    <group>
+                      <field name="name"/>
+                      <field name="type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
