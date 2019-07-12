@@ -15,6 +15,7 @@
                     <group>
                         <field name="name"  attrs="{'required': True}"/>
                         <field name="account_formula" groups="base.group_no_one"/>
+                        <field name="account_event_revert" />
                     </group>
                     <separator string="Partidas"/>
                     <field name="account_event_template_line_ids" widget="one2many_list">

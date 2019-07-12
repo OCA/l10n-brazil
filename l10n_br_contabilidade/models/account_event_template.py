@@ -30,6 +30,10 @@ class AccountEventTemplate(models.Model):
         inverse_name='account_event_template_id',
     )
 
+    account_event_revert = fields.Boolean(
+        string='Reverter Ultimo Evento?',
+    )
+
     def validar_primeira_formula(self):
         if self.account_formula == 1:
             for partida in self.account_event_template_line_ids:
