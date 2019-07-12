@@ -17,9 +17,18 @@ class TestIbptProduct(common.TransactionCase):
         self.ncm_85030010 = self.env.ref('fiscal.ncm_85030010')
         self.ncm_85014029 = self.env.ref('fiscal.ncm_85014029')
         self.product_tmpl_model = self.env['product.template']
-        self.product_tmpl_1 = self._create_product_tmpl_1()
-        self.product_tmpl_2 = self._create_product_tmpl_2()
-        self.product_tmpl_3 = self._create_product_tmpl_3()
+        self.product_tmpl_1 = self._create_product_tmpl(
+            name='Product Test 1 - With NCM: 8503.00.10',
+            ncm=self.ncm_85030010)
+
+        self.product_tmpl_2 = self._create_product_tmpl(
+            name='Product Test 2 - With NCM: 8503.00.10',
+            ncm=self.ncm_85030010)
+
+        self.product_tmpl_3 = self._create_product_tmpl(
+            name='Product Test 3 - With NCM: 8501.40.29',
+            ncm=self.ncm_85014029)
+            
         self.fiscal_tax_estimate_model = self.env['fiscal.tax.estimate']
         self.fiscal_ncm_model = self.env['fiscal.ncm']
 
@@ -36,27 +45,11 @@ class TestIbptProduct(common.TransactionCase):
         })
         return company
 
-    def _create_product_tmpl_1(self):
+    def _create_product_tmpl(self, name, ncm):
         # Creating a product
         product = self.product_tmpl_model.create({
-            'name': 'Product Test 1 - With NCM: 8503.00.10',
-            'ncm_id': self.ncm_85030010.id
-        })
-        return product
-
-    def _create_product_tmpl_2(self):
-        # Creating a product
-        product = self.product_tmpl_model.create({
-            'name': 'Product Test 2 - With NCM: 8503.00.10',
-            'ncm_id': self.ncm_85030010.id
-        })
-        return product
-
-    def _create_product_tmpl_3(self):
-        # Creating a product
-        product = self.product_tmpl_model.create({
-            'name': 'Product Test 3 - With NCM: 8501.40.29',
-            'ncm_id': self.ncm_85014029.id
+            'name': name,
+            'ncm_id': ncm.id
         })
         return product
 
