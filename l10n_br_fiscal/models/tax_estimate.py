@@ -8,16 +8,16 @@ from odoo.addons import decimal_precision as dp
 
 
 class TaxEstimate(models.Model):
-    _name = 'fiscal.tax.estimate'
+    _name = 'l10n_br_fiscal.tax.estimate'
     _description = 'Fiscal Tax Estimate'
     _order = 'create_date desc'
 
     ncm_id = fields.Many2one(
-        comodel_name='fiscal.ncm',
+        comodel_name='l10n_br_fiscal.ncm',
         string=u'NCM')
 
     nbs_id = fields.Many2one(
-        comodel_name='fiscal.nbs',
+        comodel_name='l10n_br_fiscal.nbs',
         string=u'NBS')
 
     state_id = fields.Many2one(
@@ -61,4 +61,4 @@ class TaxEstimate(models.Model):
         comodel_name='res.company',
         string='Company',
         default=lambda self: self.env['res.company']._company_default_get(
-            'fiscal.tax.estimate'))
+            'l10n_br_fiscal.tax.estimate'))
