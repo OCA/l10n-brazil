@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Sua Empresa -->
+    <record id="base.main_company" model="res.company">
+        <field name="nfe_version">4.00</field>
+        <field name="nfe_environment">2</field>
+        <field name="file_type">xml</field>
+    </record>
+
+    <!-- l10n_br_tax.definition.company.product -->
+    <record id="tax_definition_company_demo_pis065" model="l10n_br_tax.definition.company.product">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="tax_id" ref="demo_tax_out_pis065"/>
+        <field name="cst_id" ref="cst_pis_01"/>
+    </record>
+
+    <record id="tax_definition_company_demo_cofins3" model="l10n_br_tax.definition.company.product">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="tax_id" ref="demo_tax_out_cofins3"/>
+        <field name="cst_id" ref="cst_cofins_01"/>
+    </record>
+
+</odoo>
