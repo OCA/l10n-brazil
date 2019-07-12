@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="cnae_search" model="ir.ui.view">
-        <field name="name">fiscal.cnae.search</field>
-        <field name="model">fiscal.cnae</field>
+        <field name="name">l10n_br_fiscal.cnae.search</field>
+        <field name="model">l10n_br_fiscal.cnae</field>
         <field name="arch" type="xml">
             <search string="CNAE">
                 <field name="code"/>
@@ -16,8 +16,8 @@
     </record>
 
     <record id="cnae_tree" model="ir.ui.view">
-        <field name="name">fiscal.cnae.tree</field>
-        <field name="model">fiscal.cnae</field>
+        <field name="name">l10n_br_fiscal.cnae.tree</field>
+        <field name="model">l10n_br_fiscal.cnae</field>
         <field name="field_parent">children_ids</field>
         <field name="arch" type="xml">
             <tree string="CNAE">
@@ -30,8 +30,8 @@
     </record>
 
     <record id="cnae_form" model="ir.ui.view">
-        <field name="name">fiscal.cnae.form</field>
-        <field name="model">fiscal.cnae</field>
+        <field name="name">l10n_br_fiscal.cnae.form</field>
+        <field name="model">l10n_br_fiscal.cnae</field>
         <field name="arch" type="xml">
             <form string="CNAE">
                 <sheet>

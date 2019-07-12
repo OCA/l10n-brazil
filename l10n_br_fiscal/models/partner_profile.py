@@ -14,7 +14,7 @@ from ..constants.fiscal import (
 
 
 class PartnerProfile(models.Model):
-    _name = 'fiscal.partner.profile'
+    _name = 'l10n_br_fiscal.partner.profile'
     _description = 'Fiscal Partner Profile'
 
     code = fields.Char(

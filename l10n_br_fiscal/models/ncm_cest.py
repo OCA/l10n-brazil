@@ -5,10 +5,10 @@ from odoo import models, fields
 
 
 class NCM(models.Model):
-    _inherit = 'fiscal.ncm'
+    _inherit = 'l10n_br_fiscal.ncm'
 
     cest_ids = fields.Many2many(
-        comodel_name='fiscal.cest',
+        comodel_name='l10n_br_fiscal.cest',
         relation='fiscal_cest_ncm_rel',
         colunm1='ncm_id',
         colunm2='cest_id',

@@ -15,7 +15,7 @@ from ..constants.icms import (
 
 
 class Tax(models.Model):
-    _name = 'fiscal.tax'
+    _name = 'l10n_br_fiscal.tax'
     _order = 'tax_domain, name'
     _description = 'Tax'
 
@@ -35,7 +35,7 @@ class Tax(models.Model):
         required=True)
 
     fiscal_tax_group_id = fields.Many2one(
-        comodel_name='fiscal.tax.group',
+        comodel_name='l10n_br_fiscal.tax.group',
         string='Fiscal Tax Group')
 
     tax_domain = fields.Selection(
@@ -45,13 +45,13 @@ class Tax(models.Model):
         required=True)
 
     cst_in_id = fields.Many2one(
-        comodel_name='fiscal.cst',
+        comodel_name='l10n_br_fiscal.cst',
         string='CST In',
         domain="[('type', 'in', ('in', 'all')), "
                "('tax_domain', '=', tax_domain)]")
 
     cst_out_id = fields.Many2one(
-        comodel_name='fiscal.cst',
+        comodel_name='l10n_br_fiscal.cst',
         string='CST Out',
         domain="[('type', 'in', ('out', 'all')), "
                "('tax_domain', '=', tax_domain)]")

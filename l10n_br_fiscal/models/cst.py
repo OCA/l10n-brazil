@@ -7,8 +7,8 @@ from odoo.osv import expression
 from ..constants.fiscal import FISCAL_IN_OUT_ALL, TAX_DOMAIN
 
 class Cst(models.Model):
-    _name = 'fiscal.cst'
-    _inherit = 'fiscal.data.abstract'
+    _name = 'l10n_br_fiscal.cst'
+    _inherit = 'l10n_br_fiscal.data.abstract'
     _order = 'tax_domain, code'
     _description = 'CST'
 
