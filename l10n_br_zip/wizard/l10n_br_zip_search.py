@@ -80,6 +80,7 @@ class L10nBrZipSearch(models.TransientModel):
     @api.multi
     def zip_search(self):
 
+        self.ensure_one()
         data = self
         obj_zip = self.env['l10n_br.zip']
 
@@ -94,6 +95,13 @@ class L10nBrZipSearch(models.TransientModel):
 
         # Search zips
         zip_ids = obj_zip.search(domain)
+
+        context = dict(self.env.context)
+        context.update({
+           'address_id': data.address_id,
+           'object_name': data.object_name,
+        })
+
         self.write({
             'state': 'done',
             'zip_ids': [[6, 0, [zip.id for zip in zip_ids]]]
@@ -108,6 +116,7 @@ class L10nBrZipSearch(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
             'nodestroy': True,
+            'context': context,
         }
 
     @api.multi
