@@ -7,7 +7,7 @@ from odoo.osv import expression
 
 
 class DocumentCancel(models.Model):
-    _name = 'fiscal.document.cancel'
+    _name = 'l10n_br_fiscal.document.cancel'
     _description = 'Documento Eletrônico no Sefaz'
 
     partner_id = fields.Many2one(

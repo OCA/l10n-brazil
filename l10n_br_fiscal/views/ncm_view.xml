@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="ncm_search" model="ir.ui.view">
-        <field name="name">fiscal.ncm.search</field>
-        <field name="model">fiscal.ncm</field>
+        <field name="name">l10n_br_fiscal.ncm.search</field>
+        <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <search string="NCM">
                 <field name="code"/>
@@ -18,8 +18,8 @@
     </record>
 
     <record id="ncm_tree" model="ir.ui.view">
-        <field name="name">fiscal.ncm.tree</field>
-        <field name="model">fiscal.ncm</field>
+        <field name="name">l10n_br_fiscal.ncm.tree</field>
+        <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <tree string="NCM">
                 <field name="code"/>
@@ -33,8 +33,8 @@
     </record>
 
     <record id="ncm_kanban" model="ir.ui.view">
-        <field name="name">fiscal.ncm.kanban</field>
-        <field name="model">fiscal.ncm</field>
+        <field name="name">l10n_br_fiscal.ncm.kanban</field>
+        <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <kanban>
                 <field name="id"/>
@@ -74,8 +74,8 @@
     </record>
 
     <record id="ncm_form" model="ir.ui.view">
-        <field name="name">fiscal.ncm.form</field>
-        <field name="model">fiscal.ncm</field>
+        <field name="name">l10n_br_fiscal.ncm.form</field>
+        <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
             <form string="NCM">
                 <sheet>

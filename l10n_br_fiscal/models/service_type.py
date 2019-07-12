@@ -6,16 +6,18 @@ from odoo import models, fields, api
 
 
 class ServiceType(models.Model):
-    _name = 'fiscal.service.type'
-    _inherit = ['fiscal.data.abstract', 'mail.thread', 'mail.activity.mixin']
+    _name = 'l10n_br_fiscal.service.type'
+    _inherit = ['l10n_br_fiscal.data.abstract',
+                'mail.thread',
+                'mail.activity.mixin']
     _description = 'Service Fiscal Type'
 
     parent_id = fields.Many2one(
-        comodel_name='fiscal.service.type',
+        comodel_name='l10n_br_fiscal.service.type',
         string='Parent Service Type')
 
     child_ids = fields.One2many(
-        comodel_name='fiscal.service.type',
+        comodel_name='l10n_br_fiscal.service.type',
         inverse_name='parent_id',
         string='Service Type Child')
 
