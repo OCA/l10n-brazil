@@ -39,7 +39,6 @@
 "access_account_move_line_funcionario","access_account_move_line_funcionario","account.model_account_move_line","base.group_user",1,0,0,0
 "access_payment_line_funcionario","access_payment_line_funcionario","account_payment.model_payment_line","base.group_user",1,0,0,0
 "access_hr_acordo_coletivo","access_hr_acordo_coletivo","l10n_br_hr_payroll.model_l10n_br_hr_acordo_coletivo","base.group_hr_user",1,1,1,1
-"access_hr_acordo_coletivo_line","access_hr_acordo_coletivo_line","l10n_br_hr_payroll.model_l10n_br_hr_acordo_coletivo_line","base.group_hr_user",1,1,1,1
 "access_hr_acordo_coletivo_rubricas","access_hr_acordo_coletivo_rubricas","l10n_br_hr_payroll.model_l10n_br_hr_acordo_coletivo_rubricas","base.group_hr_user",1,1,1,1
 "access_hr_emplyee_user","access_hr_emplyee_user","base.model_res_users","base.group_hr_manager",1,0,1,0
 "access_hr_emplyee_user_partner","access_hr_emplyee_user_partner","base.model_res_partner","base.group_hr_manager",1,1,1,1
