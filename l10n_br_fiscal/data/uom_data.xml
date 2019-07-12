@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="uom_meter2" model="uom.uom">
+        <field name="category_id" ref="uom.uom_categ_length"/>
+        <field name="name">m2</field>
+        <field name="factor" eval="1.0"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <record id="uom_meter3" model="uom.uom">
+        <field name="category_id" ref="uom.uom_categ_length"/>
+        <field name="name">m3</field>
+        <field name="factor" eval="1.0"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <record id="uom_mw_hour" model="uom.uom">
+        <field name="category_id" ref="uom.uom_categ_wtime"/>
+        <field name="name">MWHORA</field>
+        <field name="factor" eval="1.0"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <!-- Tonel Metr Liquida -->
+    <record id="uom_ton" model="uom.uom">
+        <field name="category_id" ref="uom.product_uom_categ_vol"/>
+        <field name="name">TON</field>
+        <field name="factor" eval="1.0"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <!-- PARES -->
+    <record id="uom_pares" model="uom.uom">
+        <field name="category_id" ref="uom.product_uom_categ_unit"/>
+        <field name="name">PARES</field>
+        <field name="factor_inv" eval="2"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <!-- 1000UN -->
+    <record id="uom_1000un" model="uom.uom">
+        <field name="category_id" ref="uom.product_uom_categ_unit"/>
+        <field name="name">1000UN</field>
+        <field name="factor_inv" eval="1000"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <!-- QUILAT -->
+    <record id="uom_quilat" model="uom.uom">
+        <field name="category_id" ref="uom.product_uom_categ_kgm"/>
+        <field name="name">QUILAT</field>
+        <field name="factor" eval="1.0"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+
+</odoo>

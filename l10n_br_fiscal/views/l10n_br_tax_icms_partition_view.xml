@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_tax_icms_partition_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_tax.icms_partition.form.view</field>
+        <field name="model">l10n_br_tax.icms_partition</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="rate"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_tax_icms_partition_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_tax.icms_partition.tree.view</field>
+        <field name="model">l10n_br_tax.icms_partition</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="rate"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window id="action_l10n_br_tax_icms_partition_form"
+                name="Partilha de ICMS Interestadual"
+                res_model="l10n_br_tax.icms_partition"
+                view_mode="tree,form"/>
+
+    <menuitem id="menu_action_icms_partition"
+              name="Partilha de ICMS Interestadual"
+              parent="l10n_br_account.menu_l10n_br_account_fiscal_manager"
+              action="action_l10n_br_tax_icms_partition_form"
+              sequence="63"/>
+
+</odoo>
