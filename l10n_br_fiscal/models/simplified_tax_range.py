@@ -6,7 +6,7 @@ from odoo.addons import decimal_precision as dp
 
 
 class SimplifiedTaxRange(models.Model):
-    _name = 'fiscal.simplified.tax.range'
+    _name = 'l10n_br_fiscal.simplified.tax.range'
     _description = 'National Simplified Tax Range'
     _order = 'name asc'
 
@@ -15,7 +15,7 @@ class SimplifiedTaxRange(models.Model):
         required=True)
 
     simplified_tax_id = fields.Many2one(
-        comodel_name='fiscal.simplified.tax',
+        comodel_name='l10n_br_fiscal.simplified.tax',
         string='Simplified Tax ID')
 
     currency_id = fields.Many2one(

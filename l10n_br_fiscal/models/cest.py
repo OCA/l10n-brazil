@@ -10,8 +10,8 @@ from ..constants.fiscal import CEST_SEGMENT
 
 
 class Cest(models.Model):
-    _name = 'fiscal.cest'
-    _inherit = 'fiscal.data.abstract'
+    _name = 'l10n_br_fiscal.cest'
+    _inherit = 'l10n_br_fiscal.data.abstract'
     _description = 'CEST'
 
     code = fields.Char(
@@ -44,7 +44,7 @@ class Cest(models.Model):
         string='NCM')
 
     ncm_ids = fields.Many2many(
-        comodel_name='fiscal.ncm',
+        comodel_name='l10n_br_fiscal.ncm',
         relation='fiscal_cest_ncm_rel',
         colunm1='cest_id',
         colunm2='ncm_id',
@@ -72,7 +72,7 @@ class Cest(models.Model):
 
     @api.depends('ncms')
     def _compute_ncms(self):
-        ncm = self.env['fiscal.ncm']
+        ncm = self.env['l10n_br_fiscal.ncm']
         for r in self:
             if r.ncms:
                 ncms = r.ncms.split(",")

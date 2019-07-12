@@ -20,7 +20,7 @@ class ResPartner(models.Model):
         """Define o valor padão para o campo tipo fiscal, por padrão pega
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
-        ft_ids = self.env['fiscal.partner.profile'].search(
+        ft_ids = self.env['l10n_br_fiscal.partner.profile'].search(
             [('default', '=', 'True'), ('is_company', '=', is_company)],
             limit=1)
         return ft_ids
@@ -31,7 +31,7 @@ class ResPartner(models.Model):
         string='Tax Framework')
 
     cnae_main_id = fields.Many2one(
-        comodel_name='fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         domain="[('internal_type', '=', 'normal')]",
         string='Main CNAE')
 
@@ -42,7 +42,7 @@ class ResPartner(models.Model):
         default=NFE_IND_IE_DEST_DEFAULT)
 
     fiscal_profile_id = fields.Many2one(
-        comodel_name='fiscal.partner.profile',
+        comodel_name='l10n_br_fiscal.partner.profile',
         string=u'Fiscal Partner Profile',
         domain="[('is_company', '=', is_company)]",
         default=_default_fiscal_profile_id)

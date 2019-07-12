@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="simplified_tax_form" model="ir.ui.view">
-        <field name="name">fiscal.simplified.tax.form</field>
-        <field name="model">fiscal.simplified.tax</field>
+        <field name="name">l10n_br_fiscal.simplified.tax.form</field>
+        <field name="model">l10n_br_fiscal.simplified.tax</field>
         <field name="arch" type="xml">
             <form string="Simplified Tax">
                 <sheet>
@@ -29,8 +29,8 @@
     </record>
 
     <record id="simplified_tax_tree" model="ir.ui.view">
-        <field name="name">fiscal.simplified.tax.tree</field>
-        <field name="model">fiscal.simplified.tax</field>
+        <field name="name">l10n_br_fiscal.simplified.tax.tree</field>
+        <field name="model">l10n_br_fiscal.simplified.tax</field>
         <field name="arch" type="xml">
             <tree string="Simplified Tax">
                 <field name="name"/>
