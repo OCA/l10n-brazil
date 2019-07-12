@@ -85,29 +85,20 @@ class L10nBrZip(models.Model):
 
         return domain
 
-    def set_result(self, zip_obj=None):
-        if zip_obj:
-            if type(zip_obj).__name__ == 'l10n_br.zip.result':
-                zip_code = zip_obj.zip
-            else:
-                zip_code = zip_obj.zip_code
-
-            if len(zip_code) == 8:
-                zip_code = '%s-%s' % (zip_code[0:5], zip_code[5:8])
-            result = {
-                'country_id': zip_obj.country_id.id,
-                'state_id': zip_obj.state_id.id,
-                'city_id': zip_obj.city_id.id,
-                'city': zip_obj.city_id.name,
-                'district': zip_obj.district,
-                'street': ((zip_obj.street_type or '') +
-                           ' ' + (zip_obj.street or '')) if
-                zip_obj.street_type else (zip_obj.street or ''),
-                'zip': zip_code,
-            }
-        else:
-            result = {}
-        return result
+    @api.multi
+    def set_result(self):
+        self.ensure_one()
+        return {
+            'country_id': self.country_id.id,
+            'state_id': self.state_id.id,
+            'city_id': self.city_id.id,
+            'city': self.city_id.name,
+            'district': self.district,
+            'street': ((self.street_type or '') +
+                       ' ' + (self.street or '')) if
+            self.street_type else (self.street or ''),
+            'zip': misc.format_zipcode(
+                self.zip_code, self.country_id.code)}
 
     @api.model
     def zip_search(self, obj):
@@ -124,21 +115,20 @@ class L10nBrZip(models.Model):
             raise UserError(
                 _('Erro a Carregar Atributo: ') + str(e))
 
-        zip_ids = self.search(domain)
+        zips = self.search(domain)
 
         # One ZIP was found
-        if len(zip_ids) == 1:
-            result = self.set_result(zip_ids[0])
-            obj.write(result)
+        if len(zips) == 1:
+            obj.write(zips[0].set_result())
             return True
 
         # More than one ZIP was found
-        elif len(zip_ids) > 1:
+        elif len(zips) > 1:
 
-            return self.create_wizard(obj, zip_ids)
+            return self.create_wizard(obj, zips)
 
         # Address not found in local DB, search by PyCEP-Correios
-        elif not zip_ids and obj.zip:
+        elif not zips and obj.zip:
 
             zip_str = misc.punctuation_rm(obj.zip)
             try:
@@ -173,14 +163,18 @@ class L10nBrZip(models.Model):
                 }
 
                 # Create zip object
-                self.env['l10n_br.zip'].create(values)
-
-                zip_ids = self.search(domain)
-                result = self.set_result(zip_ids[0])
-                obj.write(result)
+                zip = self.create(values)
+                obj.write(zip.set_result())
                 return True
 
     def create_wizard(self, obj, zips):
+
+        context = dict(self.env.context)
+        context.update({
+            'address_id': obj.id,
+            'object_name': obj._name,
+        })
+
         wizard = self.env['l10n_br.zip.search'].create({
             'zip': obj.zip,
             'street': obj.street,
@@ -203,16 +197,15 @@ class L10nBrZip(models.Model):
             'target': 'new',
             'nodestroy': True,
             'res_id': wizard.id,
+            'context': context,
         }
 
-    @api.one
+    @api.multi
     def zip_select(self):
-        data = self
+        self.ensure_one()
         address_id = self._context.get('address_id')
         object_name = self._context.get('object_name')
         if address_id and object_name:
             obj = self.env[object_name].browse(address_id)
-            obj_zip = self.env['l10n_br.zip']
-            result = obj_zip.set_result(data)
-            obj.write(result)
+            obj.write(self.set_result())
         return True
