@@ -25,13 +25,35 @@ class L10nBRZipTest(TransactionCase):
         self.company_1 = self.env['res.company'].create(dict(
             name='teste',
             street='paulista',
+            district='Bela Vista',
             country_id=self.env.ref('base.br').id,
             state_id=self.env.ref('base.state_br_sp').id,
             city_id=self.env.ref('l10n_br_base.city_3550308').id,
         ))
 
+    def test_error_object_without_address_fields(self):
+        """Test error object without address fields."""
+        try:
+            result = self.env[
+                'l10n_br.zip'].zip_search(self.env['mail.thread'])
+        except:
+            result = False
+        self.assertFalse(
+            result, "Error to search by address without address fields.")
+
+    def test_error_without_all_required_fields(self):
+        """Test error object without all required fields."""
+        self.company_1.street = False
+        try:
+            result = self.company_1.zip_search()
+        except:
+            result = False
+        self.assertFalse(
+            result, "Error to search by address without all required fields.")
+
     def test_search_zip_code_company(self):
         """Test search zip code."""
+
         self.company.zip = '01310923'
         self.company.zip_search()
         self.assertEquals(
@@ -46,6 +68,7 @@ class L10nBRZipTest(TransactionCase):
 
     def test_search_zip_code_by_other_fields_company(self):
         """Test search by address."""
+
         self.company_1.zip_search()
         self.assertEquals(
             self.company_1.zip, '01310-923',
@@ -54,6 +77,7 @@ class L10nBRZipTest(TransactionCase):
 
     def test_return_two_results_zip_search(self):
         """Test search by address return more the one result."""
+
         self.zip_2 = self.zip_obj.create(dict(
             zip_code='01310940',
             city_id=self.env.ref('l10n_br_base.city_3550308').id,
@@ -109,8 +133,19 @@ class L10nBRZipTest(TransactionCase):
             self.company_1.street, 'Avenida Avenida Paulista 900',
             'It should return the correct street, failed method zip_select.')
 
+    def test_error_pycep_correios(self):
+        """Test error with PyCEP CORREIOS ."""
+        self.company.zip = '00000000'
+        try:
+            result = self.company.zip_search()
+        except:
+            result = False
+        self.assertFalse(
+            result, "Error to search by invalid ZIP on PyCEP-Correios.")
+
     def test_return_pycep_correios(self):
-        """Test search with PyCEP CORREIOS"""
+        """Test search with PyCEP CORREIOS ."""
+
         self.company.zip = '04003000'
         self.company.zip_search()
         self.assertEquals(
