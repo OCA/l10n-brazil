@@ -1021,7 +1021,7 @@ class AccountInvoice(models.Model):
                 iml.append({
                     'type': 'dest',
                     'name': name,
-                    'price': t.amount_net,
+                    'price': t.amount_net if total >= 0 else - t.amount_net,
                     'account_id': inv.account_id.id,
                     'date_maturity': t.date_due,
                     'amount_currency': diff_currency and amount_currency,
