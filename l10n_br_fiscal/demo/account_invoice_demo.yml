@@ -1,0 +1,17 @@
+-
+   Demo to test if original code still works.
+-
+  !record {model: account.invoice, id: demo_invoice_original_yml}:
+    name: TEST Original Invoice - l10n_br_account_product
+    partner_id: l10n_br_base.res_partner_akretion
+    user_id: base.user_demo
+    payment_term_id: account.account_payment_term_advance
+    date_invoice: !eval time.strftime('%Y-%m')+'-01'
+    type: 'out_invoice'
+    invoice_line_ids:
+      - product_id: product.product_product_5
+        name: 'TESTE INVOICE ORIGINAL'
+        price_unit: 100.0
+        quantity: 10
+        uom_id: product.product_uom_unit
+        account_id: 1_account_template_3010101010200_avoid_travis_error

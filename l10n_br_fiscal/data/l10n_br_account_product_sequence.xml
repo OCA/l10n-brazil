@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Sequences for nfe.export -->
+    <record id="seq_nfe_export" model="ir.sequence">
+        <field name="name">NFE Export</field>
+        <field name="code">nfe.export</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

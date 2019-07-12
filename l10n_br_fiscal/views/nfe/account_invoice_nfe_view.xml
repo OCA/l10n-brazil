@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="l10n_br_account_product_nfe_search" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.nfe.search</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Pesquisar NFe">
+                    <field name="fiscal_number" string="NFe" filter_domain="['|','|','|', ('fiscal_number','ilike',self), ('origin','ilike',self), ('supplier_invoice_number', 'ilike', self), ('partner_id', 'child_of', self)]"/>
+                    <filter name="draft" string="Provisorio" domain="[('state','=','draft')]" help="Draft Invoices"/>
+                    <filter name="proforma" string="Proforma" domain="[('state','=','proforma2')]" help="Proforma Invoices" groups="account.group_proforma_invoices"/>
+                    <filter icon="terp-check" string="Exportada Receita" domain="[('state','=','sefaz_export')]" />
+                    <filter name="invoices" string="Invoices" domain="[('state','not in',['draft','cancel'])]" help="Proforma/Open/Paid Invoices"/>
+                    <filter name="unpaid" string="Unpaid" domain="[('state','=','open')]" help="Unpaid Invoices"/>
+                    <filter name="customer" string="Customer" domain="[('type','in',('out_invoice','out_refund'))]" help="Only show Client Invoices."/>
+                    <filter name="supplier" string="Supplier" domain="[('type','in',('in_invoice','in_refund'))]" help="Only show Supplier Invoices."/>
+                    <separator/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="user_id" string="Salesperson"/>
+                    <separator/>
+                    <filter domain="[('user_id','=',uid)]" help="My Invoices"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_partner_id" string="Partner" context="{'group_by':'partner_id'}"/>
+                        <filter string="Salesperson" context="{'group_by':'user_id'}"/>
+                        <filter string="Status" context="{'group_by':'state'}"/>
+                        <filter string="Tipo de Documento" context="{'group_by':'type'}"/>
+                        <separator/>
+                        <filter string="Due Month" context="{'group_by':'date_due'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_product_nfe_tree" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.nfe.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel'" string="NFe">
+                    <field name="partner_id" groups="base.group_user"/>
+                    <field name="commercial_partner_id" invisible="1"/>
+                    <field name="date_invoice"/>
+                    <field name="fiscal_number"/>
+                    <field name="reference" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="origin"/>
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                    <field name="state"/>
+                    <field name="type" invisible="context.get('type',True)"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_product_nfe_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.nfe.form</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <form string="NF-e">
+                    <header>
+                       <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                       <button name="invoice_print" string="Print" type="object" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                       <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                       <button name="invoice_print" string="Print Invoice" type="object" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                       <button name="%(account.action_account_invoice_payment)d" type="action" states="open" string="Register Payment" groups="account.group_account_invoice" class="oe_highlight"/>
+                       <button name="action_invoice_open" type="object" states="draft" string="Exportar para Sefaz" class="oe_highlight" groups="account.group_account_invoice"/>
+                       <button name="action_invoice_open" type="object" states="proforma2" string="Validate" groups="account.group_account_invoice"/>
+                       <button name="action_sefaz_open" type="object" states="sefaz_export" string="Validate" groups="account.group_account_invoice"/>
+                       <button name="action_invoice_proforma2" type="object" states="draft" string="PRO-FORMA" groups="account.group_proforma_invoices"/>
+                       <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund Invoice' groups="account.group_account_invoice" attrs="{'invisible': ['|',('type', '=', 'out_refund'), ('state', 'not in', ('open','proforma2','paid'))]}"/>
+                       <button name="action_invoice_cancel" type="object" states="draft,proforma2,open" string="Cancel Invoice" groups="base.group_no_one"/>
+                       <button name="action_invoice_draft" states="cancel" string="Reset to Draft" type="object" groups="account.group_account_invoice"/>
+                       <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid"/>
+                    </header>
+                <sheet string="NF-e">
+                    <h1 class="mt0">
+                        <label string="NF-e" attrs="{'invisible': [('state','in',('draft','proforma','proforma2'))]}"/>
+                        <label string="Nova NF-e" attrs="{'invisible': [('state','not in',('draft',))]}"/>
+                    </h1>
+                    <field name="sent" invisible="1"/>
+                    <field name="fiscal_type" invisible="1"/>
+                    <field name="fiscal_document_electronic" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="type" required="1"/>
+                            <field name="nfe_purpose" required="1"/>
+                            <field name="fiscal_document_id" required="1"/>
+                            <field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
+                            <field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                            <field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+                            <field name="partner_id"
+                                context="{'search_default_customer':1, 'show_address': 1, 'fiscal_category_id': fiscal_category_id}"
+                                options='{"always_reload": True}'/>
+                            <field name="partner_shipping_id" domain="[('parent_id', '=', partner_id)]"
+                                context="{'default_type':'delivery', 'show_address': 1}"/>
+                        </group>
+                        <group>
+                            <field name="fiscal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                            <field name="date_invoice" invisible="1"/>
+                            <field name="date_hour_invoice" string="Data Emissão"/>
+                            <field name="date_in_out" string="Data de Entrada/Saida"/>
+                            <field name="fiscal_category_id" domain="[('type','in',{'out_invoice': ['output'], 'out_refund': ['input'], 'in_refund': ['output'], 'in_invoice': ['input']}.get(type, [])),('fiscal_type','=','product')]" required="1"/>
+                            <field name="fiscal_position_id" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user"/>
+                            <field name="ind_final" string="Operação com Consumidor final" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
+                            <field name="ind_pres" string="Tipo de operação" attrs="{'required': [('nfe_version', '>', '3.00')]}"/>
+                        </group>
+                    </group>
+                    <group col="6">
+                        <field name="nfe_access_key" attrs="{'readonly': [('issuer', '=', '0')]}" style="width:95%" colspan="4"/>
+                        <field name="nfe_version" attrs="{'readonly': [('issuer', '=', '0')]}" style="width:5%"/>
+                        <field name="nfe_status"/>
+                        <field name="nfe_date" />
+                        <field name="nfe_protocol_number" attrs="{'readonly': [('issuer', '=', '0')]}"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Produtos e Serviços">
+                            <field name="invoice_line_ids" nolabel="1" widget="one2many_list"
+                                   context="{'type': type, 'fiscal_type': 'product', 'partner_id': partner_id, 'company_id': company_id,
+                                   'default_fiscal_category_id': fiscal_category_id, 'default_fiscal_position_id': fiscal_position_id, 'form_view_ref': 'l10n_br_account_product.l10n_br_account_product_nfe_line_form'}">
+                                <tree string="Invoice Lines">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"
+                                        domain="[('fiscal_type', '=', 'product')]"
+                                        context="{'partner_id': parent.partner_id, 'parent_fiscal_category_id': parent.fiscal_category_id, 'parent_fiscal_position_id': parent.fiscal_position_id}"/>
+                                    <field name="name"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="fiscal_category_id" invisible="1"/>
+                                    <field name="cfop_id"/>
+                                    <field name="account_id" groups="account.group_account_user"
+                                        domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other'), ('deprecated', '=', False)]"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_gross"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="invoice_line_tax_ids" invisible="1" widget="many2many_tags" context="{'type':parent.type}"
+                                        domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                                    <field name="price_subtotal"/>
+                                </tree>
+                            </field>
+                            <group col="6" string="Totais">
+                                <!-- <button name="button_reset_taxes" states="draft,proforma2"
+                                        string="(update)" class="oe_link oe_edit_only"
+                                        type="object" help="Recompute taxes and total"/> -->
+                                <newline/>
+                                <field name="icms_base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="icms_base_other" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="icms_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="icms_st_base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="icms_st_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ipi_base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ipi_base_other" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ipi_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="pis_base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="pis_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="cofins_base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="cofins_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ii_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_insurance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_freight" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_costs" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </page>
+                        <page string="Financeiro" groups="base.group_user">
+                            <group>
+                                <group>
+                                    <field name="payment_mode_id" domain="[]"/>
+                                    <field name="type_nf_payment"/>
+                                    <field domain="[('partner_id.ref_company_ids', 'in', [company_id])]" name="partner_bank_id" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="payment_term_id" class="oe_inline"/>
+                                    <field name="date_due"/>
+                                    <field name="residual" groups="account.group_account_user" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="reconciled" invisible="1"/>
+                                </group>
+                            </group>
+                            <group string="Vencimentos">
+                                <field nolabel="1" name="move_line_receivable_id">
+                                    <tree string="Vencimentos">
+                                        <field name="journal_id"/>
+                                        <field name="date_maturity"/>
+                                        <field name="name"/>
+                                        <field name="ref"/>
+                                        <field name="move_id"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Pagamentos">
+                                <field nolabel="1" name="payment_ids">
+                                    <tree string="Payments">
+                                      <field name="payment_date"/>
+                                      <field name="name"/>
+                                      <field name="journal_id"/>
+                                      <field name="payment_method_id"/>
+                                      <field name="partner_id" string="Customer"/>
+                                      <field name="amount" sum="Amount"/>
+                                      <field name="state"/>
+                                      <field name="company_id" groups="base.group_multi_company"/>
+                                      <field name="currency_id" invisible="1"/>
+                                      <field name="partner_type" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Contábil">
+                            <group>
+                                <group>
+                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                    <field name="journal_id" groups="account.group_account_user" options="{'no_create': True}"
+                                        attrs="{'readonly':[('fiscal_number','!=',False)]}" domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]"/>
+                                    <label for="currency_id" groups="base.group_multi_currency"/>
+                                    <div groups="base.group_multi_currency">
+                                        <field name="currency_id" class="oe_inline"/>
+                                    </div>
+                                    <field domain="[('company_id', '=', company_id), ('user_type_id.type','in',{'out_invoice': ['receivable'], 'out_refund': ['receivable'], 'in_refund': ['payable'], 'in_invoice': ['payable']}.get(type, []))]"
+                                        name="account_id" groups="account.group_account_user"/>
+                                    <field name="move_id" groups="account.group_account_user"/>
+                                </group>
+                                <group>
+                                    <field name="origin" groups="base.group_user"/>
+                                    <field name="name"/>
+                                    <field name="user_id" groups="base.group_user" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'account.group_account_invoice']}"/>
+                                </group>
+                            </group>
+                            <field name="tax_line_ids">
+                              <tree editable="bottom" string="Taxes">
+                                  <field name="name"/>
+                                  <!--Need invisible fields for on_change to create all necessary info -->
+                                  <field name="tax_id" invisible="1"/>
+                                  <field name="sequence" invisible="1"/>
+                                  <field name="manual" invisible="1"/>
+                                  <field name="account_id" groups="account.group_account_invoice"/>
+                                  <field name="account_analytic_id" domain="[('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting"/>
+                                  <field name="amount"/>
+                                  <field name="currency_id" invisible="1"/>
+                              </tree>
+                            </field>
+                        </page>
+                        <page string="Documentos Relacionados">
+                            <field colspan="4" nolabel="1" name="fiscal_document_related_ids">
+                                <tree>
+                                    <field name="document_type"/>
+                                    <field name="access_key"/>
+                                    <field name="serie"/>
+                                    <field name="number"/>
+                                </tree>
+                                <form string="Documentos Fiscais">
+                                    <group>
+                                        <field name="invoice_related_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="document_type"/>
+                                    </group>
+                                    <group string="NF-e/CT-e" attrs="{'invisible': [('document_type','in', ('nf', 'nfrural', 'cf', False))]}">
+                                        <field name="access_key"/>
+                                    </group>
+                                    <group string="Nota Fiscal/Produtor/Cupom Fiscal" attrs="{'invisible': [('document_type', 'in', ('nfe','cte', False))]}">
+                                        <field name="serie" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+                                        <field name="number" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+                                        <field name="fiscal_document_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+                                        <field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+                                        <field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+                                        <field name="cpfcnpj_type" attrs="{'required': [('document_type', 'in', ('nfrural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
+                                        <field name="cnpj_cpf" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+                                        <field name="inscr_est" attrs="{'invisible': [('document_type', '!=', 'nfrural')]}"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Dados Adicionais">
+                            <notebook>
+                                <page string="Documento Fiscal">
+                                    <group>
+                                        <field name="nfe_export_date"/>
+                                        <field name="nfe_date"/>
+                                    </group>
+                                    <field name="account_document_event_ids"/>
+                                </page>
+                                <page string="CFOP">
+                                    <group string="CFOP">
+                                        <field nolabel="1" name="cfop_ids"/>
+                                    </group>
+                                </page>
+                                <page string="Transporte">
+                                    <div class="oe_right oe_button_box" name="buttons">
+                                        <button class="oe_inline oe_stat_button" type="action" name="%(action_l10n_br_account_product_costs_ratio)d" icon="fa-truck">
+                                            <div>Recalcular Custos</div>
+                                        </button>
+                                    </div>
+                                    <group name="shipping_info" string="Informações de Exportação">
+                                        <field name="shipping_state_id"/>
+                                        <field name="shipping_location"/>
+                                        <field name="expedition_location"/>
+                                    </group>
+                                    <group name="delivery_info">
+                                        <field name="carrier_name"/>
+                                        <field name="vehicle_plate"/>
+                                        <field name="vehicle_state_id"/>
+                                        <field name="vehicle_l10n_br_city_id"/>
+                                        <field name="amount_freight"/>
+                                        <field name="amount_insurance"/>
+                                        <field name="amount_costs"/>
+                                        <field name="amount_total_taxes"/>
+                                    </group>
+                                    <group name="package_info">
+                                        <field name="weight"/>
+                                        <field name="weight_net"/>
+                                        <field name="number_of_packages"/>
+                                        <field name="kind_of_packages"/>
+                                        <field name="brand_of_packages"/>
+                                        <field name="notation_of_packages"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="Observações">
+                            <group string="Observações">
+                                <field name="comment" nolabel="1"/>
+                            </group>
+                            <group string="Observações Fiscais">
+                                <field name="fiscal_comment" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_product_nfe_line_form" model="ir.ui.view">
+            <field name="name">l10n_br_account_product.nfe.line.form</field>
+            <field name="model">account.invoice.line</field>
+            <field name="arch" type="xml">
+                <form string="Produtos e Serviços">
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group>
+                                    <field name="product_id" domain="[('fiscal_type', '=', 'product')]"/>
+                                    <label for="quantity"/>
+                                    <div>
+                                        <field name="quantity" class="oe_inline"/>
+                                        <field name="uom_id" class="oe_inline" groups="product.group_uom"/>
+                                    </div>
+                                    <field name="price_unit"/>
+                                    <field name="discount"/>
+                                    <field name="freight_value"/>
+                                    <field name="insurance_value"/>
+                                    <field name="other_costs_value"/>
+                                </group>
+                                <group>
+                                    <field name="product_type" attrs="{'readonly': [('product_id','!=', False)]}"/>
+                                    <field name="code" required="True"/>
+                                    <field name="fiscal_classification_id" required="True"/>
+                                    <field name="cest_id" attrs="{'readonly': [('product_id','!=', False)]}"/>
+                                    <field name="fci" attrs="{'readonly': [('product_id','!=', False)]}"/>
+                                    <field name="fiscal_category_id" required="1" domain="[('journal_type', '=', 'sale')]"/>
+                                    <field name="fiscal_position_id" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]"/>
+                                    <field name="cfop_id"/>
+                                    <field domain="[('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id" groups="account.group_account_user"/>
+                                    <field name="invoice_line_tax_ids" context="{'type':parent.type}" domain="[('company_id', '=', parent.company_id)]" widget="many2many_tags"/>
+                                    <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id)]" name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+                                    <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                                </group>
+                            </group>
+                            <label for="name"/>
+                                <field name="name"/>
+                        </page>
+                        <page string="Impostos">
+                            <group>
+                                <field name="total_taxes"/>
+                            </group>
+                            <notebook>
+                                <page string="ICMS" attrs="{'invisible': [('product_type', '=', 'service')]}">
+                                    <group string="Detalhes do ICMS">
+                                        <group>
+                                            <field name="icms_manual" invisible="True"/>
+                                            <field name="icms_cst_id" attrs="{'required': [('product_type','=', 'product')]}"/>
+                                            <field name="icms_origin"/>
+                                            <field name="icms_base_type"/>
+                                            <field name="icms_base"/>
+                                            <field name="icms_percent_reduction"/>
+                                        </group>
+                                        <group>
+                                            <field name="icms_relief_id"/>
+                                            <field name="icms_base_other"/>
+                                            <field name="icms_percent"/>
+                                            <field name="icms_value"/>
+                                        </group>
+                                    </group>
+                                    <group string="Substituição Tributária ICMS">
+                                        <group>
+                                            <field name="icms_st_base_type"/>
+                                            <field name="icms_st_base"/>
+                                            <field name="icms_st_percent_reduction"/>
+                                            <field name="icms_st_base_other"/>
+                                        </group>
+                                        <group>
+                                            <field name="icms_st_percent"/>
+                                            <field name="icms_st_mva"/>
+                                            <field name="icms_st_value"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="ISSQN" attrs="{'invisible': [('product_type','!=', 'service')]}">
+                                    <group>
+                                        <field name="issqn_manual" invisible="True"/>
+                                        <field name="issqn_type"/>
+                                        <field name="issqn_base"/>
+                                        <field name="issqn_percent"/>
+                                        <field name="service_type_id" attrs="{'required': [('product_type','=', 'service')]}" domain="[('internal_type','=','normal')]"/>
+                                        <field name="issqn_value"/>
+                                    </group>
+                                </page>
+                                <page string="IPI" attrs="{'invisible': [('product_type','=', 'service')]}">
+                                    <group string="Detalhes do IPI">
+                                        <group>
+                                            <field name="ipi_manual" invisible="True"/>
+                                            <field name="ipi_cst_id" attrs="{'required': [('product_type','=', 'product')]}"/>
+                                            <field name="ipi_type"/>
+                                            <field name="ipi_base"/>
+                                        </group>
+                                        <group>
+                                            <field name="ipi_guideline_id"/>
+                                            <field name="ipi_base_other"/>
+                                            <field name="ipi_percent"/>
+                                            <field name="ipi_value"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="PIS">
+                                    <group string="Detalhes do PIS">
+                                        <group>
+                                            <field name="pis_manual" invisible="True"/>
+                                            <field name="pis_cst_id" attrs="{'required': [('product_type','in', ('product', 'service'))]}"/>
+                                            <field name="pis_type"/>
+                                            <field name="pis_base"/>
+                                        </group>
+                                        <group>
+                                            <field name="pis_percent"/>
+                                            <field name="pis_value"/>
+                                        </group>
+                                    </group>
+                                    <group string="Detalhes do PIS ST">
+                                        <group>
+                                            <field name="pis_st_type"/>
+                                            <field name="pis_st_base"/>
+                                        </group>
+                                        <group>
+                                            <field name="pis_st_percent"/>
+                                            <field name="pis_st_value"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="COFINS">
+                                    <group string="Detalhes do COFINS">
+                                        <group>
+                                            <field name="cofins_manual" invisible="True"/>
+                                            <field name="cofins_cst_id" attrs="{'required': [('product_type','in', ('product', 'service'))]}"/>
+                                            <field name="cofins_type"/>
+                                            <field name="cofins_base"/>
+                                        </group>
+                                        <group>
+                                            <field name="cofins_percent"/>
+                                            <field name="cofins_value"/>
+                                        </group>
+                                    </group>
+                                    <group string="Detalhes do COFINS ST">
+                                        <group>
+                                            <field name="cofins_st_type"/>
+                                            <field name="cofins_st_base"/>
+                                        </group>
+                                        <group>
+                                            <field name="cofins_st_percent"/>
+                                            <field name="cofins_st_value"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="II" attrs="{'invisible': [('product_type','=', 'service')]}">
+                                    <group string="Detalhes do Imposto de Importação">
+                                        <field name="ii_base"/>
+                                        <field name="ii_customhouse_charges"/>
+                                        <field name="ii_iof"/>
+                                        <field name="ii_value"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="Informações Adicionais">
+                            <group string="Informação de interesse do emissor para controle do B2B">
+                                <group>
+                                    <field name="partner_order"/>
+                                </group>
+                                <group>
+                                    <field name="partner_order_line"/>
+                                </group>
+                                <group string="Observações Fiscais">
+                                    <field name="fiscal_comment" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Declaração de Importação">
+                            <group>
+                                <field name="import_declaration_ids" colspan="4" nolabel="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="date_registration"/>
+                                        <field name="exporting_code"/>
+                                        <field name="state_id"/>
+                                        <field name="location"/>
+                                        <field name="date_release"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_account_product_nfe_action" model="ir.actions.act_window">
+            <field name="name">NF-e</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('fiscal_document_code', '=', '55')]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale', 'fiscal_document_code': '55', 'fiscal_type': 'product'}</field>
+            <field name="search_view_id" ref="l10n_br_account_product_nfe_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para criar uma nova Nota Fiscal Eletrônica.
+              </p><p>
+                Odoo's electronic invoicing allows to ease and fasten the
+                collection of customer payments. Your customer receives the
+                invoice by email and he can pay online and/or import it
+                in his own system.
+              </p><p>
+                The discussions with your customer are automatically displayed at
+                the bottom of each invoice.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_invoice_tree1_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="l10n_br_account_product_nfe_tree"/>
+            <field name="act_window_id" ref="l10n_br_account_product_nfe_action"/>
+        </record>
+
+        <record id="action_invoice_tree1_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="l10n_br_account_product_nfe_form"/>
+            <field name="act_window_id" ref="l10n_br_account_product_nfe_action"/>
+        </record>
+
+        <menuitem id="l10n_br_account_product_nfe_menu" action="l10n_br_account_product_nfe_action" parent="l10n_br_account.menu_fiscal_document" sequence="10"/>
+
+</odoo>
