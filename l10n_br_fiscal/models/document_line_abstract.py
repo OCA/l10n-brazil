@@ -6,15 +6,15 @@ from odoo.osv import expression
 
 
 class DocumentLineAbstract(models.AbstractModel):
-    _name = 'fiscal.document.line.abstract'
+    _name = 'l10n_br_fiscal.document.line.abstract'
     _description = 'Fiscal Document Line Abstract'
 
     document_id = fields.Many2one(
-        comodel_name='fiscal.document.abstract',
+        comodel_name='l10n_br_fiscal.document.abstract',
         string='Document')
 
     operation_id = fields.Many2one(
-        comodel_name='fiscal.operation.line',
+        comodel_name='l10n_br_fiscal.operation.line',
         string='Partner')
 
     company_id = fields.Many2one(
