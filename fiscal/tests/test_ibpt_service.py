@@ -17,9 +17,18 @@ class TestIbptService(common.TransactionCase):
         self.nbs_115069000 = self.env.ref('fiscal.nbs_115069000')
         self.nbs_124043300 = self.env.ref('fiscal.nbs_124043300')
         self.product_tmpl_model = self.env['product.template']
-        self.product_tmpl_1 = self._create_product_tmpl_1()
-        self.product_tmpl_2 = self._create_product_tmpl_2()
-        self.product_tmpl_3 = self._create_product_tmpl_3()
+        self.product_tmpl_1 = self._create_product_tmpl(
+            name='Service Test 1 - With NBS: 1.1506.90.00',
+            nbs=self.nbs_115069000)
+
+        self.product_tmpl_2 = self._create_product_tmpl(
+            name='Product Test 2 - With NBS: 1.1506.90.00',
+            nbs=self.nbs_115069000)
+
+        self.product_tmpl_3 = self._create_product_tmpl(
+            name='Product Test 3 - With NBS: 1.2404.33.00',
+            nbs=self.nbs_124043300)
+
         self.fiscal_tax_estimate_model = self.env['fiscal.tax.estimate']
         self.fiscal_nbs_model = self.env['fiscal.nbs']
 
@@ -36,27 +45,11 @@ class TestIbptService(common.TransactionCase):
         })
         return company
 
-    def _create_product_tmpl_1(self):
+    def _create_product_tmpl(self, name, nbs):
         # Creating a product
         product = self.product_tmpl_model.create({
-            'name': 'Service Test 1 - With NBS: 1.1506.90.00',
-            'nbs_id': self.nbs_115069000.id,
-        })
-        return product
-
-    def _create_product_tmpl_2(self):
-        # Creating a product
-        product = self.product_tmpl_model.create({
-            'name': 'Product Test 2 - With NBS: 1.1506.90.00',
-            'nbs_id': self.nbs_115069000.id,
-        })
-        return product
-
-    def _create_product_tmpl_3(self):
-        # Creating a product
-        product = self.product_tmpl_model.create({
-            'name': 'Product Test 3 - With NBS: 1.2404.33.00',
-            'nbs_id': self.nbs_124043300.id,
+            'name': name,
+            'nbs_id': nbs.id,
         })
         return product
 
