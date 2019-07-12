@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Customer view -->
+    <record id="l10n_br_account_product_invoice_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="type" position="before">
+                <div class="oe_right oe_button_box" name="buttons" attrs="{'invisible': [('fiscal_document_code', '!=', '55')]}">
+                    <button class="oe_inline oe_stat_button" type="object" name="open_fiscal_document" icon="fa-file-o">
+                        <div>NFe</div>
+                    </button>
+                </div>
+            </field>
+            <field name="type" position="after">
+                <field name="fiscal_document_code" invisible="1"/>
+            </field>
+          </field>
+    </record>
+
+     <!-- Vendor view -->
+    <record id="l10n_br_account_product_invoice_supplier_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="type" position="before">
+                <div class="oe_right oe_button_box" name="buttons" attrs="{'invisible': [('fiscal_document_code', '!=', '55')]}">
+                    <button class="oe_inline oe_stat_button" type="object" name="open_fiscal_document" icon="fa-file-o">
+                        <div>NFe</div>
+                    </button>
+                </div>
+            </field>
+            <field name="type" position="after">
+                <field name="fiscal_document_code" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
