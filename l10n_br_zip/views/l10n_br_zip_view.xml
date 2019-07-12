@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_l10n_br_zip_tree" model="ir.ui.view">
-        <field name="name">l10n_br.zip</field>
+    <record id="l10n_br_zip_tree" model="ir.ui.view">
+        <field name="name">l10n_br.zip.tree</field>
         <field name="model">l10n_br.zip</field>
         <field name="arch" type="xml">
             <tree string="CEPs">
                 <button name="zip_select" string="Selecionar" type="object" icon="fa-check text-success"/>
-                <field name="zip_code" select="1"/>
-                <field name="district" select="1"/>
-                <field name="street_type" select="1"/>
-                <field name="street" select="1"/>
-                <field name="zip_complement" select="1"/>
+                <field name="zip_code"/>
+                <field name="district"/>
+                <field name="street_type"/>
+                <field name="street"/>
+                <field name="zip_complement"/>
             </tree>
         </field>
     </record>
 
-    <record id="view_l10n_br_zip_form" model="ir.ui.view">
-        <field name="name">l10n_br.zip</field>
+    <record id="l10n_br_zip_form" model="ir.ui.view">
+        <field name="name">l10n_br.zip.form</field>
         <field name="model">l10n_br.zip</field>
         <field name="arch" type="xml">
             <form string="CEPs">
                 <group>             
-                    <field name="zip_code" select="1"/>
-                    <field name="street_type" select="1"/>
-                    <field name="street" select="1"/>
-                    <field name="zip_complement" select="1"/>
-                    <field name="district" select="2"/>
-                    <field name="country_id" select="2"/>
-                    <field name="state_id" select="2"/>
-                    <field name="city_id" select="2"/>
+                    <field name="zip_code"/>
+                    <field name="street_type"/>
+                    <field name="street"/>
+                    <field name="zip_complement"/>
+                    <field name="district"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="city_id"/>
                 </group>
             </form>
         </field>
     </record>
 
-    <record id="action_l10n_br_zip" model="ir.actions.act_window">
+    <record id="l10n_br_zip_action" model="ir.actions.act_window">
         <field name="name">CEPs</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br.zip</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="view_id" ref="view_l10n_br_zip_tree"/>
+        <field name="view_id" ref="l10n_br_zip_tree"/>
     </record>
-    
-    <!--<menuitem name="CEPs" id="menu_action_l10n_br_base_zip_form" parent="sales_team.menu_localisation" action="action_l10n_br_zip"/> -->
 
 </odoo>
