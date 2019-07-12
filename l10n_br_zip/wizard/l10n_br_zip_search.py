@@ -98,8 +98,8 @@ class L10nBrZipSearch(models.TransientModel):
 
         context = dict(self.env.context)
         context.update({
-           'address_id': data.address_id,
-           'object_name': data.object_name,
+            'address_id': data.address_id,
+            'object_name': data.object_name,
         })
 
         self.write({
