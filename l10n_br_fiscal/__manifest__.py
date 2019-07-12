@@ -22,13 +22,13 @@
         'security/ir.model.access.csv',
 
         # Data
-        'data/fiscal_data.xml',
+        'data/l10n_br_fiscal_data.xml',
         'data/uom_data.xml',
-        'data/fiscal.tax.group.csv',
-        'data/fiscal.document.type.csv',
-        'data/fiscal.product.genre.csv',
+        'data/l10n_br_fiscal.tax.group.csv',
+        'data/l10n_br_fiscal.document.type.csv',
+        'data/l10n_br_fiscal.product.genre.csv',
         'data/partner_profile_data.xml',
-        'data/fiscal_server_action.xml',
+        'data/l10n_br_fiscal_server_action.xml',
         'data/ir_cron.xml',
 
         # Views
@@ -56,8 +56,8 @@
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'views/res_config_settings_view.xml',
-        'views/fiscal_action.xml',
-        'views/fiscal_menu.xml',
+        'views/l10n_br_fiscal_action.xml',
+        'views/l10n_br_fiscal_menu.xml',
 
         # 'data/l10n_br_account_product_sequence.xml',
         # 'data/l10n_br_account_data.xml',

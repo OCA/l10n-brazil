@@ -5,7 +5,7 @@ from odoo import models, fields
 
 
 class SimplifiedTax(models.Model):
-    _name = 'fiscal.simplified.tax'
+    _name = 'l10n_br_fiscal.simplified.tax'
     _description = 'National Simplified Tax'
 
     name = fields.Char(
@@ -13,7 +13,7 @@ class SimplifiedTax(models.Model):
         required=True)
 
     cnae_ids = fields.Many2many(
-        comodel_name='fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         relation='fiscal_simplified_tax_cnae_rel',
         colunm1='company_id',
         colunm2='cnae_id',
@@ -21,7 +21,7 @@ class SimplifiedTax(models.Model):
         string='CNAEs')
 
     simplified_tax_range_ids = fields.One2many(
-        comodel_name='fiscal.simplified.tax.range',
+        comodel_name='l10n_br_fiscal.simplified.tax.range',
         inverse_name='simplified_tax_id',
         string='Simplified Tax Range',
         copy=False)

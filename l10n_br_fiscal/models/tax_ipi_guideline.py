@@ -5,9 +5,9 @@ from odoo import models, fields, api
 
 
 class TaxIpiGuideline(models.Model):
-    _name = 'fiscal.tax.ipi.guideline'
+    _name = 'l10n_br_fiscal.tax.ipi.guideline'
     _description = 'IPI Guidelines'
-    _inherit = 'fiscal.data.abstract'
+    _inherit = 'l10n_br_fiscal.data.abstract'
 
     code = fields.Char(
         size=3)
@@ -22,13 +22,13 @@ class TaxIpiGuideline(models.Model):
         required=True)
 
     cst_in_id = fields.Many2one(
-        comodel_name='fiscal.cst',
+        comodel_name='l10n_br_fiscal.cst',
         domain=[('domain', '=', 'ipi'),
                 ('type', '=', 'in')],
         string=u'CST In')
 
     cst_out_id = fields.Many2one(
-        comodel_name='fiscal.cst',
+        comodel_name='l10n_br_fiscal.cst',
         domain=[('domain', '=', 'ipi'),
                 ('type', '=', 'out')],
         string=u'CST Out')
