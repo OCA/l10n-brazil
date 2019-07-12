@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning, MissingError
 
 MODELS = [
     ('hr.salary.rule', 'Rúbricas Holerite'),
@@ -85,8 +85,11 @@ class AccountEvent(models.Model):
             if record.ref:
                 name += record.ref
 
-            if record.origem and record.origem.name:
-                name += ' - {}'.format(record.origem.name)
+            try:
+                if record.origem and record.origem.name:
+                    name += ' - {}'.format(record.origem.name)
+            except MissingError:
+                name += ' - ORIGEM INVÁLIDO'
 
             record.name = name
 
