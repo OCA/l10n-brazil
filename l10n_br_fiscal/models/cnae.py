@@ -6,8 +6,8 @@ from odoo import models, fields
 
 
 class Cnae(models.Model):
-    _name = 'fiscal.cnae'
-    _inherit = 'fiscal.data.abstract'
+    _name = 'l10n_br_fiscal.cnae'
+    _inherit = 'l10n_br_fiscal.data.abstract'
     _description = 'CNAE'
 
     code = fields.Char(
@@ -19,11 +19,11 @@ class Cnae(models.Model):
         required=True)
 
     parent_id = fields.Many2one(
-        comodel_name='fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         string='Parent CNAE')
 
     child_ids = fields.One2many(
-        comodel_name='fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         inverse_name='parent_id',
         string='Children CNAEs')
 
