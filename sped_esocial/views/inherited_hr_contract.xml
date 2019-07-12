@@ -6,6 +6,7 @@
         <record model="ir.ui.view" id="sped_hr_contract">
             <field name="name">Adiciona e-Social no Contrato</field>
             <field name="model">hr.contract</field>
+            <field name="priority">9999</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
