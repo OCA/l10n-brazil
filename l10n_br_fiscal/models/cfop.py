@@ -12,8 +12,8 @@ from ..constants.fiscal import (
 
 
 class Cfop(models.Model):
-    _name = 'fiscal.cfop'
-    _inherit = 'fiscal.data.abstract'
+    _name = 'l10n_br_fiscal.cfop'
+    _inherit = 'l10n_br_fiscal.data.abstract'
     _description = 'CFOP'
 
     code = fields.Char(
@@ -37,13 +37,13 @@ class Cfop(models.Model):
         help=u'Identifies the operation destination.')
 
     cfop_inverse_id = fields.Many2one(
-        comodel_name='fiscal.cfop',
+        comodel_name='l10n_br_fiscal.cfop',
         string='Inverse CFOP',
         domain="[('destination', '=', destination),"
                "('type_in_out', '!=', type_in_out)]")
 
     cfop_return_id = fields.Many2one(
-        comodel_name='fiscal.cfop',
+        comodel_name='l10n_br_fiscal.cfop',
         string='Return CFOP',
         domain="[('destination', '=', destination),"
                "('type_in_out', '!=', type_in_out),"

@@ -7,7 +7,7 @@ from odoo.osv import expression
 
 
 class DocumentEvent(models.Model):
-    _name = 'fiscal.document.event'
+    _name = 'l10n_br_fiscal.document.event'
 
     type = fields.Selection(
         selection=[('-1', u'Exception'),
