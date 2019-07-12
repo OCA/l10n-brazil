@@ -843,7 +843,7 @@ class AccountInvoice(models.Model):
             account_payments = self.env['account.invoice.payment']
             values = {
                 'payment_term_id':
-                    self.fiscal_category_id.account_payment_term_id,
+                    self.fiscal_category_id.account_payment_term_id.id,
                 'amount': self.amount_total,
             }
             specs = account_payments._onchange_spec()
