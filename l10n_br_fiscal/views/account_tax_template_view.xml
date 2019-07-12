@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_account_product_tax_template_form">
+        <field name="name">l10n_br_account_product.tax.template.form</field>
+        <field name="model">account.tax.template</field>
+        <field name="inherit_id" ref="account.view_account_tax_template_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="domain" invisible="1"/>
+            </field>
+            <notebook position="inside">
+                <page string="ICMS" attrs="{'invisible': [('domain', '!=', 'icms')]}">
+                    <group>
+                        <field name="icms_base_type"/>
+                    </group>
+                </page>
+                <page string="ICMS ST" attrs="{'invisible': [('domain', '!=', 'icmsst')]}">
+                    <group>
+                        <field name="icms_st_base_type"/>
+                    </group>
+                </page>
+                <page string="IPI" attrs="{'invisible': [('domain', '!=', 'ipi')]}">
+                    <group></group>
+                </page>
+                <page string="PIS" attrs="{'invisible': [('domain', '!=', 'pis')]}">
+                    <group></group>
+                </page>
+                <page string="COFINS" attrs="{'invisible': [('domain', '!=', 'cofins')]}">
+                    <group></group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

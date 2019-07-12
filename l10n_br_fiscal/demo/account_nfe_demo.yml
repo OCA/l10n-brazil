@@ -1,0 +1,28 @@
+-
+   Customer NFe
+-
+  !record {model: account.invoice, id: demo_nfe_same_state_yml}:
+    name: TEST l10n_br_account_product
+    partner_id: l10n_br_base.res_partner_akretion
+    user_id: base.user_demo
+    payment_term_id: account.account_payment_term_advance
+    type: 'out_invoice'
+    date_invoice: !eval time.strftime('%Y-%m')+'-01'
+    fiscal_document_id: l10n_br_account_product.fiscal_document_55
+    document_serie_id: l10n_br_account_product.l10n_br_document_serie_1_product
+    fiscal_category_id: l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12
+    fiscal_position_id: l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo
+    invoice_line_ids:
+      - product_id: product.product_product_5
+        name: 'Apesar de ser criado com YAML o mapeamento fiscal
+         falha deixando vazios campos como o CFOP, NCM, CST dos impostos, etc.
+         Até onde vi o campo Categoria Fiscal aparece vazio no metodo
+         _onchange_fiscal durante a instalação do modulo, apesar do campo
+         estar preenchido como pode ser visto, o erro não acontece na
+         tela. Verificar o problema na v12'
+        price_unit: 100.0
+        quantity: 10
+        uom_id: product.product_uom_unit
+        fiscal_category_id: l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12
+        account_id: 1_account_template_3010101010200_avoid_travis_error
+        fiscal_position_id: l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo

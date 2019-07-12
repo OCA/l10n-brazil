@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- NFe Test - Same State -->
+    <record model="account.invoice" id="demo_nfe_same_state">
+        <field name="name">Test Customer Invoice</field>
+        <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+        <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">out_invoice</field>
+        <field name="nfe_version">4.00</field>
+        <field name="user_id" ref="base.user_demo"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_nfe_line_same_state">
+        <field name="invoice_id" ref="demo_nfe_same_state"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="product.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_nfe_line_same_state_2">
+        <field name="invoice_id" ref="demo_nfe_same_state"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="product.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
+    </record>
+
+    <!-- Confirm Invoice -->
+    <!--<function model="account.invoice"
+              name="action_invoice_open"
+              eval="[[ref('l10n_br_account_product_demo_invoice_1_xml')]]"/>-->
+
+    <!-- NFe Test -->
+    <record model="account.invoice" id="demo_nfe_other_costs">
+        <field name="name">Test Customer Invoice</field>
+        <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+        <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente7_rs"/>
+        <field name="type">out_invoice</field>
+        <field name="nfe_version">4.00</field>
+        <field name="user_id" ref="base.user_demo"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_nfe_line_other_costs">
+        <field name="invoice_id" ref="demo_nfe_other_costs"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="product.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
+        <field name="freight_value">100.0</field>
+        <field name="insurance_value">10.0</field>
+        <field name="other_costs_value">10.0</field>
+    </record>
+
+    <!-- NFe Test - DIFAL -->
+    <record model="account.invoice" id="demo_nfe_difal">
+        <field name="name">Test Customer Invoice</field>
+        <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+        <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente10_mg"/>
+        <field name="type">out_invoice</field>
+        <field name="nfe_version">4.00</field>
+        <field name="user_id" ref="base.user_demo"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_nfe_line_difal">
+        <field name="invoice_id" ref="demo_nfe_difal"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="product.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="fiscal_position_id" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
+        <field name="freight_value">100.0</field>
+        <field name="insurance_value">10.0</field>
+        <field name="other_costs_value">10.0</field>
+    </record>
+
+    <!-- NFe Test - EXPORTATION -->
+    <!-- TODO -->
+
+</odoo>
