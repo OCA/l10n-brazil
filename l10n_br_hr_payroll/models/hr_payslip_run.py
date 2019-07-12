@@ -43,7 +43,7 @@ class HrPayslipRun(models.Model):
          'unique(ano, mes_do_ano, tipo_de_folha, company_id)',
          'Este Lote de Holerite já existe!'),
         ('nome',
-         'unique(display_name)',
+         'unique(name)',
          'Este nome de Lote já existe ! ' 
          'Por favor digite outro que não se repita')
     ]
