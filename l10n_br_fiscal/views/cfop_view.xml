@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="cfop_search" model="ir.ui.view">
-        <field name="name">fiscal.cfop.search</field>
-        <field name="model">fiscal.cfop</field>
+        <field name="name">l10n_br_fiscal.cfop.search</field>
+        <field name="model">l10n_br_fiscal.cfop</field>
         <field name="arch" type="xml">
             <search string="CFOP">
                 <filter string="Input" name="type_input" domain="[('type', '=', 'input')]"/>
@@ -21,8 +21,8 @@
     </record>
 
     <record id="cfop_tree" model="ir.ui.view">
-        <field name="name">fiscal.cfop.tree</field>
-        <field name="model">fiscal.cfop</field>
+        <field name="name">l10n_br_fiscal.cfop.tree</field>
+        <field name="model">l10n_br_fiscal.cfop</field>
         <field name="arch" type="xml">
             <tree string="CFOP">
                 <field name="code"/>
@@ -35,8 +35,8 @@
     </record>
 
     <record id="cfop_form" model="ir.ui.view">
-        <field name="name">fiscal.cfop.form</field>
-        <field name="model">fiscal.cfop</field>
+        <field name="name">l10n_br_fiscal.cfop.form</field>
+        <field name="model">l10n_br_fiscal.cfop</field>
         <field name="arch" type="xml">
             <form string="CFOP">
                 <sheet>

@@ -6,7 +6,7 @@ from odoo.osv import expression
 
 
 class DocumentAbstract(models.AbstractModel):
-    _name = 'fiscal.document.abstract'
+    _name = 'l10n_br_fiscal.document.abstract'
     _description = 'Fiscal Document Abstract'
 
     @api.one
@@ -28,11 +28,11 @@ class DocumentAbstract(models.AbstractModel):
         index=True)
 
     document_type_id = fields.Many2one(
-        comodel_name='fiscal.document.type',
+        comodel_name='l10n_br_fiscal.document.type',
         required=True)
 
     document_serie_id = fields.Many2one(
-        comodel_name='fiscal.document.serie',
+        comodel_name='l10n_br_fiscal.document.serie',
         domain="[('active', '=', True),"
                "('document_type_id', '=', document_type_id)]",
         required=True)
@@ -42,7 +42,7 @@ class DocumentAbstract(models.AbstractModel):
         string='Partner')
 
     operation_id = fields.Many2one(
-        comodel_name='fiscal.operation',
+        comodel_name='l10n_br_fiscal.operation',
         string='Partner')
 
     company_id = fields.Many2one(
@@ -50,7 +50,7 @@ class DocumentAbstract(models.AbstractModel):
         string='Company',
         required=True,
         default=lambda self: self.env['res.company']._company_default_get(
-            'fiscal.tax.estimate')))
+            'l10n_br_fiscal.tax.estimate')))
 
     currency_id = fields.Many2one(
         comodel_name='res.currency',

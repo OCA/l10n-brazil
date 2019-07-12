@@ -8,7 +8,7 @@ from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
 class DataAbstract(models.AbstractModel):
-    _name = 'fiscal.data.abstract'
+    _name = 'l10n_br_fiscal.data.abstract'
     _description = 'Fiscal Data Abstract'
     _order = 'code'
 
