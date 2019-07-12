@@ -31,7 +31,7 @@ class ResCompany(models.Model):
     @api.one
     @api.depends('simplifed_tax_id', 'annual_revenue')
     def _compute_simplifed_tax_range(self):
-        range = self.env['fiscal.simplified.tax.range'].search(
+        range = self.env['l10n_br_fiscal.simplified.tax.range'].search(
             [('inital_revenue', '<=', self.annual_revenue),
              ('final_revenue', '>=', self.annual_revenue)],
             limit=1)
@@ -40,7 +40,7 @@ class ResCompany(models.Model):
             self.simplifed_tax_range_id = range.id
 
     cnae_main_id = fields.Many2one(
-        comodel_name='fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         compute='_compute_l10n_br_data',
         inverse='_inverse_cnae_main_id',
         domain="[('internal_type', '=', 'normal'), "
@@ -48,7 +48,7 @@ class ResCompany(models.Model):
         string='Main CNAE')
 
     cnae_secondary_ids = fields.Many2many(
-        comodel_name='fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         relation='res_company_fiscal_cnae_rel',
         colunm1='company_id',
         colunm2='cnae_id',
@@ -70,12 +70,12 @@ class ResCompany(models.Model):
         digits=dp.get_precision('Fiscal Documents'))
 
     simplifed_tax_id = fields.Many2one(
-        comodel_name='fiscal.simplified.tax',
+        comodel_name='l10n_br_fiscal.simplified.tax',
         domain="[('cnae_ids', '=', cnae_main_id)]",
         string='Simplified Tax')
 
     simplifed_tax_range_id = fields.Many2one(
-        comodel_name='fiscal.simplified.tax.range',
+        comodel_name='l10n_br_fiscal.simplified.tax.range',
         domain="[('simplified_tax_id', '=', simplifed_tax_id)]",
         compute='_compute_simplifed_tax_range',
         store=True,
@@ -100,12 +100,12 @@ class ResCompany(models.Model):
         default=15)
 
     certificate_ecnpj_id = fields.Many2one(
-        comodel_name='fiscal.certificate',
+        comodel_name='l10n_br_fiscal.certificate',
         string='E-CNPJ',
         domain="[('type', '=', 'e-cnpj'), ('is_valid', '=', True)]")
 
     certificate_nfe_id = fields.Many2one(
-        comodel_name='fiscal.certificate',
+        comodel_name='l10n_br_fiscal.certificate',
         string='NFe',
         domain="[('type', '=', 'nf-e'), ('is_valid', '=', True)]")
 
@@ -115,7 +115,7 @@ class ResCompany(models.Model):
 
     @api.onchange('cnae_main_id')
     def _onchange_cnae_main_id(self):
-        simplified_tax = self.env['fiscal.simplified.tax'].search(
+        simplified_tax = self.env['l10n_br_fiscal.simplified.tax'].search(
             [('cnae_ids', '=', self.cnae_main_id.id)],
             limit=1)
 

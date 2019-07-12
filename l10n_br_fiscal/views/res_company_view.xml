@@ -2,12 +2,12 @@
 <odoo>
 
     <record id="fiscal_res_company_form" model="ir.ui.view">
-        <field name="name">fiscal.res.company.form</field>
+        <field name="name">l10n_br_fiscal.res.company.form</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
             <notebook>
-                <page name="fiscal" string="Fiscal" groups="fiscal.group_manager">
+                <page name="fiscal" string="Fiscal" groups="l10n_br_fiscal.group_manager">
                     <notebook>
                         <page name="tax_framework" string="Tax Framework">
                             <group string="Tax Framework">
