@@ -1,0 +1,8 @@
+-
+  I check taxes on products
+-
+  !python {model: product.product}: |
+    product_id = ref('product.product_product_8')
+    product = self.browse(product_id)
+    assert len(product.taxes_id) == 3
+    assert len(product.supplier_taxes_id) == 3

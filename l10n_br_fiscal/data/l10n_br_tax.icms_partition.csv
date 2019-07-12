@@ -1,0 +1,5 @@
+id,date_start,date_end,rate
+l10n_br_tax_icms_partition_1,2016-01-01,2016-12-31,40.0
+l10n_br_tax_icms_partition_2,2017-01-01,2017-12-31,60.0
+l10n_br_tax_icms_partition_3,2018-01-01,2018-12-31,80.0
+l10n_br_tax_icms_partition_4,2019-01-01,2019-12-31,100.0

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_br_account_product_view_account_invoice_report_search" model="ir.ui.view">
+            <field name="name">l10n_br_account.invoice.report.search</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+            <field name="arch" type="xml">
+                <filter name="category_product" position="after">
+                    <filter string="CFOP" icon="terp-stock_symbol-selection" name="cfop"
+                            context="{'group_by':'cfop_id'}"/>
+                </filter>
+                <filter name="current" position="attributes">
+                    <attribute name="domain">[('state','not in', ('draft','cancel','proforma','proforma2','sefaz_cancelled','sefaz_exception','sefaz_denied','sefaz_export'))]</attribute>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>

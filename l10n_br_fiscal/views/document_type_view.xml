@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="document_type_tree" model="ir.ui.view">
+        <field name="name">fiscal.document.type.tree</field>
+        <field name="model">fiscal.document.type</field>
+        <field name="arch" type="xml">
+            <tree string="Fiscal Document Type">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="electronic"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_type_form" model="ir.ui.view">
+        <field name="name">fiscal.document.type.form</field>
+        <field name="model">fiscal.document.type</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Document Type">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="electronic"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
