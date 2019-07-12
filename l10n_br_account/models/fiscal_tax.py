@@ -5,7 +5,7 @@ from odoo import models, api
 
 
 class FiscalTax(models.Model):
-    _inherit = 'fiscal.tax'
+    _inherit = 'l10n_br_fiscal.tax'
 
     @api.model
     def create(self, values):
