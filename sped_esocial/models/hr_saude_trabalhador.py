@@ -56,13 +56,6 @@ class HrSaudeTrabalhador(models.Model):
     _name = 'hr.saude.trabalhador'
     _description = u'Monitoramento Saúde do Trabalhador'
     _order = 'contract_id'
-    _sql_constraints = [
-        ('inicio_condicao_contract_id',
-         'unique(inicio_condicao, contract_id)',
-         'Este contrato já possiu um relatório de '
-         'Condições Ambientais de Trabalho com esta data de início!'
-         )
-    ]
 
     state = fields.Selection(
         string='Situação',
@@ -175,10 +168,6 @@ class HrSaudeTrabalhador(models.Model):
         selection=UF,
         help=u'Nome layout: ufCRM - Tamanho: Até 2 Caracteres - Preencher '
              u'com a sigla da UF de expedição do CRM.',
-    )
-    sped_intermediario_id = fields.Many2one(
-        string='Intermediário do e-Social',
-        comodel_name='sped.hr.saude.trabalhador',
     )
     sped_intermediario_id = fields.Many2one(
         string='Intermediário do e-Social',
