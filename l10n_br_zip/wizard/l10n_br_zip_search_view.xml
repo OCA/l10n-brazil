@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_l10n_br_zip_search" model="ir.ui.view">
+    <record id="l10n_br_zip_search_form" model="ir.ui.view">
         <field name="name">Pesquisar CEP</field>
         <field name="model">l10n_br.zip.search</field>
         <field name="arch" type="xml">
             <form string="Pesquisar CEP">
                 <group colspan="8" col="8" states="init">
-                    <field colspan="8" name="zip" />
-                    <field colspan="8" name="street" />
-                    <field colspan="4" name="district" />
-                    <field colspan="4" name="country_id" required="True" />
-                    <field colspan="4" name="state_id" required="True" />
-                    <field colspan="4" name="city_id" required="True" />
+                    <field colspan="8" name="zip"/>
+                    <field colspan="8" name="street"/>
+                    <field colspan="4" name="district"/>
+                    <field colspan="4" name="country_id" required="True"/>
+                    <field colspan="4" name="state_id" required="True"/>
+                    <field colspan="4" name="city_id" required="True"/>
                     <field colspan="4" name="state" invisible="1"/>
                 </group>
                 <group colspan="8" col="8" states="done">
@@ -30,7 +30,7 @@
         </field>
     </record>
 
-    <record id="action_l10n_br_zip_search" model="ir.actions.act_window">
+    <record id="l10n_br_zip_search_action" model="ir.actions.act_window">
         <field name="name">Pesquisar CEP</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br.zip.search</field>
