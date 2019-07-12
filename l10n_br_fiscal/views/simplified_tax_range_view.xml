@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="simplified_tax_range_tree" model="ir.ui.view">
-        <field name="name">fiscal.simplified.tax.range.tree</field>
-        <field name="model">fiscal.simplified.tax.range</field>
+        <field name="name">l10n_br_fiscal.simplified.tax.range.tree</field>
+        <field name="model">l10n_br_fiscal.simplified.tax.range</field>
         <field name="arch" type="xml">
             <tree string="Simplified Tax">
                 <field name="name"/>

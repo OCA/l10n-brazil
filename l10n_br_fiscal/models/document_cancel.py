@@ -7,7 +7,7 @@ from odoo.osv import expression
 
 
 class DocumentCorrection(models.Model):
-    _name = 'fiscal.document.correction'
+    _name = 'l10n_br_fiscal.document.correction'
     _description = 'Carta de Correção no Sefaz'
 
     motivo = fields.Text(
