@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Supplier NFe -->
+    <!-- Test Supplier Same State -->
+    <record model="account.invoice" id="demo_nfe_supplier_same_state">
+        <field name="name">Test Customer Invoice</field>
+        <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+        <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">in_invoice</field>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="issuer">1</field>
+        <field name="fiscal_number">2001</field>
+        <field name="vendor_serie">1</field>
+    </record>
+
+    <record model="account.invoice.line" id="demo_nfe_supplier_line_same_state">
+        <field name="invoice_id" ref="demo_nfe_supplier_same_state"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="product.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        <field name="account_id" ref="1_account_template_3010103010000_avoid_travis_error"/>
+    </record>
+
+</odoo>
