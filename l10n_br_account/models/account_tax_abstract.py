@@ -10,20 +10,20 @@ class AccountTaxAbstract(models.AbstractModel):
     _description = 'Account Tax Fiscal Abstract'
 
     fiscal_tax_id = fields.Many2one(
-        comodel_name='fiscal.tax',
+        comodel_name='l10n_br_fiscal.tax',
         string='Fiscal Tax')
 
     fiscal_tax_id = fields.Many2one(
-        comodel_name='fiscal.tax',
+        comodel_name='l10n_br_fiscal.tax',
         string='Fiscal Tax')
 
     fiscal_cst_in_id = fields.Many2one(
-        comodel_name='fiscal.cst',
+        comodel_name='l10n_br_fiscal.cst',
         related='fiscal_tax_id.cst_in_id',
         string='CST Input')
 
     fiscal_cst_out_id = fields.Many2one(
-        comodel_name='fiscal.cst',
+        comodel_name='l10n_br_fiscal.cst',
         related='fiscal_tax_id.cst_out_id',
         string='CST Output')
 
