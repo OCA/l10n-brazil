@@ -135,17 +135,7 @@ class L10nBrZip(models.Model):
         # More than one ZIP was found
         elif len(zip_ids) > 1:
 
-            return self.create_wizard(
-                obj._name,
-                obj.id,
-                country_id=obj.country_id.id,
-                state_id=obj.state_id.id,
-                city_id=obj.city_id.id,
-                district=obj.district,
-                street=obj.street,
-                zip_code=obj.zip,
-                zip_ids=[zip.id for zip in zip_ids],
-            )
+            return self.create_wizard(obj, zip_ids)
 
         # Address not found in local DB, search by PyCEP-Correios
         elif not zip_ids and obj.zip:
@@ -190,35 +180,30 @@ class L10nBrZip(models.Model):
                 obj.write(result)
                 return True
 
-    def create_wizard(self, object_name, address_id, country_id=False,
-                      state_id=False, city_id=False,
-                      district=False, street=False, zip_code=False,
-                      zip_ids=False):
-        context = dict(self.env.context)
-        context.update({
-            'zip': zip_code,
-            'street': street,
-            'district': district,
-            'country_id': country_id,
-            'state_id': state_id,
-            'city_id': city_id,
-            'zip_ids': zip_ids,
-            'address_id': address_id,
-            'object_name': object_name})
+    def create_wizard(self, obj, zips):
+        wizard = self.env['l10n_br.zip.search'].create({
+            'zip': obj.zip,
+            'street': obj.street,
+            'district': obj.district,
+            'country_id': obj.country_id.id,
+            'state_id': obj.state_id.id,
+            'city_id': obj.city_id.id,
+            'zip_ids': [[6, 0, [zip.id for zip in zips]]],
+            'address_id': obj.id,
+            'object_name': obj._name
+        })
 
-        result = {
+        return {
             'name': 'Zip Search',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'l10n_br.zip.search',
             'view_id': False,
-            'context': context,
             'type': 'ir.actions.act_window',
             'target': 'new',
             'nodestroy': True,
+            'res_id': wizard.id,
         }
-
-        return result
 
     @api.one
     def zip_select(self):
