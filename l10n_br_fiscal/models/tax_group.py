@@ -7,7 +7,7 @@ from ..constants.fiscal import TAX_DOMAIN
 
 
 class TaxGroup(models.Model):
-    _name = 'fiscal.tax.group'
+    _name = 'l10n_br_fiscal.tax.group'
     _order = 'name, tax_domain'
     _description = 'Tax Group'
 
