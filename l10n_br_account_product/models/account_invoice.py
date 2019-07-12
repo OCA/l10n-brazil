@@ -729,6 +729,11 @@ class AccountInvoice(models.Model):
             return result
 
     @api.multi
+    def fill_payment_number(self, payment_lines):
+        for item, payment in enumerate(payment_lines):
+            payment.number = str(item + 1).zfill(3)
+
+    @api.multi
     def action_number(self):
         # TODO: not correct fix but required a fresh values before reading it.
         self.write({})
@@ -800,8 +805,9 @@ class AccountInvoice(models.Model):
                                 _(u'Resta realizar o pagamento de %0.2f' % invoice.amount_change)
                             )
                     else:
-                        for item, payment in enumerate(invoice.account_payment_line_ids):
-                            payment.number = str(item + 1).zfill(3)
+                        self.fill_payment_number(invoice.account_payment_line_ids)
+            else:
+                self.fill_payment_number(invoice.account_payment_line_ids)
 
         return True
 
