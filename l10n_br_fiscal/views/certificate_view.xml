@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="certificate_search" model="ir.ui.view">
-        <field name="name">fiscal.certificate.search</field>
-        <field name="model">fiscal.certificate</field>
+        <field name="name">l10n_br_fiscal.certificate.search</field>
+        <field name="model">l10n_br_fiscal.certificate</field>
         <field name="arch" type="xml">
             <search string="Certificate">
                 <field name="name"/>
@@ -12,8 +12,8 @@
     </record>
 
     <record id="certificate_tree" model="ir.ui.view">
-        <field name="name">fiscal.certificate.tree</field>
-        <field name="model">fiscal.certificate</field>
+        <field name="name">l10n_br_fiscal.certificate.tree</field>
+        <field name="model">l10n_br_fiscal.certificate</field>
         <field name="arch" type="xml">
             <tree string="Certificate">
                 <field name="name"/>
@@ -23,8 +23,8 @@
     </record>
 
     <record id="certificate_form" model="ir.ui.view">
-        <field name="name">fiscal.certificate.form</field>
-        <field name="model">fiscal.certificate</field>
+        <field name="name">l10n_br_fiscal.certificate.form</field>
+        <field name="model">l10n_br_fiscal.certificate</field>
         <field name="arch" type="xml">
             <form string="Certificate">
                 <sheet>

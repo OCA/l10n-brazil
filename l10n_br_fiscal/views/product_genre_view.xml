@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="product_genre_search" model="ir.ui.view">
-        <field name="name">fiscal.product.genre.search</field>
-        <field name="model">fiscal.product.genre</field>
+        <field name="name">l10n_br_fiscal.product.genre.search</field>
+        <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
             <search string="Product Genre">
                 <field name="code"/>
@@ -13,8 +13,8 @@
     </record>
 
     <record id="product_genre_tree" model="ir.ui.view">
-        <field name="name">fiscal.product.genre.tree</field>
-        <field name="model">fiscal.product.genre</field>
+        <field name="name">l10n_br_fiscal.product.genre.tree</field>
+        <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
             <tree string="Product Genre">
               <field name="code"/>
@@ -24,8 +24,8 @@
     </record>
 
     <record id="product_genre_form" model="ir.ui.view">
-        <field name="name">fiscal.product.genre.form</field>
-        <field name="model">fiscal.product.genre</field>
+        <field name="name">l10n_br_fiscal.product.genre.form</field>
+        <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
             <form string="Product Genre">
                 <div class="oe_button_box" name="button_box">

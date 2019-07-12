@@ -8,9 +8,9 @@ from ..constants.fiscal import FISCAL_IN_OUT, FISCAL_IN_OUT_DEFAULT
 
 
 class DocumentSerie(models.Model):
-    _name = 'fiscal.document.serie'
+    _name = 'l10n_br_fiscal.document.serie'
     _description = 'Fiscal Document Serie'
-    _inherit = 'fiscal.data.abstract'
+    _inherit = 'l10n_br_fiscal.data.abstract'
 
     code = fields.Char(
         size=3)
@@ -29,7 +29,7 @@ class DocumentSerie(models.Model):
         default=FISCAL_IN_OUT_DEFAULT)
 
     fiscal_document_id = fields.Many2one(
-        comodel_name='fiscal.document.type',
+        comodel_name='l10n_br_fiscal.document.type',
         string='Fiscal Document',
         required=True)
 
@@ -38,7 +38,7 @@ class DocumentSerie(models.Model):
         string='Company',
         required=True,
         default=lambda self: self.env['res.company']._company_default_get(
-                'fiscal.document.serie'))
+                'l10n_br_fiscal.document.serie'))
 
     internal_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',

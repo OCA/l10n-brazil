@@ -30,17 +30,17 @@ class ProductTemplate(models.Model):
         default='0')
 
     ncm_id = fields.Many2one(
-        comodel_name='fiscal.ncm',
+        comodel_name='l10n_br_fiscal.ncm',
         index=True,
         default=_get_default_ncm_id,
         string='NCM')
 
     fiscal_genre_id = fields.Many2one(
-        comodel_name='fiscal.product.genre',
+        comodel_name='l10n_br_fiscal.product.genre',
         string='Fiscal Genre')
 
     service_type_id = fields.Many2one(
-        comodel_name='fiscal.service.type',
+        comodel_name='l10n_br_fiscal.service.type',
         string='Service Type',
         domain="[('internal_type', '=', 'normal')]")
 
@@ -50,12 +50,12 @@ class ProductTemplate(models.Model):
         string='Fiscal Genre Code')
 
     nbs_id = fields.Many2one(
-        comodel_name='fiscal.nbs',
+        comodel_name='l10n_br_fiscal.nbs',
         index=True,
         string='NBS')
 
     cest_id = fields.Many2one(
-        comodel_name='fiscal.cest',
+        comodel_name='l10n_br_fiscal.cest',
         index=True,
         string='CEST',
         domain="[('ncm_ids', '=', ncm_id)]")
@@ -72,9 +72,9 @@ class ProductTemplate(models.Model):
     def _onchange_ncm_id(self):
         for r in self:
             if r.ncm_id:
-                r.fiscal_genre_id = self.env['fiscal.product.genre'].search(
+                r.fiscal_genre_id = self.env['l10n_br_fiscal.product.genre'].search(
                     [('code', '=', r.ncm_id.code[0:2])])
 
             if r.fiscal_genre_id.code == PRODUCT_FISCAL_TYPE_SERVICE:
-                r.ncm_id = self.env['fiscal.ncm'].search(
+                r.ncm_id = self.env['l10n_br_fiscal.ncm'].search(
                     [('code', '=', NCM_FOR_SERVICE)])

@@ -11,18 +11,18 @@ from ..constants.fiscal import (
 
 
 class OperationLine(models.Model):
-    _name = 'fiscal.operation.line'
+    _name = 'l10n_br_fiscal.operation.line'
     _description = 'Fiscal Operation Line'
     _inherit = ['mail.thread']
 
     operation_id = fields.Many2one(
-        comodel_name='fiscal.operation',
+        comodel_name='l10n_br_fiscal.operation',
         string='Operation',
         required=True,
         copy=False)
 
     cfop_id = fields.Many2one(
-        comodel_name='fiscal.cfop',
+        comodel_name='l10n_br_fiscal.cfop',
         string='CFOP')
 
     cfop_destination = fields.Selection(
@@ -43,16 +43,16 @@ class OperationLine(models.Model):
         comodel_name='res.company',
         string='Company',
         default=lambda self: self.env['res.company']._company_default_get(
-            'fiscal.operation.line'))
+            'l10n_br_fiscal.operation.line'))
 
     line_inverse_id = fields.Many2one(
-        comodel_name='fiscal.operation.line',
+        comodel_name='l10n_br_fiscal.operation.line',
         string='Operation Line Inverse',
         domain="[('cfop_destination', '=', cfop_destination),('type', '!=', type)]",
         copy=False)
 
     line_refund_id = fields.Many2one(
-        comodel_name='fiscal.operation.line',
+        comodel_name='l10n_br_fiscal.operation.line',
         string='Operation Line Refund',
         domain="[('cfop_destination', '=', cfop_destination),"
                "('type', '!=', type)]",
