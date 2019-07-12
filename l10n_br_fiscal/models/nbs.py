@@ -16,14 +16,16 @@ _logger = logging.getLogger(__name__)
 
 
 class Nbs(models.Model):
-    _name = 'fiscal.nbs'
-    _inherit = ['fiscal.data.abstract', 'mail.thread', 'mail.activity.mixin']
+    _name = 'l10n_br_fiscal.nbs'
+    _inherit = ['l10n_br_fiscal.data.abstract',
+                'mail.thread',
+                'mail.activity.mixin']
     _description = 'NBS'
 
     @api.one
     @api.depends('tax_estimate_ids')
     def _compute_amount(self):
-        last_estimated = self.env['fiscal.tax.estimate'].search(
+        last_estimated = self.env['l10n_br_fiscal.tax.estimate'].search(
             [('nbs_id', '=', self.id),
              ('company_id', '=', self.env.user.company_id.id)],
             order='create_date DESC',
@@ -43,7 +45,7 @@ class Nbs(models.Model):
          size=10)
 
     tax_estimate_ids = fields.One2many(
-        comodel_name='fiscal.tax.estimate',
+        comodel_name='l10n_br_fiscal.tax.estimate',
         inverse_name='nbs_id',
         string=u'Estimate Taxes',
         readonly=True)
@@ -110,7 +112,7 @@ class Nbs(models.Model):
                     'federal_taxes_national': result.nacional,
                     'federal_taxes_import': result.importado}
 
-                self.env['fiscal.tax.estimate'].create(values)
+                self.env['l10n_br_fiscal.tax.estimate'].create(values)
 
                 nbs.message_post(
                     body=_('NBS Tax Estimate Updated'),
@@ -131,7 +133,7 @@ class Nbs(models.Model):
         today = fields.date.today()
         data_max = today - timedelta(days=config_date)
 
-        all_nbs = self.env['fiscal.nbs'].search([])
+        all_nbs = self.env['l10n_br_fiscal.nbs'].search([])
 
         not_estimated = all_nbs.filtered(
             lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids)
@@ -142,7 +144,7 @@ class Nbs(models.Model):
             "       nbs_id, "
             "       max(create_date) "
             "   FROM  "
-            "       fiscal_tax_estimate "
+            "       l10n_br_fiscal_tax_estimate "
             "   GROUP BY "
             "       nbs_id"
             ") SELECT nbs_id "
@@ -158,7 +160,7 @@ class Nbs(models.Model):
 
         ids = [estimate[0] for estimate in past_estimated]
 
-        nbs_past_estimated = self.env['fiscal.nbs'].browse(ids)
+        nbs_past_estimated = self.env['l10n_br_fiscal.nbs'].browse(ids)
 
         for nbs in not_estimated + nbs_past_estimated:
             try:
