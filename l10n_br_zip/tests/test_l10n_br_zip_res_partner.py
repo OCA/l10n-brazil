@@ -25,13 +25,26 @@ class L10nBRZipTest(TransactionCase):
         self.res_partner_1 = self.env['res.partner'].create(dict(
             name='teste',
             street='paulista',
+            district='Bela Vista',
             country_id=self.env.ref('base.br').id,
             state_id=self.env.ref('base.state_br_sp').id,
             city_id=self.env.ref('l10n_br_base.city_3550308').id,
         ))
 
+    def test_error_without_all_required_fields(self):
+        """Test error object without all required fields in res.partner."""
+
+        self.res_partner_1.street = False
+        try:
+            result = self.res_partner_1.zip_search()
+        except:
+            result = False
+        self.assertFalse(
+            result, "Error to search by address without all required fields.")
+
     def test_search_zip_code_company(self):
         """Test search zip code in res_partner."""
+
         self.res_partner.zip = '01310923'
         self.res_partner.zip_search()
         self.assertEquals(
@@ -46,6 +59,16 @@ class L10nBRZipTest(TransactionCase):
 
     def test_search_zip_code_by_other_fields_company(self):
         """Test search by address in res_partner."""
+
+        self.res_partner_1.street = False
+        try:
+            result = self.res_partner_1.zip_search()
+        except:
+            result = False
+        self.assertFalse(
+            result, "Error to search by address without all required fields.")
+
+        self.res_partner_1.street = 'paulista'
         self.res_partner_1.zip_search()
         self.assertEquals(
             self.res_partner_1.zip, '01310-923',
@@ -54,6 +77,7 @@ class L10nBRZipTest(TransactionCase):
 
     def test_return_two_results_zip_search(self):
         """Test search by address return more the one result in res_partner."""
+
         self.zip_2 = self.zip_obj.create(dict(
             zip_code='01310940',
             city_id=self.env.ref('l10n_br_base.city_3550308').id,
@@ -94,12 +118,11 @@ class L10nBRZipTest(TransactionCase):
 
         # Test button/method 'Zip Select'
 
-        #  This code doesn't work
-        #  obj_zip_search.zip_ids.zip_select() .
+        #  This code obj_zip_search.zip_ids.zip_select() doesn't work.
         #  In the tests context return empty, by this reason method
         #  zip_select don't receive fields address_id and object_name, what
         #  makes tests failed without with_context parameter. This problem
-        #  only happing in the tests on screen it's work.
+        #  only happening in the tests on screen doesn't.
 
         obj_zip_search.zip_ids.with_context(result.get('context')).zip_select()
 
@@ -110,8 +133,20 @@ class L10nBRZipTest(TransactionCase):
             self.res_partner_1.street, 'Avenida Avenida Paulista 900',
             'It should return the correct street, failed method zip_select.')
 
+    def test_error_pycep_correios(self):
+        """Test error with PyCEP CORREIOS ."""
+
+        self.res_partner.zip = '00000000'
+        try:
+            result = self.res_partner.zip_search()
+        except:
+            result = False
+        self.assertFalse(
+            result, "Error to search by invalid ZIP on PyCEP-Correios.")
+
     def test_return_pycep_correios(self):
         """Test search with PyCEP CORREIOS in res_partner."""
+
         self.res_partner.zip = '01310930'
         self.res_partner.zip_search()
         self.assertEquals(
