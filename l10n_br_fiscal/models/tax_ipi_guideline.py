@@ -24,11 +24,11 @@ class TaxIpiGuideline(models.Model):
     cst_in_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cst',
         domain=[('domain', '=', 'ipi'),
-                ('type', '=', 'in')],
+                ('cst_type', '=', 'in')],
         string=u'CST In')
 
     cst_out_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cst',
         domain=[('domain', '=', 'ipi'),
-                ('type', '=', 'out')],
+                ('cst_type', '=', 'out')],
         string=u'CST Out')
