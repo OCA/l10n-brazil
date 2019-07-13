@@ -2,447 +2,447 @@
 <odoo>
 
 		<record id="l10n_br.tax_template_out_ipi" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_nt"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_nt"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ipi2" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_2"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_2"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi3" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_3"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_3"/>
     </record>
 
 		<record id="l10n_br.tax_template_out_ipi4" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_4"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_4"/>
     </record>
 
 		<record id="l10n_br.tax_template_out_ipi5" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_5"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_5"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ipi6" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_6"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_6"/>
     </record>
 
 		<record id="l10n_br.tax_template_out_ipi7" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_7"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_7"/>
     </record>
 
 		<record id="l10n_br.tax_template_out_ipi8" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_8"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_8"/>
     </record>
 
 		<record id="l10n_br.tax_template_out_ipi10" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_10"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_10"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi12" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_12"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_12"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi13" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_13"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_13"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi15" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_15"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_15"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi16" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_16"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_16"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi18" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_18"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_18"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi20" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_20"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_20"/>
 		</record>
 
 		<record id="l10n_br.tax_template_out_ipi22" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_22"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_22"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi24" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_24"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_24"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi25" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_25"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_25"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi27" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_27"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_27"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi30" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_30"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_30"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi35" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_35"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_35"/>
 		</record>
 
 		<record id="l10n_br.tax_template_out_ipi40" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_40"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_40"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi42" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_42"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_42"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi45" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_45"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_45"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi50" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_50"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_50"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi60" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_60"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_60"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_ipi300" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_300"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_300"/>
    	</record>
 
    	<record id="l10n_br.tax_template_in_ipi" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_nt"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_nt"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi2" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_2"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_2"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi3" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_3"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_3"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi4" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_4"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_4"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi5" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_5"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_5"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_ipi6" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_6"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_6"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi7" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_7"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_7"/>
     	</record>
 
 		<record id="l10n_br.tax_template_in_ipi8" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_8"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_8"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi10" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_10"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_10"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi12" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_12"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_12"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi13" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_13"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_13"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi15" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_15"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_15"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi16" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_16"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_16"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi18" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_18"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_18"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi20" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_20"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_20"/>
     </record>
 
 		<record id="l10n_br.tax_template_in_ipi22" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_22"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_22"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi24" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_24"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_24"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi25" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_25"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_25"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi27" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_27"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_27"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi30" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_30"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_30"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi35" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_35"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_35"/>
 		</record>
 
 		<record id="l10n_br.tax_template_in_ipi40" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_40"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_40"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi42" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_42"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_42"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi45" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_45"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_45"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi50" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_50"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_50"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi60" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_60"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_60"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_ipi300" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ipi_300"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ipi_300"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_ii" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_0"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_0"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii2" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_2"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_2"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii4" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_4"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_4"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii6" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_6"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_6"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii8" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_8"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_8"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii10" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_10"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_10"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii12" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_12"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_12"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii14" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_14"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_14"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii16" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_16"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_16"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii18" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_18"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_18"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii20" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_20"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_20"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii26" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_26"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_26"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii28" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_28"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_28"/>
     </record>
 
     <record id="l10n_br.tax_template_out_ii35" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_35"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_35"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_0"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_0"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii2" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_2"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_2"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii4" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_4"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_4"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii6" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_6"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_6"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii8" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_8"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_8"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii10" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_10"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_10"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii12" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_12"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_12"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii14" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_14"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_14"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii16" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_16"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_16"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii18" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_18"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_18"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii20" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_20"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_20"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii26" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_26"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_26"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii28" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_28"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_28"/>
     </record>
 
     <record id="l10n_br.tax_template_in_ii35" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_ii_35"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_ii_35"/>
     </record>
 
     <record id="l10n_br.tax_template_out_icmsnt" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_nt"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_nt"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icmsisento" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_isento"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_isento"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icmssuspensao" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_suspensao"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_suspensao"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icmsdiferimento" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_diferimento"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_diferimento"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icmsantst" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_antst"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_antst"/>
     </record>
 
     <record id="l10n_br.tax_template_out_icmsother" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_outras"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_outras"/>
     </record>
 
 		<record id="l10n_br.tax_template_out_icms4" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_4"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_4"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icms7" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_7"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_7"/>
     </record>
 
 		<record id="l10n_br.tax_template_out_icms12" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_12"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_12"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icms17" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_17"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_17"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icms175" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_175"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_175"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_icms18" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_18"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_18"/>
    	</record>
 
     <record id="l10n_br.tax_template_out_icms19" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_19"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_19"/>
    	</record>
 
 		<record id="l10n_br.tax_template_out_icms20" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_20"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_20"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icmsnt" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_nt"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_nt"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icmsisento" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_isento"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_isento"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icmssuspensao" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_suspensao"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_suspensao"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icmsdiferimento" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_diferimento"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_diferimento"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icmsantst" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_antst"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_antst"/>
     </record>
 
     <record id="l10n_br.tax_template_in_icmsother" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_outras"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_outras"/>
     </record>
 
 		<record id="l10n_br.tax_template_in_icms4" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_4"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_4"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icms7" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_7"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_7"/>
     </record>
 
 		<record id="l10n_br.tax_template_in_icms12" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_12"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_12"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icms17" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_17"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_17"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icms175" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_175"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_175"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_icms18" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_18"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_18"/>
    	</record>
 
     <record id="l10n_br.tax_template_in_icms19" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_19"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_19"/>
    	</record>
 
 		<record id="l10n_br.tax_template_in_icms20" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_icms_20"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_icms_20"/>
    	</record>
 
 		<record id="l10n_br.tax_template_simples" model="account.tax.template">
-        <field name="fiscal_tax_id" ref="fiscal.fiscal_tax_simples"/>
+        <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_simples"/>
    	</record>
 
 
