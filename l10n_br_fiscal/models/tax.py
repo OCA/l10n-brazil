@@ -34,26 +34,26 @@ class Tax(models.Model):
         default='0.00',
         required=True)
 
-    fiscal_tax_group_id = fields.Many2one(
+    tax_group_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.tax.group',
         string='Fiscal Tax Group')
 
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
-        related='fiscal_tax_group_id.tax_domain',
+        related='tax_group_id.tax_domain',
         string='Tax Domain',
         required=True)
 
     cst_in_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cst',
         string='CST In',
-        domain="[('type', 'in', ('in', 'all')), "
+        domain="[('cst_type', 'in', ('in', 'all')), "
                "('tax_domain', '=', tax_domain)]")
 
     cst_out_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cst',
         string='CST Out',
-        domain="[('type', 'in', ('out', 'all')), "
+        domain="[('cst_type', 'in', ('out', 'all')), "
                "('tax_domain', '=', tax_domain)]")
 
     icms_base_type = fields.Selection(
