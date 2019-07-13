@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="account.view_account_tax_template_form"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="fiscal_tax_id" groups="fiscal.group_user"/>
+                <field name="fiscal_tax_id" groups="l10n_br_fiscal.group_user"/>
             </field>
             <field name="amount" position="attributes">
                 <attribute name="attrs">{'readonly': [('fiscal_tax_id', '!=', False)]}</attribute>
@@ -17,7 +17,7 @@
                 <attribute name="attrs">{'readonly': [('fiscal_tax_id', '!=', False)]}</attribute>
                 <attribute name="force_save">1</attribute>
             </field>
-            <xpath expr="//notebook[1]" position="inside" groups="fiscal.group_user">
+            <xpath expr="//notebook[1]" position="inside" groups="l10n_br_fiscal.group_user">
                 <page name="brazilian_tax" string="Brazilian Tax" attrs="{'invisible': [('fiscal_tax_id', '=', False)]}">
                     <group name="brazilian_tax">
                         <group name="tax_input" string="Input" attrs="{'invisible': [('fiscal_tax_domain', 'not in', ('ipi', 'icms', 'pis', 'cofins'))]}">

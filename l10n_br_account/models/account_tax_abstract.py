@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
-from odoo.addons.fiscal.constants.fiscal import TAX_DOMAIN
+from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_DOMAIN
 
 
 class AccountTaxAbstract(models.AbstractModel):
