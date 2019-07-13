@@ -1,4 +1,4 @@
-"id","code","name","type","tax_domain"
+"id","code","name","cst_type","tax_domain"
 "cst_icms_00","00","Tributada integralmente","all","icms"
 "cst_icms_10","10","Tributada e com cobrança do ICMS por substituição tributária","all","icms"
 "cst_icms_20","20","Com redução de base de cálculo","all","icms"
