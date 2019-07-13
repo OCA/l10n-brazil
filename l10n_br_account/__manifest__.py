@@ -12,7 +12,7 @@
         'l10n_br',
         'l10n_br_base',
         'account_cancel',
-        'fiscal',
+        'l10n_br_fiscal',
         # 'account_fiscal_position_rule',
     ],
     'data': [
