@@ -23,7 +23,7 @@
             <tree string="CST">
                 <field name="code"/>
                 <field name="name"/>
-                <field name="type"/>
+                <field name="cst_type"/>
                 <field name="tax_domain"/>
             </tree>
         </field>
@@ -38,7 +38,7 @@
                     <group>
                       <field name="code"/>
                       <field name="name"/>
-                      <field name="type"/>
+                      <field name="cst_type"/>
                       <field name="tax_domain"/>
                     </group>
                 </sheet>
