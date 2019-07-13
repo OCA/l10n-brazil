@@ -15,7 +15,7 @@ class Cst(models.Model):
     code = fields.Char(
         size=4)
 
-    type = fields.Selection(
+    cst_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         string='Type',
         required=True)
@@ -26,5 +26,6 @@ class Cst(models.Model):
         required=True)
 
     _sql_constraints = [
-        ('fiscal_cst_code_tax_domain_uniq', 'unique (code, tax_domain)',
+        ('l10n_br_fiscal_cst_code_tax_domain_uniq',
+         'unique (code, tax_domain)',
          'CST already exists with this code !')]
