@@ -14,8 +14,8 @@ class TestIbptProduct(common.TransactionCase):
 
         self.company_model = self.env['res.company']
         self.company = self._create_compay()
-        self.ncm_85030010 = self.env.ref('fiscal.ncm_85030010')
-        self.ncm_85014029 = self.env.ref('fiscal.ncm_85014029')
+        self.ncm_85030010 = self.env.ref('l10n_br_fiscal.ncm_85030010')
+        self.ncm_85014029 = self.env.ref('l10n_br_fiscal.ncm_85014029')
         self.product_tmpl_model = self.env['product.template']
         self.product_tmpl_1 = self._create_product_tmpl(
             name='Product Test 1 - With NCM: 8503.00.10',
@@ -28,9 +28,9 @@ class TestIbptProduct(common.TransactionCase):
         self.product_tmpl_3 = self._create_product_tmpl(
             name='Product Test 3 - With NCM: 8501.40.29',
             ncm=self.ncm_85014029)
-            
-        self.fiscal_tax_estimate_model = self.env['fiscal.tax.estimate']
-        self.fiscal_ncm_model = self.env['fiscal.ncm']
+
+        self.tax_estimate_model = self.env['l10n_br_fiscal.tax.estimate']
+        self.ncm_model = self.env['l10n_br_fiscal.ncm']
 
     def _create_compay(self):
         # Creating a company
@@ -61,7 +61,7 @@ class TestIbptProduct(common.TransactionCase):
         self.ncm_85014029.get_ibpt()
         self.assertTrue(self.ncm_85014029.tax_estimate_ids)
 
-        tax_estimates = self.fiscal_tax_estimate_model.search([
+        tax_estimates = self.tax_estimate_model.search([
             ('ncm_id', 'in', (self.ncm_85030010.id, self.ncm_85014029.id))
         ]).unlink()
 
@@ -72,13 +72,13 @@ class TestIbptProduct(common.TransactionCase):
 
     def test_update_scheduled(self):
         """Check NCM update scheduled"""
-        ncms = self.fiscal_ncm_model.search([
+        ncms = self.ncm_model.search([
             ('id', 'in', (self.ncm_85030010.id, self.ncm_85014029.id))])
         ncms._scheduled_update()
 
         self.assertTrue(self.ncm_85030010.tax_estimate_ids)
         self.assertTrue(self.ncm_85014029.tax_estimate_ids)
 
-        tax_estimates = self.fiscal_tax_estimate_model.search([
+        tax_estimates = self.tax_estimate_model.search([
             ('ncm_id', 'in', (self.ncm_85030010.id, self.ncm_85014029.id))
         ]).unlink()
