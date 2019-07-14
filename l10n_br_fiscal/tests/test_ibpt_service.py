@@ -14,8 +14,8 @@ class TestIbptService(common.TransactionCase):
 
         self.company_model = self.env['res.company']
         self.company = self._create_compay()
-        self.nbs_115069000 = self.env.ref('fiscal.nbs_115069000')
-        self.nbs_124043300 = self.env.ref('fiscal.nbs_124043300')
+        self.nbs_115069000 = self.env.ref('l10n_br_fiscal.nbs_115069000')
+        self.nbs_124043300 = self.env.ref('l10n_br_fiscal.nbs_124043300')
         self.product_tmpl_model = self.env['product.template']
         self.product_tmpl_1 = self._create_product_tmpl(
             name='Service Test 1 - With NBS: 1.1506.90.00',
@@ -29,8 +29,8 @@ class TestIbptService(common.TransactionCase):
             name='Product Test 3 - With NBS: 1.2404.33.00',
             nbs=self.nbs_124043300)
 
-        self.fiscal_tax_estimate_model = self.env['fiscal.tax.estimate']
-        self.fiscal_nbs_model = self.env['fiscal.nbs']
+        self.tax_estimate_model = self.env['l10n_br_fiscal.tax.estimate']
+        self.nbs_model = self.env['l10n_br_fiscal.nbs']
 
     def _create_compay(self):
         # Creating a company
@@ -61,7 +61,7 @@ class TestIbptService(common.TransactionCase):
         self.nbs_124043300.get_ibpt()
         self.assertTrue(self.nbs_124043300.tax_estimate_ids)
 
-        tax_estimates = self.fiscal_tax_estimate_model.search([
+        tax_estimates = self.tax_estimate_model.search([
             ('nbs_id', 'in', (self.nbs_115069000.id, self.nbs_124043300.id))
         ]).unlink()
 
@@ -72,13 +72,13 @@ class TestIbptService(common.TransactionCase):
 
     def test_update_scheduled(self):
         """Check NBS update scheduled"""
-        nbss = self.fiscal_nbs_model.search([
+        nbss = self.nbs_model.search([
             ('id', 'in', (self.nbs_115069000.id, self.nbs_124043300.id))])
         nbss._scheduled_update()
 
         self.assertTrue(self.nbs_115069000.tax_estimate_ids)
         self.assertTrue(self.nbs_124043300.tax_estimate_ids)
 
-        tax_estimates = self.fiscal_tax_estimate_model.search([
+        tax_estimates = self.tax_estimate_model.search([
             ('nbs_id', 'in', (self.nbs_115069000.id, self.nbs_124043300.id))
         ]).unlink()
