@@ -24,13 +24,13 @@
         'views/account_tax_view.xml',
         'views/account_tax_template_view.xml',
 
-        #'security/ir.model.access.csv',
-        #'data/l10n_br_account_data.xml',
-        #'views/account_view.xml',
-        #'views/account_invoice_view.xml',
-        #'views/product_view.xml',
-        #'views/res_company_view.xml',
-        #'report/account_invoice_report_view.xml',
+        # 'security/ir.model.access.csv',
+        # 'data/l10n_br_account_data.xml',
+        # 'views/account_view.xml',
+        # 'views/account_invoice_view.xml',
+        # 'views/product_view.xml',
+        # 'views/res_company_view.xml',
+        # 'report/account_invoice_report_view.xml',
     ],
     'demo': [
         # 'demo/base_demo.xml'
