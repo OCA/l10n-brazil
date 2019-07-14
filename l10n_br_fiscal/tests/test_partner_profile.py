@@ -6,15 +6,14 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-class TestAccountPartnerFiscalType(TransactionCase):
+class TestPartnerFiscalType(TransactionCase):
     def test_create_other_default_type(self):
         default_type = self.env[
-            'l10n_br_account.partner.fiscal.type'].search([(
+            'l10n_br_fiscal.partner.profile'].search([(
                 'default', '=', True)])
         assert default_type, 'The data of Partner Fiscal Type is not load.'
         with self.assertRaises(ValidationError):
-            self.env['l10n_br_account.partner.fiscal.type'].create(dict(
-                code='TESTE',
-                default=True,
-                is_company=True,
-            ))
+            self.env['l10n_br_fiscal.partner.profile'].create({
+                'code': 'TESTE',
+                'default': True,
+                'is_company': True})
