@@ -3,7 +3,7 @@
 
     <record id="l10n_br_simple_chart_template" model="account.chart.template">
         <field name="property_account_receivable_id" ref="account_template_11201"/>
-        <field name="property_account_payable_id" ref="account_template_21101" />
+        <field name="property_account_payable_id" ref="account_template_21101"/>
         <field name="property_account_expense_categ_id" ref="account_template_32103"/>
         <field name="property_account_income_categ_id" ref="account_template_31101"/>
         <field name="income_currency_exchange_account_id" ref="account_template_32302"/>
@@ -14,6 +14,7 @@
         <field name="name">IPI</field>
         <field name="applicability">taxes</field>
     </record>
+
 
     <record id="tax_tag_icms" model="account.account.tag">
         <field name="name">ICMS</field>
@@ -32,11 +33,6 @@
 
     <record id="tax_tag_cofins" model="account.account.tag">
         <field name="name">COFINS</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_simples" model="account.account.tag">
-        <field name="name">Simples Nacional</field>
         <field name="applicability">taxes</field>
     </record>
 
