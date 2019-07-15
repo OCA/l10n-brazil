@@ -38,7 +38,7 @@ class DocumentSerie(models.Model):
         string='Company',
         required=True,
         default=lambda self: self.env['res.company']._company_default_get(
-                'l10n_br_fiscal.document.serie'))
+            'l10n_br_fiscal.document.serie'))
 
     internal_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',

@@ -1,8 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo import models, fields, api
 
 from ..constants.fiscal import (
     CERTIFICATE_TYPE,
@@ -66,23 +65,20 @@ class Certificate(models.Model):
     @api.multi
     @api.constrains('file', 'password')
     def _check_certificate(self):
-        for record in self:
-            domain = []
-
-            if not record.file and not record.password:
+        for c in self:
+            if not c.file and not c.password:
                 return
-
-            try:
-                cert = certificate.check_password(certificate.file,
-                                                  certificate.password)
-            except:
-                raise ValidationError(_('Cannot load Certificate !'))
+            # try:
+            #     Certificate.check_password(c.file,
+            #                                       c.password)
+            # except:
+            #     raise ValidationError(_('Cannot load Certificate !'))
 
     @api.depends('type', 'subtype', 'owner_name',
                  'owner_cnpj_cpf', 'date_expiration', 'file')
     def _compute_description(self):
         for c in self:
-            description = "{0} - {1} - {2} - Valid: {3}".format(
+            c.description = "{0} - {1} - {2} - Valid: {3}".format(
                 c.type and c.type.upper() or '',
                 c.subtype and c.subtype.upper() or '',
                 # TODO Format CNPJ/CPF
@@ -100,7 +96,7 @@ class Certificate(models.Model):
 
     @api.onchange('file', 'password')
     def _onchange_file(self):
-        #TODO - Get data from Certificate
+        # TODO - Get data from Certificate
         # for record in self:
         #     record._check_certificate()
         #     cert = certificate.get_info(record.file,
