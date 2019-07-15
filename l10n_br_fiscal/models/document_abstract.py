@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
-from odoo.osv import expression
 
 
 class DocumentAbstract(models.AbstractModel):
@@ -12,8 +11,8 @@ class DocumentAbstract(models.AbstractModel):
     @api.one
     @api.depends('line_ids')
     def _compute_amount(self):
-        round_curr = self.currency_id.round
-        self.amount_untaxed = sum(line.price_subtotal for line in self.line_ids)
+        self.amount_untaxed = sum(line.price_subtotal
+                                  for line in self.line_ids)
         self.amount_tax = sum(line.price_subtotal for line in self.line_ids)
         self.amount_total = sum(line.price_subtotal for line in self.line_ids)
 
@@ -50,7 +49,7 @@ class DocumentAbstract(models.AbstractModel):
         string='Company',
         required=True,
         default=lambda self: self.env['res.company']._company_default_get(
-            'l10n_br_fiscal.tax.estimate')))
+            'l10n_br_fiscal.tax.estimate'))
 
     currency_id = fields.Many2one(
         comodel_name='res.currency',
