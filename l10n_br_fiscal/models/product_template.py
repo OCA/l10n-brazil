@@ -72,9 +72,9 @@ class ProductTemplate(models.Model):
     def _onchange_ncm_id(self):
         for r in self:
             if r.ncm_id:
-                r.fiscal_genre_id = self.env['l10n_br_fiscal.product.genre'].search(
-                    [('code', '=', r.ncm_id.code[0:2])])
+                r.fiscal_genre_id = self.env[
+                    'l10n_br_fiscal.product.genre'].search(
+                        [('code', '=', r.ncm_id.code[0:2])])
 
             if r.fiscal_genre_id.code == PRODUCT_FISCAL_TYPE_SERVICE:
-                r.ncm_id = self.env['l10n_br_fiscal.ncm'].search(
-                    [('code', '=', NCM_FOR_SERVICE)])
+                r.ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)

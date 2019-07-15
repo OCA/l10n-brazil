@@ -1,10 +1,7 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from dateutil.relativedelta import relativedelta
-
 from odoo.tests import common
-from odoo import fields
 
 
 class TestIbptProduct(common.TransactionCase):
@@ -61,7 +58,7 @@ class TestIbptProduct(common.TransactionCase):
         self.ncm_85014029.get_ibpt()
         self.assertTrue(self.ncm_85014029.tax_estimate_ids)
 
-        tax_estimates = self.tax_estimate_model.search([
+        self.tax_estimate_model.search([
             ('ncm_id', 'in', (self.ncm_85030010.id, self.ncm_85014029.id))
         ]).unlink()
 
@@ -79,6 +76,6 @@ class TestIbptProduct(common.TransactionCase):
         self.assertTrue(self.ncm_85030010.tax_estimate_ids)
         self.assertTrue(self.ncm_85014029.tax_estimate_ids)
 
-        tax_estimates = self.tax_estimate_model.search([
+        self.tax_estimate_model.search([
             ('ncm_id', 'in', (self.ncm_85030010.id, self.ncm_85014029.id))
         ]).unlink()

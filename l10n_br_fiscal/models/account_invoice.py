@@ -578,8 +578,8 @@ class AccountInvoice(models.Model):
 
             invoices = self.env['account.invoice'].search(domain)
             if len(invoices) > 1:
-                raise UserError(u'Não é possível registrar documentos\
-                              fiscais com números repetidos.')
+                raise UserError(_('Não é possível registrar documentos'
+                                  ' fiscais com números repetidos.'))
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',

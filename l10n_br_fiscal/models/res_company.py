@@ -31,13 +31,13 @@ class ResCompany(models.Model):
     @api.one
     @api.depends('simplifed_tax_id', 'annual_revenue')
     def _compute_simplifed_tax_range(self):
-        range = self.env['l10n_br_fiscal.simplified.tax.range'].search(
+        tax_range = self.env['l10n_br_fiscal.simplified.tax.range'].search(
             [('inital_revenue', '<=', self.annual_revenue),
              ('final_revenue', '>=', self.annual_revenue)],
             limit=1)
 
-        if range:
-            self.simplifed_tax_range_id = range.id
+        if tax_range:
+            self.simplifed_tax_range_id = tax_range.id
 
     cnae_main_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cnae',
@@ -121,93 +121,3 @@ class ResCompany(models.Model):
 
         if simplified_tax:
             self.simplifed_tax_id = simplified_tax.id
-
-"""
-    @api.one
-    @api.depends('product_tax_definition_line.tax_id')
-    def _compute_taxes(self):
-        product_taxes = self.env['account.tax']
-        for tax in self.product_tax_definition_line:
-            product_taxes += tax.tax_id
-        self.product_tax_ids = product_taxes
-
-    product_invoice_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.document',
-        string=u'Documento Fiscal')
-
-    document_serie_product_ids = fields.Many2many(
-        comodel_name='l10n_br_account.document.serie',
-        relation='res_company_l10n_br_account_document_serie',
-        column1='company_id',
-        column2='document_serie_product_id',
-        string=u'Série de Documentos Fiscais',
-        domain="[('company_id', '=', active_id),('active','=',True),"
-               "('fiscal_type','=','product')]")
-
-    product_tax_definition_line = fields.One2many(
-        comodel_name='l10n_br_tax.definition.company.product',
-        inverse_name='company_id',
-        string=u'Taxes Definitions')
-
-    product_tax_ids = fields.Many2many(
-        comodel_name='account.tax',
-        string=u'Product Taxes',
-        compute='_compute_taxes',
-        store=True)
-
-    in_invoice_fiscal_category_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.category',
-        string=u'Categoria Fiscal de Produto Padrão de Entrada',
-        domain="[('journal_type','=','purchase'),"
-               " ('state', '=', 'approved'), ('fiscal_type','=','product'),"
-               " ('type','=','input')]")
-
-    out_invoice_fiscal_category_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.category',
-        string=u'Categoria Fiscal de Produto Padrão de Saida',
-        domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
-               " ('fiscal_type','=','product'), ('type','=','output')]")
-
-    in_refund_fiscal_category_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.category',
-        string=u'Devolução Entrada',
-        domain="[('journal_type','=','purchase_refund'),"
-               "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-               "('type','=','output')]")
-
-    out_refund_fiscal_category_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.category',
-        string=u'Devolução Saida',
-        domain="[('journal_type','=','sale_refund'),"
-               "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-               " ('type','=','input')]")
-
-    freight_tax_id = fields.Many2one(
-        comodel_name='account.tax',
-        string=u'Freight Sale Tax',
-        domain=[('domain', '=', 'freight')])
-
-    insurance_tax_id = fields.Many2one(
-        comodel_name='account.tax',
-        string=u'Insurance Sale Tax',
-        domain=[('domain', '=', 'insurance')])
-
-    other_costs_tax_id = fields.Many2one(
-        comodel_name='account.tax',
-        string=u'Other Costs Sale Tax',
-        domain=[('domain', '=', 'other_costs')])
-
-
-class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinitionCompanyProduct,
-                                        models.Model):
-    _name = 'l10n_br_tax.definition.company.product'
-
-    company_id = fields.Many2one(
-        comodel_name='res.company',
-        string=u'Empresa')
-
-    _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq',
-         'unique (tax_id, company_id)',
-         u'Imposto já existente nesta empresa!')]
-"""
