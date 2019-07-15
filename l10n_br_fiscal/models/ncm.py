@@ -43,7 +43,7 @@ class Ncm(models.Model):
         size=10)
 
     code_unmasked = fields.Char(
-         size=8)
+        size=8)
 
     exception = fields.Char(
         string='Exception',
