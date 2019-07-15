@@ -7,10 +7,10 @@ from odoo.tests.common import TransactionCase
 
 class TestCNAE(TransactionCase):
     def test_name_get(self):
+        """ Test CNAE name_get()"""
         self.cnae = self.env['l10n_br_fiscal.cnae'].create({
             'code': 'TESTE',
             'name': 'TESTE',
             'version': 'TESTE',
             'internal_type': 'normal'})
-        assert(self.cnae.name_get(),
-            'Error with function name_get() of object l10n_br_account.cnae')
+        assert self.cnae.name_get(), 'Error with function name_get()'
