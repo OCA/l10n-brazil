@@ -48,7 +48,8 @@ class OperationLine(models.Model):
     line_inverse_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation.line',
         string='Operation Line Inverse',
-        domain="[('cfop_destination', '=', cfop_destination),('type', '!=', type)]",
+        domain="[('cfop_destination', '=', cfop_destination),"
+               "('type', '!=', type)]",
         copy=False)
 
     line_refund_id = fields.Many2one(
