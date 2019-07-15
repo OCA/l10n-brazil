@@ -23,10 +23,10 @@ class DataAbstract(models.AbstractModel):
         index=True)
 
     code_unmasked = fields.Char(
-         string='Unmasked Code',
-         compute='_compute_code_unmasked',
-         store=True,
-         index=True)
+        string='Unmasked Code',
+        compute='_compute_code_unmasked',
+        store=True,
+        index=True)
 
     @api.depends('code')
     def _compute_code_unmasked(self):
@@ -41,7 +41,7 @@ class DataAbstract(models.AbstractModel):
         domain = []
         if name:
             domain = ['|', '|', ('code', operator, name),
-                      ('code_unmasked', 'ilike', name  + '%'),
+                      ('code_unmasked', 'ilike', name + '%'),
                       ('name', operator, name)]
         recs = self._search(expression.AND([domain, args]), limit=limit,
                             access_rights_uid=name_get_uid)
