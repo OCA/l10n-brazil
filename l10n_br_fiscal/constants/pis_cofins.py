@@ -13,8 +13,6 @@ CST_PIS_OUT = [
     '06', '07', '08', '09', '49', '99']
 
 # Some CST for PIS and COFINS
-CST_COFINS = CST_PIS
-
 CST_COFINS_IN = CST_PIS_IN
 
 CST_COFINS_OUT = CST_PIS_OUT
