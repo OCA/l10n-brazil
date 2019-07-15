@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields
-from odoo.osv import expression
 
 from ..constants.fiscal import (
     FISCAL_IN_OUT,
