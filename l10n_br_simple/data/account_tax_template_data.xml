@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-		<record id="l10n_br_account_chart_template" model="account.chart.template">
+    <record id="l10n_br_account_chart_template" model="account.chart.template">
         <field name="property_account_receivable_id" ref="account_template_11201"/>
-		    <field name="property_account_payable_id" ref="account_template_21101" />
+        <field name="property_account_payable_id" ref="account_template_21101" />
         <field name="property_account_expense_categ_id" ref="account_template_32103"/>
         <field name="property_account_income_categ_id" ref="account_template_31101"/>
         <field name="income_currency_exchange_account_id" ref="account_template_32302"/>
         <field name="expense_currency_exchange_account_id" ref="account_template_32302"/>
-		</record>
+    </record>
 
-		<record id="tax_tag_ipi" model="account.account.tag">
+    <record id="tax_tag_ipi" model="account.account.tag">
         <field name="name">IPI</field>
         <field name="applicability">taxes</field>
     </record>
 
-		<record id="tax_tag_icms" model="account.account.tag">
+    <record id="tax_tag_icms" model="account.account.tag">
         <field name="name">ICMS</field>
         <field name="applicability">taxes</field>
     </record>
 
-		<record id="tax_tag_icmsst" model="account.account.tag">
+    <record id="tax_tag_icmsst" model="account.account.tag">
         <field name="name">ICMS ST</field>
         <field name="applicability">taxes</field>
     </record>
 
-		<record id="tax_tag_pis" model="account.account.tag">
+    <record id="tax_tag_pis" model="account.account.tag">
         <field name="name">PIS</field>
         <field name="applicability">taxes</field>
     </record>
 
-		<record id="tax_tag_cofins" model="account.account.tag">
+    <record id="tax_tag_cofins" model="account.account.tag">
         <field name="name">COFINS</field>
         <field name="applicability">taxes</field>
     </record>
 
-		<record id="tax_tag_simples" model="account.account.tag">
-				<field name="name">Simples Nacional</field>
-				<field name="applicability">taxes</field>
-		</record>
+    <record id="tax_tag_simples" model="account.account.tag">
+        <field name="name">Simples Nacional</field>
+        <field name="applicability">taxes</field>
+    </record>
 
-		<record id="tax_tag_simples" model="account.account.tag">
-				<field name="name">Simples Nacional</field>
-				<field name="applicability">taxes</field>
-		</record>
+    <record id="tax_tag_simples" model="account.account.tag">
+        <field name="name">Simples Nacional</field>
+        <field name="applicability">taxes</field>
+    </record>
 
-		<record id="tax_tag_irpj" model="account.account.tag">
-				<field name="name">IRPJ</field>
-				<field name="applicability">taxes</field>
-		</record>
+    <record id="tax_tag_irpj" model="account.account.tag">
+        <field name="name">IRPJ</field>
+        <field name="applicability">taxes</field>
+    </record>
 
-		<record id="tax_tag_ir" model="account.account.tag">
-				<field name="name">IR</field>
-				<field name="applicability">taxes</field>
-		</record>
+    <record id="tax_tag_ir" model="account.account.tag">
+        <field name="name">IR</field>
+        <field name="applicability">taxes</field>
+    </record>
 
-		<record id="tax_tag_issqn" model="account.account.tag">
-				<field name="name">ISSQN</field>
-				<field name="applicability">taxes</field>
-		</record>
+    <record id="tax_tag_issqn" model="account.account.tag">
+        <field name="name">ISSQN</field>
+        <field name="applicability">taxes</field>
+    </record>
 
-		<record id="tax_tag_csll" model="account.account.tag">
-				<field name="name">CSLL</field>
-				<field name="applicability">taxes</field>
-		</record>
+    <record id="tax_tag_csll" model="account.account.tag">
+        <field name="name">CSLL</field>
+        <field name="applicability">taxes</field>
+    </record>
 
-		<record id="tax_tag_ii" model="account.account.tag">
-				<field name="name">II</field>
-				<field name="applicability">taxes</field>
-		</record>
+    <record id="tax_tag_ii" model="account.account.tag">
+        <field name="name">II</field>
+        <field name="applicability">taxes</field>
+    </record>
 
-		<record id="tax_template_out_ipi" model="account.tax.template">
-		    <field name="description">IPI</field>
+    <record id="tax_template_out_ipi" model="account.tax.template">
+        <field name="description">IPI</field>
         <field name="name">IPI Saída</field>
-	      <field name="amount">0.00</field>
+        <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field ref="account_template_21304" name="account_id"/>
         <field ref="account_template_21304" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
-		<record id="tax_template_out_ipi2" model="account.tax.template">
-		    <field name="description">IPI 2%</field>
+    <record id="tax_template_out_ipi2" model="account.tax.template">
+        <field name="description">IPI 2%</field>
         <field name="name">IPI Saída 2%</field>
         <field name="amount">2</field>
         <field name="type_tax_use">sale</field>
@@ -93,10 +93,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi3" model="account.tax.template">
+    <record id="tax_template_out_ipi3" model="account.tax.template">
         <field name="description">IPI 3%</field>
         <field name="name">IPI Saída 3%</field>
         <field name="amount">3</field>
@@ -106,10 +106,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
-		<record id="tax_template_out_ipi4" model="account.tax.template">
+    <record id="tax_template_out_ipi4" model="account.tax.template">
         <field name="description">IPI 4%</field>
         <field name="name">IPI Saída 4%</field>
         <field name="amount">4</field>
@@ -119,10 +119,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
-		<record id="tax_template_out_ipi5" model="account.tax.template">
+    <record id="tax_template_out_ipi5" model="account.tax.template">
         <field name="description">IPI 5%</field>
         <field name="name">IPI Saída 5%</field>
         <field name="amount">5</field>
@@ -132,7 +132,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
     <record id="tax_template_out_ipi6" model="account.tax.template">
@@ -145,10 +145,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
-		<record id="tax_template_out_ipi7" model="account.tax.template">
+    <record id="tax_template_out_ipi7" model="account.tax.template">
         <field name="description">IPI 7%</field>
         <field name="name">IPI Saída 7%</field>
         <field name="amount">7</field>
@@ -158,10 +158,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
-		<record id="tax_template_out_ipi8" model="account.tax.template">
+    <record id="tax_template_out_ipi8" model="account.tax.template">
         <field name="description">IPI 8%</field>
         <field name="name">IPI Saída 8%</field>
         <field name="amount">8</field>
@@ -171,10 +171,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
-		<record id="tax_template_out_ipi10" model="account.tax.template">
+    <record id="tax_template_out_ipi10" model="account.tax.template">
         <field name="description">IPI 10%</field>
         <field name="name">IPI Saída 10%</field>
         <field name="amount">10</field>
@@ -184,10 +184,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi12" model="account.tax.template">
+    <record id="tax_template_out_ipi12" model="account.tax.template">
         <field name="description">IPI 12%</field>
         <field name="name">IPI Saída 12%</field>
         <field name="amount">12</field>
@@ -197,10 +197,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi13" model="account.tax.template">
+    <record id="tax_template_out_ipi13" model="account.tax.template">
         <field name="description">IPI 13%</field>
         <field name="name">IPI Saída 13%</field>
         <field name="amount">13</field>
@@ -210,10 +210,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi15" model="account.tax.template">
+    <record id="tax_template_out_ipi15" model="account.tax.template">
         <field name="description">IPI 15%</field>
         <field name="name">IPI Saída 15%</field>
         <field name="amount">15</field>
@@ -223,10 +223,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi16" model="account.tax.template">
+    <record id="tax_template_out_ipi16" model="account.tax.template">
         <field name="description">IPI 16%</field>
         <field name="name">IPI Saída 16%</field>
         <field name="amount">16</field>
@@ -236,10 +236,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi18" model="account.tax.template">
+    <record id="tax_template_out_ipi18" model="account.tax.template">
         <field name="description">IPI 18%</field>
         <field name="name">IPI Saída 18%</field>
         <field name="amount">18</field>
@@ -249,10 +249,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi20" model="account.tax.template">
+    <record id="tax_template_out_ipi20" model="account.tax.template">
         <field name="description">IPI 20%</field>
         <field name="name">IPI Saída 20%</field>
         <field name="amount">20</field>
@@ -262,10 +262,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-		</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+    </record>
 
-		<record id="tax_template_out_ipi22" model="account.tax.template">
+    <record id="tax_template_out_ipi22" model="account.tax.template">
         <field name="description">IPI 22%</field>
         <field name="name">IPI Saída 22%</field>
         <field name="amount">22</field>
@@ -275,10 +275,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi24" model="account.tax.template">
+    <record id="tax_template_out_ipi24" model="account.tax.template">
         <field name="description">IPI 24%</field>
         <field name="name">IPI Saída 24%</field>
         <field name="amount">24</field>
@@ -288,10 +288,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi25" model="account.tax.template">
+    <record id="tax_template_out_ipi25" model="account.tax.template">
         <field name="description">IPI 25%</field>
         <field name="name">IPI Saída 25%</field>
         <field name="amount">25</field>
@@ -301,10 +301,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi27" model="account.tax.template">
+    <record id="tax_template_out_ipi27" model="account.tax.template">
         <field name="description">IPI 27%</field>
         <field name="name">IPI Saída 27%</field>
         <field name="amount">27</field>
@@ -314,10 +314,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi30" model="account.tax.template">
+    <record id="tax_template_out_ipi30" model="account.tax.template">
         <field name="description">IPI 30%</field>
         <field name="name">IPI Saída 30%</field>
         <field name="amount">30</field>
@@ -327,10 +327,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi35" model="account.tax.template">
+    <record id="tax_template_out_ipi35" model="account.tax.template">
         <field name="description">IPI 35%</field>
         <field name="name">IPI Saída 35%</field>
         <field name="amount">35</field>
@@ -340,10 +340,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-		</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+    </record>
 
-		<record id="tax_template_out_ipi40" model="account.tax.template">
+    <record id="tax_template_out_ipi40" model="account.tax.template">
         <field name="description">IPI 40%</field>
         <field name="name">IPI Saída 40%</field>
         <field name="amount">40</field>
@@ -353,10 +353,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi42" model="account.tax.template">
+    <record id="tax_template_out_ipi42" model="account.tax.template">
         <field name="description">IPI 42%</field>
         <field name="name">IPI Saída 42%</field>
         <field name="amount">42</field>
@@ -366,10 +366,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi45" model="account.tax.template">
+    <record id="tax_template_out_ipi45" model="account.tax.template">
         <field name="description">IPI 45%</field>
         <field name="name">IPI Saída 45%</field>
         <field name="amount">45</field>
@@ -379,10 +379,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi50" model="account.tax.template">
+    <record id="tax_template_out_ipi50" model="account.tax.template">
         <field name="description">IPI 50%</field>
         <field name="name">IPI Saída 50%</field>
         <field name="amount">50</field>
@@ -392,10 +392,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi60" model="account.tax.template">
+    <record id="tax_template_out_ipi60" model="account.tax.template">
         <field name="description">IPI 60%</field>
         <field name="name">IPI Saída 60%</field>
         <field name="amount">60</field>
@@ -405,10 +405,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_out_ipi300" model="account.tax.template">
+    <record id="tax_template_out_ipi300" model="account.tax.template">
         <field name="description">IPI 300%</field>
         <field name="name">IPI Saída 300%</field>
         <field name="amount">300</field>
@@ -418,10 +418,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-   	<record id="tax_template_in_ipi" model="account.tax.template">
+     <record id="tax_template_in_ipi" model="account.tax.template">
         <field name="description">IPI</field>
         <field name="name">IPI Entrada</field>
         <field name="amount">0.00</field>
@@ -431,10 +431,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi2" model="account.tax.template">
+    <record id="tax_template_in_ipi2" model="account.tax.template">
         <field name="description">IPI 2%</field>
         <field name="name">IPI Entrada 2%</field>
         <field name="amount">2</field>
@@ -444,10 +444,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi3" model="account.tax.template">
+    <record id="tax_template_in_ipi3" model="account.tax.template">
         <field name="description">IPI 3%</field>
         <field name="name">IPI Entrada 3%</field>
         <field name="amount">3</field>
@@ -457,10 +457,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi4" model="account.tax.template">
+    <record id="tax_template_in_ipi4" model="account.tax.template">
         <field name="description">IPI 4%</field>
         <field name="name">IPI Entrada 4%</field>
         <field name="amount">4</field>
@@ -470,10 +470,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi5" model="account.tax.template">
+    <record id="tax_template_in_ipi5" model="account.tax.template">
         <field name="description">IPI 5%</field>
         <field name="name">IPI Entrada 5%</field>
         <field name="amount">5</field>
@@ -483,8 +483,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
     <record id="tax_template_in_ipi6" model="account.tax.template">
         <field name="description">IPI 6%</field>
@@ -496,10 +496,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi7" model="account.tax.template">
+    <record id="tax_template_in_ipi7" model="account.tax.template">
         <field name="description">IPI 7%</field>
         <field name="name">IPI Entrada 7%</field>
         <field name="amount">7</field>
@@ -509,10 +509,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-    	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+      </record>
 
-		<record id="tax_template_in_ipi8" model="account.tax.template">
+    <record id="tax_template_in_ipi8" model="account.tax.template">
         <field name="description">IPI 8%</field>
         <field name="name">IPI Entrada 8%</field>
         <field name="amount">8</field>
@@ -522,10 +522,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi10" model="account.tax.template">
+    <record id="tax_template_in_ipi10" model="account.tax.template">
         <field name="description">IPI 10%</field>
         <field name="name">IPI Entrada 10%</field>
         <field name="amount">10</field>
@@ -535,10 +535,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi12" model="account.tax.template">
+    <record id="tax_template_in_ipi12" model="account.tax.template">
         <field name="description">IPI 12%</field>
         <field name="name">IPI Entrada 12%</field>
         <field name="amount">12</field>
@@ -548,10 +548,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi13" model="account.tax.template">
+    <record id="tax_template_in_ipi13" model="account.tax.template">
         <field name="description">IPI 13%</field>
         <field name="name">IPI Entrada 13%</field>
         <field name="amount">13</field>
@@ -561,10 +561,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi15" model="account.tax.template">
+    <record id="tax_template_in_ipi15" model="account.tax.template">
         <field name="description">IPI 15%</field>
         <field name="name">IPI Entrada 15%</field>
         <field name="amount">15</field>
@@ -574,10 +574,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi16" model="account.tax.template">
+    <record id="tax_template_in_ipi16" model="account.tax.template">
         <field name="description">IPI 16%</field>
         <field name="name">IPI Entrada 16%</field>
         <field name="amount">16</field>
@@ -587,10 +587,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi18" model="account.tax.template">
+    <record id="tax_template_in_ipi18" model="account.tax.template">
         <field name="description">IPI 18%</field>
         <field name="name">IPI Entrada 18%</field>
         <field name="amount">18</field>
@@ -600,10 +600,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi20" model="account.tax.template">
+    <record id="tax_template_in_ipi20" model="account.tax.template">
         <field name="description">IPI 20%</field>
         <field name="name">IPI Entrada 20%</field>
         <field name="amount">20</field>
@@ -613,10 +613,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
         </record>
 
-		<record id="tax_template_in_ipi22" model="account.tax.template">
+    <record id="tax_template_in_ipi22" model="account.tax.template">
         <field name="description">IPI 22%</field>
         <field name="name">IPI Entrada 22%</field>
         <field name="amount">22</field>
@@ -626,10 +626,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi24" model="account.tax.template">
+    <record id="tax_template_in_ipi24" model="account.tax.template">
         <field name="description">IPI 24%</field>
         <field name="name">IPI Entrada 24%</field>
         <field name="amount">24</field>
@@ -639,10 +639,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi25" model="account.tax.template">
+    <record id="tax_template_in_ipi25" model="account.tax.template">
         <field name="description">IPI 25%</field>
         <field name="name">IPI Entrada 25%</field>
         <field name="amount">25</field>
@@ -652,10 +652,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi27" model="account.tax.template">
+    <record id="tax_template_in_ipi27" model="account.tax.template">
         <field name="description">IPI 27%</field>
         <field name="name">IPI Entrada 27%</field>
         <field name="amount">27</field>
@@ -665,10 +665,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi30" model="account.tax.template">
+    <record id="tax_template_in_ipi30" model="account.tax.template">
         <field name="description">IPI 30%</field>
         <field name="name">IPI Entrada 30%</field>
         <field name="amount">30</field>
@@ -678,10 +678,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi35" model="account.tax.template">
+    <record id="tax_template_in_ipi35" model="account.tax.template">
         <field name="description">IPI 35%</field>
         <field name="name">IPI Entrada 35%</field>
         <field name="amount">35</field>
@@ -691,10 +691,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-		</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+    </record>
 
-		<record id="tax_template_in_ipi40" model="account.tax.template">
+    <record id="tax_template_in_ipi40" model="account.tax.template">
         <field name="description">IPI 40%</field>
         <field name="name">IPI Entrada 40%</field>
         <field name="amount">40</field>
@@ -704,10 +704,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi42" model="account.tax.template">
+    <record id="tax_template_in_ipi42" model="account.tax.template">
         <field name="description">IPI 42%</field>
         <field name="name">IPI Entrada 42%</field>
         <field name="amount">42</field>
@@ -717,10 +717,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi45" model="account.tax.template">
+    <record id="tax_template_in_ipi45" model="account.tax.template">
         <field name="description">IPI 45%</field>
         <field name="name">IPI Entrada 45%</field>
         <field name="amount">45</field>
@@ -730,10 +730,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi50" model="account.tax.template">
+    <record id="tax_template_in_ipi50" model="account.tax.template">
         <field name="description">IPI 50%</field>
         <field name="name">IPI Entrada 50%</field>
         <field name="amount">50</field>
@@ -743,10 +743,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi60" model="account.tax.template">
+    <record id="tax_template_in_ipi60" model="account.tax.template">
         <field name="description">IPI 60%</field>
         <field name="name">IPI Entrada 60%</field>
         <field name="amount">60</field>
@@ -756,10 +756,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
-		<record id="tax_template_in_ipi300" model="account.tax.template">
+    <record id="tax_template_in_ipi300" model="account.tax.template">
         <field name="description">IPI 300%</field>
         <field name="name">IPI Entrada 300%</field>
         <field name="amount">300</field>
@@ -769,8 +769,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+     </record>
 
     <record id="tax_template_out_icms_subist" model="account.tax.template">
         <field name="description">ICMS Subist</field>
@@ -780,10 +780,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
     </record>
 
-		<record id="tax_template_out_icmsnt" model="account.tax.template">
+    <record id="tax_template_out_icmsnt" model="account.tax.template">
         <field name="description">ICMS Não Tributado</field>
         <field name="name">ICMS Saida Não Tributado</field>
         <field name="amount">0.00</field>
@@ -793,8 +793,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icmsisento" model="account.tax.template">
         <field name="description">ICMS Isento</field>
@@ -806,8 +806,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icmssuspensao" model="account.tax.template">
         <field name="description">ICMS Suspensão</field>
@@ -819,8 +819,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icmsdiferimento" model="account.tax.template">
         <field name="description">ICMS Diferimento</field>
@@ -832,8 +832,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icmsantst" model="account.tax.template">
         <field name="description">ICMS Cobrado Ant. por ST</field>
@@ -845,7 +845,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
     <record id="tax_template_out_icmsother" model="account.tax.template">
@@ -858,10 +858,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
-		<record id="tax_template_out_icms4" model="account.tax.template">
+    <record id="tax_template_out_icms4" model="account.tax.template">
         <field name="description">ICMS 4%</field>
         <field name="name">ICMS Saida 4%</field>
         <field name="amount">4</field>
@@ -871,8 +871,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icms7" model="account.tax.template">
         <field name="description">ICMS 7%</field>
@@ -884,10 +884,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
-		<record id="tax_template_out_icms12" model="account.tax.template">
+    <record id="tax_template_out_icms12" model="account.tax.template">
         <field name="description">ICMS 12%</field>
         <field name="name">ICMS Saida 12%</field>
         <field name="amount">12</field>
@@ -897,8 +897,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icms17" model="account.tax.template">
         <field name="description">ICMS 17%</field>
@@ -910,8 +910,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icms175" model="account.tax.template">
         <field name="description">ICMS 17,5%</field>
@@ -923,10 +923,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
-		<record id="tax_template_out_icms18" model="account.tax.template">
+    <record id="tax_template_out_icms18" model="account.tax.template">
         <field name="description">ICMS 18%</field>
         <field name="name">ICMS Saida 18%</field>
         <field name="amount">18</field>
@@ -936,8 +936,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_out_icms19" model="account.tax.template">
         <field name="description">ICMS 19%</field>
@@ -949,10 +949,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
-		<record id="tax_template_out_icms20" model="account.tax.template">
+    <record id="tax_template_out_icms20" model="account.tax.template">
         <field name="description">ICMS 20%</field>
         <field name="name">ICMS Saida 20%</field>
         <field name="amount">20</field>
@@ -962,10 +962,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
-		<record id="tax_template_in_icms_subist" model="account.tax.template">
+    <record id="tax_template_in_icms_subist" model="account.tax.template">
         <field name="description">ICMS Subist</field>
         <field name="name">ICMS Entrada Subist</field>
         <field name="amount">0.00</field>
@@ -973,10 +973,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
+     </record>
 
-		<record id="tax_template_in_icmsnt" model="account.tax.template">
+    <record id="tax_template_in_icmsnt" model="account.tax.template">
         <field name="description">ICMS Não Tributado</field>
         <field name="name">ICMS Entrada Não Tributado</field>
         <field name="amount">0.00</field>
@@ -986,8 +986,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icmsisento" model="account.tax.template">
         <field name="description">ICMS Isento</field>
@@ -999,8 +999,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icmssuspensao" model="account.tax.template">
         <field name="description">ICMS Suspensão</field>
@@ -1012,8 +1012,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icmsdiferimento" model="account.tax.template">
         <field name="description">ICMS Diferimento</field>
@@ -1025,8 +1025,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icmsantst" model="account.tax.template">
         <field name="description">ICMS Cobrado Ant. por ST</field>
@@ -1038,7 +1038,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
     <record id="tax_template_in_icmsother" model="account.tax.template">
@@ -1051,10 +1051,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
-		<record id="tax_template_in_icms4" model="account.tax.template">
+    <record id="tax_template_in_icms4" model="account.tax.template">
         <field name="description">ICMS 4%</field>
         <field name="name">ICMS Entrada 4%</field>
         <field name="amount">4</field>
@@ -1064,8 +1064,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icms7" model="account.tax.template">
         <field name="description">ICMS 7%</field>
@@ -1077,10 +1077,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
-		<record id="tax_template_in_icms12" model="account.tax.template">
+    <record id="tax_template_in_icms12" model="account.tax.template">
         <field name="description">ICMS 12%</field>
         <field name="name">ICMS Entrada 12%</field>
         <field name="amount">12</field>
@@ -1090,8 +1090,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icms17" model="account.tax.template">
         <field name="description">ICMS 17%</field>
@@ -1103,8 +1103,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icms175" model="account.tax.template">
         <field name="description">ICMS 17,5%</field>
@@ -1116,10 +1116,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
-		<record id="tax_template_in_icms18" model="account.tax.template">
+    <record id="tax_template_in_icms18" model="account.tax.template">
         <field name="description">ICMS 18%</field>
         <field name="name">ICMS Entrada 18%</field>
         <field name="amount">18</field>
@@ -1129,8 +1129,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
     <record id="tax_template_in_icms19" model="account.tax.template">
         <field name="description">ICMS 19%</field>
@@ -1142,10 +1142,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
-		<record id="tax_template_in_icms20" model="account.tax.template">
+    <record id="tax_template_in_icms20" model="account.tax.template">
         <field name="description">ICMS 20%</field>
         <field name="name">ICMS Entrada 20%</field>
         <field name="amount">20</field>
@@ -1155,10 +1155,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+     </record>
 
-		<record id="tax_template_out_pis" model="account.tax.template">
+    <record id="tax_template_out_pis" model="account.tax.template">
         <field name="description">PIS</field>
         <field name="name">PIS Saida</field>
         <field name="amount">0.00</field>
@@ -1168,10 +1168,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
+     </record>
 
-		<record id="tax_template_out_pis065" model="account.tax.template">
+    <record id="tax_template_out_pis065" model="account.tax.template">
         <field name="description">PIS 0,65%</field>
         <field name="name">PIS Saida 0,65%</field>
         <field name="amount">0.65</field>
@@ -1181,9 +1181,9 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
-   	</record>
+     </record>
 
-   	<record id="tax_template_in_pis" model="account.tax.template">
+     <record id="tax_template_in_pis" model="account.tax.template">
         <field name="description">PIS</field>
         <field name="name">PIS Entrada</field>
         <field name="amount">0.00</field>
@@ -1193,10 +1193,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
+     </record>
 
-		<record id="tax_template_in_pis065" model="account.tax.template">
+    <record id="tax_template_in_pis065" model="account.tax.template">
         <field name="description">PIS 0,65%</field>
         <field name="name">PIS Entrada 0,65%</field>
         <field name="amount">0.65</field>
@@ -1206,10 +1206,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
+     </record>
 
-		<record id="tax_template_out_cofins" model="account.tax.template">
+    <record id="tax_template_out_cofins" model="account.tax.template">
         <field name="description">COFINS</field>
         <field name="name">COFINS Saida</field>
         <field name="amount">0.00</field>
@@ -1219,10 +1219,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
+     </record>
 
-		<record id="tax_template_out_cofins3" model="account.tax.template">
+    <record id="tax_template_out_cofins3" model="account.tax.template">
         <field name="description">COFINS 3%</field>
         <field name="name">COFINS Saida 3%</field>
         <field name="amount">3</field>
@@ -1232,7 +1232,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
     </record>
 
     <record id="tax_template_in_cofins" model="account.tax.template">
@@ -1245,10 +1245,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
-   	</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
+     </record>
 
-		<record id="tax_template_in_cofins3" model="account.tax.template">
+    <record id="tax_template_in_cofins3" model="account.tax.template">
         <field name="description">COFINS 3%</field>
         <field name="name">COFINS Entrada 3%</field>
         <field name="amount">3</field>
@@ -1258,7 +1258,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
     </record>
 
     <record id="tax_template_simples" model="account.tax.template">
@@ -1271,10 +1271,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_simples"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_simples')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_simples')])]"/>
     </record>
 
-		<record id="tax_template_irpj" model="account.tax.template">
+    <record id="tax_template_irpj" model="account.tax.template">
         <field name="description">IRPJ</field>
         <field name="name">IRPJ</field>
         <field name="amount">0.00</field>
@@ -1284,10 +1284,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_irpj"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
     </record>
 
-		<record id="tax_template_out_ir" model="account.tax.template">
+    <record id="tax_template_out_ir" model="account.tax.template">
         <field name="description">IR</field>
         <field name="name">IR</field>
         <field name="amount">0.00</field>
@@ -1295,10 +1295,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ir"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ir')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ir')])]"/>
     </record>
 
-		<record id="tax_template_out_issqn" model="account.tax.template">
+    <record id="tax_template_out_issqn" model="account.tax.template">
         <field name="description">ISSQN</field>
         <field name="name">ISSQN Saida</field>
         <field name="amount">0.00</field>
@@ -1308,7 +1308,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
     </record>
 
     <record id="tax_template_out_issqn1" model="account.tax.template">
@@ -1321,7 +1321,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
     </record>
 
     <record id="tax_template_out_issqn2" model="account.tax.template">
@@ -1334,10 +1334,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
     </record>
 
-		<record id="tax_template_in_issqn2" model="account.tax.template">
+    <record id="tax_template_in_issqn2" model="account.tax.template">
         <field name="description">ISSQN 2%</field>
         <field name="name">ISSQN Entrada 2%</field>
         <field name="amount">2</field>
@@ -1347,8 +1347,8 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
-		</record>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+    </record>
 
     <record id="tax_template_out_issqn3" model="account.tax.template">
         <field name="description">ISSQN 3%</field>
@@ -1360,7 +1360,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
     </record>
 
     <record id="tax_template_out_issqn4" model="account.tax.template">
@@ -1373,7 +1373,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
     </record>
 
     <record id="tax_template_out_issqn5" model="account.tax.template">
@@ -1386,10 +1386,10 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
     </record>
 
-		<record id="tax_template_out_csll" model="account.tax.template">
+    <record id="tax_template_out_csll" model="account.tax.template">
         <field name="description">CSLL</field>
         <field name="name">CSLL</field>
         <field name="amount">0.00</field>
@@ -1397,150 +1397,150 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_csll"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
     </record>
 
     <record id="tax_template_out_ii" model="account.tax.template">
-		    <field name="description">II</field>
+        <field name="description">II</field>
         <field name="name">II Saída</field>
-	      <field name="amount">0.00</field>
+        <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii2" model="account.tax.template">
-		    <field name="description">II 2%</field>
+        <field name="description">II 2%</field>
         <field name="name">II 2% Saída</field>
-	      <field name="amount">2</field>
+        <field name="amount">2</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii4" model="account.tax.template">
-		    <field name="description">II 4%</field>
+        <field name="description">II 4%</field>
         <field name="name">II 4% Saída</field>
-	      <field name="amount">4</field>
+        <field name="amount">4</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii6" model="account.tax.template">
-		    <field name="description">II 6%</field>
+        <field name="description">II 6%</field>
         <field name="name">II 6% Saída</field>
-	      <field name="amount">6</field>
+        <field name="amount">6</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii8" model="account.tax.template">
-		    <field name="description">II 8%</field>
+        <field name="description">II 8%</field>
         <field name="name">II 8% Saída</field>
-	      <field name="amount">8</field>
+        <field name="amount">8</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii10" model="account.tax.template">
-		    <field name="description">II 10%</field>
+        <field name="description">II 10%</field>
         <field name="name">II 10% Saída</field>
-	      <field name="amount">10</field>
+        <field name="amount">10</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii12" model="account.tax.template">
-		    <field name="description">II 12%</field>
+        <field name="description">II 12%</field>
         <field name="name">II 12% Saída</field>
-	      <field name="amount">12</field>
+        <field name="amount">12</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii14" model="account.tax.template">
-		    <field name="description">II 14%</field>
+        <field name="description">II 14%</field>
         <field name="name">II 14% Saída</field>
-	      <field name="amount">14</field>
+        <field name="amount">14</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii16" model="account.tax.template">
-		    <field name="description">II 16%</field>
+        <field name="description">II 16%</field>
         <field name="name">II 16% Saída</field>
-	      <field name="amount">16</field>
+        <field name="amount">16</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii18" model="account.tax.template">
-		    <field name="description">II 18%</field>
+        <field name="description">II 18%</field>
         <field name="name">II 18% Saída</field>
-	      <field name="amount">18</field>
+        <field name="amount">18</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii20" model="account.tax.template">
-		    <field name="description">II 20%</field>
+        <field name="description">II 20%</field>
         <field name="name">II 20% Saída</field>
-	      <field name="amount">20</field>
+        <field name="amount">20</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii26" model="account.tax.template">
-		    <field name="description">II 26%</field>
+        <field name="description">II 26%</field>
         <field name="name">II 26% Saída</field>
-	      <field name="amount">26</field>
+        <field name="amount">26</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii28" model="account.tax.template">
-		    <field name="description">II 28%</field>
+        <field name="description">II 28%</field>
         <field name="name">II 28% Saída</field>
-	      <field name="amount">28</field>
+        <field name="amount">28</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_ii35" model="account.tax.template">
@@ -1551,150 +1551,150 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii" model="account.tax.template">
-		    <field name="description">II</field>
+        <field name="description">II</field>
         <field name="name">II Entrada</field>
-	      <field name="amount">0.00</field>
+        <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii2" model="account.tax.template">
-		    <field name="description">II 2%</field>
+        <field name="description">II 2%</field>
         <field name="name">II 2% Entrada</field>
-	      <field name="amount">2</field>
+        <field name="amount">2</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii4" model="account.tax.template">
-		    <field name="description">II 4%</field>
+        <field name="description">II 4%</field>
         <field name="name">II 4% Entrada</field>
-	      <field name="amount">4</field>
+        <field name="amount">4</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii6" model="account.tax.template">
-		    <field name="description">II 6%</field>
+        <field name="description">II 6%</field>
         <field name="name">II 6% Entrada</field>
-	      <field name="amount">6</field>
+        <field name="amount">6</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii8" model="account.tax.template">
-		    <field name="description">II 8%</field>
+        <field name="description">II 8%</field>
         <field name="name">II 8% Entrada</field>
-	      <field name="amount">8</field>
+        <field name="amount">8</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii10" model="account.tax.template">
-		    <field name="description">II 10%</field>
+        <field name="description">II 10%</field>
         <field name="name">II 10% Entrada</field>
-	      <field name="amount">10</field>
+        <field name="amount">10</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii12" model="account.tax.template">
-		    <field name="description">II 12%</field>
+        <field name="description">II 12%</field>
         <field name="name">II 12% Entrada</field>
-	      <field name="amount">12</field>
+        <field name="amount">12</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii14" model="account.tax.template">
-		    <field name="description">II 14%</field>
+        <field name="description">II 14%</field>
         <field name="name">II 14% Entrada</field>
-	      <field name="amount">14</field>
+        <field name="amount">14</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii16" model="account.tax.template">
-		    <field name="description">II 16%</field>
+        <field name="description">II 16%</field>
         <field name="name">II 16% Entrada</field>
-	      <field name="amount">16</field>
+        <field name="amount">16</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii18" model="account.tax.template">
-		    <field name="description">II 18%</field>
+        <field name="description">II 18%</field>
         <field name="name">II 18% Entrada</field>
-	      <field name="amount">18</field>
+        <field name="amount">18</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii20" model="account.tax.template">
-		    <field name="description">II 20%</field>
+        <field name="description">II 20%</field>
         <field name="name">II 20% Entrada</field>
-	      <field name="amount">20</field>
+        <field name="amount">20</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii26" model="account.tax.template">
-		    <field name="description">II 26%</field>
+        <field name="description">II 26%</field>
         <field name="name">II 26% Entrada</field>
-	      <field name="amount">26</field>
+        <field name="amount">26</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii28" model="account.tax.template">
-		    <field name="description">II 28%</field>
+        <field name="description">II 28%</field>
         <field name="name">II 28% Entrada</field>
-	      <field name="amount">28</field>
+        <field name="amount">28</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii35" model="account.tax.template">
@@ -1705,7 +1705,7 @@
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
-				<field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <data noupdate="1">
