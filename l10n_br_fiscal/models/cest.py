@@ -2,9 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
-from odoo.osv import expression
-
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 from ..constants.fiscal import CEST_SEGMENT
 
@@ -19,11 +16,11 @@ class Cest(models.Model):
         required=True)
 
     code_unmasked = fields.Char(
-         string='Unmasked Code',
-         size=10,
-         compute='_compute_code_unmasked',
-         store=True,
-         index=True)
+        string='Unmasked Code',
+        size=10,
+        compute='_compute_code_unmasked',
+        store=True,
+        index=True)
 
     name = fields.Text(
         string='Name',
@@ -78,7 +75,7 @@ class Cest(models.Model):
                 ncms = r.ncms.split(",")
                 domain = ['|'] * (len(ncms) - 1)
                 domain += [('code_unmasked', '=', n)
-                          for n in ncms if len(n) == 8]
+                           for n in ncms if len(n) == 8]
                 domain += [('code_unmasked', '=ilike', n + '%')
                            for n in ncms if len(n) < 8]
                 r.ncm_ids = ncm.search(domain)

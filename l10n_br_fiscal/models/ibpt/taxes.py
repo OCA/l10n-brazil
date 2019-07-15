@@ -21,11 +21,6 @@ WS_IBPT = {
 DeOlhoNoImposto = namedtuple('Config', 'token cnpj uf')
 
 
-def _response_to_dict(response):
-    json_acceptable_string = response.replace("'", "\"").lower()
-    return json.loads(json_acceptable_string)
-
-
 def _request(ws_url, params):
     try:
         response = requests.get(ws_url, params=params)
@@ -34,16 +29,18 @@ def _request(ws_url, params):
             return namedtuple(
                 'Result',
                 [k.lower() for k in data.keys()])(
-                    **{k.lower():v for k,v in data.items()})
+                    **{k.lower(): v for k, v in data.items()})
         elif response.status_code == requests.codes.forbidden:
             raise UserError(_('IBPT Forbidden - token={!r}, '
                               'cnpj={!r}, UF={!r}'.format(
-                              config.token, config.cnpj, config.estado)))
+                                  params.get('token'), params.get('cnpj'),
+                                  params.get('uf'))))
         elif response.status_code == requests.codes.not_found:
             # TODO
             raise UserError(_('IBPT Forbidden - token={!r}, '
                               'cnpj={!r}, UF={!r}'.format(
-                              config.token, config.cnpj, config.estado)))
+                                  params.get('token'), params.get('cnpj'),
+                                  params.get('uf'))))
     except Exception as e:
         raise UserError(_('Error in the request: {0}'.format(e)))
 
