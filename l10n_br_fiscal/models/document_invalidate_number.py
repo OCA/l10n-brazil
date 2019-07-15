@@ -2,8 +2,9 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import datetime
+
 from odoo import models, fields, api
-from odoo.osv import expression
 
 
 class DocumentEvent(models.Model):

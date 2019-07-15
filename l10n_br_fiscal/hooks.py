@@ -20,4 +20,4 @@ def post_init_hook(cr, registry):
 
     for file in files:
         convert_file(cr, 'l10n_br_fiscal', file, None, mode='init',
-                    noupdate=True, kind='init', report=None)
+                     noupdate=True, kind='init', report=None)
