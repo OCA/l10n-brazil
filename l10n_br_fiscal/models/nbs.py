@@ -42,7 +42,7 @@ class Nbs(models.Model):
         size=12)
 
     code_unmasked = fields.Char(
-         size=10)
+        size=10)
 
     tax_estimate_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.estimate',
