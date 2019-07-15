@@ -4,8 +4,7 @@
 
 import datetime
 
-from odoo import models, fields, api, _
-from odoo.exceptions import Warning as UserError
+from odoo import models, fields, api
 
 
 class DocumentEvent(models.Model):
