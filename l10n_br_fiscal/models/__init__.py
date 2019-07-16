@@ -1,6 +1,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from . import data_abstract
+from . import document_abstract
+from . import document_line_abstract
 from . import ibpt
 from . import cfop
 from . import cst
@@ -26,6 +28,8 @@ from . import operation_line
 from . import partner_profile
 from . import res_partner
 from . import res_company
+from . import document
+from . import document_line
 from . import res_config_settings
 
 # from . import l10n_br_account_product_document_related
