@@ -26,9 +26,7 @@
 
         <delete
                 model="ir.actions.report.xml"
-                search="[('id', 'in', [ref('hr_payroll.action_report_payslip'), ref('hr_payroll.payslip_details_report')])]"
-        />
-
+                search="[ ('name', 'in', ['hr_payroll.report_payslip','hr_payroll.report_payslipdetails'])]" />
 
     </data>
 </openerp>
