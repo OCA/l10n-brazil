@@ -33,7 +33,7 @@
         <field name="inherit_id" ref="account.view_tax_form"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="fiscal_tax_id" groups="fiscal.group_user"/>
+                <field name="fiscal_tax_id" groups="l10n_br_fiscal.group_user"/>
             </field>
             <field name="amount" position="attributes">
                 <attribute name="attrs">{'readonly': [('fiscal_tax_id', '!=', False)]}</attribute>
