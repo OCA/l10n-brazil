@@ -4,8 +4,14 @@
     # Main Menu
     <menuitem id="fiscal_menu" name="Fiscal" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" web_icon="l10n_br_fiscal,static/description/icon.png" sequence="30"/>
 
+    # Fiscal Overview
+    <menuitem id="overview_menu" name="Overview" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="0"/>
+
     # Fiscal Documents
     <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+
+    # Fiscal Documents
+    <menuitem id="document_menu" action="document_action" name="Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="10"/>
 
     # Partners
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>

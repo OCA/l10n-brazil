@@ -21,8 +21,8 @@
 "l10n_br_fiscal_cest_manager","Fiscal CEST for Manager","model_l10n_br_fiscal_cest","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_product_genre_user","Fiscal Product Genre for User","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_product_genre_manager","Fiscal Product Genre for Manager","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_manager",1,1,1,1
-"l10n_br_fiscal_document_user","Fiscal Document for User","model_l10n_br_fiscal_document_type","l10n_br_fiscal.group_user",1,0,0,0
-"l10n_br_fiscal_document_manager","Fiscal Document for Manager","model_l10n_br_fiscal_document_type","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_document_type_user","Fiscal Document Type for User","model_l10n_br_fiscal_document_type","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_document_type_manager","Fiscal Document Type for Manager","model_l10n_br_fiscal_document_type","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_document_serie_user","Fiscal Document Serie for User","model_l10n_br_fiscal_document_serie","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_document_serie_manager","Fiscal Document Serie for Manager","model_l10n_br_fiscal_document_serie","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_certificate_user","Fiscal Certificate for User","model_l10n_br_fiscal_certificate","l10n_br_fiscal.group_user",1,0,0,0
@@ -39,3 +39,7 @@
 "l10n_br_fiscal_operation_line_manager","Fiscal Operation Line for Manager","model_l10n_br_fiscal_operation_line","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_partner_profile_user","Fiscal Partner Profile for User","model_l10n_br_fiscal_partner_profile","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_partner_profile_manager","Fiscal Partner Profile for Manager","model_l10n_br_fiscal_partner_profile","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_document_user","Fiscal Document for User","model_l10n_br_fiscal_document","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_document_manager","Fiscal Document for Manager","model_l10n_br_fiscal_document","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_document_line_user","Fiscal Document Line for User","model_l10n_br_fiscal_document_line","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_document_line_manager","Fiscal Document Line for Manager","model_l10n_br_fiscal_document_line","l10n_br_fiscal.group_manager",1,1,1,1
