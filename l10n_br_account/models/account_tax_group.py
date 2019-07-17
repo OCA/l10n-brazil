@@ -8,5 +8,5 @@ class AccountTaxGroup(models.Model):
     _inherit = 'account.tax.group'
 
     fiscal_tax_group_id = fields.Many2one(
-        comodel_name="fiscal.tax.group",
-        string="Fiscal Tax Group")
+        comodel_name='l10n_br_fiscal.tax.group',
+        string='Fiscal Tax Group')
