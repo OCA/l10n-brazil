@@ -945,7 +945,7 @@ class AccountInvoice(models.Model):
             if not inv.journal_id.sequence_id:
                 raise UserError(_('Error!'), _(
                     'Please define sequence on the journal related to this invoice.'))
-            if not inv.invoice_line:
+            if not inv.invoice_line_ids:
                 raise UserError(_('No Invoice Lines!'),
                                 _('Please create some invoice lines.'))
             if inv.move_id:
@@ -959,21 +959,22 @@ class AccountInvoice(models.Model):
             date_invoice = inv.date_invoice
 
             company_currency = inv.company_id.currency_id
-            # create the analytical lines, one move line per invoice line
-            iml = inv._get_analytic_lines()
-            # check if taxes are all computed
-            compute_taxes = account_invoice_tax.compute(
-                inv.with_context(lang=inv.partner_id.lang))
-            inv.check_tax_lines(compute_taxes)
+            # create move lines (one per invoice line +
+            # eventual taxes and analytic lines)
+            iml = inv.invoice_line_move_line_get()
+            # # check if taxes are all computed
+            # compute_taxes = account_invoice_tax.compute(
+            #     inv.with_context(lang=inv.partner_id.lang))
+            # inv.check_tax_lines(compute_taxes)
 
-            # I disabled the check_total feature
-            if self.env.user.has_group(
-                    'account.group_supplier_inv_check_total'):
-                if inv.type in ('in_invoice', 'in_refund') and abs(
-                        inv.check_total - inv.amount_total) >= (
-                        inv.currency_id.rounding / 2.0):
-                    raise UserError(_('Bad Total!'), _(
-                        'Please verify the price of the invoice!\nThe encoded total does not match the computed total.'))
+            # # I disabled the check_total feature
+            # if self.env.user.has_group(
+            #         'account.group_supplier_inv_check_total'):
+            #     if inv.type in ('in_invoice', 'in_refund') and abs(
+            #             inv.check_total - inv.amount_total) >= (
+            #             inv.currency_id.rounding / 2.0):
+            #         raise UserError(_('Bad Total!'), _(
+            #             'Please verify the price of the invoice!\nThe encoded total does not match the computed total.'))
 
             # if inv.payment_term:
             #     total_fixed = total_percent = 0
@@ -987,25 +988,25 @@ class AccountInvoice(models.Model):
             #         raise except_orm(_('Error!'), _("Cannot create the invoice.\nThe related payment term is probably misconfigured as it gives a computed amount greater than the total invoiced amount. In order to avoid rounding issues, the latest line of your payment term must be of type 'balance'."))
 
             # one move line per tax line
-            iml += account_invoice_tax.move_line_get(inv.id)
+            iml += inv.tax_line_move_line_get()
 
-            if inv.type in ('in_invoice', 'in_refund'):
-                ref = inv.reference
-            else:
-                ref = inv.number
+            # if inv.type in ('in_invoice', 'in_refund'):
+            #     ref = inv.reference
+            # else:
+            #     ref = inv.number
 
             diff_currency = inv.currency_id != company_currency
             # create one move line for the total and possibly adjust the other lines amount
             total, total_currency, iml = inv.with_context(
-                ctx).compute_invoice_totals(company_currency, ref, iml)
+                ctx).compute_invoice_totals(company_currency, iml)
 
-            name = inv.supplier_invoice_number or inv.name or '/'
-            totlines = []
+            name = inv.name or '/'
+            totlines = inv.account_payment_line_ids
 
             res_amount_currency = total_currency
             ctx['date'] = date_invoice
 
-            for i, t in enumerate(inv.account_payment_line_ids):
+            for i, t in enumerate(totlines):
 
                 if inv.currency_id != company_currency:
                     amount_currency = company_currency.with_context(
@@ -1026,7 +1027,7 @@ class AccountInvoice(models.Model):
                     'date_maturity': t.date_due,
                     'amount_currency': diff_currency and amount_currency,
                     'currency_id': diff_currency and inv.currency_id.id,
-                    'ref': ref + '/' + t.number,
+                    # 'ref': ref + '/' + t.number,
                 })
 
             if not inv.account_payment_line_ids:
@@ -1038,7 +1039,7 @@ class AccountInvoice(models.Model):
                     'date_maturity': inv.date_due,
                     'amount_currency': diff_currency and total_currency,
                     'currency_id': diff_currency and inv.currency_id.id,
-                    'ref': ref
+                    # 'ref': ref
                 })
 
             # if inv.payment_term:
@@ -1073,34 +1074,34 @@ class AccountInvoice(models.Model):
             part = self.env['res.partner']._find_accounting_partner(
                 inv.partner_id)
 
-            line = [(0, 0, self.line_get_convert(l, part.id, date)) for l in
+            line = [(0, 0, self.line_get_convert(l, part.id)) for l in
                     iml]
             line = inv.group_lines(iml, line)
 
             journal = inv.journal_id.with_context(ctx)
-            if journal.centralisation:
-                raise UserError(_('User Error!'),
-                                _(
-                                    'You cannot create an invoice on a centralized journal. Uncheck the centralized counterpart box in the related journal from the configuration menu.'))
+            # if journal.centralisation:
+            #     raise UserError(_('User Error!'),
+            #                     _(
+            #                         'You cannot create an invoice on a centralized journal. Uncheck the centralized counterpart box in the related journal from the configuration menu.'))
 
             line = inv.finalize_invoice_move_lines(line)
 
             move_vals = {
-                'ref': inv.reference or inv.supplier_invoice_number or inv.name,
-                'line_id': line,
+                'ref': inv.reference or inv.name,
+                'line_ids': line,
                 'journal_id': journal.id,
                 'date': inv.date_invoice,
                 'narration': inv.comment,
                 'company_id': inv.company_id.id,
             }
             ctx['company_id'] = inv.company_id.id
-            period = inv.period_id
-            if not period:
-                period = period.with_context(ctx).find(date_invoice)[:1]
-            if period:
-                move_vals['period_id'] = period.id
-                for i in line:
-                    i[2]['period_id'] = period.id
+            # period = inv.period_id
+            # if not period:
+            #     period = period.with_context(ctx).find(date_invoice)[:1]
+            # if period:
+            #     move_vals['period_id'] = period.id
+            #     for i in line:
+            #         i[2]['period_id'] = period.id
 
             ctx['invoice'] = inv
             ctx_nolang = ctx.copy()
@@ -1110,12 +1111,12 @@ class AccountInvoice(models.Model):
             # make the invoice point to that move
             vals = {
                 'move_id': move.id,
-                'period_id': period.id,
+                # 'period_id': period.id,
                 'move_name': move.name,
             }
             inv.with_context(ctx).write(vals)
             # Pass invoice in context in method post: used if you want to get the same
             # account move reference when creating the same invoice after a cancelled one:
             move.post()
-        self._log_event()
+        # self._log_event()
         return True
