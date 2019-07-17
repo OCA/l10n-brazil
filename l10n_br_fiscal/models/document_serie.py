@@ -28,7 +28,7 @@ class DocumentSerie(models.Model):
         string=u'Type',
         default=FISCAL_IN_OUT_DEFAULT)
 
-    fiscal_document_id = fields.Many2one(
+    document_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.type',
         string='Fiscal Document',
         required=True)
