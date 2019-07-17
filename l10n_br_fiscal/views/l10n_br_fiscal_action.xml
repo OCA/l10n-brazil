@@ -364,6 +364,25 @@
         </field>
     </record>
 
+    # Fiscal Document
+    <record id="document_action" model="ir.actions.act_window">
+        <field name="name">Document</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="document_search"/>
+        <field name="view_id" ref="document_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
     # Config Settings
     <record id="config_action" model="ir.actions.act_window">
         <field name="name">Settings</field>
