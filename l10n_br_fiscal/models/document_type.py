@@ -19,7 +19,7 @@ class DocumentType(models.Model):
         size=128)
 
     electronic = fields.Boolean(
-        string='Is Eletronic')
+        string='Is Electronic?')
 
     type = fields.Selection(
         selection=DOCUMENT_TYPE,

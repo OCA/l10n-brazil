@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Fiscal Document Serie">
                 <field name="name"/>
-                <field name="fiscal_document_id"/>
+                <field name="document_type_id"/>
                 <field name="sequence_number_next"/>
                 <field name="company_id"/>
                 <field name="active" widget="boolean_toggle"/>
@@ -31,7 +31,7 @@
                     <group>
                         <field name="code"/>
                         <field name="name"/>
-                        <field name="fiscal_document_id"/>
+                        <field name="document_type_id"/>
                         <field name="company_id"/>
                         <field name="internal_sequence_id"/>
                         <field name="sequence_number_next"/>
