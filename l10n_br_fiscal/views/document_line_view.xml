@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="document_line_form" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.line.form</field>
+    <field name="model">l10n_br_fiscal.document.line</field>
+    <field name="arch" type="xml">
+      <form string="Fiscal Document Line">
+        <field name="currency_id" invisible="1"/>
+        <group>
+          <field name="product_id"/>
+        </group>
+        <group>
+          <group name="quantity" string="Commercial">
+            <field name="price"/>
+            <field name="uom_id"/>
+            <field name="quantity"/>
+          </group>
+          <group name="fiscal_quantity" string="Fiscal">
+            <field name="fiscal_price"/>
+            <field name="fiscal_uom_id"/>
+            <field name="fiscal_quantity"/>
+            <field name="ncm_id"/>
+            <field name="cest_id"/>
+            <field name="nbs_id"/>
+          </group>
+          <group name="operation" string="Operation">
+            <field name="operation_id"/>
+          </group>
+        </group>
+        <group name="taxes" string="Taxes">
+          <notebook>
+            <page name="icms" string="ICMS">
+            </page>
+          </notebook>
+        </group>
+      </form>
+    </field>
+  </record>
+
+</odoo>

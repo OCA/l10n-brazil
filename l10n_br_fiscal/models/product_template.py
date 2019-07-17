@@ -17,8 +17,7 @@ class ProductTemplate(models.Model):
     def _get_default_ncm_id(self):
         fiscal_type = self.env.context.get('default_fiscal_type')
         if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
-            ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
-            return ncm_id
+            return self.env.ref(NCM_FOR_SERVICE_REF)
 
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
