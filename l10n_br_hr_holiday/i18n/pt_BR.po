@@ -206,7 +206,7 @@ msgstr "Licença Paternidade"
 #: field:hr.holidays,payroll_discount:0
 #: field:hr.holidays.status,payroll_discount:0
 msgid "Payroll Discount"
-msgstr "Payroll Discount"
+msgstr "Descontar em Folha"
 
 #. module: l10n_br_hr_holiday
 #: model:ir.model,name:l10n_br_hr_holiday.model_resource_calendar
