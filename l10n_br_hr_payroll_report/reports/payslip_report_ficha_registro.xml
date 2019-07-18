@@ -13,7 +13,8 @@
         <record id="py3o_template_ficha_registro" model="py3o.template">
             <field name="name">Ficha Registro</field>
             <field name="filetype">odt</field>
-            <field name="py3o_template_data" type="base64" file="l10n_br_hr_payroll_report/data/ficha_registro.odt"></field>
+            <field name="py3o_template_data" type="base64"
+                   file="l10n_br_hr_payroll_report/data/ficha_registro.odt" />
         </record>
 
         <record id="report_payslip_py3o_ficha_registro" model="ir.actions.report.xml">

@@ -10,10 +10,23 @@
         <field name="model">wizard.l10n_br_hr_employee.ficha_registro</field>
         <field name="arch" type="xml">
             <form string="Wizard l10n_br_hr_employee ficha_registro">
-                <field name="employee_id" />
-                <field name="image_medium" widget="image" class="oe_left oe_avatar" />
-
+                <div class="container" style="width: 100%;">
+                    <div class="row">
+                        <div class="col-sm" style="float:left; width: 15%;">
+                            <field name="image_medium" widget="image" class="oe_left oe_avatar" />
+                            <field name="employee_id" />
+                        </div>
+                        <div class="col-sm" style="float:left; width: 55%;">
+                            <field name="company_cabecalho" />
+                        </div>
+                        <div class="col-sm" style="float:right; width: 30%;">
+                            <br />
+                            <field name="companylogo" widget="image" width="230" height="80" class="oe_right" />
+                        </div>
+                    </div>
+                </div>
                 <group col="4" colspan="4" style="font-size: 11px;">
+                    <field name="matricula" colspan="4" />
                     <field name="name" colspan="4" />
                     <field name="endereco" colspan="4" />
                     <field name="father_name" colspan="4" />
@@ -39,6 +52,8 @@
                     <field name="ctps" />
 
                     <field name="date_start" />
+                    <field name="dt_desligamento" />
+
                     <field name="pis_pasep" />
 
                     <field name="dt_opc_fgts" />
@@ -49,11 +64,21 @@
 
                     <field name="wage" />
                     <field name="creservist" />
-
-                    <field name="working_hours" />
                 </group>
-                <hr />
+                <label for="working_hours" string="Horário de Trabalho" style="font-weight: bold; width:100%; text-align:center;" />
+                <field name="working_hours" style="width:100%;" colspan="4" />
                 <div style="font-size: 11px;">
+                    <div style="width:33%; float:left;">
+                        <h3 style="text-align:center;">Férias</h3>
+                        <field name="vacation_control_ids">
+                            <tree open="false" create="false" edit="false" delete="false">
+                                <field name="inicio_aquisitivo" string="Ini. Período Aquisitivo" />
+                                <field name="fim_aquisitivo" string="Fim Período Aquisitivo" />
+                                <field name="inicio_gozo" string="Início do Gozo" />
+                                <field name="fim_gozo" string="Fim do Gozo" />
+                            </tree>
+                        </field>
+                    </div>
                     <div style="width:33%; float:left;">
                         <h3 style="text-align:center;">Alterações de Salário</h3>
                         <field name="change_salary_ids">
@@ -69,17 +94,6 @@
                             <tree open="false" create="false" edit="false" delete="false">
                                 <field name="date_start" string="Data" />
                                 <field name="job_id" />
-                            </tree>
-                        </field>
-                    </div>
-                    <div style="width:33%; float:left;">
-                        <h3 style="text-align:center;">Férias</h3>
-                        <field name="vacation_control_ids">
-                            <tree open="false" create="false" edit="false" delete="false">
-                                <field name="inicio_aquisitivo" string="Ini. Período Aquisitivo" />
-                                <field name="fim_aquisitivo" string="Fim Período Aquisitivo" />
-                                <field name="inicio_gozo" string="Início do Gozo" />
-                                <field name="fim_gozo" string="Fim do Gozo" />
                             </tree>
                         </field>
                     </div>

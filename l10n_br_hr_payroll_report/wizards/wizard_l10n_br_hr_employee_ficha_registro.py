@@ -6,7 +6,15 @@ from openerp import api, fields, models, _
 import datetime as dt
 import pandas as pd
 
-DIAS_SEMANA = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM']
+
+DIAS_SEMANA = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']
+
+MARITAL = {'single': 'Solteiro(a)',
+           'married': 'Casado(a)',
+           'widower': 'Viuvo(a)',
+           'divorced': 'Divorciado(a)',
+           'common_law_marriage': 'Common Law Marriage',
+           'separated': 'Separado(a)'}
 
 
 class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
@@ -23,6 +31,15 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         related='employee_id.contract_id',
     )
 
+    companylogo = fields.Binary(
+        string='Logo ABGF',
+        compute='_compute_ficha_registro',
+    )
+
+    company_cabecalho = fields.Html(
+        compute='_compute_ficha_registro',
+    )
+
     image_medium = fields.Binary(
         related='employee_id.image_medium',
         readonly=True,
@@ -30,6 +47,11 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
 
     name = fields.Char(
         related='employee_id.name',
+        readonly=True,
+    )
+
+    matricula = fields.Char(
+        compute='_compute_ficha_registro',
         readonly=True,
     )
 
@@ -102,6 +124,11 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
 
     date_start = fields.Char(
         string=u'Data da Admissão',
+        compute='_compute_ficha_registro',
+    )
+
+    dt_desligamento = fields.Char(
+        string=u'Data do desligamento',
         compute='_compute_ficha_registro',
     )
 
@@ -233,7 +260,8 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         df = pd.DataFrame(data=data_df, columns=cols)
         df.set_index('Dia(s)', inplace=True)
 
-        return df.to_html(), str(data_df)
+        return df.to_html(classes='table table-condensed',
+                          border='0'), str(data_df)
 
     @api.multi
     @api.depends('employee_id', 'dependent_ids')
@@ -242,6 +270,18 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         employee = self.employee_id
         contract = employee.contract_id
         partner = employee.address_home_id
+        company = employee.company_id
+        # Logo ABGF
+        self.companylogo = company.nfe_logo
+
+        # Cabeçalho
+        self.company_cabecalho = '<div style="text-align: center; ' \
+                                 'margin-top: 10px;">' \
+                                 '<h3>{}</h3><p>{}<br />CNPJ: {}</p>' \
+                                 '</div>'.\
+            format(company.partner_id.legal_name,
+                   company.partner_id.contact_address,
+                   company.partner_id.cnpj_cpf)
 
         # Endereço
         self.endereco = u'{} {}{}{} {} - {}/{}'.format(
@@ -249,6 +289,9 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
             if partner.number else ' ', ' - ' + partner.street2 + ' - '
             if partner.street2 else '', partner.district,
             partner.l10n_br_city_id.name, partner.state_id.code)
+
+        # Matrícula
+        self.matricula = contract.matricula_contrato
 
         # Data Nascimento
         self.birthday = self.format_date(employee.birthday)
@@ -275,9 +318,16 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         dt_start = self.format_date(contract.date_start)
         self.date_start = dt_start
 
+        # Data Desligamento
+        self.dt_desligamento = self.format_date(contract.resignation_date) \
+                               or ''
+
         # Horário de Trabalho
         self.working_hours, self.working_hours_dict = \
             self.create_jornada_trabalho_tb(contract)
+        self.working_hours = self.working_hours.replace(
+            'border="0"', 'border="0" style="font-size:11px; '
+                          'border-bottom:1px solid #ccc;"')
 
         # Identidade
         rg_dt = self.format_date(employee.rg_emission)
@@ -294,7 +344,8 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         self.nacionalidade = employee.pais_nac_id.name
 
         # Naturalidade
-        self.naturalidade = employee.naturalidade.name
+        self.naturalidade = '{}/{}'.format(employee.naturalidade.name,
+                                           employee.naturalidade.state_id.code)
 
         # Grau de Instrução
         self.educational_attainment = employee.educational_attainment.name
@@ -311,7 +362,8 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         self.cbo = contract.job_id.cbo_id.code
 
         # Estado Civil
-        self.estado_civil = employee.marital
+        self.estado_civil = \
+            MARITAL[employee.marital] if employee.marital else False
 
         # Preencher tabelas Many2Many
         self.change_salary_ids = contract.change_salary_ids
