@@ -18,7 +18,7 @@
                     <field name="hours_limit"/>
                     <field name="type_day" />
                     <field name="need_attachment" />
-                    <field name="payroll_discount" />
+                    <field name="payroll_discount" string="Descontar em Folha" />
                     <field name="descontar_DSR" />
                 </group>
             </xpath>
