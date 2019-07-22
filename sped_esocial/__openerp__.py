@@ -43,6 +43,7 @@
 
         # Views
         'wizards/s2299_desligamento_wizard_view.xml',
+        'wizards/hr_employee_timesheet_wizard_views.xml',
         'wizards/s3000_exclusao_wizard_view.xml',
         'views/sped_esocial_view.xml',
         'views/inherited_res_company.xml',
@@ -113,6 +114,7 @@
 
         # Relatórios
         'reports/totalizador_periodo.xml',
+        'reports/report_employees_timesheet_py3o.xml',
 
     ],
     "installable": True,

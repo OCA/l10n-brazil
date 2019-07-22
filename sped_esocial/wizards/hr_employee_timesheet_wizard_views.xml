@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!-- Wizard -->
+        <!-- Form-->
+        <record id="hr_employee_timesheet_wizard_form" model="ir.ui.view">
+            <field name="name">hr.employee.timesheet.wizard.form</field>
+            <field name="model">hr.employee.timesheet.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Quadro de Horários">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                    <group>
+                        <group>
+                            <field name="company_id" states="draft"/>
+                        </group>
+                    </group>
+                    <group string="Contratos" colspan="4" col="1" states="done">
+                        <field name="contract_ids" nolabel="1"
+                               domain="[('company_id', '=', company_id)]"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_process_hr_contracts" class="btn oe_highlight pull-right mb32"
+                                 string="Próximo" type="object" states="draft">
+                            <span class="fa fa-long-arrow-right" />
+                        </button>
+
+                        <button name="action_previous_hr_contracts" class="btn oe_highlight pull-left mb32"
+                                 string="Anterior" type="object" states="done">
+                            <span class="fa fa-long-arrow-left" />
+                        </button>
+
+                        <button special="cancel" class="btn oe_highlight pull-left mb32"
+                            string="Fechar">
+                            <span class="fa fa-close" />
+                        </button>
+
+                        <button name="action_print_hr_contracts_py3o" icon="gtk-print"
+                                class="btn oe_highlight pull-right mb32"
+                                string="Imprimir Relatório" type="object" states="done">
+                        </button>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_hr_employee_timesheet_wizard" model="ir.actions.act_window">
+            <field name="name">Employees Timesheet</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.timesheet.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr_employee_timesheet_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- MenuItems -->
+        <menuitem id="hr_employee_timesheet_menuitem"
+                  name="Quadro de Horários"
+                  action="action_hr_employee_timesheet_wizard"
+                  parent="l10n_br_hr.menu_l10n_br_hr_relatorios_root"
+                  sequence="4"
+        />
+    </data>
+</openerp>

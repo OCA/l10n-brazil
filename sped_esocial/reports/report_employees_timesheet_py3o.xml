@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <report
+                id="employees_timesheet_py3o_report"
+                string="Employees TimeSheet"
+                model="hr.employee.timesheet.wizard"
+                report_type="py3o"
+                name="sped_esocial.report_employees_timesheet"
+        />
+
+        <record id="employees_timesheet_py3o_template" model="py3o.template">
+            <field name="name">employees-timesheet</field>
+            <field name="filetype">odt</field>
+            <field name="py3o_template_data" type="base64"
+                   file="sped_esocial/reports/employees_timesheet.odt"/>
+        </record>
+
+         <record id="employees_timesheet_py3o_report" model="ir.actions.report.xml">
+            <field name="module">sped_esocial</field>
+            <field name="py3o_fusion_filetype"
+                   ref="report_py3o.py3o_fusion_filetype_pdf"/>
+            <field name="py3o_template_fallback">reports/employees_timesheet.odt</field>
+            <field name="py3o_template_id" ref="employees_timesheet_py3o_template"/>
+        </record>
+    </data>
+
+</openerp>
