@@ -21,6 +21,22 @@ class AccountHistoricoPadrao(models.Model):
         string=u'Template para Histórico'
     )
 
+
+    def tratar_dicionario(self,complemento):
+        """
+
+        :param complemento:
+        :return:
+        """
+        complement = {}
+        for key in complemento:
+            if isinstance(complemento.get(key), tuple):
+                complement.update({key: complemento.get(key)[1]})
+            else:
+                complement.update({key:complemento.get(key)})
+
+        return complement
+
     def get_historico_padrao(
             self, account_move_id=False,
             account_move_line_id=False, complemento={}):
@@ -43,6 +59,8 @@ class AccountHistoricoPadrao(models.Model):
 
             historico_padrao = historico_padrao.replace(
                 '%{DD}', str(hoje.day))
+
+            complemento = self.tratar_dicionario(complemento)
 
             if complemento:
                 try:
