@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 Hendrix Costa - ABGF
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="hr_payroll_type_normal" model="hr.payroll.type">
+            <field name="name">normal</field>
+            <field name="description">Normal</field>
+        </record>
+
+        <record id="hr_payroll_type_adiantamento_13" model="hr.payroll.type">
+            <field name="name">adiantamento_13</field>
+            <field name="description">Décimo Terceiro - Adiantamento</field>
+        </record>
+
+        <record id="hr_payroll_type_decimo_terceiro" model="hr.payroll.type">
+            <field name="name">decimo_terceiro</field>
+            <field name="description">Décimo Terceiro</field>
+        </record>
+
+        <record id="hr_payroll_type_provisao_ferias" model="hr.payroll.type">
+            <field name="name">provisao_ferias</field>
+            <field name="description">Provisão Férias</field>
+        </record>
+
+        <record id="hr_payroll_type_provisao_decimo_terceiro" model="hr.payroll.type">
+            <field name="name">provisao_decimo_terceiro</field>
+            <field name="description">Provisão Décimo Terceiro</field>
+        </record>
+
+        <record id="hr_payroll_type_rpa" model="hr.payroll.type">
+            <field name="name">rpa</field>
+            <field name="description">RPA - Recibo de Pagamento à Autônomo</field>
+        </record>
+
+    </data>
+</openerp>

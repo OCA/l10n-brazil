@@ -545,11 +545,14 @@ class HrContract(models.Model):
         store=True,
     )
 
-    compor_lote = fields.Boolean(
-        string='Compor Lote?',
+    hr_payroll_type_ids = fields.Many2many(
+        comodel_name="hr.payroll.type",
+        relation='hr_contract_hr_payroll_type_rel',
+        column1='hr_contract_id',
+        column2='hr_payroll_type_id',
+        string='Compor qual tipo de Lote?',
         help='Indica se a busca de contratos do lote de holerites, deverá '
              'relacionar esse contrato.',
-        default=True,
     )
 
     @api.multi

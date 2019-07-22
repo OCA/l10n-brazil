@@ -24,7 +24,7 @@
                 <field name="company_id" />
             </field>
             <field name="advantages" position="before">
-                <field name="compor_lote"/>
+                <field name="hr_payroll_type_ids" widget="many2many_tags"/>
             </field>
             <field name="weekly_hours" position="attributes">
                 <attribute name="required">1</attribute>

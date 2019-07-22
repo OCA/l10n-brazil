@@ -4,6 +4,7 @@
 
 from . import hr_campos_rescisao
 from . import hr_payslip
+from . import hr_payroll_type
 from . import hr_payslip_autonomo
 from . import hr_payslip_line
 from . import l10n_br_hr_child_benefit
