@@ -88,11 +88,11 @@
                             <field name="line_ids" colspan="4" nolabel="1">
                                 <tree string="Salary Structure" name="tree_salary_structure" editable="bottom" colors="orange:total == 0">
                                     <field name="id" string="Cód Identificador" />
+                                    <field name="sequence" />
                                     <field name="name"/>
                                     <field name="code"/>
                                     <field name="reference"/>
                                     <field name="category_id"/>
-                                    <field name="sequence" invisible="1"/>
                                     <field name="quantity" digits="(18,2)" />
                                     <field name="rate" digits="(18,4)" />
                                     <field name="amount" digits="(18,2)" />
