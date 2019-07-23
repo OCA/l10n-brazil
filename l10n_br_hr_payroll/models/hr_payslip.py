@@ -1253,7 +1253,7 @@ class HrPayslip(models.Model):
                     data_de_inicio = self.contract_id.date_start
                 else:
                     data_de_inicio = str(self.ano - 1) + '-12-01'
-                data_final = str(self.ano) + '-11-30'
+                data_final = '{}-{:02}-{}'.format(self.ano, self.mes_do_ano, 30)
 
                 """
                 Considerando que as gratificações, prêmios e adicionais fixos,
