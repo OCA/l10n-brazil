@@ -41,6 +41,9 @@
                         />
                     </header>
                 </xpath>
+                <field name="compor_lote" position="after">
+                    <field name="compor_quadro_horario"/>
+                </field>
                 <field name="employee_id" position="attributes">
                     <attribute name="options">{'no_quick_create': True}</attribute>
                 </field>
