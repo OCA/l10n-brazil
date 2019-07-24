@@ -13,29 +13,29 @@ access_s1050_operador,Operador S-1050(Leitura),model_sped_hr_turnos_trabalho,spe
 access_s1050_gerente,Gerente S-1050(Escrita),model_sped_hr_turnos_trabalho,sped_tabelas.group_manager,1,1,1,1
 access_s1060_operador,Operador S-1060(Leitura),model_sped_hr_turnos_trabalho,sped_tabelas.group_user,1,0,0,0
 access_s1060_gerente,Gerente S-1060(Escrita),model_sped_hr_ambiente_trabalho,base.group_hr_user,1,1,1,1
-access_hr_ambiente_trabalho_gerente,Gerente Ambiente Trabalho,model_hr_ambiente_trabalho,base.group_hr_user,1,1,1,1
-access_hr_ambiente_trabalho_user,User Ambiente Trabalho,model_hr_ambiente_trabalho,base.group_user,1,0,0,0
-access_hr_condicao_ambiente_trabalho_gerente,Gerente Condicao Ambiente Trabalho,model_hr_condicao_ambiente_trabalho,base.group_hr_user,1,1,1,1
-access_hr_condicao_ambiente_trabalho_user,User Condicao Ambiente Trabalho,model_hr_condicao_ambiente_trabalho,base.group_user,1,0,0,0
-access_hr_informativo_atividade_trabalho_gerente,Gerente Informativo Ambiente Trabalho,model_hr_informativo_atividade_trabalho,base.group_hr_user,1,1,1,1
-access_hr_equipamento_protecao_individual_gerente,Gerente EPC,model_hr_equipamento_protecao_individual,base.group_hr_user,1,1,1,1
-access_hr_equipamento_protecao_individual_line_gerente,Gerente EPI,model_hr_equipamento_protecao_individual_line,base.group_hr_user,1,1,1,1
-access_hr_fator_risco_gerente,Gerente Fator de Risco,model_hr_fator_risco,base.group_hr_user,1,1,1,1
-access_hr_fator_risco_user,User Fator de Risco,model_hr_fator_risco,base.group_user,1,0,0,0
-access_hr_responsavel_ambiental_gerente,Gerente Responsavel de Registro Ambiental,model_hr_responsavel_ambiente,base.group_hr_user,1,1,1,1
-access_hr_responsavel_ambiental_user,User Responsavel de Registro Ambiental,model_hr_responsavel_ambiente,base.group_user,1,0,0,0
-access_hr_saude_trabalhador_user,User Saude Trabalhador,model_hr_saude_trabalhador,base.group_user,1,0,0,0
-access_hr_saude_trabalhador_gerente,Gerente Saude Trabalhador,model_hr_saude_trabalhador,base.group_hr_user,1,1,1,1
-access_hr_exame_aso_gerente,Gerente Exame ASO,model_hr_exame_aso,base.group_hr_user,1,1,1,1
-access_hr_exame_aso_user,User Exame ASO,model_hr_exame_aso,base.group_user,1,0,0,0
-access_hr_comunicao_acidente_trabalho_user,User Comunicação de Acidente de Trabalho,model_hr_comunicacao_acidente_trabalho,base.group_user,1,0,0,0
-access_hr_comunicao_acidente_trabalho_gerente,Gerente Comunicação de Acidente de Trabalho,model_hr_comunicacao_acidente_trabalho,base.group_hr_user,1,1,1,1
-access_hr_acidente_parte_atingida_gerente,Gerente Parte Atingida no Acidente,model_hr_acidente_parte_atingida,base.group_hr_user,1,1,1,1
-access_hr_agente_causador_gerente,Gerente Agente Causador,model_hr_agente_causador,base.group_hr_user,1,1,1,1
-access_hr_atestado_medico_gerente,Gerente Atestado Médico,model_hr_atestado_medico,base.group_hr_user,1,1,1,1
-access_hr_treinamentos_capacitacoes_user,User Treinamento e Capacitações,model_hr_treinamentos_capacitacoes,base.group_user,1,0,0,0
-access_hr_treinamentos_capacitacoes_gerente,Gerente Treinamento e Capacitações,model_hr_treinamentos_capacitacoes,base.group_hr_user,1,1,1,1
-access_hr_professor_treinamento_gerente,Gerente Professor do Treinamento ou Capacitação,model_hr_professor_treinamento,base.group_hr_user,1,1,1,1
+access_hr_ambiente_trabalho_gerente,Gerente Ambiente Trabalho,model_hr_ambiente_trabalho,sped_tabelas.group_manager,1,1,1,1
+access_hr_ambiente_trabalho_user,User Ambiente Trabalho,model_hr_ambiente_trabalho,sped_tabelas.group_user,1,0,0,0
+access_hr_condicao_ambiente_trabalho_gerente,Gerente Condicao Ambiente Trabalho,model_hr_condicao_ambiente_trabalho,sped_tabelas.group_manager,1,1,1,1
+access_hr_condicao_ambiente_trabalho_user,User Condicao Ambiente Trabalho,model_hr_condicao_ambiente_trabalho,sped_tabelas.group_user,1,0,0,0
+access_hr_informativo_atividade_trabalho_gerente,Gerente Informativo Ambiente Trabalho,model_hr_informativo_atividade_trabalho,sped_tabelas.group_manager,1,1,1,1
+access_hr_equipamento_protecao_individual_gerente,Gerente EPC,model_hr_equipamento_protecao_individual,sped_tabelas.group_manager,1,1,1,1
+access_hr_equipamento_protecao_individual_line_gerente,Gerente EPI,model_hr_equipamento_protecao_individual_line,sped_tabelas.group_manager,1,1,1,1
+access_hr_fator_risco_gerente,Gerente Fator de Risco,model_hr_fator_risco,sped_tabelas.group_manager,1,1,1,1
+access_hr_fator_risco_user,User Fator de Risco,model_hr_fator_risco,sped_tabelas.group_user,1,0,0,0
+access_hr_responsavel_ambiental_gerente,Gerente Responsavel de Registro Ambiental,model_hr_responsavel_ambiente,sped_tabelas.group_manager,1,1,1,1
+access_hr_responsavel_ambiental_user,User Responsavel de Registro Ambiental,model_hr_responsavel_ambiente,sped_tabelas.group_user,1,0,0,0
+access_hr_saude_trabalhador_user,User Saude Trabalhador,model_hr_saude_trabalhador,sped_tabelas.group_user,1,0,0,0
+access_hr_saude_trabalhador_gerente,Gerente Saude Trabalhador,model_hr_saude_trabalhador,sped_tabelas.group_manager,1,1,1,1
+access_hr_exame_aso_gerente,Gerente Exame ASO,model_hr_exame_aso,sped_tabelas.group_manager,1,1,1,1
+access_hr_exame_aso_user,User Exame ASO,model_hr_exame_aso,sped_tabelas.group_user,1,0,0,0
+access_hr_comunicao_acidente_trabalho_user,User Comunicação de Acidente de Trabalho,model_hr_comunicacao_acidente_trabalho,sped_tabelas.group_user,1,0,0,0
+access_hr_comunicao_acidente_trabalho_gerente,Gerente Comunicação de Acidente de Trabalho,model_hr_comunicacao_acidente_trabalho,sped_tabelas.group_manager,1,1,1,1
+access_hr_acidente_parte_atingida_gerente,Gerente Parte Atingida no Acidente,model_hr_acidente_parte_atingida,sped_tabelas.group_manager,1,1,1,1
+access_hr_agente_causador_gerente,Gerente Agente Causador,model_hr_agente_causador,sped_tabelas.group_manager,1,1,1,1
+access_hr_atestado_medico_gerente,Gerente Atestado Médico,model_hr_atestado_medico,sped_tabelas.group_manager,1,1,1,1
+access_hr_treinamentos_capacitacoes_user,User Treinamento e Capacitações,model_hr_treinamentos_capacitacoes,sped_tabelas.group_user,1,0,0,0
+access_hr_treinamentos_capacitacoes_gerente,Gerente Treinamento e Capacitações,model_hr_treinamentos_capacitacoes,sped_tabelas.group_manager,1,1,1,1
+access_hr_professor_treinamento_gerente,Gerente Professor do Treinamento ou Capacitação,model_hr_professor_treinamento,sped_tabelas.group_manager,1,1,1,1
 access_s1200_operador,Operador S-1200(Leitura),model_sped_esocial_remuneracao,sped_tabelas.group_user,1,0,0,0
 access_s1200_gerente,Gerente S-1200(Escrita),model_sped_esocial_remuneracao,sped_tabelas.group_manager,1,1,1,1
 access_s1202_operador,Operador S-1202(Leitura),model_sped_esocial_remuneracao_rpps,sped_tabelas.group_user,1,0,0,0
