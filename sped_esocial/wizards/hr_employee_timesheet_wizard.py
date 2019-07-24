@@ -36,10 +36,14 @@ class HrEmployeeTimeSheetWizard(models.TransientModel):
     def action_process_hr_contracts(self):
         self.ensure_one()
 
+        today = fields.Date.context_today(self)
         hr_contract_ids = self.env['hr.contract'].search(
             [
                 ('employee_id.company_id', '=', self.company_id.id),
                 ('compor_quadro_horario', '=', True),
+                '|',
+                ('date_end', '=', False),
+                ('date_end', '>=', today),
             ])
 
         call_result = {
