@@ -39,6 +39,9 @@
     ],
     'installable': True,
     'external_dependencies': {
-        'python': ['num2words'],
+        'python': [
+            'num2words',
+            'erpbrasil.base',
+        ],
     }
 }
