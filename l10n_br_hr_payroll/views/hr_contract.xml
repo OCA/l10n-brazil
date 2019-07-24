@@ -160,14 +160,6 @@
                             <field name="estado_crm"/>
                         </group>
                     </group>
-                    <label for="exame_ids"/>
-                    <field name="exame_ids">
-                        <tree name="exames_tree">
-                            <field name="name"/>
-                            <field name="data_do_exame"/>
-                            <field name="data_de_validade"/>
-                        </tree>
-                    </field>
                 </page>
                 <!--Aba Processo judicial-->
                 <page string="Processo judicial">
@@ -178,18 +170,6 @@
                     </group>
                     <label for="observacoes_processo"/>
                     <field name="observacoes_processo"/>
-                </page>
-                <!--Aba Cursos e treinamentos-->
-                <page string="Cursos e treinamentos">
-                    <field name="curso_ids">
-                        <tree>
-                            <field name="name"/>
-                            <field name="carga_horaria"/>
-                            <field name="inicio_curso"/>
-                            <field name="fim_curso"/>
-                            <field name="situacao"/>
-                        </tree>
-                    </field>
                 </page>
                 <!--Aba Afastamentos-->
                 <page string="Ocorrências e Férias">

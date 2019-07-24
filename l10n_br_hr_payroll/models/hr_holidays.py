@@ -14,3 +14,14 @@ class HrHolidays(models.Model):
         inverse_name='holidays_ferias',
     )
 
+    rubrica = fields.Char(
+        string="Rubrica"
+    )
+
+    periodo = fields.Char(
+        string="Data de afastamento"
+    )
+
+    valor_inss = fields.Float(
+        string="Valor INSS"
+    )
