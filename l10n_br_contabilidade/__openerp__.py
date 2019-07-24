@@ -17,6 +17,7 @@
         'account_chart_report',
         'account_financial_report_webkit',
         'mis_builder',
+        'financial_account',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -67,6 +68,7 @@
         'views/account_invoice.xml',
         'views/l10n_br_account.xml',
         'views/account_product.xml',
+        'views/inherited_financial_move.xml',
     ],
     'qweb': [
         'static/src/xml/*.xml'

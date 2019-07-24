@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="financial_move_form_view">
+            <field name="name">financial.move.form (in l10n_br_contabilidade)</field>
+            <field name="model">financial.move</field>
+            <field name="inherit_id" ref="financial_account.financial_move_debt_base_form"/>
+            <field name="arch" type="xml">
+                <page name="accounting" position="inside">
+                    <separator string="Contabilidade e Eventos Contábeis"/>
+                    <field name="account_event_id"/>
+                </page>
+                <xpath expr="//page[@name='accounting']/group" position="attributes">
+                    <attribute name="attrs">{'invisible': True}</attribute>
+                </xpath>
+                <xpath expr="//separator[@string='Partidas do lançamento contábil']" position="attributes">
+                    <attribute name="attrs">{'invisible': True}</attribute>
+                </xpath>
+                <field name="account_move_line_id" position="attributes">
+                    <attribute name="attrs">{'invisible': True}</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
