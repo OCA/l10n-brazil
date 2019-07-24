@@ -298,7 +298,7 @@
                     <field name="is_simulacao" invisible="1"/>
                 </field>
                 <field name="credit_note" position="after">
-                    <field name="data_afastamento" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])]}"/>
+                    <field name="data_afastamento" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])], 'required': [('tipo_de_folha', 'in', ['rescisao', 'rescisao_complementar'])]}"/>
                     <field name="mtv_deslig" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])], 'required': [('tipo_de_folha', '=', 'rescisao', 'rescisao_complementar')]}"/>
                     <field name="data_pagamento_demissao" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])]}"/>
                     <field name="valor_saldo_fgts" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
