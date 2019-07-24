@@ -7,8 +7,8 @@
             <field name="model">print.journal.webkit</field>
             <field name="inherit_id" ref="account_financial_report_webkit.account_report_print_journal_view_webkit"/>
             <field name="arch" type="xml">
-                <field name="amount_currency" position="after">
-                    <field name="account_depara_plano_id"/>
+                <field name="chart_account_id" position="replace">
+                    <field name="account_depara_plano_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                 </field>
                 <xpath expr="//field[@name='filter']" position="after">
                     <field name="exibe_criador_aprovador" />

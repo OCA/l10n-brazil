@@ -242,3 +242,12 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
         return {'type': 'ir.actions.report.xml',
                 'report_name': 'account.l10n_br_account_report_print_journal',
                 'datas': data}
+
+    @api.onchange('account_depara_plano_id')
+    def change_plano_contas(self):
+        if self.account_depara_plano_id:
+            self.chart_account_id = \
+                self.account_depara_plano_id.account_account_id.id
+        else:
+            self.chart_account_id = \
+                self.env.ref('account.account_account_id_0').id
