@@ -41,7 +41,7 @@
                         />
                     </header>
                 </xpath>
-                <field name="compor_lote" position="after">
+                <field name="hr_payroll_type_ids" position="after">
                     <field name="compor_quadro_horario"/>
                 </field>
                 <field name="employee_id" position="attributes">
