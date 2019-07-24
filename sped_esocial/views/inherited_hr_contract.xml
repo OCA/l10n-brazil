@@ -176,9 +176,6 @@
                     <separator string="Treinamentos, Capacitações, Exercícios Simulados e Outras Anotações"/>
                     <field name="treinamento_capacitacao_ids"/>
                 </xpath>
-                <field name="exame_ids" positon="attributes">
-                    <attribute name="attrs">{'invisible': True}</attribute>
-                </field>
                 <field name="estado_crm" positon="attributes">
                     <attribute name="attrs">{'invisible': True}</attribute>
                 </field>
