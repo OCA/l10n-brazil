@@ -6,7 +6,12 @@ import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_br_base.tools import misc
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base import misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 _logger = logging.getLogger(__name__)
 
