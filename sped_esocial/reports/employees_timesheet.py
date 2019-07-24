@@ -91,7 +91,6 @@ def employees_timesheet(pool, cr, uid, localcontext, context):
         "contratos": contratos,
         "notes": notes,
         "company_logo": company_nfe_logo if company_nfe_logo else company_logo,
-        "company_logo2": company_nfe_logo if company_nfe_logo else company_logo
     }
 
     localcontext.update(data)
