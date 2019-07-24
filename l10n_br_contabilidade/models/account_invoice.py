@@ -9,8 +9,39 @@ from openerp.addons.l10n_br_account_product.constantes import (
 from openerp.exceptions import Warning, ValidationError
 
 
+VALORES_NFE = {
+    'cofins_value': 'COFINS própria',
+    'csll_value': 'CSLL própria',
+    'amount_discount': 'Desconto',
+    'icms_dest_value': 'Diferencial de alíquota (ICMS próprio)',
+    'amount_freight': 'Frete',
+    'icms_value': 'ICMS próprio',
+    'icms_st_value': 'ICMS ST',
+    'ii_value': 'Imposto de importação',
+    'ipi_value': 'IPI',
+    'issqn_value': 'ISS próprio',
+    'amount_costs': 'Outras despesas acessórias',
+    'pis_value': 'PIS próprio',
+    'amount_insurance':'Seguro',
+    'amount_net': 'Valor Fatura',
+    'amount_total': 'Total da NF',
+}
+
+TYPE = {
+    'out_invoice': 'Fatura de Cliente',
+    'in_invoice': 'Fatura de Fornecedor',
+    'out_refund': 'Fatura Reembolso Cliente',
+    'in_refund': 'Fatura Reembolso Fornecedor',
+}
+
+
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    name = fields.Char(
+        string='Nome',
+        compute='_compute_name'
+    )
 
     number = fields.Char(
         string='number',
@@ -20,12 +51,6 @@ class AccountInvoice(models.Model):
 
     account_event_entrada_id = fields.Many2one(
         string=u'Evento Contábil Entrada',
-        comodel_name='account.event',
-        copy=False,
-    )
-
-    account_event_pagamento_id = fields.Many2one(
-        string=u'Evento Contábil Pagamento',
         comodel_name='account.event',
         copy=False,
     )
@@ -113,6 +138,12 @@ class AccountInvoice(models.Model):
     amount_total = fields.Float(
         help='Código para roteiro contábil: "amount_total"',
     )
+
+    @api.multi
+    def _compute_name(self):
+        for record in self:
+            record.name = '{} - {}'.format(
+                TYPE[record.type], record.internal_number)
 
     @api.depends('internal_number')
     def _compute_number(self):
@@ -348,3 +379,81 @@ class AccountInvoice(models.Model):
     def gerar_contabilidade(self):
         for inv in self:
             inv.action_move_create()
+
+    @api.multi
+    def button_create_financial_move(self):
+        for record in self:
+            if not record.payment_term:
+                raise Warning(
+                    "É necessário escolher a condição de pagamento!"
+                )
+            record.action_financial_create()
+
+    @api.multi
+    def action_financial_create(self):
+        """ Cria o lançamento financeiro do documento fiscal
+        :return:
+        """
+        for documento in self:
+            if documento.state not in 'open':
+                continue
+
+            documento.financial_ids.unlink()
+
+            for duplicata in documento.duplicata_ids:
+                dados = duplicata.prepara_financial_move()
+                self.env['financial.move'].create(dados)
+
+    def get_linhas_evento_contabeis(self, valor_pago):
+        linhas = []
+
+        if self.icms_value:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['icms_value'],
+                'code': 'icms_value',
+                'valor': self.icms_value,
+            }))
+        if self.icms_st_value:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['icms_st_value'],
+                'code': 'icms_st_value',
+                'valor': self.icms_st_value,
+            }))
+        if self.csll_value:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['csll_value'],
+                'code': 'csll_value',
+                'valor': self.csll_value,
+            }))
+        if self.ipi_value:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['ipi_value'],
+                'code': 'ipi_value',
+                'valor': self.ipi_value,
+            }))
+        if self.pis_value:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['pis_value'],
+                'code': 'pis_value',
+                'valor': self.pis_value,
+            }))
+        if self.cofins_value:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['cofins_value'],
+                'code': 'cofins_value',
+                'valor': self.cofins_value,
+            }))
+        if self.issqn_value:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['issqn_value'],
+                'code': 'issqn_value',
+                'valor': self.issqn_value,
+            }))
+        if self.amount_net:
+            linhas.append((0, 0, {
+                'name': VALORES_NFE['amount_net'],
+                'code': 'amount_net',
+                'valor': self.amount_net,
+            }))
+
+        return linhas

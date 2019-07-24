@@ -11,6 +11,12 @@
             <field name="inherit_id" ref="l10n_br_account_product.l10n_br_account_product_nfe_form"/>
             <field name="arch" type="xml">
                 <data>
+                    <button name="invoice_proforma2" position="after">
+                        <button name="button_create_financial_move" states="open" string="Gerar Financeiro" type="object" class="oe_highlight"/>
+                    </button>
+                    <field name="payment_term" position="attributes">
+                        <attribute name="attrs">{'readonly': False}</attribute>
+                    </field>
                     <field name="internal_number" position="after">
                         <field name="number" attrs="{'invisible': True, 'readonly': True}"/>
                     </field>
@@ -19,7 +25,6 @@
                         <br />
                         <group>
                             <field name="account_event_entrada_id" attrs="{'readonly': True}"/>
-                            <field name="account_event_pagamento_id" attrs="{'readonly': True}"/>
                         </group>
                         <br />
                     </field>
