@@ -3,10 +3,17 @@
 # Copyright (C) 2012 Raphaël Valyi (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-from ..tools import fiscal, misc
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base import fiscal, misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class Partner(models.Model):
