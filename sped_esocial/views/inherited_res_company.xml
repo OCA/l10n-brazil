@@ -8,6 +8,7 @@
         <record model="ir.ui.view" id="sped_esocial_res_company_form">
             <field name="name">Empregador e-Social</field>
             <field name="model">res.company</field>
+            <field name="priority">999</field>
             <field name="arch" type="xml">
                 <form string="Company" create="false" delete="false" duplicate="false">
                     <sheet>
