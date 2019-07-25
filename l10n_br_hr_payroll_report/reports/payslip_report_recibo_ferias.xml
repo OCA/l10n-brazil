@@ -7,7 +7,9 @@
             model="hr.payslip"
             report_type="py3o"
             groups="base.group_hr_manager"
-            name="l10n_br_hr_payroll_report.report_recibo_ferias" />
+            name="l10n_br_hr_payroll_report.report_recibo_ferias"
+            menu="False"
+        />
 
         <record id="py3o_template_payslip_recibo_ferias" model="py3o.template">
             <field name="name">Recibo de Férias</field>

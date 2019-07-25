@@ -7,6 +7,7 @@
                 model="hr.payslip"
                 report_type="py3o"
                 name="l10n_br_hr_payroll_report.report_payslipreport"
+                menu="False"
         />
 
         <record id="py3o_template_payslip" model="py3o.template">

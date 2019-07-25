@@ -8,6 +8,7 @@
             report_type="py3o"
             name="l10n_br_hr_payroll_report.report_aviso_rescisao"
             groups="base.group_hr_manager"
+            menu="False"
         />
 
         <record id="py3o_template_payslip_rescisao" model="py3o.template">
