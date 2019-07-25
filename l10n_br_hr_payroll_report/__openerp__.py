@@ -28,6 +28,7 @@
         'views/hr_salary_rule.xml',
         'views/hr_field_rescission.xml',
         'views/hr_employee.xml',
+        'views/hr_payslip.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,

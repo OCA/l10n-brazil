@@ -1,0 +1,33 @@
+<openerp>
+    <data>
+
+        <record id="view_hr_payslip_form" model="ir.ui.view">
+            <field name="name">hr.payslip.form (in l10n_br_payroll_report)</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="state" position="before">
+                        <button name="%(l10n_br_hr_payroll_report.report_payslip_py3o_aviso_ferias)d"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|', ('state', '!=', 'done'), ('tipo_de_folha', '!=', 'ferias')]}"
+                                type="action" string="Imprimir Aviso"/>
+                        <button name="%(l10n_br_hr_payroll_report.report_payslip_py3o_report)d"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'done'), ('tipo_de_folha', '!=', 'normal')]}"
+                                type="action" string="Imprimir"/>
+                        <button name="%(l10n_br_hr_payroll_report.payslip_report_recibo_ferias)d"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'done'), ('tipo_de_folha', '!=', 'ferias')]}"
+                                type="action" string="Imprimir Recibo"/>
+                        <button name="%(l10n_br_hr_payroll_report.report_payslip_py3o_rescisao)d"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'done'), ('tipo_de_folha', '!=', 'rescisao')]}"
+                                type="action" string="Imprimir"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>
