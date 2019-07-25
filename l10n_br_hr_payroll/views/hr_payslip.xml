@@ -51,6 +51,7 @@
                 <button name="draft" position="attributes">
                     <attribute name="states">verify</attribute>
                     <attribute name="type">object</attribute>
+                    <attribute name="groups">base.group_hr_user</attribute>
                 </button>
                 <button name="549" position="attributes">
                     <attribute name="groups">base.group_hr_user</attribute>
