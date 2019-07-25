@@ -21,7 +21,7 @@
             </field>
 
             <button name="refund_sheet" position="before">
-                <button name="action_done" states="verify" string="Concluir" class="oe_highlight" type="object"/>
+                <button name="action_done" states="verify" string="Concluir" class="oe_highlight" type="object" groups="base.group_hr_user"/>
             </button>
 
             <!-- Substituir botao de recusar holerite por botao para gerar ordem de pagamento do holerite-->
