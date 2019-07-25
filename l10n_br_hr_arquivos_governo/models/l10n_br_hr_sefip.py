@@ -61,6 +61,7 @@ class SefipAttachments(models.Model):
 class L10nBrSefip(models.Model):
     _name = b'l10n_br.hr.sefip'
     _inherit = [b'abstract.arquivos.governo.workflow', b'mail.thread']
+    _order = b'data_recolhimento_fgts DESC'
 
     @api.multi
     @api.onchange('company_id')
