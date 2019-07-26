@@ -258,6 +258,9 @@ class L10nBrHrCnab(models.Model):
     arquivo_retorno = fields.Binary(
         string='Arquivo Retorno'
     )
+    filename = fields.Char(
+        string="Filename"
+    )
     bank_account_id = fields.Many2one(
         string="Conta cedente",
         comodel_name="res.partner.bank",
