@@ -248,6 +248,12 @@ class L10nBrHrCnab(models.Model):
     _name = "l10n_br.cnab"
     _rec_name = "display_name"
 
+    display_name = fields.Char(
+        compute='_compute_display_name',
+        store=True,
+        index=True
+    )
+
     arquivo_retorno = fields.Binary(
         string='Arquivo Retorno'
     )
@@ -282,6 +288,11 @@ class L10nBrHrCnab(models.Model):
         selection=STATE,
         default="draft",
     )
+
+    @api.one
+    @api.depends('name')
+    def _compute_display_name(self):
+        self.display_name = self.name
 
     def _busca_conta(self, banco, agencia, conta):
         return self.env['res.partner.bank'].search([
