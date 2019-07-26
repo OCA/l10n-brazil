@@ -29,6 +29,12 @@ class FinancialMove(models.Model):
 
     @api.multi
     def create_account_move(self):
+        """
+        Por conta da geração do evento contábil para amarrar a contabilidade
+        com o financeiro, foi necessário herdar esta função e sobre escrever
+        de modo que ela fique inativa.
+        :return:
+        """
         pass
 
     def get_dicionario_evento_contabil(
