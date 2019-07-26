@@ -9,24 +9,6 @@ from openerp.addons.l10n_br_account_product.constantes import (
 from openerp.exceptions import Warning, ValidationError
 
 
-VALORES_NFE = {
-    'cofins_value': 'COFINS própria',
-    'csll_value': 'CSLL própria',
-    'amount_discount': 'Desconto',
-    'icms_dest_value': 'Diferencial de alíquota (ICMS próprio)',
-    'amount_freight': 'Frete',
-    'icms_value': 'ICMS próprio',
-    'icms_st_value': 'ICMS ST',
-    'ii_value': 'Imposto de importação',
-    'ipi_value': 'IPI',
-    'issqn_value': 'ISS próprio',
-    'amount_costs': 'Outras despesas acessórias',
-    'pis_value': 'PIS próprio',
-    'amount_insurance':'Seguro',
-    'amount_net': 'Valor Fatura',
-    'amount_total': 'Total da NF',
-}
-
 TYPE = {
     'out_invoice': 'Fatura de Cliente',
     'in_invoice': 'Fatura de Fornecedor',
