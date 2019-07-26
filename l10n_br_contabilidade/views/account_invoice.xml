@@ -12,7 +12,7 @@
             <field name="arch" type="xml">
                 <data>
                     <button name="invoice_proforma2" position="after">
-                        <button name="button_create_financial_move" states="open" string="Gerar Financeiro" type="object" class="oe_highlight"/>
+                        <button name="button_create_financial_move" string="Gerar Financeiro" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open'), ('financial_ids', '!=', False)]}"/>
                     </button>
                     <field name="payment_term" position="attributes">
                         <attribute name="attrs">{'readonly': False}</attribute>
