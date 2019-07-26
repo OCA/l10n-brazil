@@ -142,8 +142,11 @@ class AccountInvoice(models.Model):
     @api.multi
     def _compute_name(self):
         for record in self:
-            record.name = '{} - {}'.format(
-                TYPE[record.type], record.internal_number)
+            record.name = '{} - {} - {}'.format(
+                TYPE[record.type],
+                record.partner_id.name,
+                record.internal_number
+            )
 
     @api.depends('internal_number')
     def _compute_number(self):
@@ -407,53 +410,24 @@ class AccountInvoice(models.Model):
     def get_linhas_evento_contabeis(self, valor_pago):
         linhas = []
 
-        if self.icms_value:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['icms_value'],
-                'code': 'icms_value',
-                'valor': self.icms_value,
-            }))
-        if self.icms_st_value:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['icms_st_value'],
-                'code': 'icms_st_value',
-                'valor': self.icms_st_value,
-            }))
-        if self.csll_value:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['csll_value'],
-                'code': 'csll_value',
-                'valor': self.csll_value,
-            }))
-        if self.ipi_value:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['ipi_value'],
-                'code': 'ipi_value',
-                'valor': self.ipi_value,
-            }))
-        if self.pis_value:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['pis_value'],
-                'code': 'pis_value',
-                'valor': self.pis_value,
-            }))
-        if self.cofins_value:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['cofins_value'],
-                'code': 'cofins_value',
-                'valor': self.cofins_value,
-            }))
-        if self.issqn_value:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['issqn_value'],
-                'code': 'issqn_value',
-                'valor': self.issqn_value,
-            }))
-        if self.amount_net:
-            linhas.append((0, 0, {
-                'name': VALORES_NFE['amount_net'],
-                'code': 'amount_net',
-                'valor': self.amount_net,
-            }))
+        proporcional = valor_pago/self.amount_net
+
+        for parametro_nota in CAMPO_DOCUMENTO_FISCAL:
+            if '_wh' not in parametro_nota[0] and self[parametro_nota[0]]:
+                vals = {
+                    'name': parametro_nota[1],
+                    'code': parametro_nota[0],
+                    'valor': self[parametro_nota[0]] * proporcional,
+                }
+
+                if parametro_nota[0] == 'amount_net':
+                    if self.type == 'out_invoice' and self.partner_id.property_account_receivable:
+                        vals['conta_credito_exclusivo_id'] = \
+                                self.partner_id.property_account_receivable.id
+                    else:
+                        vals['conta_debito_exclusivo_id'] = \
+                            self.partner_id.property_account_payable.id
+
+                linhas.append((0, 0, vals))
 
         return linhas
