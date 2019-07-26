@@ -381,7 +381,10 @@ class AccountInvoice(models.Model):
         """
         for documento in self:
             if documento.state not in 'open':
-                continue
+                Warning(
+                    'Não é possível não gerar financeiro para uma '
+                    'nota fiscal em um estágio diferente de "Aberto"'
+                )
 
             documento.financial_ids.unlink()
 
