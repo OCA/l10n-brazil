@@ -28,6 +28,7 @@ SITUACAO_PAGAMENTO = [
     ('aberta', 'Aberta'),
     ('paga', 'Paga'),
     ('liquidada', 'Liquidada'),
+    ('baixa', 'Baixa Simples'),
     ('baixa_liquidacao', 'Baixa por Liquidação em Dinheiro'),
 ]
 
