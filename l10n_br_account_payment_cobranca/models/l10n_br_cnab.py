@@ -5,6 +5,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
+import re
 from datetime import datetime
 from ..constantes import CODIGO_OCORRENCIAS
 from ..febraban.cnab import Cnab
@@ -767,15 +768,36 @@ class L10nBrHrCnab(models.Model):
 
         return self.write({'state': 'done'})
 
+    def _get_name(self, data, filename):
+        cnab_ids = self.search([('data', '=', data)], order='id desc')
+        cnab_idx = 1
+        if cnab_ids:
+            search_result = \
+                filter(lambda x: x is not None,
+                       [re.search(r'\((\d)\)', name) for name in self.search(
+                           [('data', '=', data), ('id', '!=', self.id)],
+                           order='id desc'
+                       ).mapped('name')])
+            if search_result:
+                cnab_idx = max(int(result.group(1))
+                               for result in search_result) + 1
+
+        cnab_name = "{}({}){}".format(
+            data, cnab_idx, ' - ' + filename if filename else '')
+        return cnab_name
+
     @api.multi
-    def _get_name(self, data):
-        cnab_ids = self.search([('data', '=', data)])
-        return data + " - " + (
-            str(len(cnab_ids) + 1) if cnab_ids else '1'
-        )
+    def write(self, vals):
+        if any(v in vals for v in ['data', 'filename']):
+            data = vals.get('data') or self.data
+            filename = vals.get('filename') or self.filename
+
+            name = self._get_name(data, filename)
+            vals.update({'name': name})
+        return super(L10nBrHrCnab, self).write(vals)
 
     @api.model
     def create(self, vals):
-        name = self._get_name(vals['data'])
+        name = self._get_name(vals.get('data'), vals.get('filename'))
         vals.update({'name': name})
         return super(L10nBrHrCnab, self).create(vals)
