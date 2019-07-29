@@ -30,7 +30,6 @@
                         <div>
                             <label for="saldo"/>
                             <field name="saldo" style='text-align:right'/>
-                            <field name="identificacao_saldo" style="font-weight:bold;text-align:left"/>
                         </div>
                     </xpath>
                     <xpath expr="//field[@name='balance']" position="attributes">
@@ -116,7 +115,6 @@
                    </field>
                    <field name="balance" position="after">
                        <field name="saldo"/>
-                       <field name="identificacao_saldo" string=" "/>
                    </field>
                    <xpath expr="//field[@name='company_currency_id']" position="attributes">
                        <attribute name="invisible">1</attribute>
