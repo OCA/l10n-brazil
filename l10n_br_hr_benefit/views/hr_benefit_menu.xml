@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.menu" id="hr_benefit_main_menu">
+        <field name="name">Benefícios</field>
+        <field name="parent_id" ref="hr.menu_hr_root"/>
+        <field name="sequence" eval="25"/>
+    </record>
+
+    <record model="ir.ui.menu" id="hr_benefit_config_menu">
+        <field name="name">Benefícios</field>
+        <field name="parent_id" ref="hr.menu_hr_configuration"/>
+        <field name="sequence" eval="50"/>
+    </record>
+
+</data>
+</openerp>

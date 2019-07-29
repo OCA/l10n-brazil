@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_contract_benefit_form_view">
+            <field name="name">hr.contract.benefit.form (in
+                l10n_br_hr_benefit)
+            </field>
+            <field name="model">hr.contract.benefit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <!-- TODO -->
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="contract_id"/>
+                                <field name="employee_id"/>
+                                <field name="beneficiary_id"/>
+                            </group>
+                            <group>
+                                <field name="benefit_type"/>
+                                <field name="date_start"/>
+                                <field name="date_stop"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter"></div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_contract_benefit_search_view">
+            <field name="name">hr.contract.benefit.search (in
+                l10n_br_hr_benefit)
+            </field>
+            <field name="model">hr.contract.benefit</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="benefit_type"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="contract_id"/>
+                    <field name="employee_id"/>
+                    <field name="beneficiary_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_contract_benefit_tree_view">
+            <field name="name">hr.contract.benefit.tree (in
+                l10n_br_hr_benefit)
+            </field>
+            <field name="model">hr.contract.benefit</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="benefit_type"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="contract_id"/>
+                    <field name="employee_id"/>
+                    <field name="beneficiary_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window"
+                id="hr_contract_benefit_act_window">
+            <field name="name">Benefício</field>
+            <field name="res_model">hr.contract.benefit</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_contract_benefit_menu">
+            <field name="name">Benefício</field>
+            <field name="parent_id" ref="hr_benefit_main_menu"/>
+            <field name="action" ref="hr_contract_benefit_act_window"/>
+            <field name="sequence" eval="16"/>
+        </record>
+
+    </data>
+</openerp>

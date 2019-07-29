@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_benefit_type_form_view">
+            <field name="name">hr.benefit.type.form (in l10n_br_hr_benefit)
+            </field>
+            <field name="model">hr.benefit.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <!-- TODO -->
+                    </header>
+                    <sheet>
+                        <h1>
+                            <label for="name"/>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_stop"/>
+                                <field name="need_approval"/>
+
+                            </group>
+                            <group>
+                                <field name="amount_max"/>
+                                <field name="amount_fixed"/>
+                            </group>
+
+                        </group>
+                        <label for="python_code"/>
+                        <field name="python_code" nolabel="1"/>
+                    </sheet>
+                    <div class="oe_chatter"></div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_benefit_type_search_view">
+            <field name="name">hr.benefit.type.search (in l10n_br_hr_benefit)
+            </field>
+            <field name="model">hr.benefit.type</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="amount_max"/>
+                    <field name="amount_fixed"/>
+                    <field name="need_approval"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_benefit_type_tree_view">
+            <field name="name">hr.benefit.type.tree (in l10n_br_hr_benefit)
+            </field>
+            <field name="model">hr.benefit.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="amount_max"/>
+                    <field name="amount_fixed"/>
+                    <field name="need_approval"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hr_benefit_type_act_window">
+            <field name="name">Tipo de Beneficio</field>
+            <field name="res_model">hr.benefit.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_benefit_type_menu">
+            <field name="name">Tipo de Beneficio</field>
+            <field name="parent_id"
+                   ref="l10n_br_hr_benefit.hr_benefit_config_menu"/>
+            <field name="action" ref="hr_benefit_type_act_window"/>
+            <field name="sequence" eval="16"/>
+        </record>
+
+    </data>
+</openerp>
