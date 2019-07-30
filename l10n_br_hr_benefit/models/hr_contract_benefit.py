@@ -14,8 +14,8 @@ class HrContractBenefit(models.Model):
 
     _description = 'Benefícios'
 
-    # TODO: Inativar o registro cado a data final seja atingida.
     # Done: Display name
+    # Done: Inativar o registro cado a data final seja atingida.
     # TODO: Verificar a necesidade de criação de botões
     #  para inativação pelo gerente
     # TODO: Intervalo de datas
@@ -64,6 +64,14 @@ class HrContractBenefit(models.Model):
         default=True,
         readonly=True,
     )
+
+
+    @api.one
+    @api.constrains('date_stop')
+    def _check_date_stop_active(self):
+        today = fields.Date.today()
+        if self.date_stop and self.date_stop <= today:
+            self.active = False
 
     @api.multi
     @api.depends('benefit_type_id', 'beneficiary_id', 'date_start', 'date_stop')

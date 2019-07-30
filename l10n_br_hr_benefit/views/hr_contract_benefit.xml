@@ -28,6 +28,7 @@
                                 <field name="benefit_type_id"/>
                                 <field name="date_start"/>
                                 <field name="date_stop"/>
+                                <field name="active"/>
                             </group>
                         </group>
                     </sheet>
