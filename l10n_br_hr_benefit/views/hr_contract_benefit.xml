@@ -13,7 +13,6 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <!-- TODO -->
                     </header>
                     <sheet>
                         <h1>
@@ -73,7 +72,7 @@
 
         <record model="ir.actions.act_window"
                 id="hr_contract_benefit_act_window">
-            <field name="name">Benefício</field>
+            <field name="name">Benefícios</field>
             <field name="res_model">hr.contract.benefit</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
@@ -81,7 +80,7 @@
         </record>
 
         <record model="ir.ui.menu" id="hr_contract_benefit_menu">
-            <field name="name">Benefício</field>
+            <field name="name">Benefícios</field>
             <field name="parent_id" ref="hr_benefit_main_menu"/>
             <field name="action" ref="hr_contract_benefit_act_window"/>
             <field name="sequence" eval="16"/>

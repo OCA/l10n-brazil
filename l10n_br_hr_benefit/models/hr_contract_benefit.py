@@ -14,10 +14,16 @@ class HrContractBenefit(models.Model):
 
     _description = 'Benefícios'
 
-    # TODO: Display name
+    # FIXME: Display name
     # TODO: Inativar o registro cado a data final seja atingida.
     # TODO: Verificar a necesidade de criação de botões
     #  para inativação pelo gerente
+    # TODO: Intervalo de datas
+    #       Fazer via python para ver se não coincide no memso intevalo de datas
+    # TODO: Criar campo para anexar comprovantes
+    # TODO: Criar estado e fluxo de aprovação
+    # TODO: Criar wizard para geração apuração de compentencias.
+    # TODO: Criar cron para gerar as competências automaticamente;
 
     name = fields.Char(
         compute='_compute_benefit_name'
@@ -58,15 +64,6 @@ class HrContractBenefit(models.Model):
         default=True,
         readonly=True,
     )
-    # amount = fields.Many2one(
-    #
-    # )
-
-    #  Fazer via python para ver se não coincide no memso intevalo de datas
-    # _sql_constraints = [('contract_benefit_uniq',
-    #                     'UNIQUE(benefit_type, beneficiary_id,
-    #                     date_start, date_stop)',
-    # ...
 
     @api.multi
     @api.depends('benefit_type_id', 'date_start', 'date_stop')

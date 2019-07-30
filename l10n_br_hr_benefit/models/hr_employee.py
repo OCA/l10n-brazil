@@ -21,7 +21,7 @@ class HrEmployee(models.Model):
 
     benefit_ids = fields.Many2many(
         comodel_name='hr.contract.benefit',
-        string='Beneficios ativos',
+        string='Benefícios ativos',
         readonly=True,
         compute='_compute_beneficios',
     )

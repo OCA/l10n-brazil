@@ -78,6 +78,7 @@ class HrContractBenefitLine(models.Model):
         column2='attachment_id',
         string='Attachments'
     )
+    # TODO: Colocar a folha que foi processado e tornar o campo calculado
     is_payroll_processed = fields.Boolean(
         string='Lançado em folha de pagamento',
         readonly=True,
@@ -92,4 +93,3 @@ class HrContractBenefitLine(models.Model):
                             record.benefit_type_id.name,
                             record.period_id.name))
 
-    # TODO: Colocar a folha que foi processado e tornar o campo acima calculado

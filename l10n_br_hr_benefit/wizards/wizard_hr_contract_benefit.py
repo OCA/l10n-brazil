@@ -10,11 +10,11 @@ class WizardHrContractBenefit(models.TransientModel):
 
     old_benfit_ids = fields.Many2many(
         comodel_name='hr.benefit.type',
-        string='Beneficios Atuais',
+        string='Benefícios Atuais',
     )
     new_benefit_ids = fields.Many2many(
         comodel_name='hr.benefit.type',
-        string='Novos Beneficios',
+        string='Novos Benefícios',
     )
 
     @api.multi
