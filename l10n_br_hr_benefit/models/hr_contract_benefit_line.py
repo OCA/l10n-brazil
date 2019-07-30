@@ -14,8 +14,9 @@ class HrContractBenefitLine(models.Model):
     _inherit = ['mail.thread']
     _description = 'Prestação de contas'
 
-    # TODO: Display name
-    name = fields.Char()
+    name = fields.Char(
+        compute='_compute_benefit_line_name'
+    )
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
         required=True,
@@ -81,5 +82,14 @@ class HrContractBenefitLine(models.Model):
         string='Lançado em folha de pagamento',
         readonly=True,
     )
-    # TODO: Colocar a folha que foi processado e tornar o campo acima calculado
 
+    @api.multi
+    @api.depends('benefit_type_id', 'date_start', 'date_stop')
+    def _compute_benefit_line_name(self):
+        for record in self:
+            record.name = ("%s - %s de %s" %
+                           (record.employee_id.name,
+                            record.benefit_type_id.name,
+                            record.period_id.name))
+
+    # TODO: Colocar a folha que foi processado e tornar o campo acima calculado
