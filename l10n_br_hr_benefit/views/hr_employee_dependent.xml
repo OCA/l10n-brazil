@@ -3,49 +3,23 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
-<data>
+    <data>
 
-    <record model="ir.ui.view" id="hr_employee_dependent_form_view">
-        <field name="name">hr.employee.dependent.form (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.employee.dependent</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+        <record model="ir.ui.view" id="hr_employee_dependent_form_view">
+            <field name="name">hr.employee.dependent.form (in
+                l10n_br_hr_benefit)
+            </field>
+            <field name="model">hr.employee.dependent</field>
+            <field name="inherit_id"
+                   ref="l10n_br_hr.view_l10n_br_hr_employee_dependent_form"/>
+            <field name="arch" type="xml">
+                <group name="dados_dependente_geral" position="after">
+                    <group name="group_beneficios" string="Benefícios">
+                        <field name="benefit_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="hr_employee_dependent_search_view">
-        <field name="name">hr.employee.dependent.search (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.employee.dependent</field>
-        <field name="inherit_id" ref="TODO othermodule.search_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="hr_employee_dependent_tree_view">
-        <field name="name">hr.employee.dependent.tree (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.employee.dependent</field>
-        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
-
-    <record model="ir.actions.act_window" id="hr_employee_dependent_act_window">
-        <field name="name">Hr Employee Dependent</field> <!-- TODO -->
-        <field name="res_model">hr.employee.dependent</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-    </record>
-
-    <record model="ir.ui.menu" id="hr_employee_dependent_menu">
-        <field name="name">Hr Employee Dependent</field>
-        <field name="parent_id" ref="xmlid of parent menu"/> <!-- TODO -->
-        <field name="action" ref="hr_employee_dependent_act_window"/>
-        <field name="sequence" eval="16"/> <!-- TODO -->
-    </record>
-
-</data>
+    </data>
 </openerp>

@@ -14,12 +14,18 @@ class HrContractBenefit(models.Model):
 
     _description = 'Benefícios'
 
+    # TODO: Display name
+    # TODO: Inativar o registro cado a data final seja atingida.
+    # TODO: Verificar a necesidade de criação de botões
+    #  para inativação pelo gerente
+
     name = fields.Char(
         compute='_compute_benefit_name'
     )
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
-        string='Tipo Benefício'
+        string='Tipo Benefício',
+        index=True,
     )
     date_start = fields.Date(
         string='Date Start',
@@ -47,13 +53,19 @@ class HrContractBenefit(models.Model):
         index=True,
         string='Beneficiário',
     )
+    active = fields.Boolean(
+        string='Ativo',
+        default=True,
+        readonly=True,
+    )
     # amount = fields.Many2one(
     #
     # )
 
     #  Fazer via python para ver se não coincide no memso intevalo de datas
     # _sql_constraints = [('contract_benefit_uniq',
-    #                     'UNIQUE(benefit_type, beneficiary_id, date_start, date_stop)',
+    #                     'UNIQUE(benefit_type, beneficiary_id,
+    #                     date_start, date_stop)',
     # ...
 
     @api.multi

@@ -12,4 +12,16 @@ class HrEmployee(models.Model):
 
     _inherit = b'hr.employee'
 
-    # TODO: Tags
+    @api.multi
+    def _compute_beneficios(self):
+        for record in self:
+            record.benefit_ids = self.env['hr.contract.benefit'].search(
+                    [('beneficiary_id', '=', record.address_home_id.id)]
+                )
+
+    benefit_ids = fields.Many2many(
+        comodel_name='hr.contract.benefit',
+        string='Beneficios ativos',
+        readonly=True,
+        compute='_compute_beneficios',
+    )

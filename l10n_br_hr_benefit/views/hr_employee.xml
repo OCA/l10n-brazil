@@ -3,34 +3,28 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
-<data>
+    <data>
 
-    <record model="ir.ui.view" id="hr_employee_form_view">
-        <field name="name">hr.employee.form (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+        <record model="ir.ui.view" id="hr_employee_form_view">
+            <field name="name">hr.employee.form (in l10n_br_hr_benefit)</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id"
+                   ref="l10n_br_hr.view_l10n_br_hr_employee_form"/>
+            <field name="arch" type="xml">
+                <page name="page_dependentes" position="attributes">
+                       <attribute name="string">Benefícios / Beneficiários</attribute>
+                </page>
+                <group name="group_dependentes" position="attributes">
+                       <attribute name="string">Beneficiários</attribute>
+                </group>
+                <group name="group_dependentes" position="before">
+                    <group name="group_titular" string="Benefícios">
+                        <field name="benefit_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
 
-    <record model="ir.ui.view" id="hr_employee_search_view">
-        <field name="name">hr.employee.search (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="TODO othermodule.search_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="hr_employee_tree_view">
-        <field name="name">hr.employee.tree (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
-
-</data>
+    </data>
 </openerp>
