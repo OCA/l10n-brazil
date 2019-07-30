@@ -13,7 +13,7 @@
             <field name="inherit_id"
                    ref="l10n_br_hr.view_l10n_br_hr_employee_dependent_form"/>
             <field name="arch" type="xml">
-                <group name="dados_dependente_geral" position="after">
+                <group name="alimony_dependent" position="before">
                     <group name="group_beneficios" string="Benefícios">
                         <field name="benefit_ids" widget="many2many_tags"/>
                     </group>
