@@ -14,8 +14,9 @@ class HrContractBenefit(models.Model):
 
     _description = 'Benefícios'
 
-    # TODO: Display name
-    name = fields.Char() # Criar cálculo para o nome com as datas
+    name = fields.Char(
+        compute='_compute_benefit_name'
+    )
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
         string='Tipo Benefício'
@@ -50,8 +51,18 @@ class HrContractBenefit(models.Model):
     #
     # )
 
-    #  TODO: Fazer via python para ver se não coincide no
-    #   memso intevalo de datas
+    #  Fazer via python para ver se não coincide no memso intevalo de datas
     # _sql_constraints = [('contract_benefit_uniq',
     #                     'UNIQUE(benefit_type, beneficiary_id, date_start, date_stop)',
     # ...
+
+    @api.multi
+    @api.depends('benefit_type_id', 'date_start', 'date_stop')
+    def _compute_benefit_name(self):
+        for record in self:
+            record.name = '%s - %s (%s/%s)' % (
+                    record.employee_id.name or 'Colaborador',
+                    record.benefit_type_id.name or 'Tipo de benefício',
+                    record.date_start or 'Data de inicio',
+                    record.date_stop or 'Data fim'
+            )
