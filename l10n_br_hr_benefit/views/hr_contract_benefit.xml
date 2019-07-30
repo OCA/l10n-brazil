@@ -26,7 +26,7 @@
                                 <field name="beneficiary_id"/>
                             </group>
                             <group>
-                                <field name="benefit_type"/>
+                                <field name="benefit_type_id"/>
                                 <field name="date_start"/>
                                 <field name="date_stop"/>
                             </group>
@@ -44,7 +44,7 @@
             <field name="model">hr.contract.benefit</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="benefit_type"/>
+                    <field name="benefit_type_id"/>
                     <field name="date_start"/>
                     <field name="date_stop"/>
                     <field name="contract_id"/>
@@ -61,7 +61,7 @@
             <field name="model">hr.contract.benefit</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="benefit_type"/>
+                    <field name="benefit_type_id"/>
                     <field name="date_start"/>
                     <field name="date_stop"/>
                     <field name="contract_id"/>

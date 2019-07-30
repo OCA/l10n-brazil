@@ -16,10 +16,9 @@ class HrContractBenefit(models.Model):
 
     # TODO: Display name
     name = fields.Char() # Criar cálculo para o nome com as datas
-    benefit_type = fields.Many2one(
-        comdel_name='hr.benefit.type',
-        string='Tipo de Benefício',
-        index=True,
+    benefit_type_id = fields.Many2one(
+        comodel_name='hr.benefit.type',
+        string='Tipo Benefício'
     )
     date_start = fields.Date(
         string='Date Start',
