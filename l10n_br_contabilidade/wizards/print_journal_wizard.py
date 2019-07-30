@@ -82,6 +82,7 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
             ('fiscalyear_id', '=', data['datas']['form']['fiscalyear_id']),
             ('state', '=', 'posted')]).mapped('line_id')
 
+        line_ids = line_ids.sorted(key=lambda x: x.date)
         # Cria a dict para receber as informações da busca.
         diario = {u'Data': [], u'Sequência do Lançamento': [], u'Conta': [],
                   u'Histórico': [], u'Débito': [], u'Crédito': []}
@@ -111,7 +112,7 @@ class AccountReportGeneralLedgerWizard(models.TransientModel):
                 diario[u'Conta'].append(account_id.code or None)
                 if data['datas']['form']['exibe_diario_origem']:
                     diario[u'Diário'].append(line.journal_id.name or None)
-                diario[u'Histórico'].append(line.name or None)
+                diario[u'Histórico'].append(line.move_id.resumo or None)
                 diario[u'Débito'].append(line.debit or 0)
                 diario[u'Crédito'].append(line.credit or 0)
                 if data['datas']['form']['exibe_criador_aprovador']:
