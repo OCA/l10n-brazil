@@ -14,8 +14,8 @@ class HrContractBenefit(models.Model):
 
     _description = 'Benefícios'
 
-    # FIXME: Display name
     # TODO: Inativar o registro cado a data final seja atingida.
+    # Done: Display name
     # TODO: Verificar a necesidade de criação de botões
     #  para inativação pelo gerente
     # TODO: Intervalo de datas
@@ -66,12 +66,19 @@ class HrContractBenefit(models.Model):
     )
 
     @api.multi
-    @api.depends('benefit_type_id', 'date_start', 'date_stop')
+    @api.depends('benefit_type_id', 'beneficiary_id', 'date_start', 'date_stop')
     def _compute_benefit_name(self):
         for record in self:
-            record.name = '%s - %s (%s/%s)' % (
-                    record.employee_id.name or 'Colaborador',
-                    record.benefit_type_id.name or 'Tipo de benefício',
-                    record.date_start or 'Data de inicio',
-                    record.date_stop or 'Data fim'
-            )
+            if not record.beneficiary_id or \
+                    not record.benefit_type_id:
+                record.name = 'Novo'
+                continue
+            name = '%s - %s' % (
+                record.beneficiary_id.name or '',
+                record.benefit_type_id.name or '')
+            if record.date_start and not record.date_stop:
+                name += ' (a partir de %s)' % record.date_start
+            elif record.date_start and record.date_stop:
+                name += ' (de %s até %s)' % (record.date_start,
+                                             record.date_stop)
+            record.name = name

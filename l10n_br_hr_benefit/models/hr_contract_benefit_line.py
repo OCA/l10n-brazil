@@ -88,6 +88,12 @@ class HrContractBenefitLine(models.Model):
     @api.depends('benefit_type_id', 'date_start', 'date_stop')
     def _compute_benefit_line_name(self):
         for record in self:
+            if (not record.employee_id or
+                    not record.benefit_type_id or
+                    not record.period_id):
+                record.name = 'Novo'
+                continue
+
             record.name = ("%s - %s de %s" %
                            (record.employee_id.name,
                             record.benefit_type_id.name,
