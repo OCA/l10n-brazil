@@ -66,3 +66,15 @@ class HrBenefitType(models.Model):
                     _('Já existe um tipo de benefício '
                       'com o mesmo nome e com datas'
                       ' que sobrepõem essa'))
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = ("%s (%s/%s)" %
+                    (record.name,
+                     record.date_start,
+                     record.date_stop))
+
+            result.append((record['id'], name))
+        return result
