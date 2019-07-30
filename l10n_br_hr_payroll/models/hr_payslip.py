@@ -1158,142 +1158,86 @@ class HrPayslip(models.Model):
         return 0
 
     def MEDIA_RUBRICA(self, codigo, tipo_de_folha='normal'):
-        media = 0
+
+        final_periodo = '{}-{:02}-{:02}'.format(self.ano, self.mes_do_ano2, 1)
+        final_periodo = str(ultimo_dia_mes(final_periodo))
+
         if self.tipo_de_folha in ['ferias', 'provisao_ferias']:
-            #
-            #  Identifica os períodos aquisitivos com saldo de férias
-            #
-            periodo = self.periodo_aquisitivo
 
-            # Seta a Data final do aquisitivo apartir da inicial, para sempre
-            # pegar os holerites validos do periodo cheio
-            dt_fim = fields.Datetime.from_string(periodo.inicio_aquisitivo) + \
-                     relativedelta(years=1, days=-1)
+            inicio_periodo = self.periodo_aquisitivo.inicio_aquisitivo
 
-            if periodo.saldo != 0:
-                #
-                #  Buscar Holerites do Período Aquisitivo
-                #
-                domain = [
-                    ('date_to', '>=', periodo.inicio_aquisitivo),
-                    ('date_to', '<',  str(dt_fim.date())),
-                    ('contract_id', '=', self.contract_id.id),
-                    ('tipo_de_folha', '=', 'normal'),
-                    ('state', 'in', ['done', 'verify']),
-                ]
-                folhas_periodo = self.env['hr.payslip'].search(domain)
-                folhas_periodo = \
-                    folhas_periodo.sorted(key=lambda r: r.date_from)
+            inicio_periodo = '{}-{}-01'.format(
+                inicio_periodo[:4], inicio_periodo[5:7])
 
-                #
-                # Obter os valores das rubricas especificadas nos holerites
-                #
-                valor = 0
-                for holerite in folhas_periodo:
-                    for linha in holerite.line_ids:
-                        if linha.code == codigo:
-                            valor += linha.total
+            # Na provisao pegar a data do mes que esta sendo provisionado,
+            # para o periodo aquisitivo do ano. Isso filtra as buscas de
+            # holerites de média até a competencia que esta sendo provisionada
+            if self.periodo_aquisitivo.fim_aquisitivo < final_periodo:
+                final_periodo = self.periodo_aquisitivo.fim_aquisitivo
 
-                # Conforme e-mail enviado pela GECON-ABGF no dia 14/03/2018 às
-                # 16h52, foi considerado para o cálculo das médias o mês "cheio"
-                # e para o cálculo dos avos, foi aplicada a regra dos 15 dias de
-                # trab.
-
-                media = valor / 12
-
-            return media
-
-        else:
+        elif self.tipo_de_folha in ['decimo_terceiro', 'provisao_decimo_terceiro']:
             #
             # Calcular o período desejado e a quantidade de meses
             # Para ser usado no cálculo da média
             #
-            meses = 12
-            if self.tipo_de_folha in ['ferias', 'aviso_previo']:
-                # if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
-                #     periodo_aquisitivo = \
-                #         self.contract_id.vacation_control_ids[0]
-                # else:
-                periodo_aquisitivo = self.periodo_aquisitivo
+            inicio_periodo = '{}-12-01'.format(self.ano - 1)
 
-                if self.tipo_de_folha in ['aviso_previo']:
-                    data_de_inicio = fields.Date.from_string(
-                        self.date_from) - relativedelta(months=12)
-                    data_inicio_mes = fields.Date.from_string(
-                        self.date_from).replace(day=1) - relativedelta(
-                        months=12)
-                else:
-                    data_de_inicio = fields.Date.from_string(
-                        periodo_aquisitivo.inicio_aquisitivo)
-                    data_inicio_mes = fields.Date.from_string(
-                        periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+            if self.contract_id.date_start > inicio_periodo:
+                inicio_periodo = self.contract_id.date_start
 
-                # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
-                if (data_de_inicio - data_inicio_mes).days < 15:
-                    data_de_inicio = data_inicio_mes
-                    # Senão começar contabilizar medias apartir do mes seguinte
-                else:
-                    data_de_inicio = data_inicio_mes + relativedelta(months=1)
-                if self.tipo_de_folha in ['provisao_ferias']:
-                    data_final = self.date_to
-                else:
-                    data_final = data_inicio_mes + relativedelta(months=12)
+        """
+        Considerando que as gratificações, prêmios e adicionais fixos,
+         habitualmente pagos ao empregado, integram o salário para
+          apuração do 13º salário por sua média duodecimal, 
+          independentemente da periodicidade de seu pagamento, 
+          bem como todas as verbas estabelecidas no artigo 457 da CLT. 
+          As horas extras e horas noturnas, se habituais, possuem 
+          natureza salarial, integrando ao salário do empregado para 
+          todos os efeitos legais,conforme as Súmulas TST nºs 60 e 347.
+          10 de maio de 2019.
+        """
+        # Conforme e-mail enviado pela GECON-ABGF no dia 14/03/2018 às
+        # 16h52, foi considerado para o cálculo das médias o mês "cheio"
+        # e para o cálculo dos avos, foi aplicada a regra dos 15 dias de
+        # trab.
+        meses = 12
 
-                dtstart = datetime.strptime(data_de_inicio, '%Y-%m-%d')
-                dtend = datetime.strptime(data_final, '%Y-%m-%d')
-                dates = [dt for dt in rrule(MONTHLY, dtstart=dtstart, until=dtend)]
-                meses = len(dates)
 
-            elif self.tipo_de_folha in \
-                    ['decimo_terceiro', 'provisao_decimo_terceiro']:
-                if self.contract_id.date_start > str(self.ano - 1) + '-12-01':
-                    data_de_inicio = self.contract_id.date_start
-                else:
-                    data_de_inicio = str(self.ano - 1) + '-12-01'
-                data_final = '{}-{:02}-{}'.format(self.ano, self.mes_do_ano, 30)
+        domain = [
+            ('contract_id', '=', self.contract_id.id),
+            ('tipo_de_folha', '=', 'normal'),
+            ('state', 'in', ['done', 'verify']),
+            ('date_from', '>=', inicio_periodo),
+            ('date_to', '<=', final_periodo),
+        ]
 
-                """
-                Considerando que as gratificações, prêmios e adicionais fixos,
-                 habitualmente pagos ao empregado, integram o salário para
-                  apuração do 13º salário por sua média duodecimal, 
-                  independentemente da periodicidade de seu pagamento, 
-                  bem como todas as verbas estabelecidas no artigo 457 da CLT. 
-                  As horas extras e horas noturnas, se habituais, possuem 
-                  natureza salarial, integrando ao salário do empregado para 
-                  todos os efeitos legais,conforme as Súmulas TST nºs 60 e 347.
-                  10 de maio de 2019.
-                """
-                # Para calculo da media de substituicao no adiantamento de
-                #  13º salario, a média sera duodecimal
-                if tipo_de_folha == 'adiantamento':
-                    data_final = str(self.ano) + '-12-31'
-                    meses = 12
+        #
+        # Buscar dentro dos holerites pela rubrica requerida
+        #
+        folha_obj = self.env['hr.payslip']
+        folhas_periodo = folha_obj.search(domain)
+        folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
 
-            #
-            #  Buscar Holerites do Período
-            #
-            folha_obj = self.env['hr.payslip']
-            domain = [
-                ('date_from', '>=', data_de_inicio),
-                ('date_to', '<=', data_final),
-                ('contract_id', '=', self.contract_id.id),
-                ('tipo_de_folha', '=', 'normal'),
-                ('state', 'in', ['done', 'verify']),
-            ]
-            folhas_periodo = folha_obj.search(domain)
-            folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
+        valor = 0
+        for holerite in folhas_periodo:
+            for linha in holerite.line_ids:
+                if linha.salary_rule_id.code == codigo:
+                    valor += linha.total
+                    _logger.info('{} - {}'.format(
+                        holerite.data_mes_ano, linha.total))
 
-            #
-            # Buscar dentro dos holerites pela rubrica requerida
-            #
-            valor = 0
-            for folha in folhas_periodo:
-                for linha in folha.line_ids:
-                    if linha.salary_rule_id.code == codigo:
-                        valor += linha.total
+        # # Validar Media
+        l10n_br_hr_media = self.medias_proventos.filtered(
+            lambda x: x.rubrica_id.code == codigo)
 
-            media = valor / meses
-            return media
+        if l10n_br_hr_media:
+            if not l10n_br_hr_media.soma == valor:
+                _logger.info('\n\nERRO: Valores de média e aba de "Cálculo'
+                             'de Médias do Holerite estão divergentes!\n')
+
+        media = valor / meses
+
+        return media
 
     @api.model
     def get_contract_specific_rubrics(self, contract_id, rule_ids):
@@ -2614,10 +2558,6 @@ class HrPayslip(models.Model):
                         # set/overwrite the amount computed
                         # for this rule in the localdict
 
-                        # Registrar a ultima rubrica processada para ser
-                        # possivel identificarmos erros
-                        _logger.info(rule.code)
-
                         tot_rule = Decimal(amount or 0) * Decimal(
                             qty or 0) * Decimal(rate or 0) / 100.0
                         tot_rule = tot_rule.quantize(Decimal('0.01'))
@@ -2873,11 +2813,11 @@ class HrPayslip(models.Model):
                 "decimo_terceiro", "ferias", "aviso_previo",
                 "provisao_ferias", "provisao_decimo_terceiro"
         ]:
+            hr_medias_ids, data_de_inicio, data_final = \
+                self.gerar_media_dos_proventos()
+
             if not self.tipo_de_folha == 'ferias' and not self.\
                     _buscar_holerites_periodo_aquisitivo():
-
-                hr_medias_ids, data_de_inicio, data_final = \
-                    self.gerar_media_dos_proventos()
 
                 # Metodo pra validar se ja foram processadors
                 # todos os holerites usados no calculo das medias
@@ -3020,65 +2960,28 @@ class HrPayslip(models.Model):
 
     @api.multi
     def gerar_media_dos_proventos(self):
-        if self.tipo_de_folha == 'ferias' and not self.\
-                _buscar_holerites_periodo_aquisitivo():
-            print("Não tem problema!")
-            # raise exceptions.Warning(
-            #     "Não existem holerites normais confirmados "
-            #     "suficientes no periodo "
-            #     "aquisitivo para os cálculos "
-            #     "das férias!"
-            # )
-        else:
-            medias_obj = self.env['l10n_br.hr.medias']
-            if self.tipo_de_folha in \
-                    ['ferias', 'aviso_previo', 'provisao_ferias']:
-                # if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
-                #     periodo_aquisitivo = \
-                #         self.contract_id.vacation_control_ids[0]
-                # else:
-                periodo_aquisitivo = self.periodo_aquisitivo
+        medias_obj = self.env['l10n_br.hr.medias']
 
-                if self.tipo_de_folha in ['aviso_previo']:
-                    data_de_inicio = fields.Date.from_string(
-                        self.date_from) - relativedelta(months=12)
-                    data_inicio_mes = fields.Date.from_string(
-                        self.date_from).replace(day=1) - relativedelta(
-                        months=12)
-                else:
-                    data_de_inicio = fields.Date.from_string(
-                        periodo_aquisitivo.inicio_aquisitivo)
-                    data_inicio_mes = fields.Date.from_string(
-                        periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+        if self.tipo_de_folha in ['ferias', 'aviso_previo', 'provisao_ferias']:
+            periodo_aquisitivo = self.periodo_aquisitivo
+            data_de_inicio = \
+                fields.Date.from_string(periodo_aquisitivo.inicio_aquisitivo)
+            data_final = \
+                fields.Date.from_string(periodo_aquisitivo.fim_aquisitivo)
 
-                # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
-                if (data_de_inicio - data_inicio_mes).days < 15:
-                    data_de_inicio = data_inicio_mes
-                    # Senão começar contabilizar medias apartir do mes seguinte
-                else:
-                    data_de_inicio = data_inicio_mes + relativedelta(months=1)
-                if self.tipo_de_folha in ['provisao_ferias']:
-                    data_final = self.date_to
-                else:
-                    data_final = data_inicio_mes + relativedelta(months=12)
-            elif self.tipo_de_folha in [
-                'decimo_terceiro', 'provisao_decimo_terceiro'
-            ]:
-                if self.contract_id.date_start > str(self.ano) + '-01-01':
-                    data_de_inicio = self.contract_id.date_start
-                else:
-                    data_de_inicio = str(self.ano) + '-01-01'
-                data_final = self.date_to
-            else:
-                data_final = data_inicio_mes + relativedelta(months=12)
-        elif self.tipo_de_folha in [
-                'decimo_terceiro', 'provisao_decimo_terceiro'
-        ]:
+            if self.tipo_de_folha in ['provisao_ferias']:
+                data_final = \
+                    '{}-{:02}-{:02}'.format(self.ano, self.mes_do_ano, 1)
+                data_final = str(ultimo_dia_mes(data_final))
+
+        elif self.tipo_de_folha in \
+                ['decimo_terceiro', 'provisao_decimo_terceiro']:
             if self.contract_id.date_start > str(self.ano) + '-01-01':
                 data_de_inicio = self.contract_id.date_start
             else:
-                data_de_inicio = str(self.ano) + '-01-01'
+                data_de_inicio = '{}-12-01'.format(self.ano - 1)
             data_final = self.date_to
+
         hr_medias_ids = medias_obj.gerar_media_dos_proventos(
             data_de_inicio, data_final, self)
         return hr_medias_ids, data_de_inicio, data_final

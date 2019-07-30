@@ -138,14 +138,24 @@ class L10nBrHrMedias(models.Model):
         for linha in holerite_id.medias_proventos:
             linha.unlink()
 
-        if holerite_id.tipo_de_folha == 'ferias':
+        if holerite_id.tipo_de_folha in ['ferias', 'provisao_ferias']:
             data_inicio = primeiro_dia_mes(
                 holerite_id.periodo_aquisitivo.inicio_aquisitivo)
             data_fim = holerite_id.periodo_aquisitivo.fim_aquisitivo
 
+            # Quando for provisão a data final deverá ser o ultimo dia do mês
+            # que esta sendo provisionado
+            if holerite_id.tipo_de_folha == 'provisao_ferias':
+                data_final_periodo = '{}-{:02}-{:02}'.format(
+                    holerite_id.ano, holerite_id.mes_do_ano, 1)
+                data_final_periodo = str(ultimo_dia_mes(data_final_periodo))
+                if data_final_periodo < \
+                        holerite_id.periodo_aquisitivo.fim_aquisitivo:
+                    data_fim = data_final_periodo
+
         folha_obj = self.env['hr.payslip']
         domain = [
-            ('date_from', '>=', data_inicio),
+            ('date_to', '>=', data_inicio),
             ('date_to', '<=', data_fim),
             ('contract_id', '=', holerite_id.contract_id.id),
             ('tipo_de_folha', '=', 'normal'),
@@ -224,7 +234,8 @@ class L10nBrHrMedias(models.Model):
                 nome_rubrica = self.env['hr.salary.rule'].\
                     browse(rubrica).display_name
                 vals.update({'nome_rubrica': nome_rubrica})
-                vals.update({'meses': len(medias[rubrica])})
+                # Médias geralmente são duodeciais
+                vals.update({'meses': 12})
                 vals.update({'holerite_id': holerite_id.id})
                 vals.update({'rubrica_id': rubrica})
 
