@@ -14,7 +14,7 @@
                 <field name="dependent_dob" position="after">
                     <field name="precisa_cpf" invisible="1"/>
                 </field>
-                <field name="dependent_cpf" position="attributes">
+                <field name="cnpj_cpf" position="attributes">
                     <attribute name="attrs">{'required': [('dependent_verification', '=', True),('precisa_cpf', '=', True)]}</attribute>
                 </field>
             </field>

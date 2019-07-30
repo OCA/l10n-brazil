@@ -339,22 +339,21 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2200.evento.trabalhador.endereco.brasil.append(Brasil)
 
         # Popula trabalhador.dependente
-        if self.hr_contract_id.employee_id.have_dependent:
-            for dependente in self.hr_contract_id.employee_id.dependent_ids:
-                Dependente = pysped.esocial.leiaute.S2200_Dependente_2()
-                Dependente.tpDep.valor = dependente.dependent_type_id.code.zfill(2)
-                Dependente.nmDep.valor = dependente.dependent_name
-                if dependente.precisa_cpf:
-                    if not dependente.dependent_cpf:
-                        validacao += "O trabalhador {} está faltando o CPF de um dependente !\n".format(
-                                self.hr_contract_id.employee_id.name)
-                    else:
-                        Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
-                Dependente.dtNascto.valor = dependente.dependent_dob
-                Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
-                Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
-                Dependente.incTrab.valor = 'S' if dependente.inc_trab else 'N'
-                S2200.evento.trabalhador.dependente.append(Dependente)
+        for dependente in self.hr_contract_id.employee_id.dependent_ids:
+            Dependente = pysped.esocial.leiaute.S2200_Dependente_2()
+            Dependente.tpDep.valor = dependente.dependent_type_id.code.zfill(2)
+            Dependente.nmDep.valor = dependente.name
+            if dependente.precisa_cpf:
+                if not dependente.dependent_cpf:
+                    validacao += "O trabalhador {} está faltando o CPF de um dependente !\n".format(
+                            self.hr_contract_id.employee_id.name)
+                else:
+                    Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
+            Dependente.dtNascto.valor = dependente.dependent_dob
+            Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
+            Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
+            Dependente.incTrab.valor = 'S' if dependente.inc_trab else 'N'
+            S2200.evento.trabalhador.dependente.append(Dependente)
 
         # Popula trabEstrangeiro se pais_nascto_id diferente de Brasil
         if self.hr_contract_id.employee_id.pais_nascto_id != self.env.ref('sped_tabelas.tab06_105'):

@@ -219,7 +219,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
             dependente_xml.tpDep.valor = '03'
             # dependente_xml.tpDep.valor = dependente.dependent_type_id.code
-            dependente_xml.nmDep.valor = dependente.dependent_name
+            dependente_xml.nmDep.valor = dependente.name
             dependente_xml.dtNascto.valor = dependente.dependent_dob
             if dependente.dependent_cpf:
                 dependente_xml.cpfDep.valor = dependente.dependent_cpf
