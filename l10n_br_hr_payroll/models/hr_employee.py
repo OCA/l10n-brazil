@@ -17,19 +17,6 @@ class HrEmployee(models.Model):
         string=u'Ramais'
     )
 
-    tipo = fields.Selection(
-        string="Tipo de Colaborador",
-        selection=[
-            # S2200
-            ('funcionario', 'Funcionário'),
-            # S2300 Sem vinculo
-            ('autonomo', 'Autônomo'),
-            ('terceirizado', 'Terceirizado'),
-            ('cedido', 'Funcionário Cedido'),
-        ],
-        default='funcionario',
-    )
-
     parent_id = fields.Many2one(
         compute='_compute_gerente_contrato',
         store=True,
