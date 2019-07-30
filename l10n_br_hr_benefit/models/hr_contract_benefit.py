@@ -38,7 +38,7 @@ class HrContractBenefit(models.Model):
         index=True,
     )
     date_stop = fields.Date(
-        string='Date Start',
+        string='Date Stop',
         index=True,
     )
     contract_id = fields.Many2one(
