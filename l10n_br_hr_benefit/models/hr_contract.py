@@ -11,3 +11,9 @@ from openerp import api, fields, models, _
 class HrContract(models.Model):
 
     _inherit = b'hr.contract'
+
+    benefit_ids = fields.One2many(
+        comodel_name='hr.contract.benefit',
+        inverse_name='contract_id',
+        string='Benefícios',
+    )

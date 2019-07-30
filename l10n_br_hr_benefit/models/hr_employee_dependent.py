@@ -11,3 +11,5 @@ from openerp import api, fields, models, _
 class HrEmployeeDependent(models.Model):
 
     _inherit = b'hr.employee.dependent'
+
+    # TODO: Tags

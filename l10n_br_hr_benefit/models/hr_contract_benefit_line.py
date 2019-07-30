@@ -12,8 +12,9 @@ class HrContractBenefitLine(models.Model):
 
     _name = b'hr.contract.benefit.line'
     _inherit = ['mail.thread']
-    _description = 'Hr Contract Benefit Line'  # TODO
+    _description = 'Prestação de contas'
 
+    # TODO: Display name
     name = fields.Char()
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
@@ -81,3 +82,4 @@ class HrContractBenefitLine(models.Model):
         readonly=True,
     )
     # TODO: Colocar a folha que foi processado e tornar o campo acima calculado
+

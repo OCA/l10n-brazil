@@ -11,7 +11,7 @@
     'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
-        'l10n_br_hr_contract',
+        'l10n_br_hr_payroll',
     ],
     'data': [
         'views/hr_benefit_menu.xml',
@@ -19,8 +19,8 @@
         'views/hr_contract_benefit.xml',
         'views/hr_contract_benefit_line.xml',
         'wizards/wizard_hr_contract_benefit.xml',
+        'views/hr_contract.xml',
         # 'views/hr_employee_dependent.xml',
-        # 'views/hr_contract.xml',
         # 'views/hr_employee.xml',
         # 'security/hr_employee_dependent.xml',
         # 'security/hr_employee.xml',

@@ -8,29 +8,14 @@
     <record model="ir.ui.view" id="hr_contract_form_view">
         <field name="name">hr.contract.form (in l10n_br_hr_benefit)</field>
         <field name="model">hr.contract</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view"/>
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <xpath expr='//page[@string="Rubricas específicas"]' postion="after">
+                <page string="Benefícios" name="benefits">
+                    <field name="benefit_ids" nolabel="1"/>
+                </page>
+            </xpath>
         </field>
     </record>
-
-    <record model="ir.ui.view" id="hr_contract_search_view">
-        <field name="name">hr.contract.search (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.contract</field>
-        <field name="inherit_id" ref="TODO othermodule.search_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="hr_contract_tree_view">
-        <field name="name">hr.contract.tree (in l10n_br_hr_benefit)</field>
-        <field name="model">hr.contract</field>
-        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
-
 </data>
 </openerp>
