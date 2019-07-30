@@ -95,7 +95,8 @@ class HrHolidays(models.Model):
             vals['holiday_status_id'])
         if holidays_status_id.esocial_evento_afastamento_id:
             if holidays_status_id.esocial_evento_afastamento_id.codigo == '15':
-                self.valida_dias_inicio_ferias(vals)
+                pass
+                # self.valida_dias_inicio_ferias(vals)
 
     def valida_dias_inicio_ferias(self, vals):
         data_atual = fields.Datetime.from_string(fields.Datetime.now())
