@@ -20,7 +20,7 @@ class HrContractBenefit(models.Model):
     #  para inativação pelo gerente
     # Done: Intervalo de datas
     #       Fazer via python para ver se não coincide no memso intevalo de datas
-    # TODO: Criar campo para anexar comprovantes
+    # Done: Criar campo para anexar comprovantes
     # TODO: Criar estado e fluxo de aprovação
     # TODO: Criar wizard para geração apuração de compentencias.
     # TODO: Criar cron para gerar as competências automaticamente;
@@ -65,6 +65,13 @@ class HrContractBenefit(models.Model):
         string='Ativo',
         default=True,
         readonly=True,
+    )
+    attachment_ids = fields.Many2many(
+        comodel_name='ir.attachment',
+        relation='hr_contract_benefit_att_rel',
+        column1='benefit_id',
+        column2='attachment_id',
+        string='Attachments'
     )
 
     @api.one
