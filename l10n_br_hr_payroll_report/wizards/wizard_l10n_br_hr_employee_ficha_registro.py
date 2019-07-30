@@ -299,7 +299,7 @@ class WizardL10nBrHrEmployeeFichaRegistro(models.TransientModel):
         # Conjuge
         conjuge = self.dependent_ids.filtered(
             lambda x: x.dependent_type_id.name == 'Cônjuge')
-        self.conjuge = conjuge.dependent_name
+        self.conjuge = conjuge.name
 
         # Titulo Eleitoral
         self.titulo_eleitoral = u'{} - Zona {} - Seção {} '.format(
