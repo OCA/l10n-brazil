@@ -71,10 +71,12 @@ class HrBenefitType(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = ("%s (%s/%s)" %
-                    (record.name,
-                     record.date_start,
-                     record.date_stop))
+            name = "%s" % record.name
+            if record.date_start and not record.date_stop:
+                name += ' (a partir de %s)' % record.date_start
+            elif record.date_start and record.date_stop:
+                name += ' (de %s até %s)' % (
+                    record.date_start, record.date_stop)
 
             result.append((record['id'], name))
         return result
