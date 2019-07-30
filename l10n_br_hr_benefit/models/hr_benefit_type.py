@@ -49,23 +49,24 @@ class HrBenefitType(models.Model):
         string='Código Python',
     )
 
-    @api.multi
+    @api.one
     @api.constrains("date_start", "date_stop", "name")
     def _check_dates(self):
-        for record in self:
-            overlap = self.search(
-                ['|',
-                 ('date_start', '>=', record.date_start),
-                 ('date_stop', '<=', record.date_stop),
-                 ('id', '!=', record.id),
-                 ('name', '=', record.name)
-                 ]
-            )
-            if overlap:
-                raise Warning(
-                    _('Já existe um tipo de benefício '
-                      'com o mesmo nome e com datas'
-                      ' que sobrepõem essa'))
+        overlap = self.search(
+            [
+                ('id', '!=', self.id),
+                ('name', '=', self.name),
+                ('date_start', '<=', self.date_start),
+                '|',
+                ('date_stop', '=', False),
+                ('date_stop', '>=', self.date_start),
+            ]
+        )
+        if overlap:
+            raise Warning(
+                _('Já existe um tipo de benefício '
+                  'com o mesmo nome e com datas'
+                  ' que sobrepõem essa'))
 
     @api.multi
     def name_get(self):
