@@ -18,7 +18,7 @@ class HrContractBenefit(models.Model):
     # Done: Inativar o registro cado a data final seja atingida.
     # TODO: Verificar a necesidade de criação de botões
     #  para inativação pelo gerente
-    # TODO: Intervalo de datas
+    # Done: Intervalo de datas
     #       Fazer via python para ver se não coincide no memso intevalo de datas
     # TODO: Criar campo para anexar comprovantes
     # TODO: Criar estado e fluxo de aprovação
@@ -65,6 +65,12 @@ class HrContractBenefit(models.Model):
         readonly=True,
     )
 
+    @api.one
+    @api.constrains('date_start', 'date_stop')
+    def _check_valid_date_interval(self):
+        if self.date_stop and self.date_stop < self.date_start:
+            raise Warning(
+                    _('Data final menor que data inicial'))
 
     @api.one
     @api.constrains('date_stop')
@@ -72,6 +78,25 @@ class HrContractBenefit(models.Model):
         today = fields.Date.today()
         if self.date_stop and self.date_stop <= today:
             self.active = False
+
+    @api.one
+    @api.constrains("date_start", "date_stop", "benefit_type_id", "beneficiary_id")
+    def _check_dates(self):
+        domain = [
+            ('id', '!=', self.id),
+            ('benefit_type_id', '=', self.benefit_type_id.id),
+            ('beneficiary_id', '=', self.beneficiary_id.id),
+            ('date_start', '<=', self.date_start),
+            '|',
+            ('date_stop', '=', False),
+            ('date_stop', '>=', self.date_start),
+        ]
+        overlap = self.search(domain)
+        if overlap:
+            raise Warning(
+                _('Já existe um tipo de benefício '
+                  'com o mesmo nome e com datas'
+                  ' que sobrepõem essa'))
 
     @api.multi
     @api.depends('benefit_type_id', 'beneficiary_id', 'date_start', 'date_stop')
