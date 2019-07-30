@@ -19,17 +19,6 @@ class AccountAccount(models.Model):
         compute='_compute_saldo_conta',
     )
 
-    identificacao_saldo = fields.Selection(
-        string='Identificação de Saldo',
-        selection=[
-            ('', ''),
-            ('debito', 'D'),
-            ('credito', 'C'),
-        ],
-        default='debito',
-        compute='_compute_saldo_conta',
-    )
-
     funcao = fields.Text(
         string=u'Função',
     )
@@ -124,7 +113,6 @@ class AccountAccount(models.Model):
         """
         Identifica a natureza do saldo de acordo com o valor do balance e a
         natureza da conta.
-
         :param balance:
         :param natureza: 'C' or 'D'
         :return:
@@ -143,14 +131,10 @@ class AccountAccount(models.Model):
         """
         Utilizar a natureza da conta para manipular o valor de saldo
         calculado automáticamente pela funcionalidade do core.
-
         obs: Este campo está substituindo o cambo 'balance' do core na visão
         """
         for record in self:
             record.saldo = abs(record.balance)
-            record.identificacao_saldo = self.identif_natureza_saldo(
-                record.balance, record.natureza_conta_id.name[0]) \
-                if record.natureza_conta_id else ''
 
     @api.v7
     def _check_allow_code_change(self, cr, uid, ids, context=None):
