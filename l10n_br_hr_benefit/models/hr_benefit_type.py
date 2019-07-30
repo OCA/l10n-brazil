@@ -6,6 +6,7 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
 from openerp import api, fields, models, _
+from openerp.exceptions import Warning
 
 
 class HrBenefitType(models.Model):
@@ -48,4 +49,20 @@ class HrBenefitType(models.Model):
         string='Código Python',
     )
 
-    # TODO: Verificar o intervalo de dadas;
+    @api.multi
+    @api.constrains("date_start", "date_stop", "name")
+    def _check_dates(self):
+        for record in self:
+            overlap = self.search(
+                ['|',
+                 ('date_start', '>=', record.date_start),
+                 ('date_stop', '<=', record.date_stop),
+                 ('id', '!=', record.id),
+                 ('name', '=', record.name)
+                 ]
+            )
+            if overlap:
+                raise Warning(
+                    _('Já existe um tipo de benefício '
+                      'com o mesmo nome e com datas'
+                      ' que sobrepõem essa'))
