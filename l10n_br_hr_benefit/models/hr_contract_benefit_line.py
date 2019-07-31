@@ -90,7 +90,6 @@ class HrContractBenefitLine(models.Model):
         string='Attachments',
         track_visibility='onchange'
     )
-    # TODO: Colocar a folha que foi processado e tornar o campo calculado
     is_payroll_processed = fields.Boolean(
         string='Lançado em folha de pagamento',
         readonly=True,
@@ -101,6 +100,25 @@ class HrContractBenefitLine(models.Model):
         readonly=True,
         track_visibility='onchange'
     )
+    rule_id = fields.Many2one(
+        comodel_name="hr.salary.rule",
+        string=u"Rúbrica",
+        readonly=True,
+    )
+    hr_payslip_id = fields.Many2one(
+        comodel_name="hr.payslip",
+        string=u"Folha de pagamento",
+        readonly=True,
+    )
+
+    @api.onchange('hr_payslip_id')
+    def onchange_payroll_processed(self):
+        for record in self:
+            if record.hr_payslip_id:
+                record.is_payroll_processed = True
+            else:
+                record.is_payroll_processed = False
+
 
     @api.multi
     @api.depends('benefit_type_id', 'date_start', 'date_stop')
@@ -133,6 +151,7 @@ class HrContractBenefitLine(models.Model):
     def button_approve_receipt(self):
         for record in self:
             record.state = 'validated'
+            record.rule_id = record.benefit_type_id.rule_id
 
     @api.multi
     def button_exception_receipt(self):

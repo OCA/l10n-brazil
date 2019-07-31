@@ -46,12 +46,18 @@
                                            widget='many2many_binary'
                                            nolabel="1"/>
                                 </page>
+                                <page string="Folha de pagamento" name="fopag">
+                                    <group>
+                                        <field name="rule_id"/>
+                                        <field name="hr_payslip_id"/>
+                                        <field name="is_payroll_processed"/>
+                                    </group>
+                                </page>
                             </notebook>
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="amount_base"/>
                                 <field name="amount_benefit"
                                        class="oe_subtotal_footer_separator"/>
-                                <field name="is_payroll_processed"/>
                             </group>
                         </group>
                     </sheet>

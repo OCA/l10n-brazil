@@ -51,10 +51,16 @@ class HrBenefitType(models.Model):
         index=True,
         track_visibility='onchange'
     )
+    rule_id = fields.Many2one(
+        comodel_name="hr.salary.rule",
+        required=True,
+        string=u"Rúbrica",
+    )
     python_code = fields.Text(
         string='Código Python',
         track_visibility='onchange'
     )
+
 
     @api.one
     @api.constrains("date_start", "date_stop", "name")
