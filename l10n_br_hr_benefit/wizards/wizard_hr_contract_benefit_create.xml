@@ -11,7 +11,7 @@
         <field name="arch" type="xml">
             <form string="Wizard Hr Contract Benefit">
                 <group>
-                    <field name="old_benfit_ids"/>
+                    <field name="old_benfit_ids" widget="many2many_tags"/>
                     <field name="new_benefit_ids"/>
                 </group>
                 <footer>
