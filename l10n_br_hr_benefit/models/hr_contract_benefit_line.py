@@ -6,6 +6,7 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
 from openerp import api, fields, models, _
+from openerp.exceptions import Warning
 
 
 class HrContractBenefitLine(models.Model):
@@ -63,13 +64,14 @@ class HrContractBenefitLine(models.Model):
     state = fields.Selection(
         selection=[
             ('todo', 'Aguardando Comprovante'),
-            ('waiting', 'Enviado'),
+            ('waiting', 'Enviado para apuração'),
             ('validated', 'Apurado'),
             ('exception', 'Negado'),
             ('cancel', 'Cancelado'),
         ],
         string='Situação',
         index=True,
+        default='todo',
     )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
@@ -82,6 +84,9 @@ class HrContractBenefitLine(models.Model):
     is_payroll_processed = fields.Boolean(
         string='Lançado em folha de pagamento',
         readonly=True,
+    )
+    exception_message = fields.Text(
+        string='Motivo da exceção na apuração'
     )
 
     @api.multi
@@ -99,3 +104,36 @@ class HrContractBenefitLine(models.Model):
                             record.benefit_type_id.name,
                             record.period_id.name))
 
+    @api.multi
+    def button_send_receipt(self):
+        for record in self:
+            if record.attachment_ids and record.amount_base:
+                record.state = 'waiting'
+            else:
+                raise Warning(
+                    _('Para enviar para aprovação é '
+                      'necessário anexar ao menos um '
+                      'comprovante e preencher o '
+                      'valor comprovado'))
+
+    @api.multi
+    def button_approve_receipt(self):
+        for record in self:
+            record.state = 'validated'
+
+    @api.multi
+    def button_exception_receipt(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'wizard.benefit.exception.cause',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': False,
+            'target': 'new',
+        }
+
+    @api.multi
+    def button_back_todo(self):
+        for record in self:
+            if record.state in 'exception':
+                record.state = 'todo'

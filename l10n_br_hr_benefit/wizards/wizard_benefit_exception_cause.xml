@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="benefit_exception_wizard_form">
+            <field name="name">wizard.benefit.line.exception.cause.form</field>
+            <field name="model">wizard.benefit.exception.cause</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="message"/>
+                    </group>
+                    <footer>
+                        <button name="reject_add_message" type="object" string="Rejeitar comprovante"/>
+                        <button string='Cancelar'
+                                class='btn-default oe_link'
+                                special='cancel'/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

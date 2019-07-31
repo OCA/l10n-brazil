@@ -13,12 +13,18 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <field name="state" widget="statusbar"
-                               statusbar_visible="waiting,open,paid"/>
+                        <button name="button_send_receipt" type="object" string="Enviar para aprovação" states="todo"/>
+                        <button name="button_approve_receipt" type="object" string="Aprovar comprovante" states="waiting"/>
+                        <button name="button_exception_receipt" type="object" string="Rejeitar comprovante" states="waiting"/>
+                        <button name="button_back_todo" type="object" string="Voltar para início" states="exception"/>
+                        <field name="state" widget="statusbar" nolabel="1" readonly="1"/>
                     </header>
                     <sheet>
                         <h1>
                             <field name="name"/>
+                        </h1>
+                        <h1 class="oe_title">
+                            <field name="exception_message" attrs="{'invisible': [('state', 'not in', ['exception', 'todo'])]}"/>
                         </h1>
                         <group>
                             <group>
@@ -89,6 +95,7 @@
                 </tree>
             </field>
         </record>
+
 
         <record model="ir.actions.act_window"
                 id="hr_contract_benefit_line_act_window">
