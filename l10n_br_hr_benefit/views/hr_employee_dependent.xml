@@ -23,8 +23,7 @@
                         <button name="button_approve" type="object" string="Aprovar" states="to approve"/>
                         <button name="button_to_approve" type="object" string="Voltar para edição" states="approved"/>
                         <button name="%(wizard_hr_contract_benefit_create_act_window)d"
-                                string="Adicionar benefícios" type="action" groups="base.group_hr_user" class="oe_highlight"/>
-
+                                string="Adicionar benefícios" type="action" groups="base.group_hr_user" class="oe_highlight" states="approved"/>
                         <field name="state" widget="statusbar" nolabel="1" readonly="1" statusbar_visible="to approve,approved"/>
                     </header>
                 </sheet>
@@ -77,7 +76,7 @@
             <field name="name">Beneficiários</field>
             <field name="parent_id" ref="hr_benefit_main_menu"/>
             <field name="action" ref="hr_benefit_employee_dependent_act_window"/>
-            <field name="sequence" eval="27"/>
+            <field name="sequence" eval="12"/>
         </record>
 
     </data>

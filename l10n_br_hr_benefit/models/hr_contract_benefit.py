@@ -97,6 +97,21 @@ class HrContractBenefit(models.Model):
         readonly=True,
         track_visibility='onchange'
     )
+    line_ids = fields.Many2many(
+        comodel_name='hr.contract.benefit.line',
+        column1='hr_contract_benefit_id',
+        column2='hr_contract_benefit_line_id',
+        relation='contract_benefitiary_rel',
+        string='Apurações'
+    )
+    line_count = fields.Integer(
+        "# Apurações", compute='_compute_line_count'
+    )
+
+    @api.multi
+    def _compute_line_count(self):
+        for record in self:
+            record.line_count = len(record.line_ids)
 
     @api.one
     @api.constrains('date_start', 'date_stop')
@@ -191,9 +206,12 @@ class HrContractBenefit(models.Model):
                 'benefit_type_id': benefit_type_id.id,
                 'contract_id': contract_id.id,
                 'period_id': period_id.id,
-                'beneficiary_ids': [(6, 0, beneficios_agrupados[
-                    (contract_id, benefit_type_id)
-                ].mapped('beneficiary_id').ids)],
+                'beneficiary_ids': [(6, 0,
+                                     beneficios_agrupados[
+                                         (contract_id, benefit_type_id)
+                                     ].ids)],
+                # TODO: Talvez transformar em um metodo para valdiar as datas.
+                #   Ou tratar no SQL acima
                 'state': 'todo',
             })
 

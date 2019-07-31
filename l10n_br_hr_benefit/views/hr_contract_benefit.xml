@@ -13,18 +13,34 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="button_send_receipt" type="object" string="Enviar para aprovação" states="todo"/>
-                        <button name="button_approve_receipt" type="object" string="Aprovar comprovante" states="waiting"/>
-                        <button name="button_exception_receipt" type="object" string="Rejeitar comprovante" states="waiting"/>
-                        <button name="button_back_todo" type="object" string="Voltar ao início" states="exception"/>
-                        <field name="state" widget="statusbar" nolabel="1" readonly="1" />
+                        <button name="button_send_receipt" type="object"
+                                string="Enviar para aprovação" states="todo"/>
+                        <button name="button_approve_receipt" type="object"
+                                string="Aprovar comprovante" states="waiting"/>
+                        <button name="button_exception_receipt" type="object"
+                                string="Rejeitar comprovante" states="waiting"/>
+                        <button name="button_back_todo" type="object"
+                                string="Voltar ao início" states="exception"/>
+                        <field name="state" widget="statusbar" nolabel="1"
+                               readonly="1"/>
                     </header>
                     <sheet>
+                        <div class="oe_right oe_button_box" name="buttons">
+                            <button class="oe_inline oe_stat_button"
+                                    type="action"
+                                    name="%(l10n_br_hr_benefit.hr_contract_benefit_line_act_window)d"
+                                    icon="fa-book"
+                                    context="{'search_default_beneficiary_ids': active_ids}"
+                            >
+                                <field string="Apurações" name="line_count" widget="statinfo"/>
+                            </button>
+                        </div>
                         <h1>
                             <field name="name"/>
                         </h1>
                         <h1 class="oe_title">
-                            <field name="exception_message" attrs="{'invisible': [('state', 'not in', ['exception', 'todo'])]}"/>
+                            <field name="exception_message"
+                                   attrs="{'invisible': [('state', 'not in', ['exception', 'todo'])]}"/>
                         </h1>
                         <group>
                             <group>
@@ -40,11 +56,13 @@
                             </group>
                         </group>
                         <group>
-                            <field name="attachment_ids" widget="many2many_binary"/>
+                            <field name="attachment_ids"
+                                   widget="many2many_binary"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_follower_ids"
+                               widget="mail_followers"/>
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
                 </form>

@@ -55,8 +55,11 @@ class HrContractBenefitLine(models.Model):
         track_visibility='onchange'
     )
     beneficiary_ids = fields.Many2many(
-        comodel_name='res.partner',
+        comodel_name='hr.contract.benefit',
         string='Beneficiários',
+        column1='hr_contract_benefit_line_id',
+        column2='hr_contract_benefit_id',
+        relation='contract_benefitiary_rel',
         track_visibility='onchange',
     )
     amount_base = fields.Float(
@@ -110,6 +113,7 @@ class HrContractBenefitLine(models.Model):
         string=u"Folha de pagamento",
         readonly=True,
     )
+
 
     @api.onchange('hr_payslip_id')
     def onchange_payroll_processed(self):
