@@ -13,13 +13,68 @@
             <field name="inherit_id"
                    ref="l10n_br_hr.view_l10n_br_hr_employee_dependent_form"/>
             <field name="arch" type="xml">
+                <sheet position="before">
+                    <field name="has_changes" invisible="1" />
+                    <header>
+                        <button name="button_send_to_approval" type="object" string="Enviar para aprovação"
+                                attrs="{'invisible': ['&amp;',('has_changes','=', False),('state','not in', ['to approve'])]}"/>
+                        <button name="button_approve" type="object" string="Aprovar" states="to approve"/>
+                        <button name="button_exception" type="object" string="Reprovar" states="to approve"/>
+                        <button name="button_back_to_approve" type="object" string="Voltar para edição" states="exception"/>
+                        <button name="%(wizard_hr_contract_benefit_create_act_window)d"
+                                string="Adicionar benefícios" type="action" groups="base.group_hr_user" class="oe_highlight"/>
+
+                        <field name="state" widget="statusbar" nolabel="1" readonly="1"/>
+                    </header>
+                    <h1>
+                        <field name="exception_message" readonly="1"/>
+                    </h1>
+                </sheet>
                 <group name="alimony_dependent" position="before">
                     <group name="group_beneficios" string="Benefícios">
                         <field name="benefit_ids" widget="many2many_tags"/>
-                        <button name="%(wizard_hr_contract_benefit_create_act_window)d" string="Adicionar" type="action" groups="base.group_hr_user"/>
                     </group>
                 </group>
+                <sheet position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </sheet>
             </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_benefit_employee_dependent_tree">
+            <field name="name">hr_benefit_employee_dependent.tree</field>
+            <field name="model">hr.employee.dependent</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="dependent_dob"/>
+                    <field name="dependent_type_id"
+                           options="{'no_create': True, 'no_open': True}"/>
+                    <field name="dependent_verification"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window"
+                id="hr_benefit_employee_dependent_act_window">
+            <field name="name">Beneficiários</field>
+            <field name="res_model">hr.employee.dependent</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="view_hr_benefit_employee_dependent_tree" />
+        </record>
+
+        <record model="ir.ui.menu" id="hr_benefit_employee_dependent_menu">
+            <field name="name">Beneficiários</field>
+            <field name="parent_id" ref="hr_benefit_main_menu"/>
+            <field name="action" ref="hr_benefit_employee_dependent_act_window"/>
+            <field name="sequence" eval="27"/>
         </record>
 
     </data>
