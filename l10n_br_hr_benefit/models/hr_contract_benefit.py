@@ -34,20 +34,24 @@ class HrContractBenefit(models.Model):
         string='Tipo Benefício',
         index=True,
         required=True,
+        track_visibility='onchange'
     )
     date_start = fields.Date(
         string='Date Start',
         index=True,
+        track_visibility='onchange'
     )
     date_stop = fields.Date(
         string='Date Stop',
         index=True,
+        track_visibility='onchange'
     )
     contract_id = fields.Many2one(
         comodel_name='hr.contract',
         required=True,
         index=True,
-        string='Contrato'
+        string='Contrato',
+        track_visibility='onchange'
     )
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
@@ -61,18 +65,21 @@ class HrContractBenefit(models.Model):
         index=True,
         required=True,
         string='Beneficiário',
+        track_visibility='onchange'
     )
     active = fields.Boolean(
         string='Ativo',
         default=True,
         readonly=True,
+        track_visibility='onchange'
     )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
         relation='hr_contract_benefit_att_rel',
         column1='benefit_id',
         column2='attachment_id',
-        string='Attachments'
+        string='Attachments',
+        track_visibility='onchange'
     )
     state = fields.Selection(
         selection=[
@@ -82,7 +89,9 @@ class HrContractBenefit(models.Model):
             ('exception', 'Negado'),
         ],
         string='Situação',
-        default='todo'
+        default='todo',
+        track_visibility='onchange'
+    )
     exception_message = fields.Text(
         string='Motivo da exceção na apuração',
         readonly=True,

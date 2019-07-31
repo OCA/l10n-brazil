@@ -24,29 +24,36 @@ class HrBenefitType(models.Model):
     date_start = fields.Date(
         string='Date Start',
         index=True,
+        track_visibility='onchange'
     )
     date_stop = fields.Date(
         string='Date Stop',
         index=True,
+        track_visibility='onchange'
     )
     limit_days = fields.Integer(
         string='Limite(dias)',
+        track_visibility='onchange'
     )
     amount_max = fields.Float(
         string='Valor máximo',
         index=True,
+        track_visibility='onchange'
     )
     amount_fixed = fields.Float(
         string='Valor fixo',
         index=True,
+        track_visibility='onchange'
     )
     need_approval = fields.Boolean(
         string='Need approval',
         default=True,
         index=True,
+        track_visibility='onchange'
     )
     python_code = fields.Text(
         string='Código Python',
+        track_visibility='onchange'
     )
 
     @api.one

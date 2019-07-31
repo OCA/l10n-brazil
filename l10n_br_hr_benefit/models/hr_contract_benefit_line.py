@@ -21,13 +21,15 @@ class HrContractBenefitLine(models.Model):
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
         required=True,
-        string='Tipo Benefício'
+        string='Tipo Benefício',
+        track_visibility='onchange'
     )
     contract_id = fields.Many2one(
         comodel_name='hr.contract',
         required=True,
         index=True,
-        string='Contrato'
+        string='Contrato',
+        track_visibility='onchange'
     )
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
@@ -40,26 +42,32 @@ class HrContractBenefitLine(models.Model):
         comodel_name='account.period',
         string='Competência',
         index=True,
+        track_visibility='onchange'
     )
     date_start = fields.Date(
         string='Date Start',
         index=True,
+        track_visibility='onchange'
     )
     date_stop = fields.Date(
         string='Date Stop',
         index=True,
+        track_visibility='onchange'
     )
     beneficiary_ids = fields.Many2many(
         comodel_name='res.partner',
         string='Beneficiários',
+        track_visibility='onchange',
     )
     amount_base = fields.Float(
         string='Valor Comprovado',
         index=True,
+        track_visibility='onchange'
     )
     amount_benefit = fields.Float(
         string='Valor Apurado',
         index=True,
+        track_visibility='onchange'
     )
     state = fields.Selection(
         selection=[
@@ -72,21 +80,26 @@ class HrContractBenefitLine(models.Model):
         string='Situação',
         index=True,
         default='todo',
+        track_visibility='onchange'
     )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
         relation='hr_contract_benefit_line_att_rel',
         column1='benefit_line_id',
         column2='attachment_id',
-        string='Attachments'
+        string='Attachments',
+        track_visibility='onchange'
     )
     # TODO: Colocar a folha que foi processado e tornar o campo calculado
     is_payroll_processed = fields.Boolean(
         string='Lançado em folha de pagamento',
         readonly=True,
+        track_visibility='onchange'
     )
     exception_message = fields.Text(
-        string='Motivo da exceção na apuração'
+        string='Motivo da exceção na apuração',
+        readonly=True,
+        track_visibility='onchange'
     )
 
     @api.multi
