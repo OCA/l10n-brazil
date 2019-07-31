@@ -45,12 +45,12 @@ class HrContractBenefitLine(models.Model):
         track_visibility='onchange'
     )
     date_start = fields.Date(
-        string='Date Start',
+        string='Início de Vigência',
         index=True,
         track_visibility='onchange'
     )
     date_stop = fields.Date(
-        string='Date Stop',
+        string='Fim de Vigência',
         index=True,
         track_visibility='onchange'
     )

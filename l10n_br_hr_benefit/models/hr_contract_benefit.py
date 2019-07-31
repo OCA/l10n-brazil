@@ -37,12 +37,12 @@ class HrContractBenefit(models.Model):
         track_visibility='onchange'
     )
     date_start = fields.Date(
-        string='Date Start',
+        string='Início de vigência',
         index=True,
         track_visibility='onchange'
     )
     date_stop = fields.Date(
-        string='Date Stop',
+        string='Fim de vigência',
         index=True,
         track_visibility='onchange'
     )
