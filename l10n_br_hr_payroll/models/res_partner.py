@@ -35,9 +35,11 @@ class ResPartner(models.Model):
     @api.model
     def create(self, vals):
         # verifica e-mail completo na tabela usuário e vinculo com partner
-        result_user = self.env['res.users'].search(
-            ['|', ('login', '=', vals['email']),
-             ('partner_id.email', '=', vals['email'])])
+        result_user = False
+        if vals.get('email'):
+            result_user = self.env['res.users'].search(
+                ['|', ('login', '=', vals['email']),
+                ('partner_id.email', '=', vals['email'])])
 
         email_existe = \
             self.levenshtein(vals.get('email'), tabela='res_partner',
