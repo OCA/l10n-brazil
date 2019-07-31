@@ -91,7 +91,7 @@ class HrContractBenefitLine(models.Model):
         track_visibility='onchange'
     )
     is_payroll_processed = fields.Boolean(
-        string='Lançado em folha de pagamento',
+        string='Em folha?',
         readonly=True,
         track_visibility='onchange'
     )

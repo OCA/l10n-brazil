@@ -95,12 +95,13 @@
                     <!--<field name="name"/>-->
                     <field name="benefit_type_id"/>
                     <field name="contract_id"/>
-                    <field name="employee_id"/>
+                    <field name="employee_id" invisible="1"/>
                     <field name="beneficiary_ids" widget="many2many_tags"/>
                     <field name="period_id"/>
                     <field name="amount_base"/>
                     <field name="amount_benefit"/>
                     <field name="state"/>
+                    <field name="is_payroll_processed"/>
                 </tree>
             </field>
         </record>
