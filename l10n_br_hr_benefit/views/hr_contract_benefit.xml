@@ -29,7 +29,7 @@
                         <group>
                             <group>
                                 <field name="contract_id"/>
-                                <field name="employee_id"/>
+                                <field name="employee_id" invisible="1"/>
                                 <field name="beneficiary_id"/>
                             </group>
                             <group>
@@ -78,6 +78,7 @@
                     <field name="contract_id"/>
                     <field name="employee_id"/>
                     <field name="beneficiary_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
