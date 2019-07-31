@@ -11,7 +11,7 @@ from openerp.exceptions import Warning
 
 class HrContractBenefit(models.Model):
     _name = b'hr.contract.benefit'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
 
     _description = 'Benefícios'
 

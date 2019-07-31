@@ -12,7 +12,7 @@ from openerp.exceptions import Warning
 class HrContractBenefitLine(models.Model):
 
     _name = b'hr.contract.benefit.line'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     _description = 'Prestação de contas'
 
     name = fields.Char(

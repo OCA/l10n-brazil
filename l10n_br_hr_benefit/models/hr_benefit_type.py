@@ -12,7 +12,7 @@ from openerp.exceptions import Warning
 class HrBenefitType(models.Model):
 
     _name = b'hr.benefit.type'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     _description = 'Tipo de Benefício'
     _order = 'name, date_start desc, date_stop desc'
 
