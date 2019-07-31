@@ -32,6 +32,7 @@ class HrContractBenefit(models.Model):
         comodel_name='hr.benefit.type',
         string='Tipo Benefício',
         index=True,
+        required=True,
     )
     date_start = fields.Date(
         string='Date Start',
@@ -57,6 +58,7 @@ class HrContractBenefit(models.Model):
     beneficiary_id = fields.Many2one(
         comodel_name='res.partner',
         index=True,
+        required=True,
         string='Beneficiário',
     )
     active = fields.Boolean(
@@ -70,7 +72,7 @@ class HrContractBenefit(models.Model):
     def _check_valid_date_interval(self):
         if self.date_stop and self.date_stop < self.date_start:
             raise Warning(
-                    _('Data final menor que data inicial'))
+                _('Data final menor que data inicial'))
 
     @api.one
     @api.constrains('date_stop')
@@ -80,7 +82,8 @@ class HrContractBenefit(models.Model):
             self.active = False
 
     @api.one
-    @api.constrains("date_start", "date_stop", "benefit_type_id", "beneficiary_id")
+    @api.constrains("date_start", "date_stop", "benefit_type_id",
+                    "beneficiary_id")
     def _check_dates(self):
         domain = [
             ('id', '!=', self.id),
@@ -115,3 +118,52 @@ class HrContractBenefit(models.Model):
                 name += ' (de %s até %s)' % (record.date_start,
                                              record.date_stop)
             record.name = name
+
+    @api.model
+    def _agrupar_beneficios(self):
+
+        result = {}
+
+        contract_model = self.env['hr.contract']
+        benefit_type_model = self.env['hr.benefit.type']
+
+        sql = """SELECT contract_id, benefit_type_id, array_agg(id)
+            FROM hr_contract_benefit
+            WHERE active='t'
+            GROUP BY contract_id, benefit_type_id"""
+        self.env.cr.execute(sql)
+
+        for contract_id, benefit_type_id, \
+            benefit_ids in self.env.cr.fetchall():
+            contract = contract_model.browse(contract_id)
+            benefit_type = benefit_type_model.browse(benefit_type_id)
+
+            benefits = self.search(
+                [('id', 'in', benefit_ids)]
+            )
+
+            result[(contract, benefit_type)] = benefits
+
+        return result
+
+    @api.multi
+    def gerar_prestacao_contas(self, period_id=False):
+        if not period_id:
+            period_id = self.env['account.period'].find()
+
+        beneficios_agrupados = self._agrupar_beneficios()
+
+        result = self.env['hr.contract.benefit.line']
+
+        for contract_id, benefit_type_id in beneficios_agrupados:
+            result |= self.env['hr.contract.benefit.line'].create({
+                'benefit_type_id': benefit_type_id.id,
+                'contract_id': contract_id.id,
+                'period_id': period_id.id,
+                'beneficiary_ids': [(6, 0, beneficios_agrupados[
+                    (contract_id, benefit_type_id)
+                ].mapped('beneficiary_id').ids)],
+                'state': 'todo',
+            })
+
+        return result

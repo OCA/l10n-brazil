@@ -5,9 +5,9 @@
 <openerp>
 <data>
 
-    <record model="ir.ui.view" id="wizard_hr_contract_benefit_form_view">
-        <field name="name">wizard.hr.contract.benefit.form (in l10n_br_hr_benefit)</field>
-        <field name="model">wizard.hr.contract.benefit</field>
+    <record model="ir.ui.view" id="wizard_hr_contract_benefit_create_form_view">
+        <field name="name">wizard.hr.contract.benefit.create.form (in l10n_br_hr_benefit_create)</field>
+        <field name="model">wizard.hr.contract.benefit.create</field>
         <field name="arch" type="xml">
             <form string="Wizard Hr Contract Benefit">
                 <group>
@@ -28,20 +28,20 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="wizard_hr_contract_benefit_act_window">
+    <record model="ir.actions.act_window" id="wizard_hr_contract_benefit_create_act_window">
         <field name="name">Adicionar Benefícios</field>
-        <field name="res_model">wizard.hr.contract.benefit</field>
+        <field name="res_model">wizard.hr.contract.benefit.create</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
         <field name="target">new</field>
     </record>
 
-    <record model="ir.values" id="wizard_hr_contract_benefit_act_multi">
-        <field name="name">Adicionar Benefícios</field>
-        <field name="key2">client_action_multi</field>
-        <field name="value" eval="'ir.actions.act_window,' +str(ref('wizard_hr_contract_benefit_act_window'))" />
-        <field name="model">source.model</field>
-    </record>
+    <!--<record model="ir.values" id="wizard_hr_contract_benefit_create_act_multi">-->
+        <!--<field name="name">Adicionar Benefícios</field>-->
+        <!--<field name="key2">client_action_multi</field>-->
+        <!--<field name="value" eval="'ir.actions.act_window,' +str(ref('wizard_hr_contract_benefit_create_act_window'))" />-->
+        <!--<field name="model">source.model</field>-->
+    <!--</record>-->
 
 </data>
 </openerp>

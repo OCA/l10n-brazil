@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view"
+                id="wizard_hr_contract_benefit_periodic_form_view">
+            <field name="name">wizard.hr.contract.benefit.periodic.form (in
+                l10n_br_hr_benefit_periodic)
+            </field>
+            <field name="model">wizard.hr.contract.benefit.periodic</field>
+            <field name="arch" type="xml">
+                <form string="Wizard Hr Contract Benefit">
+                    <group>
+                        <field name="period_id"/>
+                    </group>
+                    <footer>
+                        <button name="doit"
+                                string="OK"
+                                class="oe_highlight"
+                                type="object"/>
+                        or
+                        <button string="Cancel"
+                                class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window"
+                id="wizard_hr_contract_benefit_periodic_act_window">
+            <field name="name">Gerar Prestação de contas</field>
+            <field name="res_model">wizard.hr.contract.benefit.periodic</field>
+            <field name="view_mode">form</field>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_benefit_periodic_menu">
+            <field name="name">Gerar Prestação de contas</field>
+            <field name="parent_id"
+                   ref="l10n_br_hr_benefit.hr_benefit_main_menu"/>
+            <field name="action"
+                   ref="wizard_hr_contract_benefit_periodic_act_window"/>
+            <field name="sequence" eval="90"/>
+            <field name="groups_id" eval="[(4,ref('base.group_no_one'))]"/>
+        </record>
+
+    </data>
+</openerp>

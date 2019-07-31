@@ -15,13 +15,17 @@
     ],
     'data': [
         'views/hr_benefit_menu.xml',
+
+        'wizards/wizard_hr_contract_benefit_create.xml',
+        'wizards/wizard_hr_contract_benefit_periodic.xml',
+
         'views/hr_benefit_type.xml',
         'views/hr_contract_benefit.xml',
         'views/hr_contract_benefit_line.xml',
-        'wizards/wizard_hr_contract_benefit.xml',
         'views/hr_contract.xml',
         'views/hr_employee.xml',
         'views/hr_employee_dependent.xml',
+
 
 
         # TODO : Permissões de segurança:

@@ -20,6 +20,7 @@
                 <group name="group_dependentes" position="before">
                     <group name="group_titular" string="Benefícios">
                         <field name="benefit_ids" widget="many2many_tags"/>
+                        <button name="%(wizard_hr_contract_benefit_create_act_window)d" string="Adicionar" type="action" groups="base.group_hr_user"/>
                     </group>
                 </group>
 
