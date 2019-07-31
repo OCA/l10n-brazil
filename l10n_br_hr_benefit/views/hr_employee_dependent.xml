@@ -14,22 +14,25 @@
                    ref="l10n_br_hr.view_l10n_br_hr_employee_dependent_form"/>
             <field name="arch" type="xml">
                 <sheet position="before">
-                    <field name="has_changes" invisible="1" />
+<!--                    <field name="has_changes" invisible="1" />-->
                     <header>
-                        <button name="button_send_to_approval" type="object" string="Enviar para aprovação"
-                                attrs="{'invisible': ['&amp;',('has_changes','=', False),('state','not in', ['to approve'])]}"/>
+<!--                        <button name="button_send_to_approval" type="object" string="Enviar para aprovação" states="has changes"/>-->
+<!--                        <button name="button_approve" type="object" string="Aprovar" states="to approve"/>-->
+<!--                        <button name="button_exception" type="object" string="Reprovar" states="to approve"/>-->
+<!--                        <button name="button_back_to_approve" type="object" string="Voltar para edição" states="exception"/>-->
                         <button name="button_approve" type="object" string="Aprovar" states="to approve"/>
-                        <button name="button_exception" type="object" string="Reprovar" states="to approve"/>
-                        <button name="button_back_to_approve" type="object" string="Voltar para edição" states="exception"/>
+                        <button name="button_to_approve" type="object" string="Voltar para edição" states="approved"/>
                         <button name="%(wizard_hr_contract_benefit_create_act_window)d"
                                 string="Adicionar benefícios" type="action" groups="base.group_hr_user" class="oe_highlight"/>
 
-                        <field name="state" widget="statusbar" nolabel="1" readonly="1"/>
+                        <field name="state" widget="statusbar" nolabel="1" readonly="1" statusbar_visible="to approve,approved"/>
                     </header>
-                    <h1>
-                        <field name="exception_message" readonly="1"/>
-                    </h1>
                 </sheet>
+<!--                <xpath expr="//group" position="before">-->
+<!--                    <h1>-->
+<!--                        <field name="exception_message" readonly="1" />-->
+<!--                    </h1>-->
+<!--                </xpath>-->
                 <group name="alimony_dependent" position="before">
                     <group name="group_beneficios" string="Benefícios">
                         <field name="benefit_ids" widget="many2many_tags"/>

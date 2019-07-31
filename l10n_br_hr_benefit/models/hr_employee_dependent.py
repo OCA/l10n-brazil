@@ -30,7 +30,6 @@ class HrEmployeeDependent(models.Model):
         selection=[
             ('to approve', 'A aprovar'),
             ('approved', 'Aprovada'),
-            ('exception', 'Rejeitada'),
         ],
         track_visibility='onchange',
         default='to approve'
@@ -80,47 +79,69 @@ class HrEmployeeDependent(models.Model):
     relative_file = fields.Binary(
         track_visibility='onchange',
     )
-    has_changes = fields.Boolean(
-        string='Existem alterações?',
-        default=True,
-        track_visibility='onchange',
-    )
-    exception_message = fields.Char(
-        string='Mensagem de rejeição',
-        track_visibility='onchange',
-    )
-
-    @api.multi
-    def write(self, vals):
-        if self.env.user == self.employee_id.user_id:
-            vals.update(dict(has_changes=True))
-        result = super(HrEmployeeDependent, self).write(vals)
-        return result
-
-    @api.multi
-    def button_send_to_approval(self):
-        for record in self:
-            record.state = 'to approve'
 
     @api.multi
     def button_approve(self):
         for record in self:
             record.state = 'approved'
-            record.has_changes = False
 
     @api.multi
-    def button_exception(self):
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'wizard.benefit.exception.cause',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_id': False,
-            'target': 'new',
-        }
-
-    @api.multi
-    def button_back_to_approve(self):
+    def button_to_approve(self):
         for record in self:
-            if record.state in 'exception':
-                record.state = 'to approve'
+            record.state = 'to approve'
+
+
+    # has_changes = fields.Boolean(
+    #     string='Existem alterações?',
+    #     default=True,
+    #     track_visibility='onchange',
+    # )
+    # exception_message = fields.Char(
+    #     string='Mensagem de rejeição',
+    #     track_visibility='onchange',
+    # )
+    #
+    # @api.multi
+    # def write(self, vals):
+    #     if self.env.user == self.employee_id.user_id:
+    #         vals.update(dict(has_changes=True))
+    #     result = super(HrEmployeeDependent, self).write(vals)
+    #     return result
+    #
+    # @api.multi
+    # @api.onchange('has_changes')
+    # def _onchange_has_changes(self):
+    #     for record in self:
+    #         if record.has_changes and record.state in ['approved', 'exception']:
+    #             record.state = 'has changes'
+    #
+    # @api.multi
+    # def button_send_to_approval(self):
+    #     for record in self:
+    #         record.state = 'to approve'
+    #
+    # @api.multi
+    # def button_approve(self):
+    #     for record in self:
+    #         record.state = 'approved'
+    #         record.has_changes = False
+    #
+    # @api.multi
+    # def button_exception(self):
+    #     for record in self:
+    #         record.has_changes = False
+    #
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'wizard.benefit.exception.cause',
+    #         'view_mode': 'form',
+    #         'view_type': 'form',
+    #         'res_id': False,
+    #         'target': 'new',
+    #     }
+    #
+    # @api.multi
+    # def button_back_to_approve(self):
+    #     for record in self:
+    #         if record.state in 'exception':
+    #             record.state = 'has changes'
