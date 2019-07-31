@@ -29,10 +29,7 @@
 
 
 
-        # TODO : Permissões de segurança:
-        #   A criação de beneficios deve ser feita somente pelos grupos:
-        #      oficial e gerente;
-        #
+
         # 'security/hr_employee_dependent.xml',
         # 'security/hr_employee.xml',
         # 'security/hr_benefit_type.xml',
