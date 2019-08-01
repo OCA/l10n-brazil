@@ -4,8 +4,9 @@
 
 from __future__ import unicode_literals, division, print_function
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 from openerp.exceptions import Warning
+
 
 class WizardBenefitExceptionCause(models.TransientModel):
     _name = b'wizard.benefit.exception.cause'

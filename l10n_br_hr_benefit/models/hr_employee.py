@@ -5,7 +5,7 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 
 
 class HrEmployee(models.Model):
@@ -16,8 +16,8 @@ class HrEmployee(models.Model):
     def _compute_beneficios(self):
         for record in self:
             record.benefit_ids = self.env['hr.contract.benefit'].search(
-                    [('beneficiary_id', '=', record.address_home_id.id)]
-                )
+                [('beneficiary_id', '=', record.address_home_id.id)]
+            )
 
     benefit_ids = fields.Many2many(
         comodel_name='hr.contract.benefit',

@@ -231,7 +231,7 @@ class HrContractBenefit(models.Model):
         self.env.cr.execute(sql)
 
         for contract_id, benefit_type_id, \
-            benefit_ids in self.env.cr.fetchall():
+                benefit_ids in self.env.cr.fetchall():
             contract = contract_model.browse(contract_id)
             benefit_type = benefit_type_model.browse(benefit_type_id)
 

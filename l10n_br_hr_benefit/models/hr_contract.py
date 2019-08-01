@@ -5,7 +5,7 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
-from openerp import api, fields, models, _
+from openerp import fields, models
 
 
 class HrContract(models.Model):

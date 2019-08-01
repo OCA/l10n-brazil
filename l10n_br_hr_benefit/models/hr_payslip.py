@@ -5,8 +5,7 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
-from openerp import api, fields, models, _
-from openerp.exceptions import Warning
+from openerp import api, models
 
 
 class HrPayslip(models.Model):

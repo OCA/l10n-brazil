@@ -5,7 +5,7 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 
 
 class HrEmployeeDependent(models.Model):
@@ -16,8 +16,8 @@ class HrEmployeeDependent(models.Model):
     def _compute_beneficios(self):
         for record in self:
             record.benefit_ids = self.env['hr.contract.benefit'].search(
-                    [('beneficiary_id', '=', record.partner_id.id)]
-                )
+                [('beneficiary_id', '=', record.partner_id.id)]
+            )
 
     benefit_ids = fields.Many2many(
         comodel_name='hr.contract.benefit',
@@ -112,7 +112,8 @@ class HrEmployeeDependent(models.Model):
     # @api.onchange('has_changes')
     # def _onchange_has_changes(self):
     #     for record in self:
-    #         if record.has_changes and record.state in ['approved', 'exception']:
+    #         if record.has_changes and record.state in \
+    #                 ['approved', 'exception']:
     #             record.state = 'has changes'
     #
     # @api.multi

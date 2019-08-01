@@ -2,7 +2,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 
 
 class WizardHrContractBenefit(models.TransientModel):
@@ -82,11 +82,11 @@ class WizardHrContractBenefit(models.TransientModel):
 
             for benefit in wizard.new_benefit_ids:
                 hr_contract_benefit |= hr_contract_benefit.create({
-                        'benefit_type_id': benefit.id,
-                        'date_start': fields.Date.context_today(self),
-                        'contract_id': contract_id.id,
-                        'beneficiary_id': beneficiary_id.id
-                    })
+                    'benefit_type_id': benefit.id,
+                    'date_start': fields.Date.context_today(self),
+                    'contract_id': contract_id.id,
+                    'beneficiary_id': beneficiary_id.id
+                })
 
         action = {
             'type': 'ir.actions.act_window',
