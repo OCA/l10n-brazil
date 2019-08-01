@@ -26,10 +26,15 @@ from . import wizards
 
 # TODO: Verificar campos que precisam de ondelete='restrict'
 # TODO: Criar filtros e agrupamentos para as visões
+
 # TODO: Criar magic buttons no cadastro de beneficiários;
 # TODO: Criar permissões de segurança e regras de acesso;
 #   A criação de beneficios deve ser feita somente pelos grupos:
 #      oficial e gerente;
 
 # TODO: Pensar no tipo de pensão: Variável e fixo;
-# TODO: Criar cron para gerar as competências automaticamente;
+# TODO: Campos para histórico e data
+#      dos valores; como em odoo/parts/addons/hr/hr_employee_benefit
+
+# DOING: Criar cron para gerar as competências automaticamente;
+# DOING: Integração com a folha de pagamento
