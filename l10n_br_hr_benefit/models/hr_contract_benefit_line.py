@@ -99,7 +99,7 @@ class HrContractBenefitLine(models.Model):
         relation='hr_contract_benefit_line_att_rel',
         column1='benefit_line_id',
         column2='attachment_id',
-        string='Attachments',
+        string='Anexos',
         track_visibility='onchange',
         states={'todo': [('readonly', False)]},
         readonly=True,

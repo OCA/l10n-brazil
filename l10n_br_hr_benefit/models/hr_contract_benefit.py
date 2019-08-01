@@ -89,7 +89,7 @@ class HrContractBenefit(models.Model):
         relation='hr_contract_benefit_att_rel',
         column1='benefit_id',
         column2='attachment_id',
-        string='Attachments',
+        string='Anexos',
         track_visibility='onchange',
         states={'draft': [('readonly', False)]},
         readonly=True,

@@ -14,22 +14,22 @@ from . import wizards
 # Done: Intervalo de datas
 #       Fazer via python para ver se não coincide no memso intevalo de datas
 # Done: Criar campo para anexar comprovantes
-# Doing: Criar estado e fluxo de aprovação
-# Doing Mileo: Criar wizard para geração apuração de compentencias.
+# Done: Criar estado e fluxo de aprovação
+# Done: Criar wizard para geração apuração de compentencias.
 
 # Done: Bloquear campos para edição, dependo do state do objeto;
 # DONE: Criar campo relacioando os as pretações de conta de um benefício;
 # DONE: Remover a edição e criação em alguns campos;
 
 # DONE: Validar tipo de beneficiário;
+# DONE: Remover botão de adicionar benefícios;
 
-# TODO: Remover botão de adicionar benefícios;
+# TODO: Verificar campos que precisam de ondelete='restrict'
 # TODO: Criar filtros e agrupamentos para as visões
-
+# TODO: Criar magic buttons no cadastro de beneficiários;
 # TODO: Criar permissões de segurança e regras de acesso;
 #   A criação de beneficios deve ser feita somente pelos grupos:
 #      oficial e gerente;
 
-# TODO: Verificar campos que precisam de ondelete='restrict'
 # TODO: Pensar no tipo de pensão: Variável e fixo;
 # TODO: Criar cron para gerar as competências automaticamente;
