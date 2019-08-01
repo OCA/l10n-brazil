@@ -46,9 +46,19 @@ class HrBenefitType(models.Model):
         track_visibility='onchange'
     )
     need_approval = fields.Boolean(
-        string='Need approval',
-        default=True,
-        index=True,
+        string='Aprovação gerencial',
+        track_visibility='onchange'
+    )
+    need_approval_file = fields.Boolean(
+        string='Anexo obrigatório',
+        track_visibility='onchange'
+    )
+    line_need_approval = fields.Boolean(
+        string='Aprovação gerencial',
+        track_visibility='onchange'
+    )
+    line_need_approval_file = fields.Boolean(
+        string='Anexo obrigatório',
         track_visibility='onchange'
     )
     rule_id = fields.Many2one(
@@ -60,7 +70,18 @@ class HrBenefitType(models.Model):
         string='Código Python',
         track_visibility='onchange'
     )
-
+    beneficiario_funcionario = fields.Boolean(
+        string='Funcionário'
+    )
+    beneficiario_autonomo = fields.Boolean(
+        string='Autônomo'
+    )
+    beneficiario_terceiro = fields.Boolean(
+        string='Terceirizado'
+    )
+    beneficiario_dependente = fields.Boolean(
+        string='Dependente'
+    )
 
     @api.one
     @api.constrains("date_start", "date_stop", "name")

@@ -10,23 +10,37 @@ from openerp.exceptions import Warning
 
 
 class HrContractBenefitLine(models.Model):
-
     _name = b'hr.contract.benefit.line'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _description = 'Prestação de contas'
 
+    state = fields.Selection(
+        selection=[
+            ('todo', 'Aguardando Comprovante'),
+            ('waiting', 'Enviado para apuração'),
+            ('validated', 'Apurado'),
+            ('exception', 'Negado'),
+            ('cancel', 'Cancelado'),
+        ],
+        string='Situação',
+        index=True,
+        default='todo',
+        track_visibility='onchange'
+    )
     name = fields.Char(
         compute='_compute_benefit_line_name'
     )
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
         required=True,
+        readonly=True,
         string='Tipo Benefício',
         track_visibility='onchange'
     )
     contract_id = fields.Many2one(
         comodel_name='hr.contract',
         required=True,
+        readonly=True,
         index=True,
         string='Contrato',
         track_visibility='onchange'
@@ -41,17 +55,20 @@ class HrContractBenefitLine(models.Model):
     period_id = fields.Many2one(
         comodel_name='account.period',
         string='Competência',
+        readonly=True,
         index=True,
         track_visibility='onchange'
     )
     date_start = fields.Date(
         string='Início de Vigência',
         index=True,
+        readonly=True,
         track_visibility='onchange'
     )
     date_stop = fields.Date(
         string='Fim de Vigência',
         index=True,
+        readonly=True,
         track_visibility='onchange'
     )
     beneficiary_ids = fields.Many2many(
@@ -61,29 +78,21 @@ class HrContractBenefitLine(models.Model):
         column2='hr_contract_benefit_id',
         relation='contract_benefitiary_rel',
         track_visibility='onchange',
+        readonly=True,
     )
     amount_base = fields.Float(
         string='Valor Comprovado',
         index=True,
-        track_visibility='onchange'
+        track_visibility='onchange',
+        states={'todo': [('readonly', False)]},
+        readonly=True,
     )
     amount_benefit = fields.Float(
         string='Valor Apurado',
         index=True,
-        track_visibility='onchange'
-    )
-    state = fields.Selection(
-        selection=[
-            ('todo', 'Aguardando Comprovante'),
-            ('waiting', 'Enviado para apuração'),
-            ('validated', 'Apurado'),
-            ('exception', 'Negado'),
-            ('cancel', 'Cancelado'),
-        ],
-        string='Situação',
-        index=True,
-        default='todo',
-        track_visibility='onchange'
+        track_visibility='onchange',
+        states={'todo': [('readonly', False)]},
+        readonly=True,
     )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
@@ -91,7 +100,9 @@ class HrContractBenefitLine(models.Model):
         column1='benefit_line_id',
         column2='attachment_id',
         string='Attachments',
-        track_visibility='onchange'
+        track_visibility='onchange',
+        states={'todo': [('readonly', False)]},
+        readonly=True,
     )
     is_payroll_processed = fields.Boolean(
         string='Em folha?',
@@ -114,7 +125,6 @@ class HrContractBenefitLine(models.Model):
         readonly=True,
     )
 
-
     @api.onchange('hr_payslip_id')
     def onchange_payroll_processed(self):
         for record in self:
@@ -122,7 +132,6 @@ class HrContractBenefitLine(models.Model):
                 record.is_payroll_processed = True
             else:
                 record.is_payroll_processed = False
-
 
     @api.multi
     @api.depends('benefit_type_id', 'date_start', 'date_stop')
@@ -142,18 +151,32 @@ class HrContractBenefitLine(models.Model):
     @api.multi
     def button_send_receipt(self):
         for record in self:
-            if record.attachment_ids and record.amount_base:
-                record.state = 'waiting'
-            else:
+            if (record.benefit_type_id.line_need_approval_file and
+                    not record.attachment_ids):
+                raise Warning(_("""\nPara enviar para aprovação é necessário
+                 anexar o comprovante"""))
+
+            if not record.amount_base:
                 raise Warning(
                     _('Para enviar para aprovação é '
                       'necessário anexar ao menos um '
                       'comprovante e preencher o '
                       'valor comprovado'))
 
+            if not record.benefit_type_id.line_need_approval:
+                record.state = 'validated'
+            else:
+                record.state = 'waiting'
+
     @api.multi
     def button_approve_receipt(self):
         for record in self:
+            if record.benefit_type_id.line_need_approval and not \
+                    self.env.user.has_group('base.group_hr_user'):
+                raise Warning(
+                    _("\nFavor solicitar a aprovação de um gerente")
+                )
+
             record.state = 'validated'
             record.rule_id = record.benefit_type_id.rule_id
 

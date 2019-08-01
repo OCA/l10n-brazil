@@ -11,13 +11,13 @@
             </field>
             <field name="model">hr.contract.benefit.line</field>
             <field name="arch" type="xml">
-                <form>
+                <form delete="false" create="false" duplicate="false">
                     <header>
                         <button name="button_send_receipt" type="object" string="Enviar para aprovação" states="todo"/>
                         <button name="button_approve_receipt" type="object" string="Aprovar comprovante" states="waiting"/>
                         <button name="button_exception_receipt" type="object" string="Rejeitar comprovante" states="waiting"/>
                         <button name="button_back_todo" type="object" string="Voltar para início" states="exception"/>
-                        <field name="state" widget="statusbar" nolabel="1" readonly="1"/>
+                        <field name="state" widget="statusbar" nolabel="1" readonly="1" statusbar_visible="todo,waiting,validated"/>
                     </header>
                     <sheet>
                         <h1>
@@ -91,7 +91,7 @@
             </field>
             <field name="model">hr.contract.benefit.line</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree delete="false" create="false" duplicate="false">
                     <!--<field name="name"/>-->
                     <field name="benefit_type_id"/>
                     <field name="contract_id"/>

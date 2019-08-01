@@ -11,21 +11,22 @@ from openerp.exceptions import Warning
 
 class HrContractBenefit(models.Model):
     _name = b'hr.contract.benefit'
+    _description = 'Benefícios'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
-    _description = 'Benefícios'
-
-    # Done: Display name
-    # Done: Inativar o registro cado a data final seja atingida.
-    # TODO: Verificar a necesidade de criação de botões
-    #  para inativação pelo gerente
-    # Done: Intervalo de datas
-    #       Fazer via python para ver se não coincide no memso intevalo de datas
-    # Done: Criar campo para anexar comprovantes
-    # Doing: Criar estado e fluxo de aprovação
-    # Doing Mileo: Criar wizard para geração apuração de compentencias.
-    # TODO: Criar cron para gerar as competências automaticamente;
-
+    state = fields.Selection(
+        selection=[
+            ('draft', 'Rascunho'),
+            ('waiting', 'Aguardando aprovação'),
+            ('validated', 'Aprovado'),
+            ('exception', 'Negado'),
+            ('cancel', 'Cancelado'),
+        ],
+        string='Situação',
+        default='draft',
+        track_visibility='onchange',
+        readonly=True,
+    )
     name = fields.Char(
         compute='_compute_benefit_name'
     )
@@ -34,12 +35,17 @@ class HrContractBenefit(models.Model):
         string='Tipo Benefício',
         index=True,
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
         track_visibility='onchange'
     )
     date_start = fields.Date(
         string='Início de vigência',
         index=True,
-        track_visibility='onchange'
+        track_visibility='onchange',
+        states={'draft': [('readonly', False)]},
+        readonly=True,
+        default=fields.Date.context_today,
     )
     date_stop = fields.Date(
         string='Fim de vigência',
@@ -51,21 +57,26 @@ class HrContractBenefit(models.Model):
         required=True,
         index=True,
         string='Contrato',
-        track_visibility='onchange'
+        track_visibility='onchange',
+        states={'draft': [('readonly', False)]},
+        readonly=True,
     )
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
         related='contract_id.employee_id',
         readonly=True,
         index=True,
-        string='Colaborador'
+        store=True,
+        string='Colaborador',
     )
     beneficiary_id = fields.Many2one(
         comodel_name='res.partner',
         index=True,
         required=True,
         string='Beneficiário',
-        track_visibility='onchange'
+        track_visibility='onchange',
+        states={'draft': [('readonly', False)]},
+        readonly=True,
     )
     active = fields.Boolean(
         string='Ativo',
@@ -79,18 +90,9 @@ class HrContractBenefit(models.Model):
         column1='benefit_id',
         column2='attachment_id',
         string='Attachments',
-        track_visibility='onchange'
-    )
-    state = fields.Selection(
-        selection=[
-            ('todo', 'Aguardando Comprovante'),
-            ('waiting', 'Enviado'),
-            ('validated', 'Apurado'),
-            ('exception', 'Negado'),
-        ],
-        string='Situação',
-        default='todo',
-        track_visibility='onchange'
+        track_visibility='onchange',
+        states={'draft': [('readonly', False)]},
+        readonly=True,
     )
     exception_message = fields.Text(
         string='Motivo da exceção na apuração',
@@ -102,11 +104,25 @@ class HrContractBenefit(models.Model):
         column1='hr_contract_benefit_id',
         column2='hr_contract_benefit_line_id',
         relation='contract_benefitiary_rel',
-        string='Apurações'
+        string='Apurações',
+        readonly=True,
     )
     line_count = fields.Integer(
-        "# Apurações", compute='_compute_line_count'
+        "# Apurações", compute='_compute_line_count',
+        readonly=True,
     )
+
+    @api.onchange('employee_id')
+    def onchange_employee_id(self):
+        if self.employee_id:
+            allowed_partner_ids = self.env['res.partner']
+            allowed_partner_ids |= self.employee_id.address_home_id
+            allowed_partner_ids |= \
+                self.employee_id.dependent_ids.mapped('partner_id')
+            return {
+                'domain': {
+                    'beneficiary_id': [('id', '=', allowed_partner_ids.ids)]},
+            }
 
     @api.multi
     def _compute_line_count(self):
@@ -148,7 +164,8 @@ class HrContractBenefit(models.Model):
                   ' que sobrepõem essa'))
 
     @api.multi
-    @api.depends('benefit_type_id', 'beneficiary_id', 'date_start', 'date_stop')
+    @api.depends(
+        'benefit_type_id', 'beneficiary_id', 'date_start', 'date_stop')
     def _compute_benefit_name(self):
         for record in self:
             if not record.beneficiary_id or \
@@ -175,7 +192,7 @@ class HrContractBenefit(models.Model):
 
         sql = """SELECT contract_id, benefit_type_id, array_agg(id)
             FROM hr_contract_benefit
-            WHERE active='t'
+            WHERE active='t' and state='validated'
             GROUP BY contract_id, benefit_type_id"""
         self.env.cr.execute(sql)
 
@@ -212,7 +229,6 @@ class HrContractBenefit(models.Model):
                                      ].ids)],
                 # TODO: Talvez transformar em um metodo para valdiar as datas.
                 #   Ou tratar no SQL acima
-                'state': 'todo',
             })
 
         return result
@@ -220,16 +236,24 @@ class HrContractBenefit(models.Model):
     @api.multi
     def button_send_receipt(self):
         for record in self:
-            if record.attachment_ids:
-                record.state = 'waiting'
+            if (record.benefit_type_id.need_approval_file and
+                    not record.attachment_ids):
+                raise Warning(_("""\nPara enviar para aprovação é necessário
+                 anexar o comprovante"""))
+
+            if not record.benefit_type_id.need_approval:
+                record.state = 'validated'
             else:
-                raise Warning(
-                    _('Para enviar para aprovação é '
-                      'necessário anexar o comprovante'))
+                record.state = 'waiting'
 
     @api.multi
     def button_approve_receipt(self):
         for record in self:
+            if record.benefit_type_id.need_approval and not \
+                    self.env.user.has_group('base.group_hr_user'):
+                raise Warning(
+                    _("\nFavor solicitar a aprovação de um gerente")
+                )
             record.state = 'validated'
 
     @api.multi
@@ -244,7 +268,21 @@ class HrContractBenefit(models.Model):
         }
 
     @api.multi
-    def button_back_todo(self):
+    def button_back_draft(self):
         for record in self:
             if record.state in 'exception':
-                record.state = 'todo'
+                record.state = 'draft'
+
+    @api.multi
+    def button_cancel(self):
+        for record in self:
+            record.state = 'cancel'
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            if record.state not in 'draft':
+                raise Warning(
+                    _('Você não pode deletar um registro aprovado')
+                )
+        return super(HrContractBenefit, self).unlink()

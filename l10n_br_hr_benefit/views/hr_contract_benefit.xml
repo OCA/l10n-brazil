@@ -14,14 +14,16 @@
                 <form>
                     <header>
                         <button name="button_send_receipt" type="object"
-                                string="Enviar para aprovação" states="todo"/>
+                                string="Enviar para aprovação" states="draft"/>
                         <button name="button_approve_receipt" type="object"
                                 string="Aprovar comprovante" states="waiting"/>
                         <button name="button_exception_receipt" type="object"
                                 string="Rejeitar comprovante" states="waiting"/>
-                        <button name="button_back_todo" type="object"
+                        <button name="button_cancel" type="object"
+                                string="Cancelar" states="validated"/>
+                        <button name="button_back_draft" type="object"
                                 string="Voltar ao início" states="exception"/>
-                        <field name="state" widget="statusbar" nolabel="1"
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,waiting,validated"
                                readonly="1"/>
                     </header>
                     <sheet>
@@ -34,14 +36,16 @@
                             >
                                 <field string="Apurações" name="line_count" widget="statinfo"/>
                             </button>
+                            <br/>
                         </div>
                         <h1>
                             <field name="name"/>
                         </h1>
-                        <h1 class="oe_title">
+                        <h2 class="oe_title">
+                            <br/>
                             <field name="exception_message"
-                                   attrs="{'invisible': [('state', 'not in', ['exception', 'todo'])]}"/>
-                        </h1>
+                                   attrs="{'invisible': [('state', 'not in', ['exception', 'draft'])]}"/>
+                        </h2>
                         <group>
                             <group>
                                 <field name="contract_id"/>
