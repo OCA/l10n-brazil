@@ -15,7 +15,6 @@
     ],
     'data': [
         'views/contract_ressarcimento.xml',
-
     ],
     'demo': [
     ],
