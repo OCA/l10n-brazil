@@ -35,6 +35,9 @@ class ResPartner(models.Model):
     @api.model
     def create(self, vals):
         # verifica e-mail completo na tabela usuário e vinculo com partner
+        if self.env.user.has_group('base.group_no_one'):
+            return super(ResPartner, self).create(vals)
+
         result_user = False
         if vals.get('email'):
             result_user = self.env['res.users'].search(
