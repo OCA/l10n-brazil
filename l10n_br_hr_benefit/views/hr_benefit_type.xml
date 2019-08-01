@@ -41,6 +41,7 @@
                                         <field name="beneficiario_dependente"/>
                                         <field name="beneficiario_autonomo"/>
                                         <field name="beneficiario_terceiro"/>
+                                        <field name="beneficiario_cedido"/>
                                     </group>
                                     <group string="Prestaçao de Contas">
                                         <field name="line_need_approval"/>

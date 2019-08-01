@@ -6,7 +6,7 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
 from openerp import api, fields, models, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning, ValidationError
 
 
 class HrContractBenefit(models.Model):
@@ -111,6 +111,40 @@ class HrContractBenefit(models.Model):
         "# Apurações", compute='_compute_line_count',
         readonly=True,
     )
+
+    @api.one
+    @api.constrains('employee_id', 'benefit_type_id', 'beneficiary_id')
+    def valida_funcionario(self):
+        self.ensure_one()
+        if self.employee_id and self.benefit_type_id and self.beneficiary_id:
+            if (self.employee_id.tipo == 'funcionario' and not
+                    self.benefit_type_id.beneficiario_funcionario):
+                raise ValidationError(
+                    _('Funcionários não são permitidos para este benefício')
+                )
+
+            if (self.employee_id.tipo == 'autonomo' and not
+                    self.benefit_type_id.beneficiario_autonomo):
+                raise ValidationError(
+                    _('Autônomo não são permitido para este benefício')
+                )
+
+            if (self.employee_id.tipo == 'terceirizado' and not
+                    self.benefit_type_id.beneficiario_terceiro):
+                raise ValidationError(
+                    _('Terceirizados não são permitido para este benefício')
+                )
+
+            if (self.employee_id.tipo == 'cedido' and not
+                    self.benefit_type_id.beneficiario_cedido):
+                raise ValidationError(
+                    _('Cedidos não são permitido para este benefício')
+                )
+
+            if self.beneficiary_id.is_employee_dependent:
+                raise ValidationError(
+                    _('Dependentes não são permitidos para este benefício')
+                )
 
     @api.onchange('employee_id')
     def onchange_employee_id(self):

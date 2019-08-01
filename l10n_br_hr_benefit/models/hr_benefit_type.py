@@ -79,6 +79,9 @@ class HrBenefitType(models.Model):
     beneficiario_terceiro = fields.Boolean(
         string='Terceirizado'
     )
+    beneficiario_cedido = fields.Boolean(
+        string='Cedido'
+    )
     beneficiario_dependente = fields.Boolean(
         string='Dependente'
     )

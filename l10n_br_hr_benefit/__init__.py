@@ -21,14 +21,15 @@ from . import wizards
 # DONE: Criar campo relacioando os as pretações de conta de um benefício;
 # DONE: Remover a edição e criação em alguns campos;
 
-# TODO: Validar tipo de beneficiário;
+# DONE: Validar tipo de beneficiário;
+
+# TODO: Remover botão de adicionar benefícios;
+# TODO: Criar filtros e agrupamentos para as visões
+
 # TODO: Criar permissões de segurança e regras de acesso;
 #   A criação de beneficios deve ser feita somente pelos grupos:
 #      oficial e gerente;
 
-# TODO: Criar filtros e agrupamentos para as visões
-
 # TODO: Verificar campos que precisam de ondelete='restrict'
 # TODO: Pensar no tipo de pensão: Variável e fixo;
 # TODO: Criar cron para gerar as competências automaticamente;
-
