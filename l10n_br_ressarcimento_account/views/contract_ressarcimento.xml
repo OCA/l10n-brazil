@@ -13,12 +13,13 @@
             <field name="model">contract.ressarcimento</field>
             <field name="inherit_id" ref="l10n_br_ressarcimento.hr_contract_ressarcimento_form_view"/>
             <field name="arch" type="xml">
-                <!-- Adiciona Roteiro contábil antes Rubricas de Ressarcimento -->
-                <xpath expr="//field[@name='contract_ressarcimento_line_ids']" position="before">
-                    <label for="account_event_provisao_id" string="Evento Contábil Provisão" invisible="1"/>
-                    <field name="account_event_provisao_id" readonly="1" invisible="1"/>
-                    <label for="account_event_definitivo_id" string="Evento Contábil Definitivo" invisible="1"/>
-                    <field name="account_event_definitivo_id" readonly="1" invisible="1"/>
+                <xpath expr="//page[@string='Ressarcimento do contrato (provisionamento)']" position="after" groups="base.group_no_one">
+                    <page name="evento_contabil" string="Eventos Contábeis">
+                        <label for="account_event_provisao_id" string="Evento Contábil Provisão"/>
+                        <field name="account_event_provisao_id" readonly="1"/>
+                        <label for="account_event_definitivo_id" string="Evento Contábil Definitivo"/>
+                        <field name="account_event_definitivo_id" readonly="1"/>
+                    </page>
                 </xpath>
             </field>
         </record>

@@ -3,10 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import Warning
 
 NOME_LANCAMENTO = {
-    'provisionado': u'Ressarcimento(Provisão) - ',
-    'aprovado': u'Ressarcimento - ',
+    True: u'Ressarcimento(Provisão) ',
+    False: u'Ressarcimento ',
 }
 
 
@@ -54,7 +55,7 @@ class ContractRessarcimento(models.Model):
             # se state = provisionado, pega as linhas do valor provisionado
             comp, line_ids = ('Ressarcimento(provisão)',
                               'contract_ressarcimento_provisionado_line_ids') \
-                if record.state == 'provisionado' \
+                if record.valor_provisionado and not record.date_ressarcimento \
                 else ('Ressarcimento', 'contract_ressarcimento_line_ids')
 
             for line in eval('record.'+line_ids):
@@ -74,36 +75,44 @@ class ContractRessarcimento(models.Model):
         :return:
         """
         for record in self:
-            # Altera o state do Ressarcimento antes de gerar o evento contábil
-            super(ContractRessarcimento, self).button_aprovar()
+            try:
+                if not record.account_event_provisao_id:
+                    rubricas_para_contabilizar = self.gerar_contabilizacao_rubricas()
 
-            if not record.account_event_provisao_id:
-                rubricas_para_contabilizar = self.gerar_contabilizacao_rubricas()
+                    account_event = {
+                        'ref': NOME_LANCAMENTO.get(record.valor_provisionado),
+                        'data': record.date_provisao,
+                        'account_event_line_ids': rubricas_para_contabilizar,
+                        'origem': '{},{}'.format(
+                            'contract.ressarcimento', record.id),
+                    }
 
-                account_event = {
-                    'ref': NOME_LANCAMENTO.get(record.state),
-                    'data': record.date_provisao,
-                    'account_event_line_ids': rubricas_para_contabilizar,
-                    'origem': '{},{}'.format(
-                        'contract.ressarcimento', record.id),
-                }
+                    record.account_event_provisao_id = \
+                        self.env['account.event'].create(account_event)
 
-                record.account_event_provisao_id = \
-                    self.env['account.event'].create(account_event)
-            else:
-                # Reverte o evento contábil gerado a partir da provisão
-                record.account_event_provisao_id.button_reverter_lancamentos()
+                    # Altera o state do Ressarcimento depois de gerar o evento contábil
+                    super(ContractRessarcimento, self).button_aprovar()
+                else:
+                    # Reverte o evento contábil gerado a partir da provisão
+                    record.account_event_provisao_id.button_reverter_lancamentos()
 
-                rubricas_para_contabilizar = \
-                    self.gerar_contabilizacao_rubricas()
+                    rubricas_para_contabilizar = \
+                        self.gerar_contabilizacao_rubricas()
 
-                account_event = {
-                    'ref': NOME_LANCAMENTO.get(record.state),
-                    'data': record.date_ressarcimento,
-                    'account_event_line_ids': rubricas_para_contabilizar,
-                    'origem': '{},{}'.format(
-                        'contract.ressarcimento', record.id),
-                }
+                    account_event = {
+                        'ref': NOME_LANCAMENTO.get(
+                            False if record.date_ressarcimento else True),
+                        'data': record.date_ressarcimento,
+                        'account_event_line_ids': rubricas_para_contabilizar,
+                        'origem': '{},{}'.format(
+                            'contract.ressarcimento', record.id),
+                    }
 
-                record.account_event_definitivo_id = \
-                    self.env['account.event'].create(account_event)
+                    record.account_event_definitivo_id = \
+                        self.env['account.event'].create(account_event)
+
+                    # Altera o state do Ressarcimento depois de gerar o evento contábil
+                    super(ContractRessarcimento, self).button_aprovar()
+
+            except Exception as e:
+                Warning('Erro: {}'.format(e))
