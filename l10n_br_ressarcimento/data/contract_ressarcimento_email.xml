@@ -66,7 +66,7 @@
         </record>
 
         <!-- Template de Email quando um ressarcimento está PARA APROVAÇÃO (PROVISIONAMENTO) -->
-        <record id="email_template_contract_ressarcimento_confirmadop" model="email.template">
+        <record id="email_template_contract_ressarcimento_confirmado_provisao" model="email.template">
             <field name="name"><![CDATA[ Ressarcimento do Contrato ${object.contract_id.name} - competência ${object.account_period_id.name} ]]></field>
             <field name="email_from"><![CDATA[${object.env.user.name} <${(object.env.user.login or object.env.user.email)|safe}>]]></field>
             <field name="email_to"><![CDATA[]]></field>

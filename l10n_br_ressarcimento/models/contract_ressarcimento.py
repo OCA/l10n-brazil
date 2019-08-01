@@ -7,6 +7,14 @@ from __future__ import unicode_literals, division, absolute_import, print_functi
 
 from openerp import api, fields, models, _
 
+STATES = [
+    ('aberto', 'Aberto'),
+    ('confirmado_provisao', 'Aguardando aprovação provisão'),
+    ('provisionado', 'Provisionado'),
+    ('confirmado', 'Aguardando aprovação'),
+    ('aprovado', 'Aprovado'),
+]
+
 
 class ContractRessarcimento(models.Model):
     _name = b'contract.ressarcimento'
@@ -24,12 +32,7 @@ class ContractRessarcimento(models.Model):
     )
 
     state = fields.Selection(
-        selection=[
-            ('aberto', 'Aberto'),
-            ('confirmado', 'Aguardando aprovação'),
-            ('provisionado', 'Provisionado'),
-            ('aprovado', 'Aprovado'),
-        ],
+        selection=STATES,
         string='Situação',
         default='aberto',
     )
@@ -176,8 +179,11 @@ class ContractRessarcimento(models.Model):
         Operador confirmando e submetendo para aprovação
         """
         for record in self:
-            record.send_mail(situacao='confirmado')
-            record.state = 'confirmado'
+            situacao = 'confirmado'
+            if record.valor_provisionado and not record.date_ressarcimento:
+                situacao = 'confirmado_provisao'
+            record.send_mail(situacao=situacao)
+            record.state = situacao
 
     @api.multi
     def button_aprovar(self):
@@ -226,10 +232,6 @@ class ContractRessarcimento(models.Model):
         template_name = \
             'l10n_br_ressarcimento.' \
             'email_template_contract_ressarcimento_{}'.format(situacao)
-
-        # template para valor provisionado
-        if self.valor_provisionado and not self.date_ressarcimento:
-            template_name = template_name + 'p'
 
         template = self.env.ref(template_name, False)
         for record in self:
