@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="ir_cron_hr_contract_benefit_periodic" model="ir.cron">
+            <field name="name">Gerar prestação de contas de benefícios</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field eval="'hr.contract.benefit'" name="model"/>
+            <field eval="'gerar_prestacao_contas'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+
+    </data>
+</openerp>

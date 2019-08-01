@@ -26,6 +26,7 @@
         'views/hr_contract.xml',
         'views/hr_employee.xml',
         'views/hr_employee_dependent.xml',
+        'data/hr_contract_benefit_periodic_cron.xml',
 
 
 
