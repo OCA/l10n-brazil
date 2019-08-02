@@ -633,10 +633,10 @@ class HrPayslipAutonomo(models.Model):
         return res
 
     @api.multi
-    def get_contract_specific_rubrics(self, contract_id, rule_ids):
+    def get_contract_specific_rubrics(self, rule_ids):
         self.ensure_one()
         applied_specific_rule = {}
-        for specific_rule in contract_id.specific_rule_ids:
+        for specific_rule in self.contract_id.specific_rule_ids:
             if self.date_from >= specific_rule.date_start:
                 if not specific_rule.date_stop or \
                         self.date_to <= specific_rule.date_stop:
