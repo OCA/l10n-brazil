@@ -14,6 +14,11 @@ class HrContractBenefitLine(models.Model):
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _description = 'Prestação de contas'
 
+    def _get_contract_id_default(self):
+        if self.env.user.has_group('base.group_hr_user'):
+            return False
+        return self.env.user.employee_ids[0].contract_id
+
     state = fields.Selection(
         selection=[
             ('todo', 'Aguardando Comprovante'),
@@ -43,7 +48,8 @@ class HrContractBenefitLine(models.Model):
         readonly=True,
         index=True,
         string='Contrato',
-        track_visibility='onchange'
+        track_visibility='onchange',
+        default=_get_contract_id_default
     )
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
