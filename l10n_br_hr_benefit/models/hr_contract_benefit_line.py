@@ -111,7 +111,7 @@ class HrContractBenefitLine(models.Model):
         readonly=True,
     )
     is_payroll_processed = fields.Boolean(
-        string='Em folha?',
+        string='Processado',
         readonly=True,
         track_visibility='onchange'
     )
