@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="hr_dependent_oficial_rule" model="ir.rule">
+            <field name="name">Ver todos dependentes</field>
+            <field ref="model_hr_employee_dependent" name="model_id"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('base.group_hr_user'))]"/>
+        </record>
+
+        <record id="hr_dependent_funcionario_rule" model="ir.rule">
+            <field name="name">Ver somente seus dependentes</field>
+            <field ref="model_hr_employee_dependent" name="model_id"/>
+            <field name="domain_force">[('employee_id.user_id.id','=', user.id)]</field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+        <record id="hr_contract_benefit_oficial_rule" model="ir.rule">
+            <field name="name">Ver todos os benefícios</field>
+            <field ref="model_hr_contract_benefit" name="model_id"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('base.group_hr_user'))]"/>
+        </record>
+
+        <record id="hr_contract_benefit_funcionario_rule" model="ir.rule">
+            <field name="name">Ver somente seus benefícios</field>
+            <field ref="model_hr_contract_benefit" name="model_id"/>
+            <field name="domain_force">[('contract_id.employee_id.user_id.id','=', user.id)]</field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+        <record id="hr_contract_benefit_line_oficial_rule" model="ir.rule">
+            <field name="name">Ver todas as prestações de conta</field>
+            <field ref="model_hr_contract_benefit_line" name="model_id"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('base.group_hr_user'))]"/>
+        </record>
+
+        <record id="hr_contract_benefit_line_funcionario_rule" model="ir.rule">
+            <field name="name">Ver somente suas prestações de conta</field>
+            <field ref="model_hr_contract_benefit_line" name="model_id"/>
+            <field name="domain_force">[('contract_id.employee_id.user_id.id','=', user.id)]</field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+    </data>
+</openerp>

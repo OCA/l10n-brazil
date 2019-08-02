@@ -29,6 +29,9 @@
         'views/hr_employee_dependent.xml',
         'data/hr_contract_benefit_periodic_cron.xml',
 
+        'security/ir.model.access.csv',
+        'security/ir_rules.xml',
+
 
 
 
