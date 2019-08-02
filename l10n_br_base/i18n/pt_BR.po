@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2019-05-23 01:40+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2019-08-02 09:44+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.7.1\n"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number_dig
@@ -63,28 +64,28 @@ msgstr "Localização Brasileira"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
 msgid "CNPJ"
-msgstr ""
+msgstr "CNPJ"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "CNPJ..."
-msgstr ""
+msgstr "CNPJ..."
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cnpj_cpf
 msgid "CNPJ/CPF"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "CNPJ/Id Estrangeiro"
-msgstr ""
+msgstr "CNPJ/Id Estrangeiro"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "CPF"
-msgstr ""
+msgstr "CPF"
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_city
@@ -160,7 +161,7 @@ msgstr "Nome a ser Exibido"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__district
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__district
 msgid "District"
-msgstr "Bairro..."
+msgstr "Bairro"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
@@ -228,7 +229,7 @@ msgstr "Última Atualização em"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Legal Name"
-msgstr "Razão Social..."
+msgstr "Razão Social"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
@@ -242,10 +243,8 @@ msgstr "Multiplos parceiros com mesmo CNPJ"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__allow_cnpj_multi_ie
-#, fuzzy
-#| msgid "Multiple partners with the same CNPJ"
 msgid "Multiplos parceiros com mesmo CNPJ"
-msgstr "Multiplos parceiros com mesmo CNPJ"
+msgstr "Múltiplos parceiros com mesmo CNPJ"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_mun
@@ -283,7 +282,7 @@ msgstr "Parceiro"
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "RG"
-msgstr ""
+msgstr "RG"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country__siscomex_code
@@ -306,7 +305,7 @@ msgstr "Inscrição Estadual"
 #: code:addons/l10n_br_base/models/res_partner.py:182
 #, python-format
 msgid "State Tax Number already used %s"
-msgstr "Inscrição estadual %s já utilizada!"
+msgstr "Inscrição estadual %s já utilizada"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
@@ -348,7 +347,7 @@ msgstr "Logradouro..."
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__suframa
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "Suframa"
-msgstr ""
+msgstr "Suframa"
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:174
@@ -397,7 +396,7 @@ msgstr "Usado nos documentos fiscais"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__module_l10n_br_zip_correios
 msgid "Utilizar consulta de CEP dos Correios"
-msgstr ""
+msgstr "Utilizar consulta de CEP dos Correios"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
