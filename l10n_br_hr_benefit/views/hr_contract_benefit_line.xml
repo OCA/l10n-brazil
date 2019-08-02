@@ -14,8 +14,8 @@
                 <form delete="false" create="false" duplicate="false">
                     <header>
                         <button name="button_send_receipt" type="object" string="Enviar para aprovação" states="todo"/>
-                        <button name="button_approve_receipt" type="object" string="Aprovar comprovante" states="waiting"/>
-                        <button name="button_exception_receipt" type="object" string="Rejeitar comprovante" states="waiting"/>
+                        <button name="button_approve_receipt" type="object" string="Aprovar comprovante" states="waiting" groups="base.group_hr_user"/>
+                        <button name="button_exception_receipt" type="object" string="Rejeitar comprovante" states="waiting" groups="base.group_hr_user"/>
                         <button name="button_back_todo" type="object" string="Voltar para início" states="exception"/>
                         <field name="state" widget="statusbar" nolabel="1" readonly="1" statusbar_visible="todo,waiting,validated"/>
                     </header>
