@@ -10,7 +10,7 @@
         <field name="model">hr.contract</field>
         <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr='//page[@string="Rubricas específicas"]' postion="after">
+            <xpath expr='//page[@string="Rubricas específicas"]' position="after">
                 <page string="Benefícios" name="benefits">
                     <field name="benefit_ids" nolabel="1"/>
                 </page>
