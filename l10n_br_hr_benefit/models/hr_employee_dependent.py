@@ -89,3 +89,16 @@ class HrEmployeeDependent(models.Model):
     def button_to_approve(self):
         for record in self:
             record.state = 'to approve'
+
+    @api.model
+    def create(self, vals):
+        if self.env.user.has_group('base.group_hr_user'):
+            vals['state'] = 'approved'
+        return super(HrEmployeeDependent, self.sudo()).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        if self.env.user.has_group('base.group_hr_user'):
+            vals['state'] = 'approved'
+        return super(HrEmployeeDependent, self).write(vals)
+
