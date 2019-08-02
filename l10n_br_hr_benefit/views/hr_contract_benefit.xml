@@ -16,9 +16,11 @@
                         <button name="button_send_receipt" type="object"
                                 string="Enviar para aprovação" states="draft"/>
                         <button name="button_approve_receipt" type="object"
-                                string="Aprovar comprovante" states="waiting"/>
+                                string="Aprovar comprovante" states="waiting"
+                                groups="base.group_hr_user"/>
                         <button name="button_exception_receipt" type="object"
-                                string="Rejeitar comprovante" states="waiting"/>
+                                string="Rejeitar comprovante" states="waiting"
+                                groups="base.group_hr_user"/>
                         <button name="button_cancel" type="object"
                                 string="Cancelar" states="validated"/>
                         <button name="button_back_draft" type="object"
@@ -48,7 +50,7 @@
                         </h2>
                         <group>
                             <group>
-                                <field name="contract_id"/>
+                                <field name="contract_id" groups="base.group_hr_user"/>
                                 <field name="employee_id" invisible="1"/>
                                 <field name="beneficiary_id"/>
                             </group>

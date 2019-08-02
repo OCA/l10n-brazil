@@ -14,6 +14,11 @@ class HrContractBenefit(models.Model):
     _description = 'Benefícios'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+    def _get_default_contract(self):
+        if self.env.user.has_group('base.group_hr_user'):
+            return False
+        return self.env.user.employee_ids[0].contract_id
+
     state = fields.Selection(
         selection=[
             ('draft', 'Rascunho'),
@@ -60,6 +65,7 @@ class HrContractBenefit(models.Model):
         track_visibility='onchange',
         states={'draft': [('readonly', False)]},
         readonly=True,
+        default=_get_default_contract,
     )
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
@@ -292,25 +298,27 @@ class HrContractBenefit(models.Model):
 
     @api.multi
     def button_exception_receipt(self):
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'wizard.benefit.exception.cause',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_id': False,
-            'target': 'new',
-        }
+        if self.env.user.has_group('base.group_hr_user'):
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'wizard.benefit.exception.cause',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'res_id': False,
+                'target': 'new',
+            }
 
     @api.multi
     def button_back_draft(self):
         for record in self:
-            if record.state in 'exception':
+            if record.state in ['exception', 'cancel']:
                 record.state = 'draft'
 
     @api.multi
     def button_cancel(self):
         for record in self:
             record.state = 'cancel'
+            record.date_stop = fields.Date.today()
 
     @api.multi
     def unlink(self):
@@ -320,3 +328,17 @@ class HrContractBenefit(models.Model):
                     _('Você não pode deletar um registro aprovado')
                 )
         return super(HrContractBenefit, self).unlink()
+
+    @api.multi
+    def write(self, vals):
+        if self.env.user.has_group('base.group_hr_user') and \
+                vals.get('state') == 'waiting':
+            vals.update({'state': 'validated'})
+        return super(HrContractBenefit, self).write(vals)
+
+    @api.model
+    def create(self, vals):
+        if self.env.user.has_group('base.group_hr_user') and \
+                vals.get('state') == 'waiting':
+            vals.update({'state': 'validated'})
+        return super(HrContractBenefit, self).create(vals)
