@@ -28,7 +28,7 @@ from . import wizards
 # TODO: Criar filtros e agrupamentos para as visões
 
 # TODO: Criar magic buttons no cadastro de beneficiários;
-# TODO: Criar permissões de segurança e regras de acesso;
+# DONE: Criar permissões de segurança e regras de acesso;
 #   A criação de beneficios deve ser feita somente pelos grupos:
 #      oficial e gerente;
 
@@ -36,5 +36,8 @@ from . import wizards
 # TODO: Campos para histórico e data
 #      dos valores; como em odoo/parts/addons/hr/hr_employee_benefit
 
-# DOING: Criar cron para gerar as competências automaticamente;
+# DONE: Criar cron para gerar as competências automaticamente;
 # DOING: Integração com a folha de pagamento
+
+# TODO: Criar dados (data) relacionados aos beneficios
+# TODO: validar ir action mixins
