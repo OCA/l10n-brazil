@@ -62,4 +62,7 @@ class ClassificacaoTributaria(models.Model):
     @api.depends('codigo', 'descricao')
     def _compute_name(self):
         for classificacao in self:
-            classificacao.name = classificacao.codigo
+            if classificacao.codigo and classificacao.descricao:
+                classificacao.name = \
+                    classificacao.codigo + ' - ' + classificacao.descricao
+
