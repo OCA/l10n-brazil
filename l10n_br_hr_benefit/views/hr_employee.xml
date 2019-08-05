@@ -11,18 +11,30 @@
             <field name="inherit_id"
                    ref="l10n_br_hr.view_l10n_br_hr_employee_form"/>
             <field name="arch" type="xml">
+
                 <page name="page_dependentes" position="attributes">
                        <attribute name="string">Benefícios / Beneficiários</attribute>
                 </page>
-                <group name="group_dependentes" position="attributes">
-                       <attribute name="string">Beneficiários</attribute>
-                </group>
+
                 <group name="group_dependentes" position="before">
                     <group name="group_titular" string="Benefícios">
-                        <field name="benefit_ids" widget="many2many_tags"/>
+                        <field name="benefit_ids" widget="many2many_tags" nolabel="1" />
                         <!--<button name="%(wizard_hr_contract_benefit_create_act_window)d" string="Adicionar" type="action" groups="base.group_hr_user"/>-->
                     </group>
                 </group>
+
+                <xpath expr='//group[@name="group_dependentes"]' position="replace" >
+                    <group name="group_dependentes" string="Beneficiários">
+                        <field name="dependent_ids" nolabel="1" context="{'default_employee_id': id}">
+                            <tree>
+                                <field name="name" />
+                                <field name="dependent_verification" />
+                                <field name="dependent_type_id" />
+                                <field name="benefit_ids" string="Benefícios" />
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
 
             </field>
         </record>
