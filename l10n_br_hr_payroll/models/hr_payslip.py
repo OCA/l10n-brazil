@@ -1239,13 +1239,29 @@ class HrPayslip(models.Model):
 
         return media
 
-    @api.model
-    def get_contract_specific_rubrics(self, rule_ids):
+    @api.multi
+    def get_contract_specific_rubrics(self, rule_ids, DIAS_A_MAIOR):
+        """
+        Caso nao esteja computando holerite de provisão de ferias ou
+        de decimo terceiro recuperar as regras especificas do contrato
+
+        Quando for rescisao, verificar se ja foi calculado o holerite
+        do mes. Só aplicar as rubricas especificas se nao possuir
+        DIAS_A_MAIOR
+
+        :param rule_ids:
+        :param DIAS_A_MAIOR: (Dias pagos no holerite normal procesado antes
+        da rescisao)
+        :return:
+        """
+        self.ensure_one()
         applied_specific_rule = {}
 
-        for specific_rule in self.contract_id.specific_rule_ids:
-            tipo_holerite = True if specific_rule.tipo_holerite in [self.tipo_de_folha, 'all'] else False
-            if tipo_holerite:
+        if (self.tipo_de_folha not in [
+            'provisao_ferias', 'provisao_decimo_terceiro', 'rescisao']) or (
+                self.tipo_de_folha == 'rescisao' and not DIAS_A_MAIOR):
+
+            for specific_rule in self.contract_id.specific_rule_ids:
                 if self.date_from >= specific_rule.date_start:
                     if not specific_rule.date_stop or \
                             self.date_to <= specific_rule.date_stop:
@@ -1253,12 +1269,16 @@ class HrPayslip(models.Model):
                         rule_ids.append((specific_rule.rule_id.id,
                                          specific_rule.rule_id.sequence))
 
-                        if specific_rule.rule_id.id not in applied_specific_rule:
-                            applied_specific_rule[specific_rule.rule_id.id] = []
+                        if (
+                                specific_rule.rule_id.id not in
+                                applied_specific_rule
+                        ):
+                            applied_specific_rule[
+                                specific_rule.rule_id.id] = []
 
                         applied_specific_rule[specific_rule.rule_id.id].append(
-                                specific_rule)
-                    
+                            specific_rule)
+
         return applied_specific_rule
 
     def get_ferias_rubricas(self, payslip, rule_ids):
@@ -2274,22 +2294,8 @@ class HrPayslip(models.Model):
         rule_ids = self.env['hr.payroll.structure'].browse(
             structure_ids).get_all_rules()
 
-        applied_specific_rule = {}
-        # Caso nao esteja computando holerite de provisão de ferias ou
-        # de decimo terceiro recuperar as regras especificas do contrato
-        if not payslip.tipo_de_folha in \
-               ['provisao_ferias', 'provisao_decimo_terceiro', 'rescisao']:
-            applied_specific_rule = payslip.get_contract_specific_rubrics(
-                rule_ids)
-
-        # Quando for rescisao, verificar se ja foi calculado o holerite
-        # do mes. Só aplicar as rubricas especificas se nao possuir
-        # DIAS_A_MAIOR. (Dias pagos no holerite normal procesado antes
-        # da rescisap)
-        elif payslip.tipo_de_folha == 'rescisao':
-            if not DIAS_A_MAIOR:
-                applied_specific_rule = \
-                    payslip.get_contract_specific_rubrics(rule_ids)
+        applied_specific_rule = payslip.get_contract_specific_rubrics(
+            rule_ids, DIAS_A_MAIOR)
 
         # Buscar informações de férias dentro do mês que esta sendo
         # processado. Isto é, fazer uma busca para verificar se no mês de
