@@ -75,7 +75,7 @@ class HrContractBenefit(models.Model):
         store=True,
         string='Colaborador',
     )
-    beneficiary_id = fields.Many2one(
+    partner_id = fields.Many2one(
         comodel_name='res.partner',
         index=True,
         required=True,
@@ -83,6 +83,7 @@ class HrContractBenefit(models.Model):
         track_visibility='onchange',
         states={'draft': [('readonly', False)]},
         readonly=True,
+        oldname='beneficiary_id',
     )
     active = fields.Boolean(
         string='Ativo',
@@ -119,10 +120,10 @@ class HrContractBenefit(models.Model):
     )
 
     @api.one
-    @api.constrains('employee_id', 'benefit_type_id', 'beneficiary_id')
+    @api.constrains('employee_id', 'benefit_type_id', 'partner_id')
     def valida_funcionario(self):
         self.ensure_one()
-        if self.employee_id and self.benefit_type_id and self.beneficiary_id:
+        if self.employee_id and self.benefit_type_id and self.partner_id:
             if (self.employee_id.tipo == 'funcionario' and not
                     self.benefit_type_id.beneficiario_funcionario):
                 raise ValidationError(
@@ -147,7 +148,7 @@ class HrContractBenefit(models.Model):
                     _('Cedidos não são permitido para este benefício')
                 )
 
-            if self.beneficiary_id.is_employee_dependent:
+            if self.partner_id.is_employee_dependent:
                 raise ValidationError(
                     _('Dependentes não são permitidos para este benefício')
                 )
@@ -161,7 +162,7 @@ class HrContractBenefit(models.Model):
                 self.employee_id.dependent_ids.mapped('partner_id')
             return {
                 'domain': {
-                    'beneficiary_id': [('id', '=', allowed_partner_ids.ids)]},
+                    'partner_id': [('id', '=', allowed_partner_ids.ids)]},
             }
 
     @api.multi
@@ -185,12 +186,12 @@ class HrContractBenefit(models.Model):
 
     @api.one
     @api.constrains("date_start", "date_stop", "benefit_type_id",
-                    "beneficiary_id")
+                    "partner_id")
     def _check_dates(self):
         domain = [
             ('id', '!=', self.id),
             ('benefit_type_id', '=', self.benefit_type_id.id),
-            ('beneficiary_id', '=', self.beneficiary_id.id),
+            ('partner_id', '=', self.partner_id.id),
             ('date_start', '<=', self.date_start),
             '|',
             ('date_stop', '=', False),
@@ -205,15 +206,15 @@ class HrContractBenefit(models.Model):
 
     @api.multi
     @api.depends(
-        'benefit_type_id', 'beneficiary_id', 'date_start', 'date_stop')
+        'benefit_type_id', 'partner_id', 'date_start', 'date_stop')
     def _compute_benefit_name(self):
         for record in self:
-            if not record.beneficiary_id or \
+            if not record.partner_id or \
                     not record.benefit_type_id:
                 record.name = 'Novo'
                 continue
             name = '%s - %s' % (
-                record.beneficiary_id.name or '',
+                record.partner_id.name or '',
                 record.benefit_type_id.name or '')
             if record.date_start and not record.date_stop:
                 name += ' (a partir de %s)' % record.date_start

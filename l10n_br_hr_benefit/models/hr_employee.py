@@ -16,7 +16,7 @@ class HrEmployee(models.Model):
     def _compute_beneficios(self):
         for record in self:
             record.benefit_ids = self.env['hr.contract.benefit'].search(
-                [('beneficiary_id', '=', record.address_home_id.id)]
+                [('partner_id', '=', record.address_home_id.id)]
             )
 
     benefit_ids = fields.Many2many(

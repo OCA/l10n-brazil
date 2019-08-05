@@ -174,6 +174,7 @@ class HrContractBenefitLine(models.Model):
                 record.state = 'validated'
             else:
                 record.state = 'waiting'
+                record.rule_id = record.benefit_type_id.rule_id
 
     @api.multi
     def button_approve_receipt(self):

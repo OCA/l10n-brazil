@@ -65,14 +65,14 @@ class WizardHrContractBenefit(models.TransientModel):
                 employee_id = self.env[context.get('active_model')].browse(
                     context.get('active_id')
                 )
-                beneficiary_id = employee_id.address_home_id
+                partner_id = employee_id.address_home_id
 
             elif context.get('active_model') == 'hr.employee.dependent':
                 dependent_id = self.env[context.get('active_model')].browse(
                     context.get('active_id')
                 )
                 employee_id = dependent_id.employee_id
-                beneficiary_id = dependent_id.partner_id
+                partner_id = dependent_id.partner_id
 
             contract_id = self.env['hr.contract'].search(
                 [('employee_id', '=', employee_id.id)], limit=1
@@ -85,7 +85,7 @@ class WizardHrContractBenefit(models.TransientModel):
                     'benefit_type_id': benefit.id,
                     'date_start': fields.Date.context_today(self),
                     'contract_id': contract_id.id,
-                    'beneficiary_id': beneficiary_id.id
+                    'partner_id': partner_id.id
                 })
 
         action = {
