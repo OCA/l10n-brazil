@@ -12,23 +12,20 @@ class HrPayslip(models.Model):
 
     _inherit = b'hr.payslip'
 
-    def get_contract_specific_rubrics(self, contract_id, rule_ids):
+    def get_contract_specific_rubrics(self, rule_ids, DIAS_A_MAIOR):
         applied_specific_rule = super(
             HrPayslip, self).get_contract_specific_rubrics(
-                contract_id, rule_ids
+                rule_ids, DIAS_A_MAIOR
         )
 
         return applied_specific_rule
 
     @api.model
     def get_specific_rubric_value(
-            self, rubrica_id, medias_obj=False,
-            rubricas_especificas_calculadas=False, references=False):
+            self, rubrica_id, references=False):
 
         result = super(HrPayslip, self).get_specific_rubric_value(
             rubrica_id,
-            medias_obj,
-            rubricas_especificas_calculadas,
             references
         )
 
