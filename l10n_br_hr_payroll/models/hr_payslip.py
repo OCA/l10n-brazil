@@ -894,7 +894,7 @@ class HrPayslip(models.Model):
                 self.env['resource.calendar'].get_quantity_discount_DSR(
                     leaves['faltas_nao_remuneradas'] + leaves['faltas_remuneradas'],
                     hr_contract.working_hours.leave_ids, date_from, date_to)
-            
+
             result += [self.get_attendances(
                 u'DSR a serem descontados', 33, u'DSR_PARA_DESCONTAR',
                 quantity_DSR_discount, 0.0, contract_id)]
@@ -1276,8 +1276,14 @@ class HrPayslip(models.Model):
                             applied_specific_rule[
                                 specific_rule.rule_id.id] = []
 
+                        specific = {
+                            'type': 'contract',
+                            'rule_id': specific_rule,
+                            'beneficiario_id': specific_rule.partner_id
+                        }
                         applied_specific_rule[specific_rule.rule_id.id].append(
-                            specific_rule)
+                            specific
+                        )
 
         return applied_specific_rule
 
@@ -1320,22 +1326,16 @@ class HrPayslip(models.Model):
         return lines, holerite_ferias.holidays_ferias
 
     @api.model
-    def get_specific_rubric_value(self, rubrica_id, medias_obj=False,
-                                  rubricas_especificas_calculadas=False, references=False):
+    def get_specific_rubric_value(self, rubrica_id, references=False):
         """
         Função dísponivel para as regras de salario, que busca o valor das
         rubricas especificas cadastradas no contrato.
         :param rubrica_id: int - id da regra de salario corrente
-        :param medias_obj: ?
         :param rubricas_spec_calculadas - lista dos ids das rubricas
                                         especificas que ja foram computadas
         :return: valor da rubrica especifica cadastrado no contrato ou 0.
         """
         for rubrica in self.contract_id.specific_rule_ids:
-            # Se a rubrica_especifica ja tiver sido calculada segue pra próxima
-            if rubricas_especificas_calculadas and \
-                    rubrica.id in rubricas_especificas_calculadas:
-                continue
 
             if references and references.get(rubrica.rule_id.id):
                 if rubrica.ref and rubrica.ref in references.get(
@@ -1346,13 +1346,17 @@ class HrPayslip(models.Model):
                     and rubrica.date_start <= self.date_from and \
                     (not rubrica.date_stop or rubrica.date_stop >=
                         self.date_to):
-                if medias_obj:
-                    if rubrica.rule_id.code not in medias_obj.dict.keys():
-                        return 0
-                return rubrica.specific_quantity * rubrica.specific_percentual\
-                    / 100 * rubrica.specific_amount, \
-                    rubrica.specific_quantity, \
-                    rubrica.specific_percentual, rubrica.ref
+
+                return (
+                    rubrica.specific_quantity *
+                    rubrica.specific_percentual / 100 *
+                    rubrica.specific_amount,
+
+                    rubrica.specific_quantity,
+
+                    rubrica.specific_percentual,
+                    rubrica.ref
+                )
         return 0
 
     @api.multi
@@ -2206,7 +2210,7 @@ class HrPayslip(models.Model):
             avos_13 = int(mes_do_ano) - int(mes_inicio_contrato) + 1
 
             adiantamento_avos_13 = 7 - int(mes_inicio_contrato)
-            
+
             # Se trabalhou mais do que 15 dias no mes, contar o mes nos avos
             # de adiantamento de 13 salario. Senao trabalhou pelo menos 15
             # dias na data de contratacao, diminuir um avo da contabilidade dos avos
@@ -2495,9 +2499,9 @@ class HrPayslip(models.Model):
             beneficiario_id = False
             ref = False
 
-            #
-            # Tratamos as rubricas específicas que têm beneficiários
-            #
+            # #
+            # # Tratamos as rubricas específicas que têm beneficiários
+            # #
             if rule.id in applied_specific_rule:
 
                 lista_rubricas_especificas = applied_specific_rule[rule.id]
@@ -2505,14 +2509,12 @@ class HrPayslip(models.Model):
                 if len(lista_rubricas_especificas) > 0:
                     rubrica_especifica = lista_rubricas_especificas[0]
 
-                    if rubrica_especifica.partner_id:
-                        beneficiario_id = \
-                            rubrica_especifica.partner_id.id
+                    beneficiario_id = rubrica_especifica.get('partner_id')
 
                     del lista_rubricas_especificas[0]
 
-                    # applied_specific_rule[rule.id] = \
-                    #     lista_rubricas_especificas
+                    applied_specific_rule[rule.id] = \
+                        lista_rubricas_especificas
 
             # check if the rule can be applied
             if rule.id in applied_specific_rule or \
