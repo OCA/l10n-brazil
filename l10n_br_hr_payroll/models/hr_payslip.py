@@ -7,6 +7,8 @@ from calendar import monthrange
 from datetime import datetime, timedelta
 import random
 
+from collections import defaultdict
+
 from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, MONTHLY
 from lxml import etree
@@ -1255,7 +1257,7 @@ class HrPayslip(models.Model):
         :return:
         """
         self.ensure_one()
-        applied_specific_rule = {}
+        applied_specific_rule = defaultdict(list)
 
         if (self.tipo_de_folha not in [
             'provisao_ferias', 'provisao_decimo_terceiro', 'rescisao']) or (
@@ -1268,13 +1270,6 @@ class HrPayslip(models.Model):
 
                         rule_ids.append((specific_rule.rule_id.id,
                                          specific_rule.rule_id.sequence))
-
-                        if (
-                                specific_rule.rule_id.id not in
-                                applied_specific_rule
-                        ):
-                            applied_specific_rule[
-                                specific_rule.rule_id.id] = []
 
                         specific = {
                             'type': 'contract',
