@@ -1320,7 +1320,7 @@ class HrPayslip(models.Model):
             return False, False
         return lines, holerite_ferias.holidays_ferias
 
-    @api.model
+
     def get_specific_rubric_value(self, rubrica_id, references=False):
         """
         Função dísponivel para as regras de salario, que busca o valor das
