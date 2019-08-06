@@ -2504,7 +2504,9 @@ class HrPayslip(models.Model):
                 if len(lista_rubricas_especificas) > 0:
                     rubrica_especifica = lista_rubricas_especificas[0]
 
-                    beneficiario_id = rubrica_especifica.get('partner_id')
+                    beneficiario_id = rubrica_especifica.get(
+                      'beneficiario_id'
+                    )
 
                     del lista_rubricas_especificas[0]
 
@@ -2587,12 +2589,6 @@ class HrPayslip(models.Model):
                     localdict, rule.category_id,
                     tot_rule)
 
-                # Definir o partner que recebera o pagamento da linha
-                if not beneficiario_id and \
-                        payslip.contract_id.employee_id.address_home_id:
-                    beneficiario_id = \
-                        payslip.contract_id.employee_id.address_home_id.id
-
                 # create/overwrite the rule in the temporary results
                 result_dict[random.randint(0, 10000)] = {
                     'salary_rule_id': rule.id,
@@ -2622,7 +2618,13 @@ class HrPayslip(models.Model):
                     'quantity': qty,
                     'rate': rate,
                     'reference': reference,
-                    'partner_id': beneficiario_id or 1,
+                    'partner_id':
+                        beneficiario_id and beneficiario_id.id or
+                        payslip.contract_id.employee_id.address_home_id and
+                        payslip.contract_id.employee_id.address_home_id.id or
+                        False
+                    ,
+
                 }
 
             else:
