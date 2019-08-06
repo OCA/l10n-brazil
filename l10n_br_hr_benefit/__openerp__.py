@@ -15,6 +15,8 @@
         'l10n_br_hr_payroll',
     ],
     'data': [
+        'data/hr_contract_benefit_periodic_cron.xml',
+
         'views/hr_benefit_menu.xml',
 
         'wizards/wizard_hr_contract_benefit_create.xml',
@@ -27,12 +29,10 @@
         'views/hr_contract.xml',
         'views/hr_employee.xml',
         'views/hr_employee_dependent.xml',
-        'data/hr_contract_benefit_periodic_cron.xml',
+        'views/hr_payslip.xml',
 
         'security/ir.model.access.csv',
         'security/ir_rules.xml',
-
-
 
 
         # 'security/hr_employee_dependent.xml',

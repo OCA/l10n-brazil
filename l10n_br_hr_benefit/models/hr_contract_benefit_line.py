@@ -123,14 +123,45 @@ class HrContractBenefitLine(models.Model):
     )
     rule_id = fields.Many2one(
         comodel_name="hr.salary.rule",
-        string=u"Rúbrica",
+        string="Rúbrica",
         readonly=True,
     )
     hr_payslip_id = fields.Many2one(
         comodel_name="hr.payslip",
-        string=u"Folha de pagamento",
+        string="Folha de pagamento",
         readonly=True,
     )
+    specific_amount = fields.Float(
+        string='Valor apurado',
+    )
+    specific_percentual = fields.Float(
+        string='Percentual apurado',
+    )
+    specific_quantity = fields.Float(
+        string='Quantidade apurada',
+    )
+
+    @api.model
+    def map_valid_benefit_line_to_payslip(self, hr_payslip_id):
+        """ Dado um conjunto de beneficios apurados, mapeia quais deles podem
+         compor uma folha de pagamento.
+
+        OBS: Não deve ser feita nenhuma validação neste método, apenas na
+        aprovação do registro e se ele não compoe nenhuma outra folha.
+
+        :param hr_payslip_id:
+        :return:
+        """
+        valid = self.env['hr.contract.benefit.line']
+        for record in self:
+            if record.state == 'validated':
+                if not record.hr_payslip_id or (
+                        record.hr_payslip_id.id == hr_payslip_id and not
+                        record.is_payroll_processed
+                ):
+                    valid |= record
+
+        return valid
 
     @api.onchange('hr_payslip_id')
     def onchange_payroll_processed(self):

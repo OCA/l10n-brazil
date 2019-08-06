@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="hr_payslip_form_view">
+        <field name="name">hr.payslip.form (in l10n_br_hr_benefit)</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="l10n_br_hr_payroll.hr_payslip_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr='//page[@name="salary_computation"]' position="after">
+                <page string="Benefícios" name="benefits">
+                    <field name="benefit_line_ids" nolabel="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>

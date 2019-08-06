@@ -51,6 +51,9 @@
                                         <field name="rule_id"/>
                                         <field name="hr_payslip_id"/>
                                         <field name="is_payroll_processed"/>
+                                        <field name="specific_amount"/>
+                                        <field name="specific_percentual"/>
+                                        <field name="specific_quantity"/>
                                     </group>
                                 </page>
                             </notebook>
