@@ -47,13 +47,33 @@ class HrPayslip(models.Model):
                 ).map_valid_benefit_line_to_payslip(self.id)
 
             if valid_benefit_line_ids:
-                valid_benefit_line_ids.write({'hr_payslip_id': self.id})
                 # TODO: Remover caso a folha seja cancelada ou
                 #  outro estágio pertinente.
+                valid_benefit_line_ids.write({'hr_payslip_id': self.id})
+
+        #
+        # Salvo os benfícios vamos aplicar os benefícios na lista
+        # applied_specific_rule
+        #
+        for benefit_line_id in self.benefit_line_ids:
+
+            rule_ids.append(
+                (benefit_line_id.benefit_type_id.rule_id.id,
+                 benefit_line_id.id)
+            )
+
+            specific = {
+                'type': 'benefit',
+                'rule_id': benefit_line_id,
+                # 'beneficiario_id': benefit_line_id.partner_id
+            }
+            applied_specific_rule[
+                benefit_line_id.benefit_type_id.rule_id.id].append(
+                specific
+            )
 
         return applied_specific_rule
 
-    @api.model
     def get_specific_rubric_value(
             self, rubrica_id, references=False):
 
@@ -61,5 +81,24 @@ class HrPayslip(models.Model):
             rubrica_id,
             references
         )
+
+        for benefit_line_id in self.benefit_line_ids:
+
+            if references and references.get(
+                    benefit_line_id.benefit_type_id.rule_id.id):
+                if benefit_line_id.period_id.name in references.get(
+                        benefit_line_id.benefit_type_id.rule_id.id):
+                    continue
+
+            return (
+                benefit_line_id.specific_quantity *
+                benefit_line_id.specific_percentual / 100 *
+                benefit_line_id.specific_amount,
+
+                benefit_line_id.specific_quantity,
+
+                benefit_line_id.specific_percentual,
+                False  # benefit_line_id.period_id.name
+            )
 
         return result
