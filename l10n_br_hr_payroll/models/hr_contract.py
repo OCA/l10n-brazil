@@ -512,11 +512,20 @@ class HrContract(models.Model):
     )
 
     # Aba Afastamentos
-    afastamento_ids = fields.One2many(
+    ocorrencia_add_ids = fields.One2many(
         comodel_name='hr.holidays',
         inverse_name='contrato_id',
-        string="Afastamentos"
+        string="Ocorrências (add)",
+        domain = [('type', '=', 'add'), ('tipo', 'not in', ['ferias', 'compensacao'])],
     )
+
+    ocorrencia_remove_ids = fields.One2many(
+        comodel_name='hr.holidays',
+        inverse_name='contrato_id',
+        string="Ocorrências",
+        domain=[('type', '=', 'remove'), ('tipo', 'not in', ['ferias', 'compensacao'])],
+    )
+
     conta_bancaria_id = fields.Many2one(
         string="Conta bancaria",
         comodel_name='res.partner.bank',

@@ -172,12 +172,22 @@
                     <field name="observacoes_processo"/>
                 </page>
                 <!--Aba Afastamentos-->
-                <page string="Ocorrências e Férias">
-                    <field name="afastamento_ids">
+                <page string="Ocorrências">
+                    <separator string="Ocorrências" />
+                    <field name="ocorrencia_remove_ids" >
                         <tree>
                             <field name="holiday_status_id"/>
                             <field name="data_inicio"/>
                             <field name="data_fim"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                    <separator string="Permissão de Ocorrências" />
+                    <field name="ocorrencia_add_ids" >
+                        <tree>
+                            <field name="name"/>
+                            <field name="holiday_status_id"/>
+                            <field name="number_of_days_temp"/>
                             <field name="state"/>
                         </tree>
                     </field>
