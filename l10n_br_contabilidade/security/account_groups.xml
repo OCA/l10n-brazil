@@ -5,10 +5,34 @@
 <openerp>
     <data>
 
+        <record model="ir.module.category" id="module_category_account_event">
+            <field name="name">Eventos Contábeis</field>
+            <field name="sequence">1</field>
+            <field name="visible" eval="30"/>
+        </record>
+
+        <record id="group_account_event_user" model="res.groups">
+            <field name="name">User (Leitura)</field>
+            <field name="category_id" ref="l10n_br_contabilidade.module_category_account_event"/>
+        </record>
+
+        <record id="group_account_event_operate" model="res.groups">
+            <field name="name">Operador</field>
+            <field name="category_id" ref="l10n_br_contabilidade.module_category_account_event"/>
+            <field name="implied_ids" eval="[(4, ref('l10n_br_contabilidade.group_account_event_user'))]"/>
+        </record>
+
+        <record id="group_account_event_manager" model="res.groups">
+            <field name="name">Gerente</field>
+            <field name="category_id" ref="l10n_br_contabilidade.module_category_account_event"/>
+            <field name="implied_ids" eval="[(4, ref('l10n_br_contabilidade.group_account_event_operate'))]"/>
+        </record>
+
         <record id="group_account_superintendente" model="res.groups">
             <field name="name">Superintendente</field>
             <field name="category_id" ref="base.module_category_accounting_and_finance"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="implied_ids" eval="[(4, ref('l10n_br_contabilidade.group_account_event_manager'))]"/>
         </record>
 
     </data>

@@ -20,9 +20,9 @@
         'financial_account',
     ],
     'data': [
+        'security/account_groups.xml',
         'security/ir.model.access.csv',
         'security/account_security.xml',
-        'security/account_groups.xml',
         #
         'data/natureza_conta_data.xml',
         # # Menus
