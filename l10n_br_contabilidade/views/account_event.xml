@@ -20,16 +20,16 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="Reverter Evento" name="button_reverter_lancamentos" type="object" class="oe_highlight"
+                        <button string="Reverter Evento" name="button_reverter_lancamentos" type="object"
                                 attrs="{'invisible': ['|', ('account_event_reversao_id', '!=', False), ('state', '!=', 'done')]}"/>
                         <button string="Validar" name="validar_evento" states="open" type="object" class="oe_highlight"/>
                         <button string="Gerar Lançamentos" name="gerar_contabilizacao" states="validate" type="object" class="oe_highlight"/>
                         <button string="Postar Lançamentos" name="postar_lancamentos" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('account_move_ids', '=', False), ('state', '!=', 'generated')]}"/>
-                        <button string="Voltar para início" name="retornar_aberto" states="done,validate" type="object" class="oe_highlight"
+                        <button string="Voltar para início" name="retornar_aberto" states="done,validate" type="object"
                                 confirm="Esta ação irá excluir os lançamentos já contabilizados. Deseja prosseguir?" />
                         <field name="state" widget="statusbar"
-                               statusbar_visible="open,validate,generated,done,reversed"
-                               statusbar_colors="{'open':'blue','validate':'blue','generated':'blue','done':'blue', 'reversed':'reversed'}"/>
+                               statusbar_visible="open,validate,generated,done"
+                               statusbar_colors="{'open':'blue','validate':'blue','generated':'blue','done':'blue', 'reversed':'red'}"/>
                     </header>
                     <sheet class="custom-sheet-account-event">
                         <h2>
