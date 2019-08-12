@@ -79,6 +79,21 @@
                     <field name="date_stop"/>
                     <field name="amount_max"/>
                     <field name="amount_fixed"/>
+                    <filter string="Funcionario" name="filtro_funcionario" domain="[('beneficiario_funcionario', '=', True)]"/>
+                    <filter string="Dependente" name="filtro_dependente" domain="[('beneficiario_dependente', '=', True)]"/>
+                    <filter string="Autonomo" name="filtro_autonomo" domain="[('beneficiario_autonomo', '=', True)]"/>
+                    <filter string="Terceiro" name="filtro_terceiro" domain="[('beneficiario_terceiro', '=', True)]"/>
+                    <filter string="Cedido" name="filtro_cedido" domain="[('beneficiario_cedido', '=', True)]"/>
+                    <filter string="Necessita aprovação" name="filtro_aprovacao"
+                            domain="['|',('need_approval', '=', True),'|',('line_need_approval', '=', True),'|',('need_approval_file', '=', True),('line_need_approval_file', '=', True)]"/>
+                    <filter string="Não necessita aprovação" name="filtro_sem_aprovacao"
+                            domain="[('need_approval', '=', False),('line_need_approval', '=', False),('need_approval_file', '=', False),('line_need_approval_file', '=', False)]"/>
+                    <filter name=" filter_benefit_type_em_vigor" string="Em Vigor"
+                            icon="terp-go-today"
+                            domain="[('date_stop', '&gt;=', time.strftime('%%Y-%%m-%%d')), ('date_start', '&lt;=', time.strftime('%%Y-%%m-%%d'))]"/>
+                    <group expand="0" string="Agrupar Por...">
+                        <filter string="Rubrica" name="group_by_rubrica" context="{'group_by': 'rule_id'}"/>
+                    </group>
                 </search>
             </field>
         </record>
