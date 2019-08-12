@@ -56,6 +56,7 @@ class HrContractBenefitLine(models.Model):
         related='contract_id.employee_id',
         readonly=True,
         index=True,
+        store=True,
         string='Colaborador',
     )
     period_id = fields.Many2one(
