@@ -143,9 +143,9 @@ class AccountEvent(models.Model):
         Reverter Lançamentos do Evento Contábil
         """
         for record in self:
-
+            data =  record.env.context.get('data', fields.Date.today())
             account_event_reversao_id = record.copy({
-                'data': fields.Date.today(),
+                'data': data,
                 'ref': 'Reversão do Evento: {}'.format(record.ref),
                 'origem': '{},{}'.format('account.event', record.id),
             })
@@ -220,7 +220,8 @@ class AccountEvent(models.Model):
 
             # reverter evento
             if record.account_event_to_revert_id:
-                record.account_event_to_revert_id.button_reverter_lancamentos()
+                record.account_event_to_revert_id.with_context(
+                    {'data': record.data}).button_reverter_lancamentos()
 
             record.state = 'generated'
 
@@ -287,13 +288,17 @@ class AccountEvent(models.Model):
     def unlink(self):
         for record in self:
             record.account_move_ids.unlink()
-            return super(AccountEvent, record).unlink()
+        return super(AccountEvent, self).unlink()
 
     @api.multi
     def postar_lancamentos(self):
         for record in self:
             for move in record.account_move_ids:
                 move.post()
+
+            if record.account_event_to_revert_id:
+                record.account_event_to_revert_id.\
+                    account_event_reversao_id.postar_lancamentos()
 
             record.state = 'done'
 
