@@ -26,6 +26,22 @@ class AccountEvent(models.Model):
         default='open',
     )
 
+    tipo = fields.Selection(
+        string='Tipo de Evento',
+        selection=[
+            ('normal', 'Folha Normal'),
+            ('decimo_terceiro', u'13º Salário'),
+            ('adiantamento_13', u'Adiantamento 13º Salário'),
+            ('provisao_ferias', 'Provisão de Férias'),
+            ('provisao_decimo_terceiro', 'Provisão de Décimo Terceiro'),
+            ('rescisao', 'Rescisão'),
+            ('ferias', 'Férias'),
+            ('ressarcimento', 'Ressarcimento'),
+            ('nfe', 'Nota Fiscal'),
+        ],
+        help="Identificar o tipo da origem do Evento.",
+    )
+
     account_event_line_ids = fields.One2many(
         string='Event Lines',
         comodel_name='account.event.line',
