@@ -91,6 +91,11 @@ class AccountEvent(models.Model):
         inverse_name='account_event_id',
     )
 
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Empresa'
+    )
+
     @api.multi
     def compute_name(self):
         """
@@ -315,6 +320,7 @@ class AccountEvent(models.Model):
 
                 evento_para_to_revert = self.search([
                     ('account_event_template_id', '=', record.account_event_template_id.id),
+                    ('company_id','=', record.company_id.id),
                     ('data','<', record.data),
                 ], order='data DESC', limit=1)
 

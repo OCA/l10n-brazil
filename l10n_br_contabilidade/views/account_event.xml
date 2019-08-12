@@ -39,6 +39,7 @@
                             <field name="origem" />
                             <field name="data" attrs="{'required': True}"/>
                             <field name="tipo" />
+                            <field name="company_id" />
                             <field name="account_event_template_id"/>
                             <field name="account_event_reversao_id" attrs="{'invisible': [('account_event_reversao_id', '=', False)]}"/>
                             <field name="account_event_revert" invisible="1"/>
