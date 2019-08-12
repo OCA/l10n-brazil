@@ -30,7 +30,6 @@ class AccountMove(models.Model):
             ('validacao_criacao', u'Validar Criação'),
             ('posted', 'Posted'),
             ('cancel', u'Cancelado')
-
         ],
     )
 
@@ -275,7 +274,7 @@ class AccountMove(models.Model):
                           u'padrões')
 
     @api.multi
-    def reverter_lancamento(self, account_event_reversao_id=False):
+    def reverter_lancamento(self, account_event_reversao_id=False, data=fields.Date.today()):
         for record in self:
             account_move_line_obj = self.env['account.move.line']
 
@@ -289,7 +288,7 @@ class AccountMove(models.Model):
             account_move_reversao = record.copy({
                 'name': description,
                 'narration': description,
-                'date': fields.Date.today(),
+                'date': data,
                 'period_id': period_id.id,
                 'sequencia': False,
                 'validado_por': False,
