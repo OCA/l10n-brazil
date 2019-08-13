@@ -50,8 +50,10 @@
                                 </group>
                             </page>
                             <page string="Integração com a Folha" name="fopag">
-                                <label for="rule_id"/>
-                                <field name="rule_id" nolabel="1"/>
+                                <label for="deduction_rule_id"/>
+                                <field name="deduction_rule_id" nolabel="1"/>
+                                <label for="income_rule_id"/>
+                                <field name="income_rule_id" nolabel="1"/>
                             </page>
                             <page string="Python Code">
                                 <label for="python_code"/>

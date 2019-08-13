@@ -121,23 +121,35 @@ class HrContractBenefitLine(models.Model):
         readonly=True,
         track_visibility='onchange'
     )
-    rule_id = fields.Many2one(
+    income_rule_id = fields.Many2one(
         comodel_name="hr.salary.rule",
-        string="Rúbrica",
-        readonly=True,
+        string=u"Provento (+)",
+    )
+    deduction_rule_id = fields.Many2one(
+        comodel_name="hr.salary.rule",
+        string=u"Dedução (-)",
     )
     hr_payslip_id = fields.Many2one(
         comodel_name="hr.payslip",
         string="Folha de pagamento",
         readonly=True,
     )
-    specific_amount = fields.Float(
+    income_amount = fields.Float(
         string='Valor apurado',
     )
-    specific_percentual = fields.Float(
+    income_percentual = fields.Float(
         string='Percentual apurado',
     )
-    specific_quantity = fields.Float(
+    income_quantity = fields.Float(
+        string='Quantidade apurada',
+    )
+    deduction_amount = fields.Float(
+        string='Valor apurado',
+    )
+    deduction_percentual = fields.Float(
+        string='Percentual apurado',
+    )
+    deduction_quantity = fields.Float(
         string='Quantidade apurada',
     )
 
@@ -187,6 +199,12 @@ class HrContractBenefitLine(models.Model):
                             record.period_id.name))
 
     @api.multi
+    def _get_rules(self):
+        self.ensure_one()
+        self.income_rule_id = self.benefit_type_id.income_rule_id
+        self.deduction_rule_id = self.benefit_type_id.deduction_rule_id
+
+    @api.multi
     def button_send_receipt(self):
         for record in self:
             if (record.benefit_type_id.line_need_approval_file and
@@ -205,7 +223,7 @@ class HrContractBenefitLine(models.Model):
                 record.state = 'validated'
             else:
                 record.state = 'waiting'
-                record.rule_id = record.benefit_type_id.rule_id
+                record._get_rules()
 
     @api.multi
     def button_approve_receipt(self):
@@ -217,7 +235,7 @@ class HrContractBenefitLine(models.Model):
                 )
 
             record.state = 'validated'
-            record.rule_id = record.benefit_type_id.rule_id
+            record._get_rules()
 
     @api.multi
     def button_exception_receipt(self):
