@@ -17,7 +17,8 @@ class HrPayslip(models.Model):
         inverse_name='hr_payslip_id',
     )
 
-    def get_contract_specific_rubrics(self, rule_ids, DIAS_A_MAIOR):
+    def get_contract_specific_rubrics(
+            self, applied_specific_rule, rule_ids, DIAS_A_MAIOR):
         """
 
         :param rule_ids:
@@ -25,9 +26,8 @@ class HrPayslip(models.Model):
         :return:
         """
 
-        applied_specific_rule = super(
-            HrPayslip, self).get_contract_specific_rubrics(
-                rule_ids, DIAS_A_MAIOR
+        super(HrPayslip, self).get_contract_specific_rubrics(
+                applied_specific_rule, rule_ids, DIAS_A_MAIOR
         )
 
         # Busca beneficios ativos do contrato
@@ -57,22 +57,33 @@ class HrPayslip(models.Model):
         #
         for benefit_line_id in self.benefit_line_ids:
 
-            rule_ids.append(
-                (benefit_line_id.benefit_type_id.rule_id.id,
-                 benefit_line_id.id)
-            )
+            if benefit_line_id.income_rule_id:
+                rule_ids.append(
+                    (benefit_line_id.benefit_type_id.income_rule_id.id,
+                     benefit_line_id.id)
+                )
+                specific = {
+                    'type': 'benefit',
+                    'rule_id': benefit_line_id,
+                    # 'beneficiario_id': benefit_line_id.partner_id
+                }
+                applied_specific_rule[
+                    benefit_line_id.benefit_type_id.income_rule_id.id
+                ].append(specific)
 
-            specific = {
-                'type': 'benefit',
-                'rule_id': benefit_line_id,
-                # 'beneficiario_id': benefit_line_id.partner_id
-            }
-            applied_specific_rule[
-                benefit_line_id.benefit_type_id.rule_id.id].append(
-                specific
-            )
-
-        return applied_specific_rule
+            if benefit_line_id.deduction_rule_id:
+                rule_ids.append(
+                    (benefit_line_id.benefit_type_id.deduction_rule_id.id,
+                     benefit_line_id.id)
+                )
+                specific = {
+                    'type': 'benefit',
+                    'rule_id': benefit_line_id,
+                    # 'beneficiario_id': benefit_line_id.partner_id
+                }
+                applied_specific_rule[
+                    benefit_line_id.benefit_type_id.deduction_rule_id.id
+                ].append(specific)
 
     def get_specific_rubric_value(
             self, rubrica_id, references=False):
@@ -85,20 +96,43 @@ class HrPayslip(models.Model):
         for benefit_line_id in self.benefit_line_ids:
 
             if references and references.get(
-                    benefit_line_id.benefit_type_id.rule_id.id):
+                    benefit_line_id.benefit_type_id.income_rule_id.id):
                 if benefit_line_id.period_id.name in references.get(
-                        benefit_line_id.benefit_type_id.rule_id.id):
+                        benefit_line_id.benefit_type_id.income_rule_id.id):
                     continue
 
-            return (
-                benefit_line_id.specific_quantity *
-                benefit_line_id.specific_percentual / 100 *
-                benefit_line_id.specific_amount,
+            if (benefit_line_id.benefit_type_id.income_rule_id.id ==
+                    rubrica_id and not result):
 
-                benefit_line_id.specific_quantity,
+                return (
+                    benefit_line_id.income_quantity *
+                    benefit_line_id.income_percentual / 100 *
+                    benefit_line_id.income_amount,
 
-                benefit_line_id.specific_percentual,
-                False  # benefit_line_id.period_id.name
-            )
+                    benefit_line_id.income_quantity,
+
+                    benefit_line_id.income_percentual,
+                    False  # benefit_line_id.period_id.name
+                )
+
+            if references and references.get(
+                    benefit_line_id.benefit_type_id.deduction_rule_id.id):
+                if benefit_line_id.period_id.name in references.get(
+                        benefit_line_id.benefit_type_id.deduction_rule_id.id):
+                    continue
+
+            if (benefit_line_id.benefit_type_id.deduction_rule_id.id ==
+                    rubrica_id and not result):
+
+                return (
+                    benefit_line_id.deduction_quantity *
+                    benefit_line_id.deduction_percentual / 100 *
+                    benefit_line_id.deduction_amount,
+
+                    benefit_line_id.deduction_quantity,
+
+                    benefit_line_id.deduction_percentual,
+                    False  # benefit_line_id.period_id.name
+                )
 
         return result
