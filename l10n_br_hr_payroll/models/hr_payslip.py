@@ -1275,6 +1275,7 @@ class HrPayslip(models.Model):
                             'type': 'contract',
                             'rule_id': specific_rule,
                             'beneficiario_id': specific_rule.partner_id,
+                            'ref': specific_rule.ref,
                         }
                         applied_specific_rule[specific_rule.rule_id.id].append(
                             specific
