@@ -2523,11 +2523,6 @@ class HrPayslip(models.Model):
                     applied_specific_rule[rule.id] = \
                         lista_rubricas_especificas
 
-                print "Especificas"
-                print lista_rubricas_especificas
-                print "Aplicadas"
-                print applied_specific_rule
-
             # check if the rule can be applied
             if rule.id in applied_specific_rule or \
                     obj_rule.satisfy_condition(rule.id, localdict):
