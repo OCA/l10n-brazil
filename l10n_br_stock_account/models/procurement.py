@@ -6,7 +6,11 @@ from odoo import models, api
 
 
 class ProcurementOrder(models.Model):
-    _inherit = "procurement.order"
+    _name = "procurement.order"
+    _inherit = [
+        _name,
+        "stock.invoice.state.mixin",
+    ]
 
     @api.model
     def _run_move_create(self, procurement):
@@ -25,7 +29,7 @@ class ProcurementOrder(models.Model):
                 # TODO: Implement fuction to compute partner invoice id
                 'partner_shipping_id': partner.id,
                 'fiscal_category_id': (
-                    procurement.rule_id.fiscal_category_id.id
+                    procurement.rule_id.fiscal_category_id
                 ),
                 'company_id': company.id,
                 'context': ctx,
@@ -45,8 +49,8 @@ class ProcurementOrder(models.Model):
                 result['fiscal_category_id'] = kwargs.get(
                     'fiscal_category_id')
 
-            result_fr = obj_fp_rule.with_context(ctx).apply_fiscal_mapping(
-                {'value': {}}, **kwargs)
+            result_fr = obj_fp_rule.with_context(
+                ctx).apply_fiscal_mapping(**kwargs)
 
             result.update({
                 'fiscal_position': result_fr['value']['fiscal_position']})
