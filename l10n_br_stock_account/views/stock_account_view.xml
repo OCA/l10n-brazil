@@ -7,11 +7,11 @@
         <field name="inherit_id" ref="account_fiscal_position_rule_stock.account_fiscal_position_rule_stock_view_picking_form"/>
         <field name="priority">32</field>
         <field name="arch" type="xml">
-            <field name="fiscal_position" position="replace"/>
+            <field name="fiscal_position_id" position="replace"/>
             <field name="invoice_state" position="replace">
                 <field name="invoice_state" string="Invoice Control" groups="account.group_account_invoice" />
                 <field name="fiscal_category_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
-                <field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
             <field name="partner_id" position="attributes">
                 <attribute name="context_br">{'fiscal_category_id': fiscal_category_id, 'company_id': company_id}</attribute>
@@ -34,7 +34,7 @@
             </field>
             <field name="date_expected" position="after">
                 <field name="fiscal_category_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
-                <field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
         </field>
     </record>
@@ -47,7 +47,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="fiscal_category_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
-                <field name="fiscal_position" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="fiscal_position_id" domain="[('fiscal_category_id', '=', fiscal_category_id)]" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
         </field>
     </record>
