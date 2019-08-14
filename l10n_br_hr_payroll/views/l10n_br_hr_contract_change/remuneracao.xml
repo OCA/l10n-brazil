@@ -7,12 +7,11 @@
 
         <!--Visao form-->
         <record id="l10n_br_hr_contract_change_remuneracao_form" model="ir.ui.view">
-            <field name="name">l10n_br_hr.contract.change.form (remuneracao)</field>
+            <field name="name">l10n_br_hr.contract.change.remuneracao.form (in l10n_br_hr_payroll)</field>
             <field name="model">l10n_br_hr.contract.change</field>
             <field name="inherit_id" ref="l10n_br_hr_contract_change_base_form"/>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
-                <field name="wage" position="replace" />
                 <xpath expr="//group[@name='secundary_group']" position="after">
                     <group>
                         <field name="struct_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
@@ -21,9 +20,12 @@
                         <field name="wage"/>
                     </group>
                 </xpath>
-                <xpath expr="//field[@string='Motivo']" position="after">
+
+                <!-- Adicionar na visao tree embutida -->
+                <xpath expr="//field[@name='change_reason_id']" position="after">
                     <field name="wage"/>
                 </xpath>
+
             </field>
         </record>
 

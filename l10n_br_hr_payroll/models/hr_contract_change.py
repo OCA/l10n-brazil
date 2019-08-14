@@ -62,15 +62,15 @@ class HrContractChange(models.Model):
     )
 
     change_date = fields.Date(
-        string=u'Data da alteração',
+        string=u'Data da Alteração',
         required=True,
-        help=u'Alteração deverá ser aplicada apartir dessa data',
+        help=u'Alteração deverá ser aplicada a partir dessa data',
     )
 
     change_date_reference = fields.Date(
-        string=u'Data de referência',
+        string=u'Data de Referência',
         required=True,
-        help=u'Data que indica inicio da validade da alteração',
+        help=u'Data que indica início da validade da alteração',
         default=fields.Date.today,
     )
 

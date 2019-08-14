@@ -28,24 +28,28 @@
                             <field name="change_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                             <field name="change_date_reference" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         </group>
-                        <group name="secundary_group">
-                            <field name="wage" invisible="1" />
+
+                        <group name="secundary_group"></group>
+
+                        <group colspan="4">
+                            <field name="user_id" attrs="{'readonly': [('state', '=', 'applied')], 'invisible': [('state', '=', 'draft')]}"/>
+                            <field name="notes" string="Anotações" colspan="4" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         </group>
 
-                        <field name="user_id" attrs="{'readonly': [('state', '=', 'applied')], 'invisible': [('state', '=', 'draft')]}"/>
-                        <field name="notes" string="Anotações" colspan="4" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <notebook colspan="4">
                             <page string="Histórico das Alterações Contratuais">
                                 <field name="change_history_ids" nolabel="1">
                                     <tree attrs="{'readonly': True}" options="{'no_quick_create': True, 'no_create_edit' : True}">
                                         <field name="contract_id"/>
                                         <field name="change_date"/>
+                                        <field name="change_date_reference"/>
                                         <field name="change_reason_id" string="Motivo"/>
                                         <field name="state"/>
                                     </tree>
                                 </field>
                             </page>
                         </notebook>
+
                     </group>
                 </form>
             </field>
@@ -59,6 +63,7 @@
                 <tree>
                     <field name="contract_id"/>
                     <field name="change_date"/>
+                    <field name="change_date_reference"/>
                     <field name="change_reason_id"/>
                     <field name="state" string="Situação"/>
                 </tree>
@@ -71,7 +76,7 @@
             <field name="model">l10n_br_hr.contract.change</field>
             <field name="arch" type="xml">
                 <search string="Buscar Alterações Contratuais">
-                    <field name="state"/>
+                    <field name="contract_id"/>
                     <field name="change_date"/>
                     <field name="change_reason_id"/>
                     <field name="user_id"/>

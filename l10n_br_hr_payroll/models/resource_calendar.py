@@ -148,3 +148,24 @@ class ResourceCalendar(models.Model):
         data_final = \
             data_mes + relativedelta(months=1) - relativedelta(days=1)
         return data_final
+
+    @api.multi
+    def name_get(self):
+        """
+        Adicionar o intervalo no nome do calendário
+        """
+        result = []
+
+        for record in self:
+            name = record.name
+            if record.attendance_ids and \
+                    record.attendance_ids[0].turno_id.horario_intervalo_ids:
+                intervalo = \
+                    record.attendance_ids[0].turno_id.horario_intervalo_ids[0]
+                if intervalo.ini_interv and intervalo.term_interv:
+                    nome_intervalo = ' (Intervalo: {} até {})'.format(
+                        intervalo.ini_interv, intervalo.term_interv)
+                    name = "{} {}".format(record.name, nome_intervalo)
+            result.append((record.id, name))
+
+        return result
