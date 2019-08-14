@@ -1259,11 +1259,13 @@ class HrPayslip(models.Model):
         """
         self.ensure_one()
 
-        if (self.tipo_de_folha not in [
-            'provisao_ferias', 'provisao_decimo_terceiro', 'rescisao']) or (
-                self.tipo_de_folha == 'rescisao' and not DIAS_A_MAIOR):
+        for specific_rule in self.contract_id.specific_rule_ids:
 
-            for specific_rule in self.contract_id.specific_rule_ids:
+            tipo_holerite = True if specific_rule.tipo_holerite in [
+                self.tipo_de_folha, 'all'] else False
+
+            if tipo_holerite:
+
                 if self.date_from >= specific_rule.date_start:
                     if not specific_rule.date_stop or \
                             self.date_to <= specific_rule.date_stop:
