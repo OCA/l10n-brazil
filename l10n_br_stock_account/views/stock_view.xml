@@ -13,7 +13,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="l10n_br_stock_account_procurement_rule_inherit_form">
+    <!--<record model="ir.ui.view" id="l10n_br_stock_account_procurement_rule_inherit_form">
         <field name="name">l10n_br_stock_account.procurement.rule.inherit.form</field>
         <field name="model">procurement.rule</field>
         <field name="inherit_id" ref="stock_account.view_procurement_rule_form_stockaccount_inherit"/>
@@ -22,6 +22,6 @@
                 <field name="fiscal_category_id"/>
             </xpath>
         </field>
-    </record>
+    </record>-->
 
 </odoo>
