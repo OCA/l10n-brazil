@@ -2113,7 +2113,6 @@ class HrPayslip(models.Model):
         result_dict = {}
         rules = {}
         categories_dict = {}
-        blacklist = []
         payslip_obj = self.env['hr.payslip']
         obj_rule = self.env['hr.salary.rule']
         rubricas_spec_model = self.env['hr.contract.salary.rule']
@@ -2295,7 +2294,7 @@ class HrPayslip(models.Model):
             structure_ids).get_all_rules()
 
         applied_specific_rule = defaultdict(list)
-        
+
         payslip.get_contract_specific_rubrics(
             applied_specific_rule, rule_ids, DIAS_A_MAIOR)
 
@@ -2538,9 +2537,12 @@ class HrPayslip(models.Model):
                         obj_rule.compute_rule(rule.id, localdict)
 
                 # Pegar Referencia que irá para o holerite
-                reference = obj_rule.get_reference_rubrica(rule.id, localdict)
                 if ref:
                     reference = ref
+                else:
+                    reference = obj_rule.get_reference_rubrica(
+                        rule.id, localdict
+                    )
 
                 if references.get(rule.id):
                     references[rule.id].append(reference)
@@ -2634,9 +2636,6 @@ class HrPayslip(models.Model):
                 }
 
             else:
-                rules_seq = rule._model._recursive_search_of_rules(
-                    self._cr, self._uid, rule, self._context)
-                blacklist += [id for id, seq in rules_seq]
                 continue
 
             if rule.category_id.code == 'DEDUCAO':
