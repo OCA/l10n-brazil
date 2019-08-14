@@ -83,11 +83,10 @@ class StockInvoiceOnshipping(models.TransientModel):
             moves, invoice)
         move = fields.first(moves)
 
-
         fiscal_position_id = move.fiscal_position_id or \
-                             move.picking_id.fiscal_position_id
+            move.picking_id.fiscal_position_id
         fiscal_category_id = move.fiscal_category_id or \
-                             move.picking_id.fiscal_category_id
+            move.picking_id.fiscal_category_id
 
         values['cfop_id'] = fiscal_position_id.cfop_id.id
         values['fiscal_category_id'] = fiscal_category_id.id
@@ -132,17 +131,10 @@ class StockInvoiceOnshipping(models.TransientModel):
         invoices = self._action_generate_invoices()
         if not invoices:
             raise UserError(_('No invoice created!'))
-        inv_type = self._get_invoice_type()
-        if inv_type in ["out_invoice", "out_refund"]:
-            action = self.env.ref(
-                "l10n_br_account_product.action_invoice_tree1_view1")
-        else:
-            action = self.env.ref(
-                'l10n_br_account_product.action_invoice_tree1_view1')
         action = self.env.ref(
             'l10n_br_account_product.action_invoice_tree1_view1')
-        action_dict = action.with_context(dict(
-                fiscal_document_code='55')).read()[0]
+        action_dict = action.with_context(
+            dict(fiscal_document_code='55')).read()[0]
         if action_dict:
             action_dict.update({
                 'domain': [('id', 'in', invoices.ids)],
@@ -169,7 +161,8 @@ class StockInvoiceOnshipping(models.TransientModel):
             invoice_values = self._build_invoice_values_from_pickings(pickings)
             invoice = self.env[
                 'account.invoice'].with_context(dict(
-                fiscal_document_code=pickings.company_id.product_invoice_id.code)
+                    fiscal_document_code=pickings.
+                    company_id.product_invoice_id.code)
             ).create(invoice_values)
             moves = pickings.mapped("move_lines")
             moves_list = self._group_moves(moves)

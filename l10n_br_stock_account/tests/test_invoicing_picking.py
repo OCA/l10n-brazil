@@ -72,11 +72,9 @@ class InvoicingPickingTest(TransactionCase):
             'Mapping Fiscal Documentation_id on wizard to create invoice fail.'
         )
 
-        self.return_wizard = \
-            self.stock_return_picking.with_context(dict(
-                    active_id=self.stock_picking_sp.id
-                )).create(dict(invoice_state='2binvoiced'))
-
+        self.return_wizard = self.stock_return_picking.with_context(
+            dict(active_id=self.stock_picking_sp.id)).create(
+            dict(invoice_state='2binvoiced'))
 
         for line in self.return_wizard.product_return_moves :
             line.quantity = line.move_id.product_uom_qty
