@@ -4,7 +4,6 @@
 
 from odoo import models, api, fields, _
 from odoo.exceptions import Warning as UserError
-from odoo.tools.safe_eval import safe_eval
 
 
 class StockReturnPicking(models.TransientModel):
@@ -40,8 +39,8 @@ class StockReturnPicking(models.TransientModel):
 
         origin_picking = self.env['stock.picking'].browse(
             self.env.context['active_id'])
-        refund_fiscal_category = (origin_picking.fiscal_category_id.
-                              refund_fiscal_category_id)
+        refund_fiscal_category = (
+            origin_picking.fiscal_category_id.refund_fiscal_category_id)
 
         if not refund_fiscal_category:
             raise UserError(
@@ -64,7 +63,8 @@ class StockReturnPicking(models.TransientModel):
                 'res.partner'].browse(picking.partner_id.id)
             partner_invoice_id = picking_partner.address_get(
                 ['invoice'])['invoice']
-            partner_invoice = self.env['res.partner'].browse(partner_invoice_id)
+            partner_invoice = self.env[
+                'res.partner'].browse(partner_invoice_id)
 
             kwargs = {
                 'partner_id': picking.partner_id,
@@ -84,7 +84,7 @@ class StockReturnPicking(models.TransientModel):
             for move in picking.move_lines:
                 line_fiscal_category = (
                     move.origin_returned_move_id.
-                        fiscal_category_id.refund_fiscal_category_id)
+                    fiscal_category_id.refund_fiscal_category_id)
                 kwargs.update(
                     {'fiscal_category_id': line_fiscal_category})
                 fiscal_position = self._fiscal_position_map(
