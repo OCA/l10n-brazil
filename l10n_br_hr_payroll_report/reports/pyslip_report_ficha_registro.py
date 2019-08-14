@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # Copyright 2019 ABGF - Luciano Veras
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -80,7 +81,7 @@ def payslip_ficha_registro(pool, cr, uid, local_context, context):
 
     alt_sal_list = []
     for salary in objects.change_salary_ids:
-        date_start = formata_data(salary.date_start) or '-'
+        date_start = formata_data(salary.change_date_reference) or '-'
         wage = valor.formata_valor(salary.wage) or '-'
         alt_sal_list.append(AlteracaoSalario(date_start=date_start, wage=wage))
 

@@ -83,7 +83,7 @@
                         <h3 style="text-align:center;">Alterações de Salário</h3>
                         <field name="change_salary_ids">
                             <tree open="false" create="false" edit="false" delete="false">
-                                <field name="date_start" string="Data" />
+                                <field name="change_date_reference" string="Data" />
                                 <field name="wage" />
                             </tree>
                         </field>
