@@ -93,18 +93,19 @@ class AccountMoveLine(models.Model):
 
         for move_line in self:
 
-            if move_line.state_cnab != 'accepted':
-                if move_line.state_cnab == 'not_accepted':
-                    raise UserError(_(
-                        u'O arquivo CNAB relacionado a essa nota foi '
-                        u'transmitido com erro, é necessário corrigi-lo '
-                        u'e reenviá-lo'
-                    ))
-                raise UserError(_(
-                    u'É necessário transmitir e processar o retorno do CNAB'
-                    u' referente a essa nota para garantir que o '
-                    u'boleto está registrado no banco'
-                ))
+            # if move_line.state_cnab != 'accepted':
+            #     if move_line.state_cnab == 'not_accepted':
+            #         raise UserError(_(
+            #             u'O arquivo CNAB relacionado a essa nota foi '
+            #             u'transmitido com erro, é necessário corrigi-lo '
+            #             u'e reenviá-lo'
+            #         ))
+            #     raise UserError(_(
+            #         u'É necessário transmitir e processar o retorno do CNAB'
+            #         u' referente a essa nota para garantir que o '
+            #         u'boleto está registrado no banco'
+            #     ))
+
             boleto = Boleto.getBoleto(
                 move_line, move_line.nosso_numero
             )
