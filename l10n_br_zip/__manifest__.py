@@ -17,6 +17,7 @@
     'data': [
         'views/l10n_br_zip_view.xml',
         'views/res_partner_address_view.xml',
+        'views/res_config_settings_view.xml',
         'wizard/l10n_br_zip_search_view.xml',
         'security/ir.model.access.csv',
     ],
