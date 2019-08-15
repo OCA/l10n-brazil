@@ -240,3 +240,55 @@ CATEGORIA_TRABALHADOR_SEFIP = [
     ('21', u'21 - Servidor Público titular de cargo efetivo, magistrado, '
            u'membro do Ministério Público e do Tribunal e Conselho de Contas'),
 ]
+
+CALCULATED_SPECIFC_RULE = [
+    'PENSAO_ALIMENTICIA_PORCENTAGEM',
+    'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS',
+    'PENSAO_ALIMENTICIA_PORCENTAGEM_13',
+]
+
+MES_DO_ANO = [
+    (1, u'Janeiro'),
+    (2, u'Fevereiro'),
+    (3, u'Março'),
+    (4, u'Abril'),
+    (5, u'Maio'),
+    (6, u'Junho'),
+    (7, u'Julho'),
+    (8, u'Agosto'),
+    (9, u'Setembro'),
+    (10, u'Outubro'),
+    (11, u'Novembro'),
+    (12, u'Dezembro'),
+    (13, u'13º Salário'),
+]
+
+MES_DO_ANO2 = [
+    (1, u'Janeiro'),
+    (2, u'Fevereiro'),
+    (3, u'Março'),
+    (4, u'Abril'),
+    (5, u'Maio'),
+    (6, u'Junho'),
+    (7, u'Julho'),
+    (8, u'Agosto'),
+    (9, u'Setembro'),
+    (10, u'Outubro'),
+    (11, u'Novembro'),
+    (12, u'Dezembro'),
+]
+
+TIPO_DE_FOLHA = [
+    ('normal', u'Folha normal'),
+    ('rescisao', u'Rescisão'),
+    ('rescisao_complementar', u'Rescisão Complementar'),
+    ('ferias', u'Férias'),
+    ('decimo_terceiro', u'Décimo terceiro (13º)'),
+    ('aviso_previo', u'Aviso Prévio'),
+    ('provisao_ferias', u'Provisão de Férias'),
+    ('provisao_decimo_terceiro', u'Provisão de Décimo terceiro (13º)'),
+    ('licenca_maternidade', u'Licença maternidade'),
+    ('auxilio_doenca', u'Auxílio doença'),
+    ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
+    ('rpa', u'Recibo de Pagamento a Autonômo'),
+]

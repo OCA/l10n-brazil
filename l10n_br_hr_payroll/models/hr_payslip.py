@@ -16,6 +16,13 @@ from openerp import api, fields, models, exceptions, _
 from openerp.tools import float_compare
 from mako.template import Template
 
+from openerp.addons.l10n_br_hr_payroll.constantes import (
+    CALCULATED_SPECIFC_RULE,
+    MES_DO_ANO,
+    MES_DO_ANO2,
+    TIPO_DE_FOLHA
+)
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -25,52 +32,6 @@ try:
 
 except ImportError:
     _logger.info('Cannot import pybrasil')
-
-MES_DO_ANO = [
-    (1, u'Janeiro'),
-    (2, u'Fevereiro'),
-    (3, u'Março'),
-    (4, u'Abril'),
-    (5, u'Maio'),
-    (6, u'Junho'),
-    (7, u'Julho'),
-    (8, u'Agosto'),
-    (9, u'Setembro'),
-    (10, u'Outubro'),
-    (11, u'Novembro'),
-    (12, u'Dezembro'),
-    (13, u'13º Salário'),
-]
-
-MES_DO_ANO2 = [
-    (1, u'Janeiro'),
-    (2, u'Fevereiro'),
-    (3, u'Março'),
-    (4, u'Abril'),
-    (5, u'Maio'),
-    (6, u'Junho'),
-    (7, u'Julho'),
-    (8, u'Agosto'),
-    (9, u'Setembro'),
-    (10, u'Outubro'),
-    (11, u'Novembro'),
-    (12, u'Dezembro'),
-]
-
-TIPO_DE_FOLHA = [
-    ('normal', u'Folha normal'),
-    ('rescisao', u'Rescisão'),
-    ('rescisao_complementar', u'Rescisão Complementar'),
-    ('ferias', u'Férias'),
-    ('decimo_terceiro', u'Décimo terceiro (13º)'),
-    ('aviso_previo', u'Aviso Prévio'),
-    ('provisao_ferias', u'Provisão de Férias'),
-    ('provisao_decimo_terceiro', u'Provisão de Décimo terceiro (13º)'),
-    ('licenca_maternidade', u'Licença maternidade'),
-    ('auxilio_doenca', u'Auxílio doença'),
-    ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
-    ('rpa', u'Recibo de Pagamento a Autonômo'),
-]
 
 
 class HrPayslip(models.Model):
@@ -2483,11 +2444,7 @@ class HrPayslip(models.Model):
         employee = payslip.contract_id.employee_id
         localdict = dict(
             baselocaldict, employee=employee, contract=payslip.contract_id)
-        calculated_specifc_rule = [
-            'PENSAO_ALIMENTICIA_PORCENTAGEM',
-            'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS',
-            'PENSAO_ALIMENTICIA_PORCENTAGEM_13',
-        ]
+
         references = {}
 
         for rule in obj_rule.browse(sorted_rule_ids):
@@ -2527,7 +2484,7 @@ class HrPayslip(models.Model):
                     obj_rule.satisfy_condition(rule.id, localdict):
                 # compute the amount of the rule
                 if rule.id in applied_specific_rule and \
-                        rule.code not in calculated_specifc_rule:
+                        rule.code not in CALCULATED_SPECIFC_RULE:
                     amount, qty, rate, ref = \
                         payslip.get_specific_rubric_value(
                             rule.id, references=references)
@@ -3094,12 +3051,7 @@ class HrPayslip(models.Model):
         """
         porcentagem_pensao = 0
         for line in self.contract_id.specific_rule_ids:
-            if line.rule_id.code in \
-                    [
-                        'PENSAO_ALIMENTICIA_PORCENTAGEM',
-                        'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS',
-                        'PENSAO_ALIMENTICIA_PORCENTAGEM_13'
-                    ]:
+            if line.rule_id.code in CALCULATED_SPECIFC_RULE:
                 porcentagem_pensao = line.specific_amount
                 break
 
