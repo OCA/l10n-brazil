@@ -2514,8 +2514,7 @@ class HrPayslip(models.Model):
                 # utilizar valor da media e multiplicar
                 # pela reinciden.
                 if medias.get(rule.code) and \
-                        not payslip.tipo_de_folha == 'aviso' \
-                                                     '_previo':
+                        not payslip.tipo_de_folha == 'aviso_previo':
                     amount = medias.get(rule.code).media / 12
                     qty = medias.get(rule.code).meses
                     rule.name += ' (Media) '
