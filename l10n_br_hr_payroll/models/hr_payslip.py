@@ -163,6 +163,7 @@ class HrPayslip(models.Model):
 
     @profile
     @api.multi
+    @api.depends('line_ids')
     def _compute_valor_total_folha(self):
         for holerite in self:
             total = 0.00
@@ -2855,7 +2856,7 @@ class HrPayslip(models.Model):
 
         self.atualizar_worked_days_inputs()
         super(HrPayslip, self).compute_sheet()
-        self._compute_valor_total_folha()
+        # self._compute_valor_total_folha()
         self._compute_rescisao_ids()
         return True
 
