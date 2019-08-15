@@ -86,8 +86,22 @@ class L10nBrZip(models.Model):
         return domain
 
     @api.multi
+    def _zip_update(self):
+        self.ensure_one()
+        cep_update_days = int(
+            self.env['ir.config_parameter'].sudo().get_param(
+                'l10n_br_zip.cep_update_days', default=365))
+        date_delta = fields.Datetime.today() - self.write_date
+        if date_delta.days >= cep_update_days:
+            cep_values = self._consultar_cep(self.zip_code)
+            if cep_values:
+                # Update zip object
+                self.write(cep_values)
+
+    @api.multi
     def set_result(self):
         self.ensure_one()
+        self._zip_update()
         return {
             'country_id': self.country_id.id,
             'state_id': self.state_id.id,
@@ -99,6 +113,41 @@ class L10nBrZip(models.Model):
             self.street_type else (self.street or ''),
             'zip': misc.format_zipcode(
                 self.zip_code, self.country_id.code)}
+
+    def _consultar_cep(self, zip_code):
+        zip_str = misc.punctuation_rm(zip_code)
+        try:
+            cep = pycep_correios.consultar_cep(zip_str)
+        except Exception as e:
+            raise UserError(
+                _('Erro no PyCEP-Correios : ') + str(e))
+
+        values = {}
+        if cep:
+            # Search Brazil id
+            country = self.env['res.country'].search(
+                [('code', '=', 'BR')], limit=1)
+
+            # Search state with state_code and country id
+            state = self.env['res.country.state'].search([
+                ('code', '=', cep['uf']),
+                ('country_id', '=', country.id)], limit=1)
+
+            # search city with name and state
+            city = self.env['res.city'].search([
+                ('name', '=', cep['cidade']),
+                ('state_id.id', '=', state.id)], limit=1)
+
+            values = {
+                'zip_code': zip_str,
+                'street': cep['end'],
+                'zip_complement': cep['complemento2'],
+                'district': cep['bairro'],
+                'city_id': city.id or False,
+                'state_id': state.id or False,
+                'country_id': country.id or False,
+            }
+        return values
 
     @api.model
     def zip_search(self, obj):
@@ -130,40 +179,11 @@ class L10nBrZip(models.Model):
         # Address not found in local DB, search by PyCEP-Correios
         elif not zips and obj.zip:
 
-            zip_str = misc.punctuation_rm(obj.zip)
-            try:
-                result = pycep_correios.consultar_cep(zip_str)
-            except Exception as e:
-                raise UserError(
-                    _('Erro no PyCEP-Correios : ') + str(e))
+            cep_values = self._consultar_cep(obj.zip)
 
-            if result:
-                # Search Brazil id
-                country = self.env['res.country'].search(
-                    [('code', '=', 'BR')], limit=1)
-
-                # Search state with state_code and country id
-                state = self.env['res.country.state'].search([
-                    ('code', '=', result['uf']),
-                    ('country_id', '=', country.id)], limit=1)
-
-                # search city with name and state
-                city = self.env['res.city'].search([
-                    ('name', '=', result['cidade']),
-                    ('state_id.id', '=', state.id)], limit=1)
-
-                values = {
-                    'zip_code': zip_str,
-                    'street': result['end'],
-                    'zip_complement': result['complemento2'],
-                    'district': result['bairro'],
-                    'city_id': city.id or False,
-                    'state_id': state.id or False,
-                    'country_id': country.id or False,
-                }
-
+            if cep_values:
                 # Create zip object
-                zip = self.create(values)
+                zip = self.create(cep_values)
                 obj.write(zip.set_result())
                 return True
 
