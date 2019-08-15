@@ -12,5 +12,5 @@ class ResConfigSettings(models.TransientModel):
         config_parameter='l10n_br_base_allow_cnpj_multi_ie',
         default=False)
 
-    module_l10n_br_zip_correios = fields.Boolean(
+    module_l10n_br_zip = fields.Boolean(
         string='Use Brazilian postal service API')
