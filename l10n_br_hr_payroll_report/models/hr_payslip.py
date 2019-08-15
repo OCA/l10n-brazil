@@ -46,4 +46,17 @@ class HrPayslip(models.Model):
             else:
                 payslip_id.data_aviso_previo_fmt = ' / / '
 
-
+    @api.model
+    def remove_old_payslip_reports(self):
+        try:
+            rep1_id = self.env.ref('hr_payroll.action_report_payslip')
+            if rep1_id:
+                rep1_id.unlink()
+        except:
+            pass
+        try:
+            rep2_id = self.env.ref('hr_payroll.payslip_details_report')
+            if rep2_id:
+                rep2_id.unlink()
+        except:
+            pass

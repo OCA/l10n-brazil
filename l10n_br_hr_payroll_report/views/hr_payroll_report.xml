@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <function model="hr.payslip" name="remove_old_payslip_reports" />
+
+    </data>
+</openerp>
