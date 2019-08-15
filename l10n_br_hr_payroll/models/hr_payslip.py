@@ -2076,7 +2076,6 @@ class HrPayslip(models.Model):
         categories_dict = {}
         payslip_obj = self.env['hr.payslip']
         obj_rule = self.env['hr.salary.rule']
-        rubricas_spec_model = self.env['hr.contract.salary.rule']
         payslip = payslip_obj.browse(payslip_id)
         worked_days = {}
         for worked_days_line in payslip.worked_days_line_ids:
@@ -2453,7 +2452,6 @@ class HrPayslip(models.Model):
             localdict['result_rate'] = 100
             localdict['rubrica'] = rule
             localdict['reference'] = ' '
-            id_rubrica_especifica = 0
             beneficiario_id = False
             ref = False
             amount = False
@@ -2543,11 +2541,6 @@ class HrPayslip(models.Model):
                     rules[rule.code] += rule
                 else:
                     rules[rule.code] = rule
-
-                # Adiciona a rubrica especifica ao localdict
-                if id_rubrica_especifica:
-                    localdict['RUBRICAS_ESPEC_CALCULADAS'].append(
-                        id_rubrica_especifica)
 
                 # sum the amount for its salary category
                 localdict = _sum_salary_rule_category(
