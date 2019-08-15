@@ -27,4 +27,7 @@
     ],
     'installable': True,
     'auto_install': True,
+    'license': 'AGPL-3',
+    'development_status': 'Production/Stable',
+    'maintainers': ['renatonlima']
 }
