@@ -58,26 +58,6 @@ class SaleOrder(models.Model):
                 value += computed.get('amount', 0.0)
         return value
 
-    @api.multi
-    def _invoiced_rate(self, name, arg):
-        result = {}
-        for sale in self:
-            if sale.invoiced:
-                result[sale.id] = 100.0
-                continue
-            tot = 0.0
-            for invoice in sale.invoice_ids:
-                if invoice.state not in ('draft', 'cancel') and \
-                    invoice.fiscal_category_id.id == \
-                   sale.fiscal_category_id.id:
-                    tot += invoice.amount_untaxed
-            if tot:
-                result[sale.id] = min(100.0, tot * 100.0 / (
-                    sale.amount_untaxed or 1.00))
-            else:
-                result[sale.id] = 0.0
-        return result
-
     @api.model
     def _default_fiscal_category(self):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
@@ -93,7 +73,6 @@ class SaleOrder(models.Model):
         domain="[('fiscal_category_id', '=', fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)]}
     )
-    invoiced_rate = fields.Float(compute='_invoiced_rate', string='Invoiced')
     copy_note = fields.Boolean(u'Copiar Observação no documentos fiscal')
     amount_untaxed = fields.Float(
         compute='_amount_all_wrapper', string='Untaxed Amount',
