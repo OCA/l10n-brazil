@@ -21,6 +21,7 @@
         <field name="model">l10n_br_fiscal.tax</field>
         <field name="arch" type="xml">
             <tree string="Tax">
+                <field name="tax_domain" invisible="1"/>
                 <field name="name"/>
                 <field name="percent_amount"/>
                 <field name="percent_reduction"/>
