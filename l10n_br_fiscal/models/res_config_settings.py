@@ -14,7 +14,7 @@ class ResConfigSettings(models.TransientModel):
         readonly=False)
 
     ibpt_token = fields.Char(
-        string='IPBT Token',
+        string='IBPT Token',
         related='company_id.ibpt_token',
         readonly=False)
 

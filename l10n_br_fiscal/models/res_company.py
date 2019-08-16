@@ -93,10 +93,10 @@ class ResCompany(models.Model):
         default=False)
 
     ibpt_token = fields.Char(
-        string='IPBT Token')
+        string='IBPT Token')
 
     ibpt_update_days = fields.Integer(
-        string='IPBT Token Updates',
+        string='IBPT Token Updates',
         default=15)
 
     certificate_ecnpj_id = fields.Many2one(
