@@ -13,7 +13,7 @@ class TaxEstimate(models.Model):
 
     ncm_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.ncm',
-        string=u'NCM')
+        string='NCM')
 
     nbs_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.nbs',
@@ -21,11 +21,11 @@ class TaxEstimate(models.Model):
 
     state_id = fields.Many2one(
         comodel_name='res.country.state',
-        string=u'Estado',
+        string='State',
         required=True)
 
     federal_taxes_national = fields.Float(
-        string=u'Impostos Federais Nacional',
+        string='Impostos Federais Nacional',
         default=0.00,
         digits=dp.get_precision('Fiscal Tax Percent'))
 
@@ -45,11 +45,11 @@ class TaxEstimate(models.Model):
         digits=dp.get_precision('Fiscal Tax Percent'))
 
     create_date = fields.Datetime(
-        string=u'Data de Criação',
+        string='Create Date',
         readonly=True)
 
     key = fields.Char(
-        string='Chave',
+        string='Key',
         size=32)
 
     origin = fields.Char(
