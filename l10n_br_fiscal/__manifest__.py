@@ -34,6 +34,7 @@
         # Views
         'views/cnae_view.xml',
         'views/cfop_view.xml',
+        'views/comment_view.xml',
         'views/cst_view.xml',
         'views/tax_group_view.xml',
         'views/tax_view.xml',
