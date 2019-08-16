@@ -3,6 +3,7 @@
 from . import data_abstract
 from . import document_abstract
 from . import document_line_abstract
+from . import comment
 from . import ibpt
 from . import cfop
 from . import cst
