@@ -2499,51 +2499,57 @@ class HrPayslip(models.Model):
             qty = False
             rate = False
 
-            # #
-            # # Tratamos as rubricas específicas que têm beneficiários
-            # #
-            if rule.id in applied_specific_rule:
+            # check if the rule can be applied
+            if not (rule.id in applied_specific_rule or \
+                    obj_rule.satisfy_condition(rule.id, localdict)):
+                continue
+
+            # compute the amount of the rule
+            if rule.id in applied_specific_rule and \
+                    rule.code not in CALCULATED_SPECIFC_RULE:
 
                 lista_rubricas_especificas = applied_specific_rule[rule.id]
 
-                if len(lista_rubricas_especificas) > 0:
-                    rubrica_especifica = lista_rubricas_especificas[0]
+                # Verifica quais rúbricas especificas devem ser aplicadas
+                for specific_item in lista_rubricas_especificas:
+                    #
+                    # Aplicando regra do benecicio;
+                    #
+                    if (specific_item.get('type') == u'benefit'and not (
+                            specific_item.get('ref') and
+                            specific_item['ref'] in references.get(rule.id))):
 
-                    beneficiario_id = rubrica_especifica.get(
-                      'beneficiario_id'
-                    )
+                        amount, qty, rate, ref = specific_item['value']
 
-                    del lista_rubricas_especificas[0]
+                        del lista_rubricas_especificas[0]
+                        applied_specific_rule[rule.id] = \
+                            lista_rubricas_especificas
 
-                    applied_specific_rule[rule.id] = \
-                        lista_rubricas_especificas
+                        break
+                    #
+                    # Aplicando regra especifica do contrato
+                    #
+                    elif (specific_item.get('type') == u'contract' and not (
+                            specific_item.get('ref') and
+                            specific_item['ref'] in references.get(rule.id))):
+                        amount, qty, rate, ref = specific_item['value']
 
-            # check if the rule can be applied
-            if rule.id in applied_specific_rule or \
-                    obj_rule.satisfy_condition(rule.id, localdict):
-                # compute the amount of the rule
-                if rule.id in applied_specific_rule and \
-                        rule.code not in CALCULATED_SPECIFC_RULE:
-                    amount, qty, rate, ref = \
-                        payslip.get_specific_rubric_value(
-                            rule.id, references=references)
+                        del lista_rubricas_especificas[0]
+                        applied_specific_rule[rule.id] = \
+                            lista_rubricas_especificas
 
-                if not (amount or qty or rate):
-                    amount, qty, rate = \
-                        obj_rule.compute_rule(rule.id, localdict)
+                        break
+
+            else:
+                amount, qty, rate = \
+                    obj_rule.compute_rule(rule.id, localdict)
 
                 # Pegar Referencia que irá para o holerite
-                if ref:
-                    reference = ref
-                else:
-                    reference = obj_rule.get_reference_rubrica(
-                        rule.id, localdict
-                    )
+                ref = obj_rule.get_reference_rubrica(
+                    rule.id, localdict
+                )
 
-                if references.get(rule.id):
-                    references[rule.id].append(reference)
-                else:
-                    references[rule.id] = [reference]
+            references[rule.id].append(ref)
                         if rule.compoe_base_INSS:
                             localdict['BASE_INSS'] += tot_rule
                         if rule.compoe_base_IR:
@@ -2551,82 +2557,78 @@ class HrPayslip(models.Model):
                         if rule.compoe_base_FGTS:
                             localdict['BASE_FGTS'] += tot_rule
 
-                # se ja tiver sido calculado a media dessa rubrica,
-                # utilizar valor da media e multiplicar
-                # pela reinciden.
-                if medias.get(rule.code) and \
-                        not payslip.tipo_de_folha == 'aviso_previo':
-                    amount = medias.get(rule.code).media / 12
-                    qty = medias.get(rule.code).meses
-                    rule.name += ' (Media) '
-                # check if there is already a rule computed
-                # with that code
-                previous_amount = \
-                    rule.code in localdict and \
-                    localdict[rule.code] or 0.0
-                # previous_amount = 0
-                # set/overwrite the amount computed
-                # for this rule in the localdict
+            # se ja tiver sido calculado a media dessa rubrica,
+            # utilizar valor da media e multiplicar
+            # pela reinciden.
+            if medias.get(rule.code) and \
+                    not payslip.tipo_de_folha == 'aviso_previo':
+                amount = medias.get(rule.code).media / 12
+                qty = medias.get(rule.code).meses
+                rule.name += ' (Media) '
+            # check if there is already a rule computed
+            # with that code
+            previous_amount = \
+                rule.code in localdict and \
+                localdict[rule.code] or 0.0
+            # previous_amount = 0
+            # set/overwrite the amount computed
+            # for this rule in the localdict
 
-                tot_rule = Decimal(amount or 0) * Decimal(
-                    qty or 0) * Decimal(rate or 0) / 100.0
-                tot_rule = tot_rule.quantize(Decimal('0.01'))
-                if localdict.get(rule.code) and \
-                        rule.category_id.code == 'PROVENTO':
-                    localdict[rule.code] += tot_rule
-                else:
-                    localdict[rule.code] = tot_rule
-
-                if rules.get(rule.code) and rule.category_id.code == 'PROVENTO':
-                    rules[rule.code] += rule
-                else:
-                    rules[rule.code] = rule
-
-                # sum the amount for its salary category
-                localdict = _sum_salary_rule_category(
-                    localdict, rule.category_id,
-                    tot_rule)
-
-                # create/overwrite the rule in the temporary results
-                result_dict[random.randint(0, 10000)] = {
-                    'salary_rule_id': rule.id,
-                    'contract_id': payslip.contract_id.id,
-                    'name': rule.name,
-                    'code': rule.code,
-                    'category_id': rule.category_id.id,
-                    'sequence': rule.sequence,
-                    'appears_on_payslip': rule.appears_on_payslip,
-                    'condition_select': rule.condition_select,
-                    'condition_python': rule.condition_python,
-                    'condition_range': rule.condition_range,
-                    'condition_range_min':
-                        rule.condition_range_min,
-                    'condition_range_max':
-                        rule.condition_range_max,
-                    'amount_select': rule.amount_select,
-                    'amount_fix': rule.amount_fix,
-                    'amount_python_compute':
-                        rule.amount_python_compute,
-                    'amount_percentage': rule.amount_percentage,
-                    'amount_percentage_base':
-                        rule.amount_percentage_base,
-                    'register_id': rule.register_id.id,
-                    'amount': amount,
-                    'employee_id': payslip.contract_id.employee_id.id,
-                    'quantity': qty,
-                    'rate': rate,
-                    'reference': reference,
-                    'partner_id':
-                        beneficiario_id and beneficiario_id.id or
-                        payslip.contract_id.employee_id.address_home_id and
-                        payslip.contract_id.employee_id.address_home_id.id or
-                        False
-                    ,
-
-                }
-
+            tot_rule = Decimal(amount or 0) * Decimal(
+                qty or 0) * Decimal(rate or 0) / 100.0
+            tot_rule = tot_rule.quantize(Decimal('0.01'))
+            if localdict.get(rule.code) and \
+                    rule.category_id.code == 'PROVENTO':
+                localdict[rule.code] += tot_rule
             else:
-                continue
+                localdict[rule.code] = tot_rule
+
+            if rules.get(rule.code) and rule.category_id.code == 'PROVENTO':
+                rules[rule.code] += rule
+            else:
+                rules[rule.code] = rule
+
+            # sum the amount for its salary category
+            localdict = _sum_salary_rule_category(
+                localdict, rule.category_id,
+                tot_rule)
+
+            # create/overwrite the rule in the temporary results
+            result_dict[random.randint(0, 10000)] = {
+                'salary_rule_id': rule.id,
+                'contract_id': payslip.contract_id.id,
+                'name': rule.name,
+                'code': rule.code,
+                'category_id': rule.category_id.id,
+                'sequence': rule.sequence,
+                'appears_on_payslip': rule.appears_on_payslip,
+                'condition_select': rule.condition_select,
+                'condition_python': rule.condition_python,
+                'condition_range': rule.condition_range,
+                'condition_range_min':
+                    rule.condition_range_min,
+                'condition_range_max':
+                    rule.condition_range_max,
+                'amount_select': rule.amount_select,
+                'amount_fix': rule.amount_fix,
+                'amount_python_compute':
+                    rule.amount_python_compute,
+                'amount_percentage': rule.amount_percentage,
+                'amount_percentage_base':
+                    rule.amount_percentage_base,
+                'register_id': rule.register_id.id,
+                'amount': amount,
+                'employee_id': payslip.contract_id.employee_id.id,
+                'quantity': qty,
+                'rate': rate,
+                'reference': ref,
+                'partner_id':
+                    beneficiario_id and beneficiario_id.id or
+                    payslip.contract_id.employee_id.address_home_id and
+                    payslip.contract_id.employee_id.address_home_id.id or
+                    False
+                ,
+            }
 
             if rule.category_id.code == 'DEDUCAO':
                 if rule.compoe_base_INSS:
@@ -3216,8 +3218,3 @@ class HrPayslip(models.Model):
                             valor += line.total
 
         return valor
-
-    @profile
-    def sort_specific_rules(self, applied_specific_rule):
-
-        return applied_specific_rule
