@@ -20,6 +20,11 @@ class TaxGroup(models.Model):
         string='Tax Domain',
         required=True)
 
+    tax_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.tax',
+        inverse_name='tax_group_id',
+        string='Taxes')
+
     _sql_constraints = [
         ('fiscal_tax_group_code_uniq', 'unique (name)',
          'Tax Group already exists with this name !')]
