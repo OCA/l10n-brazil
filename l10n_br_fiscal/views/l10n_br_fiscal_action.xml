@@ -364,6 +364,25 @@
         </field>
     </record>
 
+    # Comment
+    <record id="comment_action" model="ir.actions.act_window">
+        <field name="name">Comment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.comment</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="comment_search"/>
+        <field name="view_id" ref="comment_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Comment
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal comment.
+          </p>
+        </field>
+    </record>
+
     # Fiscal Document
     <record id="document_action" model="ir.actions.act_window">
         <field name="name">Document</field>
