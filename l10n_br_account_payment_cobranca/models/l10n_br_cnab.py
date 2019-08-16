@@ -380,6 +380,7 @@ class L10nBrHrCnab(models.Model):
                 COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[6:8]))
                 if evento.erros[6:8] else '',
             'valor_pagamento': evento.valor_principal,
+            'valor': float(evento.valor / 100),
             'identificacao_titulo_empresa':
                 evento.identificacao_titulo_empresa,
         }
@@ -583,6 +584,7 @@ class L10nBrHrCnab(models.Model):
                 'bank_payment_line_id': bank_payment_line_id.id,
                 'lote_id': lote_id.id,
                 'valor_pagamento': evento.valor_principal,
+                'valor': float(evento.valor / 100),
             })
             cnab_event_id = cnab_event_id.create(vals_evento)
         else:
