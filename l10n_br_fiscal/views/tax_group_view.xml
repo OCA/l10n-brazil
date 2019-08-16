@@ -33,6 +33,9 @@
                         <field name="name"/>
                         <field name="tax_domain"/>
                     </group>
+                    <group name="group_taxes" string="Taxes">
+                        <field name="tax_ids" nolabel="1"/>
+                    </group>
                 </sheet>
             </form>
         </field>
