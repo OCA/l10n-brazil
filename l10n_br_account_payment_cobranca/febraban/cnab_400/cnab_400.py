@@ -305,8 +305,8 @@ class Cnab400(Cnab):
         for line in order.bank_line_ids:
             try:
                 self.arquivo.incluir_cobranca(**self._prepare_cobranca(line))
-                self.arquivo.trailer.num_seq_registro = self.controle_linha
                 self.controle_linha += 1
+                self.arquivo.trailer.num_seq_registro = self.controle_linha
                 line.is_erro_exportacao = False
                 line.mensagem_erro_exportacao = ''
 
