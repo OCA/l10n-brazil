@@ -71,6 +71,9 @@ class L10nBrCnabEvento(models.Model):
     tipo_moeda = fields.Char(
         string=u"Tipo de Moeda"
     )
+    valor = fields.Float(
+        string="Valor da Linha"
+    )
     valor_pagamento = fields.Float(
         string="Valor do Pagamento"
     )

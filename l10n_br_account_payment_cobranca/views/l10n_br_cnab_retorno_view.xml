@@ -53,6 +53,7 @@
                 <field name="nosso_numero"/>
                 <field name="seu_numero"/>
                 <field name="tipo_moeda"/>
+                <field name="valor"/>
                 <field name="valor_pagamento"/>
                 <field name="ocorrencias"/>
             </tree>
@@ -83,6 +84,8 @@
                         <field name="seu_numero"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="tipo_moeda"
+                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="valor"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="valor_pagamento"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
