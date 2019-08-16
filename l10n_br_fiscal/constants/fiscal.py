@@ -2,6 +2,14 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+COMMENT_TYPE = [
+    ('fiscal', 'Fiscal'),
+    ('commercial', 'Commercial')]
+
+
+DEFAULT_COMMENT_TYPE = 'commercial'
+
+
 PRODUCT_FISCAL_TYPE = (
     ('00', 'Mercadoria para Revenda'),
     ('01', 'Matéria-prima'),
@@ -150,11 +158,11 @@ NFE_IND_IE_DEST_3 = '9'
 
 CFOP_TYPE_MOVE = [
     ('purchase_industry', 'Purchase Industry'),
-    ('purchase_commerce', 'Purchase Commerce'),
+    ('purchase_commerce', 'Purchase Commerce'),
     ('purchase_asset', 'Purchase Asset'),
     ('purchase_ownuse', 'Purchase Own Use'),
     ('purchase_service', 'Purchase Service'),
-    ('purchase_refund', 'Purchase Redund'),
+    ('purchase_refund', 'Purchase Refund'),
     ('return_in', 'Return in'),
     ('sale_industry', 'Sale Industry'),
     ('sale_commerce', 'Sale Commerce'),
