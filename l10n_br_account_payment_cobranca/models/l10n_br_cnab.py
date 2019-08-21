@@ -540,7 +540,6 @@ class L10nBrHrCnab(models.Model):
             evento.identificacao_titulo_empresa
         )], limit=1)
 
-
         cnab_event_id = self.env['l10n_br.cnab.evento'].search([
             ('lote_id', '=', lote_id.id),
             ('bank_payment_line_id', '!=', False),
@@ -576,16 +575,20 @@ class L10nBrHrCnab(models.Model):
                 evento.identificacao_titulo_empresa,
         }
 
+        vals_evento.update({
+            'bank_payment_line_id': cnab_event_id.bank_payment_line_id.id or
+                                    bank_payment_line_id.id,
+            'invoice_id': cnab_event_id.invoice_id.id or
+                          bank_payment_line_id.
+                              payment_line_ids[:1].move_line_id.invoice_id.id,
+            'lote_id': cnab_event_id.lote_id.id or lote_id.id,
+            'partner_id': bank_payment_line_id.partner_id.id,
+            'valor_pagamento': cnab_event_id.valor_pagamento or
+                               evento.valor_principal,
+            'valor': cnab_event_id.valor or float(evento.valor) / 100,
+        })
+
         if not cnab_event_id:
-            # raise UserError("A linha de 'nosso_numero' %s não possui evento "
-            #                 "criado. Esse lote não foi processado "
-            #                 "corretamente." % evento.nosso_numero)
-            vals_evento.update({
-                'bank_payment_line_id': bank_payment_line_id.id,
-                'lote_id': lote_id.id,
-                'valor_pagamento': evento.valor_principal,
-                'valor': float(evento.valor) / 100,
-            })
             cnab_event_id = cnab_event_id.create(vals_evento)
         else:
             cnab_event_id.write(vals_evento)
