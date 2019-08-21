@@ -31,6 +31,14 @@ class L10nBrCnabEvento(models.Model):
         string="Favorecido",
         comodel_name="res.partner"
     )
+    identificacao_titulo_empresa = fields.Char(
+        string="Identificação do Título da Empresa",
+        required=False,
+    )
+    invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string='Fatura',
+    )
     lote_id = fields.Many2one(
         string="Lote",
         comodel_name="l10n_br.cnab.lote",
@@ -40,6 +48,10 @@ class L10nBrCnabEvento(models.Model):
     )
     ocorrencias = fields.Char(
         string=u"Ocorrências"
+    )
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Associado',
     )
     segmento = fields.Char(
         string="Segmento"
@@ -76,8 +88,4 @@ class L10nBrCnabEvento(models.Model):
     )
     valor_pagamento = fields.Float(
         string="Valor do Pagamento"
-    )
-    identificacao_titulo_empresa = fields.Char(
-        string="Identificação do Título da Empresa",
-        required=False,
     )
