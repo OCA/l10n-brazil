@@ -595,7 +595,7 @@ class L10nBrHrCnab(models.Model):
         if codigo_ocorrencia and bank_payment_line_id:
 
             if not any(codigo_ocorrencia in x for x in RETORNOS_TRATADOS):
-                cnab_event_id.str_motiv_e = codigo_ocorrencia + \
+                cnab_event_id.str_motiv_e = str(codigo_ocorrencia) + \
                                                 ': Ocorrência não tratada'
 
             bank_payment_line_id.nosso_numero = str(evento.nosso_numero)
