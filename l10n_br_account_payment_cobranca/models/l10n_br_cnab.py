@@ -357,10 +357,13 @@ class L10nBrHrCnab(models.Model):
             # 'segmento': evento.servico_segmento,
             # 'favorecido_nome': evento.nome_pagador,
             # 'favorecido_conta_bancaria': lote_bank_account_id,
+            'invoice_id': bank_payment_line_id.
+                              payment_line_ids[:1].move_line_id.invoice_id.id,
             'lote_id': lote_id.id,
             'nosso_numero': str(evento.nosso_numero),
             'ocorrencias':
                 CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
+            'partner_id': bank_payment_line_id.partner_id.id,
             'seu_numero': evento.numero_documento,
             # 'tipo_moeda': evento.credito_moeda_tipo,
             # 'str_motiv_a':
