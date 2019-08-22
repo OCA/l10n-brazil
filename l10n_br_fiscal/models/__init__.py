@@ -17,6 +17,7 @@ from . import tax_group
 from . import tax
 from . import tax_ipi_guideline
 from . import tax_estimate
+from . import tax_definition_abstract
 from . import document_type
 from . import document_serie
 from . import product_genre
@@ -38,7 +39,6 @@ from . import res_config_settings
 # from . import l10n_br_account_product_import_declaration_line
 # from . import l10n_br_account_product_icms_relief
 # from . import l10n_br_tax_icms_partition
-# from . import l10n_br_tax_definition_company_product
 # from . import account_invoice
 # from . import account_invoice_line
 # from . import account_payment_term
