@@ -39,6 +39,9 @@ class L10nBrCnabEvento(models.Model):
         comodel_name='account.invoice',
         string='Fatura',
     )
+    juros_mora_multa = fields.Float(
+        string=u"Juros de Mora/Multa"
+    )
     lote_id = fields.Many2one(
         string="Lote",
         comodel_name="l10n_br.cnab.lote",
@@ -48,6 +51,9 @@ class L10nBrCnabEvento(models.Model):
     )
     ocorrencias = fields.Char(
         string=u"Ocorrências"
+    )
+    outros_creditos = fields.Float(
+        string=u"Outros Créditos"
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
@@ -83,8 +89,36 @@ class L10nBrCnabEvento(models.Model):
     tipo_moeda = fields.Char(
         string=u"Tipo de Moeda"
     )
+    tarifa_cobranca = fields.Float(
+        string=u'Tarifa',
+    )
     valor = fields.Float(
         string="Valor da Linha"
+    )
+    valor_abatimento = fields.Float(
+        string="Valor do Abatimento",
+        help="""Se o desconto ou abatimento é concedido na entrada do boleto 
+        estes campos são retornados zerados(apesar de corretamente registrados 
+        no Itaú). Se concedidos após a entrada, retornam com os valores
+        do desconto ou abatimento.
+        Na liquidação, desconto e abatimento retornam somados no campo 
+        desconto; opcionalmente, mediante cadastro prévio em nosso sistema, 
+        estes valores poderão retornar separados, conforme mostra o 
+        indicador 36.4 do Item 5 - Condições Personalizadas."""
+    )
+    valor_desconto = fields.Float(
+        string="Valor do Desconto",
+        help="""Se o desconto ou abatimento é concedido na entrada do boleto 
+        estes campos são retornados zerados(apesar de corretamente registrados 
+        no Itaú). Se concedidos após a entrada, retornam com os valores
+        do desconto ou abatimento.
+        Na liquidação, desconto e abatimento retornam somados no campo 
+        desconto; opcionalmente, mediante cadastro prévio em nosso sistema, 
+        estes valores poderão retornar separados, conforme mostra o 
+        indicador 36.4 do Item 5 - Condições Personalizadas."""
+    )
+    valor_iof = fields.Float(
+        string="Valor do IOF"
     )
     valor_pagamento = fields.Float(
         string="Valor do Pagamento"

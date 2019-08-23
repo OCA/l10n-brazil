@@ -357,12 +357,16 @@ class L10nBrHrCnab(models.Model):
             # 'segmento': evento.servico_segmento,
             # 'favorecido_nome': evento.nome_pagador,
             # 'favorecido_conta_bancaria': lote_bank_account_id,
+            'identificacao_titulo_empresa':
+                evento.identificacao_titulo_empresa,
             'invoice_id': bank_payment_line_id.
                               payment_line_ids[:1].move_line_id.invoice_id.id,
+            'juros_mora_multa': float(evento.juros_mora_multa) / 100,
             'lote_id': lote_id.id,
             'nosso_numero': str(evento.nosso_numero),
             'ocorrencias':
                 CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
+            'outros_creditos': float(evento.outros_creditos) / 100,
             'partner_id': bank_payment_line_id.partner_id.id,
             'seu_numero': evento.numero_documento,
             # 'tipo_moeda': evento.credito_moeda_tipo,
@@ -382,10 +386,12 @@ class L10nBrHrCnab(models.Model):
             'str_motiv_d':
                 COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[6:8]))
                 if evento.erros[6:8] else '',
-            'valor_pagamento': evento.valor_principal,
+            'tarifa_cobranca': float(evento.tarifa_cobranca),
             'valor': float(evento.valor) / 100,
-            'identificacao_titulo_empresa':
-                evento.identificacao_titulo_empresa,
+            'valor_abatimento': float(evento.valor_abatimento) / 100,
+            'valor_desconto': float(evento.valor_desconto) / 100,
+            'valor_iof': float(evento.valor_iof) / 100,
+            'valor_pagamento': evento.valor_principal,
         }
         cnab_event_id = self.env['l10n_br.cnab.evento'].create(vals_evento)
 
@@ -550,6 +556,9 @@ class L10nBrHrCnab(models.Model):
         ])
 
         vals_evento = {
+            'bank_payment_line_id':
+                cnab_event_id.bank_payment_line_id.id or
+                bank_payment_line_id.id,
             'data_ocorrencia':
                 datetime.strptime(
                     str(evento.data_ocorrencia).zfill(6), STR_EVENTO_FORMAT)
@@ -558,9 +567,20 @@ class L10nBrHrCnab(models.Model):
                 datetime.strptime(
                     str(evento.data_credito).zfill(6), STR_EVENTO_FORMAT)
                 if evento.data_credito else '',
+            'identificacao_titulo_empresa':
+                evento.identificacao_titulo_empresa,
+            'invoice_id': cnab_event_id.invoice_id.id or
+                          bank_payment_line_id.payment_line_ids[:1].
+                              move_line_id.invoice_id.id,
+            'juros_mora_multa': cnab_event_id.juros_mora_multa or
+                                float(evento.juros_mora_multa) / 100,
+            'lote_id': cnab_event_id.lote_id.id or lote_id.id,
             'nosso_numero': str(evento.nosso_numero),
             'ocorrencias':
                 CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
+            'outros_creditos': cnab_event_id.outros_creditos or
+                               float(evento.outros_creditos) / 100,
+            'partner_id': bank_payment_line_id.partner_id.id,
             'seu_numero': evento.numero_documento,
             'str_motiv_a':
                 COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[0:2]))
@@ -574,22 +594,18 @@ class L10nBrHrCnab(models.Model):
             'str_motiv_d':
                 COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[6:8]))
                 if evento.erros[6:8] else '',
-            'identificacao_titulo_empresa':
-                evento.identificacao_titulo_empresa,
-        }
-
-        vals_evento.update({
-            'bank_payment_line_id': cnab_event_id.bank_payment_line_id.id or
-                                    bank_payment_line_id.id,
-            'invoice_id': cnab_event_id.invoice_id.id or
-                          bank_payment_line_id.
-                              payment_line_ids[:1].move_line_id.invoice_id.id,
-            'lote_id': cnab_event_id.lote_id.id or lote_id.id,
-            'partner_id': bank_payment_line_id.partner_id.id,
+            'tarifa_cobranca': cnab_event_id.tarifa_cobranca or
+                               float(evento.tarifa_cobranca),
+            'valor': cnab_event_id.valor or float(evento.valor) / 100,
+            'valor_abatimento': cnab_event_id.valor_abatimento or
+                                float(evento.valor_abatimento) / 100,
+            'valor_desconto': cnab_event_id.valor_desconto or
+                              float(evento.valor_desconto) / 100,
+            'valor_iof': cnab_event_id.valor_iof or
+                         float(evento.valor_iof) / 100,
             'valor_pagamento': cnab_event_id.valor_pagamento or
                                evento.valor_principal,
-            'valor': cnab_event_id.valor or float(evento.valor) / 100,
-        })
+        }
 
         if not cnab_event_id:
             cnab_event_id = cnab_event_id.create(vals_evento)
