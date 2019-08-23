@@ -57,6 +57,7 @@
                 <field name="tipo_moeda"/>
                 <field name="valor"/>
                 <field name="valor_pagamento"/>
+                <field name="tarifa_cobranca"/>
                 <field name="ocorrencias"/>
             </tree>
         </field>
@@ -71,46 +72,34 @@
                     <field name="state" widget="statusbar" nolabel="1"
                            statusbar_visible="draft,done"/>
                 </header>
-                <group>
+                <group attrs="{'readonly': [('state', '=', 'done')]}">
                     <group>
-                        <field name="invoice_id"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="partner_id"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="data_ocorrencia"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="data_real_pagamento"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="segmento"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="favorecido_id"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="nosso_numero"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="seu_numero"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="tipo_moeda"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="valor"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="valor_pagamento"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="bank_payment_line_id"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="invoice_id"/>
+                        <field name="partner_id"/>
+                        <field name="data_ocorrencia"/>
+                        <field name="data_real_pagamento"/>
+                        <field name="segmento"/>
+                        <field name="favorecido_id"/>
+                        <field name="nosso_numero"/>
+                        <field name="seu_numero"/>
+                        <field name="tipo_moeda"/>
+                        <field name="valor"/>
+                        <field name="valor_pagamento"/>
+                        <field name="tarifa_cobranca"/>
+                        <field name="valor_abatimento"/>
+                        <field name="valor_desconto"/>
+                        <field name="valor_iof"/>
+                        <field name="juros_mora_multa"/>
+                        <field name="outros_creditos"/>
+                        <field name="bank_payment_line_id"/>
                     </group>
                     <group>
-                        <field name="ocorrencias"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="str_motiv_a"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="str_motiv_b"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="str_motiv_c"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="str_motiv_d"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="str_motiv_e"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="ocorrencias"/>
+                        <field name="str_motiv_a"/>
+                        <field name="str_motiv_b"/>
+                        <field name="str_motiv_c"/>
+                        <field name="str_motiv_d"/>
+                        <field name="str_motiv_e"/>
                     </group>
                 </group>
             </form>
