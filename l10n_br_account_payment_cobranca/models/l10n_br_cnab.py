@@ -318,14 +318,6 @@ class L10nBrHrCnab(models.Model):
 
         vals = {
             'account_bank_id': lote_bank_account_id.id,
-            # 'empresa_inscricao_numero':
-            #     str(header.empresa_inscricao_numero),
-            # 'empresa_inscricao_tipo':
-            #     TIPO_INSCRICAO_EMPRESA[header.empresa_inscricao_tipo],
-            # 'servico_operacao': TIPO_OPERACAO[header.servico_operacao],
-            # 'tipo_servico': TIPO_SERVICO[str(header.servico_servico)],
-            # 'mensagem': header.mensagem1,
-            # 'total_valores': float(trailer.somatoria_valores),
             'servico_operacao': header.literal_retorno,
             'tipo_servico': header.literal_servico,
             'qtd_registros': trailer.totais_quantidade_registros,
@@ -354,9 +346,6 @@ class L10nBrHrCnab(models.Model):
                 datetime.strptime(
                     str(evento.data_credito).zfill(6), STR_EVENTO_FORMAT)
                 if evento.data_credito else '',
-            # 'segmento': evento.servico_segmento,
-            # 'favorecido_nome': evento.nome_pagador,
-            # 'favorecido_conta_bancaria': lote_bank_account_id,
             'identificacao_titulo_empresa':
                 evento.identificacao_titulo_empresa,
             'invoice_id': bank_payment_line_id.
@@ -369,11 +358,6 @@ class L10nBrHrCnab(models.Model):
             'outros_creditos': float(evento.outros_creditos) / 100,
             'partner_id': bank_payment_line_id.partner_id.id,
             'seu_numero': evento.numero_documento,
-            # 'tipo_moeda': evento.credito_moeda_tipo,
-            # 'str_motiv_a':
-            #     CODIGO_OCORRENCIAS_CNAB200[evento.codigo_ocorrencia],
-            # 'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
-            # ocorrencias[0] else '',
             'str_motiv_a':
                 COD_REGISTROS_REJEITADOS_CNAB400.get(int(evento.erros[0:2]))
                 if evento.erros[0:2] else '',
@@ -431,36 +415,62 @@ class L10nBrHrCnab(models.Model):
                     move_line = pay_order_line_id.move_line_id
                     invoice = move_line.invoice_id
                     if bank_state == 'liquidada' and invoice.state == 'open':
-                        line_values.append(
-                            (0, 0,
-                             {
-                                'name': evento.nosso_numero,
-                                'nosso_numero': evento.nosso_numero,
-                                'numero_documento': evento.numero_documento,
-                                'identificacao_titulo_empresa':
-                                    evento.identificacao_titulo_empresa,
-                                'credit': float(evento.valor_principal),
-                                'account_id': invoice.account_id.id,
-                                'journal_id':
-                                    bank_payment_line_id.order_id.\
-                                    journal_id.id,
-                                'date_maturity':
-                                    datetime.strptime(
-                                        str(evento.vencimento).zfill(6),
-                                        STR_EVENTO_FORMAT)
-                                    if evento.vencimento else '',
-                                'date':
-                                    datetime.strptime(
-                                        str(evento.data_ocorrencia).zfill(6),
-                                        STR_EVENTO_FORMAT)
-                                    if evento.data_ocorrencia else '',
-                                'partner_id': bank_payment_line_id.\
-                                    partner_id.id
-                             }
-                             )
-                        )
+                        line_dict = {
+                            'name': evento.nosso_numero,
+                            'nosso_numero': evento.nosso_numero,
+                            'numero_documento': evento.numero_documento,
+                            'identificacao_titulo_empresa':
+                                evento.identificacao_titulo_empresa,
+                            'credit': float(evento.valor_principal) +
+                                      float(evento.tarifa_cobranca),
+                            'account_id': invoice.account_id.id,
+                            'journal_id':
+                                bank_payment_line_id.order_id.\
+                                journal_id.id,
+                            'date_maturity':
+                                datetime.strptime(
+                                    str(evento.vencimento).zfill(6),
+                                    STR_EVENTO_FORMAT)
+                                if evento.vencimento else '',
+                            'date':
+                                datetime.strptime(
+                                    str(evento.data_ocorrencia).zfill(6),
+                                    STR_EVENTO_FORMAT)
+                                if evento.data_ocorrencia else '',
+                            'partner_id': bank_payment_line_id.\
+                                partner_id.id
+                         }
+
+                        line_values.append((0, 0, line_dict))
                         amount += float(evento.valor_principal)
                         invoices.append(invoice)
+
+                        invoice_line_tax_id = \
+                            invoice.invoice_line_ids.filtered(
+                                lambda i: i.price_subtotal == float(
+                                    evento.tarifa_cobranca))
+                        if invoice_line_tax_id:
+                            # amount += float(evento.tarifa_cobranca)
+
+                            line_dict_tarifa = dict(line_dict)
+                            line_dict_tarifa.update({
+                                'name': str(evento.nosso_numero) + ' - Tarifa',
+                                'credit': 0,
+                                'debit': float(evento.tarifa_cobranca),
+                            })
+                            line_values.append((0, 0, line_dict_tarifa))
+
+                        # TODO: Juros / iof / Desconto / Abatimento /
+                        #  Outros Créditos
+                        # if evento.juros_mora_multa:
+                        #     amount += float(evento.juros_mora_multa)
+                        #     line_dict_multa = dict(line_dict)
+                        #     line_dict_multa.update({
+                        #         'name': str(evento.nosso_numero) + ' - Juros',
+                        #         'credit': float(evento.juros_mora_multa),
+                        #         'account_id': invoice.account_id.id,
+                        #     })
+                        #     line_values.append((0, 0, line_dict_multa))
 
                     if bank_state:
                         move_line.situacao_pagamento = bank_state
@@ -788,7 +798,8 @@ class L10nBrHrCnab(models.Model):
                     inv_move_lines = inv.move_line_receivable_id
                     pay_move_lines = move.line_ids.filtered(
                         lambda x: x.account_id == inv_move_lines.account_id and
-                        x.partner_id == inv_move_lines.partner_id
+                        x.partner_id == inv_move_lines.partner_id and
+                        x.name == inv_move_lines.transaction_ref
                     )
                     move_lines = pay_move_lines | inv_move_lines
                     move_lines.reconcile()
