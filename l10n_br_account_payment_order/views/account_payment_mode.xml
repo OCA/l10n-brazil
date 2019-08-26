@@ -9,7 +9,7 @@
         <field name="priority" eval="14"/>
         <field name="arch" type="xml">
             <xpath expr="//form/group[@name='note']" position="before">
-                <group string="Configurações Brasilerias" name='l10n-br-config' col="4">
+                <group string="Configurações Brasileiras" name='l10n-br-config' col="4">
                     <notebook colspan="4" name="l10n_br_account_payment_order">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
