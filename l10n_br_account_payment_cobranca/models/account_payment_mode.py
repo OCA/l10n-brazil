@@ -105,6 +105,16 @@ class PaymentMode(models.Model):
              u'O nosso número pode ser gerado pelo banco.',
         default=True
     )
+    default_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string=u'Conta Padrão',
+        help=u'Conta padrão para recebimentos'
+    )
+    default_tax_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string=u'Conta Padrão para Taxas Bancárias',
+        help=u'Conta padrão para recebimentos de Taxas Bancárias'
+    )
 
     @api.constrains('boleto_type', 'boleto_carteira',
                     'boleto_modalidade', 'boleto_convenio',

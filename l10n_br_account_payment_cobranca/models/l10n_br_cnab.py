@@ -423,7 +423,9 @@ class L10nBrHrCnab(models.Model):
                                 evento.identificacao_titulo_empresa,
                             'credit': float(evento.valor_principal) +
                                       float(evento.tarifa_cobranca),
-                            'account_id': invoice.account_id.id,
+                            'account_id': invoice.payment_mode_id.
+                                              default_account_id.id or
+                                          invoice.account_id.id,
                             'journal_id':
                                 bank_payment_line_id.order_id.\
                                 journal_id.id,
@@ -457,6 +459,9 @@ class L10nBrHrCnab(models.Model):
                                 'name': str(evento.nosso_numero) + ' - Tarifa',
                                 'credit': 0,
                                 'debit': float(evento.tarifa_cobranca),
+                                'account_id': invoice.payment_mode_id.
+                                                  default_tax_account_id.id or
+                                              invoice.account_id.id,
                             })
                             line_values.append((0, 0, line_dict_tarifa))
 
