@@ -18,6 +18,7 @@ _logger = logging.getLogger(__name__)
 STATE = [
     ('draft', 'Novo'),
     ('done', 'Processado'),
+    ('error', 'Erro no Processamento')
 ]
 
 TIPO_OPERACAO = {
@@ -272,6 +273,12 @@ class L10nBrHrCnab(models.Model):
     )
     data_arquivo = fields.Datetime(
         string="Data Criação no Banco",
+    )
+    sequencial_arquivo = fields.Char(
+        string="Sequencial do Arquivo",
+    )
+    motivo_erro = fields.Char(
+        string="Motivo do Erro",
     )
     lote_id = fields.One2many(
         string="Lotes",
@@ -693,6 +700,7 @@ class L10nBrHrCnab(models.Model):
     def reprocessar_arquivo_retorno(self):
         cnab_type, arquivo_parser = Cnab.detectar_retorno(self.arquivo_retorno)
         data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
+        self.sequencial_arquivo = str(arquivo_parser.header.sequencial_arquivo)
         self.data_arquivo = datetime.strptime(data_arquivo, "%d%m%y")
 
         self.bank_account_id = self._busca_conta(
@@ -735,7 +743,21 @@ class L10nBrHrCnab(models.Model):
         #         u"Este não é um arquivo de retorno!"
         #     )
         data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
+        self.sequencial_arquivo = str(arquivo_parser.header.sequencial_arquivo)
         self.data_arquivo = datetime.strptime(data_arquivo, "%d%m%y")
+
+        if self.search([
+            ('data_arquivo', '=', self.data_arquivo),
+            ('sequencial_arquivo', '=', self.sequencial_arquivo),
+            ('id', '!=', self.id)]):
+            self.state = 'error'
+            self.motivo_erro = u"O arquivo %s, de %s - sequencial %s, " \
+                               u"ja se encontra importado." % \
+                               (self.filename,
+                                datetime.strftime(fields.Datetime.from_string(
+                                    self.data_arquivo), "%d/%m/%Y"),
+                                self.sequencial_arquivo)
+            return
 
         self.bank_account_id = self._busca_conta(
             arquivo_parser.header.codigo_do_banco,
