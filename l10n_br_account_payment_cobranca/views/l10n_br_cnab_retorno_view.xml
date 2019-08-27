@@ -13,9 +13,11 @@
                 <field name="data"/>
                 <field name="arquivo_retorno"/>
                 <field name="data_arquivo"/>
+                <field name="sequencial_arquivo"/>
                 <field name="bank_account_id"/>
                 <field name="num_lotes"/>
                 <field name="num_eventos"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -173,13 +175,17 @@
                         <field name="arquivo_retorno" filename="filename" widget="binary" required="True"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="filename" invisible="1"/>
+                        <field name="motivo_erro"
+                               attrs="{'readonly': [('state', 'in', ('error'))]}" readonly="1"/>
                     </group>
 
                 </group>
                 <group attrs="{'invisible': [('state','!=', 'done')], 'readonly': [('state', '=', 'done')]}">
                     <group>
                         <field name="data_arquivo"
-                               attrs="{'readonly': [('state', '=', 'done')]}"/>
+                               attrs="{'readonly': [('state', 'in', ('done', 'error'))]}"/>
+                        <field name="sequencial_arquivo"
+                               attrs="{'readonly': [('state', 'in', ('done', 'error'))]}" readonly="1"/>
                         <field name="bank_account_id"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                     </group>
