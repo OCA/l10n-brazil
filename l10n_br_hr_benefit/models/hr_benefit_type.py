@@ -61,6 +61,9 @@ class HrBenefitType(models.Model):
         string='Anexo obrigatório',
         track_visibility='onchange'
     )
+    line_days_approval_limit = fields.Integer(
+        string='Limite de aprovação em dias'
+    )
     income_rule_id = fields.Many2one(
         comodel_name="hr.salary.rule",
         # required=True,
