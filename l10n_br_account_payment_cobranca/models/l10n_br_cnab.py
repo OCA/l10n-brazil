@@ -271,7 +271,7 @@ class L10nBrHrCnab(models.Model):
         required=True,
         default=datetime.now()
     )
-    data_arquivo = fields.Datetime(
+    data_arquivo = fields.Date(
         string="Data Criação no Banco",
     )
     sequencial_arquivo = fields.Char(
