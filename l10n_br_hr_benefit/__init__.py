@@ -5,9 +5,9 @@ from . import wizards
 
 
 # DONE: Criar campos para fluxos pré-aprovados:
-#   - Beneficio;
+#   - Benefício;
 #   - Prestação de contas;
-# DONE: Usabilidade, dominio dos campos Beneficios;
+# DONE: Usabilidade, dominio dos campos Benefícios;
 # Done: Display name
 # Done: Inativar o registro cado a data final seja atingida.
 
@@ -29,7 +29,7 @@ from . import wizards
 
 # TODO: Criar magic buttons no cadastro de beneficiários;
 # DONE: Criar permissões de segurança e regras de acesso;
-#   A criação de beneficios deve ser feita somente pelos grupos:
+#   A criação de Benefícios deve ser feita somente pelos grupos:
 #      oficial e gerente;
 
 # TODO: Pensar no tipo de pensão: Variável e fixo;
@@ -39,5 +39,5 @@ from . import wizards
 # DONE: Criar cron para gerar as competências automaticamente;
 # DOING: Integração com a folha de pagamento
 
-# TODO: Criar dados (data) relacionados aos beneficios
+# TODO: Criar dados (data) relacionados aos Benefícios
 # TODO: validar ir action mixins

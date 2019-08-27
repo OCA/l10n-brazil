@@ -30,7 +30,7 @@ class HrPayslip(models.Model):
                 applied_specific_rule, rule_ids, DIAS_A_MAIOR
         )
 
-        # Busca beneficios ativos do contrato
+        # Busca Benefícios ativos do contrato
 
         valid_benefit_ids = \
             self.contract_id.benefit_ids.filtered(

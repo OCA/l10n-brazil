@@ -155,7 +155,7 @@ class HrContractBenefitLine(models.Model):
 
     @api.model
     def map_valid_benefit_line_to_payslip(self, hr_payslip_id):
-        """ Dado um conjunto de beneficios apurados, mapeia quais deles podem
+        """ Dado um conjunto de Benefícios apurados, mapeia quais deles podem
          compor uma folha de pagamento.
 
         OBS: Não deve ser feita nenhuma validação neste método, apenas na

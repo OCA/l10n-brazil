@@ -90,7 +90,7 @@ class WizardHrContractBenefit(models.TransientModel):
 
         action = {
             'type': 'ir.actions.act_window',
-            'name': 'Beneficios Gerados',
+            'name': 'Benefícios Gerados',
             'res_model': 'hr.contract.benefit',
             'domain': [('id', '=', hr_contract_benefit.ids)],
             'view_mode': 'tree,form',
