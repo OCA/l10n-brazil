@@ -10,7 +10,6 @@ from openerp.exceptions import Warning
 
 
 class HrBenefitType(models.Model):
-
     _name = b'hr.benefit.type'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _description = 'Tipo de Benefício'
@@ -31,17 +30,18 @@ class HrBenefitType(models.Model):
         index=True,
         track_visibility='onchange'
     )
-    limit_days = fields.Integer(
-        string='Limite(dias)',
-        track_visibility='onchange'
-    )
     amount_max = fields.Float(
         string='Valor máximo',
         index=True,
         track_visibility='onchange'
     )
-    amount_fixed = fields.Float(
-        string='Valor fixo',
+    amount = fields.Float(
+        string='Valor',
+        index=True,
+        track_visibility='onchange'
+    )
+    percent = fields.Float(
+        string='(%) do valor',
         index=True,
         track_visibility='onchange'
     )
@@ -63,12 +63,12 @@ class HrBenefitType(models.Model):
     )
     income_rule_id = fields.Many2one(
         comodel_name="hr.salary.rule",
-        required=True,
+        # required=True,
         string=u"Provento / Benefício (+)",
     )
     deduction_rule_id = fields.Many2one(
         comodel_name="hr.salary.rule",
-        required=True,
+        # required=True,
         string=u"Dedução / Desconto (-)",
     )
     python_code = fields.Text(
@@ -89,6 +89,22 @@ class HrBenefitType(models.Model):
     )
     beneficiario_dependente = fields.Boolean(
         string='Dependente'
+    )
+    type_calc = fields.Selection(
+        selection=[
+            ('fixed', 'Valor Fixo'),
+            ('daily', 'Valor Diário'),
+            ('max', 'Limitado ao teto'),
+            ('percent', '% do valor gasto'),
+            ('percent_max', '% do valor gasto, limitado ao teto'),
+        ],
+        string='Tipo de calculo',
+        required=True,
+    )
+    min_worked_days = fields.Integer(
+        default=0,
+        string='Limite(dias)',
+        track_visibility='onchange'
     )
 
     @api.one

@@ -19,6 +19,53 @@ class HrContractBenefitLine(models.Model):
             return False
         return self.env.user.employee_ids[0].contract_id
 
+    @api.depends('benefit_type_id','amount_base')
+    def _compute_benefit(self):
+        for record in self:
+            amount_benefit = 0
+            if record.benefit_type_id:
+                if record.benefit_type_id.type_calc == 'fixed':
+                    amount_benefit = record.benefit_type_id.amount
+
+                elif record.benefit_type_id.type_calc == 'max':
+                    if record.benefit_type_id.amount_max > record.amount_base:
+                        amount_benefit = record.amount_base
+                    else:
+                        amount_benefit = \
+                            record.benefit_type_id.amount_max
+
+                elif record.benefit_type_id.type_calc == 'daily':
+                    # TODO: Buscar os dias trabalhados
+                    worked_days = 22
+
+                    if worked_days > record.benefit_type_id.min_worked_days:
+                        # Verificar se é o mês que foi admitido
+                        # Se for admitido e os dias trabalhados forem
+                        # menor que a referencia. Não pagar:
+                        amount_benefit = \
+                            record.benefit_type_id.amount * worked_days
+
+                elif record.benefit_type_id.type_calc == 'percent':
+                    amount_benefit = \
+                        record.amount_base * \
+                        record.benefit_type_id.percent / 100
+
+                elif record.benefit_type_id.type_calc == 'percent_max':
+                    # TODO: Verificar se o filho é menor que 6 meses
+                    #  Benefício mensal de reembolso de 50% do valor gasto,
+                    #  limitado ao teto, salvo exceções (idade até 6 meses).
+
+                    if record.benefit_type_id.amount_max > (
+                            record.amount_base *
+                            record.benefit_type_id.percent / 100):
+                        amount_benefit = (record.amount_base *
+                            record.benefit_type_id.percent / 100)
+                    else:
+                        amount_benefit = \
+                            record.benefit_type_id.amount_max
+
+            record.amount_benefit = amount_benefit
+
     state = fields.Selection(
         selection=[
             ('todo', 'Aguardando Comprovante'),
@@ -98,8 +145,9 @@ class HrContractBenefitLine(models.Model):
         string='Valor Apurado',
         index=True,
         track_visibility='onchange',
-        states={'todo': [('readonly', False)]},
+        # states={'todo': [('readonly', False)]},
         readonly=True,
+        compute='_compute_benefit',
     )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
