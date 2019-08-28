@@ -10,6 +10,7 @@ from openerp.exceptions import Warning
 
 BENEFIT_TYPE = {
     'va_vr': ['va', 'vr'],
+    'saude': ['Auxílio Saúde'],
 }
 
 
@@ -268,13 +269,28 @@ class HrContractBenefitLine(models.Model):
         self.ensure_one()
 
         if self._check_benefit_type('va_vr'):
-            self.deduction_amount = 0.01 * self.amount_benefit
-            self.deduction_percentual = 100
-            self.deduction_quantity = 1
+            self._generate_calculated_values_va_vr()
 
-            self.income_amount = self.amount_benefit
-            self.income_percentual = 100
-            self.income_quantity = 1
+        if self._check_benefit_type('saude'):
+            self._generate_calculated_values_saude()
+
+    def _generate_calculated_values_va_vr(self):
+        self.deduction_amount = 0.01 * self.amount_benefit
+        self.deduction_percentual = 100
+        self.deduction_quantity = 1
+
+        self.income_amount = self.amount_benefit
+        self.income_percentual = 100
+        self.income_quantity = 1
+
+    def _generate_calculated_values_saude(self):
+        self.deduction_amount = 499.34
+        self.deduction_percentual = 100
+        self.deduction_quantity = 1
+
+        self.income_amount = self.amount_benefit
+        self.income_percentual = 100
+        self.income_quantity = 1
 
     @api.multi
     def button_send_receipt(self):
