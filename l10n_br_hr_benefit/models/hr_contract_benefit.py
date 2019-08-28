@@ -330,16 +330,35 @@ class HrContractBenefit(models.Model):
                 )
         return super(HrContractBenefit, self).unlink()
 
-    @api.multi
-    def write(self, vals):
+    def _validate_benefit(self, vals):
+
+        benefit_type_id = self.env['hr.benefit.type'].browse(
+            vals.get('benefit_type_id')) or self.benefit_type_id
+
+        benefit_ids = self.search([
+            ('benefit_type_id.deduction_rule_id', '=',
+             benefit_type_id.deduction_rule_id.id),
+            ('benefit_type_id.income_rule_id', '=',
+             benefit_type_id.income_rule_id.id),
+            ('partner_id', '=', self.partner_id.id),
+        ]) - self
+
+        if benefit_ids:
+            raise ValidationError(
+                _('Este beneficiário já possui um benefício '
+                  'ativo para a rúbrica %s' % benefit_type_id.name)
+            )
+
         if self.env.user.has_group('base.group_hr_user') and \
                 vals.get('state') == 'waiting':
             vals.update({'state': 'validated'})
+
+    @api.multi
+    def write(self, vals):
+        self._validate_benefit(vals)
         return super(HrContractBenefit, self).write(vals)
 
     @api.model
     def create(self, vals):
-        if self.env.user.has_group('base.group_hr_user') and \
-                vals.get('state') == 'waiting':
-            vals.update({'state': 'validated'})
+        self._validate_benefit(vals)
         return super(HrContractBenefit, self).create(vals)
