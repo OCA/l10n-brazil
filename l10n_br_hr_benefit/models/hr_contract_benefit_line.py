@@ -284,10 +284,6 @@ class HrContractBenefitLine(models.Model):
         self.income_quantity = 1
 
     def _generate_calculated_values_saude(self):
-        self.deduction_amount = 499.34
-        self.deduction_percentual = 100
-        self.deduction_quantity = 1
-
         self.income_amount = self.amount_benefit
         self.income_percentual = 100
         self.income_quantity = 1
