@@ -8,6 +8,9 @@ from __future__ import (absolute_import, division,
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning
 
+from pybrasil.data import dias_uteis
+from pybrasil.data import ultimo_dia_mes
+
 BENEFIT_TYPE = {
     'va_vr': ['va', 'vr'],
     'saude': ['Auxílio Saúde'],
@@ -43,12 +46,23 @@ class HrContractBenefitLine(models.Model):
                     # TODO: Buscar os dias trabalhados
                     worked_days = 22
 
+                    partner_date_start = record.contract_id.date_start
+                    date_today = fields.Date.today()
+
+                    if partner_date_start[:7] == date_today[:7]:
+                        # TODO: Calcular quantos dias úteis restam no mês
+                        # len(dias_uteis(data_inicial=partner_date_start, data_final=ultimo_dia_mes))
+                        pass
+
                     if worked_days > record.benefit_type_id.min_worked_days:
                         # Verificar se é o mês que foi admitido
                         # Se for admitido e os dias trabalhados forem
                         # menor que a referencia. Não pagar:
                         amount_benefit = \
                             record.benefit_type_id.amount * worked_days
+                    else:
+                        # TODO: Implementar
+                        raise NotImplementedError
 
                 elif record.benefit_type_id.type_calc == 'percent':
                     amount_benefit = \
