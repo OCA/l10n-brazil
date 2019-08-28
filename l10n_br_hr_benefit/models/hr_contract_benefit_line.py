@@ -8,6 +8,10 @@ from __future__ import (absolute_import, division,
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning
 
+BENEFIT_TYPE = {
+    'va_vr': ['va', 'vr'],
+}
+
 
 class HrContractBenefitLine(models.Model):
     _name = b'hr.contract.benefit.line'
@@ -252,6 +256,26 @@ class HrContractBenefitLine(models.Model):
         self.income_rule_id = self.benefit_type_id.income_rule_id
         self.deduction_rule_id = self.benefit_type_id.deduction_rule_id
 
+        self._generate_calculated_values()
+
+    def _check_benefit_type(self, benefit_key):
+        return BENEFIT_TYPE.get(benefit_key) and \
+               any([benef.lower() in self.name.lower() for benef in
+                    BENEFIT_TYPE.get(benefit_key)])
+
+    @api.multi
+    def _generate_calculated_values(self):
+        self.ensure_one()
+
+        if self._check_benefit_type('va_vr'):
+            self.deduction_amount = 0.01 * self.amount_benefit
+            self.deduction_percentual = 100
+            self.deduction_quantity = 1
+
+            self.income_amount = self.amount_benefit
+            self.income_percentual = 100
+            self.income_quantity = 1
+
     @api.multi
     def button_send_receipt(self):
         for record in self:
@@ -267,11 +291,11 @@ class HrContractBenefitLine(models.Model):
                       'comprovante e preencher o '
                       'valor comprovado'))
 
+            record._get_rules()
             if not record.benefit_type_id.line_need_approval:
                 record.state = 'validated'
             else:
                 record.state = 'waiting'
-                record._get_rules()
 
     @api.multi
     def button_approve_receipt(self):
