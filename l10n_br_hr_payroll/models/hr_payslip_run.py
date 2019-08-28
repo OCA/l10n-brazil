@@ -7,6 +7,9 @@ from dateutil.relativedelta import relativedelta
 from pybrasil.data import ultimo_dia_mes
 from pybrasil.data import formata_data
 import logging
+from .profiling import (
+    profile
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -275,111 +278,115 @@ class HrPayslipRun(models.Model):
     @api.multi
     def gerar_holerites(self):
         for contrato in self.contract_id:
-            # Provisionamento de ferias
-            if self.tipo_de_folha == 'provisao_ferias':
-
-                # recuperar primeiro dia do mes
-                inicio_mes = str(self.ano).zfill(4) + '-' + \
-                              str(self.mes_do_ano).zfill(2) + '-01'
-
-                # se o contrato iniciou na metade do mes corrente
-                # ex.: provisionando mes marco e contrato iniciou 15/03
-                if contrato.date_start > inicio_mes:
-                    inicio_mes = contrato.date_start
-
-                data_inicio = fields.Date.to_string(ultimo_dia_mes(inicio_mes))
-
-                contrato.action_button_update_controle_ferias(
-                    data_referencia=data_inicio)
-
-                for periodo in contrato.vacation_control_ids:
-                    if periodo.saldo > 0 and not periodo.inicio_gozo:
-                        try:
-                            data_fim = fields.Date.from_string(inicio_mes) + \
-                                  relativedelta(days=periodo.saldo)
-                            payslip_obj = self.env['hr.payslip']
-
-                            periodo_aquisitivo_provisao = \
-                                str(int(periodo.saldo)) + \
-                                ' dias referente a ' + \
-                                formata_data(periodo.inicio_aquisitivo) + \
-                                ' - ' + \
-                                formata_data(periodo.fim_aquisitivo)
-
-                            payslip = payslip_obj.create({
-                                'contract_id': contrato.id,
-                                'periodo_aquisitivo': periodo.id,
-                                'mes_do_ano': self.mes_do_ano,
-                                'mes_do_ano2': self.mes_do_ano,
-                                'date_from': inicio_mes,
-                                'date_to': data_fim,
-                                'ano': self.ano,
-                                'employee_id': contrato.employee_id.id,
-                                'tipo_de_folha': self.tipo_de_folha,
-                                'payslip_run_id': self.id,
-                                'periodo_aquisitivo_provisao':
-                                    periodo_aquisitivo_provisao,
-                                'eh_mes_comercial': self.eh_mes_comercial,
-                            })
-                            # payslip._compute_set_dates()
-                            payslip.compute_sheet()
-                            self.env.cr.commit()
-                            _logger.info(u"Holerite " + contrato.name +
-                                         u" processado com sucesso!")
-                        except:
-                            _logger.warning(u"Holerite " + contrato.name +
-                                            u" falhou durante o cálculo!")
-                            payslip.unlink()
-                            continue
-                contrato.action_button_update_controle_ferias()
-                self.env.cr.commit()
-            else:
-                try:
-                    tipo_de_folha = self.tipo_de_folha
-                    if tipo_de_folha == 'adiantamento_13':
-                        tipo_de_folha = 'decimo_terceiro'
-                    payslip_obj = self.env['hr.payslip']
-
-                    mes_do_ano = self.mes_do_ano
-                    if mes_do_ano == 13:
-                        mes_do_ano = 12
-
-                    ultimo_dia_do_mes = str(
-                        self.env['resource.calendar'].get_ultimo_dia_mes(
-                            self.mes_do_ano, self.ano))
-
-                    primeiro_dia_do_mes = str(
-                        datetime.strptime(str(self.mes_do_ano) + '-' +
-                                          str(self.ano), '%m-%Y'))
-
-                    payslip = payslip_obj.create({
-                        'contract_id': contrato.id,
-                        'mes_do_ano': self.mes_do_ano,
-                        'mes_do_ano2': mes_do_ano,
-                        'ano': self.ano,
-                        'date_from': primeiro_dia_do_mes,
-                        'date_to': ultimo_dia_do_mes,
-                        'employee_id': contrato.employee_id.id,
-                        'tipo_de_folha': tipo_de_folha,
-                        'payslip_run_id': self.id,
-                        'eh_mes_comercial': self.eh_mes_comercial,
-                        'data_pagamento_competencia': self.data_de_pagamento
-                    })
-                    payslip._compute_set_dates()
-                    payslip._compute_set_employee_id()
-                    payslip.compute_sheet()
-                    _logger.info(
-                        u"Holerite " + contrato.display_name +
-                        u" processado com sucesso!")
-                    self.env.cr.commit()
-                except:
-                    _logger.warning(
-                        u"Holerite " + contrato.display_name +
-                        u" falhou durante o cálculo!")
-                    payslip.unlink()
-                    continue
+            self._gerar_holerite(contrato)
         self.verificar_holerites_gerados()
         self.busca_holerite_orfao()
+
+    @profile
+    def _gerar_holerite(self, contrato):
+        # Provisionamento de ferias
+        if self.tipo_de_folha == 'provisao_ferias':
+
+            # recuperar primeiro dia do mes
+            inicio_mes = str(self.ano).zfill(4) + '-' + \
+                         str(self.mes_do_ano).zfill(2) + '-01'
+
+            # se o contrato iniciou na metade do mes corrente
+            # ex.: provisionando mes marco e contrato iniciou 15/03
+            if contrato.date_start > inicio_mes:
+                inicio_mes = contrato.date_start
+
+            data_inicio = fields.Date.to_string(ultimo_dia_mes(inicio_mes))
+
+            contrato.action_button_update_controle_ferias(
+                data_referencia=data_inicio)
+
+            for periodo in contrato.vacation_control_ids:
+                if periodo.saldo > 0 and not periodo.inicio_gozo:
+                    try:
+                        data_fim = fields.Date.from_string(inicio_mes) + \
+                                   relativedelta(days=periodo.saldo)
+                        payslip_obj = self.env['hr.payslip']
+
+                        periodo_aquisitivo_provisao = \
+                            str(int(periodo.saldo)) + \
+                            ' dias referente a ' + \
+                            formata_data(periodo.inicio_aquisitivo) + \
+                            ' - ' + \
+                            formata_data(periodo.fim_aquisitivo)
+
+                        payslip = payslip_obj.create({
+                            'contract_id': contrato.id,
+                            'periodo_aquisitivo': periodo.id,
+                            'mes_do_ano': self.mes_do_ano,
+                            'mes_do_ano2': self.mes_do_ano,
+                            'date_from': inicio_mes,
+                            'date_to': data_fim,
+                            'ano': self.ano,
+                            'employee_id': contrato.employee_id.id,
+                            'tipo_de_folha': self.tipo_de_folha,
+                            'payslip_run_id': self.id,
+                            'periodo_aquisitivo_provisao':
+                                periodo_aquisitivo_provisao,
+                            'eh_mes_comercial': self.eh_mes_comercial,
+                        })
+                        # payslip._compute_set_dates()
+                        payslip.compute_sheet()
+                        self.env.cr.commit()
+                        _logger.info(u"Holerite " + contrato.name +
+                                     u" processado com sucesso!")
+                    except:
+                        _logger.warning(u"Holerite " + contrato.name +
+                                        u" falhou durante o cálculo!")
+                        payslip.unlink()
+                        return
+            contrato.action_button_update_controle_ferias()
+            self.env.cr.commit()
+        else:
+            try:
+                tipo_de_folha = self.tipo_de_folha
+                if tipo_de_folha == 'adiantamento_13':
+                    tipo_de_folha = 'decimo_terceiro'
+                payslip_obj = self.env['hr.payslip']
+
+                mes_do_ano = self.mes_do_ano
+                if mes_do_ano == 13:
+                    mes_do_ano = 12
+
+                ultimo_dia_do_mes = str(
+                    self.env['resource.calendar'].get_ultimo_dia_mes(
+                        self.mes_do_ano, self.ano))
+
+                primeiro_dia_do_mes = str(
+                    datetime.strptime(str(self.mes_do_ano) + '-' +
+                                      str(self.ano), '%m-%Y'))
+
+                payslip = payslip_obj.create({
+                    'contract_id': contrato.id,
+                    'mes_do_ano': self.mes_do_ano,
+                    'mes_do_ano2': mes_do_ano,
+                    'ano': self.ano,
+                    'date_from': primeiro_dia_do_mes,
+                    'date_to': ultimo_dia_do_mes,
+                    'employee_id': contrato.employee_id.id,
+                    'tipo_de_folha': tipo_de_folha,
+                    'payslip_run_id': self.id,
+                    'eh_mes_comercial': self.eh_mes_comercial,
+                    'data_pagamento_competencia': self.data_de_pagamento
+                })
+                payslip._compute_set_dates()
+                payslip._compute_set_employee_id()
+                payslip.compute_sheet()
+                _logger.info(
+                    u"Holerite " + contrato.display_name +
+                    u" processado com sucesso!")
+                self.env.cr.commit()
+            except:
+                _logger.warning(
+                    u"Holerite " + contrato.display_name +
+                    u" falhou durante o cálculo!")
+                payslip.unlink()
+                return
 
     @api.multi
     def busca_holerite_orfao(self):
