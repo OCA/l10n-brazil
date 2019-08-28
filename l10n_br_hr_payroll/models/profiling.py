@@ -38,11 +38,12 @@ def profile(fn):
 def log_prof_data():
     for fname, data in PROF_DATA.items():
         max_time = max(data[1])
+        total_time = sum(data[1])
         avg_time = sum(data[1]) / len(data[1])
         _logger.info(
-            "[TIME] %.3f \t [AVERAGE] %.3f \t "
+            "[TIME] %.3f \t [TOTAL] %3f \t [AVERAGE] %.3f \t "
             "[NUM OF CALLS] %d \t [METHOD] %s \t" % (
-                max_time, avg_time, data[0], fname
+                max_time, total_time, avg_time, data[0], fname
             )
         )
 
