@@ -27,7 +27,8 @@
                 <field name="exception"/>
                 <field name="tax_ipi_id"/>
                 <field name="tax_ii_id"/>
-                <field name="tax_uom_id"/>
+                <field name="uoe_id"/>
+                <field name="uot_id"/>
             </tree>
         </field>
     </record>
@@ -43,7 +44,8 @@
                 <field name="exception"/>
                 <field name="tax_ipi_id"/>
                 <field name="tax_ii_id"/>
-                <field name="tax_uom_id"/>
+                <field name="uoe_id"/>
+                <field name="uot_id"/>
                 <field name="product_tmpl_qty"/>
                 <templates>
                     <t t-name="kanban-box">
@@ -62,8 +64,9 @@
                                 </div>
                                 <div>
                                     <field  name="tax_ipi_id"/><span t-if="record.tax_ii_id.value"> - </span>
-                                    <field name="tax_ii_id"/><span t-if="record.tax_uom_id.value"> - </span>
-                                    <field name="tax_uom_id"/>
+                                    <field name="tax_ii_id"/><span t-if="record.uoe_id.value"> - </span>
+                                    <field name="uoe_id"/>
+                                    <field name="uot_id"/>
                                 </div>
                             </div>
                         </div>
@@ -92,12 +95,13 @@
                         </button>
                     </div>
                     <group>
-                        <field name="code"/>
-                        <field name="name"/>
-                        <field name="exception"/>
-                        <field name="tax_ipi_id"/>
-                        <field name="tax_ii_id"/>
-                        <field name="tax_uom_id"/>
+                        <field name="code" readonly="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="exception" readonly="1"/>
+                        <field name="tax_ipi_id" readonly="1"/>
+                        <field name="tax_ii_id" readonly="1"/>
+                        <field name="uoe_id" readonly="1"/>
+                        <field name="uot_id" readonly="1"/>
                     </group>
                     <notebook>
                         <page string="Related Produts" name="tax_product_tmpl">
@@ -105,6 +109,9 @@
                         </page>
                         <page string="Related CEST" name="cest">
                             <field name="cest_ids"/>
+                        </page>
+                        <page string="Custom PIS/COFINS" name="pis_cofins">
+                            <field name="piscofins_ids"/>
                         </page>
                         <page string="Estimate Taxes" name="tax_estimate">
                             <group>
@@ -115,7 +122,6 @@
                                     <field name="estimate_tax_imported"/>
                                 </group>
                             </group>
-                            <field name="tax_estimate_ids"/>
                         </page>
                     </notebook>
                 </sheet>
