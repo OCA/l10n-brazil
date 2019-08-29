@@ -6,8 +6,9 @@
         <field name="model">l10n_br_fiscal.cfop</field>
         <field name="arch" type="xml">
             <search string="CFOP">
-                <filter string="Input" name="type_input" domain="[('type', '=', 'input')]"/>
-                <filter string="Output" name="type_output" domain="[('type','=','output')]"/>
+                <filter string="Input" name="type_input" domain="[('type_in_out', '=', 'in')]"/>
+                <filter string="Output" name="type_output" domain="[('type_in_out','=','out')]"/>
+                <filter string="All" name="type_all" domain="[('type_in_out','=','all')]"/>
                 <separator/>
                 <field name="code"/>
                 <field name="name"/>
@@ -39,6 +40,7 @@
         <field name="model">l10n_br_fiscal.cfop</field>
         <field name="arch" type="xml">
             <form string="CFOP">
+                <field name="id" invisible="1"/>
                 <sheet>
                     <group>
                         <field name="code"/>
@@ -48,11 +50,37 @@
                         <field name="destination"/>
                         <field name="cfop_inverse_id"/>
                         <field name="cfop_return_id"/>
-                        <field name="type_move"/>
-                        <field name="stock_move"/>
-                        <field name="finance_move"/>
-                        <field name="account_move"/>
-                        <field name="assent_move"/>
+                    </group>
+                    <group>
+                        <group name="move_settings" string="Move Settings">
+                            <field name="type_move"/>
+                            <field name="stock_move"/>
+                            <field name="finance_move"/>
+                            <field name="account_move"/>
+                            <field name="assent_move"/>
+                        </group>
+                    </group>
+                    <group name="tax_settings" string="Taxes Settings">
+                        <field name="tax_definition_ids" nolabel="1" context="{'default_cfop_id': id}">
+                            <tree>
+                                <field name="tax_group_id"/>
+                                <field name="is_taxed"/>
+                            </tree>
+                            <form string="Tax Definition">
+                                <field name="cfop_id" invisible="1"/>
+                                <field name="tax_domain" invisible="1"/>
+                                <field name="type_in_out" invisible="1"/>
+                                <group>
+                                    <field name="tax_group_id"/>
+                                    <field name="is_taxed"/>
+                                    <field name="is_debit_credit" attrs="{'invisible': [('is_taxed', '=', False)]}"/>
+                                    <field name="tax_retention"/>
+                                    <field name="custom_tax"/>
+                                    <field name="tax_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
+                                    <field name="cst_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
+                                </group>
+                            </form>
+                        </field>
                     </group>
                 </sheet>
             </form>
