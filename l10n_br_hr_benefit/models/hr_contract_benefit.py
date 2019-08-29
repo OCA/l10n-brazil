@@ -276,28 +276,42 @@ class HrContractBenefit(models.Model):
 
         for contract_id, benefit_type_id in beneficios_agrupados:
 
-            benefit_line_id = self.env['hr.contract.benefit.line'].create({
+            vals = {
                 'benefit_type_id': benefit_type_id.id,
                 'contract_id': contract_id.id,
                 'period_id': period_id.id,
-                'beneficiary_ids': [(6, 0,
-                                     beneficios_agrupados[
-                                         (contract_id, benefit_type_id)
-                                     ].ids)],
                 # TODO: Talvez transformar em um metodo para valdiar as datas.
                 #   Ou tratar no SQL acima
-            })
+            }
+
+            benefit_line_model = self.env['hr.contract.benefit.line']
+
+            grouped_benefit_ids = beneficios_agrupados[(contract_id, benefit_type_id)]
+
+            if benefit_type_id.line_group_benefits:
+
+                vals.update({
+                    'beneficiary_ids': [(6, 0, grouped_benefit_ids.ids)],
+                })
+                result |= benefit_line_model.create(vals)
+            else:
+                for beneficio in grouped_benefit_ids:
+                    vals.update({
+                        'beneficiary_ids': [(6, 0, beneficio.ids)],
+                    })
+                    result |= benefit_line_model.create(vals)
 
             if not benefit_type_id.line_need_clearance:
                 try:
-                    benefit_line_id.amount_base = benefit_line_id.amount_benefit
-                    benefit_line_id.button_send_receipt()
+                    for benefit_line_id in result:
+                        benefit_line_id.amount_base = \
+                            benefit_line_id.amount_benefit
+                        benefit_line_id.button_send_receipt()
                 except Exception as e:
                     raise ValidationError(_(
                         "Verifique as configurações do benefit.type %s"
                         "\nErro: %s" % (benefit_type_id.name, str(e))
                     ))
-            result |= benefit_line_id
 
         return result
 

@@ -53,6 +53,7 @@
                                                attrs="{'readonly': ['|',
                                                ('line_need_approval', '=', True),
                                                ('line_need_approval_file', '=', True)]}"/>
+                                        <field name="line_group_benefits"/>
                                         <field name="line_days_approval_limit"/>
                                     </group>
                                 </group>
@@ -124,6 +125,7 @@
                     <field name="need_approval" string="Aprovação Prestação?"/>
                     <field name="need_approval_file" string="Necessita Anexo?"/>
                     <field name="line_need_clearance"/>
+                    <field name="line_group_benefits"/>
                 </tree>
             </field>
         </record>

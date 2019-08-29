@@ -114,6 +114,11 @@ class HrBenefitType(models.Model):
         default=True,
         track_visibility='onchange',
     )
+    line_group_benefits = fields.Boolean(
+        string='Agrupar prestação de contas?',
+        default=True,
+        track_visibility='onchange',
+    )
 
     @api.onchange('line_need_approval', 'line_need_approval_file')
     def _onchange_line_need_clearance(self):
