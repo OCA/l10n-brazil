@@ -273,9 +273,10 @@ class HrContractBenefit(models.Model):
         beneficios_agrupados = self._agrupar_beneficios()
 
         result = self.env['hr.contract.benefit.line']
+        benefit_line_model = self.env['hr.contract.benefit.line']
 
         for contract_id, benefit_type_id in beneficios_agrupados:
-
+            tmp_result = self.env['hr.contract.benefit.line']
             vals = {
                 'benefit_type_id': benefit_type_id.id,
                 'contract_id': contract_id.id,
@@ -284,8 +285,6 @@ class HrContractBenefit(models.Model):
                 #   Ou tratar no SQL acima
             }
 
-            benefit_line_model = self.env['hr.contract.benefit.line']
-
             grouped_benefit_ids = beneficios_agrupados[(contract_id, benefit_type_id)]
 
             if benefit_type_id.line_group_benefits:
@@ -293,17 +292,19 @@ class HrContractBenefit(models.Model):
                 vals.update({
                     'beneficiary_ids': [(6, 0, grouped_benefit_ids.ids)],
                 })
-                result |= benefit_line_model.create(vals)
+                tmp_result |= benefit_line_model.create(vals)
+                result |= tmp_result
             else:
                 for beneficio in grouped_benefit_ids:
                     vals.update({
                         'beneficiary_ids': [(6, 0, beneficio.ids)],
                     })
-                    result |= benefit_line_model.create(vals)
+                    tmp_result |= benefit_line_model.create(vals)
+                    result |= tmp_result
 
             if not benefit_type_id.line_need_clearance:
                 try:
-                    for benefit_line_id in result:
+                    for benefit_line_id in tmp_result:
                         benefit_line_id.amount_base = \
                             benefit_line_id.amount_benefit
                         benefit_line_id.button_send_receipt()
