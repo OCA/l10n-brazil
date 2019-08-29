@@ -11,17 +11,6 @@ class Cest(models.Model):
     _inherit = 'l10n_br_fiscal.data.abstract'
     _description = 'CEST'
 
-    code = fields.Char(
-        string='Code',
-        required=True)
-
-    code_unmasked = fields.Char(
-        string='Unmasked Code',
-        size=10,
-        compute='_compute_code_unmasked',
-        store=True,
-        index=True)
-
     name = fields.Text(
         string='Name',
         required=True,
