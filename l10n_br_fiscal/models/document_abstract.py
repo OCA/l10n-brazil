@@ -175,9 +175,10 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
-    @api.onchange('partner_cnpj_cpf', 'country_id')
+    """
+    @api.onchange('partner_cnpj_cpf', 'partner_country_id')
     def _onchange_partner_cnpj_cpf(self):
-        country = self.country_id.code or ''
+        country = self.partner_country_id.code or ''
         self.cnpj_cpf = fiscal.format_cpf_cnpj(self.cnpj_cpf,
                                                country,
                                                self.partner_id.is_company)
@@ -185,4 +186,5 @@ class DocumentAbstract(models.AbstractModel):
     @api.onchange('zip')
     def _onchange_zip(self):
         self.zip = misc.format_zipcode(self.zip,
-                                       self.country_id.code)
+                                       self.partner_cnpj_cpf.code)
+    """
