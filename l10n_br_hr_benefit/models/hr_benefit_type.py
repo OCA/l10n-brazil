@@ -109,6 +109,16 @@ class HrBenefitType(models.Model):
         string='Limite(dias)',
         track_visibility='onchange'
     )
+    line_need_clearance = fields.Boolean(
+        string='Necessita Apuração?',
+        default=True,
+        track_visibility='onchange',
+    )
+
+    @api.onchange('line_need_approval', 'line_need_approval_file')
+    def _onchange_line_need_clearance(self):
+        if self.line_need_approval or self.line_need_approval_file:
+            self.line_need_clearance = True
 
     @api.one
     @api.constrains("date_start", "date_stop", "name")

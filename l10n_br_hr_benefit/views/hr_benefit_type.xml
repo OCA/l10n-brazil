@@ -49,6 +49,10 @@
                                     <group string="Prestaçao de Contas">
                                         <field name="line_need_approval"/>
                                         <field name="line_need_approval_file"/>
+                                        <field name="line_need_clearance"
+                                               attrs="{'readonly': ['|',
+                                               ('line_need_approval', '=', True),
+                                               ('line_need_approval_file', '=', True)]}"/>
                                         <field name="line_days_approval_limit"/>
                                     </group>
                                 </group>

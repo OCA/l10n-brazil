@@ -275,7 +275,8 @@ class HrContractBenefit(models.Model):
         result = self.env['hr.contract.benefit.line']
 
         for contract_id, benefit_type_id in beneficios_agrupados:
-            result |= self.env['hr.contract.benefit.line'].create({
+
+            benefit_line_id = self.env['hr.contract.benefit.line'].create({
                 'benefit_type_id': benefit_type_id.id,
                 'contract_id': contract_id.id,
                 'period_id': period_id.id,
@@ -286,6 +287,17 @@ class HrContractBenefit(models.Model):
                 # TODO: Talvez transformar em um metodo para valdiar as datas.
                 #   Ou tratar no SQL acima
             })
+
+            if not benefit_type_id.line_need_clearance:
+                try:
+                    benefit_line_id.amount_base = benefit_line_id.amount_benefit
+                    benefit_line_id.button_send_receipt()
+                except Exception as e:
+                    raise ValidationError(_(
+                        "Verifique as configurações do benefit.type %s"
+                        "\nErro: %s" % (benefit_type_id.name, str(e))
+                    ))
+            result |= benefit_line_id
 
         return result
 
