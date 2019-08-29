@@ -1,5 +1,6 @@
 "id","name","tax_domain"
 "tax_group_icms","ICMS","icms"
+"tax_group_icmssn","ICMS - Simples Nacional","icmssn"
 "tax_group_icmsst","ICMS ST","icmsst"
 "tax_group_icmsdifal","ICMS Difal","icmsdifal"
 "tax_group_icmsfcp","ICMS FCP","icmsfcp"
