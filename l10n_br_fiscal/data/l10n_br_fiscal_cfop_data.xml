@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cfop_1101" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_5101"/>
+        <field name="cfop_return_id" ref="cfop_5201"/>
+    </record>
+
+    <record id="cfop_1102" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_5102"/>
+        <field name="cfop_return_id" ref="cfop_5202"/>
+    </record>
+
+    <record id="cfop_2101" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_6101"/>
+        <field name="cfop_return_id" ref="cfop_6201"/>
+    </record>
+
+    <record id="cfop_2102" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_6102"/>
+        <field name="cfop_return_id" ref="cfop_6202"/>
+    </record>
+
+    <record id="cfop_5101" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_1101"/>
+        <field name="cfop_return_id" ref="cfop_1202"/>
+    </record>
+
+    <record id="cfop_5102" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_1102"/>
+        <field name="cfop_return_id" ref="cfop_1202"/>
+    </record>
+
+    <record id="cfop_6101" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_2101"/>
+        <field name="cfop_return_id" ref="cfop_2202"/>
+    </record>
+
+    <record id="cfop_6102" model="l10n_br_fiscal.cfop">
+        <field name="cfop_inverse_id" ref="cfop_2102"/>
+        <field name="cfop_return_id" ref="cfop_2202"/>
+    </record>
+
+</odoo>
