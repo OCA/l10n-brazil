@@ -9,7 +9,7 @@
                 <field name="code"/>
                 <field name="name"/>
                 <group expand='0' string='Group By...'>
-                    <filter string='Type' name="type" domain="[]" context="{'group_by' : 'type'}"/>
+                    <filter string='Operation Type' name="operation_type" domain="[]" context="{'group_by' : 'operation_type'}"/>
                 </group>
             </search>
         </field>
@@ -22,6 +22,7 @@
             <tree string="Fiscal Operation">
                 <field name="code"/>
                 <field name="name"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -31,21 +32,36 @@
         <field name="model">l10n_br_fiscal.operation</field>
         <field name="arch" type="xml">
             <form string="Fiscal Operation">
+                <header>
+                    <button name="action_review" type="object" states="draft" string="Review" class="oe_highlight" groups="l10n_br_fiscal.group_manager"/>
+                    <button name="action_approve" type="object" states="review,expired" string="Approve" class="oe_highlight" groups="l10n_br_fiscal.group_manager"/>
+                    <button name="action_draft" type="object" states="review,approved" string="Reset To Draft" class="oe_highlight" groups="l10n_br_fiscal.group_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="code"/>
                         <field name="name"/>
-                        <field name="type"/>
-                        <field name="operation_line_ids">
-                            <tree>
-                                <field name="cfop_id"/>
-                                <field name="type"/>
-                            </tree>
-                        </field>
+                        <field name="operation_type"/>
                     </group>
+                    <notebook>
+                        <page string="Operation Line">
+                            <field name="line_ids" context="{'operation_type': operation_type, 'default_operation_id': id, 'form_view_ref': 'l10n_br_fiscal.operation_line_form'}">
+                                <tree>
+                                    <field name="cfop_id"/>
+                                    <field name="operation_type"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="comment_ids"/>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread"/>
                 </div>
             </form>
