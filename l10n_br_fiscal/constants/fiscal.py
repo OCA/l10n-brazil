@@ -1,13 +1,22 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+OPERATION_STATE = [
+    ('draft', 'Draft'),
+    ('review', 'Review'),
+    ('approved', 'Approved'),
+    ('expired', 'Expired')]
+
+
+OPERATION_STATE_DEFAULT = 'draft'
+
 
 COMMENT_TYPE = [
     ('fiscal', 'Fiscal'),
     ('commercial', 'Commercial')]
 
 
-DEFAULT_COMMENT_TYPE = 'commercial'
+COMMENT_TYPE_DEFAULT = 'commercial'
 
 
 PRODUCT_FISCAL_TYPE = (
@@ -28,11 +37,13 @@ PRODUCT_FISCAL_TYPE = (
 PRODUCT_FISCAL_TYPE_SERVICE = '09'
 
 NCM_FOR_SERVICE = '0000.00.00'
-NCM_FOR_SERVICE_REF = 'fiscal.ncm_00000000'
+NCM_FOR_SERVICE_REF = 'l10n_br_fiscal.ncm_00000000'
+
 
 TAX_DOMAIN = (
     ('ipi', 'IPI'),
     ('icms', 'ICMS - Próprio'),
+    ('icmssn', 'ICMS - Simples Nacional'),
     ('icmsfcp', 'ICMS FCP - Fundo de Combate a Pobreza'),
     ('icmsdifal', 'ICMS - Interstatual'),
     ('icmsst', 'ICMS - Subistituição Tributária'),
@@ -58,6 +69,34 @@ TAX_FRAMEWORK = (
 
 
 TAX_FRAMEWORK_DEFAULT = '3'
+
+
+PROFIT_CALCULATION = (
+    ('real', 'Real'),
+    ('presumed', 'Presumed'),
+    ('arbitrary', 'Arbitrary')
+)
+
+
+PROFIT_CALCULATION_PRESUMED = 'presumed'
+
+
+INDUSTRY_TYPE = (
+    ('00', '00 - Industrial - Transformação'),
+    ('01', '01 - Industrial - Beneficiamento'),
+    ('02', '02 - Industrial - Montagem'),
+    ('03', '03 - Industrial - Acondicionamento ou Reacondicionamento'),
+    ('04', '04 - Industrial - Renovação ou Recondicionamento'),
+    ('05', '05 - Equiparado a industrial - Por opção'),
+    ('06', '06 - Equiparado a industrial - Importação Direta'),
+    ('07', '07 - Equiparado a industrial - Por lei específica'),
+    ('08', '08 - Equiparado a industrial - Não enquadrado nos'
+     ' códigos 05, 06 ou 07'),
+    ('09', '09 - Outros')
+)
+
+
+INDUSTRY_TYPE_TRANSFORMATION = '00'
 
 
 CERTIFICATE_TYPE = (
@@ -90,6 +129,11 @@ FISCAL_IN_OUT_ALL = (
     ('out', 'Out'),
     ('all', 'All')
 )
+
+FISCAL_IN = 'in'
+
+
+FISCAL_OUT = 'out'
 
 
 FISCAL_IN_OUT_DEFAULT = 'in'
