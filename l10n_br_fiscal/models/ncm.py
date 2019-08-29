@@ -59,9 +59,13 @@ class Ncm(models.Model):
         string='Tax II',
         domain="[('tax_domain', '=', 'ii')]")
 
-    tax_uom_id = fields.Many2one(
+    uot_id = fields.Many2one(
         comodel_name='uom.uom',
-        string='Tax Unit')
+        string='Tax UoM')
+
+    uoe_id = fields.Many2one(
+        comodel_name='uom.uom',
+        string='Export UoM')
 
     tax_estimate_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.estimate',
