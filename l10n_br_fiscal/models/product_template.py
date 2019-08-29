@@ -23,9 +23,9 @@ class ProductTemplate(models.Model):
         selection=PRODUCT_FISCAL_TYPE,
         string='Fiscal Type')
 
-    origin = fields.Selection(
+    icms_origin = fields.Selection( # TODO - rename this field icms_origin
         selection=ICMS_ORIGIN,
-        string=u'Origem',
+        string='ICMS Origin',
         default='0')
 
     ncm_id = fields.Many2one(
@@ -58,6 +58,24 @@ class ProductTemplate(models.Model):
         index=True,
         string='CEST',
         domain="[('ncm_ids', '=', ncm_id)]")
+
+    uoe_id = fields.Many2one(
+        comodel_name='uom.uom',
+        related='ncm_id.uoe_id',
+        store=True,
+        string='Export UoM')
+
+    uoe_factor = fields.Float(
+        string='Export UoM Factor',
+        default=1.00)
+
+    uot_id = fields.Many2one(
+        comodel_name='uom.uom',
+        string='Tax UoM')
+
+    uot_factor = fields.Float(
+        string='Tax UoM Factor',
+        default=0.00)
 
     # TODO add percent of estimate taxes
 
