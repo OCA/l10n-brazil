@@ -25,7 +25,7 @@
                     <group>
                         <group>
                             <field name="fiscal_type" required="1"/>
-                            <field name="origin" attrs="{'required': [('fiscal_type', '!=', '09')], 'invisible': [('fiscal_type', '=', '09')]}"/>
+                            <field name="icms_origin" attrs="{'required': [('fiscal_type', '!=', '09')], 'invisible': [('fiscal_type', '=', '09')]}"/>
                             <field name="ncm_id" required="1"/>
                             <field name="service_type_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
                         </group>
@@ -33,6 +33,12 @@
                             <field name="fiscal_genre_id" required="1"/>
                             <field name="cest_id" attrs="{'invisible': [('fiscal_type', '=', '09')]}"/>
                             <field name="nbs_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
+                        </group>
+                        <group string="Tax UOM">
+                            <field name="uoe_id"/>
+                            <field name="uoe_factor" attrs="{'invisible': [('fiscal_type', '=', False)], 'required': [('uot_id', '!=', False)]}"/>
+                            <field name="uot_id"/>
+                            <field name="uot_factor" attrs="{'invisible': [('uot_id', '=', False)], 'required': [('uot_id', '!=', False)]}"/>
                         </group>
                     </group>
                 </page>
