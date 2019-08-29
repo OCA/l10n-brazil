@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
+from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import TAX_DOMAIN
 
@@ -25,12 +26,35 @@ class Tax(models.Model):
     percent_amount = fields.Float(
         string='Percent',
         default='0.00',
+        digits=dp.get_precision('Fiscal Tax Percent'),
         required=True)
 
     percent_reduction = fields.Float(
         string='Percent Reduction',
         default='0.00',
+        digits=dp.get_precision('Fiscal Tax Percent'),
         required=True)
+
+    percent_debit_credit = fields.Float(
+        string='Percent Debit/Credit',
+        default='0.00',
+        digits=dp.get_precision('Fiscal Tax Percent'),
+        required=True)
+
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        default=lambda self: self.env.ref('base.BRL'),
+        string='Currency')
+
+    value_amount = fields.Monetary(
+        string='Value',
+        default='0.00',
+        digits=dp.get_precision('Fiscal Tax Value'),
+        required=True)
+
+    uot_id = fields.Many2one(
+        comodel_name='uom.uom',
+        string='Tax UoM')
 
     tax_group_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.tax.group',
@@ -54,9 +78,10 @@ class Tax(models.Model):
         domain="[('cst_type', 'in', ('out', 'all')), "
                "('tax_domain', '=', tax_domain)]")
 
+    # ICMS Fields
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
-        string=u'Tipo Base ICMS',
+        string='ICMS Base Type',
         required=True,
         default=ICMS_BASE_TYPE_DEFAULT)
 
@@ -92,5 +117,5 @@ class Tax(models.Model):
         pass
 
     @api.multi
-    def compute_taxes(self):
+    def compute_taxes(self, company, partner, item):
         pass
