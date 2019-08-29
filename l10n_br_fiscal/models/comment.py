@@ -4,7 +4,7 @@
 from odoo import models, fields, api
 from odoo.osv import expression
 
-from ..constants.fiscal import COMMENT_TYPE, DEFAULT_COMMENT_TYPE
+from ..constants.fiscal import COMMENT_TYPE, COMMENT_TYPE_DEFAULT
 
 
 class Comment(models.Model):
@@ -28,7 +28,7 @@ class Comment(models.Model):
     comment_type = fields.Selection(
         selection=COMMENT_TYPE,
         string='Comment Type',
-        default=DEFAULT_COMMENT_TYPE,
+        default=COMMENT_TYPE_DEFAULT,
         required=True)
 
     object = fields.Selection(
