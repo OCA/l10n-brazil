@@ -1,4 +1,4 @@
-"id","code","exception","name","tax_ipi_id:id","tax_ii_id:id","tax_uom_id:id"
+"id","code","exception","name","tax_ipi_id:id","tax_ii_id:id","uoe_id:id"
 "ncm_00000000","0000.00.00",,"Sem NCM",,,
 "ncm_01012100","0101.21.00",,"Cavalos, asininos e muares, vivos. Cavalos: Reprodutores de raça pura","tax_ipi_nt","tax_ii_0","uom.product_uom_unit"
 "ncm_01012900","0101.29.00",,"Cavalos, asininos e muares, vivos. Cavalos: Outros","tax_ipi_nt","tax_ii_2","uom.product_uom_unit"
