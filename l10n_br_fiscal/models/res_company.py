@@ -4,7 +4,14 @@
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import TAX_FRAMEWORK, TAX_FRAMEWORK_DEFAULT
+from ..constants.fiscal import (
+    TAX_FRAMEWORK,
+    TAX_FRAMEWORK_DEFAULT,
+    PROFIT_CALCULATION,
+    PROFIT_CALCULATION_PRESUMED,
+    INDUSTRY_TYPE,
+    INDUSTRY_TYPE_TRANSFORMATION
+)
 
 
 class ResCompany(models.Model):
@@ -63,6 +70,21 @@ class ResCompany(models.Model):
         inverse='_inverse_tax_framework',
         string='Tax Framework')
 
+    profit_calculation = fields.Selection(
+        selection=PROFIT_CALCULATION,
+        default=PROFIT_CALCULATION_PRESUMED,
+        string='Profit Calculation')
+
+    is_industry = fields.Boolean(
+        string='Is Industry',
+        help = 'If your company is industry or ......',
+        default=False)
+
+    industry_type = fields.Selection(
+        selection=INDUSTRY_TYPE,
+        default=INDUSTRY_TYPE_TRANSFORMATION,
+        string='Industry Type')
+
     annual_revenue = fields.Monetary(
         string='Annual Revenue',
         currency_field='currency_id',
@@ -113,11 +135,149 @@ class ResCompany(models.Model):
         comodel_name='res.partner',
         string='Accountant')
 
+    piscofins_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.tax.pis.cofins',
+        string='PIS/COFINS',
+        domain="[('piscofins_type', '=', 'company')]")
+
+    ripi = fields.Boolean(
+        string='RIPI')
+
+    tax_ipi_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.tax',
+        string='Default IPI',
+        domain="[('tax_domain', '=', 'ipi')]")
+
+    tax_icms_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.tax',
+        string='Default ICMS',
+        domain="[('tax_domain', 'in', ('icms', 'icmssn'))]")
+
+    tax_issqn_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.tax',
+        string='Default ISSQN',
+        domain="[('tax_domain', '=', 'issqn')]")
+
+    tax_definition_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.tax.definition.company',
+        inverse_name='company_id',
+        string='Tax Definition')
+
+    def _del_tax_definition(self, tax_domain):
+        tax_def = self.tax_definition_ids.filtered(
+            lambda d: d.tax_group_id.tax_domain != tax_domain)
+        self.tax_definition_ids = tax_def
+
+    def _set_tax_definition(self, tax):
+        tax_def = self.tax_definition_ids.filtered(
+            lambda d: d.tax_group_id == tax.tax_group_id)
+
+        tax_def_values = {
+            'type_in_out': 'out',
+            'tax_group_id': tax.tax_group_id.id,
+            'is_taxed': True,
+            'is_debit_credit': True,
+            'custom_tax': True,
+            'tax_id': tax.id,
+            'cst_id': tax.cst_out_id.id,
+            'tax_retention': False}
+
+        if tax_def:
+            tax_def.update(tax_def_values)
+        else:
+            self.tax_definition_ids = [(0, None, tax_def_values)]
+
     @api.onchange('cnae_main_id')
     def _onchange_cnae_main_id(self):
-        simplified_tax = self.env['l10n_br_fiscal.simplified.tax'].search(
-            [('cnae_ids', '=', self.cnae_main_id.id)],
-            limit=1)
+        if self.cnae_main_id:
+            simplified_tax = self.env['l10n_br_fiscal.simplified.tax'].search(
+                [('cnae_ids', '=', self.cnae_main_id.id)],
+                limit=1)
 
-        if simplified_tax:
-            self.simplifed_tax_id = simplified_tax.id
+            if simplified_tax:
+                self.simplifed_tax_id = simplified_tax.id
+
+    @api.onchange('profit_calculation', 'tax_framework')
+    def _onchange_profit_calculation(self):
+
+        # Get all Simples Nacional default taxes
+        sn_piscofins_id = self.env.ref(
+            'l10n_br_fiscal.tax_pis_cofins_simples_nacional')
+
+        sn_tax_icms_id = self.env.ref(
+            'l10n_br_fiscal.tax_icms_sn_com_credito')
+
+        # If Tax Framework is Simples Nacional
+        if self.tax_framework in ('1', '2'):
+            # Set taxes
+            self.piscofins_id = sn_piscofins_id
+            self.tax_icms_id = sn_tax_icms_id
+
+        # If Tax Framework is Regine Normal
+        if self.tax_framework == '3':
+            pis_cofins_refs = {
+                'real': self.env.ref(
+                    'l10n_br_fiscal.tax_pis_cofins_nao_columativo'),
+                'presumed': self.env.ref(
+                    'l10n_br_fiscal.tax_pis_cofins_columativo'),
+                'arbitrary': self.env.ref(
+                    'l10n_br_fiscal.tax_pis_cofins_columativo')}
+
+            self.piscofins_id = pis_cofins_refs.get(self.profit_calculation)
+            self.tax_icms_id = False
+
+        self._onchange_cnae_main_id()
+        self._onchange_piscofins_id()
+        self._onchange_ripi()
+        self._onchange_tax_ipi_id()
+        self._onchange_tax_icms_id()
+        self._onchange_tax_issqn_id()
+
+    @api.onchange('is_industry')
+    def _onchange_is_industry(self):
+        if self.is_industry and self.tax_framework == '3':
+            self.ripi = True
+        else:
+            self.ripi = False
+
+    @api.onchange('ripi')
+    def _onchange_ripi(self):
+        if not self.ripi and self.tax_framework == '3':
+            self.tax_ipi_id = self.env.ref('l10n_br_fiscal.tax_ipi_nt')
+        elif self.tax_framework in ('1', '2'):
+            self.tax_ipi_id = self.env.ref(
+                'l10n_br_fiscal.tax_ipi_simples_nacional')
+            self.ripi = False
+        else:
+            self.tax_ipi_id = False
+
+    @api.onchange('piscofins_id')
+    def _onchange_piscofins_id(self):
+        if self.piscofins_id:
+            self._set_tax_definition(self.piscofins_id.tax_cofins_id)
+            self._set_tax_definition(self.piscofins_id.tax_pis_id)
+        else:
+            self._del_tax_definition('pis')
+            self._del_tax_definition('cofins')
+
+    @api.onchange('tax_ipi_id')
+    def _onchange_tax_ipi_id(self):
+        if self.tax_ipi_id:
+            self._set_tax_definition(self.tax_ipi_id)
+        else:
+            self._del_tax_definition('ipi')
+
+    @api.onchange('tax_icms_id')
+    def _onchange_tax_icms_id(self):
+        if self.tax_icms_id:
+            self._set_tax_definition(self.tax_icms_id)
+        else:
+            self._del_tax_definition('icms')
+            self._del_tax_definition('icmssn')
+
+    @api.onchange('tax_issqn_id')
+    def _onchange_tax_issqn_id(self):
+        if self.tax_issqn_id:
+            self._set_tax_definition(self.tax_issqn_id)
+        else:
+            self._del_tax_definition('issqn')
