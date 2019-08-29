@@ -119,7 +119,11 @@
                     <field name="date_stop"/>
                     <field name="amount_max"/>
                     <field name="amount"/>
-                    <field name="need_approval"/>
+                    <field name="need_approval" string="Aprovação Benefício?"/>
+                    <field name="need_approval_file" string="Necessita Anexo?"/>
+                    <field name="need_approval" string="Aprovação Prestação?"/>
+                    <field name="need_approval_file" string="Necessita Anexo?"/>
+                    <field name="line_need_clearance"/>
                 </tree>
             </field>
         </record>
