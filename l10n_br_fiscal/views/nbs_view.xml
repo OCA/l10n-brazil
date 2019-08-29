@@ -75,8 +75,8 @@
                         </button>
                     </div>
                     <group>
-                        <field name="code"/>
-                        <field name="name"/>
+                        <field name="code" readonly="1"/>
+                        <field name="name" readonly="1"/>
                     </group>
                     <notebook>
                         <page string="Related Produts" name="tax_product_tmpl">
