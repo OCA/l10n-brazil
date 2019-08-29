@@ -5,6 +5,7 @@ from odoo import models, fields
 
 from ..constants.fiscal import (
     FISCAL_IN_OUT,
+    FISCAL_OUT,
     CFOP_DESTINATION,
     CFOP_TYPE_MOVE,
     CFOP_TYPE_MOVE_DEFAULT)
@@ -27,7 +28,7 @@ class Cfop(models.Model):
         selection=FISCAL_IN_OUT,
         string='Type',
         required=True,
-        default='out')
+        default=FISCAL_OUT)
 
     destination = fields.Selection(
         selection=CFOP_DESTINATION,
@@ -70,6 +71,11 @@ class Cfop(models.Model):
         string='Type Move',
         required=True,
         default=CFOP_TYPE_MOVE_DEFAULT)
+
+    tax_definition_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.tax.definition.cfop',
+        inverse_name='cfop_id',
+        string='Tax Definition')
 
     _sql_constraints = [
         ('fiscal_cfop_code_uniq', 'unique (code)',
