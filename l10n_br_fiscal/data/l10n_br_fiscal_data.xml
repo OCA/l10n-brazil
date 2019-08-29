@@ -11,5 +11,9 @@
           <field name="digits">6</field>
     </record>
 
+    <record forcecreate="True" id="fiscal_tax_value" model="decimal.precision">
+          <field name="name">Fiscal Tax Value</field>
+          <field name="digits">4</field>
+    </record>
 
 </odoo>
