@@ -51,8 +51,10 @@ class HrContractBenefitLine(models.Model):
 
                     if partner_date_start[:7] == date_today[:7]:
                         # TODO: Calcular quantos dias úteis restam no mês
-                        # len(dias_uteis(data_inicial=partner_date_start, data_final=ultimo_dia_mes))
-                        pass
+                        worked_days = len(dias_uteis(
+                            data_inicial=partner_date_start,
+                            data_final=ultimo_dia_mes(partner_date_start))
+                        )
 
                     if worked_days > record.benefit_type_id.min_worked_days:
                         # Verificar se é o mês que foi admitido
