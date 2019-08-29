@@ -43,14 +43,12 @@ class HrContractBenefitLine(models.Model):
                             record.benefit_type_id.amount_max
 
                 elif record.benefit_type_id.type_calc == 'daily':
-                    # TODO: Buscar os dias trabalhados
                     worked_days = 22
 
                     partner_date_start = record.contract_id.date_start
                     date_today = fields.Date.today()
 
                     if partner_date_start[:7] == date_today[:7]:
-                        # TODO: Calcular quantos dias úteis restam no mês
                         worked_days = len(dias_uteis(
                             data_inicial=partner_date_start,
                             data_final=ultimo_dia_mes(partner_date_start))
@@ -72,9 +70,6 @@ class HrContractBenefitLine(models.Model):
                         record.benefit_type_id.percent / 100
 
                 elif record.benefit_type_id.type_calc == 'percent_max':
-                    # TODO: Verificar se o filho é menor que 6 meses
-                    #  Benefício mensal de reembolso de 50% do valor gasto,
-                    #  limitado ao teto, salvo exceções (idade até 6 meses).
 
                     if record.benefit_type_id.amount_max > (
                             record.amount_base *

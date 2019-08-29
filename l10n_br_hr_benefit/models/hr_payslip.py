@@ -47,8 +47,6 @@ class HrPayslip(models.Model):
                 ).map_valid_benefit_line_to_payslip(self.id)
 
             if valid_benefit_line_ids:
-                # TODO: Remover caso a folha seja cancelada ou
-                #  outro estágio pertinente.
                 valid_benefit_line_ids.write({'hr_payslip_id': self.id})
 
         #
