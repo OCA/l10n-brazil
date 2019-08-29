@@ -1,0 +1,133 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_crm
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-29 18:41+0000\n"
+"PO-Revision-Date: 2019-08-29 18:41+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_district
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_opportunities_form
+msgid "Bairro"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_opportunities_form
+msgid "CEP"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_cnpj
+msgid "CNPJ"
+msgstr ""
+
+#. module: l10n_br_crm
+#: code:addons/l10n_br_crm/models/crm_lead.py:42
+#, python-format
+msgid "CNPJ inválido!"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_cpf
+msgid "CPF"
+msgstr ""
+
+#. module: l10n_br_crm
+#: code:addons/l10n_br_crm/models/crm_lead.py:53
+#, python-format
+msgid "CPF inválido!"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_opportunities_form
+msgid "Cidade"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_opportunities_form
+msgid "Complemento"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_inscr_est
+msgid "Inscr. Estadual/RG"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_inscr_mun
+msgid "Inscr. Municipal"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model,name:l10n_br_crm.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_opportunities_form
+msgid "Logradouro"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_l10n_br_city_id
+msgid "Municipio"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_name_surname
+msgid "Nome e sobrenome"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead_name_surname
+msgid "Nome utilizado em documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_number
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_opportunities_form
+msgid "Número"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_leads_form
+#: model:ir.ui.view,arch_db:l10n_br_crm.l10n_br_crm_opportunities_form
+msgid "País"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_rg
+msgid "RG"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_legal_name
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead_suframa
+msgid "Suframa"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead_legal_name
+msgid "nome utilizado em documentos fiscais"
+msgstr ""
+

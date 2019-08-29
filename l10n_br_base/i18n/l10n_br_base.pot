@@ -1,0 +1,410 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-29 18:20+0000\n"
+"PO-Revision-Date: 2019-08-29 18:20+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_bra_number
+msgid "Agência"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_bank_form
+msgid "BIC/Swift Code"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_bra_bank_bic
+msgid "BIC/Swift Final Code."
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank_district
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_district
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_district
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_district
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_district
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Bairro"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_res_bank
+msgid "Bank"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank_code_bc
+msgid "Brazilian Bank Code"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_bank_code_bc
+msgid "Brazilian Bank Code ex.: 001 is the code of Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_zip
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "CEP"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+msgid "CNPJ"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "CNPJ/Id Estrangeiro"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "CPF"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Cidade"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_bc_code
+msgid "Codigo BC"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_ibge_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state_ibge_code
+msgid "Codigo IBGE"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_siscomex_code
+msgid "Codigo Siscomex"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Complemento"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.menu,name:l10n_br_base.menu_l10n_br_base_configuration
+msgid "Configuração"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:res.partner.title,name:l10n_br_base.res_partner_title_pvt_ltd
+#: model:res.partner.title,shortcut:l10n_br_base.res_partner_title_pvt_ltd
+msgid "Corp."
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_res_country
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_create_uid
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_create_date
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_ibge_code
+msgid "Código IBGE"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_acc_number_dig
+msgid "Digito Conta"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_bra_number_dig
+msgid "Dígito Agência"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_state_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_state_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank_state_id
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Estado"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_state_id
+msgid "Fed. State"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.menu,name:l10n_br_base.menu_l10n_br_base_fiscal
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Fiscal"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_inscr_est
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_inscr_est
+msgid "Inscr. Estadual/RG"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_inscr_mun
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+msgid "Inscr. Municipal"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city___last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_write_uid
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_write_date
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner_bank_bra_bank_bic
+msgid "Last part of BIC/Swift Code."
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.menu,name:l10n_br_base.menu_l10n_br_base
+msgid "Localização Brasil"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Logradouro"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_l10n_br_base_city
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank_l10n_br_city_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_l10n_br_city_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_l10n_br_city_id
+msgid "Municipio"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.actions.act_window,name:l10n_br_base.action_l10n_br_base_city_form
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_l10n_br_city_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_l10n_br_city_id
+msgid "Município"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_city_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_city_tree
+msgid "Municípios"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_general_configuration_cnpj
+msgid "Múltiplos IE's"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_city_name
+msgid "Nome"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Nome e Sobrenome"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner_legal_name
+#: model:ir.model.fields,help:l10n_br_base.field_res_users_legal_name
+msgid "Nome utilizado em documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank_number
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_number
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_number
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_number
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_number
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Número"
+msgstr ""
+
+#. module: l10n_br_base
+#: sql_constraint:other.inscricoes.estaduais:0
+msgid "O Parceiro já possui uma Inscrição Estadual para esse Estado!"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_other_inscr_est_lines
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_other_inscr_est_lines
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_other_inscr_est_lines
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Outras Inscrições Estaduais"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_other_inscricoes_estaduais_partner_id
+msgid "Partner id"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank_country_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_country_id
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_bank_form
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "País"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_general_configuration_cnpj
+msgid "Permite parceiros com CNPJ's iguais e IE's diferentes."
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_base_config_settings_allow_cnpj_multi_ie
+msgid "Permitir o cadastro de Customers com CNPJs iguais"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "RG"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_legal_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_legal_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_legal_name
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+#: model:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_form
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_street
+msgid "Street"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank_street2
+msgid "Street2"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company_suframa
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_suframa
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_suframa
+#: model:ir.ui.view,arch_db:l10n_br_base.view_company_form_inherited
+msgid "Suframa"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_union_entity_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users_union_entity_code
+msgid "Union entity code"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_base_config_settings
+msgid "base.config.settings"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_other_inscricoes_estaduais
+msgid "other.inscricoes.estaduais"
+msgstr ""
+
