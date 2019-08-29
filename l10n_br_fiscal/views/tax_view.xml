@@ -44,8 +44,8 @@
                         <field name="percent_reduction"/>
                         <field name="tax_group_id"/>
                         <field name="tax_domain"/>
-                        <field name="cst_in_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'ipi', 'pis', 'cofins'])]}"/>
-                        <field name="cst_out_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'ipi', 'pis', 'cofins'])]}"/>
+                        <field name="cst_in_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"/>
+                        <field name="cst_out_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"/>
                     </group>
                 </sheet>
             </form>
