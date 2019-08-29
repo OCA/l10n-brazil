@@ -7,6 +7,9 @@
     <field name="arch" type="xml">
       <form string="Fiscal Document Line">
         <field name="currency_id" invisible="1"/>
+        <field name="operation_type" invisible="1"/>
+        <field name="company_id" invisible="1"/>
+        <field name="partner_id" invisible="1"/>
         <group>
           <field name="product_id"/>
         </group>
@@ -26,11 +29,43 @@
           </group>
           <group name="operation" string="Operation">
             <field name="operation_id"/>
+            <field name="operation_line_id"/>
+            <field name="cfop_id"/>
           </group>
         </group>
         <group name="taxes" string="Taxes">
           <notebook>
             <page name="icms" string="ICMS">
+                <group>
+                    <field name="icms_tax_id"/>
+                    <field name="icms_cst_id"/>
+                </group>
+                <group>
+                    <group>
+                      <field name="icms_base"/>
+                      <field name="icms_percent"/>
+                    </group>
+                    <group>
+                      <field name="icms_reduction"/>
+                      <field name="icms_value"/>
+                    </group>
+                </group>
+            </page>
+            <page name="ipi" string="IPI">
+                <group>
+                    <field name="ipi_tax_id"/>
+                    <field name="ipi_cst_id" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                </group>
+                <group>
+                    <group>
+                      <field name="ipi_base" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                      <field name="ipi_percent" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                    </group>
+                    <group>
+                      <field name="ipi_reduction" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                      <field name="ipi_value" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                    </group>
+                </group>
             </page>
           </notebook>
         </group>
