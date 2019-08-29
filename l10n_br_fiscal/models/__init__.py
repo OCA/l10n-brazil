@@ -15,9 +15,15 @@ from . import cest
 from . import ncm_cest
 from . import tax_group
 from . import tax
+from . import tax_pis_cofins
+from . import tax_pis_cofins_base
+from . import tax_pis_cofins_credit
+from . import ncm_tax_pis_cofins
 from . import tax_ipi_guideline
 from . import tax_estimate
 from . import tax_definition_abstract
+from . import tax_definition_company
+from . import tax_definition_cfop
 from . import document_type
 from . import document_serie
 from . import product_genre
