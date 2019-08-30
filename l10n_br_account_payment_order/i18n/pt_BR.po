@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_account_banking_payment
+# 	* l10n_br_account_banking_payment
 #
 msgid ""
 msgstr ""
@@ -10,97 +10,144 @@ msgstr ""
 "PO-Revision-Date: 2017-11-22 14:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: l10n_br_account_banking_payment
-#: model:ir.model,name:l10n_br_account_banking_payment.model_res_bank
-msgid "Bank"
-msgstr "Banco"
-
-#. module: l10n_br_account_banking_payment
-#: model:ir.model,name:l10n_br_account_banking_payment.model_res_partner_bank
+#. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_res_partner_bank
 msgid "Bank Accounts"
 msgstr "Contas Bancárias"
 
-#. module: l10n_br_account_banking_payment
-#: field:account.move.line,date_scheduled:0
+#. module: l10n_br_account_payment_order
+#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_boleto
+msgid "Boleto Bancario"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.ui.view,arch_db:l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment
+msgid "Cobrança"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.ui.view,arch_db:l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment
+msgid "Configurações"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_date_scheduled
 msgid "Data Prevista"
 msgstr "Data Prevista"
 
-#. module: l10n_br_account_banking_payment
-#: field:payment.order.create,schedule_date:0
-msgid "Data Programada"
-msgstr "Data Programada"
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode_invoice_print
+msgid "Gerar relatorio na conclusão da fatura?"
+msgstr ""
 
-#. module: l10n_br_account_banking_payment
-#: code:addons/l10n_br_account_banking_payment/wizard/payment_order_create.py:108
-#, python-format
-msgid "Entry Lines"
-msgstr "Linhas de Entrada"
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode_instrucoes
+msgid "Instruções de cobrança"
+msgstr ""
 
-#. module: l10n_br_account_banking_payment
-#: code:addons/l10n_br_account_banking_payment/models/account_payment.py:33
-#, python-format
-msgid "Impossible confirm empty line!"
-msgstr "Impossível confirmar linha vazia!"
-
-#. module: l10n_br_account_banking_payment
-#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
-msgid "Journal Entry"
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_journal_entry_ref
+#, fuzzy
+#| msgid "Journal Entry"
+msgid "Journal Entry Ref"
 msgstr "Entrada do Diário"
 
-#. module: l10n_br_account_banking_payment
-#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
-#: model:ir.model,name:l10n_br_account_banking_payment.model_account_move_line
-msgid "Journal Items"
+#. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_account_move_line
+#, fuzzy
+#| msgid "Journal Items"
+msgid "Journal Item"
 msgstr "Itens do Diário"
 
-#. module: l10n_br_account_banking_payment
-#: field:payment.line,linha_digitavel:0
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line_linha_digitavel
 msgid "Linha Digitável"
 msgstr "Linha Digitável"
 
-#. module: l10n_br_account_banking_payment
-#: model:ir.model,name:l10n_br_account_banking_payment.model_payment_line
-msgid "Payment Line"
+#. module: l10n_br_account_payment_order
+#: code:addons/l10n_br_account_payment_order/models/res_partner_bank.py:19
+#, python-format
+msgid ""
+"O cógido da Agencia Bancaria do Santander deve ter no máximo quatro "
+"caracteres."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.ui.view,arch_db:l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment
+msgid "Pagamento"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_line
+#, fuzzy
+#| msgid "Payment Line"
+msgid "Payment Lines"
 msgstr "Linha de Pagamento"
 
-#. module: l10n_br_account_banking_payment
-#: model:ir.model,name:l10n_br_account_banking_payment.model_payment_order
-msgid "Payment Order"
-msgstr "Ordem de Pagamento"
-
-#. module: l10n_br_account_banking_payment
-#: code:addons/l10n_br_account_banking_payment/wizard/payment_order_create.py:157
-#, python-format
-msgid "Payment Orders"
+#. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_mode
+#, fuzzy
+#| msgid "Payment Orders"
+msgid "Payment Modes"
 msgstr "Ordens de Pagamentos"
 
-#. module: l10n_br_account_banking_payment
-#: field:payment.line,percent_interest:0
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line_percent_interest
 msgid "Percentual de Juros"
 msgstr "Percentual de Juros"
 
-#. module: l10n_br_account_banking_payment
-#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
-msgid "Total Credit"
-msgstr "Total de Crédito"
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode_internal_sequence_id
+msgid "Sequência"
+msgstr ""
 
-#. module: l10n_br_account_banking_payment
-#: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
-msgid "Total Debit"
-msgstr "Total de Débito"
+#. module: l10n_br_account_payment_order
+#: sql_constraint:account.payment.mode:0
+msgid "Sequência já usada! Crie uma sequência unica para cada modo"
+msgstr ""
 
-#. module: l10n_br_account_banking_payment
-#: field:payment.order.create,all_posted_moves:0
-msgid "Títulos em aberto"
-msgstr "Títulos em aberto"
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line_amount_interest
+msgid "Valor Juros"
+msgstr ""
 
-#. module: l10n_br_account_banking_payment
-#: view:payment.order.create:l10n_br_account_banking_payment.view_create_payment_order_lines
-msgid "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
-msgstr "{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}"
+#~ msgid "Bank"
+#~ msgstr "Banco"
 
+#~ msgid "Data Programada"
+#~ msgstr "Data Programada"
+
+#~ msgid "Entry Lines"
+#~ msgstr "Linhas de Entrada"
+
+#~ msgid "Impossible confirm empty line!"
+#~ msgstr "Impossível confirmar linha vazia!"
+
+#~ msgid "Payment Order"
+#~ msgstr "Ordem de Pagamento"
+
+#~ msgid "Total Credit"
+#~ msgstr "Total de Crédito"
+
+#~ msgid "Total Debit"
+#~ msgstr "Total de Débito"
+
+#~ msgid "Títulos em aberto"
+#~ msgstr "Títulos em aberto"
+
+#~ msgid ""
+#~ "{'display_credit': context.get('display_credit', False),'display_debit': "
+#~ "context.get('display_debit', False),'journal_type': 'sale', "
+#~ "'tree_view_ref' : 'account_banking_payment_export."
+#~ "payment_order_populate_view_move_line_tree'}"
+#~ msgstr ""
+#~ "{'display_credit': context.get('display_credit', False),'display_debit': "
+#~ "context.get('display_debit', False),'journal_type': 'sale', "
+#~ "'tree_view_ref' : 'account_banking_payment_export."
+#~ "payment_order_populate_view_move_line_tree'}"
