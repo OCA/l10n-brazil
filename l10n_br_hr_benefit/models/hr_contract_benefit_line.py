@@ -16,7 +16,7 @@ BENEFIT_TYPE = {
     'va_vr': ['va', 'vr'],
     'saude': ['Auxílio Saúde'],
     'cesta': ['Cesta Alimentação'],
-    'creche': ['Creche / Babá'],
+    'creche': ['Creche / Babá', 'creche', 'babá'],
 }
 
 
@@ -81,7 +81,7 @@ class HrContractBenefitLine(models.Model):
 
                 elif record.benefit_type_id.type_calc == 'percent_max':
 
-                    # # FIND DEPENDENT
+                    # FIND DEPENDENT
                     dependent_id = self.env['hr.employee.dependent']\
                         .search([('partner_id', '=', record.beneficiary_ids[:1]
                                   .partner_id.id)])
@@ -361,8 +361,15 @@ class HrContractBenefitLine(models.Model):
             .search([('partner_id', '=', self.beneficiary_ids[0]
                       .partner_id.id)])
 
+        if not dependent_id:
+            self.exception_message = 'Reijeitado pois o beneficiário não' \
+                                     ' está mais na idade aceita para ' \
+                                     'este benefício. O benefício foi ' \
+                                     'cancelado.'
+            self.state = 'exception'
+            self.beneficiary_ids[:1].button_cancel()
         # CHECK IF BENEFICIARY HAS BIRTHDATE SET
-        if dependent_id.dependent_dob:
+        elif dependent_id.dependent_dob:
             dob = datetime.strptime(
                 dependent_id.dependent_dob, '%Y-%m-%d')
             now = datetime.now()
@@ -385,6 +392,19 @@ class HrContractBenefitLine(models.Model):
                                          'cancelado.'
                 self.state = 'exception'
                 self.beneficiary_ids[:1].button_cancel()
+            else:
+                self.income_amount = self.amount_benefit
+                self.income_percentual = 100
+                self.income_quantity = 1
+        else:
+            self.exception_message = 'Reijeitado pois o beneficiário não' \
+                                     ' possui uma data de nascimento ' \
+                                     'cadastrada. O benefício foi ' \
+                                     'cancelado.'
+            self.state = 'exception'
+            self.beneficiary_ids[:1].button_cancel()
+
+
 
     @api.multi
     def button_send_receipt(self):
