@@ -91,6 +91,60 @@
         </field>
     </record>
 
+    # Tax PIS/COFINS
+    <record id="tax_pis_cofins_action" model="ir.actions.act_window">
+        <field name="name">PIS/COFINS</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.tax.pis.cofins</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="tax_pis_cofins_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Tax PIS/COFINS
+            </p><p>
+              A Tax is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
+    # Tax PIS/COFINS Base
+    <record id="tax_pis_cofins_base_action" model="ir.actions.act_window">
+        <field name="name">PIS COFINS Base</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.tax.pis.cofins.base</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="tax_pis_cofins_base_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Tax PIS/COFINS Base
+            </p><p>
+              A Tax is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
+    # Tax PIS/COFINS Credit
+    <record id="tax_pis_cofins_credit_action" model="ir.actions.act_window">
+        <field name="name">PIS COFINS Credit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.tax.pis.cofins.credit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="tax_pis_cofins_credit_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Tax PIS/COFINS Credit
+            </p><p>
+              A Tax is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
     # Tax IPI Guideline
     <record id="tax_ipi_guideline_action" model="ir.actions.act_window">
         <field name="name">Tax IPI Guideline</field>
