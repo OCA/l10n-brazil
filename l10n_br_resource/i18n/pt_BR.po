@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_resource
+# 	* l10n_br_resource
 #
 msgid ""
 msgstr ""
@@ -10,33 +10,41 @@ msgstr ""
 "PO-Revision-Date: 2017-01-11 20:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
 #. module: l10n_br_resource
-#: field:resource.calendar.leaves,abrangencia:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves_abrangencia
 msgid "Abrangencia"
 msgstr "Abrangencia"
 
 #. module: l10n_br_resource
-#: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
+#: model:ir.actions.act_window,name:l10n_br_resource.action_workalendar_holiday_import
+#, fuzzy
+#| msgid "Import Brazilian Holidays"
+msgid "Action Import Brazilian Holidays"
+msgstr "Importar feriados brasileiros"
+
+#. module: l10n_br_resource
+#: model:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: l10n_br_resource
-#: field:resource.calendar,child_ids:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_child_ids
 msgid "Child Calendar"
 msgstr "Calendário Filho"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,create_uid:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_create_uid
 msgid "Created by"
 msgstr "Criado por"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,create_date:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_create_date
 msgid "Created on"
 msgstr "Criado em"
 
@@ -51,24 +59,24 @@ msgid "Day(s)"
 msgstr "Dia(s)"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,display_name:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_display_name
 msgid "Display Name"
 msgstr "Nome"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,end_date:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_end_date
 msgid "End Date"
 msgstr "Data final"
 
 #. module: l10n_br_resource
-#: code:addons/l10n_br_resource/models/resource_calendar.py:67
+#: code:addons/l10n_br_resource/models/resource_calendar.py:58
 #, python-format
 msgid "Error! You cannot create recursive calendars."
 msgstr "Erro! Você não pode criar calendarios recursivos."
 
 #. module: l10n_br_resource
-#: field:resource.calendar,state_id:0
-#: field:resource.calendar.leaves,state_id:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves_state_id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_state_id
 msgid "Estado"
 msgstr "Estado"
 
@@ -88,49 +96,44 @@ msgid "Feriado bancário"
 msgstr "Feriado bancário"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,id:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_resource
-#: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
+#: model:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "Import"
 msgstr "Importar"
 
 #. module: l10n_br_resource
-#: model:ir.actions.act_window,name:l10n_br_resource.action_workalendar_holiday_import
-#: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
+#: model:ir.ui.menu,name:l10n_br_resource.sub_menu_impotigrt_holidays
+#: model:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "Import Brazilian Holidays"
 msgstr "Importar feriados brasileiros"
 
 #. module: l10n_br_resource
-#: model:ir.ui.menu,name:l10n_br_resource.sub_menu_impotigrt_holidays
-msgid "Import Holidays"
-msgstr "Importar feriados"
-
-#. module: l10n_br_resource
-#: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
+#: model:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "Import Public Holidays from"
 msgstr "Importar feriados nacionais a partir de"
 
 #. module: l10n_br_resource
-#: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
-#: field:wizard.workalendar.holiday.import,interval_number:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_interval_number
+#: model:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "Interval"
 msgstr "Período"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,__last_update:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import___last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,write_uid:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_write_uid
 msgid "Last Updated by"
 msgstr "Última atualização por"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,write_date:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_write_date
 msgid "Last Updated on"
 msgstr "Última atualização em"
 
@@ -150,8 +153,8 @@ msgid "Municipal"
 msgstr "Municipal"
 
 #. module: l10n_br_resource
-#: field:resource.calendar,l10n_br_city_id:0
-#: field:resource.calendar.leaves,l10n_br_city_id:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_l10n_br_city_id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves_l10n_br_city_id
 msgid "Municipio"
 msgstr "Municipio"
 
@@ -161,23 +164,23 @@ msgid "Nacional"
 msgstr "Nacional"
 
 #. module: l10n_br_resource
-#: field:resource.calendar,parent_id:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_parent_id
 msgid "Parent Calendar"
 msgstr "Calendário Pai"
 
 #. module: l10n_br_resource
-#: field:resource.calendar,parent_left:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_parent_left
 msgid "Parent left"
 msgstr "Parent left"
 
 #. module: l10n_br_resource
-#: field:resource.calendar,parent_right:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_parent_right
 msgid "Parent right"
 msgstr "Parent right"
 
 #. module: l10n_br_resource
-#: field:resource.calendar,country_id:0
-#: field:resource.calendar.leaves,country_id:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_country_id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves_country_id
 msgid "País"
 msgstr "País"
 
@@ -187,22 +190,17 @@ msgid "Resource Calendar"
 msgstr "Calendário de Recursos"
 
 #. module: l10n_br_resource
-#: model:ir.model,name:l10n_br_resource.model_resource_resource
-msgid "Resource Detail"
-msgstr "Detalhes do Recurso"
-
-#. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,start_date:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_start_date
 msgid "Start Date"
 msgstr "Data Inicial"
 
 #. module: l10n_br_resource
-#: field:resource.calendar.leaves,leave_type:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves_leave_type
 msgid "Tipo"
 msgstr "Tipo"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,interval_type:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_interval_type
 msgid "Type"
 msgstr "Tipo"
 
@@ -212,7 +210,7 @@ msgid "Week(s)"
 msgstr "Semana(s)"
 
 #. module: l10n_br_resource
-#: field:wizard.workalendar.holiday.import,calendar_id:0
+#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import_calendar_id
 msgid "Work Time"
 msgstr "Tempo de Trabalho"
 
@@ -222,11 +220,22 @@ msgid "Year(s)"
 msgstr "Ano(s)"
 
 #. module: l10n_br_resource
-#: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
+#: model:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "or"
 msgstr "ou"
 
 #. module: l10n_br_resource
-#: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
+#: model:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "until"
 msgstr "Até"
+
+#. module: l10n_br_resource
+#: model:ir.model,name:l10n_br_resource.model_wizard_workalendar_holiday_import
+msgid "wizard.workalendar.holiday.import"
+msgstr ""
+
+#~ msgid "Import Holidays"
+#~ msgstr "Importar feriados"
+
+#~ msgid "Resource Detail"
+#~ msgstr "Detalhes do Recurso"
