@@ -89,9 +89,16 @@ class AccountFiscalPositionRule(AccountFiscalPositionRuleAbstract,
             domain += special_domain
         else:
             domain += [('partner_special_fiscal_type_id', '=', False)]
+
+        if kwargs.get('fiscal_category_id'):
+            fiscal_category_id = kwargs.get('fiscal_category_id').id
+        else:
+            fiscal_category_id = False
+
         domain += [
             ('company_id', '=', company.id), use_domain,
             ('fiscal_type', '=', company.fiscal_type),
+            ('fiscal_category_id', '=', fiscal_category_id),
             '|', ('partner_fiscal_type_id', '=', partner_fiscal_type_id),
             ('partner_fiscal_type_id', '=', False),
             '|', ('from_country', '=', from_country),

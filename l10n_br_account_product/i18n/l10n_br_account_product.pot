@@ -1211,11 +1211,6 @@ msgid "Empresa"
 msgstr ""
 
 #. module: l10n_br_account_product
-#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_partner_shipping_id
-msgid "Endereço de Entrega"
-msgstr ""
-
-#. module: l10n_br_account_product
 #: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_tax_ipi_guideline_id
 #: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_template_tax_ipi_guideline_id
 #: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_tax_ipi_guideline_id
@@ -2793,11 +2788,6 @@ msgstr ""
 #. module: l10n_br_account_product
 #: selection:account.invoice.line,product_type:0
 msgid "Serviço"
-msgstr ""
-
-#. module: l10n_br_account_product
-#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_partner_shipping_id
-msgid "Shipping address for current sales order."
 msgstr ""
 
 #. module: l10n_br_account_product

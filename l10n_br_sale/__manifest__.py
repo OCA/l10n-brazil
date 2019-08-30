@@ -8,10 +8,10 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
+    'version': '10.0.1.0.0',
     'depends': [
-        'l10n_br_account',
         'account_fiscal_position_rule_sale',
+        'l10n_br_account',
     ],
     'data': [
         'data/l10n_br_sale_data.xml',
@@ -20,9 +20,13 @@
         'security/ir.model.access.csv',
         'security/l10n_br_sale_security.xml',
         'report/sale_report_view.xml',
+        'views/res_company_view.xml',
     ],
-    'test': [],
-    'demo': [],
-    'installable': False,
+    'demo': [
+        'demo/l10n_br_sale_demo.xml',
+    ],
+    'installable': True,
     'auto_install': True,
+    'development_status': 'Production/Stable',
+    'maintainers': ['renatonlima']
 }

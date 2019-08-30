@@ -1,0 +1,177 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_cnpj_cpf
+#: model:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line_fiscal_category_id
+msgid "Categoria Fiscal"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company_sale_fiscal_category_id
+msgid "Categoria Fiscal Padrão de Vendas"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_copy_note
+msgid "Copiar Observação no documentos fiscal"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_config_settings_copy_note
+msgid "Copiar Observações nos Documentos Fiscais"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_discount_rate
+msgid "Desconto"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_amount_discount
+msgid "Desconto (-)"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:res.groups,name:l10n_br_sale.group_total_discount
+msgid "Desconto no total"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:res.groups,name:l10n_br_sale.group_discount_per_value
+msgid "Desconto por valor"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report_fiscal_category_id
+msgid "Fiscal Category"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_view_order_product_search
+msgid "Fiscal Operation Category"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line_fiscal_position_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report_fiscal_position_id
+#: model:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_view_order_product_search
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:account.tax,description:l10n_br_sale.demo_sale_tax-out_ipi
+msgid "IPI "
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:account.tax,description:l10n_br_sale.demo_sale_tax-out_ipi2
+msgid "IPI 2%"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:account.tax,description:l10n_br_sale.demo_sale_tax-out_ipi5
+msgid "IPI 5%"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:account.tax,name:l10n_br_sale.demo_sale_tax-out_ipi
+msgid "IPI Saída - l10n_br_sale"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:account.tax,name:l10n_br_sale.demo_sale_tax-out_ipi2
+msgid "IPI Saída 2% - l10n_br_sale"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:account.tax,name:l10n_br_sale.demo_sale_tax-out_ipi5
+msgid "IPI Saída 5% - l10n_br_sale"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_ie
+msgid "Inscrição Estadual"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_legal_name
+msgid "Nome utilizado em documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_form
+msgid "Observação"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_legal_name
+#: model:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_sale_report
+msgid "Sales Orders Statistics"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_amount_discount
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_amount_gross
+msgid "The discount amount."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_amount_gross
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line_price_gross
+msgid "Vlr. Bruto"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line_discount_value
+msgid "Vlr. Desc. (-)"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_sale_config_settings
+msgid "sale.config.settings"
+msgstr ""
+

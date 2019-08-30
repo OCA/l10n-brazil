@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data noupdate="0">
+<odoo  noupdate="0">
+
     <record id="group_discount_per_value" model="res.groups">
         <field name="name">Desconto por valor</field>
         <field name="category_id" ref="base.module_category_hidden"/>
@@ -9,4 +9,5 @@
         <field name="name">Desconto no total</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
-</data></openerp>
+
+</odoo>
