@@ -19,6 +19,18 @@ class HrContractBenefit(models.Model):
             return False
         return self.env.user.employee_ids[0].contract_id
 
+    def action_view_benefit_lines(self, cr, uid, ids, context=None):
+        benefit = self.pool.get('hr.contract.benefit').browse(cr, uid, ids)
+        return {
+            'name': _('Prestação de contas'),
+            'view_type': 'tree,form',
+            'view_mode': 'tree,form',
+            'res_model': 'hr.contract.benefit.line',
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', benefit.line_ids.ids)]
+        }
+
     state = fields.Selection(
         selection=[
             ('draft', 'Rascunho'),
