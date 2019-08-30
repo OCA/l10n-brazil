@@ -6,15 +6,17 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
 from openerp import api, fields, models, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning, ValidationError
 
 from pybrasil.data import dias_uteis
 from pybrasil.data import ultimo_dia_mes
+from datetime import datetime, tzinfo, timedelta
 
 BENEFIT_TYPE = {
     'va_vr': ['va', 'vr'],
     'saude': ['Auxílio Saúde'],
     'cesta': ['Cesta Alimentação'],
+    'creche': ['Creche / Babá'],
 }
 
 
@@ -79,14 +81,49 @@ class HrContractBenefitLine(models.Model):
 
                 elif record.benefit_type_id.type_calc == 'percent_max':
 
-                    if record.benefit_type_id.amount_max > (
-                            record.amount_base *
-                            record.benefit_type_id.percent / 100):
-                        amount_benefit = (record.amount_base *
-                            record.benefit_type_id.percent / 100)
+                    # # FIND DEPENDENT
+                    dependent_id = self.env['hr.employee.dependent']\
+                        .search([('partner_id', '=', record.beneficiary_ids[:1]
+                                  .partner_id.id)])
+
+                    # CHECK IF BENEFICIARY HAS BIRTHDATE SET
+                    if not dependent_id.dependent_dob:
+                        record.amount_benefit = 0
+                        amount_benefit = 0
                     else:
-                        amount_benefit = \
-                            record.benefit_type_id.amount_max
+
+                        dob = datetime.strptime(
+                            dependent_id.dependent_dob, '%Y-%m-%d')
+                        now = datetime.now()
+                        years = now.year - dob.year
+                        months = now.month - dob.month
+                        if now.day < dob.day:
+                            months -= 1
+                        while months < 0:
+                            months += 12
+                            years -= 1
+                        age = '{}y{}mo'.format(years, months)
+
+                        dependent_age_in_months = months + 12 * years
+
+                        # CHECK IF BENEFICIARY IS YOUNGER THAN 6 MONTHS
+                        if dependent_age_in_months < 6:
+                          record.amount_benefit = record.amount_base
+                          amount_benefit = record.amount_base
+
+                        # CHECK IF BENEFICIARY IS OLDER THAN 71 MONTHS AND NOT INC_TRAB
+                        elif dependent_age_in_months > 71 and \
+                                not dependent_id.inc_trab:
+                            record.amount_benefit = 0
+                            amount_benefit = 0
+                        elif record.benefit_type_id.amount_max > (
+                                record.amount_base *
+                                record.benefit_type_id.percent / 100):
+                            amount_benefit = (record.amount_base *
+                                record.benefit_type_id.percent / 100)
+                        else:
+                            amount_benefit = \
+                                record.benefit_type_id.amount_max
 
             record.amount_benefit = amount_benefit
 
@@ -297,6 +334,9 @@ class HrContractBenefitLine(models.Model):
         elif self._check_benefit_type('cesta'):
             self._generate_calculated_values_cesta()
 
+        elif self._check_benefit_type('creche'):
+            self._generate_calculated_values_creche()
+
     def _generate_calculated_values_va_vr(self):
         self.deduction_amount = 0.01 * self.amount_benefit
         self.deduction_percentual = 100
@@ -316,6 +356,36 @@ class HrContractBenefitLine(models.Model):
         self.income_percentual = 100
         self.income_quantity = 1
 
+    def _generate_calculated_values_creche(self):
+        dependent_id = self.env['hr.employee.dependent'] \
+            .search([('partner_id', '=', self.beneficiary_ids[0]
+                      .partner_id.id)])
+
+        # CHECK IF BENEFICIARY HAS BIRTHDATE SET
+        if dependent_id.dependent_dob:
+            dob = datetime.strptime(
+                dependent_id.dependent_dob, '%Y-%m-%d')
+            now = datetime.now()
+            years = now.year - dob.year
+            months = now.month - dob.month
+            if now.day < dob.day:
+                months -= 1
+            while months < 0:
+                months += 12
+                years -= 1
+            age = '{}y{}mo'.format(years, months)
+
+            dependent_age_in_months = months + 12 * years
+
+            if dependent_age_in_months > 71 and \
+                 not dependent_id.inc_trab:
+                self.exception_message = 'Reijeitado pois o beneficiário não' \
+                                         ' está mais na idade aceita para ' \
+                                         'este benefício. O benefício foi ' \
+                                         'cancelado.'
+                self.state = 'exception'
+                self.beneficiary_ids[:1].button_cancel()
+
     @api.multi
     def button_send_receipt(self):
         for record in self:
@@ -333,10 +403,11 @@ class HrContractBenefitLine(models.Model):
                       'valor comprovado'))
 
             record._get_rules()
-            if not record.benefit_type_id.line_need_approval:
-                record.state = 'validated'
-            else:
-                record.state = 'waiting'
+            if record.state not in ['exception']:
+                if not record.benefit_type_id.line_need_approval:
+                    record.state = 'validated'
+                else:
+                    record.state = 'waiting'
 
     @api.multi
     def button_approve_receipt(self):
