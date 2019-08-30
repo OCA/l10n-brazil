@@ -27,16 +27,28 @@
                         <field name="state" widget="statusbar" nolabel="1" readonly="1" statusbar_visible="to approve,approved"/>
                     </header>
                 </sheet>
+                <field name="id" position="before">
+                    <div class="oe_right oe_button_box" name="buttons">
+                            <button class="oe_inline oe_stat_button"
+                                    type="object"
+                                    name="action_view_benefits"
+                                    icon="fa-book"
+                            >
+                                <field string="Benefícios" name="benefit_count" widget="statinfo"/>
+                            </button>
+                            <br/>
+                        </div>
+                </field>
 <!--                <xpath expr="//group" position="before">-->
 <!--                    <h1>-->
 <!--                        <field name="exception_message" readonly="1" />-->
 <!--                    </h1>-->
 <!--                </xpath>-->
-                <group name="alimony_dependent" position="before">
-                    <group name="group_beneficios" string="Benefícios">
-                        <field name="benefit_ids" widget="many2many_tags"/>
-                    </group>
-                </group>
+<!--                <group name="alimony_dependent" position="before">-->
+<!--                    <group name="group_beneficios" string="Benefícios">-->
+<!--                        <field name="benefit_ids" widget="many2many_tags"/>-->
+<!--                    </group>-->
+<!--                </group>-->
                 <sheet position="after">
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
