@@ -1,10 +1,19 @@
 # Copyright (C) 2012  Renato Lima (Akretion)                                  #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_base.tools import misc
+
+_logger = logging.getLogger(__name__)
+
+try:
+    import pycep_correios
+except ImportError:
+    _logger.warning("Library PyCEP-Correios not installed !")
 
 
 class L10nBrZip(models.Model):
@@ -13,9 +22,9 @@ class L10nBrZip(models.Model):
     """
     _name = 'l10n_br.zip'
     _description = 'CEP'
-    _rec_name = 'zip'
+    _rec_name = 'zip_code'
 
-    zip = fields.Char(
+    zip_code = fields.Char(
         string='CEP',
         size=8,
         required=True)
@@ -23,6 +32,10 @@ class L10nBrZip(models.Model):
     street_type = fields.Char(
         string='Street Type',
         size=26)
+
+    zip_complement = fields.Char(
+        string='Range',
+        size=200)
 
     street = fields.Char(
         string='Logradouro',
@@ -53,7 +66,7 @@ class L10nBrZip(models.Model):
         domain = []
         if zip_code:
             new_zip = misc.punctuation_rm(zip_code or '')
-            domain.append(('zip', '=', new_zip))
+            domain.append(('zip_code', '=', new_zip))
         else:
             if not state_id or not city_id or len(street or '') == 0:
                 raise UserError(
@@ -72,25 +85,69 @@ class L10nBrZip(models.Model):
 
         return domain
 
-    def set_result(self, zip_obj=None):
-        if zip_obj:
-            zip_code = zip_obj.zip
-            if len(zip_code) == 8:
-                zip_code = '%s-%s' % (zip_code[0:5], zip_code[5:8])
-            result = {
-                'country_id': zip_obj.country_id.id,
-                'state_id': zip_obj.state_id.id,
-                'city_id': zip_obj.city_id.id,
-                'city': zip_obj.city_id.name,
-                'district': zip_obj.district,
-                'street': ((zip_obj.street_type or '') +
-                           ' ' + (zip_obj.street or '')) if
-                zip_obj.street_type else (zip_obj.street or ''),
-                'zip': zip_code,
+    @api.multi
+    def _zip_update(self):
+        self.ensure_one()
+        cep_update_days = int(
+            self.env['ir.config_parameter'].sudo().get_param(
+                'l10n_br_zip.cep_update_days', default=365))
+        date_delta = fields.Datetime.today() - self.write_date
+        if date_delta.days >= cep_update_days:
+            cep_values = self._consultar_cep(self.zip_code)
+            if cep_values:
+                # Update zip object
+                self.write(cep_values)
+
+    @api.multi
+    def set_result(self):
+        self.ensure_one()
+        self._zip_update()
+        return {
+            'country_id': self.country_id.id,
+            'state_id': self.state_id.id,
+            'city_id': self.city_id.id,
+            'city': self.city_id.name,
+            'district': self.district,
+            'street': ((self.street_type or '') +
+                       ' ' + (self.street or '')) if
+            self.street_type else (self.street or ''),
+            'zip': misc.format_zipcode(
+                self.zip_code, self.country_id.code)}
+
+    def _consultar_cep(self, zip_code):
+        zip_str = misc.punctuation_rm(zip_code)
+        try:
+            cep = pycep_correios.consultar_cep(zip_str)
+        except Exception as e:
+            raise UserError(
+                _('Erro no PyCEP-Correios : ') + str(e))
+
+        values = {}
+        if cep:
+            # Search Brazil id
+            country = self.env['res.country'].search(
+                [('code', '=', 'BR')], limit=1)
+
+            # Search state with state_code and country id
+            state = self.env['res.country.state'].search([
+                ('code', '=', cep['uf']),
+                ('country_id', '=', country.id)], limit=1)
+
+            # search city with name and state
+            city = self.env['res.city'].search([
+                ('name', '=', cep['cidade']),
+                ('state_id.id', '=', state.id)], limit=1)
+
+            values = {
+                'zip_code': zip_str,
+                'street': cep['end'],
+                'zip_complement': cep['complemento2'],
+                'district': cep['bairro'],
+                'city_id': city.id or False,
+                'state_id': state.id or False,
+                'country_id': country.id or False,
             }
-        else:
-            result = {}
-        return result
+        return values
 
     @api.model
     def zip_search(self, obj):
@@ -107,58 +164,68 @@ class L10nBrZip(models.Model):
             raise UserError(
                 _('Erro a Carregar Atributo: ') + str(e))
 
-        zip_ids = self.search(domain)
+        zips = self.search(domain)
 
-        if len(zip_ids) == 1:
-            result = self.set_result(zip_ids[0])
-            obj.write(result)
+        # One ZIP was found
+        if len(zips) == 1:
+            obj.write(zips[0].set_result())
             return True
-        else:
-            if len(zip_ids) > 1:
-                obj_zip_result = self.env['l10n_br.zip.result']
-                zip_ids = obj_zip_result.map_to_zip_result(
-                    zip_ids, obj._name, obj.id)
 
-                return self.create_wizard(
-                    obj._name,
-                    obj.id,
-                    country_id=obj.country_id.id,
-                    state_id=obj.state_id.id,
-                    city_id=obj.city_id.id,
-                    district=obj.district,
-                    street=obj.street,
-                    zip_code=obj.zip,
-                    zip_ids=[zip.id for zip in zip_ids]
-                )
-            else:
-                raise UserError(_('Nenhum registro encontrado'))
+        # More than one ZIP was found
+        elif len(zips) > 1:
 
-    def create_wizard(self, object_name, address_id, country_id=False,
-                      state_id=False, city_id=False,
-                      district=False, street=False, zip_code=False,
-                      zip_ids=False):
+            return self.create_wizard(obj, zips)
+
+        # Address not found in local DB, search by PyCEP-Correios
+        elif not zips and obj.zip:
+
+            cep_values = self._consultar_cep(obj.zip)
+
+            if cep_values:
+                # Create zip object
+                zip = self.create(cep_values)
+                obj.write(zip.set_result())
+                return True
+
+    def create_wizard(self, obj, zips):
+
         context = dict(self.env.context)
         context.update({
-            'zip': zip_code,
-            'street': street,
-            'district': district,
-            'country_id': country_id,
-            'state_id': state_id,
-            'city_id': city_id,
-            'zip_ids': zip_ids,
-            'address_id': address_id,
-            'object_name': object_name})
+            'address_id': obj.id,
+            'object_name': obj._name,
+        })
 
-        result = {
+        wizard = self.env['l10n_br.zip.search'].create({
+            'zip': obj.zip,
+            'street': obj.street,
+            'district': obj.district,
+            'country_id': obj.country_id.id,
+            'state_id': obj.state_id.id,
+            'city_id': obj.city_id.id,
+            'zip_ids': [[6, 0, [zip.id for zip in zips]]],
+            'address_id': obj.id,
+            'object_name': obj._name
+        })
+
+        return {
             'name': 'Zip Search',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'l10n_br.zip.search',
             'view_id': False,
-            'context': context,
             'type': 'ir.actions.act_window',
             'target': 'new',
             'nodestroy': True,
+            'res_id': wizard.id,
+            'context': context,
         }
 
-        return result
+    @api.multi
+    def zip_select(self):
+        self.ensure_one()
+        address_id = self._context.get('address_id')
+        object_name = self._context.get('object_name')
+        if address_id and object_name:
+            obj = self.env[object_name].browse(address_id)
+            obj.write(self.set_result())
+        return True

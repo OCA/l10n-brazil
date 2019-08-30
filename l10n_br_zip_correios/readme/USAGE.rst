@@ -1,1 +1,0 @@
-Nos cadastros de parceiro, empresa e prospecto ao preencher o campo CEP pode ser pesquisado pressionando o botão do lado para pesquisar o CEP e autocompletar os dados de Logradouro, Bairro, Cidade e Estado com o resultado da pesquisa dos Correios.
