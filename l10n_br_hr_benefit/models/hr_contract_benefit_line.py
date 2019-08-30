@@ -100,6 +100,7 @@ class HrContractBenefitLine(models.Model):
     )
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
+        ondelete='restrict',
         required=True,
         readonly=True,
         string='Tipo Benefício',

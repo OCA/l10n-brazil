@@ -37,6 +37,7 @@ class HrContractBenefit(models.Model):
     )
     benefit_type_id = fields.Many2one(
         comodel_name='hr.benefit.type',
+        ondelete='restrict',
         string='Tipo Benefício',
         index=True,
         required=True,
@@ -77,6 +78,7 @@ class HrContractBenefit(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
+        ondelete='restrict',
         index=True,
         required=True,
         string='Beneficiário',
