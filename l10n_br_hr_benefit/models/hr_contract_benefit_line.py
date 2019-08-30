@@ -56,10 +56,14 @@ class HrContractBenefitLine(models.Model):
                     if partner_date_start[:7] == date_today[:7]:
                         daily_admission_type = benefit_type_id.\
                             daily_admission_type
+                        company_id = record.beneficiary_ids[:1].\
+                            partner_id.company_id
                         if daily_admission_type == 'partial':
                             worked_days = len(dias_uteis(
                                 data_inicial=partner_date_start,
-                                data_final=ultimo_dia_mes(partner_date_start))
+                                data_final=ultimo_dia_mes(partner_date_start),
+                                estado=company_id.state_id,
+                                municipio=company_id.l10n_br_city_id)
                             )
                         else:
                             available_days = \
