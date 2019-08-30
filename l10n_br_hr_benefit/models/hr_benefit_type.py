@@ -8,6 +8,13 @@ from __future__ import (absolute_import, division,
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning
 
+ADMISSION_SELECTION = [
+    ('full', 'Integral'),
+    ('partial', 'Parcial'),
+    ('rule15days', 'Regra dos 15 dias'),
+    ('rulexdays', 'Mínimo de dias trabalhados'),
+]
+
 
 class HrBenefitType(models.Model):
     _name = b'hr.benefit.type'
@@ -101,12 +108,12 @@ class HrBenefitType(models.Model):
             ('percent', '% do valor gasto'),
             ('percent_max', '% do valor gasto, limitado ao teto'),
         ],
-        string='Tipo de calculo',
+        string='Tipo de Cálculo',
         required=True,
     )
     min_worked_days = fields.Integer(
         default=0,
-        string='Limite(dias)',
+        string='Mín dias trabalhados',
         track_visibility='onchange'
     )
     line_need_clearance = fields.Boolean(
@@ -118,6 +125,11 @@ class HrBenefitType(models.Model):
         string='Agrupar prestação de contas?',
         default=True,
         track_visibility='onchange',
+    )
+    daily_admission_type = fields.Selection(
+        string='Benefício na Admissão',
+        selection=ADMISSION_SELECTION,
+        default='partial',
     )
 
     @api.onchange('line_need_approval', 'line_need_approval_file')

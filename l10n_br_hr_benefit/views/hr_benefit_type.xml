@@ -26,10 +26,12 @@
                             </group>
                             <group>
                                 <field name="type_calc"/>
+                                <field name="daily_admission_type" widget="radio"
+                                       attrs="{'invisible':[('type_calc', 'not in', ['daily'])], 'required':[('type_calc', 'not in', ['daily'])]}"/>
+                                <field name="min_worked_days" attrs="{'invisible':[('daily_admission_type', 'not in', ['rulexdays'])]}"/>
                                 <field name="percent" attrs="{'invisible':[('type_calc', 'not in', ['percent', 'percent_max'])]}"/>
                                 <field name="amount_max" attrs="{'invisible':[('type_calc', 'not in', ['max', 'percent_max'])]}"/>
                                 <field name="amount" attrs="{'invisible':[('type_calc', 'not in', ['fixed', 'daily'])]}" />
-                                <field name="min_worked_days"/>
                             </group>
                         </group>
                         <notebook>

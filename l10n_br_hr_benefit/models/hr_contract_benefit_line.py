@@ -14,6 +14,7 @@ from pybrasil.data import ultimo_dia_mes
 BENEFIT_TYPE = {
     'va_vr': ['va', 'vr'],
     'saude': ['Auxílio Saúde'],
+    'cesta': ['Cesta Alimentação'],
 }
 
 
@@ -49,20 +50,27 @@ class HrContractBenefitLine(models.Model):
                     date_today = fields.Date.today()
 
                     if partner_date_start[:7] == date_today[:7]:
-                        worked_days = len(dias_uteis(
-                            data_inicial=partner_date_start,
-                            data_final=ultimo_dia_mes(partner_date_start))
-                        )
+                        daily_admission_type = record.benefit_type_id.\
+                            daily_admission_type
+                        if daily_admission_type == 'partial':
+                            worked_days = len(dias_uteis(
+                                data_inicial=partner_date_start,
+                                data_final=ultimo_dia_mes(partner_date_start))
+                            )
+                        else:
+                            available_days = \
+                                (ultimo_dia_mes(partner_date_start) -
+                                 fields.Date.from_string(partner_date_start)).days
+                            if daily_admission_type == 'rule15days' and \
+                                    available_days < 15:
+                                worked_days = 0
+                            elif daily_admission_type == 'rulexdays' and \
+                                    available_days < record.\
+                                    benefit_type_id.min_worked_days:
+                                worked_days = 0
 
-                    if worked_days > record.benefit_type_id.min_worked_days:
-                        # Verificar se é o mês que foi admitido
-                        # Se for admitido e os dias trabalhados forem
-                        # menor que a referencia. Não pagar:
-                        amount_benefit = \
-                            record.benefit_type_id.amount * worked_days
-                    else:
-                        # TODO: Implementar
-                        raise NotImplementedError
+                    amount_benefit = \
+                        record.benefit_type_id.amount * worked_days
 
                 elif record.benefit_type_id.type_calc == 'percent':
                     amount_benefit = \
@@ -283,8 +291,11 @@ class HrContractBenefitLine(models.Model):
         if self._check_benefit_type('va_vr'):
             self._generate_calculated_values_va_vr()
 
-        if self._check_benefit_type('saude'):
+        elif self._check_benefit_type('saude'):
             self._generate_calculated_values_saude()
+
+        elif self._check_benefit_type('cesta'):
+            self._generate_calculated_values_cesta()
 
     def _generate_calculated_values_va_vr(self):
         self.deduction_amount = 0.01 * self.amount_benefit
@@ -300,6 +311,11 @@ class HrContractBenefitLine(models.Model):
         self.income_percentual = 100
         self.income_quantity = 1
 
+    def _generate_calculated_values_cesta(self):
+        self.income_amount = self.amount_benefit
+        self.income_percentual = 100
+        self.income_quantity = 1
+
     @api.multi
     def button_send_receipt(self):
         for record in self:
@@ -308,7 +324,8 @@ class HrContractBenefitLine(models.Model):
                 raise Warning(_("""\nPara enviar para aprovação é necessário
                  anexar o comprovante"""))
 
-            if not record.amount_base:
+            if record.benefit_type_id.line_need_clearance and \
+                    not record.amount_base:
                 raise Warning(
                     _('Para enviar para aprovação é '
                       'necessário anexar ao menos um '
