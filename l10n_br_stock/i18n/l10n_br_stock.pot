@@ -1,0 +1,77 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking_cnpj_cpf
+#: model:ir.ui.view,arch_db:l10n_br_stock.view_l10n_br_sale_stock_filter
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_stock
+#: selection:stock.incoterms,freight_responsibility:0
+msgid "Destinatário"
+msgstr ""
+
+#. module: l10n_br_stock
+#: selection:stock.incoterms,freight_responsibility:0
+msgid "Emitente"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_incoterms_freight_responsibility
+msgid "Frete por Conta"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model,name:l10n_br_stock.model_stock_incoterms
+msgid "Incoterms"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.ui.view,arch_db:l10n_br_stock.view_l10n_br_sale_stock_filter
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking_ie
+msgid "Inscrição Estadual"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,help:l10n_br_stock.field_stock_picking_legal_name
+msgid "Nome utilizado em documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking_legal_name
+#: model:ir.ui.view,arch_db:l10n_br_stock.view_l10n_br_sale_stock_filter
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_stock
+#: selection:stock.incoterms,freight_responsibility:0
+msgid "Sem Frete"
+msgstr ""
+
+#. module: l10n_br_stock
+#: selection:stock.incoterms,freight_responsibility:0
+msgid "Terceiros"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model,name:l10n_br_stock.model_stock_picking
+msgid "Transfer"
+msgstr ""
+

@@ -1,0 +1,1372 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_invoice_tree
+msgid "Abrir documento fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_fiscal_position_rule_template
+msgid "Account Fiscal Position Rule Template"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_wizard_account_fiscal_position_rule
+msgid "Account Fiscal Position Rule Wizard"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+msgid "Agrupar Por..."
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,state:0
+msgid "Aguardando Retorno"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line_amount_tax_discount
+msgid "Amount Tax discount"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:account.fiscal.position,state:0
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+#: selection:l10n_br_account.fiscal.category,state:0
+msgid "Aprovada"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+msgid "Aprovar"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_ecnpj_a1_file
+msgid "Arquivo e-CNPJ A1"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_active
+msgid "Ativo"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_cnae_form
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_cnae_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_cnae_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_cnae_tree
+msgid "CNAE"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_parent_id
+msgid "CNAE Pai"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_cnae_main_id
+msgid "CNAE Primário"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+msgid "CNAE Secundários"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_cnae_secondary_ids
+msgid "CNAE Segundários"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_child_ids
+msgid "CNAEs Filhos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_cnpj_cpf
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_filter
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_cnae
+msgid "Cadastro de CNAE"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_service_type
+msgid "Cadastro de Operações Fiscais de Serviço"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_fiscal_manager
+msgid "Cadastros"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.invoice.invalid.number,state:0
+msgid "Cancelado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_cancel_document_event_id
+#: selection:l10n_br_account.document_event,type:0
+msgid "Cancelamento"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_cce
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_cce
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_cce_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_cce_tree
+msgid "Carta de Correção"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_invoice_cce
+msgid "Carta de Correção no Sefaz"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_fiscal_position_asset_operation
+msgid "Caso seja marcada essa opção, será incluido o IPI na base de calculo do ICMS."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_template_fiscal_category_id
+msgid "Categoria"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_fiscal_category_form
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_fiscal_category
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line_fiscal_category_id
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_l10n_br_account_fiscal_category_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_view_account_invoice_report_search
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_tree
+msgid "Categoria Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_reverse_fiscal_category_id
+msgid "Categoria Fiscal Inversa"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_refund_fiscal_category_id
+msgid "Categoria Fiscal de Devolução"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_fiscal_category_destination_id
+msgid "Categoria de Destino"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_product_product_fiscal_category_default_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_product_template_fiscal_category_default_ids
+msgid "Categoria de Operação Fiscal Padrões"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_fiscal_category_source_id
+msgid "Categoria de Origem"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+msgid "Certificados"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_view_account_invoice_report_search
+msgid "Cidade"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_partner_id
+msgid "Cliente"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_code
+msgid "Codigo"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_search
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_template_search
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_template_search
+msgid "Company Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.invoice.invalid.number,state:0
+msgid "Concluído"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_account_config_settings_l10n_br_account
+msgid "Configuration"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_configuration
+msgid "Configuração"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_invoice_invalid_number_form
+msgid "Confirmar"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_fiscal_rule_parent_id
+msgid "Conjunto de Regras Fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Consulta Cadastro"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Consulta Destinadas"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Consulta NFE"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Consulta Recibo"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Consulta Situação"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_account_config_settings_l10n_br_account
+msgid "Contabilidade Brasil"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_inv_copy_note
+msgid "Copiar Observação na Nota Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_create_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_status
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_code
+msgid "Código"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "DPEC Consulta"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "DPEC Recepção"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+msgid "Dados Fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_write_date
+msgid "Data Alteração"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_create_date
+msgid "Data Criação"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_end_date
+msgid "Data Finalização"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_response
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_name
+msgid "Descrição"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.fiscal.category,journal_type:0
+msgid "Devolução de Entrada"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.fiscal.category,journal_type:0
+msgid "Devolução de Saída"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Distribuição DFe"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_property_journal
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+msgid "Diário Contábil"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_fiscal_category_property_journal
+msgid "Diário utilizado para esta categoria de operação fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_fiscal_document_code
+msgid "Document Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_document_serie_form
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_fiscal_document_id
+msgid "Documento"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_invoice_cancel
+msgid "Documento Eletrônico no Sefaz"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:222
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_fiscal_document_form
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_fiscal_document_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_fiscal_document_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_service_invoice_id
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_l10n_br_account_fiscal_document_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_document_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_document_tree
+#, python-format
+msgid "Documento Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_origin
+msgid "Documento de Origem"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_document_event_ids
+msgid "Documentos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_invoice_cancel
+msgid "Documentos Eletrônicos Cancelados"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_fiscal_document
+msgid "Documentos Fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Download"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_fiscal_document_electronic
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report_fiscal_document_electronic
+msgid "Electronic"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_electronic
+msgid "Eletrônico"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_company_id
+msgid "Empresa"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.fiscal.category,journal_type:0
+#: selection:l10n_br_account.fiscal.category,type:0
+msgid "Entrada"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,state:0
+msgid "Enviado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_file_sent
+msgid "Envio"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Envio Lote"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/sped/ibpt/deolhonoimposto.py:41
+#, python-format
+msgid "Error in the request: {0}"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report_state_id
+msgid "Estado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_to_state_id
+msgid "Estado Destino"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_service_type_structure
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_service_type_structure
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_service_type_structure
+msgid "Estrutura de Tipo de Serviço"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_cnae_structure
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_cnae_structure
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_cnae_structure
+msgid "Estrutura do CNAE"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_account_document_event_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_cancel_document_event_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_cce_document_event_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_invalid_number_document_event_ids
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_cce_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_invoice_cancel_form
+msgid "Eventos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_document_event
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_document_event
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_document_event_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_document_event_tree
+msgid "Eventos Eletronicos"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Exception"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_search
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_template_search
+msgid "Extended Filters..."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_position_rule_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_position_rule_template_form
+msgid "Faixa de Faturamento"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_fiscal_position_rule_revenue_end
+#: model:ir.model.fields,help:l10n_br_account.field_account_fiscal_position_rule_revenue_start
+#: model:ir.model.fields,help:l10n_br_account.field_account_fiscal_position_rule_template_revenue_end
+#: model:ir.model.fields,help:l10n_br_account.field_account_fiscal_position_rule_template_revenue_start
+msgid "Faixa inicial de faturamento bruto"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_invoice_id
+msgid "Fatura"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_annual_revenue
+msgid "Faturamento Anual"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_res_company_annual_revenue
+msgid "Faturamento Bruto dos últimos 12 meses"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_revenue_end
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_template_revenue_end
+msgid "Faturamento Final"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_revenue_start
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_template_revenue_start
+msgid "Faturamento Inicial"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+msgid "Faturamento dos ultimos 12 meses"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_journal_form
+msgid "Financeiro"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_configuration_fiscal
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_fiscal
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_position_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_product_template_form_view
+msgid "Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report_fiscal_category_id
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_search
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_template_search
+msgid "Fiscal Category"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_type
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_search
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_template_search
+msgid "Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report_revenue_expense
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_revenue_expense
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_journal_revenue_expense
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_view_account_invoice_report_search
+msgid "Gera Financeiro"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_search
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_template_search
+msgid "Group By..."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_tax_tax_group_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_tax_template_tax_group_id
+msgid "Grupo de Impostos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_config_settings_ipbt_token
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_ipbt_token
+msgid "IPBT Token"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_account_config_settings_l10n_br_account
+msgid "IPBT Token:"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_invoice_cce_sequencia
+msgid "Indica a sequência da carta de correcão"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_filter
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_ie
+msgid "Inscrição Estadual"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_invoice_invalid_number
+msgid "Inutilizar Faixa de Numeracao"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_invoice_invalid_number
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_invoice_invalid_number_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_invoice_invalid_number_tree
+msgid "Inutilizar Faixa de Numeração"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_invalid_number_document_event_id
+#: selection:l10n_br_account.document_event,type:0
+msgid "Inutilização"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_invoice_invalid_number
+msgid "Inutilização de Faixa de Numeração"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_br_account
+#: sql_constraint:account.invoice:0
+msgid "Invoice Number must be unique per Company!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_justificative
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_justificative
+msgid "Justificativa"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/l10n_br_account.py:300
+#: constraint:l10n_br_account.invoice.invalid.number:0
+#, python-format
+msgid "Justificativa deve ter tamanho minimo de 15 caracteres."
+msgstr ""
+
+#. module: l10n_br_account
+#: constraint:l10n_br_account.invoice.cancel:0
+msgid "Justificativa deve ter tamanho mínimo de 15 caracteres."
+msgstr ""
+
+#. module: l10n_br_account
+#: sql_constraint:l10n_br_account.fiscal.category:0
+msgid "Já existe uma categoria fiscal com esse código!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category___last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_document_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_write_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Manifestação"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/l10n_br_account_fiscal_partner_type.py:44
+#, python-format
+msgid "Mantenha apenas um tipo fiscal padrão para Pessoa Física ou para Pessoa Jurídica!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_message
+msgid "Mensagem"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_motivo
+msgid "Motivo"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report_l10n_br_city_id
+msgid "Municipio"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_l10n_br_account_invoice_cancel
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_invoice_cancel_form
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_invoice_cancel_tree
+msgid "NFs Canceladas"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_display_name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_fiscal_category_name
+msgid "Natureza da operação informada no XML"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cancel_display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_special_fiscal_type_name
+msgid "Nome"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_invoice_legal_name
+msgid "Nome utilizado em documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.cnae,internal_type:0
+#: selection:l10n_br_account.service.type,internal_type:0
+msgid "Normal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_position_form
+msgid "Notes"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report_number
+msgid "Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:account.fiscal.position,state:0
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+#: selection:l10n_br_account.fiscal.category,state:0
+msgid "Não Aprovada"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/l10n_br_account.py:326
+#: constraint:l10n_br_account.invoice.invalid.number:0
+#, python-format
+msgid "Não é permitido faixas sobrepostas!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_number_end
+msgid "Número Final"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_number_start
+msgid "Número Inicial"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_fiscal_comment
+msgid "Observação Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_note
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+msgid "Observações"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_asset_operation
+msgid "Operação de Aquisição de Ativo"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_product_template_form_view
+msgid "Operações Padrões"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+msgid "Pesquisar Categorias Fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_is_company
+msgid "Pessoa Jurídica?"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line_fiscal_position_id
+msgid "Posição Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_fiscal_position_ids
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+msgid "Posições Fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_product_category_product_tmpl_id
+#: selection:l10n_br_account.document.serie,fiscal_type:0
+#: selection:l10n_br_account.fiscal.category,fiscal_type:0
+#: selection:product.template,fiscal_type:0
+msgid "Produto"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_config_settings_ibpt_update_days
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_ibpt_update_days
+msgid "Quantidade de dias para Atualizar"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_account_config_settings_l10n_br_account
+msgid "Quantidade de dias para Atualizar:"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:account.fiscal.position,state:0
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+#: selection:l10n_br_account.document_event,state:0
+#: selection:l10n_br_account.fiscal.category,state:0
+#: selection:l10n_br_account.invoice.invalid.number,state:0
+msgid "Rascunho"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_legal_name
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_filter
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,state:0
+msgid "Recebido Retorno"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_move_line_receivable_id
+msgid "Receivables"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.document_event,type:0
+msgid "Recepção Evento"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_icms
+msgid "Recupera ICMS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_ipi
+msgid "Recupera IPI"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_fiscal_type_form
+msgid "Recupera Impostos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_account_document_event_origin
+msgid "Referência ao documento que gerou o evento."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_special_fiscal_type_form
+msgid "Regime Especial do Parceiro"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:account.fiscal.position.rule,fiscal_type:0
+#: selection:account.fiscal.position.rule.template,fiscal_type:0
+#: selection:res.company,fiscal_type:0
+msgid "Regime Normal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_template_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_fiscal_type
+msgid "Regime Tributário"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_partner_special_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_template_partner_special_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_partner_partner_special_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_users_partner_special_fiscal_type_id
+msgid "Regime especial"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_partner_special_fiscal_type_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_special_fiscal_type_tree
+msgid "Regime especial do Parceiro"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_partner_special_fiscal_type
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_l10n_br_account_partner_special_fiscal_type_form
+msgid "Regime especial do parceiro"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+msgid "Regine Normal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_search
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_sale_fiscal_position_rule_template_search
+msgid "Regra Pai"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+msgid "Reprovar"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_file_returned
+msgid "Retorno"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+msgid "Revisar"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:account.fiscal.position,state:0
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+#: selection:l10n_br_account.fiscal.category,state:0
+msgid "Revisão"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.fiscal.category,journal_type:0
+#: selection:l10n_br_account.fiscal.category,type:0
+msgid "Saída"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_ecnpj_a1_password
+msgid "Senha e-CNPJ A1"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_cce_sequencia
+msgid "Sequência"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_internal_sequence_id
+msgid "Sequência Interna"
+msgstr ""
+
+#. module: l10n_br_account
+#: sql_constraint:l10n_br_account.invoice.invalid.number:0
+msgid "Sequência existente!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_document_serie_form
+msgid "Serie de Documento Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_document_serie_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_document_serie_tree
+msgid "Serie de Documentos Fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_document_serie
+msgid "Serie de documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_type
+#: selection:product.template,fiscal_type:0
+msgid "Serviço"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:account.fiscal.position.rule,fiscal_type:0
+#: selection:account.fiscal.position.rule.template,fiscal_type:0
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+#: selection:res.company,fiscal_type:0
+msgid "Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:account.fiscal.position.rule,fiscal_type:0
+#: selection:account.fiscal.position.rule.template,fiscal_type:0
+#: selection:res.company,fiscal_type:0
+msgid "Simples Nacional – excesso de sublimite de receita bruta"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_state
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_event_state
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_state
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_state
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+msgid "Status"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_document_serie_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report_document_serie_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_invoice_invalid_number_document_serie_id
+msgid "Série"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company_document_serie_service_id
+msgid "Série Fiscais para Serviço"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_fiscal_position_tax
+msgid "Taxes Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_fiscal_position_tax_template
+msgid "Template Tax Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_tax_template
+msgid "Templates for Taxes"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_type
+msgid "Tipo"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_serie_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_product_product_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_product_template_fiscal_type
+msgid "Tipo Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_partner_fiscal_type_default
+msgid "Tipo Fiscal Padrão"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_partner_fiscal_type_form
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_l10n_br_account_partner_fiscal_type_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_fiscal_type_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_partner_fiscal_type_tree
+msgid "Tipo Fiscal de Parceiro"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_partner_fiscal_type
+msgid "Tipo Fiscal de Parceiros"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_partner_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_fiscal_position_rule_template_partner_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_partner_partner_fiscal_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_users_partner_fiscal_type_id
+msgid "Tipo Fiscal do Parceiro"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_internal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_internal_type
+msgid "Tipo Interno"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_fiscal_document
+msgid "Tipo de Documento Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.action_l10n_br_account_service_type_form
+#: model:ir.model.fields,field_description:l10n_br_account.field_product_product_service_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_product_template_service_type_id
+#: model:ir.ui.menu,name:l10n_br_account.menu_action_service_type_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_service_type_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_service_type_tree
+msgid "Tipo de Serviço"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_child_ids
+msgid "Tipo de Serviço Filhos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_service_type_parent_id
+msgid "Tipo de Serviço Pai"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_fiscal_category_journal_type
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_fiscal_category_search
+msgid "Tipo do Diário"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_view_account_invoice_report_search
+msgid "Tipo fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_view_account_invoice_report_search
+msgid "UF"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_invoice_form
+msgid "Vencimentos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_cnae_version
+msgid "Versão"
+msgstr ""
+
+#. module: l10n_br_account
+#: selection:l10n_br_account.cnae,internal_type:0
+#: selection:l10n_br_account.service.type,internal_type:0
+msgid "Visualização"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/l10n_br_account.py:348
+#, python-format
+msgid "Você não pode excluir uma sequência concluída."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_category_form
+msgid "Voltar para Rascunho"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_config_settings
+msgid "account.config.settings"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_fiscal_position_rule
+msgid "account.fiscal.position.rule"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_company_form
+msgid "e-CNPJ"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_position_rule_form
+#: model:ir.ui.view,arch_db:l10n_br_account.view_l10n_br_account_fiscal_position_rule_template_form
+msgid "l10n br"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_document_event
+msgid "l10n_br_account.document_event"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_product_category
+msgid "l10n_br_account.product.category"
+msgstr ""
+

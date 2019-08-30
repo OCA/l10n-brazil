@@ -1,0 +1,3467 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_account_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_fcp_percent
+msgid "% Fundo de Combate à Pobreza (FCP)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "0 - Nacional, exceto as indicadas nos códigos 3 a 5"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "01 - Dinheiro"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "02 - Cheque"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "03 - Cartão de Crédito"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "04 - Cartão de Débito"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "05 - Crédito Loja"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account.partner.fiscal.type,ind_ie_dest:0
+msgid "1 - Contribuinte do ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "1 - Estrangeira - Importação direta, exceto a indicada no código 6"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_import:0
+msgid "1 - Importação por conta própria"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "1 - Marítima"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_version:0
+#: selection:res.company,nfe_version:0
+msgid "1.10"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "10 - Entrada / Saída ficta"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "10 - Vale Alimentação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "11 - Vale Refeição"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "12 - Vale Presente"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "13 - Vale Combustível"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "14 - Duplicata Mercantil"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "15 - Boleto Bancário"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account.partner.fiscal.type,ind_ie_dest:0
+msgid "2 - Contribuinte Isento do ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "2 - Estrangeira - Adquirida no mercado interno, exceto a indicada no código 7"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "2 - Fluvial"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_import:0
+msgid "2 - Importação por conta e ordem"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_version:0
+#: selection:res.company,nfe_version:0
+msgid "2.00"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_import:0
+msgid "3 - Importação por encomenda"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "3 - Lacustre"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "3 - Nacional, mercadoria ou bem com Conteúdo de Importação superior a 40% (quarenta por cento)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_version:0
+#: selection:res.company,nfe_version:0
+msgid "3.10"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "4 - Aérea"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "4 - Nacional, cuja produção tenha sido feita em conformidade com os processos produtivos básicos de que tratam o Decreto-Lei nº 288/67 e as Leis nºs 8.248/91, 8.387/91, 10.176/01 e 11.484/07"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_version:0
+#: selection:res.company,nfe_version:0
+msgid "4.00"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "5 - Nacional, mercadoria ou bem com Conteúdo de Importação inferior ou igual a 40% (quarenta por cento)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "5 - Postal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "6 - Estrangeira - Importação direta, sem similar nacional, constante em lista de Resolução CAMEX"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "6 - Ferroviária"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "7 - Estrangeira - Adquirida no mercado interno, sem similar nacional, constante em lista de Resolução CAMEX"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "7 - Rodoviária"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "8 - Conduto / Rede Transmissão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position.tax,origin:0
+#: selection:account.fiscal.position.tax.template,origin:0
+#: selection:account.invoice.line,icms_origin:0
+#: selection:product.template,origin:0
+msgid "8 - Nacional, mercadoria ou bem com Conteúdo de Importação superior a 70%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.import.declaration,type_transportation:0
+msgid "9 - Meios Próprios"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account.partner.fiscal.type,ind_ie_dest:0
+msgid "9 - Não Contribuinte"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "90 - Sem pagamento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,type_nf_payment:0
+#: selection:account.payment.mode,type_nf_payment:0
+msgid "99 - Outros"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/account_invoice.py:667
+#, python-format
+msgid "A NF-e deve ser exportada antes de validada."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_name
+msgid "Adição"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_import_declaration_form
+msgid "Adições"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_search
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cst_search
+msgid "Agrupar Por..."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_purpose:0
+msgid "Ajuste"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_dest_percent
+msgid "Alíquota interestadual das UF envolvidas"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_origin_percent
+msgid "Alíquota interna da UF de destino"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_nfe_environment
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_nfe_environment
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_nfe_environment
+msgid "Ambiente"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_nfe_environment
+msgid "Ambiente Padrão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_file
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_file
+msgid "Arquivo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_nfe_a1_file
+msgid "Arquivo NFe A1"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_sign_xml
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_sign_xml
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_sign_xml
+msgid "Assinar XML"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_active
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_active
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_active
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_active
+msgid "Ativo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_cofins_base
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_base
+msgid "Base COFINS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_base_other
+msgid "Base COFINS Outras"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_st_base
+msgid "Base COFINS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_base
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_base
+msgid "Base ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_base_other
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_base_other
+msgid "Base ICMS Outras"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_st_base
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_st_base
+msgid "Base ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_st_base_other
+msgid "Base ICMS ST Outras"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ii_base
+msgid "Base II"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_ipi_base
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_base
+msgid "Base IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_ipi_base_other
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_base_other
+msgid "Base IPI Outras"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_issqn_base
+msgid "Base ISSQN"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_base
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_pis_base
+msgid "Base PIS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_base_other
+msgid "Base PIS Outras"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_st_base
+msgid "Base PIS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:675
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:684
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:693
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:702
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:710
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:718
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:727
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:800
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:809
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:818
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:827
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:836
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:844
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:869
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:878
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:887
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:895
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:903
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:911
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:919
+#: code:addons/l10n_br_account_product/sped/nfe/document.py:927
+#, python-format
+msgid "Biblioteca PySPED não instalada!"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_brand_of_packages
+msgid "Brand"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_cest_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_template_cest_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cest_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_cest_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_cest_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_product_cest_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_template_cest_id
+msgid "CEST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.l10n_br_account_product_cfop_action
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_cfop
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_template_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_cfop_ids
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_cfop_id
+#: model:ir.ui.menu,name:l10n_br_account_product.l10n_br_account_product_cfop_menu
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_search
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_tree
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_view_account_invoice_report_search
+msgid "CFOP"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_child_ids
+msgid "CFOP Filhos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_parent_id
+msgid "CFOP Pai"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_thirdparty_cnpj
+#: selection:l10n_br_account_product.document.related,cpfcnpj_type:0
+msgid "CNPJ"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_accountant_cnpj_cpf
+msgid "CNPJ/CPF Contador"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/l10n_br_account_product_document_related.py:86
+#, python-format
+msgid "CNPJ/CPF do documento relacionado é invalido!"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_cofins
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_template_form
+msgid "COFINS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_cofins3
+msgid "COFINS 3%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_manual
+msgid "COFINS Manual?"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_cofins
+msgid "COFINS Saida * "
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_cofins3
+msgid "COFINS Saida 3% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document.related,cpfcnpj_type:0
+msgid "CPF"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.l10n_br_account_product_cst_action
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_template_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_cst_id
+#: model:ir.ui.menu,name:l10n_br_account_product.l10n_br_account_product_cst_menu
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cst_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cst_search
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cst_tree
+msgid "CST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_cst_in_id
+msgid "CST Entrada"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_cst_id
+msgid "CST ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_cst_id
+msgid "CST IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_cst_id
+msgid "CST PIS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_cst_out_id
+msgid "CST Saída"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document.related,document_type:0
+msgid "CT-e"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_document_status_sefaz_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_export_invoice_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_account_product_costs_ratio_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Cancel Invoice"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_retCancNFe
+msgid "Cancelamento NFE"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_fiscal_category
+msgid "Categoria Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Categoria Fiscal de Produto Padrão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_in_invoice_fiscal_category_id
+msgid "Categoria Fiscal de Produto Padrão de Entrada"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_out_invoice_fiscal_category_id
+msgid "Categoria Fiscal de Produto Padrão de Saida"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/wizards/account_invoice_refund.py:38
+#: code:addons/l10n_br_account_product/wizards/account_invoice_refund.py:57
+#, python-format
+msgid "Categoria Fiscal: %s não possui uma catégoria de devolução!"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_key
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_key
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_key
+msgid "Chave"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_access_key
+msgid "Chave de Acesso"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_nfe_access_key
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_chNFe
+msgid "Chave de Acesso NFE"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_document_status_sefaz
+msgid "Check fiscal document key on sefaz"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_child_ids
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_child_ids
+msgid "Child Fiscal Classifications"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_fiscal_classification_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_fiscal_classification_id
+msgid "Classificação Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_export_invoice_form
+msgid "Click em exportar para iniciar a exportação..."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,help:l10n_br_account_product.l10n_br_account_product_nfe_action
+msgid "Click para criar uma nova Nota Fiscal Eletrônica."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_document_status_sefaz_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_export_invoice_form
+msgid "Close"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_cUF
+msgid "Codigo Estado"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_company_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_company_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_company_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_company_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_company_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_company_id
+msgid "Company id"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_purpose:0
+msgid "Complementar"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Configurações de Entrada"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Configurações de Saida"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_document_status_sefaz_form
+msgid "Consultar"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.menu,name:l10n_br_account_product.menu_l10n_br_account_product_document_status_sefaz
+msgid "Consultar Documento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.action_l10n_br_account_product_document_status_sefaz
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_document_status_sefaz_form
+msgid "Consultar chave de acesso"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_fiscal_classification_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_fiscal_classification_template_normal_form_view_form
+msgid "Consultar<br/>IBPT"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_ind_final
+msgid "Consumidor final"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_partner_fiscal_type_ind_ie_dest
+msgid "Contribuinte do ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Contábil"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_power
+msgid "Conversores de corrente contínua"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_product_fiscal_classification_inv_copy_note
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_product_fiscal_classification_template_inv_copy_note
+msgid "Copia a observação no documento fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_inv_copy_note
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_inv_copy_note
+msgid "Copiar Observação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/account_invoice.py:739
+#, python-format
+msgid "Criar uma nova série"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document.related,document_type:0
+msgid "Cupom Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Customer"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/account_invoice_line.py:534
+#, python-format
+msgid "Customer Order Line must be a number with up to six digits"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Custos Entrega"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_code
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_code
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_code
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_code
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_code
+msgid "Código"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_exporting_code
+msgid "Código do Exportador"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_manufacturer_code
+msgid "Código do Fabricante"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_partner_order
+msgid "Código do Pedido (xPed)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_code
+msgid "Código do Produto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_import_declaration_id
+msgid "DI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Dados Adicionais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_template_form
+msgid "Dados Fiscais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_template_form
+msgid "Dados Fiscais de Importação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_date
+msgid "Data"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Data Emissão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_date_end
+msgid "Data Final"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_date_start
+msgid "Data Inicial"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_create_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_create_date
+msgid "Data de Criação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_date_in_out
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Data de Entrada/Saida"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_date_release
+msgid "Data de Liberação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_date_registration
+msgid "Data de Registro"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_nfe_date
+msgid "Data do Status NFE"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_date_hour_invoice
+msgid "Data e hora de emissão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_pc
+msgid "De peso inferior a 3,5kg com teclado alfanumérico de no mínimo 70 teclas e com uma tela de área superior a 140cm2 e inferior a 560cm2"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_import_declaration_ids
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_import_declaration_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Declaração de Importação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_form
+msgid "Definition"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_company_product_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_company_product_tree
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_purchase_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_purchase_template_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_purchase_template_tree
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_sale_template_tree
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_sale_tree
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_state_product_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_state_product_tree
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_tax_definition_template_sale_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_taxdefinition_classification_sale_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_taxdefinition_purchase_tree
+msgid "Definição de Impostos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_date_hour_invoice
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_date_in_out
+msgid "Deixe em branco para usar a data atual"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_amount_discount
+msgid "Desconto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_description
+msgid "Descrição"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_name
+msgid "Descrição Enquadramento Legal do IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_form
+msgid "Descrição do CFOP"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_tax_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_template_tax_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_tax_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_tax_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_tax_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_tax_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_tax_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_tax_icms_relief_id
+msgid "Desoneração ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.action_l10n_br_account_product_icms_relief_form
+#: model:ir.ui.menu,name:l10n_br_account_product.menu_action_icms_relief_form
+msgid "Desoneração de ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ii_customhouse_charges
+msgid "Despesas Aduaneiras"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Detalhes do COFINS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Detalhes do COFINS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Detalhes do ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Detalhes do IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Detalhes do Imposto de Importação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Detalhes do PIS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Detalhes do PIS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_in_refund_fiscal_category_id
+msgid "Devolução Entrada"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_out_refund_fiscal_category_id
+msgid "Devolução Saida"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_purpose:0
+msgid "Devolução de Mercadoria"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_display_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_fiscal_document_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_document
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_document
+msgid "Documento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_invoice_related_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_product_invoice_id
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Documento Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Documento Fiscal para Produtos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Documentos Fiscais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Documentos Relacionados"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document_status_sefaz,state:0
+msgid "Done"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Draft Invoices"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Due Month"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,cofins_st_type:0
+#: selection:account.invoice.line,cofins_type:0
+#: selection:account.invoice.line,ipi_type:0
+#: selection:account.invoice.line,pis_st_type:0
+#: selection:account.invoice.line,pis_type:0
+msgid "Em Valor"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,issuer:0
+#: selection:account.invoice.report,issuer:0
+msgid "Emissão própria"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_issuer
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_issuer
+msgid "Emitente"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_company_id
+msgid "Empresa"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_partner_shipping_id
+msgid "Endereço de Entrega"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_tax_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_template_tax_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_tax_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_tax_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_tax_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_tax_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_tax_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_tax_ipi_guideline_id
+msgid "Enquadramento IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.action_l10n_br_account_product_ipi_guideline_form
+#: model:ir.ui.menu,name:l10n_br_account_product.menu_action_ipi_guideline
+msgid "Enquadramento Ipi"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_guideline_id
+msgid "Enquadramento Legal IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_search
+#: selection:l10n_br_account_product.cfop,type:0
+msgid "Entrada"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.nfe_export_invoice_result,status:0
+#: selection:l10n_br_account_product.nfe_export_result,status:0
+msgid "Erro"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document_status_sefaz,state:0
+msgid "Error"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/sped/nfe/validator/txt.py:281
+#, python-format
+msgid "Error ! Error Validating NFE:\n"
+" '%s'"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_kind_of_packages
+msgid "Espécie"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_state_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_state_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_thirdparty_state_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_state_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_state_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_state_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_state_id
+msgid "Estado"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_shipping_state_id
+msgid "Estado de Embarque"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.l10n_br_account_product_cfop_structure_action
+#: model:ir.ui.menu,name:l10n_br_account_product.l10n_br_account_product_cfop_structure_menu
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_structure
+msgid "Estrutura do CFOP"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_nfe_export_invoice
+msgid "Export eletronic invoice"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Exportada Receita"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_export_invoice_form
+msgid "Exportar"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.nfe_export_invoice
+msgid "Exportar NFe"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.action_l10n_br_account_product_nfe_export_invoice
+#: model:ir.actions.act_window,name:l10n_br_account_product.l10n_br_account_product_nfe_export_action
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_export_invoice_form
+msgid "Exportar Nota Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Exportar para Sefaz"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_nfe_export_date
+msgid "Exportação NFE"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.product.fiscal.classification,type:0
+#: selection:account.product.fiscal.classification.template,type:0
+msgid "Extensão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_fci
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_product_fci
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_template_fci
+msgid "FCI do Produto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_nfe_purpose
+msgid "Finalidade da Emissão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Financeiro"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_fiscal_classification_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_fiscal_classification_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_fiscal_classification_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_fiscal_classification_id
+msgid "Fiscal Classification"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_fiscal_classification_template_normal_form_view_tree
+msgid "Fiscal Classification Template"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_fiscal_document_related_ids
+msgid "Fiscal Document Related"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_fiscal_number
+msgid "Fiscal Number"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_origin
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_origin
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_origin
+msgid "Fonte"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_refund_force_fiscal_category_id
+msgid "Forçar Categoria Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_freight_tax_id
+msgid "Freight Sale Tax"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_freight_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_amount_freight_value
+msgid "Frete"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "General"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_cleats
+msgid "Grampos apresentados em barretas"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_weight
+msgid "Gross weight"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_cst_group
+msgid "Grupo CST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_tax_group_id
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cst_search
+msgid "Grupo de Impostos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document_status_sefaz,nfe_environment:0
+#: selection:l10n_br_account_product.nfe_export,nfe_environment:0
+#: selection:l10n_br_account_product.nfe_export_invoice,nfe_environment:0
+#: selection:res.company,nfe_environment:0
+msgid "Homologação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_template_form
+msgid "ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icms12
+msgid "ICMS 12%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_in_icms18
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icms18
+msgid "ICMS 18%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icms7
+msgid "ICMS 7%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_in_icms18
+msgid "ICMS Entrada 18% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_in_icms_subist
+msgid "ICMS Entrada Subist *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icmsfcp2
+msgid "ICMS FCP 2%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icmsfcp2
+msgid "ICMS FCP Saida 2% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icmsinter_18
+msgid "ICMS Inter 18%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icmsinter_18
+msgid "ICMS Inter 18% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_manual
+msgid "ICMS Manual?"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_template_form
+msgid "ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icms12
+msgid "ICMS Saida 12% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icms18
+msgid "ICMS Saida 18% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icms7
+msgid "ICMS Saida 7% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icms_subist
+msgid "ICMS Saida Subist *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_in_icms_subist
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icms_subist
+msgid "ICMS Subist"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icms_subist_pe_12_84717012
+msgid "ICMS Subist PE 12%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icms_subist_pe_12_84717012
+msgid "ICMS Subist PE 12% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_icms_subist_pe_12_4443_84733041
+msgid "ICMS Subist PE 12% MVA 44,43%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_icms_subist_pe_12_4443_84733041
+msgid "ICMS Subist PE 12% MVA 44,43% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "II"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_in_ipi
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_template_form
+msgid "IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_ipi
+msgid "IPI "
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_in_ipi10
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_ipi10
+msgid "IPI 10%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_in_ipi15
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_ipi15
+msgid "IPI 15%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_in_ipi2
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_ipi2
+msgid "IPI 2%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_in_ipi5
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_ipi5
+msgid "IPI 5%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_in_ipi
+msgid "IPI Entrada *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_in_ipi10
+msgid "IPI Entrada 10% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_in_ipi15
+msgid "IPI Entrada 15% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_in_ipi2
+msgid "IPI Entrada 2% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_in_ipi5
+msgid "IPI Entrada 5% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_ipi_guideline
+msgid "IPI Guidelines"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_manual
+msgid "IPI Manual?"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_ipi
+msgid "IPI Saída *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_ipi10
+msgid "IPI Saída 10% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_ipi15
+msgid "IPI Saída 15% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_ipi2
+msgid "IPI Saída 2% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_ipi5
+msgid "IPI Saída 5% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "ISSQN"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_issqn_manual
+msgid "ISSQN Manual?"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_icms_partition
+msgid "Icms Partition"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_icms_relief
+msgid "Icms Relief"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_l10n_br_account_product_cfop_id_dest
+msgid "Identificador de local de destino da operação."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_import_status_draft
+msgid "Importar NFs com status em rascunho"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_tax_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_tax_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_tax_template_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_tax_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_tax_template_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_tax_id
+msgid "Imposto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: sql_constraint:l10n_br_tax.definition.company.product:0
+msgid "Imposto já existente nesta empresa!"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: sql_constraint:l10n_br_tax.definition.state.product:0
+msgid "Imposto já existente neste estado!"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_fiscal_classification_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_template_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_fiscal_classification_template_normal_form_view_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_country_state_icms_table_form
+msgid "Impostos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_state_taxes
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_state_taxes
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_state_taxes
+msgid "Impostos Estaduais Nacional"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_tax_estimate_ids
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_tax_estimate_ids
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_fiscal_classification_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_fiscal_classification_template_normal_form_view_form
+msgid "Impostos Estimados"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_federal_taxes_import
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_federal_taxes_import
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_federal_taxes_import
+msgid "Impostos Federais Importado"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_federal_taxes_national
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_federal_taxes_national
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_federal_taxes_national
+msgid "Impostos Federais Nacional"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_municipal_taxes
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_municipal_taxes
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_municipal_taxes
+msgid "Impostos Municipais Nacional"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_estd_national_taxes_perct
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_product_estd_national_taxes_perct
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_template_estd_national_taxes_perct
+msgid "Impostos Nacionais Estimados(%)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_estd_import_taxes_perct
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_product_estd_import_taxes_perct
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_template_estd_import_taxes_perct
+msgid "Impostos de Importação Estimados(%)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_country_state_icms_table_form
+msgid "Impostos sobre Produtos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.ipi_guideline,cst_group:0
+msgid "Imunidade"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_fiscal_position_ind_final
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_fiscal_position_template_ind_final
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_ind_final
+msgid "Indica operação com Consumidor final."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_payment_term_indPag
+msgid "Indicador de Pagamento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_ind_pres
+msgid "Indicador de presença do comprador no\n"
+"estabelecimento comercial no momento\n"
+"da operação."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_mouse
+msgid "Indicadores ou apontadores (mouse e track-ball, por exemplo)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Informação de interesse do emissor para controle do B2B"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Informações Adicionais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Informações de Exportação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document_status_sefaz,state:0
+msgid "Init"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_inscr_est
+msgid "Inscr. Estadual/RG"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/l10n_br_account_product_document_related.py:118
+#, python-format
+msgid "Inscrição Estadual do documento fiscal inválida!"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_account_product_costs_ratio_form
+msgid "Insira os novos custos e clique em Recalcular..."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_insurance_tax_id
+msgid "Insurance Sale Tax"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_date_invoice
+msgid "Invoice Date"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Invoice Lines"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Invoices"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,issqn_type:0
+msgid "Isenta"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.ipi_guideline,cst_group:0
+msgid "Isenção"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_item
+msgid "Item"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_partner_order_line
+msgid "Item do Pedido (nItemPed)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: sql_constraint:l10n_br_account_product.cfop:0
+msgid "Já existe um CFOP com esse código !"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: sql_constraint:account.product.fiscal.classification:0
+#: sql_constraint:account.product.fiscal.classification.template:0
+msgid "Já existe um classificação fiscal com esse código!"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_line_date_invoice
+msgid "Keep empty to use the current date"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template___last_update
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_ipi_guideline_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_write_date
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_invoice_line_id
+msgid "Linha de Documento Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_ids
+msgid "Linhas da DI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_st_base_type:0
+#: selection:account.tax,icms_st_base_type:0
+#: selection:account.tax.template,icms_st_base_type:0
+msgid "Lista Negativa (valor)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_st_base_type:0
+#: selection:account.tax,icms_st_base_type:0
+#: selection:account.tax.template,icms_st_base_type:0
+msgid "Lista Neutra (valor)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_st_base_type:0
+#: selection:account.tax,icms_st_base_type:0
+#: selection:account.tax.template,icms_st_base_type:0
+msgid "Lista Positiva (valor)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_location
+msgid "Local"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_expedition_location
+msgid "Local de Despacho"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_shipping_location
+msgid "Local de Embarque"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_id_dest
+msgid "Local de destino da operação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_st_mva
+msgid "MVA Ajustado ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_base_type:0
+#: selection:account.invoice.line,icms_st_base_type:0
+#: selection:account.tax,icms_base_type:0
+#: selection:account.tax,icms_st_base_type:0
+#: selection:account.tax.template,icms_base_type:0
+#: selection:account.tax.template,icms_st_base_type:0
+msgid "Margem Valor Agregado (%)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_message
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_message
+msgid "Mensagem"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_fan
+msgid "Microventiladores com área de carcaça inferior a 90cm²"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_xMotivo
+msgid "Motivo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_vehicle_l10n_br_city_id
+msgid "Município"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "My Invoices"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_fiscal_classification_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_template_fiscal_classification_id
+msgid "NCM"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document.related,document_type:0
+msgid "NF"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document.related,document_type:0
+msgid "NF Produtor"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/account_invoice.py:811
+#: model:ir.actions.act_window,name:l10n_br_account_product.l10n_br_account_product_nfe_action
+#: model:ir.ui.menu,name:l10n_br_account_product.l10n_br_account_product_nfe_menu
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+#: selection:l10n_br_account_product.document.related,document_type:0
+#, python-format
+msgid "NF-e"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "NF-e/CT-e"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,ind_pres:0
+msgid "NFC-e em operação com entrega em domicílio"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_invoice_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_invoice_supplier_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_tree
+msgid "NFe"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_nfe_export_result
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_nfe_export_result
+msgid "NFe Export Result"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/account_invoice.py:752
+#, python-format
+msgid "Nenhum Diário !\n"
+"Categoria fiscal: '%s', não tem um diário contábil para a empresa %s"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_weight_net
+msgid "Net weight"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cst_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_icms_relief_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_name
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_name
+msgid "Nome"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_small_name
+msgid "Nome Reduzido"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_carrier_name
+msgid "Nome Transportadora"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,nfe_purpose:0
+#: selection:account.invoice.line,issqn_type:0
+#: selection:account.product.fiscal.classification,type:0
+#: selection:account.product.fiscal.classification.template,type:0
+#: selection:l10n_br_account_product.cfop,internal_type:0
+msgid "Normal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Nota Fiscal/Produtor/Cupom Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Nova NF-e"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_account_product_costs_ratio_form
+msgid "Novos custos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_notation_of_packages
+msgid "Numeração"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position,ind_final:0
+#: selection:account.fiscal.position.template,ind_final:0
+msgid "Não"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_processor
+msgid "Não montadas"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,ind_pres:0
+msgid "Não se aplica (por exemplo, Nota Fiscal complementar ou de ajuste)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_number
+msgid "Número"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_name
+msgid "Número da DI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/account_invoice.py:699
+#, python-format
+msgid "O número: %s da série: %s, esta inutilizado"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_type_nf_payment
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_payment_mode_type_nf_payment
+msgid "Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e NFC-e. Para as notas com finalidade de Ajuste ou Devolução o campo Forma de Pagamento deve ser preenchido com 90 - Sem Pagamento."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_fiscal_comment
+msgid "Observação Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_note
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_note
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Observações"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Observações Fiscais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,help:l10n_br_account_product.l10n_br_account_product_nfe_action
+msgid "Odoo's electronic invoicing allows to ease and fasten the\n"
+"                collection of customer payments. Your customer receives the\n"
+"                invoice by email and he can pay online and/or import it\n"
+"                in his own system."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Only show Client Invoices."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Only show Supplier Invoices."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_ind_final
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_template_ind_final
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Operação com Consumidor final"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.cfop,id_dest:0
+msgid "Operação com exterior"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.cfop,id_dest:0
+msgid "Operação interestadual"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.cfop,id_dest:0
+msgid "Operação interna"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,ind_pres:0
+msgid "Operação não presencial, Teleatendimento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,ind_pres:0
+msgid "Operação não presencial, outros"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,ind_pres:0
+msgid "Operação não presencial, pela Internet"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,ind_pres:0
+msgid "Operação presencial"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,ind_pres:0
+msgid "Operação presencial, fora do estabelecimento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_form
+msgid "Opções Avançadas"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_origin
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_fiscal_position_tax_template_origin
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_origin
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_product_origin
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_product_template_origin
+msgid "Origem"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_other_costs_tax_id
+msgid "Other Costs Sale Tax"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_shelf
+msgid "Outras"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.payment.term,indPag:0
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_cabinet
+#: selection:l10n_br_account_product.ipi_guideline,cst_group:0
+msgid "Outros"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_amount_costs
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_other_costs_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_amount_costs_value
+msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_pis
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_tax_template_form
+msgid "PIS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,description:l10n_br_account_product.demo_tax_out_pis065
+msgid "PIS 0,65%"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_manual
+msgid "PIS Manual?"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_pis
+msgid "PIS Saida *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.tax,name:l10n_br_account_product.demo_tax_out_pis065
+msgid "PIS Saida 0,65% *"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "PRO-FORMA"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.payment.term,indPag:0
+msgid "Pagamento à Prazo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.payment.term,indPag:0
+msgid "Pagamento à Vista"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Pagamentos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_hd
+msgid "Para discos rígidos, com um só conjunto cabeça-disco (HDA-\"Head Disk Assembly\")"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_parent_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_parent_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_fiscal_classification_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_fiscal_classification_id
+msgid "Parent Fiscal Classification"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.action_l10n_br_tax_icms_partition_form
+#: model:ir.ui.menu,name:l10n_br_account_product.menu_action_icms_partition
+msgid "Partilha de ICMS Interestadual"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_nfe_backup_folder
+msgid "Pasta de Backup"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_nfe_export_folder
+msgid "Pasta de Exportação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_nfe_import_folder
+msgid "Pasta de Importação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_base_type:0
+#: selection:account.invoice.line,icms_st_base_type:0
+#: selection:account.tax,icms_base_type:0
+#: selection:account.tax,icms_st_base_type:0
+#: selection:account.tax.template,icms_base_type:0
+#: selection:account.tax.template,icms_st_base_type:0
+msgid "Pauta (valor)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_payment_mode
+msgid "Payment Modes"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_payment_term
+msgid "Payment Term"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Payments"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_percent
+msgid "Perc COFINS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_st_percent
+msgid "Perc COFINS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_percent
+msgid "Perc ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_percent
+msgid "Perc IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_issqn_percent
+msgid "Perc ISSQN"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_percent
+msgid "Perc PIS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_st_percent
+msgid "Perc PIS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_percent_reduction
+msgid "Perc Redução de Base ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_st_percent_reduction
+msgid "Perc Redução de Base ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,cofins_st_type:0
+#: selection:account.invoice.line,cofins_type:0
+#: selection:account.invoice.line,ipi_type:0
+#: selection:account.invoice.line,pis_st_type:0
+#: selection:account.invoice.line,pis_type:0
+msgid "Percentual"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_st_percent
+msgid "Percentual ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_icms_partition_rate
+msgid "Percentual Interestadual de Rateio"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_part_percent
+msgid "Percentual provisório de partilha do ICMS Interestadual"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Pesquisar NFe"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_vehicle_plate
+msgid "Placa do Veículo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_memory
+msgid "Placas (módulos) de memória com uma superfície inferior ou igual a 50cm2"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_motherboard
+msgid "Placas-mãe (\"mother boards\")"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_base_type:0
+#: selection:account.tax,icms_base_type:0
+#: selection:account.tax.template,icms_base_type:0
+msgid "Preço Tabelado Máximo (valor)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_st_base_type:0
+#: selection:account.tax,icms_st_base_type:0
+#: selection:account.tax.template,icms_st_base_type:0
+msgid "Preço tabelado ou máximo  sugerido"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Print"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Print Invoice"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_procEventoNFe
+msgid "Proceventonfe"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.l10n_br_product_fiscal_classifications_template_action
+msgid "Product Fiscal Classifications Template"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_product_tax_ids
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_country_state_product_tax_ids
+msgid "Product Taxes"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,fiscal_type:0
+#: selection:account.invoice.line,product_type:0
+#: selection:account.invoice.report,fiscal_type:0
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Produto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Produtos e Serviços"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.document_status_sefaz,nfe_environment:0
+#: selection:l10n_br_account_product.nfe_export,nfe_environment:0
+#: selection:l10n_br_account_product.nfe_export_invoice,nfe_environment:0
+#: selection:res.company,nfe_environment:0
+msgid "Produção"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Proforma"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Proforma Invoices"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Proforma/Open/Paid Invoices"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_nfe_protocol_number
+msgid "Protocolo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_protNFe
+msgid "Protocolo NFE"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Provisorio"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_fiscal_classification_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_fiscal_classification_template_normal_form_view_form
+msgid "Purchase Taxes"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,name:l10n_br_account_product.action_l10n_br_account_product_costs_ratio
+msgid "Rateio de custos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_invoice_costs_ratio
+msgid "Ratio costs on invoice"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.view_l10n_br_account_product_costs_ratio_form
+msgid "Recalcular"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Recalcular Custos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.ipi_guideline,cst_group:0
+msgid "Redução"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Refund Invoice"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Register Payment"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_export_invoice_form
+msgid "Resultado da Exportação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,issqn_type:0
+msgid "Retida"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_fiscal_classification_form
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_fiscal_classification_template_normal_form_view_form
+msgid "Sale Taxes"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Salesperson"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_export_folder
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_export_folder
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_export_folder
+msgid "Salvar na Pasta de Exportação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_search
+#: selection:l10n_br_account_product.cfop,type:0
+msgid "Saída"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cest_segment
+msgid "Segmento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_invoice_costs_ratio_amount_insurance_value
+msgid "Seguro"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Send by Email"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_nfe_a1_password
+msgid "Senha NFe A1"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_sequence
+msgid "Sequência"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_document_serie
+msgid "Serie de documentos fiscais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,product_type:0
+msgid "Serviço"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_partner_shipping_id
+msgid "Shipping address for current sales order."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.fiscal.position,ind_final:0
+#: selection:account.fiscal.position.template,ind_final:0
+msgid "Sim"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_state
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_status
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_status
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Status"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_nfe_status
+msgid "Status na Sefaz"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_line_form
+msgid "Substituição Tributária ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,issqn_type:0
+msgid "Substituta"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.nfe_export_invoice_result,status:0
+#: selection:l10n_br_account_product.nfe_export_result,status:0
+msgid "Sucesso"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Supplier"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.ipi_guideline,cst_group:0
+msgid "Suspensão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_serie
+msgid "Série"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_vendor_serie
+msgid "Série NF Entrada"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_document_serie_product_ids
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Série de Documentos Fiscais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_vendor_serie
+msgid "Série do número da Nota Fiscal do Fornecedor"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_company_form
+msgid "Séries de Documentos Fiscais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_company_product_tax_group_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_tax_group_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_purchase_template_tax_group_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_tax_group_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_sale_template_tax_group_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_definition_state_product_tax_group_id
+msgid "Tax Group Related"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_purchase_tax_definition_line
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_sale_tax_definition_line
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_purchase_tax_definition_line
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_sale_tax_definition_line
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_product_tax_definition_line
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_country_state_product_tax_definition_line
+msgid "Taxes Definitions"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_fiscal_position_tax
+msgid "Taxes Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_keyboard
+msgid "Teclados"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_fiscal_position_tax_template
+msgid "Template Tax Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_fiscal_position_template
+msgid "Template for Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_tax_template
+msgid "Templates for Taxes"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice,issuer:0
+#: selection:account.invoice.report,issuer:0
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_import_declaration_form
+msgid "Terceiros"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.actions.act_window,help:l10n_br_account_product.l10n_br_account_product_nfe_action
+msgid "The discussions with your customer are automatically displayed at\n"
+"                the bottom of each invoice."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_weight
+msgid "The gross weight in Kg."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_weight_net
+msgid "The net weight in Kg."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_template_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_product_fiscal_classification_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_type
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_cfop_search
+msgid "Tipo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_base_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_tax_icms_base_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_tax_template_icms_base_type
+msgid "Tipo Base ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_st_base_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_tax_icms_st_base_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_tax_template_icms_st_base_type
+msgid "Tipo Base ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_cpfcnpj_type
+msgid "Tipo Doc."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_related_document_type
+msgid "Tipo Documento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_fiscal_type
+msgid "Tipo Fiscal"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_partner_fiscal_type
+msgid "Tipo Fiscal de Parceiros"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_cfop_internal_type
+msgid "Tipo Interno"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Tipo de Documento"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_type_import
+msgid "Tipo de Importação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_type_nf_payment
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_payment_mode_type_nf_payment
+msgid "Tipo de Pagamento da NF"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_service_type_id
+msgid "Tipo de Serviço"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_ind_pres
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Tipo de operação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_file_type
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_file_type
+msgid "Tipo do Arquivo"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_file_type
+msgid "Tipo do Arquivo Padrão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_type
+msgid "Tipo do COFINS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_st_type
+msgid "Tipo do COFINS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_type
+msgid "Tipo do IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_issqn_type
+msgid "Tipo do ISSQN"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_type
+msgid "Tipo do PIS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_st_type
+msgid "Tipo do PIS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_product_type
+msgid "Tipo do Produto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Totais"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_tree
+msgid "Total Amount"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_total_with_taxes
+msgid "Total com Impostos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_amount_total_taxes
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_total_taxes
+msgid "Total de Tributos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Transporte"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_type_transportation
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_import_declaration_form
+msgid "Transporte Internacional"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:account.product.fiscal.classification,name:l10n_br_account_product.demo_fiscal_classification_wood
+msgid "Tratada com tinta, creosoto ou com outros agentes de conservação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_vehicle_state_id
+msgid "UF da Placa"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,help:l10n_br_account_product.field_account_invoice_fiscal_number
+msgid "Unique number of the invoice, computed\n"
+"            automatically when the invoice is created."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Unpaid"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_search
+msgid "Unpaid Invoices"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_tree
+msgid "Untaxed Amount"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Validate"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_line_amount_discount
+msgid "Valor"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_cofins_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_cofins_value
+msgid "Valor COFINS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_cofins_st_value
+msgid "Valor COFINS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_icms_value
+msgid "Valor ICMS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_st_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_st_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_icms_st_value
+msgid "Valor ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_ii_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ii_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_ii_value
+msgid "Valor II"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ii_iof
+msgid "Valor IOF"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_ipi_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_ipi_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_ipi_value
+msgid "Valor IPI"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_issqn_value
+msgid "Valor ISSQN"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_pis_value
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_report_pis_value
+msgid "Valor PIS"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_pis_st_value
+msgid "Valor PIS ST"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_import_declaration_afrmm_value
+msgid "Valor da AFRMM"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_dest_base
+msgid "Valor da BC do ICMS na UF de destino"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.invoice.line,icms_base_type:0
+#: selection:account.tax,icms_base_type:0
+#: selection:account.tax.template,icms_base_type:0
+msgid "Valor da Operação"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_amount_freight
+msgid "Valor do Frete"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_dest_value
+msgid "Valor do ICMS Interestadual para a UF de destino"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_origin_value
+msgid "Valor do ICMS Interno para a UF do remetente"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_icms_fcp_value
+msgid "Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP) da UF de destino"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_amount_insurance
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_insurance_value
+msgid "Valor do Seguro"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_fcp_value
+msgid "Valor total do Fundo de Combate à Pobreza (FCP)"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_dest_value
+msgid "Valor total do ICMS Interestadual para a UF de destino"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_icms_origin_value
+msgid "Valor total do ICMS Interestadual para a UF do remetente"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_form
+msgid "Vencimentos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_document_status_sefaz_version
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_model_version
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_template_version
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_tax_estimate_version
+msgid "Versão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_nfe_version
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_res_company_nfe_version
+msgid "Versão NFe"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.cfop,internal_type:0
+msgid "Visualização"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:account.product.fiscal.classification,type:0
+#: selection:account.product.fiscal.classification.template,type:0
+msgid "Visão"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_amount_gross
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_price_gross
+msgid "Vlr. Bruto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_discount_value
+msgid "Vlr. desconto"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_line_price_tax_discount
+msgid "Vlr. s/ Impostos"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: code:addons/l10n_br_account_product/models/account_invoice.py:736
+#, python-format
+msgid "Você deve ser uma série de documento fiscalpara este documento fiscal."
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_account_invoice_number_of_packages
+msgid "Volume"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_result_wizard_id
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_result_wizard_id
+msgid "Wizard ID"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.nfe_export,file_type:0
+#: selection:l10n_br_account_product.nfe_export_invoice,file_type:0
+#: selection:res.company,file_type:0
+msgid "XML"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_product_fiscal_classification
+msgid "account.product.fiscal.classification"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_account_product_fiscal_classification_template
+msgid "account.product.fiscal.classification.template"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.nfe_export,state:0
+#: selection:l10n_br_account_product.nfe_export_invoice,state:0
+msgid "done"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: selection:l10n_br_account_product.nfe_export,state:0
+#: selection:l10n_br_account_product.nfe_export_invoice,state:0
+msgid "init"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_cest
+msgid "l10n_br_account_product.cest"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_cst
+msgid "l10n_br_account_product.cst"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_document_related
+msgid "l10n_br_account_product.document.related"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_import_declaration
+msgid "l10n_br_account_product.import.declaration"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_import_declaration_line
+msgid "l10n_br_account_product.import.declaration.line"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_nfe_export
+msgid "l10n_br_account_product.nfe_export"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_nfe_export_invoice_result
+msgid "l10n_br_account_product.nfe_export_invoice_result"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_account_product_nfe_export_result
+msgid "l10n_br_account_product.nfe_export_result"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_definition_company_product
+msgid "l10n_br_tax.definition.company.product"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_definition_purchase
+msgid "l10n_br_tax.definition.purchase"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_definition_purchase_template
+msgid "l10n_br_tax.definition.purchase.template"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_definition_sale
+msgid "l10n_br_tax.definition.sale"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_definition_sale_template
+msgid "l10n_br_tax.definition.sale.template"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_definition_state_product
+msgid "l10n_br_tax.definition.state.product"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_estimate
+msgid "l10n_br_tax.estimate"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_estimate_model
+msgid "l10n_br_tax.estimate.model"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_l10n_br_tax_estimate_template
+msgid "l10n_br_tax.estimate.template"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.ui.view,arch_db:l10n_br_account_product.l10n_br_account_product_nfe_export_invoice_form
+msgid "ou"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_invoice_state
+#: model:ir.model.fields,field_description:l10n_br_account_product.field_l10n_br_account_product_nfe_export_state
+msgid "state"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_wizard_account_product_fiscal_classification
+msgid "wizard.account.product.fiscal.classification"
+msgstr ""
+
+#. module: l10n_br_account_product
+#: model:ir.model,name:l10n_br_account_product.model_wizard_multi_charts_accounts
+msgid "wizard.multi.charts.accounts"
+msgstr ""
+

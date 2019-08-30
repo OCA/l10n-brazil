@@ -1,0 +1,236 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_zip
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_district
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_district
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_district
+msgid "Bairro"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_res_bank
+msgid "Bank"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_zip_code
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_zip_code
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_zip_ids
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_zip_code
+msgid "CEP"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.actions.act_window,name:l10n_br_zip.action_l10n_br_zip
+#: model:ir.ui.menu,name:l10n_br_zip.menu_action_l10n_br_base_zip_form
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_form
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_result_form
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_result_tree
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_tree
+msgid "CEPs"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_search
+msgid "Cancelar"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_l10n_br_city_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_l10n_br_city_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_l10n_br_city_id
+msgid "Cidade"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_country_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_create_uid
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_create_uid
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_create_date
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_create_date
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_display_name
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_display_name
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_state_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_state_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_state_id
+msgid "Estado"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_address_id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_address_id
+msgid "Id do objeto"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip___last_update
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result___last_update
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_write_uid
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_write_uid
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_write_date
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_write_date
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_street
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_street
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_street
+msgid "Logradouro"
+msgstr ""
+
+#. module: l10n_br_zip
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:126
+#, python-format
+msgid "Nenhum registro encontrado"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_object_name
+msgid "Nome do bjeto"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_object_name
+msgid "Nome do objeto"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_search
+msgid "Nova Pesquisa"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_country_id
+msgid "País"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_search
+msgid "Pesquisar"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.actions.act_window,name:l10n_br_zip.action_l10n_br_zip_search
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_search
+msgid "Pesquisar CEP"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_zip_complement
+msgid "Range"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_search_id
+msgid "Search"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.ui.view,arch_db:l10n_br_zip.view_l10n_br_zip_result_tree
+msgid "Selecionar"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_street_type
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_street_type
+msgid "Tipo"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_result_zip_id
+msgid "Zipcode"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_l10n_br_zip_search
+msgid "Zipcode Search"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_l10n_br_zip_result
+msgid "Zipcode result"
+msgstr ""
+
+#. module: l10n_br_zip
+#: selection:l10n_br.zip.search,state:0
+msgid "done"
+msgstr ""
+
+#. module: l10n_br_zip
+#: selection:l10n_br.zip.search,state:0
+msgid "init"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search_state
+msgid "state"
+msgstr ""
+

@@ -1,29 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * l10n_br
+#	* l10n_br_generic
 #
-# Translators:
-# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015
-# Melanie Bernard <mbe@odoo.com>, 2015
-# Symons Xavier <xsy@openerp.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-18 08:19+0000\n"
-"PO-Revision-Date: 2015-11-18 16:40+0000\n"
-"Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
-"Language: fr\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: \n"
 
 #. module: l10n_br_generic
 #: model:ir.ui.menu,name:l10n_br_generic.account_reports_br_statements_menu
 msgid "Brazilian Statements"
-msgstr "Déclarations brésiliennes"
+msgstr ""
 
 #. module: l10n_br_generic
 #: selection:account.tax.group,domain:0
@@ -42,7 +35,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_generic.field_account_tax_tax_discount
 #: model:ir.model.fields,field_description:l10n_br_generic.field_account_tax_template_tax_discount
 msgid "Discount this Tax in Prince"
-msgstr "Décompter cette taxe dans le prix"
+msgstr ""
 
 #. module: l10n_br_generic
 #: selection:account.tax.group,domain:0
@@ -110,14 +103,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_generic.field_account_tax_amount_mva
 #: model:ir.model.fields,field_description:l10n_br_generic.field_account_tax_template_amount_mva
 msgid "MVA Percent"
-msgstr "Pourcentage MVA"
+msgstr ""
 
 #. module: l10n_br_generic
 #: model:ir.model.fields,help:l10n_br_generic.field_account_tax_group_tax_discount
 #: model:ir.model.fields,help:l10n_br_generic.field_account_tax_tax_discount
 #: model:ir.model.fields,help:l10n_br_generic.field_account_tax_template_tax_discount
 msgid "Mark it for (ICMS, PIS e etc.)."
-msgstr "Le marquer pour (ICMS, PIS e etc.)."
+msgstr ""
 
 #. module: l10n_br_generic
 #: selection:account.tax.group,domain:0
@@ -134,12 +127,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_generic.field_account_tax_base_reduction
 #: model:ir.model.fields,field_description:l10n_br_generic.field_account_tax_template_base_reduction
 msgid "Redution"
-msgstr "Réduction"
+msgstr ""
 
 #. module: l10n_br_generic
 #: model:ir.model,name:l10n_br_generic.model_account_tax
 msgid "Tax"
-msgstr "Taxe"
+msgstr ""
 
 #. module: l10n_br_generic
 #: model:ir.model.fields,field_description:l10n_br_generic.field_account_tax_domain
@@ -151,7 +144,7 @@ msgstr ""
 #. module: l10n_br_generic
 #: model:ir.model,name:l10n_br_generic.model_account_tax_template
 msgid "Templates for Taxes"
-msgstr "Modèles de taxes"
+msgstr ""
 
 #. module: l10n_br_generic
 #: model:ir.model.fields,help:l10n_br_generic.field_account_tax_amount_mva
@@ -159,12 +152,10 @@ msgstr "Modèles de taxes"
 #: model:ir.model.fields,help:l10n_br_generic.field_account_tax_template_amount_mva
 #: model:ir.model.fields,help:l10n_br_generic.field_account_tax_template_base_reduction
 msgid "Um percentual decimal em % entre 0-1."
-msgstr "Un pourcentage décimal en % entre 0-1."
+msgstr ""
 
 #. module: l10n_br_generic
 #: model:ir.model,name:l10n_br_generic.model_account_tax_group
 msgid "account.tax.group"
 msgstr ""
 
-#~ msgid "Open Account Dashboard Menu"
-#~ msgstr "Ouvrez le menu du tableau de bord de la comptabilité"
