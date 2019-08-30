@@ -131,6 +131,32 @@ class HrBenefitType(models.Model):
         selection=ADMISSION_SELECTION,
         default='partial',
     )
+    extra_income = fields.Boolean(
+        string='13º Cesta?',
+        default=False,
+    )
+    extra_income_month = fields.Selection(
+        string='Mês 13º Cesta',
+        selection=[
+            ('1', 'Janeiro'),
+            ('2', 'Fevereiro'),
+            ('3', 'Março'),
+            ('4', 'Abril'),
+            ('5', 'Maio'),
+            ('6', 'Junho'),
+            ('7', 'Julho'),
+            ('8', 'Agosto'),
+            ('9', 'Setembro'),
+            ('10', 'Outubro'),
+            ('11', 'Novembro'),
+            ('12', 'Dezembro')
+        ],
+    )
+
+    @api.onchange('extra_income')
+    def _onchange_extra_income(self):
+        if not self.extra_income:
+            self.extra_income_month = False
 
     @api.onchange('line_need_approval', 'line_need_approval_file')
     def _onchange_line_need_clearance(self):

@@ -32,6 +32,9 @@
                                 <field name="percent" attrs="{'invisible':[('type_calc', 'not in', ['percent', 'percent_max'])]}"/>
                                 <field name="amount_max" attrs="{'invisible':[('type_calc', 'not in', ['max', 'percent_max'])]}"/>
                                 <field name="amount" attrs="{'invisible':[('type_calc', 'not in', ['fixed', 'daily'])]}" />
+                                <field name="extra_income"/>
+                                <field name="extra_income_month"
+                                       attrs="{'invisible':[('extra_income', '=', False)], 'required':[('extra_income', '=', True)]}"/>
                             </group>
                         </group>
                         <notebook>

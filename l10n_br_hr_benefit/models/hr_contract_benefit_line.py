@@ -8,6 +8,7 @@ from __future__ import (absolute_import, division,
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning, ValidationError
 
+from datetime import date
 from pybrasil.data import dias_uteis
 from pybrasil.data import ultimo_dia_mes
 from datetime import datetime, tzinfo, timedelta
@@ -30,29 +31,30 @@ class HrContractBenefitLine(models.Model):
             return False
         return self.env.user.employee_ids[0].contract_id
 
-    @api.depends('benefit_type_id','amount_base')
+    @api.depends('benefit_type_id', 'amount_base')
     def _compute_benefit(self):
         for record in self:
             amount_benefit = 0
-            if record.benefit_type_id:
-                if record.benefit_type_id.type_calc == 'fixed':
-                    amount_benefit = record.benefit_type_id.amount
+            benefit_type_id = record.benefit_type_id
+            if benefit_type_id:
+                if benefit_type_id.type_calc == 'fixed':
+                    amount_benefit = benefit_type_id.amount
 
-                elif record.benefit_type_id.type_calc == 'max':
-                    if record.benefit_type_id.amount_max > record.amount_base:
+                elif benefit_type_id.type_calc == 'max':
+                    if benefit_type_id.amount_max > record.amount_base:
                         amount_benefit = record.amount_base
                     else:
                         amount_benefit = \
-                            record.benefit_type_id.amount_max
+                            benefit_type_id.amount_max
 
-                elif record.benefit_type_id.type_calc == 'daily':
+                elif benefit_type_id.type_calc == 'daily':
                     worked_days = 22
 
                     partner_date_start = record.contract_id.date_start
                     date_today = fields.Date.today()
 
                     if partner_date_start[:7] == date_today[:7]:
-                        daily_admission_type = record.benefit_type_id.\
+                        daily_admission_type = benefit_type_id.\
                             daily_admission_type
                         if daily_admission_type == 'partial':
                             worked_days = len(dias_uteis(
@@ -72,14 +74,14 @@ class HrContractBenefitLine(models.Model):
                                 worked_days = 0
 
                     amount_benefit = \
-                        record.benefit_type_id.amount * worked_days
+                        benefit_type_id.amount * worked_days
 
-                elif record.benefit_type_id.type_calc == 'percent':
+                elif benefit_type_id.type_calc == 'percent':
                     amount_benefit = \
                         record.amount_base * \
-                        record.benefit_type_id.percent / 100
+                        benefit_type_id.percent / 100
 
-                elif record.benefit_type_id.type_calc == 'percent_max':
+                elif benefit_type_id.type_calc == 'percent_max':
 
                     # FIND DEPENDENT
                     dependent_id = self.env['hr.employee.dependent']\
@@ -116,14 +118,14 @@ class HrContractBenefitLine(models.Model):
                                 not dependent_id.inc_trab:
                             record.amount_benefit = 0
                             amount_benefit = 0
-                        elif record.benefit_type_id.amount_max > (
+                        elif benefit_type_id.amount_max > (
                                 record.amount_base *
-                                record.benefit_type_id.percent / 100):
+                                benefit_type_id.percent / 100):
                             amount_benefit = (record.amount_base *
-                                record.benefit_type_id.percent / 100)
+                                benefit_type_id.percent / 100)
                         else:
                             amount_benefit = \
-                                record.benefit_type_id.amount_max
+                                benefit_type_id.amount_max
 
             record.amount_benefit = amount_benefit
 
@@ -206,6 +208,7 @@ class HrContractBenefitLine(models.Model):
     amount_benefit = fields.Float(
         string='Valor Apurado',
         index=True,
+        stored=True,
         track_visibility='onchange',
         # states={'todo': [('readonly', False)]},
         readonly=True,
@@ -355,6 +358,12 @@ class HrContractBenefitLine(models.Model):
         self.income_amount = self.amount_benefit
         self.income_percentual = 100
         self.income_quantity = 1
+
+        # 13ª Cesta
+        if self.benefit_type_id.extra_income and \
+                date.today().month == \
+                int(self.benefit_type_id.extra_income_month):
+            self.income_quantity += 1
 
     def _generate_calculated_values_creche(self):
         dependent_id = self.env['hr.employee.dependent'] \
