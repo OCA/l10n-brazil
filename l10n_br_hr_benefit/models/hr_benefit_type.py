@@ -85,20 +85,10 @@ class HrBenefitType(models.Model):
         string='Código Python',
         track_visibility='onchange'
     )
-    beneficiario_funcionario = fields.Boolean(
-        string='Funcionário'
-    )
-    beneficiario_autonomo = fields.Boolean(
-        string='Autônomo'
-    )
-    beneficiario_terceiro = fields.Boolean(
-        string='Terceirizado'
-    )
-    beneficiario_cedido = fields.Boolean(
-        string='Cedido'
-    )
-    beneficiario_dependente = fields.Boolean(
-        string='Dependente'
+    contract_category_ids = fields.Many2many(
+        comodel_name='hr.contract.category',
+        string='Categorias de Contratos',
+        ondelete='restrict',
     )
     type_calc = fields.Selection(
         selection=[

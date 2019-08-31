@@ -44,13 +44,6 @@
                                         <field name="need_approval"/>
                                         <field name="need_approval_file"/>
                                     </group>
-                                    <group string="Tipos de Beneficiários">
-                                        <field name="beneficiario_funcionario"/>
-                                        <field name="beneficiario_dependente"/>
-                                        <field name="beneficiario_autonomo"/>
-                                        <field name="beneficiario_terceiro"/>
-                                        <field name="beneficiario_cedido"/>
-                                    </group>
                                     <group string="Prestaçao de Contas">
                                         <field name="line_need_approval"/>
                                         <field name="line_need_approval_file"/>
@@ -61,6 +54,9 @@
                                         <field name="line_group_benefits"/>
                                         <field name="line_days_approval_limit"/>
                                     </group>
+                                </group>
+                                <group string="Beneficiários aptos ao Benefício">
+                                    <field name="contract_category_ids" nolabel="1"/>
                                 </group>
                             </page>
                             <page string="Integração com a Folha" name="fopag">
@@ -95,11 +91,6 @@
                     <field name="date_stop"/>
                     <field name="amount_max"/>
                     <field name="amount"/>
-                    <filter string="Funcionario" name="filtro_funcionario" domain="[('beneficiario_funcionario', '=', True)]"/>
-                    <filter string="Dependente" name="filtro_dependente" domain="[('beneficiario_dependente', '=', True)]"/>
-                    <filter string="Autonomo" name="filtro_autonomo" domain="[('beneficiario_autonomo', '=', True)]"/>
-                    <filter string="Terceiro" name="filtro_terceiro" domain="[('beneficiario_terceiro', '=', True)]"/>
-                    <filter string="Cedido" name="filtro_cedido" domain="[('beneficiario_cedido', '=', True)]"/>
                     <filter string="Necessita aprovação" name="filtro_aprovacao"
                             domain="['|',('need_approval', '=', True),'|',('line_need_approval', '=', True),'|',('need_approval_file', '=', True),('line_need_approval_file', '=', True)]"/>
                     <filter string="Não necessita aprovação" name="filtro_sem_aprovacao"

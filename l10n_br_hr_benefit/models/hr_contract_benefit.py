@@ -153,28 +153,11 @@ class HrContractBenefit(models.Model):
                       'ativo para a rúbrica %s' % self.benefit_type_id.name)
                 )
 
-            if (self.employee_id.tipo == 'funcionario' and not
-                    self.benefit_type_id.beneficiario_funcionario):
+            if self.contract_id.categoria not in \
+                    self.benefit_type_id.contract_category_ids.mapped('name'):
                 raise ValidationError(
-                    _('Funcionários não são permitidos para este benefício')
-                )
-
-            if (self.employee_id.tipo == 'autonomo' and not
-                    self.benefit_type_id.beneficiario_autonomo):
-                raise ValidationError(
-                    _('Autônomo não são permitido para este benefício')
-                )
-
-            if (self.employee_id.tipo == 'terceirizado' and not
-                    self.benefit_type_id.beneficiario_terceiro):
-                raise ValidationError(
-                    _('Terceirizados não são permitido para este benefício')
-                )
-
-            if (self.employee_id.tipo == 'cedido' and not
-                    self.benefit_type_id.beneficiario_cedido):
-                raise ValidationError(
-                    _('Cedidos não são permitido para este benefício')
+                    _('Este funcionário não possui uma categoria de '
+                      'contrato apta para o tipo de benefício escolhido.')
                 )
 
             if self.partner_id.is_employee_dependent:
