@@ -141,6 +141,7 @@ class HrContractBenefitLine(models.Model):
             ('validated', 'Apurado'),
             ('exception', 'Negado'),
             ('cancel', 'Cancelado'),
+            ('payslip_deleted', 'Holerite Cancelado'),
         ],
         string='Situação',
         index=True,
@@ -251,6 +252,7 @@ class HrContractBenefitLine(models.Model):
         comodel_name="hr.payslip",
         string="Folha de pagamento",
         readonly=True,
+        ondelete='set null',
     )
     income_amount = fields.Float(
         string='Valor apurado',

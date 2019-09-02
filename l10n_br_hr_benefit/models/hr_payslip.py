@@ -17,6 +17,14 @@ class HrPayslip(models.Model):
         inverse_name='hr_payslip_id',
     )
 
+    @api.multi
+    def unlink(self):
+        benefit_line = self.env['hr.contract.benefit.line'].search([
+            ('hr_payslip_id', '=', self.id)
+        ])
+        benefit_line.write({'state': 'payslip_deleted'})
+        return super(HrPayslip, self).unlink()
+
     def get_contract_specific_rubrics(
             self, applied_specific_rule, rule_ids, DIAS_A_MAIOR):
         """

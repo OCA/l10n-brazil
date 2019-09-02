@@ -25,7 +25,7 @@
                                 string="Voltar para início" states="exception"/>
                         <field name="state" widget="statusbar" nolabel="1"
                                readonly="1"
-                               statusbar_visible="todo,waiting,validated"/>
+                               statusbar_visible="todo,waiting,validated,payslip_deleted"/>
                     </header>
                     <sheet>
                         <h1>
