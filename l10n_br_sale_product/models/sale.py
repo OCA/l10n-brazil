@@ -2,8 +2,7 @@
 # Copyright (C) 2014  Renato Lima - Akretion                                  #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
-from odoo import _
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 from odoo.addons import decimal_precision as dp
@@ -66,18 +65,19 @@ class SaleOrder(models.Model):
         value = 0.0
         price = line._calc_line_base_price()
         qty = line._calc_line_quantity()
+
         for computed in line.tax_id.compute_all(
-                price,
-                qty,
+                price_unit=price,
+                quantity=qty,
                 partner=line.order_id.partner_invoice_id,
                 product=line.product_id,
                 # line.order_id.partner_id,
-                fiscal_position=line.fiscal_position,
+                fiscal_position=line.fiscal_position_id,
                 insurance_value=line.insurance_value,
                 freight_value=line.freight_value,
                 other_costs_value=line.other_costs_value)['taxes']:
             tax = self.env['account.tax'].browse(computed['id'])
-            if not tax.tax_code_id.tax_discount:
+            if not tax.tax_group_id.tax_discount:
                 value += computed.get('amount', 0.0)
         return value
 
@@ -137,7 +137,7 @@ class SaleOrder(models.Model):
             })
         return True
 
-    ind_pres = fields.Selection([
+    ind_pres = fields.Selection(selection=[
         ('0', u'Não se aplica (por exemplo,'
               u' Nota Fiscal complementar ou de ajuste)'),
         ('1', u'Operação presencial'),
@@ -145,11 +145,11 @@ class SaleOrder(models.Model):
         ('3', u'Operação não presencial, Teleatendimento'),
         ('4', u'NFC-e em operação com entrega em domicílio'),
         ('5', u'Operação presencial, fora do estabelecimento'),
-        ('9', u'Operação não presencial, outros')], u'Tipo de operação',
-        readonly=True, states={'draft': [('readonly', False)]},
-        required=False,
+        ('9', u'Operação não presencial, outros')], string=u'Tipo de operação',
+        readonly=True, states={'draft': [('readonly', False)]}, required=False,
         help=u'Indicador de presença do comprador no estabelecimento \
-             comercial no momento da operação.', default=_default_ind_pres)
+             comercial no momento da operação.',
+        default=_default_ind_pres)
     amount_untaxed = fields.Float(
         compute='_amount_all_wrapper', string='Untaxed Amount',
         digits=dp.get_precision('Account'), store=True,
@@ -186,13 +186,12 @@ class SaleOrder(models.Model):
         string='Seguro', default=0.00, digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]})
 
-    def _fiscal_comment(self, cr, uid, order, context=None):
-        fp_comment = []
+    @api.model
+    def _fiscal_comment(self, order):
         fc_comment = []
         fc_ids = []
 
-        fp_comment = super(SaleOrder, self)._fiscal_comment(
-            cr, uid, order, context)
+        fp_comment = super(SaleOrder, self)._fiscal_comment(order)
 
         for line in order.order_line:
             if line.product_id.fiscal_classification_id:
@@ -211,34 +210,36 @@ class SaleOrder(models.Model):
             self.env.user.company_id.id)
         context.update(
             {'fiscal_document_code': company.product_invoice_id.code})
-        return super(SaleOrder,
-                     self.with_context(context))._make_invoice(order,
-                                                               lines)
+        return super(
+            SaleOrder, self.with_context(context))._make_invoice(
+            order, lines)
 
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    @api.one
     @api.depends('price_unit', 'tax_id', 'discount', 'product_uom_qty')
     def _amount_line(self):
-        price = self._calc_line_base_price()
-        qty = self._calc_line_quantity()
-        taxes = self.tax_id.compute_all(
-            price,
-            qty,
-            product=self.product_id,
-            partner=self.order_id.partner_invoice_id,
-            fiscal_position=self.fiscal_position,
-            insurance_value=self.insurance_value,
-            freight_value=self.freight_value,
-            other_costs_value=self.other_costs_value)
+        for record in self:
+            price = record._calc_line_base_price()
+            qty = record._calc_line_quantity()
+            taxes = record.tax_id.compute_all(
+                price_unit=price,
+                quantity=qty,
+                product=record.product_id,
+                partner=record.order_id.partner_invoice_id,
+                fiscal_position=record.fiscal_position_id,
+                insurance_value=record.insurance_value,
+                freight_value=record.freight_value,
+                other_costs_value=record.other_costs_value)
 
-        self.price_subtotal = (self.order_id.pricelist_id
-                               .currency_id.round(taxes['total']))
-        self.price_gross = self._calc_price_gross(qty)
-        self.discount_value = self.order_id.pricelist_id.currency_id.round(
-            self.price_gross - (price * qty))
+            record.price_subtotal = \
+                record.order_id.pricelist_id.currency_id.round(
+                    taxes['total_excluded'])
+            record.price_gross = record._calc_price_gross(qty)
+            record.discount_value = \
+                record.order_id.pricelist_id.currency_id.round(
+                    record.price_gross - (price * qty))
 
     insurance_value = fields.Float('Insurance',
                                    default=0.0,
@@ -276,29 +277,28 @@ class SaleOrderLine(models.Model):
                   "a number with up to six digits")
             )
 
-    def _prepare_order_line_invoice_line(self, cr, uid, line,
-                                         account_id=False, context=None):
-        result = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
-            cr, uid, line, account_id, context)
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        self.ensure_one()
+        result = super(SaleOrderLine, self)._prepare_invoice_line(
+            qty)
 
-        result['insurance_value'] = line.insurance_value
-        result['other_costs_value'] = line.other_costs_value
-        result['freight_value'] = line.freight_value
-        result['partner_order'] = line.customer_order
-        result['partner_order_line'] = line.customer_order_line
+        result['insurance_value'] = self.insurance_value
+        result['other_costs_value'] = self.other_costs_value
+        result['freight_value'] = self.freight_value
+        result['partner_order'] = self.customer_order
+        result['partner_order_line'] = self.customer_order_line
 
         # FIXME
         # Necessário informar estes campos pois são related do
         # objeto account.invoice e quando o método create do
         # account.invoice.line é invocado os valores são None
-        result['company_id'] = line.order_id.company_id.id
-        result['partner_id'] = line.order_id.partner_id.id
+        result['company_id'] = self.order_id.company_id.id
+        result['partner_id'] = self.order_id.partner_id.id
 
-        if line.product_id.fiscal_type == 'product':
-            if line.fiscal_position:
-                cfop = self.pool.get("account.fiscal.position").read(
-                    cr, uid, [line.fiscal_position.id], ['cfop_id'],
-                    context=context)
-                if cfop[0]['cfop_id']:
-                    result['cfop_id'] = cfop[0]['cfop_id'][0]
+        if self.product_id.fiscal_type == 'product':
+            if self.fiscal_position_id:
+                cfop = self.fiscal_position_id.cfop_id
+                if cfop:
+                    result['cfop_id'] = cfop.id
         return result
