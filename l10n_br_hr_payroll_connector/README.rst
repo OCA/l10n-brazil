@@ -60,8 +60,7 @@ Images
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 
 Maintainer
 ----------

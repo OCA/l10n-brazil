@@ -1,13 +1,8 @@
-from openerp import models, api, fields
+from openerp import models, api
 from openerp.addons.l10n_br_hr_payroll.models.profiling import (
     clear_prof_data,
-    log_prof_data,
-    profile
+    log_prof_data
 )
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from pybrasil.data import ultimo_dia_mes
-from pybrasil.data import formata_data
 import logging
 
 from openerp.addons.connector.queue.job import job
