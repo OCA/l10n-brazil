@@ -18,9 +18,9 @@
         'views/res_company_view.xml',
         'data/l10n_br_sale_product_data.xml',
     ],
-    'test': [],
     'demo': [
         'demo/product_demo.xml',
+        'demo/l10n_br_sale_product_demo.xml',
     ],
     'installable': True,
     'auto_install': True,
