@@ -50,9 +50,10 @@
                         </h2>
                         <group>
                             <group>
+                                <field name="beneficiary_list" invisible="1"/>
                                 <field name="contract_id" groups="base.group_hr_user"/>
                                 <field name="employee_id" invisible="1"/>
-                                <field name="partner_id"/>
+                                <field name="partner_id" attrs="{'required': [('beneficiary_list', '=', False)], 'invisible': [('beneficiary_list', '=', True)]}"/>
                             </group>
                             <group>
                                 <field name="benefit_type_id"/>
@@ -62,6 +63,15 @@
                             </group>
                         </group>
                         <group>
+                            <label for="insurance_beneficiary_ids" colspan="4"
+                                   attrs="{'invisible': [('beneficiary_list', '=', False)]}"/>
+                            <field name="insurance_beneficiary_ids"
+                                   nolabel="1"
+                                   editable="bottom"
+                                   colspan="4"
+                                   attrs="{'required': [('beneficiary_list', '=', True)], 'invisible': [('beneficiary_list', '=', False)]}"
+                            />
+                            <separator string=""/>
                             <field name="attachment_ids"
                                    widget="many2many_binary"/>
                         </group>
@@ -99,6 +109,32 @@
                     </group>
 
                 </search>
+            </field>
+        </record>
+
+        <record id="view_insurance_beneficiary_tree_view" model="ir.ui.view">
+            <field name="model">benefit.insurance.beneficiary</field>
+            <field name="name">benefit.insurance.beneficiary.tree.view</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="benefit_id" invisible="1"/>
+                    <field name="beneficiary_name"/>
+                    <field name="benefit_percent" sum="Total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_insurance_beneficiary_form_view" model="ir.ui.view">
+            <field name="model">benefit.insurance.beneficiary</field>
+            <field name="name">benefit.insurance.beneficiary.form.view</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="benefit_id" invisible="1"/>
+                        <field name="beneficiary_name"/>
+                        <field name="benefit_percent"/>
+                    </group>
+                </form>
             </field>
         </record>
 

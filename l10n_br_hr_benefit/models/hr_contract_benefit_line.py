@@ -18,6 +18,7 @@ BENEFIT_TYPE = {
     'saude': ['Auxílio Saúde'],
     'cesta': ['Cesta Alimentação'],
     'creche': ['Creche / Babá', 'creche', 'babá'],
+    'seguro_vida': ['Seguro de Vida', 'Seguro Vida'],
 }
 
 
@@ -344,6 +345,9 @@ class HrContractBenefitLine(models.Model):
         elif self._check_benefit_type('creche'):
             self._generate_calculated_values_creche()
 
+        elif self._check_benefit_type('seguro_vida'):
+            self._generate_calculated_values_seguro_vida()
+
     def _generate_calculated_values_va_vr(self):
         self.deduction_amount = 0.01 * self.amount_benefit
         self.deduction_percentual = 100
@@ -418,6 +422,10 @@ class HrContractBenefitLine(models.Model):
             self.beneficiary_ids[:1].button_cancel()
 
 
+    def _generate_calculated_values_seguro_vida(self):
+        self.income_amount = self.amount_benefit
+        self.income_percentual = 100
+        self.income_quantity = 1
 
     @api.multi
     def button_send_receipt(self):

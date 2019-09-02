@@ -43,6 +43,7 @@
                                     <group string="Benefício">
                                         <field name="need_approval"/>
                                         <field name="need_approval_file"/>
+                                        <field name="beneficiary_list"/>
                                     </group>
                                     <group string="Prestaçao de Contas">
                                         <field name="line_need_approval"/>

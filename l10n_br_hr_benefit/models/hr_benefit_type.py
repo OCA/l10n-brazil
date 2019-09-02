@@ -121,6 +121,9 @@ class HrBenefitType(models.Model):
         selection=ADMISSION_SELECTION,
         default='partial',
     )
+    beneficiary_list = fields.Boolean(
+        string="Usar lista de beneficiarios ao invés de parceiro"
+    )
     extra_income = fields.Boolean(
         string='13º Cesta?',
         default=False,

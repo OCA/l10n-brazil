@@ -92,7 +92,6 @@ class HrContractBenefit(models.Model):
         comodel_name='res.partner',
         ondelete='restrict',
         index=True,
-        required=True,
         string='Beneficiário',
         track_visibility='onchange',
         states={'draft': [('readonly', False)]},
@@ -131,6 +130,15 @@ class HrContractBenefit(models.Model):
     line_count = fields.Integer(
         "# Apurações", compute='_compute_line_count',
         readonly=True,
+    )
+    insurance_beneficiary_ids = fields.One2many(
+        comodel_name='benefit.insurance.beneficiary',
+        inverse_name='benefit_id',
+        string='Beneficiários do Seguro de Vida',
+        track_visibility='onchange'
+    )
+    beneficiary_list = fields.Boolean(
+        related='benefit_type_id.beneficiary_list'
     )
 
     @api.one
@@ -221,10 +229,16 @@ class HrContractBenefit(models.Model):
         'benefit_type_id', 'partner_id', 'date_start', 'date_stop')
     def _compute_benefit_name(self):
         for record in self:
-            if not record.partner_id or \
-                    not record.benefit_type_id:
-                record.name = 'Novo'
-                continue
+            if not record.partner_id:
+                if record.beneficiary_list:
+                    record.name = '{} - {}'.format(
+                        record.employee_id.name or '',
+                        record.benefit_type_id.name or ''
+                    )
+                    continue
+                elif not record.benefit_type_id:
+                    record.name = 'Novo'
+                    continue
             name = '%s - %s' % (
                 record.partner_id.name or '',
                 record.benefit_type_id.name or '')
@@ -375,12 +389,79 @@ class HrContractBenefit(models.Model):
                 vals.get('state') == 'waiting':
             vals.update({'state': 'validated'})
 
+    def _post_beneficiary_message(self, vals):
+        msg = ''
+        for item in vals:
+            line = self.env['benefit.insurance.beneficiary'].browse(item[1])
+            if item[0] == 4 and not item[2]:
+                continue
+            elif item[0] == 2:
+                msg += 'Beneficiário {} foi excluído.' \
+                       ' <br/><br/>'.format(line.beneficiary_name)
+            elif item[0] == 0 and item[2]:
+                msg += 'Novo beneficiário: {} ({}%). <br/>' \
+                       '<br/>'.format(item[2].get('beneficiary_name'),
+                                      item[2].get('benefit_percent'))
+            elif item[0] == 1 and item[2]:
+                for key, value in item[2].iteritems():
+                    if key == 'beneficiary_name':
+                        msg += 'Nome de beneficiário atualizado ' \
+                               'de %s para %s <br/>' %(line.beneficiary_name, value)
+                    elif key == 'benefit_percent':
+                        msg += 'Porcentagem do benefício do(a) ' \
+                               '{} atualizado para {} % <br/>'.format(line.beneficiary_name,
+                                                                      value)
+                msg += '<br/>'
+        self.message_post(msg)
+
     @api.multi
     def write(self, vals):
         self._validate_benefit(vals)
+        if vals.get('insurance_beneficiary_ids'):
+            self._post_beneficiary_message(vals.get('insurance_beneficiary_ids'))
         return super(HrContractBenefit, self).write(vals)
 
     @api.model
     def create(self, vals):
         self._validate_benefit(vals)
         return super(HrContractBenefit, self).create(vals)
+
+    @api.constrains('insurance_beneficiary_ids')
+    def _constrains_benefit_percent(self):
+        for record in self:
+            total_percent = sum([line.benefit_percent for
+                                 line in record.insurance_beneficiary_ids])
+            if total_percent > 100:
+                raise ValidationError(
+                    _('A porcentagem total de recebimento dos beneficiários '
+                      'do Seguro de Vida é maior que 100%'.format(total_percent))
+                )
+
+    @api.onchange('benefit_type_id')
+    def _onchange_benefit_type(self):
+        for record in self:
+            if record.beneficiary_list:
+                record.partner_id = False
+            elif not record.beneficiary_list:
+                record.insurance_beneficiary_ids = False
+
+
+class HrContractBenefitInsuranceBeneficiary(models.Model):
+    _name = b'benefit.insurance.beneficiary'
+
+    benefit_id = fields.Many2one(
+        comodel_name='hr.contract.benefit',
+        string='Benefício relacionado'
+    )
+    beneficiary_name = fields.Char(
+        string='Beneficiário do seguro'
+    )
+    benefit_percent = fields.Integer(
+        string='Porcentagem para o beneficiário'
+    )
+
+    @api.multi
+    def compute_display_name(self):
+        for record in self:
+            record.display_name = record.beneficiary_name + \
+                                  '({}%)'.format(str(record.benefit_percent))
