@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sale Order Teste - 1 -->
+    <record id="l10n_br_sale_product_demo_1" model="sale.order">
+        <field name="name">Teste l10n_br_sale_product - 1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="pricelist_id" ref="product.list0"/>
+        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="state">draft</field>
+        <field name="fiscal_category_id" ref="l10n_br_sale.demo_fiscal_category-venda"/>
+        <field name="note">TESTE</field>
+    </record>
+
+    <record id="sale_order_line_teste_1-1" model="sale.order.line">
+        <field name="order_id" ref="l10n_br_sale_product_demo_1"/>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="product.product_uom_unit"/>
+        <field name="price_unit">3645.00</field>
+        <field name="fiscal_category_id" ref="l10n_br_sale.demo_fiscal_category-venda"/>
+        <field name="insurance_value">2.0</field>
+        <field name="other_costs_value">1.0</field>
+        <field name="freight_value">3.0</field>
+    </record>
+
+    <record id="sale_order_line_teste_1-2" model="sale.order.line">
+        <field name="order_id" ref="l10n_br_sale_product_demo_1"/>
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="product.product_uom_unit"/>
+        <field name="price_unit">12.50</field>
+        <field name="fiscal_category_id" ref="l10n_br_sale.demo_fiscal_category-venda"/>
+        <field name="insurance_value">2.0</field>
+        <field name="other_costs_value">1.0</field>
+        <field name="freight_value">3.0</field>
+    </record>
+
+</odoo>
