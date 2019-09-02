@@ -11,7 +11,7 @@ class TestL10nBRSaleProduct(common.TransactionCase):
     def setUp(self):
         super(TestL10nBRSaleProduct, self).setUp()
         self.sale_object = self.env['sale.order']
-        self.sale_stock= self.sale_object.browse(
+        self.sale_stock = self.sale_object.browse(
             self.ref('l10n_br_sale_product.l10n_br_sale_product_demo_1')
         )
 
