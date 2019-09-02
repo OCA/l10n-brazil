@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
 
-        <record id="l10n_br_sale_product_order_form" model="ir.ui.view">
-            <field name="name">l10n_br_sale_product.order.form</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="priority">46</field>
-            <field name="arch" type="xml">
-                <field name="amount_untaxed" position="after">
-                    <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                    <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                    <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                </field>
-                        <field name="invoiced" position="before">
-                    <field name="ind_pres"/>
-                </field>
-                <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace">
-                    <notebook>
-                        <page string="Invoice Lines" groups="base.group_no_one">
-                            <field name="invoice_lines"/>
-                        </page>
-                        <page string="Informações Fiscais">
-                            <group string="Informação de interesse do emissor para controle do B2B">
-                                <group>
-                                    <field name="customer_order"/>
-                                </group>
-                                <group>
-                                    <field name="customer_order_line"/>
-                                </group>
-                            </group>
-                        </page>
-                    </notebook>
-                </xpath>
+    <record id="l10n_br_sale_product_order_form" model="ir.ui.view">
+        <field name="name">l10n_br_sale_product.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority">46</field>
+        <field name="arch" type="xml">
+            <field name="amount_untaxed" position="after">
+                <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
             </field>
-        </record>
+            <group name="sale_pay" position="inside">
+                <field name="ind_pres"/>
+            </group>
+            <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace">
+                <notebook>
+                    <page string="Invoice Lines" groups="base.group_no_one">
+                        <field name="invoice_lines"/>
+                    </page>
+                    <page string="Informações Fiscais">
+                        <group string="Informação de interesse do emissor para controle do B2B">
+                            <group>
+                                <field name="customer_order"/>
+                            </group>
+                            <group>
+                                <field name="customer_order_line"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
 
-    </data>
+
 </odoo>
