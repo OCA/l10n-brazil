@@ -208,10 +208,15 @@ class HrContractBenefit(models.Model):
     @api.constrains("date_start", "date_stop", "benefit_type_id",
                     "partner_id")
     def _check_dates(self):
+
+        partner_domain = ('partner_id', '=', self.partner_id.id)
+        if not self.partner_id:
+            partner_domain = ('contract_id', '=', self.contract_id.id)
+
         domain = [
             ('id', '!=', self.id),
             ('benefit_type_id', '=', self.benefit_type_id.id),
-            ('partner_id', '=', self.partner_id.id),
+            partner_domain,
             ('date_start', '<=', self.date_start),
             '|',
             ('date_stop', '=', False),
