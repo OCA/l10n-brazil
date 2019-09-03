@@ -53,6 +53,7 @@
         <field name="fiscal_category_id" ref="demo_fiscal_category-venda"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">output</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_5102"/>
     </record>
 
     <record id="fiscal_position_tax_venda_sp" model="account.fiscal.position.tax">
