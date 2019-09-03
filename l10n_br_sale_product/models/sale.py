@@ -289,13 +289,6 @@ class SaleOrderLine(models.Model):
         result['partner_order'] = self.customer_order
         result['partner_order_line'] = self.customer_order_line
 
-        # FIXME
-        # Necessário informar estes campos pois são related do
-        # objeto account.invoice e quando o método create do
-        # account.invoice.line é invocado os valores são None
-        result['company_id'] = self.order_id.company_id.id
-        result['partner_id'] = self.order_id.partner_id.id
-
         if self.product_id.fiscal_type == 'product':
             if self.fiscal_position_id:
                 cfop = self.fiscal_position_id.cfop_id
