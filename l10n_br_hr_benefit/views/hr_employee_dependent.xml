@@ -20,8 +20,8 @@
 <!--                        <button name="button_approve" type="object" string="Aprovar" states="to approve"/>-->
 <!--                        <button name="button_exception" type="object" string="Reprovar" states="to approve"/>-->
 <!--                        <button name="button_back_to_approve" type="object" string="Voltar para edição" states="exception"/>-->
-                        <button name="button_approve" type="object" string="Aprovar" states="to approve"/>
-                        <button name="button_to_approve" type="object" string="Voltar para edição" states="approved" groups="base.group_hr_user"/>
+                        <button name="button_approve" type="object" string="Aprovar" states="to approve" groups="base.group_hr_user"/>
+                        <button name="button_to_approve" type="object" string="Voltar para edição" states="approved" />
                         <!--<button name="%(wizard_hr_contract_benefit_create_act_window)d"-->
                                 <!--string="Adicionar benefícios" type="action" groups="base.group_hr_user" class="oe_highlight" states="approved"/>-->
                         <field name="state" widget="statusbar" nolabel="1" readonly="1" statusbar_visible="to approve,approved"/>
