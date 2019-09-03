@@ -12,6 +12,7 @@ from datetime import date
 from pybrasil.data import dias_uteis
 from pybrasil.data import ultimo_dia_mes
 from datetime import datetime, tzinfo, timedelta
+from openerp.tools.safe_eval import safe_eval
 
 BENEFIT_TYPE = {
     'va_vr': ['va', 'vr'],
@@ -336,39 +337,77 @@ class HrContractBenefitLine(models.Model):
         self.ensure_one()
 
         if self._check_benefit_type('va_vr'):
-            self._generate_calculated_values_va_vr()
+            # PYTHON CODE
+                # deduction_amount = 0.01 * amount_benefit
+                # deduction_percentual = 100
+                # deduction_quantity = 1
+                # income_amount = amount_benefit
+                # income_percentual = 100
+                # income_quantity = 1
+            # PYTHON CODE END
+            self._eval_python_code()
 
         elif self._check_benefit_type('saude'):
-            self._generate_calculated_values_saude()
+            # PYTHON CODE
+                # income_amount = amount_benefit
+                # income_percentual = 100
+                # income_quantity = 1
+            # PYTHON CODE END
+            self._eval_python_code()
 
         elif self._check_benefit_type('cesta'):
+            # PYTHON CODE
+                # income_amount = amount_benefit
+                # income_percentual = 100
+                # income_quantity = 1
+            # PYTHON CODE END
+            self._eval_python_code()
             self._generate_calculated_values_cesta()
 
         elif self._check_benefit_type('creche'):
-            self._generate_calculated_values_creche()
+            # PYTHON CODE
+                # income_amount = amount_benefit
+                # income_percentual = 100
+                # income_quantity = 1
+            # PYTHON CODE END
+            if self._generate_calculated_values_creche():
+                self._eval_python_code()
 
         elif self._check_benefit_type('seguro_vida'):
-            self._generate_calculated_values_seguro_vida()
+            # PYTHON CODE
+                # income_amount = amount_benefit
+                # income_percentual = 100
+                # income_quantity = 1
+            # PYTHON CODE END
+            self._eval_python_code()
 
-    def _generate_calculated_values_va_vr(self):
-        self.deduction_amount = 0.01 * self.amount_benefit
-        self.deduction_percentual = 100
-        self.deduction_quantity = 1
+    def _eval_python_code(self):
+        localdict = dict(
+            amount_benefit=self.amount_benefit,
+            amount_base=self.amount_base,
+            income_amount=self.income_amount,
+            income_percentual=self.income_percentual,
+            income_quantity=self.income_quantity,
+            deduction_amount=self.deduction_amount,
+            deduction_percentual=self.deduction_percentual,
+            deduction_quantity=self.deduction_quantity,
+        )
 
-        self.income_amount = self.amount_benefit
-        self.income_percentual = 100
-        self.income_quantity = 1
+        try:
+            expression = self.benefit_type_id.python_code
 
-    def _generate_calculated_values_saude(self):
-        self.income_amount = self.amount_benefit
-        self.income_percentual = 100
-        self.income_quantity = 1
+            safe_eval(expression, localdict, mode="exec", nocopy=True)
+
+            for key, value in localdict.items():
+                if hasattr(self, key):
+                    self[key] = value
+        except Exception as e:
+            self.exception_message = \
+                'Reijeitado pois a expressão de cálculo dos valores deste ' \
+                'benefício está incorreta.'
+            self.state = 'exception'
 
     def _generate_calculated_values_cesta(self):
-        self.income_amount = self.amount_benefit
-        self.income_percentual = 100
-        self.income_quantity = 1
-
         # 13ª Cesta
         if self.benefit_type_id.extra_income and \
                 date.today().month == \
@@ -387,6 +426,7 @@ class HrContractBenefitLine(models.Model):
                                      'cancelado.'
             self.state = 'exception'
             self.beneficiary_ids[:1].button_cancel()
+            return False
         # CHECK IF BENEFICIARY HAS BIRTHDATE SET
         elif dependent_id.dependent_dob:
             dob = datetime.strptime(
@@ -411,10 +451,9 @@ class HrContractBenefitLine(models.Model):
                                          'cancelado.'
                 self.state = 'exception'
                 self.beneficiary_ids[:1].button_cancel()
+                return False
             else:
-                self.income_amount = self.amount_benefit
-                self.income_percentual = 100
-                self.income_quantity = 1
+                return True
         else:
             self.exception_message = 'Reijeitado pois o beneficiário não' \
                                      ' possui uma data de nascimento ' \
@@ -422,11 +461,7 @@ class HrContractBenefitLine(models.Model):
                                      'cancelado.'
             self.state = 'exception'
             self.beneficiary_ids[:1].button_cancel()
-
-    def _generate_calculated_values_seguro_vida(self):
-        self.income_amount = self.amount_benefit
-        self.income_percentual = 100
-        self.income_quantity = 1
+            return False
 
     def check_approve_limit(self):
         today = datetime.today()
