@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
 
 from odoo.addons import decimal_precision as dp
 from odoo.addons.l10n_br_base.tools.misc import calc_price_ratio
@@ -137,54 +136,81 @@ class SaleOrder(models.Model):
             })
         return True
 
-    ind_pres = fields.Selection(selection=[
-        ('0', u'Não se aplica (por exemplo,'
-              u' Nota Fiscal complementar ou de ajuste)'),
-        ('1', u'Operação presencial'),
-        ('2', u'Operação não presencial, pela Internet'),
-        ('3', u'Operação não presencial, Teleatendimento'),
-        ('4', u'NFC-e em operação com entrega em domicílio'),
-        ('5', u'Operação presencial, fora do estabelecimento'),
-        ('9', u'Operação não presencial, outros')], string=u'Tipo de operação',
-        readonly=True, states={'draft': [('readonly', False)]}, required=False,
+    ind_pres = fields.Selection(
+        selection=[('0', u'Não se aplica (por exemplo,'
+                         u' Nota Fiscal complementar ou de ajuste)'),
+                   ('1', u'Operação presencial'),
+                   ('2', u'Operação não presencial, pela Internet'),
+                   ('3', u'Operação não presencial, Teleatendimento'),
+                   ('4', u'NFC-e em operação com entrega em domicílio'),
+                   ('5', u'Operação presencial, fora do estabelecimento'),
+                   ('9', u'Operação não presencial, outros')],
+        string=u'Tipo de operação',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=False,
         help=u'Indicador de presença do comprador no estabelecimento \
              comercial no momento da operação.',
         default=_default_ind_pres)
     amount_untaxed = fields.Float(
-        compute='_amount_all_wrapper', string='Untaxed Amount',
-        digits=dp.get_precision('Account'), store=True,
-        help="The amount without tax.", track_visibility='always')
+        compute='_amount_all_wrapper',
+        string='Untaxed Amount',
+        digits=dp.get_precision('Account'),
+        store=True,
+        help="The amount without tax.",
+        track_visibility='always')
     amount_tax = fields.Float(
-        compute='_amount_all_wrapper', string='Taxes', store=True,
-        digits=dp.get_precision('Account'), help="The tax amount.")
+        compute='_amount_all_wrapper',
+        string='Taxes',
+        store=True,
+        digits=dp.get_precision('Account'),
+        help="The tax amount.")
     amount_total = fields.Float(
-        compute='_amount_all_wrapper', string='Total', store=True,
-        digits=dp.get_precision('Account'), help="The total amount.")
+        compute='_amount_all_wrapper',
+        string='Total',
+        store=True,
+        digits=dp.get_precision('Account'),
+        help="The total amount.")
     amount_extra = fields.Float(
-        compute='_amount_all_wrapper', string='Extra',
-        digits=dp.get_precision('Account'), store=True,
+        compute='_amount_all_wrapper',
+        string='Extra',
+        digits=dp.get_precision('Account'),
+        store=True,
         help="The total amount.")
     amount_discount = fields.Float(
-        compute='_amount_all_wrapper', string='Desconto (-)',
-        digits=dp.get_precision('Account'), store=True,
+        compute='_amount_all_wrapper',
+        string='Desconto (-)',
+        digits=dp.get_precision('Account'),
+        store=True,
         help="The discount amount.")
     amount_gross = fields.Float(
-        compute='_amount_all_wrapper', string='Vlr. Bruto',
+        compute='_amount_all_wrapper',
+        string='Vlr. Bruto',
         digits=dp.get_precision('Account'),
-        store=True, help="The discount amount.")
+        store=True,
+        help="The discount amount.")
     amount_freight = fields.Float(
-        compute=_get_costs_value, inverse=_set_amount_freight,
-        string='Frete', default=0.00, digits=dp.get_precision('Account'),
+        compute='_get_costs_value',
+        inverse='_set_amount_freight',
+        string='Frete', default=0.00,
+        digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]})
     amount_costs = fields.Float(
-        compute=_get_costs_value, inverse=_set_amount_costs,
-        string='Outros Custos', default=0.00,
+        compute='_get_costs_value',
+        inverse='_set_amount_costs',
+        string='Outros Custos',
+        default=0.00,
         digits=dp.get_precision('Account'),
-        readonly=True, states={'draft': [('readonly', False)]})
+        readonly=True,
+        states={'draft': [('readonly', False)]})
     amount_insurance = fields.Float(
-        compute=_get_costs_value, inverse=_set_amount_insurance,
-        string='Seguro', default=0.00, digits=dp.get_precision('Account'),
-        readonly=True, states={'draft': [('readonly', False)]})
+        compute='_get_costs_value',
+        inverse='_set_amount_insurance',
+        string='Seguro',
+        default=0.00,
+        digits=dp.get_precision('Account'),
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     @api.model
     def _fiscal_comment(self, order):
@@ -213,85 +239,3 @@ class SaleOrder(models.Model):
         return super(
             SaleOrder, self.with_context(
                 context)).action_invoice_create(grouped, final)
-
-
-class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
-
-    @api.depends('price_unit', 'tax_id', 'discount', 'product_uom_qty')
-    def _amount_line(self):
-        for record in self:
-            price = record._calc_line_base_price()
-            qty = record._calc_line_quantity()
-            taxes = record.tax_id.compute_all(
-                price_unit=price,
-                quantity=qty,
-                product=record.product_id,
-                partner=record.order_id.partner_invoice_id,
-                fiscal_position=record.fiscal_position_id,
-                insurance_value=record.insurance_value,
-                freight_value=record.freight_value,
-                other_costs_value=record.other_costs_value)
-
-            record.price_subtotal = \
-                record.order_id.pricelist_id.currency_id.round(
-                    taxes['total_excluded'])
-            record.price_gross = record._calc_price_gross(qty)
-            record.discount_value = \
-                record.order_id.pricelist_id.currency_id.round(
-                    record.price_gross - (price * qty))
-
-    insurance_value = fields.Float('Insurance',
-                                   default=0.0,
-                                   digits=dp.get_precision('Account'))
-    other_costs_value = fields.Float('Other costs',
-                                     default=0.0,
-                                     digits=dp.get_precision('Account'))
-    freight_value = fields.Float('Freight',
-                                 default=0.0,
-                                 digits=dp.get_precision('Account'))
-    discount_value = fields.Float(compute='_amount_line',
-                                  string='Vlr. Desc. (-)',
-                                  digits=dp.get_precision('Sale Price'))
-    price_gross = fields.Float(compute='_amount_line',
-                               string='Vlr. Bruto',
-                               digits=dp.get_precision('Sale Price'))
-    price_subtotal = fields.Float(compute='_amount_line',
-                                  string='Subtotal',
-                                  digits=dp.get_precision('Sale Price'))
-    customer_order = fields.Char(
-        string=u"Pedido do Cliente",
-        size=15,
-    )
-    customer_order_line = fields.Char(
-        string=u"Item do Pedido do Cliente",
-        size=6,
-    )
-
-    @api.onchange("customer_order_line")
-    def _check_customer_order_line(self):
-        if (self.customer_order_line and
-                not self.customer_order_line.isdigit()):
-            raise ValidationError(
-                _(u"Customer order line must be "
-                  "a number with up to six digits")
-            )
-
-    @api.multi
-    def _prepare_invoice_line(self, qty):
-        self.ensure_one()
-        result = super(SaleOrderLine, self)._prepare_invoice_line(
-            qty)
-
-        result['insurance_value'] = self.insurance_value
-        result['other_costs_value'] = self.other_costs_value
-        result['freight_value'] = self.freight_value
-        result['partner_order'] = self.customer_order
-        result['partner_order_line'] = self.customer_order_line
-
-        if self.product_id.fiscal_type == 'product':
-            if self.fiscal_position_id:
-                cfop = self.fiscal_position_id.cfop_id
-                if cfop:
-                    result['cfop_id'] = cfop.id
-        return result
