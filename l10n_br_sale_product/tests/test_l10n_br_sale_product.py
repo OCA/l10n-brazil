@@ -57,3 +57,12 @@ class TestL10nBRSaleProduct(common.TransactionCase):
                 u"Error to apply discount on invoice"
                 u" created from sale order."
             )
+            for line in invoice.invoice_line_ids:
+                self.assertTrue(
+                    line.company_id,
+                    "Error to inform field company_id on Sale Order Line."
+                )
+                self.assertTrue(
+                    line.partner_id,
+                    "Error to inform field partner_id on Sale Order Line."
+                )
