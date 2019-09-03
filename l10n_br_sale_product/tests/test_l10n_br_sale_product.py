@@ -20,6 +20,14 @@ class TestL10nBRSaleProduct(common.TransactionCase):
 
         self.sale_stock.onchange_partner_id()
         self.sale_stock.onchange_partner_shipping_id()
+        for line in self.sale_stock.order_line:
+            line.product_id_change()
+            line.onchange_fiscal()
+            self.assertTrue(
+                line.fiscal_position_id,
+                "Error to mapping Fiscal Position on Sale Order Line."
+            )
+
         self.assertEquals(
             self.sale_stock.amount_total, 7473.3,
             u"Error to apply discount on sale order."
