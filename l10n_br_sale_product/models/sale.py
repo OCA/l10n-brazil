@@ -203,16 +203,16 @@ class SaleOrder(models.Model):
 
         return fp_comment + fc_comment
 
-    @api.model
-    def _make_invoice(self, order, lines):
+    @api.multi
+    def action_invoice_create(self, grouped=False, final=False):
         context = dict(self.env.context)
         company = self.env['res.company'].browse(
             self.env.user.company_id.id)
         context.update(
             {'fiscal_document_code': company.product_invoice_id.code})
         return super(
-            SaleOrder, self.with_context(context))._make_invoice(
-            order, lines)
+            SaleOrder, self.with_context(
+                context)).action_invoice_create(grouped, final)
 
 
 class SaleOrderLine(models.Model):
