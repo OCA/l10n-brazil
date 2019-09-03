@@ -423,15 +423,31 @@ class HrContractBenefitLine(models.Model):
             self.state = 'exception'
             self.beneficiary_ids[:1].button_cancel()
 
-
     def _generate_calculated_values_seguro_vida(self):
         self.income_amount = self.amount_benefit
         self.income_percentual = 100
         self.income_quantity = 1
 
+    def check_approve_limit(self):
+        today = datetime.today()
+        create_date = fields.Datetime.from_string(
+            self.create_date)
+        days_since_created = (today - create_date).days
+
+        if self.benefit_type_id.line_days_approval_limit and \
+                days_since_created > \
+                self.benefit_type_id.line_days_approval_limit:
+            # CHECK PERMISSION
+            if not self.env.user.has_group('base.group_hr_manager'):
+                return False
+        return True
+
     @api.multi
     def button_send_receipt(self):
         for record in self:
+            if not record.check_approve_limit():
+                raise Warning(_("""\nSomente membros do RH podem aprovar 
+                benefícios após a data limite de confirmação"""))
             if (record.benefit_type_id.line_need_approval_file and
                     not record.attachment_ids):
                 raise Warning(_("""\nPara enviar para aprovação é necessário
@@ -455,6 +471,9 @@ class HrContractBenefitLine(models.Model):
     @api.multi
     def button_approve_receipt(self):
         for record in self:
+            if not record.check_approve_limit():
+                raise Warning(_("""\nSomente membros do RH podem aprovar 
+                benefícios após a data limite de confirmação"""))
             if record.benefit_type_id.line_need_approval and not \
                     self.env.user.has_group('base.group_hr_user'):
                 raise Warning(
