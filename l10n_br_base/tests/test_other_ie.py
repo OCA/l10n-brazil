@@ -68,8 +68,8 @@ class OtherIETest(TransactionCase):
         try:
             result = self.company.write({
                 'state_tax_number_ids': [(0, 0, {
-                    'state_id': self.ref('base.state_br_ba'),
-                    'inscr_est': 41902652,
+                    'state_id': self.ref('base.state_br_am'),
+                    'inscr_est': '042933681',
                 })]
             })
         except:
