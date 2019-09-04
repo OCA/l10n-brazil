@@ -123,3 +123,7 @@ class HrEmployeeDependent(models.Model):
     def write(self, vals):
         return super(HrEmployeeDependent, self).write(vals)
 
+    @api.model
+    def _needaction_domain_get(self):
+        res =super(HrEmployeeDependent, self)._needaction_domain_get()
+        return ['|'] + res + [('state', '=', 'to approve')]

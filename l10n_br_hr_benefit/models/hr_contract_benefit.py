@@ -459,6 +459,11 @@ class HrContractBenefit(models.Model):
             elif not record.beneficiary_list:
                 record.insurance_beneficiary_ids = False
 
+    @api.model
+    def _needaction_domain_get(self):
+        res = super(HrContractBenefit, self)._needaction_domain_get()
+        return ['|'] + res + [('state', '=', 'waiting')]
+
 
 class HrContractBenefitInsuranceBeneficiary(models.Model):
     _name = b'benefit.insurance.beneficiary'

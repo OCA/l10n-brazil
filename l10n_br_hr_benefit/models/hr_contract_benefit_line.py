@@ -573,3 +573,7 @@ class HrContractBenefitLine(models.Model):
 
         return super(HrContractBenefitLine, self).create(vals)
 
+    @api.model
+    def _needaction_domain_get(self):
+        res = super(HrContractBenefitLine, self)._needaction_domain_get()
+        return ['|'] + res + [('state', '=', 'waiting')]
