@@ -116,7 +116,5 @@ class HrEmployeeDependent(models.Model):
 
     @api.multi
     def write(self, vals):
-        if self.env.user.has_group('base.group_hr_user'):
-            vals['state'] = 'approved'
         return super(HrEmployeeDependent, self).write(vals)
 

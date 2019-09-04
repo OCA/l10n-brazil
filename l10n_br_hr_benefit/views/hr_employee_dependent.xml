@@ -36,10 +36,37 @@
                             >
                                 <field string="Benefícios" name="benefit_count" widget="statinfo"/>
                             </button>
-                            <br/>
-                        </div>
+                        <br/>
+                    </div>
                 </field>
-<!--                <xpath expr="//group" position="before">-->
+                <field name="employee_id" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="dependent_dob" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="dependent_gender" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="dependent_verification" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="inc_trab" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="cnpj_cpf" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="inscr_est" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="dependent_type_id" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <field name="relative_file" position="attributes">
+                    <attribute name="attrs" >{'readonly': [('state', '=', 'approved')]}</attribute>
+                </field>
+                <!--                <xpath expr="//group" position="before">-->
 <!--                    <h1>-->
 <!--                        <field name="exception_message" readonly="1" />-->
 <!--                    </h1>-->
