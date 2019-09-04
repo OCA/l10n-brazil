@@ -69,6 +69,7 @@ def _get_account_details(self, account_ids, target_move, fiscalyear,
 
     accounts_by_id = {}
     for account in accounts:
+        account['ramo'] = ''
         if init_balance:
             # sum for top level views accounts
             child_ids = account_obj._get_children_and_consol(
@@ -170,7 +171,60 @@ def _get_account_details(self, account_ids, target_move, fiscalyear,
                 natureza_balance if account.get('balance') else ' '
 
         accounts_by_id[account['id']] = account
+
     return accounts_by_id
+
+
+def get_lancamentos_ramos(self, cr, uid, natureza_init_balance_accounts, start_period, stop_period, fiscalyear, context):
+    sql = "SELECT * FROM account_move_line WHERE ramo_id <> 0 AND date >= '{}' AND date <= '{}'".format(start_period.date_start, start_period.date_stop)
+    self.cursor.execute(sql)
+
+    account_by_ramos = {}
+
+    for move_line_ramo in self.cursor.fetchall():
+        if not account_by_ramos.get(move_line_ramo[19]):
+            account_by_ramos[move_line_ramo[19]] = {}
+        if not account_by_ramos.get(move_line_ramo[19]).get(move_line_ramo[51]):
+            account_by_ramos[move_line_ramo[19]][move_line_ramo[51]] = {}
+            ramo_id = self.pool.get('account.ramo').browse(
+                self.cr, self.uid, [move_line_ramo[51]], context=context)
+
+            account_id = self.pool.get('account.account').browse(
+                self.cr, self.uid, move_line_ramo[19], context=context)
+
+            if move_line_ramo[19] == 2399:
+                pass
+
+            init_balance = self._compute_initial_balances(
+                move_line_ramo[19], start_period, fiscalyear,
+                ramo_id=move_line_ramo[19]
+            )
+
+            vals = {
+                'account_code': account_id.code,
+                'account_name': account_id.name,
+                'credit': 0,
+                'debit': 0,
+                'init_balance':
+                    init_balance[move_line_ramo[19]]['init_balance'],
+                'balance': init_balance[move_line_ramo[19]]['init_balance'],
+                'ramo': ramo_id.code,
+            }
+            account_by_ramos[move_line_ramo[19]][move_line_ramo[51]] = vals
+
+        account_by_ramos[move_line_ramo[19]][move_line_ramo[51]]['credit'] +=\
+            move_line_ramo[11]
+        account_by_ramos[move_line_ramo[19]][move_line_ramo[51]]['debit'] +=\
+            move_line_ramo[17]
+
+        if natureza_init_balance_accounts[move_line_ramo[19]] == 'D':
+            account_by_ramos[move_line_ramo[19]][move_line_ramo[51]][
+                'balance'] += move_line_ramo[17] - move_line_ramo[11]
+        else:
+            account_by_ramos[move_line_ramo[19]][move_line_ramo[51]][
+                'balance'] -= move_line_ramo[17] - move_line_ramo[11]
+
+    return account_by_ramos
 
 
 def _get_debit_credit_balance_de_para(self, accounts, period_ids):
@@ -347,6 +401,14 @@ def compute_balance_data(self, data, filter_report_type=None):
             if not to_display_accounts.get(account.parent_id.id):
                 to_display_accounts.update({account.parent_id.id : True})
 
+    contas_by_ramos = {}
+
+    if data['form'].get('ramos'):
+        contas_by_ramos = self.get_lancamentos_ramos(
+            self.cr, self.uid, natureza_init_balance_accounts, start_period,
+            stop_period, fiscalyear, context=ctx
+        )
+
     context_report_values = {
         'fiscalyear': fiscalyear,
         'start_date': start_date,
@@ -367,8 +429,10 @@ def compute_balance_data(self, data, filter_report_type=None):
         'debit_accounts': debit_accounts,
         'credit_accounts': credit_accounts,
         'balance_accounts': balance_accounts,
+        'ramos': data['form'].get('ramos'),
         'lancamentos_fechamento': data['form']['lancamento_de_fechamento'],
         'exibir_natureza': data['form']['exibir_natureza'],
+        'contas_by_ramos': contas_by_ramos,
     }
 
     return objects, new_ids, context_report_values
@@ -392,6 +456,7 @@ def set_context(self, objects, data, ids, report_type=None):
 TrialBalanceWebkit.set_context = set_context
 TrialBalanceWebkit.compute_balance_data = compute_balance_data
 TrialBalanceWebkit._get_account_details = _get_account_details
+TrialBalanceWebkit.get_lancamentos_ramos = get_lancamentos_ramos
 
 HeaderFooterTextWebKitParser(
     'report.account.l10n_br_account_report_trial_balance',

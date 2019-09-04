@@ -80,7 +80,7 @@ FROM account_move_line l
 
 
 def _compute_initial_balances(self, account_ids, start_period, fiscalyear,
-                              situacao_lancamento=False):
+                              situacao_lancamento=False, ramo_id=False):
     """We compute initial balance.
     If form is filtered by date all initial balance are equal to 0
     This function will sum pear and apple in currency amount if account as
@@ -118,7 +118,7 @@ def _compute_initial_balances(self, account_ids, start_period, fiscalyear,
 
 def _compute_init_balance(self, account_id=None, period_ids=None,
                           mode='computed', default_values=False,
-                          situacao_lancamento=False):
+                          situacao_lancamento=False, ramo_id=False):
     if not isinstance(period_ids, list):
         period_ids = [period_ids]
     res = {}
@@ -166,7 +166,12 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
                            "AS curr_balance FROM account_move_line " \
                            "WHERE period_id in {} AND move_id in (" \
                            "SELECT id FROM account_move WHERE " \
-                           "period_id in {}{}) AND {}".format(
+                           "period_id in {}{}) AND {}"
+
+            if ramo_id:
+                domain_query += " AND ramo_id = " + str(ramo_id)
+
+            domain_query = domain_query.format(
                             BALANCE, tuple(period_ids), tuple(period_ids),
                             state_move, where_clause_domain_query)
 
