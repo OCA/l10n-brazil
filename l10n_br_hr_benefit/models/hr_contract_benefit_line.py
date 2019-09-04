@@ -23,6 +23,23 @@ BENEFIT_TYPE = {
 }
 
 
+def _calc_age_in_months(entry_date):
+    now = datetime.now()
+
+    entry_datetime = datetime.strptime(entry_date, '%Y-%m-%d')
+
+    years = now.year - entry_datetime.year
+    months = now.month - entry_datetime.month
+
+    if now.day < entry_datetime.day:
+        months -= 1
+    while months < 0:
+        months += 12
+        years -= 1
+
+    return months + 12 * years
+
+
 class HrContractBenefitLine(models.Model):
     _name = b'hr.contract.benefit.line'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
@@ -33,12 +50,77 @@ class HrContractBenefitLine(models.Model):
             return False
         return self.env.user.employee_ids[0].contract_id
 
+    def _eval_min_max_age_creche(self):
+        max_age_full_income = 6
+        max_age_income = 71
+
+        localdict = dict(
+            max_age_full_income=max_age_full_income,
+            max_age_income=max_age_income,
+
+            amount_benefit=self.amount_benefit,
+            amount_base=self.amount_base,
+            income_amount=self.income_amount,
+            income_percentual=self.income_percentual,
+            income_quantity=self.income_quantity,
+            deduction_amount=self.deduction_amount,
+            deduction_percentual=self.deduction_percentual,
+            deduction_quantity=self.deduction_quantity,
+        )
+
+        try:
+            expression = self.benefit_type_id.python_code
+
+            safe_eval(expression, localdict, mode="exec", nocopy=True)
+
+            max_age_full_income = localdict.get('max_age_full_income')
+            max_age_income = localdict.get('max_age_income')
+        except Exception as e:
+            print(str(e))
+        finally:
+            return max_age_full_income, max_age_income
+
     @api.depends('benefit_type_id', 'amount_base')
     def _compute_benefit(self):
         for record in self:
             amount_benefit = 0
             benefit_type_id = record.benefit_type_id
             if benefit_type_id:
+
+                normal_evaluation = True
+
+                if record._check_benefit_type('creche'):
+                    # FIND DEPENDENT
+                    dependent_id = self.env['hr.employee.dependent']\
+                        .search([('partner_id', '=', record.beneficiary_ids[:1]
+                                  .partner_id.id)])
+
+                    # CHECK IF BENEFICIARY HAS BIRTHDATE SET
+                    if not dependent_id.dependent_dob:
+                        record.amount_benefit = 0
+                        amount_benefit = 0
+                        normal_evaluation = False
+                    else:
+                        dependent_age_in_months = _calc_age_in_months(
+                            dependent_id.dependent_dob)
+                        min_age, max_age = record._eval_min_max_age_creche()
+
+                        # CHECK IF BENEFICIARY IS YOUNGER THAN 6 MONTHS
+                        if dependent_age_in_months < min_age + 1:
+                            record.amount_benefit = record.amount_base
+                            amount_benefit = record.amount_base
+                            normal_evaluation = False
+
+                        elif dependent_age_in_months > max_age and \
+                                not dependent_id.inc_trab:
+                            record.amount_benefit = 0
+                            amount_benefit = 0
+                            normal_evaluation = False
+
+                if not normal_evaluation:
+                    record.amount_benefit = amount_benefit
+                    continue
+
                 if benefit_type_id.type_calc == 'fixed':
                     amount_benefit = benefit_type_id.amount
 
@@ -86,52 +168,6 @@ class HrContractBenefitLine(models.Model):
                     amount_benefit = \
                         record.amount_base * \
                         benefit_type_id.percent / 100
-
-                elif benefit_type_id.type_calc == 'percent_max':
-
-                    # FIND DEPENDENT
-                    dependent_id = self.env['hr.employee.dependent']\
-                        .search([('partner_id', '=', record.beneficiary_ids[:1]
-                                  .partner_id.id)])
-
-                    # CHECK IF BENEFICIARY HAS BIRTHDATE SET
-                    if not dependent_id.dependent_dob:
-                        record.amount_benefit = 0
-                        amount_benefit = 0
-                    else:
-
-                        dob = datetime.strptime(
-                            dependent_id.dependent_dob, '%Y-%m-%d')
-                        now = datetime.now()
-                        years = now.year - dob.year
-                        months = now.month - dob.month
-                        if now.day < dob.day:
-                            months -= 1
-                        while months < 0:
-                            months += 12
-                            years -= 1
-                        age = '{}y{}mo'.format(years, months)
-
-                        dependent_age_in_months = months + 12 * years
-
-                        # CHECK IF BENEFICIARY IS YOUNGER THAN 6 MONTHS
-                        if dependent_age_in_months < 6:
-                          record.amount_benefit = record.amount_base
-                          amount_benefit = record.amount_base
-
-                        # CHECK IF BENEFICIARY IS OLDER THAN 71 MONTHS AND NOT INC_TRAB
-                        elif dependent_age_in_months > 71 and \
-                                not dependent_id.inc_trab:
-                            record.amount_benefit = 0
-                            amount_benefit = 0
-                        elif benefit_type_id.amount_max > (
-                                record.amount_base *
-                                benefit_type_id.percent / 100):
-                            amount_benefit = (record.amount_base *
-                                benefit_type_id.percent / 100)
-                        else:
-                            amount_benefit = \
-                                benefit_type_id.amount_max
 
             record.amount_benefit = amount_benefit
 
@@ -383,6 +419,9 @@ class HrContractBenefitLine(models.Model):
 
     def _eval_python_code(self):
         localdict = dict(
+            max_age_full_income='',
+            max_age_income='',
+
             amount_benefit=self.amount_benefit,
             amount_base=self.amount_base,
             income_amount=self.income_amount,
@@ -429,22 +468,11 @@ class HrContractBenefitLine(models.Model):
             return False
         # CHECK IF BENEFICIARY HAS BIRTHDATE SET
         elif dependent_id.dependent_dob:
-            dob = datetime.strptime(
-                dependent_id.dependent_dob, '%Y-%m-%d')
-            now = datetime.now()
-            years = now.year - dob.year
-            months = now.month - dob.month
-            if now.day < dob.day:
-                months -= 1
-            while months < 0:
-                months += 12
-                years -= 1
-            age = '{}y{}mo'.format(years, months)
+            dependent_age_in_months = _calc_age_in_months(
+                dependent_id.dependent_dob)
+            min_age, max_age = self._eval_min_max_age_creche()
 
-            dependent_age_in_months = months + 12 * years
-
-            if dependent_age_in_months > 71 and \
-                 not dependent_id.inc_trab:
+            if dependent_age_in_months > max_age and not dependent_id.inc_trab:
                 self.exception_message = 'Reijeitado pois o beneficiário não' \
                                          ' está mais na idade aceita para ' \
                                          'este benefício. O benefício foi ' \
