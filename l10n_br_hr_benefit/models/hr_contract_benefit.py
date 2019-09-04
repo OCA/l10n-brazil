@@ -301,7 +301,8 @@ class HrContractBenefit(models.Model):
                 #   Ou tratar no SQL acima
             }
 
-            grouped_benefit_ids = beneficios_agrupados[(contract_id, benefit_type_id)]
+            grouped_benefit_ids = beneficios_agrupados[
+                (contract_id, benefit_type_id)]
 
             if benefit_type_id.line_group_benefits:
 
@@ -411,11 +412,12 @@ class HrContractBenefit(models.Model):
                 for key, value in item[2].iteritems():
                     if key == 'beneficiary_name':
                         msg += 'Nome de beneficiário atualizado ' \
-                               'de %s para %s <br/>' %(line.beneficiary_name, value)
+                               'de %s para %s <br/>' % (
+                            line.beneficiary_name, value)
                     elif key == 'benefit_percent':
                         msg += 'Porcentagem do benefício do(a) ' \
-                               '{} atualizado para {} % <br/>'.format(line.beneficiary_name,
-                                                                      value)
+                               '{} atualizado para {} % <br/>'.format(
+                            line.beneficiary_name, value)
                 msg += '<br/>'
         self.message_post(msg)
 
@@ -423,7 +425,8 @@ class HrContractBenefit(models.Model):
     def write(self, vals):
         self._validate_benefit(vals)
         if vals.get('insurance_beneficiary_ids'):
-            self._post_beneficiary_message(vals.get('insurance_beneficiary_ids'))
+            self._post_beneficiary_message(
+                vals.get('insurance_beneficiary_ids'))
         return super(HrContractBenefit, self).write(vals)
 
     @api.model
@@ -439,7 +442,8 @@ class HrContractBenefit(models.Model):
             if total_percent > 100:
                 raise ValidationError(
                     _('A porcentagem total de recebimento dos beneficiários '
-                      'do Seguro de Vida é maior que 100%'.format(total_percent))
+                      'do Seguro de Vida é maior que 100%'.format(
+                        total_percent))
                 )
 
     @api.onchange('benefit_type_id')
