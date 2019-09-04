@@ -192,9 +192,6 @@ def get_lancamentos_ramos(self, cr, uid, natureza_init_balance_accounts, start_p
             account_id = self.pool.get('account.account').browse(
                 self.cr, self.uid, move_line_ramo[19], context=context)
 
-            if move_line_ramo[19] == 2399:
-                pass
-
             init_balance = self._compute_initial_balances(
                 move_line_ramo[19], start_period, fiscalyear,
                 ramo_id=move_line_ramo[19]
