@@ -432,6 +432,11 @@ class HrContractBenefit(models.Model):
     @api.model
     def create(self, vals):
         self._validate_benefit(vals)
+        hr_users = self.env.ref('base.group_hr_user').users
+        partner_ids = [user.partner_id.id for user in hr_users]
+        vals.update({
+            'message_follower_ids': partner_ids
+        })
         return super(HrContractBenefit, self).create(vals)
 
     @api.constrains('insurance_beneficiary_ids')

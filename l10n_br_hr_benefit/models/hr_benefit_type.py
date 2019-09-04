@@ -285,3 +285,12 @@ class HrBenefitType(models.Model):
 
             result.append((record['id'], name))
         return result
+
+    @api.model
+    def create(self, vals):
+        hr_users = self.env.ref('base.group_hr_user').users
+        partner_ids = [user.partner_id.id for user in hr_users]
+        vals.update({
+            'message_follower_ids': partner_ids
+        })
+        return super(HrBenefitType, self).create(vals)
