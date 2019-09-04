@@ -16,7 +16,7 @@ class StockLocationPath(models.Model):
 
     def _prepare_move_copy_values(self, move_to_copy, new_date):
         result = super(
-            StockLocationPath, self)._prepare_push_apply(
+            StockLocationPath, self)._prepare_move_copy_values(
             move_to_copy, new_date)
         if self.fiscal_category_id:
             ctx = dict(self.env.context)
