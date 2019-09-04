@@ -117,6 +117,10 @@
                             domain="[('state', '=', 'exception')]" />
                     <filter name="filter_contract_benefit_line_processed" string="Processados em folha" icon="'terp-go-today"
                             domain="[('is_payroll_processed', '=', True)]" />
+                    <filter string="Mensagens não lidas"
+                            name="message_unread"
+                            domain="['|',('message_unread', '=', True),('state', '=', 'waiting')]"
+                            help="Mensagens não lidas"/>
                     <group expand="0" string="Agrupar Por...">
                         <filter string="Tipo de Benefício" name="group_by_benefit_type" context="{'group_by': 'benefit_type_id'}"/>
                         <filter string="Funcionário" name="group_by_employee" context="{'group_by': 'employee_id'}"/>
