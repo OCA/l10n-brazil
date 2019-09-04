@@ -145,6 +145,91 @@ class HrBenefitType(models.Model):
             ('12', 'Dezembro')
         ],
     )
+    instrucao = fields.Html(
+        string='Instrução para Importação',
+        compute='_get_default_instrucao',
+        readonly=True,
+    )
+
+    def _get_default_instrucao(self):
+        self.instrucao = """
+        
+        <h3>Variáveis disponíveis</h3> 
+        <br />
+        
+        <style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#aabcfe;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;background-color:#e8edff;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#039;background-color:#b9c9fe;}
+.tg .tg-phtq{background-color:#D2E4FC;border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-baqh{text-align:center;vertical-align:top}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-svo0{background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+
+<ul class="tg" class="oe_center">
+    <li><b>
+        amount_benefit
+    </b></li>
+    <ul><li>
+        Valor Apurado
+    </li></ul>
+    
+    <li><b>
+        amount_base
+    </b></li>
+    <ul><li>
+        Valor Comprovado
+    </li></ul>
+    
+    <li><b>
+        income_amount
+    </b></li>
+    <ul><li>
+        Valor apurado do Provento
+    </li></ul>
+    
+    <li><b>
+        income_percentual
+    </b></li>
+    <ul><li>
+        Percentual apurado do Provento
+    </li></ul>
+    
+    <li><b>
+        income_quantity
+    </b></li>
+    <ul><li>
+        Quantidade apurada do Provento
+    </li></ul>
+    
+    <li><b>
+        deduction_amount
+    </b></li>
+    <ul><li>
+        Valor apurado da Dedução
+    </li></ul>
+    
+    <li><b>
+        deduction_percentual
+    </b></li>
+    <ul><li>
+        Percentual apurado da Dedução
+    </li></ul>
+    
+    <li><b>
+        deduction_quantity
+    </b></li>
+    <ul><li>
+        Quantidadae apurada da Dedução
+    </li></ul>
+</ul>
+
+<br />
+<br />PS1.: WIP
+        """
 
     @api.onchange('extra_income')
     def _onchange_extra_income(self):

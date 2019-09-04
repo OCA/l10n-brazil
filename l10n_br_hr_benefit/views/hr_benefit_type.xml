@@ -4,7 +4,6 @@
 
 <openerp>
     <data>
-
         <record model="ir.ui.view" id="hr_benefit_type_form_view">
             <field name="name">hr.benefit.type.form (in l10n_br_hr_benefit)
             </field>
@@ -58,6 +57,9 @@
                                 </group>
                                 <group string="Beneficiários aptos ao Benefício">
                                     <field name="contract_category_ids" nolabel="1"/>
+                                </group>
+                                <group string="Intruções para implementação das regras do benefício via Python Code:">
+                                    <field name="instrucao" nolabel="1" readonly="1"/>
                                 </group>
                             </page>
                             <page string="Integração com a Folha" name="fopag">
