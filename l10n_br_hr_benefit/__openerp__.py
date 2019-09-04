@@ -23,7 +23,6 @@
         'wizards/wizard_hr_contract_benefit_periodic.xml',
 
         'views/hr_benefit_type.xml',
-        'views/hr_contract_category.xml',
         'views/hr_contract_benefit_line.xml',
         'views/hr_contract_benefit.xml',
         'wizards/wizard_benefit_exception_cause.xml',

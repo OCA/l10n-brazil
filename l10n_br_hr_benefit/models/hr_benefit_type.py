@@ -85,11 +85,6 @@ class HrBenefitType(models.Model):
         string='Código Python',
         track_visibility='onchange'
     )
-    contract_category_ids = fields.Many2many(
-        comodel_name='hr.contract.category',
-        string='Categorias de Contratos',
-        ondelete='restrict',
-    )
     type_calc = fields.Selection(
         selection=[
             ('fixed', 'Valor Fixo'),
