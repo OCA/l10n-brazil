@@ -154,6 +154,7 @@ class HrBenefitType(models.Model):
     def _get_default_instrucao(self):
         self.instrucao = """
         
+        <br />
         <h3>Variáveis disponíveis</h3> 
         <br />
         
@@ -224,6 +225,20 @@ class HrBenefitType(models.Model):
     </b></li>
     <ul><li>
         Quantidadae apurada da Dedução
+    </li></ul>
+    
+    <li><b>
+        max_age_full_income
+    </b></li>
+    <ul><li>
+        Idade máxima, em meses, para receber o auxílio Creche/Babá em sua totalidade. O valor apurado é, neste caso, igual ao valor comprovado. (Caso não preenchido, o valor padrão é 5 meses)
+    </li></ul>
+    
+    <li><b>
+        max_age_income
+    </b></li>
+    <ul><li>
+        Idade máxima, em meses, para receber o auxílio Creche/Babá até o limite do teto. O valor apurado é, neste caso, o menor valor entre teto e valor comprovado. (Caso não preenchido, o valor padrão é 71 meses)
     </li></ul>
 </ul>
 
