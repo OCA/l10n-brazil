@@ -32,6 +32,10 @@ class AccountTrialBalanceWizard(models.TransientModel):
         domain="[('account_depara_plano_id', '=', account_depara_plano_id)]",
     )
 
+    ramos = fields.Boolean(
+        string=u'Separar por Ramos',
+    )
+
     @api.onchange('account_depara_plano_id')
     def onchange_account_depara(self):
         """
@@ -48,6 +52,7 @@ class AccountTrialBalanceWizard(models.TransientModel):
 
     @api.multi
     def _print_report(self, data):
+        data['form']['ramos'] = self.ramos
         data['form']['lancamento_de_fechamento'] = \
             self.lancamento_de_fechamento
         data['form']['exibir_natureza'] = self.exibir_natureza

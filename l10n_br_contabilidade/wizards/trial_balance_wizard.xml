@@ -10,6 +10,7 @@
                 <xpath expr="//notebook" position="before">
                     <group>
                         <group>
+                            <field name="ramos"/>
                             <field name="lancamento_de_fechamento" />
                         </group>
                     </group>
