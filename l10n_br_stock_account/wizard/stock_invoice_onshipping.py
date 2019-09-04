@@ -51,8 +51,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         comment = ''
         if picking.fiscal_position_id.inv_copy_note:
             comment += picking.fiscal_position_id.note or ''
-        if picking.sale_id and picking.sale_id.copy_note:
-            comment += picking.sale_id.note or ''
         if picking.note:
             comment += ' - ' + picking.note
 
