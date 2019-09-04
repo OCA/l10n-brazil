@@ -241,9 +241,6 @@ class HrBenefitType(models.Model):
         Idade máxima, em meses, para receber o auxílio Creche/Babá até o limite do teto. O valor apurado é, neste caso, o menor valor entre teto e valor comprovado. (Caso não preenchido, o valor padrão é 71 meses)
     </li></ul>
 </ul>
-
-<br />
-<br />PS1.: WIP
         """
 
     @api.onchange('extra_income')

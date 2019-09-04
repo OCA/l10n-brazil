@@ -58,9 +58,6 @@
                                 <group string="Beneficiários aptos ao Benefício">
                                     <field name="contract_category_ids" nolabel="1"/>
                                 </group>
-                                <group string="Intruções para implementação das regras do benefício via Python Code:">
-                                    <field name="instrucao" nolabel="1" readonly="1"/>
-                                </group>
                             </page>
                             <page string="Integração com a Folha" name="fopag">
                                 <label for="deduction_rule_id"/>
@@ -71,6 +68,10 @@
                             <page string="Python Code">
                                 <label for="python_code"/>
                                 <field name="python_code" nolabel="1"/>
+
+                                <group string="Intruções para implementação das regras do benefício via Python Code:">
+                                    <field name="instrucao" nolabel="1" readonly="1"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
