@@ -55,6 +55,9 @@
                                         <field name="line_days_approval_limit"/>
                                     </group>
                                 </group>
+                                <group string="Beneficiários aptos ao Benefício">
+-                                    <field name="contract_category_ids" nolabel="1"/>
+-                                </group>
                             </page>
                             <page string="Integração com a Folha" name="fopag">
                                 <label for="deduction_rule_id"/>
