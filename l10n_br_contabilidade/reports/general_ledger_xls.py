@@ -290,7 +290,7 @@ def process_account_move_lines(_p, c_specs, c_hdr_cell_style, c_hdr_cell_style_d
                 cumul_credit += line.get('credit') or 0.0
                 cumul_balance_curr += line.get('amount_currency') or 0.0
                 cumul_balance += line.get('balance') or 0.0
-                label_elements = [line.get('lname') or '']
+                label_elements = [line.get('narration') or '']
                 if line.get('invoice_number'):
                     label_elements.append(
                         "(%s)" % (line['invoice_number'],))
