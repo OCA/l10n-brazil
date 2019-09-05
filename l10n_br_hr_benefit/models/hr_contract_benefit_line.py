@@ -421,6 +421,18 @@ class HrContractBenefitLine(models.Model):
             self._eval_python_code()
 
     def _eval_python_code(self):
+
+        if self.contract_id.category_id not in \
+                self.benefit_type_id.contract_category_ids:
+            self.exception_message = \
+                _('Este funcionário não possui uma categoria de '
+                  'contrato apta para o tipo de benefício escolhido. '
+                  'O benefício foi cancelado')
+            self.state = 'exception'
+            self.beneficiary_ids[:1].button_cancel()
+
+            return
+
         localdict = dict(
             max_age_full_income='',
             max_age_income='',
