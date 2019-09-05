@@ -24,20 +24,20 @@ from . import wizards
 # DONE: Validar tipo de beneficiário;
 # DONE: Remover botão de adicionar benefícios;
 
-# TODO: Verificar campos que precisam de ondelete='restrict'
+# DONE: Verificar campos que precisam de ondelete='restrict'
              # Tipo do benefício
              # Beneficiário
-# TODO: Criar filtros e agrupamentos para as visões
+# DONE: Criar filtros e agrupamentos para as visões
              # Benefícios
                 # Agrupar por Tipo de benefício
                 # Agrupar por Contrato
              # Prestação de Contas
 # DONE: Regras de segurança
 
-# TODO: Criar magic buttons no cadastro de beneficiários;
+# DONE: Criar magic buttons no cadastro de beneficiários;
         # Mostrar benefícios do beneficiário
 
-# TODO: Corrigir magic buttons no cadastro de Beneficios;
+# DONE: Corrigir magic buttons no cadastro de Beneficios;
         # Filtrar apenas Apurações do benefício selecionado
 
 # DONE: Criar permissões de segurança e regras de acesso;
@@ -58,29 +58,29 @@ from . import wizards
 # TODO: Criar dados (data) relacionados aos Benefícios
     # depois, se necessário
 
-# TODO: validar ir action mixins
+# DONE: validar ir action mixins
     # RH deve saber quantas apurações estão pendentes de análise
 
-# TODO: Limite de aprovação em dias line_days_approval_limit
+# DONE: Limite de aprovação em dias line_days_approval_limit
     # Após o limite de dias, caso não aprovado pelo funcionário,
     # somente um funcionário de RH poderá aprovar
 
-# TODO: Validar tipo de funcionário (gerente, funcionario, cedente, etc)
+# DONE: Validar tipo de funcionário (gerente, funcionario, cedente, etc)
     # Possibilidade de campos
         # Categoria do Contrato
         # Tipo de vínculo trabalhista
         # Regime de trabalho
 
-# TODO: Verificar se o filho é menor que 6 meses
+# DONE: Verificar se o filho é menor que 6 meses
                     #  Benefício mensal de reembolso de 50% do valor gasto,
                     #  limitado ao teto, salvo exceções (idade até 6 meses)
                     # models/hr_contract_benefit_line.py:73
 
-# TODO: Remover caso a folha seja cancelada ou
+# DONE: Remover caso a folha seja cancelada ou
                 #  outro estágio pertinente.
                 # models/hr_payslip.py:50
 
-# TODO: Agrupar ou não benefícios na visão do holerite
+# DONE: Agrupar ou não benefícios na visão do holerite
     # Criar um novo modelo hr.contract.benefit.line.payslip
         # Este modelo será responsável por agrupar hr.contract.benefit.line
         # Ele será exibido na aba "Benefícios" do holerite
