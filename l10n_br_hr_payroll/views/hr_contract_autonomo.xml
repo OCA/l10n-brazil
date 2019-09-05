@@ -29,14 +29,15 @@
                                 <field name="company_id" options="{'no_create': True, 'no_open': True}" required="1"/>
                                 <field name="job_id" required="True"
                                        options="{'no_create': True, 'no_open': True,
-                                                 'invisible': [('categoria','not in',['901','903','904','905'])],
-                                                 'required': [('categoria','in',['901','903','904','905'])]}" />
+                                                 'invisible': [('category_code','not in',['901','903','904','905'])],
+                                                 'required': [('category_code','in',['901','903','904','905'])]}" />
                                 <field name="matricula" />
                                 <field name="tipo" invisible="True" />
                             </group>
                             <group>
                                 <field name="type_id" options="{'no_create': True, 'no_open': True}" required="1"/>
-                                <field name="categoria"/>
+                                <field name="category_code" invisible="1"/>
+                                <field name="category_id"/>
                                 <field name="categoria_sefip" attrs="{'invisible': [('gerar_sefip','!=', True)]}"/>
                                 <field name="gerar_sefip" />
                             </group>

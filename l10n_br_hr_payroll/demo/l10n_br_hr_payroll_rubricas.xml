@@ -594,7 +594,7 @@ result = rules.NET   &gt;   categories.NET * 0.10</field>
 			<field name="amount_python_compute">result=INSS_EMPRESA_BASE
 result_rate=RAT_FAP.total_rate
             </field>
-			<field name="custom_amount_python_compute">#if contract.categoria in ['721', '722']:
+			<field name="custom_amount_python_compute">#if contract.category_id.code in ['721', '722']:
 #    result = 0
 #    result_rate=RAT_FAP.total_rate
 #else:
@@ -654,7 +654,7 @@ result = rules.NET   &gt;   categories.NET * 0.10</field>
 			<field name="amount_python_compute">result=INSS_EMPRESA_BASE
 result_rate=RAT_FAP.other_entities_rate
             </field>
-			<field name="custom_amount_python_compute">if contract.categoria in ['721', '722']:
+			<field name="custom_amount_python_compute">if contract.category_id.code in ['721', '722']:
     result = 0
     result_rate=RAT_FAP.other_entities_rate
 else:
@@ -709,7 +709,7 @@ result = rules.NET   &gt;   categories.NET * 0.10</field>
 			<field name="amount_python_compute">result=INSS_EMPRESA_BASE
 result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate
             </field>
-			<field name="custom_amount_python_compute">if contract.categoria in ['721', '722']:
+			<field name="custom_amount_python_compute">if contract.category_id.code in ['721', '722']:
     result = 0
     result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate
 else:
@@ -3338,7 +3338,7 @@ result = rules.NET   &gt;   categories.NET * 0.10</field>
 			<field name="amount_python_compute">result=INSS_EMPRESA_BASE
 result_rate=RAT_FAP.total_rate
             </field>
-			<field name="custom_amount_python_compute">#if contract.categoria in ['721', '722']:
+			<field name="custom_amount_python_compute">#if contract.category_id.code in ['721', '722']:
 #    result = 0
 #    result_rate=RAT_FAP.total_rate
 #else:
@@ -3396,7 +3396,7 @@ result = rules.NET   &gt;   categories.NET * 0.10</field>
 			<field name="amount_python_compute">result=INSS_EMPRESA_BASE
 result_rate=RAT_FAP.other_entities_rate
             </field>
-			<field name="custom_amount_python_compute">if contract.categoria in ['721', '722']:
+			<field name="custom_amount_python_compute">if contract.category_id.code in ['721', '722']:
     result = 0
     result_rate=RAT_FAP.other_entities_rate
 else:
@@ -3451,7 +3451,7 @@ result = rules.NET   &gt;   categories.NET * 0.10</field>
 			<field name="amount_python_compute">result=INSS_EMPRESA_BASE
 result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate
             </field>
-			<field name="custom_amount_python_compute">if contract.categoria in ['721', '722']:
+			<field name="custom_amount_python_compute">if contract.category_id.code in ['721', '722']:
     result = 0
     result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate
 else:

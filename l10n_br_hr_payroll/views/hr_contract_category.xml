@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_contract_category_form_view">
+            <field name="name">hr.contract.category.form (in l10n_br_hr_payroll)</field>
+            <field name="model">hr.contract.category</field>
+            <field name="arch" type="xml">
+                <form string="'Categoria de Contrato">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="code"/>
+                        <field name="description"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_benefit_type_search_view">
+            <field name="name">hr.contract.category.search (in l10n_br_hr_payroll)</field>
+            <field name="model">hr.contract.category</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_benefit_type_tree_view">
+            <field name="name">hr.contract.category.tree (in l10n_br_hr_payroll)</field>
+            <field name="model">hr.contract.category</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="code"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hr_contract_category_act_window">
+            <field name="name">Categorias de Contrato</field>
+            <field name="res_model">hr.contract.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem
+                id="hr_contract_category_menu"
+                action="hr_contract_category_act_window"
+                name="Categorias de Contrato"
+                parent="menu_hr_contract_main" sequence="10"
+                groups="base.group_hr_manager"/>
+
+    </data>
+</openerp>

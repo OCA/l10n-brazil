@@ -171,7 +171,7 @@ class HrPayslipRun(models.Model):
             # Se for lote de folha normal nao pegar as categorias inválidas
             if lote.tipo_de_folha != 'normal':
                 dominio_contratos += [
-                    ('categoria', 'not in', ['721', '722']),
+                    ('category_id.code', 'not in', ['721', '722']),
                 ]
             # else:
             #     dominio_contratos += [

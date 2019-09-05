@@ -28,11 +28,24 @@ class HrContract(models.Model):
         default=True,
     )
 
-    categoria = fields.Selection(
-        selection=CATEGORIA_TRABALHADOR,
+    # categoria = fields.Selection(
+    #     selection=CATEGORIA_TRABALHADOR,
+    #     string="Categoria do Contrato",
+    #     required=True,
+    #     default='101',
+    # )
+
+    category_id = fields.Many2one(
+        comodel_name='hr.contract.category',
         string="Categoria do Contrato",
         required=True,
-        default='101',
+        ondelete="restrict",
+    )
+
+    category_code = fields.Char(
+        string="Código da Categoria de Contrato",
+        related='category_id.code',
+        readonly=True,
     )
 
     type_id = fields.Many2one(
@@ -558,26 +571,26 @@ class HrContract(models.Model):
             pass
 
     @api.multi
-    @api.depends('categoria')
+    @api.depends('category_id')
     def _compute_categoria_sefip(self):
 
         for record in self:
-            if record.categoria in ('701', '702', '703'):
+            if record.category_id.code in ('701', '702', '703'):
                 #
                 # Autônomo
                 #
                 record.categoria_sefip = '13'
-            elif record.categoria == '721':
+            elif record.category_id.code == '721':
                 #
                 # Pró-labore
                 #
                 record.categoria_sefip = '05'
-            elif record.categoria in ['722','723']:
+            elif record.category_id.code in ['722','723']:
                 #
                 # Pró-labore 2
                 #
                 record.categoria_sefip = '11'
-            elif record.categoria == '103':
+            elif record.category_id.code == '103':
                 #
                 # Aprendiz
                 #

@@ -30,7 +30,8 @@
                 <attribute name="required">1</attribute>
             </field>
             <field name="admission_type_id" position="before">
-                <field name="categoria" />
+                <field name="category_code" invisible="1"/>
+                <field name="category_id" />
                 <field name="categoria_sefip" attrs="{'invisible': [('gerar_sefip','!=', True)]}"/>/>
                 <field name="gerar_sefip" />
             </field>
@@ -121,17 +122,17 @@
                         <field name="data_admissao_anterior"/>
                         <field name="observacoes_vinculo_anterior"/>
                     </group>
-                    <group name="vinculo_cedente" string="Vínculo cedente" attrs="{'invisible': [('categoria','!=','410')]}">
+                    <group name="vinculo_cedente" string="Vínculo cedente" attrs="{'invisible': [('category_code','!=','410')]}">
                         <group>
                             <!--<field name="funcionario_cedido" />-->
-                            <field name="cnpj_empregador_cedente" attrs="{'required': [('categoria','=','410')]}"/>
-                            <field name="matricula_cedente" attrs="{'required': [('categoria','=','410')]}"/>
-                            <field name="categoria_cedente" attrs="{'required': [('categoria','=','410')]}"/>
+                            <field name="cnpj_empregador_cedente" attrs="{'required': [('category_code','=','410')]}"/>
+                            <field name="matricula_cedente" attrs="{'required': [('category_code','=','410')]}"/>
+                            <field name="categoria_cedente" attrs="{'required': [('category_code','=','410')]}"/>
                         </group>
                         <group>
-                            <field name="data_admissao_cedente" attrs="{'required': [('categoria','=','410')]}"/>
-                            <field name="tpRegTrab" attrs="{'required': [('categoria','=','410')]}"/>
-                            <field name="infOnus" attrs="{'required': [('categoria','=','410')]}"/>
+                            <field name="data_admissao_cedente" attrs="{'required': [('category_code','=','410')]}"/>
+                            <field name="tpRegTrab" attrs="{'required': [('category_code','=','410')]}"/>
+                            <field name="infOnus" attrs="{'required': [('category_code','=','410')]}"/>
                         </group>
                     </group>
                     <separator string="Outros Vínculos/Atividades" />
