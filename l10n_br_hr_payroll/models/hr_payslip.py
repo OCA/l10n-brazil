@@ -106,6 +106,9 @@ class HrPayslip(models.Model):
                             _('Ligação em aberto:\n {}'
                               .format('\n'.join(ligacoes_ids.mapped('name')))))
 
+                    # Desvincular ramais
+                    if holerite.employee_id.ramais:
+                        holerite.employee_id.ramais = False
 
                 # setar as ligacoes telefonicas como debitadas
                 for ligacao_id in holerite.ligacoes_ids:
