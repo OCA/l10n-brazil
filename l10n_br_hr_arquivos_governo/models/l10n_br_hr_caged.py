@@ -197,7 +197,7 @@ class HrCaged(models.Model):
         qtd_funcionarios = self.env['hr.contract'].search_count([
             ('company_id', '=', self.company_id.id),
             ('date_end', '=', False),
-            ('categoria', '=', 101),
+            ('category_id.code', '=', 101),
         ])
 
         caged.B_sequencia = sequencia
@@ -281,7 +281,7 @@ class HrCaged(models.Model):
         # Informar se o empregado é Aprendiz ou não. pela categoria
         # 1 - SIM
         # 2 – NÃO
-        caged.C_aprendiz = 2 if contrato.categoria != '103' else 1
+        caged.C_aprendiz = 2 if contrato.category_id.code != '103' else 1
         caged.C_uf_ctps = employee_id.ctps_uf_id.code
         caged.C_tipo_deficiencia = employee_id.deficiency_id.code
         caged.C_CPF = employee_id.cpf
@@ -365,7 +365,7 @@ class HrCaged(models.Model):
             ('company_id', '=', self.company_id.id),
             ('date_start', '<=', ultimo_dia_do_mes),
             ('date_start', '>=', primeiro_dia_do_mes),
-            ('categoria', 'not in', ['721', '722'])
+            ('category_id.code', 'not in', ['721', '722'])
         ]
         contratacoes = contrato_model.search(domain)
 
@@ -374,7 +374,7 @@ class HrCaged(models.Model):
             ('company_id', '=', self.company_id.id),
             ('date_end', '<=', ultimo_dia_do_mes),
             ('date_end', '>=', primeiro_dia_do_mes),
-            ('categoria', 'not in', ['721', '722'])
+            ('category_id.code', 'not in', ['721', '722'])
         ]
         demissoes = contrato_model.search(domain)
 
