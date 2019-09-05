@@ -122,8 +122,10 @@
                 <div class="act_as_row labels">
                     ## code
                     <div class="act_as_cell first_column" style="width: 45px;">${_('Account')}</div>
-                    ## ramo
-                    <div class="act_as_cell first_column" style="width: 45px;">${_('Ramo')}</div>
+                    %if ramos:
+                        ## ramo
+                        <div class="act_as_cell first_column" style="width: 45px;">${_('Ramo')}</div>
+                    %endif
 
                     ## account name
                     <div class="act_as_cell" style="width: 100px;">Descrição</div>
@@ -194,9 +196,10 @@
                     <div class="act_as_row lines ${level_class} ${"%s_account_type" % (current_account.type,)}">
                         ## code
                         <div class="act_as_cell first_column" style="padding: 5px;">${current_account.code} ${ current_account.natureza_conta_id.name if exibir_natureza else '' }</div>
-                        ## code
-                        <div class="act_as_cell first_column" style="padding: 5px;"></div>
-
+                        %if ramos:
+                            ## ramo
+                            <div class="act_as_cell first_column" style="padding: 5px;"></div>
+                        %endif
                         ## account name
                         <div class="act_as_cell">${current_account.name}</div>
                         %if comparison_mode == 'no_comparison':
@@ -228,30 +231,33 @@
                             %endfor
                         %endif
                     </div>
-                    %if contas_by_ramos.get(current_account.id):
-                        %for ramo in contas_by_ramos.get(current_account.id):
-                            <div class="act_as_row lines ${level_class} ${"%s_account_type" % (current_account.type,)}">
-                                ## code
-                                <div class="act_as_cell first_column" style="padding: 5px;">${contas_by_ramos[current_account.id][ramo]['account_code']}</div>
-                                ## ramo
-                                <div class="act_as_cell first_column" style="padding: 5px;">${contas_by_ramos[current_account.id][ramo]['ramo']}</div>
+                    %if ramos:
+                        %if contas_by_ramos.get(current_account.id):
+                            %for ramo in contas_by_ramos.get(current_account.id):
+                                <div class="act_as_row lines ${level_class} ${"%s_account_type" % (current_account.type,)}">
+                                    ## code
+                                    <div class="act_as_cell first_column" style="padding: 5px;">${contas_by_ramos[current_account.id][ramo]['account_code']}</div>
 
-                                ## account name
-                                <div class="act_as_cell">${contas_by_ramos[current_account.id][ramo]['account_name']}</div>
-                                 %if comparison_mode == 'no_comparison':
-                                    %if initial_balance_mode:
-                                        ## opening balance
-                                        <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['init_balance']) | amount} ${natureza_init_balance_accounts[current_account.id]}</div>
+                                    ## ramo
+                                    <div class="act_as_cell first_column" style="padding: 5px;">${contas_by_ramos[current_account.id][ramo]['ramo']}</div>
+
+                                    ## account name
+                                    <div class="act_as_cell">${contas_by_ramos[current_account.id][ramo]['account_name']}</div>
+                                     %if comparison_mode == 'no_comparison':
+                                        %if initial_balance_mode:
+                                            ## opening balance
+                                            <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['init_balance']) | amount} ${natureza_init_balance_accounts[current_account.id]}</div>
+                                        %endif
+                                        ## debit
+                                        <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['debit']) | amount}</div>
+                                        ## credit
+                                        <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['credit']) | amount}</div>
                                     %endif
-                                    ## debit
-                                    <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['debit']) | amount}</div>
-                                    ## credit
-                                    <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['credit']) | amount}</div>
-                                %endif
-                                ## balance
-                                <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['balance']) | amount} ${natureza_balance_accounts[current_account.id]}</div>
-                            </div>
-                        %endfor
+                                    ## balance
+                                    <div class="act_as_cell amount">${formatLang(contas_by_ramos[current_account.id][ramo]['balance']) | amount} ${natureza_balance_accounts[current_account.id]}</div>
+                                </div>
+                            %endfor
+                        %endif
                     %endif
                 %endfor
             </div>
