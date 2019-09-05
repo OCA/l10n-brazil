@@ -161,19 +161,17 @@ def _compute_init_balance(self, account_id=None, period_ids=None,
                 if situacao_lancamento == 'posted' \
                 else " AND state != 'cancel' "
 
-            domain_query = "SELECT sum(debit) AS debit, sum(credit) AS credit,"\
-                           " {} AS balance, sum(amount_currency) " \
-                           "AS curr_balance FROM account_move_line " \
-                           "WHERE period_id in {} AND move_id in (" \
-                           "SELECT id FROM account_move WHERE " \
-                           "period_id in {}{}) AND {}"
-
-            if ramo_id:
-                domain_query += " AND ramo_id = " + str(ramo_id)
-
-            domain_query = domain_query.format(
-                            BALANCE, tuple(period_ids), tuple(period_ids),
-                            state_move, where_clause_domain_query)
+            domain_query = \
+                "SELECT sum(debit) AS debit, sum(credit) AS credit,"\
+                " {} AS balance, sum(amount_currency) " \
+                "AS curr_balance FROM account_move_line " \
+                "WHERE period_id in {} AND move_id in (" \
+                "SELECT id FROM account_move WHERE " \
+                "period_id in {}{}) AND {} {}".format(
+                    BALANCE, tuple(period_ids), tuple(period_ids),
+                    state_move, where_clause_domain_query,
+                    'AND ramo_id = {}'.format(ramo_id) if ramo_id else ''
+                )
 
             self.cursor.execute(domain_query)
             res = self.cursor.dictfetchone()
