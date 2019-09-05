@@ -9,7 +9,7 @@ from openerp import api, fields, models
 from openerp import exceptions
 from pybrasil.data import formata_data
 
-from ..constantes import CATEGORIA_TRABALHADOR, CATEGORIA_TRABALHADOR_SEFIP
+from ..constantes import CATEGORIA_TRABALHADOR_SEFIP
 
 
 class HrContract(models.Model):
@@ -468,10 +468,17 @@ class HrContract(models.Model):
         help='e-Social: S2300 - categOrig',
     )
 
-    categoria_cedente = fields.Selection(
-        selection=CATEGORIA_TRABALHADOR,
+    # categoria_cedente = fields.Selection(
+    #     selection=CATEGORIA_TRABALHADOR,
+    #     string="Categoria do Contrato no cedente",
+    #     help='e-Social: S2300 - categOrig',
+    # )
+
+    assignor_category_id = fields.Many2one(
+        comodel_name='hr.contract.category',
         string="Categoria do Contrato no cedente",
         help='e-Social: S2300 - categOrig',
+        ondelete="restrict",
     )
 
     funcionario_cedido = fields.Boolean(
