@@ -175,8 +175,22 @@ def _get_account_details(self, account_ids, target_move, fiscalyear,
     return accounts_by_id
 
 
-def get_lancamentos_ramos(self, cr, uid, natureza_init_balance_accounts, start_period, stop_period, fiscalyear, context):
-    sql = "SELECT * FROM account_move_line WHERE ramo_id <> 0 AND date >= '{}' AND date <= '{}'".format(start_period.date_start, start_period.date_stop)
+def get_lancamentos_ramos(self, cr, uid, natureza_init_balance_accounts,
+                          start_period, stop_period, fiscalyear, context):
+    """
+    O SQL retorna uma lista de listas com os campos do registro completo do
+    banco de dados por isso segue a baixo a legenda dos indexes:
+
+    move_line_ramo[19] = account_id
+    move_line_ramo[51] = ramo_id
+    move_line_ramo[11] = credit
+    move_line_ramo[17] = debit
+    """
+    sql = \
+        "SELECT * FROM account_move_line WHERE ramo_id <> 0 AND " \
+        "date >= '{}' AND date <= '{}'".format(
+            start_period.date_start, start_period.date_stop
+        )
     self.cursor.execute(sql)
 
     account_by_ramos = {}
