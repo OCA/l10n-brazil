@@ -26,10 +26,8 @@ def set_context(self, objects, data, ids, report_type=None):
     journal_ids = self._get_form_param('journal_ids', data['datas'])
     chart_account = self._get_chart_account_id_br(data['datas'])
     account_period_obj = self.pool.get('account.period')
-    period_ids = account_period_obj.build_ctx_periods(self.cursor,
-                                                      self.uid,
-                                                      start_period.id,
-                                                      stop_period.id)
+    period_ids = account_period_obj.build_ctx_periods(
+        self.cursor, self.uid, start_period.id, stop_period.id)
 
     domain = [('journal_id', 'in', journal_ids)]
     if main_filter == 'filter_no':
