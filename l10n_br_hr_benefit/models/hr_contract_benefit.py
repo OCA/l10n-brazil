@@ -161,8 +161,8 @@ class HrContractBenefit(models.Model):
                       'ativo para a rúbrica %s' % self.benefit_type_id.name)
                 )
 
-            if self.contract_id.category_id.code not in \
-                    self.benefit_type_id.contract_category_ids.mapped('code'):
+            if self.contract_id.category_id not in \
+                    self.benefit_type_id.contract_category_ids:
                 raise ValidationError(
                     _('Este funcionário não possui uma categoria de '
                       'contrato apta para o tipo de benefício escolhido.')
