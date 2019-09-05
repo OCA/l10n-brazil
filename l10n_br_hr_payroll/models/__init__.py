@@ -17,6 +17,7 @@ from . import resource_calendar
 from . import hr_salary_rule
 from . import hr_contract_change
 from . import hr_contract
+from . import hr_contract_category
 from . import hr_contribuicao_inss_vinculos
 from . import hr_contract_salary_rule
 from . import hr_department

@@ -21,6 +21,7 @@
         'python': ['pybrasil'],
     },
     'data': [
+        'data/hr_contract_category.xml',
         'data/hr_payroll_type.xml',
         'data/l10n_br_hr_payroll_categorias.xml',
         'data/l10n_br_hr_contract_sequence.xml',
@@ -37,6 +38,7 @@
         'security/ir.model.access.csv',
 
         'views/hr_contract.xml',
+        'views/hr_contract_category.xml',
         'views/hr_department_view.xml',
         'views/hr_contract_autonomo.xml',
         'views/hr_contract_menu.xml',

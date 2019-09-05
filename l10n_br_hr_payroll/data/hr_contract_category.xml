@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMÁTICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="hr_contract_category_101" model="hr.contract.category">
+            <field name="code">101</field>
+            <field name="description">Empregado – Geral, inclusive o empregado público da administração direta ou indireta contratado pela CLT.
+            </field>
+        </record>
+        <record id="hr_contract_category_102" model="hr.contract.category">
+            <field name="code">102</field>
+            <field name="description">Empregado – Trabalhador Rural por Pequeno Prazo da Lei 11.718/2008
+            </field>
+        </record>
+        <record id="hr_contract_category_103" model="hr.contract.category">
+            <field name="code">103</field>
+            <field name="description">Empregado – Aprendiz
+            </field>
+        </record>
+        <record id="hr_contract_category_104" model="hr.contract.category">
+            <field name="code">104</field>
+            <field name="description">Empregado – Doméstico
+            </field>
+        </record>
+        <record id="hr_contract_category_105" model="hr.contract.category">
+            <field name="code">105</field>
+            <field name="description">Empregado – contrato a termo firmado nos termos da Lei 9601/98
+            </field>
+        </record>
+        <record id="hr_contract_category_106" model="hr.contract.category">
+            <field name="code">106</field>
+            <field name="description">Trabalhador Temporário - contrato nos termos da Lei 6.019/74
+            </field>
+        </record>
+        <record id="hr_contract_category_107" model="hr.contract.category">
+            <field name="code">107</field>
+            <field name="description">Trabalhador não vinculado ao RGPS com direito ao FGTS
+            </field>
+        </record>
+        <record id="hr_contract_category_111" model="hr.contract.category">
+            <field name="code">111</field>
+            <field name="description">Empregado - contrato de trabalho intermitente
+            </field>
+        </record>
+        <record id="hr_contract_category_201" model="hr.contract.category">
+            <field name="code">201</field>
+            <field name="description">Trabalhador Avulso – Portuário
+            </field>
+        </record>
+        <record id="hr_contract_category_202" model="hr.contract.category">
+            <field name="code">202</field>
+            <field name="description">Trabalhador Avulso – Não Portuário
+            </field>
+        </record>
+        <record id="hr_contract_category_203" model="hr.contract.category">
+            <field name="code">203</field>
+            <field name="description">Trabalhador Avulso – Não Portuário (Informação do Contratante)
+            </field>
+        </record>
+        <record id="hr_contract_category_301" model="hr.contract.category">
+            <field name="code">301</field>
+            <field name="description">Servidor Público Titular de Cargo Efetivo, Magistrado, Ministro de Tribunal de Contas, Conselheiro de Tribunal de Contas e Membro do Ministério Público
+            </field>
+        </record>
+        <record id="hr_contract_category_302" model="hr.contract.category">
+            <field name="code">302</field>
+            <field name="description">Servidor Público – Ocupante de Cargo exclusivo em comissão
+            </field>
+        </record>
+        <record id="hr_contract_category_303" model="hr.contract.category">
+            <field name="code">303</field>
+            <field name="description">Agente Político
+            </field>
+        </record>
+        <record id="hr_contract_category_304" model="hr.contract.category">
+            <field name="code">304</field>
+            <field name="description">Servidor Público – Agente Público
+            </field>
+        </record>
+        <record id="hr_contract_category_305" model="hr.contract.category">
+            <field name="code">305</field>
+            <field name="description">Servidor Público indicado para conselho ou órgão deliberativo, na condição de representante do governo, órgão ou entidade da administração pública.
+            </field>
+        </record>
+        <record id="hr_contract_category_306" model="hr.contract.category">
+            <field name="code">306</field>
+            <field name="description">Servidor Público Temporário, sujeito a regime administrativo especial definido em lei própria
+            </field>
+        </record>
+        <record id="hr_contract_category_307" model="hr.contract.category">
+            <field name="code">307</field>
+            <field name="description">Militar efetivo</field>
+        </record>
+        <record id="hr_contract_category_308" model="hr.contract.category">
+            <field name="code">308</field>
+            <field name="description">Conscrito
+            </field>
+        </record>
+        <record id="hr_contract_category_309" model="hr.contract.category">
+            <field name="code">309</field>
+            <field name="description">Agente Público - Outros
+            </field>
+        </record>
+        <record id="hr_contract_category_401" model="hr.contract.category">
+            <field name="code">401</field>
+            <field name="description">Dirigente Sindical – Em relação a Remuneração Recebida no Sindicato
+            </field>
+        </record>
+        <record id="hr_contract_category_410" model="hr.contract.category">
+            <field name="code">410</field>
+            <field name="description">Trabalhador cedido - informação prestada pelo Cessionário
+            </field>
+        </record>
+        <record id="hr_contract_category_701" model="hr.contract.category">
+            <field name="code">701</field>
+            <field name="description">Contrib. Individual – Autônomo contratado por Empresas em geral
+            </field>
+        </record>
+        <record id="hr_contract_category_702" model="hr.contract.category">
+            <field name="code">702</field>
+            <field name="description">Contrib. Individual – Autônomo contratado por Contrib. Individual, por pessoa física em geral, ou por missão diplomática e repartição consular de carreira estrangeiras
+            </field>
+        </record>
+        <record id="hr_contract_category_703" model="hr.contract.category">
+            <field name="code">703</field>
+            <field name="description">Contrib. Individual – Autônomo contratado por Entidade Beneficente de Assistência Social isenta da cota patronal
+            </field>
+        </record>
+        <record id="hr_contract_category_704" model="hr.contract.category">
+            <field name="code">704</field>
+            <field name="description">Excluído.
+            </field>
+        </record>
+        <record id="hr_contract_category_711" model="hr.contract.category">
+            <field name="code">711</field>
+            <field name="description">Contribuinte individual - Transportador autônomo de passageiros
+            </field>
+        </record>
+        <record id="hr_contract_category_712" model="hr.contract.category">
+            <field name="code">712</field>
+            <field name="description">Contribuinte individual - Transportador autônomo de carga
+            </field>
+        </record>
+        <record id="hr_contract_category_713" model="hr.contract.category">
+            <field name="code">713</field>
+            <field name="description">Contrib. Individual – Transportador autônomo contratado por Entidade Beneficente de Assistência Social isenta da cota patronal
+            </field>
+        </record>
+        <record id="hr_contract_category_721" model="hr.contract.category">
+            <field name="code">721</field>
+            <field name="description">Contribuinte individual - Diretor não empregado, com FGTS
+            </field>
+        </record>
+        <record id="hr_contract_category_722" model="hr.contract.category">
+            <field name="code">722</field>
+            <field name="description">Contribuinte individual - Diretor não empregado, sem FGTS
+            </field>
+        </record>
+        <record id="hr_contract_category_723" model="hr.contract.category">
+            <field name="code">723</field>
+            <field name="description">Contribuinte individual - Empresários, sócios e membro de conselho de administração ou fiscal
+            </field>
+        </record>
+        <record id="hr_contract_category_731" model="hr.contract.category">
+            <field name="code">731</field>
+            <field name="description">Contribuinte individual - Cooperado que presta serviços por intermédio de Cooperativa de Trabalho
+            </field>
+        </record>
+        <record id="hr_contract_category_732" model="hr.contract.category">
+            <field name="code">732</field>
+            <field name="description">Contrib. Individual – Cooperado que presta serviços a Entidade Beneficente de Assistência Social isenta da cota patronal ou para pessoa física
+            </field>
+        </record>
+        <record id="hr_contract_category_733" model="hr.contract.category">
+            <field name="code">733</field>
+            <field name="description">Contrib. Individual – Cooperado eleito para direção da Cooperativa
+            </field>
+        </record>
+        <record id="hr_contract_category_734" model="hr.contract.category">
+            <field name="code">734</field>
+            <field name="description">Contribuinte individual - Transportador Cooperado que presta serviços por intermédio de cooperativa de trabalho
+            </field>
+        </record>
+        <record id="hr_contract_category_735" model="hr.contract.category">
+            <field name="code">735</field>
+            <field name="description">Contrib. Individual – Transportador Cooperado que presta serviços a Entidade Beneficente de Assistência Social isenta da cota patronal ou para pessoa física
+            </field>
+        </record>
+        <record id="hr_contract_category_736" model="hr.contract.category">
+            <field name="code">736</field>
+            <field name="description">Contrib. Individual – Transportador Cooperado eleito para direção da Cooperativa
+            </field>
+        </record>
+        <record id="hr_contract_category_738" model="hr.contract.category">
+            <field name="code">738</field>
+            <field name="description">Contribuinte individual - Cooperado filiado a Cooperativa de Produção
+            </field>
+        </record>
+        <record id="hr_contract_category_741" model="hr.contract.category">
+            <field name="code">741</field>
+            <field name="description">Contribuinte individual - Microempreendedor Individual
+            </field>
+        </record>
+        <record id="hr_contract_category_751" model="hr.contract.category">
+            <field name="code">751</field>
+            <field name="description">Contribuinte individual - Magistrado classista temporário da Justiça do Trabalho ou da Justiça Eleitoral que seja aposentado de qualquer regime previdenciário
+            </field>
+        </record>
+        <record id="hr_contract_category_761" model="hr.contract.category">
+            <field name="code">761</field>
+            <field name="description">Contribuinte individual - Associado eleito para direção de Cooperativa, associação ou entidade de classe de qualquer natureza ou finalidade, bem como o síndico ou administrador eleito para exercer atividade de direção condominial, desde que recebam remuneração
+            </field>
+        </record>
+        <record id="hr_contract_category_771" model="hr.contract.category">
+            <field name="code">771</field>
+            <field name="description">Contribuinte individual - Membro de conselho tutelar, nos termos da Lei no 8.069, de 13 de julho de 1990
+            </field>
+        </record>
+        <record id="hr_contract_category_781" model="hr.contract.category">
+            <field name="code">781</field>
+            <field name="description">Ministro de confissão religiosa ou membro de vida consagrada, de congregação ou de ordem religiosa
+            </field>
+        </record>
+
+        <record id="hr_contract_category_901" model="hr.contract.category">
+            <field name="code">901</field>
+            <field name="description">Estagiário
+            </field>
+        </record>
+        <record id="hr_contract_category_902" model="hr.contract.category">
+            <field name="code">902</field>
+            <field name="description">Médico Residente
+            </field>
+        </record>
+        <record id="hr_contract_category_903" model="hr.contract.category">
+            <field name="code">903</field>
+            <field name="description">Bolsista, nos termos da lei 8958/1994
+            </field>
+        </record>
+        <record id="hr_contract_category_904" model="hr.contract.category">
+            <field name="code">904</field>
+            <field name="description">Participante de curso de formação, como etapa de concurso público, sem vínculo de emprego/estatutário
+            </field>
+        </record>
+        <record id="hr_contract_category_905" model="hr.contract.category">
+            <field name="code">905</field>
+            <field name="description">Atleta não profissional em formação que receba bolsa
+            </field>
+        </record>
+
+    </data>
+</openerp>
