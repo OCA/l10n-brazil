@@ -63,6 +63,8 @@
             </div>
         </div>
 
+        </br>
+
         <%
         account_total_debit = 0.0
         account_total_credit = 0.0
@@ -77,7 +79,7 @@
                     ## date
                     <div class="act_as_cell first_column" style="min-width: 10%; overflow: hidden;">${_('Date')}</div>
                     ## move
-                    <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">Sequência do Lançamento</div>
+                    <div class="act_as_cell" style="min-width: 10%; overflow: hidden;">Sequência</div>
                     ## account code
                     <div class="act_as_cell" style="width: 12%;">${_('Account')}</div>
                     %if exibe_diario_origem:
