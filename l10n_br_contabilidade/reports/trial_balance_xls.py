@@ -41,8 +41,9 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
 
     # write empty row to define column sizes
     c_sizes = self._column_sizes
-    c_sizes[0] = 17
-    c_sizes.insert(1, 17)
+    if _p.ramos:
+        c_sizes[0] = 17
+        c_sizes.insert(1, 17)
 
     c_specs = [('empty%s' % i, 1, c_sizes[i], 'text', None)
                for i in range(0, len(c_sizes))]
@@ -152,11 +153,11 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
         account_span = 3
     else:
         account_span = _p.initial_balance_mode and 2 or 3
-    c_specs = [
-        ('code', 1, 0, 'text', _('Code')),
-        ('ramo', 1, 0, 'text', _('Ramo')),
-        ('account', account_span, 0, 'text', _('Account')),
-    ]
+    c_specs = [('code', 1, 0, 'text', _('Code'))]
+    if _p.ramos:
+        c_specs.append(('ramo', 1, 0, 'text', _('Ramo')))
+    c_specs.append(('account', account_span, 0, 'text', _('Account')))
+
     if _p.comparison_mode == 'no_comparison':
         if _p.initial_balance_mode:
             c_specs += [('init_bal', 1, 0, 'text',
@@ -249,11 +250,11 @@ def generate_xls_report(self, _p, _xs, data, objects, wb):
                 child_consol_id.id for child_consol_id in
                 current_account.child_consol_ids]
 
-        c_specs = [
-            ('code', 1, 0, 'text', current_account.code),
-            ('Ramo', 1, 0, 'text', ''),
-            ('account', account_span, 0, 'text', current_account.name),
-        ]
+        c_specs = [('code', 1, 0, 'text', current_account.code)]
+        if _p.ramos:
+            c_specs.append(('Ramo', 1, 0, 'text', ''))
+        c_specs.append(('account', account_span, 0, 'text', current_account.name))
+
         if _p.comparison_mode == 'no_comparison':
             if _p.initial_balance_mode:
                 c_specs += [('init_bal', 1, 0, 'number',
