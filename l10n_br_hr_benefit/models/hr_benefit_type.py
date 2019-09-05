@@ -125,11 +125,11 @@ class HrBenefitType(models.Model):
         string="Usar lista de beneficiarios ao invés de parceiro"
     )
     extra_income = fields.Boolean(
-        string='13º Cesta?',
+        string='13º Benefício?',
         default=False,
     )
     extra_income_month = fields.Selection(
-        string='Mês 13º Cesta',
+        string='Mês 13º Benefício',
         selection=[
             ('1', 'Janeiro'),
             ('2', 'Fevereiro'),

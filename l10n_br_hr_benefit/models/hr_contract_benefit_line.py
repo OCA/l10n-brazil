@@ -402,7 +402,6 @@ class HrContractBenefitLine(models.Model):
                 # income_quantity = 1
             # PYTHON CODE END
             self._eval_python_code()
-            self._generate_calculated_values_cesta()
 
         elif self._check_benefit_type('creche'):
             # PYTHON CODE
@@ -444,14 +443,16 @@ class HrContractBenefitLine(models.Model):
             for key, value in localdict.items():
                 if hasattr(self, key):
                     self[key] = value
+
+            self._generate_calculated_values_13()
         except Exception as e:
             self.exception_message = \
                 'Reijeitado pois a expressão de cálculo dos valores deste ' \
                 'benefício está incorreta.'
             self.state = 'exception'
 
-    def _generate_calculated_values_cesta(self):
-        # 13ª Cesta
+    def _generate_calculated_values_13(self):
+        # 13º
         if self.benefit_type_id.extra_income and \
                 date.today().month == \
                 int(self.benefit_type_id.extra_income_month):
