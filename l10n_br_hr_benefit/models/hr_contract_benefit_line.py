@@ -168,6 +168,11 @@ class HrContractBenefitLine(models.Model):
                     amount_benefit = \
                         benefit_type_id.amount * worked_days
 
+                elif benefit_type_id.type_calc == 'percent_max':
+                    amount_benefit = min(
+                        benefit_type_id.amount_max,
+                        record.amount_base * benefit_type_id.percent / 100)
+                    
                 elif benefit_type_id.type_calc == 'percent':
                     amount_benefit = \
                         record.amount_base * \
