@@ -80,9 +80,10 @@ class HrPayslip(models.Model):
 
                     if department_id:
                         raise exceptions.Warning(
-                            _('Funcionário como Gestor do departamento {}.'
-                              'Definir novo gestor antes de finalizar '
-                              'procedimento,'.format(department_id.name)))
+                            _('Funcionário como Gestor do(s) departamento(s):'
+                              '\n{}. \nDefinir novo gestor antes de finalizar '
+                              'procedimento,'.format(
+                                '\n'.join(department_id.mapped('name')))))
 
                     holidays_ids = self.env['hr.holidays'].search([
                         ('state','=','confirm'),
@@ -93,7 +94,7 @@ class HrPayslip(models.Model):
                     if holidays_ids:
                         raise exceptions.Warning(
                             _('Evento pendente:\n {}'
-                              .format(holidays_ids.mapped('name'))))
+                              .format('\n'.join(holidays_ids.mapped('name')))))
 
                     ligacoes_ids = self.env['hr.telefonia.line'].search([
                         ('state','=','open'),
@@ -103,7 +104,8 @@ class HrPayslip(models.Model):
                     if ligacoes_ids:
                         raise exceptions.Warning(
                             _('Ligação em aberto:\n {}'
-                              .format(ligacoes_ids.mapped('name'))))
+                              .format('\n'.join(ligacoes_ids.mapped('name')))))
+
 
                 # setar as ligacoes telefonicas como debitadas
                 for ligacao_id in holerite.ligacoes_ids:
