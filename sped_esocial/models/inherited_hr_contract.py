@@ -243,7 +243,7 @@ class HrContract(models.Model):
 
             'opc_fgts',                      # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/FGTS/opcFGTS
             'dt_opc_fgts',                   # //eSocial/evtAdmissao/vinculo/infoRegimeTrab/infoCeletista/FGTS/dtOpcFGTS
-            'categoria',                     # //eSocial/evtAdmissao/vinculo/infoContrato/codCateg
+            'category_id',                   # //eSocial/evtAdmissao/vinculo/infoContrato/codCateg
             'salary_unit',                   # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/undSalFixo
             'dsc_sal_var',                   # //eSocial/evtAdmissao/vinculo/infoContrato/remuneracao/dscSalVar
             'tp_contr',                      # //eSocial/evtAdmissao/vinculo/infoContrato/duracao/tpContr
@@ -677,7 +677,7 @@ class HrContract(models.Model):
                 record.prefixo_empresa_matricula = identificacao_empresa
 
     @api.multi
-    @api.depends('categoria')
+    @api.depends('category_id')
     def _compute_evento_esocial(self):
         """
         Validar de acordo com a categoria para definir qual tipo de registro
@@ -689,7 +689,7 @@ class HrContract(models.Model):
                               '738', '741', '751', '761', '771', '781', '901',
                               '902', '903', '904', '905']
         for record in self:
-            if record.categoria in categoria_do_s2300:
+            if record.category_id.code in categoria_do_s2300:
                 record.evento_esocial = 's2300'
             else:
                 record.evento_esocial = 's2200'

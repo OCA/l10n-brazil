@@ -209,12 +209,12 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         S2399.evento.ideTrabSemVinculo.nisTrab.valor = \
             limpa_formatacao(employee_id.pis_pasep)
         S2399.evento.ideTrabSemVinculo.codCateg.valor = \
-            self.hr_contract_id.categoria
+            self.hr_contract_id.category_id.code
 
         # evtTSVTermino.infoTSVTermino
         rescisao_id = self.sped_hr_rescisao_id
         S2399.evento.infoTSVTermino.dtTerm.valor = self.hr_contract_id.date_end
-        if rescisao_id.contract_id.categoria in ['721', '722']:
+        if rescisao_id.contract_id.category_id.code in ['721', '722']:
             S2399.evento.infoTSVTermino.mtvDesligTSV.valor = \
                 rescisao_id.mtv_deslig.codigo
 
@@ -256,7 +256,7 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
 
             # evtTSVAltContr.infoTSVTermino.VerbasResc.DmDev.
             # ideEstabLot.InfoAgNocivo
-            if rescisao_id.contract_id.categoria in ['738','731','734']:
+            if rescisao_id.contract_id.category_id.code in ['738','731','734']:
                 info_ag_nocivo = pysped.esocial.leiaute.S2399_InfoAgNocivo_2()
                 info_ag_nocivo.grauExp.valor = 1
                 ide_estab_lot.infoAgNocivo.append(info_ag_nocivo)

@@ -1828,7 +1828,7 @@ class SpedEsocial(models.Model):
         ])
 
         for contrato in contrato_sem_vinculo_ids:
-            if contrato.categoria == '701':
+            if contrato.category_id.code == '701':
                 contrato.finalizar_contrato_autonomo()
 
         self.desligamento_sem_vinculo_ids = [

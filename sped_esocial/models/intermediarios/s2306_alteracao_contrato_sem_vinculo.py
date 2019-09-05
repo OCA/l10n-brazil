@@ -173,7 +173,7 @@ class SpedAlteracaoContratoAutonomo(models.Model, SpedRegistroIntermediario):
         S2306.evento.ideTrabSemVinculo.nisTrab.valor = \
             limpa_formatacao(self.hr_contract_id.employee_id.pis_pasep)
         S2306.evento.ideTrabSemVinculo.codCateg.valor = \
-            self.hr_contract_id.categoria
+            self.hr_contract_id.category_id.code
 
         # evtTSVAltContr.infoTSVAlteracao
         S2306.evento.infoTSVAlteracao.dtAlteracao.valor = fields.Datetime.now()

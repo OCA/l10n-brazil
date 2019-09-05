@@ -421,7 +421,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         # Popula vinculo.infoContrato
         S2200.evento.vinculo.infoContrato.codCargo.valor = self.hr_contract_id.job_id.codigo
         # S2200.evento.vinculo.infoContrato.codFuncao.valor =   # TODO Quando lidar com Estatutários
-        S2200.evento.vinculo.infoContrato.codCateg.valor = self.hr_contract_id.categoria  # TODO Migrar esse campo para
+        S2200.evento.vinculo.infoContrato.codCateg.valor = self.hr_contract_id.category_id.code  # TODO Migrar esse campo para
         # relacionar com tabela 1 do eSocial
         # S2200.evento.vinculo.infoContrato.codCarreira.valor =   # TODO Quando lidar com Estatutários
         # S2200.evento.vinculo.infoContrato.dtIngrCarr.valor =   # TODO Quando lidar com Estatutários

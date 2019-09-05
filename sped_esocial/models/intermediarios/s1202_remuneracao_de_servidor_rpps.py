@@ -187,7 +187,7 @@ class SpedEsocialRemuneracaoRPPS(models.Model, SpedRegistroIntermediario):
             # Popula dmDev.infoPerApur.ideEstab.remunPerApur
             remun_per_apur = pysped.esocial.leiaute.S1202_RemunPerApur_2()
             remun_per_apur.matricula.valor = payslip.contract_id.matricula
-            remun_per_apur.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
+            remun_per_apur.codCateg.valor = payslip.contract_id.category_id.code  # TODO Integrar com a tabela 01 do e-Social
 
             # Popula dmDev.infoPerApur.ideEstab.remunPerApur.itensRemun
             for line in payslip.line_ids:

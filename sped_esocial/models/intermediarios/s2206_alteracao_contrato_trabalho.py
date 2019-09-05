@@ -224,7 +224,7 @@ class SpedAlteracaoContrato(models.Model, SpedRegistroIntermediario):
         info_contrato = alteracao_contratual.infoContrato
         info_contrato.codCargo.valor = contrato_id.job_id.codigo
 
-        info_contrato.codCateg.valor = contrato_id.categoria
+        info_contrato.codCateg.valor = contrato_id.category_id.code
 
         # Popula remuneracao (Informações da remuneração e
         #  e pagamento)

@@ -293,7 +293,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         ide_estab_lot.codLotacao.valor = \
             rescisao_id.company_id.cod_lotacao
 
-        cod_funcionario = True if rescisao_id.contract_id.categoria != '410' else False
+        cod_funcionario = True if rescisao_id.contract_id.category_id.code != '410' else False
         rubricas_convencao_coletiva = {}
 
         for rubrica_line in rescisao_id.line_ids:

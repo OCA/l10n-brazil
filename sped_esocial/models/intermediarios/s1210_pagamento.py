@@ -315,7 +315,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             else:
                 # Popula a tag detPgtoFer
                 det_pgto_fer = pysped.esocial.leiaute.S1210_DetPgtoFer_2()
-                det_pgto_fer.codCateg.valor = payslip.contract_id.categoria
+                det_pgto_fer.codCateg.valor = payslip.contract_id.category_id.code
                 if payslip.contract_id.evento_esocial == 's2200':
                     det_pgto_fer.matricula.valor = payslip.contract_id.matricula
                 # det_pgto_fer.matricula.valor = payslip.contract_id.matricula

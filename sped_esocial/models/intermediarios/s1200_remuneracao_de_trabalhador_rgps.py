@@ -286,7 +286,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             S1200.evento.ideEvento.indApuracao.valor == '1' \
             else False
 
-        cod_funcionario = True if contrato.categoria != '410' else False
+        cod_funcionario = True if contrato.category_id.code != '410' else False
 
         remuneracoes_ids = self.payslip_ids or self.payslip_autonomo_ids
         for payslip in remuneracoes_ids:
@@ -295,7 +295,7 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
                 continue
             dm_dev = pysped.esocial.leiaute.S1200_DmDev_2()
             dm_dev.ideDmDev.valor = payslip.number
-            dm_dev.codCateg.valor = payslip.contract_id.categoria  # TODO Integrar com a tabela 01 do e-Social
+            dm_dev.codCateg.valor = payslip.contract_id.category_id.code  # TODO Integrar com a tabela 01 do e-Social
 
             if not payslip.contract_id.date_end:
                 # Popula dmDev.infoPerApur

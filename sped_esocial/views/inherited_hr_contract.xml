@@ -23,7 +23,7 @@
                         />
                         <button name="finalizar_contrato_autonomo" type="object" colspan="2"
                              string="Fechar Contrato Autonomo no e-Social" class="oe_highlight"
-                             attrs="{'invisible': ['|', '|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', 'not in', ['1','2']), ('categoria', '!=', '701')]}"
+                             attrs="{'invisible': ['|', '|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', 'not in', ['1','2']), ('category_code', '!=', '701')]}"
                              confirm="Confirma a finalização deste contrato no e-Social?"
                         />
                         <!--<button name="atualizar_contrato_s2206" type="object" colspan="2"-->
@@ -253,7 +253,7 @@
                 <field name="employee_id" position="attributes">
                     <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
                 </field>
-                <field name="categoria" position="attributes">
+                <field name="category_id" position="attributes">
                     <attribute name="attrs">{'readonly': [('situacao_esocial', '!=', '0')]}</attribute>
                 </field>
                 <xpath expr="//page[@name='information']" position="after">
