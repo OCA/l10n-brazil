@@ -59,9 +59,7 @@ def payslip_rescisao(pool, cr, uid, localcontext, context):
         'ultimo_salario':buscar_ultimo_salario(self),
         'provento_line': popula_valor(self, 'PROVENTO'),
         'deducao_line': popula_valor(self, ['DEDUCAO', 'INSS', 'IRPF']),
-        'categoria_contrato':
-            dict(self[0].contract_id._fields['categoria'].selection).
-            get(self[0].contract_id.categoria),
+        'categoria_contrato': self[0].contract_id.category_id.name,
     }
     localcontext.update(data)
 
