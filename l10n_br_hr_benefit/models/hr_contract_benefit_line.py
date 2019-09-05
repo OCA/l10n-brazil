@@ -13,6 +13,9 @@ from pybrasil.data import dias_uteis
 from pybrasil.data import ultimo_dia_mes
 from datetime import datetime, tzinfo, timedelta
 from openerp.tools.safe_eval import safe_eval
+import logging
+
+logger = logging.getLogger(__name__)
 
 BENEFIT_TYPE = {
     'va_vr': ['va', 'vr'],
@@ -75,8 +78,9 @@ class HrContractBenefitLine(models.Model):
 
             max_age_full_income = localdict.get('max_age_full_income')
             max_age_income = localdict.get('max_age_income')
-        except Exception as e:
-            print(str(e))
+        except Exception as err:
+            logger.warning(
+                'Erro na execução do Python Code do benefício creche: %s', err)
         finally:
             return max_age_full_income, max_age_income
 
