@@ -162,6 +162,44 @@
                                                    string="* Idade máxima, em meses, para receber o auxílio Creche/Babá até o limite do teto. O valor apurado é, neste caso, o menor valor entre teto e valor comprovado. (Caso não preenchido, o valor padrão é 71 meses)"/>
                                         </group>
                                     </group>
+
+                                    <group>
+                                        <label colspan="4"
+                                               string="Exemplo benefício VR"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="deduction_amount = 0.01 * amount_benefit"/>
+                                            <label colspan="2"
+                                                   string="deduction_percentual = 100"/>
+                                            <label colspan="2"
+                                                   string="deduction_quantity = 1"/>
+                                            <label colspan="2"
+                                                   string="income_amount = amount_benefit"/>
+                                            <label colspan="2"
+                                                   string="income_percentual = 100"/>
+                                            <label colspan="2"
+                                                   string="income_quantity = 1"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="4"
+                                               string="Exemplo benefício Creche"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="max_age_full_income = 5"/>
+                                            <label colspan="2"
+                                                   string="max_age_income = 71"/>
+                                            <label colspan="2"
+                                                   string="income_amount = amount_benefit"/>
+                                            <label colspan="2"
+                                                   string="income_percentual = 100"/>
+                                            <label colspan="2"
+                                                   string="income_quantity = 1"/>
+                                        </group>
+                                    </group>
                                 </group>
                             </page>
                         </notebook>
