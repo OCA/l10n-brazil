@@ -14,8 +14,8 @@
                     </header>
                     <sheet>
                         <h1>
-                            <label for="name"/>
-                            <field name="name"/>
+                            <label for="name" class="oe_edit_only"/>
+                            <field name="name" colspan="1" class="oe_inline"/>
                         </h1>
                         <group>
                             <group>
@@ -60,17 +60,108 @@
 -                                </group>
                             </page>
                             <page string="Integração com a Folha" name="fopag">
-                                <label for="deduction_rule_id"/>
-                                <field name="deduction_rule_id" nolabel="1"/>
-                                <label for="income_rule_id"/>
-                                <field name="income_rule_id" nolabel="1"/>
+                                <group>
+                                    <label for="deduction_rule_id"/>
+                                    <field name="deduction_rule_id"
+                                           nolabel="1"/>
+                                    <label for="income_rule_id"/>
+                                    <field name="income_rule_id" nolabel="1"/>
+                                </group>
                             </page>
                             <page string="Python Code">
                                 <label for="python_code"/>
-                                <field name="python_code" nolabel="1"/>
+                                <field name="python_code" nolabel="1"
+                                       class="oe_inline"/>
+                                <group col="2" string="Intruções para implementação das regras do benefício via Python Code:">
+                                    <group>
+                                        <label colspan="2" string="amount_benefit"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Valor Apurado"/>
+                                        </group>
+                                    </group>
 
-                                <group string="Intruções para implementação das regras do benefício via Python Code:">
-                                    <field name="instrucao" nolabel="1" readonly="1"/>
+                                    <group>
+                                        <label colspan="2" string="amount_base"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Valor Comprovado"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="income_amount"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Valor apurado do Provento"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="income_percentual"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Percentual apurado do Provento"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="income_quantity"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Quantidade apurada do Provento"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="deduction_amount"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Valor apurado da Dedução"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="deduction_percentual"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Percentual apurado da Dedução"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="deduction_quantity"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Quantidadae apurada da Dedução"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="max_age_full_income"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Idade máxima, em meses, para receber o auxílio Creche/Babá em sua totalidade. O valor apurado é, neste caso, igual ao valor comprovado. (Caso não preenchido, o valor padrão é 5 meses)"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <label colspan="2" string="max_age_income"
+                                               style="font-size:1.2em;font-weight:bold;"/>
+                                        <group>
+                                            <label colspan="2"
+                                                   string="* Idade máxima, em meses, para receber o auxílio Creche/Babá até o limite do teto. O valor apurado é, neste caso, o menor valor entre teto e valor comprovado. (Caso não preenchido, o valor padrão é 71 meses)"/>
+                                        </group>
+                                    </group>
                                 </group>
                             </page>
                         </notebook>
