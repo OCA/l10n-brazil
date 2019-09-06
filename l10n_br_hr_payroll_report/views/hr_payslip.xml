@@ -10,7 +10,7 @@
                     <field name="state" position="before">
                         <button name="%(l10n_br_hr_payroll_report.report_payslip_py3o_aviso_ferias)d"
                                 class="oe_highlight"
-                                attrs="{'invisible': ['|', ('state', '!=', 'done'), ('tipo_de_folha', '!=', 'ferias')]}"
+                                attrs="{'invisible': [('tipo_de_folha', '!=', 'ferias')]}"
                                 type="action" string="Imprimir Aviso"/>
                         <button name="%(l10n_br_hr_payroll_report.report_payslip_py3o_report)d"
                                 class="oe_highlight"
