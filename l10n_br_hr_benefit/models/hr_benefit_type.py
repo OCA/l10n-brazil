@@ -28,12 +28,12 @@ class HrBenefitType(models.Model):
         index=True,
     )
     date_start = fields.Date(
-        string='Date Start',
+        string='Data Início',
         index=True,
         track_visibility='onchange'
     )
     date_stop = fields.Date(
-        string='Date Stop',
+        string='Data Fim',
         index=True,
         track_visibility='onchange'
     )
