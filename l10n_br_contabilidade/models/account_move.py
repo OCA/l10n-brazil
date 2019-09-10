@@ -289,8 +289,7 @@ class AccountMove(models.Model):
                 record.sequencia,
                 record.fiscalyear_id.name, record.resumo)
 
-            period_id = \
-                self.env['account.period'].find(fields.Date.today())
+            period_id = self.env['account.period'].find(data)
 
             account_move_reversao = record.copy({
                 'name': description,

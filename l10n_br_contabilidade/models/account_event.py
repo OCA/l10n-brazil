@@ -153,7 +153,7 @@ class AccountEvent(models.Model):
             record.account_event_reversao_id = account_event_reversao_id
 
             record.account_move_ids.reverter_lancamento(
-                account_event_reversao_id)
+                account_event_reversao_id, data=data)
 
             record.state = 'reversed'
 
