@@ -58,6 +58,7 @@
         'views/operation_view.xml',
         'views/operation_line_view.xml',
         'views/product_template_view.xml',
+        'views/product_product_view.xml',
         'views/tax_estimate_view.xml',
         'views/partner_profile_view.xml',
         'views/res_partner_view.xml',
