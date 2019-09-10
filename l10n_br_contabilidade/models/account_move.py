@@ -274,7 +274,14 @@ class AccountMove(models.Model):
                           u'padrões')
 
     @api.multi
-    def reverter_lancamento(self, account_event_reversao_id=False, data=fields.Date.today()):
+    def reverter_lancamento(self, account_event_reversao_id=False,
+                            data=fields.Date.today()):
+        """
+
+        :param account_event_reversao_id:
+        :param data:
+        :return:
+        """
         for record in self:
             account_move_line_obj = self.env['account.move.line']
 
