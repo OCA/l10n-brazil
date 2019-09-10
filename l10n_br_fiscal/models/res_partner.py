@@ -8,7 +8,7 @@ from ..constants.fiscal import (
     NFE_IND_IE_DEST_DEFAULT,
     NFE_IND_IE_DEST_3,
     TAX_FRAMEWORK,
-    TAX_FRAMEWORK_DEFAULT
+    TAX_FRAMEWORK_NORMAL
 )
 
 
@@ -27,7 +27,7 @@ class ResPartner(models.Model):
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        default=TAX_FRAMEWORK_DEFAULT,
+        default=TAX_FRAMEWORK_NORMAL,
         string='Tax Framework')
 
     cnae_main_id = fields.Many2one(

@@ -12,7 +12,13 @@ CST_PIS_OUT = [
     '01', '02', '03', '04', '05',
     '06', '07', '08', '09', '49', '99']
 
+CST_PIS_NO_TAXED = [
+    '04', '06', '07', '08', '09',
+    '71', '72', '73', '74']
+
 # Some CST for PIS and COFINS
 CST_COFINS_IN = CST_PIS_IN
 
 CST_COFINS_OUT = CST_PIS_OUT
+
+CST_COFINS_NO_TAXED = CST_PIS_NO_TAXED
