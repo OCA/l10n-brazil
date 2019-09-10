@@ -21,10 +21,11 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <field name="cfop_destination" invisible="1"/>
                     <group>
                         <field name="code"/>
-                        <field name="cfop_id"/>
+                        <field name="cfop_internal_id"/>
+                        <field name="cfop_external_id"/>
+                        <field name="cfop_export_id"/>
                         <field name="operation_type"/>
                     </group>
                     <group>
