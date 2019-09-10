@@ -24,7 +24,7 @@ def post_init_hook(cr, registry):
                      noupdate=True, kind='init', report=None)
 
     demofiles = [
-        'demo/base_demo.xml',
+        # 'demo/base_demo.xml',
         'demo/product_demo.xml']
 
     for f in demofiles:
