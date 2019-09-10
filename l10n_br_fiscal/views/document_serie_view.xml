@@ -9,7 +9,7 @@
                 <field name="name"/>
                 <field name="document_type_id"/>
                 <field name="sequence_number_next"/>
-                <field name="company_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
                 <field name="active" widget="boolean_toggle"/>
             </tree>
         </field>
@@ -32,7 +32,7 @@
                         <field name="code"/>
                         <field name="name"/>
                         <field name="document_type_id"/>
-                        <field name="company_id"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
                         <field name="internal_sequence_id"/>
                         <field name="sequence_number_next"/>
                     </group>
