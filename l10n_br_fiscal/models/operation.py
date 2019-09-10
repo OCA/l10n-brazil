@@ -34,6 +34,36 @@ class Operation(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]})
 
+    document_type_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.type',
+        required=True)
+
+    document_electronic = fields.Boolean(
+        related='document_type_id.electronic',
+        string='Electronic?')
+
+    document_serie_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.serie',
+        domain="[('active', '=', True),"
+               "('document_type_id', '=', document_type_id)]")
+
+    default_price_unit = fields.Selection(
+        selection=[
+            ('sale_price', _('Sale Price')),
+            ('cost_price', _('Cost Price'))],
+        string='Default Price Unit?',
+        default='sale_price')
+
+    state = fields.Selection(
+        selection=OPERATION_STATE,
+        string='State',
+        default=OPERATION_STATE_DEFAULT,
+        index=True,
+        readonly=True,
+        track_visibility='onchange',
+        copy=False)
+
+
     line_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.operation.line',
         inverse_name='operation_id',
@@ -47,15 +77,6 @@ class Operation(models.Model):
         column1='operation_id',
         column2='comment_id',
         string='Comment')
-
-    state = fields.Selection(
-        selection=OPERATION_STATE,
-        string='State',
-        default=OPERATION_STATE_DEFAULT,
-        index=True,
-        readonly=True,
-        track_visibility='onchange',
-        copy=False)
 
     _sql_constraints = [
         ('fiscal_operation_code_uniq', 'unique (code)',
@@ -100,13 +121,6 @@ class Operation(models.Model):
 
         domain += ['|', ('product_type', '=', item.fiscal_type),
                   ('product_type', '=', False)]
-
-        if partner.state_id == company.state_id:
-            domain += [('cfop_destination', '=', '1')]
-        elif partner.country_id != company.country_id:
-            domain += [('cfop_destination', '=', '3')]
-        else:
-            domain += [('cfop_destination', '=', '2')]
 
         return domain
 
