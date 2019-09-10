@@ -69,3 +69,7 @@ class DocumentSerie(models.Model):
             values.update(
                 {'internal_sequence_id': self._create_sequence(values)})
         return super(DocumentSerie, self).create(values)
+
+    @api.multi
+    def name_get(self):
+        return [(r.id, "{0}".format(r.name)) for r in self]
