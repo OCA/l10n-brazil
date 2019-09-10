@@ -18,6 +18,7 @@
         <field name="arch" type="xml">
             <tree string="Tax">
                 <field name="name"/>
+                <field name="sequence"/>
                 <field name="tax_domain"/>
             </tree>
         </field>
@@ -32,10 +33,16 @@
                     <group>
                         <field name="name"/>
                         <field name="tax_domain"/>
+                        <field name="sequence"/>
                     </group>
-                    <group name="group_taxes" string="Taxes">
-                        <field name="tax_ids" nolabel="1"/>
-                    </group>
+                    <notebook>
+                        <page name="taxes" string="Taxes">
+                            <field name="tax_ids" nolabel="1"/>
+                        </page>
+                        <page name="csts" string="CSTs">
+                            <field name="cst_ids" nolabel="1"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
