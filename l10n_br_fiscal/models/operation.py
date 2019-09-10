@@ -63,7 +63,6 @@ class Operation(models.Model):
         track_visibility='onchange',
         copy=False)
 
-
     line_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.operation.line',
         inverse_name='operation_id',
@@ -114,13 +113,13 @@ class Operation(models.Model):
                    ('company_id', '=', False)]
 
         domain += ['|', ('company_tax_framework', '=', company.tax_framework),
-                  ('company_tax_framework', '=', False)]
+                   ('company_tax_framework', '=', False)]
 
         domain += ['|', ('partner_tax_framework', '=', partner.tax_framework),
-                  ('partner_tax_framework', '=', False)]
+                   ('partner_tax_framework', '=', False)]
 
         domain += ['|', ('product_type', '=', item.fiscal_type),
-                  ('product_type', '=', False)]
+                   ('product_type', '=', False)]
 
         return domain
 
