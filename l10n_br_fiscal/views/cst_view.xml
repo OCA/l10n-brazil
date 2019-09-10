@@ -8,9 +8,10 @@
             <search string="CST">
                 <field name="code"/>
                 <field name="name"/>
+                <field name="tax_group_id"/>
                 <field name="tax_domain"/>
                 <group expand='0' string='Group By...'>
-                    <filter string='Domain' name="tax_domain" domain="[]" context="{'group_by' : 'tax_domain'}"/>
+                    <filter string='Tax Group' name="tax_group_id" domain="[]" context="{'group_by' : 'tax_group_id'}"/>
                 </group>
             </search>
         </field>
@@ -24,7 +25,7 @@
                 <field name="code"/>
                 <field name="name"/>
                 <field name="cst_type"/>
-                <field name="tax_domain"/>
+                <field name="tax_group_id"/>
             </tree>
         </field>
     </record>
@@ -39,7 +40,7 @@
                       <field name="code"/>
                       <field name="name"/>
                       <field name="cst_type"/>
-                      <field name="tax_domain"/>
+                      <field name="tax_group_id"/>
                     </group>
                 </sheet>
             </form>
