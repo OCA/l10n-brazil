@@ -20,12 +20,19 @@ class CST(models.Model):
         string='Type',
         required=True)
 
-    tax_domain = fields.Selection(
-        selection=TAX_DOMAIN,
-        string='Tax Domain',
+    tax_group_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.tax.group',
+        string='Fiscal Tax Group',
         required=True)
 
+    tax_domain = fields.Selection(
+        selection=TAX_DOMAIN,
+        related='tax_group_id.tax_domain',
+        string='Tax Domain',
+        required=True,
+        readonly=True)
+
     _sql_constraints = [
-        ('l10n_br_fiscal_cst_code_tax_domain_uniq',
-         'unique (code, tax_domain)',
+        ('l10n_br_fiscal_cst_code_tax_group_id_uniq',
+         'unique (code, tax_group_id)',
          'CST already exists with this code !')]

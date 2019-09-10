@@ -8,12 +8,19 @@ from ..constants.fiscal import TAX_DOMAIN
 
 class TaxGroup(models.Model):
     _name = 'l10n_br_fiscal.tax.group'
-    _order = 'name, tax_domain'
+    _order = 'sequence, name, tax_domain'
     _description = 'Tax Group'
 
     name = fields.Char(
         string='Name',
         required=True)
+
+    sequence = fields.Integer(
+        string='Sequence',
+        default=10,
+        required=True,
+        help="The sequence field is used to define "
+             "order in which the tax lines are applied.")
 
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
@@ -24,6 +31,11 @@ class TaxGroup(models.Model):
         comodel_name='l10n_br_fiscal.tax',
         inverse_name='tax_group_id',
         string='Taxes')
+
+    cst_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.cst',
+        inverse_name='tax_group_id',
+        string='CSTs')
 
     _sql_constraints = [
         ('fiscal_tax_group_code_uniq', 'unique (name)',
