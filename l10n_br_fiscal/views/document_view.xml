@@ -38,23 +38,45 @@
     <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <form string="Fiscal Document">
-        <field name="currency_id" invisible="1"/>
         <field name="id" invisible="1"/>
+        <field name="currency_id" invisible="1"/>
+        <field name="document_electronic" invisible="1"/>
+        <field name="operation_type" invisible="1"/>
+        <header>
+            <button name="action_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" groups="l10n_br_fiscal.group_user"/>
+            <field name="state" widget="statusbar"/>
+        </header>
         <sheet string="Fiscal Document">
+          <div class="oe_title">
+            <h1>
+                <field name="document_type_id" readonly="1"/>:
+                <field name="number" readonly="1"/>
+            </h1>
+          </div>
           <group>
-            <field name="key"/>
+            <field name="operation_id"/>
+            <field name="issuer"/>
             <field name="document_type_id"/>
           </group>
+          <group>
+            <group>
+              <field name="document_serie_id" context="{'default_document_type_id': document_type_id}"/>
+            </group>
+            <group>
+              <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')]}"/>
+            </group>
+          </group>
+          <div class="form-row">
+            <field name="key" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"/>
+            <button name="action_search_key" type="object" class="btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>
+          </div>
           <notebook>
             <page name="document" string="Document Info">
               <group name="Document">
-                <field name="document_serie_id" context="{'default_document_type_id': document_type_id}"/>
-                <field name="number"/>
                 <field name="date"/>
-                <field name="operation_id"/>
               </group>
               <group name="company_info" string="Company">
-                <field name="company_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
               </group>
               <group>
                 <group name="company_left">
@@ -94,7 +116,7 @@
               </group>
             </page>
             <page name="products" string="Products and Services">
-              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_operation_id': operation_id}">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_operation_id': operation_id, 'default_company_id': company_id, 'default_operation_type': operation_type}">
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
