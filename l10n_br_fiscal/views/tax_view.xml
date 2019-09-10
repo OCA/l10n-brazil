@@ -23,8 +23,6 @@
             <tree string="Tax">
                 <field name="tax_domain" invisible="1"/>
                 <field name="name"/>
-                <field name="percent_amount"/>
-                <field name="percent_reduction"/>
                 <field name="tax_group_id"/>
                 <field name="cst_in_id"/>
                 <field name="cst_out_id"/>
@@ -37,13 +35,18 @@
         <field name="model">l10n_br_fiscal.tax</field>
         <field name="arch" type="xml">
             <form string="Tax">
+                <field name="tax_domain" invisible="1"/>
+                <field name="sequence" invisible="1"/>
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="percent_amount"/>
-                        <field name="percent_reduction"/>
+                        <field name="tax_base_type"/>
+                        <field name="percent_amount" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
+                        <field name="percent_reduction" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
+                        <field name="percent_debit_credit" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
+                        <field name="value_amount" attrs="{'invisible': [('tax_base_type', 'not in', ('quantity', 'fixed'))]}" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        <field name="uot_id" attrs="{'invisible': [('tax_base_type', '!=', 'quantity')], 'required': [('tax_base_type', '=', 'quantity')]}"/>
                         <field name="tax_group_id"/>
-                        <field name="tax_domain"/>
                         <field name="cst_in_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"/>
                         <field name="cst_out_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"/>
                     </group>
