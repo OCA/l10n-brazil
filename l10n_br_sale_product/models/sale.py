@@ -12,19 +12,11 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     @api.multi
-    @api.depends('order_line.price_unit', 'order_line.tax_id',
-                 'order_line.discount', 'order_line.product_uom_qty',
-                 'order_line.freight_value', 'order_line.insurance_value',
-                 'order_line.other_costs_value')
-    def _amount_all_wrapper(self):
-        """
-        Wrapper because of direct method passing as parameter
-        for function fields
-        """
-        return self._amount_all()
-
-    @api.multi
     def _amount_all(self):
+        """
+        This override is specific for Brazil. Idealy, starting from
+        v12 we should just call super when the sale is not for Brazil.
+        """
         for order in self:
             order.amount_untaxed = 0.0
             order.amount_tax = 0.0
@@ -153,38 +145,38 @@ class SaleOrder(models.Model):
              comercial no momento da operação.',
         default=_default_ind_pres)
     amount_untaxed = fields.Float(
-        compute='_amount_all_wrapper',
+        compute='_amount_all',
         string='Untaxed Amount',
         digits=dp.get_precision('Account'),
         store=True,
         help="The amount without tax.",
         track_visibility='always')
     amount_tax = fields.Float(
-        compute='_amount_all_wrapper',
+        compute='_amount_all',
         string='Taxes',
         store=True,
         digits=dp.get_precision('Account'),
         help="The tax amount.")
     amount_total = fields.Float(
-        compute='_amount_all_wrapper',
+        compute='_amount_all',
         string='Total',
         store=True,
         digits=dp.get_precision('Account'),
         help="The total amount.")
     amount_extra = fields.Float(
-        compute='_amount_all_wrapper',
+        compute='_amount_all',
         string='Extra',
         digits=dp.get_precision('Account'),
         store=True,
         help="The total amount.")
     amount_discount = fields.Float(
-        compute='_amount_all_wrapper',
+        compute='_amount_all',
         string='Desconto (-)',
         digits=dp.get_precision('Account'),
         store=True,
         help="The discount amount.")
     amount_gross = fields.Float(
-        compute='_amount_all_wrapper',
+        compute='_amount_all',
         string='Vlr. Bruto',
         digits=dp.get_precision('Account'),
         store=True,
