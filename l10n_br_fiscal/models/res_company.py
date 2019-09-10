@@ -6,7 +6,15 @@ from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
     TAX_FRAMEWORK,
-    TAX_FRAMEWORK_DEFAULT,
+    TAX_FRAMEWORK_SIMPLES,
+    TAX_FRAMEWORK_SIMPLES_EX,
+    TAX_FRAMEWORK_SIMPLES_ALL,
+    TAX_FRAMEWORK_NORMAL,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_SN,
+    TAX_DOMAIN_IPI,
+    TAX_DOMAIN_PIS,
+    TAX_DOMAIN_COFINS,
     PROFIT_CALCULATION,
     PROFIT_CALCULATION_PRESUMED,
     INDUSTRY_TYPE,
@@ -65,7 +73,7 @@ class ResCompany(models.Model):
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        default=TAX_FRAMEWORK_DEFAULT,
+        default=TAX_FRAMEWORK_NORMAL,
         compute='_compute_l10n_br_data',
         inverse='_inverse_tax_framework',
         string='Tax Framework')
@@ -146,7 +154,7 @@ class ResCompany(models.Model):
     tax_ipi_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.tax',
         string='Default IPI',
-        domain="[('tax_domain', '=', 'ipi')]")
+        domain=[('tax_domain', '=', TAX_DOMAIN_IPI)])
 
     tax_icms_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.tax',
@@ -208,13 +216,13 @@ class ResCompany(models.Model):
             'l10n_br_fiscal.tax_icms_sn_com_credito')
 
         # If Tax Framework is Simples Nacional
-        if self.tax_framework in ('1', '2'):
+        if self.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
             # Set taxes
             self.piscofins_id = sn_piscofins_id
             self.tax_icms_id = sn_tax_icms_id
 
         # If Tax Framework is Regine Normal
-        if self.tax_framework == '3':
+        if self.tax_framework == TAX_FRAMEWORK_NORMAL:
             pis_cofins_refs = {
                 'real': self.env.ref(
                     'l10n_br_fiscal.tax_pis_cofins_nao_columativo'),
@@ -235,16 +243,16 @@ class ResCompany(models.Model):
 
     @api.onchange('is_industry')
     def _onchange_is_industry(self):
-        if self.is_industry and self.tax_framework == '3':
+        if self.is_industry and self.tax_framework == TAX_FRAMEWORK_SIMPLES:
             self.ripi = True
         else:
             self.ripi = False
 
     @api.onchange('ripi')
     def _onchange_ripi(self):
-        if not self.ripi and self.tax_framework == '3':
+        if not self.ripi and self.tax_framework == TAX_FRAMEWORK_NORMAL:
             self.tax_ipi_id = self.env.ref('l10n_br_fiscal.tax_ipi_nt')
-        elif self.tax_framework in ('1', '2'):
+        elif self.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
             self.tax_ipi_id = self.env.ref(
                 'l10n_br_fiscal.tax_ipi_simples_nacional')
             self.ripi = False
@@ -257,23 +265,23 @@ class ResCompany(models.Model):
             self._set_tax_definition(self.piscofins_id.tax_cofins_id)
             self._set_tax_definition(self.piscofins_id.tax_pis_id)
         else:
-            self._del_tax_definition('pis')
-            self._del_tax_definition('cofins')
+            self._del_tax_definition(TAX_DOMAIN_PIS)
+            self._del_tax_definition(TAX_DOMAIN_COFINS)
 
     @api.onchange('tax_ipi_id')
     def _onchange_tax_ipi_id(self):
         if self.tax_ipi_id:
             self._set_tax_definition(self.tax_ipi_id)
         else:
-            self._del_tax_definition('ipi')
+            self._del_tax_definition(TAX_DOMAIN_IPI)
 
     @api.onchange('tax_icms_id')
     def _onchange_tax_icms_id(self):
         if self.tax_icms_id:
             self._set_tax_definition(self.tax_icms_id)
         else:
-            self._del_tax_definition('icms')
-            self._del_tax_definition('icmssn')
+            self._del_tax_definition(TAX_DOMAIN_ICMS)
+            self._del_tax_definition(TAX_DOMAIN_ICMS_SN)
 
     @api.onchange('tax_issqn_id')
     def _onchange_tax_issqn_id(self):
