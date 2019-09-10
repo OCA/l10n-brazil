@@ -287,3 +287,4 @@
 "tax_pis_aliqdif_2_76_cred_2_76","PIS Aliq. Dif 2,76% Crédito 2,76%","percent","2.76","0.0","tax_group_pis","cst_cofins_02","cst_cofins_98",,,,"2.76"
 "tax_pis_aliqdif_3_12_cred_3_12","PIS Aliq. Dif 3,12% Crédito 3,12%","percent","3.12","0.0","tax_group_pis","cst_cofins_02","cst_cofins_98",,,,"3.12"
 "tax_pis_aliqdif_3_52_cred_3_52","PIS Aliq. Dif 3,52% Crédito 3,52%","percent","3.52","0.0","tax_group_pis","cst_cofins_02","cst_cofins_98",,,,"3.52"
+"tax_simples","Simples Nacional","percent","0.00","0.00","tax_group_simples",,,,,,
