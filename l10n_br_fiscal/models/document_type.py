@@ -25,3 +25,8 @@ class DocumentType(models.Model):
         selection=DOCUMENT_TYPE,
         string='Document Type',
         required=True)
+
+    document_serie_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.document.serie',
+        inverse_name='document_type_id',
+        string='Document Series')
