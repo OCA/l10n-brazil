@@ -18,12 +18,14 @@
         <field name="model">l10n_br_fiscal.document.type</field>
         <field name="arch" type="xml">
             <form string="Fiscal Document Type">
+                <field name="id" invisible="1"/>
                 <sheet>
                     <group>
                         <field name="code"/>
                         <field name="name"/>
                         <field name="electronic"/>
                     </group>
+                    <field name="document_serie_ids" context="{'default_document_type_id': id}"/>
                 </sheet>
             </form>
         </field>
