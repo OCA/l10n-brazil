@@ -1,6 +1,9 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from odoo import _
+
+
 OPERATION_STATE = [
     ('draft', 'Draft'),
     ('review', 'Review'),
@@ -40,6 +43,16 @@ NCM_FOR_SERVICE = '0000.00.00'
 NCM_FOR_SERVICE_REF = 'l10n_br_fiscal.ncm_00000000'
 
 
+TAX_BASE_TYPE = (
+    ('percent', _('Percent')),
+    ('quantity', _('Quantity')),
+    ('fixed', _('Fixed'))
+)
+
+
+TAX_BASE_TYPE_PERCENT = 'percent'
+
+
 TAX_DOMAIN = (
     ('ipi', 'IPI'),
     ('icms', 'ICMS - Próprio'),
@@ -61,6 +74,15 @@ TAX_DOMAIN = (
 )
 
 
+TAX_DOMAIN_IPI = 'ipi'
+TAX_DOMAIN_ICMS = 'icms'
+TAX_DOMAIN_ICMS_SN = 'icmssn'
+TAX_DOMAIN_PIS = 'pis'
+TAX_DOMAIN_PIS_ST = 'pisst'
+TAX_DOMAIN_COFINS = 'cofins'
+TAX_DOMAIN_COFINS_ST = 'cofinsst'
+
+
 TAX_FRAMEWORK = (
     ('1', '1 - Simples Nacional'),
     ('2', '2 - Simples Nacional – excesso de sublimite da receita bruta'),
@@ -68,8 +90,10 @@ TAX_FRAMEWORK = (
 )
 
 
-TAX_FRAMEWORK_DEFAULT = '3'
-
+TAX_FRAMEWORK_SIMPLES = '1'
+TAX_FRAMEWORK_SIMPLES_EX = '2'
+TAX_FRAMEWORK_NORMAL = '3'
+TAX_FRAMEWORK_SIMPLES_ALL = ('1', '2')
 
 PROFIT_CALCULATION = (
     ('real', 'Real'),
@@ -156,6 +180,11 @@ CFOP_DESTINATION = (
     ('2', 'Operação Interestadual'),
     ('3', 'Operação com Exterior')
 )
+
+
+CFOP_DESTINATION_INTERNAL = '1'
+CFOP_DESTINATION_EXTERNAL = '2'
+CFOP_DESTINATION_EXPORT = '3'
 
 
 CEST_SEGMENT = (
