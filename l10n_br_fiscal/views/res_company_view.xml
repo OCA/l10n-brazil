@@ -49,7 +49,7 @@
                                   <group name="ipi_taxes" string="IPI">
                                       <field name="ripi" attrs="{'invisible': [('tax_framework', '!=', '3')]}"/>
                                       <field name="tax_ipi_id" attrs="{'invisible': [('tax_framework', '=', '3'), ('ripi', '=', True)], 'required': [('tax_framework', '!=', '3')]}"  domain="{'3': [('id', '!=', %(l10n_br_fiscal.tax_ipi_simples_nacional)d), ('tax_group_id', '=', %(l10n_br_fiscal.tax_group_ipi)d)]}.get(tax_framework, [('id', '=', %(l10n_br_fiscal.tax_ipi_simples_nacional)d)])"/>
-                                      <div class="text-muted" attrs="{'invisible': [('ripi', '=', False)]}">
+                                      <div class="text-muted" colspan="2" attrs="{'invisible': [('ripi', '=', False)]}">
                                           IPI tax will be calculed by Product NCM and Fiscal Operation.
                                       </div>
                                   </group>
