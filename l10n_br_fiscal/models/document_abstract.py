@@ -5,7 +5,9 @@ from odoo import models, fields, api
 
 from odoo.addons.l10n_br_base.tools import fiscal, misc
 
-from ..constants.fiscal import TAX_FRAMEWORK
+from ..constants.fiscal import (
+    TAX_FRAMEWORK,
+    FISCAL_IN_OUT)
 
 
 class DocumentAbstract(models.AbstractModel):
@@ -33,6 +35,14 @@ class DocumentAbstract(models.AbstractModel):
         required=True,
         index=True)
 
+    issuer = fields.Selection(
+        selection=[
+            ('company', 'Company'),
+            ('partner', 'Partner')],
+        default='company',
+        required=True,
+        string='Issuer')
+
     document_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.type',
         required=True)
@@ -58,7 +68,8 @@ class DocumentAbstract(models.AbstractModel):
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
-        string='Partner')
+        string='Partner',
+        required=True)
 
     partner_legal_name = fields.Char(
         string='Legal Name')
@@ -93,6 +104,12 @@ class DocumentAbstract(models.AbstractModel):
     operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Operation')
+
+    operation_type = fields.Selection(
+        selection=FISCAL_IN_OUT,
+        related='operation_id.operation_type',
+        string='Operation Type',
+        readonly=True)
 
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -158,6 +175,19 @@ class DocumentAbstract(models.AbstractModel):
         string="Amount Discount",
         compute='_compute_amount')
 
+    state = fields.Selection(
+        selection=[
+            ('draft', 'Draft'),
+            ('open', 'Open'),
+            ('done', 'Done'),
+            ('cancelled', 'Cancelled')],
+        string='State',
+        default='draft',
+        index=True,
+        readonly=True,
+        track_visibility='onchange',
+        copy=False)
+
     line_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document.line.abstract',
         inverse_name='document_id',
@@ -174,6 +204,19 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_suframa = self.partner_id.suframa
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
+
+    @api.onchange('operation_id')
+    def _onchange_operation_id(self):
+        if self.operation_id:
+            self.document_type_id = self.operation_id.document_type_id
+            self.document_serie_id = self.operation_id.document_serie_id
+
+    @api.multi
+    def _action_confirm(self):
+        for d in self:
+            if d.document_electronic:
+                return True
+
 
     """
     @api.onchange('partner_cnpj_cpf', 'partner_country_id')
