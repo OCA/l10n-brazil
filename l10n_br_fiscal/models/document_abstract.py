@@ -3,8 +3,6 @@
 
 from odoo import models, fields, api
 
-from odoo.addons.l10n_br_base.tools import fiscal, misc
-
 from ..constants.fiscal import (
     TAX_FRAMEWORK,
     FISCAL_IN_OUT)
@@ -216,18 +214,3 @@ class DocumentAbstract(models.AbstractModel):
         for d in self:
             if d.document_electronic:
                 return True
-
-
-    """
-    @api.onchange('partner_cnpj_cpf', 'partner_country_id')
-    def _onchange_partner_cnpj_cpf(self):
-        country = self.partner_country_id.code or ''
-        self.cnpj_cpf = fiscal.format_cpf_cnpj(self.cnpj_cpf,
-                                               country,
-                                               self.partner_id.is_company)
-
-    @api.onchange('zip')
-    def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip,
-                                       self.partner_cnpj_cpf.code)
-    """

@@ -7,7 +7,6 @@ from odoo.addons import decimal_precision as dp
 from ..constants.fiscal import (
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_SIMPLES,
-    TAX_FRAMEWORK_SIMPLES_EX,
     TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_FRAMEWORK_NORMAL,
     TAX_DOMAIN_ICMS,
@@ -85,7 +84,7 @@ class ResCompany(models.Model):
 
     is_industry = fields.Boolean(
         string='Is Industry',
-        help = 'If your company is industry or ......',
+        help='If your company is industry or ......',
         default=False)
 
     industry_type = fields.Selection(
