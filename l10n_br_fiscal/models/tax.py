@@ -162,13 +162,13 @@ class Tax(models.Model):
 
     def _compute_pis(self, tax, tax_dict, **kwargs):
         cst = kwargs.get('cst', self.env['l10n_br_fiscal.cst'])
-        if not cst.code in CST_PIS_NO_TAXED:
+        if cst.code not in CST_PIS_NO_TAXED:
             tax_dict = self._compute_generic(tax, tax_dict, **kwargs)
         return tax_dict
 
     def _compute_cofins(self, tax, tax_dict, **kwargs):
         cst = kwargs.get('cst', self.env['l10n_br_fiscal.cst'])
-        if not cst.code in CST_COFINS_NO_TAXED:
+        if cst.code not in CST_COFINS_NO_TAXED:
             tax_dict = self._compute_generic(tax, tax_dict, **kwargs)
         return tax_dict
 
@@ -176,12 +176,12 @@ class Tax(models.Model):
         company = kwargs.get('company', tax.env.user.company_id)
         currency = kwargs.get('currency', company.currency_id)
         precision = currency.decimal_places
-        price = kwargs.get('price', 0.00)
-        quantity = kwargs.get('quantity', 0.00)
-        uom_id = kwargs.get('uom_id')
+        # price = kwargs.get('price', 0.00)
+        # quantity = kwargs.get('quantity', 0.00)
+        # uom_id = kwargs.get('uom_id')
         fiscal_price = kwargs.get('fiscal_price', 0.00)
         fiscal_quantity = kwargs.get('fiscal_quantity', 0.00)
-        uot_id = kwargs.get('uot_id')
+        # uot_id = kwargs.get('uot_id')
 
         if tax.tax_base_type == 'percent':
             tax_dict['base_type'] = tax.tax_base_type
