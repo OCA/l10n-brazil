@@ -32,9 +32,9 @@ class Cfop(models.Model):
 
     destination = fields.Selection(
         selection=CFOP_DESTINATION,
-        string=u'Destination',
+        string='Destination',
         required=True,
-        help=u'Identifies the operation destination.')
+        help="Identifies the operation destination.")
 
     cfop_inverse_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
