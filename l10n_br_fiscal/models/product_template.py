@@ -23,7 +23,8 @@ class ProductTemplate(models.Model):
         selection=PRODUCT_FISCAL_TYPE,
         string='Fiscal Type')
 
-    icms_origin = fields.Selection( # TODO - rename this field icms_origin
+    # TODO - rename this field icms_origin
+    icms_origin = fields.Selection(
         selection=ICMS_ORIGIN,
         string='ICMS Origin',
         default='0')

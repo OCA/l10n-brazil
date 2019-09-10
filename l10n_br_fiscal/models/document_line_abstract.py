@@ -5,9 +5,7 @@ from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
-    TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
-    TAX_FRAMEWORK_SIMPLES,
     TAX_FRAMEWORK_SIMPLES_ALL,
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_SERVICE,
@@ -460,6 +458,8 @@ class DocumentLineAbstract(models.AbstractModel):
                 line.cofinsst_tax_id)
 
             result_taxes = line._compute_taxes(taxes)
+            # TODO populate field taxes
+        return result_taxes
 
     @api.onchange('product_id', 'operation_id')
     def _onchange_product_id(self):
@@ -601,9 +601,9 @@ class DocumentLineAbstract(models.AbstractModel):
             self.pisst_cst_id = self.pisst_tax_id.cst_from_tax(
                 self.operation_type)
             self.pisst_base_type = self.pisst_tax_id.tax_base_type
-            pisst = self._compute_taxes(
-                self.pisst_tax_id,
-                self.pisst_cst_id).get(TAX_DOMAIN_PIS_ST)
+            # pisst = self._compute_taxes(
+            #     self.pisst_tax_id,
+            #     self.pisst_cst_id).get(TAX_DOMAIN_PIS_ST)
 
     @api.onchange('pisst_base')
     def _onchange_pisst_fields(self):
@@ -625,7 +625,6 @@ class DocumentLineAbstract(models.AbstractModel):
             result_taxes = self._compute_taxes(self.cofins_tax_id)
             self._set_fields_cofins(result_taxes.get(TAX_DOMAIN_COFINS))
 
-
     @api.onchange('cofins_base_type', 'cofins_base',
                   'cofins_percent', 'cofins_reduction',
                   'cofins_value')
@@ -638,9 +637,9 @@ class DocumentLineAbstract(models.AbstractModel):
             self.cofinsst_cst_id = self.cofinsst_tax_id.cst_from_tax(
                 self.operation_type)
             self.cofinsst_base_type = self.cofinsst_tax_id.tax_base_type
-            cofinsst = self._compute_taxes(
-                self.cofinsst_tax_id,
-                self.cofinsst_cst_id).get(TAX_DOMAIN_COFINS_ST)
+            # cofinsst = self._compute_taxes(
+            #     self.cofinsst_tax_id,
+            #     self.cofinsst_cst_id).get(TAX_DOMAIN_COFINS_ST)
 
     @api.onchange('cofinsst_base')
     def _onchange_cofins_fields(self):

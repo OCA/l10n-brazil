@@ -7,7 +7,6 @@ from odoo.exceptions import UserError
 from ..constants.fiscal import (
     FISCAL_IN_OUT_ALL,
     TAX_FRAMEWORK,
-    CFOP_DESTINATION,
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_DEFAULT,
     PRODUCT_FISCAL_TYPE,
@@ -226,7 +225,7 @@ class OperationLine(models.Model):
     def _onchange_operation_id(self):
         if not self.operation_id.operation_type:
             warning = {
-                    'title': _('Warning!'),
-                    'message': _('You must first select a operation type.'),
-                }
+                'title': _('Warning!'),
+                'message': _('You must first select a operation type.'),
+            }
             return {'warning': warning}
