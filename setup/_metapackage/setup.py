@@ -20,6 +20,7 @@ setuptools.setup(
         'odoo10-addon-l10n_br_sale',
         'odoo10-addon-l10n_br_sale_product',
         'odoo10-addon-l10n_br_stock',
+        'odoo10-addon-l10n_br_stock_account',
         'odoo10-addon-l10n_br_zip',
         'odoo10-addon-l10n_br_zip_correios',
     ],
