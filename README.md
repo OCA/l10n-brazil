@@ -89,6 +89,7 @@ addon | version | summary
 [l10n_br_sale](l10n_br_sale/) | 10.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_sale_product](l10n_br_sale_product/) | 10.0.1.0.0 | Brazilian Localization Sale Product
 [l10n_br_stock](l10n_br_stock/) | 10.0.1.0.0 | Brazilian Localization Warehouse
+[l10n_br_stock_account](l10n_br_stock_account/) | 10.0.1.0.1 | Brazilian Localization WMS Accounting
 [l10n_br_zip](l10n_br_zip/) | 10.0.1.0.0 | Brazilian Localisation ZIP Codes
 [l10n_br_zip_correios](l10n_br_zip_correios/) | 10.0.1.0.0 | Address from Brazilian Localization ZIP by Correios
 
@@ -106,7 +107,6 @@ addon | version | summary
 [l10n_br_purchase](l10n_br_purchase/) | 8.0.1.0.0 (unported) | Brazilian Localization Purchase
 [l10n_br_sale_service](l10n_br_sale_service/) | 8.0.1.0.0 (unported) | Brazilian Localization Sale Service
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 8.0.1.0.0 (unported) | Brazilian Localization Sales and Warehouse
-[l10n_br_stock_account](l10n_br_stock_account/) | 8.0.1.0.1 (unported) | Brazilian Localization WMS Accounting
 [l10n_br_stock_account_report](l10n_br_stock_account_report/) | 8.0.1.0.0 (unported) | Brazilian Localization WMS Accounting Report
 
 [//]: # (end addons)
