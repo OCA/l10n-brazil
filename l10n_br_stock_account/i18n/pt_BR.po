@@ -1,0 +1,134 @@
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizard/stock_invoice_onshipping.py:154
+#, python-format
+msgid "All pickings are not related to your company!"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_rule_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_location_path_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move_fiscal_category_id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_fiscal_category_id
+msgid "Categoria Fiscal"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company_stock_fiscal_category_id
+msgid "Categoria Fiscal Padro Estoque"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company_stock_out_fiscal_category_id
+msgid "Categoria Fiscal Padro Sada"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company_stock_in_fiscal_category_id
+msgid "Categoria Fiscal Padro de Entrada"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.ui.view,arch_db:l10n_br_stock_account.view_l10n_br_stock_company_form
+msgid "Configuraes de Estoque"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping_fiscal_category_journal
+msgid "Dirio da Categoria Fiscal"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizard/stock_return_picking.py:47
+#, python-format
+msgid "Error!"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.ui.view,arch_db:l10n_br_stock_account.view_l10n_br_stock_company_form
+msgid "Estoque"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move_fiscal_position_id
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizard/stock_invoice_onshipping.py:45
+#, python-format
+msgid ""
+"Invalid Journal! There is not journal defined for this company: %s in fiscal "
+"operation: %s !"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.ui.view,arch_db:l10n_br_stock_account.l10n_br_view_picking_form1
+msgid "Invoice Control"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking_invoice_state
+msgid "Invoicing"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizard/stock_invoice_onshipping.py:130
+#, python-format
+msgid "No invoice created!"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: selection:stock.return.picking,invoice_state:0
+msgid "No invoicing"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_procurement_order
+msgid "Procurement"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_procurement_rule
+msgid "Procurement Rule"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_location_path
+msgid "Pushed Flow"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
+msgid "Return Picking"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizard/stock_return_picking.py:48
+#, python-format
+msgid "This Fiscal Operation does not has Fiscal Operation for Returns!"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: selection:stock.return.picking,invoice_state:0
+msgid "To be refunded/invoiced"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_picking
+msgid "Transfer"
+msgstr ""
