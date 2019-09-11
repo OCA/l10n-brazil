@@ -2,32 +2,36 @@
 # Copyright (C) 2016  Luis Felipe Mileo - KMEE                                #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, api
+from odoo import models, api
 
 
 class ProcurementOrder(models.Model):
-    _inherit = "procurement.order"
+    _name = "procurement.order"
+    _inherit = [
+        _name,
+        "stock.invoice.state.mixin",
+    ]
 
     @api.model
-    def _run_move_create(self, procurement):
-        result = super(ProcurementOrder, self)._run_move_create(procurement)
-        if (procurement.rule_id and procurement.rule_id.fiscal_category_id and
+    def _get_stock_move_values(self):
+        result = super(ProcurementOrder, self)._get_stock_move_values()
+        if (self.rule_id and self.rule_id.fiscal_category_id and
                 result['partner_id']):
             ctx = dict(self.env.context)
             ctx.update({'use_domain': ('use_picking', '=', True)})
             partner = self.env['res.partner'].browse(result['partner_id'])
-            company = (procurement.warehouse_id.company_id or
-                       procurement.company_id)
+            company = (self.warehouse_id.company_id or
+                       self.company_id)
             kwargs = {
-                'partner_id': partner.id,
-                'product_id': procurement.product_id.id,
-                'partner_invoice_id':  partner.id,
+                'partner_id': partner,
+                'product_id': self.product_id,
+                'partner_invoice_id':  partner,
                 # TODO: Implement fuction to compute partner invoice id
-                'partner_shipping_id': partner.id,
+                'partner_shipping_id': partner,
                 'fiscal_category_id': (
-                    procurement.rule_id.fiscal_category_id.id
+                    self.rule_id.fiscal_category_id
                 ),
-                'company_id': company.id,
+                'company_id': company,
                 'context': ctx,
             }
 
@@ -40,14 +44,15 @@ class ProcurementOrder(models.Model):
 
             if product_fc_id:
                 kwargs['fiscal_category_id'] = product_fc_id
-                result['fiscal_category_id'] = product_fc_id
+                result['fiscal_category_id'] = product_fc_id.id
             else:
                 result['fiscal_category_id'] = kwargs.get(
-                    'fiscal_category_id')
+                    'fiscal_category_id').id
 
-            result_fr = obj_fp_rule.with_context(ctx).apply_fiscal_mapping(
-                {'value': {}}, **kwargs)
+            fiscal_position = obj_fp_rule.with_context(
+                ctx).apply_fiscal_mapping(**kwargs)
 
-            result.update({
-                'fiscal_position': result_fr['value']['fiscal_position']})
+            if fiscal_position:
+                result.update({'fiscal_position_id': fiscal_position.id})
+
         return result

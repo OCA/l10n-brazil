@@ -8,7 +8,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.1',
+    'version': '10.0.1.0.1',
     'depends': [
         'l10n_br_account_product',
         'l10n_br_stock',
@@ -21,13 +21,12 @@
         'views/res_company_view.xml',
         'views/stock_view.xml',
         'wizard/stock_invoice_onshipping_view.xml',
+        'wizard/stock_return_picking_view.xml',
         'security/ir.model.access.csv',
     ],
-    'demo': [],
-    'test': [
-        'test/stock_internal_picking.yml',
-        'test/stock_return_internal_picking.yml',
+    'demo': [
+        'demo/l10n_br_stock_account_demo.xml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }

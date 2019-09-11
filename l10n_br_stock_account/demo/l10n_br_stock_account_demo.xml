@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Picking Test - 1 -->
+    <record model="stock.picking" id="demo_l10n_br_stock_account-picking-1">
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
+        <field name="picking_type_id" ref="stock.picking_type_out"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="origin">Test - l10n_br_stock_account</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+        <field name="fiscal_position_id" ref="l10n_br_account_product.fp_86d8c770fc2fb9d9fa242a3bdddd507a_internal_demo"/>
+    </record>
+
+    <record model="stock.move" id="demo_l10n_br_stock_account-move_1_1">
+        <field name="name">Test - l10n_br_stock_account - 1</field>
+        <field name="product_id" ref="product.product_product_10"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="product.product_uom_unit"/>
+        <field name="picking_id" ref="demo_l10n_br_stock_account-picking-1"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+    </record>
+
+    <record model="stock.move" id="demo_l10n_br_stock_account-move_1_2">
+        <field name="name">Test - l10n_br_stock_account - 1</field>
+        <field name="product_id" ref="product.product_product_11"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="product.product_uom_unit"/>
+        <field name="picking_id" ref="demo_l10n_br_stock_account-picking-1"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+    </record>
+
+</odoo>
