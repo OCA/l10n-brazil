@@ -2,7 +2,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion                                  #
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields
+from odoo import models, fields
 
 
 class ResCompany(models.Model):
@@ -17,7 +17,7 @@ class ResCompany(models.Model):
         ('4', u'NFC-e em operação com entrega em domicílio'),
         ('5', u'Operação presencial, fora do estabelecimento'),
         ('9', u'Operação não presencial, outros'),
-        ], u'Tipo de operação',
+    ], u'Tipo de operação',
         help=u'Indicador de presença do comprador no \
             \nestabelecimento comercial no momento \
             \nda operação.')
