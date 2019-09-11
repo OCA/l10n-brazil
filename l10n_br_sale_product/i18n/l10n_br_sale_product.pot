@@ -1,0 +1,173 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_sale_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-11 14:35+0000\n"
+"PO-Revision-Date: 2019-09-11 14:35+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_sale_product
+#: model:ir.model,name:l10n_br_sale_product.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.ui.view,arch_db:l10n_br_sale_product.l10n_br_sale_company_form
+msgid "Configurações de Vendas"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: code:addons/l10n_br_sale_product/models/sale_line.py:74
+#, python-format
+msgid "Customer order line must be a number with up to six digits"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_amount_extra
+msgid "Extra"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_line_freight_value
+msgid "Freight"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_amount_freight
+msgid "Frete"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,help:l10n_br_sale_product.field_res_company_default_ind_pres
+msgid "Indicador de presença do comprador no             \n"
+"estabelecimento comercial no momento             \n"
+"da operação."
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,help:l10n_br_sale_product.field_sale_order_ind_pres
+msgid "Indicador de presença do comprador no estabelecimento              comercial no momento da operação."
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.ui.view,arch_db:l10n_br_sale_product.l10n_br_sale_product_order_form
+msgid "Informação de interesse do emissor para controle do B2B"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.ui.view,arch_db:l10n_br_sale_product.l10n_br_sale_product_order_form
+msgid "Informações Fiscais"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_line_insurance_value
+msgid "Insurance"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.ui.view,arch_db:l10n_br_sale_product.l10n_br_sale_product_order_form
+msgid "Invoice Lines"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_line_customer_order_line
+msgid "Item do Pedido do Cliente"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: selection:res.company,default_ind_pres:0
+#: selection:sale.order,ind_pres:0
+msgid "NFC-e em operação com entrega em domicílio"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: selection:res.company,default_ind_pres:0
+#: selection:sale.order,ind_pres:0
+msgid "Não se aplica (por exemplo, Nota Fiscal complementar ou de ajuste)"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: selection:res.company,default_ind_pres:0
+#: selection:sale.order,ind_pres:0
+msgid "Operação não presencial, Teleatendimento"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: selection:res.company,default_ind_pres:0
+#: selection:sale.order,ind_pres:0
+msgid "Operação não presencial, outros"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: selection:res.company,default_ind_pres:0
+#: selection:sale.order,ind_pres:0
+msgid "Operação não presencial, pela Internet"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: selection:res.company,default_ind_pres:0
+#: selection:sale.order,ind_pres:0
+msgid "Operação presencial"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: selection:res.company,default_ind_pres:0
+#: selection:sale.order,ind_pres:0
+msgid "Operação presencial, fora do estabelecimento"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_line_other_costs_value
+msgid "Other costs"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_amount_costs
+msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_line_customer_order
+msgid "Pedido do Cliente"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model,name:l10n_br_sale_product.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model,name:l10n_br_sale_product.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_amount_insurance
+msgid "Seguro"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,help:l10n_br_sale_product.field_sale_order_amount_extra
+msgid "The total amount."
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_res_company_default_ind_pres
+#: model:ir.model.fields,field_description:l10n_br_sale_product.field_sale_order_ind_pres
+msgid "Tipo de operação"
+msgstr ""
+
+#. module: l10n_br_sale_product
+#: model:ir.ui.view,arch_db:l10n_br_sale_product.l10n_br_sale_company_form
+msgid "Vendas"
+msgstr ""
+
