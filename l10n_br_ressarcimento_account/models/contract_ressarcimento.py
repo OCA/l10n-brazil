@@ -93,8 +93,6 @@ class ContractRessarcimento(models.Model):
                     record.account_event_provisao_id = \
                         self.env['account.event'].create(account_event)
 
-                    # Altera o state do Ressarcimento depois de gerar o evento contábil
-                    super(ContractRessarcimento, self).button_aprovar()
                 else:
                     # Reverte o evento contábil gerado a partir da provisão
                     record.account_event_provisao_id.button_reverter_lancamentos()
@@ -111,8 +109,8 @@ class ContractRessarcimento(models.Model):
                     record.account_event_definitivo_id = \
                         self.env['account.event'].create(account_event)
 
-                    # Altera o state do Ressarcimento depois de gerar o evento contábil
-                    super(ContractRessarcimento, self).button_aprovar()
+                # Altera state do Ressarcimento depois de gerar evento contábil
+                super(ContractRessarcimento, self).button_aprovar()
 
             except Exception as e:
                 Warning('Erro: {}'.format(e))
