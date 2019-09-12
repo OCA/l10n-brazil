@@ -464,7 +464,7 @@ class HrContractBenefitLine(models.Model):
             self._generate_calculated_values_13()
         except Exception as e:
             self.exception_message = \
-                'Reijeitado pois a expressão de cálculo dos valores deste ' \
+                'Rejeitado pois a expressão de cálculo dos valores deste ' \
                 'benefício está incorreta.'
             self.state = 'exception'
 
