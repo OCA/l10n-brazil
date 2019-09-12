@@ -76,8 +76,11 @@ class ContractRessarcimento(models.Model):
         """
         for record in self:
             try:
+
+                rubricas_para_contabilizar = \
+                    self.gerar_contabilizacao_rubricas()
+
                 if not record.account_event_provisao_id:
-                    rubricas_para_contabilizar = self.gerar_contabilizacao_rubricas()
 
                     account_event = {
                         'ref': NOME_LANCAMENTO.get(record.valor_provisionado),
@@ -95,9 +98,6 @@ class ContractRessarcimento(models.Model):
                 else:
                     # Reverte o evento contábil gerado a partir da provisão
                     record.account_event_provisao_id.button_reverter_lancamentos()
-
-                    rubricas_para_contabilizar = \
-                        self.gerar_contabilizacao_rubricas()
 
                     account_event = {
                         'ref': NOME_LANCAMENTO.get(
