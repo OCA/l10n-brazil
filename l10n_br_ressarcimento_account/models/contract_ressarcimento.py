@@ -85,6 +85,7 @@ class ContractRessarcimento(models.Model):
                     account_event = {
                         'ref': NOME_LANCAMENTO.get(record.valor_provisionado),
                         'data': record.date_ressarcimento,
+                        'tipo': 'ressarcimento',
                         'account_event_line_ids': rubricas_para_contabilizar,
                         'origem': '{},{}'.format(
                             'contract.ressarcimento', record.id),
@@ -101,6 +102,7 @@ class ContractRessarcimento(models.Model):
                         'ref': NOME_LANCAMENTO.get(
                             False if record.date_ressarcimento else True),
                         'data': record.date_provisao,
+                        'tipo': 'ressarcimento',
                         'account_event_line_ids': rubricas_para_contabilizar,
                         'origem': '{},{}'.format(
                             'contract.ressarcimento', record.id),
