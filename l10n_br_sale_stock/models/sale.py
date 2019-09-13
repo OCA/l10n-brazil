@@ -9,21 +9,11 @@ from odoo import models, api
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.model
-    def _prepare_invoice(self, order, lines):
-        """Prepare the dict of values to create the new invoice for a
-           sale order. This method may be overridden to implement custom
-           invoice generation (making sure to call super() to establish
-           a clean extension chain).
+    @api.multi
+    def _prepare_invoice(self):
+        self.ensure_one()
+        vals = super(SaleOrder, self)._prepare_invoice()
+        if self.incoterm:
+            vals['incoterms_id'] = self.incoterm.id
 
-           :param browse_record order: sale.order record to invoice
-           :param list(int) line: list of invoice line IDs that must be
-                                  attached to the invoice
-           :return: dict of value to create() the invoice
-        """
-        result = super(SaleOrder, self)._prepare_invoice(order, lines)
-
-        if order.incoterm:
-            result['incoterm'] = order.incoterm.id
-
-        return result
+        return vals
