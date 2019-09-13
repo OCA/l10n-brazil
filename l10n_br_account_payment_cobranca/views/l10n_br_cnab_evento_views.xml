@@ -24,6 +24,36 @@
         <field name="model">l10n_br.cnab.evento</field>
         <field name="arch" type="xml">
             <search string="Busca evento">
+                <field name='partner_id'/>
+                <field name='nosso_numero'/>
+                <field name='data_ocorrencia'/>
+                <field name='valor'
+                       string='Valor da Linha Menor'
+                       filter_domain="[('valor','&lt;',self)]"/>
+                <field name='valor'
+                       string='Valor da Linha Maior'
+                       filter_domain="[('valor','>',self)]"/>
+                <field name='valor'
+                       string='Valor da Linha Igual'
+                       filter_domain="[('valor','=',self)]"/>
+
+                <filter name='bank_payment_line_id'
+                        string='Contém Linha Bancária'
+                        domain="[('bank_payment_line_id','!=',False)]"/>
+                <filter name='partner_id'
+                        string='Contém Parceiro'
+                        domain="[('partner_id','!=',False)]"/>
+                <filter name='tarifa_cobranca'
+                        string='Contém Tarifa'
+                        domain="[('tarifa_cobranca','>','0')]"/>
+                <filter name='invoice_id'
+                        string='Contém Fatura'
+                        domain="[('invoice_id','!=',False)]"/>
+
+                <filter string="Parceiro"
+                        context="{'group_by': 'partner_id'}"/>
+                <filter string="Ocorrência"
+                        context="{'group_by': 'ocorrencias'}"/>
                 <group expand="1" string="Group By">
                     <filter string="Data Criação"
                             name="cnab_evento_date_search"
