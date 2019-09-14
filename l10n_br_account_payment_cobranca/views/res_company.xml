@@ -15,6 +15,18 @@
                         											'required': [('own_number_type', '==', '0')]}"/>
                     </group>
                 </page>
+                <page string="Api Itaú" group="base.group_no_one">
+                    <group>
+                        <field name="environment"/>
+                        <field name="client_id"/>
+                        <field name="client_secret"/>
+                        <field name="itau_key"/>
+                        <field name="api_endpoint"/>
+                        <field name="raiz_endpoint"/>
+                        <field name="api_itau_token"/>
+                        <field name="api_itau_token_due_datetime"/>
+                    </group>
+                </page>
             </page>
         </field>
     </record>

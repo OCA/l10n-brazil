@@ -27,6 +27,45 @@ class ResCompany(models.Model):
         string=u'Sequência do Nosso Número'
     )
 
+    environment = fields.Selection(
+        string=u'Ambiente',
+        selection=[
+            ('1', 'HOMOLOGAÇÃO'),
+            ('2', 'PRODUÇÃO'),
+        ],
+        default='1',
+    )
+
+    client_id = fields.Char(
+        string=u'ID do Cliente',
+    )
+
+    client_secret = fields.Char(
+        string=u'Segredo',
+    )
+
+    itau_key = fields.Char(
+        string=u'Chave',
+    )
+
+    api_endpoint = fields.Char(
+        string=u'API ENDPOINT',
+    )
+
+    raiz_endpoint = fields.Char(
+        string=u'RAIZ ENDPOINT',
+    )
+
+    api_itau_token = fields.Char(
+        string=u'Itaú API Token',
+        readonly=True,
+    )
+
+    api_itau_token_due_datetime = fields.Datetime(
+        string=u'Validade do Token',
+        readonly=True,
+    )
+
     @api.multi
     def get_own_number_sequence(self):
         self.ensure_one()
