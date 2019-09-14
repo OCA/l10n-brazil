@@ -88,23 +88,22 @@ class AccountMoveLine(models.Model):
         )
 
     @api.multi
-    def generate_boleto(self):
+    def generate_boleto(self, validate=True):
         boleto_list = []
 
         for move_line in self:
 
-            # if move_line.state_cnab != 'accepted':
-            #     if move_line.state_cnab == 'not_accepted':
-            #         raise UserError(_(
-            #             u'O arquivo CNAB relacionado a essa nota foi '
-            #             u'transmitido com erro, é necessário corrigi-lo '
-            #             u'e reenviá-lo'
-            #         ))
-            #     raise UserError(_(
-            #         u'É necessário transmitir e processar o retorno do CNAB'
-            #         u' referente a essa nota para garantir que o '
-            #         u'boleto está registrado no banco'
-            #     ))
+            if validate and move_line.state_cnab not in \
+                    ['accepted', 'accepted_hml']:
+                if move_line.state_cnab == 'not_accepted':
+                    raise UserError(_(
+                        u'Essa fatura foi transmitida com erro ao banco, '
+                        u'é necessário corrigí-la e reenviá-la.'
+                    ))
+                raise UserError(_(
+                    u'Antes de imprimir o boleto é necessário transmitir a '
+                    u'fatura para registro no banco.'
+                ))
 
             boleto = Boleto.getBoleto(
                 move_line, move_line.nosso_numero
