@@ -5,8 +5,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
+import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
-from odoo import models, api, _
+from pyboleto.bank_api.itau import ApiItau
+
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from ..constantes import (
     SEQUENCIAL_EMPRESA, SEQUENCIAL_FATURA, SEQUENCIAL_CARTEIRA
@@ -17,6 +22,80 @@ _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    eval_state_cnab = fields.Selection(
+        string=u'Estado CNAB',
+        related='move_line_receivable_id.state_cnab',
+        readonly=True,
+    )
+
+    @api.multi
+    def register_invoice_api(self):
+        for record in self:
+            receivable_ids = record.mapped('move_line_receivable_id')
+            if not receivable_ids:
+                return False
+
+            boleto_list = receivable_ids.generate_boleto(validate=False)
+            if not boleto_list:
+                raise UserError(_(
+                    u"Não foi possível registrar as faturas pela API"
+                ))
+
+            company_id = record.partner_id.company_id
+
+            client_id = company_id.client_id
+            client_secret = company_id.client_secret
+            itau_key = company_id.itau_key
+            endpoint = company_id.api_endpoint
+            barcode_endpoint = company_id.raiz_endpoint
+            environment = company_id.environment
+
+            token = company_id.api_itau_token
+            if not token or company_id.api_itau_token_due_datetime > \
+                    fields.Datetime.now():
+                try:
+                    token_request = ApiItau.generate_api_key(
+                        client_id, client_secret, endpoint)
+                    token_request_dict = json.loads(token_request.content)
+                    token = token_request_dict.get('access_token')
+                    company_id.api_itau_token_due_datetime = \
+                        fields.Datetime.context_timestamp(
+                            record, datetime.now()) + relativedelta(
+                            seconds=token_request_dict.get('expires_in'))
+
+                except Exception as e:
+                    raise UserError(_(
+                        u"Erro na obtenção do Token de acesso à Api. %s"
+                    ) % str(e))
+                finally:
+                    # TODO: Criar modelo para guardar registros no banco
+                    # Se basear no modelo da NFE para registro de atividades
+                    # TODO: Registrar o POST + resposta no banco
+                    pass
+
+            for boleto in boleto_list:
+                ApiItau.convert_to(boleto, tipo_ambiente=environment)
+                response = boleto.post(token, itau_key, barcode_endpoint)
+                try:
+                    if response.ok:
+                        # ambiente = 1 --> HML
+                        if boleto.tipo_ambiente == '1':
+                            receivable_ids.state_cnab = 'accepted_hml'
+                        # PROD
+                        else:
+                            receivable_ids.state_cnab = 'accepted'
+                            receivable_ids.situacao_pagamento = 'aberta'
+                    else:
+                        receivable_ids.state_cnab = 'not_accepted'
+                        response_dict = json.loads(response.content)
+
+                        # TODO: No caso de erro durante o processamento
+                        # Listar quais campos deram problema o melhor
+                        # descrito possível
+                finally:
+                    # TODO: Registrar o POST + resposta no banco
+                    pass
 
     @api.multi
     def get_invoice_fiscal_number(self):

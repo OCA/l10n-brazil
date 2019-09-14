@@ -42,6 +42,19 @@
                 <field name="state_cnab"/>
                 <field name="nosso_numero"/>
             </xpath>
+            <header position="inside">
+                <field name="eval_state_cnab" invisible="1"/>
+                <button name="register_invoice_api"
+                        string="Registrar Boleto via API" type="object"
+                        groups="base.group_user"
+                        class="oe_highlight" style="background-color:red; text-color:white;"
+                        confirm="Você está prestes a registrar um boleto diretamente no ITAU"
+                        attrs="{'invisible': ['|',
+                        ('state', '!=', 'open'),
+                        ('eval_state_cnab', 'in', ('added_paid', 'accepted', 'done', 'accepted_hml'))
+                        ]}"
+                />
+            </header>
         </field>
     </record>
 </odoo>

@@ -19,6 +19,7 @@ ESTADOS_CNAB = [
     ('exported', u'Exportada'),
     ('exporting_error', u'Erro ao exportar'),
     ('accepted', u'Aceita'),
+    ('accepted_hml', u'Aceita em Homologação'),
     ('not_accepted', u'Não aceita pelo banco'),
     ('done', u'Concluído'),
 ]
