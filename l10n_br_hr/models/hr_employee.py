@@ -3,8 +3,8 @@
 # (c) 2016 KMEE Informática - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api, _
 from datetime import datetime
+from odoo import models, fields, api, _
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from odoo.addons.l10n_br_base.tools import fiscal
 from odoo.exceptions import ValidationError
@@ -58,40 +58,60 @@ class HrEmployee(models.Model):
                     validate_pis_pasep(record.pis_pasep):
                 raise ValidationError(_('Invalid PIS/PASEP'))
 
-    pis_pasep = fields.Char('PIS/PASEP', size=15)
-    ctps = fields.Char('CTPS', help='CTPS number')
-    ctps_series = fields.Char('CTPS series')
-    ctps_date = fields.Date('CTPS emission date')
-    ctps_uf_id = fields.Many2one(string='CTPS district',
-                                 comodel_name='res.country.state')
-    creservist = fields.Char('Military service status certificate')
-    cresv_categ = fields.Selection(string='Military service status category',
-                                   selection=[
-                                       ('1', 'First Category'),
-                                       ('2', 'Second Category'),
-                                       ('3', 'Third Category')],
-                                   default='3')
+    pis_pasep = fields.Char(
+        string='PIS/PASEP',
+        size=15)
+
+    ctps = fields.Char(
+        string='CTPS',
+        help='CTPS number')
+
+    ctps_series = fields.Char(
+        string='CTPS series')
+
+    ctps_date = fields.Date(
+        string='CTPS emission date')
+
+    ctps_uf_id = fields.Many2one(
+        string='CTPS district',
+        comodel_name='res.country.state')
+
+    creservist = fields.Char(
+        string='Military service status certificate')
+
+    cresv_categ = fields.Selection(
+        string='Military service status category',
+        selection=[
+               ('1', 'First Category'),
+               ('2', 'Second Category'),
+               ('3', 'Third Category')],
+           default='3')
+
     educational_attainment = fields.Many2one(
         string='Educational attainment',
         comodel_name='hr.educational.attainment',
         track_visibility='onchange',
     )
-    have_dependent = fields.Boolean('Has dependents',
-                                    track_visibility='onchange')
-    dependent_ids = fields.One2many(comodel_name='hr.employee.dependent',
-                                    inverse_name='employee_id',
-                                    string='Dependents')
+
+    have_dependent = fields.Boolean(
+        string='Has dependents',
+        track_visibility='onchange')
+
+    dependent_ids = fields.One2many(
+        comodel_name='hr.employee.dependent',
+        inverse_name='employee_id',
+        string='Dependents')
+
     rg = fields.Char(
         string='RG',
         store=True,
         related='address_home_id.inscr_est',
-        help='National ID number'
-    )
+        help='National ID number')
+
     cpf = fields.Char(
         string='CPF',
         store=True,
-        related='address_home_id.cnpj_cpf'
-    )
+        related='address_home_id.cnpj_cpf')
 
     @api.onchange('cpf')
     def onchange_cpf(self):
@@ -108,60 +128,118 @@ class HrEmployee(models.Model):
             if record.cpf and not fiscal.validate_cpf(record.cpf):
                 raise ValidationError("CPF Invalido!")
 
-    organ_exp = fields.Char(string='Dispatcher organ')
-    rg_emission = fields.Date(string='Emission date')
-    voter_title = fields.Char(string='Voter title')
-    voter_zone = fields.Char(string='Voter zone')
-    voter_section = fields.Char(string='Voter section')
-    driver_license = fields.Char(string='Driver license number')
-    driver_categ = fields.Char(string='Driver license category')
-    father_name = fields.Char(string='Father name')
-    mother_name = fields.Char(string='Mother name')
-    expiration_date = fields.Date(string='Expiration date')
-    ethnicity = fields.Many2one(string='Ethnicity',
-                                comodel_name='hr.ethnicity')
-    blood_type = fields.Selection(string='Blood type', selection=[
-        ('a+', 'A+'),
-        ('a-', 'A-'),
-        ('b+', 'B+'),
-        ('b-', 'B-'),
-        ('o+', 'O+'),
-        ('o-', 'O-'),
-        ('ab+', 'AB+'),
-        ('ab-', 'AB-'),
-    ])
-    deficiency_id = fields.Many2one(string='Deficiency',
-                                    comodel_name='hr.deficiency',
-                                    track_visibility='onchange')
-    deficiency_description = fields.Char(string='Deficiency description')
-    identity_type_id = fields.Many2one(string='ID type',
-                                       comodel_name='hr.identity.type')
-    identity_validity = fields.Date(string='ID expiration date')
-    identity_uf_id = fields.Many2one(string='ID expedition district',
-                                     comodel_name='res.country.state')
+    organ_exp = fields.Char(
+        string='Dispatcher organ')
+
+    rg_emission = fields.Date(
+        string='Emission date')
+
+    voter_title = fields.Char(
+        string='Voter title')
+
+    voter_zone = fields.Char(
+        string='Voter zone')
+
+    voter_section = fields.Char(
+        string='Voter section')
+
+    driver_license = fields.Char(
+        string='Driver license number')
+
+    driver_categ = fields.Char(
+        string='Driver license category')
+
+    father_name = fields.Char(
+        string='Father name')
+
+    mother_name = fields.Char(
+        string='Mother name')
+
+    expiration_date = fields.Date(
+        string='Expiration date')
+
+    ethnicity = fields.Many2one(
+        string='Ethnicity',
+        comodel_name='hr.ethnicity')
+
+    blood_type = fields.Selection(
+        string='Blood type',
+        selection=[
+            ('a+', 'A+'),
+            ('a-', 'A-'),
+            ('b+', 'B+'),
+            ('b-', 'B-'),
+            ('o+', 'O+'),
+            ('o-', 'O-'),
+            ('ab+', 'AB+'),
+            ('ab-', 'AB-'),
+        ])
+
+    deficiency_id = fields.Many2one(
+        string='Deficiency',
+        comodel_name='hr.deficiency',
+        track_visibility='onchange')
+
+    deficiency_description = fields.Char(
+        string='Deficiency description')
+
+    identity_type_id = fields.Many2one(
+        string='ID type',
+        comodel_name='hr.identity.type')
+
+    identity_validity = fields.Date(
+        string='ID expiration date')
+
+    identity_uf_id = fields.Many2one(
+        string='ID expedition district',
+        comodel_name='res.country.state')
+
     identity_city_id = fields.Many2one(
         string='ID expedition city',
         comodel_name='l10n_br_base.city',
         domain="[('state_id','=',identity_uf_id)]")
+
     civil_certificate_type_id = fields.Many2one(
         string='Civil certificate type',
         comodel_name='hr.civil.certificate.type')
-    alternate_phone = fields.Char(string='Alternate phone')
-    emergency_phone = fields.Char(string='Emergency phone')
-    talk_to = fields.Char(string='Emergency contact name')
-    alternate_email = fields.Char(string='Alternate email')
-    chronic_disease_ids = fields.Many2many(string='Chronic Diseases',
-                                           comodel_name='hr.chronic.disease')
-    marital = fields.Selection(selection_add=[
-        ('common_law_marriage', 'Common law marriage'),
-        ('separated', 'Separated')])
-    registration = fields.Char(string='Registration number')
-    nationality_code = fields.Many2one(string='Nationality code',
-                                       comodel_name='hr.nationality.code')
-    nat_code = fields.Char(related='nationality_code.code')
-    arrival_year = fields.Integer(string="Arrival year in Brazil")
-    country_id = fields.Many2one(comodel_name='res.country',
-                                 default=_default_country)
+
+    alternate_phone = fields.Char(
+        string='Alternate phone')
+
+    emergency_phone = fields.Char(
+        string='Emergency phone')
+
+    talk_to = fields.Char(
+        string='Emergency contact name')
+
+    alternate_email = fields.Char(
+        string='Alternate email')
+
+    chronic_disease_ids = fields.Many2many(
+        string='Chronic Diseases',
+        comodel_name='hr.chronic.disease')
+
+    marital = fields.Selection(
+        selection_add=[
+            ('common_law_marriage', 'Common law marriage'),
+            ('separated', 'Separated')])
+
+    registration = fields.Char(
+        string='Registration number')
+
+    nationality_code = fields.Many2one(
+        string='Nationality code',
+        comodel_name='hr.nationality.code')
+
+    nat_code = fields.Char(
+        related='nationality_code.code')
+
+    arrival_year = fields.Integer(
+        string="Arrival year in Brazil")
+
+    country_id = fields.Many2one(
+        comodel_name='res.country',
+        default=_default_country)
 
 
 class HrEmployeeDependent(models.Model):
@@ -176,23 +254,47 @@ class HrEmployeeDependent(models.Model):
                 raise ValidationError(_('Invalid CPF for dependent %s'
                                         % self.dependent_name))
 
-    employee_id = fields.Many2one(comodel_name='hr.employee',
-                                  string='Employee')
-    dependent_name = fields.Char(string='Name', size=64, required=True)
-    dependent_dob = fields.Date(string='Date of birth', required=True)
-    dependent_type_id = fields.Many2one(string='Relatedness',
-                                        required=True,
-                                        comodel_name='hr.dependent.type')
-    pension_benefits = fields.Float(string='Allowance value')
-    dependent_verification = fields.Boolean(string='Is dependent')
-    health_verification = fields.Boolean(string='Healthcare plan')
-    dependent_gender = fields.Selection(string='Gender', selection=[
-        ('m', 'Male'),
-        ('f', 'Female')])
-    dependent_rg = fields.Char(string='RG')
-    dependent_cpf = fields.Char(string='CPF')
+    employee_id = fields.Many2one(
+        comodel_name='hr.employee',
+        string='Employee')
 
-    have_alimony = fields.Boolean(string='Tem Pensão?')
+    dependent_name = fields.Char(
+        string='Name',
+        size=64,
+        required=True)
+
+    dependent_dob = fields.Date(
+        string='Date of birth',
+        required=True)
+
+    dependent_type_id = fields.Many2one(
+        string='Relatedness',
+        required=True,
+        comodel_name='hr.dependent.type')
+
+    pension_benefits = fields.Float(
+        string='Allowance value')
+
+    dependent_verification = fields.Boolean(
+        string='Is dependent')
+
+    health_verification = fields.Boolean(
+        string='Healthcare plan')
+
+    dependent_gender = fields.Selection(
+        string='Gender',
+        selection=[
+            ('m', 'Male'),
+            ('f', 'Female')])
+
+    dependent_rg = fields.Char(
+        string='RG')
+
+    dependent_cpf = fields.Char(
+        string='CPF')
+
+    have_alimony = fields.Boolean(
+        string='Tem Pensão?')
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
@@ -203,5 +305,4 @@ class HrEmployeeDependent(models.Model):
     partner_id_bank_ids = fields.One2many(
         comodel_name='res.partner.bank',
         string='Info Bank',
-        related='partner_id.bank_ids',
-    )
+        related='partner_id.bank_ids',)
