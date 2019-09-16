@@ -31,8 +31,8 @@ class HrEmployee(models.Model):
             if datetime.strptime(
                     dependent.dependent_dob, DEFAULT_SERVER_DATE_FORMAT
             ).date() > datetime.now().date():
-                raise ValidationError(_('Invalid birth date for dependent %s'
-                                        % dependent.dependent_name))
+                raise ValidationError(_('Invalid birth date for dependent %s')
+                                      % dependent.dependent_name)
 
     def _check_dependent_type(self):
         seen = set()
@@ -48,8 +48,8 @@ class HrEmployee(models.Model):
             elif dep_type in seen and dep_type in restrictions:
                 raise ValidationError(
                     _('A dependent with the same level of relatedness'
-                      ' already exists for dependent %s'
-                      % dependent.dependent_name))
+                      ' already exists for dependent %s')
+                    % dependent.dependent_name)
 
     @api.constrains('pis_pasep')
     def _validate_pis_pasep(self):
@@ -82,10 +82,10 @@ class HrEmployee(models.Model):
     cresv_categ = fields.Selection(
         string='Military service status category',
         selection=[
-               ('1', 'First Category'),
-               ('2', 'Second Category'),
-               ('3', 'Third Category')],
-           default='3')
+            ('1', 'First Category'),
+            ('2', 'Second Category'),
+            ('3', 'Third Category')],
+        default='3')
 
     educational_attainment = fields.Many2one(
         string='Educational attainment',
@@ -126,7 +126,7 @@ class HrEmployee(models.Model):
     def _check_cpf(self):
         for record in self:
             if record.cpf and not fiscal.validate_cpf(record.cpf):
-                raise ValidationError("CPF Invalido!")
+                raise ValidationError(_("CPF Invalido!"))
 
     organ_exp = fields.Char(
         string='Dispatcher organ')
@@ -251,8 +251,8 @@ class HrEmployeeDependent(models.Model):
     def _validate_cpf(self):
         if self.dependent_cpf:
             if not fiscal.validate_cpf(self.dependent_cpf):
-                raise ValidationError(_('Invalid CPF for dependent %s'
-                                        % self.dependent_name))
+                raise ValidationError(_('Invalid CPF for dependent %s')
+                                      % self.dependent_name)
 
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
