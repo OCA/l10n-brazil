@@ -1,10 +1,17 @@
 # Copyright (C) 2012 - TODAY  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-from odoo.addons.l10n_br_base.tools import misc, fiscal
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base import fiscal, misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class Lead(models.Model):
