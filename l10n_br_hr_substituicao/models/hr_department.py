@@ -34,7 +34,7 @@ class L10nBrHrDepartment(models.Model):
 
         gerente_id = substituicao_id.funcionario_substituto or self.manager_id
 
-        if employee_id == gerente_id:
+        if employee_id == gerente_id or employee_id == self.manager_id:
             return self.parent_id.get_manager_titular(
                 data_referencia, employee_id)
 
