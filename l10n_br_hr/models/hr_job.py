@@ -7,4 +7,6 @@ from odoo import models, fields
 class HrJob(models.Model):
     _inherit = 'hr.job'
 
-    cbo_id = fields.Many2one('l10n_br_hr.cbo', 'CBO')
+    cbo_id = fields.Many2one(
+        string='l10n_br_hr.cbo',
+        comodel_name='CBO')
