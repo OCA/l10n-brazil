@@ -59,7 +59,7 @@ class HrEmployee(models.Model):
                     validate_pis_pasep(record.pis_pasep):
                 raise ValidationError(_('Invalid PIS/PASEP'))
 
-    pis_pasep = fields.Char(u'PIS/PASEP', size=15)
+    pis_pasep = fields.Char('PIS/PASEP', size=15)
     ctps = fields.Char('CTPS', help='CTPS number')
     ctps_series = fields.Char('CTPS series')
     ctps_date = fields.Date('CTPS emission date')
@@ -107,7 +107,7 @@ class HrEmployee(models.Model):
     def _check_cpf(self):
         for record in self:
             if record.cpf and not fiscal.validate_cpf(record.cpf):
-                raise ValidationError(u"CPF Invalido!")
+                raise ValidationError("CPF Invalido!")
 
     organ_exp = fields.Char(string='Dispatcher organ')
     rg_emission = fields.Date(string='Emission date')
