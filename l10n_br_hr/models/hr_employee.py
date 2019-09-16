@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # (c) 2014 Kmee - Rafael da Silva Lima <rafael.lima@kmee.com.br>
 # (c) 2014 Kmee - Matheus Felix <matheus.felix@kmee.com.br>
 # (c) 2016 KMEE Informática - Daniel Sadamo <daniel.sadamo@kmee.com.br>
