@@ -20,8 +20,6 @@ class HrPayslipRun(models.Model):
             self.env.cr, self.env.uid, self.env.context)
         for contrato in self.contract_id:
             job_gerar_holerite.delay(session, self.id, contrato.id)
-        self.verificar_holerites_gerados()
-        self.busca_holerite_orfao()
 
 
 @job
@@ -30,5 +28,7 @@ def job_gerar_holerite(session, lote_id, contrato_id):
     clear_prof_data()
     contrato = session.env['hr.contract'].browse(contrato_id)
     lote._gerar_holerite(contrato)
+    lote.verificar_holerites_gerados()
+    lote.busca_holerite_orfao()
     log_prof_data()
     clear_prof_data()
