@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="bank_api_operation_tree_view" model="ir.ui.view">
+        <field name="name">bank.api.operation.tree.view</field>
+        <field name="model">bank.api.operation</field>
+        <field name="arch" type="xml">
+            <tree string="Operações Bancárias Via API">
+                <field name="operation_datetime"/>
+                <field name="environment"/>
+                <field name="user_id"/>
+                <field name="operation_type"/>
+                <field name="status"/>
+                <field name="invoice_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="bank_api_operation_form_view" model="ir.ui.view">
+        <field name="name">bank.api.operation.form.view</field>
+        <field name="model">bank.api.operation</field>
+        <field name="arch" type="xml">
+            <form string="Operações Bancárias Via API">
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" class="oe_inline"/>
+                    </h1>
+                </div>
+
+                <group>
+                    <field name="environment"/>
+                    <field name="operation_datetime"/>
+                    <field name="user_id"/>
+                    <field name="operation_type"/>
+                </group>
+
+                <group>
+                    <field name="status"/>
+                    <field name="invoice_id"/>
+                </group>
+
+                <group>
+                    <field name="message_sent"/>
+                    <field name="message_received"/>
+                </group>
+
+                <field name="error_400" invisible="1"/>
+
+                <separator string="Linhas com Erro" attrs="{'invisible': [('error_400', '=', False)]}"/>
+                <field name="operation_error_line_ids" class="oe_inline" attrs="{'invisible': [('error_400', '=', False)]}">
+                    <tree>
+                        <field name="field_name"/>
+                        <field name="field_value"/>
+                        <field name="error_message"/>
+                    </tree>
+                </field>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bank_api_operation" model="ir.actions.act_window">
+        <field name="name">action.bank.api.operation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bank.api.operation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_retorno_categ"
+              name="API Operações Bancárias"
+              action="action_bank_api_operation"
+              parent="account.menu_finance"
+              sequence="4"/>
+
+</odoo>

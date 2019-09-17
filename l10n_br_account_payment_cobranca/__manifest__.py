@@ -34,6 +34,7 @@
         'views/account_payment_line.xml',
         'views/bank_payment_line.xml',
         'views/account_invoice.xml',
+        'views/bank_api_operation_views.xml',
 
         'views/account_move_line.xml',
         'views/l10n_br_cnab_retorno_view.xml',
