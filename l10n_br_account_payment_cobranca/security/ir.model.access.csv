@@ -2,3 +2,6 @@
 access_l10n_br_cnab,access_l10n_br_cnab,model_l10n_br_cnab,,1,0,0,0
 access_l10n_br_cnab_lote,access_l10n_br_cnab_lote,model_l10n_br_cnab_lote,,1,0
 access_l10n_br_cnab_evento,access_l10n_br_cnab_evento,model_l10n_br_cnab_evento,,1,0,0,0
+
+access_bank_api_operation,bank.api.operation,model_bank_api_operation,account.group_account_invoice,1,1,1,1
+access_bank_api_operation_error_line,bank.api.operation,model_bank_api_operation_error_line,account.group_account_invoice,1,1,1,1
