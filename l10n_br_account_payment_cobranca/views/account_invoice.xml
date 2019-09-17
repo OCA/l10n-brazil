@@ -26,6 +26,11 @@
                 />
             </header>
 
+            <notebook position="inside">
+                <page string="Operações Bancárias Via API">
+                    <field name="bank_api_operation_ids" class="oe_inline" readonly="True"/>
+                </page>
+            </notebook>
         </field>
     </record>
 </odoo>
