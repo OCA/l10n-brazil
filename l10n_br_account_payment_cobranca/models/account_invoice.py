@@ -29,6 +29,34 @@ class AccountInvoice(models.Model):
         readonly=True,
     )
 
+    bank_api_operation_ids = fields.One2many(
+        string='Operações Realizadas',
+        comodel_name='bank.api.operation',
+        inverse_name='invoice_id',
+        readonly=True,
+    )
+
+    def create_bank_api_operation(self, request, operation_type=False,
+                                  environment=False):
+        # 'not request' não é válido para o propósito
+        if request == False:
+            return
+
+        operation_model = self.env['bank.api.operation']
+
+        if not operation_type:
+            operation_type = 'post'
+
+        data = {
+            'operation_type': operation_type,
+            'invoice_id': self.id,
+            'environment': environment,
+        }
+
+        operation_id = operation_model.create(data)
+        operation_id.register_post(request)
+        self.bank_api_operation_ids += operation_id
+
     @api.multi
     def register_invoice_api(self):
         for record in self:
@@ -52,32 +80,40 @@ class AccountInvoice(models.Model):
             environment = company_id.environment
 
             token = company_id.api_itau_token
-            if not token or company_id.api_itau_token_due_datetime > \
+            if not token or company_id.api_itau_token_due_datetime <= \
                     fields.Datetime.now():
+                token_request = False
                 try:
                     token_request = ApiItau.generate_api_key(
                         client_id, client_secret, endpoint)
                     token_request_dict = json.loads(token_request.content)
                     token = token_request_dict.get('access_token')
+                    company_id.api_itau_token = token
                     company_id.api_itau_token_due_datetime = \
                         fields.Datetime.context_timestamp(
                             record, datetime.now()) + relativedelta(
                             seconds=token_request_dict.get('expires_in'))
 
                 except Exception as e:
+                    company_id.api_itau_token = ''
+                    company_id.api_itau_token_due_datetime = \
+                        fields.Datetime.now()
                     raise UserError(_(
                         u"Erro na obtenção do Token de acesso à Api. %s"
                     ) % str(e))
                 finally:
-                    # TODO: Criar modelo para guardar registros no banco
-                    # Se basear no modelo da NFE para registro de atividades
-                    # TODO: Registrar o POST + resposta no banco
-                    pass
+                    record.create_bank_api_operation(
+                        token_request,
+                        operation_type='token_request',
+                        environment=environment,
+                    )
+                    self._cr.commit()
 
             for boleto in boleto_list:
                 ApiItau.convert_to(boleto, tipo_ambiente=environment)
-                response = boleto.post(token, itau_key, barcode_endpoint)
+                response = False
                 try:
+                    response = boleto.post(token, itau_key, barcode_endpoint)
                     if response.ok:
                         # ambiente = 1 --> HML
                         if boleto.tipo_ambiente == '1':
@@ -88,14 +124,23 @@ class AccountInvoice(models.Model):
                             receivable_ids.situacao_pagamento = 'aberta'
                     else:
                         receivable_ids.state_cnab = 'not_accepted'
-                        response_dict = json.loads(response.content)
 
-                        # TODO: No caso de erro durante o processamento
-                        # Listar quais campos deram problema o melhor
-                        # descrito possível
+                except Exception as e:
+                    raise UserError(_(
+                        u"Erro ao registrar a fatura boleto. Verifique se as "
+                        u"configurações da API estão corretas. %s"
+                    ) % str(e))
+
                 finally:
-                    # TODO: Registrar o POST + resposta no banco
-                    pass
+                    record.create_bank_api_operation(
+                        response,
+                        operation_type='invoice_register',
+                        environment=environment,
+                    )
+        self.message_post(_(
+            "Comunicação com o banco via API concluída. Verifique a Aba "
+            "'Operações Bancárias' consultar o resultado do processamento."
+        ))
 
     @api.multi
     def get_invoice_fiscal_number(self):
