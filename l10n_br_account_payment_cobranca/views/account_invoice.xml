@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_l10n_br_account_invoice_form_inherit" model="ir.ui.view">
+        <field name="name">view.l10n_br_account.invoice.form.form.inherit
+        </field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id"
+               ref="l10n_br_account.view_l10n_br_account_invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_id']" position="after">
+                <field name="state_cnab"/>
+                <field name="nosso_numero"/>
+            </xpath>
+            <header position="inside">
+                <field name="eval_state_cnab" invisible="1"/>
+                <button name="register_invoice_api"
+                        string="Registrar Boleto via API" type="object"
+                        groups="base.group_user"
+                        class="oe_highlight" style="background-color:red; text-color:white;"
+                        confirm="Você está prestes a registrar um boleto diretamente no ITAU"
+                        attrs="{'invisible': ['|',
+                        ('state', '!=', 'open'),
+                        ('eval_state_cnab', 'in', ('added_paid', 'accepted', 'done', 'accepted_hml'))
+                        ]}"
+                />
+            </header>
+
+        </field>
+    </record>
+</odoo>
