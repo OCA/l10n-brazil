@@ -23,9 +23,7 @@
         'views/hr_employee_view.xml',
         'views/hr_job_view.xml',
     ],
-    'test': [
-        'test/l10n_br_hr_demo.yml'
-    ],
+    'test': [],
     'installable': True,
     'auto_install': False,
     'license': 'AGPL-3',
