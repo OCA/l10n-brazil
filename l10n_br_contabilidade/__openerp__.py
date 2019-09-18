@@ -39,6 +39,7 @@
         'wizards/import_account_depara.xml',
         'wizards/print_journal_wizard.xml',
         'wizards/verification_account_depara.xml',
+        'wizards/adiantamento_decimo_terceiro_wizard.xml',
 
         'views/account_account.xml',
         'views/account_journal.xml',

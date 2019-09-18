@@ -9,3 +9,4 @@ from . import import_account_depara
 from . import verification_account_depara
 from . import periodo_reabertura_justificativa_wizard
 from . import financial_pay_receive
+from . import adiantamento_decimo_terceiro_wizard
