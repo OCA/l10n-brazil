@@ -12,6 +12,7 @@
                 <field name="nosso_numero"/>
                 <field name="numero_documento"/>
                 <field name="identificacao_titulo_empresa"/>
+                <field name="instrucoes"/>
             </field>
         </field>
     </record>

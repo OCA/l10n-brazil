@@ -55,6 +55,10 @@ class AccountMoveLine(models.Model):
         string=u'Situação do Pagamento',
         default='inicial'
     )
+    instrucoes = fields.Text(
+        string=u'Instruções de cobrança',
+        readonly=True,
+    )
 
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):

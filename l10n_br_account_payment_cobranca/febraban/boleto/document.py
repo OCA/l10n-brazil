@@ -64,6 +64,8 @@ class Boleto:
 
     def _move_line(self, move_line):
         self._payment_mode(move_line.payment_mode_id)
+        for instrucao in move_line.instrucoes.split('\n'):
+            self.boleto.instrucoes.append(instrucao)
         self.boleto.data_vencimento = datetime.date(datetime.strptime(
             move_line.date_maturity, '%Y-%m-%d'))
         self.boleto.data_documento = datetime.date(datetime.strptime(
@@ -86,7 +88,6 @@ class Boleto:
         self.boleto.especie_documento = payment_mode_id.boleto_modalidade
         self.boleto.aceite = payment_mode_id.boleto_aceite
         self.boleto.carteira = str(payment_mode_id.boleto_carteira)
-        self.boleto.instrucoes.append(payment_mode_id.instrucoes)
 
     def _cedente(self, company):
         """

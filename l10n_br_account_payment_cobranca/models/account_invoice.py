@@ -29,6 +29,16 @@ class AccountInvoice(models.Model):
         readonly=True,
     )
 
+    eval_payment_mode_instrucoes = fields.Text(
+        string=u'Instruções de Cobrança do Modo de Pagamento',
+        related='payment_mode_id.instrucoes',
+        readonly=True,
+    )
+
+    instrucoes = fields.Text(
+        string=u'Instruções de cobrança',
+    )
+
     bank_api_operation_ids = fields.One2many(
         string='Operações Realizadas',
         comodel_name='bank.api.operation',
@@ -187,6 +197,8 @@ class AccountInvoice(models.Model):
                 interval.identificacao_titulo_empresa = hex(
                     interval.id
                 ).upper()
+                interval.instrucoes = '%s\n%s' % (
+                    inv.eval_payment_mode_instrucoes, inv.instrucoes)
 
         return result
 
