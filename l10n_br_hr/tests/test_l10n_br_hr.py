@@ -22,34 +22,41 @@ class TestL10nBr(TransactionCase):
 
         self.assertTrue(result, 'Error on create a l10n_br employee')
 
-    def test_L10nBrHrCbo(self):
+    def test_l10n_br_hr_cbo(self):
         cbo = self.env.ref('l10n_br_hr.1')
-        self.assertTrue(cbo.name_get()[0][1] == '010105 - Oficial general da aeronáutica',
-                        'The CBO name by name_get is not valid, expected \'code - name\'')
+        self.assertTrue(cbo.name_get()[0][1] == '010105 - Oficial general da '
+                        'aeronáutica',
+                        'The CBO name by name_get is not valid, expected '
+                        '\'code - name\'')
 
-    def test_HrDeficiency(self):
+    def test_hr_deficiency(self):
         deficiency_name = self.env['hr.deficiency'].search([])[0].name
         self.assertEqual(deficiency_name, 'Física',
-                         'The deficiency name get is not valid, expected \'Física\'')
+                         'The deficiency name get is not valid, expected '
+                         '\'Física\'')
 
-    def test_DependentType(self):
+    def test_dependent_type(self):
         dependent_type = self.env['hr.dependent.type'].search([])[0].name
         self.assertEqual(dependent_type, 'Cônjuge',
-                         'The dependent type get is not valid, expected \'Cônjuge\'')
+                         'The dependent type get is not valid, expected'
+                         ' \'Cônjuge\'')
 
-    def test_HrEthnicity(self):
+    def test_hr_ethnicity(self):
         ethnicity = self.env['hr.ethnicity'].search([])[0].name
         self.assertEqual(ethnicity, 'Branca',
-                         'The ethnicity get is not valid, expectded \'Branca\'')
+                         'The ethnicity get is not valid, expectded'
+                         ' \'Branca\'')
 
-    def test_HrEducationalAttainment(self):
-        educational_attainment = self.env['hr.educational.attainment'].search([])[
-            0].name
-        expected_result = 'Analfabeto, inclusive o que, embora tenha recebido instrução, não se alfabetizou'
+    def test_hr_educational_attainment(self):
+        educational_attainment = self.env['hr.educational.attainment']
+        educational_attainment = educational_attainment.search([])[0].name
+        expected_result = 'Analfabeto, inclusive o que, embora tenha ' \
+                          'recebido instrução, não se alfabetizou'
         self.assertEqual(educational_attainment, expected_result,
-                         'The educational attainment get is not valid, expected \'' + expected_result + '\'')
+                         'The educational attainment get is not valid,'
+                         ' expected \'' + expected_result + '\'')
 
-    def test_HrNationalityCode(self):
+    def test_hr_nationality_code(self):
         nationality_code = self.env['hr.nationality.code'].search([])[0].code
         self.assertEqual(nationality_code, '10',
                          'The nationality code is not valid, expected \'10\'')
