@@ -27,6 +27,16 @@
             </header>
 
             <notebook position="inside">
+                <page string="Instruções de Cobrança">
+                    <group>
+                        <separator string="Instruções do Modo de Pagamento" />
+                        <field name="eval_payment_mode_instrucoes" nolabel="1" colspan="4"
+                               attrs="{'invisible': [('eval_payment_mode_instrucoes', '=', False)]}"/>
+
+                        <separator string="Instruções Adicionais"/>
+                        <field name="instrucoes" class="oe_inline" nolabel="=1" colspan="4"/>
+                    </group>
+                </page>
                 <page string="Operações Bancárias Via API">
                     <field name="bank_api_operation_ids" class="oe_inline" readonly="True"/>
                 </page>
