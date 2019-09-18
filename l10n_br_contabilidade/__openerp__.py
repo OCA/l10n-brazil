@@ -70,6 +70,8 @@
         'views/l10n_br_account.xml',
         'views/account_product.xml',
         'views/inherited_financial_move.xml',
+
+        'reports/adiantamento_decimo_terceiro.xml',
     ],
     'qweb': [
         'static/src/xml/*.xml'
