@@ -113,6 +113,12 @@ class AccountMoveLine(models.Model):
             boleto = Boleto.getBoleto(
                 move_line, move_line.nosso_numero
             )
+
+            # Se for ambiente de Homologação
+            if move_line.partner_id.company_id.environment == '1':
+                boleto.boleto.instrucoes.append(_(
+                    u'Boleto emitido em homologacao! Sem valor fiscal!'))
+
             boleto_list.append(boleto.boleto)
         return boleto_list
 
