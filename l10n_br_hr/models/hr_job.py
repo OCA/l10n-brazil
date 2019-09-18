@@ -8,5 +8,5 @@ class HrJob(models.Model):
     _inherit = 'hr.job'
 
     cbo_id = fields.Many2one(
-        string='l10n_br_hr.cbo',
-        comodel_name='CBO')
+        string='CBO',
+        comodel_name='l10n_br_hr.cbo')
