@@ -28,7 +28,12 @@ def job_gerar_holerite(session, lote_id, contrato_id):
     clear_prof_data()
     contrato = session.env['hr.contract'].browse(contrato_id)
     lote._gerar_holerite(contrato)
-    lote.verificar_holerites_gerados()
-    lote.busca_holerite_orfao()
+    task = 'openerp.addons.l10n_br_hr_payroll_connector.' \
+           'models.hr_payslip_run.job_gerar_holerite(%s,' % lote_id
+    jobs = session.env['queue.job'].search([('func_string', 'ilike', task)])
+    jobs = jobs.filtered(lambda job: job.state == 'pending')
+    if not jobs:
+        lote.verificar_holerites_gerados()
+        lote.busca_holerite_orfao()
     log_prof_data()
     clear_prof_data()
