@@ -15,7 +15,7 @@ class HrEmployee(models.Model):
 
     naturalidade = fields.Many2one(
         string='Naturalidade',
-        comodel_name='l10n_br_base.city',
+        comodel_name='res.city',
     )
 
     def _default_country(self):
@@ -196,7 +196,7 @@ class HrEmployee(models.Model):
 
     identity_city_id = fields.Many2one(
         string='ID expedition city',
-        comodel_name='l10n_br_base.city',
+        comodel_name='res.city',
         domain="[('state_id','=',identity_uf_id)]")
 
     civil_certificate_type_id = fields.Many2one(
