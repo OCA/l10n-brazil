@@ -173,13 +173,19 @@ class AccountInvoice(models.Model):
                     if response.ok:
                         # ambiente = 1 --> HML
                         if boleto.tipo_ambiente == '1':
-                            receivable_ids.state_cnab = 'accepted_hml'
+                            receivable_ids.write({
+                                'state_cnab': 'accepted_hml'
+                            })
                         # PROD
                         else:
-                            receivable_ids.state_cnab = 'accepted'
-                            receivable_ids.situacao_pagamento = 'aberta'
+                            receivable_ids.write({
+                                'state_cnab': 'accepted',
+                                'situacao_pagamento': 'aberta'
+                            })
                     else:
-                        receivable_ids.state_cnab = 'not_accepted'
+                        receivable_ids.write({
+                            'state_cnab': 'not_accepted'
+                        })
 
                 except Exception as e:
                     raise UserError(_(
