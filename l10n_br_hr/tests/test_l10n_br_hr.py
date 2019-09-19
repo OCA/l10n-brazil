@@ -62,4 +62,5 @@ class TestL10nBr(TransactionCase):
         nationality_code = self.env['hr.nationality.code'].search([])[0].\
             name_get()[0][1]
         self.assertEqual(nationality_code, '10 - Brasileiro',
-                         'The nationality code is not valid, expected \'10 - Brasileiro\'')
+                         'The nationality code is not valid, expected \'10 - '
+                         ' Brasileiro\'')
