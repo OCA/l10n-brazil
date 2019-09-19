@@ -4,7 +4,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import datetime
-from erpbrasil.base.fiscal import pis, cnpj_cpf
+from erpbrasil.base import fiscal
 from odoo import models, fields, api, _
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from odoo.exceptions import ValidationError
@@ -55,8 +55,8 @@ class HrEmployee(models.Model):
     @api.constrains('pis_pasep')
     def _validate_pis_pasep(self):
         for record in self:
-            if record.pis_pasep and not pis.\
-                    validar(record.pis_pasep):
+            if record.pis_pasep and not fiscal.\
+                    validate_pis_pasep(record.pis_pasep):
                 raise ValidationError(_('Invalid PIS/PASEP'))
 
     pis_pasep = fields.Char(
@@ -116,7 +116,7 @@ class HrEmployee(models.Model):
 
     @api.onchange('cpf')
     def onchange_cpf(self):
-        cpf = cnpj_cpf.formata(self.cpf)
+        cpf = fiscal.format_cpf_cnpj(self.cpf)
         if cpf:
             self.cpf = cpf
 
@@ -124,7 +124,7 @@ class HrEmployee(models.Model):
     @api.constrains('cpf')
     def _check_cpf(self):
         for record in self:
-            if record.cpf and not pis.validar(record.cpf):
+            if record.cpf and not fiscal.validate_cpf(record.cpf):
                 raise ValidationError(_("CPF Invalido!"))
 
     organ_exp = fields.Char(
@@ -249,7 +249,7 @@ class HrEmployeeDependent(models.Model):
     @api.constrains('dependent_cpf')
     def _validate_cpf(self):
         if self.dependent_cpf:
-            if not cnpj_cpf.validar(self.dependent_cpf):
+            if not fiscal.validate_cpf(self.dependent_cpf):
                 raise ValidationError(_('Invalid CPF for dependent %s')
                                       % self.dependent_name)
 
