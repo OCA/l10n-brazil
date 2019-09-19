@@ -18,7 +18,7 @@
                         string="Registrar Boleto via API" type="object"
                         groups="base.group_user"
                         class="oe_highlight" style="background-color:red; text-color:white;"
-                        confirm="Você está prestes a registrar um boleto diretamente no ITAU"
+                        confirm="Você está prestes a registrar uma fatura bancária via API"
                         attrs="{'invisible': ['|',
                         ('state', '!=', 'open'),
                         ('eval_state_cnab', 'in', ('added_paid', 'accepted', 'done', 'accepted_hml'))
