@@ -243,8 +243,12 @@ class AccountInvoice(models.Model):
                 interval.identificacao_titulo_empresa = hex(
                     interval.id
                 ).upper()
-                interval.instrucoes = '%s\n%s' % (
-                    inv.eval_payment_mode_instrucoes, inv.instrucoes)
+                instrucoes = ''
+                if inv.eval_payment_mode_instrucoes:
+                    instrucoes = inv.eval_payment_mode_instrucoes + '\n'
+                if inv.instrucoes:
+                    instrucoes += inv.instrucoes + '\n'
+                interval.instrucoes = instrucoes
 
         return result
 
