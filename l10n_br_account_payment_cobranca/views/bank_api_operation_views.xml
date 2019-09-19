@@ -35,6 +35,20 @@
                        filter_domain="[('operation_datetime', '>', self)]"
                 />
 
+                <filter name="environment" string="Homologação"
+                        domain="[('environment', '=', '1')]"/>
+
+                <filter name="environment" string="Produção"
+                        domain="[('environment', '=', '2')]"/>
+
+                <separator/>
+                <filter name="status" string="Sucesso"
+                        domain="[('status', 'like', '200')]"/>
+                <filter name="status" string="Erro nos Campos"
+                        domain="[('status', 'like', '400')]"/>
+                <filter name="status" string="Outros Erros"
+                        domain="[('status', 'not like', '200'), ('error_400', '=', False)]"/>
+
                 <separator/>
                 <group expand="0" string="Group By" >
 
