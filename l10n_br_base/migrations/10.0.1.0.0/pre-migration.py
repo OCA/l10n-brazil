@@ -153,4 +153,7 @@ _xmlid_renames = [
 
 @openupgrade.migrate()
 def migrate(env, version):
+    env.cr.execute(
+        '''ALTER TABLE res_bank ADD COLUMN code_bc VARCHAR(3);
+        UPDATE res_bank SET code_bc=substring(bic, 1, 3), bic=NULL;''')
     openupgrade.rename_xmlids(env.cr, _xmlid_renames)
