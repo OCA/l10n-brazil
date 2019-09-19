@@ -147,6 +147,7 @@ _xmlid_renames = [
     ('l10n_br_data_base.res_bank_113', 'l10n_br_base.res_bank_113'),
     ('l10n_br_data_base.res_bank_114', 'l10n_br_base.res_bank_114'),
     ('l10n_br_data_base.res_bank_115', 'l10n_br_base.res_bank_115'),
+    ('l10n_br_data_base.res_bank_116', 'l10n_br_base.res_bank_116'),
 ]
 
 
