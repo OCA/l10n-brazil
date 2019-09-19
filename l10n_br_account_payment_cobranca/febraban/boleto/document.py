@@ -64,8 +64,7 @@ class Boleto:
 
     def _move_line(self, move_line):
         self._payment_mode(move_line.payment_mode_id)
-        for instrucao in move_line.instrucoes.split('\n'):
-            self.boleto.instrucoes.append(instrucao)
+        self._instructions(move_line.instrucoes)
         self.boleto.data_vencimento = datetime.date(datetime.strptime(
             move_line.date_maturity, '%Y-%m-%d'))
         self.boleto.data_documento = datetime.date(datetime.strptime(
@@ -78,6 +77,15 @@ class Boleto:
             move_line.currency_id and move_line.currency_id.symbol or 'R$'
         self.boleto.quantidade = ''  # str("%.2f" % move_line.amount_currency)
         self.boleto.numero_documento = move_line.numero_documento
+
+    def _instructions(self, instrucoes):
+        """
+        :param instrucoes:
+        :return:
+        """
+        if instrucoes:
+            for instrucao in instrucoes.split('\n'):
+                self.boleto.instrucoes.append(instrucao)
 
     def _payment_mode(self, payment_mode_id):
         """
