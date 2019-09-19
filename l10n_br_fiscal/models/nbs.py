@@ -8,7 +8,7 @@ from lxml import etree
 from odoo import models, fields, api, _
 from odoo.addons import decimal_precision as dp
 from odoo.osv import orm
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
+from erpbrasil.base.misc import punctuation_rm
 
 from .ibpt.taxes import DeOlhoNoImposto, get_ibpt_service
 
