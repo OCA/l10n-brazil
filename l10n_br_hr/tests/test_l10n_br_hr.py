@@ -36,27 +36,30 @@ class TestL10nBr(TransactionCase):
                          '\'Física\'')
 
     def test_dependent_type(self):
-        dependent_type = self.env['hr.dependent.type'].search([])[0].name
-        self.assertEqual(dependent_type, 'Cônjuge',
+        dependent_type = self.env['hr.dependent.type'].search([])[0].\
+            name_get()[0][1]
+        self.assertEqual(dependent_type, '1 - Cônjuge',
                          'The dependent type get is not valid, expected'
-                         ' \'Cônjuge\'')
+                         ' \'1 - Cônjuge\'')
 
     def test_hr_ethnicity(self):
-        ethnicity = self.env['hr.ethnicity'].search([])[0].name
-        self.assertEqual(ethnicity, 'Branca',
+        ethnicity = self.env['hr.ethnicity'].search([])[0].name_get()[0][1]
+        self.assertEqual(ethnicity, '1 - Branca',
                          'The ethnicity get is not valid, expectded'
-                         ' \'Branca\'')
+                         ' \'1 - Branca\'')
 
     def test_hr_educational_attainment(self):
         educational_attainment = self.env['hr.educational.attainment']
-        educational_attainment = educational_attainment.search([])[0].name
-        expected_result = 'Analfabeto, inclusive o que, embora tenha ' \
+        educational_attainment = educational_attainment.search([])[0]. \
+            name_get()[0][1]
+        expected_result = '01 - Analfabeto, inclusive o que, embora tenha ' \
                           'recebido instrução, não se alfabetizou'
         self.assertEqual(educational_attainment, expected_result,
                          'The educational attainment get is not valid,'
                          ' expected \'' + expected_result + '\'')
 
     def test_hr_nationality_code(self):
-        nationality_code = self.env['hr.nationality.code'].search([])[0].code
-        self.assertEqual(nationality_code, '10',
-                         'The nationality code is not valid, expected \'10\'')
+        nationality_code = self.env['hr.nationality.code'].search([])[0].\
+            name_get()[0][1]
+        self.assertEqual(nationality_code, '10 - Brasileiro',
+                         'The nationality code is not valid, expected \'10 - Brasileiro\'')
