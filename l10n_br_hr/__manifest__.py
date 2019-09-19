@@ -24,6 +24,11 @@
         'views/hr_job_view.xml',
     ],
     'test': [],
+    'external_dependencies': {
+        'python': [
+            'erpbrasil.base.fiscal',
+        ],
+    },
     'installable': True,
     'auto_install': False,
     'license': 'AGPL-3',
