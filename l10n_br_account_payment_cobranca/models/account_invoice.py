@@ -54,6 +54,44 @@ class AccountInvoice(models.Model):
         readonly=True,
     )
 
+    @api.multi
+    def action_invoice_cancel(self):
+        for record in self:
+            if record.eval_state_cnab == 'accepted':
+                raise UserError(_(
+                    "A fatura não pode ser cancelada pois já foi aprovada "
+                    "no Banco."
+                ))
+            if record.eval_state_cnab == 'done':
+                raise UserError(_(
+                    "Não é possível cancelar uma fatura finalizada."
+                ))
+            if record.eval_state_cnab == 'exported':
+                raise UserError(_(
+                    "A fatura não pode ser cancelada pois já foi exportada "
+                    "em uma remessa."
+                ))
+
+            payment_order_ids = self.env['account.payment.order'].search([
+                ('payment_line_ids.move_line_id', 'in',
+                 [record.move_line_receivable_id.id])
+            ])
+
+            if payment_order_ids:
+                if any(state in ['draft', 'cancel'] for state in
+                       payment_order_ids.mapped('state')):
+                    raise UserError(_(
+                        "Para cancelar a fatura, você deve retirá-la das "
+                        "ordens de pagamento em aberto em que a mesma "
+                        "se encontra. Ordem de Débito %s"
+                    ) % '.'.join(payment_order_ids.mapped('name')))
+                raise UserError(_(
+                    "A fatura não pode ser cancelada pois a mesma já se "
+                    "encontra exportada por uma ordem de pagamento."
+                ))
+
+        super(AccountInvoice, self).action_invoice_cancel()
+
     def create_bank_api_operation(self, request, operation_type=False,
                                   environment=False):
         # 'not request' não é válido para o propósito
