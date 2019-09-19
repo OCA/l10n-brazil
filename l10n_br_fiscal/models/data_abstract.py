@@ -4,7 +4,7 @@
 from odoo import models, fields, api
 from odoo.osv import expression
 
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
+from erpbrasil.base.misc import punctuation_rm
 
 
 class DataAbstract(models.AbstractModel):
