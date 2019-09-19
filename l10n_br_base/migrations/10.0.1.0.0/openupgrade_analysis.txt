@@ -1,12 +1,14 @@
 ---Fields in module 'l10n_br_base'---
+l10n_br_base / res.bank                 / code_bc (char)                : NEW 
 l10n_br_base / res.partner              / union_entity_code (char)      : NEW 
-l10n_br_base / res.partner.bank         / bank (many2one)               : previously in module base
+l10n_br_base / res.partner.bank         / bra_bank_bic (char)           : NEW 
 l10n_br_base / res.partner.bank         / country_id (many2one)         : previously in module base
 l10n_br_base / res.partner.bank         / state_id (many2one)           : previously in module base
 l10n_br_base / res.partner.bank         / street (char)                 : previously in module base
 l10n_br_base / res.partner.bank         / zip (char)                    : previously in module base
 ---XML records in module 'l10n_br_base'---
 DEL ir.ui.menu: l10n_br_base.menu_action_l10n_br_base_city_form
+NEW ir.ui.view: l10n_br_base.l10n_br_base-view_res_bank_tree
 NEW res.bank: l10n_br_base.res_bank_1
 NEW res.bank: l10n_br_base.res_bank_10
 NEW res.bank: l10n_br_base.res_bank_100
@@ -26,6 +28,7 @@ NEW res.bank: l10n_br_base.res_bank_112
 NEW res.bank: l10n_br_base.res_bank_113
 NEW res.bank: l10n_br_base.res_bank_114
 NEW res.bank: l10n_br_base.res_bank_115
+NEW res.bank: l10n_br_base.res_bank_116
 NEW res.bank: l10n_br_base.res_bank_12
 NEW res.bank: l10n_br_base.res_bank_13
 NEW res.bank: l10n_br_base.res_bank_14
