@@ -63,7 +63,6 @@ class TestL10nBr(TransactionCase):
                          'The dependent type get is not valid, expected'
                          ' \'1 - Cônjuge\'')
 
-
     def test_hr_ethnicity(self):
         ethnicity = self.env['hr.ethnicity'].search([])[0].name_get()[0][1]
         self.assertEqual(ethnicity, '1 - Branca',
