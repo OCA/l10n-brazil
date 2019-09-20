@@ -85,6 +85,7 @@ addon | version | summary
 [l10n_br_crm_zip](l10n_br_crm_zip/) | 10.0.1.0.0 | Brazilian Localization CRM Zip
 [l10n_br_generic](l10n_br_generic/) | 10.0.1.0.0 | Brazilian - Generic Accounting
 [l10n_br_hr](l10n_br_hr/) | 10.0.0.0.0 | Brazilian Localization HR
+[l10n_br_hr_contract](l10n_br_hr_contract/) | 10.0.0.0.0 | Brazilian Localization HR Contract
 [l10n_br_resource](l10n_br_resource/) | 10.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_sale](l10n_br_sale/) | 10.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_sale_product](l10n_br_sale_product/) | 10.0.1.0.0 | Brazilian Localization Sale Product
