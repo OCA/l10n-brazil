@@ -40,7 +40,8 @@ class TestL10nBRPurchase(common.TransactionCase):
             "Error to mapping Fiscal Position on Sale Order."
         )
         # Change Fiscal Category to test mapping Fiscal Position
-        self.purchase_order_1.fiscal_category_id = self.fiscal_categ_compras_st.id
+        self.purchase_order_1.fiscal_category_id = \
+            self.fiscal_categ_compras_st.id
         self.purchase_order_1.onchange_partner_id()
         self.purchase_order_1.onchange_fiscal()
         self.assertTrue(
@@ -76,9 +77,10 @@ class TestL10nBRPurchase(common.TransactionCase):
                 "after change fiscal category."
             )
             self.assertEquals(
-                line.fiscal_position_id.name, 'Compra para Dentro do Estado',
-                "Error to mapping correct Fiscal Position on Purchase Order Line"
-                " after change fiscal category."
+                line.fiscal_position_id.name,
+                'Compra para Dentro do Estado',
+                "Error to mapping correct Fiscal Position on"
+                " Purchase Order Line after change fiscal category."
             )
             for tax in line.taxes_id:
                 if tax.tax_group_id.name == 'IPI':
