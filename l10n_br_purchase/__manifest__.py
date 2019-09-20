@@ -21,8 +21,6 @@
         'security/l10n_br_purchase_security.xml',
     ],
     'demo': [
-        # FIXME
-        # 'test/purchase_order_demo.yml'
         'demo/l10n_br_purchase_demo.xml'
     ],
     'installable': True,
