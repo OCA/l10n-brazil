@@ -12,9 +12,22 @@ TIPO_FOLHA = ['ferias', 'decimo_terceiro', 'rescisao']
 RUBRICAS = {
     'ferias': ['ADIANTAMENTO_13', 'FGTS'],
     'decimo_terceiro': [
-        'PRIMEIRA_PARCELA_13', 'FGTS', 'SALARIO_13', 'FGTS', 'INSS'],
+        'PRIMEIRA_PARCELA_13', 'FGTS', 'SALARIO_13', 'FGTS_F_13', 'INSS'],
     'rescisao': ['PROP13', 'FGTS_F_13', 'INSS_13'],
 }
+
+
+def format_money_mask(value):
+    """
+    Function to transform float values to pt_BR currency mask
+    :param value: float value
+    :return: value with brazilian money format
+    """
+    import locale
+    locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
+    value_formated = locale.currency(value, grouping=True)
+
+    return value_formated[3:]
 
 
 class Funcionario(object):
@@ -65,6 +78,8 @@ def get_holerites_adiantamento(
 def get_funcionarios_adiantamento(contract_id, valores):
     funcionarios = []
     for contract in tuple(contract_id):
+        proporcional_rescisao = valores['rescisao']['PROP13'].get(contract.id, 0) - (valores['ferias']['ADIANTAMENTO_13'].get(contract.id, 0) + valores['decimo_terceiro']['PRIMEIRA_PARCELA_13'].get(contract.id, 0))
+        segunda_parcela = valores['decimo_terceiro']['SALARIO_13'].get(contract.id, 0) - (valores['ferias']['ADIANTAMENTO_13'].get(contract.id, 0) + valores['decimo_terceiro']['PRIMEIRA_PARCELA_13'].get(contract.id, 0))
         funcionarios.append(
             Funcionario(
                 contract.id,
@@ -73,11 +88,11 @@ def get_funcionarios_adiantamento(contract_id, valores):
                 valores['ferias']['FGTS'].get(contract.id, 0),
                 valores['decimo_terceiro']['PRIMEIRA_PARCELA_13'].get(contract.id, 0),
                 valores['decimo_terceiro']['FGTS'].get(contract.id, 0),
-                valores['rescisao']['PROP13'].get(contract.id, 0),
+                proporcional_rescisao if proporcional_rescisao > 0 else 0,
                 valores['rescisao']['FGTS_F_13'].get(contract.id, 0),
                 valores['rescisao']['INSS_13'].get(contract.id, 0),
-                valores['decimo_terceiro']['SALARIO_13'].get(contract.id, 0),
-                valores['decimo_terceiro']['FGTS'].get(contract.id, 0),
+                segunda_parcela if segunda_parcela > 0 else 0,
+                valores['decimo_terceiro']['FGTS_F_13'].get(contract.id, 0),
                 valores['decimo_terceiro']['INSS'].get(contract.id, 0),
             )
         )
@@ -115,6 +130,23 @@ def get_total_valores(funcionarios):
         total_inss_rescisao, total_segunda_parcela, \
         total_fgts_segunda_parcela, total_inss_segunda_parcela
 
+
+def formatar_valores(funcionarios):
+    for funcionario in funcionarios:
+        funcionario.adiantamento_ferias = format_money_mask(funcionario.adiantamento_ferias)
+        funcionario.fgts_adiantamento_ferias = format_money_mask(funcionario.fgts_adiantamento_ferias)
+        funcionario.adiantamento = format_money_mask(funcionario.adiantamento)
+        funcionario.fgts_adiantamento = format_money_mask(funcionario.fgts_adiantamento)
+        funcionario.rescisao = format_money_mask(funcionario.rescisao)
+        funcionario.fgts_rescisao = format_money_mask(funcionario.fgts_rescisao)
+        funcionario.inss_rescisao = format_money_mask(funcionario.inss_rescisao)
+        funcionario.segunda_parcela = format_money_mask(funcionario.segunda_parcela)
+        funcionario.fgts_segunda_parcela = format_money_mask(funcionario.fgts_segunda_parcela)
+        funcionario.inss_segunda_parcela = format_money_mask(funcionario.inss_segunda_parcela)
+
+    return funcionarios
+
+
 @api.model
 @py3o_report_extender(
     "l10n_br_contabilidade.report_adiantamento_decimo_terceiro_py3o_report")
@@ -150,16 +182,18 @@ def adiantamento_report(pool, cr, uid, local_context, context):
         total_inss_rescisao, total_segunda_parcela, total_fgts_parcela, \
         total_inss_parcela = get_total_valores(data['funcionarios'])
 
-    data['total_adiantamento_ferias'] = total_adiantamento_ferias
-    data['total_fgts_adiantamento_ferias'] = total_fgts_adiantamento_ferias
-    data['total_adiantamento'] = total_adiantamento
-    data['total_fgts_adiantamento'] = total_fgts_adiantamento
-    data['total_recisao_decimo_terceiro'] = total_recisao_decimo_terceiro
-    data['total_fgts_rescisao'] = total_fgts_rescisao
-    data['total_inss_rescisao'] = total_inss_rescisao
-    data['total_segunda_parcela'] = total_segunda_parcela
-    data['total_fgts_parcela'] = total_fgts_parcela
-    data['total_inss_parcela'] = total_inss_parcela
+    data['funcionarios'] = formatar_valores(data['funcionarios'])
+
+    data['total_adiantamento_ferias'] = format_money_mask(total_adiantamento_ferias)
+    data['total_fgts_adiantamento_ferias'] = format_money_mask(total_fgts_adiantamento_ferias)
+    data['total_adiantamento'] = format_money_mask(total_adiantamento)
+    data['total_fgts_adiantamento'] = format_money_mask(total_fgts_adiantamento)
+    data['total_recisao_decimo_terceiro'] = format_money_mask(total_recisao_decimo_terceiro)
+    data['total_fgts_rescisao'] = format_money_mask(total_fgts_rescisao)
+    data['total_inss_rescisao'] = format_money_mask(total_inss_rescisao)
+    data['total_segunda_parcela'] = format_money_mask(total_segunda_parcela)
+    data['total_fgts_parcela'] = format_money_mask(total_fgts_parcela)
+    data['total_inss_parcela'] = format_money_mask(total_inss_parcela)
 
     data['competencia'] = wizard.period_id.code
 
