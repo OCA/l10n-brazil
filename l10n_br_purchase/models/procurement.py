@@ -8,14 +8,23 @@ from odoo import models, api
 class ProcurementOrder(models.Model):
     _inherit = "procurement.order"
 
-    @api.model
-    def _run_move_create(self, procurement):
-        result = super(ProcurementOrder, self)._run_move_create(procurement)
-        if procurement.purchase_line_id:
-            result.update({
-                'fiscal_category_id': (procurement.purchase_line_id.
-                                       fiscal_category_id.id),
-                'fiscal_position': (procurement.purchase_line_id.
-                                    fiscal_position.id),
+    def _get_stock_move_values(self):
+        '''
+         Returns a dictionary of values that will be used to create
+          a stock move from a procurement.
+        This function assumes that the given procurement has a
+         rule (action == 'move') set on it.
+
+        :param procurement: browse record
+        :rtype: dictionary
+        '''
+        vals = super(ProcurementOrder, self)._get_stock_move_values()
+        if self.purchase_line_id:
+            vals.update({
+                'fiscal_category_id':
+                    self.purchase_line_id.fiscal_category_id.id,
+                'fiscal_position_id':
+                    self.purchase_line_id.fiscal_position_id.id,
             })
-        return result
+
+        return vals
