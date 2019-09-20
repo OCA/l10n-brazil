@@ -114,8 +114,8 @@ class AccountMoveLine(models.Model):
                 move_line, move_line.nosso_numero
             )
 
-            # Se for ambiente de Homologação
-            if move_line.partner_id.company_id.environment == '1':
+            # Se a cobrança tiver sido emitida em homologação
+            if move_line.state_cnab == 'accepted_hml':
                 boleto.boleto.instrucoes.append(_(
                     u'Boleto emitido em homologacao! Sem valor fiscal!'))
 
