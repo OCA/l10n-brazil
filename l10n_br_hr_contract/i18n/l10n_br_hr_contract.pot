@@ -1,16 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_br_hr_contract
+#	* l10n_br_hr_contract
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-09 12:14+0000\n"
-"PO-Revision-Date: 2016-11-09 12:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -20,33 +17,33 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_admission_type
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_admission_type
 msgid "Admission Type"
-msgstr "Tipo de admissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_name
 msgid "Admission type"
-msgstr "Tipo de admissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "April"
-msgstr "Abril"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "August"
-msgstr "Agosto"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_month_base_date
 msgid "Base date month"
-msgstr "Mês da data base"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_by_death
 msgid "By death"
-msgstr "Por morte"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_code
@@ -54,13 +51,13 @@ msgstr "Por morte"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime_code
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_code
 msgid "Code"
-msgstr "Código"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_hr_contract
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_configuration_rais_contract
 msgid "Contract"
-msgstr "Contrato"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_create_uid
@@ -70,7 +67,7 @@ msgstr "Contrato"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_create_uid
 msgid "Created by"
-msgstr "Criado por"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_create_date
@@ -80,22 +77,22 @@ msgstr "Criado por"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_create_date
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_create_date
 msgid "Created on"
-msgstr "Criado em"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract_by_death
 msgid "Death certificate/Process/Beneficiary"
-msgstr "Atestado de Óbito/Processo/Beneficiário"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "December"
-msgstr "Dezembro"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_discount_union_contribution
 msgid "Discount union contribution in admission"
-msgstr "Desconto do sindicato na admissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_display_name
@@ -105,17 +102,17 @@ msgstr "Desconto do sindicato na admissão"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_display_name
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_display_name
 msgid "Display Name"
-msgstr "Nome de exibição"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_fgts_withdraw_code
 msgid "FGTS withdrawal code"
-msgstr "Código de retirada do FGTS"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "February"
-msgstr "Fevereiro"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_id_6163
@@ -125,47 +122,47 @@ msgstr "Fevereiro"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_id_6191
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_id
 msgid "ID"
-msgstr "Identidade"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "January"
-msgstr "Janeiro"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "July"
-msgstr "Julho"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "June"
-msgstr "Junho"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_labor_bond_type
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_labor_bond_type
 msgid "Labor Bond Type"
-msgstr "Tipo de vínculo trabalhista"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_labor_regime
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_labor_regime
 msgid "Labor Regime"
-msgstr "Regime de trabalho"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_labor_bond_type
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type_id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type_name
 msgid "Labor bond type"
-msgstr "Tipo de vínculo trabalhista"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime_id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime_name
 msgid "Labor regime"
-msgstr "Regime de trabalho"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type___last_update
@@ -175,7 +172,7 @@ msgstr "Regime de trabalho"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause___last_update
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit___last_update
 msgid "Last Modified on"
-msgstr "Última atualização em"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_write_uid
@@ -185,7 +182,7 @@ msgstr "Última atualização em"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type_write_date
@@ -195,22 +192,22 @@ msgstr "Última atualização por"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_write_date
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_write_date
 msgid "Last Updated on"
-msgstr "Última atualização em"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "March"
-msgstr "Março"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "May"
-msgstr "Maio"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_monthly_hours
 msgid "Monthly hours"
-msgstr "Horas mensais"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_resignation_cause
@@ -221,92 +218,92 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_notice_termination
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_notice_termination
 msgid "Notice Termination"
-msgstr "Aviso prévio"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
 msgid "Notice of Termination"
-msgstr "Aviso prévio"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_of_termination_date
 msgid "Notice of termination date"
-msgstr "Data do aviso prévio"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_of_termination_payment_date
 msgid "Notice of termination payment date"
-msgstr "Data do pagamento do aviso prévio"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_of_termination_id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination_name
 msgid "Notice of termination type"
-msgstr "Tipo de aviso prévio"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "November"
-msgstr "Novembro"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "October"
-msgstr "Outubro"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
 msgid "Resignation"
-msgstr "Demissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_resignation_cause
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_resignation_cause
 msgid "Resignation Cause"
-msgstr "Motivo da demissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_name
 msgid "Resignation cause"
-msgstr "Motivo da demissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause_code
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_code
 msgid "Resignation cause code"
-msgstr "Código do motivo da demissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_date
 msgid "Resignation date"
-msgstr "Data da demissão"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_salary_unit
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_salary_unit
 msgid "Salary Unit"
-msgstr "Unidade do salário"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit
 msgid "Salary Unity"
-msgstr "Unidade do salário"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit_name
 msgid "Salary unit"
-msgstr "Unidade do salário"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: selection:hr.contract,month_base_date:0
 msgid "September"
-msgstr "Setembro"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime_short_name
 msgid "Short name"
-msgstr "Nome abreviado"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_partner_union
@@ -315,9 +312,7 @@ msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract_partner_union
-msgid ""
-"Sindicato é um partner que tem código de sindicato (union_entity_code) "
-"definido."
+msgid "Sindicato é um partner que tem código de sindicato (union_entity_code) definido."
 msgstr ""
 
 #. module: l10n_br_hr_contract
@@ -344,22 +339,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_union
 #: model:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
 msgid "Union"
-msgstr "Sindicato"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_union_cnpj
 msgid "Union CNPJ"
-msgstr "CNPJ do sindicato"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_union_entity_code
 msgid "Union entity code"
-msgstr "código do sindicato"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_weekly_hours
 msgid "Weekly hours"
-msgstr "Horas semanais"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract_labor_regime_id
@@ -367,5 +362,3 @@ msgstr "Horas semanais"
 msgid "e-Social: S2300 - tpRegPrev"
 msgstr ""
 
-#~ msgid "Labor bond"
-#~ msgstr "Vínculo trabalhista"
