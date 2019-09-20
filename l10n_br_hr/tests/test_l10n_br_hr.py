@@ -1,13 +1,14 @@
 from odoo.tests import TransactionCase
+from odoo.exceptions import ValidationError
 
 
 class TestL10nBr(TransactionCase):
 
-    def test_hr_employee(self):
-        result = False
+    def setUp(self):
+        super(TestL10nBr, self).setUp()
 
-        employee = self.env['hr.employee']
-        result = employee.create({
+        self.employee = self.env['hr.employee']
+        self.employee = self.employee.create({
             'address_id': self.env['res.partner'].search([])[0].company_id.id,
             'company_id': self.env['res.partner'].search([])[0].company_id.id,
             'department_id': self.env['hr.department'],
@@ -20,12 +21,32 @@ class TestL10nBr(TransactionCase):
             'cpf': '853.334.271-35',
         })
 
-        self.assertTrue(result, 'Error on create a l10n_br employee')
+        self.assertTrue(self.employee, 'Error on create a l10n_br employee')
+
+    def test_invalid_hr_employee_cpf(self):
+        try:
+            result = self.employee.write({
+                'cpf': '853.334.271-351',
+            })
+        except ValidationError:
+            result = False
+
+        self.assertFalse(result, 'Error on update invalid employee cpf')
+
+    def test_invalid_employee_pis_pasep(self):
+        try:
+            result = self.employee.write({
+                'pis_pasep': '496.851994.95-6',
+            })
+        except ValidationError:
+            result = False
+
+        self.assertFalse(result, 'Error on update invalid employee pis_pasep')
 
     def test_l10n_br_hr_cbo(self):
         cbo = self.env.ref('l10n_br_hr.1')
         self.assertTrue(cbo.name_get()[0][1] == '010105 - Oficial general da '
-                        'aeronáutica',
+                                                'aeronáutica',
                         'The CBO name by name_get is not valid, expected '
                         '\'code - name\'')
 
@@ -36,11 +57,12 @@ class TestL10nBr(TransactionCase):
                          '\'Física\'')
 
     def test_dependent_type(self):
-        dependent_type = self.env['hr.dependent.type'].search([])[0].\
+        dependent_type = self.env['hr.dependent.type'].search([])[0]. \
             name_get()[0][1]
         self.assertEqual(dependent_type, '1 - Cônjuge',
                          'The dependent type get is not valid, expected'
                          ' \'1 - Cônjuge\'')
+
 
     def test_hr_ethnicity(self):
         ethnicity = self.env['hr.ethnicity'].search([])[0].name_get()[0][1]
@@ -59,7 +81,7 @@ class TestL10nBr(TransactionCase):
                          ' expected \'' + expected_result + '\'')
 
     def test_hr_nationality_code(self):
-        nationality_code = self.env['hr.nationality.code'].search([])[0].\
+        nationality_code = self.env['hr.nationality.code'].search([])[0]. \
             name_get()[0][1]
         self.assertEqual(nationality_code, '10 - Brasileiro',
                          'The nationality code is not valid, expected \'10 - '
