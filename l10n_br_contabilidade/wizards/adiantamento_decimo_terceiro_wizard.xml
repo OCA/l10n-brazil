@@ -34,12 +34,14 @@
             <field name="target">new</field>
         </record>
 
-        <record model="ir.ui.menu" id="menu_adiantamento_decimo_terceiro_wizard">
-            <field name="name">Adiantamento Décimo Terceiro</field>
-            <field name="parent_id" ref="abgf_contabilidade.abgf_menu_relatorios_contabilidade"/>
-            <field name="action" ref="adiantamento_decimo_terceiro_wizard_act_window"/>
-            <field name="sequence" eval="35"/>
-        </record>
+        <menuitem
+            id="menu_adiantamento_decimo_terceiro"
+            name="Adiantamento Décimo Terceiro"
+            parent="abgf_contabilidade.abgf_menu_relatorios_contabilidade"
+            action="adiantamento_decimo_terceiro_wizard_act_window"
+            sequence="35"
+            groups="account.group_account_user,account.group_account_manager,account.group_account_invoice,base.group_no_one"
+        />
 
 	</data>
 </openerp>
