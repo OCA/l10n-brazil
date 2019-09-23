@@ -8,6 +8,12 @@
             <field name="priority">999</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
+                <field name="place_of_birth" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="place_of_birth" position="after">
+                    <field name="naturalidade" options="{'no_create': True, 'no_open': True}" required="1" />
+                </field>
                 <xpath expr="//field[@name='identification_id']" position="replace">
                     <field name="cpf" required="1"/>
                     <field name="educational_attainment" options="{'no_create': True, 'no_open': True}"/>
@@ -278,4 +284,78 @@
                   sequence="7"/>
         <menuitem action="action_hr_nationality_code" id="menu_hr_nationality_code" parent="menu_hr_employee_register"
                   sequence="8"/>
+
+        <!-- Menu item de colaboradores -->
+        <menuitem id="menu_hr_colaboradores" name="Colaboradores" sequence="1" parent="hr.menu_hr_main" />
+
+        <!-- Funcionários -->
+        <!--Action de Funcionários -->
+        <record model="ir.actions.act_window" id="hr.open_view_employee_list_my">
+            <field name="context">{'default_tipo': 'funcionario'}</field>
+            <field name="domain">[('tipo','=', 'funcionario')]</field>
+        </record>
+
+        <!-- Sub Menu de Funcionarios -->
+        <menuitem action="hr.open_view_employee_list_my" id="hr.menu_open_view_employee_list_my" sequence="1" parent="menu_hr_colaboradores"/>
+
+        <!-- Funcionários Autonomos -->
+        <!--Action de autonomos-->
+        <record model="ir.actions.act_window" id="hr_employee_autonomo_action">
+            <field name="name">Autônomos</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'default_tipo': 'autonomo'}</field>
+            <field name="domain">[('tipo','=', 'autonomo')]</field>
+        </record>
+
+        <menuitem
+                id="hr_menu_employee_autonomo"
+                action="hr_employee_autonomo_action"
+                name="Autônomos"
+                parent="menu_hr_colaboradores" sequence="2"
+                groups="hr.group_hr_manager"/>
+
+        <!--<record model="ir.actions.act_window.view" id="hr_employee_autonomo_action_tree">-->
+            <!--<field eval="1" name="sequence"/>-->
+            <!--<field name="view_mode">tree</field>-->
+            <!--<field name="act_window_id" ref="hr_employee_autonomo_action"/>-->
+        <!--</record>-->
+
+        <!--<record model="ir.actions.act_window.view" id="hr_employee_autonomo_action_form">-->
+            <!--<field eval="2" name="sequence"/>-->
+            <!--<field name="view_mode">form</field>-->
+            <!--<field name="act_window_id" ref="hr_employee_autonomo_action"/>-->
+        <!--</record>-->
+
+
+        <!-- Funcionarios Tercerizados -->
+        <!--Action de terceirizados-->
+        <record model="ir.actions.act_window" id="hr_employee_terceirizado_action">
+            <field name="name">Terceirizados</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'default_tipo': 'terceirizado'}</field>
+            <field name="domain">[('tipo','=', 'terceirizado')]</field>
+        </record>
+
+        <menuitem
+                id="hr_menu_employee_terceirizado"
+                action="hr_employee_terceirizado_action"
+                name="Terceirizados"
+                parent="menu_hr_colaboradores" sequence="3"
+                groups="hr.group_hr_manager"/>
+
+        <record model="ir.actions.act_window.view" id="hr_employee_terceirizado_action_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="hr_employee_terceirizado_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="hr_employee_terceirizado_action_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="hr_employee_terceirizado_action"/>
+        </record>
 </odoo>
