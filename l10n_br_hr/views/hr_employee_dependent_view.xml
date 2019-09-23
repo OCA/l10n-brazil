@@ -23,6 +23,7 @@
                                 <field name="health_verification"/>
                                 <field name="dependent_verification"/>
                                 <field name="have_alimony"/>
+                                <field name="partner_id"/>
                             </group>
                         </group>
                         <group attrs="{'invisible':[('have_alimony', '!=', True)]}">
