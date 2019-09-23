@@ -4,7 +4,7 @@
         <report
                 id="report_adiantamento_decimo_terceiro_py3o_report"
                 string="Adiantamento décimo terceiro"
-                model="hr.payslip"
+                model="adiantamento.decimo.terceiro.wizard"
                 report_type="py3o"
                 name="l10n_br_contabilidade.report_adiantamento_decimo_terceiro"
         />
