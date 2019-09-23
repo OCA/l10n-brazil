@@ -8,7 +8,7 @@ from openerp import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class AdiantamentoDecimoTerceiroWizard(models.Model):
+class AdiantamentoDecimoTerceiroWizard(models.TransientModel):
     _name = 'adiantamento.decimo.terceiro.wizard'
 
     period_id = fields.Many2one(
