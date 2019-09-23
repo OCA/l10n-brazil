@@ -6,9 +6,11 @@
     'name': 'Brazilian Localization HR Contract',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'KMEE Informática, Odoo Community Association (OCA)',
+    'author':
+        'KMEE Informática, ' 
+        'Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '10.0.0.0.0',
+    'version': '12.0.1.0.0',
     'depends': [
         'hr_contract',
         'l10n_br_hr',
