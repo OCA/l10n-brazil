@@ -22,6 +22,7 @@
         'views/hr_employee_dependent_view.xml',
         'views/hr_employee_view.xml',
         'views/hr_job_view.xml',
+        'views/inherited_hr_contract.xml',
     ],
     'test': [],
     'external_dependencies': {

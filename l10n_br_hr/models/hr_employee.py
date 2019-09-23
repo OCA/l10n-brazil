@@ -111,12 +111,13 @@ class HrEmployee(models.Model):
 
     cpf = fields.Char(
         string='CPF',
-        store=True,
-        related='address_home_id.cnpj_cpf')
+        store=True,)
 
     @api.onchange('cpf')
     def onchange_cpf(self):
-        cpf = fiscal.format_cpf_cnpj(self.cpf)
+        country = self.env['res.country'].\
+            search([('id', '=', self.country_id.id)]).code or ''
+        cpf = fiscal.format_cpf_cnpj(self.cpf, country, False)
         if cpf:
             self.cpf = cpf
 
@@ -240,11 +241,25 @@ class HrEmployee(models.Model):
         comodel_name='res.country',
         default=_default_country)
 
+    tipo = fields.Selection(
+        string="Tipo de Colaborador",
+        selection=[
+            # S2200
+            ('funcionario', 'Funcionário'),
+            # S2300 Sem vinculo
+            ('autonomo', 'Autônomo'),
+            ('terceirizado', 'Terceirizado'),
+            ('cedido', 'Funcionário Cedido'),
+        ],
+        default='funcionario',
+        required=True,
+    )
 
 class HrEmployeeDependent(models.Model):
     _name = 'hr.employee.dependent'
     _description = 'Employee\'s Dependents'
     _rec_name = "dependent_name"
+    _inherits = {'res.partner': 'partner_id'}
 
     @api.constrains('dependent_cpf')
     def _validate_cpf(self):
@@ -252,6 +267,11 @@ class HrEmployeeDependent(models.Model):
             if not fiscal.validate_cpf(self.dependent_cpf):
                 raise ValidationError(_('Invalid CPF for dependent %s')
                                       % self.dependent_name)
+
+    def _get_default_employee(self):
+        if self.env.user.has_group('base.group_hr_user'):
+            return False
+        return self.env.user.employee_ids[0]
 
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
@@ -298,10 +318,41 @@ class HrEmployeeDependent(models.Model):
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Partner',
+        ondelete='cascade',
+        auto_join=True,
+        required=True,
         help="Parceiro que contem as informações de banco do dependente."
     )
 
     partner_id_bank_ids = fields.One2many(
         comodel_name='res.partner.bank',
         string='Info Bank',
-        related='partner_id.bank_ids',)
+        related='partner_id.bank_ids',
+    )
+    dep_sf = fields.Boolean(
+        string='Salário Família?',
+    )
+    inc_trab = fields.Boolean(
+        string='Incapacidade Física ou Mental?',
+    )
+    inc_trab_inss_file = fields.Binary(
+        string='Atestado de incapacidade INSS',
+    )
+    relative_file = fields.Binary(
+        string='Documento comprobatório da relação',
+        help='Certidão de Nascimento / Casamento / etc'
+    )
+
+    @api.model
+    def create(self, vals):
+        ctx = self.env.context.copy()
+        ctx['create_depentent'] = True
+        ctx['depentent_employee_id'] = vals.get('employee_id', False)
+        #
+        # O sudo foi utilizado para evitar a permissão de criação de contato
+        # para o funcionário.
+        #
+        patient = super(
+            HrEmployeeDependent, self.sudo().with_context(ctx)
+        ).create(vals)
+        return patient
