@@ -24,6 +24,7 @@ MONTHS = [
 
 class HrContract(models.Model):
     _inherit = 'hr.contract'
+    _order = 'employee_id'
 
     admission_type_id = fields.Many2one(
         string='Admission type',
@@ -90,3 +91,24 @@ class HrContract(models.Model):
             if record.union_cnpj:
                 if not fiscal.validate_cnpj(record.union_cnpj):
                     raise ValidationError("Invalid union CNPJ!")
+
+    @api.onchange('job_id')
+    def set_job_in_employee(self):
+        """
+        Definir o campo função no funcionário.
+        Caso o funcionário venha a ter um segundo contrato, popular o campo
+        no employee. Caso tenha uma alteração contratual, popular o campo
+        """
+        for record in self:
+            if record.employee_id and \
+                    not record.job_id == record.employee_id.job_id:
+                record.employee_id.with_context(alteracaocontratual=True).\
+                    write({'job_id': record.job_id.id,})
+
+    @api.model
+    def create(self, vals):
+        res = super(HrContract, self).create(vals)
+        if vals.get('department_id') and vals.get('employee_id'):
+            employee = self.env['hr.employee'].browse(vals.get('employee_id'))
+            employee.department_id = vals.get('department_id')
+        return res
