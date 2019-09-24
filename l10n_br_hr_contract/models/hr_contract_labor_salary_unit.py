@@ -10,13 +10,11 @@ class HrContractSalaryUnit(models.Model):
 
     name = fields.Char(
         string='Salary unit',
-        required=True,
-    )
+        required=True,)
 
     code = fields.Char(
         string='Code',
-        required=True,
-    )
+        required=True,)
 
     @api.multi
     def name_get(self):
