@@ -22,8 +22,22 @@ class HrContractSalaryUnit(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            # name = record['name']
-            # if record['code']:
-            #     name = record.code + '-' + record.name
-            result.append((record['id'], record.code + ' - ' + record.name))
+            name = record['name']
+            if name == 'Monthly':
+                name = 'Por mês'
+            elif name == 'Biweekly':
+                name = 'Por 15 dias'
+            elif name == 'Weekly':
+                name = 'Por semana'
+            elif name == 'Daily':
+                name = 'Por dia'
+            elif name == 'Hourly':
+                name = 'Por hora'
+            elif name == 'Task':
+                name = 'Por tarefa'
+            elif name == 'Others':
+                name = 'Outros'
+
+            name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
         return result

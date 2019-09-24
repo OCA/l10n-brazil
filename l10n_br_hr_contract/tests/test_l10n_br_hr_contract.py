@@ -72,7 +72,7 @@ class TestL10nBrContract(TransactionCase):
     def test_salary_unit(self):
         salary_unit = self.env['hr.contract.salary.unit'].search([])[0].\
             name_get()[0][1]
-        self.assertEqual(salary_unit, '1 - Hourly',
+        self.assertEqual(salary_unit, '1 - Por hora',
                          'The salary unit name by name_get is not valid,'
                          ' expected \'code - name\'')
 
