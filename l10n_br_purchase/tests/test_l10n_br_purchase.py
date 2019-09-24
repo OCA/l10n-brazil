@@ -3,8 +3,6 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields
-
 import odoo.tests.common as common
 
 
@@ -62,18 +60,20 @@ class TestL10nBRPurchase(common.TransactionCase):
                 line.fiscal_position_id,
                 "Error to mapping Fiscal Position on Sale Order Line."
             )
-            tax = fields.first(line.taxes_id)
-            self.assertEquals(
-                tax.name, u'ICMS Saida 18% *',
-                u"Error to mapping correct TAX (ICMS Saida 18% *)"
-            )
+
+            for tax in line.taxes_id:
+                if tax.tax_group_id.name == 'IPI':
+                    self.assertEquals(
+                        tax.name, u'IPI Entrada 10% *',
+                        u"Error to mapping correct TAX (IPI Entrada 15% *)"
+                    )
 
             # Change Fiscal Category
             line.fiscal_category_id = self.fiscal_categ_compras.id
             line.onchange_fiscal()
             self.assertTrue(
                 line.fiscal_position_id,
-                "Error to mapping Fiscal Position on Sale Order Line"
+                "Error to mapping Fiscal Position on Purchase Order Line"
                 "after change fiscal category."
             )
             self.assertEquals(
@@ -85,7 +85,7 @@ class TestL10nBRPurchase(common.TransactionCase):
             for tax in line.taxes_id:
                 if tax.tax_group_id.name == 'IPI':
                     self.assertEquals(
-                        tax.name, u'IPI Saída 15% *',
+                        tax.name, u'IPI Entrada 2% *',
                         u"Error to mapping correct TAX ("
                         u" IPI Saída 15% *)."
                     )
