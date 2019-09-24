@@ -10,5 +10,4 @@ class HrContractNoticeTermination(models.Model):
 
     name = fields.Char(
         string='Notice of termination type',
-        required=True,
-    )
+        required=True,)
