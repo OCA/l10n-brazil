@@ -3,9 +3,11 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
-from odoo.addons import decimal_precision as dp
+from datetime import datetime
 
+from odoo import models, fields, api, SUPERUSER_ID
+from odoo.addons import decimal_precision as dp
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -79,29 +81,27 @@ class PurchaseOrder(models.Model):
 
     @api.model
     def _fiscal_position_map(self, **kwargs):
-        """Método para chamar a definição de regras fiscais"""
-        ctx = dict(self._context)
-        if not kwargs.get('fiscal_category_id'):
+        ctx = dict(self.env.context)
+        if ctx.get('fiscal_category_id'):
             kwargs['fiscal_category_id'] = ctx.get('fiscal_category_id')
-
         ctx.update({
             'use_domain': ('use_purchase', '=', True),
             'fiscal_category_id': ctx.get('fiscal_category_id')
         })
-        return self.env[
-            'account.fiscal.position.rule'].with_context(
-                ctx).apply_fiscal_mapping(**kwargs)
+        return self.env['account.fiscal.position.rule'].with_context(
+            ctx).apply_fiscal_mapping(**kwargs)
 
-    @api.onchange('fiscal_category_id', 'fiscal_position_id')
+    @api.onchange(
+        'fiscal_category_id', 'fiscal_position_id', 'company_id')
     def onchange_fiscal(self):
-
-        if self.partner_id and self.company_id:
+        if self.partner_id and self.company_id and self.fiscal_category_id:
             kwargs = {
                 'company_id': self.company_id,
                 'partner_id': self.partner_id,
                 'partner_invoice_id': self.partner_id,
-                'fiscal_category_id': self.fiscal_category_id,
                 'partner_shipping_id': self.dest_address_id,
+                'fiscal_category_id': self.fiscal_category_id,
+                'context': dict(self.env.context),
             }
             fiscal_position = self._fiscal_position_map(**kwargs)
 
@@ -171,41 +171,89 @@ class PurchaseOrderLine(models.Model):
             context.update({
                 'fiscal_type': obj_product.fiscal_type,
                 'type_tax_use': 'purchase', 'product_id': obj_product.id})
-            taxes = obj_product.taxes_id
+            taxes = obj_product.supplier_taxes_id
             tax_ids = obj_fiscal_position.with_context(context).map_tax(
                 taxes, obj_product, partner_invoice)
             result['value']['taxes_id'] = tax_ids
 
         return result
 
-    @api.multi
     @api.onchange('product_id')
     def onchange_product_id(self):
-        """Método para implementar a inclusão dos campos categoria fiscal
-        e posição fiscal de acordo com valores padrões e regras de posicões
-        fiscais
-        """
-        result = super(PurchaseOrderLine, self).onchange_product_id()
 
-        ctx = dict(self.env.context)
-        company_id = ctx.get('company_id')
-        parent_fiscal_category_id = ctx.get('parent_fiscal_category_id')
+        # Todo - original code returns error because it call map_tax
+        #   without inform product parameter, to test just remove the
+        #   SUPER at the end of the method.
+        #   By this reason I need to bring original code here.
+        result = {}
+        if not self.product_id:
+            return result
 
-        if self.product_id and parent_fiscal_category_id and self.partner_id:
+        # Reset date, price and quantity since
+        # _onchange_quantity will provide default values
+        self.date_planned = datetime.today().strftime(
+            DEFAULT_SERVER_DATETIME_FORMAT)
+        self.price_unit = self.product_qty = 0.0
+        self.product_uom = \
+            self.product_id.uom_po_id or self.product_id.uom_id
+        result['domain'] = {
+            'product_uom': [(
+                'category_id', '=', self.product_id.uom_id.category_id.id)]}
+
+        product_lang = self.product_id.with_context(
+            lang=self.partner_id.lang,
+            partner_id=self.partner_id.id,
+        )
+        self.name = product_lang.display_name
+        if product_lang.description_purchase:
+            self.name += '\n' + product_lang.description_purchase
+
+        # Part of the original code cause error
+
+        # fpos = self.order_id.fiscal_position_id
+        # if self.env.uid == SUPERUSER_ID:
+        #    company_id = self.env.user.company_id.id
+        #
+        #    self.taxes_id = fpos.map_tax(
+        #    self.product_id.supplier_taxes_id.filtered(
+        #    lambda r: r.company_id.id == company_id))
+        # else:
+        #    self.taxes_id = fpos.map_tax(self.product_id.supplier_taxes_id)
+
+        self._suggest_quantity()
+        self._onchange_quantity()
+
+        context = dict(self.env.context)
+        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
+        if context.get('company_id'):
+            company_id = context['company_id']
+        else:
+            company_id = self.env.user.company_id.id
+
+        result = {'value': {}}
+        result['value']['invoice_state'] = context.get('parent_invoice_state')
+
+        if parent_fiscal_category_id and self.product_id and self.partner_id:
+
             kwargs = {
                 'company_id': company_id,
                 'product_id': self.product_id,
                 'partner_id': self.partner_id,
                 'partner_invoice_id': self.partner_id,
+                'partner_shipping_id': self.partner_id,
                 'fiscal_category_id': parent_fiscal_category_id,
-                'context': ctx,
+                'context': context
             }
-            fiscal_position = self._fiscal_position_map(**kwargs)
-            if fiscal_position:
-                result['fiscal_position_id'] = fiscal_position.id
 
-            ctx.update({'fiscal_type': self.product_id.fiscal_type,
-                        'type_tax_use': 'purchase'})
+            result.update(self._fiscal_position_map(**kwargs))
+
+        # Remove comment of line below to see the error
+        # result_super = super(PurchaseOrderLine, self).onchange_product_id()
+        # if result_super.get('value'):
+        #     result_super.get('value').update(result['value'])
+        # else:
+        #     result_super.update(result)
+        # return result_super
 
         return result
 
@@ -213,23 +261,21 @@ class PurchaseOrderLine(models.Model):
     @api.onchange('fiscal_category_id', 'fiscal_position_id')
     def onchange_fiscal(self):
         for record in self:
-            if record.order_id.company_id and record.order_id.partner_id \
-                    and record.fiscal_category_id:
+            if record.product_id and record.order_id.company_id and\
+                    record.order_id.partner_id and record.fiscal_category_id:
+                result = {'value': {}}
                 kwargs = {
                     'company_id': record.order_id.company_id,
                     'partner_id': record.order_id.partner_id,
                     'partner_invoice_id': record.order_id.partner_id,
+                    'partner_shipping_id': record.order_id.dest_address_id,
                     'product_id': record.product_id,
                     'fiscal_category_id': record.fiscal_category_id or
                     record.order_id.fiscal_category_id,
                     'context': record.env.context
                 }
-                result = record._fiscal_position_map(**kwargs)
-                kwargs.update({
-                    'fiscal_category_id': record.fiscal_category_id.id,
-                    'fiscal_position_id': record.fiscal_position_id.id,
-                    'taxes_id': [(6, 0, record.taxes_id.ids)],
-                })
+                result.update(self._fiscal_position_map(**kwargs))
+
                 record.update(result['value'])
 
     @api.multi
