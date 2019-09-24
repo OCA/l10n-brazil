@@ -20,9 +20,7 @@
         'data/l10n_br_hr_contract_resignation_data.xml',
         'security/ir.model.access.csv'
     ],
-    'test': [
-        'test/l10n_br_hr_contract_demo.yml'
-    ],
+    'test': [],
     'external_dependencies': {
         'python': [
             'erpbrasil.base',
