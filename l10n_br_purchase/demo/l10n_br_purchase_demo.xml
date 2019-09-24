@@ -10,41 +10,10 @@
         <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <!-- Tax Tests -->
-    <record id="demo_purchase_tax-out_ipi" model="account.tax">
-        <field name="description">IPI </field>
-        <field name="name">IPI Saída - l10n_br_purchase</field>
-        <field name="amount">0.00</field>
-        <field name="type_tax_use">purchase</field>
-        <field name="price_include" eval="0"/>
-        <field name="tax_discount" eval="0"/>
-        <field name="tax_group_id" ref="l10n_br_generic.tax_group_ipi"/>
-    </record>
-
-    <record id="demo_purchase_tax-out_ipi2" model="account.tax">
-        <field name="description">IPI 2%</field>
-        <field name="name">IPI Saída 2% - l10n_br_purchase</field>
-        <field name="amount">2</field>
-        <field name="type_tax_use">purchase</field>
-        <field name="price_include" eval="0"/>
-        <field name="tax_discount" eval="0" />
-        <field name="tax_group_id" ref="l10n_br_generic.tax_group_ipi"/>
-    </record>
-
-    <record id="demo_purchase_tax-out_ipi5" model="account.tax">
-        <field name="description">IPI 5%</field>
-        <field name="name">IPI Saída 5% - l10n_br_purchase</field>
-        <field name="amount">5</field>
-        <field name="type_tax_use">purchase</field>
-        <field name="price_include" eval="0"/>
-        <field name="tax_discount" eval="0"/>
-        <field name="tax_group_id" ref="l10n_br_generic.tax_group_ipi"/>
-    </record>
-
     <!-- Compras -->
     <record id="demo_fiscal_category-compras" model="l10n_br_account.fiscal.category">
         <field name="property_journal" ref="demo_purchase_journal"/>
-        <field name="code">Compras-l10n_br_purchae</field>
+        <field name="code">Compras-l10n_br_purchase</field>
         <field name="name">Compras</field>
     </record>
 
@@ -53,13 +22,13 @@
         <field name="fiscal_category_id" ref="demo_fiscal_category-compras"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="type">input</field>
-        <field name="cfop_id" ref="l10n_br_account_product.cfop_5102"/>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_1102"/>
     </record>
 
     <record id="fiscal_position_tax_compras_sp" model="account.fiscal.position.tax">
         <field name="position_id" ref="l10n_br_purchase-fiscal_position_internal_demo"/>
-        <field name="tax_src_id" ref="demo_purchase_tax-out_ipi"/>
-        <field name="tax_dest_id" ref="demo_purchase_tax-out_ipi2"/>
+        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_in_ipi15"/>
+        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_in_ipi2"/>
     </record>
 
     <!-- Account Fiscal Position Rule - Compra SP -->
@@ -89,12 +58,15 @@
         <field name="name">Compra SP c/ ST</field>
         <field name="active">True</field>
         <field name="fiscal_category_id" ref="demo_fiscal_category-compras_sp_st"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_1403"/>
     </record>
 
     <record id="demo_fiscal_position_tax-compra_sp_st" model="account.fiscal.position.tax">
         <field name="position_id" ref="demo_fiscal_position-compras_sp_st"/>
-        <field name="tax_src_id" ref="demo_purchase_tax-out_ipi"/>
-        <field name="tax_dest_id" ref="demo_purchase_tax-out_ipi5"/>
+        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_in_ipi15"/>
+        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_in_ipi10"/>
     </record>
 
     <!-- Account Fiscal Position Rule - Compra SP -->
@@ -112,21 +84,12 @@
         <field name="use_purchase">True</field>
     </record>
 
-
-
-
     <!-- Demo Purchase Order - 1 -->
     <record id="l10n_br_purchase_order-demo_1" model="purchase.order">
         <field name="name">Demo l10n_br_purchase - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
-        <!--<field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>-->
-        <!--<field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>-->
-        <!-- <field name="user_id" ref="base.user_demo"/> -->
-        <!--<field name="pricelist_id" ref="product.list0"/>-->
-        <!--<field name="team_id" ref="sales_team.crm_team_1"/>-->
         <field name="state">draft</field>
         <field name="fiscal_category_id" ref="demo_fiscal_category-compras"/>
-        <!--<field name="note">TESTE</field>-->
     </record>
 
     <record id="l10n_br_purchase_orderline-demo_1-1" model="purchase.order.line">
