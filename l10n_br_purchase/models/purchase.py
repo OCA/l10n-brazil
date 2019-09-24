@@ -5,9 +5,10 @@
 
 from datetime import datetime
 
-from odoo import models, fields, api, SUPERUSER_ID
+from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
