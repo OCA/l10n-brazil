@@ -27,14 +27,3 @@ class L10nBrHrCbo(models.Model):
                 name = record['code'] + ' - ' + name
             result.append((record['id'], name))
         return result
-
-
-
-
-
-
-
-
-
-
-
