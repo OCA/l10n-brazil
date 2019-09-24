@@ -10,17 +10,14 @@ class HrContractResignationCause(models.Model):
 
     name = fields.Char(
         string='Resignation cause',
-        required=True,
-    )
+        required=True,)
 
     code = fields.Char(
         string='Resignation cause code',
-        required=True,
-    )
+        required=True,)
 
     fgts_withdraw_code = fields.Char(
-        string='FGTS withdrawal code',
-    )
+        string='FGTS withdrawal code',)
 
     @api.multi
     def name_get(self):
