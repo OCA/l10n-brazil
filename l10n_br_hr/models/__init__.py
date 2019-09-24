@@ -13,7 +13,6 @@ from . import hr_civil_certificate_type
 from .import hr_deficiency
 from . import hr_dependent_type
 from . import hr_educational_attainment
-from . import hr_employee_dependent
 from . import hr_ethnicity
 from . import hr_identity_type
 from . import hr_nationality_code
