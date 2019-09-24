@@ -23,6 +23,11 @@
     'test': [
         'test/l10n_br_hr_contract_demo.yml'
     ],
+    'external_dependencies': {
+        'python': [
+            'erpbrasil.base',
+        ],
+    },
     'demo': [],
     'installable': True,
     'auto_install': False,
