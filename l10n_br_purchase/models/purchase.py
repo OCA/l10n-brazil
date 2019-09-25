@@ -118,19 +118,6 @@ class PurchaseOrder(models.Model):
         })
         return vals
 
-    @api.model
-    def _create_stock_moves(self, order, order_lines, picking_id=None):
-        result = super(PurchaseOrder, self)._create_stock_moves(
-            order, order_lines, picking_id)
-        if picking_id:
-            picking_values = {
-                'fiscal_category_id': order.fiscal_category_id.id,
-                'fiscal_position': order.fiscal_position.id,
-            }
-            picking = self.env['stock.picking'].browse(picking_id)
-            picking.write(picking_values)
-        return result
-
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
@@ -225,7 +212,6 @@ class PurchaseOrderLine(models.Model):
         self._onchange_quantity()
 
         context = dict(self.env.context)
-        parent_fiscal_category_id = context.get('parent_fiscal_category_id')
         if context.get('company_id'):
             company_id = context['company_id']
         else:
@@ -234,19 +220,22 @@ class PurchaseOrderLine(models.Model):
         result = {'value': {}}
         result['value']['invoice_state'] = context.get('parent_invoice_state')
 
-        if parent_fiscal_category_id and self.product_id and self.partner_id:
-
+        if (self.order_id.fiscal_category_id
+                and self.product_id and self.partner_id):
+            result = {'value': {}}
             kwargs = {
-                'company_id': company_id,
+                'company_id': self.order_id.company_id,
+                'partner_id': self.order_id.partner_id,
+                'partner_invoice_id': self.order_id.partner_id,
+                'partner_shipping_id': self.order_id.dest_address_id,
                 'product_id': self.product_id,
-                'partner_id': self.partner_id,
-                'partner_invoice_id': self.partner_id,
-                'partner_shipping_id': self.partner_id,
-                'fiscal_category_id': parent_fiscal_category_id,
-                'context': context
+                'fiscal_category_id': self.fiscal_category_id or
+                                      self.order_id.fiscal_category_id,
+                'context': self.env.context
             }
-
             result.update(self._fiscal_position_map(**kwargs))
+
+            self.update(result['value'])
 
         # Remove comment of line below to see the error
         # result_super = super(PurchaseOrderLine, self).onchange_product_id()
