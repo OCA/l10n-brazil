@@ -126,7 +126,7 @@ class AccountInvoice(models.Model):
                     u"Não foi possível registrar as faturas pela API"
                 ))
 
-            company_id = record.partner_id.company_id
+            company_id = record.partner_id.company_id.sudo()
 
             client_id = company_id.client_id
             client_secret = company_id.client_secret
