@@ -87,7 +87,7 @@ class TestL10nBRPurchase(common.TransactionCase):
                     self.assertEquals(
                         tax.name, u'IPI Entrada 2% *',
                         u"Error to mapping correct TAX ("
-                        u" IPI Saída 15% *)."
+                        u" IPI Entrada 2% *)."
                     )
         self.purchase_order_1.button_confirm()
 
@@ -103,6 +103,10 @@ class TestL10nBRPurchase(common.TransactionCase):
 
         pick = self.purchase_order_1.picking_ids
         for line in pick.move_lines:
+            self.assertTrue(
+                line.fiscal_category_id,
+                "Error to mapping Fiscal Category on Move Line."
+            )
             self.assertTrue(
                 line.fiscal_position_id,
                 "Error to mapping Fiscal Position on Move Line."
@@ -155,6 +159,13 @@ class TestL10nBRPurchase(common.TransactionCase):
                 line.purchase_line_id,
                 'Relation purchase_line_id in invoice lines are missing.'
             )
+            for tax in line.invoice_line_tax_ids:
+                if tax.tax_group_id.name == 'IPI':
+                    self.assertEquals(
+                        tax.name, u'IPI Entrada 2% *',
+                        u"Error to mapping correct TAX ("
+                        u" IPI Entrada 2% *)."
+                    )
         self.assertTrue(
             invoice.tax_line_ids, 'Total of Taxes in Invoice are missing.'
         )
