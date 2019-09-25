@@ -59,7 +59,7 @@ class HrContract(models.Model):
         help='Sindicato é um partner que tem código de sindicato '
              '(union_entity_code) definido.',)
 
-    union = fields.Char(
+    union_name = fields.Char(
         string='Union')
 
     union_cnpj = fields.Char(
