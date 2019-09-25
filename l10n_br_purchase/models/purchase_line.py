@@ -102,10 +102,6 @@ class PurchaseOrderLine(models.Model):
         self._onchange_quantity()
 
         context = dict(self.env.context)
-        if context.get('company_id'):
-            company_id = context['company_id']
-        else:
-            company_id = self.env.user.company_id.id
 
         result = {'value': {}}
         result['value']['invoice_state'] = context.get('parent_invoice_state')
@@ -120,7 +116,7 @@ class PurchaseOrderLine(models.Model):
                 'partner_shipping_id': self.order_id.dest_address_id,
                 'product_id': self.product_id,
                 'fiscal_category_id': self.fiscal_category_id or
-                                      self.order_id.fiscal_category_id,
+                self.order_id.fiscal_category_id,
                 'context': self.env.context
             }
             result.update(self._fiscal_position_map(**kwargs))
