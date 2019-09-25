@@ -33,7 +33,7 @@
                     <group name="union" string="Union">
                         <field name="partner_union"/>
 
-                        <field name="union" invisible="1"/>
+                        <field name="union_name" invisible="1"/>
                         <field name="union_cnpj" invisible="1"/>
                         <field name="union_entity_code" invisible="1"/>
 
