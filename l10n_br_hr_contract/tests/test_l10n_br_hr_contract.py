@@ -17,14 +17,14 @@ class TestL10nBrContract(TransactionCase):
             'trial_date_end': '2016-03-01',
             'date_start': '2016-03-02',
             'working_hours': self.env['resource.calendar'].search([])[0].id,
-            'admission_type_id': self.env['hr.contract.admission.type'].
-                                 search([])[0].code,
-            'labor_bond_type_id': self.env['hr.contract.labor.bond.type'].
-                                  search([])[0].code,
-            'labor_regime_id': self.env['hr.contract.labor.regime'].
-                               search([])[0].code,
-            'salary_unit': self.env['hr.contract.salary.unit'].
-                           search([])[0].code,
+            'admission_type_id':
+                self.env['hr.contract.admission.type'].search([])[0].code,
+            'labor_bond_type_id':
+                self.env['hr.contract.labor.bond.type'].search([])[0].code,
+            'labor_regime_id':
+                self.env['hr.contract.labor.regime'].search([])[0].code,
+            'salary_unit':
+                self.env['hr.contract.salary.unit'].search([])[0].code,
             'union': 'Demo union',
             'union_cnpj': '00.874.955/0001-78',
             'union_entity_code': 'DU',
@@ -33,8 +33,8 @@ class TestL10nBrContract(TransactionCase):
             'monthly_hours': 180,
             'weekly_hours': 45,
             'resignation_date': '2016-06-20',
-            'resignation_cause_id': self.env['hr.contract.resignation.cause'].
-                                    search([])[0].code,
+            'resignation_cause_id':
+                self.env['hr.contract.resignation.cause'].search([])[0].code,
             'notice_of_termination_id':
             self.env['hr.contract.notice.termination'].search([])[0].id,
             'notice_of_termination_date': '2016-06-20',
