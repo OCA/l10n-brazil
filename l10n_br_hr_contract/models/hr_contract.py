@@ -1,7 +1,7 @@
 # Copyright (C) 2016  Daniel Sadamo - KMEE Informática
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from erpbrasil.base import fiscal
 from odoo.exceptions import ValidationError
 
@@ -49,8 +49,7 @@ class HrContract(models.Model):
     salary_unit = fields.Many2one(
         string='Salary Unity',
         comodel_name='hr.contract.salary.unit',
-        help='e-Social: S2300 - tpRegPrev',
-    )
+        help='e-Social: S2300 - tpRegPrev')
 
     weekly_hours = fields.Float(
         string='Weekly hours')
@@ -113,7 +112,7 @@ class HrContract(models.Model):
         for record in self:
             if record.union_cnpj:
                 if not fiscal.validate_cnpj(record.union_cnpj):
-                    raise ValidationError("Invalid union CNPJ!")
+                    raise ValidationError(_("Invalid union CNPJ!"))
 
     @api.onchange('job_id')
     def set_job_in_employee(self):
