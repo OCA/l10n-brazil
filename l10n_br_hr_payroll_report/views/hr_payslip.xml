@@ -14,7 +14,7 @@
                                 type="action" string="Imprimir Aviso"/>
                         <button name="%(l10n_br_hr_payroll_report.report_payslip_py3o_report)d"
                                 class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'done'), ('tipo_de_folha', '!=', 'normal')]}"
+                                attrs="{'invisible': ['|',('state', '!=', 'done'), ('tipo_de_folha', 'not in', ['normal','decimo_terceiro'])]}"
                                 type="action" string="Imprimir"/>
                         <button name="%(l10n_br_hr_payroll_report.payslip_report_recibo_ferias)d"
                                 class="oe_highlight"
