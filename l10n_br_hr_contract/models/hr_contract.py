@@ -40,6 +40,12 @@ class HrContract(models.Model):
         help='e-Social: S2300 - tpRegPrev',
     )
 
+    welfare_policy = fields.Selection(
+        string='Welfare policy',
+        selection=[
+            ('rgps', u'Regime Geral da Previdência Social'),
+            ('rpps', u'Regime Próprio da Previdência Social')])
+
     salary_unit = fields.Many2one(
         string='Salary Unity',
         comodel_name='hr.contract.salary.unit',
