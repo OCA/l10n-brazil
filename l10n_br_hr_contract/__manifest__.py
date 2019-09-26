@@ -26,7 +26,6 @@
             'erpbrasil.base',
         ],
     },
-    'demo': [],
     'installable': True,
     'auto_install': False,
 }
