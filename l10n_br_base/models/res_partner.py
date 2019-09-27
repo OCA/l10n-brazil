@@ -11,7 +11,8 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.base import fiscal, misc
+    from erpbrasil.base.fiscal import cnpj_cpf, ie
+    from erpbrasil.base import misc
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -135,10 +136,10 @@ class Partner(models.Model):
             country_code = record.country_id.code or ''
             if record.cnpj_cpf and country_code.upper() == 'BR':
                 if record.is_company:
-                    if not fiscal.validate_cnpj(record.cnpj_cpf):
+                    if not cnpj_cpf.validar(record.cnpj_cpf):
                         result = False
                         document = 'CNPJ'
-                elif not fiscal.validate_cpf(record.cnpj_cpf):
+                elif not cnpj_cpf.validar(record.cnpj_cpf):
                     result = False
                     document = 'CPF'
             if not result:
@@ -159,7 +160,7 @@ class Partner(models.Model):
             if record.inscr_est and record.is_company and record.state_id:
                 state_code = record.state_id.code or ''
                 uf = state_code.lower()
-                result = fiscal.validate_ie(uf, record.inscr_est)
+                result = ie.validar(uf, record.inscr_est)
             if not result:
                 raise ValidationError(_("Estadual Inscription Invalid !"))
 
@@ -174,7 +175,7 @@ class Partner(models.Model):
             for inscr_est_line in record.state_tax_number_ids:
                 state_code = inscr_est_line.state_id.code or ''
                 uf = state_code.lower()
-                valid_ie = fiscal.validate_ie(uf, inscr_est_line.inscr_est)
+                valid_ie = ie.validar(uf, inscr_est_line.inscr_est)
                 if not valid_ie:
                     raise ValidationError(_('Invalid State Tax Number!'))
                 if inscr_est_line.state_id.id == record.state_id.id:
@@ -210,7 +211,7 @@ class Partner(models.Model):
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
         country = self.country_id.code or ''
-        self.cnpj_cpf = fiscal.format_cpf_cnpj(self.cnpj_cpf,
+        self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf,
                                                country,
                                                self.is_company)
 
