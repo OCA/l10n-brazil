@@ -155,10 +155,7 @@ class Company(models.Model):
 
     @api.onchange('cnpj_cpf')
     def _onchange_cnpj_cpf(self):
-        country = self.country_id.code or ''
-        self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf,
-                                               country,
-                                               True)
+        self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf)
 
     @api.onchange('city_id')
     def _onchange_city_id(self):

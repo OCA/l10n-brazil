@@ -208,12 +208,9 @@ class Partner(models.Model):
         if company_country.code.upper() != 'BR':
             return super(Partner, self)._set_street()
 
-    @api.onchange('cnpj_cpf', 'country_id')
+    @api.onchange('cnpj_cpf')
     def _onchange_cnpj_cpf(self):
-        country = self.country_id.code or ''
-        self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf,
-                                               country,
-                                               self.is_company)
+        self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
 
     @api.onchange('zip')
     def _onchange_zip(self):
