@@ -13,7 +13,8 @@ from odoo import models, fields, api
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.base import fiscal, misc
+    from erpbrasil.base.fiscal import cnpj_cpf
+    from erpbrasil.base import misc
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -155,7 +156,7 @@ class Company(models.Model):
     @api.onchange('cnpj_cpf')
     def _onchange_cnpj_cpf(self):
         country = self.country_id.code or ''
-        self.cnpj_cpf = fiscal.format_cpf_cnpj(self.cnpj_cpf,
+        self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf,
                                                country,
                                                True)
 
