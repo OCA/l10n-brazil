@@ -110,17 +110,11 @@ class Lead(models.Model):
 
     @api.onchange('cnpj', 'country_id')
     def _onchange_cnpj(self):
-        country_code = self.country_id.code or ''
-        self.cnpj = cnpj_cpf.formata(self.cnpj,
-                                           country_code,
-                                           True)
+        self.cnpj = cnpj_cpf.formata(self.cnpj)
 
     @api.onchange('cpf', 'country_id')
     def _onchange_mask_cpf(self):
-        country_code = self.country_id.code or ''
-        self.cpf = cnpj_cpf.formata(self.cpf,
-                                          country_code,
-                                          False)
+        self.cpf = cnpj_cpf.formata(self.cpf)
 
     @api.onchange('city_id')
     def _onchange_city_id(self):
