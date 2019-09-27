@@ -3,7 +3,7 @@
 # (c) 2016 KMEE Informática - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base import fiscal
+from erpbrasil.base.fiscal import cnpj_cpf
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
@@ -17,7 +17,7 @@ class HrEmployeeDependent(models.Model):
     @api.constrains('dependent_cpf')
     def _validate_cpf(self):
         if self.dependent_cpf:
-            if not fiscal.validate_cpf(self.dependent_cpf):
+            if not cnpj_cpf.validar(self.dependent_cpf):
                 raise ValidationError(_('Invalid CPF for dependent %s')
                                       % self.dependent_name)
 
