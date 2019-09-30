@@ -42,7 +42,6 @@
         'python': [
             'num2words',
             'erpbrasil.base',
-            'erpbrasil.base.fiscal',
         ],
     }
 }

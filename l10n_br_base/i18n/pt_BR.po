@@ -8288,7 +8288,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:164
+#: code:addons/l10n_br_base/models/res_partner.py:165
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr "Inscrição Estadual Inválida !"
@@ -10781,7 +10781,7 @@ msgid "Inocência"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:179
+#: code:addons/l10n_br_base/models/res_partner.py:180
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr "Número da Inscrição Estadual Inválida!"
@@ -23005,7 +23005,7 @@ msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:189
+#: code:addons/l10n_br_base/models/res_partner.py:190
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr "Inscrição estadual %s já utilizada"
@@ -25341,20 +25341,20 @@ msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:181
+#: code:addons/l10n_br_base/models/res_partner.py:182
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
 "Só pode haver um número de imposto estadual por estado para cada parceiro!"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:127
+#: code:addons/l10n_br_base/models/res_partner.py:128
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr "Já existe um parceiro com este CNPJ !"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:123
+#: code:addons/l10n_br_base/models/res_partner.py:124
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
 msgstr "Já existe um parceiro com esta Inscrição Estadual !"
@@ -27044,7 +27044,7 @@ msgid "Zé Doca"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:145
+#: code:addons/l10n_br_base/models/res_partner.py:146
 #, python-format
 msgid "{} Invalid!"
 msgstr "{} Inválido!"
