@@ -125,7 +125,7 @@ class HrContract(models.Model):
             if record.employee_id and \
                     not record.job_id == record.employee_id.job_id:
                 record.employee_id.with_context(alteracaocontratual=True).\
-                    write({'job_id': record.job_id.id,})
+                    write({'job_id': record.job_id.id, })
 
     @api.model
     def create(self, vals):
