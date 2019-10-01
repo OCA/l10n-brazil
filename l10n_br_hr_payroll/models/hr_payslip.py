@@ -69,7 +69,7 @@ class HrPayslip(models.Model):
 
                 if holerite.tipo_de_folha == 'rescisao':
                     holerite.contract_id.resignation_cause_id = \
-                        holerite.mtv_deslig
+                        holerite.mtv_deslig_esocial
                     holerite.contract_id.resignation_date = \
                         holerite.data_afastamento
 
