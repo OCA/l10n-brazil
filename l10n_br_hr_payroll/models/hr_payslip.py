@@ -2656,7 +2656,7 @@ class HrPayslip(models.Model):
                 'employee_id': payslip.contract_id.employee_id.id,
                 'quantity': qty,
                 'rate': rate,
-                'reference': ref,
+                'reference': ref or '',
                 'partner_id':
                     beneficiario_id and beneficiario_id.id or
                     payslip.contract_id.employee_id.address_home_id and
