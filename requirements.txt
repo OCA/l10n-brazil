@@ -1,3 +1,3 @@
 num2words==0.5.4
 pycep-correios
-erpbrasil.base==0.0.1
+erpbrasil.base==1.1.0

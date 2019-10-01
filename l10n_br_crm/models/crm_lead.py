@@ -9,7 +9,8 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.base import fiscal, misc
+    from erpbrasil.base.fiscal import cnpj_cpf, ie
+    from erpbrasil.base import misc
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -75,7 +76,7 @@ class Lead(models.Model):
             country_code = record.country_id.code or ''
             if record.cnpj and country_code.upper() == 'BR':
                 cnpj = misc.punctuation_rm(record.cnpj)
-                if not fiscal.validate_cnpj(cnpj):
+                if not cnpj_cpf.validar(cnpj):
                     raise ValidationError(_('CNPJ inválido!'))
             return True
 
@@ -86,7 +87,7 @@ class Lead(models.Model):
             country_code = record.country_id.code or ''
             if record.cpf and country_code.upper() == 'BR':
                 cpf = misc.punctuation_rm(record.cpf)
-                if not fiscal.validate_cpf(cpf):
+                if not cnpj_cpf.validar(cpf):
                     raise ValidationError(_('CPF inválido!'))
             return True
 
@@ -103,23 +104,17 @@ class Lead(models.Model):
             if record.inscr_est and record.cnpj and record.state_id:
                 state_code = record.state_id.code or ''
                 uf = state_code.lower()
-                result = fiscal.validate_ie(uf, record.inscr_est)
+                result = ie.validar(uf, record.inscr_est)
             if not result:
                 raise ValidationError(_("Inscrição Estadual Invalida!"))
 
     @api.onchange('cnpj', 'country_id')
     def _onchange_cnpj(self):
-        country_code = self.country_id.code or ''
-        self.cnpj = fiscal.format_cpf_cnpj(self.cnpj,
-                                           country_code,
-                                           True)
+        self.cnpj = cnpj_cpf.formata(self.cnpj)
 
     @api.onchange('cpf', 'country_id')
     def _onchange_mask_cpf(self):
-        country_code = self.country_id.code or ''
-        self.cpf = fiscal.format_cpf_cnpj(self.cpf,
-                                          country_code,
-                                          False)
+        self.cpf = cnpj_cpf.formata(self.cpf)
 
     @api.onchange('city_id')
     def _onchange_city_id(self):
