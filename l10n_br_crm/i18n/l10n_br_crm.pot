@@ -19,7 +19,7 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:79
+#: code:addons/l10n_br_crm/models/crm_lead.py:80
 #, python-format
 msgid "CNPJ inválido!"
 msgstr ""
@@ -30,7 +30,7 @@ msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:90
+#: code:addons/l10n_br_crm/models/crm_lead.py:91
 #, python-format
 msgid "CPF inválido!"
 msgstr ""
@@ -61,7 +61,7 @@ msgid "Inscr. Municipal"
 msgstr ""
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:108
+#: code:addons/l10n_br_crm/models/crm_lead.py:109
 #, python-format
 msgid "Inscrição Estadual Invalida!"
 msgstr ""
