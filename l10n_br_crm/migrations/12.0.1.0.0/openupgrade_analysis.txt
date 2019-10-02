@@ -1,0 +1,28 @@
+---Models in module 'l10n_br_crm'---
+---Fields in module 'l10n_br_crm'---
+l10n_br_crm  / crm.lead                 / city_id (many2one)            : NEW relation: res.city
+l10n_br_crm  / crm.lead                 / cnpj (char)                   : is now stored
+l10n_br_crm  / crm.lead                 / cnpj (char)                   : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / country_id (False)            : NEW mode: modify, hasdefault
+l10n_br_crm  / crm.lead                 / cpf (char)                    : is now stored
+l10n_br_crm  / crm.lead                 / cpf (char)                    : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / district (char)               : is now stored
+l10n_br_crm  / crm.lead                 / district (char)               : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / inscr_est (char)              : is now stored
+l10n_br_crm  / crm.lead                 / inscr_est (char)              : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / inscr_mun (char)              : is now stored
+l10n_br_crm  / crm.lead                 / inscr_mun (char)              : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / l10n_br_city_id (many2one)    : DEL relation: l10n_br_base.city
+l10n_br_crm  / crm.lead                 / legal_name (char)             : is now stored
+l10n_br_crm  / crm.lead                 / legal_name (char)             : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / name_surname (char)           : is now stored
+l10n_br_crm  / crm.lead                 / name_surname (char)           : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / number (char)                 : DEL
+l10n_br_crm  / crm.lead                 / rg (char)                     : is now stored
+l10n_br_crm  / crm.lead                 / rg (char)                     : table is now 'False' ('None')
+l10n_br_crm  / crm.lead                 / street_number (char)          : NEW
+l10n_br_crm  / crm.lead                 / suframa (char)                : is now stored
+l10n_br_crm  / crm.lead                 / suframa (char)                : table is now 'False' ('None')
+---XML records in module 'l10n_br_crm'---
+ir.ui.view: l10n_br_crm.l10n_br_crm_leads_form (deleted domain)
+ir.ui.view: l10n_br_crm.l10n_br_crm_opportunities_form (deleted domain)
