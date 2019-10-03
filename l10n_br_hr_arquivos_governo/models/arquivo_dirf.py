@@ -5,7 +5,7 @@
 from .abstract_arquivos_governo import AbstractArquivosGoverno
 
 
-class Dirf(AbstractArquivosGoverno):
+class DIRF(AbstractArquivosGoverno):
 
     def __init__(self, *args, **kwargs):
 
@@ -14,7 +14,7 @@ class Dirf(AbstractArquivosGoverno):
         self.ano_referencia = 2019
         self.ano_calendario = 2019              # 2019 ou 2018
         self.indicador_de_retificadora = 'N'    # S – Retificadora N – Original
-        self.numero_do_recibo = '-'
+        self.numero_do_recibo = ''
         self.identificador_de_estrutura_do_leiaute = 'T17BS45'
 
         # 3.2 Registro do Responsável pelo preenchimento da declaração
@@ -53,13 +53,13 @@ class Dirf(AbstractArquivosGoverno):
         self.nome_empresarial = ''
         self.natureza_do_declarante = ''
         self.cpf_responsavel = ''
-        self.socio_ostensivo_decpj = ''
-        self.declarante_depositario_de_credito = ''
-        self.declarante_de_instituicao_administradora = ''
+        self.socio_ostensivo_decpj = 'N'
+        self.declarante_depositario_de_credito = 'N'
+        self.declarante_de_instituicao_administradora = 'N'
         self.rendimento_pago_no_exterior = 'N'
         self.plano_privado_assistencia_saude_decpj = 'N'
-        self.pagamento_a_entidades_imunes = ''
-        self.fundacao_publica_direito_privado = ''
+        self.pagamento_a_entidades_imunes = 'N'
+        self.fundacao_publica_direito_privado = 'N'
         self.situacao_especial_declarante = 'N'
         self.data_do_evento_decpj = ''
 
@@ -314,3 +314,64 @@ class Dirf(AbstractArquivosGoverno):
         #  Registro identificador do término da declaração
         #  (identificador FIMDirf)
         self.identificador_de_registro_fimdirf = 'FIMDirf'
+
+
+    @property
+    def DIRF(self):
+        dirf = self._validar(self.identificador_de_registro, 4)
+        dirf += self._validar(self.ano_referencia, 4, tipo='N')
+        dirf += self._validar(self.ano_calendario, 4, tipo='N')
+        dirf += self._validar(self.indicador_de_retificadora, 1, tipo='A')
+        dirf += self._validar(self.numero_do_recibo, 12, tipo='N', preenchimento='variavel')
+        dirf += self._validar(self.identificador_de_estrutura_do_leiaute, 7, tipo='AN')
+        return dirf
+
+    @property
+    def RESPO(self):
+        respo = self._validar(self.identificador_de_registro_respo, 5)
+        respo += self._validar(self.cpf_respo, 11,  tipo='N', preenchimento='fixo')
+        respo += self._validar(self.nome_respo, 60, preenchimento='variavel')
+        respo += self._validar(self.ddd_respo, 2, tipo='N', preenchimento='fixo')
+        respo += self._validar(self.telefone_respo, 9, tipo='N', preenchimento='variavel')
+        respo += self._validar(self.ramal_respo, 6, tipo='N', preenchimento='variavel')
+        respo += self._validar(self.fax_respo, 9, preenchimento='variavel')
+        respo += self._validar(self.correio_eletronico, 50, preenchimento='variavel')
+        return respo
+
+    @property
+    def DECPJ(self):
+        decpj = self._validar(self.identificador_de_registro_decpj, 5)
+        decpj += self._validar(self.cnpj_decpj, 14, tipo='N', preenchimento='fixo')
+        decpj += self._validar(self.nome_empresarial, 150, tipo='AN', preenchimento='variavel')
+        decpj += self._validar(self.natureza_do_declarante, 1, tipo='N', preenchimento='fixo')
+        decpj += self._validar(self.cpf_responsavel, 11, tipo='N', preenchimento='fixo')
+        decpj += self._validar(self.socio_ostensivo_decpj, 1, tipo='A')
+        decpj += self._validar(self.declarante_depositario_de_credito, 1, tipo='A')
+        decpj += self._validar(self.declarante_de_instituicao_administradora, 1, tipo='A')
+        decpj += self._validar(self.rendimento_pago_no_exterior, 1, tipo='A')
+        decpj += self._validar(self.plano_privado_assistencia_saude_decpj, 1, tipo='A')
+        decpj += self._validar(self.pagamento_a_entidades_imunes, 1, tipo='A')
+        decpj += self._validar(self.fundacao_publica_direito_privado, 1, tipo='A')
+        decpj += self._validar(self.situacao_especial_declarante, 1, tipo='A')
+        decpj += self._validar(self.data_do_evento_decpj, 8, tipo='D', preenchimento='variavel')
+        return decpj
+
+    def _validar(self, word, tam, tipo='AN', preenchimento='fixo'):
+        """
+        Sobrescrever a função de validacao de palavras da classe abstrata para
+         adcionar pipe no final de todos campos
+        """
+
+        # Nao permitir campos preechidos com pipe
+        word = word.replace('|', '') if word else ''
+
+        # Validar campo
+        if preenchimento == 'variavel':
+            tam = len(word) if len(word) < tam else tam
+
+        word = super(DIRF, self)._validar(word, tam, tipo)
+
+        # Adicionar pipe no final de cada campo
+        word += '|'
+
+        return word
