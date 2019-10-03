@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 ABGF - Hendrix Costa <hendrix.costa@abgf.gov.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!-- Tree View -->
+        <record model="ir.ui.view" id="hr_dirf_form_view">
+            <field name="name">hr.dirf.form (in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.dirf</field>
+            <field name="arch" type="xml">
+                <form string="DIRF">
+                    <sheet>
+                    <header>
+                        <button name="gerar_dirf" string="Gerar DIRF" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                        <button name="action_open" string="Confirmar DIRF" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                        <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}" groups="base.group_hr_manager"/>
+                        <button name="action_sent" string="Confirmar Envio" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <!--<button name="gerar_boletos" string="Gerar Guias" type="object" attrs="{'invisible':[('state', '!=', 'sent')]}"/>-->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <group cols="4" string="DIRF">
+
+                        <group colspan="4">
+                            <field name="ano" required="1"/>
+                        </group>
+
+                        <group colspan="4">
+                            <field name="company_id" required="1" options="{'no_create': True}" />
+                            <field name="natureza_declarante" />
+                        </group>
+
+                        <group colspan="4">
+                            <field name="retificadora" />
+                            <field name="numero_recibo" attrs="{'invisible':[('retificadora', '!=', True)]}"/>
+                        </group>
+
+                        <group string="Responsável pelo envio" colspan="4">
+                            <field name="responsible_partner_id"
+                                   attrs="{'readonly': [('company_id', '=', False)]}"
+                                   options="{'no_create': True}"
+                                   required="1" />
+                            <field name="responsible_ddd" />
+                            <field name="responsible_telefone" />
+                            <field name="responsible_ramal" />
+                         </group>
+
+                    </group>
+
+                    <footer >
+                        <notebook>
+
+
+
+                            <!--<page string="Arquivos Anexos">-->
+                                <!--<group string="Arquivos Anexos">-->
+                                    <!--<field nolabel="1" name="related_attachment_ids" >-->
+                                        <!--<tree >-->
+                                            <!--<field name="write_date"/>-->
+                                            <!--<field name="name"/>-->
+                                            <!--<field name="type"/>-->
+                                            <!--<field name="attachment_ids"/>-->
+                                        <!--</tree>-->
+                                        <!--<form context="{'default_sefip_id': self.id}">-->
+                                            <!--<group>-->
+                                                <!--<field name="write_date" readonly="1"/>-->
+                                                <!--<field name="sefip_id" invisible="1"/>-->
+                                                <!--<field name="name"/>-->
+                                                <!--<field name="type"/>-->
+                                                <!--<field name="attachment_ids" widget="many2many_binary"/>-->
+                                            <!--</group>-->
+                                        <!--</form>-->
+                                    <!--</field>-->
+                                <!--</group>-->
+                            <!--</page>-->
+
+                            <page string="Contratos">
+                                <group string="Contratos na DIRF">
+                                    <button name="buscar_contratos" string="Buscar Contratos" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                                    <newline />
+                                    <form>
+                                        <sheet>
+                                            <field nolabel="1" name="contract_ids" />
+                                        </sheet>
+                                    </form>
+                                </group>
+                            </page>
+
+                            <page string="Prévia DIRF">
+                                <group string="Prévia DIRF">
+                                    <field nolabel="1" name="dirf"/>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </footer>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               widget="mail_followers"
+                               groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record model="ir.ui.view" id="hr_dirf_tree_view">
+            <field name="name">hr.dirf.tree (in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.dirf</field>
+            <field name="arch" type="xml">
+                <tree string="DIRF">
+                    <field name="ano"/>
+                    <field name="company_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="hr_dirf_act_window">
+            <field name="name">DIRF</field>
+            <field name="res_model">hr.dirf</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- Menu -->
+        <record model="ir.ui.menu" id="hr_dirf_menu">
+            <field name="name">DIRF</field>
+            <field name="parent_id" ref="l10n_br_hr_arquivos_governo.menu_hr_root_payroll_relatorios"/>
+            <field name="action" ref="hr_dirf_act_window"/>
+            <field name="sequence" eval="10"/>
+        </record>
+
+    </data>
+</openerp>
