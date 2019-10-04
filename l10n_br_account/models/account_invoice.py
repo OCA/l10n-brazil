@@ -70,7 +70,8 @@ class AccountInvoice(models.Model):
             'account.move.line'].browse(list(set(payment_lines)))
 
     @api.multi
-    @api.depends('move_id.line_ids')
+    @api.depends('state', 'move_id.line_ids', 'move_id.line_ids.account_id',
+                 'journal_id.revenue_expense')
     def _compute_receivables(self):
         for record in self:
             lines = self.env['account.move.line']
@@ -92,6 +93,7 @@ class AccountInvoice(models.Model):
     move_line_receivable_id = fields.Many2many(
         comodel_name='account.move.line',
         string=u'Receivables',
+        store=True,
         compute='_compute_receivables')
 
     document_serie_id = fields.Many2one(
