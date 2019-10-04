@@ -11,6 +11,7 @@ from dateutil.relativedelta import relativedelta
 
 from pyboleto.bank_api.itau import ApiItau
 
+from odoo.addons.queue_job.job import job
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from ..constantes import (
@@ -113,6 +114,7 @@ class AccountInvoice(models.Model):
         operation_id.register_post(request)
         self.bank_api_operation_ids += operation_id
 
+    @job
     @api.multi
     def register_invoice_api(self):
         for record in self:
