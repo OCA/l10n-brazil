@@ -235,6 +235,7 @@ class AccountInvoice(models.Model):
         for inv in self:
 
             # inv.transaction_id = sequence
+            inv._compute_receivables()
             for index, interval in enumerate(inv.move_line_receivable_id):
                 inv_number = inv.get_invoice_fiscal_number().split(
                     '/')[-1].zfill(8)
