@@ -68,6 +68,8 @@ class AccountInvoiceAPIConfirm(models.TransientModel):
             if len(record.invoice_ids) > 1:
                 for invoice_id in record.invoice_ids:
                     try:
+                        invoice_id.obtain_token(
+                            self.env.user.company_id.sudo())
                         invoice_id.with_delay().register_invoice_api()
                     except Exception as e:
                         _logger.debug('Erro ao processar fatura %s. %s' % (
