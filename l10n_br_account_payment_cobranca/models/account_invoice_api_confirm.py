@@ -33,15 +33,15 @@ class AccountInvoiceAPIConfirm(models.TransientModel):
         active_ids = self.env['account.invoice'].browse(
             self._context.get('active_ids'))
 
-        return active_ids.search([
-            ('id', 'in', active_ids.ids),
-            ('state', '=', 'open'),
-            ('eval_state_cnab', 'not in', (
-                'added_paid', 'accepted', 'done', 'accepted_hml'))
-        ]).ids
+        valid_ids = active_ids.filtered(
+            lambda a: a.state == 'open' and a.eval_state_cnab not in [
+                'added_paid', 'accepted', 'done', 'accepted_hml']).ids
+
+        return valid_ids
 
     @api.model
     def _default_environment(self):
+        # TODO: Multi-company approach
         active_ids = self.env['account.invoice'].browse(
             self._context.get('active_ids'))
         environment = active_ids[:1].partner_id.company_id.environment
