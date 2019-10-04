@@ -63,10 +63,19 @@ class AccountInvoiceAPIConfirm(models.TransientModel):
 
     @api.multi
     def api_register_confirm(self):
+        # TODO: Redundant code
         for record in self:
-            for invoice_id in record.invoice_ids:
-                try:
-                    invoice_id.register_invoice_api()
-                except Exception as e:
-                    _logger.debug('Erro ao processar fatura %s. %s' % (
-                        invoice_id.number, str(e)))
+            if len(record.invoice_ids) > 1:
+                for invoice_id in record.invoice_ids:
+                    try:
+                        invoice_id.with_delay().register_invoice_api()
+                    except Exception as e:
+                        _logger.debug('Erro ao processar fatura %s. %s' % (
+                            invoice_id.number, str(e)))
+            else:
+                for invoice_id in record.invoice_ids:
+                    try:
+                        invoice_id.register_invoice_api()
+                    except Exception as e:
+                        _logger.debug('Erro ao processar fatura %s. %s' % (
+                            invoice_id.number, str(e)))
