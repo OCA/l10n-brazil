@@ -114,6 +114,50 @@ class AccountInvoice(models.Model):
         operation_id.register_post(request)
         self.bank_api_operation_ids += operation_id
 
+    def obtain_token(self, company_id):
+        """
+        Método para buscar ou atualizar o Token da empresa
+        :param company_id: Empresa
+        :return: O Token da empresa
+        """
+
+        token = company_id.api_itau_token
+        if not token or company_id.api_itau_token_due_datetime <= \
+                fields.Datetime.now():
+
+            client_id = company_id.client_id
+            client_secret = company_id.client_secret
+            endpoint = company_id.api_endpoint
+
+            token_request = False
+            try:
+                token_request = ApiItau.generate_api_key(
+                    client_id, client_secret, endpoint)
+                token_request_dict = json.loads(token_request.content)
+                token = token_request_dict.get('access_token')
+                company_id.api_itau_token = token
+                company_id.api_itau_token_due_datetime = \
+                    fields.Datetime.context_timestamp(
+                        self, datetime.now()) + relativedelta(
+                        seconds=token_request_dict.get('expires_in'))
+
+            except Exception as e:
+                company_id.api_itau_token = ''
+                company_id.api_itau_token_due_datetime = \
+                    fields.Datetime.now()
+                raise UserError(_(
+                    u"Erro na obtenção do Token de acesso à Api. %s"
+                ) % str(e))
+            finally:
+                self.create_bank_api_operation(
+                    token_request,
+                    operation_type='token_request',
+                    environment=environment,
+                )
+                self._cr.commit()
+
+        return token
+
     @job
     @api.multi
     def register_invoice_api(self):
@@ -130,42 +174,11 @@ class AccountInvoice(models.Model):
 
             company_id = record.partner_id.company_id.sudo()
 
-            client_id = company_id.client_id
-            client_secret = company_id.client_secret
             itau_key = company_id.itau_key
-            endpoint = company_id.api_endpoint
             barcode_endpoint = company_id.raiz_endpoint
             environment = company_id.environment
 
-            token = company_id.api_itau_token
-            if not token or company_id.api_itau_token_due_datetime <= \
-                    fields.Datetime.now():
-                token_request = False
-                try:
-                    token_request = ApiItau.generate_api_key(
-                        client_id, client_secret, endpoint)
-                    token_request_dict = json.loads(token_request.content)
-                    token = token_request_dict.get('access_token')
-                    company_id.api_itau_token = token
-                    company_id.api_itau_token_due_datetime = \
-                        fields.Datetime.context_timestamp(
-                            record, datetime.now()) + relativedelta(
-                            seconds=token_request_dict.get('expires_in'))
-
-                except Exception as e:
-                    company_id.api_itau_token = ''
-                    company_id.api_itau_token_due_datetime = \
-                        fields.Datetime.now()
-                    raise UserError(_(
-                        u"Erro na obtenção do Token de acesso à Api. %s"
-                    ) % str(e))
-                finally:
-                    record.create_bank_api_operation(
-                        token_request,
-                        operation_type='token_request',
-                        environment=environment,
-                    )
-                    self._cr.commit()
+            token = record.obtain_token(company_id)
 
             for boleto in boleto_list:
                 ApiItau.convert_to(boleto, tipo_ambiente=environment)
