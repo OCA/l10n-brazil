@@ -7,7 +7,9 @@ from __future__ import (
 )
 
 from openerp import api, fields, models
-from .arquivo_dirf import DIRF
+from openerp.exceptions import Warning
+
+from .arquivo_dirf import DIRF, Beneficiario
 
 import re
 
@@ -116,19 +118,15 @@ class L10nBrHrDirf(models.Model):
 
     @api.depends('company_id', 'ano')
     def _compute_name(self):
-        """
-        """
         for record in self:
             if record.company_id and record.ano:
                 record.name = \
                     'DIRF - {} - {}'.format(record.ano, record.company_id.name)
 
-
     @api.multi
     def buscar_contratos(self):
         """
         Preencher contratos que irao compor a DIRF
-
         """
         for record in self:
 
@@ -146,10 +144,63 @@ class L10nBrHrDirf(models.Model):
                 record.contract_ids = self.env['hr.contract'].search(domain)
 
     @api.multi
+    def buscar_holerites(self, contract_id, ano):
+        """
+        """
+        for record in self:
+            domain = [
+                ('contract_id', '=', contract_id.id),
+                ('ano', '=', int(ano)),
+                ('tipo_de_folha','in', ['normal','decimo_terceiro']),
+                ('is_simulacao', '=', False),
+                ('state', 'in', ['done', 'verify']),
+            ]
+            return self.env['hr.payslip'].search(domain)
+
+
+    @api.multi
+    def get_valor_bruto_mes(self, holerites_ids, mes, tipo='normal'):
+        """
+        """
+        holerites_ids = \
+            holerites_ids.filtered(lambda x: x.tipo_de_folha == tipo)
+        if tipo == 'decimo_terceiro':
+            total = sum(holerites_ids.mapped('line_ids').
+                        filtered(lambda x: x.code == 'BRUTO').mapped('total'))
+        else:
+            holerite_id = holerites_ids.filtered(lambda x: x.mes_do_ano2 == mes)
+            if len(holerite_id) > 1:
+                raise Warning(
+                    'Mais de 1 Holerite encontrado para o mesmo Funcionário'
+                    ' no mesmo período.\n{} - {}/{}'.format(
+                    holerite_id[0].employee_id.name, mes, self.ano))
+            line_id = holerite_id.line_ids.filtered(lambda x: x.code == 'BRUTO')
+            total = line_id.total
+
+        return total
+
+    @api.multi
+    def populate_beneficiario(self, beneficiario, contract_id, ano):
+        for record in self:
+            holerites_ids = self.buscar_holerites(contract_id, ano)
+            beneficiario.janeiro = self.get_valor_bruto_mes(holerites_ids, 1)
+            beneficiario.fevereiro = self.get_valor_bruto_mes(holerites_ids, 2)
+            beneficiario.marco = self.get_valor_bruto_mes(holerites_ids, 3)
+            beneficiario.abril = self.get_valor_bruto_mes(holerites_ids, 4)
+            beneficiario.maio = self.get_valor_bruto_mes(holerites_ids, 5)
+            beneficiario.junho = self.get_valor_bruto_mes(holerites_ids, 6)
+            beneficiario.julho = self.get_valor_bruto_mes(holerites_ids, 7)
+            beneficiario.agosto = self.get_valor_bruto_mes(holerites_ids, 8)
+            beneficiario.setembro = self.get_valor_bruto_mes(holerites_ids, 9)
+            beneficiario.outubro = self.get_valor_bruto_mes(holerites_ids, 10)
+            beneficiario.novembro = self.get_valor_bruto_mes(holerites_ids, 11)
+            beneficiario.dezembro = self.get_valor_bruto_mes(holerites_ids, 12)
+            beneficiario.decimo_terceiro = self.get_valor_bruto_mes(
+                holerites_ids, 13, tipo='decimo_terceiro')
+
+    @api.multi
     def gerar_dirf(self):
         """
-
-        :return:
         """
         self.ensure_one()
 
@@ -179,6 +230,21 @@ class L10nBrHrDirf(models.Model):
         dirf.data_do_evento_decpj = ''
         print(dirf.DECPJ)
 
-        # Identificaão do Código da receita - IDREC
-        dirf.codigo_da_receita = self.codigo_receita
+        # Identificação do Código da receita - IDREC
+        dirf.codigo_da_receita = '0651'
         print(dirf.IDREC)
+
+        # Organizar contratos
+        sorted_contract_ids = \
+            self.contract_ids[:8].sorted(key=lambda x: x.employee_id.cpf)
+
+        for contract_id in sorted_contract_ids:
+            beneficiario = Beneficiario()
+            beneficiario.cpf_bpfdec = contract_id.employee_id.cpf
+            beneficiario.nome_bpfdec = contract_id.employee_id.name
+
+            self.populate_beneficiario(beneficiario, contract_id, self.ano)
+
+            dirf.add_beneficiario_PF(beneficiario)
+
+        print(dirf.BPFDEC)

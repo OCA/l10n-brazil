@@ -3,7 +3,38 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from .abstract_arquivos_governo import AbstractArquivosGoverno
+import re
 
+
+class Beneficiario():
+
+    def __init__(self):
+        # 3.6 Registro de beneficiário pessoa física do declarante
+        # (identificador BPFDEC)
+        self.identificador_de_registro_bpfdec = 'BPFDEC'
+        self.cpf_bpfdec = ''
+        self.nome_bpfdec = ''
+        self.data_laudo = ''
+        self.identificacao_alimentado_bpfdec = 'N'
+        self.identificacao_previdencia_complementar = 'N'
+
+        self.identificador_de_registro_mensal = 'RTRT'
+        self.janeiro = ''
+        self.fevereiro = ''
+        self.marco = ''
+        self.abril = ''
+        self.maio = ''
+        self.junho = ''
+        self.julho = ''
+        self.agosto = ''
+        self.setembro = ''
+        self.outubro = ''
+        self.novembro = ''
+        self.dezembro = ''
+        self.decimo_terceiro = ''
+
+    def __str__(self):
+        return 'BPFDEC - {}'.format(self.nome_bpfdec[:10])
 
 class DIRF(AbstractArquivosGoverno):
 
@@ -70,12 +101,7 @@ class DIRF(AbstractArquivosGoverno):
 
         # 3.6 Registro de beneficiário pessoa física do declarante
         # (identificador BPFDEC)
-        self.identificador_de_registro_bpfdec = 'BPFDEC'
-        self.cpf_bpfdec = ''
-        self.nome_bpfdec = ''
-        self.data_laudo = ''
-        self.identificacao_alimentado_bpfdec = ''
-        self.identificacao_previdencia_complementar = ''
+        self.bpfdec = []
 
         # 3.7 Registro de beneficiário pessoa jurídica do declarante
         # (identificador BPJDEC)
@@ -356,18 +382,67 @@ class DIRF(AbstractArquivosGoverno):
         decpj += self._validar(self.data_do_evento_decpj, 8, tipo='D', preenchimento='variavel')
         return decpj
 
+    @property
+    def IDREC(self):
+        idrec = self._validar(self.identificador_de_registro_idrec, 5)
+        idrec += self._validar(self.codigo_da_receita, 4, tipo='N', preenchimento='fixo')
+        return idrec
+
+    @property
+    def BPFDEC(self):
+        beneficiario = ''
+        for record in self.bpfdec:
+            bpfdec = self._validar(record.identificador_de_registro_bpfdec, 6)
+            bpfdec += self._validar(record.cpf_bpfdec, 11, tipo='N')
+            bpfdec += self._validar(record.nome_bpfdec, 60, tipo='A', preenchimento='variavel')
+            beneficiario += bpfdec
+            beneficiario += '\n'
+
+            rtrt = self._validar('RTRT', 5, preenchimento='variavel')
+            rtrt += self._validar(record.janeiro, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.fevereiro, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.marco, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.abril, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.maio, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.junho, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.julho, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.agosto, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.setembro, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.outubro, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.novembro, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.dezembro, 13, tipo='V', preenchimento='variavel')
+            rtrt += self._validar(record.decimo_terceiro, 13, tipo='V', preenchimento='variavel')
+            beneficiario += rtrt
+            beneficiario += '\n'
+
+        return beneficiario
+
+    def add_beneficiario_PF(self, bpfdec):
+        """
+        :param bpfdec: class BPFDEC
+        """
+        if not isinstance(bpfdec, Beneficiario):
+            raise ('Parâmetro no formato incorreto! Para adicionar '
+                   'beneficiário utilize a classe ```Beneficiario```')
+        self.bpfdec.append(bpfdec)
+
     def _validar(self, word, tam, tipo='AN', preenchimento='fixo'):
         """
         Sobrescrever a função de validacao de palavras da classe abstrata para
          adcionar pipe no final de todos campos
         """
-
         # Nao permitir campos preechidos com pipe
-        word = word.replace('|', '') if word else ''
+        if tipo in ['A', 'AN']:
+            word = word.replace('|', '') if word else ''
 
         # Validar campo
         if preenchimento == 'variavel':
-            tam = len(word) if len(word) < tam else tam
+            if tipo in ['A', 'AN']:
+                tam = len(word) if len(word) < tam else tam
+
+            if tipo in ['V']:
+                word = str(int(word * 100))
+                tam = len(word)
 
         word = super(DIRF, self)._validar(word, tam, tipo)
 
