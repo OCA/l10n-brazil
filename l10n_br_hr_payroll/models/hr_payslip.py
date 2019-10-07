@@ -1462,7 +1462,8 @@ class HrPayslip(models.Model):
             'ano': ano,
             'date_from': data_inicio,
             'date_to': data_fim,
-            'employee_id': self.contract_id.employee_id.id
+            'employee_id': self.contract_id.employee_id.id,
+            'data_afastamento': self.data_afastamento,
         }
         if tipo_simulacao == "aviso_previo":
             vals.update({'dias_aviso_previo': self.dias_aviso_previo})
@@ -2248,12 +2249,25 @@ class HrPayslip(models.Model):
         if payslip.contract_id.data_admissao_cedente:
             avos_13 = mes_do_ano
 
-        if payslip.contract_id.date_end:
-            if datetime.strptime(payslip.contract_id.date_end, '%Y-%m-%d').month \
-                    == mes_do_ano:
-                dia_fim_contrato = \
-                    fields.Date.from_string(payslip.contract_id.date_end).day
+        # Quando ja existir data final no contrato (rescisao) ou
+        # for uma simulacao com data de afastamento
+        if payslip.contract_id.date_end or payslip.data_afastamento:
+
+            if payslip.contract_id.date_end:
+                data_final = \
+                    datetime.strptime(payslip.contract_id.date_end, '%Y-%m-%d')
+
+            if payslip.data_afastamento:
+                data_final = \
+                    datetime.strptime(payslip.data_afastamento, '%Y-%m-%d')
+                data_final += relativedelta(days=-1)
+
+            if data_final.month == mes_do_ano:
+
+                dia_fim_contrato = data_final.day
+
                 if dia_fim_contrato < 15:
+
                     avos_13 -= 1
         #
         # Quando for rescisao, verificar se ja foi calculado o holerite do mes.

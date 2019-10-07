@@ -50,3 +50,4 @@ def log_prof_data():
 def clear_prof_data():
     global PROF_DATA
     PROF_DATA = OrderedDict()
+    _logger.info('\n')
