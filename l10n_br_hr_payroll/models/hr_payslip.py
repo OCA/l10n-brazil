@@ -2536,7 +2536,7 @@ class HrPayslip(models.Model):
                     #
                     if (specific_item.get('type') == u'benefit'and not (
                             specific_item.get('ref') and
-                            specific_item['ref'] in references.get(rule.id))):
+                            specific_item['ref'] in references.get(rule.id, []))):
 
                         amount, qty, rate, ref = specific_item['value']
 
@@ -2550,7 +2550,7 @@ class HrPayslip(models.Model):
                     #
                     elif (specific_item.get('type') == u'contract' and not (
                             specific_item.get('ref') and
-                            specific_item['ref'] in references.get(rule.id))):
+                            specific_item['ref'] in references.get(rule.id, []))):
                         amount, qty, rate, ref = specific_item['value']
 
                         del lista_rubricas_especificas[0]
