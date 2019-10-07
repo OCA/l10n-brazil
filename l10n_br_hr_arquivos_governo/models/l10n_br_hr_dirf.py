@@ -9,7 +9,7 @@ from __future__ import (
 from openerp import api, fields, models
 from openerp.exceptions import Warning
 
-from .arquivo_dirf import DIRF, Beneficiario
+from .arquivo_dirf import DIRF, Beneficiario, ValoresMensais
 
 import re
 
@@ -159,22 +159,24 @@ class L10nBrHrDirf(models.Model):
 
 
     @api.multi
-    def get_valor_bruto_mes(self, holerites_ids, mes, tipo='normal'):
+    def get_valor_mes(self, holerites_ids, mes, rubrica, tipo='normal'):
         """
         """
         holerites_ids = \
             holerites_ids.filtered(lambda x: x.tipo_de_folha == tipo)
         if tipo == 'decimo_terceiro':
-            total = sum(holerites_ids.mapped('line_ids').
-                        filtered(lambda x: x.code == 'BRUTO').mapped('total'))
+            total = sum(holerites_ids.mapped('line_ids').filtered(
+                lambda x: x.code == rubrica[1]).mapped('total'))
         else:
-            holerite_id = holerites_ids.filtered(lambda x: x.mes_do_ano2 == mes)
+            holerite_id = \
+                holerites_ids.filtered(lambda x: x.mes_do_ano2 == mes)
             if len(holerite_id) > 1:
                 raise Warning(
                     'Mais de 1 Holerite encontrado para o mesmo Funcionário'
                     ' no mesmo período.\n{} - {}/{}'.format(
                     holerite_id[0].employee_id.name, mes, self.ano))
-            line_id = holerite_id.line_ids.filtered(lambda x: x.code == 'BRUTO')
+            line_id = \
+                holerite_id.line_ids.filtered(lambda x: x.code == rubrica[1])
             total = line_id.total
 
         return total
@@ -182,21 +184,33 @@ class L10nBrHrDirf(models.Model):
     @api.multi
     def populate_beneficiario(self, beneficiario, contract_id, ano):
         for record in self:
+
+            RUBRICAS_DIRF = [
+                ('RTRT','BRUTO'),
+                ('RTPO','INSS'),
+                ('RTIRF','IRRF'),
+            ]
+
             holerites_ids = self.buscar_holerites(contract_id, ano)
-            beneficiario.janeiro = self.get_valor_bruto_mes(holerites_ids, 1)
-            beneficiario.fevereiro = self.get_valor_bruto_mes(holerites_ids, 2)
-            beneficiario.marco = self.get_valor_bruto_mes(holerites_ids, 3)
-            beneficiario.abril = self.get_valor_bruto_mes(holerites_ids, 4)
-            beneficiario.maio = self.get_valor_bruto_mes(holerites_ids, 5)
-            beneficiario.junho = self.get_valor_bruto_mes(holerites_ids, 6)
-            beneficiario.julho = self.get_valor_bruto_mes(holerites_ids, 7)
-            beneficiario.agosto = self.get_valor_bruto_mes(holerites_ids, 8)
-            beneficiario.setembro = self.get_valor_bruto_mes(holerites_ids, 9)
-            beneficiario.outubro = self.get_valor_bruto_mes(holerites_ids, 10)
-            beneficiario.novembro = self.get_valor_bruto_mes(holerites_ids, 11)
-            beneficiario.dezembro = self.get_valor_bruto_mes(holerites_ids, 12)
-            beneficiario.decimo_terceiro = self.get_valor_bruto_mes(
-                holerites_ids, 13, tipo='decimo_terceiro')
+
+            for rubrica in RUBRICAS_DIRF:
+                valores_mensais = ValoresMensais()
+                valores_mensais.identificador_de_registro_mensal = rubrica[0]
+                valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
+                valores_mensais.fevereiro = self.get_valor_mes(holerites_ids, 2, rubrica)
+                valores_mensais.marco = self.get_valor_mes(holerites_ids, 3, rubrica)
+                valores_mensais.abril = self.get_valor_mes(holerites_ids, 4, rubrica)
+                valores_mensais.maio = self.get_valor_mes(holerites_ids, 5, rubrica)
+                valores_mensais.junho = self.get_valor_mes(holerites_ids, 6, rubrica)
+                valores_mensais.julho = self.get_valor_mes(holerites_ids, 7, rubrica)
+                valores_mensais.agosto = self.get_valor_mes(holerites_ids, 8, rubrica)
+                valores_mensais.setembro = self.get_valor_mes(holerites_ids, 9, rubrica)
+                valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
+                valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
+                valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
+                valores_mensais.decimo_terceiro = self.get_valor_mes(
+                holerites_ids, 13, rubrica, tipo='decimo_terceiro')
+                beneficiario.add_valores_mensais(valores_mensais)
 
     @api.multi
     def gerar_dirf(self):
@@ -245,6 +259,6 @@ class L10nBrHrDirf(models.Model):
 
             self.populate_beneficiario(beneficiario, contract_id, self.ano)
 
-            dirf.add_beneficiario_PF(beneficiario)
+            dirf.add_beneficiario(beneficiario)
 
         print(dirf.BPFDEC)

@@ -3,22 +3,14 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from .abstract_arquivos_governo import AbstractArquivosGoverno
-import re
 
 
-class Beneficiario():
+class ValoresMensais():
 
     def __init__(self):
-        # 3.6 Registro de beneficiário pessoa física do declarante
-        # (identificador BPFDEC)
-        self.identificador_de_registro_bpfdec = 'BPFDEC'
-        self.cpf_bpfdec = ''
-        self.nome_bpfdec = ''
-        self.data_laudo = ''
-        self.identificacao_alimentado_bpfdec = 'N'
-        self.identificacao_previdencia_complementar = 'N'
-
-        self.identificador_de_registro_mensal = 'RTRT'
+        """
+        """
+        self.identificador_de_registro_mensal = ''
         self.janeiro = ''
         self.fevereiro = ''
         self.marco = ''
@@ -34,7 +26,62 @@ class Beneficiario():
         self.decimo_terceiro = ''
 
     def __str__(self):
+        return 'ValoresMensais - {}'.format(self.identificador_de_registro_mensal)
+
+
+class Beneficiario():
+
+    def __init__(self):
+        # 3.6 Registro de beneficiário pessoa física do declarante
+        # (identificador BPFDEC)
+        self.identificador_de_registro_bpfdec = 'BPFDEC'
+        self.cpf_bpfdec = ''
+        self.nome_bpfdec = ''
+        self.data_laudo = ''
+        self.identificacao_alimentado_bpfdec = 'N'
+        self.identificacao_previdencia_complementar = 'N'
+
+        # 3.19 Registro de valores mensais (identificadores RTRT, RTPO, RTPP,
+        # RTFA, RTSP, RTEP, RTDP, RTPA, RTIRF, CJAA, CJAC, ESRT, ESPO, ESPP,
+        # ESFA, ESSP, ESEP, ESDP, ESPA, ESIR, ESDJ, RIP65, RIDAC, RIIRP, RIAP,
+        # RIMOG, RIVC, RIBMR, RICAP, RISCP, RIMUN, RISEN e DAJUD)
+        self.valores_mensais = []
+
+    def __str__(self):
         return 'BPFDEC - {}'.format(self.nome_bpfdec[:10])
+
+    def add_valores_mensais(self, valores_mensais):
+        """
+        :param  class ValoresMensais
+        """
+        if not isinstance(valores_mensais, ValoresMensais):
+            raise ('Parâmetro no formato incorreto! Para adicionar '
+                   'beneficiário utilize a classe ```ValoresMensais```')
+        self.bpfdec.append(valores_mensais)
+
+    @property
+    def VALORESMENSAIS(self):
+        """
+        :return:
+        """
+        for record in self.valores_mensais:
+            # Valores mensais do Beneficiario
+            vm  = self._validar(record.identificador_de_registro_mensal, 5, preenchimento='variavel')
+            vm += self._validar(record.janeiro, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.fevereiro, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.marco, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.abril, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.maio, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.junho, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.julho, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.agosto, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.setembro, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.outubro, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.novembro, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.dezembro, 13, tipo='V', preenchimento='variavel')
+            vm += self._validar(record.decimo_terceiro, 13, tipo='V', preenchimento='variavel')
+            beneficiario += vm
+            beneficiario += '\n'
 
 class DIRF(AbstractArquivosGoverno):
 
@@ -189,24 +236,7 @@ class DIRF(AbstractArquivosGoverno):
         self.data_nascimento_infpa = ''
         self.relacao_dependencia_infpa = ''
 
-        # 3.19 Registro de valores mensais (identificadores RTRT, RTPO, RTPP,
-        # RTFA, RTSP, RTEP, RTDP, RTPA, RTIRF, CJAA, CJAC, ESRT, ESPO, ESPP,
-        # ESFA, ESSP, ESEP, ESDP, ESPA, ESIR, ESDJ, RIP65, RIDAC, RIIRP, RIAP,
-        # RIMOG, RIVC, RIBMR, RICAP, RISCP, RIMUN, RISEN e DAJUD)
-        self.identificador_de_registro_mensal = ''
-        self.janeiro = ''
-        self.fevereiro = ''
-        self.marco = ''
-        self.abril = ''
-        self.maio = ''
-        self.junho = ''
-        self.julho = ''
-        self.agosto = ''
-        self.setembro = ''
-        self.outubro = ''
-        self.novembro = ''
-        self.dezembro = ''
-        self.decimo_terceiro = ''
+
 
         # 3.20 Registro de valores anuais isentos/sem retenção
         # (identificadores RIL96, RIPTS e RIRSR)
@@ -398,26 +428,11 @@ class DIRF(AbstractArquivosGoverno):
             beneficiario += bpfdec
             beneficiario += '\n'
 
-            rtrt = self._validar('RTRT', 5, preenchimento='variavel')
-            rtrt += self._validar(record.janeiro, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.fevereiro, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.marco, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.abril, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.maio, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.junho, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.julho, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.agosto, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.setembro, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.outubro, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.novembro, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.dezembro, 13, tipo='V', preenchimento='variavel')
-            rtrt += self._validar(record.decimo_terceiro, 13, tipo='V', preenchimento='variavel')
-            beneficiario += rtrt
-            beneficiario += '\n'
+
 
         return beneficiario
 
-    def add_beneficiario_PF(self, bpfdec):
+    def add_beneficiario(self, bpfdec):
         """
         :param bpfdec: class BPFDEC
         """
