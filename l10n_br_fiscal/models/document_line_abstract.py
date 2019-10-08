@@ -57,6 +57,12 @@ class DocumentLineAbstract(models.AbstractModel):
     name = fields.Text(
         string='Name')
 
+    # used mostly to enable _inherits of account.invoice on fiscal_document
+    # when existing invoices have no fiscal document.
+    active = fields.Boolean(
+        string='Active',
+        default=True)
+
     document_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.abstract',
         string='Document')
@@ -125,7 +131,7 @@ class DocumentLineAbstract(models.AbstractModel):
         string='Fiscal Price',
         digits=dp.get_precision('Product Price'))
 
-    discount = fields.Monetary(
+    discount = fields.Float(
         string='Discount')
 
     fiscal_type = fields.Selection(
@@ -510,7 +516,7 @@ class DocumentLineAbstract(models.AbstractModel):
             self.fiscal_price = self.price
             self.fiscal_quantity = self.quantity
 
-        if self.uom_id != self.uot_id:
+        if self.uom_id != self.uot_id:  # TODO else: ?
             self.fiscal_price = (self.price / self.product_id.uot_factor)
             self.fiscal_quantity = (self.quantity * self.product_id.uot_factor)
 

@@ -25,13 +25,19 @@ class DocumentAbstract(models.AbstractModel):
 
     number = fields.Char(
         string='Number',
-        required=True,
+#        required=True,
         index=True)
 
     key = fields.Char(
         string='key',
-        required=True,
+#        required=True,
         index=True)
+
+    # used mostly to enable _inherits of account.invoice on fiscal_document
+    # when existing invoices have no fiscal document.
+    active = fields.Boolean(
+        string='Active',
+        default=True)
 
     issuer = fields.Selection(
         selection=[
@@ -43,7 +49,9 @@ class DocumentAbstract(models.AbstractModel):
 
     document_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.type',
-        required=True)
+        related='document_serie_id.document_type_id'
+    )#,
+#        required=True)
 
     document_electronic = fields.Boolean(
         related='document_type_id.electronic',
@@ -58,16 +66,16 @@ class DocumentAbstract(models.AbstractModel):
     document_serie_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.serie',
         domain="[('active', '=', True),"
-               "('document_type_id', '=', document_type_id)]",
-        required=True)
+               "('document_type_id', '=', document_type_id)]")#,
+#        required=True)
 
     document_serie = fields.Char(
         string='Serie Number')
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
-        string='Partner',
-        required=True)
+        string='Partner')
+#        required=True)
 
     partner_legal_name = fields.Char(
         string='Legal Name')
