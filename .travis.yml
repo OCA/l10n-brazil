@@ -11,9 +11,6 @@ addons:
     packages:
       - expect-dev  # provides unbuffer utility
       - python-lxml  # because pip installation is slow
-      - libxml2-dev
-      - libxmlsec1-dev
-      - libxslt-dev
 
 env:
   global:
@@ -25,17 +22,12 @@ env:
   - TESTS="1" ODOO_REPO="odoo/odoo" MAKEPOT="1"
   - TESTS="1" ODOO_REPO="OCA/OCB"
 
-
 install:
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
 
-before_script:
-  - chmod +x configure_locale.sh
-
 script:
-  - sudo ./configure_locale.sh
   - travis_run_tests
 
 after_success:
