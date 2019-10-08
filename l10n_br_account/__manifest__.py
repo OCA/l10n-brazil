@@ -25,7 +25,6 @@
         'views/account_tax_template_view.xml',
 
         # 'security/ir.model.access.csv',
-        # 'data/l10n_br_account_data.xml',
         # 'views/account_view.xml',
         # 'views/account_invoice_view.xml',
         # 'views/product_view.xml',
@@ -35,6 +34,7 @@
     'demo': [
         # 'demo/base_demo.xml'
     ],
+    'pre_init_hook': 'pre_init_hook',
     'installable': True,
     'auto_install': False,
 }
