@@ -50,5 +50,6 @@ class AccountInvoiceLine(models.Model):
         comodel_name='l10n_br_fiscal.document.line',
         string='Fiscal Document Line',
         required=True,
+        ondelete="cascade",
         default=lambda self: self.env.ref(
             'l10n_br_account.fiscal_document_line_dummy'))
