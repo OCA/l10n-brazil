@@ -23,7 +23,6 @@ class Company(models.Model):
     _name = 'res.company'
     _inherit = ['res.company', 'format.address.mixin']
 
-    @api.multi
     def _compute_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
 
