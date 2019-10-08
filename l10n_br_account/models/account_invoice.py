@@ -1,13 +1,55 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
+# Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api
+
+
+class FiscalInvoice(models.Model):
+    _inherit = 'l10n_br_fiscal.document'
+
+    # the following fields collide with account.invoice fields so we use
+    # related field alias to be able to write them through account.invoice
+    fiscal_doc_partner_id = fields.Many2one(
+        related='partner_id', readonly=False)
+    fiscal_doc_date = fields.Date(
+        related='date', readonly=False)
+    fiscal_doc_company_id = fields.Many2one(
+        related='company_id', readonly=False)
+    fiscal_doc_currency_id = fields.Many2one(
+        related='currency_id', readonly=False)
+    fiscal_doc_state = fields.Selection(
+        related='state', readonly=False)
+
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
     _order = 'date_invoice DESC, number DESC'
 
+    _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
+
+    # initial account.invoice inherits on fiscal.document that are
+    # disable with active=False in their fiscal_document table.
+    # To make these invoices still visible, we set active=True
+    # in the invoice table.
+    active = fields.Boolean(
+        string='Active',
+        default=True)
+
+    # this default should be overwritten to False in a module pretending to
+    # create fiscal documents from the invoices. But this default here
+    # allows to install the l10n_br_account module without creating issues
+    # with the existing Odoo invoice (demo or not).
+    fiscal_document_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document',
+        string='Fiscal Document',
+        required=True,
+        default=lambda self: self.env.ref(
+            'l10n_br_account.fiscal_document_dummy'))
+
+
+if False: # TODO
     @api.multi
     @api.depends('invoice_line_ids.price_subtotal',
                  'tax_line_ids.amount', 'currency_id',
