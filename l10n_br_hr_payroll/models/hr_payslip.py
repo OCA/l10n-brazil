@@ -78,12 +78,14 @@ class HrPayslip(models.Model):
                         ('manager_id','=', holerite.employee_id.id),
                     ])
 
+                    validacoes = ''
+
                     if department_id:
-                        raise exceptions.Warning(
+                        validacoes += \
                             _('Funcionário como Gestor do(s) departamento(s):'
                               '\n{}. \nDefinir novo gestor antes de finalizar '
-                              'procedimento,'.format(
-                                '\n'.join(department_id.mapped('name')))))
+                              'procedimento. \n\n'.format(
+                                '\n'.join(department_id.mapped('name'))))
 
                     holidays_ids = self.env['hr.holidays'].search([
                         ('state','=','confirm'),
@@ -92,9 +94,8 @@ class HrPayslip(models.Model):
                     ])
 
                     if holidays_ids:
-                        raise exceptions.Warning(
-                            _('Evento pendente:\n {}'
-                              .format('\n'.join(holidays_ids.mapped('name')))))
+                        validacoes += _('Evento pendente:\n {} \n\n'
+                              .format('\n'.join(holidays_ids.mapped('name'))))
 
                     ligacoes_ids = self.env['hr.telefonia.line'].search([
                         ('state','=','open'),
@@ -102,13 +103,19 @@ class HrPayslip(models.Model):
                     ])
 
                     if ligacoes_ids:
-                        raise exceptions.Warning(
-                            _('Ligação em aberto:\n {}'
-                              .format('\n'.join(ligacoes_ids.mapped('name')))))
+                        validacoes += \
+                            _('Ligação em aberto. Atestar ligações nos '
+                              'seguintes ramais:\n {} \n\n'.format(
+                                ' - '.join(ligacoes_ids.mapped('ramal.name'))))
 
-                    # Desvincular ramais
                     if holerite.employee_id.ramais:
-                        holerite.employee_id.ramais = False
+                        validacoes += \
+                            _('Ramais ainda na responsabilidade do '
+                              'funcionário:\n {} '.format(' - '.join(
+                            holerite.employee_id.ramais.mapped('name'))))
+
+                    if validacoes:
+                        raise exceptions.Warning(validacoes)
 
                 # setar as ligacoes telefonicas como debitadas
                 for ligacao_id in holerite.ligacoes_ids:
