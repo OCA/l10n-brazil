@@ -11,10 +11,6 @@
 "access_hr_contract_salary_rule","access_hr_contract_salary_rule","model_hr_contract_salary_rule","",1,0,0,0
 "create_hr_contract_salary_rule","create_hr_contract_salary_rule","model_hr_contract_salary_rule","base.group_hr_manager",1,1,1,1
 "access_l10n_br_hr_medias","access_l10n_br_hr_medias","model_l10n_br_hr_medias","",1,0,0,0
-"access_hr_exame_medico","access_hr_exame_medico","model_hr_exame_medico","",1,0,0,0
-"create_hr_exame_medico","create_hr_exame_medico","model_hr_exame_medico","base.group_hr_manager",1,1,1,1
-"access_hr_curso","access_hr_curso","model_hr_curso","",1,0,0,0
-"create_hr_curso","create_hr_curso","model_hr_curso","base.group_hr_manager",1,1,1,1
 "access_hr_contract_officer","access_hr_contract_officer","model_hr_contract","base.group_hr_user",1,0,0,0
 "access_hr_payslip_worked_days_officer","access_hr_payslip_worked_days_officer","hr_payroll.model_hr_payslip_worked_days","base.group_hr_user",1,1,1,1
 "access_hr_payslip_input_officer","access_hr_payslip_input_officer","hr_payroll.model_hr_payslip_input","base.group_hr_user",1,1,1,1
