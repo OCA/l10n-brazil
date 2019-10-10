@@ -26,6 +26,10 @@
                                'required':[('type','=', 'add')]}"/>
             </field>
 
+            <field name="holiday_status_id" position="attributes">
+                <attribute name="context">{'contrato_id': contrato_id}</attribute>
+            </field>
+
             <field name="notes" position="before">
                 <field name="payroll_discount"  invisible="1" />
                 <h2><field name="message" readonly="1" /></h2>
