@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
-from erpbrasil.base import fiscal
+from erpbrasil.base.fiscal import cnpj_cpf
 from odoo.exceptions import ValidationError
 
 
@@ -111,7 +111,7 @@ class HrContract(models.Model):
     def _validate_union_cnpj(self):
         for record in self:
             if record.union_cnpj:
-                if not fiscal.validate_cnpj(record.union_cnpj):
+                if not cnpj_cpf.validar(record.union_cnpj):
                     raise ValidationError(_("Invalid union CNPJ!"))
 
     @api.onchange('job_id')
