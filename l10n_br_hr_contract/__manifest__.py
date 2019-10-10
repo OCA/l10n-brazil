@@ -23,7 +23,7 @@
     'test': [],
     'external_dependencies': {
         'python': [
-            'erpbrasil.base',
+            'erpbrasil.base.fiscal',
         ],
     },
     'installable': True,
