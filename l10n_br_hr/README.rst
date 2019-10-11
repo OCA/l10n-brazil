@@ -2,15 +2,29 @@
     :alt: License: AGPL-3
 
 Brazil Localization for HR module
-===========================================
+=================================
 
-This module adds contents used by Human Resources departments in Brazil.
+Este é o módulo base dos recursos humanos brasileiro e implementa adaptações nos modelos básicos do cadastro de Empregados e suas dependências:
+
+* Campo CPF com formatação e validação desto memso;
+* CPTS com validação;
+* PIS/PASEF;
+* Certificado de serviço militar;
+* Naturalidade;
+* Escolaridade;
+* Dependentes;
+* RG;
+* Título de eleitor;
+* Paternidade;
+* Etinia;
+* Tipo sanguíneo;
+* Incapacidade física;
+* Tipo: Funcionário / Autônomo / Terceirizado / Cedido;
 
 Installation
 ============
 
-Nothing special is needed to install this module.
-
+* Este módulo tem uma depedencia do pacote python erpbrasil.base
 
 Configuration
 =============
@@ -32,6 +46,11 @@ Contributors
 * Matheus Felix
 * Luis Felipe Mileo <mileo@kmee.com.br>
 * Daniel Sadamo Hirayama <daniel.sadamo@kmee.com.br>
+* Bianca Bartolomei <bianca.bartolomei@kmee.com.br>
+* Hendrix Costa
+* Luis Felipe do Divino
+* Luis Otávio Malta <luis.malta@kmee.com.br>
+
 
 
 Maintainer
