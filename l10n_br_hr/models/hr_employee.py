@@ -13,52 +13,14 @@ from odoo.exceptions import ValidationError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+    def _default_country(self):
+        return self.env['res.country'].search([('code', '=', 'BR')])
+    
     naturalidade = fields.Many2one(
         string='Naturalidade',
         comodel_name='res.city',
     )
-
-    def _default_country(self):
-
-        return self.env['res.country'].search([('code', '=', 'BR')])
-
-    @api.constrains('dependent_ids')
-    def _check_dependents(self):
-        self._check_dob()
-        self._check_dependent_type()
-
-    def _check_dob(self):
-        for dependent in self.dependent_ids:
-            if datetime.strptime(
-                    dependent.dependent_dob, DEFAULT_SERVER_DATE_FORMAT
-            ).date() > datetime.now().date():
-                raise ValidationError(_('Invalid birth date for dependent %s')
-                                      % dependent.dependent_name)
-
-    def _check_dependent_type(self):
-        seen = set()
-        restrictions = (
-            self.env.ref('l10n_br_hr.l10n_br_dependent_1'),
-            self.env.ref('l10n_br_hr.l10n_br_dependent_9_1'),
-            self.env.ref('l10n_br_hr.l10n_br_dependent_9_2')
-        )
-        for dependent in self.dependent_ids:
-            dep_type = dependent.dependent_type_id
-            if dep_type not in seen and dep_type in restrictions:
-                seen.add(dep_type)
-            elif dep_type in seen and dep_type in restrictions:
-                raise ValidationError(
-                    _('A dependent with the same level of relatedness'
-                      ' already exists for dependent %s')
-                    % dependent.dependent_name)
-
-    @api.constrains('pis_pasep')
-    def _validate_pis_pasep(self):
-        for record in self:
-            if record.pis_pasep and not pis.\
-                    validar(record.pis_pasep):
-                raise ValidationError(_('Invalid PIS/PASEP'))
-
+    
     pis_pasep = fields.Char(
         string='PIS/PASEP',
         size=15)
@@ -112,20 +74,9 @@ class HrEmployee(models.Model):
     cpf = fields.Char(
         string='CPF',
         store=True,
-        related='address_home_id.cnpj_cpf')
-
-    @api.onchange('cpf')
-    def onchange_cpf(self):
-        cpf = cnpj_cpf.formata(str(self.cpf))
-        if cpf:
-            self.cpf = cpf
-
-    @api.multi
-    @api.constrains('cpf')
-    def _check_cpf(self):
-        for record in self:
-            if record.cpf and not cnpj_cpf.validar(record.cpf):
-                raise ValidationError(_("CPF Invalido!"))
+        related='address_home_id.cnpj_cpf',
+        readonly=False,
+    )
 
     organ_exp = fields.Char(
         string='Dispatcher organ')
@@ -253,3 +204,53 @@ class HrEmployee(models.Model):
         default='funcionario',
         required=True,
     )
+    
+    @api.constrains('dependent_ids')
+    def _check_dependents(self):
+        self._check_dob()
+        self._check_dependent_type()
+
+    def _check_dob(self):
+        for dependent in self.dependent_ids:
+            if datetime.strptime(
+                    dependent.dependent_dob, DEFAULT_SERVER_DATE_FORMAT
+            ).date() > datetime.now().date():
+                raise ValidationError(_('Invalid birth date for dependent %s')
+                                      % dependent.dependent_name)
+
+    def _check_dependent_type(self):
+        seen = set()
+        restrictions = (
+            self.env.ref('l10n_br_hr.l10n_br_dependent_1'),
+            self.env.ref('l10n_br_hr.l10n_br_dependent_9_1'),
+            self.env.ref('l10n_br_hr.l10n_br_dependent_9_2')
+        )
+        for dependent in self.dependent_ids:
+            dep_type = dependent.dependent_type_id
+            if dep_type not in seen and dep_type in restrictions:
+                seen.add(dep_type)
+            elif dep_type in seen and dep_type in restrictions:
+                raise ValidationError(
+                    _('A dependent with the same level of relatedness'
+                      ' already exists for dependent %s')
+                    % dependent.dependent_name)
+
+    @api.constrains('pis_pasep')
+    def _validate_pis_pasep(self):
+        for record in self:
+            if record.pis_pasep and not pis.\
+                    validar(record.pis_pasep):
+                raise ValidationError(_('Invalid PIS/PASEP'))
+
+    @api.multi
+    @api.constrains('cpf')
+    def _check_cpf(self):
+        for record in self:
+            if record.cpf and not cnpj_cpf.validar(record.cpf):
+                raise ValidationError(_("CPF Invalido!"))
+                
+    @api.onchange('cpf')
+    def onchange_cpf(self):
+        cpf = cnpj_cpf.formata(str(self.cpf))
+        if cpf:
+            self.cpf = cpf
