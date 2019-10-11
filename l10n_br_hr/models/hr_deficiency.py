@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 class HrDeficiency(models.Model):
     _name = 'hr.deficiency'
+    _description = 'Deficiencies'
 
     name = fields.Char(
         string='Deficiency')
