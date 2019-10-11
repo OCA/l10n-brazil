@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class HrChronicDisease(models.Model):
     _name = 'hr.chronic.disease'
+    _description = 'Chronic Diseases'
 
     name = fields.Char(
         string='Disease name')
