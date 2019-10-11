@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 class HrNationalityCode(models.Model):
     _name = 'hr.nationality.code'
+    _description = 'Nationality Codes'
 
     name = fields.Char(
         string='Nationality')
