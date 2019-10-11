@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class HrIdentityType(models.Model):
     _name = 'hr.identity.type'
+    _description = 'Identity Types'
 
     name = fields.Char(
         string='Identity type')

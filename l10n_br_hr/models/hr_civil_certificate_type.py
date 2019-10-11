@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class HrCivilCertificateType(models.Model):
     _name = 'hr.civil.certificate.type'
+    _description = 'Civil Certificate Type'
 
     name = fields.Char(
         string='Civil certificate type')
