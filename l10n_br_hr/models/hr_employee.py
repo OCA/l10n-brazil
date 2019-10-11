@@ -13,6 +13,7 @@ from odoo.exceptions import ValidationError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+
     naturalidade = fields.Many2one(
         string='Naturalidade',
         comodel_name='res.city',
@@ -115,7 +116,7 @@ class HrEmployee(models.Model):
 
     @api.onchange('cpf')
     def onchange_cpf(self):
-        cpf = cnpj_cpf.formata(self.cpf)
+        cpf = cnpj_cpf.formata(str(self.cpf))
         if cpf:
             self.cpf = cpf
 
