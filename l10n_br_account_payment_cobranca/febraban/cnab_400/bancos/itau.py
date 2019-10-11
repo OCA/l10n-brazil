@@ -66,15 +66,12 @@ class Itau400(Cnab400):
         """
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
 
-        move_line_id = \
-            line.env['account.move.line'].search([
-                ('identificacao_titulo_empresa', '=',
-                 line.identificacao_titulo_empresa)
-            ])
+        # TODO: Garantir que o account.move.line selecionado é o correto
+        move_line_id = line.payment_line_ids[:1].move_line_id
 
         # TODO: Guardar estrutura com códigos de ocorrências
         identificacao_ocorrencia = 1
-        if move_line_id and move_line_id.state_cnab == 'added_paid':
+        if move_line_id.state_cnab == 'added_paid':
             identificacao_ocorrencia = 34
 
         vals = {
