@@ -85,6 +85,15 @@
                         </group>
                     </group>
                 </page>
+
+                <page string="Anotações">
+                      <group>
+                          <group>
+                              <field name="note"/>
+                          </group>
+                      </group>
+                </page>
+
             </xpath>
         </field>
     </record>
