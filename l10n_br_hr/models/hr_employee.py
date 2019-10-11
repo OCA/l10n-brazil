@@ -15,12 +15,12 @@ class HrEmployee(models.Model):
 
     def _default_country(self):
         return self.env['res.country'].search([('code', '=', 'BR')])
-    
+
     naturalidade = fields.Many2one(
         string='Naturalidade',
         comodel_name='res.city',
     )
-    
+
     pis_pasep = fields.Char(
         string='PIS/PASEP',
         size=15)
@@ -204,7 +204,7 @@ class HrEmployee(models.Model):
         default='funcionario',
         required=True,
     )
-    
+
     @api.constrains('dependent_ids')
     def _check_dependents(self):
         self._check_dob()
@@ -248,7 +248,7 @@ class HrEmployee(models.Model):
         for record in self:
             if record.cpf and not cnpj_cpf.validar(record.cpf):
                 raise ValidationError(_("CPF Invalido!"))
-                
+
     @api.onchange('cpf')
     def onchange_cpf(self):
         cpf = cnpj_cpf.formata(str(self.cpf))
