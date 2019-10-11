@@ -58,9 +58,10 @@
                         string="Registrar Boleto via API" type="action"
                         groups="base.group_user"
                         class="oe_highlight" style="background-color:red; text-color:white;"
-                        attrs="{'invisible': ['|',
+                        attrs="{'invisible': ['|','|',
                         ('state', '!=', 'open'),
-                        ('eval_state_cnab', 'in', ('added_paid', 'accepted', 'done', 'accepted_hml'))
+                        ('eval_state_cnab', 'in', ('added_paid', 'accepted', 'done', 'accepted_hml')),
+                        ('eval_situacao_pagamento', 'in', ('aberta'))
                         ]}"
                 />
             </header>
