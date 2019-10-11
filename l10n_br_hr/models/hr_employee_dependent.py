@@ -11,6 +11,7 @@ from odoo.exceptions import ValidationError
 class HrEmployeeDependent(models.Model):
     _name = 'hr.employee.dependent'
     _description = 'Employee\'s Dependents'
+
     _rec_name = "dependent_name"
     _inherits = {'res.partner': 'partner_id'}
 
@@ -28,10 +29,10 @@ class HrEmployeeDependent(models.Model):
 
     employee_id = fields.Many2one(
         comodel_name='hr.employee',
-        string='Employee')
+        string='Employee ID')
 
     dependent_name = fields.Char(
-        string='Name',
+        string='Dependent name',
         size=64,
         required=True)
 

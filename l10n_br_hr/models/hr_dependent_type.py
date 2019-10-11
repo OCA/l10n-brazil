@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 class HrDependentType(models.Model):
     _name = 'hr.dependent.type'
+    _description = 'Dependents Type'
 
     name = fields.Char(
         string='Relatedness degree')

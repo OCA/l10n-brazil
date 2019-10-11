@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 class HrEducationalAttainment(models.Model):
     _name = 'hr.educational.attainment'
+    _description = 'Educational Attainments'
 
     name = fields.Char(
         string='Educational Attainment')
