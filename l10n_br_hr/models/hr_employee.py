@@ -13,7 +13,6 @@ from odoo.exceptions import ValidationError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-
     naturalidade = fields.Many2one(
         string='Naturalidade',
         comodel_name='res.city',
