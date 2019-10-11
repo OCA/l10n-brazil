@@ -112,7 +112,8 @@ class HrEmployee(models.Model):
 
     cpf = fields.Char(
         string='CPF',
-        store=True,)
+        store=True,
+        related='address_home_id.cnpj_cpf')
 
     @api.onchange('cpf')
     def onchange_cpf(self):
