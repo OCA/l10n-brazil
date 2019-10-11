@@ -9,7 +9,6 @@
     'website': 'http://www.abgf.gov.br',
     'version': '8.0.0.0.1',
     'depends': [
-        'hr_payroll',
         'l10n_br_hr_payroll'
     ],
     'data': [
