@@ -3,11 +3,19 @@
    :alt: License: AGPL-3
 
 =====================================================
-Módulo de Contratos para RH da localização Brasileira
+Módulo de Contratos para RH da Localização Brasileira
 =====================================================
 
-This module was written to extend the functionality of hr_contract module to support the brazilian requirements
-for contracts.
+Este módulo adapta o módulo 'hr_contract' aos requisitos da Legislação Brasileira/e-social
+
+* Tipo de adimissão;
+* Tipo de contrato de trabalho;
+* Motivo de encerramento de contrato;
+* Motivo de demissão;
+* Tipo de regime previdenciário;
+* Sindicato;
+* Salário Mínimo;
+ 
 
 Installation
 ============
@@ -46,6 +54,11 @@ l10n_br_hr_contract%0Aversion:%20
 
 Credits
 =======
+
+Authors
+-------
+
+* KMEE INFORMATICA LTDA
 
 Contributors
 ------------
