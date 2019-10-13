@@ -6,7 +6,7 @@
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author':
-        'KMEE Informática, '
+        'KMEE, '
         'Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
     'version': '12.0.1.0.0',
