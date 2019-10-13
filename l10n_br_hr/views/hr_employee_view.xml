@@ -15,7 +15,7 @@
                     <field name="naturalidade" options="{'no_create': True, 'no_open': True}" required="1" />
                 </field>
                 <xpath expr="//field[@name='identification_id']" position="replace">
-                    <field name="cpf" required="1"/>
+                    <field name="cpf"/>
                     <field name="educational_attainment" options="{'no_create': True, 'no_open': True}"/>
                 </xpath>
                 <xpath expr="//page[@name='personal_information']" position="inside">
