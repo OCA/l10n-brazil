@@ -45,7 +45,7 @@ class L10nBrHrDepartment(models.Model):
                 ('data_inicio', '<=', data_referencia),
                 ('data_fim', '>=', data_referencia),
                 ('state','=','validate'),
-                ('type',' = ','remove'),
+                ('type','=','remove'),
                 ('tipo', '!=', 'compensacao'),
             ], limit=1)
 
