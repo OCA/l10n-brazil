@@ -20,7 +20,7 @@ class HrPayslip(models.Model):
     @api.multi
     def unlink(self):
         benefit_line = self.env['hr.contract.benefit.line'].search([
-            ('hr_payslip_id', '=', self.id)
+            ('hr_payslip_id', 'in', self._ids)
         ])
         benefit_line.write({'state': 'payslip_deleted'})
         return super(HrPayslip, self).unlink()
