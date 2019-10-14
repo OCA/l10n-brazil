@@ -1530,8 +1530,8 @@ class HrPayslip(models.Model):
                 if line.salary_rule_id.code == "FERIAS" and \
                         not um_terco_ferias:
                     return line.total
-                elif line.salary_rule_id.code == "1/3_FERIAS" and \
-                        um_terco_ferias:
+                elif line.salary_rule_id.code in \
+                        ['1/3_FERIAS', '1/3_FERIAS_S_ONUS'] and um_terco_ferias:
                     return line.total
             else:
                 if line.salary_rule_id.category_id.id == categoria_bruto.id:
