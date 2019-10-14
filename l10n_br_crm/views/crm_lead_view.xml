@@ -4,22 +4,22 @@
     <record id="l10n_br_crm_leads_form" model="ir.ui.view">
         <field name="name">l10n_br_crm.leads.form</field>
         <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
-            <field name="partner_name" position="after">
+            <xpath expr="//sheet/group/group[1]/field[@name='partner_name']" position="after">
                 <field name="legal_name"/>
                 <field name="cnpj"/>
                 <field name="inscr_est"/>
-            </field>
-            <field name="is_blacklisted" position="before">
+            </xpath>
+            <xpath expr="//sheet/group/group[3]//field[@name='is_blacklisted']" position="after">
                 <field name="name_surname"/>
                 <field name="cpf"/>
                 <field name="rg"/>
-            </field>
-            <field name="type" position="after">
-                <field name="inscr_mun"/>
-                <field name="suframa"/>
-            </field>
+            </xpath>
+            <xpath expr="//sheet/group//field[@name='type']" position="after">
+                <field name="inscr_mun" attrs="{'invisible': [('type', '=', 'opportunity')]}"/>
+                <field name="suframa" attrs="{'invisible': [('type', '=', 'opportunity')]}"/>
+            </xpath>
         </field>
     </record>
 
