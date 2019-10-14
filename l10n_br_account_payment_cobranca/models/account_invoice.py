@@ -55,6 +55,30 @@ class AccountInvoice(models.Model):
         readonly=True,
     )
 
+    def _remove_payment_order_line(self, _raise=True):
+        move_line_receivable_id = self.move_line_receivable_id
+        payment_order_ids = self.env['account.payment.order'].search([
+            ('payment_line_ids.move_line_id', 'in',
+             [move_line_receivable_id.id])
+        ])
+
+        if payment_order_ids:
+            draft_cancel_payment_order_ids = payment_order_ids.filtered(
+                lambda p: p.state in ['draft', 'cancel'])
+            if payment_order_ids - draft_cancel_payment_order_ids:
+                if _raise:
+                    raise UserError(_(
+                        "A fatura não pode ser cancelada pois a mesma já se "
+                        "encontra exportada por uma ordem de pagamento."
+                    ))
+
+            for po_id in draft_cancel_payment_order_ids:
+                p_line_id = self.env['account.payment.line'].search([
+                    ('order_id', '=', po_id.id),
+                    ('move_line_id', '=', move_line_receivable_id.id)
+                ])
+                po_id.payment_line_ids -= p_line_id
+
     @api.multi
     def action_invoice_cancel(self):
         for record in self:
@@ -73,23 +97,13 @@ class AccountInvoice(models.Model):
                     "em uma remessa."
                 ))
 
+            move_line_receivable_id = record.move_line_receivable_id
             payment_order_ids = self.env['account.payment.order'].search([
                 ('payment_line_ids.move_line_id', 'in',
-                 [record.move_line_receivable_id.id])
+                 [move_line_receivable_id.id])
             ])
 
-            if payment_order_ids:
-                if any(state in ['draft', 'cancel'] for state in
-                       payment_order_ids.mapped('state')):
-                    raise UserError(_(
-                        "Para cancelar a fatura, você deve retirá-la das "
-                        "ordens de pagamento em aberto em que a mesma "
-                        "se encontra. Ordem de Débito %s"
-                    ) % '.'.join(payment_order_ids.mapped('name')))
-                raise UserError(_(
-                    "A fatura não pode ser cancelada pois a mesma já se "
-                    "encontra exportada por uma ordem de pagamento."
-                ))
+            record._remove_payment_order_line()
 
         super(AccountInvoice, self).action_invoice_cancel()
 
@@ -197,6 +211,8 @@ class AccountInvoice(models.Model):
                                 'state_cnab': 'accepted',
                                 'situacao_pagamento': 'aberta'
                             })
+                        # Remove Invoice from debit.orders
+                        record._remove_payment_order_line(_raise=False)
                     else:
                         receivable_ids.write({
                             'state_cnab': 'not_accepted'
