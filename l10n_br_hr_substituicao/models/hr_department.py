@@ -26,14 +26,36 @@ class L10nBrHrDepartment(models.Model):
         """
         hr_substituicao_obj = self.env['hr.substituicao']
 
+        gerente_id = self.manager_id
+
+        # Verificar se tem substituição para departamento naquele dia
         substituicao_id = hr_substituicao_obj.search([
             ('department_id', '=', self.id),
             ('data_inicio', '<=', data_referencia),
             ('data_fim', '>=', data_referencia),
         ], limit=1)
 
-        gerente_id = substituicao_id.funcionario_substituto or self.manager_id
+        if substituicao_id:
 
+            gerente_id = substituicao_id.funcionario_substituto
+
+            # Verificar se substituto nao esta de folga
+            holiday_ids = self.env['hr.holidays'].search([
+                ('employee_id', '=', gerente_id.id),
+                ('data_inicio', '<=', data_referencia),
+                ('data_fim', '>=', data_referencia),
+                ('state','=','validate'),
+                ('type',' = ','remove'),
+                ('tipo', '!=', 'compensacao'),
+            ], limit=1)
+
+            # Se substituto estiver de folga,
+            # retornar gerente do departamento superior
+            if holiday_ids:
+                return self.parent_id.get_manager_titular(
+                data_referencia, employee_id)
+
+        # Se o gerente do departamento for o proprio usuario consultado
         if employee_id == gerente_id or employee_id == self.manager_id:
             return self.parent_id.get_manager_titular(
                 data_referencia, employee_id)
