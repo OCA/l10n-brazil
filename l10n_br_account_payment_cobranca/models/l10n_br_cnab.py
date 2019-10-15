@@ -339,8 +339,7 @@ class L10nBrHrCnab(models.Model):
     def _lote_400(self, evento, lote_id):
 
         bank_payment_line_id = self.env['bank.payment.line'].search([(
-            'identificacao_titulo_empresa', '=',
-            evento.identificacao_titulo_empresa
+            'nosso_numero', '=', evento.nosso_numero
         )], limit=1)
 
         vals_evento = {
