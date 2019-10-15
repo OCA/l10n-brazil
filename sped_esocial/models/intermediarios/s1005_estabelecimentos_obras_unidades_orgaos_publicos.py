@@ -342,10 +342,14 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             self.estabelecimento_id.reg_pt
 
         # Popula infoApr
+        # Contrata aprendiz?
         S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contApr.valor = \
             self.estabelecimento_id.cont_apr
-        S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contEntEd.valor = \
-            self.estabelecimento_id.cont_ent_ed
+
+        # Se nao contratar, nao preecher nada
+        if self.estabelecimento_id.cont_apr != '0':
+            S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contEntEd.valor = \
+                self.estabelecimento_id.cont_ent_ed
 
         # Popula infoEntEduc
         for entidade in self.estabelecimento_id.info_ent_educ_ids:

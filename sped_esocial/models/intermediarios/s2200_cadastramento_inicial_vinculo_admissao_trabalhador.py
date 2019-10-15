@@ -178,7 +178,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
 
         S2200.evento.trabalhador.grauInstr.valor = \
             self.hr_contract_id.employee_id.educational_attainment.code.zfill(2) or ''
-        S2200.evento.trabalhador.indPriEmpr.valor = 'S' if self.hr_contract_id.primeiro_emprego else 'N'
+
         # S2200.evento.trabalhador.nmSoc =  # TODO separar Nome Legal de Nome Social no Odoo
 
         # Popula trabalhador.nascimento
@@ -244,7 +244,6 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         S2200.evento.trabalhador.estCiv.valor = estado_civil
         S2200.evento.trabalhador.grauInstr.valor = \
             self.hr_contract_id.employee_id.educational_attainment.code.zfill(2) or ''
-        S2200.evento.trabalhador.indPriEmpr.valor = 'S' if self.hr_contract_id.primeiro_emprego else 'N'
         # S2200.evento.trabalhador.nmSoc =  # TODO separa
 
         # # RIC  # TODO (Criar campos em l10n_br_hr)
@@ -394,6 +393,9 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
         cad_ini = 'S' if data_inicio_contrato < data_inicio_esocial else 'N'
         S2200.evento.vinculo.cadIni.valor = cad_ini
         # S2200.evento.vinculo.cadIni.valor = self.hr_contract_id.cad_ini
+
+        if cad_ini != 'S':
+            S2200.evento.trabalhador.indPriEmpr.valor = 'S' if self.hr_contract_id.primeiro_emprego else 'N'
 
         # Popula vinculo.infoRegimeTrab
         if self.hr_contract_id.labor_regime_id.code == '1':
