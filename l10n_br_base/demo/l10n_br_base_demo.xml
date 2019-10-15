@@ -28,8 +28,6 @@
         <field name="phone">(11) 3365-5500</field>
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">623.343.911.173</field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -50,8 +48,6 @@
         <field name="phone">(55-11) 3478-2150</field>
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">621.240.850.633</field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -73,8 +69,6 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">86.015.623-0</field>
         <field name="suframa">550309012</field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -96,8 +90,6 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">4386525-92</field>
         <field name="suframa"></field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -119,8 +111,6 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">80320143-90</field>
         <field name="suframa"></field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -142,8 +132,6 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">074/2864251</field>
         <field name="suframa"></field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -165,8 +153,6 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">2004915-45</field>
         <field name="suframa"></field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -188,8 +174,6 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">78.002.376-5</field>
         <field name="suframa">101160100</field>
-        <field name="customer" eval="0"/>
-        <field name="supplier" eval="1"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -210,8 +194,6 @@
         <field name="phone">(55-11) 3478-2150</field>
         <field name="email">cliente1@cliente1.com.br</field>
         <field name="inscr_est">460.429.771.334</field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -232,8 +214,6 @@
         <field name="phone">(11) 7777-7777</field>
         <field name="email">cliente2@cliente2.com.br</field>
         <field name="inscr_est">887.273.429.152</field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -255,8 +235,6 @@
         <field name="email">cliente3@cliente3.com.br</field>
         <field name="inscr_est">78.217.504-0</field>
         <field name="suframa">101362102</field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -278,8 +256,6 @@
         <field name="email">cliente4@cliente4.com.br</field>
         <field name="inscr_est">09.569.321-1</field>
         <field name="suframa">100695108</field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -301,8 +277,6 @@
         <field name="email">cliente5@cliente5.com.br</field>
         <field name="inscr_est">8700737-10</field>
         <field name="suframa"></field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -324,8 +298,6 @@
         <field name="email">cliente6@cliente6.com.br</field>
         <field name="inscr_est">7055493-56</field>
         <field name="suframa"></field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -347,8 +319,6 @@
         <field name="email">cliente7@cliente7.com.br</field>
         <field name="inscr_est">176/1256758</field>
         <field name="suframa"></field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -370,8 +340,6 @@
         <field name="email">cliente8@cliente8.com.br</field>
         <field name="inscr_est">383/4127240</field>
         <field name="suframa"></field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -380,8 +348,6 @@
         <field name="title" ref="res_partner_title_pvt_ltd"/>
         <field name="cnpj_cpf">11.034.414/0001-58</field>
         <field eval="0" name="employee"/>
-        <field eval="1" name="customer"/>
-        <field eval="1" name="supplier"/>
         <field name="is_company" eval="1"/>
         <field eval="1" name="active"/>
         <field name="legal_name">AKRETION LTDA</field>
@@ -394,14 +360,11 @@
         <field name="street">Rua Paulo Dias</field>
         <field name="city_id" ref="l10n_br_base.city_3501152"/>
         <field name="state_id" ref="base.state_br_sp"/>
-        <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
     </record>
 
     <record id="res_partner_address_ak2" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd"/>
         <field eval="0" name="employee"/>
-        <field eval="1" name="customer"/>
-        <field eval="1" name="supplier"/>
         <field eval="1" name="active"/>
         <field name="is_company" eval="1"/>
         <field name="legal_name">AKRETION LTDA</field>
@@ -418,7 +381,6 @@
         <field name="street2">sala 1310</field>
         <field name="website">http://www.akretion.com</field>
         <field name="state_id" ref="base.state_br_rj"/>
-        <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
     </record>
 
     <record id="res_partner_cliente9_mg" model="res.partner">
@@ -437,8 +399,6 @@
         <field name="phone">(35) 3622-7085</field>
         <field name="email">cliente9@cliente9.com.br</field>
         <field name="suframa"></field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="1"/>
         <field name="active" eval="1"/>
     </record>
@@ -459,8 +419,6 @@
         <field name="phone">(35) 3622-7085</field>
         <field name="email">cliente10@cliente10.com.br</field>
         <field name="suframa"></field>
-        <field name="customer" eval="1"/>
-        <field name="supplier" eval="0"/>
         <field name="is_company" eval="0"/>
         <field name="active" eval="1"/>
     </record>
