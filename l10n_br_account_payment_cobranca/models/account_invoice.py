@@ -97,12 +97,6 @@ class AccountInvoice(models.Model):
                     "em uma remessa."
                 ))
 
-            move_line_receivable_id = record.move_line_receivable_id
-            payment_order_ids = self.env['account.payment.order'].search([
-                ('payment_line_ids.move_line_id', 'in',
-                 [move_line_receivable_id.id])
-            ])
-
             record._remove_payment_order_line()
 
         super(AccountInvoice, self).action_invoice_cancel()
@@ -172,6 +166,72 @@ class AccountInvoice(models.Model):
 
         return token
 
+    @api.multi
+    def create_api_account_payment_line(self):
+        # TODO: Criar CRON para confirmar as account.payment.order no final de
+        #  cada dia
+        apoo = self.env['account.payment.order']
+        result_payorder_ids = []
+        payorder = False
+        for inv in self:
+            if inv.state != 'open':
+                raise UserError(_(
+                    "The invoice %s is not in Open state") % inv.number)
+            if not inv.move_id:
+                raise UserError(_(
+                    "No Journal Entry on invoice %s") % inv.number)
+            applicable_lines = inv.move_id.line_ids.filtered(
+                lambda x: (
+                    not x.reconciled and x.payment_mode_id.payment_order_ok and
+                    x.account_id.internal_type in ('receivable', 'payable') and
+                    not x.payment_line_ids
+                )
+            )
+            if not applicable_lines:
+                raise UserError(_(
+                    'No Payment Line created for invoice %s because '
+                    'it already exists or because this invoice is '
+                    'already paid.') % inv.number)
+            payment_modes = applicable_lines.mapped('payment_mode_id')
+            if not payment_modes:
+                raise UserError(_(
+                    "No Payment Mode on invoice %s") % inv.number)
+            for payment_mode in payment_modes:
+                payorder = apoo.search([
+                    ('payment_mode_id', '=', payment_mode.id),
+                    ('state', '=', 'draft'),
+                    ('active', '=', False),
+                    ('name', 'ilike', 'api'),
+                ], limit=1)
+
+                new_payorder = False
+                if not payorder:
+                    payorder = apoo.create(inv._prepare_new_payment_order(
+                        payment_mode
+                    ))
+                    new_payorder = True
+                    payorder.name += '_api'
+                    payorder.active = False
+
+                result_payorder_ids.append(payorder.id)
+                count = 0
+                for line in applicable_lines.filtered(
+                        lambda x: x.payment_mode_id == payment_mode
+                ):
+                    line.create_payment_line_from_move_line(payorder)
+                    count += 1
+                if new_payorder:
+                    inv.message_post(_(
+                        '%d payment lines added to the new draft payment '
+                        'order %s which has been automatically created.')
+                                     % (count, payorder.name))
+                else:
+                    inv.message_post(_(
+                        '%d payment lines added to the existing draft '
+                        'payment order %s.')
+                                     % (count, payorder.name))
+        return payorder
+
     @job
     @api.multi
     def register_invoice_api(self):
@@ -199,20 +259,16 @@ class AccountInvoice(models.Model):
                 response = False
                 try:
                     response = boleto.post(token, itau_key, barcode_endpoint)
-                    if response.ok:
-                        # ambiente = 1 --> HML
-                        if boleto.tipo_ambiente == '1':
-                            receivable_ids.write({
-                                'state_cnab': 'accepted_hml'
-                            })
-                        # PROD
-                        else:
-                            receivable_ids.write({
-                                'state_cnab': 'accepted',
-                                'situacao_pagamento': 'aberta'
-                            })
+                    if response and response.ok:
                         # Remove Invoice from debit.orders
                         record._remove_payment_order_line(_raise=False)
+
+                        # Create new Debit Order for payment_order_line
+                        try:
+                            record.create_api_account_payment_line()
+
+                        except Exception as e:
+                            _logger.debug(str(e))
                     else:
                         receivable_ids.write({
                             'state_cnab': 'not_accepted'
@@ -225,6 +281,19 @@ class AccountInvoice(models.Model):
                     ) % str(e))
 
                 finally:
+                    if response and response.ok:
+                        # ambiente = 1 --> HML
+                        if boleto.tipo_ambiente == '1':
+                            receivable_ids.write({
+                                'state_cnab': 'accepted_hml'
+                            })
+                        # PROD
+                        else:
+                            receivable_ids.write({
+                                'state_cnab': 'accepted',
+                                'situacao_pagamento': 'aberta'
+                            })
+
                     record.create_bank_api_operation(
                         response,
                         operation_type='invoice_register',
