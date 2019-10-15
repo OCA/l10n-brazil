@@ -270,9 +270,9 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         else:
             infoDeslig.pensAlim.valor = self.pens_alim
             if self.perc_aliment:
-                infoDeslig.percAliment.valor = self.perc_aliment
+                infoDeslig.percAliment.valor = str(self.perc_aliment)
             if self.vr_alim:
-                infoDeslig.vrAlim.valor = self.vr_alim
+                infoDeslig.vrAlim.valor = str(self.vr_alim)
         if rescisao_id.contract_id.numero_processo:
             infoDeslig.nrProcTrab.valor = \
                 rescisao_id.contract_id.numero_processo
