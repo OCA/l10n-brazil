@@ -65,14 +65,19 @@ class HrContract(models.Model):
              '(union_entity_code) definido.',)
 
     union_name = fields.Char(
-        string='Union')
+        string='Union',
+        related='partner_union.name',
+        readonly=True)
 
     union_cnpj = fields.Char(
-        string='Union CNPJ')
+        string='Union CNPJ',
+        related='partner_union.cnpj_cpf',
+        readonly=True)
 
     union_entity_code = fields.Char(
         string='Union entity code',
-        related='partner_union.union_entity_code',)
+        related='partner_union.union_entity_code',
+        readonly=True)
 
     month_base_date = fields.Selection(
         string='Base date month',
