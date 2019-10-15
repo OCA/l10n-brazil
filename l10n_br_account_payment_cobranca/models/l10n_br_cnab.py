@@ -688,6 +688,14 @@ class L10nBrHrCnab(models.Model):
                     reprocessing=True).write(line_values)
 
     @api.model
+    def processar_retorno_multi(self):
+        active_ids = self._context.get("active_ids")
+
+        for cnab_id in self.browse(active_ids):
+            if cnab_id.state in ['draft']:
+                cnab_id.processar_arquivo_retorno()
+
+    @api.model
     def reprocessar_retorno_multi(self):
         active_ids = self._context.get("active_ids")
 
