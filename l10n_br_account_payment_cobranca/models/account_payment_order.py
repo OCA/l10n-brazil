@@ -24,6 +24,11 @@ except ImportError as err:
 class PaymentOrder(models.Model):
     _inherit = b'account.payment.order'
 
+    active = fields.Boolean(
+        string=u'Ativo',
+        default=True,
+    )
+
     file_number = fields.Integer(
         string=u'Número sequencial do arquivo',
     )
