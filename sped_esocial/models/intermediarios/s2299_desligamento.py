@@ -50,6 +50,7 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
             ('6', 'Retificado'),
+            ('7', 'Excluído'),
         ],
         compute="compute_situacao_esocial",
         store=True,
