@@ -9,10 +9,12 @@ class HrIdentityType(models.Model):
     _description = 'Identity Types'
 
     name = fields.Char(
-        string='Identity type')
+        string='Identity type',
+        required=True)
 
     initials = fields.Char(
-        string='Initials')
+        string='Initials',
+        required=True)
 
     employee_ids = fields.Many2many(
         string="Employees",

@@ -182,6 +182,7 @@ class HrEmployee(models.Model):
         comodel_name='hr.nationality.code')
 
     nat_code = fields.Char(
+        string='Nationality Code',
         related='nationality_code.code')
 
     arrival_year = fields.Integer(
