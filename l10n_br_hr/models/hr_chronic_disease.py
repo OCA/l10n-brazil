@@ -9,7 +9,8 @@ class HrChronicDisease(models.Model):
     _description = 'Chronic Diseases'
 
     name = fields.Char(
-        string='Disease name')
+        string='Disease name',
+        required=True)
 
     employee_ids = fields.Many2many(
         string="Employee",
