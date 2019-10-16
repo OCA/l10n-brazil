@@ -9,4 +9,5 @@ class HrCivilCertificateType(models.Model):
     _description = 'Civil Certificate Type'
 
     name = fields.Char(
-        string='Civil certificate type')
+        string='Civil certificate type',
+        required=True)
