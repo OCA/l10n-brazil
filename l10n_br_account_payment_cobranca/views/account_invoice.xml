@@ -107,6 +107,9 @@
         <field name="type">search</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter"/>
         <field name="arch" type="xml">
+            <filter name="group_by_partner_id" position="attributes">
+                <attribute name="context">{'group_by': 'partner_id'}</attribute>
+            </filter>
             <field name="journal_id" position="after">
                 <field name="eval_state_cnab"/>
                 <field name="eval_situacao_pagamento"/>
