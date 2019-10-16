@@ -29,6 +29,7 @@ class AccountInvoice(models.Model):
         related='move_line_receivable_id.state_cnab',
         readonly=True,
         store=True,
+        index=True,
     )
 
     eval_situacao_pagamento = fields.Selection(
@@ -36,6 +37,7 @@ class AccountInvoice(models.Model):
         related='move_line_receivable_id.situacao_pagamento',
         readonly=True,
         store=True,
+        index=True,
     )
 
     eval_payment_mode_instrucoes = fields.Text(
