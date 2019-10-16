@@ -24,6 +24,11 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    active = fields.Boolean(
+        string=u'Ativo',
+        default=True,
+    )
+
     eval_state_cnab = fields.Selection(
         string=u'Estado CNAB',
         related='move_line_receivable_id.state_cnab',
