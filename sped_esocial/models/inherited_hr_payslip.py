@@ -110,3 +110,8 @@ class HrPaylisp(models.Model):
             inss_vinculos = BASE_INSS_VINCULOS * (aliquota / 100)
 
         return inss_vinculos
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return self.contract_id.employee_id
