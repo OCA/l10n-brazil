@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+      <!--DEFICIENCY TYPE -->
+      <record id="deficiency_1" model="hr.deficiency">
+          <field name="name">Física</field>
+          <field name="code">1</field>
+      </record>
+
+      <record id="deficiency_2" model="hr.deficiency">
+          <field name="name">Auditiva</field>
+          <field name="code">2</field>
+      </record>
+
+      <record id="deficiency_3" model="hr.deficiency">
+          <field name="name">Visual</field>
+          <field name="code">3</field>
+      </record>
+
+      <record id="deficiency_4" model="hr.deficiency">
+          <field name="name">Intelectual (Mental)</field>
+          <field name="code">4</field>
+      </record>
+
+      <record id="deficiency_5" model="hr.deficiency">
+          <field name="name">Múltipla</field>
+          <field name="code">5</field>
+      </record>
+
+      <record id="deficiency_6" model="hr.deficiency">
+          <field name="name">Reabilitado</field>
+          <field name="code">6</field>
+      </record>
+
+</odoo>

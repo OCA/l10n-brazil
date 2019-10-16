@@ -14,7 +14,9 @@
     'data': [
         'data/l10n_br_hr.cbo.csv',
         'data/dependent_type_data.xml',
-        'data/hr_employee_data.xml',
+        'data/hr_deficiency_data.xml',
+        'data/hr_ethnicity_data.xml',
+        'data/hr_educational_attainment_data.xml',
         'data/hr_employee_nationality_code_data.xml',
         'security/ir.model.access.csv',
         'views/res_company_view.xml',
