@@ -360,6 +360,7 @@
         <field name="street">Rua Paulo Dias</field>
         <field name="city_id" ref="l10n_br_base.city_3501152"/>
         <field name="state_id" ref="base.state_br_sp"/>
+         <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
     </record>
 
     <record id="res_partner_address_ak2" model="res.partner">
@@ -381,6 +382,7 @@
         <field name="street2">sala 1310</field>
         <field name="website">http://www.akretion.com</field>
         <field name="state_id" ref="base.state_br_rj"/>
+         <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
     </record>
 
     <record id="res_partner_cliente9_mg" model="res.partner">
