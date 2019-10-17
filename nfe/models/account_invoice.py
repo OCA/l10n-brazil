@@ -21,6 +21,8 @@ from ..sped.nfe.processing.xml import check_key_nfe
 
 _logger = logging.getLogger(__name__)
 
+PROCESSADOR = 'pysped'
+
 
 class AccountInvoice(models.Model):
     """account_invoice overwritten methods"""
@@ -97,73 +99,69 @@ class AccountInvoice(models.Model):
 
         return True
 
-    def action_confirm_invoice(self):
-        self.nfe_check()
-        self.action_date_assign()
-        self.action_number()
-        self.action_move_create()
-        self.nfe_export()
-        return True
-
     def _get_nfe_factory(self, nfe_version):
         return NfeFactory().get_nfe(nfe_version)
 
     @api.multi
-    def nfe_export(self):
+    def edoc_export(self):
+        self.ensure_one()
 
-        for inv in self:
+        if not self.company_id.processador_edoc == PROCESSADOR:
+            return super(AccountInvoice, self)._edoc_export()
 
-            validate_nfe_configuration(inv.company_id)
+        validate_nfe_configuration(self.company_id)
 
-            nfe_obj = self._get_nfe_factory(inv.nfe_version)
+        nfe_obj = self._get_nfe_factory(self.nfe_version)
 
-            # nfe_obj = NFe310()
-            nfes = nfe_obj.get_xml(inv, int(inv.company_id.nfe_environment))
+        # nfe_obj = NFe310()
+        nfes = nfe_obj.get_xml(self, int(self.company_id.nfe_environment))
 
-            for nfe in nfes:
-                # erro = nfe_obj.validation(nfe['nfe'])
-                erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
-                nfe_key = nfe['key'][3:]
-                if erro:
-                    raise RedirectWarning(
-                        erro, _(u'Erro na validaço da NFe!'))
+        for nfe in nfes:
+            # erro = nfe_obj.validation(nfe['nfe'])
+            erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
+            nfe_key = nfe['key'][3:]
+            if erro:
+                raise RedirectWarning(
+                    erro, _(u'Erro na validaço da NFe!'))
 
-                inv.write({'nfe_access_key': nfe_key})
-                save_dir = os.path.join(
-                    monta_caminho_nfe(
-                        inv.company_id,
-                        chave_nfe=nfe_key) +
-                    'tmp/')
-                nfe_file = nfe['nfe'].encode('utf8')
+            self.write({'nfe_access_key': nfe_key})
+            save_dir = os.path.join(
+                monta_caminho_nfe(
+                    self.company_id,
+                    chave_nfe=nfe_key) +
+                'tmp/')
+            nfe_file = nfe['nfe'].encode('utf8')
 
-                file_path = save_dir + nfe_key + '-nfe.xml'
-                try:
-                    if not os.path.exists(save_dir):
-                        os.makedirs(save_dir)
-                    f = open(file_path, 'w')
-                except IOError:
-                    raise RedirectWarning(
-                        _(u'Erro!'), _(u"""Não foi possível salvar o arquivo
-                            em disco, verifique as permissões de escrita
-                            e o caminho da pasta"""))
-                else:
-                    f.write(nfe_file)
-                    f.close()
+            file_path = save_dir + nfe_key + '-nfe.xml'
+            try:
+                if not os.path.exists(save_dir):
+                    os.makedirs(save_dir)
+                f = open(file_path, 'w')
+            except IOError:
+                raise RedirectWarning(
+                    _(u'Erro!'), _(u"""Não foi possível salvar o arquivo
+                        em disco, verifique as permissões de escrita
+                        e o caminho da pasta"""))
+            else:
+                f.write(nfe_file)
+                f.close()
 
-                    event_obj = self.env['l10n_br_account.document_event']
-                    event_obj.create({
-                        'type': '0',
-                        'company_id': inv.company_id.id,
-                        'origin': '[NF-E]' + inv.fiscal_number,
-                        'file_sent': file_path,
-                        'create_date': datetime.datetime.now(),
-                        'state': 'draft',
-                        'document_event_ids': inv.id
-                    })
-                    inv.write({'state': 'sefaz_export'})
+                event_obj = self.env['l10n_br_account.document_event']
+                event_obj.create({
+                    'type': '0',
+                    'company_id': self.company_id.id,
+                    'origin': '[NF-E]' + self.fiscal_number,
+                    'file_sent': file_path,
+                    'create_date': datetime.datetime.now(),
+                    'state': 'draft',
+                    'document_event_ids': self.id
+                })
+                self.write({'state': 'sefaz_export'})
 
     @api.multi
     def action_invoice_send_nfe(self):
+        if not self.company_id.processador_edoc == PROCESSADOR:
+            return super(AccountInvoice, self).action_invoice_send_nfe()
 
         for inv in self:
 
@@ -377,7 +375,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_check_nfe(self):
         for inv in self:
-
             event_obj = self.env['l10n_br_account.document_event']
             # event = max(
             #     event_obj.search([('document_event_ids', '=', inv.id),

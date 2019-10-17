@@ -30,6 +30,11 @@ class ResCompany(models.Model):
     danfe_automatic_generate = fields.Boolean('Gera DANFE Automaticamente')
 
     last_nsu_nfe = fields.Char(string="Forçar NSU", size=20, default='0')
+    processador_edoc = fields.Selection(
+        selection_add=[
+            ('pysped', 'PySPED')
+        ]
+    )
 
     @staticmethod
     def _mask_cnpj(cnpj):
