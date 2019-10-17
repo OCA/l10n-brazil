@@ -10,14 +10,14 @@ import base64
 from odoo.tools.translate import _
 from odoo import models, fields, api
 from odoo.exceptions import RedirectWarning
+from odoo.addons.l10n_br_account_product.sped.nfe.validator.config_check \
+    import validate_nfe_configuration, validate_invoice_cancel
 
 from ..sped.nfe.nfe_factory import NfeFactory
 from ..sped.nfe.validator.xml import XMLValidator
 from ..sped.nfe.processing.xml import send, cancel
 from ..sped.nfe.processing.xml import monta_caminho_nfe
 from ..sped.nfe.processing.xml import check_key_nfe
-from ..sped.nfe.validator.config_check import \
-    validate_nfe_configuration, validate_invoice_cancel
 
 _logger = logging.getLogger(__name__)
 
