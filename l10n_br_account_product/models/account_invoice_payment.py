@@ -81,6 +81,7 @@ class AccountInvoicePayment(models.Model):
         comodel_name='account.invoice.payment.line',
         inverse_name='payment_id',
         string='Duplicatas',
+        copy=True,
     )
 
     @api.onchange('payment_term_id', 'amount', 'item_ids')

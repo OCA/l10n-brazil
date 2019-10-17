@@ -576,6 +576,7 @@ class AccountInvoice(models.Model):
         string='Dados de Pagamento',
         comodel_name='account.invoice.payment',
         inverse_name='invoice_id',
+        copy=True,
     )
     account_payment_line_ids = fields.One2many(
         string='Dados da cobrança',
