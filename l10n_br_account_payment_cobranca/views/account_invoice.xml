@@ -110,6 +110,9 @@
             <filter name="group_by_partner_id" position="attributes">
                 <attribute name="context">{'group_by': 'partner_id'}</attribute>
             </filter>
+            <filter name="unpaid" position="attributes">
+                <attribute name="domain">[('state','!=','paid')]</attribute>
+            </filter>
             <field name="journal_id" position="after">
                 <field name="eval_state_cnab"/>
                 <field name="eval_situacao_pagamento"/>
