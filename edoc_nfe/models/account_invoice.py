@@ -21,6 +21,11 @@ from odoo.addons.l10n_br_account_product.models.account_invoice_term import (
     FORMA_PAGAMENTO_SEM_PAGAMENTO
 )
 
+PROCESSADOR = 'erpbrasil_edoc'
+LOTE_PROCESSADO = '104'
+AUTORIZADO = ('100', '150')
+DENEGADO = ('110', '301', '302')
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -574,7 +579,8 @@ class AccountInvoice(models.Model):
         # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
 
         #
-        # Mas, por segurança, é preferível que esse número não seja aleatório de todo
+        # Mas, por segurança, é preferível que esse número não seja
+        # aleatório de todo
         #
         soma = 0
         for c in chave:
@@ -966,6 +972,13 @@ class AccountInvoice(models.Model):
             nfes.append(record.serialize_nfe())
         return nfes
 
+    @api.multi
+    def _edoc_export(self):
+        self.ensure_one()
+        if not self.company_id.processador_edoc == PROCESSADOR:
+            return super(AccountInvoice, self)._edoc_export()
+        return
+
     def atualiza_status_nfe(self, infProt):
         self.ensure_one()
         documento = self
@@ -974,18 +987,31 @@ class AccountInvoice(models.Model):
                 ('nfe_access_key', '=', infProt.chNFe)
             ])
 
+        if infProt.cStat in AUTORIZADO:
+            state = 'open'
+        elif infProt.cStat in DENEGADO:
+            state = 'sefaz_denied'
+        else:
+            state = 'sefaz_exception'
+
         documento.write({
             'nfe_access_key': infProt.chNFe,
             'nfe_status': infProt.cStat + ' - ' + infProt.xMotivo,
             'nfe_date': infProt.dhRecbto,
             'nfe_protocol_number': infProt.nProt,
             'nfe_access_key': infProt.xMotivo,
+            'state': state,
             # 'nfe_access_key': infProt.tpAmb,
             # 'nfe_access_key': infProt.digVal,
             # 'nfe_access_key': infProt.xMsg,
         })
 
-    def documento_consulta(self):
+    @api.multi
+    def _edoc_send(self):
+        self.ensure_one()
+        if not self.company_id.processador_edoc == PROCESSADOR:
+            return super(AccountInvoice, self)._edoc_send()
+
         certificado = Certificado(
             stream_arquivo=self.company_id.nfe_a1_file,
             senha=self.company_id.nfe_a1_password
@@ -999,8 +1025,6 @@ class AccountInvoice(models.Model):
             processo = None
             for p in nfe.processar_documento(edoc):
                 processo = p
-
-        LOTE_PROCESSADO = '104'
 
         if processo.resposta.cStat == LOTE_PROCESSADO:
             for protocolo in processo.resposta.protNFe:

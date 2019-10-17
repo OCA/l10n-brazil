@@ -10,7 +10,13 @@
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'https://www.kmee.com.br',
+    'external_dependencies': {
+        'python': [
+            'erpbrasil.edoc'
+        ],
+    },
     'depends': [
+        'l10n_br_account_product',
     ],
     'data': [
     ],
