@@ -320,6 +320,7 @@ class HrContractChange(models.Model):
                 'nome_alteracao' : nome_alteracao,
                 'name': nome_alteracao,
                 'change_type': change_type,
+                'wage': vals.get('wage', 0),
             })
         return super(HrContractChange, self).create(vals)
 
