@@ -29,7 +29,6 @@ class TestL10nBrContract(TransactionCase):
             'union_cnpj': '00.874.955/0001-78',
             'union_entity_code': 'DU',
             'discount_union_contribution': True,
-            'month_base_date': '4',
             'monthly_hours': 180,
             'weekly_hours': 45,
             'resignation_date': '2016-06-20',
