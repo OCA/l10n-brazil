@@ -38,8 +38,6 @@
                         <field name="union_entity_code" invisible="1"/>
 
                         <field name="discount_union_contribution"/>
-                        <field name="month_base_date"
-                               attrs="{'invisible':[('discount_union_contribution','=', False)]}"/>
                     </group>
                 </xpath>
 
