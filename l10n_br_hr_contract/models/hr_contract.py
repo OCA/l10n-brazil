@@ -101,9 +101,6 @@ class HrContract(models.Model):
     notice_of_termination_date = fields.Date(
         string='Notice of termination date')
 
-    notice_of_termination_payment_date = fields.Date(
-        string='Notice of termination payment date')
-
     by_death = fields.Char(
         string='By death',
         help='Death certificate/Process/Beneficiary')

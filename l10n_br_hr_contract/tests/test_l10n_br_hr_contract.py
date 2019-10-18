@@ -38,7 +38,6 @@ class TestL10nBrContract(TransactionCase):
             'notice_of_termination_id':
             self.env['hr.contract.notice.termination'].search([])[0].id,
             'notice_of_termination_date': '2016-06-20',
-            'notice_of_termination_payment_date': '2016-06-20',
             'by_death': '143710 01 55 2011 4 08192 439 3151559-28',
         })
 
