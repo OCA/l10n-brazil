@@ -165,10 +165,6 @@ class HrEmployee(models.Model):
     alternate_email = fields.Char(
         string='Alternate email')
 
-    chronic_disease_ids = fields.Many2many(
-        string='Chronic Diseases',
-        comodel_name='hr.chronic.disease')
-
     marital = fields.Selection(
         selection_add=[
             ('common_law_marriage', 'Common law marriage'),
