@@ -5,6 +5,6 @@ from odoo import models
 
 
 class HrEthnicity(models.Model):
-    _name = 'hr.ethnicity'
-    _inherit = 'l10n_br_hr.data.abstract'
-    _description = 'Ethnicities'
+    _name = "hr.ethnicity"
+    _inherit = "l10n_br_hr.data.abstract"
+    _description = "Ethnicities"
