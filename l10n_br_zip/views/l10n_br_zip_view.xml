@@ -21,7 +21,7 @@
         <field name="model">l10n_br.zip</field>
         <field name="arch" type="xml">
             <form string="CEPs">
-                <group>             
+                <group>
                     <field name="zip_code"/>
                     <field name="street_type"/>
                     <field name="street"/>
