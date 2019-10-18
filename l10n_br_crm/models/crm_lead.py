@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -17,82 +17,65 @@ except ImportError:
 
 class Lead(models.Model):
     """ CRM Lead Case """
+
     _inherit = "crm.lead"
 
     legal_name = fields.Char(
-        string='Legal Name',
-        size=128,
-        help="nome utilizado em documentos fiscais")
+        string="Legal Name", size=128, help="nome utilizado em documentos fiscais"
+    )
 
-    cnpj = fields.Char(
-        string='CNPJ',
-        size=18)
+    cnpj = fields.Char(string="CNPJ", size=18)
 
-    inscr_est = fields.Char(
-        string='Inscr. Estadual/RG',
-        size=16)
+    inscr_est = fields.Char(string="Inscr. Estadual/RG", size=16)
 
-    inscr_mun = fields.Char(
-        string='Inscr. Municipal',
-        size=18)
+    inscr_mun = fields.Char(string="Inscr. Municipal", size=18)
 
-    suframa = fields.Char(
-        string='Suframa',
-        size=18)
+    suframa = fields.Char(string="Suframa", size=18)
 
     city_id = fields.Many2one(
-        comodel_name='res.city',
-        string='City ID',
-        domain="[('state_id', '=', state_id)]")
+        comodel_name="res.city",
+        string="City ID",
+        domain="[('state_id', '=', state_id)]",
+    )
 
-    country_id = fields.Many2one(
-        default=lambda self: self.env.ref('base.br'))
+    country_id = fields.Many2one(default=lambda self: self.env.ref("base.br"))
 
-    district = fields.Char(
-        string='District',
-        size=32)
+    district = fields.Char(string="District", size=32)
 
-    street_number = fields.Char(
-        string='Número',
-        size=10)
+    street_number = fields.Char(string="Número", size=10)
 
     name_surname = fields.Char(
-        string='Nome e sobrenome',
-        size=128,
-        help="Nome utilizado em documentos fiscais")
+        string="Nome e sobrenome", size=128, help="Nome utilizado em documentos fiscais"
+    )
 
-    cpf = fields.Char(
-        string='CPF',
-        size=18)
+    cpf = fields.Char(string="CPF", size=18)
 
-    rg = fields.Char(
-        string='RG',
-        size=16)
+    rg = fields.Char(string="RG", size=16)
 
     @api.multi
-    @api.constrains('cnpj')
+    @api.constrains("cnpj")
     def _check_cnpj(self):
         for record in self:
-            country_code = record.country_id.code or ''
-            if record.cnpj and country_code.upper() == 'BR':
+            country_code = record.country_id.code or ""
+            if record.cnpj and country_code.upper() == "BR":
                 cnpj = misc.punctuation_rm(record.cnpj)
                 if not cnpj_cpf.validar(cnpj):
-                    raise ValidationError(_('CNPJ inválido!'))
+                    raise ValidationError(_("CNPJ inválido!"))
             return True
 
     @api.multi
-    @api.constrains('cpf')
+    @api.constrains("cpf")
     def _check_cpf(self):
         for record in self:
-            country_code = record.country_id.code or ''
-            if record.cpf and country_code.upper() == 'BR':
+            country_code = record.country_id.code or ""
+            if record.cpf and country_code.upper() == "BR":
                 cpf = misc.punctuation_rm(record.cpf)
                 if not cnpj_cpf.validar(cpf):
-                    raise ValidationError(_('CPF inválido!'))
+                    raise ValidationError(_("CPF inválido!"))
             return True
 
     @api.multi
-    @api.constrains('inscr_est')
+    @api.constrains("inscr_est")
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
@@ -102,21 +85,21 @@ class Lead(models.Model):
         for record in self:
             result = True
             if record.inscr_est and record.cnpj and record.state_id:
-                state_code = record.state_id.code or ''
+                state_code = record.state_id.code or ""
                 uf = state_code.lower()
                 result = ie.validar(uf, record.inscr_est)
             if not result:
                 raise ValidationError(_("Inscrição Estadual Invalida!"))
 
-    @api.onchange('cnpj', 'country_id')
+    @api.onchange("cnpj", "country_id")
     def _onchange_cnpj(self):
         self.cnpj = cnpj_cpf.formata(self.cnpj)
 
-    @api.onchange('cpf', 'country_id')
+    @api.onchange("cpf", "country_id")
     def _onchange_mask_cpf(self):
         self.cpf = cnpj_cpf.formata(self.cpf)
 
-    @api.onchange('city_id')
+    @api.onchange("city_id")
     def _onchange_city_id(self):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
@@ -129,28 +112,28 @@ class Lead(models.Model):
         if self.city_id:
             self.city = self.city_id.name
 
-    @api.onchange('zip')
+    @api.onchange("zip")
     def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip,
-                                       self.country_id.code)
+        self.zip = misc.format_zipcode(self.zip, self.country_id.code)
 
-    @api.onchange('partner_id')
+    @api.onchange("partner_id")
     def _onchange_partner_id(self):
         result = super(Lead, self)._onchange_partner_id_values(
-            self.partner_id.id if self.partner_id else False)
+            self.partner_id.id if self.partner_id else False
+        )
 
         if self.partner_id:
-            result['street_number'] = self.partner_id.street_number
-            result['district'] = self.partner_id.district
-            result['city_id'] = self.partner_id.city_id.id
+            result["street_number"] = self.partner_id.street_number
+            result["district"] = self.partner_id.district
+            result["city_id"] = self.partner_id.city_id.id
             if self.partner_id.is_company:
-                result['legal_name'] = self.partner_id.legal_name
-                result['cnpj'] = self.partner_id.cnpj_cpf
-                result['inscr_est'] = self.partner_id.inscr_est
-                result['suframa'] = self.partner_id.suframa
+                result["legal_name"] = self.partner_id.legal_name
+                result["cnpj"] = self.partner_id.cnpj_cpf
+                result["inscr_est"] = self.partner_id.inscr_est
+                result["suframa"] = self.partner_id.suframa
             else:
-                result['cpf'] = self.partner_id.cnpj_cpf
-                result['name_surname'] = self.partner_id.legal_name
+                result["cpf"] = self.partner_id.cnpj_cpf
+                result["name_surname"] = self.partner_id.legal_name
         self.update(result)
 
     @api.multi
@@ -162,24 +145,31 @@ class Lead(models.Model):
             :returns res.partner record
         """
         values = super(Lead, self)._create_lead_partner_data(
-            name, is_company, parent_id)
-        values.update({
-            'street_number': self.street_number,
-            'district': self.district,
-            'city_id': self.city_id.id
-        })
+            name, is_company, parent_id
+        )
+        values.update(
+            {
+                "street_number": self.street_number,
+                "district": self.district,
+                "city_id": self.city_id.id,
+            }
+        )
         if is_company:
-            values.update({
-                'legal_name': self.legal_name,
-                'cnpj_cpf': self.cnpj,
-                'inscr_est': self.inscr_est,
-                'inscr_mun': self.inscr_mun,
-                'suframa': self.suframa,
-            })
+            values.update(
+                {
+                    "legal_name": self.legal_name,
+                    "cnpj_cpf": self.cnpj,
+                    "inscr_est": self.inscr_est,
+                    "inscr_mun": self.inscr_mun,
+                    "suframa": self.suframa,
+                }
+            )
         else:
-            values.update({
-                'legal_name': self.name_surname,
-                'cnpj_cpf': self.cpf,
-                'inscr_est': self.rg,
-            })
+            values.update(
+                {
+                    "legal_name": self.name_surname,
+                    "cnpj_cpf": self.cpf,
+                    "inscr_est": self.rg,
+                }
+            )
         return values
