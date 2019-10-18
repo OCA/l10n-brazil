@@ -80,10 +80,6 @@ class HrContract(models.Model):
         related='partner_union.union_entity_code',
         readonly=True)
 
-    month_base_date = fields.Selection(
-        string='Base date month',
-        selection=MONTHS)
-
     discount_union_contribution = fields.Boolean(
         string='Discount union contribution in admission')
 
