@@ -2,6 +2,7 @@
 # (c) 2014 Kmee - Matheus Felix <matheus.felix@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from . import data_abstract
 from . import l10n_br_hr_cbo
 from . import hr_employee
 from . import hr_job
@@ -16,4 +17,3 @@ from . import hr_educational_attainment
 from . import hr_ethnicity
 from . import hr_identity_type
 from . import hr_nationality_code
-

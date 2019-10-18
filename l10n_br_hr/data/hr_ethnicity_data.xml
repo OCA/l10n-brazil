@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+      <!-- ETHNICITY -->
+      <record id="ethnicity_1" model="hr.ethnicity">
+          <field name="name">Branca</field>
+          <field name="code">1</field>
+      </record>
+
+      <record id="ethnicity_2" model="hr.ethnicity">
+          <field name="name">Preta</field>
+          <field name="code">2</field>
+      </record>
+
+      <record id="ethnicity_3" model="hr.ethnicity">
+          <field name="name">Parda</field>
+          <field name="code">3</field>
+      </record>
+
+      <record id="ethnicity_4" model="hr.ethnicity">
+          <field name="name">Amarela</field>
+          <field name="code">4</field>
+      </record>
+
+      <record id="ethnicity_5" model="hr.ethnicity">
+          <field name="name">Indígena</field>
+          <field name="code">5</field>
+      </record>
+
+      <record id="ethnicity_6" model="hr.ethnicity">
+          <field name="name">Não Informado</field>
+          <field name="code">6</field>
+      </record>
+
+</odoo>
