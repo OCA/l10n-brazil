@@ -11,7 +11,11 @@
         <field name="name">l10n_br_account.invoice.cancel.form</field>
         <field name="model">l10n_br_account.invoice.cancel</field>
         <field name="arch" type="xml">
-            <form string="NFs Canceladas" edit="false" create="false">
+            <form string="NFs Canceladas">
+                <header>
+                    <button name="action_draft_done" states="draft" colspan="2" string="Enviar" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
                 <group>
                     <field name="invoice_id"/>
                     <field name="partner_id"/>
@@ -19,11 +23,7 @@
                 <group>
                     <field name="justificative"/>
                 </group>
-                <notebook>
-                    <page string="Eventos">
-                        <field name="cancel_document_event_ids"/>
-                    </page>
-                </notebook>
+                <field name="cancel_document_event_ids" nolabel="1" invisible="[('cancel_document_event_ids' , '=', [])]"/>
             </form>
         </field>
     </record>
@@ -32,19 +32,20 @@
         <field name="name">l10n_br_account.invoice.cce.form</field>
         <field name="model">l10n_br_account.invoice.cce</field>
         <field name="arch" type="xml">
-            <form string="Carta de Correção" version="7.0" edit="false" create="false">
+            <form string="Carta de Correção">
+                <header>
+                    <button name="action_draft_done" states="draft" colspan="2" string="Enviar" type="object" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
                 <group>
                     <field name="invoice_id"/>
-                    <field name="sequencia"/>
+                    <field name="partner_id"/>
                 </group>
                 <group>
-                     <field name="motivo"/>
+                    <field name="sequencia"/>
+                     <field name="justificative"/>
                 </group>
-                <notebook>
-                    <page string="Eventos">
-                        <field name="cce_document_event_ids"/>
-                    </page>
-                </notebook>
+                <field name="cce_document_event_ids" nolabel="1" invisible="[('cce_document_event_ids' , '=', [])]"/>
             </form>
         </field>
     </record>
@@ -53,10 +54,11 @@
         <field name="name">l10n_br_account.invoice.cancel.tree</field>
         <field name="model">l10n_br_account.invoice.cancel</field>
         <field name="arch" type="xml">
-            <tree string="NFs Canceladas" edit="false" create="false">
+            <tree string="NFs Canceladas" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state=='error'">
                 <field name="invoice_id" style="width: 100%" />
                 <field name="partner_id" style="width: 100%" />
                 <field name="justificative"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -65,10 +67,11 @@
         <field name="name">l10n_br_account.invoice.cce.tree</field>
         <field name="model">l10n_br_account.invoice.cce</field>
         <field name="arch" type="xml">
-            <tree string="Carta de Correção" edit="false" create="false">
+            <tree string="Carta de Correção" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state=='error'">
                 <field name="invoice_id"/>
-                <field name="motivo"/>
+                <field name="justificative"/>
                 <field name="sequencia"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -173,7 +176,7 @@
         <field name="name">l10n_br_account.fiscal.category.tree</field>
         <field name="model">l10n_br_account.fiscal.category</field>
         <field name="arch" type="xml">
-            <tree string="Categoria Fiscal" colors="grey:state=='unapproved';blue:state in ('draft','review');red:state=='unapproved'">
+            <tree string="Categoria Fiscal"  colors="grey:state=='unapproved';blue:state in ('draft','review');red:state=='unapproved'">
                 <field name="code" select="1"/>
                 <field name="name" select="1"/>
                 <field name="type" select="1"/>
@@ -325,7 +328,7 @@
         <field name="arch" type="xml">
             <form string="Inutilizar Faixa de Numeração" version="7.0">
                 <header>
-                    <button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>
+                    <button name="action_draft_done" states="draft" colspan="2" string="Enviar" type="object" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
                 </header>
                 <group>
@@ -345,13 +348,14 @@
         <field name="name">l10n_br_account.invoice.invalid.number.tree</field>
         <field name="model">l10n_br_account.invoice.invalid.number</field>
         <field name="arch" type="xml">
-            <tree string="Inutilizar Faixa de Numeração">
+            <tree string="Inutilizar Faixa de Numeração" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state=='error'">
                 <field name="fiscal_document_id"/>
                 <field name="document_serie_id"/>
                 <field name="number_start"/>
                 <field name="number_end"/>
                 <field name="state"/>
                 <field name="company_id"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -552,7 +556,6 @@
         <field name="res_model">l10n_br_account.invoice.cancel</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="view_id" ref="l10n_br_account_invoice_cancel_tree"/>
     </record>
 
     <record id="action_l10n_br_account_cce" model="ir.actions.act_window">
@@ -561,7 +564,6 @@
         <field name="res_model">l10n_br_account.invoice.cce</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="view_id" ref="l10n_br_account_cce_tree"/>
     </record>
 
     <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="menu_l10n_br_account_configuration_fiscal" sequence="0"/>
