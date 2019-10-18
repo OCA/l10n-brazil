@@ -15,7 +15,6 @@ class TestL10nBr(TransactionCase):
             'civil_certificate_type_id': self.env['hr.civil.certificate.type'],
             'deficiency_id': 1,
             'deficiency_description': 'Deficiency in index finger',
-            'chronic_disease_ids': 'Cronic',
             'name': 'l10n brazil demo employee',
             'pis_pasep': '496.85994.95-6',
             'cpf': '853.334.271-35',
