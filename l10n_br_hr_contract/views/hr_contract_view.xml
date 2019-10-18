@@ -63,7 +63,6 @@
                         <group name="notice_of_terminationstring" string="Notice of Termination">
                             <field name="notice_of_termination_id"/>
                             <field name="notice_of_termination_date"/>
-                            <field name="notice_of_termination_payment_date"/>
                         </group>
                     </page>
                 </xpath>
