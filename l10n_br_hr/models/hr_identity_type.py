@@ -5,17 +5,11 @@ from odoo import fields, models
 
 
 class HrIdentityType(models.Model):
-    _name = 'hr.identity.type'
-    _description = 'Identity Types'
+    _name = "hr.identity.type"
+    _description = "Identity Types"
 
-    name = fields.Char(
-        string='Identity type',
-        required=True)
+    name = fields.Char(string="Identity type", required=True)
 
-    initials = fields.Char(
-        string='Initials',
-        required=True)
+    initials = fields.Char(string="Initials", required=True)
 
-    employee_ids = fields.Many2many(
-        string="Employees",
-        comodel_name='hr.employee')
+    employee_ids = fields.Many2many(string="Employees", comodel_name="hr.employee")

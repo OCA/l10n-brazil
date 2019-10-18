@@ -5,6 +5,6 @@ from odoo import models
 
 
 class L10nBrHrCbo(models.Model):
-    _name = 'l10n_br_hr.cbo'
-    _inherit = 'l10n_br_hr.data.abstract'
-    _description = 'Brazilian Classification of Occupation'
+    _name = "l10n_br_hr.cbo"
+    _inherit = "l10n_br_hr.data.abstract"
+    _description = "Brazilian Classification of Occupation"
