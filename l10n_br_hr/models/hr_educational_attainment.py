@@ -5,6 +5,6 @@ from odoo import models
 
 
 class HrEducationalAttainment(models.Model):
-    _name = 'hr.educational.attainment'
-    _inherit = 'l10n_br_hr.data.abstract'
-    _description = 'Educational Attainments'
+    _name = "hr.educational.attainment"
+    _inherit = "l10n_br_hr.data.abstract"
+    _description = "Educational Attainments"

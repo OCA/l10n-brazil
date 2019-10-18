@@ -5,6 +5,6 @@ from odoo import models
 
 
 class HrDeficiency(models.Model):
-    _name = 'hr.deficiency'
-    _inherit = 'l10n_br_hr.data.abstract'
-    _description = 'Deficiencies'
+    _name = "hr.deficiency"
+    _inherit = "l10n_br_hr.data.abstract"
+    _description = "Deficiencies"
