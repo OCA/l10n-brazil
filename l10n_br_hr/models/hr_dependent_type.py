@@ -5,6 +5,6 @@ from odoo import models
 
 
 class HrDependentType(models.Model):
-    _name = 'hr.dependent.type'
-    _inherit = 'l10n_br_hr.data.abstract'
-    _description = 'Dependents Type'
+    _name = "hr.dependent.type"
+    _inherit = "l10n_br_hr.data.abstract"
+    _description = "Dependents Type"
