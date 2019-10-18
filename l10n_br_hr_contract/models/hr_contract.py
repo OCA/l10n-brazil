@@ -45,12 +45,12 @@ class HrContract(models.Model):
         selection=[
             ('rgps', u'Regime Geral da Previdência Social'),
             ('rpps', u'Regime Próprio da Previdência Social'),
-            ('rpse', 'Regime de Previdência Social no Exterior')])
+            ('rpse', 'Regime de Previdência Social no Exterior')],
+        help='e-Social: S2300 - tpRegPrev')
 
     salary_unit = fields.Many2one(
         string='Salary Unity',
-        comodel_name='hr.contract.salary.unit',
-        help='e-Social: S2300 - tpRegPrev')
+        comodel_name='hr.contract.salary.unit')
 
     weekly_hours = fields.Float(
         string='Weekly hours')
