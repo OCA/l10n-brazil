@@ -8,7 +8,7 @@
 
 import logging
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -20,8 +20,8 @@ except ImportError:
 
 
 class Company(models.Model):
-    _name = 'res.company'
-    _inherit = ['res.company', 'format.address.mixin']
+    _name = "res.company"
+    _inherit = ["res.company", "format.address.mixin"]
 
     @api.multi
     def _compute_l10n_br_data(self):
@@ -36,7 +36,7 @@ class Company(models.Model):
             c.inscr_est = c.partner_id.inscr_est
             c.inscr_mun = c.partner_id.inscr_mun
             c.suframa = c.partner_id.suframa
-            state_tax_number_ids = self.env['state.tax.numbers']
+            state_tax_number_ids = self.env["state.tax.numbers"]
             for state_tax_number in c.partner_id.state_tax_number_ids:
                 state_tax_number_ids |= state_tax_number
             c.state_tax_number_ids = state_tax_number_ids
@@ -64,7 +64,7 @@ class Company(models.Model):
     def _inverse_state_tax_number_ids(self):
         """ Write the l10n_br specific functional fields. """
         for company in self:
-            state_tax_number_ids = self.env['state.tax.numbers']
+            state_tax_number_ids = self.env["state.tax.numbers"]
             for ies in company.state_tax_number_ids:
                 state_tax_number_ids |= ies
             company.partner_id.state_tax_number_ids = state_tax_number_ids
@@ -85,79 +85,86 @@ class Company(models.Model):
             company.partner_id.suframa = company.suframa
 
     legal_name = fields.Char(
-        string='Legal Name',
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_legal_name',
-        size=128)
+        string="Legal Name",
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_legal_name",
+        size=128,
+    )
 
     district = fields.Char(
-        string='District',
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_district',
-        size=32)
+        string="District",
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_district",
+        size=32,
+    )
 
     city_id = fields.Many2one(
-        string='City of Address',
-        comodel_name='res.city',
+        string="City of Address",
+        comodel_name="res.city",
         domain="[('state_id', '=', state_id)]",
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_city_id')
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_city_id",
+    )
 
-    country_id = fields.Many2one(
-        default=lambda self: self.env.ref('base.br'))
+    country_id = fields.Many2one(default=lambda self: self.env.ref("base.br"))
 
     cnpj_cpf = fields.Char(
-        string='CNPJ',
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_cnpj_cpf',
-        size=18)
+        string="CNPJ",
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_cnpj_cpf",
+        size=18,
+    )
 
     inscr_est = fields.Char(
-        string='State Tax Number',
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_inscr_est',
-        size=16)
+        string="State Tax Number",
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_inscr_est",
+        size=16,
+    )
 
     state_tax_number_ids = fields.One2many(
-        string='State Tax Numbers',
-        comodel_name='state.tax.numbers',
-        inverse_name='partner_id',
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_state_tax_number_ids',
-        ondelete='cascade')
+        string="State Tax Numbers",
+        comodel_name="state.tax.numbers",
+        inverse_name="partner_id",
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_state_tax_number_ids",
+        ondelete="cascade",
+    )
 
     inscr_mun = fields.Char(
-        string='Municipal Tax Number',
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_inscr_mun',
-        size=18)
+        string="Municipal Tax Number",
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_inscr_mun",
+        size=18,
+    )
 
     suframa = fields.Char(
-        string='Suframa',
-        compute='_compute_l10n_br_data',
-        inverse='_inverse_suframa',
-        size=18)
+        string="Suframa",
+        compute="_compute_l10n_br_data",
+        inverse="_inverse_suframa",
+        size=18,
+    )
 
     @api.model
-    def _fields_view_get(self, view_id=None, view_type='form',
-                         toolbar=False, submenu=False):
-        res = super(Company, self)._fields_view_get(view_id,
-                                                    view_type,
-                                                    toolbar,
-                                                    submenu)
-        if view_type == 'form':
-            res['arch'] = self._fields_view_get_address(res['arch'])
+    def _fields_view_get(
+        self, view_id=None, view_type="form", toolbar=False, submenu=False
+    ):
+        res = super(Company, self)._fields_view_get(
+            view_id, view_type, toolbar, submenu
+        )
+        if view_type == "form":
+            res["arch"] = self._fields_view_get_address(res["arch"])
         return res
 
-    @api.onchange('state_id')
+    @api.onchange("state_id")
     def _onchange_state(self):
         self.city_id = None
 
-    @api.onchange('cnpj_cpf')
+    @api.onchange("cnpj_cpf")
     def _onchange_cnpj_cpf(self):
         self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf)
 
-    @api.onchange('city_id')
+    @api.onchange("city_id")
     def _onchange_city_id(self):
         """ Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
@@ -171,7 +178,6 @@ class Company(models.Model):
         """
         self.city = self.city_id.name
 
-    @api.onchange('zip')
+    @api.onchange("zip")
     def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip,
-                                       self.country_id.code)
+        self.zip = misc.format_zipcode(self.zip, self.country_id.code)
