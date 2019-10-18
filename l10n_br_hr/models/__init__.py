@@ -9,7 +9,6 @@ from . import hr_job
 from . import res_company
 from . import res_partner
 from . import hr_employee_dependent
-from . import hr_chronic_disease
 from . import hr_civil_certificate_type
 from .import hr_deficiency
 from . import hr_dependent_type
