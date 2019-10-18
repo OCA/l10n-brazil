@@ -24,7 +24,7 @@
         'views/webclient_templates.xml',
         'views/res_partner_address_view.xml',
         'views/res_config_settings_view.xml',
-        'data/base_data.xml',
+        'data/res_country.xml',
         'views/res_city_view.xml',
         'views/res_bank_view.xml',
         'views/res_partner_bank_view.xml',
