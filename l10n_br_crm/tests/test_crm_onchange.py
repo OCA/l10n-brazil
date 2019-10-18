@@ -6,24 +6,25 @@ from odoo.tests.common import TransactionCase
 
 
 class L10nBrCrmOnchangeTest(TransactionCase):
-
     def setUp(self):
         super(L10nBrCrmOnchangeTest, self).setUp()
 
-        self.crm_lead_01 = self.env['crm.lead'].create({
-            'name': 'Test Company Lead',
-            'partner_name': 'Test Company',
-            'legal_name': 'Test Company LTDA',
-            'contact_name': 'Test Name Contact',
-            'name_surname': 'Test NameSurname Contact',
-            'cnpj': '56.647.352/0001-98',
-            'city_id': self.env.ref('l10n_br_base.city_3205002').id,
-            'country_id': self.env.ref('base.br').id,
-            'zip': '29161-695',
-            'cpf': '70531160505',
-            'email_from': 'testcontact@email.com',
-            'phone': '999999999',
-            })
+        self.crm_lead_01 = self.env["crm.lead"].create(
+            {
+                "name": "Test Company Lead",
+                "partner_name": "Test Company",
+                "legal_name": "Test Company LTDA",
+                "contact_name": "Test Name Contact",
+                "name_surname": "Test NameSurname Contact",
+                "cnpj": "56.647.352/0001-98",
+                "city_id": self.env.ref("l10n_br_base.city_3205002").id,
+                "country_id": self.env.ref("base.br").id,
+                "zip": "29161-695",
+                "cpf": "70531160505",
+                "email_from": "testcontact@email.com",
+                "phone": "999999999",
+            }
+        )
 
     def test_onchange(self):
         """
