@@ -6,8 +6,5 @@ from odoo import fields, models
 
 class HrCivilCertificateType(models.Model):
     _name = 'hr.civil.certificate.type'
+    _inherit = 'l10n_br_hr.data.abstract'
     _description = 'Civil Certificate Type'
-
-    name = fields.Char(
-        string='Civil certificate type',
-        required=True)
