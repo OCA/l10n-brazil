@@ -110,3 +110,9 @@ class HrEmployeeDependent(models.Model):
             HrEmployeeDependent, self.sudo().with_context(ctx)
         ).create(vals)
         return patient
+
+    @api.onchange('dependent_cpf')
+    def onchange_cpf(self):
+        cpf = cnpj_cpf.formata(str(self.dependent_cpf))
+        if cpf:
+            self.dependent_cpf = cpf
