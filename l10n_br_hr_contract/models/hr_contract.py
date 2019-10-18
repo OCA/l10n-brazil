@@ -44,7 +44,8 @@ class HrContract(models.Model):
         string='Welfare policy',
         selection=[
             ('rgps', u'Regime Geral da Previdência Social'),
-            ('rpps', u'Regime Próprio da Previdência Social')])
+            ('rpps', u'Regime Próprio da Previdência Social'),
+            ('rpse', 'Regime de Previdência Social no Exterior')])
 
     salary_unit = fields.Many2one(
         string='Salary Unity',
