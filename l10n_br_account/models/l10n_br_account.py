@@ -20,32 +20,81 @@ PRODUCT_FISCAL_TYPE = [
 PRODUCT_FISCAL_TYPE_DEFAULT = None
 
 
+class L10nBrAccountEventBase(models.AbstractModel):
+    _name = 'l10n_br_account.event_base'
+
+    state = fields.Selection(
+        selection=[
+            ('draft', 'Rascunho'),
+            ('cancel', 'Cancelado'),
+            ('done', u'Concluído'),
+            ('error', u'Error'),
+        ],
+        string='Status',
+        required=True,
+        default='draft'
+    )
+    justificative = fields.Char(
+        string=u'Justificativa',
+        size=255,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=True
+    )
+
+    @api.multi
+    @api.constrains('justificative')
+    def _check_justificative(self):
+        for record in self:
+            if len(record.justificative) < 15:
+                raise UserError(_(
+                    'Justificativa deve ter tamanho minimo de 15 caracteres.'))
+            return True
+
+    def action_draft_done(self):
+        self.write({'state': 'done'})
+        return True
+
+
 class L10nBrAccountCce(models.Model):
     _name = 'l10n_br_account.invoice.cce'
+    _inherit = 'l10n_br_account.event_base'
     _description = u'Carta de Correção no Sefaz'
 
     # TODO nome de campos devem ser em ingles
     invoice_id = fields.Many2one(
         comodel_name='account.invoice',
-        string=u'Fatura')
-
-    motivo = fields.Text(
-        string=u'Motivo',
+        string=u'Fatura',
+        required=True,
         readonly=True,
-        required=True)
+        states={'draft': [('readonly', False)]},
+    )
+
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        related='invoice_id.partner_id',
+        string='Partner',
+        readonly=True,
+    )
 
     sequencia = fields.Char(
         string=u'Sequência',
-        help=u"Indica a sequência da carta de correcão")
+        help=u"Indica a sequência da carta de correcão",
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
 
     cce_document_event_ids = fields.One2many(
         comodel_name='l10n_br_account.document_event',
         inverse_name='document_event_ids',
-        string=u'Eventos')
+        string=u'Eventos',
+        readonly=True,
+    )
 
     display_name = fields.Char(
         string='Name',
-        compute='_compute_display_name')
+        compute='_compute_display_name'
+    )
 
     @api.multi
     @api.depends('invoice_id.number', 'invoice_id.partner_id.name')
@@ -58,27 +107,30 @@ class L10nBrAccountCce(models.Model):
 
 class L10nBrAccountInvoiceCancel(models.Model):
     _name = 'l10n_br_account.invoice.cancel'
+    _inherit = 'l10n_br_account.event_base'
     _description = u'Documento Eletrônico no Sefaz'
 
     invoice_id = fields.Many2one(
         comodel_name='account.invoice',
-        string=u'Fatura')
+        string=u'Fatura',
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         related='invoice_id.partner_id',
-        string='Cliente')
-
-    justificative = fields.Char(
-        string='Justificativa',
-        size=255,
+        string='Partner',
         readonly=True,
-        required=True)
+    )
 
     cancel_document_event_ids = fields.One2many(
         comodel_name='l10n_br_account.document_event',
         inverse_name='cancel_document_event_id',
-        string=u'Eventos')
+        string=u'Eventos',
+        readonly=True,
+    )
 
     display_name = fields.Char(
         string=u'Nome',
@@ -92,18 +144,6 @@ class L10nBrAccountInvoiceCancel(models.Model):
         names = ['Fatura', self.invoice_id.number,
                  self.invoice_id.partner_id.name]
         self.display_name = ' / '.join(filter(None, names))
-
-    @api.multi
-    def _check_justificative(self):
-        for invalid in self:
-            if len(invalid.justificative) < 15:
-                return False
-        return True
-
-    _constraints = [(
-        _check_justificative,
-        u'Justificativa deve ter tamanho mínimo de 15 caracteres.',
-        ['justificative'])]
 
 
 class L10nBrDocumentEvent(models.Model):
@@ -217,6 +257,7 @@ class L10nBrDocumentEvent(models.Model):
 
 class L10nBrAccountInvoiceInvalidNumber(models.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
+    _inherit = 'l10n_br_account.event_base'
     _description = u'Inutilização de Faixa de Numeração'
 
     @api.multi
@@ -265,21 +306,6 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
         states={'draft': [('readonly', False)]},
         required=True)
 
-    state = fields.Selection(
-        selection=[('draft', 'Rascunho'),
-                   ('cancel', 'Cancelado'),
-                   ('done', u'Concluído')],
-        string='Status',
-        required=True,
-        default='draft')
-
-    justificative = fields.Char(
-        string=u'Justificativa',
-        size=255,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        required=True)
-
     invalid_number_document_event_ids = fields.One2many(
         comodel_name='l10n_br_account.document_event',
         inverse_name='invalid_number_document_event_id',
@@ -291,15 +317,6 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
          'unique(document_serie_id, number_start, number_end, state)',
          u'Sequência existente!'),
     ]
-
-    @api.multi
-    @api.constrains('justificative')
-    def _check_justificative(self):
-        for record in self:
-            if len(record.justificative) < 15:
-                raise UserError(_(
-                    'Justificativa deve ter tamanho minimo de 15 caracteres.'))
-            return True
 
     @api.multi
     @api.constrains('number_start', 'number_end')
@@ -325,18 +342,6 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
                     (record.number_start > record.number_end)):
                 raise UserError(_(u'Não é permitido faixas sobrepostas!'))
             return True
-
-    _constraints = [
-        (_check_range, u'Não é permitido faixas sobrepostas!',
-            ['number_start', 'number_end']),
-        (_check_justificative,
-            'Justificativa deve ter tamanho minimo de 15 caracteres.',
-            ['justificative'])
-    ]
-
-    def action_draft_done(self):
-        self.write({'state': 'done'})
-        return True
 
     @api.multi
     def unlink(self):
