@@ -103,7 +103,6 @@
                         <field name="blood_type"/>
                         <field name="deficiency_id"/>
                         <field name="deficiency_description"/>
-                        <field name="chronic_disease_ids"/>
                     </group>
                 </page>
             </xpath>
@@ -237,13 +236,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="action_hr_chronic_disease" model="ir.actions.act_window">
-        <field name="name">Chronic disease</field>
-        <field name="res_model">hr.chronic.disease</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
     <record id="action_hr_dependent_type" model="ir.actions.act_window">
         <field name="name">Relatedness</field>
         <field name="res_model">hr.dependent.type</field>
@@ -272,17 +264,13 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_hr_contract_configuration_rais" parent="hr.menu_human_resources_configuration" name="RAIS" sequence="30" groups="hr.group_hr_manager"/>
-
-    <menuitem id="menu_hr_employee_register" parent="menu_hr_contract_configuration_rais" name="Employee register" sequence="20" groups="hr.group_hr_manager"/>
+    <menuitem id="menu_hr_employee_register" parent="hr.menu_human_resources_configuration" name="Employee register" sequence="20" groups="hr.group_hr_manager"/>
 
     <menuitem action="action_hr_deficiency" id="menu_hr_deficiency" parent="menu_hr_employee_register" sequence="1"/>
 
     <menuitem action="action_hr_identity_type" id="menu_hr_identity_type" parent="menu_hr_employee_register" sequence="2"/>
 
     <menuitem action="action_hr_civil_certificate_type" id="menu_hr_civil_certificate_type" parent="menu_hr_employee_register" sequence="3"/>
-
-    <menuitem action="action_hr_chronic_disease" id="menu_hr_chronic_disease" parent="menu_hr_employee_register" sequence="4"/>
 
     <menuitem action="action_hr_dependent_type" id="menu_hr_dependent_type" parent="menu_hr_employee_register" sequence="5"/>
 
