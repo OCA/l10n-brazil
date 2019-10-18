@@ -209,9 +209,7 @@ class HrEmployee(models.Model):
 
     def _check_dob(self):
         for dependent in self.dependent_ids:
-            if datetime.strptime(
-                    dependent.dependent_dob, DEFAULT_SERVER_DATE_FORMAT
-            ).date() > datetime.now().date():
+            if dependent.dependent_dob > datetime.now().date():
                 raise ValidationError(_('Invalid birth date for dependent %s')
                                       % dependent.dependent_name)
 
