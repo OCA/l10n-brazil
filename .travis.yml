@@ -11,6 +11,7 @@ addons:
     packages:
       - expect-dev  # provides unbuffer utility
       - python-lxml  # because pip installation is slow
+      - language-pack-br
 #      - libxml2-dev
 #      - libxmlsec1-dev
 #      - libxslt-dev
@@ -34,11 +35,7 @@ install:
   - travis_install_nightly
   - pip install -r requirements.txt
 
-before_script:
-  - chmod +x configure_locale.sh
-
 script:
-  - sudo ./configure_locale.sh
   - travis_run_tests
 
 after_success:
