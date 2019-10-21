@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="res_company_form_view">
+        <field name="name">res.company.form (in edoc_base)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id"
+               ref="l10n_br_account_product.l10n_br_account_product_company_form"/>
+        <field name="arch" type="xml">
+            <field name="nfe_version" position="before">
+                <field name="processador_edoc" required="1"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>
