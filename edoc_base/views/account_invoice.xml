@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="account_invoice_form_view" model="ir.ui.view">
+        <field name="name">account.invoice.form (in edoc_base)</field>
+        <field name="model">account.invoice</field>
+        <field name="priority">999</field>
+        <field name="inherit_id"
+               ref="l10n_br_account_product.l10n_br_account_product_nfe_form"/>
+        <field name="arch" type="xml">
+            <button name="action_invoice_open" position="replace">
+                <button name="action_invoice_open"
+                        attrs="{'invisible':['|',('nfe_export_date','=',False),('state','!=','sefaz_export')]}"
+                        string="Validate" class="oe_highlight"/>
+                <button name="action_confirm_invoice" string="Confirmar Fatura"
+                        states="draft,proforma2,sefaz_exception,open"
+                        groups="base.group_user"
+                        type="object"/>
+                <button name="action_invoice_send_nfe" string="Enviar Fatura"
+                        states="sefaz_export,sefaz_exception,open"
+                        groups="base.group_user"
+                        type="object"/>
+                <button name="action_edoc_cancel" string="Cancelar Fatura"
+                        states="draft,proforma2,sefaz_export,sefaz_exception,open"
+                        groups="base.group_user"
+                        type="object"/>
+                <button name="action_edoc_cce" type="object" attrs="{'invisible':['|',('issuer','!=','0'),
+                                                 ('state','not in',['open','paid'])]}"
+                        string="Carta de correção" groups="base.group_no_one"/>
+                <button name="action_check_nfe" type="object" string="Consultar"
+                        attrs="{'invisible':[('state','in', ['draft', 'paid', 'cancel', 'sefaz_cancelled'])]}"/>
+            </button>
+            <xpath expr="//button[@name='action_invoice_cancel']"
+                   position="replace">
+            </xpath>
+            <xpath expr="//field[@name='ind_pres']" position="after">
+                <field name="is_edoc_printed"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

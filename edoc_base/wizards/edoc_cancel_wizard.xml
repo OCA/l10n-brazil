@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="edoc_cancel_wizard_form_view">
+        <field name="name">edoc.cancel.wizard.form (in edoc_base)</field>
+        <field name="model">edoc.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancelamento de documento fiscal">
+                <group>
+                    <field name="name"/>
+                </group>
+                <footer>
+                    <button name="doit"
+                            string="OK"
+                            class="btn-primary"
+                            type="object"/>
+                    <button string="Cancel"
+                            class="btn-default"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="edoc_cancel_wizard_act_window">
+        <field name="name">Cancelamento de documento fiscal</field>
+        <field name="res_model">edoc.cancel.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+
+</odoo>
