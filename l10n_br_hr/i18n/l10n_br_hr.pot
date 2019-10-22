@@ -288,13 +288,13 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_civil_certificate_type
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__civil_certificate_type_id
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_civil_certificate_type
 msgid "Civil certificate type"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__code
@@ -1098,6 +1098,7 @@ msgid "Municipal Tax Number"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__name
