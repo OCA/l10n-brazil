@@ -209,7 +209,7 @@ class HrEmployee(models.Model):
 
     def _check_dob(self):
         for dependent in self.dependent_ids:
-            if dependent.dependent_dob > datetime.now().date():
+            if dependent.dependent_dob > fields.Date.context_today(self):
                 raise ValidationError(_('Invalid birth date for dependent %s')
                                       % dependent.dependent_name)
 
