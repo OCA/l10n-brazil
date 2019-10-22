@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <form string="Carta de Correção Eletrônica">
                 <group>
-                    <field name="name"/>
+                    <field name="justificative"/>
                 </group>
                 <footer>
                     <button name="doit"
