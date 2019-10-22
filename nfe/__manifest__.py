@@ -16,7 +16,7 @@
         ],
     },
     'depends': [
-        'l10n_br_account_product',
+        'edoc_base',
         'barcodes',
     ],
     'data': [

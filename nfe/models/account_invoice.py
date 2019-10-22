@@ -28,13 +28,6 @@ class AccountInvoice(models.Model):
     """account_invoice overwritten methods"""
     _inherit = 'account.invoice'
 
-    cce_document_event_ids = fields.One2many(
-        'l10n_br_account.invoice.cce', 'invoice_id', u'Eventos')
-    is_danfe_printed = fields.Boolean(
-        string="Danfe Impresso",
-        readonly=True,
-    )
-
     @api.multi
     def attach_file_event(self, seq, att_type, ext):
         """
@@ -103,82 +96,47 @@ class AccountInvoice(models.Model):
         return NfeFactory().get_nfe(nfe_version)
 
     @api.multi
-    def edoc_export(self):
+    def _edoc_export(self):
         self.ensure_one()
 
         if not self.company_id.processador_edoc == PROCESSADOR:
             return super(AccountInvoice, self)._edoc_export()
 
         validate_nfe_configuration(self.company_id)
-
         nfe_obj = self._get_nfe_factory(self.nfe_version)
+        nfe = nfe_obj.get_xml(self, int(self.company_id.nfe_environment))[0]
 
-        # nfe_obj = NFe310()
-        nfes = nfe_obj.get_xml(self, int(self.company_id.nfe_environment))
+        erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
+        nfe_key = nfe['key'][3:]
+        if erro:
+            raise RedirectWarning(erro, _(u'Erro na validaço da NFe!'))
 
-        for nfe in nfes:
-            # erro = nfe_obj.validation(nfe['nfe'])
-            erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
-            nfe_key = nfe['key'][3:]
-            if erro:
-                raise RedirectWarning(
-                    erro, _(u'Erro na validaço da NFe!'))
-
-            self.write({'nfe_access_key': nfe_key})
-            save_dir = os.path.join(
-                monta_caminho_nfe(
-                    self.company_id,
-                    chave_nfe=nfe_key) +
-                'tmp/')
-            nfe_file = nfe['nfe'].encode('utf8')
-
-            file_path = save_dir + nfe_key + '-nfe.xml'
-            try:
-                if not os.path.exists(save_dir):
-                    os.makedirs(save_dir)
-                f = open(file_path, 'w')
-            except IOError:
-                raise RedirectWarning(
-                    _(u'Erro!'), _(u"""Não foi possível salvar o arquivo
-                        em disco, verifique as permissões de escrita
-                        e o caminho da pasta"""))
-            else:
-                f.write(nfe_file)
-                f.close()
-
-                event_obj = self.env['l10n_br_account.document_event']
-                event_obj.create({
-                    'type': '0',
-                    'company_id': self.company_id.id,
-                    'origin': '[NF-E]' + self.fiscal_number,
-                    'file_sent': file_path,
-                    'create_date': datetime.datetime.now(),
-                    'state': 'draft',
-                    'document_event_ids': self.id
-                })
-                self.write({'state': 'sefaz_export'})
+        self.nfe_access_key = nfe_key
+        nfe_file = nfe['nfe'].encode('utf8')
+        event_id = self._gerar_evento(nfe_file, type='0')
+        self.write({
+            'state': 'sefaz_export',
+            'autorizacao_event_id': event_id.id,
+        })
 
     @api.multi
-    def action_invoice_send_nfe(self):
+    def _edoc_send(self):
         if not self.company_id.processador_edoc == PROCESSADOR:
-            return super(AccountInvoice, self).action_invoice_send_nfe()
+            return super(AccountInvoice, self)._edoc_send()
 
         for inv in self:
 
-            event_obj = self.env['l10n_br_account.document_event']
-            event = max(
-                event_obj.search([('document_event_ids', '=', inv.id),
-                                  ('type', '=', '0')]))
-            arquivo = event.file_sent
+            arquivo = inv.autorizacao_event_id.file_sent
             nfe_obj = self._get_nfe_factory(inv.nfe_version)
 
             nfe = []
             results = []
-            protNFe = {}
-            protNFe["state"] = 'sefaz_exception'
-            protNFe["status_code"] = ''
-            protNFe["message"] = ''
-            protNFe["nfe_protocol_number"] = ''
+            protNFe = {
+                "state": 'sefaz_exception',
+                "status_code": '',
+                "message": '',
+                "nfe_protocol_number": ''
+            }
             try:
                 nfe.append(nfe_obj.set_xml(arquivo))
                 for processo in send(inv.company_id, nfe):
@@ -188,9 +146,6 @@ class AccountInvoice(models.Model):
                         'response': '',
                         'company_id': inv.company_id.id,
                         'origin': '[NF-E]' + inv.fiscal_number,
-                        # TODO: Manipular os arquivos manualmente
-                        # 'file_sent': processo.arquivos[0]['arquivo'],
-                        # 'file_returned': processo.arquivos[1]['arquivo'],
                         'message': processo.resposta.xMotivo.valor,
                         'state': 'done',
                         'document_event_ids': inv.id}
@@ -228,9 +183,9 @@ class AccountInvoice(models.Model):
             finally:
                 for result in results:
                     if result['type'] == '0':
-                        event_obj.write(result)
+                        inv.autorizacao_event_id.write(result)
                     else:
-                        event_obj.create(result)
+                        inv.autorizacao_event_id.create(result)
 
                 self.write({
                     'nfe_status': protNFe["status_code"] + ' - ' +
