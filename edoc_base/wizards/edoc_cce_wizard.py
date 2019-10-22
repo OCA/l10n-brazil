@@ -9,7 +9,17 @@ class EdocCceWizard(models.TransientModel):
 
     _name = 'edoc.cce.wizard'
 
-    name = fields.Char()
+    justificative = fields.Text('Justificativa', size=255, required=True)
+
+    @api.constrains('justificative')
+    @api.multi
+    def _check_justificative(self):
+        for record in self:
+            if len(record.justificative) < 15:
+                raise UserError(
+                    _('Justificativa deve ter o tamanho mínimo de 15 '
+                      'caracteres.')
+                )
 
     @api.multi
     def doit(self):
