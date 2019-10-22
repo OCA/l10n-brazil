@@ -3,10 +3,8 @@
 # (c) 2016 KMEE Informática - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from datetime import datetime
 from erpbrasil.base.fiscal import cnpj_cpf, pis
 from odoo import models, fields, api, _
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from odoo.exceptions import ValidationError
 
 
