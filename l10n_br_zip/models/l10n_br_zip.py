@@ -183,8 +183,8 @@ class L10nBrZip(models.Model):
 
             if cep_values:
                 # Create zip object
-                zip = self.create(cep_values)
-                obj.write(zip.set_result())
+                zip_obj = self.create(cep_values)
+                obj.write(zip_obj.set_result())
                 return True
 
     def create_wizard(self, obj, zips):
