@@ -3,24 +3,29 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class EdocCancelWizard(models.TransientModel):
 
     _name = 'edoc.cancel.wizard'
 
-    name = fields.Char()
+    justificative = fields.Text('Justificativa', size=255, required=True)
+
+    @api.constrains('justificative')
+    @api.multi
+    def _check_justificative(self):
+        for record in self:
+            if len(record.justificative) < 15:
+                raise UserError(
+                    _('Justificativa deve ter o tamanho mínimo de 15 '
+                      'caracteres.')
+                )
 
     @api.multi
     def doit(self):
         for wizard in self:
-            # TODO
-            pass
-        action = {
-            'type': 'ir.actions.act_window',
-            'name': 'Action Name',  # TODO
-            'res_model': 'result.model',  # TODO
-            'domain': [('id', '=', result_ids)],  # TODO
-            'view_mode': 'form,tree',
-        }
-        return action
+            obj_invoice = self.env['account.invoice'].browse(
+                self.env.context['active_id'])
+            obj_invoice.cancel_invoice_online(wizard.justificative)
+        return {'type': 'ir.actions.act_window_close'}

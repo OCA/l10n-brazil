@@ -12,8 +12,10 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'l10n_br_account_product',
+        'document',
     ],
     'data': [
+        'views/l10n_br_account_document_event.xml',
         'views/res_company.xml',
         'wizards/edoc_cce_wizard.xml',
         'wizards/edoc_cancel_wizard.xml',
