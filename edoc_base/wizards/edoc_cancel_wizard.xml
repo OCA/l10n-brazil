@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <form string="Cancelamento de documento fiscal">
                 <group>
-                    <field name="name"/>
+                    <field name="justificative"/>
                 </group>
                 <footer>
                     <button name="doit"
