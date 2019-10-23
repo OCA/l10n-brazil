@@ -29,9 +29,14 @@ class HrEmployeeDependent(models.Model):
         return self.env.user.employee_ids[0]
 
     employee_id = fields.Many2one(
+<<<<<<< HEAD
 	comodel_name="hr.employee", 
         string="Employee ID",
         default=_get_default_employee,
+=======
+        comodel_name='hr.employee',
+        string='Employee ID'
+>>>>>>> [FIX] Flake8
     )
 
     dependent_name = fields.Char(string="Dependent name", size=64, required=True)
