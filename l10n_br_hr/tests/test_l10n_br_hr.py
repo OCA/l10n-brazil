@@ -32,6 +32,11 @@ class TestL10nBr(TransactionCase):
 
         self.assertFalse(result, 'Error on update invalid employee cpf')
 
+    def test_onchange_cpf(self):
+        self.employee.write({'cpf': '78004863035'})
+        self.employee.onchange_cpf()
+        self.assertEqual(self.employee.cpf, '780.048.630-35')
+
     def test_invalid_employee_pis_pasep(self):
         try:
             result = self.employee.write({
