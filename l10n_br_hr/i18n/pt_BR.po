@@ -23,7 +23,7 @@ msgid "# Meetings"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:227
+#: code:addons/l10n_br_hr/models/hr_employee.py:216
 #, python-format
 msgid ""
 "A dependent with the same level of relatedness already exists for dependent "
@@ -104,11 +104,6 @@ msgstr "E-mail alternativo"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_phone
 msgid "Alternate phone"
 msgstr "Telefone Alternativo"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__arrival_year
-msgid "Arrival year in Brazil"
-msgstr "Ano de chegada no Brasil"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inc_trab_inss_file
@@ -195,7 +190,7 @@ msgid "CPF"
 msgstr "CPF"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:243
+#: code:addons/l10n_br_hr/models/hr_employee.py:232
 #, python-format
 msgid "CPF Invalido!"
 msgstr "CPF Invalido!"
@@ -312,7 +307,6 @@ msgstr "Tipo de certificado civil"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__code
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__code
 msgid "Code"
@@ -418,7 +412,6 @@ msgstr "País"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__create_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__create_uid
 msgid "Created by"
 msgstr "Criado por"
@@ -431,7 +424,6 @@ msgstr "Criado por"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__create_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__create_date
 msgid "Created on"
 msgstr "Criado em"
@@ -535,7 +527,6 @@ msgstr "Órgão expedidor"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__display_name
 msgid "Display Name"
@@ -793,7 +784,6 @@ msgstr "Nr. da Casa"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__id
 msgid "ID"
@@ -910,13 +900,13 @@ msgid "Invalid CPF for dependent %s"
 msgstr "CPF inválido para %s dependente"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:236
+#: code:addons/l10n_br_hr/models/hr_employee.py:225
 #, python-format
 msgid "Invalid PIS/PASEP"
 msgstr "PIS / PASEP inválido"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:211
+#: code:addons/l10n_br_hr/models/hr_employee.py:200
 #, python-format
 msgid "Invalid birth date for dependent %s"
 msgstr "Data de nascimento inválida para %s dependente"
@@ -988,7 +978,6 @@ msgstr "Idioma"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract____last_update
 msgid "Last Modified on"
@@ -1002,7 +991,6 @@ msgstr "Última modificação em"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__write_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__write_uid
 msgid "Last Updated by"
 msgstr "Última atualização por"
@@ -1015,7 +1003,6 @@ msgstr "Última atualização por"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__write_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__write_date
 msgid "Last Updated on"
 msgstr "Última atualização em"
@@ -1136,7 +1123,6 @@ msgstr "Número da Inscrição Municipal"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_nationality_code__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__name
 msgid "Name"
@@ -1151,24 +1137,6 @@ msgstr "Número de Identificação Nacional"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__country_id
 msgid "Nationality (Country)"
 msgstr "Nacionalidade (país)"
-
-#. module: l10n_br_hr
-#: model:ir.actions.act_window,name:l10n_br_hr.action_hr_nationality_code
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__nat_code
-#: model:ir.ui.menu,name:l10n_br_hr.menu_hr_nationality_code
-msgid "Nationality Code"
-msgstr "Código da nacionalidade"
-
-#. module: l10n_br_hr
-#: model:ir.model,name:l10n_br_hr.model_hr_nationality_code
-#, fuzzy
-msgid "Nationality Codes"
-msgstr "Código da nacionalidade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__nationality_code
-msgid "Nationality code"
-msgstr "Código de nacionalidade"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__naturalidade
@@ -1740,6 +1708,19 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#~ msgid "Arrival year in Brazil"
+#~ msgstr "Ano de chegada no Brasil"
+
+#~ msgid "Nationality Code"
+#~ msgstr "Código da nacionalidade"
+
+#, fuzzy
+#~ msgid "Nationality Codes"
+#~ msgstr "Código da nacionalidade"
+
+#~ msgid "Nationality code"
+#~ msgstr "Código de nacionalidade"
 
 #~ msgid "Chronic Diseases"
 #~ msgstr "Doenças crônicas"
