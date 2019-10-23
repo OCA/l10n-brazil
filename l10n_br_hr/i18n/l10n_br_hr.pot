@@ -19,7 +19,7 @@ msgid "# Meetings"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:235
+#: code:addons/l10n_br_hr/models/hr_employee.py:227
 #, python-format
 msgid "A dependent with the same level of relatedness already exists for dependent %s"
 msgstr ""
@@ -183,7 +183,7 @@ msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:251
+#: code:addons/l10n_br_hr/models/hr_employee.py:243
 #, python-format
 msgid "CPF Invalido!"
 msgstr ""
@@ -252,18 +252,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__country_enforce_cities
 msgid "Check this box to ensure every address created in that country has a 'City' chosen in the list of the country's cities."
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model,name:l10n_br_hr.model_hr_chronic_disease
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__chronic_disease_ids
-msgid "Chronic Diseases"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.actions.act_window,name:l10n_br_hr.action_hr_chronic_disease
-#: model:ir.ui.menu,name:l10n_br_hr.menu_hr_chronic_disease
-msgid "Chronic disease"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -396,7 +384,6 @@ msgid "Country"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__create_uid
@@ -410,7 +397,6 @@ msgid "Created by"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__create_date
@@ -507,17 +493,11 @@ msgid "Dependents Type"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__name
-msgid "Disease name"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__organ_exp
 msgid "Dispatcher organ"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__display_name
@@ -619,7 +599,6 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_employee
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__employee_ids
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__employee
 msgid "Employee"
 msgstr ""
@@ -767,7 +746,6 @@ msgid "House Number"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__id
@@ -885,13 +863,13 @@ msgid "Invalid CPF for dependent %s"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:244
+#: code:addons/l10n_br_hr/models/hr_employee.py:236
 #, python-format
 msgid "Invalid PIS/PASEP"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:219
+#: code:addons/l10n_br_hr/models/hr_employee.py:211
 #, python-format
 msgid "Invalid birth date for dependent %s"
 msgstr ""
@@ -955,7 +933,6 @@ msgid "Language"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type____last_update
@@ -970,7 +947,6 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__write_uid
@@ -984,7 +960,6 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_chronic_disease__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__write_date
@@ -1261,11 +1236,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
 msgid "Pricelist"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.ui.menu,name:l10n_br_hr.menu_hr_contract_configuration_rais
-msgid "RAIS"
 msgstr ""
 
 #. module: l10n_br_hr
