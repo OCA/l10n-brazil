@@ -171,17 +171,6 @@ class HrEmployee(models.Model):
     registration = fields.Char(
         string='Registration number')
 
-    nationality_code = fields.Many2one(
-        string='Nationality code',
-        comodel_name='hr.nationality.code')
-
-    nat_code = fields.Char(
-        string='Nationality Code',
-        related='nationality_code.code')
-
-    arrival_year = fields.Integer(
-        string="Arrival year in Brazil")
-
     country_id = fields.Many2one(
         comodel_name='res.country',
         default=_default_country)
