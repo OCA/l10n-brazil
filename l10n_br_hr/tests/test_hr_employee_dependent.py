@@ -19,17 +19,16 @@ class TestHrEmployeeDependent(TransactionCase):
             'deficiency_description': 'Deficiency in index finger',
             'name': 'l10n brazil demo employee',
             'pis_pasep': '496.85994.95-6',
-            'cpf': '853.334.271-35',
+            'cnpj_cpf': '853.334.271-35',
         })
 
         self.employee_dependent = self.env['hr.employee.dependent']
         self.employee_dependent = self.employee_dependent.create({
             'employee_id':  self.employee.id,
-            'dependent_name': 'Dependent 01',
+            'name': 'Dependent 01',
             'dependent_dob': '2019-01-01',
-            'dependent_rg': '49.365.539-6',
-            'dependent_cpf': '417.668.850-55',
-            'partner_id': self.env['res.partner'].search([])[0].company_id.id,
+            'inscr_est': '49.365.539-6',
+            'cnpj_cpf': '417.668.850-55',
             'dependent_type_id':
                 self.env['hr.dependent.type'].search([])[0].id,
         })
@@ -42,7 +41,7 @@ class TestHrEmployeeDependent(TransactionCase):
     def test_invalid_hr_employee_dependent_cpf(self):
         try:
             result = self.employee_dependent.write({
-                'dependent_cpf': '853.334.271-351',
+                'cnpj_cpf': '853.334.271-351',
             })
         except ValidationError:
             result = False
@@ -51,11 +50,11 @@ class TestHrEmployeeDependent(TransactionCase):
             result, 'Error on update invalid employee dependent cpf')
 
     def test_onchange_cpf(self):
-        self.employee_dependent.write({'dependent_cpf': '78004863035'})
+        self.employee_dependent.write({'cnpj_cpf': '78004863035'})
         self.employee_dependent.onchange_cpf()
 
         self.assertEqual(
-            self.employee_dependent.dependent_cpf, '780.048.630-35')
+            self.employee_dependent.cnpj_cpf, '780.048.630-35')
 
     def test_check_dob(self):
         """
@@ -80,20 +79,18 @@ class TestHrEmployeeDependent(TransactionCase):
 
         self.employee_dependent_obj.create({
             'employee_id':  self.employee.id,
-            'dependent_name': 'Dependent 02',
+            'name': 'Dependent 02',
             'dependent_dob': '2019-01-01',
-            'dependent_cpf': '994.769.750-91',
-            'partner_id': self.env['res.partner'].search([])[0].company_id.id,
+            'cnpj_cpf': '994.769.750-91',
             'dependent_type_id':
                 self.env.ref('l10n_br_hr.l10n_br_dependent_1').id,
         })
 
         self.employee_dependent_obj.create({
             'employee_id': self.employee.id,
-            'dependent_name': 'Dependent 03',
+            'name': 'Dependent 03',
             'dependent_dob': '2019-02-01',
-            'dependent_cpf': '417.668.850-55',
-            'partner_id': self.env['res.partner'].search([])[0].company_id.id,
+            'cnpj_cpf': '362.502.120-00',
             'dependent_type_id':
                 self.env.ref('l10n_br_hr.l10n_br_dependent_1').id,
         })

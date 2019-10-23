@@ -470,7 +470,7 @@ msgid "Dependent Infos"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__name
 msgid "Dependent name"
 msgstr ""
 
