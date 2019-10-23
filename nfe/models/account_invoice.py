@@ -12,6 +12,10 @@ from odoo import models, fields, api
 from odoo.exceptions import RedirectWarning
 from odoo.addons.l10n_br_account_product.sped.nfe.validator.config_check \
     import validate_nfe_configuration, validate_invoice_cancel
+from odoo.addons.edoc_base.constantes import (
+    AUTORIZADO,
+    DENEGADO,
+)
 
 from ..sped.nfe.nfe_factory import NfeFactory
 from ..sped.nfe.validator.xml import XMLValidator
@@ -158,10 +162,9 @@ class AccountInvoice(models.Model):
                             protNFe["message"] = prot.infProt.xMotivo.valor
                             vals["status"] = prot.infProt.cStat.valor
                             vals["message"] = prot.infProt.xMotivo.valor
-                            if prot.infProt.cStat.valor in ('100', '150'):
+                            if prot.infProt.cStat.valor in AUTORIZADO:
                                 protNFe["state"] = 'open'
-                            elif prot.infProt.cStat.valor in ('110', '301',
-                                                              '302'):
+                            elif prot.infProt.cStat.valor in DENEGADO:
                                 protNFe["state"] = 'sefaz_denied'
                         self.attach_file_event(None, 'nfe', 'xml')
                         self.attach_file_event(None, None, 'pdf')
@@ -376,11 +379,10 @@ class AccountInvoice(models.Model):
                     protNFe["message"] = prot.infProt.xMotivo.valor
                     vals["status"] = prot.infProt.cStat.valor
                     vals["message"] = prot.infProt.xMotivo.valor
-                    if prot.infProt.cStat.valor in ('100', '150'):
+                    if prot.infProt.cStat.valor in AUTORIZADO:
                         protNFe["state"] = 'open'
                         inv.invoice_validate()
-                    elif prot.infProt.cStat.valor in ('110', '301',
-                                                      '302'):
+                    elif prot.infProt.cStat.valor in DENEGADO:
                         protNFe["state"] = 'sefaz_denied'
                     self.attach_file_event(None, 'nfe', 'xml')
                     self.attach_file_event(None, None, 'pdf')
