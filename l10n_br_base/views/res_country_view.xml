@@ -13,6 +13,7 @@
                 <field name="bc_code"/>
                 <field name="siscomex_code"/>
                 <field name="ibge_code"/>
+                <field name="nationality_code"/>
             </field>
         </field>
     </record>
