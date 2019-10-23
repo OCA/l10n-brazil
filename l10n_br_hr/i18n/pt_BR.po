@@ -498,7 +498,7 @@ msgid "Dependent Infos"
 msgstr "Informações dependentes"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__name
 #, fuzzy
 msgid "Dependent name"
 msgstr "Informações dependentes"
