@@ -31,7 +31,6 @@ class TestHrEmployeeDependent(TransactionCase):
             'partner_id': self.env['res.partner'].search([])[0].company_id.id,
         })
 
-
         self.assertTrue(self.employee, 'Error on create a l10n_br employee')
         self.assertTrue(
             self.employee_dependent, 'Error on create a employee dependent')
