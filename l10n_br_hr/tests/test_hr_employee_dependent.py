@@ -1,4 +1,6 @@
+from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
+from odoo.fields import Date
 from odoo.tests import TransactionCase
 
 
@@ -25,12 +27,14 @@ class TestHrEmployeeDependent(TransactionCase):
             'employee_id':  self.employee.id,
             'dependent_name': 'Dependent 01',
             'dependent_dob': '2019-01-01',
-            'dependent_type_id': self.env['hr.dependent.type'].search([])[0].id,
             'dependent_rg': '49.365.539-6',
             'dependent_cpf': '417.668.850-55',
             'partner_id': self.env['res.partner'].search([])[0].company_id.id,
+            'dependent_type_id':
+                self.env['hr.dependent.type'].search([])[0].id,
         })
 
+        self.employee._check_dependents()
         self.assertTrue(self.employee, 'Error on create a l10n_br employee')
         self.assertTrue(
             self.employee_dependent, 'Error on create a employee dependent')
@@ -52,3 +56,52 @@ class TestHrEmployeeDependent(TransactionCase):
 
         self.assertEqual(
             self.employee_dependent.dependent_cpf, '780.048.630-35')
+
+    def test_check_dob(self):
+        """
+        Data de nascimento maior do que hoje.
+        """
+        self.employee_dependent.write({
+            'dependent_dob': Date.today() + relativedelta(days=1),
+        })
+
+        with self.assertRaises(ValidationError) as context:
+            self.employee._check_dob()
+
+        self.assertEqual(
+            'Invalid birth date for dependent Dependent 01',
+            context.exception.name)
+
+    def test_check_dependent_type(self):
+        """
+        Dependentes do mesmo tipo.
+        """
+        self.employee_dependent_obj = self.env['hr.employee.dependent']
+
+        self.employee_dependent_obj.create({
+            'employee_id':  self.employee.id,
+            'dependent_name': 'Dependent 02',
+            'dependent_dob': '2019-01-01',
+            'dependent_cpf': '994.769.750-91',
+            'partner_id': self.env['res.partner'].search([])[0].company_id.id,
+            'dependent_type_id':
+                self.env.ref('l10n_br_hr.l10n_br_dependent_1').id,
+        })
+
+        self.employee_dependent_obj.create({
+            'employee_id': self.employee.id,
+            'dependent_name': 'Dependent 03',
+            'dependent_dob': '2019-02-01',
+            'dependent_cpf': '417.668.850-55',
+            'partner_id': self.env['res.partner'].search([])[0].company_id.id,
+            'dependent_type_id':
+                self.env.ref('l10n_br_hr.l10n_br_dependent_1').id,
+        })
+
+        with self.assertRaises(ValidationError) as context:
+            self.employee._check_dependent_type()
+
+        self.assertEqual(
+            'A dependent with the same level of relatedness already '
+            'exists for dependent Dependent 02',
+            context.exception.name)
