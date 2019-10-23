@@ -15,4 +15,3 @@ from . import hr_dependent_type
 from . import hr_educational_attainment
 from . import hr_ethnicity
 from . import hr_identity_type
-from . import hr_nationality_code
