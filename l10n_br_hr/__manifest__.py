@@ -25,6 +25,9 @@
         'views/hr_job_view.xml',
         'views/inherited_hr_contract.xml',
     ],
+    'demo': [
+        'demo/hr_employee_dependent_demo.xml',
+    ],
     'test': [],
     'external_dependencies': {
         'python': [
