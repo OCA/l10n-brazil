@@ -77,10 +77,3 @@ class TestL10nBr(TransactionCase):
         self.assertEqual(educational_attainment, expected_result,
                          'The educational attainment get is not valid,'
                          ' expected \'' + expected_result + '\'')
-
-    def test_hr_nationality_code(self):
-        nationality_code = self.env['hr.nationality.code'].search([])[0]. \
-            name_get()[0][1]
-        self.assertEqual(nationality_code, '10 - Brasileiro',
-                         'The nationality code is not valid, expected \'10 - '
-                         ' Brasileiro\'')

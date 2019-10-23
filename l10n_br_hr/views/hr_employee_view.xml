@@ -25,12 +25,6 @@
             <xpath expr="//field[@name='coach_id']" position="after">
                 <field name="registration"/>
             </xpath>
-            <xpath expr="//field[@name='country_id']" position="after">
-                <field name="nationality_code"/>
-                <field name="nat_code" invisible="1"/>
-                <field name="arrival_year" attrs="{'invisible': [('nat_code','in',('10', False))]}"
-                       placeholder=""/>
-            </xpath>
             <xpath expr="//field[@name='address_home_id']" position="after">
                 <field name="alternate_phone"/>
                 <field name="emergency_phone"/>
@@ -204,17 +198,6 @@
         </field>
     </record>
 
-    <record id="view_hr_nationality_code_tree" model="ir.ui.view">
-        <field name="name">hr.nationality.code.tree.view</field>
-        <field name="model">hr.nationality.code</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="code"/>
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
-
     <record id="action_hr_deficiency" model="ir.actions.act_window">
         <field name="name">Deficiency</field>
         <field name="res_model">hr.deficiency</field>
@@ -257,13 +240,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="action_hr_nationality_code" model="ir.actions.act_window">
-        <field name="name">Nationality Code</field>
-        <field name="res_model">hr.nationality.code</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
     <menuitem id="menu_hr_employee_register" parent="hr.menu_human_resources_configuration" name="Employee register" sequence="20" groups="hr.group_hr_manager"/>
 
     <menuitem action="action_hr_deficiency" id="menu_hr_deficiency" parent="menu_hr_employee_register" sequence="1"/>
@@ -277,8 +253,6 @@
     <menuitem action="action_hr_ethnicity" id="menu_hr_ethnicity" parent="menu_hr_employee_register" sequence="6"/>
 
     <menuitem action="action_hr_educational_attainment" id="menu_hr_educational_attainment" parent="menu_hr_employee_register" sequence="7"/>
-
-    <menuitem action="action_hr_nationality_code" id="menu_hr_nationality_code" parent="menu_hr_employee_register" sequence="8"/>
 
     <!-- Menu item de colaboradores -->
     <menuitem id="menu_hr_colaboradores" name="Colaboradores" sequence="1" parent="hr.menu_hr_main"/>
