@@ -3,10 +3,8 @@
 # (c) 2016 KMEE Informática - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from datetime import datetime
 from erpbrasil.base.fiscal import cnpj_cpf, pis
 from odoo import models, fields, api, _
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from odoo.exceptions import ValidationError
 
 
@@ -165,10 +163,6 @@ class HrEmployee(models.Model):
     alternate_email = fields.Char(
         string='Alternate email')
 
-    chronic_disease_ids = fields.Many2many(
-        string='Chronic Diseases',
-        comodel_name='hr.chronic.disease')
-
     marital = fields.Selection(
         selection_add=[
             ('common_law_marriage', 'Common law marriage'),
@@ -213,9 +207,7 @@ class HrEmployee(models.Model):
 
     def _check_dob(self):
         for dependent in self.dependent_ids:
-            if datetime.strptime(
-                    dependent.dependent_dob, DEFAULT_SERVER_DATE_FORMAT
-            ).date() > datetime.now().date():
+            if dependent.dependent_dob > fields.Date.context_today(self):
                 raise ValidationError(_('Invalid birth date for dependent %s')
                                       % dependent.dependent_name)
 
