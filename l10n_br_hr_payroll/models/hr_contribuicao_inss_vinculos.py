@@ -62,11 +62,9 @@ class HrContribuicaoInssVinculos(models.Model):
     @api.multi
     def _valida_valores_unicos(self, vals):
         domain = [
-            (
-                'cnpj_cpf_vinculo', '=',
-                vals.get('cnpj_cpf_vinculo') or self.cnpj_cpf_vinculo
-            ),
+            ('cnpj_cpf_vinculo', '=', vals.get('cnpj_cpf_vinculo') or self.cnpj_cpf_vinculo),
             ('period_id', '=', vals.get('period_id') or self.period_id.id),
+            ('contrato_id','=', vals.get('contrato_id') or self.contrato_id.id),
         ]
         vinculo_ids = self.search(domain)
         if vinculo_ids:
