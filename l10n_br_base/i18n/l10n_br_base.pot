@@ -15792,6 +15792,11 @@ msgid "Natalândia"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country__nationality_code
+msgid "Nationality Code"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1714203
 #: model:res.city,name:l10n_br_base.city_3303104
 msgid "Natividade"
