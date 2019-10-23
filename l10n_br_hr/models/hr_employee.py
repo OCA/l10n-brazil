@@ -198,7 +198,7 @@ class HrEmployee(models.Model):
         for dependent in self.dependent_ids:
             if dependent.dependent_dob > fields.Date.context_today(self):
                 raise ValidationError(_('Invalid birth date for dependent %s')
-                                      % dependent.dependent_name)
+                                      % dependent.name)
 
     def _check_dependent_type(self):
         seen = set()
@@ -215,7 +215,7 @@ class HrEmployee(models.Model):
                 raise ValidationError(
                     _('A dependent with the same level of relatedness'
                       ' already exists for dependent %s')
-                    % dependent.dependent_name)
+                    % dependent.name)
 
     @api.constrains('pis_pasep')
     def _validate_pis_pasep(self):
