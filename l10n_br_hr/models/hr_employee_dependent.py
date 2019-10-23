@@ -28,7 +28,11 @@ class HrEmployeeDependent(models.Model):
             return False
         return self.env.user.employee_ids[0]
 
-    employee_id = fields.Many2one(comodel_name="hr.employee", string="Employee ID")
+    employee_id = fields.Many2one(
+	comodel_name="hr.employee", 
+        string="Employee ID",
+        default=_get_default_employee,
+    )
 
     dependent_name = fields.Char(string="Dependent name", size=64, required=True)
 
