@@ -12,13 +12,6 @@ class AccountInvoiceReport(models.Model):
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category',
         'Fiscal Category', readonly=True)
-    state = fields.Selection(
-        selection_add=[
-            ('sefaz_export', u'Enviar para Receita'),
-            ('sefaz_exception', u'Erro de autorização da Receita'),
-            ('sefaz_cancelled', u'Cancelado no Sefaz'),
-            ('sefaz_denied', u'Denegada no Sefaz'),
-        ])
     number = fields.Char(
         string='Number',
         size=32,

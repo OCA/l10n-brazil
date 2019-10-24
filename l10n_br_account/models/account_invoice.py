@@ -82,13 +82,6 @@ class AccountInvoice(models.Model):
                     lines |= line
             record.move_line_receivable_id = lines.sorted()
 
-    state = fields.Selection(
-        selection_add=[
-            ('sefaz_export', 'Enviar para Receita'),
-            ('sefaz_exception', u'Erro de autorização da Receita'),
-            ('sefaz_cancelled', 'Cancelado no Sefaz'),
-            ('sefaz_denied', 'Denegada no Sefaz')])
-
     move_line_receivable_id = fields.Many2many(
         comodel_name='account.move.line',
         string=u'Receivables',
