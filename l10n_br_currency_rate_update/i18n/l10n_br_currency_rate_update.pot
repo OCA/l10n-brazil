@@ -19,7 +19,7 @@ msgid "Brazilian Central Bank"
 msgstr ""
 
 #. module: l10n_br_currency_rate_update
-#: code:addons/l10n_br_currency_rate_update/models/res_currency_rate_provider_bcb.py:36
+#: code:addons/l10n_br_currency_rate_update/models/res_currency_rate_provider_bcb.py:43
 #, python-format
 msgid "Brazilian Central Bank is suitable only for companies with BRL as base currency!"
 msgstr ""
