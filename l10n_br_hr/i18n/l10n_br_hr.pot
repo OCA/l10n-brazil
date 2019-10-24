@@ -847,7 +847,7 @@ msgid "Internal Reference"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee_dependent.py:22
+#: code:addons/l10n_br_hr/models/hr_employee_dependent.py:23
 #, python-format
 msgid "Invalid CPF for dependent %s"
 msgstr ""
