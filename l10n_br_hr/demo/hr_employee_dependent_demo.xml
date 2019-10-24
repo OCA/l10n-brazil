@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--
+    Resource: hr.employee
+    -->
+
+    <record id="hr.employee_mit" model="hr.employee">
+        <field name="have_dependent"  eval="True" />
+    </record>
+
+    <record id="hr.employee_hne" model="hr.employee">
+        <field name="have_dependent"  eval="True" />
+    </record>
+
+    <!--
+    Resource: hr.employee.dependent
+    -->
+
+    <record id="hr_employee_dependent_1" model="hr.employee.dependent">
+        <field name="name">Anita Oliver Son</field>
+        <field name="employee_id" ref="hr.employee_mit"/>
+        <field name="dependent_type_id" ref="l10n_br_hr.l10n_br_dependent_3"/>
+        <field name="dependent_dob" eval="(DateTime.today() - timedelta(days=360)).strftime('%Y-%m-%d 00:00:00')"/>
+        <field name="cnpj_cpf">791.659.490-05</field>
+    </record>
+
+    <record id="hr_employee_dependent_2" model="hr.employee.dependent">
+        <field name="name">Anita Oliver Spouse</field>
+        <field name="employee_id" ref="hr.employee_mit"/>
+        <field name="dependent_type_id" ref="l10n_br_hr.l10n_br_dependent_1"/>
+        <field name="dependent_dob" eval="(DateTime.today() - timedelta(days=7200)).strftime('%Y-%m-%d 00:00:00')"/>
+        <field name="cnpj_cpf">342.667.780-66</field>
+    </record>
+
+    <record id="hr_employee_dependent_3" model="hr.employee.dependent">
+        <field name="name">Abigail Peterson Son</field>
+        <field name="employee_id" ref="hr.employee_hne"/>
+        <field name="dependent_type_id" ref="l10n_br_hr.l10n_br_dependent_3"/>
+        <field name="dependent_dob" eval="(DateTime.today() - timedelta(days=720)).strftime('%Y-%m-%d 00:00:00')"/>
+        <field name="cnpj_cpf">160.953.400-04</field>
+    </record>
+
+</odoo>
