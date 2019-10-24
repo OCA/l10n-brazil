@@ -84,13 +84,13 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:170
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:165
 #, python-format
 msgid "Erro a Carregar Atributo: "
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:128
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:124
 #, python-format
 msgid "Erro no PyCEP-Correios : "
 msgstr ""
@@ -136,7 +136,7 @@ msgid "Logradouro"
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:78
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:73
 #, python-format
 msgid "Necessário informar Estado, município e logradouro"
 msgstr ""
