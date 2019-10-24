@@ -11,7 +11,7 @@
 
     <!--
     Resource: res.partner
-    -->	
+    -->
     <record id="res_partner_intel" model="res.partner">
         <field name="name">Intel do Brasil</field>
         <field name="legal_name">Intel do Brasil</field>
