@@ -23,7 +23,7 @@ msgid "# Meetings"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:216
+#: code:addons/l10n_br_hr/models/hr_employee.py:190
 #, python-format
 msgid ""
 "A dependent with the same level of relatedness already exists for dependent "
@@ -185,12 +185,12 @@ msgstr "CNPJ / CPF"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cpf
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "CPF"
 msgstr "CPF"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:232
+#: code:addons/l10n_br_hr/models/hr_employee.py:208
 #, python-format
 msgid "CPF Invalido!"
 msgstr "CPF Invalido!"
@@ -495,12 +495,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "Dependent Infos"
-msgstr "Informações dependentes"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__name
-#, fuzzy
-msgid "Dependent name"
 msgstr "Informações dependentes"
 
 #. module: l10n_br_hr
@@ -894,19 +888,13 @@ msgid "Internal Reference"
 msgstr "Referência Interna"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee_dependent.py:23
-#, python-format
-msgid "Invalid CPF for dependent %s"
-msgstr "CPF inválido para %s dependente"
-
-#. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:225
+#: code:addons/l10n_br_hr/models/hr_employee.py:201
 #, python-format
 msgid "Invalid PIS/PASEP"
 msgstr "PIS / PASEP inválido"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:200
+#: code:addons/l10n_br_hr/models/hr_employee.py:174
 #, python-format
 msgid "Invalid birth date for dependent %s"
 msgstr "Data de nascimento inválida para %s dependente"
@@ -1268,7 +1256,7 @@ msgstr "Psicanalista"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_rg
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "RG"
 msgstr "RG"
 
@@ -1708,6 +1696,13 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#, fuzzy
+#~ msgid "Dependent name"
+#~ msgstr "Informações dependentes"
+
+#~ msgid "Invalid CPF for dependent %s"
+#~ msgstr "CPF inválido para %s dependente"
 
 #~ msgid "Arrival year in Brazil"
 #~ msgstr "Ano de chegada no Brasil"
