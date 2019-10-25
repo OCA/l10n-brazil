@@ -555,11 +555,11 @@ class HrContract(models.Model):
         help="e-Social: S-2299 - matricula",
         default=lambda self: self.get_default_matricula(),
     )
+
     gerente_id = fields.Many2one(
         string='Gerente',
         comodel_name='hr.employee',
-        related='department_id.manager_id',
-        store=True,
+        compute='compute_gerente_id',
     )
 
     hr_payroll_type_ids = fields.Many2many(
@@ -613,3 +613,13 @@ class HrContract(models.Model):
         )
         matricula = '0' + str(int(ultima_matricula.matricula) + 1)
         return matricula
+
+    @api.multi
+    def compute_gerente_id(self):
+        """
+        :return:
+        """
+        for record in self:
+            record.gerente_id = record.department_id.manager_id
+            if record.gerente_id == record.employee_id:
+                record.gerente_id = record.department_id.parent_id.manager_id
