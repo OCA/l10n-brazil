@@ -21,8 +21,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         })
         self.leave_nacional_01 = self.resource_leaves.create({
             'name': u'Tiradentes',
-            'date_from': fields.Datetime.from_string('2016-03-21 00:00:00'),
-            'date_to': fields.Datetime.from_string('2016-03-21 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2016-03-21 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-03-21 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
             'leave_type': u'F',
             'abrangencia': u'N',
@@ -33,8 +33,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         })
         self.leave_estadual_01 = self.resource_leaves.create({
             'name': u'Aniversario de SP',
-            'date_from': fields.Datetime.from_string('2016-01-25 00:00:00'),
-            'date_to': fields.Datetime.from_string('2016-01-25 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2016-01-25 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-01-25 23:59:59'),
             'calendar_id': self.estadual_calendar_id.id,
             'leave_type': u'F',
             'abrangencia': u'E',
@@ -45,8 +45,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         })
         self.leave_municipal_01 = self.resource_leaves.create({
             'name': u'Aniversario Chapeco',
-            'date_from': fields.Datetime.from_string('2016-08-25 00:00:00'),
-            'date_to': fields.Datetime.from_string('2016-08-25 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2016-08-25 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-08-25 23:59:59'),
             'calendar_id': self.municipal_calendar_id.id,
             'leave_type': u'F',
             'abrangencia': u'M',
@@ -65,8 +65,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         """ Inclusao de um novo Feriado no calendario nacional """
         self.leave_nacional_02 = self.resource_leaves.create({
             'name': u'Natal',
-            'date_from': fields.Datetime.from_string('2016-12-24 00:00:00'),
-            'date_to': fields.Datetime.from_string('2016-12-24 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2016-12-24 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-12-24 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
             'leave_type': u'F',
             'abrangencia': u'N',
@@ -80,8 +80,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         """ Inclusao de um novo Feriado no calendario Estadual """
         self.leave_estadual_02 = self.resource_leaves.create({
             'name': u'Aniversario MG',
-            'date_from': fields.Datetime.from_string('2016-07-16 00:00:00'),
-            'date_to': fields.Datetime.from_string('2016-07-16 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2016-07-16 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-07-16 23:59:59'),
             'calendar_id': self.estadual_calendar_id.id,
             'leave_type': u'F',
             'abrangencia': u'E',
@@ -95,8 +95,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         """ Inclusao de um novo Feriado no calendario municipal """
         self.leave_municipal_02 = self.resource_leaves.create({
             'name': u'Aniversario Itajuba',
-            'date_from': fields.Datetime.from_string('2016-03-19 00:00:00'),
-            'date_to': fields.Datetime.from_string('2016-03-19 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2016-03-19 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-03-19 23:59:59'),
             'calendar_id': self.municipal_calendar_id.id,
             'leave_type': u'F',
             'abrangencia': u'M',
@@ -107,23 +107,23 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(4, len(self.municipal_calendar_id.leave_ids))
 
     def test_03_data_eh_feriado(self):
-        data = fields.Datetime.from_string('2016-08-25 00:00:01')
+        data = fields.Datetime.to_datetime('2016-08-25 00:00:01')
         data_eh_feriado = self.municipal_calendar_id.data_eh_feriado(data)
         self.assertTrue(data_eh_feriado)
 
     def test_04_obter_feriados_no_periodo(self):
         self.holidays = self.municipal_calendar_id.get_leave_intervals(
-            start_datetime=fields.Datetime.from_string('2016-08-01 00:00:00'),
-            end_datetime=fields.Datetime.from_string('2016-08-31 00:00:00'),
+            start_datetime=fields.Datetime.to_datetime('2016-08-01 00:00:00'),
+            end_datetime=fields.Datetime.to_datetime('2016-08-31 00:00:00'),
         )
         self.assertEqual(1, len(self.holidays))
 
     def test_05_data_eh_feriado_emendado(self):
-        data = fields.Datetime.from_string('2016-08-25 00:00:01')
+        data = fields.Datetime.to_datetime('2016-08-25 00:00:01')
         data_eh_feriado_emendado = \
             self.municipal_calendar_id.data_eh_feriado_emendado(data)
         self.assertTrue(data_eh_feriado_emendado)
-        data = fields.Datetime.from_string('2016-03-19 00:00:01')
+        data = fields.Datetime.to_datetime('2016-03-19 00:00:01')
         data_eh_feriado_emendado = \
             self.municipal_calendar_id.data_eh_feriado_emendado(data)
         self.assertFalse(data_eh_feriado_emendado)
@@ -131,33 +131,33 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
     def test_06_obter_proximo_dia_util(self):
         """Dado uma data obter proximo dia util"""
         # 21-03 e feriado
-        anterior_ao_feriado = fields.Datetime.from_string(
+        anterior_ao_feriado = fields.Datetime.to_datetime(
             '2016-03-20 00:00:01')
         proximo_dia_util = self.municipal_calendar_id.proximo_dia_util(
             anterior_ao_feriado)
         self.assertEqual(proximo_dia_util,
-                         fields.Datetime.from_string('2016-03-22 00:00:01'),
+                         fields.Datetime.to_datetime('2016-03-22 00:00:01'),
                          u'Partindo de um feriado, proximo dia util invalido')
 
-        anterior_ao_fds = fields.Datetime.from_string('2016-12-16 00:00:01')
+        anterior_ao_fds = fields.Datetime.to_datetime('2016-12-16 00:00:01')
         proximo_dia_util = self.municipal_calendar_id.proximo_dia_util(
             anterior_ao_fds)
         self.assertEqual(proximo_dia_util,
-                         fields.Datetime.from_string('2016-12-19 00:00:01'),
+                         fields.Datetime.to_datetime('2016-12-19 00:00:01'),
                          u'Partindo de um fds, proximo dia util invalido')
 
     def test_07_get_dias_base(self):
         """ Dado um intervalo de tempo, fornecer a quantidade de dias base
         para calculos da folha de pagamento"""
-        data_inicio = fields.Datetime.from_string('2017-01-01 00:00:01')
-        data_final = fields.Datetime.from_string('2017-01-31 23:59:59')
+        data_inicio = fields.Datetime.to_datetime('2017-01-01 00:00:01')
+        data_final = fields.Datetime.to_datetime('2017-01-31 23:59:59')
 
         total = self.resource_calendar.get_dias_base(data_inicio, data_final)
         self.assertEqual(total, 30,
                          u'Calculo de Dias Base de Jan incorreto')
 
-        data_inicio = fields.Datetime.from_string('2017-02-01 00:00:01')
-        data_final = fields.Datetime.from_string('2017-02-28 23:59:59')
+        data_inicio = fields.Datetime.to_datetime('2017-02-01 00:00:01')
+        data_final = fields.Datetime.to_datetime('2017-02-28 23:59:59')
 
         total = self.resource_calendar.get_dias_base(data_inicio, data_final)
         self.assertEqual(total, 30,
@@ -166,11 +166,11 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
     def test_08_data_eh_dia_util(self):
         """ Verificar se datas sao dias uteis
         """
-        segunda = fields.Datetime.from_string('2017-01-09 00:00:01')
-        terca = fields.Datetime.from_string('2017-01-10 00:00:01')
-        sabado = fields.Datetime.from_string('2017-01-07 00:00:01')
-        domingo = fields.Datetime.from_string('2017-01-08 00:00:01')
-        feriado = fields.Datetime.from_string('2016-08-25 00:00:00')
+        segunda = fields.Datetime.to_datetime('2017-01-09 00:00:01')
+        terca = fields.Datetime.to_datetime('2017-01-10 00:00:01')
+        sabado = fields.Datetime.to_datetime('2017-01-07 00:00:01')
+        domingo = fields.Datetime.to_datetime('2017-01-08 00:00:01')
+        feriado = fields.Datetime.to_datetime('2016-08-25 00:00:00')
 
         self.assertTrue(
             self.municipal_calendar_id.data_eh_dia_util(segunda),
@@ -192,13 +192,13 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
         self.leave_nacional_02 = self.resource_leaves.create({
             'name': u'Feriado 2017',
-            'date_from': fields.Datetime.from_string('2017-01-21 00:00:00'),
-            'date_to': fields.Datetime.from_string('2017-01-21 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2017-01-21 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2017-01-21 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
             'leave_type': u'F',
             'abrangencia': u'N',
         })
-        feriado2 = fields.Datetime.from_string('2017-01-21 00:00:00')
+        feriado2 = fields.Datetime.to_datetime('2017-01-21 00:00:00')
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(feriado2),
             u"ERRO: Feriado2 nao eh dia util!")
@@ -206,16 +206,16 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
     def test_09_quantidade_dia_util(self):
         """ Calcular a qunatidade de dias uteis.
         """
-        data_inicio = fields.Datetime.from_string('2017-01-01 00:00:01')
-        data_final = fields.Datetime.from_string('2017-01-31 23:59:59')
+        data_inicio = fields.Datetime.to_datetime('2017-01-01 00:00:01')
+        data_final = fields.Datetime.to_datetime('2017-01-31 23:59:59')
 
         total_dias_uteis = self.resource_calendar.quantidade_dias_uteis(
             data_inicio, data_final)
         self.assertEqual(total_dias_uteis, 22,
                          u'ERRO: Total dias uteis mes Jan/2017 invalido')
 
-        data_inicio = fields.Datetime.from_string('2018-01-01 00:00:01')
-        data_final = fields.Datetime.from_string('2018-01-31 23:59:59')
+        data_inicio = fields.Datetime.to_datetime('2018-01-01 00:00:01')
+        data_final = fields.Datetime.to_datetime('2018-01-31 23:59:59')
 
         total_dias_uteis = self.resource_calendar.quantidade_dias_uteis(
             data_inicio, data_final)
@@ -229,13 +229,13 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         # adicionando feriado bancario
         self.resource_leaves.create({
             'name': u'Feriado Bancario',
-            'date_from': fields.Datetime.from_string('2017-01-13 00:00:00'),
-            'date_to': fields.Datetime.from_string('2017-01-13 23:59:59'),
+            'date_from': fields.Datetime.to_datetime('2017-01-13 00:00:00'),
+            'date_to': fields.Datetime.to_datetime('2017-01-13 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
             'leave_type': u'B',
             'abrangencia': u'N',
         })
-        data = fields.Datetime.from_string('2017-01-13 01:02:03')
+        data = fields.Datetime.to_datetime('2017-01-13 01:02:03')
         data_eh_feriado_bancario = self.nacional_calendar_id.\
             data_eh_feriado_bancario(data)
         self.assertTrue(data_eh_feriado_bancario)
@@ -254,31 +254,31 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(country_id.code, u'BR', u'Pais incorreto.')
 
     def test_16_proximo_dia_util_bancario(self):
-        data = fields.Datetime.from_string('2017-01-13 00:00:00')
+        data = fields.Datetime.to_datetime('2017-01-13 00:00:00')
         prox_dia_ultil = self.nacional_calendar_id. \
             proximo_dia_util_bancario(data)
         self.assertEqual(prox_dia_ultil, fields.Datetime.
-                         from_string('2017-01-16 00:00:00'))
+                         to_datetime('2017-01-16 00:00:00'))
 
     def test_17_holiday_import(self):
         holiday = self.holiday_import.create({
-            'start_date': fields.Datetime.from_string('2018-08-28 00:00:00'),
+            'start_date': fields.Datetime.to_datetime('2018-08-28 00:00:00'),
             'interval_type': u'years',
             'calendar_id': self.nacional_calendar_id.id,
         })
         res = holiday.holiday_import()
         self.assertTrue(res)
-        data = fields.Datetime.from_string('2019-03-05 00:00:00')
+        data = fields.Datetime.to_datetime('2019-03-05 00:00:00')
         data_eh_feriado = \
             self.nacional_calendar_id.data_eh_feriado_bancario(data)
         self.assertTrue(data_eh_feriado)
 
     def test_18_data_eh_dia_util_bancario(self):
-        data = fields.Datetime.from_string('2017-01-16 00:00:00')
+        data = fields.Datetime.to_datetime('2017-01-16 00:00:00')
         dia_util = self.nacional_calendar_id. \
             data_eh_dia_util_bancario(data)
         self.assertTrue(dia_util)
-        data = fields.Datetime.from_string('2017-01-13 00:00:00')
+        data = fields.Datetime.to_datetime('2017-01-13 00:00:00')
         feriado = self.nacional_calendar_id. \
             data_eh_dia_util_bancario(data)
         self.assertFalse(feriado)
