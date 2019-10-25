@@ -30,7 +30,7 @@ class WorkalendarHolidayImport(models.TransientModel):
     @api.depends('start_date', 'interval_number', 'interval_type')
     def _compute_end_date(self):
         for wiz in self:
-            wiz.end_date = fields.Date.from_string(wiz.start_date) + \
+            wiz.end_date = fields.Date.to_date(wiz.start_date) + \
                 _INTERVALS[wiz.interval_type](wiz.interval_number)
 
     start_date = fields.Date(
@@ -143,20 +143,20 @@ class WorkalendarHolidayImport(models.TransientModel):
         for wiz in self:
             leaves = self.env['resource.calendar.leaves']
             public_holidays = []
-            date_reference = fields.Date.from_string(wiz.start_date)
+            date_reference = fields.Date.to_date(wiz.start_date)
 
             while date_reference.year <= \
-                    fields.Date.from_string(wiz.end_date).year:
+                    fields.Date.to_date(wiz.end_date).year:
                 all_holidays = feriado.monta_dicionario_datas(
                     date_reference).items()
                 for holiday in all_holidays:
-                    if fields.Date.from_string(wiz.end_date) >= holiday[0] >= \
-                            fields.Date.from_string(wiz.start_date):
+                    if fields.Date.to_date(wiz.end_date) >= holiday[0] >= \
+                            fields.Date.to_date(wiz.start_date):
                         public_holidays.append(holiday)
 
                 for holidays in public_holidays:
-                    utc_dt = fields.Datetime.from_string(
-                        fields.Datetime.to_string(holidays[0]))
+                    utc_dt = fields.Datetime.to_datetime(
+                        fields.Datetime.to_datetime(holidays[0]))
 
                     # Setar a data do feriado com timezone de brasilia
                     user_dt = tz_br.localize(utc_dt)
@@ -166,8 +166,8 @@ class WorkalendarHolidayImport(models.TransientModel):
                     datetime_to = datetime_from + relativedelta(days=1) - \
                         relativedelta(seconds=1)
 
-                    date_from = fields.Datetime.to_string(datetime_from)
-                    date_to = fields.Datetime.to_string(datetime_to)
+                    date_from = fields.Datetime.to_datetime(datetime_from)
+                    date_to = fields.Datetime.to_datetime(datetime_to)
 
                     for holiday in holidays[1]:
                         if holiday.abrangencia == u'N':  # Tipo Nacional
