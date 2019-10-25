@@ -37,8 +37,7 @@ class ResourceCalendar(models.Model):
         'resource.calendar', 'parent_id',
         string='Child Calendar')
 
-    parent_left = fields.Integer(index=True)
-    parent_right = fields.Integer(index=True)
+    parent_path = fields.Char(index=True)
 
     country_id = fields.Many2one('res.country', u'País')
     state_id = fields.Many2one(
