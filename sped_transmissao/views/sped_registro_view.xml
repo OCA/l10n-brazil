@@ -13,8 +13,14 @@
                         <button name="transmitir_lote" type="object" string="Transmitir" class="oe_highlight"
                                 attrs="{'invisible': [('situacao', 'not in', ['1', '3'])]}" />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
-                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"
-                        />
+                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"/>
+
+                        <button name="limpar_registros" type="object" string="Limpar Registros (psql)" class="oe_highlight" groups="base.group_no_one"
+                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}" />
+
+                        <button name="gerar_registros" type="object" string="Gerar Registros" class="oe_highlight" groups="base.group_no_one"
+                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}" />
+
                         <button name="retificar" type="object" string="Retificar"
                                 attrs="{'invisible': ['|', '|', '|',('pode_retificar', '=', False), ('registro','in', ['S-5001','S-5002','R-1000','S-1000']),('situacao', 'not in', ['4', '5'])]}" />
                         <!--<button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"-->
@@ -173,10 +179,8 @@
                         <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
                         <filter name="group_by_registro" string="Registro" context="{'group_by': 'registro'}" />
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
-                        <filter name="group_by_ambiente" string="Ambiente" context="{'group_by': 'ambiente'}" />
                         <filter name="group_by_origem" string="Data/Hora de Origem" context="{'group_by': 'data_hora_origem'}" />
                         <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
-                        <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
                     </group>
 		        </search>
             </field>
