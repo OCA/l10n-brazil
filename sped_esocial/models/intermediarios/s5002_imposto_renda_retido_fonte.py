@@ -2,15 +2,10 @@
 # Copyright 2018 - ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, models, fields
-from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
-
 from openerp import api, fields, models
-from openerp.exceptions import ValidationError
-from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
-from pybrasil.valor import formata_valor
-from datetime import datetime
-import pysped
+from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import \
+    SpedRegistroIntermediario
+from openerp.exceptions import MissingError
 
 
 class SpedIrrf(models.Model, SpedRegistroIntermediario):
@@ -78,3 +73,11 @@ class SpedIrrf(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        try:
+            self.ensure_one()
+            return self.trabalhador_id
+        except MissingError:
+            return False

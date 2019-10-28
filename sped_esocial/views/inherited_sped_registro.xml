@@ -17,6 +17,10 @@
                     <field name="sped_s5001" readonly="1" attrs="{'invisible': [('sped_s5001', '=', False)]}"/>
                 </field>
 
+                <field name="origem" position="after">
+                    <field name="employee_id" />
+                </field>
+
                 <page name="retorno" position="before">
                     <page name="exclusao" string="Dados da Exclusão deste Registro"
                           attrs="{'invisible': [('sped_s3000', '=', False)]}">
@@ -39,6 +43,21 @@
                         </form>
                     </page>
                 </page>
+            </field>
+        </record>
+
+        <!-- Adicionar filtros para emplooyee -->
+        <record id="sped_esocial_sped_registro_search" model="ir.ui.view">
+            <field name="name">SPED Registro (in sped_esocial)</field>
+            <field name="model">sped.registro</field>
+            <field name="inherit_id" ref="sped_transmissao.sped_registro_search" />
+            <field name="arch" type="xml">
+                    <field name="codigo" position="after">
+                        <field name="employee_id" />
+                    </field>
+                    <filter name="group_by_registro" position="after">
+                        <filter name="group_by_employee" string="Funcionário" context="{'group_by': 'employee_id'}" />
+                    </filter>
             </field>
         </record>
 

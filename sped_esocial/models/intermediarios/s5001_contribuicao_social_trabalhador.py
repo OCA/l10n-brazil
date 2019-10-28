@@ -90,3 +90,13 @@ class SpedContribuicaoInss(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        self.ensure_one()
+        return (self.sped_registro_s1200 and
+                self.sped_registro_s1200.retorna_trabalhador()) or \
+               (self.sped_registro_s2299 and
+                self.sped_registro_s2299.retorna_trabalhador()) or \
+               (self.sped_registro_s2399 and
+                self.sped_registro_s2399.retorna_trabalhador())

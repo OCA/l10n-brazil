@@ -38,6 +38,25 @@ class SpedRegistro(models.Model):
         comodel_name='sped.contribuicao.inss',
     )
 
+    employee_id = fields.Many2one(
+        comodel_name='hr.employee',
+        string='Funcionário relacionado',
+        compute='compute_hr_employee',
+        store=True,
+        index=True,
+    )
+
+    @api.multi
+    @api.depends('origem', 'registro')
+    def compute_hr_employee(self):
+        """
+        Definir o funcionário relacionado ao registro
+        """
+        for record in self:
+            if 'retorna_trabalhador' in dir(record.origem) and \
+                    record.origem.retorna_trabalhador():
+                record.employee_id = record.origem.retorna_trabalhador()
+
     @api.depends('registro')
     def compute_pode_excluir(self):
         for registro in self:
@@ -137,3 +156,7 @@ class SpedRegistro(models.Model):
 
         # Consulta o registro
         self.sped_s3000.consulta_lote()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        return self.origem.retorna_trabalhador()

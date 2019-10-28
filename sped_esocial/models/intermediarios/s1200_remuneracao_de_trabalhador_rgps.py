@@ -8,7 +8,7 @@ from openerp import api, models, fields
 from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 from openerp import api, fields, models
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, MissingError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
 from datetime import datetime
@@ -655,5 +655,9 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
     @api.multi
     def retorna_trabalhador(self):
-        self.ensure_one()
-        return self.trabalhador_id
+        try:
+            self.ensure_one()
+            return self.trabalhador_id
+        except MissingError:
+            return False
+

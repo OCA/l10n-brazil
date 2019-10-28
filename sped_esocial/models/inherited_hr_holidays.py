@@ -152,3 +152,7 @@ class HrHolidays(models.Model):
                 )
 
             return super(HrHolidays, record).unlink()
+
+    @api.multi
+    def retorna_trabalhador(self):
+        return self.contrato_id.employee_id
