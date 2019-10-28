@@ -204,7 +204,17 @@ class SpedCriacaoWizard(models.TransientModel):
                 registro.lote_ids = [(4, novo_lote.id)]
             lotes.append(novo_lote.id)
 
-        return lotes
+        return {
+            'name': 'Lotes Criados',
+            'view_mode': 'tree,form',
+            'view_id': False,
+            'res_model': 'sped.lote',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'current',
+            'domain':  "[('id', 'in', %s)]" % lotes,
+            'context': {},
+        }
 
 
 class SpedLoteWizard(models.TransientModel):
