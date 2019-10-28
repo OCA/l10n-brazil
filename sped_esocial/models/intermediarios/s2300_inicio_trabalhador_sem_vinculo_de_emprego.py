@@ -421,7 +421,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
 
         S2300.evento.infoTSVInicio.codCateg.valor = self.hr_contract_id.category_id.code
         S2300.evento.infoTSVInicio.dtInicio.valor = self.hr_contract_id.date_start
-        if self.hr_category_id.code not in ['721', '722']:
+        if self.hr_contract_id.category_id.code not in ['721', '722']:
             S2300.evento.infoTSVInicio.natAtividade.valor = self.hr_contract_id.nat_atividade
 
         # InfoTSVInicio.InfoComplementares
