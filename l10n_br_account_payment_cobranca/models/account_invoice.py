@@ -129,10 +129,11 @@ class AccountInvoice(models.Model):
         operation_id.register_post(request)
         self.bank_api_operation_ids += operation_id
 
-    def obtain_token(self, company_id):
+    def obtain_token(self, company_id, environment):
         """
         Método para buscar ou atualizar o Token da empresa
         :param company_id: Empresa
+        :param environment: Ambiente da operação
         :return: O Token da empresa
         """
 
@@ -259,7 +260,7 @@ class AccountInvoice(models.Model):
             barcode_endpoint = company_id.raiz_endpoint
             environment = company_id.environment
 
-            token = record.obtain_token(company_id)
+            token = record.obtain_token(company_id, environment)
 
             for boleto in boleto_list:
                 ApiItau.convert_to(boleto, tipo_ambiente=environment)
