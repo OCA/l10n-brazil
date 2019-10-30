@@ -2,12 +2,14 @@
 # Copyright 2019 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from __future__ import unicode_literals
+
 from odoo import api, fields, models, _
 
 
 class EdocCceWizard(models.TransientModel):
 
-    _name = 'edoc.cce.wizard'
+    _name = b'edoc.cce.wizard'
 
     justificative = fields.Text('Justificativa', size=255, required=True)
 
