@@ -233,7 +233,7 @@ class AccountInvoice(models.Model):
                    ('4', u'NFC-e em operação com entrega em domicílio'),
                    ('5', u'Operação presencial, fora do estabelecimento'),
                    ('9', u'Operação não presencial, outros')],
-        string=u'Tipo de operação',
+        string=u'Presença comprador',
         readonly=True,
         states={'draft': [('readonly', False)]},
         required=False,

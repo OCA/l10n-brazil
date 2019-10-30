@@ -79,12 +79,10 @@
                     <field name="fiscal_document_electronic" invisible="1"/>
                     <group>
                         <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                             <field name="type" required="1"/>
-                            <field name="edoc_purpose" required="1"/>
                             <field name="fiscal_document_id" required="1"/>
-                            <field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
-                            <field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
-                            <field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+
                             <field name="partner_id"
                                 context="{'search_default_customer':1, 'show_address': 1, 'fiscal_category_id': fiscal_category_id}"
                                 options='{"always_reload": True}'/>
@@ -92,14 +90,17 @@
                                 context="{'default_type':'delivery', 'show_address': 1}"/>
                         </group>
                         <group>
-                            <field name="fiscal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
                             <field name="date_invoice" invisible="1"/>
                             <field name="date_hour_invoice" string="Data Emissão"/>
                             <field name="date_in_out" string="Data de Entrada/Saida"/>
+                            <newline/>
+                            <field name="issuer" attrs="{'invisible': [('type', '=', 'out_invoice')]}" />
+                            <field name="document_serie_id" domain="[('fiscal_type','=','product'),('fiscal_document_id','=',fiscal_document_id),('company_id','=',company_id)]" attrs="{'invisible': [('issuer', '=', '1')], 'required': [('issuer', '=', '0')]}" />
+                            <field name="vendor_serie" attrs="{'invisible': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                            <field name="fiscal_number" attrs="{'readonly': [('issuer', '=', '0')], 'required': [('issuer', '=', '1')]}" />
+                            <newline/>
                             <field name="fiscal_category_id" domain="[('type','in',{'out_invoice': ['output'], 'out_refund': ['input'], 'in_refund': ['output'], 'in_invoice': ['input']}.get(type, [])),('fiscal_type','=','product')]" required="1"/>
                             <field name="fiscal_position_id" required="1" domain="[('fiscal_category_id', '=', fiscal_category_id)]" groups="base.group_extended,base.group_user"/>
-                            <field name="ind_final" string="Operação com Consumidor final" attrs="{'required': [('edoc_version', '>', '3.00')]}"/>
-                            <field name="ind_pres" string="Tipo de operação" attrs="{'required': [('edoc_version', '>', '3.00')]}"/>
                         </group>
                     </group>
                     <group col="6">
@@ -220,7 +221,6 @@
                         <page string="Contábil">
                             <group>
                                 <group>
-                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                                     <field name="journal_id" groups="account.group_account_user" options="{'no_create': True}"
                                         attrs="{'readonly':[('fiscal_number','!=',False)]}" domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]"/>
                                     <label for="currency_id" groups="base.group_multi_currency"/>
@@ -251,93 +251,118 @@
                               </tree>
                             </field>
                         </page>
-                        <page string="Documentos Relacionados">
-                            <field colspan="4" nolabel="1" name="fiscal_document_related_ids">
-                                <tree>
-                                    <field name="document_type"/>
-                                    <field name="access_key"/>
-                                    <field name="serie"/>
-                                    <field name="number"/>
-                                </tree>
-                                <form string="Documentos Fiscais">
-                                    <group>
-                                        <field name="invoice_related_id"/>
-                                    </group>
-                                    <group>
-                                        <field name="document_type"/>
-                                    </group>
-                                    <group string="NF-e/CT-e" attrs="{'invisible': [('document_type','in', ('nf', 'nfrural', 'cf', False))]}">
-                                        <field name="access_key"/>
-                                    </group>
-                                    <group string="Nota Fiscal/Produtor/Cupom Fiscal" attrs="{'invisible': [('document_type', 'in', ('nfe','cte', False))]}">
-                                        <field name="serie" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
-                                        <field name="number" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
-                                        <field name="fiscal_document_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
-                                        <field name="state_id" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
-                                        <field name="date" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
-                                        <field name="cpfcnpj_type" attrs="{'required': [('document_type', 'in', ('nfrural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
-                                        <field name="cnpj_cpf" attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
-                                        <field name="inscr_est" attrs="{'invisible': [('document_type', '!=', 'nfrural')]}"/>
-                                    </group>
-                                </form>
-                            </field>
+                        <page string="Documento Fiscal" name="documento_fiscal">
+                            <group name="group_documento_fiscal">
+                                <group name="sub_group_documento_fiscal_1">
+                                    <field name="edoc_export_date"/>
+                                </group>
+                                <group name="sub_group_documento_fiscal_1">
+
+                                </group>
+                            </group>
+                            <field name="account_document_event_ids"/>
                         </page>
-                        <page string="Dados Adicionais">
-                            <notebook>
-                                <page string="Documento Fiscal" name="documento_fiscal">
-                                    <group>
-                                        <group>
-                                            <field name="edoc_export_date"/>
-                                        </group>
-                                        <group>
-                                            <field name="edoc_version" attrs="{'readonly': [('issuer', '=', '0')]}"/>
-                                        </group>
-                                    </group>
-                                    <field name="account_document_event_ids"/>
-                                </page>
-                                <page string="CFOP">
-                                    <group string="CFOP">
-                                        <field nolabel="1" name="cfop_ids"/>
-                                    </group>
-                                </page>
-                                <page string="Transporte">
-                                    <div class="oe_right oe_button_box" name="buttons">
-                                        <button class="oe_inline oe_stat_button" type="action" name="%(action_l10n_br_account_product_costs_ratio)d" icon="fa-truck">
-                                            <div>Recalcular Custos</div>
-                                        </button>
-                                    </div>
-                                    <group name="shipping_info" string="Informações de Exportação">
-                                        <field name="shipping_state_id"/>
-                                        <field name="shipping_location"/>
-                                        <field name="expedition_location"/>
-                                    </group>
-                                    <group name="delivery_info">
-                                        <field name="carrier_name"/>
-                                        <field name="vehicle_plate"/>
-                                        <field name="vehicle_state_id"/>
-                                        <field name="vehicle_l10n_br_city_id"/>
-                                        <field name="amount_freight"/>
-                                        <field name="amount_insurance"/>
-                                        <field name="amount_costs"/>
-                                        <field name="amount_total_taxes"/>
-                                    </group>
-                                    <group name="package_info">
-                                        <field name="weight"/>
-                                        <field name="weight_net"/>
-                                        <field name="number_of_packages"/>
-                                        <field name="kind_of_packages"/>
-                                        <field name="brand_of_packages"/>
-                                        <field name="notation_of_packages"/>
-                                    </group>
-                                </page>
-                            </notebook>
+<!--                        <page string="CFOP">-->
+<!--                            <group string="CFOP">-->
+<!--                                <field nolabel="1" name="cfop_ids"/>-->
+<!--                            </group>-->
+<!--                        </page>-->
+                        <page string="Transporte">
+                            <div class="oe_right oe_button_box" name="buttons">
+                                <button class="oe_inline oe_stat_button"
+                                        type="action"
+                                        name="%(action_l10n_br_account_product_costs_ratio)d"
+                                        icon="fa-truck">
+                                    <div>Recalcular Custos</div>
+                                </button>
+                            </div>
+                            <group name="shipping_info"
+                                   string="Informações de Exportação">
+                                <field name="shipping_state_id"/>
+                                <field name="shipping_location"/>
+                                <field name="expedition_location"/>
+                            </group>
+                            <group name="delivery_info">
+                                <field name="carrier_name"/>
+                                <field name="vehicle_plate"/>
+                                <field name="vehicle_state_id"/>
+                                <field name="vehicle_l10n_br_city_id"/>
+                                <field name="amount_freight"/>
+                                <field name="amount_insurance"/>
+                                <field name="amount_costs"/>
+                                <field name="amount_total_taxes"/>
+                            </group>
+                            <group name="package_info">
+                                <field name="weight"/>
+                                <field name="weight_net"/>
+                                <field name="number_of_packages"/>
+                                <field name="kind_of_packages"/>
+                                <field name="brand_of_packages"/>
+                                <field name="notation_of_packages"/>
+                            </group>
                         </page>
-                        <page string="Observações">
+                        <page string="Outras informações">
+                            <group name="group_outras_info">
+                                <group name="sub_group_outras_info_1">
+                                    <field name="edoc_purpose" required="1"/>
+                                    <field name="ind_final"
+                                           attrs="{'required': [('edoc_version', '>', '3.00')]}"/>
+                                    <field name="ind_pres"
+                                           attrs="{'required': [('edoc_version', '>', '3.00')]}"/>
+                                </group>
+                                <group name="sub_group_outras_info_2">
+                                    <field name="edoc_enviroment" readonly="1"/>
+                                    <field name="edoc_version"
+                                           attrs="{'readonly': [('issuer', '=', '0')]}"/>
+                                </group>
+                            </group>
                             <group string="Observações">
                                 <field name="comment" nolabel="1"/>
                             </group>
                             <group string="Observações Fiscais">
                                 <field name="fiscal_comment" nolabel="1"/>
+                            </group>
+                            <group string="Documentos referenciados">
+                                <field colspan="4" nolabel="1"
+                                       name="fiscal_document_related_ids">
+                                    <tree>
+                                        <field name="document_type"/>
+                                        <field name="access_key"/>
+                                        <field name="serie"/>
+                                        <field name="number"/>
+                                    </tree>
+                                    <form string="Documentos Fiscais">
+                                        <group>
+                                            <field name="invoice_related_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="document_type"/>
+                                        </group>
+                                        <group string="NF-e/CT-e"
+                                               attrs="{'invisible': [('document_type','in', ('nf', 'nfrural', 'cf', False))]}">
+                                            <field name="access_key"/>
+                                        </group>
+                                        <group string="Nota Fiscal/Produtor/Cupom Fiscal"
+                                               attrs="{'invisible': [('document_type', 'in', ('nfe','cte', False))]}">
+                                            <field name="serie"
+                                                   attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+                                            <field name="number"
+                                                   attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+                                            <field name="fiscal_document_id"
+                                                   attrs="{'required': [('document_type', 'in', ('nf', 'nfrural', 'cf'))]}"/>
+                                            <field name="state_id"
+                                                   attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+                                            <field name="date"
+                                                   attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+                                            <field name="cpfcnpj_type"
+                                                   attrs="{'required': [('document_type', 'in', ('nfrural'))], 'invisible': [('document_type', '!=', 'nfrural')]}"/>
+                                            <field name="cnpj_cpf"
+                                                   attrs="{'required': [('document_type', 'in', ('nf', 'nfrural'))], 'invisible': [('document_type', '=', 'cf')]}"/>
+                                            <field name="inscr_est"
+                                                   attrs="{'invisible': [('document_type', '!=', 'nfrural')]}"/>
+                                        </group>
+                                    </form>
+                                </field>
                             </group>
                         </page>
                     </notebook>
