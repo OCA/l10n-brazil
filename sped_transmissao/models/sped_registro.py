@@ -387,39 +387,39 @@ class SpedRegistro(models.Model):
 
         self.env['sped.registro'].search([]).compute_hr_employee()
 
-        # empresas_ids = self.env['res.company'].search([])
-        # for empresa_id in empresas_ids:
-        #     empresa_id.esocial_periodo_inicial_id = 55
-        #     empresa_id.estabelecimento_periodo_inicial_id = 55
-        #     empresa_id.lotacao_periodo_inicial_id = 55
-        #
-        #     if empresa_id.eh_empresa_base:
-        #         empresa_id.transmitir_empregador()
-        #
-        #     empresa_id.atualizar_estabelecimento()
-        #     empresa_id.atualizar_lotacao()
-        #
-        # # Gerar Registros para Rubricas
-        # rubricas_ids = self.env['hr.salary.rule'].search([])
-        # for rubrica_id in rubricas_ids:
-        #     rubrica_id.ini_valid = 55
-        #     if rubrica_id.nat_rubr:
-        #         rubrica_id.atualizar_rubrica()
-        # self.env.cr.commit()
-        #
-        # # Gerar Cargos
-        # cargos_ids = self.env['hr.job'].search([])
-        # for cargo_id in cargos_ids:
-        #     cargo_id.ini_valid = 55
-        #     cargo_id.atualizar_cargo()
-        # self.env.cr.commit()
-        #
-        # # Gerar Turnos
-        # turnos_ids = self.env['hr.turnos.trabalho'].search([])
-        # for turno_id in turnos_ids:
-        #     turno_id.ini_valid = 55
-        #     turno_id.atualizar_turno()
-        # self.env.cr.commit()
+        empresas_ids = self.env['res.company'].search([])
+        for empresa_id in empresas_ids:
+            empresa_id.esocial_periodo_inicial_id = 55
+            empresa_id.estabelecimento_periodo_inicial_id = 55
+            empresa_id.lotacao_periodo_inicial_id = 55
+
+            if empresa_id.eh_empresa_base:
+                empresa_id.transmitir_empregador()
+
+            empresa_id.atualizar_estabelecimento()
+            empresa_id.atualizar_lotacao()
+
+        # Gerar Registros para Rubricas
+        rubricas_ids = self.env['hr.salary.rule'].search([])
+        for rubrica_id in rubricas_ids:
+            rubrica_id.ini_valid = 55
+            if rubrica_id.nat_rubr:
+                rubrica_id.atualizar_rubrica()
+        self.env.cr.commit()
+
+        # Gerar Cargos
+        cargos_ids = self.env['hr.job'].search([])
+        for cargo_id in cargos_ids:
+            cargo_id.ini_valid = 55
+            cargo_id.atualizar_cargo()
+        self.env.cr.commit()
+
+        # Gerar Turnos
+        turnos_ids = self.env['hr.turnos.trabalho'].search([])
+        for turno_id in turnos_ids:
+            turno_id.ini_valid = 55
+            turno_id.atualizar_turno()
+        self.env.cr.commit()
 
     @api.multi
     def consulta_lote(self):
