@@ -112,6 +112,11 @@ class AccountInvoice(models.Model):
         store=True,
         readonly=True,
         string='Document Code')
+    fiscal_document_abreviation = fields.Char(
+        related='fiscal_document_id.abreviation',
+        store=True,
+        readonly=True,
+        string='Document Code')
 
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',

@@ -21,3 +21,7 @@ class L10nBrAccountFiscalDocument(models.Model):
 
     electronic = fields.Boolean(
         string=u'Eletrônico')
+
+    abreviation = fields.Char(
+        string=u'Abreviação',
+        size=10)

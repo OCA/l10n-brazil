@@ -208,12 +208,6 @@ class L10nBrDocumentEvent(models.Model):
         names = ['Evento', self.company_id.name, self.origin]
         self.display_name = ' / '.join(filter(None, names))
 
-    @api.multi
-    def set_done(self):
-        self.write({'state': 'done',
-                    'end_date': datetime.datetime.now()})
-        return True
-
 
 class L10nBrAccountInvoiceInvalidNumber(models.Model):
     _name = 'l10n_br_account.invoice.invalid.number'
