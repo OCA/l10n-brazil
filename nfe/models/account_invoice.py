@@ -6,6 +6,8 @@ import os
 import logging
 import datetime
 import base64
+from pytz import UTC
+
 
 from odoo.tools.translate import _
 from odoo import models, fields, api
@@ -14,7 +16,30 @@ from odoo.addons.l10n_br_account_product.sped.nfe.validator.config_check \
     import validate_nfe_configuration, validate_invoice_cancel
 from odoo.addons.edoc_base.constantes import (
     AUTORIZADO,
+    AUTORIZADO_OU_DENEGADO,
     DENEGADO,
+    LOTE_EM_PROCESSAMENTO,
+    LOTE_RECEBIDO,
+    LOTE_PROCESSADO,
+    SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_REJEITADA,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
+    SITUACAO_FISCAL_REGULAR,
+    SITUACAO_FISCAL_REGULAR_EXTEMPORANEO,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+    SITUACAO_FISCAL_DENEGADO,
+    SITUACAO_FISCAL_INUTILIZADO,
+    SITUACAO_FISCAL_COMPLEMENTAR,
+    SITUACAO_FISCAL_COMPLEMENTAR_EXTEMPORANEO,
+    SITUACAO_FISCAL_REGIME_ESPECIAL,
+    SITUACAO_FISCAL_MERCADORIA_NAO_CIRCULOU,
+    SITUACAO_FISCAL_MERCADORIA_NAO_RECEBIDA,
 )
 
 from ..sped.nfe.nfe_factory import NfeFactory
@@ -25,79 +50,27 @@ from ..sped.nfe.processing.xml import check_key_nfe
 
 _logger = logging.getLogger(__name__)
 
+try:
+    from pysped.nfe.webservices_flags import (
+        WS_NFE_SITUACAO,
+        WS_NFE_CONSULTA,
+        WS_NFE_ENVIO_LOTE,
+        WS_NFE_CONSULTA_RECIBO,
+    )
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
 PROCESSADOR = 'pysped'
+
+
 
 
 class AccountInvoice(models.Model):
     """account_invoice overwritten methods"""
     _inherit = 'account.invoice'
 
-    @api.multi
-    def attach_file_event(self, seq, att_type, ext):
-        """
-        Implemente esse metodo na sua classe de manipulação de arquivos
-        :param cr:
-        :param uid:
-        :param ids:
-        :param seq:
-        :param att_type:
-        :param ext:
-        :param context:
-        :return:
-        """
-        if seq is None:
-            seq = 1
-
-        for inv in self:
-            company = inv.company_id
-            nfe_key = inv.nfe_access_key
-
-            if att_type != 'nfe' and att_type is not None:
-                str_aux = nfe_key + '-%02d-%s.%s' % (seq, att_type, ext)
-                save_dir = os.path.join(
-                    monta_caminho_nfe(
-                        company,
-                        chave_nfe=nfe_key) +
-                    str_aux)
-
-            elif att_type is None and ext == 'pdf':
-                str_aux = nfe_key + '.%s' % (ext)
-                save_dir = os.path.join(
-                    monta_caminho_nfe(
-                        company,
-                        chave_nfe=nfe_key) +
-                    str_aux)
-
-            elif att_type == 'nfe' and ext == 'xml':
-                str_aux = nfe_key + '-%s.%s' % (att_type, ext)
-                save_dir = os.path.join(
-                    monta_caminho_nfe(
-                        company,
-                        chave_nfe=nfe_key) +
-                    str_aux)
-
-            try:
-                file_attc = open(save_dir, 'r')
-                attc = file_attc.read()
-
-                self.env['ir.attachment'].create({
-                    'name': str_aux.format(nfe_key),
-                    'datas': base64.b64encode(attc),
-                    'datas_fname': str_aux.format(nfe_key),
-                    'description': '' or _('No Description'),
-                    'res_model': 'account.invoice',
-                    'res_id': inv.id,
-                    'type': 'binary',
-                })
-            except IOError:
-                pass
-            else:
-                file_attc.close()
-
-        return True
-
-    def _get_nfe_factory(self, nfe_version):
-        return NfeFactory().get_nfe(nfe_version)
+    def _get_nfe_factory(self, edoc_version):
+        return NfeFactory().get_nfe(edoc_version)
 
     @api.multi
     def _edoc_export(self):
@@ -107,7 +80,7 @@ class AccountInvoice(models.Model):
             return super(AccountInvoice, self)._edoc_export()
 
         validate_nfe_configuration(self.company_id)
-        nfe_obj = self._get_nfe_factory(self.nfe_version)
+        nfe_obj = self._get_nfe_factory(self.edoc_version)
         nfe = nfe_obj.get_xml(self, int(self.company_id.nfe_environment))[0]
 
         erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
@@ -115,13 +88,9 @@ class AccountInvoice(models.Model):
         if erro:
             raise RedirectWarning(erro, _(u'Erro na validaço da NFe!'))
 
-        self.nfe_access_key = nfe_key
+        self.edoc_access_key = nfe_key
         nfe_file = nfe['nfe'].encode('utf8')
-        event_id = self._gerar_evento(nfe_file, type='0')
-        self.write({
-            'state': 'sefaz_export',
-            'autorizacao_event_id': event_id.id,
-        })
+        return nfe_file
 
     @api.multi
     def _edoc_send(self):
@@ -129,74 +98,109 @@ class AccountInvoice(models.Model):
             return super(AccountInvoice, self)._edoc_send()
 
         for inv in self:
+            processador = self._get_nfe_factory(inv.edoc_version)
 
+            #
+            # Evento de autorização em rascunho
+            #
             arquivo = inv.autorizacao_event_id.file_sent
-            nfe_obj = self._get_nfe_factory(inv.nfe_version)
+            nfe = processador.set_xml(arquivo)
 
-            nfe = []
-            results = []
-            protNFe = {
-                "state": 'sefaz_exception',
-                "status_code": '',
-                "message": '',
-                "nfe_protocol_number": ''
-            }
-            try:
-                nfe.append(nfe_obj.set_xml(arquivo))
-                for processo in send(inv.company_id, nfe):
-                    vals = {
-                        'type': str(processo.webservice),
-                        'status': processo.resposta.cStat.valor,
-                        'response': '',
-                        'company_id': inv.company_id.id,
-                        'origin': '[NF-E]' + inv.fiscal_number,
-                        'message': processo.resposta.xMotivo.valor,
-                        'state': 'done',
-                        'document_event_ids': inv.id}
-                    results.append(vals)
-                    if processo.webservice == 1:
-                        for prot in processo.resposta.protNFe:
-                            protNFe["status_code"] = prot.infProt.cStat.valor
-                            protNFe["nfe_protocol_number"] = \
-                                prot.infProt.nProt.valor
-                            protNFe["message"] = prot.infProt.xMotivo.valor
-                            vals["status"] = prot.infProt.cStat.valor
-                            vals["message"] = prot.infProt.xMotivo.valor
-                            if prot.infProt.cStat.valor in AUTORIZADO:
-                                protNFe["state"] = 'open'
-                            elif prot.infProt.cStat.valor in DENEGADO:
-                                protNFe["state"] = 'sefaz_denied'
-                        self.attach_file_event(None, 'nfe', 'xml')
-                        self.attach_file_event(None, None, 'pdf')
-            except Exception as e:
-                _logger.error(e.message, exc_info=True)
-                vals = {
-                    'type': '-1',
-                    'status': '000',
-                    'response': 'response',
-                    'company_id': self.company_id.id,
-                    'origin': '[NF-E]' + inv.fiscal_number,
-                    'file_sent': 'False',
-                    'file_returned': 'False',
-                    'message': 'Erro desconhecido ' + str(e),
-                    'state': 'done',
-                    'document_event_ids': inv.id
-                }
-                results.append(vals)
-            finally:
-                for result in results:
-                    if result['type'] == '0':
-                        inv.autorizacao_event_id.write(result)
+            #
+            # Envia a nota
+            #
+            processo = None
+            for p in send(inv.company_id, [nfe]):
+                processo = p
+
+            #
+            # Se o último processo foi a consulta do status do serviço,
+            # significa que ele não está online...
+            #
+            if processo.webservice == WS_NFE_SITUACAO:
+                inv.state_edoc = SITUACAO_EDOC_EM_DIGITACAO
+            #
+            # Se o último processo foi a consulta da nota, significa que ela
+            # já está emitida
+            #
+            elif processo.webservice == WS_NFE_CONSULTA:
+
+                if processo.resposta.cStat.valor in AUTORIZADO:
+                    inv._change_state(SITUACAO_EDOC_AUTORIZADA)
+                elif processo.resposta.cStat.valor in DENEGADO:
+                    inv._change_state(SITUACAO_FISCAL_DENEGADO)
+                else:
+                    inv._change_state(SITUACAO_EDOC_EM_DIGITACAO)
+            #
+            # Se o último processo foi o envio do lote, significa que a
+            # consulta falhou, mas o envio não
+            #
+            elif processo.webservice == WS_NFE_ENVIO_LOTE:
+                #
+                # Lote recebido, vamos guardar o recibo
+                #
+                if processo.resposta.cStat.valor in LOTE_RECEBIDO:
+                    inv.recibo = processo.resposta.infRec.nRec.valor
+                else:
+                    inv.edoc_status_code = processo.resposta.cStat.valor
+                    inv.edoc_status_message = processo.resposta.xMotivo.valor
+                    inv._change_state(SITUACAO_EDOC_REJEITADA)
+            #
+            # Se o último processo foi o retorno do recibo, a nota foi
+            # rejeitada, denegada, autorizada, ou ainda não tem resposta
+            #
+            elif processo.webservice == WS_NFE_CONSULTA_RECIBO:
+                #
+                # Consulta ainda sem resposta, a nota ainda não foi processada
+                #
+                if processo.resposta.cStat.valor in LOTE_EM_PROCESSAMENTO:
+                    inv._change_state(SITUACAO_EDOC_ENVIADA)
+                #
+                # Lote processado
+                #
+                elif processo.resposta.cStat.valor in LOTE_PROCESSADO:
+                    protNFe = processo.resposta.protNFe[0]
+
+                    #
+                    # Autorizada ou denegada
+                    #
+                    if protNFe.infProt.cStat.valor in AUTORIZADO_OU_DENEGADO:
+                        procNFe = processo.resposta.dic_procNFe[nfe.chave]
+
+                        inv.autorizacao_event_id._grava_anexo(
+                            procNFe.NFe.xml, 'xml'
+                        )
+                        inv.autorizacao_event_id.set_done(
+                            procNFe.xml
+                        )
+                        # if inv.fiscal_document_id.code == '55':
+                        #     inv.grava_pdf(nfe, procNFe.danfe_pdf)
+                        # elif self.modelo == '65':
+                        #     inv.grava_pdf(nfe, procNFe.danfce_pdf)
+                        inv.edoc_protocol_number = protNFe.infProt.nProt.valor
+                        inv.edoc_access_key = protNFe.infProt.chNFe.valor
+
+                        if protNFe.infProt.cStat.valor in AUTORIZADO:
+                            inv._change_state(SITUACAO_EDOC_AUTORIZADA)
+
+                        else:
+                            inv._change_state(SITUACAO_FISCAL_DENEGADO)
+
+                        inv.edoc_status_code = protNFe.infProt.cStat.valor
+                        inv.edoc_status_message = protNFe.infProt.xMotivo.valor
+
                     else:
-                        inv.autorizacao_event_id.create(result)
-
-                self.write({
-                    'nfe_status': protNFe["status_code"] + ' - ' +
-                    protNFe["message"],
-                    'nfe_date': datetime.datetime.now(),
-                    'state': protNFe["state"],
-                    'nfe_protocol_number': protNFe["nfe_protocol_number"],
-                })
+                        inv.edoc_status_code = processo.resposta.cStat.valor
+                        inv.edoc_status_message =\
+                            processo.resposta.xMotivo.valor
+                        inv._change_state(SITUACAO_EDOC_REJEITADA)
+                else:
+                    #
+                    # Rejeitada por outros motivos, falha no schema etc. etc.
+                    #
+                    inv.edoc_status_code = processo.resposta.cStat.valor
+                    inv.edoc_status_message = processo.resposta.xMotivo.valor
+                    inv._change_state(SITUACAO_EDOC_REJEITADA)
         return True
 
     @api.multi
@@ -205,11 +209,11 @@ class AccountInvoice(models.Model):
         document_serie_id = self.document_serie_id
         fiscal_document_id = self.document_serie_id.fiscal_document_id
         electronic = self.document_serie_id.fiscal_document_id.electronic
-        nfe_protocol = self.nfe_protocol_number
+        edoc_protocol = self.edoc_protocol_number
         emitente = self.issuer
 
         if ((document_serie_id and fiscal_document_id and not electronic) or
-                not nfe_protocol) or emitente == u'1':
+                not edoc_protocol) or emitente == u'1':
             return self.action_cancel()
         else:
             result = self.env['ir.actions.act_window'].for_xml_id(
@@ -231,8 +235,8 @@ class AccountInvoice(models.Model):
                 try:
                     processo = cancel(
                         self.company_id,
-                        inv.nfe_access_key,
-                        inv.nfe_protocol_number,
+                        inv.edoc_access_key,
+                        inv.edoc_protocol_number,
                         justificative)
                     vals = {
                         'type': str(processo.webservice),
@@ -264,7 +268,7 @@ class AccountInvoice(models.Model):
                                 .action_cancel()
                             if result:
                                 self.write({'state': 'sefaz_cancelled',
-                                            'nfe_status': vals["status"] +
+                                            'edoc_status': vals["status"] +
                                             ' - ' + vals["message"]
                                             })
                                 obj_cancel = self.env[
@@ -338,7 +342,7 @@ class AccountInvoice(models.Model):
             #     event_obj.search([('document_event_ids', '=', inv.id),
             #                       ('type', '=', '0')]))
             # arquivo = event.file_sent
-            nfe_obj = self._get_nfe_factory(inv.nfe_version)
+            nfe_obj = self._get_nfe_factory(inv.edoc_version)
 
             nfe = []
             results = []
@@ -346,15 +350,15 @@ class AccountInvoice(models.Model):
             protNFe["state"] = 'sefaz_exception'
             protNFe["status_code"] = ''
             protNFe["message"] = ''
-            protNFe["nfe_protocol_number"] = ''
+            protNFe["edoc_protocol_number"] = ''
             try:
                 file_xml = monta_caminho_nfe(
-                    inv.company_id, inv.nfe_access_key)
+                    inv.company_id, inv.edoc_access_key)
                 # if inv.state not in (
                 # 'open', 'paid', 'sefaz_cancelled'):
                 #     file_xml = os.path.join(file_xml, 'tmp/')
                 arquivo = os.path.join(
-                    file_xml, inv.nfe_access_key + '-nfe.xml')
+                    file_xml, inv.edoc_access_key + '-nfe.xml')
                 nfe = nfe_obj.set_xml(arquivo)
                 nfe.monta_chave()
                 processo = check_key_nfe(inv.company_id, nfe.chave, nfe)
@@ -374,7 +378,7 @@ class AccountInvoice(models.Model):
                 if processo.webservice == 4:
                     prot = processo.resposta.protNFe
                     protNFe["status_code"] = prot.infProt.cStat.valor
-                    protNFe["nfe_protocol_number"] = \
+                    protNFe["edoc_protocol_number"] = \
                         prot.infProt.nProt.valor
                     protNFe["message"] = prot.infProt.xMotivo.valor
                     vals["status"] = prot.infProt.cStat.valor
@@ -409,10 +413,10 @@ class AccountInvoice(models.Model):
                         event_obj.create(result)
 
                 self.write({
-                    'nfe_status': protNFe["status_code"] + ' - ' +
+                    'edoc_status': protNFe["status_code"] + ' - ' +
                     protNFe["message"],
-                    'nfe_date': datetime.datetime.now(),
+                    'edoc_date': datetime.datetime.now(),
                     'state': protNFe["state"],
-                    'nfe_protocol_number': protNFe["nfe_protocol_number"],
+                    'edoc_protocol_number': protNFe["edoc_protocol_number"],
                 })
         return True

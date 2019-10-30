@@ -158,14 +158,3 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
                 for result in results:
                     event_obj.create(result)
             return processo
-
-
-class L10nBrDocumentEvent(models.Model):
-    _inherit = 'l10n_br_account.document_event'
-
-    @api.multi
-    def set_done(self):
-        if self is None:
-            values = {'state': 'done', 'end_date': datetime.datetime.now()}
-        self.write(values)
-        return True
