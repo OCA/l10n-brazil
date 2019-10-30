@@ -115,11 +115,16 @@ class AccountInvoice(models.Model):
             return company.product_invoice_id
 
     @api.model
-    def _default_nfe_version(self):
+    def _default_edoc_version(self):
         if self.env.context.get('fiscal_document_code'):
             company = self.env['res.company'].browse(
                 self.env.user.company_id.id)
             return company.nfe_version
+    @api.model
+    def _default_edoc_enviroment(self):
+        company = self.env['res.company'].browse(
+            self.env.user.company_id.id)
+        return company.nfe_environment
 
     @api.model
     def _default_fiscal_document_serie(self):
@@ -137,15 +142,15 @@ class AccountInvoice(models.Model):
         return result
 
     @api.model
-    def _default_nfe_purpose(self):
-        nfe_purpose_default = {
+    def _default_edoc_purpose(self):
+        purpose_default = {
             'in_invoice': '1',
             'out_invoice': '1',
             'in_refund': '4',
             'out_refund': '4'
         }
         invoice_type = self.env.context.get('type', 'out_invoice')
-        return nfe_purpose_default.get(invoice_type)
+        return purpose_default.get(invoice_type)
 
     @api.one
     @api.depends('invoice_line_ids.cfop_id')
@@ -182,14 +187,23 @@ class AccountInvoice(models.Model):
         states={'draft': [('readonly', False)]},
         help=u"Série do número da Nota Fiscal do Fornecedor")
 
-    nfe_version = fields.Selection(
+    edoc_version = fields.Selection(
         selection=[('1.10', '1.10'),
                    ('2.00', '2.00'),
                    ('3.10', '3.10'),
                    ('4.00', '4.00')],
-        string=u'Versão NFe',
+        string=u'Versão',
         readonly=True,
-        default=_default_nfe_version,
+        oldname='edoc_version',
+        default=_default_edoc_version,
+        states={'draft': [('readonly', False)]})
+
+    edoc_enviroment = fields.Selection(
+        selection=[('1', u'Produção'),
+                   ('2', u'Homologação')],
+        string=u'Ambiente',
+        readonly=True,
+        default=_default_edoc_enviroment,
         states={'draft': [('readonly', False)]})
 
     date_hour_invoice = fields.Datetime(
@@ -286,41 +300,53 @@ class AccountInvoice(models.Model):
         string='Local de Despacho',
         size=32)
 
-    nfe_purpose = fields.Selection(
+    edoc_purpose = fields.Selection(
         selection=[('1', 'Normal'),
                    ('2', 'Complementar'),
                    ('3', 'Ajuste'),
                    ('4', u'Devolução de Mercadoria')],
-        string=u'Finalidade da Emissão',
+        string=u'Finalidade',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_nfe_purpose)
+        oldname='nfe_purpose',
+        default=_default_edoc_purpose)
 
-    nfe_access_key = fields.Char(
-        string=u'Chave de Acesso NFE',
+    edoc_access_key = fields.Char(
+        string=u'Chave',
         size=44,
         readonly=True, states={'draft': [('readonly', False)]},
+        oldname='nfe_access_key',
         copy=False)
 
-    nfe_protocol_number = fields.Char(
+    edoc_protocol_number = fields.Char(
         string=u'Protocolo',
         size=15,
         readonly=True,
+        oldname='nfe_protocol_number',
         copy=False, states={'draft': [('readonly', False)]})
 
-    nfe_status = fields.Char(
-        string=u'Status na Sefaz',
+    edoc_status_code = fields.Char(
+        string=u'Mensagem',
+        size=44,
+        readonly=True,
+        oldname='nfe_status',
+        copy=False)
+
+    edoc_status_message = fields.Char(
+        string=u'Mensagem',
         size=44,
         readonly=True,
         copy=False)
 
-    nfe_date = fields.Datetime(
-        string=u'Data do Status NFE',
+    edoc_date = fields.Datetime(
+        string=u'Data do Status',
         readonly=True,
+        oldname='edoc_date',
         copy=False)
 
-    nfe_export_date = fields.Datetime(
-        string=u'Exportação NFE',
+    edoc_export_date = fields.Datetime(
+        string=u'Exportação',
+        oldname='nfe_export_date',
         readonly=True)
 
     cfop_ids = fields.Many2many(
@@ -682,49 +708,25 @@ class AccountInvoice(models.Model):
                     tax_grouped[key]['base'] += round_curr(val['base'])
         return tax_grouped
 
-    # TODO Imaginar em não apagar o internal number para nao ter a necessidade
-    # de voltar a numeracão
     @api.multi
     def action_invoice_draft(self):
         result = super(AccountInvoice, self).action_invoice_draft()
         self.write({
-            'fiscal_number': False,
-            'nfe_access_key': False,
-            'nfe_status': False,
-            'nfe_date': False,
-            'nfe_export_date': False})
+            'edoc_access_key': False,
+            'edoc_status': False,
+            'edoc_date': False,
+            'edoc_export_date': False})
         return result
 
     @api.multi
     def action_invoice_open(self):
         self.action_number()
-        self.nfe_check()
+        self.edoc_check()
         result = super(AccountInvoice, self).action_invoice_open()
-        self.invoice_sefaz_export()
         return result
 
     @api.multi
-    def invoice_sefaz_export(self):
-        to_sefaz_export = self.filtered(
-            lambda inv: inv.state in ('draft', 'open')
-            and inv.fiscal_document_electronic
-            and inv.issuer == '0')
-        return to_sefaz_export.write({'state': 'sefaz_export'})
-
-    @api.multi
-    def action_sefaz_open(self):
-        if self.filtered(
-                lambda inv: inv.state == 'sefaz_export'
-                and not inv.nfe_export_date):
-            raise UserError(_(
-                "A NF-e deve ser exportada antes de validada."))
-        to_open_invoices = self.filtered(
-            lambda inv: inv.state == 'sefaz_export'
-            and inv.nfe_export_date)
-        return to_open_invoices.write({'state': 'open'})
-
-    @api.multi
-    def nfe_check(self):
+    def edoc_check(self):
         if self.env.context.get('fiscal_document_code', '') == '55':
             result = txt.validate(self)
             return result
@@ -757,8 +759,8 @@ class AccountInvoice(models.Model):
                             sequence.number_next,
                             invoice.document_serie_id.name))
 
-                seq_number = sequence_obj.get_id(
-                    invoice.document_serie_id.internal_sequence_id.id)
+                seq_number = \
+                    invoice.document_serie_id.internal_sequence_id.next_by_id()
                 date_time_invoice = (invoice.date_hour_invoice or
                                      fields.datetime.now())
                 date_in_out = invoice.date_in_out or fields.datetime.now()
@@ -768,7 +770,7 @@ class AccountInvoice(models.Model):
                      'date_hour_invoice': date_time_invoice,
                      'date_in_out': date_in_out})
 
-                if invoice.nfe_version == '4.00':
+                if invoice.edoc_version == '4.00':
                     if not invoice.account_payment_ids:
                         if (invoice.fiscal_category_id and
                                 invoice.fiscal_category_id.account_payment_term_id):
@@ -938,6 +940,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_move_create(self):
+        return True
         """ Creates invoice related analytics and financial move lines """
         account_invoice_tax = self.env['account.invoice.tax']
         account_move = self.env['account.move']

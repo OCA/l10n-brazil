@@ -130,7 +130,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
 
             nfes = func(invoices,
                         data.nfe_environment,
-                        inv.nfe_version)
+                        inv.edoc_version)
 
             for nfe in nfes:
                 nfe_file = nfe['nfe'].encode('utf8')

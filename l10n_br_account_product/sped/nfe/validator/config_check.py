@@ -28,9 +28,9 @@ def validate_nfe_invalidate_number(company, record):
 
 def validate_invoice_cancel(invoice):
     error = u'Verifique os problemas com o cancelamento:\n'
-    if not invoice.nfe_access_key:
+    if not invoice.edoc_access_key:
         error += u'Nota Fiscal - Chave de acesso NF-e\n'
-    if not invoice.nfe_status:
+    if not invoice.edoc_status_code:
         error += u'Empresa - Protocolo de autorização na Sefaz\n'
     if error != u'Verifique os problemas com o cancelamento:\n':
         raise orm.except_orm(_(u'Validação !'), _(error))

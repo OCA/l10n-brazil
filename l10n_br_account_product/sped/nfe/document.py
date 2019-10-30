@@ -131,7 +131,7 @@ class NFe200(FiscalDocument):
         self.nfe.infNFe.ide.tpImp.valor = 1  # (1 - Retrato; 2 - Paisagem)
         self.nfe.infNFe.ide.tpEmis.valor = 1
         self.nfe.infNFe.ide.tpAmb.valor = nfe_environment
-        self.nfe.infNFe.ide.finNFe.valor = invoice.nfe_purpose
+        self.nfe.infNFe.ide.finNFe.valor = invoice.edoc_purpose
         self.nfe.infNFe.ide.procEmi.valor = 0
         self.nfe.infNFe.ide.verProc.valor = 'Odoo Brasil v12.0'
         self.nfe.infNFe.compra.xPed.valor = invoice.name or ''

@@ -1,34 +1,36 @@
-"id","code","name","electronic"
-"fiscal_document_01","01","Nota Fiscal, Modelo 01","False"
-"fiscal_document_1B","1B","Nota Fiscal Avulsa","False"
-"fiscal_document_02","02","Nota Fiscal de Venda a Consumidor, Mod 02","False"
-"fiscal_document_2D","2D","Cupom Fiscal emitido por ECF","False"
-"fiscal_document_2E","2E","Bilhete de Passagem emitido por ECF","False"
-"fiscal_document_04","04","Nota Fiscal de Produtor","False"
-"fiscal_document_06","06","Nota Fiscal/Conta de Energia Elétrica","False"
-"fiscal_document_07","07","Nota Fiscal de Serviço de Transporte","False"
-"fiscal_document_08","08","Conhecimento de Transporte Rodoviário de Cargas","False"
-"fiscal_document_8B","8B","Conhecimento de Transporte de Cargas Avulso","False"
-"fiscal_document_09","09","Conhecimento de Transporte Aquaviário de Cargas","False"
-"fiscal_document_10","10","Conhecimento Aéreo","False"
-"fiscal_document_11","11","Conhecimento de Transporte Ferroviário de Cargas","False"
-"fiscal_document_13","13","Bilhete de Passagem Rodoviário","False"
-"fiscal_document_14","14","Bilhete de Passagem Aquaviário","False"
-"fiscal_document_15","15","Bilhete de Passagem e Nota de Bagagem","False"
-"fiscal_document_17","17","Despacho de Transporte","False"
-"fiscal_document_16","16","Bilhete de Passagem Ferroviário","False"
-"fiscal_document_18","18","Resumo de Movimento Diário","False"
-"fiscal_document_20","20","Ordem de Coleta de Cargas","False"
-"fiscal_document_21","21","Nota Fiscal de Serviço de Comunicação","False"
-"fiscal_document_22","22","Nota Fiscal de Serviço de Telecomunicação","False"
-"fiscal_document_23","23","GNRE","False"
-"fiscal_document_24","24","Autorização de Carregamento e Transporte","False"
-"fiscal_document_25","25","Manifesto de Carga","False"
-"fiscal_document_26","26","Conhecimento de Transporte Multimodal de Cargas","False"
-"fiscal_document_27","27","Nota Fiscal de Transporte Ferroviário de Cargas","False"
-"fiscal_document_28","28","Nota Fiscal/Conta de Fornecimento de Gás Canalizado","False"
-"fiscal_document_29","29","Nota Fiscal/Conta de Fornecimento de Água Canalizada","False"
-"fiscal_document_30","30","Bilhete/Recibo do Passageiro","False"
-"fiscal_document_55","55","Nota Fiscal Eletronica","True"
-"fiscal_document_57","57","Conhecimento de Transporte Eletrônico CT-e","True"
-"fiscal_document_59","59","Cupom Fiscal Eletrônico – CF-e","True"
+id,code,name,electronic,abreviation
+fiscal_document_01,1,"Nota Fiscal, Modelo 01",False,NF Mod 01
+fiscal_document_1B,1B,Nota Fiscal Avulsa,False,NF Avulsa
+fiscal_document_02,2,"Nota Fiscal de Venda a Consumidor, Mod 02",False,NF Mod 02
+fiscal_document_2D,2D,Cupom Fiscal emitido por ECF,False,ECF 2D
+fiscal_document_2E,2E,Bilhete de Passagem emitido por ECF,False,ECF 3E
+fiscal_document_04,4,Nota Fiscal de Produtor,False,NF Produtor
+fiscal_document_06,6,Nota Fiscal/Conta de Energia Elétrica,False,NF Energia Elétrica
+fiscal_document_07,7,Nota Fiscal de Serviço de Transporte,False,NF Transporte
+fiscal_document_08,8,Conhecimento de Transporte Rodoviário de Cargas,False,CT Rodoviário
+fiscal_document_8B,8B,Conhecimento de Transporte de Cargas Avulso,False,CT Avulso
+fiscal_document_09,9,Conhecimento de Transporte Aquaviário de Cargas,False,CT Aguaviário
+fiscal_document_10,10,Conhecimento Aéreo,False,CT Aéreo
+fiscal_document_11,11,Conhecimento de Transporte Ferroviário de Cargas,False,CT Ferroviário
+fiscal_document_13,13,Bilhete de Passagem Rodoviário,False,Bilhete Rodoviário
+fiscal_document_14,14,Bilhete de Passagem Aquaviário,False,Bilhete Aquaviário
+fiscal_document_15,15,Bilhete de Passagem e Nota de Bagagem,False,Bilhete / Bagagem
+fiscal_document_17,17,Despacho de Transporte,False,Despacho
+fiscal_document_16,16,Bilhete de Passagem Ferroviário,False,Bilhete Ferroviário
+fiscal_document_18,18,Resumo de Movimento Diário,False,Resumo
+fiscal_document_20,20,Ordem de Coleta de Cargas,False,Ordem de Coleta
+fiscal_document_21,21,Nota Fiscal de Serviço de Comunicação,False,NFS Comunicação
+fiscal_document_22,22,Nota Fiscal de Serviço de Telecomunicação,False,NFS Telecomunicação
+fiscal_document_23,23,GNRE,False,GNRE
+fiscal_document_24,24,Autorização de Carregamento e Transporte,False,Autorização
+fiscal_document_25,25,Manifesto de Carga,False,Manifesto
+fiscal_document_26,26,Conhecimento de Transporte Multimodal de Cargas,False,CT Multimodal
+fiscal_document_27,27,Nota Fiscal de Transporte Ferroviário de Cargas,False,NF
+fiscal_document_28,28,Nota Fiscal/Conta de Fornecimento de Gás Canalizado,False,NF Gás
+fiscal_document_29,29,Nota Fiscal/Conta de Fornecimento de Água Canalizada,False,NF Água
+fiscal_document_30,30,Bilhete/Recibo do Passageiro,False,Bilhete / Recibo
+fiscal_document_55,55,Nota Fiscal Eletronica,True,NF-e
+fiscal_document_57,57,Conhecimento de Transporte Eletrônico CT-e,True,CT-e
+fiscal_document_59,59,Cupom Fiscal Eletrônico – CF-e,True,CF-e
+fiscal_document_60,RL,Recibo de locação,False,Recibo de locação
+fiscal_document_61,SE,Nota fiscal de serviços eletrônica,True,NFS-e
