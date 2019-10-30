@@ -355,10 +355,10 @@ class HrPayslipRun(models.Model):
 
                 ultimo_dia_do_mes = str(
                     self.env['resource.calendar'].get_ultimo_dia_mes(
-                        self.mes_do_ano, self.ano))
+                        mes_do_ano, self.ano))
 
                 primeiro_dia_do_mes = str(
-                    datetime.strptime(str(self.mes_do_ano) + '-' +
+                    datetime.strptime(str(mes_do_ano) + '-' +
                                       str(self.ano), '%m-%Y'))
 
                 payslip = payslip_obj.create({
