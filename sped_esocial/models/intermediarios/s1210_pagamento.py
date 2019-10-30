@@ -210,42 +210,32 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
         for payslip in folhas_ordenadas or self.payslip_autonomo_ids:
 
-            if not info_pgto or payslip.tipo_de_folha in ['ferias', 'rescisao']:
-                if info_pgto:
-                    # Popula infoPgto
-                    S1210.evento.ideBenef.infoPgto.append(info_pgto)
-                info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
+            info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
 
-                # TODO Identificar a data do pagamento de acordo com o arquivo CNAB
-                # Por enquanto vou usar a data final do período ou a data atual (a que for menor)
-                # data = fields.Date.today()
-                # fim_periodo = self.periodo_id.date_stop
-                # if fim_periodo < data:
-                #     data = fim_periodo
+            info_pgto.dtPgto.valor = payslip.data_pagamento_competencia or \
+                                     fields.Date.today().split(' ')[0]
 
-                info_pgto.dtPgto.valor = payslip.data_pagamento_competencia or fields.Date.today().split(' ')[0]
+            # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
+            # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
+            # 2 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2299;
+            # 3 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2399;
+            # 5 - Pagamento de remuneração conforme apurado em {dmDev} do S-1202;
+            # 6 - Pagamento de Benefícios Previdenciários, conforme apurado em {dmDev} do S-1207;
+            # 7 - Recibo de férias;
+            # 9 - Pagamento relativo a competências anteriores ao início da obrigatoriedade dos eventos
+            #     periódicos para o contribuinte;
 
-                # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
-                # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
-                # 2 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2299;
-                # 3 - Pagamento de verbas rescisórias conforme apurado em {dmDev} do S-2399;
-                # 5 - Pagamento de remuneração conforme apurado em {dmDev} do S-1202;
-                # 6 - Pagamento de Benefícios Previdenciários, conforme apurado em {dmDev} do S-1207;
-                # 7 - Recibo de férias;
-                # 9 - Pagamento relativo a competências anteriores ao início da obrigatoriedade dos eventos
-                #     periódicos para o contribuinte;
-                #
-                tipo = '1'
-                if payslip.tipo_de_folha == 'rescisao':
-                    tipo = '2'
-                if payslip.contract_id.tp_reg_prev == '2':
-                    tipo = '5'
-                if payslip.tipo_de_folha == 'ferias':
-                    tipo = '7'
-                info_pgto.tpPgto.valor = tipo
-                info_pgto.indResBr.valor = 'S'  # TODO Lidar com pagamentos a pessoas do exterior quando o Odoo
-                                                # tiver isso disponível
+            tipo = '1'
+            if payslip.tipo_de_folha == 'rescisao':
+                tipo = '2'
+            if payslip.contract_id.tp_reg_prev == '2':
+                tipo = '5'
+            if payslip.tipo_de_folha == 'ferias':
+                tipo = '7'
+            info_pgto.tpPgto.valor = tipo
+            info_pgto.indResBr.valor = 'S'
 
+            # Se nao for férias
             if tipo != '7':
                 # Popula detPgtoFl
                 det_pgto_fl = pysped.esocial.leiaute.S1210_DetPgtoFl_2()
@@ -312,6 +302,8 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
                 # Popula a tag detPgtoFl
                 info_pgto.detPgtoFl.append(det_pgto_fl)
+
+            # Se for férias
             else:
                 # Popula a tag detPgtoFer
                 det_pgto_fer = pysped.esocial.leiaute.S1210_DetPgtoFer_2()
@@ -363,7 +355,7 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 # Popula a tag detPgtoFl
                 info_pgto.detPgtoFer.append(det_pgto_fer)
 
-        S1210.evento.ideBenef.infoPgto.append(info_pgto)
+            S1210.evento.ideBenef.infoPgto.append(info_pgto)
 
         return S1210, validacao
 
