@@ -28,7 +28,7 @@
                         <field name="dependent_ids" nolabel="1" context="{'default_employee_id': id}">
                             <tree>
                                 <field name="name" />
-                                <field name="dependent_verification" />
+                                <field name="dependent_verification" string="É Dependente (IRRF) ?" />
                                 <field name="dependent_type_id" />
                                 <field name="benefit_ids" string="Benefícios" />
                             </tree>
