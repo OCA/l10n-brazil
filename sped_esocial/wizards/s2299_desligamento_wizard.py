@@ -62,6 +62,7 @@ class S2299DesligamentoWizard(models.TransientModel):
             payslip.sped_s2299 = desligamento_id
 
         elif payslip.contract_id.evento_esocial == 's2300':
+            vals['hr_contract_id'] = payslip.contract_id.id
             desligamento_id = self.env['sped.hr.rescisao.autonomo'].create(vals)
             payslip.sped_s2399 = desligamento_id
 

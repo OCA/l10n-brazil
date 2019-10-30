@@ -20,6 +20,12 @@ class HrPaylisp(models.Model):
         string='Registro SPED S-2299',
         comodel_name='sped.hr.rescisao',
     )
+
+    sped_s2399 = fields.Many2one(
+        string='Registro SPED S-2399',
+        comodel_name='sped.hr.rescisao.autonomo',
+    )
+
     situacao_esocial_s2299 = fields.Selection(
         selection=[
             ('0', 'Inativo'),

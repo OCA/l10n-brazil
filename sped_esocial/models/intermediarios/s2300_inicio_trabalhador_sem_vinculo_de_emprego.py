@@ -476,7 +476,7 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             InfoTrabCedido.cnpjCednt.valor = \
                 limpa_formatacao(self.hr_contract_id.cnpj_empregador_cedente)
             InfoTrabCedido.categOrig.valor = \
-                self.hr_contract_id.assignor_category_id
+                self.hr_contract_id.assignor_category_id.code
             InfoTrabCedido.matricCed.valor = \
                 self.hr_contract_id.matricula_cedente
             InfoTrabCedido.dtAdmCed.valor = \

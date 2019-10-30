@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <button name="hr_verify_sheet" position="after">
                     <button name="%(sped_esocial.criar_s2299_desligamento)d" string="Criar Registro e-Social" type="action" class="oe_highlight"
-                    attrs="{'invisible': ['|','|',('tipo_de_folha','!=','rescisao'),('sped_s2299','!=',False),('state','in',['draft', 'cancel'])]}"/>
+                    attrs="{'invisible': ['|','|','|',('tipo_de_folha','!=','rescisao'),('sped_s2299','!=',False),('sped_s2399','!=',False),('state','in',['draft', 'cancel'])]}"/>
                 </button>
                 <field name="mtv_deslig" position="before">
                     <field name="mtv_deslig_esocial" options="{'no_create': False, 'no_open': False}"
@@ -22,11 +22,13 @@
 
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="esocial" string="e-Social" groups="sped_tabelas.group_user"
-                                attrs="{'invisible': ['|',('tipo_de_folha','!=','rescisao'),('sped_s2299','!=',False)]}" >
-                        <separator string="Registro S-2299 Desligamento" />
+                                attrs="{'invisible': ['|','|',('tipo_de_folha','!=','rescisao')]}" >
+                        <separator string="Registro Desligamento" />
                         <group>
                             <group>
-                                <field name="sped_s2299" />
+                                <field name="sped_s2299" nolabel="1"/>
+                                <newline />
+                                <field name="sped_s2399" nolabel="1"/>
                             </group>
                         </group>
                     </page>

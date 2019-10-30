@@ -27,7 +27,7 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
     )
     sped_hr_rescisao_id = fields.Many2one(
         string="Rescisão Trabalhista",
-        comodel_name="hr.payslip.autonomo",
+        comodel_name="hr.payslip",
     )
     sped_s2399_registro_inclusao = fields.Many2one(
         string='Registro S-2399',
@@ -49,6 +49,8 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
+            ('6', 'Retificado'),
+            ('7', 'Excluído'),
         ],
         compute="compute_situacao_esocial",
         store=True,
@@ -190,9 +192,27 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         #
         S2399.tpInsc = '1'
         S2399.nrInsc = limpa_formatacao(
-            self.company_id.cnpj_cpf)[0:8]
+            self.hr_contract_id.company_id.cnpj_cpf
+        )[0:8]
         S2399.evento.ideEvento.tpAmb.valor = int(
-            self.company_id.esocial_tpAmb)
+            self.hr_contract_id.company_id.esocial_tpAmb
+        )
+
+        # Registro Original
+        indRetif = '1'
+
+        # Se for uma retificação
+        if operacao == 'R':
+            indRetif = '2'
+
+            registro_para_retificar = self.get_registro_para_retificar(
+                self.sped_s2299_registro_inclusao)
+
+            S2399.evento.ideEvento.nrRecibo.valor = \
+                registro_para_retificar.recibo
+
+        S2399.evento.ideEvento.indRetif.valor = indRetif
+
         # Processo de Emissão = Aplicativo do Contribuinte
         S2399.evento.ideEvento.procEmi.valor = '1'
         S2399.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -200,10 +220,10 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         # Popula ideEmpregador (Dados do Empregador)
         S2399.evento.ideEmpregador.tpInsc.valor = '1'
         S2399.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(
-            self.company_id.cnpj_cpf)[0:8]
+            self.sped_hr_rescisao_id.company_id.cnpj_cpf)[0:8]
 
         # evtTSVTermino.ideTrabSemVinculo
-        employee_id = self.hr_contract_id.employee_id
+        employee_id = self.sped_hr_rescisao_id.contract_id.employee_id
         S2399.evento.ideTrabSemVinculo.cpfTrab.valor = \
             limpa_formatacao(employee_id.cpf)
         S2399.evento.ideTrabSemVinculo.nisTrab.valor = \
@@ -214,9 +234,11 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         # evtTSVTermino.infoTSVTermino
         rescisao_id = self.sped_hr_rescisao_id
         S2399.evento.infoTSVTermino.dtTerm.valor = self.hr_contract_id.date_end
-        if rescisao_id.contract_id.category_id.code in ['721', '722']:
-            S2399.evento.infoTSVTermino.mtvDesligTSV.valor = \
-                rescisao_id.mtv_deslig.codigo
+        if rescisao_id.contract_id.category_id.code in ['721', '722', '410']:
+
+            if rescisao_id.contract_id.category_id.code in ['721']:
+                S2399.evento.infoTSVTermino.mtvDesligTSV.valor = \
+                    rescisao_id.mtv_deslig_esocial.codigo
 
             # evtTSVTermino.infoTSVTermino.VerbasResc
             verba_rescisoria = pysped.esocial.leiaute.S2399_VerbasResc_2()
