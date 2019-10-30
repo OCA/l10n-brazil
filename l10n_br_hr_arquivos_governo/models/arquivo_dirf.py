@@ -48,7 +48,7 @@ class Beneficiario():
         self.valores_mensais = []
 
     def __str__(self):
-        return 'BPFDEC - {}'.format(self.nome_bpfdec[:10])
+        return 'BPFDEC - {}'.format(self.nome_bpfdec)
 
     def add_valores_mensais(self, valores_mensais):
         """
@@ -57,31 +57,35 @@ class Beneficiario():
         if not isinstance(valores_mensais, ValoresMensais):
             raise ('Parâmetro no formato incorreto! Para adicionar '
                    'beneficiário utilize a classe ```ValoresMensais```')
-        self.bpfdec.append(valores_mensais)
+        self.valores_mensais.append(valores_mensais)
 
     @property
     def VALORESMENSAIS(self):
-        """
-        :return:
-        """
+
+        beneficiario = ''
+        vm = ''
+        dirf = DIRF()
+
         for record in self.valores_mensais:
             # Valores mensais do Beneficiario
-            vm  = self._validar(record.identificador_de_registro_mensal, 5, preenchimento='variavel')
-            vm += self._validar(record.janeiro, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.fevereiro, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.marco, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.abril, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.maio, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.junho, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.julho, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.agosto, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.setembro, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.outubro, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.novembro, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.dezembro, 13, tipo='V', preenchimento='variavel')
-            vm += self._validar(record.decimo_terceiro, 13, tipo='V', preenchimento='variavel')
+            vm  = dirf._validar(record.identificador_de_registro_mensal, 5, preenchimento='variavel')
+            vm += dirf._validar(record.janeiro, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.fevereiro, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.marco, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.abril, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.maio, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.junho, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.julho, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.agosto, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.setembro, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.outubro, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.novembro, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.dezembro, 13, tipo='V', preenchimento='variavel')
+            vm += dirf._validar(record.decimo_terceiro, 13, tipo='V', preenchimento='variavel')
             beneficiario += vm
             beneficiario += '\n'
+        return beneficiario
+
 
 class DIRF(AbstractArquivosGoverno):
 
@@ -235,8 +239,6 @@ class DIRF(AbstractArquivosGoverno):
         self.cpf_infpa = ''
         self.data_nascimento_infpa = ''
         self.relacao_dependencia_infpa = ''
-
-
 
         # 3.20 Registro de valores anuais isentos/sem retenção
         # (identificadores RIL96, RIPTS e RIRSR)
@@ -425,11 +427,9 @@ class DIRF(AbstractArquivosGoverno):
             bpfdec = self._validar(record.identificador_de_registro_bpfdec, 6)
             bpfdec += self._validar(record.cpf_bpfdec, 11, tipo='N')
             bpfdec += self._validar(record.nome_bpfdec, 60, tipo='A', preenchimento='variavel')
+            bpfdec += '\n'
+            bpfdec += record.VALORESMENSAIS
             beneficiario += bpfdec
-            beneficiario += '\n'
-
-
-
         return beneficiario
 
     def add_beneficiario(self, bpfdec):
@@ -440,6 +440,7 @@ class DIRF(AbstractArquivosGoverno):
             raise ('Parâmetro no formato incorreto! Para adicionar '
                    'beneficiário utilize a classe ```Beneficiario```')
         self.bpfdec.append(bpfdec)
+        self.bpfdec.sort(key=lambda x: x.cpf_bpfdec)
 
     def _validar(self, word, tam, tipo='AN', preenchimento='fixo'):
         """

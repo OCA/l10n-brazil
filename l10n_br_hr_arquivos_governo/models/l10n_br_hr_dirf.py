@@ -46,7 +46,7 @@ class L10nBrHrDirf(models.Model):
     )
 
     dirf = fields.Text(
-        string=u'Prévia do SEFIP',
+        string=u'Prévia da DIRF',
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
@@ -183,17 +183,28 @@ class L10nBrHrDirf(models.Model):
 
     @api.multi
     def populate_beneficiario(self, beneficiario, contract_id, ano):
+        """
+        :param beneficiario:
+        :param contract_id:
+        :param ano:
+        :return:
+        """
         for record in self:
 
             RUBRICAS_DIRF = [
-                ('RTRT','BRUTO'),
+                ('RTRT','BASE_INSS'),
                 ('RTPO','INSS'),
-                ('RTIRF','IRRF'),
+                ('RTIRF','IRPF'),
+                ('RIDAC','DIARIAS_VIAGEM'),
             ]
 
             holerites_ids = self.buscar_holerites(contract_id, ano)
 
+            codes = holerites_ids.mapped('line_ids.code')
+
             for rubrica in RUBRICAS_DIRF:
+                if rubrica[1] not in codes:
+                    continue
                 valores_mensais = ValoresMensais()
                 valores_mensais.identificador_de_registro_mensal = rubrica[0]
                 valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
@@ -208,8 +219,7 @@ class L10nBrHrDirf(models.Model):
                 valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
                 valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
                 valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
-                valores_mensais.decimo_terceiro = self.get_valor_mes(
-                holerites_ids, 13, rubrica, tipo='decimo_terceiro')
+                valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo='decimo_terceiro')
                 beneficiario.add_valores_mensais(valores_mensais)
 
     @api.multi
@@ -248,17 +258,12 @@ class L10nBrHrDirf(models.Model):
         dirf.codigo_da_receita = '0651'
         print(dirf.IDREC)
 
-        # Organizar contratos
-        sorted_contract_ids = \
-            self.contract_ids[:8].sorted(key=lambda x: x.employee_id.cpf)
-
-        for contract_id in sorted_contract_ids:
+        # Preencher beneficiarios
+        for contract_id in self.contract_ids:
             beneficiario = Beneficiario()
             beneficiario.cpf_bpfdec = contract_id.employee_id.cpf
             beneficiario.nome_bpfdec = contract_id.employee_id.name
-
             self.populate_beneficiario(beneficiario, contract_id, self.ano)
-
             dirf.add_beneficiario(beneficiario)
 
         print(dirf.BPFDEC)
