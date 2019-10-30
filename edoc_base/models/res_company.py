@@ -2,6 +2,8 @@
 # Copyright 2019 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from __future__ import unicode_literals
+
 from odoo import api, fields, models, _
 
 
@@ -11,5 +13,5 @@ class ResCompany(models.Model):
 
     processador_edoc = fields.Selection(
         selection=[],
-        string=u'Processador documentos eletrônicos',
+        string='Processador documentos eletrônicos',
     )

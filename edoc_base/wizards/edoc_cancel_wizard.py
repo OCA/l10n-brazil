@@ -2,13 +2,15 @@
 # Copyright 2019 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from __future__ import unicode_literals
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 
 class EdocCancelWizard(models.TransientModel):
 
-    _name = 'edoc.cancel.wizard'
+    _name = b'edoc.cancel.wizard'
 
     justificative = fields.Text('Justificativa', size=255, required=True)
 
