@@ -2,12 +2,14 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from __future__ import unicode_literals
+
 from odoo import api, fields, models, _
 
 
 class L10nBrAccountDocumentEventWizard(models.TransientModel):
 
-    _name = 'l10n_br_account.document_event.wizard'
+    _name = b'l10n_br_account.document_event.wizard'
 
     mensagem = fields.Text(
         'Mensagem',
