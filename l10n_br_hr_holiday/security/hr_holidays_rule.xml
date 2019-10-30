@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 ABGF.gov.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+        <!-- Visualizar olidays de funcinoários ativos. Funcionarios ativos
+        sao funcinoarios que tem no contrato ativo a data de demissao
+        menor do que hoje -->
+        <record id="l10n_br_hr_holiday_rule_active_employee" model="ir.rule">
+            <field name="name">Visualizar apenas holidays de funcionários Ativos</field>
+            <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+            <field name="global" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">['|', ('contrato_id.date_end','>=', time.strftime("%Y-%m-%d")), ('contrato_id.date_end','=', False)]</field>
+        </record>
+
+</data>
+</openerp>
