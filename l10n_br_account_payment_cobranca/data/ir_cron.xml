@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="ir_cron_confirm_debit_orders_api" model="ir.cron">
+        <field name="name">Confirma Ordens de Débito API</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days= +1)).strftime('%Y-%m-%d 3:00:00')"/>
+        <field name="active">True</field>
+        <field name="model">account.payment.order</field>
+        <field name="function">_confirm_debit_orders_api</field>
+    </record>
+
+</odoo>
