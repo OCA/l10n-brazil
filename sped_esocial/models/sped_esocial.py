@@ -1498,7 +1498,6 @@ class SpedEsocial(models.Model):
                 ('data_inicio', '>=', data_inicio),
                 ('data_inicio', '<=', data_fim),
                 ('esocial_evento_afastamento_id', '!=', False),
-                ('contrato_id.situacao_esocial', '!=', '0'),
             ])
             afastamentos = []
             for holiday in holiday_ids:
@@ -1614,9 +1613,9 @@ class SpedEsocial(models.Model):
 
             # Conta as rescisões sem registro no e-Social ou com pendência de transmissão
             for payslip in payslip_ids:
-                if not payslip.sped_s2299:
-                        # or payslip.sped_s2299 not in ['4']:
-                    rescisoes_sem_registro += 1
+                if not payslip.sped_s2299 and not payslip.sped_s2399:
+                    if payslip.contract_id.situacao_esocial not in ['0', '9']:
+                        rescisoes_sem_registro += 1
 
             # Popula o número de rescisões sem registro
             self.rescisoes_sem_registro = rescisoes_sem_registro
