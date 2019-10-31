@@ -20,11 +20,15 @@ from odoo.addons.l10n_br_account_product.models.account_invoice_term import (
     FORMA_PAGAMENTO_CARTOES,
     FORMA_PAGAMENTO_SEM_PAGAMENTO
 )
-
-PROCESSADOR = 'erpbrasil_edoc'
-LOTE_PROCESSADO = '104'
-AUTORIZADO = ('100', '150')
-DENEGADO = ('110', '301', '302')
+from odoo.addons.edoc_base.constantes import (
+    AUTORIZADO,
+    DENEGADO,
+    LOTE_PROCESSADO,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_REJEITADA,
+)
+from .res_company import PROCESSADOR
 
 
 class AccountInvoice(models.Model):
@@ -608,7 +612,7 @@ class AccountInvoice(models.Model):
             digito = 0
 
         chave += str(digito)
-        self.nfe_access_key = chave
+        self.edoc_access_key = chave
 
     def serialize_nfe(self):
         company = self.company_id.partner_id
@@ -673,7 +677,7 @@ class AccountInvoice(models.Model):
                 refECF=ref_ecf)
             )
 
-        if not self.nfe_access_key:
+        if not self.edoc_access_key:
             self.gera_nova_chave()
 
         dh_emi = fields.Datetime.context_timestamp(
@@ -686,7 +690,7 @@ class AccountInvoice(models.Model):
 
         ide = leiauteNFe.ideType(
             cUF=(company.state_id and company.state_id.ibge_code or ''),
-            cNF=self.nfe_access_key[35:43],
+            cNF=self.edoc_access_key[35:43],
             natOp=self.fiscal_category_id.name[:60] or '',
             mod=self.fiscal_document_id.code or '',
             serie=self.document_serie_id.code or '',
@@ -700,9 +704,9 @@ class AccountInvoice(models.Model):
                 company.l10n_br_city_id.ibge_code),
             tpImp=1,
             tpEmis=1,
-            cDV=self.nfe_access_key[-1],
+            cDV=self.edoc_access_key[-1],
             tpAmb=self.company_id.nfe_environment,
-            finNFe=self.nfe_purpose,
+            finNFe=self.edoc_purpose,
             indFinal=self.ind_final or '',
             indPres=self.ind_pres or '',
             procEmi='0',
@@ -939,7 +943,7 @@ class AccountInvoice(models.Model):
 
         inf_nfe = leiauteNFe.infNFeType(
             versao='4.00',
-            Id='NFe' + self.nfe_access_key,
+            Id='NFe' + self.edoc_access_key,
             ide=ide,
             emit=emit,
             avulsa=None,
@@ -965,6 +969,16 @@ class AccountInvoice(models.Model):
 
         return tnfe
 
+    def _procesador(self):
+        certificado = Certificado(
+            stream_arquivo=self.company_id.nfe_a1_file,
+            senha=self.company_id.nfe_a1_password
+        )
+        session = Session()
+        session.verify = False
+        transmissao = TransmissaoSOAP(certificado, session)
+        return NFe(transmissao)
+
     def serialize(self):
         nfes = []
         for record in self.filtered(lambda r: r.fiscal_document_id.code in
@@ -975,32 +989,35 @@ class AccountInvoice(models.Model):
     @api.multi
     def _edoc_export(self):
         self.ensure_one()
-        if not self.company_id.processador_edoc == PROCESSADOR:
+        if not self.processador_edoc == PROCESSADOR:
             return super(AccountInvoice, self)._edoc_export()
-        return
+
+        edoc = self.serialize()[0]
+        procesador = self._procesador()
+        return procesador._generateds_to_string_etree(edoc)[0]
 
     def atualiza_status_nfe(self, infProt):
         self.ensure_one()
         documento = self
-        if not infProt.chNFe == self.nfe_access_key:
+        if not infProt.chNFe == self.edoc_access_key:
             documento = self.search([
-                ('nfe_access_key', '=', infProt.chNFe)
+                ('edoc_access_key', '=', infProt.chNFe)
             ])
 
         if infProt.cStat in AUTORIZADO:
-            state = 'open'
+            state = SITUACAO_EDOC_AUTORIZADA
         elif infProt.cStat in DENEGADO:
-            state = 'sefaz_denied'
+            state = SITUACAO_EDOC_DENEGADA
         else:
-            state = 'sefaz_exception'
+            state = SITUACAO_EDOC_REJEITADA
 
         documento.write({
-            'nfe_access_key': infProt.chNFe,
-            'nfe_status': infProt.cStat + ' - ' + infProt.xMotivo,
-            'nfe_date': infProt.dhRecbto,
-            'nfe_protocol_number': infProt.nProt,
-            'nfe_access_key': infProt.xMotivo,
-            'state': state,
+            'edoc_access_key': infProt.chNFe,
+            'edoc_status_code': infProt.cStat,
+            'edoc_status_message': infProt.xMotivo,
+            'edoc_date': infProt.dhRecbto,
+            'edoc_protocol_number': infProt.nProt,
+            'state_edoc': state,
             # 'nfe_access_key': infProt.tpAmb,
             # 'nfe_access_key': infProt.digVal,
             # 'nfe_access_key': infProt.xMsg,
@@ -1009,24 +1026,17 @@ class AccountInvoice(models.Model):
     @api.multi
     def _edoc_send(self):
         self.ensure_one()
-        if not self.company_id.processador_edoc == PROCESSADOR:
+        if not self.processador_edoc == PROCESSADOR:
             return super(AccountInvoice, self)._edoc_send()
 
-        certificado = Certificado(
-            stream_arquivo=self.company_id.nfe_a1_file,
-            senha=self.company_id.nfe_a1_password
-        )
-        session = Session()
-        session.verify = False
-        transmissao = TransmissaoSOAP(certificado, session)
+        procesador = self._procesador()
 
         for edoc in self.serialize():
-            nfe = NFe(transmissao)
             processo = None
-            for p in nfe.processar_documento(edoc):
+            for p in procesador.processar_documento(edoc):
                 processo = p
 
-        if processo.resposta.cStat == LOTE_PROCESSADO:
+        if processo.resposta.cStat in LOTE_PROCESSADO:
             for protocolo in processo.resposta.protNFe:
                 self.atualiza_status_nfe(protocolo.infProt)
         return
