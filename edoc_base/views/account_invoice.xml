@@ -45,6 +45,11 @@
             <xpath expr="//button[@name='action_invoice_cancel']"
                    position="replace">
             </xpath>
+            <group name="group_documentos_refernciados" position="after">
+                    <group string="Cartas de correção" attrs="{'invisible': [('cce_document_ids','not in', [])]}">
+                        <field name="cce_document_ids" nolabel="1"/>
+                    </group>
+            </group>
 <!--            <xpath expr="//field[@name='ind_pres']" position="after">-->
 <!--                <field name="is_edoc_printed"/>-->
 <!--            </xpath>-->
