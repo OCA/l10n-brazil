@@ -23,8 +23,6 @@
         'data/nfe_attach_email.xml',
         'security/ir.model.access.csv',
         'wizard/nfe_xml_periodic_export.xml',
-        'wizard/nfe_invoice_cce_view.xml',
-        'wizard/nfe_invoice_cancel_view.xml',
         'wizard/l10n_br_account_invoice_import.xml',
         'data/nfe_schedule.xml',
         # 'account_invoice_workflow.xml',
