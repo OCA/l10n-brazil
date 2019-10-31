@@ -4,10 +4,12 @@
 
 from odoo import api, fields, models, _
 
+PROCESSADOR = 'erpbrasil_edoc'
+
 
 class ResCompany(models.Model):
 
     _inherit = 'res.company'
     processador_edoc = fields.Selection(
-        selection_add=[('erpbrasil_edoc', 'erpbrasil.edoc')]
+        selection_add=[(PROCESSADOR, 'erpbrasil.edoc')]
     )
