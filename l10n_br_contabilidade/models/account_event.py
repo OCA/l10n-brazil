@@ -157,6 +157,10 @@ class AccountEvent(models.Model):
 
             record.state = 'reversed'
 
+            # Evento ja criado com lançamentos e ja validado pelo usuário
+            account_event_reversao_id.validar_evento()
+            account_event_reversao_id.state = 'generated'
+
     def criar_lancamentos(self, vals):
         """
         :param vals:

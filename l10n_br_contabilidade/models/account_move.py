@@ -277,7 +277,6 @@ class AccountMove(models.Model):
     def reverter_lancamento(self, account_event_reversao_id=False,
                             data=fields.Date.today()):
         """
-
         :param account_event_reversao_id:
         :param data:
         :return:
