@@ -82,7 +82,26 @@ class PaymentOrder(models.Model):
         readonly=True,
         domain=[('is_erro_exportacao', '=', True)],
     )
-    
+
+    def _confirm_debit_orders_api(self):
+        """
+        Method create to confirm all bank_api exclusive account.payment.order
+        :return:
+        """
+        _logger.info("_confirm_debit_orders_api()")
+
+        order_ids = self.search([
+            ('active', '=', False),
+            ('state', '=', 'draft'),
+            ('name', 'ilike', 'api')
+        ])
+
+        for order_id in order_ids:
+            try:
+                order_id.draft2open()
+                order_id.active = True
+            except Exception as e:
+                _logger.warn(str(e))
 
     @api.model
     def _prepare_bank_payment_line(self, paylines):
