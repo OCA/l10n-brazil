@@ -227,7 +227,10 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
 
             tipo = '1'
             if payslip.tipo_de_folha == 'rescisao':
-                tipo = '2'
+                if payslip.contract_id.evento_esocial == 's2200':
+                    tipo = '2'
+                if payslip.contract_id.evento_esocial == 's2300':
+                    tipo = '3'
             if payslip.contract_id.tp_reg_prev == '2':
                 tipo = '5'
             if payslip.tipo_de_folha == 'ferias':
@@ -253,8 +256,14 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 det_pgto_fl.vrLiq.valor = formata_valor(payslip.total_folha)
 
                 # Pega o número do recibo do S-2299 (se for o caso)
-                if tipo == '2':
-                    registro_para_retificar = payslip.sped_s2299.sped_s2299_registro_inclusao
+                if tipo in ['2', '3']:
+                    registro_para_retificar = \
+                        payslip.sped_s2299.sped_s2299_registro_inclusao
+
+                    if payslip.sped_s2399:
+                        registro_para_retificar = \
+                            payslip.sped_s2399.sped_s2399_registro_inclusao
+
                     tem_retificacao = True
                     while tem_retificacao:
                         if registro_para_retificar.retificacao_ids and \
