@@ -137,10 +137,10 @@ class AccountInvoice(models.Model):
         comodel_name="l10n_br_account.invoice.cancel", string="Cancelamento"
     )
     # Eventos de carta de correção
-    cce_document_event_ids = fields.One2many(
+    cce_document_ids = fields.One2many(
         comodel_name="l10n_br_account.invoice.cce",
         inverse_name="invoice_id",
-        string=u"Eventos ",
+        string=u"Carta de correção",
         copy=False,
     )
 
