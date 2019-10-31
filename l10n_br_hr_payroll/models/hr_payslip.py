@@ -1861,9 +1861,15 @@ class HrPayslip(models.Model):
             ('contract_id', '=', self.contract_id.id),
             ('code', 'ilike', '%{}%'.format(code)),
             ('reference', '=', reference),
+            ('slip_id.is_simulacao', '=', False),
         ]
+
         if self.tipo_de_folha == 'normal':
             domain.append(('slip_id.tipo_de_folha', '=', 'ferias'))
+        else:
+            domain.append(
+                ('slip_id.tipo_de_folha', 'not in',
+                 ['provisao_ferias', 'provisao_decimo_terceiro']))
 
         line_ids = self.env['hr.payslip.line'].search(domain)
         return sum(line_ids.mapped('total'))
