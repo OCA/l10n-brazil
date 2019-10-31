@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class EdocCceWizard(models.TransientModel):
@@ -26,13 +27,7 @@ class EdocCceWizard(models.TransientModel):
     @api.multi
     def doit(self):
         for wizard in self:
-            # TODO
-            pass
-        action = {
-            'type': 'ir.actions.act_window',
-            'name': 'Action Name',  # TODO
-            'res_model': 'result.model',  # TODO
-            'domain': [('id', '=', result_ids)],  # TODO
-            'view_mode': 'form,tree',
-        }
-        return action
+            obj_invoice = self.env['account.invoice'].browse(
+                self.env.context['active_id'])
+            obj_invoice.cce_invoice_online(wizard.justificative)
+        return {'type': 'ir.actions.act_window_close'}
