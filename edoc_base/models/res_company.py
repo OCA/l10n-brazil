@@ -6,12 +6,14 @@ from __future__ import unicode_literals
 
 from odoo import api, fields, models, _
 
+PROCESSADOR = 'nenhum'
+
 
 class ResCompany(models.Model):
 
     _inherit = 'res.company'
 
     processador_edoc = fields.Selection(
-        selection=[],
+        selection=[(PROCESSADOR, 'Nenhum')],
         string='Processador documentos eletrônicos',
     )
