@@ -11,7 +11,7 @@
                ref="l10n_br_account_product.l10n_br_account_product_company_form"/>
         <field name="arch" type="xml">
             <field name="nfe_version" position="before">
-                <field name="processador_edoc" required="1"/>
+                <field name="processador_edoc"/>
             </field>
         </field>
     </record>
