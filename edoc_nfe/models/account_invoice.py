@@ -24,11 +24,23 @@ from odoo.addons.edoc_base.constantes import (
     AUTORIZADO,
     DENEGADO,
     LOTE_PROCESSADO,
+    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_REJEITADA,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
 )
 from .res_company import PROCESSADOR
+
+def fiter_processador_edoc_nfe(record):
+    if (record.processador_edoc == PROCESSADOR and
+            record.fiscal_document_id.code in [
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFCE,
+            ]):
+        return True
+    return False
 
 
 class AccountInvoice(models.Model):
@@ -988,13 +1000,14 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def _edoc_export(self):
-        self.ensure_one()
-        if not self.processador_edoc == PROCESSADOR:
-            return super(AccountInvoice, self)._edoc_export()
-
-        edoc = self.serialize()[0]
-        procesador = self._procesador()
-        return procesador._generateds_to_string_etree(edoc)[0]
+        super(AccountInvoice, self)._edoc_export()
+        for record in self.filtered(fiter_processador_edoc_nfe):
+            edoc = record.serialize()[0]
+            procesador = record._procesador()
+            xml_file = procesador._generateds_to_string_etree(edoc)[0]
+            event_id = self._gerar_evento(xml_file, type="0")
+            record.autorizacao_event_id = event_id
+            record._change_state(SITUACAO_EDOC_A_ENVIAR)
 
     def atualiza_status_nfe(self, infProt):
         self.ensure_one()
@@ -1011,13 +1024,14 @@ class AccountInvoice(models.Model):
         else:
             state = SITUACAO_EDOC_REJEITADA
 
+        self._change_state(state)
+
         documento.write({
             'edoc_access_key': infProt.chNFe,
             'edoc_status_code': infProt.cStat,
             'edoc_status_message': infProt.xMotivo,
             'edoc_date': infProt.dhRecbto,
             'edoc_protocol_number': infProt.nProt,
-            'state_edoc': state,
             # 'nfe_access_key': infProt.tpAmb,
             # 'nfe_access_key': infProt.digVal,
             # 'nfe_access_key': infProt.xMsg,
@@ -1025,18 +1039,25 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def _edoc_send(self):
-        self.ensure_one()
-        if not self.processador_edoc == PROCESSADOR:
-            return super(AccountInvoice, self)._edoc_send()
+        super(AccountInvoice, self)._edoc_send()
+        for record in self.filtered(fiter_processador_edoc_nfe):
+            procesador = record._procesador()
+            for edoc in record.serialize():
+                processo = None
+                for p in procesador.processar_documento(edoc):
+                    processo = p
 
-        procesador = self._procesador()
-
-        for edoc in self.serialize():
-            processo = None
-            for p in procesador.processar_documento(edoc):
-                processo = p
-
-        if processo.resposta.cStat in LOTE_PROCESSADO:
-            for protocolo in processo.resposta.protNFe:
-                self.atualiza_status_nfe(protocolo.infProt)
+            if processo.resposta.cStat in LOTE_PROCESSADO:
+                for protocolo in processo.resposta.protNFe:
+                    record.atualiza_status_nfe(protocolo.infProt)
         return
+
+    def _filtra_processador(self):
+        return self.filtered(lambda r: r.processador_edoc == PROCESSADOR)
+
+    def _filtra_documento(self):
+        return self.filtered(
+            lambda r: r.fiscal_document_id.code in [
+                MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE
+            ]
+        )
