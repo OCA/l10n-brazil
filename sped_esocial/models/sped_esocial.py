@@ -1614,6 +1614,7 @@ class SpedEsocial(models.Model):
             # Conta as rescisões sem registro no e-Social ou com pendência de transmissão
             for payslip in payslip_ids:
                 if not payslip.sped_s2299 and not payslip.sped_s2399:
+                    payslip.contract_id.compute_situacao_esocial()
                     if payslip.contract_id.situacao_esocial not in ['0', '9']:
                         rescisoes_sem_registro += 1
 
