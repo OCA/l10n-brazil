@@ -133,10 +133,10 @@ class Partner(models.Model):
             country_code = record.country_id.code or ""
             if record.cnpj_cpf and country_code.upper() == "BR":
                 if record.is_company:
-                    if not cnpj_cpf.validar(record.cnpj_cpf):
+                    if not cnpj_cpf.validar_cnpj(record.cnpj_cpf):
                         result = False
                         document = "CNPJ"
-                elif not cnpj_cpf.validar(record.cnpj_cpf):
+                elif not cnpj_cpf.validar_cpf(record.cnpj_cpf):
                     result = False
                     document = "CPF"
             if not result:
