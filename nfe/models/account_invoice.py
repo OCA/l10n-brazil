@@ -23,6 +23,8 @@ from odoo.addons.edoc_base.constantes import (
     LOTE_EM_PROCESSAMENTO,
     LOTE_RECEBIDO,
     LOTE_PROCESSADO,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
     SITUACAO_EDOC_EM_DIGITACAO,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_ENVIADA,
@@ -67,6 +69,16 @@ except (ImportError, IOError) as err:
 PROCESSADOR = 'pysped'
 
 
+def fiter_processador_pysped(record):
+    if (record.processador_edoc == PROCESSADOR and
+            record.fiscal_document_id.code in [
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFCE,
+            ]):
+        return True
+    return False
+
+
 class AccountInvoice(models.Model):
     """account_invoice overwritten methods"""
     _inherit = 'account.invoice'
@@ -76,43 +88,43 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def _edoc_export(self):
-        self.ensure_one()
+        super(AccountInvoice, self)._edoc_export()
+        for record in self.filtered(fiter_processador_pysped):
 
-        if not self.company_id.processador_edoc == PROCESSADOR:
-            return super(AccountInvoice, self)._edoc_export()
+            validate_nfe_configuration(record.company_id)
+            nfe_obj = record._get_nfe_factory(record.edoc_version)
+            nfe = nfe_obj.get_xml(
+                record, int(record.company_id.nfe_environment))[0]
 
-        validate_nfe_configuration(self.company_id)
-        nfe_obj = self._get_nfe_factory(self.edoc_version)
-        nfe = nfe_obj.get_xml(self, int(self.company_id.nfe_environment))[0]
+            erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
+            nfe_key = nfe['key'][3:]
+            if erro:
+                raise RedirectWarning(erro, _(u'Erro na validaço da NFe!'))
 
-        erro = XMLValidator.validation(nfe['nfe'], nfe_obj)
-        nfe_key = nfe['key'][3:]
-        if erro:
-            raise RedirectWarning(erro, _(u'Erro na validaço da NFe!'))
+            record.edoc_access_key = nfe_key
+            nfe_file = nfe['nfe'].encode('utf8')
 
-        self.edoc_access_key = nfe_key
-        nfe_file = nfe['nfe'].encode('utf8')
-        return nfe_file
+            event_id = self._gerar_evento(nfe_file, type="0")
+            record.autorizacao_event_id = event_id
+            record._change_state(SITUACAO_EDOC_A_ENVIAR)
 
     @api.multi
     def _edoc_send(self):
-        if not self.company_id.processador_edoc == PROCESSADOR:
-            return super(AccountInvoice, self)._edoc_send()
-
-        for inv in self:
-            processador = self._get_nfe_factory(inv.edoc_version)
+        super(AccountInvoice, self)._edoc_send()
+        for record in self.filtered(fiter_processador_pysped):
+            processador = self._get_nfe_factory(record.edoc_version)
 
             #
             # Evento de autorização em rascunho
             #
-            arquivo = inv.autorizacao_event_id.file_sent
+            arquivo = record.autorizacao_event_id.file_sent
             nfe = processador.set_xml(arquivo)
 
             #
             # Envia a nota
             #
             processo = None
-            for p in send(inv.company_id, [nfe]):
+            for p in send(record.company_id, [nfe]):
                 processo = p
 
             #
@@ -120,7 +132,7 @@ class AccountInvoice(models.Model):
             # significa que ele não está online...
             #
             if processo.webservice == WS_NFE_SITUACAO:
-                inv.state_edoc = SITUACAO_EDOC_EM_DIGITACAO
+                record.state_edoc = SITUACAO_EDOC_EM_DIGITACAO
             #
             # Se o último processo foi a consulta da nota, significa que ela
             # já está emitida
@@ -128,11 +140,11 @@ class AccountInvoice(models.Model):
             elif processo.webservice == WS_NFE_CONSULTA:
 
                 if processo.resposta.cStat.valor in AUTORIZADO:
-                    inv._change_state(SITUACAO_EDOC_AUTORIZADA)
+                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
                 elif processo.resposta.cStat.valor in DENEGADO:
-                    inv._change_state(SITUACAO_FISCAL_DENEGADO)
+                    record._change_state(SITUACAO_FISCAL_DENEGADO)
                 else:
-                    inv._change_state(SITUACAO_EDOC_EM_DIGITACAO)
+                    record._change_state(SITUACAO_EDOC_EM_DIGITACAO)
             #
             # Se o último processo foi o envio do lote, significa que a
             # consulta falhou, mas o envio não
@@ -142,11 +154,12 @@ class AccountInvoice(models.Model):
                 # Lote recebido, vamos guardar o recibo
                 #
                 if processo.resposta.cStat.valor in LOTE_RECEBIDO:
-                    inv.recibo = processo.resposta.infRec.nRec.valor
+                    record.recibo = processo.resposta.infRec.nRec.valor
                 else:
-                    inv.edoc_status_code = processo.resposta.cStat.valor
-                    inv.edoc_status_message = processo.resposta.xMotivo.valor
-                    inv._change_state(SITUACAO_EDOC_REJEITADA)
+                    record.edoc_status_code = processo.resposta.cStat.valor
+                    record.edoc_status_message = \
+                        processo.resposta.xMotivo.valor
+                    record._change_state(SITUACAO_EDOC_REJEITADA)
             #
             # Se o último processo foi o retorno do recibo, a nota foi
             # rejeitada, denegada, autorizada, ou ainda não tem resposta
@@ -156,7 +169,7 @@ class AccountInvoice(models.Model):
                 # Consulta ainda sem resposta, a nota ainda não foi processada
                 #
                 if processo.resposta.cStat.valor in LOTE_EM_PROCESSAMENTO:
-                    inv._change_state(SITUACAO_EDOC_ENVIADA)
+                    record._change_state(SITUACAO_EDOC_ENVIADA)
                 #
                 # Lote processado
                 #
@@ -169,41 +182,43 @@ class AccountInvoice(models.Model):
                     if protNFe.infProt.cStat.valor in AUTORIZADO_OU_DENEGADO:
                         procNFe = processo.resposta.dic_procNFe[nfe.chave]
 
-                        inv.autorizacao_event_id._grava_anexo(
+                        record.autorizacao_event_id._grava_anexo(
                             procNFe.NFe.xml, 'xml'
                         )
-                        inv.autorizacao_event_id.set_done(
+                        record.autorizacao_event_id.set_done(
                             procNFe.xml
                         )
-                        # if inv.fiscal_document_id.code == '55':
-                        #     inv.grava_pdf(nfe, procNFe.danfe_pdf)
+                        # if record.fiscal_document_id.code == '55':
+                        #     record.grava_pdf(nfe, procNFe.danfe_pdf)
                         # elif self.modelo == '65':
-                        #     inv.grava_pdf(nfe, procNFe.danfce_pdf)
-                        inv.edoc_protocol_number = protNFe.infProt.nProt.valor
-                        inv.edoc_access_key = protNFe.infProt.chNFe.valor
+                        #     record.grava_pdf(nfe, procNFe.danfce_pdf)
+                        record.edoc_protocol_number = \
+                            protNFe.infProt.nProt.valor
+                        record.edoc_access_key = protNFe.infProt.chNFe.valor
 
                         if protNFe.infProt.cStat.valor in AUTORIZADO:
-                            inv._change_state(SITUACAO_EDOC_AUTORIZADA)
+                            record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
                         else:
-                            inv._change_state(SITUACAO_FISCAL_DENEGADO)
+                            record._change_state(SITUACAO_FISCAL_DENEGADO)
 
-                        inv.edoc_status_code = protNFe.infProt.cStat.valor
-                        inv.edoc_status_message = protNFe.infProt.xMotivo.valor
+                        record.edoc_status_code = protNFe.infProt.cStat.valor
+                        record.edoc_status_message = \
+                            protNFe.infProt.xMotivo.valor
 
                     else:
-                        inv.edoc_status_code = processo.resposta.cStat.valor
-                        inv.edoc_status_message =\
+                        record.edoc_status_code = processo.resposta.cStat.valor
+                        record.edoc_status_message =\
                             processo.resposta.xMotivo.valor
-                        inv._change_state(SITUACAO_EDOC_REJEITADA)
+                        record._change_state(SITUACAO_EDOC_REJEITADA)
                 else:
                     #
                     # Rejeitada por outros motivos, falha no schema etc. etc.
                     #
-                    inv.edoc_status_code = processo.resposta.cStat.valor
-                    inv.edoc_status_message = processo.resposta.xMotivo.valor
-                    inv._change_state(SITUACAO_EDOC_REJEITADA)
-        return True
+                    record.edoc_status_code = processo.resposta.cStat.valor
+                    record.edoc_status_message = \
+                        processo.resposta.xMotivo.valor
+                    record._change_state(SITUACAO_EDOC_REJEITADA)
 
     @api.multi
     def cancel_invoice_online(self, justificative):
