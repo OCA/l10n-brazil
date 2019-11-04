@@ -105,16 +105,16 @@ class WorkalendarHolidayImport(models.TransientModel):
 
     @api.multi
     def get_calendar_for_city(self, holiday):
-        if not self.env['l10n_br_base.city'].search_count(
+        if not self.env['res.city'].search_count(
                 [('ibge_code', '=',
                   holiday._municipio.codigo_ibge)]):
-            city_id = self.env['l10n_br_base.city'].create({
+            city_id = self.env['res.city'].create({
                 'name': holiday._municipio.nome,
                 'state_id': self.get_state_from_calendar(holiday).id,
                 'ibge_code': holiday._municipio.codigo_ibge,
             })
         else:
-            city_id = self.env['l10n_br_base.city'].search(
+            city_id = self.env['res.city'].search(
                 [('ibge_code', '=',
                   holiday._municipio.codigo_ibge),
                  ('state_id.ibge_code', '=',
