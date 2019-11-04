@@ -44,7 +44,7 @@ class ResourceCalendar(models.Model):
         'res.country.state', u'Estado',
         domain="[('country_id','=',country_id)]")
     l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', u'Municipio',
+        'res.city', u'Municipio',
         domain="[('state_id','=',state_id)]")
     leave_ids = fields.Many2many(
         comodel_name='resource.calendar.leaves',
