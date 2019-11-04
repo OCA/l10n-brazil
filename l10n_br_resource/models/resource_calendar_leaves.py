@@ -31,16 +31,16 @@ class ResourceCalendarLeave(models.Model):
         readonly=True
     )
     l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', u'Municipio',
+        'res.city', u'Municipio',
         related='calendar_id.l10n_br_city_id',
         domain="[('state_id','=',state_id)]",
         readonly=True
     )
     leave_type = fields.Selection(
         string=u'Tipo',
-        selection=[item for item in TIPO_FERIADO.iteritems()],
+        selection=[item for item in TIPO_FERIADO.items()],
     )
     abrangencia = fields.Selection(
         string=u'Abrangencia',
-        selection=[item for item in ABRANGENCIA_FERIADO.iteritems()],
+        selection=[item for item in ABRANGENCIA_FERIADO.items()],
     )
