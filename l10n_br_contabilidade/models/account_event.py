@@ -96,6 +96,12 @@ class AccountEvent(models.Model):
         string='Empresa'
     )
 
+    revert_event = fields.Boolean(
+        string='Evento de Reversão?',
+        help='Evento destinado a reverter outros Eventos?',
+        default=False,
+    )
+
     @api.multi
     def compute_name(self):
         """
@@ -148,6 +154,7 @@ class AccountEvent(models.Model):
                 'data': data,
                 'ref': 'Reversão do Evento: {}'.format(record.ref),
                 'origem': '{},{}'.format('account.event', record.id),
+                'revert_event': True,
             })
 
             record.account_event_reversao_id = account_event_reversao_id
@@ -331,6 +338,8 @@ class AccountEvent(models.Model):
                     ('account_event_template_id', '=', record.account_event_template_id.id),
                     ('company_id','=', record.company_id.id),
                     ('data','<', record.data),
+                    ('revert_event','=',False),
+                    ('state','=', 'done'),
                 ], order='data DESC', limit=1)
 
                 if evento_para_to_revert:
