@@ -41,8 +41,11 @@
                     </group>
                 </xpath>
 
-                <xpath expr="//field[@name='wage']" position="after">
-                    <field name="salary_unit" options="{'no_create': True, 'no_open': True}" required="1"/>
+                <xpath expr="//div[@name='wage']" position="replace">
+                    <div class="o_row" name="wage" modifiers="{}">
+							<field name="wage" nolabel="1" modifiers="{'required':true}"/>
+							<field name="salary_unit" options="{'no_create': True, 'no_open': True}" required="1" can_create="true" can_write="true" modifiers="{'required':true}"/>
+                    </div>
                 </xpath>
                 <xpath expr="//group[@name='duration_group']" position="inside">
                     <field name="monthly_hours"/>
@@ -104,7 +107,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem action="" id="menu_hr_contract_configuration_rais_contract" parent="l10n_br_hr.menu_hr_contract_configuration_rais" name="Contract" sequence="30" groups="hr.group_hr_manager"/>
+        <menuitem action="" id="menu_hr_contract_configuration_rais_contract" parent="hr.menu_human_resources_configuration" name="Contract" sequence="30" groups="hr.group_hr_manager"/>
         <menuitem action="action_hr_contract_admission_type" id="menu_hr_contract_admission_type" parent="menu_hr_contract_configuration_rais_contract" name="Admission Type" sequence="10" />
         <menuitem action="action_hr_contract_labor_bond_type" id="menu_hr_contract_labor_bond_type" parent="menu_hr_contract_configuration_rais_contract" name="Labor Bond Type" sequence="11" />
         <menuitem action="action_hr_contract_labor_regime" id="menu_hr_contract_labor_regime" parent="menu_hr_contract_configuration_rais_contract" name="Labor Regime" sequence="12" />
