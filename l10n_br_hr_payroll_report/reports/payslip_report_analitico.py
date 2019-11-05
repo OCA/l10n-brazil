@@ -506,12 +506,12 @@ def analytic_report(pool, cr, uid, local_context, context):
     #
     # Informações Adicionais no Ánalitico - Dados da Empresa
     #
-    if not payslips:
+    if not payslips and not payslips_rescisoes:
         raise Warning(
             _('Warning!'),
             _('Nenhum Holerite confirmado encontrado no período indicado!')
         )
-    informacoes_adicionais(data, payslips)
+    informacoes_adicionais(data, payslips or payslips_rescisoes)
 
     # Aproveitar o selection construido no wizard do relatorio analitico
     tipo_de_folha = eval(wizard.tipo_de_folha)
