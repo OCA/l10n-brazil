@@ -176,6 +176,26 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         self.sped_s2399_registro_inclusao = sped_registro_id
         return sped_registro_id
 
+    def get_registro_para_retificar(self, sped_registro):
+        """
+        Identificar o registro para retificar
+        :return:
+        """
+        # Se tiver registro de retificação com erro ou nao possuir nenhuma
+        # retificação ainda, retornar o registro que veio no parametro
+        retificacao_com_erro = sped_registro.retificacao_ids.filtered(
+            lambda x: x.situacao in ['1', '3'])
+        if retificacao_com_erro or not sped_registro.retificacao_ids:
+            return sped_registro
+
+        # Do contrario navegar ate as retificacoes com sucesso e efetuar a
+        # verificacao de erro novamente
+        else:
+            registro_com_sucesso = sped_registro.retificacao_ids.filtered(
+                lambda x: x.situacao not in ['1', '3'])
+
+            return self.get_registro_para_retificar(registro_com_sucesso[0])
+
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
         """
@@ -206,7 +226,7 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
             indRetif = '2'
 
             registro_para_retificar = self.get_registro_para_retificar(
-                self.sped_s2299_registro_inclusao)
+                self.sped_s2399_registro_inclusao)
 
             S2399.evento.ideEvento.nrRecibo.valor = \
                 registro_para_retificar.recibo
