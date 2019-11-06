@@ -85,7 +85,13 @@ def totalizador_periodo(pool, cr, uid, localcontext, context):
 
         contribuicao_mensal.append(linha)
 
-    for rescisao_id in self.desligamento_ids:
+    # Apenas rescisoes que nao tem 1200 no mes
+    funcionarios_1210 = self.remuneracao_ids.mapped('trabalhador_id.id')
+
+    desligamentos_filtered = self.desligamento_ids.filtered(
+        lambda x: x.sped_hr_rescisao_id.employee_id.id not in funcionarios_1210)
+
+    for rescisao_id in desligamentos_filtered:
 
         registro_sucesso = get_registro_sucesso(
             rescisao_id.sped_s2299_registro_inclusao)
