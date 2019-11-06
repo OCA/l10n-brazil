@@ -22,7 +22,7 @@
                                 type="action" string="Imprimir Recibo"/>
                         <button name="%(l10n_br_hr_payroll_report.report_payslip_py3o_rescisao)d"
                                 class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'done'), ('tipo_de_folha', '!=', 'rescisao')]}"
+                                attrs="{'invisible': ['|',('state', '!=', 'done'), ('tipo_de_folha', 'not in', ['rescisao_complementar','rescisao'])]}"
                                 type="action" string="Imprimir"/>
                     </field>
                 </data>
