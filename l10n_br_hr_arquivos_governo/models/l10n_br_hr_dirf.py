@@ -149,19 +149,20 @@ class L10nBrHrDirf(models.Model):
         """
         for record in self:
             domain = [
-                ('contract_id', '=', contract_id.id),
+                ('contract_id', '=', 74),
                 ('ano', '=', int(ano)),
                 ('tipo_de_folha','in', ['normal','decimo_terceiro']),
                 ('is_simulacao', '=', False),
                 ('state', 'in', ['done', 'verify']),
             ]
-            return self.env['hr.payslip'].search(domain)
+            return self.env['hr.payslip'].search(domain, limit=5)
 
 
     @api.multi
     def get_valor_mes(self, holerites_ids, mes, rubrica, tipo='normal'):
         """
         """
+
         holerites_ids = \
             holerites_ids.filtered(lambda x: x.tipo_de_folha == tipo)
         if tipo == 'decimo_terceiro':
@@ -175,9 +176,14 @@ class L10nBrHrDirf(models.Model):
                     'Mais de 1 Holerite encontrado para o mesmo Funcionário'
                     ' no mesmo período.\n{} - {}/{}'.format(
                     holerite_id[0].employee_id.name, mes, self.ano))
-            line_id = \
-                holerite_id.line_ids.filtered(lambda x: x.code == rubrica[1])
-            total = line_id.total
+            if not holerite_id:
+                return False
+            if rubrica[1] == 'INFO_DEPENDENTE':
+                dados = holerite_id.get_dependente()
+                total = dados.get('quantidade_dependentes')*dados.get('valor_por_dependente')
+            else:
+                line_id = holerite_id.line_ids.filtered(lambda x: x.code == rubrica[1])
+                total = line_id.total
 
         return total
 
@@ -196,6 +202,7 @@ class L10nBrHrDirf(models.Model):
                 ('RTPO','INSS'),
                 ('RTIRF','IRPF'),
                 ('RIDAC','DIARIAS_VIAGEM'),
+                ('RTDP','INFO_DEPENDENTE'),
             ]
 
             holerites_ids = self.buscar_holerites(contract_id, ano)
@@ -203,8 +210,8 @@ class L10nBrHrDirf(models.Model):
             codes = holerites_ids.mapped('line_ids.code')
 
             for rubrica in RUBRICAS_DIRF:
-                if rubrica[1] not in codes:
-                    continue
+                #if rubrica[1] not in codes and rubrica not in ['INFO_DEPENDENTE']:
+                #    continue
                 valores_mensais = ValoresMensais()
                 valores_mensais.identificador_de_registro_mensal = rubrica[0]
                 valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
