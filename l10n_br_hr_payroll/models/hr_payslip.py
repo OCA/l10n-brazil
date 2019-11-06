@@ -55,9 +55,11 @@ class HrPayslip(models.Model):
         for holerite in self:
             if holerite.state == 'draft':
                 holerite.write({'state': 'verify'})
+
                 # Atualizar o controle de férias, o controle de férias do
                 # contrato é baseado nos holerites validados
-                holerite.contract_id.action_button_update_controle_ferias()
+                if holerite.tipo_de_folha not in ['rescisao_complementar']:
+                    holerite.contract_id.action_button_update_controle_ferias()
 
                 # Validação para confirmação
                 liquido = holerite.line_ids.filtered(
@@ -128,7 +130,8 @@ class HrPayslip(models.Model):
                 holerite.write({'state': 'draft'})
                 # Atualizar o controle de férias, o controle de férias do
                 # contrato é baseado nos holerites validados
-                holerite.contract_id.action_button_update_controle_ferias()
+                if holerite.tipo_de_folha not in ['rescisao_complementar']:
+                    holerite.contract_id.action_button_update_controle_ferias()
 
                 # setar as ligacoes telefonicas como atestadas
                 for ligacao_id in holerite.ligacoes_ids:
