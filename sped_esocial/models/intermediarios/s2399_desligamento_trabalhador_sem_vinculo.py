@@ -286,6 +286,41 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
             # relacionando as classes
             dm_dev.ideEstabLot.append(ide_estab_lot)
             verba_rescisoria.dmDev.append(dm_dev)
+
+            # Preencher outros vinculos
+            outros_vinculos = \
+                self.sped_hr_rescisao_id.contract_id.contribuicao_inss_ids
+
+            periodo_rescisao = '{:02}/{}'.format(
+                self.sped_hr_rescisao_id.mes_do_ano,
+                self.sped_hr_rescisao_id.ano
+            )
+
+            for vinculo in outros_vinculos:
+                if not periodo_rescisao == vinculo.period_id.code:
+                    continue
+                info_mv = pysped.esocial.leiaute.S2399_InfoMV_2()
+
+                remun_outr_empr = \
+                    pysped.esocial.leiaute.S2399_RemunOutrEmpr_2()
+                remun_outr_empr.tpInsc.valor = \
+                    vinculo.tipo_inscricao_vinculo
+                remun_outr_empr.nrInsc.valor = limpa_formatacao(
+                    vinculo.cnpj_cpf_vinculo)
+                remun_outr_empr.codCateg.valor = \
+                    vinculo.cod_categ_vinculo
+                remun_outr_empr.vlrRemunOE.valor = \
+                    vinculo.valor_remuneracao_vinculo
+
+                info_mv.remunOutrEmpr.append(remun_outr_empr)
+
+                if vinculo.valor_alicota_vinculo >= 642.33:
+                    info_mv.indMV.valor = '3'
+                else:
+                    info_mv.indMV.valor = '2'
+
+                verba_rescisoria.infoMV.append(info_mv)
+
             S2399.evento.infoTSVTermino.verbasResc.append(verba_rescisoria)
 
         return S2399, validacao
