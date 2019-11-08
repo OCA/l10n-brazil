@@ -17,6 +17,7 @@
                         <button name="action_open" string="Confirmar DIRF" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
                         <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}" groups="base.group_hr_manager"/>
                         <button name="action_sent" string="Confirmar Envio" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <button name="popular_dependente" string="Popular dependente" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}" groups="base.group_no_one"/>
                         <!--<button name="gerar_boletos" string="Gerar Guias" type="object" attrs="{'invisible':[('state', '!=', 'sent')]}"/>-->
                         <field name="state" widget="statusbar"/>
                     </header>
