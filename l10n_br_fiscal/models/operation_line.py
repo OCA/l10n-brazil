@@ -27,6 +27,10 @@ class OperationLine(models.Model):
         ondelete='cascade',
         required=True)
 
+    name = fields.Char(
+        string='Name',
+        required=True)
+
     cfop_internal_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
         string='CFOP Internal',
@@ -44,10 +48,6 @@ class OperationLine(models.Model):
         string='CFOP Export',
         domain="[('type_in_out', '=', operation_type),"
                "('destination', '=', '3')]")
-
-    code = fields.Char(
-        string='Code',
-        required=True)
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
