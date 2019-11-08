@@ -15,15 +15,21 @@
           <field name="name" required="1"/>
         </group>
         <group>
-          <group name="quantity" string="Commercial">
+          <group name="commercial_infors" string="Commercial">
+            <label for="quantity"/>
+            <div class="o_row">
+              <field name="quantity" class="oe_inline"/>
+              <field name="uom_id" groups="uom.group_uom" class="oe_inline"/>
+            </div>
             <field name="price"/>
-            <field name="uom_id"/>
-            <field name="quantity"/>
           </group>
-          <group name="fiscal_quantity" string="Fiscal">
+          <group name="fiscal_infors" string="Fiscal">
+            <label for="fiscal_quantity"/>
+            <div class="o_row">
+              <field name="fiscal_quantity" class="oe_inline"/>
+              <field name="uot_id" groups="uom.group_uom" class="oe_inline"/>
+            </div>
             <field name="fiscal_price"/>
-            <field name="uot_id"/>
-            <field name="fiscal_quantity"/>
             <field name="ncm_id"/>
             <field name="cest_id"/>
             <field name="nbs_id"/>
