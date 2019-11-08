@@ -6,7 +6,7 @@
         <field name="model">l10n_br_fiscal.operation.line</field>
         <field name="arch" type="xml">
             <tree string="Fiscal Operation Line">
-                <field name="code"/>
+                <field name="name"/>
             </tree>
         </field>
     </record>
@@ -22,7 +22,7 @@
                 </header>
                 <sheet>
                     <group>
-                        <field name="code"/>
+                        <field name="name"/>
                         <field name="cfop_internal_id"/>
                         <field name="cfop_external_id"/>
                         <field name="cfop_export_id"/>
