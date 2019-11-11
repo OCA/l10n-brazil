@@ -141,7 +141,7 @@ class L10nBrHrDirf(models.Model):
                     ('company_id', '=', record.company_id.id)
                 ]
 
-                record.contract_ids = self.env['hr.contract'].search(domain)
+                record.contract_ids = self.env['hr.contract'].search([domain])
 
     @api.multi
     def buscar_holerites(self, contract_id, ano):
@@ -151,7 +151,7 @@ class L10nBrHrDirf(models.Model):
             domain = [
                 ('contract_id', '=', contract_id.id),
                 ('ano', '=', int(ano)),
-                ('tipo_de_folha','in', ['normal','decimo_terceiro']),
+                ('tipo_de_folha','in', ['normal', 'decimo_terceiro', 'rescisao']),
                 ('is_simulacao', '=', False),
                 ('state', 'in', ['done', 'verify']),
             ]
@@ -163,12 +163,12 @@ class L10nBrHrDirf(models.Model):
         """
         """
         holerites_ids = \
-            holerites_ids.filtered(lambda x: x.tipo_de_folha == tipo)
+            holerites_ids.filtered(lambda x: x.tipo_de_folha in tipo)
         if tipo == 'decimo_terceiro':
             total = 0
             if rubrica[1] == 'INFO_DEPENDENTE':
                 for holerite_id in holerites_ids:
-                    total = holerite_id.valor_por_dependente
+                    total = holerite_id.valor_total_dependente
             else:
                 total = sum(holerites_ids.mapped('line_ids').filtered(
                     lambda x: x.code == rubrica[1]).mapped('total'))
@@ -183,12 +183,14 @@ class L10nBrHrDirf(models.Model):
             if not holerite_id:
                 return False
             if rubrica[1] == 'INFO_DEPENDENTE':
-                total = holerite_id.valor_por_dependente
+                total = holerite_id.valor_total_dependente
             else:
                 line_id = holerite_id.line_ids.filtered(lambda x: x.code == rubrica[1])
                 total = line_id.total
 
         return total
+
+
 
     @api.multi
     def popular_dependente(self):
@@ -224,11 +226,12 @@ class L10nBrHrDirf(models.Model):
         for record in self:
 
             RUBRICAS_DIRF = [
-                ('RTRT','BASE_INSS'),
-                ('RTPO','INSS'),
-                ('RTIRF','IRPF'),
-                ('RIDAC','DIARIAS_VIAGEM'),
-                ('RTDP','INFO_DEPENDENTE'),
+                ('RTRT', 'BASE_INSS'),
+                ('RTPO', 'INSS'),
+                ('RTIRF', 'IRPF'),
+                ('RTDP', 'INFO_DEPENDENTE'),
+                ('RTIRF', 'IRPF'),
+                ('RIDAC', 'DIARIAS_VIAGEM'),
             ]
 
             holerites_ids = self.buscar_holerites(contract_id, ano)
@@ -238,6 +241,7 @@ class L10nBrHrDirf(models.Model):
             for rubrica in RUBRICAS_DIRF:
                 #if rubrica[1] not in codes and rubrica not in ['INFO_DEPENDENTE']:
                 #    continue
+
                 valores_mensais = ValoresMensais()
                 valores_mensais.identificador_de_registro_mensal = rubrica[0]
                 valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
@@ -254,6 +258,30 @@ class L10nBrHrDirf(models.Model):
                 valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
                 valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo='decimo_terceiro')
                 beneficiario.add_valores_mensais(valores_mensais)
+
+            beneficiario.valor_pago_ano_rio, beneficiario.descricao_rendimentos_isentos = \
+                self.get_valor_rio(holerites_ids)
+
+    @api.multi
+    def get_valor_rio(self, holerites_ids):
+
+        holerites_ids = holerites_ids.filtered(lambda x: x.tipo_de_folha in 'rescisao')
+
+        RUBRICAS_FERIAS_RECISAO = [
+            'PROP_FERIAS',
+            'PROP_1/3_FERIAS',
+            'FERIAS_VENCIDAS',
+            'FERIAS_VENCIDAS_1/3',
+        ]
+
+        total = sum(
+            holerites_ids.mapped('line_ids').
+                filtered(lambda x: x.code in RUBRICAS_FERIAS_RECISAO).mapped('total')) or 0
+
+        descricao = holerites_ids.mapped('line_ids').\
+                        filtered(lambda x: x.code in RUBRICAS_FERIAS_RECISAO).mapped('name') or ''
+
+        return total, ', '.join(descricao)
 
     @api.multi
     def gerar_dirf(self):

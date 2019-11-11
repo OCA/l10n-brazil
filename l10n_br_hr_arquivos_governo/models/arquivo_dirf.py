@@ -47,6 +47,12 @@ class Beneficiario():
         # RIMOG, RIVC, RIBMR, RICAP, RISCP, RIMUN, RISEN e DAJUD)
         self.valores_mensais = []
 
+        # 3.21 Registro de valores anuais de rendimentos isentos – outros
+        # (identificador RIO)
+        self.identificador_de_registro_rio = 'RIO'
+        self.valor_pago_ano_rio = ''
+        self.descricao_rendimentos_isentos = ''
+
     def __str__(self):
         return 'BPFDEC - {}'.format(self.nome_bpfdec)
 
@@ -245,11 +251,7 @@ class DIRF(AbstractArquivosGoverno):
         self.identificador_de_registro_anual = ''
         self.valor_pago_ano = ''
 
-        # 3.21 Registro de valores anuais de rendimentos isentos – outros
-        # (identificador RIO)
-        self.identificador_de_registro_rio = 'RIO'
-        self.valor_pago_ano_rio = ''
-        self.descricao_rendimentos_isentos = ''
+
 
         # 3.22 Registro de quantidade de meses (identificador QTMESES)
         self.identificacao_de_registro_qtmeses = 'QTMESES'
@@ -429,6 +431,10 @@ class DIRF(AbstractArquivosGoverno):
             bpfdec += self._validar(record.nome_bpfdec, 60, tipo='A', preenchimento='variavel')
             bpfdec += '\n'
             bpfdec += record.VALORESMENSAIS
+            if record.valor_pago_ano_rio > 0:
+                bpfdec += self._validar(record.identificador_de_registro_rio, 3, tipo='A')
+                bpfdec += self._validar(record.valor_pago_ano_rio, 60, tipo='V', preenchimento='variavel')
+                bpfdec += self._validar(record.descricao_rendimentos_isentos, 100, tipo='AN', preenchimento='variavel')
             beneficiario += bpfdec
         return beneficiario
 

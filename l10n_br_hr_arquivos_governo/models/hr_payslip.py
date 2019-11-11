@@ -38,7 +38,7 @@ class HrPayslip(models.Model):
                                        search(domain, limit=1).amount or 0
 
         RUBRICAS_CALCULO_DEPENDENTE = [
-            'BASE_IRPF_PROPORCIONAL_REGULAR',
+            'BASE_IRPF',
             'INSS',
             'PSS',
         ]
@@ -50,19 +50,22 @@ class HrPayslip(models.Model):
 
         for rubrica in RUBRICAS_CALCULO_DEPENDENTE:
             valores[rubrica] = self.line_ids.filtered(
-                lambda x: x.code == rubrica).total or 0.0
+                lambda x: x.code == rubrica).total or 0
+
+        if not valores.get('BASE_IRPF'):
+            return retorno
 
         provento = sum(self.line_ids.filtered(
-            lambda x: x.salary_rule_id.compoe_base_IR and x.salary_rule_id.category_id.code == 'PROVENTO').mapped('total')) or 0.00
+            lambda x: x.salary_rule_id.compoe_base_IR and x.salary_rule_id.category_id.code == 'PROVENTO').mapped('total')) or 0
 
         deducao = sum(self.line_ids.filtered(
             lambda x: x.salary_rule_id.compoe_base_IR and x.salary_rule_id.category_id.code == 'DEDUCAO').mapped(
-            'total')) or 0.00
+            'total')) or 0
 
         valores['BASE_IR'] = provento - deducao
 
         valores['PENSAO'] = sum(self.line_ids.filtered(
-            lambda x: x.code in ['PENSAO_ALIMENTICIA_PORCENTAGEM', 'ADIANTAMENTO_PENSAO_13']).mapped('total')) or 0.00
+            lambda x: x.code in ['PENSAO_ALIMENTICIA_PORCENTAGEM', 'ADIANTAMENTO_PENSAO_13']).mapped('total')) or 0
 
         calculo_valor = -valores.get('BASE_IRPF') \
                         - valores.get('INSS') \
@@ -74,7 +77,7 @@ class HrPayslip(models.Model):
 
         if calculo_valor > 0:
             mod = calculo_valor % Decimal(valor_por_dependente)
-            if not (mod == 0):
+            if not (round(mod,2) == 0):
                 print('\nErro ao calcular o número de dependente do funcionário(a). '
                       '\n{}-{} - {}/{}'.format(self.id, self.employee_id.name, self.mes_do_ano2, self.ano))
             else:
