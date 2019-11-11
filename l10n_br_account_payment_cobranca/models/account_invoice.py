@@ -427,5 +427,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         result = super(AccountInvoice, self).invoice_validate()
-        self.create_account_payment_line()
+        filtered_invoice_ids = self.filtered(lambda s: s.payment_mode_id)
+        if filtered_invoice_ids:
+            filtered_invoice_ids.create_account_payment_line()
         return result
