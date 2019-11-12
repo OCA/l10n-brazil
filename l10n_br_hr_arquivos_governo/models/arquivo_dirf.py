@@ -88,8 +88,9 @@ class Beneficiario():
             vm += dirf._validar(record.novembro, 13, tipo='V', preenchimento='variavel')
             vm += dirf._validar(record.dezembro, 13, tipo='V', preenchimento='variavel')
             vm += dirf._validar(record.decimo_terceiro, 13, tipo='V', preenchimento='variavel')
-            beneficiario += vm
-            beneficiario += '\n'
+            if not vm == record.identificador_de_registro_mensal+'||||||||||||||':
+                beneficiario += vm
+                beneficiario += '\n'
         return beneficiario
 
 
@@ -428,7 +429,10 @@ class DIRF(AbstractArquivosGoverno):
         for record in self.bpfdec:
             bpfdec = self._validar(record.identificador_de_registro_bpfdec, 6)
             bpfdec += self._validar(record.cpf_bpfdec, 11, tipo='N')
-            bpfdec += self._validar(record.nome_bpfdec, 60, tipo='A', preenchimento='variavel')
+            bpfdec += self._validar(record.nome_bpfdec, 60, tipo='A', preenchimento='variavel', caixaAlta='S')
+            bpfdec += self._validar(record.data_laudo, 1, tipo='A', preenchimento='variavel')
+            bpfdec += self._validar(record.identificacao_alimentado_bpfdec, 1, tipo='A')
+            bpfdec += self._validar(record.identificacao_previdencia_complementar, 1, tipo='A')
             bpfdec += '\n'
             bpfdec += record.VALORESMENSAIS
             if record.valor_pago_ano_rio > 0:
@@ -448,7 +452,7 @@ class DIRF(AbstractArquivosGoverno):
         self.bpfdec.append(bpfdec)
         self.bpfdec.sort(key=lambda x: x.cpf_bpfdec)
 
-    def _validar(self, word, tam, tipo='AN', preenchimento='fixo'):
+    def _validar(self, word, tam, tipo='AN', preenchimento='fixo', caixaAlta='N'):
         """
         Sobrescrever a função de validacao de palavras da classe abstrata para
          adcionar pipe no final de todos campos
@@ -456,6 +460,9 @@ class DIRF(AbstractArquivosGoverno):
         # Nao permitir campos preechidos com pipe
         if tipo in ['A', 'AN']:
             word = word.replace('|', '') if word else ''
+
+        if caixaAlta == 'S':
+            word = word.upper()
 
         # Validar campo
         if preenchimento == 'variavel':
@@ -467,6 +474,10 @@ class DIRF(AbstractArquivosGoverno):
                 tam = len(word)
 
         word = super(DIRF, self)._validar(word, tam, tipo)
+
+        if tipo in ['V']:
+            if word == '0':
+                word = ''
 
         # Adicionar pipe no final de cada campo
         word += '|'

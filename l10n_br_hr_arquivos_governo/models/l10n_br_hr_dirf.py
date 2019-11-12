@@ -228,10 +228,9 @@ class L10nBrHrDirf(models.Model):
             RUBRICAS_DIRF = [
                 ('RTRT', 'BASE_INSS'),
                 ('RTPO', 'INSS'),
-                ('RTIRF', 'IRPF'),
                 ('RTDP', 'INFO_DEPENDENTE'),
-                ('RTIRF', 'IRPF'),
                 ('RIDAC', 'DIARIAS_VIAGEM'),
+                ('RTIRF', 'IRPF'),
             ]
 
             holerites_ids = self.buscar_holerites(contract_id, ano)
