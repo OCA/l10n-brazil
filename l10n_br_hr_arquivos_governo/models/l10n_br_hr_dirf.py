@@ -141,7 +141,7 @@ class L10nBrHrDirf(models.Model):
                     ('company_id', '=', record.company_id.id)
                 ]
 
-                record.contract_ids = self.env['hr.contract'].search([domain])
+                record.contract_ids = self.env['hr.contract'].search([('id', '=', 12)])
 
     @api.multi
     def buscar_holerites(self, contract_id, ano):
@@ -159,19 +159,25 @@ class L10nBrHrDirf(models.Model):
 
 
     @api.multi
-    def get_valor_mes(self, holerites_ids, mes, rubrica, tipo='normal'):
+    def get_valor_mes(self, holerites_ids, mes, rubrica, tipo=['normal']):
         """
         """
         holerites_ids = \
             holerites_ids.filtered(lambda x: x.tipo_de_folha in tipo)
-        if tipo == 'decimo_terceiro':
+
+        if 'decimo_terceiro' in tipo:
             total = 0
             if rubrica[1] == 'INFO_DEPENDENTE':
                 for holerite_id in holerites_ids:
                     total = holerite_id.valor_total_dependente
             else:
+                #checando se existe recisao
+                in_recisao = len(holerites_ids.filtered(lambda x: x.tipo_de_folha == 'rescisao'))
+
+                rubrica = str(rubrica[1]) + '_13' if in_recisao > 0 else rubrica[1]
+
                 total = sum(holerites_ids.mapped('line_ids').filtered(
-                    lambda x: x.code == rubrica[1]).mapped('total'))
+                    lambda x: x.code == rubrica).mapped('total'))
         else:
             holerite_id = \
                 holerites_ids.filtered(lambda x: x.mes_do_ano2 == mes)
@@ -243,19 +249,19 @@ class L10nBrHrDirf(models.Model):
 
                 valores_mensais = ValoresMensais()
                 valores_mensais.identificador_de_registro_mensal = rubrica[0]
-                valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
-                valores_mensais.fevereiro = self.get_valor_mes(holerites_ids, 2, rubrica)
-                valores_mensais.marco = self.get_valor_mes(holerites_ids, 3, rubrica)
-                valores_mensais.abril = self.get_valor_mes(holerites_ids, 4, rubrica)
-                valores_mensais.maio = self.get_valor_mes(holerites_ids, 5, rubrica)
-                valores_mensais.junho = self.get_valor_mes(holerites_ids, 6, rubrica)
-                valores_mensais.julho = self.get_valor_mes(holerites_ids, 7, rubrica)
-                valores_mensais.agosto = self.get_valor_mes(holerites_ids, 8, rubrica)
-                valores_mensais.setembro = self.get_valor_mes(holerites_ids, 9, rubrica)
-                valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
-                valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
-                valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
-                valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo='decimo_terceiro')
+                # valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
+                # valores_mensais.fevereiro = self.get_valor_mes(holerites_ids, 2, rubrica)
+                # valores_mensais.marco = self.get_valor_mes(holerites_ids, 3, rubrica)
+                # valores_mensais.abril = self.get_valor_mes(holerites_ids, 4, rubrica)
+                # valores_mensais.maio = self.get_valor_mes(holerites_ids, 5, rubrica)
+                # valores_mensais.junho = self.get_valor_mes(holerites_ids, 6, rubrica)
+                # valores_mensais.julho = self.get_valor_mes(holerites_ids, 7, rubrica)
+                # valores_mensais.agosto = self.get_valor_mes(holerites_ids, 8, rubrica)
+                # valores_mensais.setembro = self.get_valor_mes(holerites_ids, 9, rubrica)
+                # valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
+                # valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
+                # valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
+                valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo=['decimo_terceiro', 'rescisao'])
                 beneficiario.add_valores_mensais(valores_mensais)
 
             beneficiario.valor_pago_ano_rio, beneficiario.descricao_rendimentos_isentos = \
