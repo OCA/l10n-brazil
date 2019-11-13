@@ -8,9 +8,8 @@ from __future__ import (
 
 from openerp import api, fields, models
 from openerp.exceptions import Warning
-
 from .arquivo_dirf import DIRF, Beneficiario, ValoresMensais
-
+from pybrasil.valor import formata_valor
 import re
 
 
@@ -141,7 +140,7 @@ class L10nBrHrDirf(models.Model):
                     ('company_id', '=', record.company_id.id)
                 ]
 
-                record.contract_ids = self.env['hr.contract'].search([('id', '=', 12)])
+                record.contract_ids = self.env['hr.contract'].search([('id', '=', '134')])
 
     @api.multi
     def buscar_holerites(self, contract_id, ano):
@@ -162,11 +161,13 @@ class L10nBrHrDirf(models.Model):
     def get_valor_mes(self, holerites_ids, mes, rubrica, tipo=['normal']):
         """
         """
+        total = 0
+
         holerites_ids = \
             holerites_ids.filtered(lambda x: x.tipo_de_folha in tipo)
 
         if 'decimo_terceiro' in tipo:
-            total = 0
+
             if rubrica[1] == 'INFO_DEPENDENTE':
                 for holerite_id in holerites_ids:
                     total = holerite_id.valor_total_dependente
@@ -177,7 +178,7 @@ class L10nBrHrDirf(models.Model):
                 rubrica = str(rubrica[1]) + '_13' if in_recisao > 0 else rubrica[1]
 
                 total = sum(holerites_ids.mapped('line_ids').filtered(
-                    lambda x: x.code == rubrica).mapped('total'))
+                    lambda x: x.code == rubrica).mapped('total')) or 0.0
         else:
             holerite_id = \
                 holerites_ids.filtered(lambda x: x.mes_do_ano2 == mes)
@@ -187,7 +188,7 @@ class L10nBrHrDirf(models.Model):
                     ' no mesmo período.\n{} - {}/{}'.format(
                     holerite_id[0].employee_id.name, mes, self.ano))
             if not holerite_id:
-                return False
+                return total
             if rubrica[1] == 'INFO_DEPENDENTE':
                 total = holerite_id.valor_total_dependente
             else:
@@ -249,23 +250,25 @@ class L10nBrHrDirf(models.Model):
 
                 valores_mensais = ValoresMensais()
                 valores_mensais.identificador_de_registro_mensal = rubrica[0]
-                # valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
-                # valores_mensais.fevereiro = self.get_valor_mes(holerites_ids, 2, rubrica)
-                # valores_mensais.marco = self.get_valor_mes(holerites_ids, 3, rubrica)
-                # valores_mensais.abril = self.get_valor_mes(holerites_ids, 4, rubrica)
-                # valores_mensais.maio = self.get_valor_mes(holerites_ids, 5, rubrica)
-                # valores_mensais.junho = self.get_valor_mes(holerites_ids, 6, rubrica)
-                # valores_mensais.julho = self.get_valor_mes(holerites_ids, 7, rubrica)
-                # valores_mensais.agosto = self.get_valor_mes(holerites_ids, 8, rubrica)
-                # valores_mensais.setembro = self.get_valor_mes(holerites_ids, 9, rubrica)
-                # valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
-                # valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
-                # valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
+                valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
+                valores_mensais.fevereiro = self.get_valor_mes(holerites_ids, 2, rubrica)
+                valores_mensais.marco = self.get_valor_mes(holerites_ids, 3, rubrica)
+                valores_mensais.abril = self.get_valor_mes(holerites_ids, 4, rubrica)
+                valores_mensais.maio = self.get_valor_mes(holerites_ids, 5, rubrica)
+                valores_mensais.junho = self.get_valor_mes(holerites_ids, 6, rubrica)
+                valores_mensais.julho = self.get_valor_mes(holerites_ids, 7, rubrica)
+                valores_mensais.agosto = self.get_valor_mes(holerites_ids, 8, rubrica)
+                valores_mensais.setembro = self.get_valor_mes(holerites_ids, 9, rubrica)
+                valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
+                valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
+                valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
                 valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo=['decimo_terceiro', 'rescisao'])
                 beneficiario.add_valores_mensais(valores_mensais)
 
             beneficiario.valor_pago_ano_rio, beneficiario.descricao_rendimentos_isentos = \
                 self.get_valor_rio(holerites_ids)
+
+            beneficiario.cpf_inf, beneficiario.informacoes_complementares = self.get_inf(holerites_ids, contract_id)
 
     @api.multi
     def get_valor_rio(self, holerites_ids):
@@ -287,6 +290,61 @@ class L10nBrHrDirf(models.Model):
                         filtered(lambda x: x.code in RUBRICAS_FERIAS_RECISAO).mapped('name') or ''
 
         return total, ', '.join(descricao)
+
+    @api.multi
+    def get_inf(self, holerites_ids, contract_id):
+
+        #holerites_ids = holerites_ids.filtered(lambda x: x.tipo_de_folha in 'rescisao')
+
+        RUBRICAS_PENSAO = [
+            'PENSAO_ALIMENTICIA_PORCENTAGEM',
+            'PENSAO_ALIMENTICIA',
+            'PENSAO_PROPORCIONAL_REGULAR',
+        ]
+
+        RUBRICAS_PENSAO_FERIAS = [
+            'PENSAO_ALIMENTICIA_FERIAS',
+            'PENSAO_ANTECIPADA_FERIAS',
+            'PENSAO_PROPORCIONAL_FERIAS',
+        ]
+
+        RUBRICAS_PENSAO_13 = [
+            'PENSAO_ALIMENTICIA_PORCENTAGEM_13',
+            'PENSAO_ALIMENTICIA_PORCENTAGEM_ADIANTAMENTO_13',
+        ]
+
+        total_13 = sum(holerites_ids.mapped('line_ids').filtered(lambda x: x.code in RUBRICAS_PENSAO_13).mapped('total')) or 0
+
+        dados_pensao = holerites_ids.mapped('line_ids').filtered(lambda x: x.code in RUBRICAS_PENSAO)
+
+        #nome_beneficiario
+        beneficiario = {}
+        cpf_inf = contract_id.employee_id.cpf
+
+        #pensar em alterar para um mapped com retorno do cpf e name juntos
+        for pensao in dados_pensao:
+            #limpando cpf_cnpj
+            cpf_cnpj = ''.join(c for c in pensao.partner_id.cnpj_cpf if c.isdigit())
+            if not cpf_inf == cpf_cnpj:
+                beneficiario = {'cpf': pensao.partner_id.cnpj_cpf, 'nome': pensao.partner_id.name}
+
+        total_pensao = sum(dados_pensao.mapped('total')) or 0
+
+        total_pensao_ferias = sum(holerites_ids.mapped('line_ids').
+                                  filtered(lambda x: x.code in RUBRICAS_PENSAO_FERIAS).mapped('total')) or 0
+
+        valor_pago = total_pensao - total_13
+
+        outros_valores = total_pensao_ferias
+
+        informacoes_complementares = ' - Pensao alimenticia descontada : ' \
+                                     ' ' + beneficiario.get('nome') + \
+                                     ', CPF: ' + beneficiario.get('cpf') + \
+                                     ', R$ ' + str(formata_valor(valor_pago)) + \
+                                     ' Outros Beneficiarios de Pensao: RS ' + str(formata_valor(outros_valores)) + \
+                                     ' (Sobre o 13o Salario RS ' + str(formata_valor(total_13))
+
+        return cpf_inf, informacoes_complementares
 
     @api.multi
     def gerar_dirf(self):
@@ -331,5 +389,8 @@ class L10nBrHrDirf(models.Model):
             beneficiario.nome_bpfdec = contract_id.employee_id.name
             self.populate_beneficiario(beneficiario, contract_id, self.ano)
             dirf.add_beneficiario(beneficiario)
-
         print(dirf.BPFDEC)
+
+        # Identificação das informações complementares - INF
+        print(dirf.INF)
+

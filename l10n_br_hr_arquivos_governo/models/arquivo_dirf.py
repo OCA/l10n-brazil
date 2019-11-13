@@ -53,6 +53,13 @@ class Beneficiario():
         self.valor_pago_ano_rio = ''
         self.descricao_rendimentos_isentos = ''
 
+        # 3.35 Registro de informações complementares para o comprovante de
+        # rendimento (identificador INF)
+        self.identificador_de_registro_inf = 'INF'
+        self.cpf_inf = ''
+        self.informacoes_complementares = ''
+
+
     def __str__(self):
         return 'BPFDEC - {}'.format(self.nome_bpfdec)
 
@@ -91,7 +98,7 @@ class Beneficiario():
             if not vm == record.identificador_de_registro_mensal+'||||||||||||||':
                 beneficiario += vm
                 beneficiario += '\n'
-        return beneficiario
+        return beneficiario.rstrip('\n')
 
 
 class DIRF(AbstractArquivosGoverno):
@@ -366,12 +373,6 @@ class DIRF(AbstractArquivosGoverno):
         self.imposto_retido_vrpde = ''
         self.forma_tributacao = ''
 
-        # 3.35 Registro de informações complementares para o comprovante de
-        # rendimento (identificador INF)
-        self.identificador_de_registro_inf = 'INF'
-        self.cpf_inf = ''
-        self.informacoes_complementares = ''
-
         #  Registro identificador do término da declaração
         #  (identificador FIMDirf)
         self.identificador_de_registro_fimdirf = 'FIMDirf'
@@ -438,9 +439,20 @@ class DIRF(AbstractArquivosGoverno):
             if record.valor_pago_ano_rio > 0:
                 bpfdec += self._validar(record.identificador_de_registro_rio, 3, tipo='A')
                 bpfdec += self._validar(record.valor_pago_ano_rio, 60, tipo='V', preenchimento='variavel')
-                bpfdec += self._validar(record.descricao_rendimentos_isentos, 100, tipo='AN', preenchimento='variavel')
+                bpfdec += self._validar(record.descricao_rendimentos_isentos, 150, tipo='AN', preenchimento='variavel')
             beneficiario += bpfdec
         return beneficiario
+
+    @property
+    def INF(self):
+        outras_informacoes = ''
+        for record in self.bpfdec:
+            if record.cpf_inf:
+                inf = self._validar(record.identificador_de_registro_inf, 3)
+                inf += self._validar(record.cpf_inf, 11, tipo='N')
+                inf += self._validar(record.informacoes_complementares, 180, tipo='AN', preenchimento='variavel')
+            outras_informacoes += inf
+        return outras_informacoes
 
     def add_beneficiario(self, bpfdec):
         """
@@ -475,9 +487,8 @@ class DIRF(AbstractArquivosGoverno):
 
         word = super(DIRF, self)._validar(word, tam, tipo)
 
-        if tipo in ['V']:
-            if word == '0':
-                word = ''
+        if tipo in ['V'] and word == '0':
+            word = ''
 
         # Adicionar pipe no final de cada campo
         word += '|'
