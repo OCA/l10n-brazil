@@ -140,7 +140,7 @@ class L10nBrHrDirf(models.Model):
                     ('company_id', '=', record.company_id.id)
                 ]
 
-                record.contract_ids = self.env['hr.contract'].search([('id', '=', '134')])
+                record.contract_ids = self.env['hr.contract'].search([domain])
 
     @api.multi
     def buscar_holerites(self, contract_id, ano):
