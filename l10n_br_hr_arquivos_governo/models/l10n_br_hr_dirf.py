@@ -172,18 +172,23 @@ class L10nBrHrDirf(models.Model):
             holerites_ids.filtered(lambda x: x.tipo_de_folha in tipo)
 
         if 'decimo_terceiro' in tipo:
-
             if rubrica[1] == 'INFO_DEPENDENTE':
                 for holerite_id in holerites_ids:
                     total = holerite_id.valor_total_dependente
             else:
-                #checando se existe recisao
-                in_recisao = len(holerites_ids.filtered(lambda x: x.tipo_de_folha == 'rescisao'))
-
-                rubrica = str(rubrica[1]) + '_13' if in_recisao > 0 else rubrica[1]
-
-                total = sum(holerites_ids.mapped('line_ids').filtered(
-                    lambda x: x.code == rubrica).mapped('total')) or 0.0
+                for holerite_id in holerites_ids:
+                    total = holerite_id.rendimentos_tributaveis
+            # if rubrica[1] == 'INFO_DEPENDENTE':
+            #     for holerite_id in holerites_ids:
+            #         total = holerite_id.valor_total_dependente
+            # else:
+            #     #checando se existe recisao
+            #     in_recisao = len(holerites_ids.filtered(lambda x: x.tipo_de_folha == 'rescisao'))
+            #
+            #     rubrica = str(rubrica[1]) + '_13' if in_recisao > 0 else rubrica[1]
+            #
+            #     total = sum(holerites_ids.mapped('line_ids').filtered(
+            #         lambda x: x.code == rubrica).mapped('total')) or 0.0
         else:
             holerite_id = \
                 holerites_ids.filtered(lambda x: x.mes_do_ano2 == mes)
