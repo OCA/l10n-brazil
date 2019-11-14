@@ -1901,8 +1901,13 @@ class HrPayslip(models.Model):
             mes_inicial = reference_mes - 1
             ano_inicial = reference_ano
 
+        mes_final = reference_mes + 1
+        if mes_final >= 12:
+            mes_final = 1
+            reference_ano += 1
+
         data_inicial = '{}-{}-01'.format(ano_inicial, mes_inicial)
-        data_final = '{}-{}-01'.format(reference_ano, reference_mes + 1)
+        data_final = '{}-{}-01'.format(reference_ano, mes_final)
 
         domain = [
             ('tipo_de_folha', 'in', ['ferias']),
