@@ -372,12 +372,12 @@ class SpedEsocialHrContrato(models.Model, SpedRegistroIntermediario):
             Dependente.tpDep.valor = \
                 dependente.dependent_type_id.code.zfill(2)
             Dependente.nmDep.valor = dependente.name
-            if dependente.precisa_cpf:
-                if not dependente.dependent_cpf:
+            if dependente.dependent_verification:
+                if not dependente.cnpj_cpf:
                     validacao += "O trabalhador {} está faltando o CPF de um dependente !".format(
                             self.hr_contract_id.employee_id.name)
                 else:
-                    Dependente.cpfDep.valor = limpa_formatacao(dependente.dependent_cpf)
+                    Dependente.cpfDep.valor = limpa_formatacao(dependente.cnpj_cpf)
             Dependente.dtNascto.valor = dependente.dependent_dob
             Dependente.depIRRF.valor = \
                 'S' if dependente.dependent_verification else 'N'
