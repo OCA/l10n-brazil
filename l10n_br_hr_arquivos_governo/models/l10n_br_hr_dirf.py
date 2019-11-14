@@ -8,7 +8,7 @@ from __future__ import (
 
 from openerp import api, fields, models
 from openerp.exceptions import Warning
-from .arquivo_dirf import DIRF, Beneficiario, ValoresMensais
+from .arquivo_dirf import DIRF, Beneficiario, ValoresMensais, Inf
 from pybrasil.valor import formata_valor
 import re
 
@@ -143,18 +143,23 @@ class L10nBrHrDirf(models.Model):
                 record.contract_ids = self.env['hr.contract'].search(domain)
 
     @api.multi
-    def buscar_holerites(self, contract_id, ano):
+    def buscar_holerites(self, contract_id, ano, tipo_folha=[]):
         """
         """
-        for record in self:
-            domain = [
-                ('contract_id', '=', contract_id.id),
-                ('ano', '=', int(ano)),
-                ('tipo_de_folha','in', ['normal', 'decimo_terceiro', 'rescisao']),
-                ('is_simulacao', '=', False),
-                ('state', 'in', ['done', 'verify']),
-            ]
-            return self.env['hr.payslip'].search(domain)
+
+        self.ensure_one()
+
+        domain = [
+            ('contract_id', '=', contract_id.id),
+            ('ano', '=', int(ano)),
+            ('is_simulacao', '=', False),
+            ('state', 'in', ['done', 'verify']),
+        ]
+
+        if tipo_folha:
+            domain.append(('tipo_de_folha', 'in', tipo_folha))
+
+        return self.env['hr.payslip'].search(domain)
 
 
     @api.multi
@@ -189,8 +194,13 @@ class L10nBrHrDirf(models.Model):
                     holerite_id[0].employee_id.name, mes, self.ano))
             if not holerite_id:
                 return total
+
             if rubrica[1] == 'INFO_DEPENDENTE':
                 total = holerite_id.valor_total_dependente
+
+            elif rubrica[1] == 'BASE_IR':
+                total = holerite_id.rendimentos_tributaveis
+
             else:
                 line_id = holerite_id.line_ids.filtered(lambda x: x.code == rubrica[1])
                 total = line_id.total
@@ -217,6 +227,7 @@ class L10nBrHrDirf(models.Model):
             for holerite_id in holerites_ids:
                 if holerite_id:
                     dados = holerite_id.get_dependente(valor_por_dependente)
+                    data['rendimentos_tributaveis'] = dados.get('base_ir')
                     data['quantidade_dependente'] = dados.get('quantidade_dependentes')
                     data['valor_total_dependente'] = dados.get('quantidade_dependentes') * \
                                                      dados.get('valor_por_dependente')
@@ -233,14 +244,15 @@ class L10nBrHrDirf(models.Model):
         for record in self:
 
             RUBRICAS_DIRF = [
-                ('RTRT', 'BASE_INSS'),
+                ('RTRT', 'BASE_IR'),
                 ('RTPO', 'INSS'),
                 ('RTDP', 'INFO_DEPENDENTE'),
-                ('RIDAC', 'DIARIAS_VIAGEM'),
                 ('RTIRF', 'IRPF'),
+                ('RIDAC', 'DIARIAS_VIAGEM'),
             ]
 
-            holerites_ids = self.buscar_holerites(contract_id, ano)
+            holerites_ids = self.buscar_holerites(contract_id, ano,
+                                                  tipo_folha=['normal', 'decimo_terceiro', 'rescisao'])
 
             codes = holerites_ids.mapped('line_ids.code')
 
@@ -268,7 +280,7 @@ class L10nBrHrDirf(models.Model):
             beneficiario.valor_pago_ano_rio, beneficiario.descricao_rendimentos_isentos = \
                 self.get_valor_rio(holerites_ids)
 
-            beneficiario.cpf_inf, beneficiario.informacoes_complementares = self.get_inf(holerites_ids, contract_id)
+
 
     @api.multi
     def get_valor_rio(self, holerites_ids):
@@ -292,9 +304,16 @@ class L10nBrHrDirf(models.Model):
         return total, ', '.join(descricao)
 
     @api.multi
+    def populate_inf(self, inf, contract_id, ano):
+
+        holerites_ids = self.buscar_holerites(contract_id, ano)
+        inf.informacoes_complementares = self.get_inf(holerites_ids, contract_id)
+
+    @api.multi
     def get_inf(self, holerites_ids, contract_id):
 
-        #holerites_ids = holerites_ids.filtered(lambda x: x.tipo_de_folha in 'rescisao')
+        cpf_inf = ''
+        informacoes_complementares = ''
 
         RUBRICAS_PENSAO = [
             'PENSAO_ALIMENTICIA_PORCENTAGEM',
@@ -313,9 +332,16 @@ class L10nBrHrDirf(models.Model):
             'PENSAO_ALIMENTICIA_PORCENTAGEM_ADIANTAMENTO_13',
         ]
 
-        total_13 = sum(holerites_ids.mapped('line_ids').filtered(lambda x: x.code in RUBRICAS_PENSAO_13).mapped('total')) or 0
+        total_13 = sum(holerites_ids.mapped('line_ids').
+                       filtered(lambda x: x.code in RUBRICAS_PENSAO_13).mapped('total')) or 0
 
-        dados_pensao = holerites_ids.mapped('line_ids').filtered(lambda x: x.code in RUBRICAS_PENSAO)
+        dados_pensao = holerites_ids.mapped('line_ids').\
+            filtered(lambda x: x.code in RUBRICAS_PENSAO)
+
+        total_pensao = sum(dados_pensao.mapped('total')) or 0
+
+        if total_pensao <= 0 and total_13 <= 0:
+            return informacoes_complementares
 
         #nome_beneficiario
         beneficiario = {}
@@ -327,8 +353,6 @@ class L10nBrHrDirf(models.Model):
             cpf_cnpj = ''.join(c for c in pensao.partner_id.cnpj_cpf if c.isdigit())
             if not cpf_inf == cpf_cnpj:
                 beneficiario = {'cpf': pensao.partner_id.cnpj_cpf, 'nome': pensao.partner_id.name}
-
-        total_pensao = sum(dados_pensao.mapped('total')) or 0
 
         total_pensao_ferias = sum(holerites_ids.mapped('line_ids').
                                   filtered(lambda x: x.code in RUBRICAS_PENSAO_FERIAS).mapped('total')) or 0
@@ -342,9 +366,9 @@ class L10nBrHrDirf(models.Model):
                                      ', CPF: ' + beneficiario.get('cpf') + \
                                      ', R$ ' + str(formata_valor(valor_pago)) + \
                                      ' Outros Beneficiarios de Pensao: RS ' + str(formata_valor(outros_valores)) + \
-                                     ' (Sobre o 13o Salario RS ' + str(formata_valor(total_13))
+                                     ' (Sobre o 13o Salario RS ' + str(formata_valor(total_13)) + ' )'
 
-        return cpf_inf, informacoes_complementares
+        return informacoes_complementares
 
     @api.multi
     def gerar_dirf(self):
@@ -389,8 +413,16 @@ class L10nBrHrDirf(models.Model):
             beneficiario.nome_bpfdec = contract_id.employee_id.name
             self.populate_beneficiario(beneficiario, contract_id, self.ano)
             dirf.add_beneficiario(beneficiario)
+
         print(dirf.BPFDEC)
 
-        # Identificação das informações complementares - INF
+        # Preencher beneficiarios
+        for contract_id in self.contract_ids:
+            inf = Inf()
+            self.populate_inf(inf, contract_id, self.ano)
+            if inf.informacoes_complementares:
+                inf.cpf_inf = contract_id.employee_id.cpf
+                dirf.add_info(inf)
+
         print(dirf.INF)
 

@@ -13,6 +13,7 @@
                 <field name="credit_note" position="after">
                         <field name="quantidade_dependente" readonly="1"/>
                         <field name="valor_total_dependente" readonly="1"/>
+                        <field name="rendimentos_tributaveis" readonly="1"/>
                 </field>
                 <xpath expr="//notebook" position="inside">
                     <page string="GRRF"

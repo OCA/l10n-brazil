@@ -24,6 +24,11 @@ class HrPayslip(models.Model):
         help="Valor por dependente multiplicado pela quantidade de dependentes do funcionário tem naquele mes/ano.",
     )
 
+    rendimentos_tributaveis = fields.Float(
+        string=u'Valor dos rendimentos tributáveis',
+        help="Valor dos rendimentos tributáveis do funcionário naquele mes/ano.",
+    )
+
     @api.multi
     def get_dependente(self, valor_por_dependente=0):
         """
@@ -47,6 +52,7 @@ class HrPayslip(models.Model):
 
         retorno['quantidade_dependentes'] = 0
         retorno['valor_por_dependente'] = 0
+        retorno['base_ir'] = 0
 
         for rubrica in RUBRICAS_CALCULO_DEPENDENTE:
             valores[rubrica] = self.line_ids.filtered(
@@ -83,4 +89,5 @@ class HrPayslip(models.Model):
             else:
                 retorno['quantidade_dependentes'] = int(calculo_valor / valor_por_dependente)
                 retorno['valor_por_dependente'] = round(valor_por_dependente, 2)
+                retorno['base_ir'] = valores['BASE_IR']
         return retorno
