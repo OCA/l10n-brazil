@@ -34,16 +34,22 @@ class HrEmployee(models.Model):
     )
 
     # Calcula a situação e-Social levando em conta a situação do contrato também.
-    @api.depends('contract_ids', 'sped_s2205_ids')
+    @api.depends('contract_ids', 'sped_s2205_ids', 'precisa_atualizar')
     def compute_situacao_esocial(self):
         for trabalhador in self:
 
             # Identifica o primeiro contrato ativo
-            contrato_valido = False
-            for contrato in trabalhador.contract_ids:
-                if contrato.situacao_esocial not in ['9']:
-                    contrato_valido = contrato
-            if not contrato_valido:  # Se todos os contratos já estão finalizado, pega o primeiro mesmo
+            contratos_valido = \
+                trabalhador.contract_ids.filtered(
+                    lambda x: x.situacao_esocial not in ['9', '0']
+                              and x.date_end == False)
+
+            if contratos_valido:
+                contrato_valido = contratos_valido.sorted(
+                    key=lambda x: x.date_start)[-1]
+
+            # Se todos os contratos já estão finalizado, pega o primeiro mesmo
+            else:
                 if trabalhador.contract_ids:
                     contrato_valido = trabalhador.contract_ids[0]
 
