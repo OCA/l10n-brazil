@@ -205,8 +205,8 @@ class OperationLine(models.Model):
         copy=False)
 
     _sql_constraints = [
-        ('fiscal_operation_code_uniq', 'unique (code, operation_id)',
-         _('Fiscal Operation Line already exists with this code !'))]
+        ('fiscal_operation_name_uniq', 'unique (name, operation_id)',
+         _('Fiscal Operation Line already exists with this name !'))]
 
     @api.multi
     def action_review(self):
