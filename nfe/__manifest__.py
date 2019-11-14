@@ -11,11 +11,25 @@
     'website': 'http://github.com/OCA/l10n-brazil',
     'version': '12.0.1.0.0',
     'depends': [
-        'fiscal'
+        'l10n_br_fiscal'
     ],
-    'data': [],
-    'demo': [],
-    'test': [],
-    'installable': False,
+    'data': [
+        # Security
+        'security/nfe_security.xml',
+        'security/ir.model.access.csv',
+
+        # Views
+        'views/res_company_view.xml',
+        'views/nfe_document_view.xml',
+        'views/nfe_document_line_view.xml',
+        'views/res_config_settings_view.xml',
+
+        # Action
+        'views/nfe_action.xml',
+
+        # Menu
+        'views/nfe_menu.xml',
+    ],
+    'installable': True,
     'auto_install': False,
 }
