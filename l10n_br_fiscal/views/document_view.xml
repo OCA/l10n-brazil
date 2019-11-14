@@ -57,6 +57,11 @@
             <field name="operation_id"/>
             <field name="issuer"/>
             <field name="document_type_id"/>
+            <label for="key" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"/>
+            <div class="o_row" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}">
+              <field name="key" force_save="1" class="oe_inline"/>
+              <button name="action_search_key" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>
+            </div>
           </group>
           <group>
             <group>
@@ -66,10 +71,6 @@
               <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')]}"/>
             </group>
           </group>
-          <div class="form-row">
-            <field name="key" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"/>
-            <button name="action_search_key" type="object" class="btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>
-          </div>
           <notebook>
             <page name="document" string="Document Info">
               <group name="Document">

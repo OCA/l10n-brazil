@@ -61,20 +61,20 @@
                 </group>
             </page>
             <page name="ipi" string="IPI">
-                <group>
+                <group string="IPI">
                     <field name="ipi_tax_id"/>
-                    <field name="ipi_cst_id" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                    <field name="ipi_cst_id" attrs="{'readonly': [('ipi_tax_id', '=', False)]}"/>
                     <field name="ipi_guideline_id"/>
                 </group>
                 <group>
                     <group>
-                      <field name="ipi_base_type" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
-                      <field name="ipi_percent" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
-                      <field name="ipi_reduction" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                      <field name="ipi_base_type" attrs="{'readonly': [('ipi_tax_id', '=', True)]}"/>
+                      <field name="ipi_percent" attrs="{'readonly': [('ipi_tax_id', '=', True)]}"/>
+                      <field name="ipi_reduction" attrs="{'readonly': [('ipi_tax_id', '=', True)]}"/>
                     </group>
                     <group>
-                      <field name="ipi_base" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
-                      <field name="ipi_value" attrs="{'readonly': [('ipi_tax_id', '!=', True)]}"/>
+                      <field name="ipi_base" attrs="{'readonly': [('ipi_tax_id', '=', True)]}"/>
+                      <field name="ipi_value" attrs="{'readonly': [('ipi_tax_id', '=', True)]}"/>
                     </group>
                 </group>
             </page>
