@@ -75,6 +75,9 @@ def totalizador_periodo(pool, cr, uid, localcontext, context):
 
         # Pegar ultimo registro de sucesso
         registro_sucesso = get_registro_sucesso(remuneracao_id.sped_registro)
+
+        if not registro_sucesso:
+            continue
         
         linha.nome = remuneracao_id.contract_ids[0].display_name
 
