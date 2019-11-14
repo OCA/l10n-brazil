@@ -16,4 +16,4 @@ NFE_ENVIRONMENTS = [
     ('2', 'Homologação')]
 
 
-NFE_ENVIRONMENT = '2'
+NFE_ENVIRONMENT_DEFAULT = '2'
