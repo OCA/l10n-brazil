@@ -63,12 +63,14 @@ class DocumentLineAbstract(models.AbstractModel):
 
     operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        string='Operation')
+        string='Operation',
+        domain="[('state', '=', 'approved')]")
 
     operation_line_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation.line',
         string='Operation Line',
-        domain="[('operation_id', '=', operation_id)]")
+        domain="[('operation_id', '=', operation_id), "
+               "('state', '=', 'approved')]")
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
@@ -530,7 +532,7 @@ class DocumentLineAbstract(models.AbstractModel):
 
             # TODO nbs_id compute ISSQN
 
-    @api.onchange('icms_tax_id')
+    @api.onchange('icms_tax_id', 'fiscal_price', 'fiscal_quantity')
     def _onchange_icms_tax_id(self):
         if self.icms_tax_id:
             self.icms_cst_id = self.icms_tax_id.cst_from_tax(
@@ -542,7 +544,7 @@ class DocumentLineAbstract(models.AbstractModel):
     def _onchange_icms_fields(self):
         pass
 
-    @api.onchange('icmssn_tax_id')
+    @api.onchange('icmssn_tax_id', 'fiscal_price', 'fiscal_quantity')
     def _onchange_icmssn_tax_id(self):
         if self.icmssn_tax_id:
             self.icmssn_cst_id = self.icmssn_tax_id.cst_from_tax(
@@ -563,7 +565,7 @@ class DocumentLineAbstract(models.AbstractModel):
             self.ipi_reduction = tax_dict.get('percent_reduction')
             self.ipi_value = tax_dict.get('tax_value')
 
-    @api.onchange('ipi_tax_id')
+    @api.onchange('ipi_tax_id', 'fiscal_price', 'fiscal_quantity')
     def _onchange_ipi_tax_id(self):
         if self.ipi_tax_id:
             result_taxes = self._compute_taxes(self.ipi_tax_id)
@@ -584,7 +586,7 @@ class DocumentLineAbstract(models.AbstractModel):
             self.pis_reduction = tax_dict.get('percent_reduction')
             self.v_value = tax_dict.get('tax_value')
 
-    @api.onchange('pis_tax_id')
+    @api.onchange('pis_tax_id', 'fiscal_price', 'fiscal_quantity')
     def _onchange_pis_tax_id(self):
         if self.pis_tax_id:
             result_taxes = self._compute_taxes(self.pis_tax_id)
@@ -595,7 +597,7 @@ class DocumentLineAbstract(models.AbstractModel):
     def _onchange_pis_fields(self):
         pass
 
-    @api.onchange('pisst_tax_id')
+    @api.onchange('pisst_tax_id', 'fiscal_price', 'fiscal_quantity')
     def _onchange_pisst_tax_id(self):
         if self.pisst_tax_id:
             self.pisst_cst_id = self.pisst_tax_id.cst_from_tax(
@@ -619,7 +621,7 @@ class DocumentLineAbstract(models.AbstractModel):
             self.cofins_reduction = tax_dict.get('percent_reduction')
             self.cofins_value = tax_dict.get('tax_value')
 
-    @api.onchange('cofins_tax_id')
+    @api.onchange('cofins_tax_id', 'fiscal_price', 'fiscal_quantity')
     def _onchange_cofins_tax_id(self):
         if self.cofins_tax_id:
             result_taxes = self._compute_taxes(self.cofins_tax_id)
@@ -631,7 +633,7 @@ class DocumentLineAbstract(models.AbstractModel):
     def _onchange_cofins_fields(self):
         pass
 
-    @api.onchange('cofinsst_tax_id')
+    @api.onchange('cofinsst_tax_id', 'fiscal_price', 'fiscal_quantity')
     def _onchange_cofinsst_tax_id(self):
         if self.cofinsst_tax_id:
             self.cofinsst_cst_id = self.cofinsst_tax_id.cst_from_tax(
@@ -641,6 +643,6 @@ class DocumentLineAbstract(models.AbstractModel):
             #     self.cofinsst_tax_id,
             #     self.cofinsst_cst_id).get(TAX_DOMAIN_COFINS_ST)
 
-    @api.onchange('cofinsst_base')
+    @api.onchange('cofinsst_base', 'fiscal_price', 'fiscal_quantity')
     def _onchange_cofins_fields(self):
         pass
