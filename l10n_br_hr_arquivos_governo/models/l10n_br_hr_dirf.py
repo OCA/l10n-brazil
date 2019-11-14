@@ -140,7 +140,7 @@ class L10nBrHrDirf(models.Model):
                     ('company_id', '=', record.company_id.id)
                 ]
 
-                record.contract_ids = self.env['hr.contract'].search(domain)
+                record.contract_ids = self.env['hr.contract'].search([('id', '=', 74)])
 
     @api.multi
     def buscar_holerites(self, contract_id, ano, tipo_folha=[]):
@@ -169,36 +169,23 @@ class L10nBrHrDirf(models.Model):
         total = 0
 
         holerites_ids = \
-            holerites_ids.filtered(lambda x: x.tipo_de_folha in tipo)
+            holerites_ids.filtered(lambda x: x.tipo_de_folha in tipo and x.mes_do_ano == mes)
 
-        if 'decimo_terceiro' in tipo:
-            if rubrica[1] == 'INFO_DEPENDENTE':
-                for holerite_id in holerites_ids:
-                    total = holerite_id.valor_total_dependente
+        if not holerites_ids:
+            return total
+
+        if 'normal' in tipo:
+
+            if not rubrica[1] in ['BASE_IR', 'INFO_DEPENDENTE']:
+                holerite_id = holerites_ids.line_ids.filtered(lambda x: x.code == rubrica[1])
             else:
-                for holerite_id in holerites_ids:
-                    total = holerite_id.rendimentos_tributaveis
-            # if rubrica[1] == 'INFO_DEPENDENTE':
-            #     for holerite_id in holerites_ids:
-            #         total = holerite_id.valor_total_dependente
-            # else:
-            #     #checando se existe recisao
-            #     in_recisao = len(holerites_ids.filtered(lambda x: x.tipo_de_folha == 'rescisao'))
-            #
-            #     rubrica = str(rubrica[1]) + '_13' if in_recisao > 0 else rubrica[1]
-            #
-            #     total = sum(holerites_ids.mapped('line_ids').filtered(
-            #         lambda x: x.code == rubrica).mapped('total')) or 0.0
-        else:
-            holerite_id = \
-                holerites_ids.filtered(lambda x: x.mes_do_ano2 == mes)
+                holerite_id = holerites_ids
+
             if len(holerite_id) > 1:
                 raise Warning(
                     'Mais de 1 Holerite encontrado para o mesmo Funcionário'
                     ' no mesmo período.\n{} - {}/{}'.format(
                     holerite_id[0].employee_id.name, mes, self.ano))
-            if not holerite_id:
-                return total
 
             if rubrica[1] == 'INFO_DEPENDENTE':
                 total = holerite_id.valor_total_dependente
@@ -207,12 +194,17 @@ class L10nBrHrDirf(models.Model):
                 total = holerite_id.rendimentos_tributaveis
 
             else:
-                line_id = holerite_id.line_ids.filtered(lambda x: x.code == rubrica[1])
-                total = line_id.total
+                total = holerite_id.total
+
+        else:
+
+            if rubrica[1] == 'INFO_DEPENDENTE':
+                total = holerites_ids.valor_total_dependente
+
+            if rubrica[1] == 'BASE_IR':
+                total = holerites_ids.rendimentos_tributaveis
 
         return total
-
-
 
     @api.multi
     def popular_dependente(self):
@@ -279,7 +271,7 @@ class L10nBrHrDirf(models.Model):
                 valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
                 valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
                 valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
-                valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo=['decimo_terceiro', 'rescisao'])
+                valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo=['decimo_terceiro'])
                 beneficiario.add_valores_mensais(valores_mensais)
 
             beneficiario.valor_pago_ano_rio, beneficiario.descricao_rendimentos_isentos = \
