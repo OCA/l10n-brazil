@@ -382,3 +382,10 @@ class AccountInvoice(models.Model):
             )
             return result
 
+    @api.multi
+    def cancel_invoice_online(self, justificative):
+        pass
+
+    @api.multi
+    def cce_invoice_online(self, justificative):
+        pass
