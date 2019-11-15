@@ -4,6 +4,7 @@
 from datetime import datetime
 from unicodedata import normalize
 import logging
+from pytz import UTC
 
 _logger = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from erpbrasil.edoc import NFe
 
 from odoo import models, api, fields
+from odoo.exceptions import UserError
 from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 from odoo.addons.l10n_br_account_product.models.account_invoice_term import (
@@ -22,16 +24,36 @@ from odoo.addons.l10n_br_account_product.models.account_invoice_term import (
 )
 from odoo.addons.edoc_base.constantes import (
     AUTORIZADO,
+    AUTORIZADO_OU_DENEGADO,
     DENEGADO,
+    CANCELADO,
+    LOTE_EM_PROCESSAMENTO,
+    LOTE_RECEBIDO,
     LOTE_PROCESSADO,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_REJEITADA,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
+    SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_REJEITADA,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
+    SITUACAO_FISCAL_REGULAR,
+    SITUACAO_FISCAL_REGULAR_EXTEMPORANEO,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+    SITUACAO_FISCAL_DENEGADO,
+    SITUACAO_FISCAL_INUTILIZADO,
+    SITUACAO_FISCAL_COMPLEMENTAR,
+    SITUACAO_FISCAL_COMPLEMENTAR_EXTEMPORANEO,
+    SITUACAO_FISCAL_REGIME_ESPECIAL,
+    SITUACAO_FISCAL_MERCADORIA_NAO_CIRCULOU,
+    SITUACAO_FISCAL_MERCADORIA_NAO_RECEBIDA,
 )
 from .res_company import PROCESSADOR
+
 
 def fiter_processador_edoc_nfe(record):
     if (record.processador_edoc == PROCESSADOR and
@@ -45,6 +67,16 @@ def fiter_processador_edoc_nfe(record):
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    def _filtra_processador(self):
+        return self.filtered(lambda r: r.processador_edoc == PROCESSADOR)
+
+    def _filtra_documento(self):
+        return self.filtered(
+            lambda r: r.fiscal_document_id.code in [
+                MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE
+            ]
+        )
 
     def _dest(self):
         partner_bc_code = ''
@@ -376,7 +408,7 @@ class AccountInvoice(models.Model):
             if invoice_line.discount_value else None,
             vOutro=str("%.2f" % invoice_line.other_costs_value)
             if invoice_line.other_costs_value else None,
-            indTot=1,
+            indTot='1',
             DI=di,
             detExport=None,
             xPed=invoice_line.partner_order or None,
@@ -568,71 +600,13 @@ class AccountInvoice(models.Model):
             infAdProd=invoice_line.fiscal_comment or None)
         return det
 
-    def gera_nova_chave(self):
-        company = self.company_id.partner_id
-        chave = str(company.state_id and
-                    company.state_id.ibge_code or '').zfill(2)
-
-        chave += str(datetime.strptime(
-            self.date_hour_invoice, '%Y-%m-%d %H:%M:%S').strftime('%y%m')
-                     ).zfill(4)
-
-        chave += str(punctuation_rm(
-            self.company_id.partner_id.cnpj_cpf)).zfill(14)
-        chave += str(self.fiscal_document_id.code or '').zfill(2)
-        chave += str(self.document_serie_id.code or '').zfill(3)
-        chave += str(self.fiscal_number or '').zfill(9)
-
-        #
-        # A inclusão do tipo de emissão na chave já torna a chave válida também
-        # para a versão 2.00 da NF-e
-        #
-        chave += str(1).zfill(1)
-
-        #
-        # O código numério é um número aleatório
-        #
-        # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
-
-        #
-        # Mas, por segurança, é preferível que esse número não seja
-        # aleatório de todo
-        #
-        soma = 0
-        for c in chave:
-            soma += int(c) ** 3 ** 2
-
-        codigo = str(soma)
-        if len(codigo) > 8:
-            codigo = codigo[-8:]
-        else:
-            codigo = codigo.rjust(8, '0')
-
-        chave += codigo
-
-        soma = 0
-        m = 2
-        for i in range(len(chave) - 1, -1, -1):
-            c = chave[i]
-            soma += int(c) * m
-            m += 1
-            if m > 9:
-                m = 2
-
-        digito = 11 - (soma % 11)
-        if digito > 9:
-            digito = 0
-
-        chave += str(digito)
-        self.edoc_access_key = chave
-
     def serialize_nfe(self):
         company = self.company_id.partner_id
 
         if self.cfop_ids[0].type in ("input"):
-            tpNF = 0
+            tpNF = '0'
         else:
-            tpNF = 1
+            tpNF = '1'
 
         nf_ref = []
         for inv_related in self.fiscal_document_related_ids:
@@ -714,8 +688,8 @@ class AccountInvoice(models.Model):
             cMunFG=('%s%s') % (
                 company.state_id.ibge_code,
                 company.l10n_br_city_id.ibge_code),
-            tpImp=1,
-            tpEmis=1,
+            tpImp='1',
+            tpEmis='1',
             cDV=self.edoc_access_key[-1],
             tpAmb=self.company_id.nfe_environment,
             finNFe=self.edoc_purpose,
@@ -794,7 +768,7 @@ class AccountInvoice(models.Model):
                     self.partner_shipping_id.l10n_br_city_id.ibge_code),
                 xMun=self.partner_shipping_id.l10n_br_city_id.name or '',
                 UF=self.partner_shipping_id.state_id.code or '')
-            if tpNF == 0:
+            if tpNF == '0':
                 retirada = local
             else:
                 entrega = local
@@ -981,6 +955,71 @@ class AccountInvoice(models.Model):
 
         return tnfe
 
+    def gera_nova_chave(self):
+        company = self.company_id.partner_id
+        chave = str(company.state_id and
+                    company.state_id.ibge_code or '').zfill(2)
+
+        chave += str(datetime.strptime(
+            self.date_hour_invoice, '%Y-%m-%d %H:%M:%S').strftime('%y%m')
+                     ).zfill(4)
+
+        chave += str(punctuation_rm(
+            self.company_id.partner_id.cnpj_cpf)).zfill(14)
+        chave += str(self.fiscal_document_id.code or '').zfill(2)
+        chave += str(self.document_serie_id.code or '').zfill(3)
+        chave += str(self.fiscal_number or '').zfill(9)
+
+        #
+        # A inclusão do tipo de emissão na chave já torna a chave válida também
+        # para a versão 2.00 da NF-e
+        #
+        chave += str(1).zfill(1)
+
+        #
+        # O código numério é um número aleatório
+        #
+        # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
+
+        #
+        # Mas, por segurança, é preferível que esse número não seja
+        # aleatório de todo
+        #
+        soma = 0
+        for c in chave:
+            soma += int(c) ** 3 ** 2
+
+        codigo = str(soma)
+        if len(codigo) > 8:
+            codigo = codigo[-8:]
+        else:
+            codigo = codigo.rjust(8, '0')
+
+        chave += codigo
+
+        soma = 0
+        m = 2
+        for i in range(len(chave) - 1, -1, -1):
+            c = chave[i]
+            soma += int(c) * m
+            m += 1
+            if m > 9:
+                m = 2
+
+        digito = 11 - (soma % 11)
+        if digito > 9:
+            digito = 0
+
+        chave += str(digito)
+        self.edoc_access_key = chave
+
+    def serialize(self):
+        nfes = []
+        for record in self.filtered(lambda r: r.fiscal_document_id.code in
+                                              ['55', '65']):
+            nfes.append(record.serialize_nfe())
+        return nfes
+
     def _procesador(self):
         certificado = Certificado(
             stream_arquivo=self.company_id.nfe_a1_file,
@@ -990,13 +1029,6 @@ class AccountInvoice(models.Model):
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
         return NFe(transmissao)
-
-    def serialize(self):
-        nfes = []
-        for record in self.filtered(lambda r: r.fiscal_document_id.code in
-                                              ['55', '65']):
-            nfes.append(record.serialize_nfe())
-        return nfes
 
     @api.multi
     def _edoc_export(self):
@@ -1052,12 +1084,53 @@ class AccountInvoice(models.Model):
                     record.atualiza_status_nfe(protocolo.infProt)
         return
 
-    def _filtra_processador(self):
-        return self.filtered(lambda r: r.processador_edoc == PROCESSADOR)
+    @api.multi
+    def cancel_invoice_online(self, justificative):
+        super(AccountInvoice, self).cancel_invoice_online(justificative)
+        for record in self.filtered(fiter_processador_edoc_nfe):
+            if record.state in ('open', 'paid'):
+                processador = record._procesador()
 
-    def _filtra_documento(self):
-        return self.filtered(
-            lambda r: r.fiscal_document_id.code in [
-                MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE
-            ]
-        )
+                evento = processador.cancela_documento(
+                    chave=record.edoc_access_key,
+                    protocolo_autorizacao=record.edoc_protocol_number,
+                    justificativa=justificative
+                )
+                processo = processador.enviar_lote_evento(
+                    lista_eventos=[evento]
+                )
+
+                for retevento in processo.resposta.retEvento:
+                    if not retevento.infEvento.chNFe == record.edoc_access_key:
+                        continue
+
+                    if retevento.infEvento.cStat not in CANCELADO:
+                        mensagem = 'Erro no cancelamento'
+                        mensagem += '\nCódigo: ' + \
+                                    retevento.infEvento.cStat
+                        mensagem += '\nMotivo: ' + \
+                                    retevento.infEvento.xMotivo
+                        raise UserError(mensagem)
+
+                    if retevento.infEvento.cStat == '155':
+                        record.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+                        record.state_edoc = SITUACAO_EDOC_CANCELADA
+                    elif retevento.infEvento.cStat == '135':
+                        record.state_fiscal = SITUACAO_FISCAL_CANCELADO
+                        record.state_edoc = SITUACAO_EDOC_CANCELADA
+
+    def cce_invoice_online(self, justificative):
+        super(AccountInvoice, self).cce_invoice_online(justificative)
+        for record in self.filtered(fiter_processador_edoc_nfe):
+            if record.state in ('open', 'paid'):
+                processador = record._procesador()
+
+                evento = processador.carta_correcao(
+                    chave=record.edoc_access_key,
+                    sequencia='1',
+                    justificativa=justificative
+                )
+                processo = processador.enviar_lote_evento(
+                    lista_eventos=[evento]
+                )
+                pass
