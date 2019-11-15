@@ -222,9 +222,10 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def cancel_invoice_online(self, justificative):
+        super(AccountInvoice, self).cancel_invoice_online(justificative)
         event_obj = self.env['l10n_br_account.document_event']
+        for inv in self.filtered(fiter_processador_pysped):
 
-        for inv in self:
             if inv.state in ('open', 'paid'):
                 validate_nfe_configuration(self.company_id)
                 validate_invoice_cancel(inv)
@@ -338,7 +339,9 @@ class AccountInvoice(models.Model):
                 print "Cancelado"
 
     def cce_invoice_online(self, mensagem):
-        for invoice in self:
+        super(AccountInvoice, self).cce_invoice_online(mensagem)
+        for invoice in self.filtered(fiter_processador_pysped):
+
             chave_nfe = invoice.edoc_access_key
             event_obj = self.env['l10n_br_account.document_event']
             sequencia = len(invoice.cce_document_ids) + 1
