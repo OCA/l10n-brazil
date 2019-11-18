@@ -29,6 +29,11 @@ class L10nBrHrDirf(models.Model):
         comodel_name='hr.contract',
     )
 
+    employee_ids = fields.Many2many(
+        string=u'Funcionários',
+        comodel_name='hr.employee',
+    )
+
     company_id = fields.Many2one(
         comodel_name='res.company',
         string=u'Empresa',
@@ -123,9 +128,9 @@ class L10nBrHrDirf(models.Model):
                     'DIRF - {} - {}'.format(record.ano, record.company_id.name)
 
     @api.multi
-    def buscar_contratos(self):
+    def buscar_funcionarios(self):
         """
-        Preencher contratos que irao compor a DIRF
+        Preencher Funcionários que irao compor a DIRF
         """
         for record in self:
 
@@ -140,27 +145,28 @@ class L10nBrHrDirf(models.Model):
                     ('company_id', '=', record.company_id.id)
                 ]
 
-                record.contract_ids = self.env['hr.contract'].search([('id', '=', 74)])
+                #  Buscar todos holerites do ano
+                holerites_no_ano = self.env['hr.payslip'].search(domain)
+
+                # DIRF para todos funcionarios que tiveram rendimentos
+                record.employee_ids = holerites_no_ano.mapped('employee_id')[:5]
 
     @api.multi
-    def buscar_holerites(self, contract_id, ano, tipo_folha=[]):
+    def buscar_holerites(self, employee_id, ano, tipo_folha=[]):
         """
+        Buscar holerites de determinado ano
         """
-
         self.ensure_one()
 
         domain = [
-            ('contract_id', '=', contract_id.id),
+            ('employee_id', '=', employee_id.id),
             ('ano', '=', int(ano)),
             ('is_simulacao', '=', False),
             ('state', 'in', ['done', 'verify']),
         ]
-
         if tipo_folha:
             domain.append(('tipo_de_folha', 'in', tipo_folha))
-
         return self.env['hr.payslip'].search(domain)
-
 
     @api.multi
     def get_valor_mes(self, holerites_ids, mes, rubrica, tipo=['normal']):
@@ -309,7 +315,6 @@ class L10nBrHrDirf(models.Model):
     @api.multi
     def get_inf(self, holerites_ids, contract_id):
 
-        cpf_inf = ''
         informacoes_complementares = ''
 
         RUBRICAS_PENSAO = [
@@ -340,15 +345,11 @@ class L10nBrHrDirf(models.Model):
         if total_pensao <= 0 and total_13 <= 0:
             return informacoes_complementares
 
-        #nome_beneficiario
-        beneficiario = {}
-        cpf_inf = contract_id.employee_id.cpf
-
-        #pensar em alterar para um mapped com retorno do cpf e name juntos
+        # Pensar em alterar para um mapped com retorno do cpf e name juntos
         for pensao in dados_pensao:
-            #limpando cpf_cnpj
+            # Limpando cpf_cnpj
             cpf_cnpj = ''.join(c for c in pensao.partner_id.cnpj_cpf if c.isdigit())
-            if not cpf_inf == cpf_cnpj:
+            if not contract_id.employee_id.cpf == cpf_cnpj:
                 beneficiario = {'cpf': pensao.partner_id.cnpj_cpf, 'nome': pensao.partner_id.name}
 
         total_pensao_ferias = sum(holerites_ids.mapped('line_ids').
@@ -370,6 +371,7 @@ class L10nBrHrDirf(models.Model):
     @api.multi
     def gerar_dirf(self):
         """
+        Método principal da geração da DIRF
         """
         self.ensure_one()
 
@@ -404,13 +406,12 @@ class L10nBrHrDirf(models.Model):
         print(dirf.IDREC)
 
         # Preencher beneficiarios
-        for contract_id in self.contract_ids:
+        for employee_id in self.employee_ids:
             beneficiario = Beneficiario()
-            beneficiario.cpf_bpfdec = contract_id.employee_id.cpf
-            beneficiario.nome_bpfdec = contract_id.employee_id.name
-            self.populate_beneficiario(beneficiario, contract_id, self.ano)
+            beneficiario.cpf_bpfdec = employee_id.cpf
+            beneficiario.nome_bpfdec = employee_id.name
+            self.populate_beneficiario(beneficiario, employee_id, self.ano)
             dirf.add_beneficiario(beneficiario)
-
         print(dirf.BPFDEC)
 
         # Preencher beneficiarios

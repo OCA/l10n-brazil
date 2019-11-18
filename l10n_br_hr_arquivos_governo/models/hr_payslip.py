@@ -21,11 +21,12 @@ class HrPayslip(models.Model):
 
     valor_total_dependente = fields.Float(
         string=u'Valor total de dependentes',
-        help="Valor por dependente multiplicado pela quantidade de dependentes do funcionário tem naquele mes/ano.",
+        help="Valor por dependente multiplicado pela quantidade de "
+             "dependentes do funcionário tem naquele mes/ano.",
     )
 
     rendimentos_tributaveis = fields.Float(
-        string=u'Valor dos rendimentos tributáveis',
+        string=u'Rendimentos tributáveis IR',
         help="Valor dos rendimentos tributáveis do funcionário naquele mes/ano.",
     )
 
