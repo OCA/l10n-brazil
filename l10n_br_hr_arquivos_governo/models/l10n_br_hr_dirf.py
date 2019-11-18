@@ -135,13 +135,11 @@ class L10nBrHrDirf(models.Model):
         for record in self:
 
             if record.company_id:
-                inicio_ano = '01-01-{}'.format(record.ano)
 
                 domain = [
-                    '|',
-                    ('date_end', '>', inicio_ano),
-                    ('date_end','=', False),
-                    ('tipo', '!=', 'autonomo'),
+                    ('ano', '=', record.ano),
+                    ('is_simulacao', '=', False),
+                    ('state', 'in', ['done', 'verify']),
                     ('company_id', '=', record.company_id.id)
                 ]
 
@@ -172,123 +170,103 @@ class L10nBrHrDirf(models.Model):
     def get_valor_mes(self, holerites_ids, mes, rubrica, tipo=['normal']):
         """
         """
-        total = 0
 
-        holerites_ids = \
-            holerites_ids.filtered(lambda x: x.tipo_de_folha in tipo and x.mes_do_ano == mes)
+        # Filtrar holerites de acordo com paramentros da função
+        holerites_ids = holerites_ids.filtered(
+            lambda x: x.tipo_de_folha in tipo and x.mes_do_ano == mes)
 
+        # Se nao encontrou holerites
         if not holerites_ids:
-            return total
+            return 0
 
-        if 'normal' in tipo:
+        # Se encontrou mais de 1
+        if len(holerites_ids) > 1:
+            raise Warning(
+                'Mais de 1 Holerite encontrado para o mesmo Funcionário'
+                ' no mesmo período.\n{} - {}/{}'.format(
+                    holerites_ids[0].employee_id.name, mes, self.ano))
 
-            if not rubrica[1] in ['BASE_IR', 'INFO_DEPENDENTE']:
-                holerite_id = holerites_ids.line_ids.filtered(lambda x: x.code == rubrica[1])
-            else:
-                holerite_id = holerites_ids
+        # Quando for a BASE de rendimentos tributáveis, buscar campo
+        if rubrica[1] == 'BASE_IR':
+            return holerites_ids.rendimentos_tributaveis
 
-            if len(holerite_id) > 1:
-                raise Warning(
-                    'Mais de 1 Holerite encontrado para o mesmo Funcionário'
-                    ' no mesmo período.\n{} - {}/{}'.format(
-                    holerite_id[0].employee_id.name, mes, self.ano))
+        # Quando for informacao do dependente buscar campo
+        if rubrica[1] == 'INFO_DEPENDENTE':
+            return holerites_ids.valor_total_dependente
 
-            if rubrica[1] == 'INFO_DEPENDENTE':
-                total = holerite_id.valor_total_dependente
+        # Buscar a rubrica especifica entre as linhas do holerite
+        line_id = \
+            holerites_ids.line_ids.filtered(lambda x: x.code == rubrica[1])
+        return line_id.total
 
-            elif rubrica[1] == 'BASE_IR':
-                total = holerite_id.rendimentos_tributaveis
-
-            else:
-                total = holerite_id.total
-
-        else:
-
-            if rubrica[1] == 'INFO_DEPENDENTE':
-                total = holerites_ids.valor_total_dependente
-
-            if rubrica[1] == 'BASE_IR':
-                total = holerites_ids.rendimentos_tributaveis
-
-        return total
 
     @api.multi
-    def popular_dependente(self):
+    def atualizar_valores_holerites(self):
         """
+        Função para Atualziar todos valores de IR dos holerites
         """
-        data = {}
+        valor_por_dependente = \
+            self.env['l10n_br.hr.income.tax.deductable.amount.family'].\
+                search([('year', '=', self.ano)], limit=1).amount or 0
 
-        domain = [
-            ('year', '=', self.ano),
-        ]
+        for employee_id in self.employee_ids:
 
-        valor_por_dependente = self.env['l10n_br.hr.income.tax.deductable.amount.family']. \
-                                   search(domain, limit=1).amount or 0
+            holerites_ids = self.buscar_holerites(employee_id, self.ano)
 
-        for contract_id in self.contract_ids:
-            holerites_ids = self.buscar_holerites(contract_id, self.ano)
             for holerite_id in holerites_ids:
-                if holerite_id:
-                    dados = holerite_id.get_dependente(valor_por_dependente)
-                    data['rendimentos_tributaveis'] = dados.get('base_ir')
-                    data['quantidade_dependente'] = dados.get('quantidade_dependentes')
-                    data['valor_total_dependente'] = dados.get('quantidade_dependentes') * \
-                                                     dados.get('valor_por_dependente')
-                    holerite_id.write(data)
+                holerite_id.atualizar_valores(valor_por_dependente)
 
     @api.multi
-    def populate_beneficiario(self, beneficiario, contract_id, ano):
+    def populate_beneficiario(self, beneficiario, employee_id, ano):
         """
         :param beneficiario:
-        :param contract_id:
+        :param employee_id:
         :param ano:
         :return:
         """
-        for record in self:
 
-            RUBRICAS_DIRF = [
-                ('RTRT', 'BASE_IR'),
-                ('RTPO', 'INSS'),
-                ('RTDP', 'INFO_DEPENDENTE'),
-                ('RTIRF', 'IRPF'),
-                ('RIDAC', 'DIARIAS_VIAGEM'),
-            ]
+        # Buscar Holerites do ano do funcionário
+        holerites_ids = self.buscar_holerites(
+            employee_id, ano,
+            tipo_folha=['normal', 'decimo_terceiro', 'rescisao']
+        )
 
-            holerites_ids = self.buscar_holerites(contract_id, ano,
-                                                  tipo_folha=['normal', 'decimo_terceiro', 'rescisao'])
+        RUBRICAS_DIRF = [
+            ('RTRT', 'BASE_IR'),
+            ('RTPO', 'INSS'),
+            ('RTDP', 'INFO_DEPENDENTE'),
+            ('RTIRF', 'IRPF'),
+            ('RIDAC', 'DIARIAS_VIAGEM'),
+        ]
 
-            codes = holerites_ids.mapped('line_ids.code')
+        for rubrica in RUBRICAS_DIRF:
+            vm = ValoresMensais()
+            vm.identificador_de_registro_mensal = rubrica[0]
+            vm.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
+            vm.fevereiro = self.get_valor_mes(holerites_ids, 2, rubrica)
+            vm.marco = self.get_valor_mes(holerites_ids, 3, rubrica)
+            vm.abril = self.get_valor_mes(holerites_ids, 4, rubrica)
+            vm.maio = self.get_valor_mes(holerites_ids, 5, rubrica)
+            vm.junho = self.get_valor_mes(holerites_ids, 6, rubrica)
+            vm.julho = self.get_valor_mes(holerites_ids, 7, rubrica)
+            vm.agosto = self.get_valor_mes(holerites_ids, 8, rubrica)
+            vm.setembro = self.get_valor_mes(holerites_ids, 9, rubrica)
+            vm.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
+            vm.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
+            vm.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
+            vm.decimo_terceiro = self.get_valor_mes(
+                holerites_ids, 13, rubrica, tipo=['decimo_terceiro'])
+            beneficiario.add_valores_mensais(vm)
 
-            for rubrica in RUBRICAS_DIRF:
-                #if rubrica[1] not in codes and rubrica not in ['INFO_DEPENDENTE']:
-                #    continue
-
-                valores_mensais = ValoresMensais()
-                valores_mensais.identificador_de_registro_mensal = rubrica[0]
-                valores_mensais.janeiro = self.get_valor_mes(holerites_ids, 1, rubrica)
-                valores_mensais.fevereiro = self.get_valor_mes(holerites_ids, 2, rubrica)
-                valores_mensais.marco = self.get_valor_mes(holerites_ids, 3, rubrica)
-                valores_mensais.abril = self.get_valor_mes(holerites_ids, 4, rubrica)
-                valores_mensais.maio = self.get_valor_mes(holerites_ids, 5, rubrica)
-                valores_mensais.junho = self.get_valor_mes(holerites_ids, 6, rubrica)
-                valores_mensais.julho = self.get_valor_mes(holerites_ids, 7, rubrica)
-                valores_mensais.agosto = self.get_valor_mes(holerites_ids, 8, rubrica)
-                valores_mensais.setembro = self.get_valor_mes(holerites_ids, 9, rubrica)
-                valores_mensais.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
-                valores_mensais.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
-                valores_mensais.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
-                valores_mensais.decimo_terceiro = self.get_valor_mes(holerites_ids, 13, rubrica, tipo=['decimo_terceiro'])
-                beneficiario.add_valores_mensais(valores_mensais)
-
-            beneficiario.valor_pago_ano_rio, beneficiario.descricao_rendimentos_isentos = \
-                self.get_valor_rio(holerites_ids)
-
-
+        beneficiario.valor_pago_ano_rio, \
+        beneficiario.descricao_rendimentos_isentos = \
+            self.get_valor_rio(holerites_ids)
 
     @api.multi
     def get_valor_rio(self, holerites_ids):
 
-        holerites_ids = holerites_ids.filtered(lambda x: x.tipo_de_folha in 'rescisao')
+        holerites_ids = holerites_ids.filtered(
+            lambda x: x.tipo_de_folha in 'rescisao')
 
         RUBRICAS_FERIAS_RECISAO = [
             'PROP_FERIAS',
@@ -414,13 +392,12 @@ class L10nBrHrDirf(models.Model):
             dirf.add_beneficiario(beneficiario)
         print(dirf.BPFDEC)
 
-        # Preencher beneficiarios
-        for contract_id in self.contract_ids:
-            inf = Inf()
-            self.populate_inf(inf, contract_id, self.ano)
-            if inf.informacoes_complementares:
-                inf.cpf_inf = contract_id.employee_id.cpf
-                dirf.add_info(inf)
-
-        print(dirf.INF)
+        # # Preencher Informações Complementares
+        # for contract_id in self.contract_ids:
+        #     inf = Inf()
+        #     self.populate_inf(inf, contract_id, self.ano)
+        #     if inf.informacoes_complementares:
+        #         inf.cpf_inf = contract_id.employee_id.cpf
+        #         dirf.add_info(inf)
+        # print(dirf.INF)
 
