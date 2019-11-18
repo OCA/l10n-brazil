@@ -58,46 +58,67 @@ class HrPayslip(models.Model):
             'PSS',
         ]
 
-        valores, retorno = {}, {}
-
-        retorno['quantidade_dependentes'] = 0
-        retorno['valor_por_dependente'] = 0
-        retorno['base_ir'] = 0
-
         for rubrica in RUBRICAS_CALCULO_DEPENDENTE:
             valores[rubrica] = self.line_ids.filtered(
                 lambda x: x.code == rubrica).total or 0
 
         if not valores.get('BASE_IRPF'):
-            return retorno
+            return valores
 
+        # Buscar provento que compoe BASE de imposto de renda
         provento = sum(self.line_ids.filtered(
-            lambda x: x.salary_rule_id.compoe_base_IR and x.salary_rule_id.category_id.code == 'PROVENTO').mapped('total')) or 0
+            lambda x: x.salary_rule_id.compoe_base_IR and
+                      x.salary_rule_id.category_id.code == 'PROVENTO'
+        ).mapped('total')) or 0
 
+        # Buscar Deducão que compoe BASE de imposto de renda
         deducao = sum(self.line_ids.filtered(
-            lambda x: x.salary_rule_id.compoe_base_IR and x.salary_rule_id.category_id.code == 'DEDUCAO').mapped(
-            'total')) or 0
+            lambda x: x.salary_rule_id.compoe_base_IR and
+                      x.salary_rule_id.category_id.code == 'DEDUCAO'
+        ).mapped('total')) or 0
 
-        valores['BASE_IR'] = provento - deducao
+        # Definir BASE bruta do IR
+        payslip['rendimentos_tributaveis'] = provento - deducao
 
+        # Buscar por rubricas de pensão
+        RUBRICAS_PENSAO = [
+            'PENSAO_ALIMENTICIA_PORCENTAGEM',
+            'ADIANTAMENTO_PENSAO_13',
+        ]
         valores['PENSAO'] = sum(self.line_ids.filtered(
-            lambda x: x.code in ['PENSAO_ALIMENTICIA_PORCENTAGEM', 'ADIANTAMENTO_PENSAO_13']).mapped('total')) or 0
+            lambda x: x.code in RUBRICAS_PENSAO).mapped('total')) or 0
 
-        calculo_valor = -valores.get('BASE_IRPF') \
-                        - valores.get('INSS') \
-                        - valores.get('PSS') \
-                        + valores.get('BASE_IR') \
-                        - valores.get('PENSAO')
+        # Definir o desconto total dos dependentes
+        desconto_total_dependentes = \
+            - valores.get('BASE_IRPF') - valores.get('INSS') \
+            - valores.get('PSS') + payslip.get('rendimentos_tributaveis') \
+            - valores.get('PENSAO')
 
-        calculo_valor = Decimal(calculo_valor)
+        # arredondadmento
+        desconto_total_dependentes = Decimal(desconto_total_dependentes)
 
-        if calculo_valor > 0:
-            mod = calculo_valor % Decimal(valor_por_dependente)
+        # Com o valor total descontado da base do IR,
+        # calcular a quantidade de dependentes
+        if desconto_total_dependentes > 0:
+            mod = desconto_total_dependentes % Decimal(valor_por_dependente)
             if not (round(mod,2) == 0):
-                print('\nErro ao calcular o número de dependente do funcionário(a). '
-                      '\n{}-{} - {}/{}'.format(self.id, self.employee_id.name, self.mes_do_ano2, self.ano))
+                erro = \
+                    'Erro ao calcular dependentes do funcionário(a).\n' \
+                    '{}: {} - {}'.format(
+                        self.id, self.employee_id.name, self.data_mes_ano)
+
+                print(erro)
+
             else:
-                retorno['quantidade_dependentes'] = int(calculo_valor / valor_por_dependente)
-                retorno['valor_por_dependente'] = round(valor_por_dependente, 2)
-                retorno['base_ir'] = valores['BASE_IR']
-        return retorno
+                payslip['quantidade_dependente'] = \
+                    int(desconto_total_dependentes / valor_por_dependente)
+
+                payslip['valor_total_dependente'] = \
+                    payslip.get('quantidade_dependente', 0) * valor_por_dependente
+
+                # Alimentar campos
+                self.write(payslip)
+                valores.update(payslip)
+
+        # Retorna
+        return valores
