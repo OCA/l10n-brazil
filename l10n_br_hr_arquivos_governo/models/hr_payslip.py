@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # Copyright 2017 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
+# Copyright 2019 ABGF - Hendrix Costa <hendrix.costa@abgf.gov.br>
+# Copyright 2019 ABGF - Eder Campos Lopes <eder.campos@abgf.gov.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
-from openerp.exceptions import Warning
 from pybrasil.valor.decimal import Decimal
 
 class HrPayslip(models.Model):
@@ -31,18 +32,26 @@ class HrPayslip(models.Model):
     )
 
     @api.multi
-    def get_dependente(self, valor_por_dependente=0):
+    def button_update_valores_IR(self):
         """
         """
+        for record in self:
+            record.atualizar_valores()
 
+    @api.multi
+    def atualizar_valores(self, valor_por_dependente=0):
+        """
+        Função para Atualizar quantidade de dependentes e BASE de IR
+        """
+        valores, payslip = {}, {}
+
+        # Valor por cada dependente do funcionario
         if not valor_por_dependente:
-            domain = [
-                ('year', '=', self.ano),
-            ]
+            valor_por_dependente = \
+                self.env['l10n_br.hr.income.tax.deductable.amount.family'].\
+                    search([('year', '=', self.ano)], limit=1).amount or 0
 
-            valor_por_dependente = self.env['l10n_br.hr.income.tax.deductable.amount.family']. \
-                                       search(domain, limit=1).amount or 0
-
+        # Buscar valores de Rubricas no holerit
         RUBRICAS_CALCULO_DEPENDENTE = [
             'BASE_IRPF',
             'INSS',

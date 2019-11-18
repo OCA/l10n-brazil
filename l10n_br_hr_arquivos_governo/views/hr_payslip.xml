@@ -10,10 +10,15 @@
             <field name="model">hr.payslip</field>
             <field name="inherit_id" ref="l10n_br_hr_payroll.hr_payslip_form_view"/>
             <field name="arch" type="xml">
+
+                <button name="hr_verify_sheet" position="after">
+                    <button name='button_update_valores_IR' string='Atualizar Valores IR' type='object'/>
+                </button>
+
                 <field name="credit_note" position="after">
                         <field name="quantidade_dependente" readonly="1"/>
-                        <field name="valor_total_dependente" readonly="1"/>
                         <field name="rendimentos_tributaveis" readonly="1"/>
+                        <field name="valor_total_dependente" readonly="1"/>
                 </field>
                 <xpath expr="//notebook" position="inside">
                     <page string="GRRF"
