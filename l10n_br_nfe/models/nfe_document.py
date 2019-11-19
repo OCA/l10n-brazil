@@ -5,7 +5,7 @@ from odoo import models, fields
 
 
 class NFe(models.Model):
-    _name = 'nfe.document'
+    _name = 'l10n_br_nfe.document'
     _inherit = 'l10n_br_fiscal.document'
     _table = 'l10n_br_fiscal_document'
     _description = 'NFe'
