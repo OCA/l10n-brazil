@@ -1,7 +1,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models
+from odoo import models, api
 
 
 class AccountTax(models.Model):
@@ -42,7 +42,6 @@ class AccountTax(models.Model):
 
         l10n_br_taxes = self.filtred(lambda t: l.fiscal_tax_id)
 
-        import pudb; pudb.set_trace()
         l10n_br_result = tax_result.compute_taxes(
             company=self.company_id,
             partner=partner,
