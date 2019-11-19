@@ -13,10 +13,6 @@ class AccountTaxAbstract(models.AbstractModel):
         comodel_name='l10n_br_fiscal.tax',
         string='Fiscal Tax')
 
-    fiscal_tax_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.tax',
-        string='Fiscal Tax')
-
     fiscal_cst_in_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cst',
         related='fiscal_tax_id.cst_in_id',
