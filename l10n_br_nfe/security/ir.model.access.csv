@@ -1,5 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"nfe_document_user","NF-e Document for User","model_nfe_document","nfe.group_user",1,0,0,0
-"nfe_document_manager","NF-e Document for Manager","model_nfe_document","nfe.group_manager",1,1,1,1
-"nfe_document_line_user","NF-e Document Line for User","model_nfe_document_line","nfe.group_user",1,0,0,0
-"nfe_document_line_manager","NF-e Document Line for Manager","model_nfe_document_line","nfe.group_manager",1,1,1,1
+"l10n_br_nfe_document_user","NF-e Document for User","model_l10n_br_nfe_document","l10n_br_nfe.group_user",1,0,0,0
+"l10n_br_nfe_document_manager","NF-e Document for Manager","model_l10n_br_nfe_document","l10n_br_nfe.group_manager",1,1,1,1
+"l10n_br_nfe_document_line_user","NF-e Document Line for User","model_l10n_br_nfe_document_line","l10n_br_nfe.group_user",1,0,0,0
+"l10n_br_nfe_document_line_manager","NF-e Document Line for Manager","model_l10n_br_nfe_document_line","l10n_br_nfe.group_manager",1,1,1,1
