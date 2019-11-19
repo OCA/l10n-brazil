@@ -5,7 +5,7 @@ from odoo import models, fields
 
 
 class NFeLine(models.Model):
-    _name = 'nfe.document.line'
+    _name = 'l10n_br_nfe.document.line'
     _inherit = 'l10n_br_fiscal.document.line'
     _table = 'l10n_br_fiscal_document_line'
     _description = 'NFe Line'
