@@ -105,6 +105,8 @@ class L10nBrHrDirf(models.Model):
 
     @api.onchange('responsible_partner_id')
     def set_contato(self):
+        """
+        """
         for record in self:
             if record.responsible_partner_id:
                 record.responsible_ddd = \
@@ -123,6 +125,8 @@ class L10nBrHrDirf(models.Model):
 
     @api.depends('company_id', 'ano')
     def _compute_name(self):
+        """
+        """
         for record in self:
             if record.company_id and record.ano:
                 record.name = \

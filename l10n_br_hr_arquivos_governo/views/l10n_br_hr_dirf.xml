@@ -50,9 +50,6 @@
 
                     <footer >
                         <notebook>
-
-
-
                             <!--<page string="Arquivos Anexos">-->
                                 <!--<group string="Arquivos Anexos">-->
                                     <!--<field nolabel="1" name="related_attachment_ids" >-->
@@ -74,7 +71,6 @@
                                     <!--</field>-->
                                 <!--</group>-->
                             <!--</page>-->
-
                             <page string="Funcionários">
                                 <group string="Funcionários na DIRF">
                                     <button name="buscar_funcionarios" string="Buscar Funcionários" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
@@ -101,9 +97,7 @@
                         </notebook>
                     </footer>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids"
-                               widget="mail_followers"
-                               groups="base.group_user"/>
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
                     </sheet>
