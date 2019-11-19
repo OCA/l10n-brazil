@@ -45,7 +45,9 @@ class HrPayslip(models.Model):
         """
         Função para Atualizar quantidade de dependentes e BASE de IR
         """
-        valores, payslip = {}, {}
+        self.ensure_one()
+
+        valores = {}
 
         # Valor por cada dependente do funcionario
         if not valor_por_dependente:
@@ -53,12 +55,8 @@ class HrPayslip(models.Model):
                 self.env['l10n_br.hr.income.tax.deductable.amount.family'].\
                     search([('year', '=', self.ano)], limit=1).amount or 0
 
-        # Buscar valores de Rubricas no holerit
-        RUBRICAS_CALCULO_DEPENDENTE = [
-            'BASE_IRPF',
-            'INSS',
-            'PSS',
-        ]
+        # Buscar valores de Rubricas no holerite
+        RUBRICAS_CALCULO_DEPENDENTE = ['BASE_IRPF', 'INSS', 'PSS']
 
         for rubrica in RUBRICAS_CALCULO_DEPENDENTE:
             valores[rubrica] = self.line_ids.filtered(
@@ -79,8 +77,19 @@ class HrPayslip(models.Model):
                       x.salary_rule_id.category_id.code == 'DEDUCAO'
         ).mapped('total')) or 0
 
+        # Montar a base tribuavel de ferias
+        ferias = ['FERIAS_COMPETENCIA_ATUAL', '1/3_FERIAS_COMPETENCIA_ATUAL']
+        base_ferias = sum(self.line_ids.filtered(
+            lambda x: x.code in ferias).mapped('total')) or 0
+
+        # Holerites antigos utilizam o codigo antigo
+        if not base_ferias:
+            ferias = ['FERIAS', '1/3_FERIAS']
+            base_ferias = sum(self.line_ids.filtered(
+                lambda x: x.code in ferias).mapped('total')) or 0
+
         # Definir BASE bruta do IR
-        payslip['rendimentos_tributaveis'] = provento - deducao
+        self.rendimentos_tributaveis = provento + base_ferias - deducao
 
         # Buscar por rubricas de pensão
         RUBRICAS_PENSAO = [
@@ -93,7 +102,7 @@ class HrPayslip(models.Model):
         # Definir o desconto total dos dependentes
         desconto_total_dependentes = \
             - valores.get('BASE_IRPF') - valores.get('INSS') \
-            - valores.get('PSS') + payslip.get('rendimentos_tributaveis') \
+            - valores.get('PSS') + self.rendimentos_tributaveis \
             - valores.get('PENSAO')
 
         # arredondadmento
@@ -112,15 +121,10 @@ class HrPayslip(models.Model):
                 print(erro)
 
             else:
-                payslip['quantidade_dependente'] = \
+                self.quantidade_dependente = \
                     int(desconto_total_dependentes / valor_por_dependente)
 
-                payslip['valor_total_dependente'] = \
-                    payslip.get('quantidade_dependente', 0) * valor_por_dependente
+                self.valor_total_dependente = \
+                    self.quantidade_dependente * valor_por_dependente
 
-                # Alimentar campos
-                self.write(payslip)
-                valores.update(payslip)
-
-        # Retorna
         return valores
