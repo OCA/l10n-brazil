@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_product_nfe_export_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.nfe_export.form</field>
+        <field name="model">l10n_br_account_product.nfe_export</field>
+        <field name="inherit_id" ref="l10n_br_account_product_nfe_export_invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="file_type" position="before">
+                <field name="company_id" widget="selection" />
+            </field>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_product_nfe_export_action" model="ir.actions.act_window">
+        <field name="name">Exportar Nota Fiscal</field>
+        <field name="res_model">l10n_br_account_product.nfe_export</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l10n_br_account_product_nfe_export_form"/>
+        <field name="target">new</field>
+    </record>
+
+      <!-- <menuitem id="menu_l10n_br_account_nfe" name="NFe" parent="account.menu_finance_periodical_processing" sequence="1" />
+      <menuitem id="menu_l10n_br_account_nfe_export_form" name="Exportar NFe" action="l10n_br_account_product_nfe_export_action" parent="menu_l10n_br_account_nfe" sequence="20" /> -->
+
+</odoo>
