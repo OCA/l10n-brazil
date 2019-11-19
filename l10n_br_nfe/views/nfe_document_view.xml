@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="nfe_document_search" model="ir.ui.view">
+    <field name="name">nfe.document.search</field>
+    <field name="model">nfe.document</field>
+    <field name="arch" type="xml">
+      <search string="NF-e">
+        <field name="number"/>
+        <group expand='0' string='Group By...'>
+          <filter string='Document Type' name="document_type_id" domain="[]" context="{'group_by' : 'document_type_id'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="nfe_document_tree" model="ir.ui.view">
+    <field name="name">nfe.document.tree</field>
+    <field name="model">nfe.document</field>
+    <field name="arch" type="xml">
+      <tree string="NF-e">
+        <field name="number"/>
+        <field name="date"/>
+        <field name="operation_id"/>
+        <field name="partner_id"/>
+        <field name="amount_untaxed"/>
+        <field name="amount_tax"/>
+        <field name="amount_total"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="nfe_document_form" model="ir.ui.view">
+    <field name="name">nfe.document.form</field>
+    <field name="model">nfe.document</field>
+    <field name="arch" type="xml">
+      <form string="NF-e">
+        <field name="id" invisible="1"/>
+        <field name="currency_id" invisible="1"/>
+        <field name="document_electronic" invisible="1"/>
+        <field name="operation_type" invisible="1"/>
+        <header>
+            <button name="action_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" groups="l10n_br_fiscal.group_user"/>
+            <field name="state" widget="statusbar"/>
+        </header>
+        <sheet string="Fiscal Document">
+          <div class="oe_title">
+            <h1>
+                <field name="document_type_id" readonly="1"/>:
+                <field name="number" readonly="1"/>
+            </h1>
+          </div>
+          <group>
+            <field name="operation_id"/>
+            <field name="issuer"/>
+            <field name="document_type_id"/>
+            <label for="key" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"/>
+            <div class="o_row" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}">
+              <field name="key" force_save="1" class="oe_inline"/>
+              <button name="action_search_key" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>
+            </div>
+          </group>
+          <group>
+            <group>
+              <field name="document_serie_id" context="{'default_document_type_id': document_type_id}"/>
+            </group>
+            <group>
+              <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')]}"/>
+            </group>
+          </group>
+          <notebook>
+            <page name="document" string="Document Info">
+              <group name="Document">
+                <field name="date"/>
+              </group>
+              <group name="company_info" string="Company">
+                <field name="company_id" groups="base.group_multi_company"/>
+              </group>
+              <group>
+                <group name="company_left">
+                  <field name="company_legal_name"/>
+                  <field name="company_name"/>
+                  <field name="company_cnpj_cpf"/>
+                  <field name="company_inscr_est"/>
+                </group>
+                <group name="company_right">
+                  <field name="company_inscr_mun"/>
+                  <field name="company_suframa"/>
+                  <field name="company_cnae_main_id"/>
+                  <field name="company_tax_framework"/>
+                </group>
+              </group>
+            </page>
+            <page name="recipient" string="Recipient">
+              <group name="partner">
+                <field name="partner_id"/>
+              </group>
+              <group>
+                <group name="partner_left">
+                  <field name="partner_legal_name" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_name" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_cnpj_cpf" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_inscr_est" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                </group>
+                <group name="partner_right">
+                  <field name="partner_inscr_mun" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_suframa" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_cnae_main_id" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_tax_framework" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                </group>
+              </group>
+              <group>
+                <field name="partner_shipping_id"/>
+              </group>
+            </page>
+            <page name="products" string="Products and Services">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_operation_id': operation_id, 'default_company_id': company_id, 'default_operation_type': operation_type}">
+                <tree>
+                  <field name="product_id"/>
+                  <field name="uom_id"/>
+                  <field name="price"/>
+                  <field name="quantity"/>
+                  <field name="amount_total"/>
+                </tree>
+              </field>
+            </page>
+            <page name="amounts" string="Amounts">
+              <group>
+                <field name="amount_untaxed"/>
+                <field name="amount_tax"/>
+                <field name="amount_total"/>
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+        <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers"/>
+            <field name="activity_ids" widget="mail_activity"/>
+            <field name="message_ids" widget="mail_thread"/>
+        </div>
+      </form>
+    </field>
+  </record>
+
+</odoo>
