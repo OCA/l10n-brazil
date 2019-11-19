@@ -32,6 +32,7 @@ class L10nBrHrDirf(models.Model):
     employee_ids = fields.Many2many(
         string=u'Funcionários',
         comodel_name='hr.employee',
+        context={'active_test': False},
     )
 
     company_id = fields.Many2one(

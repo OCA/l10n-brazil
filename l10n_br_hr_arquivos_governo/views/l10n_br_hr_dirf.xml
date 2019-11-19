@@ -81,7 +81,7 @@
                                     <newline />
                                     <form>
                                         <sheet>
-                                            <field nolabel="1" name="employee_ids">
+                                            <field nolabel="1" name="employee_ids" context="{'active_test': False}">
                                                 <tree string="Funcionários na DIRF" editable="bottom">
                                                     <field name="name"/>
                                                     <field name="cpf"/>
@@ -130,7 +130,7 @@
             <field name="res_model">hr.dirf</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
-            <field name="context">{}</field>
+            <field name="context">{'active_test': False}</field>
         </record>
 
         <!-- Menu -->
