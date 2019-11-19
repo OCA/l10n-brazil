@@ -5,31 +5,6 @@
 from odoo import models, fields
 
 
-class FiscalInvoiceLine(models.Model):
-    _inherit = 'l10n_br_fiscal.document.line'
-
-    # the following fields collide with account.invoice.line fields so we use
-    # related field alias to be able to write them through account.invoice.line
-    fiscal_doc_line_name = fields.Text(
-        related='name', readonly=False)
-    fiscal_doc_line_partner_id = fields.Many2one(
-        related='partner_id', readonly=False)
-    fiscal_doc_line_company_id = fields.Many2one(
-        related='company_id', readonly=False)
-    fiscal_doc_line_currency_id = fields.Many2one(
-        related='currency_id', readonly=False)
-    fiscal_doc_line_product_id = fields.Many2one(
-        related='product_id', readonly=False)
-    fiscal_doc_line_uom_id = fields.Many2one(
-        related='uom_id', readonly=False)
-    fiscal_doc_line_quantity = fields.Float(
-        related='quantity', readonly=False)
-    fiscal_doc_line_price = fields.Float(
-        related='price', readonly=False)
-    fiscal_doc_line_discount = fields.Float(
-        related='discount', readonly=False)
-
-
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
     _inherits = {'l10n_br_fiscal.document.line': 'fiscal_document_line_id'}
