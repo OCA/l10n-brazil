@@ -22,3 +22,9 @@ class ResConfigSettings(models.TransientModel):
         string='IBPT Update',
         related='company_id.ibpt_update_days',
         readonly=False)
+
+    cert_expired_alert = fields.Integer(
+        string="Certificate Expired Alert",
+        config_parameter="l10n_br_fiscal_cert_expired_alert",
+        required=True,
+        default=30)
