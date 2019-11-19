@@ -23,14 +23,18 @@ class DocumentAbstract(models.AbstractModel):
                                    for line in self.line_ids)
         self.amount_total = sum(line.amount_total for line in self.line_ids)
 
+    # used mostly to enable _inherits of account.invoice on fiscal_document
+    # when existing invoices have no fiscal document.
+    active = fields.Boolean(
+        string='Active',
+        default=True)
+
     number = fields.Char(
         string='Number',
-        required=True,
         index=True)
 
     key = fields.Char(
         string='key',
-        required=True,
         index=True)
 
     issuer = fields.Selection(
@@ -58,16 +62,14 @@ class DocumentAbstract(models.AbstractModel):
     document_serie_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.serie',
         domain="[('active', '=', True),"
-               "('document_type_id', '=', document_type_id)]",
-        required=True)
+               "('document_type_id', '=', document_type_id)]")
 
     document_serie = fields.Char(
         string='Serie Number')
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
-        string='Partner',
-        required=True)
+        string='Partner')
 
     partner_legal_name = fields.Char(
         string='Legal Name')
