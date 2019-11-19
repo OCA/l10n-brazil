@@ -54,6 +54,12 @@ class DocumentLineAbstract(models.AbstractModel):
             ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
             return ncm_id
 
+    # used mostly to enable _inherits of account.invoice on fiscal_document
+    # when existing invoices have no fiscal document.
+    active = fields.Boolean(
+        string='Active',
+        default=True)
+
     name = fields.Text(
         string='Name')
 
