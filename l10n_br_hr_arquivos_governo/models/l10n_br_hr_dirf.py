@@ -172,9 +172,42 @@ class L10nBrHrDirf(models.Model):
         return self.env['hr.payslip'].search(domain)
 
     @api.multi
-    def get_valor_mes(self, holerites_ids, mes, rubrica, tipo=['normal']):
+    def get_valor_13(self, holerites_ids, rubrica):
         """
         """
+        # Filtrar holerites de acordo com paramentros da função
+        decimo_terceiro_ids = holerites_ids.filtered(
+            lambda x: x.tipo_de_folha in ['decimo_terceiro'])
+
+        rescisao_ids = holerites_ids.filtered(
+            lambda x: x.tipo_de_folha in ['rescisao'])
+
+        if rubrica[1] == 'BASE_IR':
+            baseir_13 = \
+                sum(decimo_terceiro_ids.mapped('rendimentos_tributaveis'))
+            baseir_rescisao = rescisao_ids.line_ids.filtered(
+                lambda x: x.code == 'PROP13').total
+            return baseir_13 + baseir_rescisao
+
+        # Quando for informacao do dependente buscar campo
+        if rubrica[1] == 'INFO_DEPENDENTE':
+            return sum(decimo_terceiro_ids.mapped('valor_total_dependente'))
+
+        # Buscar a rubrica especifica para cada tipo de holerite
+        line_13_ids = sum(decimo_terceiro_ids.mapped('line_ids').filtered(
+            lambda x: x.code == rubrica[1]).mapped('total'))
+
+        line_rescisao_ids = rescisao_ids.mapped('line_ids').filtered(
+            lambda x: x.code == '{}_13'.format(rubrica[1])).total
+
+        return line_13_ids + line_rescisao_ids
+
+    @api.multi
+    def get_valor_mes(self, holerites_ids, mes, rubrica):
+        """
+        """
+        # Tipos validos para holerites mensais
+        tipo = ['normal', 'ferias', 'rescisao']
 
         # Filtrar holerites de acordo com paramentros da função
         holerites_ids = holerites_ids.filtered(
@@ -184,42 +217,19 @@ class L10nBrHrDirf(models.Model):
         if not holerites_ids:
             return 0
 
-        # Se encontrou mais de 1
-        if len(holerites_ids) > 1:
-            raise Warning(
-                'Mais de 1 Holerite encontrado para o mesmo Funcionário'
-                ' no mesmo período.\n{} - {}/{}'.format(
-                    holerites_ids[0].employee_id.name, mes, self.ano))
-
         # Quando for a BASE de rendimentos tributáveis, buscar campo
         if rubrica[1] == 'BASE_IR':
-            return holerites_ids.rendimentos_tributaveis
+            return sum(holerites_ids.mapped('rendimentos_tributaveis'))
 
         # Quando for informacao do dependente buscar campo
         if rubrica[1] == 'INFO_DEPENDENTE':
-            return holerites_ids.valor_total_dependente
+            return sum(holerites_ids.mapped('valor_total_dependente'))
 
         # Buscar a rubrica especifica entre as linhas do holerite
-        line_id = \
-            holerites_ids.line_ids.filtered(lambda x: x.code == rubrica[1])
-        return line_id.total
+        line_ids = holerites_ids.mapped('line_ids').filtered(
+            lambda x: x.code == rubrica[1])
 
-
-    @api.multi
-    def atualizar_valores_holerites(self):
-        """
-        Função para Atualziar todos valores de IR dos holerites
-        """
-        valor_por_dependente = \
-            self.env['l10n_br.hr.income.tax.deductable.amount.family'].\
-                search([('year', '=', self.ano)], limit=1).amount or 0
-
-        for employee_id in self.employee_ids:
-
-            holerites_ids = self.buscar_holerites(employee_id, self.ano)
-
-            for holerite_id in holerites_ids:
-                holerite_id.atualizar_valores(valor_por_dependente)
+        return sum(line_ids.mapped('total'))
 
     @api.multi
     def populate_beneficiario(self, beneficiario, employee_id, ano):
@@ -233,7 +243,7 @@ class L10nBrHrDirf(models.Model):
         # Buscar Holerites do ano do funcionário
         holerites_ids = self.buscar_holerites(
             employee_id, ano,
-            tipo_folha=['normal', 'decimo_terceiro', 'rescisao']
+            tipo_folha=['normal', 'ferias', 'decimo_terceiro', 'rescisao']
         )
 
         RUBRICAS_DIRF = [
@@ -259,8 +269,7 @@ class L10nBrHrDirf(models.Model):
             vm.outubro = self.get_valor_mes(holerites_ids, 10, rubrica)
             vm.novembro = self.get_valor_mes(holerites_ids, 11, rubrica)
             vm.dezembro = self.get_valor_mes(holerites_ids, 12, rubrica)
-            vm.decimo_terceiro = self.get_valor_mes(
-                holerites_ids, 13, rubrica, tipo=['decimo_terceiro'])
+            vm.decimo_terceiro = self.get_valor_13(holerites_ids, rubrica)
             beneficiario.add_valores_mensais(vm)
 
         beneficiario.valor_pago_ano_rio, \
@@ -350,6 +359,22 @@ class L10nBrHrDirf(models.Model):
                                      ' (Sobre o 13o Salario RS ' + str(formata_valor(total_13)) + ' )'
 
         return informacoes_complementares
+
+    @api.multi
+    def atualizar_valores_holerites(self):
+        """
+        Função para Atualziar todos valores de IR dos holerites
+        """
+        valor_por_dependente = \
+            self.env['l10n_br.hr.income.tax.deductable.amount.family'].\
+                search([('year', '=', self.ano)], limit=1).amount or 0
+
+        for employee_id in self.employee_ids:
+
+            holerites_ids = self.buscar_holerites(employee_id, self.ano)
+
+            for holerite_id in holerites_ids:
+                holerite_id.atualizar_valores(valor_por_dependente)
 
     @api.multi
     def gerar_dirf(self):
