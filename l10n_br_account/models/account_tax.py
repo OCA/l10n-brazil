@@ -35,14 +35,14 @@ class AccountTax(models.Model):
             }]
         } """
 
-        core_taxes = self.filtred(lambda t: not l.fiscal_tax_id)
+        core_taxes = self.filtered(lambda t: not t.fiscal_tax_id)
 
         tax_result = super(AccountTax, core_taxes).compute_all(
             price_unit, currency, quantity, product, partner)
 
-        l10n_br_taxes = self.filtred(lambda t: l.fiscal_tax_id)
+        l10n_br_taxes = self.filtered(lambda t: t.fiscal_tax_id)
 
-        l10n_br_result = tax_result.compute_taxes(
+        l10n_br_result = l10n_br_taxes.fiscal_tax_id.compute_taxes(
             company=self.company_id,
             partner=partner,
             item=product,
@@ -55,5 +55,8 @@ class AccountTax(models.Model):
             ncm=product.ncm_id,
             cest=product.cest_id,
             operation_type='out') # FIXME
+
+        for l10n_br_tax in l10n_br_result:
+            pass
 
         return tax_result
