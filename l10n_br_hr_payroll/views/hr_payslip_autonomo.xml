@@ -25,8 +25,7 @@
                         <div colspan="4" col="4">
                             <label for="contract_id" class="oe_edit_only"/>
                             <h1><field name="contract_id" required="True"
-                                       context="{'form_view_ref':'l10n_br_hr_payroll.hr_contrato_autonomo_form_view'}"
-                                       domain="[('tipo','=','autonomo'),'|',('date_end','=',False),('date_end','&gt;=',date_from)]" />
+                                       context="{'form_view_ref':'l10n_br_hr_payroll.hr_contrato_autonomo_form_view'}" />
                             </h1>
                         </div>
                     </group>

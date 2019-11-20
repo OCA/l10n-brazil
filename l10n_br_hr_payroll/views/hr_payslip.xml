@@ -221,6 +221,8 @@
                     <field name="struct_id"
                            attrs="{'readonly': [('tipo_de_folha', '!=', 'rescisao')]}"
                            domain="[('tipo_estrutura', '=', tipo_de_folha)]" />
+                    <field name="salary_unit_code" invisible="1" />
+                    <field name="valor_tarefa" attrs="{'invisible': [('salary_unit_code', '!=', '6')], 'required': [('salary_unit_code', '=', '6')], 'readonly': [('state','!=','draft')]}" />
                     <field name="data_pagamento_competencia" attrs="{'invisible': [('tipo_de_folha', '=', 'rescisao_complementar')], 'required' : ['|', ('tipo_de_folha', 'in', ['ferias', 'rescisao', 'normal'])]}" />
                     <field name="eh_mes_comercial" groups="base.group_hr_user" />
                 </field>
