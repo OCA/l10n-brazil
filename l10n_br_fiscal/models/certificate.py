@@ -106,8 +106,9 @@ class Certificate(models.Model):
             try:
                 cert = certificado.Certificado(
                     b64decode(cert_file), cert_password)
-            except:
-                raise ValidationError(_('Cannot load Certificate !'))
+            except Exception as e:
+                raise ValidationError(
+                    _('Cannot load Certificate ! \n\n {}'.format(e)))
 
             if cert:
                 values['issuer_name'] = cert.emissor
