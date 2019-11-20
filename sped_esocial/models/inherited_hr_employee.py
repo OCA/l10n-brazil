@@ -56,7 +56,7 @@ class HrEmployee(models.Model):
             situacao_esocial = '0'  # Inativo
 
             # Se tem um contrato_valido, roda o código abaixo
-            if contrato_valido:
+            if contratos_valido and contrato_valido:
                 # Dependendo da situação do contrato, identifica qual é a situação do funcionário
                 if contrato_valido.situacao_esocial in ['1', '2', '3', '4', '5', '8']:
                     if contrato_valido.situacao_esocial in ['1', '2', '8']:
