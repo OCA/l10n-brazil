@@ -23,12 +23,10 @@ class HrEmployee(models.Model):
     )
 
     @api.multi
-    @api.depends('contract_ids.gerente_id')
+    @api.depends('contract_id.gerente_id')
     def _compute_gerente_contrato(self):
         for record in self:
-            for contract in record.contract_ids.filtered(
-                    lambda rec: rec.date_end is False):
-                record.parent_id = contract.gerente_id
+            record.parent_id = record.contract_id.gerente_id
 
     @api.multi
     def write(self, vals):

@@ -560,6 +560,7 @@ class HrContract(models.Model):
         string='Gerente',
         comodel_name='hr.employee',
         compute='compute_gerente_id',
+        store=True,
     )
 
     hr_payroll_type_ids = fields.Many2many(
@@ -614,6 +615,7 @@ class HrContract(models.Model):
         matricula = '0' + str(int(ultima_matricula.matricula) + 1)
         return matricula
 
+    @api.depends('department_id')
     @api.multi
     def compute_gerente_id(self):
         """
