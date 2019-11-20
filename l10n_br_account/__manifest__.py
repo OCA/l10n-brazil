@@ -9,11 +9,9 @@
     'website': 'http://github.com/OCA/l10n-brazil',
     'version': '12.0.1.0.0',
     'depends': [
-        'l10n_br_simple',
-        'l10n_br_base',
         'account_cancel',
-        'l10n_br_fiscal',
-        # 'account_fiscal_position_rule',
+        'l10n_simple',
+        'l10n_br_fiscal'
     ],
     'data': [
         # data
