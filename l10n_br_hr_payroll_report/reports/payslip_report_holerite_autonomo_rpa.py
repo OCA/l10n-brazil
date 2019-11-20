@@ -13,7 +13,6 @@ def payslip_autonomo_report(pool, cr, uid, local_context, context):
     payslip_autonomo_pool = pool['hr.payslip.autonomo']
     payslip_id = payslip_autonomo_pool.browse(cr, uid, context['active_id'])
 
-    print ("\n\n\n Vai report")
     company_logo = payslip_id.company_id.logo
     company_nfe_logo = payslip_id.company_id.nfe_logo
 
