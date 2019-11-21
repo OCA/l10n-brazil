@@ -10,7 +10,7 @@
                 <group string="Fiscal Profile" name="fiscal_profile">
                     <field name="fiscal_profile_id" force_save="1" widget="radio" required="1"/>
                     <field name="ind_ie_dest" force_save="1" attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"/>
-                    <field name="tax_framework" attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"/>
+                    <field name="tax_framework" force_save="1" attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"/>
                     <field name="cnae_main_id"/>
                 </group>
             </group>
