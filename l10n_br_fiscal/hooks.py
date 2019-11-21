@@ -17,6 +17,7 @@ def post_init_hook(cr, registry):
         'data/l10n_br_fiscal.nbs.csv',
         'data/l10n_br_fiscal.service.type.csv',
         'data/simplified_tax_data.xml',
+        'data/operation_data.xml'
     ]
 
     for file in files:
@@ -24,7 +25,7 @@ def post_init_hook(cr, registry):
                      noupdate=True, kind='init', report=None)
 
     demofiles = [
-        # 'demo/base_demo.xml',
+        'demo/company_demo.xml',
         'demo/product_demo.xml']
 
     for f in demofiles:
