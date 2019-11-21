@@ -142,7 +142,7 @@ class ResCompany(models.Model):
         comodel_name='res.partner',
         string='Accountant')
 
-    technical_suport_id = fields.Many2one(
+    technical_support_id = fields.Many2one(
         comodel_name='res.partner',
         string='Technical Support')
 
