@@ -19,27 +19,13 @@
         <field name="inscr_est">078.016.350.838</field>
         <field name="currency_id" ref="base.BRL"/>
         <field name="tax_framework">3</field>
+        <field name="profit_calculation">presumed</field>
+        <field name="is_industry" eval="True"/>
+        <field name="ripi" eval="True"/>
+        <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo"/>
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200"/>
     </record>
 
-    <!--
-    <record id="base.main_company" model="res.company">
-        <field name="nfe_version">4.00</field>
-        <field name="nfe_environment">2</field>
-        <field name="file_type">xml</field>
-    </record>
 
-    l10n_br_tax.definition.company.product
-    <record id="tax_definition_company_demo_pis065" model="l10n_br_tax.definition.company">
-        <field name="company_id" ref="base.main_company"/>
-        <field name="tax_id" ref="demo_tax_out_pis065"/>
-        <field name="cst_id" ref="cst_pis_01"/>
-    </record>
-
-    <record id="tax_definition_company_demo_cofins3" model="l10n_br_tax.definition.company.product">
-        <field name="company_id" ref="base.main_company"/>
-        <field name="tax_id" ref="demo_tax_out_cofins3"/>
-        <field name="cst_id" ref="cst_cofins_01"/>
-    </record> -->
 
 </odoo>
