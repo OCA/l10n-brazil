@@ -10,7 +10,7 @@
     'version': '12.0.1.0.0',
     'depends': [
         'account_cancel',
-        'l10n_simple',
+        'l10n_br_simple',
         'l10n_br_fiscal'
     ],
     'data': [
