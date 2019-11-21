@@ -2,7 +2,7 @@
 <odoo noupdate="1">
 
     <!-- l10n_br_fiscal.operation -->
-    <record id="fc_78df616ab31e95ee46c6a519a2ce9e12" model="l10n_br_fiscal.operation">
+    <record id="fo_venda_55" model="l10n_br_fiscal.operation">
         <field name="code">Venda</field>
         <field name="name">Venda</field>
         <field name="operation_type">out</field>
@@ -12,7 +12,27 @@
         <field name="state">approved</field>
     </record>
 
-    <record id="fc_c333f0a13695741d07c872b54016c093" model="l10n_br_fiscal.operation">
+    <record id="fo_venda_55_venda" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="name">Venda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5101"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6101"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7101"/>
+        <field name="state">approved</field>
+        <field name="product_type">04</field>
+    </record>
+
+    <record id="fo_venda_55_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="name">Revenda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5102"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6102"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7102"/>
+        <field name="state">approved</field>
+        <field name="product_type">00</field>
+    </record>
+
+    <record id="fo_bonificacao_55" model="l10n_br_fiscal.operation">
         <field name="code">Bonificação</field>
         <field name="name">Bonificação</field>
         <field name="operation_type">out</field>
@@ -22,7 +42,7 @@
         <field name="state">approved</field>
     </record>
 
-    <record id="fc_7817d015cb9832d137d7939a224a79a5" model="l10n_br_fiscal.operation">
+    <record id="fo_devolucao_venda_55" model="l10n_br_fiscal.operation">
         <field name="code">Devolução de Venda</field>
         <field name="name">Devolução de Venda</field>
         <field name="operation_type">in</field>
@@ -32,7 +52,7 @@
         <field name="state">approved</field>
     </record>
 
-    <record id="fc_b7aafa9c3056c3f020ceae63d7312504" model="l10n_br_fiscal.operation">
+    <record id="fo_compras_55" model="l10n_br_fiscal.operation">
         <field name="code">Compras</field>
         <field name="name">Compras</field>
         <field name="operation_type">in</field>
@@ -41,7 +61,7 @@
         <field name="state">approved</field>
     </record>
 
-    <record id="fc_f20c37a9e1e1c870af37efe62a786fbf" model="l10n_br_fiscal.operation">
+    <record id="fo_devolucao_compras_55" model="l10n_br_fiscal.operation">
         <field name="code">Devolução de Compras</field>
         <field name="name">Devolução de Compras</field>
         <field name="operation_type">out</field>
@@ -50,7 +70,7 @@
         <field name="state">approved</field>
     </record>
 
-    <record id="fc_d9132a81edff5374f33560f58666b792" model="l10n_br_fiscal.operation">
+    <record id="fo_entrada_remessa_55" model="l10n_br_fiscal.operation">
         <field name="code">Entrada de Remessa</field>
         <field name="name">Entrada de Remessa</field>
         <field name="operation_type">in</field>
@@ -59,7 +79,7 @@
         <field name="state">approved</field>
     </record>
 
-    <record id="fc_86d8c770fc2fb9d9fa242a3bdddd507a" model="l10n_br_fiscal.operation">
+    <record id="fo_simples_remessa_55" model="l10n_br_fiscal.operation">
         <field name="code">Simples Remessa</field>
         <field name="name">Simples Remessa</field>
         <field name="operation_type">out</field>
