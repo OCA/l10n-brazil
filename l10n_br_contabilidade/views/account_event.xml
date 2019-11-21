@@ -131,17 +131,19 @@
             <field name="model">account.event</field>
             <field name="arch" type="xml">
                 <search string="Registros">
+                    <field name="name"/>
+                    <field name="tipo"/>
+                    <field name="data"/>
+                    <field name="account_event_template_id"/>
                     <filter name="open" icon="terp-document-new" string="Aberto" domain="[('state', '=', 'open')]" />
                     <filter name="validate" icon="terp-document-new" string="Validado" domain="[('state', '=', 'validate')]" />
                     <filter name="generated" icon="terp-document-new" string="Lançamentos Gerados" domain="[('state', '=', 'generated')]"/>
                     <filter name="done" icon="terp-document-new" string="Contabilizado" domain="[('state', '=', 'done')]" />
                     <filter name="reversed" icon="terp-document-new" string="Revertido" domain="[('state', '=', 'reversed')]" />
-                    <field name="data" />
-                    <field name="origem" />
                     <group expand="0" string="Group By">
                         <filter name="group_by_data" string="Data" context="{'group_by': 'data'}" />
-                        <filter name="group_by_origem" string="Origem" context="{'group_by': 'origem'}" />
                         <filter name="group_by_tipo" string="Tipo de Evento" context="{'group_by': 'tipo'}" />
+                        <filter name="group_by_state" string="Situação" context="{'group_by': 'state'}" />
                     </group>
 		        </search>
             </field>
@@ -149,10 +151,12 @@
 
         <record id="l10n_br_contabilidade_account_event_action" model="ir.actions.act_window">
             <field name="name">Eventos Contábeis</field>
-            <field name="context">{'search_default_open': 1, 'search_default_validate': 1, 'search_default_generated': 1, 'search_default_group_by_data':1, 'search_default_group_by_tipo':1,}</field>
+            <field name="context">{'search_default_open': 1,'search_default_validate': 1, 'search_default_generated': 1,'search_default_group_by_data':1, 'search_default_group_by_tipo':1,}</field>
             <field name="res_model">account.event</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">['|',('tipo','!=', 'nfe'),('tipo','=',False)]</field>
+            <field name="search_view_id" ref="account_event_search" />
             <field name="view_id" ref="l10n_br_contabilidade_account_event_tree"/>
         </record>
 
@@ -179,6 +183,25 @@
             id="l10n_br_contabilidade_account_event"
             parent="account.menu_finance_configuration"
             sequence="10"
+        />
+
+        <!--Eventos contabeis de notas fiscais -->
+        <record id="l10n_br_contabilidade_account_event_fiscal_action" model="ir.actions.act_window">
+            <field name="name">Eventos Fiscais</field>
+            <field name="context">{'search_default_open': 1,'search_default_validate': 1, 'search_default_generated': 1,'search_default_group_by_data':1}</field>
+            <field name="res_model">account.event</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipo','=', 'nfe')]</field>
+            <field name="search_view_id" ref="account_event_search" />
+            <field name="view_id" ref="l10n_br_contabilidade_account_event_tree"/>
+        </record>
+
+        <menuitem
+            action="l10n_br_contabilidade_account_event_fiscal_action"
+            id="l10n_br_contabilidade_account_event_fiscal_menu"
+            parent="account.menu_finance_configuration"
+            sequence="12"
         />
 
     </data>
