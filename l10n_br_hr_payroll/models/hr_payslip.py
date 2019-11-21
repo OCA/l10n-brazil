@@ -2762,7 +2762,8 @@ class HrPayslip(models.Model):
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
                 record.company_id = record.contract_id.company_id
-                record.salary_unit_code  = record.contract_id.salary_unit.code
+                record.salary_unit_code = record.contract_id.salary_unit.code
+                record.valor_tarefa = record.contract_id.wage
 
     def _compute_data_mes_ano(self):
         for record in self:
