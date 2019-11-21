@@ -30,7 +30,7 @@
         # 'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        # 'demo/base_demo.xml'
+        'demo/base_demo.xml'
     ],
     'pre_init_hook': 'pre_init_hook',
     'installable': True,
