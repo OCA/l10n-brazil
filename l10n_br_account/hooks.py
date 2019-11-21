@@ -17,17 +17,15 @@ def pre_init_hook(cr):
     make the Odoo ORM happy for these records and we do that with dummy records
     that we use to fill these new foreign keys.
     """
-    convert_file(cr, 'l10n_br_account', 'data/l10n_br_account_data.xml',
-                 None, mode='init', noupdate=True, kind='init', report=None)
     env = api.Environment(cr, SUPERUSER_ID, {})
     if not column_exists(cr, 'account_invoice', 'fiscal_document_id'):
         create_column(cr, 'account_invoice',
                       'fiscal_document_id', 'INTEGER')
-    fiscal_doc_id = env.ref('l10n_br_account.fiscal_document_dummy').id
+    fiscal_doc_id = env.ref('l10n_br_fiscal.fiscal_document_dummy').id
     cr.execute("""update account_invoice set fiscal_document_id=%s
                where fiscal_document_id IS NULL;""", (fiscal_doc_id,))
     fiscal_doc_line_id = env.ref(
-        'l10n_br_account.fiscal_document_line_dummy').id
+        'l10n_br_fiscal.fiscal_document_line_dummy').id
     if not column_exists(cr, 'account_invoice_line', 'fiscal_document_line_id'):
         create_column(cr, 'account_invoice_line',
                       'fiscal_document_line_id', 'INTEGER')
