@@ -14,6 +14,7 @@
                             <group string="Tax Framework">
                                 <field name="tax_framework"/>
                                 <field name="accountant_id"/>
+                                <field name="technical_support_id"/>
                             </group>
                             <group name="simples" string="Simples Nacional" attrs="{'invisible': [('tax_framework', '=', '3')]}">
                                 <group>
