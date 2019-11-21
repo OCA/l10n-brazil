@@ -44,13 +44,25 @@ class ResPartner(models.Model):
     fiscal_profile_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.partner.profile',
         string=u'Fiscal Partner Profile',
+        inverse='_inverse_fiscal_profile',
         domain="[('is_company', '=', is_company)]",
         default=_default_fiscal_profile_id)
+
+    def _inverse_fiscal_profile(self):
+        for p in self:
+            p._onchange_fiscal_profile_id()
 
     @api.onchange('is_company')
     def _onchange_is_company(self):
         self.fiscal_profile_id = self._default_fiscal_profile_id(
             self.is_company)
+
+    @api.onchange('fiscal_profile_id')
+    def _onchange_fiscal_profile_id(self):
+        for p in self:
+            if p.fiscal_profile_id:
+                p.tax_framework = p.fiscal_profile_id.tax_framework
+                p.ind_ie_dest = p.fiscal_profile_id.ind_ie_dest
 
     @api.onchange('ind_ie_dest')
     def _onchange_ind_ie_dest(self):
