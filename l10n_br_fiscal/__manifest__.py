@@ -24,6 +24,7 @@
         # Data
         'data/l10n_br_fiscal_data.xml',
         'data/uom_data.xml',
+        'data/product_data.xml',
         'data/l10n_br_fiscal.tax.group.csv',
         'data/l10n_br_fiscal.document.type.csv',
         'data/l10n_br_fiscal.product.genre.csv',
@@ -92,7 +93,7 @@
         # 'report/account_invoice_report_view.xml',
     ],
     'demo': [
-        # 'demo/l10n_br_account_product_demo.xml',
+        'demo/base_demo.xml',
         # 'demo/account_fiscal_position_rule_demo.xml',
         # 'demo/product_taxes.yml',
         # 'demo/account_invoice_demo.yml',
