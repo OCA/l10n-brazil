@@ -32,6 +32,7 @@
         'data/l10n_br_fiscal.tax.csv',
         'data/l10n_br_fiscal.tax.pis.cofins.csv',
         'data/partner_profile_data.xml',
+        'data/operation_data.xml',
         'data/l10n_br_fiscal_server_action.xml',
         'data/ir_cron.xml',
 
