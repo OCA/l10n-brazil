@@ -16,7 +16,7 @@
           <field name="digits">4</field>
     </record>
 
-    <record id="fiscal_document_55_serie_1" model="l10n_br_fiscal.document.serie">
+    <record id="document_55_serie_1" model="l10n_br_fiscal.document.serie">
         <field name="code">1</field>
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
@@ -30,7 +30,7 @@
         <field name="active">False</field>
         <field name="partner_id" ref="base.main_partner"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="fiscal_document_55_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
     </record>
 
     <record id="fiscal_document_line_dummy" model="l10n_br_fiscal.document.line">
