@@ -16,26 +16,4 @@
           <field name="digits">4</field>
     </record>
 
-    <record id="document_55_serie_1" model="l10n_br_fiscal.document.serie">
-        <field name="code">1</field>
-        <field name="name">Série 1</field>
-        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="active">True</field>
-    </record>
-
-    <record id="fiscal_document_dummy" model="l10n_br_fiscal.document">
-        <field name="key">dummy</field>
-        <field name="number">1</field>
-        <field name="active">False</field>
-        <field name="partner_id" ref="base.main_partner"/>
-        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-    </record>
-
-    <record id="fiscal_document_line_dummy" model="l10n_br_fiscal.document.line">
-        <field name="active">False</field>
-        <field name="document_id" ref="fiscal_document_dummy"/>
-    </record>
-
 </odoo>
