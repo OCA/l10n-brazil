@@ -12,7 +12,7 @@
                       <group>
                           <field name="nfe_version" required="1"/>
                           <field name="nfe_environment" required="1"/>
-                          <field name="nfe_default_serie_id" required="1" domain="[('document_type_id', '=', '%(l10n_br_fiscal.document_55)d')]"/>
+                          <field name="nfe_default_serie_id" domain="[('document_type_id', '=', '%(l10n_br_fiscal.document_55)d')]"/>
                       </group>
                   </group>
               </page>
