@@ -68,16 +68,6 @@ def fiter_processador_edoc_nfe(record):
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    def _filtra_processador(self):
-        return self.filtered(lambda r: r.processador_edoc == PROCESSADOR)
-
-    def _filtra_documento(self):
-        return self.filtered(
-            lambda r: r.fiscal_document_id.code in [
-                MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE
-            ]
-        )
-
     def _dest(self):
         partner_bc_code = ''
         partner_cep = ''
@@ -1015,8 +1005,7 @@ class AccountInvoice(models.Model):
 
     def serialize(self):
         nfes = []
-        for record in self.filtered(lambda r: r.fiscal_document_id.code in
-                                              ['55', '65']):
+        for record in self.filtered(fiter_processador_edoc_nfe):
             nfes.append(record.serialize_nfe())
         return nfes
 
