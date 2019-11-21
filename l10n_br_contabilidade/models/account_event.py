@@ -59,6 +59,7 @@ class AccountEvent(models.Model):
     name = fields.Char(
         string='Name',
         compute='compute_name',
+        store=True,
     )
 
     origem = fields.Reference(
@@ -103,6 +104,7 @@ class AccountEvent(models.Model):
     )
 
     @api.multi
+    @api.depends('ref', 'origem')
     def compute_name(self):
         """
         """
