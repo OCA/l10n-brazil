@@ -42,6 +42,16 @@ _column_renames = {
     ]
 }
 
+_xml_ids_fiscal_operation_renames = [
+    ('fc_78df616ab31e95ee46c6a519a2ce9e12', 'fo_venda_55'),
+    ('fc_c333f0a13695741d07c872b54016c093', 'fo_bonificacao_55'),
+    ('fc_7817d015cb9832d137d7939a224a79a5', 'fo_devolucao_venda_55'),
+    ('fc_b7aafa9c3056c3f020ceae63d7312504', 'fo_compras_55'),
+    ('fc_f20c37a9e1e1c870af37efe62a786fbf', 'fo_devolucao_compras_55'),
+    ('fc_d9132a81edff5374f33560f58666b792', 'fo_entrada_remessa_55'),
+    ('fc_86d8c770fc2fb9d9fa242a3bdddd507a', 'fo_simples_remessa_55')
+]
+
 
 _xml_ids_cnae_renames = [
     ('l10n_br_account.l10n_br_cnae_1', 'l10n_br_fiscal.cnae_A'),
@@ -3088,6 +3098,7 @@ def migrate(env, version):
     openupgrade.rename_xmlids(env.cr, _xml_ids_cnae_renames)
     openupgrade.rename_xmlids(env.cr, _xml_ids_document_renames)
     openupgrade.rename_xmlids(env.cr, _xml_ids_cfop_renames)
+    openupgrade.rename_xmlids(env.cr, _xml_ids_fiscal_operation_renames)
     openupgrade.rename_models(env.cr, _model_renames)
     openupgrade.rename_tables(env.cr, _table_renames)
     openupgrade.rename_columns(env.cr, _column_renames)
