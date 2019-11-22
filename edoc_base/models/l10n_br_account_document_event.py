@@ -12,7 +12,11 @@ from odoo.exceptions import UserError
 
 from ..tools.misc import caminho_empresa
 
-CODIGO_NOME = {"55": "nfe"}
+CODIGO_NOME = {
+    "55": "nf-e",
+    "SE": "nfs-e",
+    "65": "nfc-e",
+}
 
 
 class L10nBrAccountDocumentEvent(models.Model):
@@ -55,7 +59,7 @@ class L10nBrAccountDocumentEvent(models.Model):
         save_dir = self.monta_caminho(
             ambiente=int(self.company_id.nfe_environment),
             company_id=self.company_id,
-            chave=self.document_event_ids.edoc_access_key,
+            chave=self.document_event_ids.edoc_access_key or self.document_event_ids.number  # FIXME:,
         )
         file_path = os.path.join(save_dir, file_name)
         try:
@@ -82,7 +86,7 @@ class L10nBrAccountDocumentEvent(models.Model):
         self.ensure_one()
 
         file_name = ""
-        file_name += self.document_event_ids.edoc_access_key
+        file_name += self.document_event_ids.edoc_access_key or self.document_event_ids.number  # FIXME:
         file_name += "-"
         if autorizacao:
             file_name += "proc-"
