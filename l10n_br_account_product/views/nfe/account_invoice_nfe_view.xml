@@ -135,6 +135,32 @@
                                     <field name="price_subtotal"/>
                                 </tree>
                             </field>
+                             <page string="Retenções">
+                                <group string="Retenção Impostos sobre serviços:">
+                                    <group>
+                                        <field name="issqn_wh"/>
+                                        <field name="pis_wh"/>
+                                        <field name="cofins_wh"/>
+                                        <field name="csll_wh"/>
+                                        <field name="irrf_wh"/>
+                                        <field name="inss_wh"/>
+                                    </group>
+                                    <group>
+                                        <field name="amount_pis_cofins_csll"
+                                               invisible="1"/>
+                                        <field name="issqn_value_wh"/>
+                                        <field name="pis_value_wh"/>
+                                        <field name="cofins_value_wh"/>
+                                        <field name="csll_value_wh"/>
+                                        <field name="irrf_base_wh"/>
+                                        <field name="irrf_value_wh"/>
+                                        <field name="inss_base_wh"/>
+                                        <field name="inss_value_wh"/>
+                                        <newline/>
+                                        <field name="amount_wh"/>
+                                    </group>
+                                </group>
+                            </page>
                             <group col="6" string="Totais">
                                 <!-- <button name="button_reset_taxes" states="draft,proforma2"
                                         string="(update)" class="oe_link oe_edit_only"
@@ -458,6 +484,7 @@
                                         <field name="issqn_percent"/>
                                         <field name="service_type_id" attrs="{'required': [('product_type','=', 'service')]}" domain="[('internal_type','=','normal')]"/>
                                         <field name="issqn_value"/>
+                                        <field name="issqn_wh_value"/>
                                     </group>
                                 </page>
                                 <page string="IPI" attrs="{'invisible': [('product_type','=', 'service')]}">
@@ -487,6 +514,7 @@
                                         <group>
                                             <field name="pis_percent"/>
                                             <field name="pis_value"/>
+                                            <field name="pis_wh_value"/>
                                         </group>
                                     </group>
                                     <group string="Detalhes do PIS ST">
@@ -511,6 +539,7 @@
                                         <group>
                                             <field name="cofins_percent"/>
                                             <field name="cofins_value"/>
+                                            <field name="cofins_wh_value"/>
                                         </group>
                                     </group>
                                     <group string="Detalhes do COFINS ST">
@@ -530,6 +559,24 @@
                                         <field name="ii_customhouse_charges"/>
                                         <field name="ii_iof"/>
                                         <field name="ii_value"/>
+                                    </group>
+                                </page>
+                                <page string="CSLL">
+                                    <group>
+                                        <field name="csll_base"/>
+                                        <field name="csll_percent"/>
+                                        <field name="csll_value"/>
+                                        <field name="csll_wh_value" invisible="0"/>
+                                    </group>
+                                </page>
+                                <page string="IR">
+                                    <group>
+                                        <field name="ir_base"/>
+                                        <field name="ir_percent"/>
+                                        <field name="ir_value"/>
+                                        <field name="ir_wh_value" invisible="0"/>
+                                        <field name="inss_base" invisible="0"/>
+                                        <field name="inss_wh_value" invisible="0"/>
                                     </group>
                                 </page>
                             </notebook>

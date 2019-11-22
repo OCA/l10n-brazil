@@ -526,6 +526,91 @@ class AccountInvoiceLine(models.Model):
         string=u'Item do Pedido (nItemPed)',
         size=6)
 
+    csll_base = fields.Float(
+        sting=u'Base CSLL',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Account')
+    )
+    csll_value = fields.Float(
+        string=u'Valor CSLL',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Account'))
+    csll_percent = fields.Float(
+        string=u'Perc CSLL',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Discount'))
+    ir_base = fields.Float(
+        string=u'Base IR',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Account')
+    )
+    ir_value = fields.Float(
+        string=u'Valor IR',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Account')
+    )
+    ir_percent = fields.Float(
+        string=u'Perc IR',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Discount'))
+    inss_base = fields.Float(
+        string=u'Base INSS',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Account')
+    )
+    inss_value = fields.Float(
+        string=u'Valor INSS',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Account')
+    )
+    inss_percent = fields.Float(
+        string=u'Perc. INSS',
+        required=True,
+        default=0.0,
+        digits=dp.get_precision('Discount'))
+    csll_wh_value = fields.Float(
+        string=u'Valor CSLL retido',
+        default=0.0,
+        digits=dp.get_precision('Discount')
+    )
+    ir_wh_value = fields.Float(
+        string=u'Valor IRRF retido',
+        default=0.0,
+        digits=dp.get_precision('Discount')
+    )
+    issqn_wh_value = fields.Float(
+        string=u'Valor ISSQN retido',
+        default=0.0,
+        digits=dp.get_precision('Discount')
+    )
+    pis_wh_value = fields.Float(
+        string=u'Valor PIS retido',
+        default=0.0,
+        digits=dp.get_precision('Discount')
+    )
+    cofins_wh_value = fields.Float(
+        string=u'Valor COFINS retido',
+        default=0.0,
+        digits=dp.get_precision('Discount')
+    )
+    inss_base_wh_reducao = fields.Float(
+        string=u'Redução Base da Retenção do INSS',
+        digits=dp.get_precision('Discount')
+    )
+    inss_wh_value = fields.Float(
+        string=u'Valor INSS retido',
+        default=0.0,
+        digits=dp.get_precision('Discount')
+    )
+
     @api.onchange('partner_order_line')
     def _check_partner_order_line(self):
         if (self.partner_order_line and
@@ -610,6 +695,57 @@ class AccountInvoiceLine(models.Model):
         self.issqn_base = tax.get('total_base', 0.0)
         self.issqn_percent = tax.get('percent', 0.0)
         self.issqn_value = tax.get('amount', 0.0)
+
+    def _amount_tax_ir(self, tax=None):
+        self.ir_base = tax.get('total_base', 0.0)
+        self.ir_value = tax.get('amount', 0.0),
+        self.ir_percent = tax.get('percent', 0.0)*100
+
+    def _amount_tax_inss(self, tax=None):
+        # FIXME: total inss
+        self.inss_base = 0.0
+        self.inss_value = 0.0
+
+    def _amount_tax_issqn(self, tax=None):
+        self.issqn_base = tax.get('total_base', 0.0)
+        self.issqn_percent = tax.get('percent', 0.0) * 100
+        self.issqn_value = tax.get('amount', 0.0)
+
+    def _amount_tax_csll(self, tax=None):
+        self.csll_base = tax.get('total_base', 0.0)
+        self.csll_percent = tax.get('percent', 0.0) * 100
+        self.csll_value = tax.get('amount', 0.0)
+
+    def _amount_tax_retcsll(self, tax=None):
+        self.csll_base = tax.get('total_base', 0.0)
+        self.csll_wh_value = tax.get('amount', 0.0)
+
+    def _amount_tax_retissqn(self, tax=None):
+        self.issqn_base = tax.get('total_base', 0.0)
+        self.issqn_percent = tax.get('percent', 0.0) * 100
+        self.issqn_wh_value = tax.get('amount', 0.0)
+        self.issqn_value = tax.get('amount', 0.0)
+
+    def _amount_tax_retpis(self, tax=None):
+        self.pis_wh_value = tax.get('amount', 0.0)
+
+    def _amount_tax_retcofins(self, tax=None):
+        self.cofins_wh_value = tax.get('amount', 0.0)
+
+    def _amount_tax_retir(self, tax=None):
+        self.ir_base = tax.get('total_base', 0.0)
+        self.ir_wh_value = tax.get('amount', 0.0)
+
+    def _amount_tax_retinss(self, tax=None):
+        base = tax.get('total_base', 0.0)
+        valor = tax.get('amount', 0.0)
+        percentual = 0.0
+        if base:
+            percentual = valor / base
+        base -= self.inss_base_wh_reducao
+        valor = base * percentual
+        self.inss_base = base
+        self.inss_wh_value = valor
 
     def _set_taxes_codes(self):
         product = self.product_id

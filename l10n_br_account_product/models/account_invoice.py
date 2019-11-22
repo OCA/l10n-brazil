@@ -6,6 +6,7 @@ import datetime
 
 from odoo import models, fields, api, _, tools
 from odoo.addons import decimal_precision as dp
+from odoo.addons.l10n_br_base.tools.misc import calc_price_ratio
 from odoo.exceptions import (RedirectWarning,
                              Warning as UserError)
 
@@ -91,6 +92,154 @@ class AccountInvoice(models.Model):
         # Calculando o troco
         if self.amount_payment_net:
             self.amount_change = self.amount_payment_net - self.amount_total
+
+    @api.multi
+    @api.depends('invoice_line_ids', 'tax_line_ids.amount', 'issqn_wh', 'irrf_wh',
+                 'inss_wh', 'csll_wh', 'pis_wh', 'cofins_wh')
+    def _amount_all_service(self):
+        for inv in self:
+            inv.amount_services = sum(
+                line.price_subtotal for line in inv.invoice_line_ids
+                if line.product_type == 'service')
+            inv.issqn_base = sum(line.issqn_base for line in inv.invoice_line_ids
+                                 if line.product_type == 'service')
+            inv.issqn_value = sum(
+                line.issqn_value for line in inv.invoice_line_ids
+                if line.product_type == 'service')
+            inv.service_pis_value = sum(
+                line.pis_value for line in inv.invoice_line_ids
+                if line.product_type == 'service')
+            inv.service_cofins_value = sum(
+                line.cofins_value for line in inv.invoice_line_ids
+                if line.product_type == 'service')
+            inv.csll_base = sum(line.csll_base for line in inv.invoice_line_ids
+                                if line.product_type == 'service')
+            inv.csll_value = sum(line.csll_value for line in inv.invoice_line_ids
+                                 if line.product_type == 'service')
+            inv.ir_base = sum(line.ir_base for line in inv.invoice_line_ids
+                              if line.product_type == 'service')
+            inv.ir_value = sum(line.ir_value for line in inv.invoice_line_ids
+                               if line.product_type == 'service')
+            inv.inss_base = sum(line.inss_base for line in inv.invoice_line_ids
+                                if line.product_type == 'service')
+            inv.inss_value = sum(line.inss_value for line in inv.invoice_line_ids
+                                 if line.product_type == 'service')
+            inv.issqn_value_wh = sum(line.issqn_wh_value for line
+                                     in inv.invoice_line_ids) \
+                if inv.issqn_wh else 0.0
+            inv.inss_base_wh = sum(line.inss_base for line
+                                   in inv.invoice_line_ids) \
+                if inv.inss_wh else 0.0
+            inv.inss_value_wh = sum(line.inss_wh_value for line
+                                    in inv.invoice_line_ids) \
+                if inv.inss_wh else 0.0
+            inv.csll_value_wh = sum(line.csll_wh_value for line
+                                    in inv.invoice_line_ids) \
+                if inv.csll_wh else 0.0
+            inv.irrf_base_wh = sum(line.ir_base for line
+                                   in inv.invoice_line_ids) \
+                if inv.irrf_wh else 0.0
+            inv.irrf_value_wh = sum(line.ir_wh_value for line
+                                    in inv.invoice_line_ids) \
+                if inv.irrf_wh else 0.0
+            inv.pis_value_wh = sum(line.pis_wh_value for line
+                                   in inv.invoice_line_ids) \
+                if inv.pis_wh else 0.0
+            inv.cofins_value_wh = sum(line.cofins_wh_value for line
+                                      in inv.invoice_line_ids) \
+                if inv.cofins_wh else 0.0
+
+            inv.amount_pis_cofins_csll = inv.service_cofins_value + \
+                                         inv.service_pis_value + inv.csll_value
+
+            diff_currency = inv.company_currency_id != inv.currency_id
+            if diff_currency:
+                inv.amount_company_currency = inv.company_currency_id.compute(
+                    inv.amount_total, inv.currency_id
+                )
+            else:
+                inv.amount_company_currency = inv.amount_total
+
+            inv.amount_total = inv.amount_tax + inv.amount_untaxed
+            inv.amount_wh = (inv.issqn_value_wh + inv.pis_value_wh + inv.
+                             cofins_value_wh + inv.csll_value_wh + inv.
+                             irrf_value_wh + inv.inss_value_wh)
+            inv.amount_net = inv._amount_net_value_calc()
+
+    def _amount_net_value_calc(self):
+        return self.amount_company_currency - self.amount_wh
+
+    @api.one
+    def _set_irrf_wh(self):
+        for line in self.invoice_line_ids:
+            line.write({
+                'ir_wh_value': calc_price_ratio(
+                    line.price_gross,
+                    self.irrf_value_wh,
+                    line.invoice_id.amount_total
+                )
+            })
+        return True
+
+    @api.one
+    def _set_csll_wh(self):
+        for line in self.invoice_line_ids:
+            line.write({
+                'csll_wh_value': calc_price_ratio(
+                    line.price_gross,
+                    self.csll_value_wh,
+                    line.invoice_id.amount_total
+                )
+            })
+        return True
+
+    @api.one
+    def _set_inss_wh(self):
+        for line in self.invoice_line_ids:
+            line.write({
+                'inss_wh_value': calc_price_ratio(
+                    line.price_gross,
+                    self.inss_value_wh,
+                    line.invoice_id.amount_total
+                )
+            })
+        return True
+
+    @api.one
+    def _set_pis_wh(self):
+        for line in self.invoice_line_ids:
+            line.write({
+                'pis_wh_value': calc_price_ratio(
+                    line.price_gross,
+                    self.pis_value_wh,
+                    line.invoice_id.amount_total
+                )
+            })
+        return True
+
+    @api.one
+    def _set_cofins_wh(self):
+        for line in self.invoice_line_ids:
+            line.write({
+                'cofins_wh_value': calc_price_ratio(
+                    line.price_gross,
+                    self.cofins_value_wh,
+                    line.invoice_id.amount_total
+                )
+            })
+        return True
+
+    @api.one
+    def _set_issqn_wh(self):
+        for line in self.invoice_line_ids:
+            line.write({
+                'issqn_wh_value': calc_price_ratio(
+                    line.price_gross,
+                    self.issqn_value_wh,
+                    line.invoice_id.amount_total
+                )
+            })
+        return True
 
     @api.model
     @api.returns('l10n_br_account.fiscal_category')
@@ -630,6 +779,99 @@ class AccountInvoice(models.Model):
         compute='_compute_amount',
         help='vLiq',
     )
+    issqn_wh = fields.Boolean(
+        u'Retém ISSQN', readonly=True, states={'draft': [('readonly', False)]})
+    issqn_value_wh = fields.Float(
+        u'Valor da retenção do ISSQN', readonly=True,
+        compute='_amount_all_service', states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'), inverse=_set_issqn_wh)
+    pis_wh = fields.Boolean(
+        u'Retém PIS', readonly=True, states={'draft': [('readonly', False)]})
+    pis_value_wh = fields.Float(
+        u'Valor da retenção do PIS', readonly=True,
+        compute='_amount_all_service', states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'), inverse=_set_pis_wh)
+    cofins_wh = fields.Boolean(
+        u'Retém COFINS', readonly=True, states={'draft': [('readonly', False)]})
+    cofins_value_wh = fields.Float(
+        u'Valor da retenção do Cofins', readonly=True,
+        compute='_amount_all_service', states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'), inverse=_set_cofins_wh)
+    csll_wh = fields.Boolean(
+        u'Retém CSLL', readonly=True, states={'draft': [('readonly', False)]})
+    csll_value_wh = fields.Float(
+        u'Valor da retenção de CSLL', readonly=True,
+        compute='_amount_all_service', states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'), inverse=_set_csll_wh)
+    irrf_wh = fields.Boolean(
+        u'Retém IRRF', readonly=True, states={'draft': [('readonly', False)]})
+    irrf_base_wh = fields.Float(
+        u'Base de calculo retenção do IRRF', readonly=True,
+        compute='_amount_all_service', states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'))
+    irrf_value_wh = fields.Float(
+        u'Valor da retenção de IRRF', readonly=True,
+        compute='_amount_all_service', states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'), inverse=_set_irrf_wh
+    )
+    inss_wh = fields.Boolean(
+        u'Retém INSS', readonly=True, states={'draft': [('readonly', False)]})
+    inss_base_wh = fields.Float(
+        u'Base de Cálculo da Retenção da Previdência Social', readonly=True,
+        states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'),
+        compute='_amount_all_service')
+    inss_value_wh = fields.Float(
+        u'Valor da Retenção da Previdência Social ', readonly=True,
+        states={'draft': [('readonly', False)]},
+        digits=dp.get_precision('Account'),
+        compute='_amount_all_service', inverse=_set_inss_wh)
+    csll_base = fields.Float(
+        string=u'Base CSLL', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    csll_value = fields.Float(
+        string=u'Valor CSLL', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    ir_base = fields.Float(
+        string=u'Base IR', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    ir_value = fields.Float(
+        string=u'Valor IR', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    issqn_base = fields.Float(
+        string=u'Base de Cálculo do ISSQN', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    issqn_value = fields.Float(
+        string=u'Valor do ISSQN', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    inss_base = fields.Float(
+        string=u'Valor do INSS', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    inss_value = fields.Float(
+        string=u'Valor do INSS', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    service_pis_value = fields.Float(
+        string=u'Valor do Pis sobre Serviços', compute='_amount_all_service',
+        digits=dp.get_precision('Account'), store=True)
+    service_cofins_value = fields.Float(
+        string=u'Valor do Cofins sobre Serviços',
+        compute='_amount_all_service',
+        store=True, digits=dp.get_precision('Account'))
+    amount_services = fields.Float(
+        string=u'Total dos serviços',
+        compute='_amount_all_service',
+        store=True,
+        digits=dp.get_precision('Account'))
+    amount_pis_cofins_csll = fields.Float(
+        string=u'PIS/CONFINS/CSLL',
+        compute='_amount_all_service',
+        store=True,
+        digits=dp.get_precision('Account'))
+    amount_wh = fields.Float(
+        string=u'Total de retenção',
+        compute='_amount_all_service',
+        store=True,
+        digits=dp.get_precision('Account'))
 
     @api.one
     @api.constrains('number')
