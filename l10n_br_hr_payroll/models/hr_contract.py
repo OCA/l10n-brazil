@@ -143,7 +143,7 @@ class HrContract(models.Model):
     nome_contrato = fields.Char(
         default="[mat] nome - inicio - fim",
         compute="_compute_nome_contrato",
-        store=True
+        store=True,
     )
 
     @api.multi
