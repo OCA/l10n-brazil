@@ -1567,7 +1567,7 @@ class SpedEsocial(models.Model):
         for esocial in self:
             necessita_s2399 = False
             msg_desligamentos = False
-            for desligamento in esocial.desligamento_ids:
+            for desligamento in esocial.desligamento_sem_vinculo_ids:
                 if desligamento.situacao_s2399 not in ['4']:
                     necessita_s2399 = True
                     msg_desligamentos = 'Pendências não enviadas ao e-Social'
