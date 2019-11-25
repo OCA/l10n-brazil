@@ -190,7 +190,7 @@ class Company(models.Model):
     @api.multi
     def write(self, values):
         try:
-            result = super(ResCompany, self).write(values)
+            result = super(Company, self).write(values)
         except Exception:
             if not config['without_demo'] and values.get('currency_id'):
                 result = models.Model.write(self, values)
