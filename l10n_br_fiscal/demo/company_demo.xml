@@ -3,21 +3,6 @@
 
     <!-- Sua Empresa -->
     <record id="base.main_company" model="res.company">
-        <field name="name">Sua Empresa</field>
-        <field name="legal_name">Sua Empresa Ltda</field>
-        <field name="street">Avenida Paulista</field>
-        <field name="street_number">1</field>
-        <field name="district">Bela Vista</field>
-        <field name="state_id" ref="base.state_br_sp"/>
-        <field name="city_id" ref="l10n_br_base.city_3550308"/>
-        <field name="country_id" ref="base.br"/>
-        <field name="zip">01311-000</field>
-        <field name="website">www.suaempresa.com.br</field>
-        <field name="phone">+55 11 9999-9999</field>
-        <field name="email">info@suaempresa.com.br</field>
-        <field name="cnpj_cpf">81.583.054/0001-29</field>
-        <field name="inscr_est">078.016.350.838</field>
-        <field name="currency_id" ref="base.BRL"/>
         <field name="tax_framework">3</field>
         <field name="profit_calculation">presumed</field>
         <field name="is_industry" eval="True"/>
@@ -25,7 +10,5 @@
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo"/>
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200"/>
     </record>
-
-
 
 </odoo>
