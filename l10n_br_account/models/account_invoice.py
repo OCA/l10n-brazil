@@ -29,7 +29,7 @@ class AccountInvoice(models.Model):
         required=True,
         ondelete='restrict', # or cascade?
         default=lambda self: self.env.ref(
-            'l10n_br_account.fiscal_document_dummy'))
+            'l10n_br_fiscal.fiscal_document_dummy'))
 
 
 if False: # TODO
