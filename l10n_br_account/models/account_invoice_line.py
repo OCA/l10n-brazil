@@ -27,4 +27,4 @@ class AccountInvoiceLine(models.Model):
         required=True,
         ondelete="cascade",
         default=lambda self: self.env.ref(
-            'l10n_br_account.fiscal_document_line_dummy'))
+            'l10n_br_fiscal.fiscal_document_line_dummy'))
