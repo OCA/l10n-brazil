@@ -6,6 +6,7 @@ import pysped
 from openerp import api, fields, models
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
+from openerp.exceptions import Warning as UserError
 from openerp.addons.sped_transmissao.models.intermediarios.sped_registro_intermediario import SpedRegistroIntermediario
 
 
@@ -122,6 +123,7 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         Função para verificar
         :return:
         """
+        pass
 
     @api.multi
     def popula_xml(self, ambiente='2', operacao='I'):
@@ -129,8 +131,6 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         Função para popular o xml com os dados referente ao afastamento
         temporário de um trabalhador
         """
-        pass
-
         # Validação
         validacao = ""
 
@@ -216,3 +216,42 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
     def retorna_trabalhador(self):
         self.ensure_one()
         return self.hr_holiday_id.contrato_id.employee_id
+
+    @api.multi
+    def unlink(self):
+        """
+        :return:
+        """
+        for record in self:
+            if record.situacao_esocial_afastamento in ['4', '2']:
+                raise Warning(
+                    'Não é possível excluir um '
+                    'afastamento enviado para o e-Social!')
+            record.action_cancel()
+        return super(SpedAfastamentoTemporario, self).unlink()
+
+    @api.multi
+    def action_cancel(self):
+        """
+        Cancelar o envio de registros ao esocial e
+        excluir registros que nao serão enviados
+        """
+        for record in self:
+            if record.situacao_esocial_afastamento in ['4', '2']:
+                raise UserError(
+                    'Não é possível Cancelar um evento de '
+                    'afastamento enviado para o e-Social!')
+
+            if record.sped_afastamento and record.sped_afastamento.situacao:
+                if record.sped_afastamento.situacao not in ['1', '3']:
+                    raise UserError(
+                        'Não é possível excluir registro de afastamento '
+                        'no e-Social!')
+                record.sped_afastamento.unlink()
+
+            if record.sped_afastamento_encerrado and record.sped_afastamento_encerrado.situacao:
+                if record.sped_afastamento_encerrado.situacao not in ['1','3']:
+                    raise UserError(
+                        'Não é possível excluir registro de afastamento '
+                        'no e-Social!')
+                record.sped_afastamento_encerrado.unlink()

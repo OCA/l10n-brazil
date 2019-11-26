@@ -32,7 +32,7 @@
                     </group>
                     <separator string="e-Social" groups="sped_tabelas.group_user,sped_tabelas.group_manager"/>
                     <group groups="sped_tabelas.group_user,sped_tabelas.group_manager">
-                        <group>
+                        <group colspan="4" col="4">
                             <field name="sped_esocial_afastamento_id" options="{'no_create': True, 'no_edit': True}" readonly="1"/>
                             <field name="situacao_esocial" readonly="1"/>
                             <field name="situacao_esocial_encerramento" readonly="1"/>
@@ -43,6 +43,14 @@
                                     name="encerrar_afastamento"
                                     class="oe_highlight"
                                     attrs="{'invisible': ['|', ('situacao_esocial', '!=', '4'), ('situacao_esocial_encerramento', '=', '4')]}"
+                            />
+                            <button
+                                    string="Cancelar envio de registros"
+                                    name="action_cancel_esocial"
+                                    class="oe_highlight"
+                                    groups="base.group_no_one"
+                                    type="object"
+                                    confirm="Essa ação irá deletar os registros intermediários e sped.registros de afastamentos. CUIDADO"
                             />
                         </group>
                     </group>
