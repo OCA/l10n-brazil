@@ -31,7 +31,8 @@ class TestIbptService(common.TransactionCase):
 
     def _create_compay(self):
         # Creating a company
-        company = self.env.ref('base.main_company').write({
+        company = self.env['res.company'].create({
+            'name': 'Company Test Fiscal BR',
             'cnpj_cpf': '02.960.895/0002-12',
             'country_id': self.env.ref('base.br').id,
             'state_id': self.env.ref('base.state_br_es').id,
