@@ -98,12 +98,14 @@ class SpedCriacaoWizard(models.TransientModel):
     @api.multi
     def popular(self, ids=[]):
 
-        # Elimina da lista registros já transmitidos e/ou em outros lotes pendentes transmissão ou retorno
+        # Elimina da lista registros já transmitidos e/ou
+        # em outros lotes pendentes transmissão ou retorno
         registros = []
         for registro in ids:
             if registro.situacao not in ['1', '3']:
                 continue
             ja_tem_lote = False
+
             for lote in registro.lote_ids:
                 if lote.situacao != '4':
                     ja_tem_lote = True
@@ -141,7 +143,7 @@ class SpedCriacaoWizard(models.TransientModel):
                 lote = self.env['sped.lote.wizard'].search(domain)
 
                 for lote_registros in lote:
-                    if lote_registros and \
+                    if lote_registros and lote_registros.registro_ids and \
                             lote_registros.registro_ids[0].registro == registro.registro:
                         lote = lote_registros
                         break
