@@ -1239,7 +1239,7 @@ class SpedEsocial(models.Model):
 
         if self.empregador_ids:
             # Calcula os valores do fechamento
-            evt_remun = 'S' if self.remuneracao_ids or self.remuneracao_rpps_ids else 'N'
+            evt_remun = 'S' if self.remuneracao_ids or self.remuneracao_rpps_ids or self.desligamento_ids else 'N'
             evt_pgtos = 'S' if self.pagamento_ids else 'N'
             evt_aq_prod = 'N'
             evt_com_prod = 'N'
