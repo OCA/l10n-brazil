@@ -253,18 +253,6 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
 
                     S1200.evento.ideTrabalhador.infoMV.append(info_mv)
 
-        # # Popula ideTrabalhador.infoComplem               # TODO
-        # #        ideTrabalhador.infoComplem.sucessaoVinc
-        # #
-        # # Registro preenchido exclusivamente quando o evento de remuneração referir-se a trabalhador cuja
-        # # categoria não está sujeita ao evento de admissão ou ao evento de início de "trabalhador sem vínculo".
-        # # No caso das categorias em que o envio do evento TSV é opcional, o preenchimento do grupo somente é
-        # # exigido se não houver evento TSV Início correspondente (cpf + categoria). As informações
-        # # complementares são necessárias para correta identificação do trabalhador.
-        #
-        # info_complem = pysped.esocial.leiaute.S1200_InfoComplem_2()
-        # info_complem.
-
         # # Popula ideTrabalhador.procJudTrab  # TODO
         # #
         # # Informações sobre a existência de processos judiciais do trabalhador com decisão favorável quanto à não

@@ -86,7 +86,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         for estabelecimento in self:
             situacao_esocial = '0'  # Inativa
 
-            # Se o estabelecimento possui um registro de inclusão confirmado e
+            # Se o estabelecimento possui um registro de inclusão com sucesso(4) e
             # não precisa atualizar nem excluir então ela está Ativa
             if estabelecimento.sped_inclusao and estabelecimento.sped_inclusao.situacao == '4':
                 if not estabelecimento.precisa_atualizar and not estabelecimento.precisa_excluir:

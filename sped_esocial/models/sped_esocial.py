@@ -688,7 +688,8 @@ class SpedEsocial(models.Model):
             if matriz.id not in empresas:
                 empresas.append(matriz.id)
 
-            # separa somente os trabalhadores com contrato válido neste período e nesta empresa matriz
+            # separa somente os trabalhadores com contrato válido neste
+            # período e nesta empresa matriz
             # trabalhadores_com_contrato = []
 
             remuneracao_dicionario = self._get_dicionario_remuneracao()

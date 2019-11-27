@@ -198,7 +198,6 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             # Popula o campo na tabela
             empregador.ultima_atualizacao = ultima_atualizacao
 
-    # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
     def gerar_registro(self):
         self.ensure_one()

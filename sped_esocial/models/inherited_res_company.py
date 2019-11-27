@@ -355,20 +355,18 @@ class ResCompany(models.Model):
         if not self.sped_empregador_id and self.esocial_periodo_inicial_id:
 
             # Verifica se o registro intermediário já existe
-            domain = [
-                ('company_id', '=', self.id),
-            ]
+            domain = [('company_id', '=', self.id)]
+
             sped_empregador_id = self.env['sped.empregador'].search(domain)
+
             if sped_empregador_id:
                 self.sped_empregador_id = sped_empregador_id
+
             else:
                 self.sped_empregador_id = \
-                    self.env['sped.empregador'].create({
-                        'company_id': self.id,
-                    })
+                    self.env['sped.empregador'].create({'company_id': self.id})
 
-        # Processa cada tipo de operação do S-1000 (Inclusão / Alteração / Exclusão)
-        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        # Gerar registro caso nao exista
         if self.sped_empregador_id:
             self.sped_empregador_id.gerar_registro()
 
@@ -509,22 +507,14 @@ class ResCompany(models.Model):
         if self.sped_estabelecimento_id and self.situacao_estabelecimento_esocial == '1':
             for campo in campos_monitorados_estabelecimento:
                 if campo in vals:
-                    precisa_atualizar_estabelecimento = True
-
-            # Se precisa_atualizar_estabelecimento == True, inclui ele no vals
-            if precisa_atualizar_estabelecimento:
-                vals['precisa_atualizar_estabelecimento'] = precisa_atualizar_estabelecimento
+                    vals['precisa_atualizar_estabelecimento'] = True
 
         # Roda o vals procurando se algum desses campos está na lista
         # Lotação Tributária
         if self.sped_lotacao_id and self.situacao_lotacao_esocial == '1':
             for campo in campos_monitorados_lotacao:
                 if campo in vals:
-                    precisa_atualizar_lotacao = True
-
-            # Se precisa_atualizar_lotacao == True, inclui ele no vals
-            if precisa_atualizar_lotacao:
-                vals['precisa_atualizar_lotacao'] = precisa_atualizar_lotacao
+                    vals['precisa_atualizar_lotacao'] = True
 
         # Grava os dados
         return super(ResCompany, self).write(vals)
