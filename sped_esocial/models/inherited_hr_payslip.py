@@ -53,10 +53,6 @@ class HrPaylisp(models.Model):
         readonly=True,
     )
 
-    # sped_s2399 = fields.Many2one(
-    #     string='Registro SPED S-2399',
-    #     comodel_name='sped.hr.rescisao.autonomo',
-    # )
     sped_remuneracao_id = fields.One2many(
         string = u'Sped Remuneração (Intermediario)',
         comodel_name = 'sped.esocial.remuneracao',
