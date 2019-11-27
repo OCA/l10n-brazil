@@ -3,7 +3,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, models, fields
+from openerp.exceptions import ValidationError
 
+TIPO_SITUACAO = [
+    ('A', 'A - Acordo Coletivo de Trabalho'),
+    ('B', 'B - Legislação federal, estadual, municipal ou distrital'),
+    ('C', 'C - Convenção Coletiva de Trabalho'),
+    ('D', 'D - Sentença Normativa - Dissídio'),
+    ('E', 'E - Conversão de Licença Saúde em Acidente de Trabalho'),
+    ('F', 'F - Outras verbas de natureza salarial ou não salarial devidas '
+          'após o desligamento'),
+    ('G', 'G - Antecipação de diferenças de Acordo, '
+          'Convenção ou Dissídio Coletivo.'),
+]
 
 class HrPaylisp(models.Model):
     _inherit = "hr.payslip"
@@ -45,6 +57,32 @@ class HrPaylisp(models.Model):
     #     string='Registro SPED S-2399',
     #     comodel_name='sped.hr.rescisao.autonomo',
     # )
+    tipo_situacao = fields.Selection(
+        selection=TIPO_SITUACAO,
+        string=u'Tipo da Situação',
+        help=u'e-Social S-1200 tpAcConv: Tipo do instrumento ou situação '
+             u'ensejadora da remuneração relativa a Períodos de '
+             u'Apuração Anteriores'
+    )
+
+    descricao_situacao = fields.Char(
+        string=u'Descrição da Situação',
+        help=u'e-Social: S-1200 dsc: Descrição do instrumento ou situação '
+             u'que originou o pagamento das verbas relativas a '
+             u'períodos anteriores.',
+    )
+
+    remuneracao_sucessora = fields.Selection(
+        selection=[
+            ('S', 'Sim'),
+            ('N', 'Não'),
+        ],
+        string=u'Verbas de Natureza Salarial?',
+        help=u'e-Social: S-1200 remunSuc: Indicar se a remuneração é relativa'
+             u' a verbas de natureza salarial ou não salarial devidas pela '
+             u'empresa sucessora a empregados desligados ainda na sucedida',
+        default='N',
+    )
 
     @api.multi
     def hr_verify_sheet(self):

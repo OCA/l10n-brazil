@@ -403,6 +403,76 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
             # # OBS.: as informações previstas nos itens "a", "b" e "d" acima podem se referir ao período de apuração
             # #       definido em {perApur} ou a períodos anteriores a {perApur}.
             # #
+
+            if payslip.tipo_de_folha in ['rescisao_complementar']:
+
+                info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
+
+                ide_adc_ant = pysped.esocial.leiaute.S1200_IdeADC_2()
+                ide_adc_ant.tpAcConv.valor = payslip.tipo_situacao
+                ide_adc_ant.dsc.valor = payslip.descricao_situacao
+                ide_adc_ant.remunSuc.valor = payslip.remuneracao_sucessora
+                info_per_ant.ideADC.append(ide_adc_ant)
+
+                ide_periodo = pysped.esocial.leiaute.S1200_IdePeriodo_2()
+                ide_periodo.perRef.valor = periodo_apuracao
+                ide_adc_ant.idePeriodo.append(ide_periodo)
+
+                ide_estab_lot = \
+                    pysped.esocial.leiaute.S1200_IdePeriodoIdeEstabLot_2()
+                ide_estab_lot.tpInsc.valor = '1'
+                ide_estab_lot.nrInsc.valor = \
+                    limpa_formatacao(payslip.company_id.cnpj_cpf)
+                ide_estab_lot.codLotacao.valor = \
+                    payslip.company_id.cod_lotacao
+
+                ide_estab_lot.remunPerAnt.matricula.valor = \
+                    payslip.contract_id.matricula \
+                        if payslip.remuneracao_sucessora == 'N' else ''
+
+                for line in payslip.line_ids:
+                    if line.salary_rule_id.nat_rubr:
+
+                        if line.salary_rule_id.code == 'BASE_INSS':
+                            continue
+
+                        if line.total != 0:
+
+                            itens_remun = pysped.esocial.leiaute.S1200_ItensRemun_2()
+                            itens_remun.codRubr.valor = line.salary_rule_id.codigo
+                            itens_remun.ideTabRubr.valor = line.salary_rule_id.identificador
+                            if line.quantity and float(line.quantity) != 1:
+                                itens_remun.qtdRubr.valor = float(line.quantity)
+                                itens_remun.vrUnit.valor = formata_valor(line.amount)
+                            if line.rate and line.rate != 100:
+                                itens_remun.fatorRubr.valor = line.rate
+                            itens_remun.vrRubr.valor = formata_valor(line.total)
+
+                            ide_estab_lot.remunPerAnt.itensRemun.append(itens_remun)
+
+                if payslip.contract_id.evento_esocial == 's2200':
+                    info_ag_nocivo = pysped.esocial.leiaute.S1200_InfoAgNocivo_2()
+                    info_ag_nocivo.grauExp.valor = 1
+                    ide_estab_lot.remunPerAnt.infoAgNocivo.append(info_ag_nocivo)
+
+                info_complem = pysped.esocial.leiaute.S1200_InfoComplem_2()
+                info_complem.nmTrab.valor = payslip.employee_id.name[:70]
+                info_complem.dtNascto.valor = payslip.employee_id.birthday
+                S1200.evento.ideTrabalhador.infoComplement.append(info_complem)
+
+                if payslip.remuneracao_sucessora == 'S':
+                    sucessao_vinculo = pysped.esocial.leiaute.S1200_SucessaoVinc_2()
+                    sucessao_vinculo.tpInscAnt.valor = '1'
+                    sucessao_vinculo.cnpjEmpregAnt.valor = limpa_formatacao(self.company_id.cnpj_cpf)
+                    sucessao_vinculo.matricAnt.valor = payslip.contract_id.matricula
+                    sucessao_vinculo.dtAdm.valor = payslip.contract_id.date_start
+                    sucessao_vinculo.dtAdm.observacao = ''
+                    info_complem.sucessaoVinc.append(sucessao_vinculo)
+
+                ide_periodo.ideEstabLot.append(ide_estab_lot)
+                dm_dev.infoPerAnt.append(info_per_ant)
+
+            # Para regstro de convenção coletiva
             if convencao_coletiva_id and rubricas_convencao_coletiva:
 
                 info_per_ant = pysped.esocial.leiaute.S1200_InfoPerAnt_2()
