@@ -1003,15 +1003,15 @@ class AccountInvoice(models.Model):
         chave += str(digito)
         self.edoc_access_key = chave
 
-    def serialize(self):
-        nfes = []
+    def _serialize(self, edocs):
+        edocs = super(AccountInvoice, self)._serialize(edocs)
         for record in self.filtered(fiter_processador_edoc_nfe):
-            nfes.append(record.serialize_nfe())
-        return nfes
+            edocs.append(record.serialize_nfe())
+        return edocs
 
     def _procesador(self):
         certificado = Certificado(
-            stream_arquivo=self.company_id.nfe_a1_file,
+            arquivo=self.company_id.nfe_a1_file,
             senha=self.company_id.nfe_a1_password
         )
         session = Session()
