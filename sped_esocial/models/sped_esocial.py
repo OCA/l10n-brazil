@@ -366,19 +366,23 @@ class SpedEsocial(models.Model):
             esocial.necessita_s1000 = necessita_s1000
             esocial.msg_empregador = msg_empregador
 
+    def is_empresa_ativa_no_esocial(self):
+        """
+        """
+        if self.company_id.esocial_periodo_inicial_id:
+            if self.company_id.esocial_periodo_inicial_id.date_start <= \
+                    self.periodo_id.date_start:
+                return True
+        return False
+
     @api.multi
     def importar_empregador(self):
         self.ensure_one()
-        empregadores = self.env['res.company'].search([
-            ('id', '=', self.company_id.id),
-        ])
-        emprs = []
-        for empregador in empregadores:
-            if empregador.esocial_periodo_inicial_id and \
-                    empregador.esocial_periodo_inicial_id.date_start <= self.periodo_id.date_start:
-                empregador.atualizar_empregador()
-                emprs.append(empregador.sped_empregador_id.id)
-        self.empregador_ids = [(6, 0, emprs)]
+
+        if self.is_empresa_ativa_no_esocial():
+            self.company_id.atualizar_empregador()
+            self.empregador_ids = \
+                [(6, 0, self.company_id.sped_empregador_id._ids)]
 
     #
     # Controle dos registros S-1005
