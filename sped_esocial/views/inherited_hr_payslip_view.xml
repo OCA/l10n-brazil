@@ -11,6 +11,12 @@
                     <button name="%(sped_esocial.criar_s2299_desligamento)d" string="Criar Registro e-Social" type="action" class="oe_highlight"
                     attrs="{'invisible': ['|','|','|',('tipo_de_folha','!=','rescisao'),('sped_s2299','!=',False),('sped_s2399','!=',False),('state','in',['draft', 'cancel'])]}"/>
                 </button>
+
+                <button name="hr_verify_sheet" position="after">
+                    <button name="ativar_remuneracao" type="object" string="Ativar Remuneracao" groups="base.group_no_one"/>
+                    <button name="ativar_pagamento" type="object" string="Ativar Pagamento" groups="base.group_no_one"/>
+                </button>
+
                 <field name="mtv_deslig" position="before">
                     <field name="mtv_deslig_esocial" options="{'no_create': False, 'no_open': False}"
                            attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])], 'required': [('tipo_de_folha', 'in', ['rescisao', 'rescisao_complementar'])]}"
@@ -26,14 +32,16 @@
                 </field>
 
                 <xpath expr="//notebook[last()]" position="inside">
-                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user"
-                                attrs="{'invisible': ['|','|',('tipo_de_folha','!=','rescisao')]}" >
+                    <page name="esocial" string="e-Social" groups="sped_tabelas.group_user" attrs="{'invisible': [('sped_remuneracao_id','=',[])]}" >
                         <separator string="Registro Desligamento" />
                         <group>
                             <group>
-                                <field name="sped_s2299" nolabel="1"/>
+                                <field name="sped_s2299" />
                                 <newline />
-                                <field name="sped_s2399" nolabel="1"/>
+                                <field name="sped_s2399" />
+                                <newline />
+                                <field name="sped_remuneracao_id" groups="base.group_no_one"/>
+                                <field name="sped_pagamento_id" groups="base.group_no_one"/>
                             </group>
                         </group>
                     </page>

@@ -57,6 +57,18 @@ class HrPaylisp(models.Model):
     #     string='Registro SPED S-2399',
     #     comodel_name='sped.hr.rescisao.autonomo',
     # )
+    sped_remuneracao_id = fields.One2many(
+        string = u'Sped Remuneração (Intermediario)',
+        comodel_name = 'sped.esocial.remuneracao',
+        inverse_name = 'payslip_ids',
+    )
+
+    sped_pagamento_id = fields.One2many(
+        string = u'Sped Pagamento (Intermediario)',
+        comodel_name = 'sped.esocial.pagamento',
+        inverse_name = 'payslip_ids',
+    )
+
     tipo_situacao = fields.Selection(
         selection=TIPO_SITUACAO,
         string=u'Tipo da Situação',
@@ -159,3 +171,122 @@ class HrPaylisp(models.Model):
     def retorna_trabalhador(self):
         self.ensure_one()
         return self.contract_id.employee_id
+
+    @api.multi
+    def ativar_remuneracao(self):
+        """
+        Gerar registros do esocial para remuneracao
+        """
+        for payslip in self:
+            if payslip.state not in ['verify', 'done']:
+                raise ValidationError(
+                    "Existem Holerites não validados neste período !\n"
+                    "Confirme ou Cancele todos os holerites deste período"
+                    "antes de processar o e-Social.")
+
+
+            # periodo = self.periodo_id
+            matriz  = payslip.company_id
+            trabalhador = payslip.employee_id
+            period_id = self.env['account.period'].find(payslip.date_from)
+
+            # Verifica se o registro S-1200 já existe, cria ou atualiza
+            domain_s1200 = [
+                ('company_id', '=', matriz.id),
+                ('trabalhador_id', '=', trabalhador.id),
+                ('periodo_id', '=', period_id.id),
+            ]
+
+            s1200 = self.env['sped.esocial.remuneracao'].search(domain_s1200)
+            if not s1200:
+                vals = {
+                    'company_id': matriz.id,
+                    'trabalhador_id': trabalhador.id,
+                    'contract_ids': [(6, 0, payslip.contract_id.ids)],
+                    'periodo_id': period_id.id,
+                }
+
+                # Criar intermediario de acordo com o tipo de employee
+                if trabalhador.tipo != 'autonomo':
+                    vals.update(
+                        {'payslip_ids': [(6, 0, payslip.ids)]})
+                else:
+                    vals.update(
+                        {'payslip_autonomo_ids': [(6, 0, payslip.ids)]})
+
+
+                # Relaciona o s1200 com o período do e-Social
+                sped_esocial = self.env['sped.esocial'].search([
+                    ('periodo_id','=',period_id.id)
+                ], limit=1)
+
+                if sped_esocial:
+
+                    s1200 = self.env['sped.esocial.remuneracao'].create(vals)
+
+                    sped_esocial.remuneracao_ids = [(4, s1200.id)]
+
+                else:
+                    raise ValidationError(
+                        "Nenhum período do esocial encontrado.")
+
+                # Cria o registro de transmissão sped (se ainda não existir)
+                s1200.atualizar_esocial()
+
+    @api.multi
+    def ativar_pagamento(self):
+        """
+        Gerar registros do esocial para remuneracao
+        """
+        for payslip in self:
+
+            if payslip.state not in ['verify', 'done']:
+                raise ValidationError(
+                    "Existem Holerites não validados neste período !\n"
+                    "Confirme ou Cancele todos os holerites deste período"
+                    "antes de processar o e-Social.")
+
+            matriz  = payslip.company_id
+            trabalhador = payslip.employee_id
+            period_id = self.env['account.period'].find(payslip.date_from)
+
+            domain_s1210 = [
+                ('company_id', '=', matriz.id),
+                ('beneficiario_id', '=', trabalhador.id),
+                ('periodo_id', '=', period_id.id),
+            ]
+
+            s1210 = self.env['sped.esocial.pagamento'].search(domain_s1210)
+
+            if not s1210:
+                vals = {
+                    'company_id': matriz.id,
+                    'beneficiario_id': trabalhador.id,
+                    'periodo_id': period_id.id,
+                    'contract_ids': [(6, 0, payslip.contract_id.ids)],
+                }
+
+                # Criar intermediario de acordo com o tipo de employee
+                if trabalhador.tipo != 'autonomo':
+                    vals.update({'payslip_ids': [(6, 0, payslip.ids)]})
+                else:
+                    vals.update({'payslip_autonomo_ids': [(6, 0, payslip.ids)]})
+
+                # Relaciona o s1200 com o período do e-Social
+                sped_esocial = self.env['sped.esocial'].search([
+                    ('periodo_id','=',period_id.id)
+                ], limit=1)
+
+                if sped_esocial:
+
+                    s1210 = self.env['sped.esocial.pagamento'].create(vals)
+
+                    sped_esocial.pagamento_ids = [(4, s1210.id)]
+
+                    # Atualiza o registro de transmissão e a lista de registros
+                    # S-1210 deste período
+                    s1210.atualizar_esocial()
+
+                else:
+                    raise ValidationError(
+                        "Nenhum período do esocial encontrado.")
