@@ -81,7 +81,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
                 nome += ')'
             registro.nome = nome
 
-    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao', 'precisa_atualizar')
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao', 'estabelecimento_id.precisa_atualizar_estabelecimento')
     def compute_situacao_esocial(self):
         for estabelecimento in self:
             situacao_esocial = '0'  # Inativa
@@ -226,7 +226,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             self.sped_inclusao = sped_inclusao
 
         # Criar o registro S-1005 de alteração, se for necessário
-        if self.precisa_atualizar:
+        elif self.precisa_atualizar:
             values['operacao'] = 'A'
 
             # Verifica se já tem um registro de atualização em aberto
@@ -369,8 +369,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
-
-        self.estabelecimento_id.precisa_atualizar = False
+        self.estabelecimento_id.precisa_atualizar_estabelecimento = False
 
     @api.multi
     def transmitir(self):

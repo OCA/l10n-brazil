@@ -86,7 +86,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
             nome += ')'
             lotacao.nome = nome
 
-    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao', 'precisa_atualizar')
+    @api.depends('sped_inclusao.situacao', 'sped_alteracao.situacao', 'sped_exclusao.situacao', 'lotacao_id.precisa_atualizar_lotacao')
     def compute_situacao_esocial(self):
         for lotacao in self:
             situacao_esocial = '0'  # Inativa
@@ -302,8 +302,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
     @api.multi
     def retorno_sucesso(self, evento):
         self.ensure_one()
-
-        self.company_id.precisa_atualizar = False
+        self.lotacao_id.precisa_atualizar_lotacao = False
 
     @api.multi
     def transmitir(self):
