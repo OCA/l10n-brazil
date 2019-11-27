@@ -9,6 +9,7 @@ from . import account_payment
 from . import account_payment_line
 from . import account_payment_mode
 from . import account_payment_order
+from . import account_payment_term
 from . import bank_api_operation
 from . import bank_payment_line
 from . import l10n_br_cnab

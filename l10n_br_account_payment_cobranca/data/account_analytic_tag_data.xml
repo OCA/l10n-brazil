@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_analytic_tag_interest" model="account.analytic.tag">
+        <field name="name">Juros</field>
+    </record>
+
+</odoo>
