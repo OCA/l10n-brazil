@@ -389,3 +389,11 @@ class AccountInvoice(models.Model):
     @api.multi
     def cce_invoice_online(self, justificative):
         pass
+
+    def serialize(self):
+        edocs = []
+        self._serialize(edocs)
+        return edocs
+
+    def _serialize(self, edocs):
+        return edocs
