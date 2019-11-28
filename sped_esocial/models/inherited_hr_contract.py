@@ -736,7 +736,7 @@ class HrContract(models.Model):
     def finalizar_contrato_autonomo(self):
         for record in self:
             if not record.date_end:
-                raise Warning(
+                raise ValidationError(
                     'É preciso escolher uma data final para finalizar '
                     'este contrato de autonômo!'
                 )
