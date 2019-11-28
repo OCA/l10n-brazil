@@ -12,6 +12,7 @@
         <field name="arch" type="xml">
             <field name="nfe_version" position="before">
                 <field name="processador_edoc"/>
+                <field name="provedor_nfse"/>
             </field>
         </field>
     </record>

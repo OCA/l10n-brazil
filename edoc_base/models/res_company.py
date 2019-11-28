@@ -17,3 +17,9 @@ class ResCompany(models.Model):
         selection=[(PROCESSADOR, 'Nenhum')],
         string='Processador documentos eletrônicos',
     )
+    provedor_nfse = fields.Selection(
+        selection=[
+            ('ginfes', 'Ginfes'),
+            ('dsf', 'DSF / Iss Digital'),
+        ],
+    )
