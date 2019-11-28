@@ -476,3 +476,38 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
     def retorna_trabalhador(self):
         self.ensure_one()
         return self.sped_hr_rescisao_id.contract_id.employee_id
+
+    @api.multi
+    def transmitir(self):
+        """
+        Transmitir o registro de encerramento do TSV apartir do contrato
+        """
+        for record in self:
+            if record.sped_s2399_registro_inclusao.situacao in ['1']:
+                record.sped_s2399_registro_inclusao.transmitir_lote()
+                return
+
+            registro_pendente_id = \
+                record.sped_s2399_registro_retificacao.filtered(
+                    lambda x: x.situacao in ['1'])
+
+            if registro_pendente_id:
+                registro_pendente_id.transmitir_lote()
+
+    @api.multi
+    def consultar(self):
+        """
+        Consultar resposta do e-Social após envio do registro
+        """
+        for record in self:
+
+            if record.sped_s2399_registro_inclusao.situacao in ['2']:
+                record.registro_inclusao.consulta_lote()
+                return
+
+            registro_pendente_id = \
+                record.sped_s2399_registro_retificacao.filtered(
+                    lambda x: x.situacao in ['2'])
+
+            if registro_pendente_id:
+                registro_pendente_id.consulta_lote()
