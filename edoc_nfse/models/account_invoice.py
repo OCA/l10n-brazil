@@ -5,7 +5,7 @@
 from datetime import datetime
 from unicodedata import normalize
 
-from nfselib.v3_01.tipos_v03 import (
+from nfselib.ginfes.v3_01.tipos_v03 import (
     ListaRpsType,
     tcContato,
     tcCpfCnpj,
@@ -20,7 +20,7 @@ from nfselib.v3_01.tipos_v03 import (
     tcRps,
     tcValores,
 )
-from nfselib.v3_01.servico_enviar_lote_rps_envio_v03 import EnviarLoteRpsEnvio
+from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import EnviarLoteRpsEnvio
 
 from erpbrasil.assinatura.certificado import Certificado
 from requests import Session
@@ -77,6 +77,11 @@ def fiter_processador_edoc_nfe(record):
         return True
     return False
 
+def fiter_provedor_ginfes(record):
+    if record.company_id.provedor_nfse == 'ginfes':
+        return True
+    return False
+
 
 class AccountInvoice(models.Model):
 
@@ -109,7 +114,8 @@ class AccountInvoice(models.Model):
 
     def _serialize(self, edocs):
         edocs = super(AccountInvoice, self)._serialize(edocs)
-        for record in self.filtered(fiter_processador_edoc_nfe):
+        for record in self.filtered(
+                fiter_processador_edoc_nfe).filtered(fiter_provedor_ginfes):
             edocs.append(record.serialize_nfse())
         return edocs
 
