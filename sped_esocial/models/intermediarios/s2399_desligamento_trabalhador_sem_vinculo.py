@@ -239,11 +239,13 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
 
         # Popula ideEmpregador (Dados do Empregador)
         S2399.evento.ideEmpregador.tpInsc.valor = '1'
-        S2399.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(
-            self.sped_hr_rescisao_id.company_id.cnpj_cpf)[0:8]
+        S2399.evento.ideEmpregador.nrInsc.valor = \
+            limpa_formatacao(
+                self.sped_hr_rescisao_id.company_id.cnpj_cpf or
+                self.company_id.cnpj_cpf)[0:8]
 
         # evtTSVTermino.ideTrabSemVinculo
-        employee_id = self.sped_hr_rescisao_id.contract_id.employee_id
+        employee_id = self.sped_hr_rescisao_id.contract_id.employee_id or self.hr_contract_id.employee_id
         S2399.evento.ideTrabSemVinculo.cpfTrab.valor = \
             limpa_formatacao(employee_id.cpf)
         S2399.evento.ideTrabSemVinculo.nisTrab.valor = \
