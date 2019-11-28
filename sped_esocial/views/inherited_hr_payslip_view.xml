@@ -33,17 +33,19 @@
 
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="esocial" string="e-Social" groups="sped_tabelas.group_user" attrs="{'invisible': [('sped_remuneracao_id','=',[])]}" >
-                        <separator string="Registro Desligamento" />
-                        <group>
-                            <group>
-                                <field name="sped_s2299" />
-                                <newline />
-                                <field name="sped_s2399" />
-                                <newline />
-                                <field name="sped_remuneracao_id" groups="base.group_no_one"/>
-                                <field name="sped_pagamento_id" groups="base.group_no_one"/>
-                            </group>
+
+                        <group string="Registro Desligamento">
+                                <field name="sped_s2299" nolabel="1"/>
+                                <field name="sped_s2399" nolabel="1"/>
                         </group>
+
+                        <group string="Registro Intermediário" groups="base.group_no_one">
+                            <label for="sped_remuneracao_id"/>
+                            <field name="sped_remuneracao_id" colspan="4" col="4"  nolabel="1"/>
+                            <label for="sped_pagamento_id"/>
+                            <field name="sped_pagamento_id" colspan="4" col="4" nolabel="1"/>
+                        </group>
+
                     </page>
                 </xpath>
 
