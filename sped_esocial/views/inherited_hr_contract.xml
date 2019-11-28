@@ -16,13 +16,18 @@
                              attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '0')]}"
                              confirm="Confirma a ativação deste contrato para o e-Social?"
                         />
+
+                        <button name="ativar_contrato_s2300" type="object" colspan="2"
+                             string="Ativar Contrato no e-Social(S-2300)" class="oe_highlight"
+                             attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', '!=', '0')]}" />
+
                         <button name="retificar_contrato_s2200" type="object" colspan="2"
                              string="Retificar Contrato no e-Social" class="oe_highlight"
                              attrs="{'invisible': ['|', ('evento_esocial', '!=', 's2200'), ('situacao_esocial', '!=', '2')]}"
                              confirm="Confirma a retificação deste contrato no e-Social?"
                         />
                         <button name="finalizar_contrato_autonomo" type="object" colspan="2"
-                             string="Fechar Contrato Autonomo no e-Social" class="oe_highlight"
+                             string="Fechar Contrato TSV no e-Social" class="oe_highlight"
                              attrs="{'invisible': ['|', '|', ('evento_esocial', '!=', 's2300'), ('situacao_esocial', 'not in', ['1','2']), ('category_code', '!=', '701')]}"
                              confirm="Confirma a finalização deste contrato no e-Social?"
                         />
