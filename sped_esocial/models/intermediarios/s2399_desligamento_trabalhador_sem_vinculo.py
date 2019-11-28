@@ -502,7 +502,7 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         for record in self:
 
             if record.sped_s2399_registro_inclusao.situacao in ['2']:
-                record.registro_inclusao.consulta_lote()
+                record.sped_s2399_registro_inclusao.consulta_lote()
                 return
 
             registro_pendente_id = \
