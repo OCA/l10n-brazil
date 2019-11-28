@@ -1017,7 +1017,8 @@ class AccountInvoice(models.Model):
         session = Session()
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
-        return NFe(transmissao)
+        return NFe(transmissao, self.company_id.state_id.ibge_code,
+                   self.edoc_version, self.edoc_enviroment)
 
     @api.multi
     def _edoc_export(self):
