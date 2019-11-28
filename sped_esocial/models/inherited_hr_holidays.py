@@ -145,7 +145,7 @@ class HrHolidays(models.Model):
     def unlink(self):
         for record in self:
             if record.situacao_esocial == '4':
-                raise Warning(
+                raise ValidationError(
                     'Não é possível excluir um '
                     'afastamento enviado para o e-Social!')
 

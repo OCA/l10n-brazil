@@ -224,7 +224,7 @@ class SpedAfastamentoTemporario(models.Model, SpedRegistroIntermediario):
         """
         for record in self:
             if record.situacao_esocial_afastamento in ['4', '2']:
-                raise Warning(
+                raise UserError(
                     'Não é possível excluir um '
                     'afastamento enviado para o e-Social!')
             record.action_cancel()
