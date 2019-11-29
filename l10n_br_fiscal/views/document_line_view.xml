@@ -34,10 +34,7 @@
             <field name="cest_id"/>
             <field name="nbs_id"/>
           </group>
-          <group name="operation" string="Operation">
-            <field name="operation_id"/>
-            <field name="operation_line_id"/>
-            <field name="cfop_id"/>
+          <group id="l10n_br_fiscal" name="operation" string="Operation">
           </group>
         </group>
         <group name="taxes" string="Taxes">
