@@ -28,6 +28,13 @@ class TestIbptProduct(common.TransactionCase):
         self.tax_estimate_model = self.env["l10n_br_fiscal.tax.estimate"]
         self.ncm_model = self.env["l10n_br_fiscal.ncm"]
 
+    def _switch_user_company(self, user, company):
+        """ Add a company to the user's allowed & set to current. """
+        user.write({
+            'company_ids': [(6, 0, (company + user.company_ids).ids)],
+            'company_id': company.id,
+        })
+
     def _create_compay(self):
         # Creating a company
         company = self.env["res.company"].create(
