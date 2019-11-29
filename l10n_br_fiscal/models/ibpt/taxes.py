@@ -13,8 +13,8 @@ WS_SERVICOS = 0
 WS_PRODUTOS = 1
 
 WS_IBPT = {
-    WS_SERVICOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/Servicos/?',
-    WS_PRODUTOS: 'http://iws.ibpt.org.br/api/deolhonoimposto/Produtos/?',
+    WS_SERVICOS: 'https://apidoni.ibpt.org.br/api/v1/servicos?',
+    WS_PRODUTOS: 'https://apidoni.ibpt.org.br/api/v1/produtos?',
 }
 
 
@@ -45,8 +45,8 @@ def _request(ws_url, params):
         raise UserError(_('Error in the request: {0}'.format(e)))
 
 
-def get_ibpt_product(config, ncm, ex='0', reference=None, description=None,
-                     uom=None, amount=None, gtin=None):
+def get_ibpt_product(config, ncm, ex='0', reference='', description='',
+                     uom='', amount='0', gtin=''):
 
     data = {
         'token': config.token,
@@ -63,12 +63,12 @@ def get_ibpt_product(config, ncm, ex='0', reference=None, description=None,
     return _request(WS_IBPT[WS_PRODUTOS], data)
 
 
-def get_ibpt_service(config, nbs, description=None, uom=None, amount=None):
+def get_ibpt_service(config, nbs, description='', uom='', amount='0'):
     data = {
         'token': config.token,
         'cnpj': config.cnpj,
-        'uf': config.uf,
         'codigo': nbs,
+        'uf': config.uf,
         'descricao': description,
         'unidadeMedida': uom,
         'valor': amount}
