@@ -122,6 +122,7 @@
                                     <field name="estimate_tax_imported"/>
                                 </group>
                             </group>
+                            <field name="tax_estimate_ids"/>
                         </page>
                     </notebook>
                 </sheet>
