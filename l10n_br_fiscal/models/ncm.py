@@ -129,7 +129,8 @@ class Ncm(models.Model):
 
                 values = {
                     'ncm_id': ncm.id,
-                    'origin': 'IBPT-WS',
+                    'key': result.chave,
+                    'origin': result.fonte,
                     'state_id': company.state_id.id,
                     'state_taxes': result.estadual,
                     'federal_taxes_national': result.nacional,
