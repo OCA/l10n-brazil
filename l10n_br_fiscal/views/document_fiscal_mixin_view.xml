@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="document_fiscal_mixin_form" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.mixin.form</field>
+    <field name="model">l10n_br_fiscal.document.mixin</field>
+    <field name="arch" type="xml">
+        <form>
+            <group id="l10n_br_fiscal">
+                <field name="operation_id"/>
+            </group>
+        </form>
+    </field>
+  </record>
+
+</odoo>

@@ -110,7 +110,7 @@ class Operation(models.Model):
                 _('You cannot delete an Operation which is not draft !'))
         return super(Operation, self).unlink()
 
-    def _line_domain(self, company, partner, item):
+    def _line_domain(self, company, partner, product):
 
         domain = [('operation_type', '=', self.operation_type),
                   ('state', '=', 'approved')]
@@ -124,19 +124,19 @@ class Operation(models.Model):
         domain += ['|', ('partner_tax_framework', '=', partner.tax_framework),
                    ('partner_tax_framework', '=', False)]
 
-        domain += ['|', ('product_type', '=', item.fiscal_type),
+        domain += ['|', ('product_type', '=', product.fiscal_type),
                    ('product_type', '=', False)]
 
         return domain
 
     @api.multi
-    def line_definition(self, company, partner, item):
+    def line_definition(self, company, partner, product):
         self.ensure_one()
         if not company:
             company = self.env.user.company_id
 
         line = self.line_ids.search(
-            self._line_domain(company, partner, item),
+            self._line_domain(company, partner, product),
             limit=1)
 
         return line
