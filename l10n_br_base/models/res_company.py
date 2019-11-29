@@ -164,7 +164,8 @@ class Company(models.Model):
 
     @api.onchange("cnpj_cpf")
     def _onchange_cnpj_cpf(self):
-        self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf)
+        if self.cnpj_cpf:
+            self.cnpj_cpf = cnpj_cpf.formata(self.cnpj_cpf)
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
@@ -182,4 +183,5 @@ class Company(models.Model):
 
     @api.onchange("zip")
     def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip, self.country_id.code)
+        if self.zip:
+            self.zip = misc.format_zipcode(self.zip, self.country_id.code)
