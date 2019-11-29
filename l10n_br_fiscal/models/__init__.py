@@ -1,6 +1,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from . import data_abstract
+from . import document_fiscal_mixin
+from . import document_fiscal_line_mixin
 from . import document_abstract
 from . import document_line_abstract
 from . import document_eletronic

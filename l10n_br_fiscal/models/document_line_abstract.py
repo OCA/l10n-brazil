@@ -25,6 +25,7 @@ from ..constants.fiscal import (
 
 class DocumentLineAbstract(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.line.abstract'
+    _inherit = 'l10n_br_fiscal.document.line.mixin'
     _description = 'Fiscal Document Line Abstract'
 
     @api.one
@@ -67,23 +68,6 @@ class DocumentLineAbstract(models.AbstractModel):
         comodel_name='l10n_br_fiscal.document.abstract',
         string='Document')
 
-    operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Operation',
-        domain="[('state', '=', 'approved')]")
-
-    operation_line_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation.line',
-        string='Operation Line',
-        domain="[('operation_id', '=', operation_id), "
-               "('state', '=', 'approved')]")
-
-    operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT,
-        related='operation_id.operation_type',
-        string='Operation Type',
-        readonly=True)
-
     company_id = fields.Many2one(
         comodel_name='res.company',
         related='document_id.company_id',
@@ -99,11 +83,6 @@ class DocumentLineAbstract(models.AbstractModel):
         comodel_name='res.currency',
         related='company_id.currency_id',
         string='Currency')
-
-    cfop_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.cfop',
-        string='CFOP',
-        domain="[('type_in_out', '=', operation_type)]")
 
     product_id = fields.Many2one(
         comodel_name='product.product',
@@ -455,6 +434,9 @@ class DocumentLineAbstract(models.AbstractModel):
 
     @api.multi
     def compute_taxes(self):
+
+        result_taxes = super(DocumentLineAbstract, self).compute_taxes()
+
         for line in self:
             taxes = self.env['l10n_br_fiscal.tax']
 
@@ -469,7 +451,7 @@ class DocumentLineAbstract(models.AbstractModel):
             # TODO populate field taxes
         return result_taxes
 
-    @api.onchange('product_id', 'operation_id')
+    @api.onchange('product_id')
     def _onchange_product_id(self):
         if self.product_id:
             self.name = self.product_id.display_name
@@ -484,33 +466,18 @@ class DocumentLineAbstract(models.AbstractModel):
     @api.onchange('operation_id')
     def _onchange_operation_id(self):
 
+        super(DocumentLineAbstract, self)._onchange_operation_id()
+
         if not self.operation_id:
             self.operation_id = self.document_id.operation_id
-
-        if self.operation_id:
-            price = {
-                'sale_price': self.product_id.list_price,
-                'cost_price': self.product_id.standard_price}
-
-            self.price = price.get(self.operation_id.default_price_unit, 0.00)
-
-            self.operation_line_id = self.operation_id.line_definition(
-                company=self.document_id.company_id,
-                partner=self.document_id.partner_id,
-                item=self.product_id)
 
             if self.operation_line_id:
                 if self.partner_id.state_id == self.company_id.state_id:
                     self.cfop_id = self.operation_line_id.cfop_internal_id
+                elif self.partner_id.state_id != self.company_id.state_id:
+                    self.cfop_id = self.operation_line_id.cfop_external_id
                 elif self.partner_id.country_id != self.company_id.country_id:
                     self.cfop_id = self.operation_line_id.cfop_export_id
-                else:
-                    self.cfop_id = self.operation_line_id.cfop_external_id
-
-            # Get and define default and operation taxes
-            # self.set_default_taxes()
-
-            self.compute_taxes()
 
     @api.onchange('uot_id', 'uom_id', 'price', 'quantity')
     def _onchange_commercial_quantity(self):
