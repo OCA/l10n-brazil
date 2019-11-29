@@ -10,7 +10,8 @@ from ..constants.fiscal import (
 
 class DocumentAbstract(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.abstract'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'format.address.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin',
+                'l10n_br_fiscal.document.mixin']
     _description = 'Fiscal Document Abstract'
 
     @api.one
@@ -100,16 +101,6 @@ class DocumentAbstract(models.AbstractModel):
     partner_shipping_id = fields.Many2one(
         comodel_name='res.partner',
         string='Shipping Address')
-
-    operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Operation')
-
-    operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT,
-        related='operation_id.operation_type',
-        string='Operation Type',
-        readonly=True)
 
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -207,6 +198,7 @@ class DocumentAbstract(models.AbstractModel):
 
     @api.onchange('operation_id')
     def _onchange_operation_id(self):
+        super(DocumentAbstract, self)._onchange_operation_id()
         if self.operation_id:
             self.document_type_id = self.operation_id.document_type_id
             self.document_serie_id = self.operation_id.document_serie_id
