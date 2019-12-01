@@ -3,3 +3,4 @@ pycep-correios
 erpbrasil.base==1.1.0
 workalendar==7.1.1
 erpbrasil.assinatura==0.4.1
+-e git://github.com/akretion/nfelib.git#egg=nfelib
