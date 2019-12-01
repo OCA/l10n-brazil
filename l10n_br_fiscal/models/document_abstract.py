@@ -48,7 +48,7 @@ class DocumentAbstract(models.AbstractModel):
 
     document_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.type',
-        required=True)
+        related='document_serie_id.document_type_id')
 
     document_electronic = fields.Boolean(
         related='document_type_id.electronic',
