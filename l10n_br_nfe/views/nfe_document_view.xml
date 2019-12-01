@@ -3,7 +3,7 @@
 
   <record id="nfe_document_search" model="ir.ui.view">
     <field name="name">l10n_br_nfe.document.search</field>
-    <field name="model">l10n_br_nfe.document</field>
+    <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <search string="NF-e">
         <field name="number"/>
@@ -16,7 +16,7 @@
 
   <record id="nfe_document_tree" model="ir.ui.view">
     <field name="name">l10n_br_nfe.document.tree</field>
-    <field name="model">l10n_br_nfe.document</field>
+    <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <tree string="NF-e">
         <field name="number"/>
@@ -32,7 +32,7 @@
 
   <record id="nfe_document_form" model="ir.ui.view">
     <field name="name">l10n_br_nfe.document.form</field>
-    <field name="model">l10n_br_nfe.document</field>
+    <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <form string="NF-e">
         <field name="id" invisible="1"/>
