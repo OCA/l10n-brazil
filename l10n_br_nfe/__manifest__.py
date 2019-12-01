@@ -9,11 +9,14 @@
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.0",
-    "depends": ["l10n_br_fiscal"],
+    "depends": [
+        "l10n_br_fiscal",
+        "l10n_br_nfe_spec",
+        ],
     "data": [
         # Security
         "security/nfe_security.xml",
-        "security/ir.model.access.csv",
+#        'security/ir.model.access.csv',
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
@@ -24,6 +27,7 @@
         # Menu
         "views/nfe_menu.xml",
     ],
+    'post_init_hook': 'post_init_hook',
     "installable": True,
     "auto_install": False,
 }
