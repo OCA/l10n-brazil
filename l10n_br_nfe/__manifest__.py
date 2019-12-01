@@ -16,8 +16,11 @@
         "l10n_br_spec_nfe",
     ],
     "data": [
+        'l10n_br_fiscal',
+        'l10n_br_nfe_spec',
         # Security
         "security/nfe_security.xml",
+#        'security/ir.model.access.csv',
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
@@ -28,6 +31,7 @@
         # Menu
         # "views/nfe_menu.xml",
     ],
+    'post_init_hook': 'post_init_hook',
     "installable": True,
     "auto_install": False,
     'external_dependencies': {
