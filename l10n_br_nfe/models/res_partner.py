@@ -1,10 +1,5 @@
-# Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-
 from odoo import api, fields
-
 from odoo.addons.spec_driven_model.models import spec_models
-
 
 class ResPartner(spec_models.SpecModel):
     # NOTE TODO
@@ -12,17 +7,17 @@ class ResPartner(spec_models.SpecModel):
     # what happen to m2o to tendereco if we don't inherit from tendereco?
     # should we stack tendereco from dest? will m2o to tendereco work?
     # can we use related fields and context views to avoid troubles?
-    _name = 'res.partner'
-    _inherit = ['res.partner', 'nfe.40.tendereco',
-                'nfe.40.tlocal', 'nfe.40.dest']
+    _inherit = ["res.partner", "nfe.40.tendereco",
+                "nfe.40.tlocal", "nfe.40.dest"]
+    _name = "res.partner"
     _nfe_search_keys = ['nfe40_CNPJ', 'nfe40_CPF', 'nfe40_xNome']
 
     @api.model
-    def _prepare_import_dict(self, values, defaults={}):
-        vals = super()._prepare_import_dict(values)
-        if not values.get('name') and values.get('legal_name'):
-            values['name'] = values['legal_name']
-        return values
+    def _prepare_import_dict(self, vals, defaults={}):
+        vals = super(ResPartner, self)._prepare_import_dict(vals)
+        if not vals.get('name') and vals.get('legal_name'):
+            vals['name'] = vals['legal_name']
+        return vals
 
 # TODO deal with nfe40_enderDest. Item can be the address with dest on the parent...
 
@@ -53,16 +48,10 @@ class ResPartner(spec_models.SpecModel):
     # nfe.40.dest
 #    nfe40_idEstrangeiro = fields.Char(
     nfe40_xNome = fields.Char(related='legal_name')
-    nfe40_enderDest = fields.Many2one('res.partner',
-                                      compute='_compute_nfe40_enderDest')
+#    nfe40_enderDest = fields.Many2one TODO
 #    nfe40_IE = fields.Char(related='') TODO
     nfe40_ISUF = fields.Char(related='suframa')
     nfe40_email = fields.Char(related='email')
-
-    @api.multi
-    def _compute_nfe40_enderDest(self):
-        for rec in self:
-            rec.nfe40_enderDest = rec.id
 
     @api.multi
     def _compute_nfe_data(self):
@@ -90,7 +79,7 @@ class ResPartner(spec_models.SpecModel):
 
     def _inverse_nfe40_cMun(self):
         for rec in self:
-            if self.nfe40_cMun and len(self.nfe40_cMun) == 7:
+            if len(self.nfe40_cMun) == 7:
                 state_ibge = self.nfe40_cMun[0:1]
                 city_ibge = self.nfe40_cMun[2:8]
                 state = self.env['res.country.state'].search(
