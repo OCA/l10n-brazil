@@ -54,6 +54,9 @@ class DataAbstract(models.AbstractModel):
                 name = '{0}...'.format(name[:60])
             return name
 
+        if self._context.get('show_code_only'):
+            return [(r.id, "{0}".format(r.code)) for r in self]
+
         return [(r.id,
                  "{0} - {1}".format(r.code, truncate_name(r.name)))
                 for r in self]
