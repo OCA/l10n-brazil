@@ -230,12 +230,12 @@ NFE_IND_IE_DEST_3 = '9'
 
 
 CFOP_TYPE_MOVE = [
-    ('purchase_industry', 'Purchase Industry'),
+    ('purchase_industry', 'Purchase Industry'),
     ('purchase_commerce', 'Purchase Commerce'),
-    ('purchase_asset', 'Purchase Asset'),
-    ('purchase_ownuse', 'Purchase Own Use'),
-    ('purchase_service', 'Purchase Service'),
-    ('purchase_refund', 'Purchase Refund'),
+    ('purchase_asset', 'Purchase Asset'),
+    ('purchase_ownuse', 'Purchase Own Use'),
+    ('purchase_service', 'Purchase Service'),
+    ('purchase_refund', 'Purchase Refund'),
     ('return_in', 'Return in'),
     ('sale_industry', 'Sale Industry'),
     ('sale_commerce', 'Sale Commerce'),
