@@ -41,10 +41,15 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         string='Contratos',
         comodel_name='hr.contract',
     )
+
     payslip_ids = fields.Many2many(
         string='Holerites',
         comodel_name='hr.payslip',
+        relation='payslip_remuneracao_rel',
+        column1='payslip_id',
+        column2='remuneracao_id',
     )
+
     payslip_autonomo_ids = fields.Many2many(
         string='Holerites de Autônomos',
         comodel_name='hr.payslip.autonomo',

@@ -42,6 +42,9 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
     payslip_ids = fields.Many2many(
         string='Holerites',
         comodel_name='hr.payslip',
+        relation='payslip_pagamento_rel',
+        column1='payslip_id',
+        column2='pagamento_id',
     )
     payslip_autonomo_ids = fields.Many2many(
         string='Holerites',

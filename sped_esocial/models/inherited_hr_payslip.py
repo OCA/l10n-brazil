@@ -53,16 +53,20 @@ class HrPaylisp(models.Model):
         readonly=True,
     )
 
-    sped_remuneracao_id = fields.One2many(
+    sped_remuneracao_id = fields.Many2many(
         string = u'Sped Remuneração (Intermediario S-1200)',
         comodel_name='sped.esocial.remuneracao',
-        inverse_name='payslip_ids',
+        relation='payslip_remuneracao_rel',
+        column1='remuneracao_id',
+        column2='payslip_id',
     )
 
-    sped_pagamento_id = fields.One2many(
+    sped_pagamento_id = fields.Many2many(
         string = u'Sped Pagamento (Intermediario S-1210)',
         comodel_name='sped.esocial.pagamento',
-        inverse_name='payslip_ids',
+        relation='payslip_pagamento_rel',
+        column1='pagamento_id',
+        column2='payslip_id',
     )
 
     tipo_situacao = fields.Selection(
