@@ -1957,7 +1957,7 @@ class HrPayslip(models.Model):
             ('state', 'in', ['done', 'verify']),
             ('ano', '=', self.ano),
             ('is_simulacao', '=', False),
-            ('mes_do_ano', '<=', self.mes_do_ano),
+            ('mes_do_ano2', '<=', self.mes_do_ano2),
         ]
         holerites = self.search(domain, order='mes_do_ano DESC')
 
@@ -1967,6 +1967,7 @@ class HrPayslip(models.Model):
                 for line in holerite.line_ids:
                     if line.code in [
                         'ADIANTAMENTO_13',
+                        'SALARIO_13',
                         'ADIANTAMENTO_13_FERIAS',
                         'PRIMEIRA_PARCELA_13',
                     ]:
