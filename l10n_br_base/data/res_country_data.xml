@@ -120,6 +120,7 @@
         <field name="name_position">before</field>
         <field name="address_format" eval="'%(street)s, %(street_number)s %(street2)s\n%(district)s\n%(zip)s - %(city)s-%(state_code)s\n%(country_name)s'"/>
         <field name="address_view_id" ref="l10n_br_base_res_partner_address"/>
+        <field name="vat_label">CNPJ/CPF</field>
     </record>
 
     <record id="base.bs" model="res.country">

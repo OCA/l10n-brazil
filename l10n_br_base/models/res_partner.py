@@ -60,6 +60,7 @@ class Partner(models.Model):
             return address_format % args
 
     cnpj_cpf = fields.Char(string="CNPJ/CPF", size=18)
+    vat = fields.Char(related='cnpj_cpf')
 
     inscr_est = fields.Char(string="State Tax Number/RG", size=16)
 
