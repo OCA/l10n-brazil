@@ -7,6 +7,7 @@ from datetime import timedelta
 
 from odoo import fields
 from odoo.tests import common
+from odoo.tools.misc import format_date
 from odoo.exceptions import ValidationError
 
 
@@ -27,6 +28,9 @@ class TestCertificate(common.TransactionCase):
         self.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
         self.cert_subject_invalid = 'CERTIFICADO INVALIDO TESTE'
         self.cert_passwd = '123456'
+        self.cert_name = "{0} - {1} - {2} - Valid: {3}".format(
+            "NF-E", "A1", self.cert_subject_valid,
+            format_date(self.env, self.cert_date_exp))
 
         self.certificate_valid = self._create_certificate(
             valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
@@ -34,6 +38,13 @@ class TestCertificate(common.TransactionCase):
         self.certificate_invalid = self._create_certificate(
             valid=False, passwd=self.cert_passwd, issuer=self.cert_issuer_b,
             country=self.cert_country, subject=self.cert_subject_invalid)
+
+        self.cert = self.certificate_model.create({
+            'type': 'nf-e',
+            'subtype': 'a1',
+            'password': self.cert_passwd,
+            'file': self.certificate_valid
+        })
 
     def _create_compay(self):
         # Creating a company
@@ -89,18 +100,21 @@ class TestCertificate(common.TransactionCase):
 
     def test_valid_certificate(self):
         """Create and check a valid certificate"""
-        cert = self.certificate_model.create({
-            'type': 'nf-e',
-            'subtype': 'a1',
-            'password': self.cert_passwd,
-            'file': self.certificate_valid
-        })
+        self.assertEquals(self.cert.issuer_name, self.cert_issuer_a)
+        self.assertEquals(self.cert.owner_name, self.cert_subject_valid)
+        self.assertEquals(
+            self.cert.date_expiration.year, self.cert_date_exp.year)
+        self.assertEquals(
+            self.cert.date_expiration.month, self.cert_date_exp.month)
+        self.assertEquals(
+            self.cert.date_expiration.day, self.cert_date_exp.day)
+        self.assertEquals(self.cert.name, self.cert_name)
+        self.assertTrue(self.cert.is_valid, "Error is_valid method.")
 
-        self.assertEquals(cert.issuer_name, self.cert_issuer_a)
-        self.assertEquals(cert.owner_name, self.cert_subject_valid)
-        self.assertEquals(cert.date_expiration.year, self.cert_date_exp.year)
-        self.assertEquals(cert.date_expiration.month, self.cert_date_exp.month)
-        self.assertEquals(cert.date_expiration.day, self.cert_date_exp.day)
+    def test_certificate_wrong_password(self):
+        """Write a valid certificate with wrong password"""
+        with self.assertRaises(ValidationError):
+            self.cert.write({'password': '123454'})
 
     def test_invalid_certificate(self):
         """Create and check a invalid certificate"""
