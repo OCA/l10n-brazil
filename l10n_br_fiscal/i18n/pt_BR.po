@@ -2985,6 +2985,6 @@ msgid "m2"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.uom_meter3
+#: model:uom.uom,name:l10n_br_fiscal.UOM_M3
 msgid "m3"
 msgstr ""
