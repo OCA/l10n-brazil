@@ -356,11 +356,8 @@ class AccountInvoice(models.Model):
         return self.number
 
     @api.multi
-    def action_move_create(self):
-        result = super(AccountInvoice, self).action_move_create()
-
+    def _pos_action_move_create(self):
         for inv in self:
-
             # inv.transaction_id = sequence
             inv._compute_receivables()
             for index, interval in enumerate(inv.move_line_receivable_id):
@@ -399,8 +396,12 @@ class AccountInvoice(models.Model):
                     instrucoes += inv.instrucoes + '\n'
                 interval.instrucoes = instrucoes
 
-        return result
+    @api.multi
+    def action_move_create(self):
+        result = super(AccountInvoice, self).action_move_create()
 
+        self._pos_action_move_create()
+        return result
 
     @api.multi
     def create_account_payment_line_baixa(self):
@@ -473,7 +474,11 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).register_payment(
             payment_line, writeoff_acc_id, writeoff_journal_id)
 
+        self._pos_action_move_create()
+
         for inv in self:
             inv._compute_receivables()
+            receivable_id = inv.move_line_receivable_id
+            receivable_id.residual = inv.residual
 
         return res

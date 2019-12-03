@@ -14,6 +14,9 @@
                 <field name="identificacao_titulo_empresa"/>
                 <field name="instrucoes"/>
             </field>
+            <field name="debit" position="after">
+                <field name="residual"/>
+            </field>
         </field>
     </record>
 
