@@ -18,6 +18,7 @@ from . import cest
 from . import ncm_cest
 from . import tax_group
 from . import tax
+from . import tax_icms
 from . import tax_pis_cofins
 from . import tax_pis_cofins_base
 from . import tax_pis_cofins_credit
