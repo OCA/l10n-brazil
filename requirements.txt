@@ -2,4 +2,4 @@ num2words==0.5.4
 pycep-correios
 erpbrasil.base==1.1.0
 workalendar==7.1.1
-erpbrasil.assinatura==0.3.0
+erpbrasil.assinatura==0.4.1
