@@ -94,6 +94,9 @@
     # Tax
     <menuitem id="tax_menu" action="tax_action" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="20"/>
 
+    # Tax ICMS Regulation
+    <menuitem id="tax_icms_regulation_menu" action="tax_icms_regulation_action" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="30"/>
+
     # Tax PIS COFINS
     <menuitem id="tax_pis_cofins_menu" action="tax_pis_cofins_action" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="30"/>
 
