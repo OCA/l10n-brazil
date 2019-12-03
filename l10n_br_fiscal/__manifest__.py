@@ -71,7 +71,7 @@
         'views/res_config_settings_view.xml',
         'views/l10n_br_fiscal_action.xml',
         'views/l10n_br_fiscal_menu.xml',
-
+        'views/uom_uom.xml',
         # 'data/l10n_br_account_product_sequence.xml',
         # 'data/l10n_br_account_data.xml',
         # 'data/l10n_br_account_product_data.xml',
