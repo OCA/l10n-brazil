@@ -3,6 +3,7 @@
 
     <record id="uom_meter2" model="uom.uom">
         <field name="category_id" ref="uom.uom_categ_length"/>
+        <field name="code">m2</field>
         <field name="name">m2</field>
         <field name="factor" eval="1.0"/>
         <field name="uom_type">bigger</field>
@@ -10,6 +11,7 @@
 
     <record id="uom_meter3" model="uom.uom">
         <field name="category_id" ref="uom.uom_categ_length"/>
+        <field name="code">m3</field>
         <field name="name">m3</field>
         <field name="factor" eval="1.0"/>
         <field name="uom_type">bigger</field>
@@ -17,15 +19,8 @@
 
     <record id="uom_mw_hour" model="uom.uom">
         <field name="category_id" ref="uom.uom_categ_wtime"/>
+        <field name="code">mwh</field>
         <field name="name">MWHORA</field>
-        <field name="factor" eval="1.0"/>
-        <field name="uom_type">bigger</field>
-    </record>
-
-    <!-- Tonel Metr Liquida -->
-    <record id="uom_ton" model="uom.uom">
-        <field name="category_id" ref="uom.product_uom_categ_vol"/>
-        <field name="name">TON</field>
         <field name="factor" eval="1.0"/>
         <field name="uom_type">bigger</field>
     </record>
@@ -33,6 +28,7 @@
     <!-- PARES -->
     <record id="uom_pares" model="uom.uom">
         <field name="category_id" ref="uom.product_uom_categ_unit"/>
+        <field name="code">par</field>
         <field name="name">PARES</field>
         <field name="factor_inv" eval="2"/>
         <field name="uom_type">bigger</field>
@@ -41,6 +37,7 @@
     <!-- 1000UN -->
     <record id="uom_1000un" model="uom.uom">
         <field name="category_id" ref="uom.product_uom_categ_unit"/>
+        <field name="code">1000UN</field>
         <field name="name">1000UN</field>
         <field name="factor_inv" eval="1000"/>
         <field name="uom_type">bigger</field>
@@ -49,10 +46,89 @@
     <!-- QUILAT -->
     <record id="uom_quilat" model="uom.uom">
         <field name="category_id" ref="uom.product_uom_categ_kgm"/>
+        <field name="code">K</field>
         <field name="name">QUILAT</field>
         <field name="factor" eval="1.0"/>
         <field name="uom_type">bigger</field>
     </record>
 
+    <!--
+         Odoo Core Resource: uom.uom
+     -->
+    <record id="uom.product_uom_unit" model="uom.uom">
+        <field name="code">UN</field>
+    </record>
+    <record id="uom.product_uom_dozen" model="uom.uom">
+        <field name="code">DZ</field>
+    </record>
+
+    <record id="uom.product_uom_kgm" model="uom.uom">
+        <field name="code">kg</field>
+    </record>
+
+    <record id="uom.product_uom_gram" model="uom.uom">
+        <field name="code">g</field>
+    </record>
+
+    <record id="uom.product_uom_day" model="uom.uom">
+        <field name="code">dia</field>
+    </record>
+
+    <record id="uom.product_uom_hour" model="uom.uom">
+        <field name="code">hr</field>
+    </record>
+
+    <record id="uom.product_uom_meter" model="uom.uom">
+        <field name="code">m</field>
+    </record>
+
+    <record id="uom.product_uom_ton" model="uom.uom">
+        <field name="code">t</field>
+    </record>
+
+    <record id="uom.product_uom_km" model="uom.uom">
+        <field name="code">km</field>
+    </record>
+
+    <record id="uom.product_uom_cm" model="uom.uom">
+        <field name="code">cm</field>
+    </record>
+
+    <record id="uom.product_uom_litre" model="uom.uom">
+        <field name="code">l</field>
+    </record>
+
+    <!--Americanization of units of measure-->
+    <record id="uom.product_uom_lb" model="uom.uom">
+        <field name="code">lb</field>
+    </record>
+
+    <record id="uom.product_uom_oz" model="uom.uom">
+        <field name="code">oz</field>
+    </record>
+
+    <record id="uom.product_uom_inch" model="uom.uom">
+        <field name="code">pol</field>
+    </record>
+
+    <record id="uom.product_uom_foot" model="uom.uom">
+        <field name="code">ft</field>
+    </record>
+
+    <record id="uom.product_uom_mile" model="uom.uom">
+        <field name="code">mil</field>
+    </record>
+
+    <record id="uom.product_uom_floz" model="uom.uom">
+        <field name="code">oz</field>
+    </record>
+
+    <record id="uom.product_uom_qt" model="uom.uom">
+        <field name="code">qt</field>
+    </record>
+
+    <record id="uom.product_uom_gal" model="uom.uom">
+        <field name="code">gal</field>
+    </record>
 
 </odoo>
