@@ -70,9 +70,12 @@ class Boleto:
         self.boleto.data_documento = datetime.date(datetime.strptime(
             move_line.invoice_id.date_invoice, '%Y-%m-%d'))
         self.boleto.data_processamento = date.today()
-        self.boleto.valor = str("%.2f" % move_line.debit or move_line.credit)
-        self.boleto.valor_documento = str("%.2f" % move_line.debit or
-                                          move_line.credit)
+        self.boleto.valor = str("%.2f" % move_line.residual if
+                                move_line.residual else
+                                move_line.debit or move_line.credit)
+        self.boleto.valor_documento = str("%.2f" % move_line.residual if
+                                          move_line.residual else
+                                          move_line.debit or move_line.credit)
         self.boleto.especie = \
             move_line.currency_id and move_line.currency_id.symbol or 'R$'
         self.boleto.quantidade = ''  # str("%.2f" % move_line.amount_currency)

@@ -60,6 +60,12 @@ class AccountMoveLine(models.Model):
         readonly=True,
     )
 
+    residual = fields.Monetary(
+        string=u'Valor Residual',
+        default=0.0,
+        currency_field='company_currency_id'
+    )
+
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         vals = super(AccountMoveLine, self)._prepare_payment_line_vals(
