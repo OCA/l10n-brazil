@@ -60,6 +60,7 @@ def get_holerites_adiantamento(
         ('tipo_de_folha', '=', tipo_de_folha),
         ('company_id', 'in', wizard.company_ids.ids),
         ('ano', '=', int(wizard.period_id.fiscalyear_id.name)),
+        ('mes_do_ano', '<=', int(wizard.period_id.code[:2])),
         ('state', 'in', ['done', 'verify']),
         ('is_simulacao', '=', False),
     ]
