@@ -109,6 +109,14 @@ class Operation(models.Model):
         column2="comment_id",
         string="Comment")
 
+    natureza_operacao_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.natureza.operacao',
+        string='Natureza da operação',
+        ondelete='restrict',
+        readonly=True,
+        states={"draft": [("readonly", False)]}
+    )
+
     _sql_constraints = [
         (
             "fiscal_operation_code_uniq",

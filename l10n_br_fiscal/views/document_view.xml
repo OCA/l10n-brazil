@@ -152,6 +152,11 @@
             <page nam="finance" string="Finance">
             </page>
             <page nam="others" string="Others">
+                <group name="other_info">
+                    <group>
+                        <field name="natureza_operacao_id"/>
+                    </group>
+                </group>
                 <group>
                     <group name="autorizacao" string="Autorização" colspan="4">
                         <field name="data_hora_autorizacao"/>

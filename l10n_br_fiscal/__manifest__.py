@@ -27,6 +27,7 @@
         "data/partner_profile_data.xml",
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
+        "data/l10n_br_fiscal_natureza_operacao.xml",
 
         # Wizards
 
@@ -73,6 +74,8 @@
         "views/l10n_br_fiscal_action.xml",
         "views/l10n_br_fiscal_menu.xml",
         "views/uom_uom.xml",
+        "views/l10n_br_fiscal_natureza_operacao.xml",
+
         # 'data/l10n_br_account_product_sequence.xml',
         # 'data/l10n_br_account_data.xml',
         # 'data/l10n_br_account_product_data.xml',

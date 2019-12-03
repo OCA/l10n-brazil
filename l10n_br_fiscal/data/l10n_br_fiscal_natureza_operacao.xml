@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo noupdate="1">
+    
+    <record id="NATUREZA_VENDA" model="l10n_br_fiscal.natureza.operacao">
+        <field name="code">01</field>
+        <field name="name">VENDA</field>
+    </record>
+
+    <record id="NATUREZA_REVENDA" model="l10n_br_fiscal.natureza.operacao">
+        <field name="code">02</field>
+        <field name="name">REVENDA</field>
+    </record>
+
+    <record id="NATUREZA_BONIFICACAO" model="l10n_br_fiscal.natureza.operacao">
+        <field name="code">03</field>
+        <field name="name">BONIFICAÇÃO</field>
+    </record>
+
+    <record id="NATUREZA_COMPRA" model="l10n_br_fiscal.natureza.operacao">
+        <field name="code">04</field>
+        <field name="name">COMPRA</field>
+    </record>
+
+    <record id="NATUREZA_DEVOLUCAO_COMPRA" model="l10n_br_fiscal.natureza.operacao">
+        <field name="code">05</field>
+        <field name="name">DEVOLUÇÃO COMPRA</field>
+    </record>
+
+    <record id="NATUREZA_DEVOLUCAO_VENDA" model="l10n_br_fiscal.natureza.operacao">
+        <field name="code">06</field>
+        <field name="name">DEVOLUÇÃO VENDA</field>
+    </record>
+
+</odoo>

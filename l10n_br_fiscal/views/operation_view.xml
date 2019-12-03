@@ -45,6 +45,7 @@
                             <field name="code"/>
                             <field name="name"/>
                             <field name="operation_type"/>
+                            <field name="natureza_operacao_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="fiscal_type"/>
                             <field name="company_id"/>
                         </group>

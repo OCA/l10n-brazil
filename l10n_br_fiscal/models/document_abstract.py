@@ -98,6 +98,11 @@ class DocumentAbstract(models.AbstractModel):
         domain="[('active', '=', True),"
                "('document_type_id', '=', document_type_id)]")
 
+    natureza_operacao_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.natureza.operacao',
+        string='Natureza da operação',
+    )
+
     document_serie = fields.Char(
         string="Serie Number")
 
@@ -296,6 +301,7 @@ class DocumentAbstract(models.AbstractModel):
         if self.operation_id:
             self.document_type_id = self.operation_id.document_type_id
             self.document_serie_id = self.operation_id.document_serie_id
+            self.natureza_operacao_id = self.natureza_operacao_id
 
     @api.onchange("document_type_id")
     def _onchange_document_type_id(self):
