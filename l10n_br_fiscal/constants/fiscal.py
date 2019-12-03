@@ -135,7 +135,7 @@ CERTIFICATE_TYPE_DEFAULT = 'nf-e'
 
 CERTIFICATE_SUBTYPE = (
     ('a1', 'A1'),
-    ('a1', 'A3'),
+    ('a3', 'A3'),
 )
 
 
