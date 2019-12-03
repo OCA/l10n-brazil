@@ -42,6 +42,7 @@ from . import res_company
 from . import document
 from . import document_line
 from . import res_config_settings
+from . import uom_uom
 
 # from . import l10n_br_account_product_document_related
 # from . import l10n_br_account_product_import_declaration
