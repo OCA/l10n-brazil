@@ -7,4 +7,4 @@ from odoo import models
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    _order = 'date_maturity, date desc, id desc'
+    _order = "date_maturity, date desc, id desc"
