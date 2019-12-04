@@ -5,11 +5,11 @@ from odoo import api, fields, models
 
 
 class UomUomAlternative(models.Model):
-
     _name = "uom.uom.alternative"
     _rec_name = 'code'
 
-    code = fields.Char(string="Código")
+    code = fields.Char(string="Code")
+
     uom_id = fields.Many2one(
         comodel_name="uom.uom",
     )
