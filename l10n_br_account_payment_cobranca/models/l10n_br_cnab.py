@@ -708,7 +708,7 @@ class L10nBrHrCnab(models.Model):
         cnab_type, arquivo_parser = Cnab.detectar_retorno(self.arquivo_retorno)
         data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
         self.sequencial_arquivo = str(arquivo_parser.header.sequencial_arquivo)
-        self.data_arquivo = datetime.strptime(data_arquivo, "%d%m%y")
+        self.data_arquivo = datetime.strptime(data_arquivo.zfill(6), "%d%m%y")
 
         self.bank_account_id = self._busca_conta(
             arquivo_parser.header.codigo_do_banco,
@@ -751,7 +751,7 @@ class L10nBrHrCnab(models.Model):
         #     )
         data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
         self.sequencial_arquivo = str(arquivo_parser.header.sequencial_arquivo)
-        self.data_arquivo = datetime.strptime(data_arquivo, "%d%m%y")
+        self.data_arquivo = datetime.strptime(data_arquivo.zfill(6), "%d%m%y")
 
         if self.search([
             ('data_arquivo', '=', self.data_arquivo),
@@ -819,7 +819,7 @@ class L10nBrHrCnab(models.Model):
                     'ref':
                         'Retorno Gerado em %s' %
                         datetime.strftime(datetime.strptime(
-                            data_arquivo, "%d%m%y"), "%d/%m/%Y"),
+                            data_arquivo.zfill(6), "%d%m%y"), "%d/%m/%Y"),
                     'date': str(datetime.now()),
                     'line_ids': lines,
                     'journal_id': lines[0][2]['journal_id']
