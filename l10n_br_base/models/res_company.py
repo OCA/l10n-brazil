@@ -192,7 +192,7 @@ class Company(models.Model):
         try:
             result = super(Company, self).write(values)
         except Exception:
-            if not config['without_demo'] and values.get('currency_id'):
+            if not config["without_demo"] and values.get("currency_id"):
                 result = models.Model.write(self, values)
             else:
                 raise Exception
