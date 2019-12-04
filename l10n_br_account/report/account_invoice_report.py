@@ -5,4 +5,4 @@ from odoo import models
 
 
 class AccountInvoiceReport(models.Model):
-    _inherit = 'account.invoice.report'
+    _inherit = "account.invoice.report"
