@@ -12,6 +12,8 @@
 "l10n_br_fiscal_tax_group_manager","Fiscal Tax Group for Manager","model_l10n_br_fiscal_tax_group","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_icms_regulation_user","Fiscal Tax ICMS Regulation for User","model_l10n_br_fiscal_tax_icms_regulation","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_icms_regulation_manager","Fiscal Tax ICMS Regulation for Manager","model_l10n_br_fiscal_tax_icms_regulation","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_tax_icms_user","Fiscal Tax ICMS for User","model_l10n_br_fiscal_tax_icms","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_tax_icms_manager","Fiscal Tax ICMS for Manager","model_l10n_br_fiscal_tax_icms","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_user","Fiscal Tax for User","model_l10n_br_fiscal_tax","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_manager","Fiscal Tax for Manager","model_l10n_br_fiscal_tax","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_estimate_user","Fiscal Tax Estimate for User","model_l10n_br_fiscal_tax_estimate","l10n_br_fiscal.group_user",1,0,0,0
