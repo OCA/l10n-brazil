@@ -5,7 +5,7 @@ from odoo import models
 
 
 class WizardMultiChartsAccounts(models.TransientModel):
-    _inherit = 'wizard.multi.charts.accounts'
+    _inherit = "wizard.multi.charts.accounts"
 
     def execute(self):
         """This function is called at the confirmation of the wizard to
@@ -26,21 +26,21 @@ class WizardMultiChartsAccounts(models.TransientModel):
         result = super(WizardMultiChartsAccounts, self).execute()
 
         obj_multi = self[0]
-        obj_fp_template = self.env['account.fiscal.position.template']
-        obj_fp = self.env['account.fiscal.position']
+        obj_fp_template = self.env["account.fiscal.position.template"]
+        obj_fp = self.env["account.fiscal.position"]
 
         chart_template_id = obj_multi.chart_template_id.id
         company_id = obj_multi.company_id.id
 
         fp_template_ids = obj_fp_template.search(
-            [('chart_template_id', '=', chart_template_id)])
+            [("chart_template_id", "=", chart_template_id)]
+        )
 
         for fp_template in fp_template_ids:
             if fp_template.cfop_id:
                 fp_id = obj_fp.search(
-                    [('name', '=', fp_template.name),
-                     ('company_id', '=', company_id)])
+                    [("name", "=", fp_template.name), ("company_id", "=", company_id)]
+                )
                 if fp_id:
-                    fp_id.write(
-                        {'cfop_id': fp_template.cfop_id.id})
+                    fp_id.write({"cfop_id": fp_template.cfop_id.id})
         return result
