@@ -3001,7 +3001,7 @@ class HrPayslip(models.Model):
                     tipo = line.salary_rule_id.category_id.code
 
                     # Rurica do INSS esta como referência por causa do e-social
-                    if 'INSS' in line.code:
+                    if 'INSS' in line.code and line.code != 'DEVOLUCAO_INSS':
                         tipo = 'INSS'
 
                     rescisao_ids.append({
