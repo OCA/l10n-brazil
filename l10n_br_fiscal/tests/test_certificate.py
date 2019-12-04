@@ -1,36 +1,38 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from OpenSSL import crypto
 from base64 import b64encode
 from datetime import timedelta
 
 from odoo import fields
+from odoo.exceptions import ValidationError
 from odoo.tests import common
 from odoo.tools.misc import format_date
-from odoo.exceptions import ValidationError
+from OpenSSL import crypto
 
 
 class TestCertificate(common.TransactionCase):
-
     def setUp(self):
         super().setUp()
 
-        self.company_model = self.env['res.company']
-        self.certificate_model = self.env['l10n_br_fiscal.certificate']
+        self.company_model = self.env["res.company"]
+        self.certificate_model = self.env["l10n_br_fiscal.certificate"]
         self.company = self._create_compay()
         self._switch_user_company(self.env.user, self.company)
 
-        self.cert_country = 'BR'
-        self.cert_issuer_a = 'EMISSOR A TESTE'
-        self.cert_issuer_b = 'EMISSOR B TESTE'
-        self.cert_subject_valid = 'CERTIFICADO VALIDO TESTE'
+        self.cert_country = "BR"
+        self.cert_issuer_a = "EMISSOR A TESTE"
+        self.cert_issuer_b = "EMISSOR B TESTE"
+        self.cert_subject_valid = "CERTIFICADO VALIDO TESTE"
         self.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
-        self.cert_subject_invalid = 'CERTIFICADO INVALIDO TESTE'
-        self.cert_passwd = '123456'
-        self.cert_name = "{0} - {1} - {2} - Valid: {3}".format(
-            "NF-E", "A1", self.cert_subject_valid,
-            format_date(self.env, self.cert_date_exp))
+        self.cert_subject_invalid = "CERTIFICADO INVALIDO TESTE"
+        self.cert_passwd = "123456"
+        self.cert_name = "{} - {} - {} - Valid: {}".format(
+            "NF-E",
+            "A1",
+            self.cert_subject_valid,
+            format_date(self.env, self.cert_date_exp),
+        )
 
         # self.certificate_valid = self._create_certificate(
         #     valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
@@ -41,24 +43,28 @@ class TestCertificate(common.TransactionCase):
 
     def _create_compay(self):
         # Creating a company
-        company = self.env['res.company'].create({
-            'name': 'Company Test Fiscal BR',
-            'cnpj_cpf': '42.245.642/0001-09',
-            'country_id': self.env.ref('base.br').id,
-            'state_id': self.env.ref('base.state_br_sp').id,
-        })
+        company = self.env["res.company"].create(
+            {
+                "name": "Company Test Fiscal BR",
+                "cnpj_cpf": "42.245.642/0001-09",
+                "country_id": self.env.ref("base.br").id,
+                "state_id": self.env.ref("base.state_br_sp").id,
+            }
+        )
         return company
 
     def _switch_user_company(self, user, company):
         """ Add a company to the user's allowed & set to current. """
-        user.write({
-            'company_ids': [(6, 0, (company + user.company_ids).ids)],
-            'company_id': company.id,
-        })
+        user.write(
+            {
+                "company_ids": [(6, 0, (company + user.company_ids).ids)],
+                "company_id": company.id,
+            }
+        )
 
-    def _create_certificate(self, valid=True, passwd=None,
-                            issuer=None, country=None,
-                            subject=None):
+    def _create_certificate(
+        self, valid=True, passwd=None, issuer=None, country=None, subject=None
+    ):
         """Creating a fake certificate"""
         key = crypto.PKey()
         key.generate_key(crypto.TYPE_RSA, 2048)
@@ -83,7 +89,7 @@ class TestCertificate(common.TransactionCase):
         cert.gmtime_adj_notBefore(time_before)
         cert.gmtime_adj_notAfter(time_after)
         cert.set_pubkey(key)
-        cert.sign(key, 'md5')
+        cert.sign(key, "md5")
 
         p12 = crypto.PKCS12()
         p12.set_privatekey(key)
@@ -93,14 +99,20 @@ class TestCertificate(common.TransactionCase):
 
     def test_valid_certificate(self):
         """Create and check a valid certificate"""
-        cert = self.certificate_model.create({
-            'type': 'nf-e',
-            'subtype': 'a1',
-            'password': self.cert_passwd,
-            'file': self._create_certificate(
-                valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
-                country=self.cert_country, subject=self.cert_subject_valid)
-        })
+        cert = self.certificate_model.create(
+            {
+                "type": "nf-e",
+                "subtype": "a1",
+                "password": self.cert_passwd,
+                "file": self._create_certificate(
+                    valid=True,
+                    passwd=self.cert_passwd,
+                    issuer=self.cert_issuer_a,
+                    country=self.cert_country,
+                    subject=self.cert_subject_valid,
+                ),
+            }
+        )
 
         self.assertEquals(cert.issuer_name, self.cert_issuer_a)
         self.assertEquals(cert.owner_name, self.cert_subject_valid)
