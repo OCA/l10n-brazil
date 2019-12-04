@@ -11,6 +11,7 @@ class TestIbptProduct(common.TransactionCase):
 
         self.company_model = self.env['res.company']
         self.company = self._create_compay()
+        self._switch_user_company(self.env.user, self.company)
         self.ncm_85030010 = self.env.ref('l10n_br_fiscal.ncm_85030010')
         self.ncm_85014029 = self.env.ref('l10n_br_fiscal.ncm_85014029')
         self.product_tmpl_model = self.env['product.template']
@@ -42,6 +43,13 @@ class TestIbptProduct(common.TransactionCase):
                            'StS2PzOV3LlDRVNGdVJ5OOUlwWZhjFZk')
         })
         return company
+
+    def _switch_user_company(self, user, company):
+        """ Add a company to the user's allowed & set to current. """
+        user.write({
+            'company_ids': [(6, 0, (company + user.company_ids).ids)],
+            'company_id': company.id,
+        })
 
     def _create_product_tmpl(self, name, ncm):
         # Creating a product
