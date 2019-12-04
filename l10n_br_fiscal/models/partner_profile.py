@@ -2,82 +2,88 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-from ..constants.fiscal import (
-    NFE_IND_IE_DEST,
-    NFE_IND_IE_DEST_DEFAULT,
-    TAX_FRAMEWORK,
-    TAX_FRAMEWORK_NORMAL
-)
+from ..constants.fiscal import (NFE_IND_IE_DEST, NFE_IND_IE_DEST_DEFAULT,
+                                TAX_FRAMEWORK, TAX_FRAMEWORK_NORMAL)
 
 
 class PartnerProfile(models.Model):
-    _name = 'l10n_br_fiscal.partner.profile'
-    _description = 'Fiscal Partner Profile'
+    _name = "l10n_br_fiscal.partner.profile"
+    _description = "Fiscal Partner Profile"
 
-    code = fields.Char(
-        string='Code',
-        size=16,
-        required=True)
+    code = fields.Char(string="Code", size=16, required=True)
 
-    name = fields.Char(
-        string='Name',
-        size=64)
+    name = fields.Char(string="Name", size=64)
 
-    is_company = fields.Boolean(
-        string='Is Company?')
+    is_company = fields.Boolean(string="Is Company?")
 
-    default = fields.Boolean(
-        string=u'Default Profile',
-        default=True)
+    default = fields.Boolean(string=u"Default Profile", default=True)
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
-        string='Contribuinte do ICMS',
+        string="Contribuinte do ICMS",
         required=True,
-        default=NFE_IND_IE_DEST_DEFAULT)
+        default=NFE_IND_IE_DEST_DEFAULT,
+    )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
-        default=TAX_FRAMEWORK_NORMAL,
-        string='Tax Framework')
+        selection=TAX_FRAMEWORK, default=TAX_FRAMEWORK_NORMAL, string="Tax Framework"
+    )
 
     partner_ids = fields.One2many(
-        comodel_name='res.partner',
-        string='Partner',
-        compute='_compute_partner_info')
+        comodel_name="res.partner", string="Partner", compute="_compute_partner_info"
+    )
 
     partner_qty = fields.Integer(
-        string='Partner Quantity',
-        compute='_compute_partner_info')
+        string="Partner Quantity", compute="_compute_partner_info"
+    )
 
     _sql_constraints = [
-        ('fiscal_partner_profile_code_uniq', 'unique (code)',
-         'Fiscal Partner Profile already exists with this code !')]
+        (
+            "fiscal_partner_profile_code_uniq",
+            "unique (code)",
+            "Fiscal Partner Profile already exists with this code !",
+        )
+    ]
 
     @api.one
     def _compute_partner_info(self):
-        partners = self.env['res.partner'].search([
-            ('fiscal_profile_id', '=', self.id), '|',
-            ('active', '=', False), ('active', '=', True)])
+        partners = self.env["res.partner"].search(
+            [
+                ("fiscal_profile_id", "=", self.id),
+                "|",
+                ("active", "=", False),
+                ("active", "=", True),
+            ]
+        )
         self.partner_ids = partners
         self.partner_qty = len(partners)
 
-    @api.constrains('default', 'is_company')
+    @api.constrains("default", "is_company")
     def _check_default(self):
         for profile in self:
-            if len(profile.search([
-                ('default', '=', 'True'),
-                ('is_company', '=', profile.is_company)
-            ])) > 1:
+            if (
+                len(
+                    profile.search(
+                        [
+                            ("default", "=", "True"),
+                            ("is_company", "=", profile.is_company),
+                        ]
+                    )
+                )
+                > 1
+            ):
                 raise ValidationError(
-                    _(u'Mantenha apenas um tipo fiscal padrão'
-                      u' para Pessoa Física ou para Pessoa Jurídica!'))
+                    _(
+                        u"Mantenha apenas um tipo fiscal padrão"
+                        u" para Pessoa Física ou para Pessoa Jurídica!"
+                    )
+                )
             return True
 
-    @api.onchange('is_company')
+    @api.onchange("is_company")
     def _onchange_is_company(self):
         if not self.is_company:
             self.tax_framework = False
