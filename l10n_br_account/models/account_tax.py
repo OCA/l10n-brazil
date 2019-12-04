@@ -1,18 +1,27 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, api
+from odoo import api, models
 
 
 class AccountTax(models.Model):
-    _name = 'account.tax'
-    _inherit = ['account.tax.fiscal.abstract', 'account.tax']
+    _name = "account.tax"
+    _inherit = ["account.tax.fiscal.abstract", "account.tax"]
 
     @api.multi
-    def compute_all(self, price_unit, currency=None, quantity=1.0,
-                    product=None, partner=None, cfop=False,
-                    insurance_value=0.0, freight_value=0.0,
-                    other_costs_value=0.0, base_tax=0.0):
+    def compute_all(
+        self,
+        price_unit,
+        currency=None,
+        quantity=1.0,
+        product=None,
+        partner=None,
+        cfop=False,
+        insurance_value=0.0,
+        freight_value=0.0,
+        other_costs_value=0.0,
+        base_tax=0.0,
+    ):
         """ Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
             We consider the sequence of the parent for group of taxes.
@@ -38,7 +47,8 @@ class AccountTax(models.Model):
         core_taxes = self.filtered(lambda t: not t.fiscal_tax_id)
 
         tax_result = super(AccountTax, core_taxes).compute_all(
-            price_unit, currency, quantity, product, partner)
+            price_unit, currency, quantity, product, partner
+        )
 
         l10n_br_taxes = self.filtered(lambda t: t.fiscal_tax_id)
 
@@ -49,12 +59,13 @@ class AccountTax(models.Model):
             prince=price_unit,
             quantity=quantity,
             uom_id=product.uom_id,
-            fiscal_price=price_unit, # FIXME convert if product has uot_id
-            fiscal_quantity=quantity, # FIXME convert if product has uot_id
-            uot_id=product.uot_id, # FIXME
+            fiscal_price=price_unit,  # FIXME convert if product has uot_id
+            fiscal_quantity=quantity,  # FIXME convert if product has uot_id
+            uot_id=product.uot_id,  # FIXME
             ncm=product.ncm_id,
             cest=product.cest_id,
-            operation_type='out') # FIXME
+            operation_type="out",
+        )  # FIXME
 
         for l10n_br_tax in l10n_br_result:
             pass
