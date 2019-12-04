@@ -12,7 +12,7 @@ service_type_2,2,Serviços de pesquisas e desenvolvimento de qualquer natureza.,
 service_type_201,2.01,Serviços de pesquisas e desenvolvimento de qualquer natureza.,normal,service_type_2
 service_type_3,3,"Serviços prestados mediante locação, cessão de direito de uso e congêneres.",view,
 service_type_302,3.02,Cessão de direito de uso de marcas e de sinais de propaganda.,normal,service_type_3
-service_type_303,3.03,"Exploração de salões de festas, centro de convenções, escritórios virtuais, stands, quadras esportivas, estádios, ginásios, 
+service_type_303,3.03,"Exploração de salões de festas, centro de convenções, escritórios virtuais, stands, quadras esportivas, estádios, ginásios,
 auditórios, casas de espetáculos, parques de diversões, canchas e congêneres, para realização de eventos ou negócios de qualquer natureza.",normal,service_type_3
 service_type_304,3.04,"Locação, sublocação, arrendamento, direito de passagem ou permissão de uso, compartilhado ou não, de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza.",normal,service_type_3
 service_type_305,3.05,"Cessão de andaimes, palcos, coberturas e outras estruturas de uso temporário.",normal,service_type_3
