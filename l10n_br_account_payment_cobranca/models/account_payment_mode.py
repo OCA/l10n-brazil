@@ -115,6 +115,26 @@ class PaymentMode(models.Model):
         string=u'Conta Padrão para Taxas Bancárias',
         help=u'Conta padrão para recebimentos de Taxas Bancárias'
     )
+    product_tax_id = fields.Many2one(
+        comodel_name='product.product',
+        string='Taxa Adicional',
+    )
+    tax_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Conta Padrão',
+        help='Conta padrão para Taxa',
+    )
+
+    @api.onchange('product_tax_id')
+    def _onchange_product_tax_id(self):
+        if not self.product_tax_id:
+            self.tax_account_id = False
+
+    @api.constrains('product_override')
+    def _constrains_product_override(self):
+        if self.product_override and self.product_override_value <= 0:
+            raise ValidationError(
+                u'O valor da Taxa deve ser maior que 0 (zero)')
 
     @api.constrains('boleto_type', 'boleto_carteira',
                     'boleto_modalidade', 'boleto_convenio',
