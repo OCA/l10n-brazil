@@ -9,6 +9,13 @@
                ref="l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment"/>
         <field name="priority" eval="40"/>
         <field name="arch" type="xml">
+            <group name="main" position="after">
+                 <group name="l10n_br_account_payment_taxes" string="Taxas">
+                    <field name="product_tax_id"/>
+                    <field name="tax_account_id"
+                           attrs="{'invisible': [('product_tax_id', '=', False)], 'required': [('product_tax_id', '!=', False)]}"/>
+                </group>
+            </group>
             <group name="l10n_br_account_payment_order-geral" position="inside">
                 <field name="condicao_emissao_papeleta"/>
                 <field name="cnab_percent_interest"/>
