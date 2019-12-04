@@ -1,18 +1,17 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields
+from odoo import fields, models
 
 from .account_fiscal_position_abstract import (
-    AccountFiscalPositionAbstract,
-    AccountFiscalPositionTaxAbstract
-)
+    AccountFiscalPositionAbstract, AccountFiscalPositionTaxAbstract)
 
 
-class AccountFiscalPosition(AccountFiscalPositionAbstract,
-                            models.Model):
+class AccountFiscalPosition(AccountFiscalPositionAbstract, models.Model):
 
-    _inherit = 'account.fiscal.position'
+    _inherit = "account.fiscal.position"
+
+
 # TODO l10n_br_account_product's PR
 #    @api.model
 #    def map_tax(self, taxes, product=None, partner=None):
@@ -39,13 +38,10 @@ class AccountFiscalPosition(AccountFiscalPositionAbstract,
 #        return result
 
 
-class AccountFiscalPositionTax(AccountFiscalPositionTaxAbstract,
-                               models.Model):
+class AccountFiscalPositionTax(AccountFiscalPositionTaxAbstract, models.Model):
 
-    _inherit = 'account.fiscal.position.tax'
+    _inherit = "account.fiscal.position.tax"
 
     tax_src_id = fields.Many2one(
-        comodel_name='account.tax',
-        string='Tax on Product',
-        required=False
+        comodel_name="account.tax", string="Tax on Product", required=False
     )
