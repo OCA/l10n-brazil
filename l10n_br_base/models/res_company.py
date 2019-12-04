@@ -60,9 +60,9 @@ class Company(models.Model):
     def _inverse_state(self):
         """ Write the l10n_br specific functional fields. """
         for company in self:
-            company.partner_id.write({
-                'state_id': company.state_id.id,
-                'inscr_est': company.inscr_est})
+            company.partner_id.write(
+                {"state_id": company.state_id.id, "inscr_est": company.inscr_est}
+            )
 
     def _inverse_state_tax_number_ids(self):
         """ Write the l10n_br specific functional fields. """
@@ -190,7 +190,7 @@ class Company(models.Model):
         try:
             result = super(Company, self).write(values)
         except Exception:
-            if not config['without_demo'] and values.get('currency_id'):
+            if not config["without_demo"] and values.get("currency_id"):
                 result = models.Model.write(self, values)
             else:
                 raise Exception
