@@ -5,4 +5,8 @@
         <field name="name">Juros</field>
     </record>
 
+    <record id="account_analytic_tag_tax" model="account.analytic.tag">
+        <field name="name">Taxa</field>
+    </record>
+
 </odoo>
