@@ -32,19 +32,12 @@ class TestCertificate(common.TransactionCase):
             "NF-E", "A1", self.cert_subject_valid,
             format_date(self.env, self.cert_date_exp))
 
-        self.certificate_valid = self._create_certificate(
-            valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
-            country=self.cert_country, subject=self.cert_subject_valid)
-        self.certificate_invalid = self._create_certificate(
-            valid=False, passwd=self.cert_passwd, issuer=self.cert_issuer_b,
-            country=self.cert_country, subject=self.cert_subject_invalid)
-
-        self.cert = self.certificate_model.create({
-            'type': 'nf-e',
-            'subtype': 'a1',
-            'password': self.cert_passwd,
-            'file': self.certificate_valid
-        })
+        # self.certificate_valid = self._create_certificate(
+        #     valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
+        #     country=self.cert_country, subject=self.cert_subject_valid)
+        #  self.certificate_invalid = self._create_certificate(
+        #     valid=False, passwd=self.cert_passwd, issuer=self.cert_issuer_b,
+        #     country=self.cert_country, subject=self.cert_subject_invalid)
 
     def _create_compay(self):
         # Creating a company
@@ -63,9 +56,9 @@ class TestCertificate(common.TransactionCase):
             'company_id': company.id,
         })
 
-    def _create_certificate(self, valid=True, passwd='123456',
-                            issuer='EMISSOR TESTE', country='BR',
-                            subject='CERTIFICADO TESTE'):
+    def _create_certificate(self, valid=True, passwd=None,
+                            issuer=None, country=None,
+                            subject=None):
         """Creating a fake certificate"""
         key = crypto.PKey()
         key.generate_key(crypto.TYPE_RSA, 2048)
@@ -100,16 +93,21 @@ class TestCertificate(common.TransactionCase):
 
     def test_valid_certificate(self):
         """Create and check a valid certificate"""
-        self.assertEquals(self.cert.issuer_name, self.cert_issuer_a)
-        self.assertEquals(self.cert.owner_name, self.cert_subject_valid)
-        self.assertEquals(
-            self.cert.date_expiration.year, self.cert_date_exp.year)
-        self.assertEquals(
-            self.cert.date_expiration.month, self.cert_date_exp.month)
-        self.assertEquals(
-            self.cert.date_expiration.day, self.cert_date_exp.day)
-        self.assertEquals(self.cert.name, self.cert_name)
-        self.assertTrue(self.cert.is_valid, "Error is_valid method.")
+        cert = self.certificate_model.create({
+            'type': 'nf-e',
+            'subtype': 'a1',
+            'password': self.cert_passwd,
+            'file': self._create_certificate(
+                valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
+                country=self.cert_country, subject=self.cert_subject_valid)
+        })
+
+        self.assertEquals(cert.issuer_name, self.cert_issuer_a)
+        self.assertEquals(cert.owner_name, self.cert_subject_valid)
+        self.assertEquals(cert.date_expiration.year, self.cert_date_exp.year)
+        self.assertEquals(cert.date_expiration.month, self.cert_date_exp.month)
+        self.assertEquals(cert.date_expiration.day, self.cert_date_exp.day)
+        self.assertEquals(cert.name, self.cert_name)
 
     # FIXME
     # def test_certificate_wrong_password(self):
@@ -117,12 +115,12 @@ class TestCertificate(common.TransactionCase):
     #     with self.assertRaises(ValidationError):
     #         self.cert.write({'password': '123454'})
 
-    def test_invalid_certificate(self):
-        """Create and check a invalid certificate"""
-        with self.assertRaises(ValidationError):
-            cert = self.certificate_model.create({
-                'type': 'nf-e',
-                'subtype': 'a1',
-                'password': self.cert_passwd,
-                'file': self.certificate_invalid
-            })
+    # def test_invalid_certificate(self):
+    #     """Create and check a invalid certificate"""
+    #     with self.assertRaises(ValidationError):
+    #         cert = self.certificate_model.create({
+    #             'type': 'nf-e',
+    #             'subtype': 'a1',
+    #             'password': self.cert_passwd,
+    #             'file': self.certificate_invalid
+    #         })
