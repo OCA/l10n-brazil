@@ -8288,7 +8288,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:165
+#: code:addons/l10n_br_base/models/res_partner.py:166
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr "Inscrição Estadual Inválida !"
@@ -10781,7 +10781,7 @@ msgid "Inocência"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:180
+#: code:addons/l10n_br_base/models/res_partner.py:181
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr "Número da Inscrição Estadual Inválida!"
@@ -23012,7 +23012,7 @@ msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:196
+#: code:addons/l10n_br_base/models/res_partner.py:197
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr "Inscrição estadual %s já utilizada"
@@ -25160,6 +25160,12 @@ msgid "Tavares"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__vat
+msgid "Tax ID"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1304203
 msgid "Tefé"
 msgstr ""
@@ -25343,25 +25349,33 @@ msgid "The Partner already has a State Tax Number for that State!"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
+msgid ""
+"The Tax Identification Number. Complete it if the contact is subjected to "
+"government taxes. Used in some legal statements."
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1101609
 msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:183
+#: code:addons/l10n_br_base/models/res_partner.py:184
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
 "Só pode haver um número de imposto estadual por estado para cada parceiro!"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:128
+#: code:addons/l10n_br_base/models/res_partner.py:129
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr "Já existe um parceiro com este CNPJ !"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:121
+#: code:addons/l10n_br_base/models/res_partner.py:122
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
 msgstr "Já existe um parceiro com esta Inscrição Estadual !"
@@ -27051,7 +27065,7 @@ msgid "Zé Doca"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:146
+#: code:addons/l10n_br_base/models/res_partner.py:147
 #, python-format
 msgid "{} Invalid!"
 msgstr "{} Inválido!"
