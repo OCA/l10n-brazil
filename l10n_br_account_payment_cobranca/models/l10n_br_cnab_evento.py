@@ -45,6 +45,7 @@ class L10nBrCnabEvento(models.Model):
     lote_id = fields.Many2one(
         string="Lote",
         comodel_name="l10n_br.cnab.lote",
+        ondelete='cascade',
     )
     nosso_numero = fields.Char(
         string=u"Nosso Número"

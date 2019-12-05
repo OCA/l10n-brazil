@@ -19,7 +19,8 @@ class L10nBrCnabLote(models.Model):
     )
     cnab_id = fields.Many2one(
         string="CNAB",
-        comodel_name="l10n_br.cnab"
+        comodel_name="l10n_br.cnab",
+        ondelete='cascade',
     )
     empresa_inscricao_numero = fields.Char(
         string=u"Número de Inscrição"
