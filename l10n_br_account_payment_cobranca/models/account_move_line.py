@@ -135,3 +135,23 @@ class AccountMoveLine(models.Model):
             return True
 
         return super(AccountMoveLine, self)._update_check()
+
+    @api.multi
+    def write(self, vals):
+        """
+        Sobrescrita do método Write. Não deve ser possível voltar o state_cnab
+        ou a situacao_pagamento para um estado anterior
+        :param vals:
+        :return:
+        """
+        state_cnab = vals.get('state_cnab')
+
+        if state_cnab and (self.state_cnab == 'done' or (
+                self.state_cnab in ['accepted', 'accepted_hml'] and
+                state_cnab not in ['accepted', 'accepted_hml', 'done'])):
+            vals.pop('state_cnab', False)
+
+        if self.situacao_pagamento not in ['inicial', 'aberta']:
+            vals.pop('situacao_pagamento', False)
+
+        return super(AccountMoveLine, self).write(vals)
