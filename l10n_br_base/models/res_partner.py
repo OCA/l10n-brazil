@@ -134,16 +134,17 @@ class Partner(models.Model):
     def _check_cnpj_cpf(self):
         result = True
         for record in self:
-            country_code = record.country_id.code or ""
-            if country_code:
-                if record.cnpj_cpf and country_code.upper() == "BR":
-                    if record.is_company:
-                        if not cnpj_cpf.validar(record.cnpj_cpf):
+            if record.country_id:
+                country_code = record.country_id.code or ""
+                if country_code:
+                    if record.cnpj_cpf and country_code.upper() == "BR":
+                        if record.is_company:
+                            if not cnpj_cpf.validar(record.cnpj_cpf):
+                                result = False
+                                document = "CNPJ"
+                        elif not cnpj_cpf.validar(record.cnpj_cpf):
                             result = False
-                            document = "CNPJ"
-                    elif not cnpj_cpf.validar(record.cnpj_cpf):
-                        result = False
-                        document = "CPF"
+                            document = "CPF"
             if not result:
                 raise ValidationError(_("{} Invalid!").format(document))
 
