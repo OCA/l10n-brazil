@@ -503,6 +503,12 @@ class AccountInvoice(models.Model):
     @api.multi
     def assign_outstanding_credit(self, credit_aml_id):
         self.ensure_one()
+
+        if self.payment_term_id.payment_mode_selection == 'cartao':
+            raise UserError(_(
+                "Não é possível adicionar pagamentos em uma fatura "
+                "parcelada no cartão de crédito"
+            ))
         if self.eval_situacao_pagamento in \
                 ['paga', 'liquidada', 'baixa_liquidacao']:
             raise UserError(_(
