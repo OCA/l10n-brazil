@@ -147,7 +147,7 @@ class HrHolidays(models.Model):
             if record.situacao_esocial == '4':
                 raise ValidationError(
                     'Não é possível excluir um '
-                    'afastamento enviado para o e-Social!')
+                    'afastamento enviado para o e-Social! {}'.format(self))
 
             # Excluir registro intermediario e sped.registros de afastamentos
             record.sped_esocial_afastamento_id.unlink()
