@@ -496,11 +496,7 @@ class ResCompany(models.Model):
         if self.sped_empregador_id and self.situacao_esocial == '1':
             for campo in campos_monitorados:
                 if campo in vals:
-                    precisa_atualizar = True
-
-            # Se precisa_atualizar == True, inclui ele no vals
-            if precisa_atualizar:
-                vals['precisa_atualizar'] = precisa_atualizar
+                    vals['precisa_atualizar'] = True
 
         # Roda o vals procurando se algum desses campos está na lista
         # Estabelecimento
