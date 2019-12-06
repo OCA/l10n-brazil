@@ -205,7 +205,20 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
         # Popula infoPgto (1 para cada payslip)
         info_pgto = False
         folhas_ordenadas = []
+
+        # Quando ja pagou o decimo terceiro e teve rescisao,
+        # informar somente as rubricas da rescisao, pois circulará as
+        # rubricas de decimo terceiro corrigindo-as quando necessario
+        pagamento_obsoleto = all(
+            [tipo in self.payslip_ids.mapped('tipo_de_folha')
+             for tipo in  ['decimo_terceiro', 'rescisao']]
+        )
+
         for payslip in self.payslip_ids:
+
+            if pagamento_obsoleto and payslip.tipo_de_folha == 'decimo_terceiro':
+                continue
+
             if payslip.tipo_de_folha != 'ferias':
                 folhas_ordenadas.insert(0, payslip)
             else:
