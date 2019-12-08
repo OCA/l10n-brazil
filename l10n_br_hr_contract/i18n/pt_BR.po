@@ -1,0 +1,388 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-26 13:15+0000\n"
+"PO-Revision-Date: 2019-09-26 10:17-0300\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: pt\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_admission_type
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_admission_type
+msgid "Admission Type"
+msgstr "Tipo de admissão"
+
+#. module: l10n_br_hr_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Advantages..."
+msgstr "Vantagens..."
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "April"
+msgstr "Abril"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "August"
+msgstr "Agosto"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__notice_of_termination_payment_date
+msgid "Aviso da data de pagamento da rescisão"
+msgstr "Aviso de pagamento de rescisão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__notice_of_termination_date
+msgid "Aviso da data de rescisão"
+msgstr "Aviso de dados de rescisão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__notice_of_termination_id
+msgid "Aviso de tipo de rescisão"
+msgstr "Aviso de rescisão"
+
+#. module: l10n_br_hr_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Aviso de término"
+msgstr "Aviso de término"
+
+#. module: l10n_br_hr_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Benefícios em dinheiro"
+msgstr "Benefícios em dinheiro"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__resignation_cause_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__name
+msgid "Causa da demissão"
+msgstr "Causa da demissão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_configuration_rais_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__discount_union_contribution
+msgid "Contribuição de desconto do sindicato na admissão"
+msgstr "Contribuição de desconto indicado na admissão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__code
+msgid "Código"
+msgstr "Código"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__resignation_code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__code
+msgid "Código da causa da demissão"
+msgstr "Código de causa de demissão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_entity_code
+msgid "Código de entidade do Sindicato"
+msgstr "Código de entidade do Sindicato"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__fgts_withdraw_code
+msgid "Código de retirada do FGTS"
+msgstr "Código de retirada do FGTS"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__resignation_date
+msgid "Data de demissão"
+msgstr "Data de demissão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__month_base_date
+msgid "Data-base mês"
+msgstr "Mês do banco de dados"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__by_death
+msgid "Death certificate/Process/Beneficiary"
+msgstr "Certidão de óbito / Processo / Beneficiário"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "December"
+msgstr "Dezembro"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "February"
+msgstr "Fevereiro"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__monthly_hours
+msgid "Horas mensais"
+msgstr "Horas mensais"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__weekly_hours
+msgid "Horas semanais"
+msgstr "Horas semanais"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__id
+msgid "ID"
+msgstr "EU IRIA"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "January"
+msgstr "Janeiro"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "July"
+msgstr "Julho"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "June"
+msgstr "Junho"
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_labor_bond_type
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_labor_bond_type
+msgid "Labor Bond Type"
+msgstr "Tipo de vínculo trabalhista"
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_labor_regime
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_labor_regime
+msgid "Labor Regime"
+msgstr "Regime de trabalho"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_labor_bond_type
+msgid "Labor bond type"
+msgstr "Tipo de vínculo trabalhista"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit____last_update
+msgid "Last Modified on"
+msgstr "Última modificação em"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "March"
+msgstr "Março"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "May"
+msgstr "Maio"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_resignation_cause
+msgid "Motivo da demissão"
+msgstr "Motivo da demissão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__short_name
+msgid "Nome curto"
+msgstr "Nome curto"
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_notice_termination
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_notice_termination
+msgid "Notice Termination"
+msgstr "Aviso prévio"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "November"
+msgstr "Novembro"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "October"
+msgstr "Outubro"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__by_death
+msgid "Por morte"
+msgstr "Por morte"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,welfare_policy:0
+msgid "Regime Geral da Previdência Social"
+msgstr "Regime Geral da Previdência Social"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,welfare_policy:0
+msgid "Regime Próprio da Previdência Social"
+msgstr "Regime Próprio da Previdência Social"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__labor_regime_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__name
+msgid "Regime trabalhista"
+msgstr "Regime trabalhista"
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_resignation_cause
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_resignation_cause
+msgid "Resignation Cause"
+msgstr "Motivo da demissão"
+
+#. module: l10n_br_hr_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Resignação"
+msgstr "Resignação"
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_salary_unit
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_salary_unit
+msgid "Salary Unit"
+msgstr "Unidade do salário"
+
+#. module: l10n_br_hr_contract
+#: selection:hr.contract,month_base_date:0
+msgid "September"
+msgstr "Setembro"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__partner_union
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_name
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Sindicato"
+msgstr "Sindicato"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_cnpj
+msgid "Sindicato CNPJ"
+msgstr "Sindicato CNPJ"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__partner_union
+msgid "Sindicato é um partner que tem código de sindicato (union_entity_code) definido."
+msgstr "Indicador é um parceiro que tem o código de indicador (código_de_entidade_de_individual) definido."
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__admission_type_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__name
+msgid "Tipo de admissão"
+msgstr "Tipo de admissão"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_admission_type
+msgid "Tipo de admissão do trabalhador"
+msgstr "Tipo de admissão do trabalhador"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_notice_termination
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__name
+msgid "Tipo de aviso prévio"
+msgstr "Tipo de aviso prévio"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_labor_regime
+msgid "Tipo de regime trabalhista"
+msgstr "Tipo de regime trabalhista"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__labor_bond_type_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__name
+msgid "Tipo de vínculo trabalhista"
+msgstr "Tipo de vínculo trabalhista"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_salary_unit
+msgid "Unidade de pagamento da parte fixa da remuneração"
+msgstr "Unidade de pagamento da parte fixa da remuneração"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__salary_unit
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__name
+msgid "Unidade salarial"
+msgstr "Unidade salarial"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__welfare_policy
+msgid "Welfare policy"
+msgstr "Regime previdenciário"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__labor_regime_id
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__salary_unit
+msgid "e-Social: S2300 - tpRegPrev"
+msgstr "e-Social: S2300 - tpRegPrev"
