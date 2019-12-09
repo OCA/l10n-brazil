@@ -135,7 +135,7 @@ class Partner(models.Model):
         result = True
         for record in self:
             if record.country_id:
-                country_code = record.country_id.code or ""
+                country_code = record.country_id.code
                 if country_code:
                     if record.cnpj_cpf and country_code.upper() == "BR":
                         if record.is_company:
