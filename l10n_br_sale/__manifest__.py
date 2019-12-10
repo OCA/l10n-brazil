@@ -5,20 +5,28 @@
     "name": "Brazilian Localization Sale",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "Akretion, Odoo Community Association (OCA)",
+    "author":
+        'Akretion, '
+        'Odoo Community Association (OCA)',
     "website": "http://odoo-brasil.org",
-    "version": "10.0.1.0.0",
-    "depends": ["account_fiscal_position_rule_sale", "l10n_br_account"],
+    "version": "12.0.1.0.0",
+    "depends": ["sale", "l10n_br_account", "l10n_br_fiscal"],
     "data": [
-        "data/l10n_br_sale_data.xml",
-        "views/sale_view.xml",
-        "views/res_config_view.xml",
+        # Security
         "security/ir.model.access.csv",
         "security/l10n_br_sale_security.xml",
-        "report/sale_report_view.xml",
+
+        # View
+        "views/res_config_settings_view.xml",
         "views/res_company_view.xml",
+        "views/sale_view.xml",
+
+       # Report
+       "report/sale_report_view.xml",
     ],
-    "demo": ["demo/l10n_br_sale_demo.xml"],
+    "demo": [
+        # Demo
+        "demo/l10n_br_sale_demo.xml"],
     "installable": True,
     "auto_install": True,
     "development_status": "Production/Stable",
