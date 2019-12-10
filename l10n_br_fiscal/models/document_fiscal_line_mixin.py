@@ -46,6 +46,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         )
 
         if view_type == "form":
+            import pudb; pudb.set_trace()
             fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_line_mixin_form")
 
             doc = etree.fromstring(model_view.get("arch"))
