@@ -1,18 +1,18 @@
-"id","name","tax_domain"
-"tax_group_icms","ICMS","icms"
-"tax_group_icmssn","ICMS - Simples Nacional","icmssn"
-"tax_group_icmsst","ICMS ST","icmsst"
-"tax_group_icmsdifal","ICMS Difal","icmsdifal"
-"tax_group_icmsfcp","ICMS FCP","icmsfcp"
-"tax_group_pis","PIS","pis"
-"tax_group_pisst","PIS ST","pisst"
-"tax_group_cofins","COFINS","cofins"
-"tax_group_cofinsst","COFINS ST","cofinsst"
-"tax_group_irpj","IRPJ","irpj"
-"tax_group_simples","Simples Nacional","simples"
-"tax_group_ir","IR","ir"
-"tax_group_issqn","ISSQN","issqn"
-"tax_group_csll","CSLL","csll"
-"tax_group_ipi","IPI","ipi"
-"tax_group_ii","II","ii"
-"tax_group_others","Outros","others"
+"id","name","tax_domain","tax_include"
+"tax_group_icms","ICMS","icms",True
+"tax_group_icmssn","ICMS - Simples Nacional","icmssn",True
+"tax_group_icmsst","ICMS ST","icmsst",False
+"tax_group_icmsdifal","ICMS Difal","icmsdifal",False
+"tax_group_icmsfcp","ICMS FCP","icmsfcp",True
+"tax_group_pis","PIS","pis",True
+"tax_group_pisst","PIS ST","pisst",True
+"tax_group_cofins","COFINS","cofins",True
+"tax_group_cofinsst","COFINS ST","cofinsst",True
+"tax_group_irpj","IRPJ","irpj",True
+"tax_group_simples","Simples Nacional","simples",True
+"tax_group_ir","IR","ir",True
+"tax_group_issqn","ISSQN","issqn",True
+"tax_group_csll","CSLL","csll",True
+"tax_group_ipi","IPI","ipi",False
+"tax_group_ii","II","ii",True
+"tax_group_others","Outros","others",True
