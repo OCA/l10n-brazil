@@ -1,30 +1,14 @@
 # Copyright (C) 2014  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
-class SaleConfiguration(models.TransientModel):
-    _inherit = "sale.config.settings"
-
-    def _get_default_copy_note(self):
-        ir_values = self.env["ir.values"]
-        comp_id = self.env.user.company_id.id
-        return ir_values.get_default("sale.order", "copy_note", company_id=comp_id)
+class ResConfigSettings(models.TransientModel):
+    _inherit = "res.config.settings"
 
     copy_note = fields.Boolean(
-        u"Copiar Observações nos Documentos Fiscais", default=_get_default_copy_note
+        string="Copiar Observações nos Documentos Fiscais",
+        related="company_id.copy_note",
+        readonly=False
     )
-
-    @api.multi
-    def set_sale_defaults(self):
-        return (
-            self.env["ir.values"]
-            .sudo()
-            .set_default(
-                "sale.order",
-                "copy_note",
-                self.copy_note,
-                company_id=self.env.user.company_id.id,
-            )
-        )
