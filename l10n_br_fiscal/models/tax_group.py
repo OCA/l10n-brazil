@@ -25,6 +25,9 @@ class TaxGroup(models.Model):
         selection=TAX_DOMAIN, string="Tax Domain", required=True
     )
 
+    tax_include = fields.Boolean(
+        string='Tax Included in Price', default=False)
+
     tax_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax", inverse_name="tax_group_id", string="Taxes"
     )
