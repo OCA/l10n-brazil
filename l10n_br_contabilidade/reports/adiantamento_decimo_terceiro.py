@@ -11,9 +11,14 @@ from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
 TIPO_FOLHA = ['ferias', 'decimo_terceiro', 'rescisao']
 RUBRICAS = {
     'ferias': ['ADIANTAMENTO_13', 'FGTS'],
+
     'decimo_terceiro': [
-        'PRIMEIRA_PARCELA_13', 'FGTS', 'SALARIO_13', 'FGTS_F_13', 'INSS'],
-    'rescisao': ['PROP13', 'FGTS_F_13', 'INSS_13'],
+        'PRIMEIRA_PARCELA_13', 'FGTS', 'SALARIO_13', 'FGTS_F_13', 'INSS',
+        'MEDIA_SALARIO_SUBSTI_ADIANT_13', 'DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13',
+        'MEDIA_SALARIO_SUBSTI_13', 'DIF_MEDIA_SALARIO_SUBSTI_13'
+    ],
+
+    'rescisao': ['DESCONTO_ADIANTAMENTO_13', 'FGTS_F_13', 'INSS_13'],
 }
 
 
@@ -48,6 +53,17 @@ class Funcionario(object):
         self.fgts_segunda_parcela = fgts_segunda_parcela
         self.inss_segunda_parcela = inss_segunda_parcela
 
+        self.valido = any([
+            adiantamento_ferias > 0,
+            fgts_adiantamento_ferias > 0,
+            adiantamento > 0,
+            fgts_adiantamento > 0,
+            rescisao > 0,
+            fgts_rescisao > 0,
+            segunda_parcela > 0,
+            fgts_segunda_parcela > 0,
+        ])
+
 
 def get_holerites_adiantamento(
         cr, uid, pool, wizard, tipo_de_folha, rubrica, context):
@@ -60,7 +76,7 @@ def get_holerites_adiantamento(
         ('tipo_de_folha', '=', tipo_de_folha),
         ('company_id', 'in', wizard.company_ids.ids),
         ('ano', '=', int(wizard.period_id.fiscalyear_id.name)),
-        ('mes_do_ano', '<=', int(wizard.period_id.code[:2])),
+        ('date_from', '<=', wizard.period_id.date_stop),
         ('state', 'in', ['done', 'verify']),
         ('is_simulacao', '=', False),
     ]
@@ -79,24 +95,37 @@ def get_holerites_adiantamento(
 def get_funcionarios_adiantamento(contract_id, valores):
     funcionarios = []
     for contract in tuple(contract_id):
-        proporcional_rescisao = valores['rescisao']['PROP13'].get(contract.id, 0) - (valores['ferias']['ADIANTAMENTO_13'].get(contract.id, 0) + valores['decimo_terceiro']['PRIMEIRA_PARCELA_13'].get(contract.id, 0))
-        segunda_parcela = valores['decimo_terceiro']['SALARIO_13'].get(contract.id, 0) - (valores['ferias']['ADIANTAMENTO_13'].get(contract.id, 0) + valores['decimo_terceiro']['PRIMEIRA_PARCELA_13'].get(contract.id, 0))
-        funcionarios.append(
-            Funcionario(
-                contract.id,
-                contract.employee_id.name,
-                valores['ferias']['ADIANTAMENTO_13'].get(contract.id, 0),
-                valores['ferias']['FGTS'].get(contract.id, 0),
-                valores['decimo_terceiro']['PRIMEIRA_PARCELA_13'].get(contract.id, 0),
-                valores['decimo_terceiro']['FGTS'].get(contract.id, 0),
-                proporcional_rescisao if proporcional_rescisao > 0 else 0,
-                valores['rescisao']['FGTS_F_13'].get(contract.id, 0),
-                valores['rescisao']['INSS_13'].get(contract.id, 0),
-                segunda_parcela if segunda_parcela > 0 else 0,
-                valores['decimo_terceiro']['FGTS_F_13'].get(contract.id, 0),
-                valores['decimo_terceiro']['INSS'].get(contract.id, 0),
-            )
+
+        primeira_parcela = \
+            valores['decimo_terceiro']['PRIMEIRA_PARCELA_13'].get(contract.id, 0) + \
+            valores['decimo_terceiro']['MEDIA_SALARIO_SUBSTI_ADIANT_13'].get(contract.id, 0) + \
+            valores['decimo_terceiro']['DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13'].get(contract.id, 0)
+
+        segunda_parcela = \
+            valores['decimo_terceiro'].get('DESCONTO_ADIANTAMENTO_13', {}).get(contract.id, 0) + \
+            valores['decimo_terceiro'].get('DESCONTO_MEDIA_SALARIO_SUBSTI_ADIANT_13', {}).get(contract.id, 0) + \
+            valores['decimo_terceiro'].get('DESCONTO_DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13', {}).get(contract.id, 0)
+
+        proporcional_rescisao = valores['rescisao']['DESCONTO_ADIANTAMENTO_13'].get(contract.id, 0)
+
+
+        funcionario_obj = Funcionario(
+            contract.id,
+            contract.employee_id.name,
+            valores['ferias']['ADIANTAMENTO_13'].get(contract.id, 0),
+            valores['ferias']['FGTS'].get(contract.id, 0),
+            primeira_parcela,
+            valores['decimo_terceiro']['FGTS'].get(contract.id, 0),
+            proporcional_rescisao,
+            valores['rescisao']['FGTS_F_13'].get(contract.id, 0),
+            valores['rescisao']['INSS_13'].get(contract.id, 0),
+            segunda_parcela,
+            valores['decimo_terceiro']['FGTS_F_13'].get(contract.id, 0),
+            valores['decimo_terceiro']['INSS'].get(contract.id, 0),
         )
+
+        if funcionario_obj.valido:
+            funcionarios.append(funcionario_obj)
 
     return funcionarios
 
@@ -157,6 +186,24 @@ def adiantamento_report(pool, cr, uid, local_context, context):
     """
     data = {}
 
+    data['footer'] = \
+        u'Telefone: 61-3246-6200 | E-mail: gepes@abgf.gov.br | ' \
+        u'Site: http://www.abgf.gov.br'
+
+    proxy = pool['res.company']
+    company_id = proxy.browse(cr, uid, 1)
+
+    company_logo = company_id.logo
+    company_nfe_logo = company_id.nfe_logo
+
+    data['company_id'] = company_id
+    data['company_logo'] = \
+        company_nfe_logo if company_nfe_logo else company_logo
+    data['company_logo2'] = \
+        company_nfe_logo if company_nfe_logo else company_logo
+
+
+
     proxy = pool['adiantamento.decimo.terceiro.wizard']
     wizard = proxy.browse(cr, uid, context['active_id'])
 
@@ -197,6 +244,11 @@ def adiantamento_report(pool, cr, uid, local_context, context):
     data['total_inss_parcela'] = format_money_mask(total_inss_parcela)
 
     data['competencia'] = wizard.period_id.code
+    data['resultado'] = format_money_mask(
+        total_adiantamento_ferias +
+        total_adiantamento -
+        total_recisao_decimo_terceiro
+    )
 
     # Rotina para formatar valores e data
     local_context.update(data)
