@@ -8,8 +8,12 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='certificate']" position="after">
                 <page name="l10n_br_sale" string="Sales">
-                    <field name="sale_fiscal_operation_id"/>
-                    <field name="copy_note"/>
+                    <group>
+                        <group>
+                            <field name="sale_fiscal_operation_id"/>
+                            <field name="copy_note"/>
+                        </group>
+                    </group>
                 </page>
             </xpath>
         </field>
