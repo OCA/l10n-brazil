@@ -29,31 +29,13 @@
                     </div>
                 </group>
             </field>
-            <field name="fiscal_position_id" position="replace">
-                <field name="fiscal_category_id" required="1"/>
-                <field name="fiscal_position_id"/>
-            </field>
-            <xpath expr="//field[@name='product_id']"
-                   position="attributes">
-                <attribute name="context_br">{'parent_fiscal_category_id':
-                    parent.fiscal_category_id, 'company_id':
-                    parent.company_id, 'partner_invoice_id':
-                    parent.partner_invoice_id}
-                </attribute>
+            <xpath expr="//form/sheet/group" position="after">
+                <group id="l10n_br_fiscal">
+                </group>
             </xpath>
-            <xpath expr="//field[@name='product_uom_qty']"
-                   position="attributes">
-                <attribute name="context_br">{'parent_fiscal_category_id':
-                    parent.fiscal_category_id, 'company_id':
-                    parent.company_id, 'partner_invoice_id':
-                    parent.partner_invoice_id}
-                </attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']"
-                   position="before">
-                <field name="fiscal_category_id"
-                       groups="sales_team.group_sale_salesman" required="1"/>
-                <field name="fiscal_position_id" required="1"/>
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
+              <field name="operation_id" groups="sales_team.group_sale_salesman" required="1"/>
+              <field name="operation_line_id" groups="sales_team.group_sale_salesman" required="1"/>
             </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
                 <group style="width: 65%%"
@@ -65,40 +47,28 @@
                     </div>
                 </group>
             </xpath>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']"
-                   position="after">
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                 <field name="price_gross"/>
-                <field name="discount_value"
-                       groups="l10n_br_sale.group_discount_per_value"/>
-                <field name="fiscal_category_id"/>
-                <field name="fiscal_position_id"/>
+                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
             </xpath>
             <field name="amount_untaxed" position="before">
-                <field name="amount_gross" widget='monetary'
-                       options="{'currency_field': 'currency_id'}"/>
-                <field name="amount_discount"
-                       groups="l10n_br_sale.group_discount_per_value"
-                       widget='monetary'
-                       options="{'currency_field': 'currency_id'}"/>
+                <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="company_id" position="attributes">
-                <attribute name="context_br">{'fiscal_category_id':
-                    fiscal_category_id}
+                <attribute name="context_br">{'operation_id': operation_id}
                 </attribute>
             </field>
             <field name="partner_invoice_id" position="attributes">
-                <attribute name="context_br">{'fiscal_category_id':
-                    fiscal_category_id}
+                <attribute name="context_br">{'operation_id': operation_id}
                 </attribute>
             </field>
             <field name="partner_shipping_id" position="attributes">
-                <attribute name="context_br">{'fiscal_category_id':
-                    fiscal_category_id}
+                <attribute name="context_br">{'operation_id': operation_id}
                 </attribute>
             </field>
             <field name="partner_id" position="attributes">
-                <attribute name="context_br">{'fiscal_category_id':
-                    fiscal_category_id}
+                <attribute name="context_br">{'operation_id': operation_id}
                 </attribute>
             </field>
         </field>
