@@ -16,12 +16,14 @@ class AdiantamentoDecimoTerceiroWizard(models.TransientModel):
         comodel_name='account.period',
         domain=[('special', '=', False)],
         required=True,
+        default=lambda self: self.env['account.period'].find(),
     )
 
     company_ids = fields.Many2many(
         string=u'Empresas',
         comodel_name='res.company',
         required=True,
+        default=lambda self: self.env['res.company'].search([]),
     )
 
     contract_id = fields.Many2many(

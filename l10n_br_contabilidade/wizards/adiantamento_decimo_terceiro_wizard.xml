@@ -7,8 +7,12 @@
             <field name="arch" type="xml">
             	<form>
             		<group>
-            			<field name="period_id"/>
-                        <field name="company_ids"/>
+                        <group string="Período" colspan="4" col="4">
+                			<field name="period_id" options="{'no_create': True, 'no_open': True}" nolabel="1"/>
+                        </group>
+                        <group string="Empresa" colspan="4" col="4">
+                            <field name="company_ids" options="{'no_create': True, 'no_open': True}" nolabel="1"/>
+                        </group>
 					</group>
                     <separator string="Contratos"/>
                     <field name="contract_id" />
