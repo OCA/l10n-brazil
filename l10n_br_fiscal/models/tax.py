@@ -11,7 +11,9 @@ from ..constants.icms import (ICMS_BASE_TYPE, ICMS_BASE_TYPE_DEFAULT,
 from ..constants.pis_cofins import CST_COFINS_NO_TAXED, CST_PIS_NO_TAXED
 
 TAX_DICT_VALUES = {
-    "tax_id": False,
+    "fiscal_tax_id": False,
+    "tax_include": False,
+    "tax_domain": False,
     "cst_id": False,
     "cst_code": False,
     "base_type": "percent",
@@ -180,6 +182,10 @@ class Tax(models.Model):
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
         # uot_id = kwargs.get('uot_id')
+
+        tax_dict["tax_include"] = tax.tax_group_id.tax_include
+        tax_dict["fiscal_tax_id"] = tax.id
+        tax_dict["tax_domain"] = tax.tax_domain
 
         if tax.tax_base_type == "percent":
             tax_dict["base_type"] = tax.tax_base_type
