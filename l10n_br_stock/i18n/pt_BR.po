@@ -1,0 +1,9 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_stock
+msgid "Brazilian Localization Warehouse"
+msgstr "Localização Brasileira - Módulo de Estoque"
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_br_stock
+msgid "Brazilian Localization"
+msgstr "Localização Brasileira - Adapta o módulo de gerenciamento de estoque ao Brasil"
