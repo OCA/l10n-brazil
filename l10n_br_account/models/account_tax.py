@@ -51,10 +51,15 @@ class AccountTax(models.Model):
             price_unit, currency, quantity, product, partner
         )
 
-        l10n_br_taxes = self.filtered(lambda t: t.fiscal_tax_id)
+        l10n_br_taxes = self.filtered(
+            lambda t: t.fiscal_tax_id).mapped('fiscal_tax_id')
 
-        l10n_br_result = l10n_br_taxes.fiscal_tax_id.compute_taxes(
-            company=self.company_id,
+        account_fiscal_taxes = {
+            t.fiscal_tax_id.id: t
+            for t in self.filtered(lambda t: t.fiscal_tax_id)}
+
+        l10n_br_result = l10n_br_taxes.compute_taxes(
+            company=self.env.user.company_id,
             partner=partner,
             item=product,
             prince=price_unit,
@@ -66,9 +71,25 @@ class AccountTax(models.Model):
             ncm=product.ncm_id,
             cest=product.cest_id,
             operation_type="out",
-        )  # FIXME
+        )
 
-        for l10n_br_tax in l10n_br_result:
-            pass
+        for l10n_br_tax in l10n_br_result.values():
+            account_tax = account_fiscal_taxes.get(
+                l10n_br_tax.get('fiscal_tax_id'))
+
+            if not l10n_br_tax.get('tax_include'):
+                tax_result['total_included'] += l10n_br_tax.get('tax_value')
+
+            tax_result['taxes'].append({
+                'id': account_tax.id,
+                'name': account_tax.name,
+                'amount': l10n_br_tax.get('tax_value'),
+                'base': l10n_br_tax.get('base'),
+                'sequence': account_tax.sequence,
+                'account_id': account_tax.account_id.id,
+                'refund_account_id': account_tax.refund_account_id.id,
+                'analytic': account_tax.analytic,
+                'tax_include': l10n_br_tax.get('tax_include')
+            })
 
         return tax_result
