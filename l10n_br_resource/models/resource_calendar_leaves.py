@@ -8,12 +8,18 @@ from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from pybrasil.feriado.constantes import (
-        TIPO_FERIADO, ABRANGENCIA_FERIADO,
-    )
-except ImportError:
-    _logger.info('Cannot import pybrasil')
+TIPO_FERIADO = {
+    'F': 'Feriado',
+    'B': 'Feriado bancário',
+    'C': 'Data comemorativa',
+}
+
+
+ABRANGENCIA_FERIADO = {
+    'N': 'Nacional',
+    'E': 'Estadual',
+    'M': 'Municipal',
+}
 
 
 class ResourceCalendarLeave(models.Model):
