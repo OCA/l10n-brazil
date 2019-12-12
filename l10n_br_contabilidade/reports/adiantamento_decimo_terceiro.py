@@ -77,6 +77,10 @@ def get_holerites_adiantamento(
         ('state', 'in', ['done', 'verify']),
         ('is_simulacao', '=', False),
     ]
+
+    if 'FGTS' in rubrica:
+        busca_ferias.append(('contract_id.gerar_sefip', '=', True))
+
     payslip_obj = pool['hr.payslip']
     holerites = {}
     holerites_ids = payslip_obj.search(cr, uid, busca_ferias, context=context)

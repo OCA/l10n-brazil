@@ -64,7 +64,6 @@ class AdiantamentoDecimoTerceiroWizard(models.TransientModel):
                     ('date_end', '=', False),
                     ('tp_jornada', '=', '1'),
                     ('company_id', 'in', record.company_ids.ids),
-                    ('gerar_sefip', '=', True),
                 ]
 
                 contract_id = self.env['hr.contract'].search(domain)
