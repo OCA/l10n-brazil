@@ -58,7 +58,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'name': u'Calendario de Sao Paulo',
             'country_id': self.env.ref("base.br").id,
             'state_id': self.env.ref("base.state_br_sp").id,
-            'l10n_br_city_id': self.env.ref("res_city_3500105").id
+            'l10n_br_city_id': self.env.ref("l10n_br_base.city_3500105").id
         })
 
     def test_00_add_leave_nacional(self):

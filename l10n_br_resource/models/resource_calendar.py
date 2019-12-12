@@ -85,14 +85,10 @@ class ResourceCalendar(models.Model):
                     continue
             elif leave.resource_id and not resource_id:
                 continue
-            date_from = datetime.strptime(
-                leave.date_from, tools.DEFAULT_SERVER_DATETIME_FORMAT
-            )
+            date_from = leave.date_from
             if end_datetime and date_from > end_datetime:
                 continue
-            date_to = datetime.strptime(
-                leave.date_to, tools.DEFAULT_SERVER_DATETIME_FORMAT
-            )
+            date_to = leave.date_to
             if start_datetime and date_to < start_datetime:
                 continue
             leaves.append(leave)
@@ -112,7 +108,7 @@ class ResourceCalendar(models.Model):
         :return boolean True se a data referencia for feriado
                         False se a data referencia nao for feriado
         """
-        data = data_referencia.strftime("%Y-%m-%d %H:%M:%S")
+        data = data_referencia
         for leave in self.leave_ids:
             if leave.date_from <= data:
                 if leave.date_to >= data:
