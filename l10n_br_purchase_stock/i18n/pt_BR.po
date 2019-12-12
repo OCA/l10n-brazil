@@ -1,0 +1,4 @@
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_br_purchase_stock
+msgid "Brazilian Localization Purchase"
+msgstr "Localização Brasileira - Módulo de compras para estoque"
