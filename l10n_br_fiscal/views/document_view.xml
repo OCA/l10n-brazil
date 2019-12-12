@@ -72,6 +72,7 @@
             </group>
             <group>
               <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
+              <field name="state_fiscal"/>
             </group>
           </group>
           <notebook>

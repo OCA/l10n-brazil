@@ -1,10 +1,23 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
-from ..constants.fiscal import FISCAL_IN_OUT, TAX_FRAMEWORK
+from ..constants.fiscal import (FISCAL_IN_OUT, SITUACAO_EDOC,
+                                SITUACAO_EDOC_A_ENVIAR,
+                                SITUACAO_EDOC_AUTORIZADA,
+                                SITUACAO_EDOC_CANCELADA,
+                                SITUACAO_EDOC_DENEGADA,
+                                SITUACAO_EDOC_EM_DIGITACAO,
+                                SITUACAO_EDOC_ENVIADA,
+                                SITUACAO_EDOC_INUTILIZADA,
+                                SITUACAO_EDOC_REJEITADA, SITUACAO_FISCAL,
+                                SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
+                                TAX_FRAMEWORK,
+                                WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
+                                WORKFLOW_EDOC)
 
 
 class DocumentAbstract(models.AbstractModel):
@@ -30,6 +43,137 @@ class DocumentAbstract(models.AbstractModel):
         self.amount_other_costs_value = sum(line.other_costs_value for line in self.line_ids)
         self.amount_freight_value = sum(line.freight_value for line in self.line_ids)
         self.amount_total = sum(line.amount_total for line in self.line_ids)
+
+    @api.model
+    def _avaliable_transition(self, old_state, new_state):
+        """ Verifica as transições disponiveis, para não permitir alterações
+         de estado desconhecidas. Para mais detalhes verificar a variável
+          WORKFLOW_EDOC
+
+           (old_state, new_state) in (SITUACAO_EDOC_EM_DIGITACAO,
+                                      SITUACAO_EDOC_A_ENVIAR)
+
+        :param old_state: estado antigo
+        :param new_state: novo estado
+        :return:
+        """
+        if self.document_electronic:
+            return (old_state, new_state) in WORKFLOW_EDOC
+        else:
+            return (old_state, new_state) in WORKFLOW_DOCUMENTO_NAO_ELETRONICO
+
+    def _before_change_state(self, old_state, new_state):
+        """ Hook para realizar alterações antes da alteração do estado do edoc.
+
+        A variável self.state_edoc já estará com o estado antigo neste momento.
+
+        :param old_state:
+        :param new_state:
+        :return:
+        """
+        self.ensure_one()
+
+    def _exec_after_SITUACAO_EDOC_EM_DIGITACAO(self, old_state, new_state):
+        if self.state_fiscal in SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO:
+            raise (
+                _(
+                    "Não é possível retornar o documento para em \n"
+                    "digitação, quando o mesmo esta na situação: \n"
+                    "{0}, {1]".format(old_state, self.state_fiscal)
+                )
+            )
+
+    def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
+        pass
+
+    def _exec_after_SITUACAO_EDOC_ENVIADA(self, old_state, new_state):
+        pass
+
+    def _exec_after_SITUACAO_EDOC_REJEITADA(self, old_state, new_state):
+        pass
+
+    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+        pass
+
+    def _exec_after_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
+        pass
+
+    def _exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
+        pass
+
+    def _exec_after_SITUACAO_EDOC_INUTILIZADA(self, old_state, new_state):
+        pass
+
+    def _after_change_state(self, old_state, new_state):
+        """ Hook para realizar alterações depois da alteração do estado do doc.
+
+        A variável self.state_edoc já estará com o novo estado neste momento.
+
+        :param old_state:
+        :param new_state:
+        :return:
+        """
+        self.ensure_one()
+        if new_state == SITUACAO_EDOC_EM_DIGITACAO:
+            self._exec_after_SITUACAO_EDOC_EM_DIGITACAO(old_state, new_state)
+        elif new_state == SITUACAO_EDOC_A_ENVIAR:
+            self._exec_after_SITUACAO_EDOC_A_ENVIAR(old_state, new_state)
+        elif new_state == SITUACAO_EDOC_ENVIADA:
+            self._exec_after_SITUACAO_EDOC_ENVIADA(old_state, new_state)
+        elif new_state == SITUACAO_EDOC_REJEITADA:
+            self._exec_after_SITUACAO_EDOC_REJEITADA(old_state, new_state)
+        elif new_state == SITUACAO_EDOC_AUTORIZADA:
+            self._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
+        elif new_state == SITUACAO_EDOC_CANCELADA:
+            self._exec_after_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+        elif new_state == SITUACAO_EDOC_DENEGADA:
+            self._exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
+        elif new_state == SITUACAO_EDOC_INUTILIZADA:
+            self._exec_after_SITUACAO_EDOC_INUTILIZADA(old_state, new_state)
+
+    @api.multi
+    def _change_state(self, new_state):
+        """ Método para alterar o estado do documento fiscal, mantendo a
+        integridade do workflow da invoice.
+
+        Tenha muito cuidado ao alterar o workflow da invoice manualmente,
+        prefira alterar o estado do documento fiscal e ele se encarregar de
+        alterar o estado da invoice.
+
+        :param new_state: Novo estado
+        :return:
+        """
+
+        for record in self:
+            old_state = record.state_edoc
+
+            if not record._avaliable_transition(old_state, new_state):
+                raise UserError(
+                    _(
+                        "Não é possível realizar esta operação,\n"
+                        "esta transição não é permitida:\n\n"
+                        "De: {old_state}\n\n Para: {new_state}".format(
+                            old_state=old_state, new_state=new_state
+                        )
+                    )
+                )
+
+            record._before_change_state(old_state, new_state)
+            record.state_edoc = new_state
+            record._after_change_state(old_state, new_state)
+
+    state_edoc = fields.Selection(
+        selection=SITUACAO_EDOC,
+        string="Situação e-doc",
+        default=SITUACAO_EDOC_EM_DIGITACAO,
+        copy=False,
+        required=True,
+        track_visibility="onchange",
+        index=True,
+    )
+    state_fiscal = fields.Selection(
+        selection=SITUACAO_FISCAL, string="Situação Fiscal", track_visibility="onchange"
+    )
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
@@ -281,7 +425,9 @@ class DocumentAbstract(models.AbstractModel):
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        self.document_type_id = self.company_id.default_document_type_id
+        if self.operation_id:
+            self.document_type_id = self.operation_id.document_type_id
+            self.document_serie_id = self.operation_id.document_serie_id
 
     @api.onchange("document_type_id")
     def _onchange_document_type_id(self):
