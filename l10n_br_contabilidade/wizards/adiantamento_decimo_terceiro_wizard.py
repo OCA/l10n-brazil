@@ -11,8 +11,17 @@ _logger = logging.getLogger(__name__)
 class AdiantamentoDecimoTerceiroWizard(models.TransientModel):
     _name = 'adiantamento.decimo.terceiro.wizard'
 
-    period_id = fields.Many2one(
-        string=u'Período',
+    start_period_id = fields.Many2one(
+        string=u'Período Inicial',
+        comodel_name='account.period',
+        domain=[('special', '=', False)],
+        required=True,
+        default=lambda self: self.env['account.period'].find(
+            '{}-01-01'.format(fields.Date.today()[:4])),
+    )
+
+    end_period_id = fields.Many2one(
+        string=u'Período Final',
         comodel_name='account.period',
         domain=[('special', '=', False)],
         required=True,
@@ -32,19 +41,30 @@ class AdiantamentoDecimoTerceiroWizard(models.TransientModel):
     )
 
     @api.multi
-    @api.onchange('period_id', 'company_ids')
+    @api.onchange('start_period_id')
+    def onchange_start_period_id(self):
+        if self.start_period_id:
+            domain = [
+                ('date_stop', '>=', self.start_period_id.date_start),
+                ('special', '=', False)
+            ]
+            return {'domain': {'end_period_id': domain}}
+
+    @api.multi
+    @api.onchange('end_period_id', 'company_ids')
     def buscar_contratos(self):
         """
         Buscar contratos dos funcionários que recebem 13º Salário
         """
         for record in self:
-            if record.period_id and record.company_ids:
+            if record.end_period_id and record.company_ids:
                 domain = [
                     '|',
-                    ('date_end', '>=', record.period_id.fiscalyear_id.date_start),
+                    ('date_end', '>=', record.end_period_id.fiscalyear_id.date_start),
                     ('date_end', '=', False),
                     ('tp_jornada', '=', '1'),
-                    ('company_id', 'in', record.company_ids.ids)
+                    ('company_id', 'in', record.company_ids.ids),
+                    ('gerar_sefip', '=', True),
                 ]
 
                 contract_id = self.env['hr.contract'].search(domain)
