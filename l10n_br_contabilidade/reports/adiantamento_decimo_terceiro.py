@@ -1,23 +1,21 @@
 # -*- encoding: utf-8 -*-
-# Copyright (C) 2017  KMEE
-# Copyright (C) 2018  ABGF
+# Copyright (C) 2019  ABGF
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-from datetime import datetime
 
-from openerp import api, _
+from openerp import api
 from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
 
-
 TIPO_FOLHA = ['normal', 'decimo_terceiro', 'rescisao']
+
 RUBRICAS = {
     'normal': ['ADIANTAMENTO_13_FERIAS', 'FGTS_F_13'],
-    # 'ferias': ['ADIANTAMENTO_13', 'FGTS'],
 
     'decimo_terceiro': [
         'PRIMEIRA_PARCELA_13', 'MEDIA_SALARIO_SUBSTI_ADIANT_13', 'DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13',
         'FGTS', 'FGTS_F_13',
-        # 'MEDIA_SALARIO_SUBSTI_13', 'DIF_MEDIA_SALARIO_SUBSTI_13'
-        # 'SALARIO_13', 'INSS',
+        'DESCONTO_ADIANTAMENTO_13',
+        'DESCONTO_MEDIA_SALARIO_SUBSTI_ADIANT_13',
+        'DESCONTO_DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13',
     ],
 
     'rescisao': ['DESCONTO_ADIANTAMENTO_13','FGTS_F_13'],
