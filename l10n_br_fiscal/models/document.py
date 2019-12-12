@@ -9,6 +9,9 @@ class Document(models.Model):
     _inherit = "l10n_br_fiscal.document.abstract"
     _description = "Fiscal Document"
 
+    # Pequeno hack, temporário, pois não devemos sobrescrever o
+    # estado da invoice e do sale.
+    state = fields.Selection(related="state_edoc")
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
