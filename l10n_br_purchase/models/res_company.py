@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields
+from odoo import fields, models
 
 
-class ResCompany(models.Model):
-    _inherit = 'res.company'
+class Company(models.Model):
+    _inherit = "res.company"
 
-    purchase_fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category',
-        u'Categoria Fiscal Padrão Compras',
-        domain="[('journal_type', '=', 'purchase')]")
+    purchase_fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        string="Default Fiscal Operation for Purchase",
+        domain="[('state', '=', 'approved')]",
+    )
