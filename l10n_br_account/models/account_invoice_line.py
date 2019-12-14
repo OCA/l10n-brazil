@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class AccountInvoiceLine(models.Model):
-    _inherit = "account.invoice.line"
+    _name = "account.invoice.line"
+    _inherit = ["account.invoice.line", "l10n_br_fiscal.document.line.mixin"]
     _inherits = {"l10n_br_fiscal.document.line": "fiscal_document_line_id"}
 
     # initial account.invoice.line inherits on fiscal.document.line that are
