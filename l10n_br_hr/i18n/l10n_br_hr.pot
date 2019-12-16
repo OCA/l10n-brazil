@@ -412,6 +412,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
+msgid "Customer Location"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
 msgid "Customer Payment Terms"
 msgstr ""
@@ -1019,6 +1024,11 @@ msgid "Message for Invoice"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
+msgid "Message for Stock Picking"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_ids
 msgid "Messages"
 msgstr ""
@@ -1261,6 +1271,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
 msgid "Selecting the \"Warning\" option will notify user with the message, Selecting \"Blocking Message\" will throw an exception with the message and block the flow. The Message has to be written in the next field."
 msgstr ""
 
@@ -1343,6 +1354,11 @@ msgid "Status based on activities\n"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn
+msgid "Stock Picking"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street
 msgid "Street"
 msgstr ""
@@ -1411,6 +1427,16 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__tz
 msgid "The partner's timezone, used to output proper date and time values inside printed reports. It is important to set a value for this field. You should use the same timezone that is otherwise used to pick and render date and time values: your computer's timezone."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
+msgid "The stock location used as destination when sending goods to this contact."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
+msgid "The stock location used as source when receiving goods from this contact."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1531,6 +1557,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__currency_id
 msgid "Utility field to express amount currency"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
+msgid "Vendor Location"
 msgstr ""
 
 #. module: l10n_br_hr
