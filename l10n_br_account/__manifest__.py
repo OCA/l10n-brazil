@@ -16,10 +16,11 @@
         # data
         "data/l10n_br_account_tax_data.xml",
         "data/l10n_br_account_tax_group_data.xml",
-        
+
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
+        "views/fiscal_operation_view.xml",
         'views/account_invoice_view.xml',
         'views/account_invoice_line_view.xml',
         # 'report/account_invoice_report_view.xml',
