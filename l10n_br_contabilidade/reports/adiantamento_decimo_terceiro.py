@@ -194,7 +194,7 @@ def adiantamento_report(pool, cr, uid, local_context, context):
     data = {}
 
     data['footer'] = \
-        u'Telefone: 61-3246-6200 | E-mail: gepes@abgf.gov.br | ' \
+        u'Telefone: 61-3246-6200 | E-mail: gecon@abgf.gov.br | ' \
         u'Site: http://www.abgf.gov.br'
 
     proxy = pool['res.company']
