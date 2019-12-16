@@ -439,6 +439,13 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
+#, fuzzy
+#| msgid "Number of Actions"
+msgid "Customer Location"
+msgstr "Número de ações"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
 msgid "Customer Payment Terms"
 msgstr ""
@@ -1075,6 +1082,11 @@ msgid "Message for Invoice"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
+msgid "Message for Stock Picking"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_ids
 msgid "Messages"
 msgstr "Mensagens"
@@ -1319,6 +1331,7 @@ msgstr "Segunda categoria"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
 msgid ""
 "Selecting the \"Warning\" option will notify user with the message, "
 "Selecting \"Blocking Message\" will throw an exception with the message and "
@@ -1416,6 +1429,11 @@ msgstr ""
 "Planejado: Atividades futuras."
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn
+msgid "Stock Picking"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street
 msgid "Street"
 msgstr "Endereço"
@@ -1500,6 +1518,18 @@ msgstr ""
 "hora dentro de relatórios impressos. É importante definir um valor para este "
 "campo. Você deve usar o mesmo fuso horário que é de outra maneira usado para "
 "escolher os valores de data e hora: o fuso horário do seu computador."
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
+msgid ""
+"The stock location used as destination when sending goods to this contact."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
+msgid ""
+"The stock location used as source when receiving goods from this contact."
+msgstr ""
 
 #. module: l10n_br_hr
 #: selection:hr.employee,cresv_categ:0
@@ -1639,6 +1669,13 @@ msgstr "Usuários"
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__currency_id
 msgid "Utility field to express amount currency"
 msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
+#, fuzzy
+#| msgid "Voter section"
+msgid "Vendor Location"
+msgstr "Seção do eleitor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
