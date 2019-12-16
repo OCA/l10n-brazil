@@ -12,7 +12,7 @@ RUBRICAS = {
 
     'decimo_terceiro': [
         'PRIMEIRA_PARCELA_13', 'MEDIA_SALARIO_SUBSTI_ADIANT_13', 'DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13',
-        'FGTS', 'FGTS_F_13',
+        'FGTS',
         'DESCONTO_ADIANTAMENTO_13',
         'DESCONTO_MEDIA_SALARIO_SUBSTI_ADIANT_13',
         'DESCONTO_DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13',
@@ -102,14 +102,28 @@ def get_funcionarios_adiantamento(contract_id, valores):
             valores['decimo_terceiro']['MEDIA_SALARIO_SUBSTI_ADIANT_13'].get(contract.id, 0) + \
             valores['decimo_terceiro']['DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13'].get(contract.id, 0)
 
+        if primeira_parcela and contract.gerar_sefip:
+            fgts_primeira_parcela = primeira_parcela * 8 / 100
+        else:
+            fgts_primeira_parcela = 0
+
         segunda_parcela = \
             valores['decimo_terceiro'].get('DESCONTO_ADIANTAMENTO_13', {}).get(contract.id, 0) + \
             valores['decimo_terceiro'].get('DESCONTO_MEDIA_SALARIO_SUBSTI_ADIANT_13', {}).get(contract.id, 0) + \
             valores['decimo_terceiro'].get('DESCONTO_DIF_MEDIA_SALARIO_SUBSTI_ADIANT_13', {}).get(contract.id, 0)
 
+        if segunda_parcela and contract.gerar_sefip:
+            fgts_segunda_parcela = segunda_parcela * 8 / 100
+        else:
+            fgts_segunda_parcela = 0
+
         proporcional_rescisao = valores['rescisao']['DESCONTO_ADIANTAMENTO_13'].get(contract.id, 0)
 
-        fgts_adiantamento = proporcional_rescisao * 8 / 100 if proporcional_rescisao else 0
+        if proporcional_rescisao and contract.gerar_sefip:
+            fgts_adiantamento = proporcional_rescisao * 8 / 100
+        else:
+            fgts_adiantamento = 0
+
 
         funcionario_obj = Funcionario(
             contract.id,
@@ -117,11 +131,11 @@ def get_funcionarios_adiantamento(contract_id, valores):
             valores['normal']['ADIANTAMENTO_13_FERIAS'].get(contract.id, 0),
             valores['normal']['FGTS_F_13'].get(contract.id, 0),
             primeira_parcela,
-            valores['decimo_terceiro']['FGTS'].get(contract.id, 0),
+            fgts_primeira_parcela,
             proporcional_rescisao,
             fgts_adiantamento,
             segunda_parcela,
-            valores['decimo_terceiro']['FGTS_F_13'].get(contract.id, 0),
+            fgts_segunda_parcela,
         )
 
         if funcionario_obj.valido:
