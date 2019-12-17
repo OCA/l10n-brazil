@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models, _
 from datetime import datetime, timedelta
-from odoo import tools
 
 
 class ResourceCalendar(models.Model):
