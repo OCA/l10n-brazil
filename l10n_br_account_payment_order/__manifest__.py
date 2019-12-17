@@ -11,7 +11,6 @@
     'website': 'https://github.com/OCA/l10n-brazil',
     'category': 'Banking addons',
     'depends': [
-        'l10n_br',
         'l10n_br_base',
         'account_payment_order',
         'account_due_list',
