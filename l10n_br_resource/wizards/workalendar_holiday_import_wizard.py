@@ -11,13 +11,6 @@ from ..tools.brazil_all_holidays_set import brazil_all_holidays_set
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from workalendar.america import Brazil
-except ImportError:
-    _logger.info("Cannot import Workalendar")
-
-
-
 _INTERVALS = {
     "days": lambda interval: relativedelta(days=interval),
     "weeks": lambda interval: relativedelta(days=7 * interval),
