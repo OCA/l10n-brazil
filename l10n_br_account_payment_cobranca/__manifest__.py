@@ -13,10 +13,6 @@
     'license': 'AGPL-3',
     'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'http://www.kmee.com.br',
-    'external_dependencies': {
-        'python': ['cnab240',
-                   'pyboleto'],
-    },
     'depends': [
         'base_transaction_id',
         'l10n_br_account_payment_order',

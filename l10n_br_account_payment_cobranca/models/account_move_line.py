@@ -5,8 +5,6 @@
 
 import logging
 from odoo import models, fields, api, _
-
-from ..febraban.boleto.document import Boleto
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -100,33 +98,7 @@ class AccountMoveLine(models.Model):
 
     @api.multi
     def generate_boleto(self, validate=True):
-        boleto_list = []
-
-        for move_line in self:
-
-            if validate and move_line.state_cnab not in \
-                    ['accepted', 'accepted_hml']:
-                if move_line.state_cnab == 'not_accepted':
-                    raise UserError(_(
-                        u'Essa fatura foi transmitida com erro ao banco, '
-                        u'é necessário corrigí-la e reenviá-la.'
-                    ))
-                raise UserError(_(
-                    u'Antes de imprimir o boleto é necessário transmitir a '
-                    u'fatura para registro no banco.'
-                ))
-
-            boleto = Boleto.getBoleto(
-                move_line, move_line.nosso_numero
-            )
-
-            # Se a cobrança tiver sido emitida em homologação
-            if move_line.state_cnab == 'accepted_hml':
-                boleto.boleto.instrucoes.append(_(
-                    u'Boleto emitido em homologacao! Sem valor fiscal!'))
-
-            boleto_list.append(boleto.boleto)
-        return boleto_list
+        raise NotImplementedError
 
     @api.multi
     def _update_check(self):

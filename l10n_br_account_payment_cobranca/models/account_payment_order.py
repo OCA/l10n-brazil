@@ -7,18 +7,12 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, models, fields
-
-from ..febraban.cnab import Cnab
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     INDICATIVO_FORMA_PAGAMENTO, TIPO_MOVIMENTO, CODIGO_INSTRUCAO_MOVIMENTO
 
 import logging
 
 _logger = logging.getLogger(__name__)
-try:
-    from cnab240.errors import (Cnab240Error)
-except ImportError as err:
-    _logger.debug = err
 
 
 class PaymentOrder(models.Model):
@@ -112,20 +106,6 @@ class PaymentOrder(models.Model):
             paylines.identificacao_titulo_empresa
         result['ultimo_estado_cnab'] = paylines.move_line_id.state_cnab
         return result
-
-    def _generate_payment_file(self):
-        try:
-            return Cnab.gerar_remessa(order=self), self.name + '.REM'
-        except Cnab240Error as e:
-            _logger.error("Erro ao gerar o arquivo: \n\n{0}".format(e))
-
-    @api.multi
-    def generate_payment_file(self):
-        """Returns (payment file as string, filename)"""
-        self.ensure_one()
-        if self.payment_method_id.code in ('240', '400', '500'):
-            return self._generate_payment_file()
-        return super(PaymentOrder, self).generate_payment_file()
 
     @api.multi
     def open2generated(self):

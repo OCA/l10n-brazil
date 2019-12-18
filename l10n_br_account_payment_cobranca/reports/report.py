@@ -6,11 +6,8 @@
 from __future__ import with_statement
 
 from odoo.api import Environment
-from odoo.osv import osv
 from odoo.report.interface import report_int
 from odoo.report.render import render
-
-from ..febraban.boleto.document import Boleto
 
 
 class ExternalPdf(render):
@@ -51,13 +48,7 @@ class ReportCustom(report_int):
         if not ids_move_lines:
             return False
 
-        boleto_list = ids_move_lines.generate_boleto()
-        if not boleto_list:
-            raise osv.except_osv(
-                'Error !', ('Não é possível gerar os boletos\n'
-                            'Certifique-se que a fatura esteja confirmada e o '
-                            'forma de pagamento seja duplicatas'))
-        pdf_string = Boleto.get_pdfs(boleto_list)
+        pdf_string = ids_move_lines.generate_boleto()
         self.obj = ExternalPdf(pdf_string)
         self.obj.render()
         return self.obj.pdf, 'pdf'

@@ -9,10 +9,6 @@ from odoo.addons import decimal_precision as dp
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, AVISO_FAVORECIDO
 
-from ..febraban.boleto.document import getBoletoSelection
-
-selection = getBoletoSelection()
-
 
 class PaymentMode(models.Model):
     _inherit = "account.payment.mode"
@@ -71,7 +67,7 @@ class PaymentMode(models.Model):
     boleto_aceite = fields.Selection(
         [('S', 'Sim'), ('N', 'Não')], string='Aceite', default='N')
     boleto_type = fields.Selection(
-        selection, string="Boleto")
+        selection=[], string="Boleto")
     boleto_especie = fields.Selection([
         ('01', u'DUPLICATA MERCANTIL'),
         ('02', u'NOTA PROMISSÓRIA'),
