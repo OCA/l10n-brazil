@@ -24,6 +24,9 @@
         'views/account_invoice_view.xml',
         'views/account_invoice_line_view.xml',
         # 'report/account_invoice_report_view.xml',
+
+        # Wizards
+        'wizards/account_invoice_refund_view.xml',
     ],
     "demo": ["demo/base_demo.xml"],
     "pre_init_hook": "pre_init_hook",
