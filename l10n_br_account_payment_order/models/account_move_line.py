@@ -10,19 +10,21 @@ class AccountMoveLine(models.Model):
 
     date_scheduled = fields.Date(string='Data Prevista')
 
-    @api.multi
-    def _get_journal_entry_ref(self):
+    @api.depends('move_id')
+    def _compute_journal_entry_ref(self):
         for record in self:
-            if record.move_id.state == 'draft':
-                if record.invoice.id:
-                    record.journal_entry_ref = record.invoice.number
-                else:
-                    record.journal_entry_ref = '*' + str(record.move_id.id)
-            else:
+            if record.name:
+                record.journal_entry_ref = record.name
+            elif record.move_id.name:
                 record.journal_entry_ref = record.move_id.name
+            elif record.invoice_id and record.invoice_id.number:
+                record.journal_entry_ref = record.invoice_id.number
+            else:
+                record.journal_entry_ref = '*' + str(record.move_id.id)
 
-    journal_entry_ref = fields.Char(compute=_get_journal_entry_ref,
-                                    string='Journal Entry Ref')
+    journal_entry_ref = fields.Char(
+        compute='_compute_journal_entry_ref',
+        string='Journal Entry Ref', store=True)
 
     @api.multi
     def get_balance(self):
