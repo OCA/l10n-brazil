@@ -11,10 +11,20 @@ class DocumentFiscalMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.document.mixin"
     _description = "Document Fiscal Mixin"
 
+    @api.model
+    def _default_operation(self):
+        return False
+
+    @api.model
+    def _operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
+
     operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        domain="[('state', '=', 'approved')]",
         string="Operation",
+        domain=lambda self: self._operation_domain,
+        default=_default_operation,
     )
 
     operation_type = fields.Selection(
@@ -43,6 +53,10 @@ class DocumentFiscalMixin(models.AbstractModel):
 
                 try:
                     fiscal_node.getparent().replace(fiscal_node, sub_view_node)
+                    # from odoo.osv.orm import setup_modifiers
+                    # import pudb; pudb.set_trace()
+
+                    # [setup_modifiers(x) for x in doc.xpath("//group[@id='l10n_br_fiscal']")]
                     model_view["arch"] = etree.tostring(doc, encoding="unicode")
                 except ValueError:
                     return model_view
