@@ -16,3 +16,9 @@ class Operation(models.Model):
         domain="[('type', 'in', {'out': ['sale'], 'in': "
                "['purchase'], 'all': ['sale', 'purchase']}.get("
                "operation_type, []))]")
+
+    fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string='Fiscal Position',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
