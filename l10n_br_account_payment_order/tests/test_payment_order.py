@@ -12,6 +12,7 @@ class TestPaymentOrder(TransactionCase):
     def setUp(self):
         super(TestPaymentOrder, self).setUp()
 
+        # Get Invoice for test
         self.invoice_customer_original = self.env.ref(
             'l10n_br_account_payment_order.demo_invoice_payment_order'
         )
@@ -21,10 +22,15 @@ class TestPaymentOrder(TransactionCase):
             'account_payment_mode.payment_mode_inbound_ct1'
         )
 
+        self.env['account.payment.order'].search([])
+
         # Configure to be possibile create Payment Order
         self.payment_mode.payment_order_ok = True
 
         self.invoice_customer_original.payment_mode_id = self.payment_mode.id
+
+        # Configure Journal to update posted
+        self.invoice_customer_original.journal_id.update_posted = True
 
         # I check that Initially customer invoice is in the "Draft" state
         self.assertEquals(self.invoice_customer_original.state, 'draft')
@@ -44,13 +50,29 @@ class TestPaymentOrder(TransactionCase):
         # Check Payment Mode field
         assert self.invoice_customer_original.payment_mode_id, \
             "Payment Mode field is not filled."
+
+        # Change status of Move to draft just to test
+        self.invoice_customer_original.move_id.button_cancel()
+
         for line in self.invoice_customer_original.move_id.line_ids.filtered(
                 lambda l: l.account_id.id ==
                 self.invoice_customer_original.account_id.id):
             self.assertEquals(
-                line.journal_entry_ref, 'INV/2019/0005',
+                line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
             test_balance_value = line.get_balance()
+
+        # Return the status of Move to Posted
+        self.invoice_customer_original.move_id.action_post()
+
+        for line in self.invoice_customer_original.move_id.line_ids.filtered(
+                lambda l: l.account_id.id ==
+                self.invoice_customer_original.account_id.id):
+            self.assertEquals(
+                line.journal_entry_ref, line.invoice_id.name,
+                "Error with compute field journal_entry_ref")
+            test_balance_value = line.get_balance()
+
         self.assertEquals(
             test_balance_value, 300.0,
             "Error with method get_balance()")
