@@ -45,11 +45,15 @@
                             <field name="code"/>
                             <field name="name"/>
                             <field name="operation_type"/>
+                            <field name="fiscal_type"/>
+                            <field name="company_id"/>
                         </group>
                         <group>
                             <field name="document_type_id"/>
                             <field name="document_serie_id" context="{'default_document_type_id': document_type_id}"/>
                             <field name="default_price_unit"/>
+                            <field name="return_operation_id"/>
+                            <field name="inverse_operation_id"/>
                         </group>
                     </group>
                     <notebook>
