@@ -14,6 +14,19 @@ OPERATION_STATE = [
 OPERATION_STATE_DEFAULT = "draft"
 
 
+OPERATION_FISCAL_TYPE = [
+    ("purchase", "Purchase"),
+    ("purchase_return", "Purchase Return"),
+    ("return_in", "Return in"),
+    ("sale", "Sale"),
+    ("sale_return", "Sale Return"),
+    ("return_out", "Return Out"),
+    ("other", "Other")]
+
+
+OPERATION_FISCAL_TYPE_DEFAULT = 'other'
+
+
 COMMENT_TYPE = [("fiscal", "Fiscal"), ("commercial", "Commercial")]
 
 
