@@ -17,6 +17,7 @@
         'account_due_list',
     ],
     'data': [
+        'views/account_payment_order_menu_views.xml',
         'views/account_due_list.xml',
         'views/account_payment_line.xml',
         'views/account_payment_mode.xml',
