@@ -76,6 +76,9 @@
                         </group>
                         <group string="Other Infos" name="other_infos">
                             <field name="union_entity_code"/>
+                            <field name="is_accountant"/>
+                            <field name="crc_code" attrs="{'invisible': [('is_accountant','!=', True)]}"/>
+                            <field name="crc_state_id" attrs="{'invisible': [('is_accountant','!=', True)]}"/>
                         </group>
                     </group>
                 </page>

@@ -75,6 +75,17 @@ class Partner(models.Model):
 
     suframa = fields.Char(string="Suframa", size=18)
 
+    is_accountant = fields.Boolean(string="Is accountant?")
+
+    crc_code = fields.Char(string="CRC Code", size=18)
+
+    crc_state_id = fields.Many2one(comodel_name="res.country.state", string="CRC State",
+    domain="[('country_id', '=', %(base.br)d)]")
+
+    rntrc_code = fields.Char(string="RNTRC Code", size=12)
+
+    cei_code = fields.Char(string="CEI Code", size=12)
+
     legal_name = fields.Char(
         string="Legal Name", size=128, help="Used in fiscal documents"
     )
