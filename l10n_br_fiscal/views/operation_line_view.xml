@@ -16,6 +16,8 @@
         <field name="model">l10n_br_fiscal.operation.line</field>
         <field name="arch" type="xml">
             <form string="Fiscal Operation Line">
+                <field name="fiscal_type" invisible="1"/>
+                <field name="operation_type" invisible="1"/>
                 <header>
                     <button name="action_review" type="object" states="draft" string="Review" class="oe_highlight" groups="l10n_br_fiscal.group_manager"/>
                     <field name="state" widget="statusbar"/>
@@ -26,10 +28,6 @@
                         <field name="cfop_internal_id"/>
                         <field name="cfop_external_id"/>
                         <field name="cfop_export_id"/>
-                        <field name="operation_type"/>
-                    </group>
-                    <group>
-                        <field name="company_id"/>
                     </group>
                     <group string="Tax Framework" name="tax_framework">
                         <field name="partner_tax_framework"/>

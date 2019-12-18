@@ -23,24 +23,29 @@ class OperationLine(models.Model):
         required=True,
     )
 
+    fiscal_type = fields.Selection(
+        related="operation_id.fiscal_type",
+        string="Fiscal Type",
+    )
+
     name = fields.Char(string="Name", required=True)
 
     cfop_internal_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Internal",
-        domain="[('type_in_out', '=', operation_type)," "('destination', '=', '1')]",
+        domain="[('type_in_out', '=', operation_type), ('type_move', 'ilike', fiscal_type), ('destination', '=', '1')]",
     )
 
     cfop_external_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP External",
-        domain="[('type_in_out', '=', operation_type)," "('destination', '=', '2')]",
+        domain="[('type_in_out', '=', operation_type), ('type_move', 'ilike', fiscal_type), ('destination', '=', '2')]",
     )
 
     cfop_export_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Export",
-        domain="[('type_in_out', '=', operation_type)," "('destination', '=', '3')]",
+        domain="[('type_in_out', '=', operation_type), ('type_move', 'ilike', fiscal_type), ('destination', '=', '3')]",
     )
 
     operation_type = fields.Selection(
@@ -49,14 +54,6 @@ class OperationLine(models.Model):
         string="Operation Type",
         store=True,
         readonly=True,
-    )
-
-    company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-        default=lambda self: self.env["res.company"]._company_default_get(
-            "l10n_br_fiscal.operation.line"
-        ),
     )
 
     line_inverse_id = fields.Many2one(
