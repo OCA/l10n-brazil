@@ -75,9 +75,9 @@ class Partner(models.Model):
 
     suframa = fields.Char(string="Suframa", size=18)
 
-    is_accountant = fields.Bool(string="Is accountant?")
+    is_accountant = fields.Boolean(string="Is accountant?")
     
-    crc_code = fields.Char(string="CRC Code"size=18)
+    crc_code = fields.Char(string="CRC Code" size=18)
 
     crc_uf = fields.Many2one(string="CRC State" related='state_id')
 
