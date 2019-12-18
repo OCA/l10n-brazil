@@ -4,6 +4,25 @@
 
 from odoo import api, fields, models
 
+INVOICE_TO_OPERATION = {
+    'out_invoice': 'out',
+    'in_invoice': 'in',
+    'out_refund': 'in',
+    'in_refund': 'out',
+}
+
+REFUND_TO_OPERATION = {
+    'out_invoice': 'in',
+    'in_invoice': 'out',
+    'out_refund': 'out',
+    'in_refund': 'in',
+}
+
+FISCAL_TYPE_REFUND = {
+    'out': ['purchase_return', 'in_return'],
+    'in': ['sale_return', 'out_return'],
+}
+
 
 class AccountInvoice(models.Model):
     _name = "account.invoice"
