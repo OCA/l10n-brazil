@@ -22,7 +22,7 @@ _INTERVALS = {
 class WorkalendarHolidayImport(models.TransientModel):
 
     _name = "wizard.workalendar.holiday.import"
-    _description = 'Wizard de import de férias'
+    _description = 'Wizard de import de feriados'
 
     @api.multi
     @api.depends("start_date", "interval_number", "interval_type")
