@@ -4,8 +4,15 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.fiscal import (FISCAL_IN_OUT_ALL, OPERATION_STATE,
-                                OPERATION_STATE_DEFAULT)
+from ..constants.fiscal import (
+    OPERATION_FISCAL_TYPE,
+    OPERATION_FISCAL_TYPE_DEFAULT,
+    FISCAL_IN_OUT_ALL,
+    CFOP_TYPE_MOVE,
+    CFOP_TYPE_MOVE_DEFAULT,
+    OPERATION_STATE_DEFAULT,
+    OPERATION_STATE
+)
 
 
 class Operation(models.Model):
@@ -57,6 +64,40 @@ class Operation(models.Model):
         selection=[("sale_price", _("Sale Price")), ("cost_price", _("Cost Price"))],
         string="Default Price Unit?",
         default="sale_price",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    fiscal_type = fields.Selection(
+        selection=OPERATION_FISCAL_TYPE,
+        string="Fiscal Type",
+        default=OPERATION_FISCAL_TYPE_DEFAULT,
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    return_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        string="Return Operation",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        domain="[('operation_type', '!=', operation_type), ('fiscal_type', 'in', {'sale': ['sale_return'], 'purchase': "
+               "['purchase_return'], 'other': ['return_in', 'return_out']}.get("
+               "fiscal_type, []))]"
+    )
+
+    inverse_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        string="Inverse Operation",
+        domain="[('operation_type', '!=', operation_type), ('fiscal_type', '!=', fiscal_type)]",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -120,11 +161,10 @@ class Operation(models.Model):
     def _line_domain(self, company, partner, product):
 
         domain = [
+            ("operation_id", "=", self.id),
             ("operation_type", "=", self.operation_type),
             ("state", "=", "approved"),
         ]
-
-        domain += ["|", ("company_id", "=", company.id), ("company_id", "=", False)]
 
         domain += [
             "|",
