@@ -25,17 +25,17 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.ui.view,arch_db:l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment
-msgid "Cobrança"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.ui.view,arch_db:l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment
-msgid "Configurações"
+msgid "Configurações Brasileiras"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_date_scheduled
 msgid "Data Prevista"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.ui.view,arch_db:l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment
+msgid "Geral"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -70,11 +70,6 @@ msgid "O cógido da Agencia Bancaria do Santander deve ter no máximo quatro car
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.ui.view,arch_db:l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment
-msgid "Pagamento"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_line
 msgid "Payment Lines"
 msgstr ""
@@ -87,6 +82,16 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line_percent_interest
 msgid "Percentual de Juros"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_remessa_categ
+msgid "Remessa"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_retorno_categ
+msgid "Retorno"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
