@@ -33,6 +33,7 @@
                     <group name="account_main">
                         <group>
                             <field name="journal_id" required="1"/>
+                            <field name="fiscal_position_id"/>
                         </group>
                     </group>
                 </page>
