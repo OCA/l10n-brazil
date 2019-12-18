@@ -4,7 +4,7 @@
 
 
 from openerp.tests.common import TransactionCase
-from openerp.exceptions import UserError
+from openerp.exceptions import UserError, ValidationError
 
 
 class TestPaymentOrder(TransactionCase):
@@ -130,3 +130,16 @@ class TestPaymentOrder(TransactionCase):
 
         payment_order.unlink()
         self.assertEquals(len(self.env['account.payment.order'].search([])), 0)
+
+    def test_bra_number_constrains(self):
+        """ Test bra_number constrains. """
+
+        self.banco_bradesco = self.env[
+            'res.bank'].search([('code_bc', '=', '033')])
+        with self.assertRaises(ValidationError):
+            self.env[
+                'res.partner.bank'].create(dict(
+                    bank_id=self.banco_bradesco.id,
+                    partner_id=self.ref('l10n_br_base.res_partner_akretion'),
+                    bra_number='12345'
+                ))
