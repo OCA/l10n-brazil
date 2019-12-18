@@ -119,11 +119,23 @@ def get_funcionarios_adiantamento(contract_id, valores):
 
         proporcional_rescisao = valores['rescisao']['DESCONTO_ADIANTAMENTO_13'].get(contract.id, 0)
 
+        # Buscar valor do adiantamento na rescisao
         if proporcional_rescisao and contract.gerar_sefip:
             fgts_adiantamento = proporcional_rescisao * 8 / 100
         else:
             fgts_adiantamento = 0
 
+        # Pagamento de 13 eh feito em novembro, adiantando o ultimo avo de DEZ
+        # Para o caso do funcionario que foi rescindido depois do
+        # pagamento do 13º e nao tinha direito a todos os avos (nao completou
+        # o avo de dezembro). Na rescisao devera descontar o avo adiantado no
+        # holerite do 13, e pagar o proporcional correto.
+        valor_adiantado = \
+            primeira_parcela + \
+            valores['normal']['ADIANTAMENTO_13_FERIAS'].get(contract.id, 0)
+        if proporcional_rescisao and not valor_adiantado:
+            primeira_parcela = proporcional_rescisao
+            fgts_primeira_parcela = fgts_adiantamento
 
         funcionario_obj = Funcionario(
             contract.id,
