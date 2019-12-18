@@ -2,7 +2,7 @@
 <!-- Copyright 2016 KMEE INFORMATICA LTDA
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<openerp>
+<odoo>
 <data>
 
     <record model="ir.model.access" id="hr_holidays_status_write_employee">
@@ -25,4 +25,4 @@
     </record>
 
 </data>
-</openerp>
+</odoo>

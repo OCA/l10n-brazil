@@ -2,9 +2,9 @@
 # Copyright 2016 KMEE - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import fields, models, api
-from openerp.osv.orm import setup_modifiers
-from openerp.exceptions import Warning
+from odoo import fields, models, api
+from odoo.osv.orm import setup_modifiers
+from odoo.exceptions import Warning
 from lxml import etree
 
 

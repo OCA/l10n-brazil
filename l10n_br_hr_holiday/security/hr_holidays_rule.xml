@@ -2,7 +2,7 @@
 <!-- Copyright 2019 ABGF.gov.br
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<openerp>
+<odoo>
 <data>
         <!-- Visualizar olidays de funcinoários ativos. Funcionarios ativos
         sao funcinoarios que tem no contrato ativo a data de demissao
@@ -19,4 +19,4 @@
         </record>
 
 </data>
-</openerp>
+</odoo>

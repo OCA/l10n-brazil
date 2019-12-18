@@ -2,9 +2,9 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp.addons.l10n_br_hr_holiday.models.hr_holidays \
+from odoo.addons.l10n_br_hr_holiday.models.hr_holidays \
     import OCORRENCIA_TIPO
-from openerp import fields, models
+from odoo import fields, models
 
 TYPE_DAY = [
     ('uteis', u'Dias úteis Consecutivos'),

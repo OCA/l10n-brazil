@@ -4,8 +4,8 @@
 
 from datetime import timedelta
 
-from openerp import api, fields, models, _
-from openerp.exceptions import Warning as UserError
+from odoo import api, fields, models, _
+from odoo.exceptions import Warning as UserError
 
 OCORRENCIA_TIPO = [
     ('ferias', u'Férias'),
