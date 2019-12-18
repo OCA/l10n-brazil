@@ -446,6 +446,13 @@ msgid "Customer Location"
 msgstr "Número de ações"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
+#, fuzzy
+#| msgid "Number of Actions"
+msgid "Customer Payment Mode"
+msgstr "Número de ações"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
 msgid "Customer Payment Terms"
 msgstr ""
@@ -1330,6 +1337,16 @@ msgid "Second Category"
 msgstr "Segunda categoria"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
+msgid "Select the default payment mode for this customer."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
+msgid "Select the default payment mode for this supplier."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
 msgid ""
@@ -1452,6 +1469,11 @@ msgstr "Complemento"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__suframa
 msgid "Suframa"
 msgstr "Suframa"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
+msgid "Supplier Payment Mode"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__category_id
