@@ -144,15 +144,17 @@ class Partner(models.Model):
     def _check_cnpj_cpf(self):
         result = True
         for record in self:
-            country_code = record.country_id.code or ""
-            if record.cnpj_cpf and country_code.upper() == "BR":
-                if record.is_company:
-                    if not cnpj_cpf.validar(record.cnpj_cpf):
-                        result = False
-                        document = "CNPJ"
-                elif not cnpj_cpf.validar(record.cnpj_cpf):
-                    result = False
-                    document = "CPF"
+            if record.country_id:
+                country_code = record.country_id.code
+                if country_code:
+                    if record.cnpj_cpf and country_code.upper() == "BR":
+                        if record.is_company:
+                            if not cnpj_cpf.validar(record.cnpj_cpf):
+                                result = False
+                                document = "CNPJ"
+                        elif not cnpj_cpf.validar(record.cnpj_cpf):
+                            result = False
+                            document = "CPF"
             if not result:
                 raise ValidationError(_("{} Invalid!").format(document))
 
@@ -221,8 +223,9 @@ class Partner(models.Model):
     @api.multi
     def _set_street(self):
         company_country = self.env.user.company_id.country_id
-        if company_country.code.upper() != "BR":
-            return super(Partner, self)._set_street()
+        if company_country.code:
+            if company_country.code.upper() != "BR":
+                return super(Partner, self)._set_street()
 
     @api.onchange("cnpj_cpf")
     def _onchange_cnpj_cpf(self):

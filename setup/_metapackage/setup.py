@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_currency_rate_update',
         'odoo12-addon-l10n_br_hr',
         'odoo12-addon-l10n_br_hr_contract',
+        'odoo12-addon-l10n_br_stock',
         'odoo12-addon-l10n_br_zip',
     ],
     classifiers=[
