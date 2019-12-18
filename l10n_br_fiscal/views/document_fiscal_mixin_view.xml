@@ -5,11 +5,9 @@
     <field name="name">l10n_br_fiscal.document.mixin.form</field>
     <field name="model">l10n_br_fiscal.document.mixin</field>
     <field name="arch" type="xml">
-        <form>
-            <group id="l10n_br_fiscal">
-                <field name="operation_id" required="1"/>
-            </group>
-        </form>
+        <group id="l10n_br_fiscal">
+            <field name="operation_id" required="1"/>
+        </group>
     </field>
   </record>
 
