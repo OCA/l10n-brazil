@@ -7,11 +7,17 @@
 
 
     <menuitem id="account_payment_order.account_payment_order_outbound_menu"
-              parent="menu_remessa_categ" sequence="10"/>
+              parent="menu_remessa_categ"
+              action="account_payment_order.account_payment_order_outbound_action"
+              sequence="10"/>
 
     <menuitem id="account_payment_order.account_payment_order_inbound_menu"
-              parent="menu_remessa_categ" sequence="20"/>
+              parent="menu_remessa_categ"
+              action="account_payment_order.account_payment_order_inbound_action"
+              sequence="20"/>
 
     <menuitem id="account_payment_order.bank_payment_line_menu"
-              parent="menu_remessa_categ" sequence="50"/>
+              parent="menu_remessa_categ"
+              action="account_payment_order.bank_payment_line_action"
+              sequence="50"/>
 </odoo>
