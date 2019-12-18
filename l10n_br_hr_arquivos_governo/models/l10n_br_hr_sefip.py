@@ -1099,7 +1099,8 @@ class L10nBrSefip(models.Model):
                         record.sefip += self._valida_tamanho_linha(
                            record._preencher_registro_32(sefip, holerites[key]))
 
-            record.sefip += sefip._registro_90_totalizador_do_arquivo()
+            record.sefip += self._valida_tamanho_linha(
+                sefip._registro_90_totalizador_do_arquivo())
 
             # Setar a relação entre Holerite e o SEFIP
             for holerite in folha_ids:
