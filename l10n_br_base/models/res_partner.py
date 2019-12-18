@@ -77,13 +77,13 @@ class Partner(models.Model):
 
     is_accountant = fields.Boolean(string="Is accountant?")
     
-    crc_code = fields.Char(string="CRC Code" size=18)
+    crc_code = fields.Char(string="CRC Code", size=18)
 
-    crc_uf = fields.Many2one(string="CRC State" related='state_id')
+    crc_uf = fields.Many2one(string="CRC State", related='state_id')
 
-    rntrc_code = fields.Char(string="RNTRC Code" size=12)
+    rntrc_code = fields.Char(string="RNTRC Code", size=12)
 
-    cei_code = fields.Char(string="CEI Code" size=12)
+    cei_code = fields.Char(string="CEI Code", size=12)
 
     legal_name = fields.Char(
         string="Legal Name", size=128, help="Used in fiscal documents"
