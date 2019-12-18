@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <record id="main_company_bank_bb" model="res.partner.bank">
+            <field name="acc_number">5384</field>
+            <field name="acc_number_dig">8</field>
+            <field name="bra_number">7030</field>
+            <field name="bra_number_dig">8</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_1"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANCO DO BRASIL S.A.</field>
+        </record>
+
+        <record id="main_company_bank_hsbc" model="res.partner.bank">
+            <field name="acc_number">5162</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">0100</field>
+            <field name="bra_number_dig">3</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_76"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">HSBC BANK BRASIL S.A. - BANCO MULTIPLO
+            </field>
+        </record>
+
+        <record id="main_company_bank_itau" model="res.partner.bank">
+            <field name="acc_number">15016</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">8515</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_70"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANCO ITAÚ S.A.</field>
+        </record>
+
+        <record id="main_company_bank_santander" model="res.partner.bank">
+            <field name="acc_number">1333</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">0707</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_12"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANCO SANTANDER (BRASIL) S.A.</field>
+        </record>
+
+        <record id="main_company_bank_cef" model="res.partner.bank">
+            <field name="acc_number">414</field>
+            <field name="acc_number_dig">3</field>
+            <field name="bra_number">1565</field>
+            <field name="bra_number_dig">1</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_38"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">CAIXA ECONOMICA FEDERAL</field>
+        </record>
+
+        <record id="main_company_bank_bradesco" model="res.partner.bank">
+            <field name="acc_number">395</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">1611</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_56"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANCO BRADESCO S.A.</field>
+        </record>
+
+        <record id="main_company_bank_nordeste" model="res.partner.bank">
+            <field name="acc_number">123</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">1234</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_3"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANCO DO NORDESTE DO BRASIL S.A.</field>
+        </record>
+
+        <record id="main_company_bank_banrisul" model="res.partner.bank">
+            <field name="acc_number">321</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">1234</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_16"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANCO DO ESTADO DO RIO GRANDE DO SUL S.A.</field>
+        </record>
+
+        <record id="main_company_bank_banestes" model="res.partner.bank">
+            <field name="acc_number">231</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">1234</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_7"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANESTES S.A. BANCO DO ESTADO DO ESPIRITO SANTO</field>
+        </record>
+
+        <record id="main_company_bank_sicoob" model="res.partner.bank">
+            <field name="acc_number">312</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">1234</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_115"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">BANCO COOPERATIVO DO BRASIL S.A. (SICOOB)</field>
+        </record>
+
+        <record id="main_company_bank_sicredi" model="res.partner.bank">
+            <field name="acc_number">331</field>
+            <field name="acc_number_dig">0</field>
+            <field name="bra_number">1234</field>
+            <field name="bra_number_dig">0</field>
+            <field name="bank_id" ref="l10n_br_base.res_bank_116"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_name">Sicredi - Instituição Financeira Cooperativa</field>
+        </record>
+
+        <!-- Account Journal -->
+        <record id="l10n_br_account_payment_order-account_journal" model="account.journal">
+            <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
+            <field name="code">TPO</field>
+            <field name="type">sale</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- Account Payment Mode -->
+        <record id="payment_mode_boleto" model="account.payment.mode">
+            <field name="name">Boleto Bancario</field>
+            <field name="fixed_journal_id" ref="l10n_br_account_payment_order-account_journal"/>
+            <field name="bank_account_link">variable</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="payment_method_id"
+                   ref="account.account_payment_method_manual_in"/>
+        </record>
+
+    </data>
+</odoo>

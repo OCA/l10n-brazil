@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="l10n_br-account_payment_mode_form" model="ir.ui.view">
+        <field name="name">payment.mode.l10n_br_payment.form.inherit</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_mode_form"/>
+        <field name="priority" eval="14"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/group[@name='note']" position="before">
+                <group string="Configurações Brasileiras" name='l10n-br-config' col="4">
+                    <notebook colspan="4" name="l10n_br_account_payment_order">
+                        <page string="Geral">
+                            <group name="l10n_br_account_payment_order-geral">
+                                <field name="internal_sequence_id"/>
+                                <field name="instrucoes"/>
+                                <field name="invoice_print"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
