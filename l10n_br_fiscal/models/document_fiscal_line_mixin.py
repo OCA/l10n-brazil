@@ -11,17 +11,27 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.document.line.mixin"
     _description = "Document Fiscal Mixin"
 
+    @api.model
+    def _default_operation(self):
+        return False
+
+    @api.model
+    def _operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
+
+    operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        string="Operation",
+        domain=lambda self: self._operation_domain,
+        default=_default_operation,
+    )
+
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
         related="operation_id.operation_type",
         string="Operation Type",
         readonly=True,
-    )
-
-    operation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation",
-        domain="[('state', '=', 'approved')]",
-        string="Operation",
     )
 
     operation_line_id = fields.Many2one(
