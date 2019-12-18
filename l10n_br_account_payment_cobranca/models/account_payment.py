@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2012 KMEE INFORMATICA LTDA
 #   @author  Daniel Sadamo Hirayama <daniel.sadamo@kmee.com.br>
 #   @author  Hugo Uchôas Borges <hugo.borges@kmee.com.br>
@@ -8,7 +7,7 @@ from odoo import api, models
 
 
 class AccountPayment(models.Model):
-    _inherit = 'account.payment'
+    _inherit = "account.payment"
 
     @api.multi
     def post(self):
