@@ -417,6 +417,11 @@ msgid "Customer Location"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
+msgid "Customer Payment Mode"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
 msgid "Customer Payment Terms"
 msgstr ""
@@ -1270,6 +1275,16 @@ msgid "Second Category"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
+msgid "Select the default payment mode for this customer."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
+msgid "Select the default payment mode for this supplier."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
 msgid "Selecting the \"Warning\" option will notify user with the message, Selecting \"Blocking Message\" will throw an exception with the message and block the flow. The Message has to be written in the next field."
@@ -1376,6 +1391,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__suframa
 msgid "Suframa"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
+msgid "Supplier Payment Mode"
 msgstr ""
 
 #. module: l10n_br_hr
