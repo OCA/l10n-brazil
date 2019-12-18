@@ -95,8 +95,8 @@ class HrHolidays(models.Model):
                 if record.holiday_status_id.days_limit:
                     if record.holiday_status_id.type_day == u'uteis':
                         resource_calendar_obj = self.env['resource.calendar']
-                        date_to = fields.Date.from_string(record.date_to)
-                        date_from = fields.Date.from_string(record.date_from)
+                        date_to = fields.Date.to_date(record.date_to)
+                        date_from = fields.Date.to_date(record.date_from)
                         if resource_calendar_obj.quantidade_dias_uteis(
                                 date_from, date_to) > \
                                 record.holiday_status_id.days_limit:
@@ -107,8 +107,8 @@ class HrHolidays(models.Model):
                             raise UserError(_("Number of days exceeded!"))
                 # Validar Limite de Horas
                 # if record.holiday_status_id.hours_limit:
-                #     if fields.Datetime.from_string(record.date_to) - \
-                #             fields.Datetime.from_string(record.date_from) > \
+                #     if ffields.Datetime.to_datetime(record.date_to) - \
+                #             fields.Datetime.to_datetime(record.date_from) > \
                 #             timedelta(minutes=60 *
                 #                       record.holiday_status_id.hours_limit):
                 #         raise UserError(_("Number of hours exceeded!"))
@@ -154,12 +154,12 @@ class HrHolidays(models.Model):
 
         for leave in holidays_1_ids | holidays_2_ids:
             qtd_dias_dentro_mes = 0
-            data_referencia = fields.Datetime.from_string(leave.data_inicio)
-            data_fim_holidays = fields.Datetime.from_string(leave.data_fim)
+            data_referencia = fields.Datetime.to_datetime(leave.data_inicio)
+            data_fim_holidays = fields.Datetime.to_datetime(leave.data_fim)
 
             while data_referencia <= data_fim_holidays:
-                if data_referencia >= fields.Datetime.from_string(data_from) and \
-                        data_referencia <= fields.Datetime.from_string(data_to):
+                if data_referencia >= fields.Datetime.to_datetime(data_from) and \
+                        data_referencia <= fields.Datetime.to_datetime(data_to):
                     # Levar em consideração o tipo de dias
                     if leave.holiday_status_id.type_day == 'uteis':
                         rc = self.env['resource.calendar']

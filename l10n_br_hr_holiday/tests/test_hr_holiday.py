@@ -119,8 +119,8 @@ class TestHrHoliday(common.TransactionCase):
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hruser_id.id,
-            'date_from': fields.Datetime.from_string('2016-12-07 07:00:00'),
-            'date_to': fields.Datetime.from_string('2016-12-11 19:00:00'),
+            'date_from': fields.Datetime.to_datetime('2016-12-07 07:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-12-11 19:00:00'),
             'number_of_days_temp': 5,
             'attachment_ids': [(6, 0, [self.attach1.id])],
         })
@@ -140,8 +140,8 @@ class TestHrHoliday(common.TransactionCase):
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hruser_id.id,
-            'date_from': fields.Datetime.from_string('2016-12-07 07:00:00'),
-            'date_to': fields.Datetime.from_string('2016-12-13 19:00:00'),
+            'date_from': fields.Datetime.to_datetime('2016-12-07 07:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-12-13 19:00:00'),
             'number_of_days_temp': 7,
             'attachment_ids': [(6, 0, [self.attach1.id])],
         })
@@ -160,8 +160,8 @@ class TestHrHoliday(common.TransactionCase):
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hruser_id.id,
-            'date_from': fields.Datetime.from_string('2016-12-07 07:00:00'),
-            'date_to': fields.Datetime.from_string('2016-12-07 08:00:00'),
+            'date_from': fields.Datetime.to_datetime('2016-12-07 07:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-12-07 08:00:00'),
             'number_of_days_temp': 1,
         })
         self.assertEqual(self.hr_holidays.search_count([
@@ -178,8 +178,8 @@ class TestHrHoliday(common.TransactionCase):
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hruser_id.id,
-            'date_from': fields.Datetime.from_string('2016-12-07 07:00:00'),
-            'date_to': fields.Datetime.from_string('2016-12-07 08:00:00'),
+            'date_from': fields.Datetime.to_datetime('2016-12-07 07:00:00'),
+            'date_to': fields.Datetime.to_datetime('2016-12-07 08:00:00'),
             'number_of_days_temp': 1,
             'attachment_ids': [(6, 0, [self.attach1.id])],
         })

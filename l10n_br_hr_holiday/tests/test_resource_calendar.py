@@ -43,8 +43,8 @@ class TestHrHoliday(common.TransactionCase):
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hruser_id.id,
-            'date_from': fields.Datetime.from_string('2017-01-10 07:00:00'),
-            'date_to': fields.Datetime.from_string('2017-01-10 17:00:00'),
+            'date_from': fields.Datetime.to_datetime('2017-01-10 07:00:00'),
+            'date_to': fields.Datetime.to_datetime('2017-01-10 17:00:00'),
             'number_of_days_temp': 1,
             'payroll_discount': True,
         })
@@ -80,8 +80,8 @@ class TestHrHoliday(common.TransactionCase):
             'holiday_type': 'employee',
             'holiday_status_id': holiday_status_id.id,
             'employee_id': self.employee_hruser_id.id,
-            'date_from': fields.Datetime.from_string('2017-01-10 07:00:00'),
-            'date_to': fields.Datetime.from_string('2017-01-12 17:00:00'),
+            'date_from': fields.Datetime.to_datetime('2017-01-10 07:00:00'),
+            'date_to': fields.Datetime.to_datetime('2017-01-12 17:00:00'),
             'number_of_days_temp': 3,
             'payroll_discount': True,
         })
