@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__anp_code
+msgid "ANP Code"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5200050
 msgid "Abadia de Goiás"
 msgstr ""
@@ -3813,6 +3818,12 @@ msgid "Bálsamo"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cei_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cei_code
+msgid "CEI Code"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
 msgid "CNPJ"
 msgstr ""
@@ -3836,6 +3847,18 @@ msgstr ""
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "CPF"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_code
+msgid "CRC Code"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_state_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_state_id
+msgid "CRC State"
 msgstr ""
 
 #. module: l10n_br_base
@@ -8264,7 +8287,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:168
+#: code:addons/l10n_br_base/models/res_partner.py:178
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr ""
@@ -10753,7 +10776,7 @@ msgid "Inocência"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:183
+#: code:addons/l10n_br_base/models/res_partner.py:193
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr ""
@@ -11069,6 +11092,12 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3202652
 msgid "Irupi"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_accountant
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_accountant
+msgid "Is accountant?"
 msgstr ""
 
 #. module: l10n_br_base
@@ -19886,6 +19915,12 @@ msgid "RG"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__rntrc_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__rntrc_code
+msgid "RNTRC Code"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2410504
 msgid "Rafael Fernandes"
 msgstr ""
@@ -20842,6 +20877,11 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_2411106
 #: model:res.city,name:l10n_br_base.city_2927200
 msgid "Ruy Barbosa"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__siafi_code
+msgid "SIAFI Code"
 msgstr ""
 
 #. module: l10n_br_base
@@ -22970,7 +23010,7 @@ msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:199
+#: code:addons/l10n_br_base/models/res_partner.py:209
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr ""
@@ -25318,19 +25358,19 @@ msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:186
+#: code:addons/l10n_br_base/models/res_partner.py:196
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:129
+#: code:addons/l10n_br_base/models/res_partner.py:139
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:122
+#: code:addons/l10n_br_base/models/res_partner.py:132
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
 msgstr ""
@@ -27012,7 +27052,7 @@ msgid "Zé Doca"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:149
+#: code:addons/l10n_br_base/models/res_partner.py:159
 #, python-format
 msgid "{} Invalid!"
 msgstr ""
