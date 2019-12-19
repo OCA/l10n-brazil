@@ -162,6 +162,11 @@ msgid "CBO"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cei_code
+msgid "CEI Code"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__cnpj_cei
 msgid "CNPJ/CEI Tomadora/Obra"
 msgstr ""
@@ -181,6 +186,16 @@ msgstr ""
 #: code:addons/l10n_br_hr/models/hr_employee.py:208
 #, python-format
 msgid "CPF Invalido!"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_code
+msgid "CRC Code"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_state_id
+msgid "CRC State"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -894,6 +909,11 @@ msgid "Is a Vendor"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_accountant
+msgid "Is accountant?"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_employee_dependent
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__is_employee_dependent
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_users__is_employee_dependent
@@ -1215,6 +1235,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "RG"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rntrc_code
+msgid "RNTRC Code"
 msgstr ""
 
 #. module: l10n_br_hr
