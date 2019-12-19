@@ -18,6 +18,13 @@ msgstr ""
 "X-Generator: Weblate 3.8\n"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__anp_code
+#, fuzzy
+#| msgid "BC Code"
+msgid "ANP Code"
+msgstr "Código do BC"
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5200050
 msgid "Abadia de Goiás"
 msgstr ""
@@ -3827,6 +3834,14 @@ msgid "Bálsamo"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cei_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cei_code
+#, fuzzy
+#| msgid "BC Code"
+msgid "CEI Code"
+msgstr "Código do BC"
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
 msgid "CNPJ"
 msgstr "CNPJ"
@@ -3851,6 +3866,22 @@ msgstr "CNPJ/Id Estrangeiro"
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "CPF"
 msgstr "CPF"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_code
+#, fuzzy
+#| msgid "BC Code"
+msgid "CRC Code"
+msgstr "Código do BC"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_state_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_state_id
+#, fuzzy
+#| msgid "State"
+msgid "CRC State"
+msgstr "Estado"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1300839
@@ -8288,7 +8319,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:168
+#: code:addons/l10n_br_base/models/res_partner.py:178
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr "Inscrição Estadual Inválida !"
@@ -10781,7 +10812,7 @@ msgid "Inocência"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:183
+#: code:addons/l10n_br_base/models/res_partner.py:193
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr "Número da Inscrição Estadual Inválida!"
@@ -11097,6 +11128,12 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3202652
 msgid "Irupi"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_accountant
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_accountant
+msgid "Is accountant?"
 msgstr ""
 
 #. module: l10n_br_base
@@ -19924,6 +19961,14 @@ msgid "RG"
 msgstr "RG"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__rntrc_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__rntrc_code
+#, fuzzy
+#| msgid "BC Code"
+msgid "RNTRC Code"
+msgstr "Código do BC"
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2410504
 msgid "Rafael Fernandes"
 msgstr ""
@@ -20881,6 +20926,13 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_2927200
 msgid "Ruy Barbosa"
 msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__siafi_code
+#, fuzzy
+#| msgid "IBGE Code"
+msgid "SIAFI Code"
+msgstr "Código do IBGE"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3156700
@@ -23012,7 +23064,7 @@ msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:199
+#: code:addons/l10n_br_base/models/res_partner.py:209
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr "Inscrição estadual %s já utilizada"
@@ -25362,20 +25414,20 @@ msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:186
+#: code:addons/l10n_br_base/models/res_partner.py:196
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
 "Só pode haver um número de imposto estadual por estado para cada parceiro!"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:129
+#: code:addons/l10n_br_base/models/res_partner.py:139
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr "Já existe um parceiro com este CNPJ !"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:122
+#: code:addons/l10n_br_base/models/res_partner.py:132
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
 msgstr "Já existe um parceiro com esta Inscrição Estadual !"
@@ -27065,7 +27117,7 @@ msgid "Zé Doca"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:149
+#: code:addons/l10n_br_base/models/res_partner.py:159
 #, python-format
 msgid "{} Invalid!"
 msgstr "{} Inválido!"
