@@ -15,4 +15,4 @@ class ResConfigSettings(models.TransientModel):
 
     module_l10n_br_zip = fields.Boolean(string="Use Brazilian postal service API")
 
-    module_l10n_br_validate_cnpj_ie = fields.Boolean(string="Allow CNPJ and IE validation")
+    module_l10n_br_validate_cpf_cnpj_ie = fields.Boolean(string="Allow CPF, CNPJ and IE validation")
