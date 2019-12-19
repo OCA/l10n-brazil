@@ -1203,6 +1203,10 @@ class HrPayslip(models.Model):
             if self.contract_id.date_start > inicio_periodo:
                 inicio_periodo = self.contract_id.date_start
 
+            # Segunda parcela do 13, buscar até o mes de novembro para media
+            if self.mes_do_ano2 == 12:
+                final_periodo = fields.Date.from_string(final_periodo).\
+                    replace(month=11, day=30)
         """
         Considerando que as gratificações, prêmios e adicionais fixos,
          habitualmente pagos ao empregado, integram o salário para
@@ -3076,7 +3080,10 @@ class HrPayslip(models.Model):
                 data_de_inicio = self.contract_id.date_start
             else:
                 data_de_inicio = '{}-12-01'.format(self.ano - 1)
+
             data_final = self.date_to
+            if fields.Date.from_string(self.date_to).month == 12:
+                data_final = str(fields.Date.from_string(self.date_to).replace(month=11, day=30))
 
         hr_medias_ids = medias_obj.gerar_media_dos_proventos(
             data_de_inicio, data_final, self)
