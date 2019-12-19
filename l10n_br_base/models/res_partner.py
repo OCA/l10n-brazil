@@ -79,8 +79,7 @@ class Partner(models.Model):
 
     crc_code = fields.Char(string="CRC Code", size=18)
 
-    crc_state_id = fields.Many2one(comodel_name="res.country.state", string="CRC State",
-        domain="[('country_id', '=', %(base.br)d)]")
+    crc_state_id = fields.Many2one(comodel_name="res.country.state", string="CRC State")
 
     rntrc_code = fields.Char(string="RNTRC Code", size=12)
 
