@@ -27,9 +27,9 @@
                                 <field name="module_l10n_br_validate_cnpj_ie"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <label string="Enable CNPJ and IE field validation" for="l10n_br_base"/>
+                                <label string="Enable CPF, CNPJ and IE field validation" for="l10n_br_base"/>
                                 <div class="text-muted">
-                                   Enables validation of CNPJ and IE fields
+                                   Enables validation of CPF, CNPJ and IE fields
                                 </div>
                             </div>
                         </div>
