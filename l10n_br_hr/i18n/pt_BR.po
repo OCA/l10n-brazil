@@ -174,6 +174,13 @@ msgid "CBO"
 msgstr "CBO"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cei_code
+#, fuzzy
+#| msgid "Code"
+msgid "CEI Code"
+msgstr "Código"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__cnpj_cei
 msgid "CNPJ/CEI Tomadora/Obra"
 msgstr "CNPJ / CEI Tomadora / Obra"
@@ -194,6 +201,20 @@ msgstr "CPF"
 #, python-format
 msgid "CPF Invalido!"
 msgstr "CPF Invalido!"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_code
+#, fuzzy
+#| msgid "Code"
+msgid "CRC Code"
+msgstr "Código"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_state_id
+#, fuzzy
+#| msgid "State"
+msgid "CRC State"
+msgstr "Estado"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps
@@ -944,6 +965,11 @@ msgid "Is a Vendor"
 msgstr "É um Fornecedor"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_accountant
+msgid "Is accountant?"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_employee_dependent
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__is_employee_dependent
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_users__is_employee_dependent
@@ -1278,6 +1304,11 @@ msgstr "Psicanalista"
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "RG"
 msgstr "RG"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rntrc_code
+msgid "RNTRC Code"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_ethnicity_form
