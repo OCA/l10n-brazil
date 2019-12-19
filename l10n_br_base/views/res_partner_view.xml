@@ -80,7 +80,7 @@
                             <field name="is_accountant"/>
                             <field name="crc_code" attrs="{'invisible': [('is_accountant','!=', True)]}"/>
                             <field name="crc_state_id" attrs="{'invisible': [('is_accountant','!=', True)]}"
-                                   domain=[('country_id.code', '=', 'BR')]"/>
+                                   domain="[('country_id.code', '=', 'BR')]"/>
                             <field name="rntrc_code"/>
                         </group>
                     </group>
