@@ -64,6 +64,7 @@
                 <page string="Fiscal" name="fiscal">
                     <group name="fiscal">
                         <group string="Fiscal Infos" name="fiscal_numbers">
+                            <field name="cei_code"/>
                             <field name="inscr_mun" attrs="{'invisible': [('is_company','!=', True)]}"/>
                             <field name="suframa" attrs="{'invisible': [('is_company','!=', True)]}"/>
                             <field name="state_tax_number_ids" attrs="{'invisible': [('is_company','!=', True)]}">
@@ -80,6 +81,7 @@
                             <field name="crc_code" attrs="{'invisible': [('is_accountant','!=', True)]}"/>
                             <field name="crc_state_id" attrs="{'invisible': [('is_accountant','!=', True)]}"
                                    domain="[('country_id', '=', %(base.br)d)]"/>
+                            <field name="rntrc_code"/>
                         </group>
                     </group>
                 </page>
