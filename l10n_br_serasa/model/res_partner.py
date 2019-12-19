@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
@@ -19,21 +18,19 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
 from datetime import datetime
+
+from openerp import api, fields, models
 
 
 class ResPartner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
-    consulta_serasa = fields.One2many('consulta.serasa', 'partner_id')
+    consulta_serasa = fields.One2many("consulta.serasa", "partner_id")
 
     @api.multi
     def do_consultar_serasa(self):
         for partner in self:
-            vals = {
-                'partner_id': partner.id,
-                'data_consulta': datetime.now(),
-            }
-            consulta_serasa = self.env['consulta.serasa'].create(vals)
+            vals = {"partner_id": partner.id, "data_consulta": datetime.now()}
+            consulta_serasa = self.env["consulta.serasa"].create(vals)
         return True

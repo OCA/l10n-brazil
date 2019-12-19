@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
@@ -19,11 +18,11 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import api, fields, models
 
 
 class res_company(models.Model):
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
-    logon_serasa = fields.Char('Logon', size=8)
-    senha_serasa = fields.Char('Senha', size=8)
+    logon_serasa = fields.Char("Logon", size=8)
+    senha_serasa = fields.Char("Senha", size=8)

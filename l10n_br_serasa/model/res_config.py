@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
@@ -19,17 +18,11 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import api, fields, models
 
 
 class res_config(models.Model):
-    _inherit = 'account.config.settings'
+    _inherit = "account.config.settings"
 
-    logon_serasa = fields.Char(
-        string='Login',
-        related='company_id.logon_serasa'
-    )
-    senha_serasa = fields.Char(
-        string='Senha',
-        related='company_id.senha_serasa'
-    )
+    logon_serasa = fields.Char(string="Login", related="company_id.logon_serasa")
+    senha_serasa = fields.Char(string="Senha", related="company_id.senha_serasa")
