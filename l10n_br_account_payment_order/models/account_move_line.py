@@ -2,15 +2,15 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class AccountMoveLine(models.Model):
-    _inherit = 'account.move.line'
+    _inherit = "account.move.line"
 
-    date_scheduled = fields.Date(string='Data Prevista')
+    date_scheduled = fields.Date(string="Data Prevista")
 
-    @api.depends('move_id')
+    @api.depends("move_id")
     def _compute_journal_entry_ref(self):
         for record in self:
             if record.name:
@@ -20,11 +20,11 @@ class AccountMoveLine(models.Model):
             elif record.invoice_id and record.invoice_id.number:
                 record.journal_entry_ref = record.invoice_id.number
             else:
-                record.journal_entry_ref = '*' + str(record.move_id.id)
+                record.journal_entry_ref = "*" + str(record.move_id.id)
 
     journal_entry_ref = fields.Char(
-        compute='_compute_journal_entry_ref',
-        string='Journal Entry Ref', store=True)
+        compute="_compute_journal_entry_ref", string="Journal Entry Ref", store=True
+    )
 
     @api.multi
     def get_balance(self):
