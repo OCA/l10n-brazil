@@ -13,3 +13,5 @@ class City(models.Model):
     _inherit = "res.city"
 
     ibge_code = fields.Char(string="IBGE Code", size=7, index=True)
+    siafi_code = fields.Char(string="SIAFI Code", size=4)
+    anp_code = fields.Char(string="ANP Code", size=4)
