@@ -16,4 +16,5 @@
         "security/ir.model.access.csv",
     ],
     "demo": [],
+    "external_dependencies": {"python": ["erpbrasil.serasa"]},
 }

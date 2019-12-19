@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
-    <data>
-
+<odoo>
         <!-- Action to open Serasa -->
         <act_window id="action_serasa_form"
                     name="Consulta Serasa"
@@ -199,6 +197,4 @@
                 </data>
             </field>
         </record>
-
-    </data>
-</openerp>
+</odoo>

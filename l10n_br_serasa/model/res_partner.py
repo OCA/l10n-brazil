@@ -1,26 +1,9 @@
-##############################################################################
-#
-#    Copyright (C) 2015 KMEE (http://www.kmee.com.br)
-#    @author Luiz Felipe do Divino (luiz.divino@kmee.com.br)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Copyright 2015 KMEE
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 
 
 class ResPartner(models.Model):
@@ -32,5 +15,5 @@ class ResPartner(models.Model):
     def do_consultar_serasa(self):
         for partner in self:
             vals = {"partner_id": partner.id, "data_consulta": datetime.now()}
-            consulta_serasa = self.env["consulta.serasa"].create(vals)
+            self.env["consulta.serasa"].create(vals)
         return True
