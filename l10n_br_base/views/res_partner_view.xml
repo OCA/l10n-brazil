@@ -78,7 +78,8 @@
                             <field name="union_entity_code"/>
                             <field name="is_accountant"/>
                             <field name="crc_code" attrs="{'invisible': [('is_accountant','!=', True)]}"/>
-                            <field name="crc_state_id" attrs="{'invisible': [('is_accountant','!=', True)]}"/>
+                            <field name="crc_state_id" attrs="{'invisible': [('is_accountant','!=', True)]}"
+                                   domain="[('country_id', '=', %(base.br)d)]"/>
                         </group>
                     </group>
                 </page>
