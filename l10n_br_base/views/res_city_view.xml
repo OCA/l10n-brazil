@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
             <field name="zipcode" position="after">
                 <field name="ibge_code"/>
+                <field name="anp_code"/>
+                <field name="siafi_code"/>
             </field>
         </field>
     </record>
