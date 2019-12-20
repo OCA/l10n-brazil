@@ -145,11 +145,11 @@ class Partner(models.Model):
         result = True
         for record in self:
 
-            validate_cpf_cnpj_ie = record.env["ir.config_parameter"].get_param(
-                "l10n_br_base.validate_cpf_cnpj_ie", default=True
+            disable_cnpj_ie_validation = record.env["ir.config_parameter"].sudo().get_param(
+                "l10n_br_base.disable_cpf_cnpj_validation", default=False
             )
-            """Checks if the system parameter "l10n_br_base.validate_cpf_cnpj_ie" is set to true to validate CPF and CNPJ"""
-            if validate_cpf_cnpj_ie:
+            """Checks if the system parameter "l10n_br_base.disable_cpf_cnpj_validation" is set to false to disable CPF and CNPJ validation"""
+            if not disable_cnpj_ie_validation:
                 if record.country_id:
                     country_code = record.country_id.code
                     if country_code:
@@ -177,11 +177,11 @@ class Partner(models.Model):
         for record in self:
             result = True
 
-            validate_cpf_cnpj_ie = record.env["ir.config_parameter"].get_param(
-                "l10n_br_base.validate_cpf_cnpj_ie", default=False
+            disable_ie_validation = record.env["ir.config_parameter"].sudo().get_param(
+                "l10n_br_base.disable_ie_validation", default=False
             )
-            """Checks if the system parameter "l10n_br_base.validate_cpf_cnpj_ie" is set to true to validate IE"""
-            if validate_cpf_cnpj_ie:
+            """Checks if the system parameter "l10n_br_base.disable_ie_validation" is set to false to disable IE validation"""
+            if not disable_ie_validation:
                 if record.inscr_est and record.is_company and record.state_id:
                     state_code = record.state_id.code or ""
                     uf = state_code.lower()
