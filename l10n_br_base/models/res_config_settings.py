@@ -15,25 +15,14 @@ class ResConfigSettings(models.TransientModel):
 
     module_l10n_br_zip = fields.Boolean(string="Use Brazilian postal service API")
 
-    module_l10n_br_validate_cpf_cnpj_ie = fields.Boolean(string="Allow CPF, CNPJ and IE validation")
+    module_l10n_br_disable_cpf_cnpj_validation = fields.Boolean(
+        string="Disable CPF and CNPJ validation",
+        config_parameter="l10n_br_base.disable_cpf_cnpj_validation",
+        default = False,
+    )
 
-    @api.multi
-    def set_values(self):
-        super(ResConfigSettings, self).set_values()
-
-        select_type = self.env['ir.config_parameter'].sudo()
-
-        select_type.set_param('l10n_br_base.validate_cpf_cnpj_ie',
-                              self.module_l10n_br_validate_cpf_cnpj_ie)
-
-    @api.model
-    def get_values(self):
-        res = super(ResConfigSettings, self).get_values()
-
-        select_type = self.env['ir.config_parameter'].sudo()
-
-        sell = select_type.get_param('l10n_br_base.validate_cpf_cnpj_ie')
-
-        res.update({'module_l10n_br_validate_cpf_cnpj_ie': sell})
-
-        return res
+    module_l10n_br_disable_ie_validation = fields.Boolean(
+        string="Disable IE validation",
+        config_parameter="l10n_br_base.disable_ie_validation",
+        default=False,
+    )
