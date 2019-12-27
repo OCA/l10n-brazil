@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -53,7 +52,7 @@ class HrLeave(models.Model):
         string=u'Contrato Associado',
     )
 
-    department_id=fields.Many2one(
+    department_id = fields.Many2one(
         string="Departamento/lotação",
         comodel_name='hr.department',
         compute='_compute_department_id',

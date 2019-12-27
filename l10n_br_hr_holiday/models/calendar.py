@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2016 KMEE - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models, api
+from odoo import fields, models, api, _
 from odoo.osv.orm import setup_modifiers
 from odoo.exceptions import Warning
 from lxml import etree
@@ -72,8 +71,8 @@ class L10nBrHrCalendar(models.Model):
             if self.models_id.id == \
                     self.env.ref('hr_holidays.model_hr_holidays').id:
                 raise Warning(
-                    'Ocorrências já aprovadas somente podem ser rejeitadas '
-                    'por usuários com perfil de Gerente de RH')
+                    _('Ocorrências já aprovadas somente podem ser rejeitadas'
+                      ' por usuários com perfil de Gerente de RH'))
 
     @api.multi
     def unlink(self):

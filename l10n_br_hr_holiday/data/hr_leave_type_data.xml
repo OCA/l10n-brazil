@@ -94,24 +94,22 @@
             <field name="need_attachment">True</field>
             <field name="tipo">ocorrencias</field>
         </record>
-        <record model="hr.leave.type" id="holiday_type_maternity_leave">
+        <record model="hr.leave.type" id="holiday_type_maternity_leave_60_days">
             <field name="name">Licença Maternidade - Complemento</field>
             <field name="limit">True</field>
             <field name="color_name">red</field>
             <field name="type_day">corridos</field>
             <field name="days_limit">60</field>
             <field name="need_attachment">True</field>
-            <field name="limit">True</field>
             <field name="tipo">ocorrencias</field>
         </record>
-        <record model="hr.leave.type" id="holiday_type_maternity_leave">
+        <record model="hr.leave.type" id="holiday_type_maternity_leave_15_days">
             <field name="name">Licença Paternidade - Complemento</field>
             <field name="limit">True</field>
             <field name="color_name">red</field>
             <field name="type_day">corridos</field>
             <field name="days_limit">15</field>
             <field name="need_attachment">True</field>
-            <field name="limit">True</field>
             <field name="tipo">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_paternity_leave">

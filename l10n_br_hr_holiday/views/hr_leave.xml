@@ -49,7 +49,7 @@
     </record>
 
     <!-- Libera o MENU de Pedido de Férias para todos os usuarios-->
-    <record id="hr_holidays." model="ir.ui.menu">
+    <record id="hr_holidays.hr_leave_menu_new_request" model="ir.ui.menu">
         <field name="groups_id" eval="[(4,ref('base.group_user'))]" />
     </record>
 
