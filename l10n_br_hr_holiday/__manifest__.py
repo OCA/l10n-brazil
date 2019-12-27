@@ -13,12 +13,12 @@
         'l10n_br_resource',
     ],
     'data': [
-        'data/hr_holidays_status_data.xml',
-        'security/hr_holidays_status.xml',
-        'security/hr_holidays_rule.xml',
+        'data/hr_leave_type_data.xml',
+        'security/hr_leave_type.xml',
+        'security/hr_leave_rule.xml',
         'security/ir.model.access.csv',
-        'views/hr_holidays.xml',
-        'views/hr_holidays_status.xml',
+        'views/hr_leave.xml',
+        'views/hr_leave_type.xml',
         'views/calendar_event_view.xml',
     ],
     'demo': [

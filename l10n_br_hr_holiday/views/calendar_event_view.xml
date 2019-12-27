@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="calendar.view_calendar_event_form" />
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/sheet/notebook/page[@string='Misc']" position="inside">
+                <xpath expr="/form/sheet/notebook/page[@name='page_misc']" position="inside">
                     <field name="models_id" invisible="1"/>
                 </xpath>
             </field>

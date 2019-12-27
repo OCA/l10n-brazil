@@ -7,30 +7,33 @@
 
     <record model="ir.ui.view" id="hr_holidays_form_view">
         <field name="name">hr.holidays.form (in l10n_br_hr_holiday)</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+        <field name="priority">90</field>
         <field name="arch" type="xml">
+
 
             <field name="employee_id" position="replace">
                 <field name="employee_id" invisible="1"/>
+                <field name="holiday_type"/>
+                <field name="tipo"/>
                 <field name="contrato_id"
                        attrs="{'readonly':[('state','in',['validate','validate1','refuse'])],
-                               'required':[('type','=', 'remove')],
                                'invisible':[('holiday_type','=', 'category')]}"/>
             </field>
 
-            <field name="holiday_status_id" position="before">
-                <field name="tipo"
-                       attrs="{'invisible':[('type','=', 'remove')],
-                               'readonly':[('state','in',['validate','validate1','refuse'])],
-                               'required':[('type','=', 'add')]}"/>
-            </field>
+<!--            <field name="holiday_status_id" position="before">-->
+<!--                <field name="tipo"-->
+<!--                       attrs="{'invisible':[('type','=', 'remove')],-->
+<!--                               'readonly':[('state','in',['validate','validate1','refuse'])],-->
+<!--                               'required':[('type','=', 'add')]}"/>-->
+<!--            </field>-->
 
             <field name="holiday_status_id" position="attributes">
                 <attribute name="context">{'contrato_id': contrato_id}</attribute>
             </field>
 
-            <field name="notes" position="before">
+            <field name="name" position="before">
                 <field name="payroll_discount"  invisible="1" />
                 <h2><field name="message" readonly="1" /></h2>
                 <field name="need_attachment" invisible="1" />
@@ -46,16 +49,16 @@
     </record>
 
     <!-- Libera o MENU de Pedido de Férias para todos os usuarios-->
-    <record id="hr_holidays.menu_open_ask_holidays_new" model="ir.ui.menu">
+    <record id="hr_holidays." model="ir.ui.menu">
         <field name="groups_id" eval="[(4,ref('base.group_user'))]" />
     </record>
 
     <act_window
             id="l10n_br_hr_holiday_action_ocorrencias"
             name="Ocorrências"
-            res_model="hr.holidays"
+            res_model="hr.leave"
             view_mode="calendar,form,tree"
-            domain="[('type','=', 'remove')]"
+
             context="{'default_tipo':'ocorrencias', 'default_type': 'remove',
                 'search_default_my_leaves':1, 'search_default_group_type':1, 'search_default_filter_year_2019':1}"/>
 
@@ -63,21 +66,20 @@
             id="menu_ocorrencias"
             name="Ocorrencias"
             action="l10n_br_hr_holiday_action_ocorrencias"
-            parent="hr_holidays.menu_open_ask_holidays"
+            parent="hr_holidays.menu_hr_holidays_my_leaves"
             groups="base.group_user"
             sequence="8"/>
 
     <record model="ir.actions.act_window" id="open_ask_holidays">
             <field name="name">Pedido de Férias</field>
-            <field name="res_model">hr.holidays</field>
-            <field name="inherit_id" ref="hr_holidays.open_ask_holidays"/>
+            <field name="res_model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.menu_hr_holidays_my_leaves"/>
             <field name="view_type">form</field>
-            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="view_id" ref="hr_holidays.hr_leave_view_form"/>
             <field name="context">{ 'default_tipo': 'ferias',
                                     'default_type': 'remove',
                                     'search_default_my_leaves':1}</field>
-            <field name="domain">[('type', '=', 'remove'),
-                                  ('tipo', '=', 'ferias')]</field>
+            <field name="domain">[('tipo', '=', 'ferias')]</field>
             <field name="search_view_id"
                    ref="hr_holidays.view_hr_holidays_filter"/>
             <field name="help" type="html">

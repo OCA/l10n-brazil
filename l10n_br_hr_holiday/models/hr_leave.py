@@ -14,9 +14,9 @@ OCORRENCIA_TIPO = [
 ]
 
 
-class HrHolidays(models.Model):
+class HrLeave(models.Model):
 
-    _inherit = 'hr.holidays'
+    _inherit = 'hr.leave'
 
     message = fields.Char(
         string=u"Mensagem",
@@ -86,32 +86,31 @@ class HrHolidays(models.Model):
                     'date_to', 'number_of_days_temp')
     def validate_days_status_id(self):
         for record in self:
-            if record.type == 'remove':
-                # Validar anexo
-                if record.need_attachment:
-                    if not record.attachment_ids:
-                        raise UserError(_("Atestado Obrigatório!"))
-                # Validar Limite de dias
-                if record.holiday_status_id.days_limit:
-                    if record.holiday_status_id.type_day == u'uteis':
-                        resource_calendar_obj = self.env['resource.calendar']
-                        date_to = fields.Date.to_date(record.date_to)
-                        date_from = fields.Date.to_date(record.date_from)
-                        if resource_calendar_obj.quantidade_dias_uteis(
-                                date_from, date_to) > \
-                                record.holiday_status_id.days_limit:
-                            raise UserError(_("Number of days exceeded!"))
-                    if record.holiday_status_id.type_day == u'corridos':
-                        if record.number_of_days_temp > \
-                                record.holiday_status_id.days_limit:
-                            raise UserError(_("Number of days exceeded!"))
-                # Validar Limite de Horas
-                # if record.holiday_status_id.hours_limit:
-                #     if ffields.Datetime.to_datetime(record.date_to) - \
-                #             fields.Datetime.to_datetime(record.date_from) > \
-                #             timedelta(minutes=60 *
-                #                       record.holiday_status_id.hours_limit):
-                #         raise UserError(_("Number of hours exceeded!"))
+            # Validar anexo
+            if record.need_attachment:
+                if not record.attachment_ids:
+                    raise UserError(_("Atestado Obrigatório!"))
+            # Validar Limite de dias
+            if record.holiday_status_id.days_limit:
+                if record.holiday_status_id.type_day == u'uteis':
+                    resource_calendar_obj = self.env['resource.calendar']
+                    date_to = fields.Date.to_date(record.date_to)
+                    date_from = fields.Date.to_date(record.date_from)
+                    if resource_calendar_obj.quantidade_dias_uteis(
+                            date_from, date_to) > \
+                            record.holiday_status_id.days_limit:
+                        raise UserError(_("Number of days exceeded!"))
+                if record.holiday_status_id.type_day == u'corridos':
+                    if record.number_of_days_temp > \
+                            record.holiday_status_id.days_limit:
+                        raise UserError(_("Number of days exceeded!"))
+            # Validar Limite de Horas
+            # if record.holiday_status_id.hours_limit:
+            #     if ffields.Datetime.to_datetime(record.date_to) - \
+            #             fields.Datetime.to_datetime(record.date_from) > \
+            #             timedelta(minutes=60 *
+            #                       record.holiday_status_id.hours_limit):
+            #         raise UserError(_("Number of hours exceeded!"))
 
     @api.onchange('payroll_discount', 'holiday_status_id')
     def _set_payroll_discount(self):
@@ -181,7 +180,7 @@ class HrHolidays(models.Model):
 
     @api.multi
     def holidays_validate(self):
-        super(HrHolidays, self).holidays_validate()
+        super(HrLeave, self).holidays_validate()
         model_obj_id = self.env.ref("hr_holidays.model_hr_holidays").id
         self.meeting_id.write({
             'models_id': model_obj_id,

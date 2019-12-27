@@ -2,8 +2,7 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.addons.l10n_br_hr_holiday.models.hr_holidays \
-    import OCORRENCIA_TIPO
+from .hr_leave import OCORRENCIA_TIPO
 from odoo import fields, models
 
 TYPE_DAY = [
@@ -13,9 +12,9 @@ TYPE_DAY = [
 ]
 
 
-class HrHolidaysStatus(models.Model):
+class HrLeaveType(models.Model):
 
-    _inherit = 'hr.holidays.status'
+    _inherit = 'hr.leave.type'
 
     message = fields.Char(
         string=u"Mensagem",
