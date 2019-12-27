@@ -8,30 +8,24 @@ L10n Br Portal
 
 Campos Brasileiros no Portal
 
+.. figure:: l10n_br_portal/static/description/screenshot1.png
+   :alt: campos
+   :width: 800 px
+
+
 Installation
 ============
 
 To install this module, you need to:
 
-#. Do this ...
+#. Nothing
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-#. Go to ...
-
-.. figure:: path/to/local/image.png
-   :alt: alternative description
-   :width: 600 px
-
-Usage
-=====
-
-To use this module, you need to:
-
-#. Go to ...
+#. Nothing
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -39,11 +33,6 @@ To use this module, you need to:
 
 .. repo_id is available in https://github.com/OCA/maintainer-tools/blob/master/tools/repos_with_ids.txt
 .. branch is "8.0" for example
-
-Known issues / Roadmap
-======================
-
-* ...
 
 Bug Tracker
 ===========
@@ -64,16 +53,14 @@ Images
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Luis Felipe Mileo <mileo@kmee.com.br>
 
 Funders
 -------
 
 The development of this module has been financially supported by:
 
-* Company 1 name
-* Company 2 name
+* KMEE
 
 Maintainer
 ----------
