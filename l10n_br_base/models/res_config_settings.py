@@ -13,16 +13,16 @@ class ResConfigSettings(models.TransientModel):
         default=False,
     )
 
-    module_l10n_br_zip = fields.Boolean(string="Use Brazilian postal service API")
-
-    module_l10n_br_disable_cpf_cnpj_validation = fields.Boolean(
-        string="Disable CPF and CNPJ validation",
-        config_parameter="l10n_br_base.disable_cpf_cnpj_validation",
+    disable_cpf_cnpj_validation = fields.Boolean(
+        "Disable CPF and CNPJ validation",
+        config_parameter='l10n_br_base.disable_cpf_cnpj_validation',
         default = False,
     )
 
-    module_l10n_br_disable_ie_validation = fields.Boolean(
-        string="Disable IE validation",
-        config_parameter="l10n_br_base.disable_ie_validation",
+    disable_ie_validation = fields.Boolean(
+        "Disable IE validation",
+        config_parameter='l10n_br_base.disable_ie_validation',
         default=False,
     )
+
+    module_l10n_br_zip = fields.Boolean(string="Use Brazilian postal service API")
