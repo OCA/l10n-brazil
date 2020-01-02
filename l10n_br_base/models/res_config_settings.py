@@ -1,7 +1,7 @@
 # @ 2016 Kmee - www.kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models, api
+from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
@@ -16,7 +16,7 @@ class ResConfigSettings(models.TransientModel):
     disable_cpf_cnpj_validation = fields.Boolean(
         "Disable CPF and CNPJ validation",
         config_parameter='l10n_br_base.disable_cpf_cnpj_validation',
-        default = False,
+        default= False,
     )
 
     disable_ie_validation = fields.Boolean(
