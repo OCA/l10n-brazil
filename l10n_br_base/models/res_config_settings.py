@@ -16,7 +16,7 @@ class ResConfigSettings(models.TransientModel):
     disable_cpf_cnpj_validation = fields.Boolean(
         "Disable CPF and CNPJ validation",
         config_parameter='l10n_br_base.disable_cpf_cnpj_validation',
-        default= False,
+        default=False,
     )
 
     disable_ie_validation = fields.Boolean(
