@@ -26,9 +26,12 @@ def payslip_report(pool, cr, uid, local_context, context):
 
     local_context['linhas_holerites'] = payslip_id.line_resume_ids
 
-    local_context['data_pagamento'] = \
+    data_pagamento = \
         formata_data(payslip_id.payment_line_ids[0].order_id.date_scheduled) \
-            if payslip_id.payment_line_ids else ''
+            if payslip_id.payment_line_ids \
+            else formata_data(payslip_id.data_pagamento_competencia)
+
+    local_context['data_pagamento'] = data_pagamento or ' '
 
     # Competencia
     competencia = dict(payslip_id._fields.get('mes_do_ano').selection).get(
