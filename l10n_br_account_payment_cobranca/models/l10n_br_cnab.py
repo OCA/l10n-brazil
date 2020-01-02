@@ -484,7 +484,8 @@ class L10nBrHrCnab(models.Model):
                         #     line_values.append((0, 0, line_dict_multa))
 
                     if bank_state:
-                        move_line.situacao_pagamento = bank_state
+                        if move_line.situacao_pagamento not in ['baixa_liquidacao','baixa','liquidada']:
+                            move_line.situacao_pagamento = bank_state
                     if cnab_state:
                         move_line.state_cnab = cnab_state
 
