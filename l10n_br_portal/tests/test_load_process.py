@@ -6,10 +6,18 @@ import odoo.tests
 
 @odoo.tests.tagged('post_install', '-at_install')
 class TestUi(odoo.tests.HttpCase):
-    def test_01_portal_load_tour(self):
+    def test_01_l10n_br_portal_load_tour(self):
         self.phantom_js(
             "/",
-            "odoo.__DEBUG__.services['web_tour.tour'].run('portal_load_homepage')",
-            "odoo.__DEBUG__.services['web_tour.tour'].tours.portal_load_homepage.ready",
+            "odoo.__DEBUG__.services['web_tour.tour'].run('l10n_br_portal_tour')",  # noqa: E501
+            "odoo.__DEBUG__.services['web_tour.tour'].tours.l10n_br_portal_tour.ready",  # noqa: E501
             login="portal"
         )
+        # check result
+        record = self.env.ref('base.partner_demo_portal')
+        self.assertEqual(record.name, 'KMEE')
+        self.assertEqual(record.legal_name, 'KMEE INFORMATICA LTDA')
+        self.assertEqual(record.cnpj_cpf, '23130935000198')
+        self.assertEqual(record.country_id.code, 'BR')
+        self.assertEqual(record.state_id.code, 'MG')
+        self.assertEqual(record.city_id.ibge_code, '32404')
