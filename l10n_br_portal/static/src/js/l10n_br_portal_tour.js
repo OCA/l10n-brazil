@@ -23,9 +23,13 @@ odoo.define('l10n_br_portal.tour', function (require) {
         trigger: "input[name=inscr_est]",
         run: "text ISENTO",
     }, {
+        content: "Complete INVALID Zip",
+        trigger: "input[name=zipcode]",
+        run: "text 00000000",
+    }, {
         content: "Complete ZIP",
         trigger: "input[name=zipcode]",
-        run: "text 37500-015",
+        run: "text 37500015",
     }, {
         content: "check city is Itajubá",
         trigger: 'select[name=city_id]:contains("Itajubá")',

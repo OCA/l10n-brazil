@@ -50,7 +50,7 @@ odoo.define('l10n_br_portal.l10n_br_portal', function (require) {
                     .then(function (data) {
                         if (data.error) {
                             // TODO: Retornar nos campos error e error_message
-                            console.error('Falha ao consultar cep');
+                            console.log('Falha ao consultar cep');
                         } else {
                             $('input[name="district"]').val(data.district);
                             $('input[name="street"]').val(data.street);
