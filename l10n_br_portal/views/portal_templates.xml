@@ -28,7 +28,7 @@
 
                             <div t-attf-class="form-group #{error.get('cnpj_cpf') and 'o_has_error' or ''} col-xl-6">
                                 <label class="col-form-label label-optional" for="cnpj_cpf">CNPJ/CPF</label>
-                                <input type="text" name="cnpj_cpf" t-attf-class="form-control #{error.get('cnpj_cpf') and 'is-invalid' or ''}" t-att-value="cnpj_cpf or partner.cnpj_cpf" t-att-readonly="None if partner.can_edit_vat() else '1'" t-att-title="None if partner.can_edit_vat() else 'Changing cnpj/cpf number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'" />
+                                <input type="text" name="cnpj_cpf" t-attf-class="input-cnpj-cpf form-control #{error.get('cnpj_cpf') and 'is-invalid' or ''}" t-att-value="cnpj_cpf or partner.cnpj_cpf" t-att-readonly="None if partner.can_edit_vat() else '1'" t-att-title="None if partner.can_edit_vat() else 'Changing cnpj/cpf number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'" />
                             </div>
 
                             <div t-attf-class="form-group #{error.get('inscr_est') and 'o_has_error' or ''} col-xl-6">
@@ -62,7 +62,7 @@
 
                             <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-xl-6">
                                 <label class="col-form-label label-optional" for="zipcode">Zip / Postal Code</label>
-                                <input type="text" name="zipcode" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="zipcode or partner.zip" />
+                                <input type="text" name="zipcode" t-attf-class="input-zipcode form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="zipcode or partner.zip" />
                             </div>
 
                             <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-xl-6">
