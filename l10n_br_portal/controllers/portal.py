@@ -1,7 +1,7 @@
 # Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import http, _
+from odoo import http
 from odoo.http import request
 
 from odoo.addons.portal.controllers.portal import CustomerPortal
@@ -37,9 +37,9 @@ class L10nBrPortal(CustomerPortal):
         return res
 
     @http.route('/l10n_br/zip_search', type='json', auth="user", website=True)
-    def zip_search(self, zip):
+    def zip_search(self, zipcode):
         try:
-            return request.env['l10n_br.zip'].sudo()._consultar_cep(zip)
+            return request.env['l10n_br.zip'].sudo()._consultar_cep(zipcode)
         except Exception as e:
             return {
                 'error': 'zip',
