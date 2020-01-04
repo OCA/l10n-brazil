@@ -123,9 +123,7 @@
                             <input type="hidden" name="redirect" t-att-value="redirect"/>
                         </div>
                         <div class="clearfix">
-                            <button type="submit" class="btn btn-primary float-right mb32 ">
-                                Confirm
-                                <span class="fa fa-long-arrow-right" />
+                            <button type="submit" class="btn btn-primary float-right mb32 ">Confirm<span class="fa fa-long-arrow-right" />
                             </button>
                         </div>
                     </div>
