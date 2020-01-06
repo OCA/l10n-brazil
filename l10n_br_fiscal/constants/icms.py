@@ -46,10 +46,10 @@ ICMS_ORIGIN = (
 
 
 ICMS_BASE_TYPE = [
-    ("0", u"Margem Valor Agregado (%)"),
-    ("1", u"Pauta (valor)"),
-    ("2", u"Preço Tabelado Máximo (valor)"),
-    ("3", u"Valor da Operação"),
+    ("0", "Margem Valor Agregado (%)"),
+    ("1", "Pauta (valor)"),
+    ("2", "Preço Tabelado Máximo (valor)"),
+    ("3", "Valor da Operação"),
 ]
 
 
@@ -57,10 +57,10 @@ ICMS_BASE_TYPE_DEFAULT = "0"
 
 
 ICMS_ST_BASE_TYPE = [
-    ("0", u"Preço tabelado ou máximo  sugerido"),
-    ("1", u"Lista Negativa (valor)"),
-    ("2", u"Lista Positiva (valor)"),
-    ("3", u"Lista Neutra (valor)"),
+    ("0", "Preço tabelado ou máximo  sugerido"),
+    ("1", "Lista Negativa (valor)"),
+    ("2", "Lista Positiva (valor)"),
+    ("3", "Lista Neutra (valor)"),
     ("4", "Margem Valor Agregado (%)"),
     ("5", "Pauta (valor)"),
 ]
