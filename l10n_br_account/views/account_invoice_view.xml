@@ -21,7 +21,7 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/group" position="after">
-                <group id="l10n_br_fiscal">
+                <group name="l10n_br_fiscal">
                 </group>
             </xpath>
             <!-- <page name="other_info" position="before">
@@ -65,7 +65,7 @@
         <field name="inherit_id" ref="account.invoice_supplier_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/group" position="after">
-                <group id="l10n_br_fiscal">
+                <group name="l10n_br_fiscal">
                 </group>
             </xpath>
             <!-- <page name="other_info" position="before">
