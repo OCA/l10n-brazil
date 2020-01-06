@@ -1,11 +1,12 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class UomUomAlternative(models.Model):
     _name = "uom.uom.alternative"
+    _description = "Alternative UOM"
     _rec_name = "code"
 
     code = fields.Char(string="Code")

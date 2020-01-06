@@ -60,7 +60,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
             doc = etree.fromstring(model_view.get("arch"))
 
-            for fiscal_node in doc.xpath("//group[@id='l10n_br_fiscal']"):
+            for fiscal_node in doc.xpath("//group[@name='l10n_br_fiscal']"):
                 sub_view_node = etree.fromstring(fiscal_view["arch"])
 
                 try:
@@ -70,10 +70,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                     return model_view
 
         return model_view
-
-    @api.multi
-    def compute_taxes(self):
-        pass
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
@@ -98,6 +94,3 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                     self.cfop_id = self.operation_line_id.cfop_external_id
                 elif self.partner_id.country_id != self.company_id.country_id:
                     self.cfop_id = self.operation_line_id.cfop_export_id
-
-            # Get and define default and operation taxes
-            self.compute_taxes()
