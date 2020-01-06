@@ -34,7 +34,7 @@
             <field name="cest_id"/>
             <field name="nbs_id"/>
           </group>
-          <group id="l10n_br_fiscal" name="operation" string="Operation">
+          <group name="l10n_br_fiscal" string="Operation">
           </group>
         </group>
         <group name="taxes" string="Taxes">
