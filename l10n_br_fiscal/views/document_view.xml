@@ -53,7 +53,7 @@
                 <field name="number" readonly="1"/>
             </h1>
           </div>
-          <group id="l10n_br_fiscal" name="operation" colspan="4">
+          <group name="l10n_br_fiscal" colspan="4">
           </group>
           <group>
             <field name="issuer"/>
