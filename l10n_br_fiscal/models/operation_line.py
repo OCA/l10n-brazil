@@ -7,7 +7,8 @@ from odoo.exceptions import UserError
 from ..constants.fiscal import (FISCAL_IN_OUT_ALL, NFE_IND_IE_DEST,
                                 NFE_IND_IE_DEST_DEFAULT, OPERATION_STATE,
                                 OPERATION_STATE_DEFAULT, PRODUCT_FISCAL_TYPE,
-                                TAX_FRAMEWORK)
+                                TAX_FRAMEWORK, OPERATION_FISCAL_TYPE,
+                                OPERATION_FISCAL_TYPE_DEFAULT)
 from ..constants.icms import ICMS_ORIGIN
 
 
@@ -23,35 +24,38 @@ class OperationLine(models.Model):
         required=True,
     )
 
-    fiscal_type = fields.Selection(
-        related="operation_id.fiscal_type",
-        string="Fiscal Type",
-    )
-
     name = fields.Char(string="Name", required=True)
 
     cfop_internal_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Internal",
-        domain="[('type_in_out', '=', operation_type), ('type_move', 'ilike', fiscal_type), ('destination', '=', '1')]",
+        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '1')]",
     )
 
     cfop_external_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP External",
-        domain="[('type_in_out', '=', operation_type), ('type_move', 'ilike', fiscal_type), ('destination', '=', '2')]",
+        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '2')]",
     )
 
     cfop_export_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Export",
-        domain="[('type_in_out', '=', operation_type), ('type_move', 'ilike', fiscal_type), ('destination', '=', '3')]",
+        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '3')]",
     )
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         related="operation_id.operation_type",
         string="Operation Type",
+        store=True,
+        readonly=True,
+    )
+
+    fiscal_type = fields.Selection(
+        selection=OPERATION_FISCAL_TYPE,
+        related="operation_id.fiscal_type",
+        string="Fiscal Type",
         store=True,
         readonly=True,
     )
@@ -199,6 +203,15 @@ class OperationLine(models.Model):
             _("Fiscal Operation Line already exists with this name !"),
         )
     ]
+
+    def get_fiscal_taxes(self, company=None, partner=None, product=None):
+        # TODO Aplicar regras de operações para pegar os impostos
+        tax_defs = self.env.user.company_id.tax_definition_ids
+        fiscal_taxes = tax_defs.mapped('tax_id')
+        if product:
+            fiscal_taxes |= product.ncm_id.tax_ipi_id
+
+        return fiscal_taxes
 
     @api.multi
     def action_review(self):
