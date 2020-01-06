@@ -58,7 +58,7 @@
                     </group>
                     <notebook>
                         <page name="operation_line" string="Operation Line">
-                            <field name="line_ids" context="{'default_operation_id': id, 'default_operation_type': operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form' , 'show_code_only': 1}">
+                            <field name="line_ids" context="{'default_operation_id': id, 'default_fiscal_type': fiscal_type, 'default_operation_type': operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form' , 'show_code_only': 1}">
                                 <tree>
                                     <field name="name"/>
                                     <field name="cfop_internal_id"/>
