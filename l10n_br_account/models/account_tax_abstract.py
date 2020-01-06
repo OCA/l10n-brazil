@@ -32,10 +32,29 @@ class AccountTaxAbstract(models.AbstractModel):
     @api.onchange("fiscal_tax_id")
     def _onchange_fiscal_tax_id(self):
         if self.fiscal_tax_id:
-            self.amount = self.fiscal_tax_id.percent_amount
-            self.description = self.fiscal_tax_id.name
-
+            fiscal_tax = self.fiscal_tax_id
             fiscal_type = {"sale": _("Out"), "purchase": _("In")}
+
+            if fiscal_tax.tax_base_type == 'percent':
+                type_amount = 'percent'
+                tax_amount = fiscal_tax.percent_amount
+            else:
+                type_amount = 'fixed'
+                tax_amount = fiscal_tax.value_amount
+
+            self.amount_type = type_amount
+            self.amount = tax_amount
+            self.description = fiscal_tax.name
+
+            colect_account_id = fiscal_tax.tax_group_id.colect_account_id.id
+            recover_account_id = fiscal_tax.tax_group_id.recover_account_id.id
+
+            if self.type_tax_use == 'purchase':
+                self.account_id = recover_account_id
+                self.refund_account_id = colect_account_id
+            else:
+                self.account_id = colect_account_id
+                self.refund_account_id = recover_account_id
 
             self.name = "{} {}".format(
                 self.fiscal_tax_id.name, fiscal_type.get(self.type_tax_use, "")
