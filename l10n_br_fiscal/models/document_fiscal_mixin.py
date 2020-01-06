@@ -17,7 +17,8 @@ class DocumentFiscalMixin(models.AbstractModel):
 
     @api.model
     def _operation_domain(self):
-        domain = [('state', '=', 'approved')]
+        domain = [('state', '=', 'approved'),
+                  ('company_id', '=', self.env.user.company_id.id)]
         return domain
 
     operation_id = fields.Many2one(
@@ -48,7 +49,7 @@ class DocumentFiscalMixin(models.AbstractModel):
 
             doc = etree.fromstring(model_view.get("arch"))
 
-            for fiscal_node in doc.xpath("//group[@id='l10n_br_fiscal']"):
+            for fiscal_node in doc.xpath("//group[@name='l10n_br_fiscal']"):
                 sub_view_node = etree.fromstring(fiscal_view["arch"])
 
                 try:
