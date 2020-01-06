@@ -5,12 +5,14 @@
     <field name="name">l10n_br_fiscal.document.line.mixin.form</field>
     <field name="model">l10n_br_fiscal.document.line.mixin</field>
     <field name="arch" type="xml">
-        <group id="l10n_br_fiscal" name="operation" string="Operation">
-            <field name="operation_type" invisible="1" readonly="1"/>
-            <field name="operation_id" required="1"/>
-            <field name="operation_line_id" required="1"/>
-            <field name="cfop_id"/>
+      <form>
+        <group name="l10n_br_fiscal" string="Operation">
+          <field name="operation_type" invisible="1" readonly="1"/>
+          <field name="operation_id" required="1"/>
+          <field name="operation_line_id" required="1"/>
+          <field name="cfop_id"/>
         </group>
+      </form>
     </field>
   </record>
 

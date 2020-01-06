@@ -82,8 +82,8 @@ class Operation(models.Model):
         string="Return Operation",
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('operation_type', '!=', operation_type), ('fiscal_type', 'in', {'sale': ['sale_return'], 'purchase': "
-               "['purchase_return'], 'other': ['return_in', 'return_out']}.get("
+        domain="[('operation_type', '!=', operation_type), ('fiscal_type', 'in', {'sale': ['sale_refund'], 'purchase': "
+               "['purchase_refund'], 'other': ['return_in', 'return_out']}.get("
                "fiscal_type, []))]"
     )
 
