@@ -445,5 +445,4 @@
         <field name="fiscal_tax_id" ref="l10n_br_fiscal.tax_simples"/>
      </record>
 
-
 </odoo>
