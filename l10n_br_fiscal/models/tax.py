@@ -132,6 +132,18 @@ class Tax(models.Model):
         ("fiscal_tax_code_uniq", "unique (name)", "Tax already exists with this name !")
     ]
 
+    @api.multi
+    def get_account_tax(self, operation_type=FISCAL_OUT):
+        account_tax_type = {'out': 'sale', 'in': 'purchase'}
+        type_tax_use = account_tax_type.get(operation_type, 'sale')
+
+        account_taxes = self.env["account.tax"].search([
+            ("fiscal_tax_id", "=", self.ids),
+            ('active', '=', True),
+            ('type_tax_use', '=', type_tax_use)])
+
+        return account_taxes
+
     def cst_from_tax(self, operation_type=FISCAL_OUT):
         self.ensure_one()
         cst = self.env["l10n_br_fiscal.cst"]

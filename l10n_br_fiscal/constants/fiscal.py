@@ -16,10 +16,10 @@ OPERATION_STATE_DEFAULT = "draft"
 
 OPERATION_FISCAL_TYPE = [
     ("purchase", "Purchase"),
-    ("purchase_return", "Purchase Return"),
+    ("purchase_refund", "Purchase Return"),
     ("return_in", "Return in"),
     ("sale", "Sale"),
-    ("sale_return", "Sale Return"),
+    ("sale_refund", "Sale Return"),
     ("return_out", "Return Out"),
     ("other", "Other")]
 
