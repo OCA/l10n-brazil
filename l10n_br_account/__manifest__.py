@@ -20,6 +20,7 @@
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
+        "views/fiscal_tax_group_view.xml",
         "views/fiscal_operation_view.xml",
         'views/fiscal_operation_line_view.xml',
         'views/account_invoice_view.xml',
@@ -29,7 +30,10 @@
         # Wizards
         'wizards/account_invoice_refund_view.xml',
     ],
-    "demo": ["demo/base_demo.xml"],
+    "demo": [
+        "demo/l10n_br_account_journal_demo.xml",
+        "demo/l10n_br_fiscal_operation_demo.xml"
+    ],
     "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
     "installable": True,
