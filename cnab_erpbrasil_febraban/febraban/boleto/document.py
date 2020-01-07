@@ -15,7 +15,7 @@ except ImportError as err:
 try:
     from cStringIO import StringIO
 except ImportError:
-    from StringIO import StringIO
+    from io import StringIO
 BoletoException = bank.BoletoException
 
 
