@@ -19,6 +19,6 @@
     'demo': [
     ],
     'external_dependencies': {
-        'python': ['erpbrasil.febraban'],
+        'python': ['pyboleto'],
     },
 }
