@@ -43,29 +43,46 @@ class AbstractSpecMixin(models.AbstractModel):
         kwargs = {}
 
         for xml_required_field in xml_required_fields:
-            if self[xml_required_field]:
+            if self[xml_required_field]:  # FIXME: and class_obj._field_prefix:
+                # if self._fields[xml_required_field]._fields[xml_required_field].relational:
+                if self._fields[xml_required_field].type == 'many2one':
+                    continue
+                    self[xml_required_field]
+                elif self._fields[xml_required_field].type == 'one2many':
+                    continue
+                    relational_data = []
+                    for relational_field in self[xml_required_field]:
+                        relational_data.append()
+                    field_data = self[xml_required_field]
+                else:
+                    field_data = self[xml_required_field]
                 kwargs[
-                    xml_required_field.replace(class_obj._field_prefix, '')
-                ] = self[xml_required_field]
-        if class_obj._generateds_type:
+                    # xml_required_field.replace(class_obj._field_prefix, '')
+                    xml_required_field.replace('nfe40_', '')
+                ] = field_data
+        if class_obj._generateds_type and kwargs:
             #  FIXME: leiauteNFe hardcoded
             ds_class = getattr(leiauteNFe, class_obj._generateds_type)
             ds_object = ds_class(**kwargs)
             return ds_object
+
+    def _print_xml(self, ds_object):
+        if not ds_object:
+            return
+        output = StringIO()
+        ds_object.export(
+            output,
+            0,
+            pretty_print=True,
+        )
+        contents = output.getvalue()
+        output.close()
+        print(contents)
 
     def export_xml(self):
         spec_classes = self._get_spec_classes()
         ds_objects = []
         for class_item in spec_classes:
             ds_object = self._build_generateds(class_item)
-
-            output = StringIO()
-            ds_object.export(
-                output,
-                0,
-                pretty_print=True,
-            )
-            contents = output.getvalue()
-            output.close()
-            print(contents)
+            self._print_xml(ds_object)
             ds_objects.append(ds_object)
