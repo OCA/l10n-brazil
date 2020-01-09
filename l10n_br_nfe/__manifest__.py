@@ -14,8 +14,6 @@
         "l10n_br_nfe_spec",
         ],
     "data": [
-        'l10n_br_fiscal',
-        'l10n_br_nfe_spec',
         # Security
         "security/nfe_security.xml",
 #        'security/ir.model.access.csv',
