@@ -7,7 +7,7 @@ class ResPartner(spec_models.SpecModel):
     # what happen to m2o to tendereco if we don't inherit from tendereco?
     # should we stack tendereco from dest? will m2o to tendereco work?
     # can we use related fields and context views to avoid troubles?
-    _inherit = ["res.partner", "nfe.40.tendereco",
+    _inherit = ["res.partner", "nfe.40.tendereco", "nfe.40.tenderemi",
                 "nfe.40.tlocal", "nfe.40.dest"]
     _name = "res.partner"
     _nfe_search_keys = ['nfe40_CNPJ', 'nfe40_CPF', 'nfe40_xNome']

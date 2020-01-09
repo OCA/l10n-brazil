@@ -19,8 +19,18 @@ class NFe(spec_models.StackedModel):
 
     nfe40_versao = fields.Char(related='number')
     nfe40_Id = fields.Char(related='key')
-    nfe40_dest = fields.Many2one(related='partner_id',
-                                 comodel_name='res.partner') # TODO in invoice
+
+    nfe40_emit = fields.Many2one(
+        related="company_id",
+        comodel_name="res.company",
+        original_spec_model="nfe.40.emit",
+    )
+
+    nfe40_dest = fields.Many2one(
+        related='partner_id',
+        comodel_name='res.partner'
+
+    ) # TODO in invoice
 
     # TODO should be done by framework?
     nfe40_det = fields.One2many(related='line_ids',

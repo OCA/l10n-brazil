@@ -32,7 +32,11 @@ class ResCompany(spec_models.SpecModel):
     # in fact enderEmit points to a TEnderEmi type which adds a few
     # constraints over the tendereco injected in res.partner
     # but as theses extra constraints are very few they are better checked here
-    nfe40_enderEmit = fields.Many2one("res.partner", related='partner_id')
+    nfe40_enderEmit = fields.Many2one(
+        "res.partner",
+        related='partner_id',
+        original_spec_model='nfe.40.tenderemi'
+    )
 
     # TODO CPF/CNPJ
     nfe40_xNome = fields.Char(related='partner_id.legal_name')
