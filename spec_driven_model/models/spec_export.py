@@ -34,7 +34,13 @@ class AbstractSpecMixin(models.AbstractModel):
             spec_classes.append(c)
         return spec_classes
 
-    def _build_generateds(self, class_item):
+    def _build_generateds(self, class_item=False):
+        if not class_item:
+            if hasattr(self, '_stacked'):
+                class_item = self._stacked
+            else:
+                class_item = self._name
+
         class_obj = self.env[class_item]
         xml_required_fields = []
         for item in self.env[class_item]._fields:
@@ -50,44 +56,45 @@ class AbstractSpecMixin(models.AbstractModel):
         ds_class_sepc = {i.name:i for i in ds_class.member_data_items_}
 
         for xml_required_field in xml_required_fields:
-            print(self[xml_required_field])
-            print(xml_required_field)
-            print(self._fields[xml_required_field].type)
+            # print(self[xml_required_field])
+            # print(xml_required_field)
+            # print(self._fields[xml_required_field].type)
 
-            if self[xml_required_field]:  # FIXME: and class_obj._field_prefix:
+            if not self[xml_required_field]:  # FIXME: and class_obj._field_prefix:
+                continue
 
-                # FIXME: xml_required_field.replace(class_obj._field_prefix, '')
-                field_spec_name = xml_required_field.replace('nfe40_', '')
-                member_spec = ds_class_sepc[field_spec_name]
+            # FIXME: xml_required_field.replace(class_obj._field_prefix, '')
+            field_spec_name = xml_required_field.replace('nfe40_', '')
+            member_spec = ds_class_sepc[field_spec_name]
 
-                # if self._fields[xml_required_field]._fields[xml_required_field].relational:
-                if self._fields[xml_required_field].type == 'many2one':
-                    if not self._fields[xml_required_field]._attrs.get('original_spec_model'):
-                        continue
-                    field_data = self[xml_required_field]._build_generateds(
-                        class_item=self._fields[xml_required_field]._attrs.get('original_spec_model')
-                    )
-                elif self._fields[xml_required_field].type == 'one2many':
+            # if self._fields[xml_required_field]._fields[xml_required_field].relational:
+            if self._fields[xml_required_field].type == 'many2one':
+                if not self._fields[xml_required_field]._attrs.get('original_spec_model'):
                     continue
-                    relational_data = []
-                    for relational_field in self[xml_required_field]:
-                        pass
-                        relational_data.append()
-                    field_data = self[xml_required_field]
-                elif self._fields[xml_required_field].type == 'datetime':
-                    field_data = fields.Datetime.context_timestamp(
-                        self,
-                        fields.Datetime.from_string(self[xml_required_field])
-                    ).isoformat('T')
-                elif self._fields[xml_required_field].type == 'monetary':
-                    if member_spec.data_type[0] == 'TDec_1302':
-                        field_data = str("%.2f" % self[xml_required_field])
-                    else:
-                        raise NotImplementedError
+                field_data = self[xml_required_field]._build_generateds(
+                    class_item=self._fields[xml_required_field]._attrs.get('original_spec_model')
+                )
+            elif self._fields[xml_required_field].type == 'one2many':
+                relational_data = []
+                for relational_field in self[xml_required_field]:
+                    relational_data.append(
+                        relational_field._build_generateds()
+                    )
+                field_data = relational_data
+            elif self._fields[xml_required_field].type == 'datetime':
+                field_data = fields.Datetime.context_timestamp(
+                    self,
+                    fields.Datetime.from_string(self[xml_required_field])
+                ).isoformat('T')
+            elif self._fields[xml_required_field].type == 'monetary':
+                if member_spec.data_type[0] == 'TDec_1302':
+                    field_data = str("%.2f" % self[xml_required_field])
                 else:
-                    field_data = self[xml_required_field]
+                    raise NotImplementedError
+            else:
+                field_data = self[xml_required_field]
 
-                kwargs[field_spec_name] = field_data
+            kwargs[field_spec_name] = field_data
         if kwargs:
             ds_object = ds_class(**kwargs)
             return ds_object
@@ -106,9 +113,13 @@ class AbstractSpecMixin(models.AbstractModel):
         print(contents)
 
     def export_xml(self):
-        spec_classes = self._get_spec_classes()
-        ds_objects = []
-        for class_item in spec_classes:
-            ds_object = self._build_generateds(class_item)
+        if hasattr(self, '_stacked'):
+            ds_object = self._build_generateds()
             self._print_xml(ds_object)
-            ds_objects.append(ds_object)
+        else:
+            spec_classes = self._get_spec_classes()
+            ds_objects = []
+            for class_item in spec_classes:
+                ds_object = self._build_generateds(class_item)
+                self._print_xml(ds_object)
+                ds_objects.append(ds_object)
