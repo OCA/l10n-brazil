@@ -42,15 +42,16 @@ class AbstractSpecMixin(models.AbstractModel):
                 class_item = self._name
 
         class_obj = self.env[class_item]
-        xml_required_fields = []
-        for item in self.env[class_item]._fields:
-            if self.env[class_item]._fields[item]._attrs.get('xsd_required'):
-                xml_required_fields.append(item)
-        kwargs = {}
-
         if not class_obj._generateds_type:
             return
 
+        # Remember to replace with generators
+        xml_required_fields = [
+            i for i in self.env[class_item]._fields if
+            self.env[class_item]._fields[i]._attrs.get('xsd_required')
+        ]
+
+        kwargs = {}
         #  FIXME: leiauteNFe hardcoded
         ds_class = getattr(leiauteNFe, class_obj._generateds_type)
         ds_class_sepc = {i.name:i for i in ds_class.member_data_items_}
@@ -60,20 +61,18 @@ class AbstractSpecMixin(models.AbstractModel):
             # print(xml_required_field)
             # print(self._fields[xml_required_field].type)
 
-            if not self[xml_required_field]:  # FIXME: and class_obj._field_prefix:
-                continue
-
             # FIXME: xml_required_field.replace(class_obj._field_prefix, '')
             field_spec_name = xml_required_field.replace('nfe40_', '')
             member_spec = ds_class_sepc[field_spec_name]
 
-            # if self._fields[xml_required_field]._fields[xml_required_field].relational:
             if self._fields[xml_required_field].type == 'many2one':
-                if not self._fields[xml_required_field]._attrs.get('original_spec_model'):
-                    continue
-                field_data = self[xml_required_field]._build_generateds(
-                    class_item=self._fields[xml_required_field]._attrs.get('original_spec_model')
-                )
+                if self._fields[xml_required_field]._attrs.get('original_spec_model'):
+                    field_data = self[xml_required_field]._build_generateds(
+                        class_item=self._fields[xml_required_field]._attrs.get('original_spec_model')
+                    )
+                else:
+                    # continue
+                    field_data = self[xml_required_field]._build_generateds()
             elif self._fields[xml_required_field].type == 'one2many':
                 relational_data = []
                 for relational_field in self[xml_required_field]:
@@ -81,12 +80,12 @@ class AbstractSpecMixin(models.AbstractModel):
                         relational_field._build_generateds()
                     )
                 field_data = relational_data
-            elif self._fields[xml_required_field].type == 'datetime':
+            elif self._fields[xml_required_field].type == 'datetime' and self[xml_required_field]:
                 field_data = fields.Datetime.context_timestamp(
                     self,
                     fields.Datetime.from_string(self[xml_required_field])
                 ).isoformat('T')
-            elif self._fields[xml_required_field].type == 'monetary':
+            elif self._fields[xml_required_field].type == 'monetary' and self[xml_required_field]:
                 if member_spec.data_type[0] == 'TDec_1302':
                     field_data = str("%.2f" % self[xml_required_field])
                 else:
@@ -94,7 +93,10 @@ class AbstractSpecMixin(models.AbstractModel):
             else:
                 field_data = self[xml_required_field]
 
+            if not self[xml_required_field]:
+                continue
             kwargs[field_spec_name] = field_data
+
         if kwargs:
             ds_object = ds_class(**kwargs)
             return ds_object
