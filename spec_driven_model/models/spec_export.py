@@ -86,9 +86,12 @@ class AbstractSpecMixin(models.AbstractModel):
                     self,
                     fields.Datetime.from_string(self[xml_required_field])
                 ).isoformat('T')
-            elif self._fields[xml_required_field].type == 'monetary' and self[xml_required_field]:
-                if member_spec.data_type[0] == 'TDec_1302':
-                    field_data = str("%.2f" % self[xml_required_field])
+            elif self._fields[xml_required_field].type in ('float', 'monetary') and self[xml_required_field]:
+                if member_spec.data_type[0]:
+                    TDec = ''.join(filter(lambda x: x.isdigit(),
+                                          member_spec.data_type[0]))[-2:]
+                    format = "%.{0}f".format(TDec)
+                    field_data = str(format % self[xml_required_field])
                 else:
                     raise NotImplementedError
             else:
