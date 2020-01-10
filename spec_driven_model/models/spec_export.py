@@ -39,6 +39,13 @@ class AbstractSpecMixin(models.AbstractModel):
         if not class_name:
             if hasattr(self, '_stacked'):
                 class_name = self._stacked
+                # spec_classes = self._get_spec_classes()
+                # specs = {}
+                # for spec_class in spec_classes:
+                #     specs[spec_class] = self._build_generateds(
+                #         class_name=spec_class
+                #     )
+                # pass
             else:
                 class_name = self._name
 
@@ -58,13 +65,15 @@ class AbstractSpecMixin(models.AbstractModel):
         ds_class_sepc = {i.name: i for i in ds_class.member_data_items_}
 
         for xml_required_field in xml_required_fields:
-            # print(self[xml_required_field])
-            # print(xml_required_field)
-            # print(self._fields[xml_required_field].type)
 
             # FIXME: xml_required_field.replace(class_obj._field_prefix, '')
             field_spec_name = xml_required_field.replace('nfe40_', '')
             member_spec = ds_class_sepc[field_spec_name]
+
+            # print(self[xml_required_field])
+            # print(xml_required_field)
+            # print(self._fields[xml_required_field].type)
+            # print(member_spec.data_type[0])
 
             if self._fields[xml_required_field].type == 'many2one':
                 if self._fields[xml_required_field]._attrs.get('original_spec_model'):
@@ -99,6 +108,8 @@ class AbstractSpecMixin(models.AbstractModel):
 
             if not self[xml_required_field]:
                 continue
+
+            # print(field_data)
             kwargs[field_spec_name] = field_data
 
         if kwargs:
