@@ -34,27 +34,28 @@ class AbstractSpecMixin(models.AbstractModel):
             spec_classes.append(c)
         return spec_classes
 
-    def _build_generateds(self, class_item=False):
-        if not class_item:
-            if hasattr(self, '_stacked'):
-                class_item = self._stacked
-            else:
-                class_item = self._name
+    def _build_generateds(self, class_name=False):
 
-        class_obj = self.env[class_item]
+        if not class_name:
+            if hasattr(self, '_stacked'):
+                class_name = self._stacked
+            else:
+                class_name = self._name
+
+        class_obj = self.env[class_name]
         if not class_obj._generateds_type:
             return
 
         # Remember to replace with generators
         xml_required_fields = [
-            i for i in self.env[class_item]._fields if
-            self.env[class_item]._fields[i]._attrs.get('xsd_required')
+            i for i in self.env[class_name]._fields if
+            self.env[class_name]._fields[i]._attrs.get('xsd_required')
         ]
 
         kwargs = {}
         #  FIXME: leiauteNFe hardcoded
         ds_class = getattr(leiauteNFe, class_obj._generateds_type)
-        ds_class_sepc = {i.name:i for i in ds_class.member_data_items_}
+        ds_class_sepc = {i.name: i for i in ds_class.member_data_items_}
 
         for xml_required_field in xml_required_fields:
             # print(self[xml_required_field])
@@ -68,7 +69,7 @@ class AbstractSpecMixin(models.AbstractModel):
             if self._fields[xml_required_field].type == 'many2one':
                 if self._fields[xml_required_field]._attrs.get('original_spec_model'):
                     field_data = self[xml_required_field]._build_generateds(
-                        class_item=self._fields[xml_required_field]._attrs.get('original_spec_model')
+                        class_name=self._fields[xml_required_field]._attrs.get('original_spec_model')
                     )
                 else:
                     # continue
@@ -121,7 +122,7 @@ class AbstractSpecMixin(models.AbstractModel):
         else:
             spec_classes = self._get_spec_classes()
             ds_objects = []
-            for class_item in spec_classes:
-                ds_object = self._build_generateds(class_item)
+            for class_name in spec_classes:
+                ds_object = self._build_generateds(class_name)
                 self._print_xml(ds_object)
                 ds_objects.append(ds_object)
