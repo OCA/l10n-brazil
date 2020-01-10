@@ -82,12 +82,15 @@ class AbstractSpecMixin(models.AbstractModel):
                     )
                 else:
                     # continue
-                    field_data = self[xml_required_field]._build_generateds()
+                    field_data = self._build_generateds(
+                        class_obj._fields[xml_required_field].comodel_name)
             elif self._fields[xml_required_field].type == 'one2many':
                 relational_data = []
                 for relational_field in self[xml_required_field]:
                     relational_data.append(
-                        relational_field._build_generateds()
+                        relational_field._build_generateds(
+                            class_obj._fields[xml_required_field].comodel_name
+                        )
                     )
                 field_data = relational_data
             elif self._fields[xml_required_field].type == 'datetime' and self[xml_required_field]:
@@ -106,7 +109,7 @@ class AbstractSpecMixin(models.AbstractModel):
             else:
                 field_data = self[xml_required_field]
 
-            if not self[xml_required_field]:
+            if not self[xml_required_field] and not field_data:
                 continue
 
             # print(field_data)
