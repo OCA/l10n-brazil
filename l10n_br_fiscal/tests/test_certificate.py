@@ -13,7 +13,7 @@ from OpenSSL import crypto
 
 class TestCertificate(common.TransactionCase):
     def setUp(self):
-        super().setUp()
+        super(TestCertificate, self).setUp()
 
         self.company_model = self.env["res.company"]
         self.certificate_model = self.env["l10n_br_fiscal.certificate"]

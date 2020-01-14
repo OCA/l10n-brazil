@@ -6,7 +6,7 @@ from odoo.tests import common
 
 class TestIbptProduct(common.TransactionCase):
     def setUp(self):
-        super().setUp()
+        super(TestIbptProduct, self).setUp()
 
         self.company_model = self.env["res.company"]
         self.company = self._create_compay()
