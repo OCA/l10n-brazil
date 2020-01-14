@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="l10n_br_account_chart_template" model="account.chart.template">
+    <record id="l10n_br_simple_chart_template" model="account.chart.template">
         <field name="property_account_receivable_id" ref="account_template_11201"/>
         <field name="property_account_payable_id" ref="account_template_21101" />
         <field name="property_account_expense_categ_id" ref="account_template_32103"/>
@@ -78,7 +78,7 @@
         <field ref="account_template_21304" name="account_id"/>
         <field ref="account_template_21304" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
@@ -91,7 +91,7 @@
         <field ref="account_template_21304" name="account_id"/>
         <field ref="account_template_21304" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
      </record>
@@ -102,7 +102,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
     </record>
@@ -115,7 +115,7 @@
         <field ref="account_template_21302" name="account_id"/>
         <field ref="account_template_21302" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
      </record>
@@ -128,7 +128,7 @@
         <field ref="account_template_21302" name="account_id"/>
         <field ref="account_template_21302" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
      </record>
@@ -139,7 +139,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
      </record>
@@ -152,7 +152,7 @@
         <field ref="account_template_21302" name="account_id"/>
         <field ref="account_template_21302" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
      </record>
@@ -165,7 +165,7 @@
         <field ref="account_template_21305" name="account_id"/>
         <field ref="account_template_21305" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
      </record>
@@ -178,7 +178,7 @@
         <field ref="account_template_21305" name="account_id"/>
         <field ref="account_template_21305" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
      </record>
@@ -191,7 +191,7 @@
         <field ref="account_template_21306" name="account_id"/>
         <field ref="account_template_21306" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
      </record>
@@ -204,7 +204,7 @@
         <field ref="account_template_21306" name="account_id"/>
         <field ref="account_template_21306" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
      </record>
@@ -217,7 +217,7 @@
         <field ref="account_template_21301" name="account_id"/>
         <field ref="account_template_21301" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_simples"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_simples')])]"/>
     </record>
@@ -230,7 +230,7 @@
         <field ref="account_template_32502" name="account_id"/>
         <field ref="account_template_32502" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_irpj"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
     </record>
@@ -241,7 +241,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ir"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ir')])]"/>
     </record>
@@ -254,7 +254,7 @@
         <field ref="account_template_21303" name="account_id"/>
         <field ref="account_template_21303" name="refund_account_id"/>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_issqn"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
     </record>
@@ -265,7 +265,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_csll"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
     </record>
@@ -276,7 +276,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
@@ -287,14 +287,14 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
-        <field ref="l10n_br_account_chart_template" name="chart_template_id"/>
+        <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <data noupdate="1">
         <function model="account.chart.template" name="try_loading_for_current_company">
-            <value eval="[ref('l10n_br_simple.l10n_br_account_chart_template')]"/>
+            <value eval="[ref('l10n_br_simple.l10n_br_simple_chart_template')]"/>
         </function>
     </data>
 
