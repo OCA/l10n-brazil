@@ -29,7 +29,7 @@ class AccountMove(models.Model):
             ('draft', 'Unposted'),
             ('validacao_criacao', u'Validar Criação'),
             ('posted', 'Posted'),
-            ('cancel', u'Cancelado')
+            ('cancel', u'Cancelado'),
         ],
     )
 
@@ -102,8 +102,8 @@ class AccountMove(models.Model):
     @api.multi
     def button_cancel(self):
         for record in self:
-            self.state = 'cancel'
-            for line in self.line_id:
+            record.state = 'cancel'
+            for line in record.line_id:
                 line.state = 'cancel'
                 line.situacao_lancamento = 'cancel'
 
@@ -282,7 +282,6 @@ class AccountMove(models.Model):
         :return:
         """
         for record in self:
-            account_move_line_obj = self.env['account.move.line']
 
             description = 'Reversão do Lançamento: {}/{} - {}'.format(
                 record.sequencia,
@@ -307,7 +306,7 @@ class AccountMove(models.Model):
             lines_remocao = account_move_reversao.line_id.ids
 
             for line_id in record.line_id:
-                account_move_line_obj.create({
+                self.env['account.move.line'].create({
                     'account_id': line_id.account_id.id,
                     'debit': line_id.credit,
                     'credit': line_id.debit,
@@ -319,7 +318,25 @@ class AccountMove(models.Model):
                 if line.id in lines_remocao:
                     line.unlink()
 
+        if account_event_reversao_id:
+            return account_event_reversao_id
+
+        return account_move_reversao
+
     @api.multi
     def button_reverter_lancamento(self):
         for record in self:
-            record.reverter_lancamento()
+            account_move_reversao = record.reverter_lancamento()
+
+        return {
+            'domain': "[('id', 'in', %s)]" % account_move_reversao.ids,
+            'name': ("Lançamento de Reversão"),
+            'res_ids': account_move_reversao.ids,
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'auto_search': True,
+            'res_model': 'account.move',
+            'view_id': False,
+            'search_view_id': False,
+            'type': 'ir.actions.act_window'
+        }
