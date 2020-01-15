@@ -17,13 +17,14 @@
                         <button name="action_open" string="Confirmar DIRF" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
                         <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}" groups="base.group_hr_manager"/>
                         <button name="action_sent" string="Confirmar Envio" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
-                        <button name="atualizar_valores_holerites" string="Popular dependente" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}" groups="base.group_no_one"/>
+                        <button name="atualizar_valores_holerites" string="Atualizar Valores dos Holerites" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}" groups="base.group_no_one"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <group cols="4" string="DIRF">
 
                         <group colspan="4">
-                            <field name="ano" required="1"/>
+                            <field name="ano_referencia" required="1"/>
+                            <field name="ano_calendario" required="1"/>
                         </group>
 
                         <group colspan="4">
@@ -35,6 +36,14 @@
                             <field name="retificadora" />
                             <field name="numero_recibo" attrs="{'invisible':[('retificadora', '!=', True)]}"/>
                         </group>
+
+                        <group string="Responsável perante CNPJ" colspan="4">
+                            <field name="responsible_partner_cnpj_id"
+                                   attrs="{'readonly': [('company_id', '=', False)]}"
+                                   options="{'no_create': True}"
+                                   required="1" />
+                            <field name="responsible_cnpj_cpf" />
+                         </group>
 
                         <group string="Responsável pelo envio" colspan="4">
                             <field name="responsible_partner_id"
@@ -71,7 +80,7 @@
                                     <!--</field>-->
                                 <!--</group>-->
                             <!--</page>-->
-                            <page string="Funcionários">
+                            <page string="Funcionários" >
                                 <group string="Funcionários na DIRF">
                                     <button name="buscar_funcionarios" string="Buscar Funcionários" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
                                     <newline />
@@ -88,7 +97,7 @@
                                 </group>
                             </page>
 
-                            <page string="Prévia DIRF">
+                            <page string="Prévia DIRF" attrs="{'invisible': [('dirf', '=', False)]}">
                                 <group string="Prévia DIRF">
                                     <field nolabel="1" name="dirf"/>
                                 </group>
@@ -111,7 +120,8 @@
             <field name="model">hr.dirf</field>
             <field name="arch" type="xml">
                 <tree string="DIRF">
-                    <field name="ano"/>
+                    <field name="ano_referencia"/>
+                    <field name="ano_calendario"/>
                     <field name="company_id"/>
                     <field name="state"/>
                 </tree>

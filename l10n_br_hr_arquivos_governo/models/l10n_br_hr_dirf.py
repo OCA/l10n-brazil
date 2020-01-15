@@ -42,8 +42,16 @@ class L10nBrHrDirf(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
-    ano = fields.Char(
-        string=u'Ano',
+    ano_referencia = fields.Char(
+        string=u'Ano Referência',
+        size=4,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=fields.Date.from_string(fields.Date.today()).year
+    )
+
+    ano_calendario = fields.Char(
+        string=u'Ano Calendário',
         size=4,
         readonly=True,
         states={'draft': [('readonly', False)]},
