@@ -29,7 +29,7 @@ class ValoresMensais():
         return 'ValoresMensais - {}'.format(self.identificador_de_registro_mensal)
 
 
-class Inf():
+class InformacoesComplementares():
 
     def __init__(self):
         # 3.35 Registro de informações complementares para o comprovante de
@@ -52,6 +52,14 @@ class Beneficiario():
         self.data_laudo = ''
         self.identificacao_alimentado_bpfdec = 'N'
         self.identificacao_previdencia_complementar = 'N'
+
+        # 3.18 Registro de informações do beneficiário da pensão alimentícia
+        # (identificador INFPA)
+        self.identificador_de_registro_infpa = 'INFPA'
+        self.cpf_infpa = ''
+        self.data_nascimento_infpa = ''
+        self.nome_infpa = ''
+        self.relacao_dependencia_infpa = ''
 
         # 3.19 Registro de valores mensais (identificadores RTRT, RTPO, RTPP,
         # RTFA, RTSP, RTEP, RTDP, RTPA, RTIRF, CJAA, CJAC, ESRT, ESPO, ESPP,
@@ -78,6 +86,12 @@ class Beneficiario():
         self.valores_mensais.append(valores_mensais)
 
     @property
+    def DEDUCAOPENSAOALIMENTICIA(self):
+
+
+        return ''
+
+    @property
     def VALORESMENSAIS(self):
 
         beneficiario = ''
@@ -86,7 +100,7 @@ class Beneficiario():
 
         for record in self.valores_mensais:
             # Valores mensais do Beneficiario
-            vm  = dirf._validar(record.identificador_de_registro_mensal, 5, preenchimento='variavel')
+            vm = dirf._validar(record.identificador_de_registro_mensal, 5, preenchimento='variavel')
             vm += dirf._validar(record.janeiro, 13, tipo='V', preenchimento='variavel')
             vm += dirf._validar(record.fevereiro, 13, tipo='V', preenchimento='variavel')
             vm += dirf._validar(record.marco, 13, tipo='V', preenchimento='variavel')
@@ -100,10 +114,46 @@ class Beneficiario():
             vm += dirf._validar(record.novembro, 13, tipo='V', preenchimento='variavel')
             vm += dirf._validar(record.dezembro, 13, tipo='V', preenchimento='variavel')
             vm += dirf._validar(record.decimo_terceiro, 13, tipo='V', preenchimento='variavel')
-            if not vm == record.identificador_de_registro_mensal+'||||||||||||||':
-                beneficiario += vm
-                beneficiario += '\n'
+            vm += '\n'
+
+            # Adicionar o registro INFPA sempre antes do RTPA
+            if record.identificador_de_registro_mensal == 'RTPA' and self.INFPA:
+                vm = self.INFPA + vm
+
+            beneficiario += vm
+
         return beneficiario
+
+    @property
+    def RENDIMENTOSISENTOS(self):
+        """
+        """
+        dirf = DIRF()
+
+        if not self.valor_pago_ano_rio:
+            return ''
+        rio = dirf._validar(self.identificador_de_registro_rio, 3, tipo='A')
+        rio += dirf._validar(self.valor_pago_ano_rio, 13, tipo='V', preenchimento='variavel')
+        rio += dirf._validar(self.descricao_rendimentos_isentos, 60, tipo='AN', preenchimento='variavel')
+        rio += '\n'
+        return rio
+
+    @property
+    def INFPA(self):
+        """
+        """
+        dirf = DIRF()
+
+        if self.cpf_infpa:
+            infpa = dirf._validar(self.identificador_de_registro_infpa, 5, tipo='A')
+            infpa += dirf._validar(self.cpf_infpa, 11, tipo='N', preenchimento='fixo')
+            infpa += dirf._validar(self.data_nascimento_infpa, 8, tipo='N', preenchimento='fixo')
+            infpa += dirf._validar(self.nome_infpa, 60, tipo='A', preenchimento='variavel', caixaAlta='S')
+            infpa += dirf._validar(self.relacao_dependencia_infpa, 2, tipo='AN', preenchimento='fixo')
+            infpa += '\n'
+            return infpa
+
+        return ''
 
 
 class DIRF(AbstractArquivosGoverno):
@@ -112,11 +162,11 @@ class DIRF(AbstractArquivosGoverno):
 
         # 3.1 Registro de identificação da declaração (identificador Dirf)
         self.identificador_de_registro = 'Dirf'
-        self.ano_referencia = 2019
+        self.ano_referencia = 2020
         self.ano_calendario = 2019              # 2019 ou 2018
         self.indicador_de_retificadora = 'N'    # S – Retificadora N – Original
         self.numero_do_recibo = ''
-        self.identificador_de_estrutura_do_leiaute = 'T17BS45'
+        self.identificador_de_estrutura_do_leiaute = 'AT65HD8'
 
         # 3.2 Registro do Responsável pelo preenchimento da declaração
         # (identificador RESPO)
@@ -252,19 +302,10 @@ class DIRF(AbstractArquivosGoverno):
         self.cnpj_infpc = ''
         self.nome_empresarial_infpc = ''
 
-        # 3.18 Registro de informações do beneficiário da pensão alimentícia
-        # (identificador INFPA)
-        self.identificador_de_registro_infpa = 'INFPA'
-        self.cpf_infpa = ''
-        self.data_nascimento_infpa = ''
-        self.relacao_dependencia_infpa = ''
-
         # 3.20 Registro de valores anuais isentos/sem retenção
         # (identificadores RIL96, RIPTS e RIRSR)
         self.identificador_de_registro_anual = ''
         self.valor_pago_ano = ''
-
-
 
         # 3.22 Registro de quantidade de meses (identificador QTMESES)
         self.identificacao_de_registro_qtmeses = 'QTMESES'
@@ -380,12 +421,21 @@ class DIRF(AbstractArquivosGoverno):
 
         # 3.35 Registro de informações complementares para o comprovante de
         # rendimento (identificador INF)
-        self.arrayinf = []
+        self.informacoescomplementares = []
 
         #  Registro identificador do término da declaração
         #  (identificador FIMDirf)
-        self.identificador_de_registro_fimdirf = 'FIMDirf'
+        self.identificador_de_registro_fimdirf = 'FIMDirf|'
 
+    def __str__(self):
+        dirf = self.DIRF
+        dirf += self.RESPO
+        dirf += self.DECPJ
+        dirf += self.IDREC
+        dirf += self.BPFDEC
+        dirf += self.INF
+        dirf += self.identificador_de_registro_fimdirf
+        return dirf
 
     @property
     def DIRF(self):
@@ -393,8 +443,9 @@ class DIRF(AbstractArquivosGoverno):
         dirf += self._validar(self.ano_referencia, 4, tipo='N')
         dirf += self._validar(self.ano_calendario, 4, tipo='N')
         dirf += self._validar(self.indicador_de_retificadora, 1, tipo='A')
-        dirf += self._validar(self.numero_do_recibo, 12, tipo='N', preenchimento='variavel')
+        dirf += self._validar(self.numero_do_recibo, 12, tipo='A', preenchimento='variavel')
         dirf += self._validar(self.identificador_de_estrutura_do_leiaute, 7, tipo='AN')
+        dirf += '\n'
         return dirf
 
     @property
@@ -403,10 +454,11 @@ class DIRF(AbstractArquivosGoverno):
         respo += self._validar(self.cpf_respo, 11,  tipo='N', preenchimento='fixo')
         respo += self._validar(self.nome_respo, 60, preenchimento='variavel', caixaAlta='S')
         respo += self._validar(self.ddd_respo, 2, tipo='N', preenchimento='fixo')
-        respo += self._validar(self.telefone_respo, 9, tipo='N', preenchimento='variavel')
+        respo += self._validar(self.telefone_respo, 8, tipo='N', preenchimento='variavel')
         respo += self._validar(self.ramal_respo, 6, tipo='N', preenchimento='variavel')
         respo += self._validar(self.fax_respo, 9, preenchimento='variavel')
         respo += self._validar(self.correio_eletronico, 50, preenchimento='variavel')
+        respo += '\n'
         return respo
 
     @property
@@ -425,12 +477,14 @@ class DIRF(AbstractArquivosGoverno):
         decpj += self._validar(self.fundacao_publica_direito_privado, 1, tipo='A')
         decpj += self._validar(self.situacao_especial_declarante, 1, tipo='A')
         decpj += self._validar(self.data_do_evento_decpj, 8, tipo='D', preenchimento='variavel')
+        decpj += '\n'
         return decpj
 
     @property
     def IDREC(self):
         idrec = self._validar(self.identificador_de_registro_idrec, 5)
         idrec += self._validar(self.codigo_da_receita, 4, tipo='N', preenchimento='fixo')
+        idrec += '\n'
         return idrec
 
     @property
@@ -445,24 +499,23 @@ class DIRF(AbstractArquivosGoverno):
             bpfdec += self._validar(record.identificacao_previdencia_complementar, 1, tipo='A')
             bpfdec += '\n'
             bpfdec += record.VALORESMENSAIS
-            if record.valor_pago_ano_rio > 0:
-                bpfdec += self._validar(record.identificador_de_registro_rio, 3, tipo='A')
-                bpfdec += self._validar(record.valor_pago_ano_rio, 60, tipo='V', preenchimento='variavel')
-                bpfdec += self._validar(record.descricao_rendimentos_isentos, 150, tipo='AN', preenchimento='variavel')
-                bpfdec += '\n'
+            bpfdec += record.RENDIMENTOSISENTOS
+            # bpfdec += record.INFPA
             beneficiario += bpfdec
-        return beneficiario.strip('\n')
+        return beneficiario
 
     @property
     def INF(self):
         outras_informacoes = ''
-        inf = ''
-        for record in self.arrayinf:
-            inf = self._validar(record.identificador_de_registro_inf, 3)
-            inf += self._validar(record.cpf_inf, 11, tipo='N')
-            inf += self._validar(record.informacoes_complementares, 180, tipo='AN', preenchimento='variavel')
-            outras_informacoes += inf + '\n'
-        return outras_informacoes.strip('\n')
+
+        for record in self.informacoescomplementares:
+            infComplementar = self._validar(record.identificador_de_registro_inf, 3)
+            infComplementar += self._validar(record.cpf_inf, 11, tipo='N')
+            infComplementar += self._validar(
+                record.informacoes_complementares, 180, tipo='AN', preenchimento='variavel')
+            infComplementar += '\n'
+            outras_informacoes += infComplementar
+        return outras_informacoes
 
     def add_beneficiario(self, bpfdec):
         """
@@ -470,19 +523,19 @@ class DIRF(AbstractArquivosGoverno):
         """
         if not isinstance(bpfdec, Beneficiario):
             raise ('Parâmetro no formato incorreto! Para adicionar '
-                   'beneficiário utilize a classe ```Beneficiario```')
+                   'beneficiário utilize a classe ```Beneficiario``` ')
         self.bpfdec.append(bpfdec)
         self.bpfdec.sort(key=lambda x: x.cpf_bpfdec)
 
-    def add_info(self, arrayinfo):
+    def add_informarmacaoComplementar(self, arrayinfo):
         """
         :param arrayinfo: class INFO
         """
-        if not isinstance(arrayinfo, Inf):
+        if not isinstance(arrayinfo, InformacoesComplementares):
             raise ('Parâmetro no formato incorreto! Para adicionar '
-                   'info utilize a classe ```Inf```')
-        self.arrayinf.append(arrayinfo)
-        self.arrayinf.sort(key=lambda x: x.cpf_inf)
+                   'info utilize a classe ```InformacoesComplementares```')
+        self.informacoescomplementares.append(arrayinfo)
+        self.informacoescomplementares.sort(key=lambda x: x.cpf_inf)
 
     def _validar(self, word, tam, tipo='AN', preenchimento='fixo', caixaAlta='N'):
         """
@@ -498,7 +551,7 @@ class DIRF(AbstractArquivosGoverno):
 
         # Validar campo
         if preenchimento == 'variavel':
-            if tipo in ['A', 'AN']:
+            if tipo in ['A', 'AN', 'D']:
                 tam = len(word) if len(word) < tam else tam
 
             if tipo in ['V']:
