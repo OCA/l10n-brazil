@@ -227,10 +227,11 @@ class L10nBrHrDirf(models.Model):
 
         # Buscar a rubrica especifica para cada tipo de holerite
         line_13_ids = sum(decimo_terceiro_ids.mapped('line_ids').filtered(
-            lambda x: x.code == rubrica[1]).mapped('total'))
+            lambda x: x.code in rubrica[1]).mapped('total'))
 
         line_rescisao_ids = sum(rescisao_ids.mapped('line_ids').filtered(
-            lambda x: x.code == '{}_13'.format(rubrica[1])).mapped('total'))
+            lambda x: x.code in
+                      ['{}_13'.format(x) for x in rubrica[1]]).mapped('total'))
 
         return line_13_ids + line_rescisao_ids
 
@@ -259,12 +260,22 @@ class L10nBrHrDirf(models.Model):
 
         # Buscar a rubrica especifica entre as linhas do holerite
         line_ids = holerites_ids.mapped('line_ids').filtered(
-            lambda x: x.code == rubrica[1])
+            lambda x: x.code in rubrica[1])
 
         return sum(line_ids.mapped('total'))
 
+    def ocorrencia_rubrica_no_ano(self, code, RUBRICAS_DIRF, rubricas_ativas):
+
+        # Verificar se eh uma rubrica e nao um campo
+        if code[0] in [x[0] for x in RUBRICAS_DIRF]:
+
+            # Se for rubrica necessariamente deverá esta em rubricas ativas
+            return any([x in rubricas_ativas for x in code[1]])
+
+        return True
+
     @api.multi
-    def populate_beneficiario(self, dirf, beneficiario, employee_id, ano):
+    def populate_beneficiario(self, dirf, beneficiario, employee_id, ano, company_id):
         """
         :param beneficiario:
         :param employee_id:
@@ -274,15 +285,20 @@ class L10nBrHrDirf(models.Model):
 
         # Buscar Holerites do ano do funcionário
         tipoFolha = ['normal', 'ferias', 'decimo_terceiro', 'rescisao']
-        holerites_ids = self.buscar_holerites(employee_id, ano, tipoFolha)
-        
+        holerites_ids = self.buscar_holerites(
+            ano, company_id, employee_id, tipoFolha)
+
+        print(employee_id.name)
+        if 'orbi' in employee_id.name:
+            pass
+
         rubricas_ativas = holerites_ids.mapped('line_ids.salary_rule_id.code')
 
         RUBRICAS_DIRF = [
-            ('RTPO', 'INSS', 20),
-            ('RTIRF', 'IRPF', 40),
+            ('RTPO', ['INSS', 'INSS_FERIAS_DA_COMPETENCIA'], 20),
+            ('RTIRF', ['IRPF', 'IRPF_FERIAS'], 40),
+            ('RTPA', ['PENSAO_ALIMENTICIA_PORCENTAGEM', 'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS'], 60),
             ('RIDAC', 'DIARIAS_VIAGEM', 50),
-            ('RTPA', 'PENSAO_ALIMENTICIA_PORCENTAGEM', 60),
         ]
 
         CAMPOS_DIRF = [
@@ -295,8 +311,11 @@ class L10nBrHrDirf(models.Model):
 
         for code in valoresMensais:
 
-            if code[0] in [x[0] for x in RUBRICAS_DIRF] and \
-                    not code[1] in rubricas_ativas:
+            # if code[0] in [x[0] for x in RUBRICAS_DIRF] and \
+            #         not code[1] in rubricas_ativas:
+            #     continue
+
+            if not self.ocorrencia_rubrica_no_ano(code, RUBRICAS_DIRF, rubricas_ativas):
                 continue
 
             vm = ValoresMensais()
@@ -349,56 +368,75 @@ class L10nBrHrDirf(models.Model):
             beneficiario.identificacao_alimentado_bpfdec = 'S'
 
         #
-        # Informacoes Complementares (Quadro 7)
+        # Informacoes Complementares (Quadro 7) PENSAO
         #
             RUBRICAS_PENSAO = [
                 'PENSAO_ALIMENTICIA_PORCENTAGEM',
-                'PENSAO_ALIMENTICIA',
-                'PENSAO_PROPORCIONAL_REGULAR',
+                'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS_FERIAS',
             ]
 
-            RUBRICAS_PENSAO_FERIAS = [
-                'PENSAO_ALIMENTICIA_FERIAS',
-                'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS',
-                'PENSAO_PROPORCIONAL_FERIAS',
-            ]
+            total_pensao = 0
+            total_pensao_13 = 0
 
-            RUBRICAS_PENSAO_13 = [
-                'PENSAO_ALIMENTICIA_PORCENTAGEM_13',
-                'PENSAO_ALIMENTICIA_PORCENTAGEM_ADIANTAMENTO_13',
-            ]
+            for holerite_id in holerites_ids:
 
-            total_13 = sum(holerites_ids.filtered('line_ids').filtered(
-                lambda x: x.salary_rule_id.code in RUBRICAS_PENSAO_13).
-                           mapped('total')) or 0
+                line_pensao = holerite_id.line_ids.filtered(
+                        lambda x: x.salary_rule_id.code in RUBRICAS_PENSAO)
 
-            total_pensao = sum(holerites_ids.mapped('line_ids').filtered(
-                lambda x: x.salary_rule_id.code in RUBRICAS_PENSAO).
-                               mapped('total')) or 0
+                if holerite_id.tipo_de_folha not in ['decimo_terceiro']:
+                    total_pensao += sum(line_pensao.mapped('total'))
+                else:
+                    total_pensao_13 += sum(line_pensao.mapped('total'))
 
-            if total_pensao <= 0 and total_13 <= 0:
-                return
+            if total_pensao or total_pensao_13:
 
-            total_pensao_ferias = \
-                sum(holerites_ids.mapped('line_ids').filtered(
-                    lambda x: x.salary_rule_id.code in RUBRICAS_PENSAO_FERIAS).
-                    mapped('total')) or 0
+                dados = {
+                    'nome': partner_id.name,
+                    'cpf': partner_id.cnpj_cpf,
+                    'total_pensao': formata_valor(total_pensao),
+                    'total_pensao_13': formata_valor(total_pensao_13),
+                }
 
-            valor_pago = total_pensao - total_13
+                mensagem = \
+                    ' - Pensao alimenticia descontada: ' \
+                    '{nome}, CPF {cpf} TOTAL: R$ {total_pensao} ' \
+                    'Sobre o 13o Salario RS {total_pensao_13} '
 
-            outros_valores = total_pensao_ferias
+                informacoes_complementares = mensagem.format(**dados)
 
-            informacoes_complementares = ' - Pensao alimenticia descontada : ' \
-                                         ' ' + partner_id.name + \
-                                         ', CPF: ' + partner_id.cnpj_cpf + \
-                                         ', R$ ' + str(
-                formata_valor(valor_pago)) + \
-                                         ' Outros Beneficiarios de Pensao: RS ' + str(
-                formata_valor(outros_valores)) + \
-                                         ' (Sobre o 13o Salario RS ' + str(
-                formata_valor(total_13)) + ' )'
+                # Adicionar informaçoes complementares uadro 7
+                inf = InformacoesComplementares()
+                inf.cpf_inf = employee_id.cpf
+                inf.informacoes_complementares = informacoes_complementares
+                dirf.add_informarmacaoComplementar(inf)
 
-            # Adicionar informaçoes complementares uadro 7
+        #
+        # Informacoes Complementares (Quadro 7) AUXILIO SAUDE
+        #
+
+        RUBRICAS_SAUDE = [
+            'REMBOLSO_SAUDE',
+            'REEMBOLSO_AUXILIO_SAUDE_MES_ANTERIOR',
+        ]
+
+        if 'REMBOLSO_SAUDE' in rubricas_ativas:
+
+            line_ids_saude = holerites_ids.mapped('line_ids').filtered(lambda x: x.code in RUBRICAS_SAUDE)
+
+            total_saude = sum(line_ids_saude.mapped('total'))
+
+            dados = {
+                'nome': employee_id.name,
+                'cpf': employee_id.cpf,
+                'total_saude': formata_valor(total_saude),
+            }
+
+            mensagem = \
+                ' - Reembolso Saúde: ' \
+                '{nome}, CPF {cpf}  TOTAL: R$ {total_saude} '
+
+            informacoes_complementares = mensagem.format(**dados)
+
             inf = InformacoesComplementares()
             inf.cpf_inf = employee_id.cpf
             inf.informacoes_complementares = informacoes_complementares
@@ -411,13 +449,15 @@ class L10nBrHrDirf(models.Model):
         :return:
         """
         holerites_ids = holerites_ids.filtered(
-            lambda x: x.tipo_de_folha in 'rescisao')
+            lambda x: x.tipo_de_folha in ['rescisao', 'ferias'])
 
         RUBRICAS_FERIAS_RECISAO = [
             'PROP_FERIAS',
             'PROP_1/3_FERIAS',
             'FERIAS_VENCIDAS',
             'FERIAS_VENCIDAS_1/3',
+            'ABONO_PECUNIARIO',
+            '1/3_ABONO_PECUNIARIO',
         ]
 
         total = sum(holerites_ids.mapped('line_ids').filtered(
@@ -443,8 +483,8 @@ class L10nBrHrDirf(models.Model):
         ).amount or 0
 
         for employee_id in self.employee_ids:
-            holerites_ids = \
-                self.buscar_holerites(employee_id, self.ano_referencia)
+            holerites_ids = self.buscar_holerites(
+                self.ano_referencia, self.company_id, employee_id)
 
             for holerite_id in holerites_ids:
                 holerite_id.atualizar_valores(valor_por_dependente)
@@ -501,8 +541,8 @@ class L10nBrHrDirf(models.Model):
             beneficiario.cpf_bpfdec = \
                 re.sub('[^0-9]', '', str(employee_id.cpf))
             beneficiario.nome_bpfdec = employee_id.name
-            self.populate_beneficiario(
-                dirf, beneficiario, employee_id, self.ano_referencia)
+            self.populate_beneficiario(dirf, beneficiario, employee_id,
+                                       self.ano_referencia, self.company_id)
             dirf.add_beneficiario(beneficiario)
 
         self.dirf = str(dirf)
