@@ -86,12 +86,6 @@ class Beneficiario():
         self.valores_mensais.append(valores_mensais)
 
     @property
-    def DEDUCAOPENSAOALIMENTICIA(self):
-
-
-        return ''
-
-    @property
     def VALORESMENSAIS(self):
 
         beneficiario = ''
