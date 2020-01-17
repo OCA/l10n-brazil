@@ -120,9 +120,9 @@
             <field name="model">hr.dirf</field>
             <field name="arch" type="xml">
                 <tree string="DIRF">
+                    <field name="company_id"/>
                     <field name="ano_referencia"/>
                     <field name="ano_calendario"/>
-                    <field name="company_id"/>
                     <field name="state"/>
                 </tree>
             </field>
