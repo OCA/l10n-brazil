@@ -298,7 +298,7 @@ class L10nBrHrDirf(models.Model):
             ('RTPO', ['INSS', 'INSS_FERIAS_DA_COMPETENCIA'], 20),
             ('RTIRF', ['IRPF', 'IRPF_FERIAS'], 40),
             ('RTPA', ['PENSAO_ALIMENTICIA_PORCENTAGEM', 'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS'], 60),
-            ('RIDAC', 'DIARIAS_VIAGEM', 50),
+            ('RIDAC', ['DIARIAS_VIAGEM', 'AUXILIO_MORADIA', '1/12_GRATIFICACAO_NATALINA', '1/12_GRATIFICACAO_NATALINA_MES_ANTERIOR', '1/12_DE_1/3_FERIAS'], 50),
         ]
 
         CAMPOS_DIRF = [
@@ -350,6 +350,11 @@ class L10nBrHrDirf(models.Model):
             beneficiario.descricao_rendimentos_isentos = descricao_rio
 
         #
+        #
+        #
+        mensagem_informacao_complementar = ''
+
+        #
         # Beneficiario de Pensao
         #
         if 'PENSAO_ALIMENTICIA_PORCENTAGEM' in rubricas_ativas:
@@ -398,17 +403,12 @@ class L10nBrHrDirf(models.Model):
                 }
 
                 mensagem = \
-                    ' - Pensao alimenticia descontada: ' \
+                    '-Pensao alimenticia: ' \
                     '{nome}, CPF {cpf} TOTAL: R$ {total_pensao} ' \
-                    'Sobre o 13o Salario RS {total_pensao_13} '
+                    'Sobre o 13o Salario RS {total_pensao_13};  '
 
-                informacoes_complementares = mensagem.format(**dados)
+                mensagem_informacao_complementar += mensagem.format(**dados)
 
-                # Adicionar informaçoes complementares uadro 7
-                inf = InformacoesComplementares()
-                inf.cpf_inf = employee_id.cpf
-                inf.informacoes_complementares = informacoes_complementares
-                dirf.add_informarmacaoComplementar(inf)
 
         #
         # Informacoes Complementares (Quadro 7) AUXILIO SAUDE
@@ -417,6 +417,7 @@ class L10nBrHrDirf(models.Model):
         RUBRICAS_SAUDE = [
             'REMBOLSO_SAUDE',
             'REEMBOLSO_AUXILIO_SAUDE_MES_ANTERIOR',
+            'AUXILIO_SAUDE_DIRETOR',
         ]
 
         if 'REMBOLSO_SAUDE' in rubricas_ativas:
@@ -431,15 +432,39 @@ class L10nBrHrDirf(models.Model):
                 'total_saude': formata_valor(total_saude),
             }
 
-            mensagem = \
-                ' - Reembolso Saúde: ' \
-                '{nome}, CPF {cpf}  TOTAL: R$ {total_saude} '
+            mensagem = '-Reembolso de Saúde: R$ {total_saude};  '
 
-            informacoes_complementares = mensagem.format(**dados)
+            mensagem_informacao_complementar += mensagem.format(**dados)
 
+        #
+        # Informacoes Complementares (Quadro 7) Tributos Isentos
+        #
+        rubricas_isentas = filter(lambda x: x[0] == 'RIDAC', RUBRICAS_DIRF)[0]
+
+        mensagem_isentos = []
+
+        for rubrica in rubricas_isentas[1]:
+
+            if rubrica not in rubricas_ativas:
+                continue
+
+            line_ids = holerites_ids.mapped('line_ids').filtered(
+                lambda x: x.code in rubrica)
+            total = formata_valor(sum(line_ids.mapped('total')))
+            name = line_ids[0].name
+
+            if total:
+                mensagem_isentos.append(' {}: {}'.format(name, total))
+
+        if mensagem_isentos:
+            mensagem_isentos = \
+                '-Tributos Isentos: {};'.format(','.join(mensagem_isentos))
+            mensagem_informacao_complementar += mensagem_isentos
+
+        if mensagem_informacao_complementar:
             inf = InformacoesComplementares()
             inf.cpf_inf = employee_id.cpf
-            inf.informacoes_complementares = informacoes_complementares
+            inf.informacoes_complementares = mensagem_informacao_complementar
             dirf.add_informarmacaoComplementar(inf)
 
     @api.multi
