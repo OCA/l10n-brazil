@@ -290,7 +290,7 @@
                     <field name="date_to"/>
                 </field>
 
-                <!--Adicionando campod o periodo-->
+                <!--Adicionando campo de rescisao -->
                 <field name="credit_note" position="before">
                     <field name="dias_aviso_previo"
                            attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])]}"/>
@@ -299,6 +299,7 @@
                     <field name="valor_pgto_aviso_previo_indenizado"
                            attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])],'required': [('tipo_de_folha', 'in', ['aviso_previo','rescisao'])]}"/>
                     <field name="is_simulacao" invisible="1"/>
+                    <field name="company_id" />
                 </field>
                 <field name="credit_note" position="after">
                     <field name="data_afastamento" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])], 'required': [('tipo_de_folha', 'in', ['rescisao', 'rescisao_complementar'])]}"/>
