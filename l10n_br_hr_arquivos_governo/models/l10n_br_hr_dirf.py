@@ -66,8 +66,6 @@ class L10nBrHrDirf(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
-    retificadora = fields.Boolean(string='Retificadora?')
-
     numero_recibo = fields.Char(
         string='Número do recibo',
         help='Número do recibo a retificar. '
@@ -81,11 +79,15 @@ class L10nBrHrDirf(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
+    retificadora = fields.Boolean(string='Retificadora?')
+
     responsible_ddd = fields.Char(string='DDD')
 
     responsible_telefone = fields.Char(string='Telefone')
     
     responsible_ramal = fields.Char(string='Ramal')
+
+    responsible_cnpj_cpf = fields.Char(string='CPF Responsável')
 
     natureza_declarante = fields.Selection(
         selection = [
@@ -119,8 +121,6 @@ class L10nBrHrDirf(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
-
-    responsible_cnpj_cpf = fields.Char(string='CPF Responsável')
 
     @api.onchange('responsible_partner_id')
     def set_contato(self):
@@ -172,34 +172,35 @@ class L10nBrHrDirf(models.Model):
 
             if record.company_id:
 
-                domain = [
-                    ('ano', '=', record.ano_referencia),
-                    ('is_simulacao', '=', False),
-                    ('state', 'in', ['done', 'verify']),
-                    ('company_id', '=', record.company_id.id)
-                ]
+                tipoFolha = ['normal', 'ferias', 'decimo_terceiro', 'rescisao']
 
                 #  Buscar todos holerites do ano
-                holerites_no_ano = self.env['hr.payslip'].search(domain)
+                holerites_no_ano = self.buscar_holerites(
+                    record.ano_referencia, record.company_id,
+                    tipo_folha=tipoFolha)
 
                 # DIRF para todos funcionarios que tiveram rendimentos
                 record.employee_ids = holerites_no_ano.mapped('employee_id')
 
     @api.multi
-    def buscar_holerites(self, employee_id, ano, tipo_folha=[]):
+    def buscar_holerites(self, ano, company_id, employee_id=False, tipo_folha=[]):
         """
-        Buscar holerites de determinado ano
+        Buscar holerites de determinado ano e empresa
         """
         self.ensure_one()
 
         domain = [
-            ('employee_id', '=', employee_id.id),
             ('ano', '=', int(ano)),
             ('is_simulacao', '=', False),
+            ('company_id', '=', company_id.id),
             ('state', 'in', ['done', 'verify']),
         ]
+        if employee_id:
+            domain.append(('employee_id', '=', employee_id.id))
+
         if tipo_folha:
             domain.append(('tipo_de_folha', 'in', tipo_folha))
+
         return self.env['hr.payslip'].search(domain)
 
     @api.multi
