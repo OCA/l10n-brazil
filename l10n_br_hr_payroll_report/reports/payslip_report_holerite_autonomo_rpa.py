@@ -44,12 +44,19 @@ def payslip_autonomo_report(pool, cr, uid, local_context, context):
 
     # Data de pagamento
     if payslip_id.data_pagamento_autonomo:
-
         local_context['data_pagamento'] = \
-            'Data de Pagamento: ' + \
             formata_data(payslip_id.data_pagamento_autonomo)
     else:
         local_context['data_pagamento'] = ''
+
+    # Competencia
+    competencia = dict(payslip_id._fields.get('mes_do_ano').selection).get(
+        payslip_id.mes_do_ano) + ' de ' + str(payslip_id.ano)
+    local_context['competencia'] = competencia
+
+    local_context['footer'] = \
+        u'Telefone: 61-3246-6200 | E-mail: gepes@abgf.gov.br | ' \
+        u'Site: http://www.abgf.gov.br'
 
     # Numero maximo de linhas por holerites, se ultrapassar esse limite será
     # dividido em 2 grupos para ser exibido em uma segunda pagina
