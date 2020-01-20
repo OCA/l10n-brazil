@@ -125,7 +125,6 @@
                     </group>
                     <group name="vinculo_cedente" string="Vínculo cedente" attrs="{'invisible': [('category_code','!=','410')]}">
                         <group>
-                            <!--<field name="funcionario_cedido" />-->
                             <field name="cnpj_empregador_cedente" attrs="{'required': [('category_code','=','410')]}"/>
                             <field name="matricula_cedente" attrs="{'required': [('category_code','=','410')]}"/>
                             <field name="assignor_category_id" attrs="{'required': [('category_code','=','410')]}"

@@ -481,10 +481,6 @@ class HrContract(models.Model):
         ondelete="restrict",
     )
 
-    funcionario_cedido = fields.Boolean(
-        string=u'Funcionário cedido?'
-    )
-
     adiantamento_13_cedente = fields.Float(
         string=u"Antecipação de 13º na Orgiem R$",
         default=0.0,
