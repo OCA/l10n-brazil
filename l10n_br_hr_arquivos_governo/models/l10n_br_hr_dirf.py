@@ -275,7 +275,8 @@ class L10nBrHrDirf(models.Model):
         return True
 
     @api.multi
-    def populate_beneficiario(self, dirf, beneficiario, employee_id, ano, company_id):
+    def populate_beneficiario(self, dirf, beneficiario, employee_id,
+                              ano, company_id):
         """
         :param beneficiario:
         :param employee_id:
@@ -288,17 +289,17 @@ class L10nBrHrDirf(models.Model):
         holerites_ids = self.buscar_holerites(
             ano, company_id, employee_id, tipoFolha)
 
-        print(employee_id.name)
-        if 'orbi' in employee_id.name:
-            pass
-
         rubricas_ativas = holerites_ids.mapped('line_ids.salary_rule_id.code')
 
         RUBRICAS_DIRF = [
             ('RTPO', ['INSS'], 20),
             ('RTIRF', ['IRPF', 'IRPF_FERIAS'], 40),
-            ('RTPA', ['PENSAO_ALIMENTICIA_PORCENTAGEM', 'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS'], 60),
-            ('RIDAC', ['DIARIAS_VIAGEM', 'AUXILIO_MORADIA', '1/12_GRATIFICACAO_NATALINA', '1/12_GRATIFICACAO_NATALINA_MES_ANTERIOR', '1/12_DE_1/3_FERIAS'], 50),
+            ('RTPA', ['PENSAO_ALIMENTICIA_PORCENTAGEM',
+                'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS'], 60),
+            ('RIDAC', ['DIARIAS_VIAGEM', 'AUXILIO_MORADIA',
+                       '1/12_GRATIFICACAO_NATALINA',
+                       '1/12_GRATIFICACAO_NATALINA_MES_ANTERIOR',
+                       '1/12_DE_1/3_FERIAS'], 50),
         ]
 
         CAMPOS_DIRF = [
@@ -315,7 +316,8 @@ class L10nBrHrDirf(models.Model):
             #         not code[1] in rubricas_ativas:
             #     continue
 
-            if not self.ocorrencia_rubrica_no_ano(code, RUBRICAS_DIRF, rubricas_ativas):
+            if not self.ocorrencia_rubrica_no_ano(
+                    code, RUBRICAS_DIRF, rubricas_ativas):
                 continue
 
             vm = ValoresMensais()
@@ -422,7 +424,8 @@ class L10nBrHrDirf(models.Model):
 
         if 'REMBOLSO_SAUDE' in rubricas_ativas:
 
-            line_ids_saude = holerites_ids.mapped('line_ids').filtered(lambda x: x.code in RUBRICAS_SAUDE)
+            line_ids_saude = holerites_ids.mapped('line_ids').filtered(
+                lambda x: x.code in RUBRICAS_SAUDE)
 
             total_saude = sum(line_ids_saude.mapped('total'))
 
@@ -571,4 +574,3 @@ class L10nBrHrDirf(models.Model):
             dirf.add_beneficiario(beneficiario)
 
         self.dirf = str(dirf)
-        print(dirf)
