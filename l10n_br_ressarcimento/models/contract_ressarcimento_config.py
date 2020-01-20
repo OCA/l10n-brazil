@@ -123,7 +123,7 @@ class ContractRessarcimentoConfig(models.Model):
         # força self buscar o primeiro registro
         self = self.browse(1)
 
-        # Exclui da lista contratos expirados
+        # Exclui da lista contratos encerrados
         self.exclui_contratos_expirados()
 
         # pega mês/ano anterior
