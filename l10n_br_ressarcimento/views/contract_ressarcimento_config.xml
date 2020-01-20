@@ -16,24 +16,29 @@
                             name="salvar_config" class="oe_highlight"/>
                     </header>
                     <sheet>
-                        <separator string="Alertas via e-mail" />
-                        <label for="contract_ressarcimento_config_line_ids" string="Contratos e data limite"/>
-                        <field name="contract_ressarcimento_config_line_ids" nolabel="1" widget="one2many_list">
-                            <tree editable="bottom">
-                                <field name="contract_id" />
-                                <field name="dia_limite" />
-                            </tree>
-                        </field>
-                        <br />
-                        <br />
-                        <label for="partner_ids" string="Parceiros para alertar no dia limite" />
-                        <field name="partner_ids" options="{'no_create': 1}" required="1" widget="many2many_tags"/>
+                        <separator string="Contratos Monitorados" />
                         <group>
+                            <label for="contract_ressarcimento_config_line_ids" string="Contratos e data limite" />
+                            <newline />
+                            <field name="contract_ressarcimento_config_line_ids" nolabel="1" widget="one2many_list">
+                                <tree editable="bottom">
+                                    <field name="contract_id" />
+                                    <field name="dia_limite" />
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group string="Alertas via e-mail">
+                            <field name="partner_ids" options="{'no_create': 1}" required="1" widget="many2many_tags"/>
                             <field name="dias_apos_provisao" required="1" />
                         </group>
-                        <separator string="Notificação de mudança de status" />
-                        <label for="nt_st_partner_ids" string="Parceiros para notificar mudança de status(Default)"/>
-                            <field name="nt_st_partner_ids" required="1" widget="many2many_tags" />
+
+                        <group string="Notificação de mudança de status" >
+                            <label for="nt_st_partner_ids" string="Parceiros para notificar mudança de status(Default)"/>
+                            <newline />
+                            <field name="nt_st_partner_ids" nolabel="1" required="1" widget="many2many_tags" />
+                        </group>
+
                     </sheet>
                 </form>
             </field>
