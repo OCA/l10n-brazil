@@ -295,7 +295,7 @@ class L10nBrHrDirf(models.Model):
         rubricas_ativas = holerites_ids.mapped('line_ids.salary_rule_id.code')
 
         RUBRICAS_DIRF = [
-            ('RTPO', ['INSS', 'INSS_FERIAS_DA_COMPETENCIA'], 20),
+            ('RTPO', ['INSS'], 20),
             ('RTIRF', ['IRPF', 'IRPF_FERIAS'], 40),
             ('RTPA', ['PENSAO_ALIMENTICIA_PORCENTAGEM', 'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS'], 60),
             ('RIDAC', ['DIARIAS_VIAGEM', 'AUXILIO_MORADIA', '1/12_GRATIFICACAO_NATALINA', '1/12_GRATIFICACAO_NATALINA_MES_ANTERIOR', '1/12_DE_1/3_FERIAS'], 50),
