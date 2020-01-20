@@ -1763,27 +1763,24 @@ class HrPayslip(models.Model):
         :return: Retorna a linha do adiantamento de 13º existente no aviso
         de férias
         """
-        payslips_id = self.search(
-            [
-                ('tipo_de_folha', '=', 'ferias'),
-                ('contract_id', '=', self.contract_id.id),
-                ('date_from', '>=', str(self.ano) + '-01-01'),
-                ('date_to', '<=', self.date_to),
-                ('state', 'in', ['done', 'verify']),
-                ('is_simulacao', '=', False),
-            ]
-        )
-        salary_rule_id = self.env['hr.salary.rule'].search(
-            [
-                ('code', '=', 'ADIANTAMENTO_13')
-            ]
-        )
-        payslip_line_id = self.env['hr.payslip.line'].search(
-            [
-                ('slip_id', 'in', payslips_id.ids),
-                ('salary_rule_id', '=', salary_rule_id.id),
-            ]
-        )
+        payslips_id = self.search([
+            ('tipo_de_folha', '=', 'ferias'),
+            ('contract_id', '=', self.contract_id.id),
+            ('date_from', '>=', str(self.ano) + '-01-01'),
+            ('date_to', '<=', self.date_to),
+            ('state', 'in', ['done', 'verify']),
+            ('is_simulacao', '=', False),
+        ])
+
+        salary_rule_id = self.env['hr.salary.rule'].search([
+            ('code', '=', 'ADIANTAMENTO_13')
+        ])
+
+        payslip_line_id = self.env['hr.payslip.line'].search([
+            ('slip_id', 'in', payslips_id.ids),
+            ('salary_rule_id', '=', salary_rule_id.id),
+        ])
+
         return payslip_line_id
 
     @profile
