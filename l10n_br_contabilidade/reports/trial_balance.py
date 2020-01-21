@@ -64,8 +64,11 @@ def _get_account_details(self, account_ids, target_move, fiscalyear,
          'balance', 'parent_id', 'level', 'child_id', 'natureza_conta_id'],
         context=ctx)
 
+    lancamento_de_fechamento = context.get('lancamento_de_fechamento', False)
+
     if de_para_id:
-        accounts = _get_debit_credit_balance_de_para(self, accounts, period_ids)
+        accounts = _get_debit_credit_balance_de_para(
+            self, accounts, period_ids, lancamento_de_fechamento)
 
     accounts_by_id = {}
     for account in accounts:
@@ -238,7 +241,7 @@ def get_lancamentos_ramos(self, cr, uid, natureza_init_balance_accounts,
     return account_by_ramos
 
 
-def _get_debit_credit_balance_de_para(self, accounts, period_ids):
+def _get_debit_credit_balance_de_para(self, accounts, period_ids, lancamento_de_fechamento):
     account_dict_ids = _get_account_details_dict(accounts)
     for account in reversed(accounts):
         account_id = self.pool.get('account.account').browse(
@@ -253,13 +256,19 @@ def _get_debit_credit_balance_de_para(self, accounts, period_ids):
                 de_para = self.pool.get('account.depara').browse(
                     self.cr, self.uid, de_para_id)
                 for account_sistema_id in de_para.conta_sistema_id:
+
+                    domain = [
+                        ('account_id', '=', account_sistema_id.id),
+                        ('period_id', 'in', period_ids),
+                        ('state', '!=', 'cancel')]
+
+                    if not lancamento_de_fechamento:
+                        domain.append(
+                            ('move_id.lancamento_de_fechamento', '=',
+                             lancamento_de_fechamento)
+                        )
                     partida_ids = self.pool.get('account.move.line').search(
-                        self.cr, self.uid,
-                        [
-                            ('account_id', '=', account_sistema_id.id),
-                            ('period_id', 'in', period_ids),
-                            ('state', '!=', 'cancel'),
-                        ])
+                        self.cr, self.uid, domain)
                     partidas = self.pool.get('account.move.line').browse(
                         self.cr, self.uid, partida_ids)
                     if partidas:
