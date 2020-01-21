@@ -56,7 +56,7 @@ class AbstractSpecMixin(models.AbstractModel):
         # Remember to replace with generators
         xml_required_fields = [
             i for i in self.env[class_name]._fields if
-            self.env[class_name]._fields[i]._attrs.get('xsd_required')
+            self.env[class_name]._fields[i]._attrs.get('xsd')
         ]
 
         kwargs = {}
@@ -70,6 +70,9 @@ class AbstractSpecMixin(models.AbstractModel):
             field_spec_name = xml_required_field.replace('nfe40_', '')
             member_spec = ds_class_sepc[field_spec_name]
 
+            # if not self[xml_required_field]:
+            #     continue
+
             # print(self[xml_required_field])
             # print(xml_required_field)
             # print(self._fields[xml_required_field].type)
@@ -82,8 +85,12 @@ class AbstractSpecMixin(models.AbstractModel):
                     )
                 else:
                     # continue
-                    field_data = self._build_generateds(
-                        class_obj._fields[xml_required_field].comodel_name)
+                    try:
+                        field_data = self._build_generateds(
+                            class_obj._fields[xml_required_field].comodel_name)
+                    except:
+                        field_data = self[xml_required_field]._build_generateds(
+                            class_obj._fields[xml_required_field].comodel_name)
             elif self._fields[xml_required_field].type == 'one2many':
                 relational_data = []
                 for relational_field in self[xml_required_field]:
@@ -94,11 +101,13 @@ class AbstractSpecMixin(models.AbstractModel):
                     )
                 field_data = relational_data
             elif self._fields[xml_required_field].type == 'datetime' and self[xml_required_field]:
-                field_data = fields.Datetime.context_timestamp(
+                field_data = str(fields.Datetime.context_timestamp(
                     self,
                     fields.Datetime.from_string(self[xml_required_field])
-                ).isoformat('T')
-            elif self._fields[xml_required_field].type in ('float', 'monetary') and self[xml_required_field]:
+                ).isoformat('T'))
+            elif self._fields[xml_required_field].type == 'date' and self[xml_required_field]:
+                field_data = str(self[xml_required_field])
+            elif self._fields[xml_required_field].type in ('float', 'monetary') and self[xml_required_field] is not False:
                 if member_spec.data_type[0]:
                     TDec = ''.join(filter(lambda x: x.isdigit(),
                                           member_spec.data_type[0]))[-2:]
