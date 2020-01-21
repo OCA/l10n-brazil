@@ -78,15 +78,9 @@ class HrPayslip(models.Model):
         ).mapped('total')) or 0
 
         # Montar a base tribuavel de ferias
-        ferias = ['FERIAS_COMPETENCIA_ATUAL', '1/3_FERIAS_COMPETENCIA_ATUAL']
+        ferias = ['FERIAS', '1/3_FERIAS']
         base_ferias = sum(self.line_ids.filtered(
             lambda x: x.code in ferias).mapped('total')) or 0
-
-        # Holerites antigos utilizam o codigo antigo
-        if not base_ferias:
-            ferias = ['FERIAS', '1/3_FERIAS']
-            base_ferias = sum(self.line_ids.filtered(
-                lambda x: x.code in ferias).mapped('total')) or 0
 
         # Definir BASE bruta do IR
         self.rendimentos_tributaveis = provento + base_ferias - deducao
