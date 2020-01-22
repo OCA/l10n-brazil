@@ -245,12 +245,11 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
 
         # Popula ideVinculo
         employee_id = self.sped_hr_rescisao_id.contract_id.employee_id
-        S2299.evento.ideVinculo.cpfTrab.valor = limpa_formatacao(
-            employee_id.cpf
-        )
-        S2299.evento.ideVinculo.nisTrab.valor = limpa_formatacao(
-            employee_id.pis_pasep
-        )
+        S2299.evento.ideVinculo.cpfTrab.valor = \
+            limpa_formatacao(employee_id.cpf)
+        S2299.evento.ideVinculo.nisTrab.valor = \
+            limpa_formatacao(employee_id.pis_pasep)
+
         S2299.evento.ideVinculo.matricula.valor = \
             self.sped_hr_rescisao_id.contract_id.matricula
 
