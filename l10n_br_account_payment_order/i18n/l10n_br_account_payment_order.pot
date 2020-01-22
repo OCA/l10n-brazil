@@ -19,11 +19,6 @@ msgid "Bank Accounts"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_boleto
-msgid "Boleto Bancario"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br-account_payment_mode_form
 msgid "Configurações Brasileiras"
 msgstr ""
