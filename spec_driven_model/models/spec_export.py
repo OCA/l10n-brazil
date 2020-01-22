@@ -1,5 +1,6 @@
 # Copyright 2019 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+import logging
 
 from odoo import api, models, fields
 from nfelib.v4_00 import leiauteNFe
@@ -8,6 +9,8 @@ try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
+
+_logger = logging.getLogger(__name__)
 
 
 class AbstractSpecMixin(models.AbstractModel):
@@ -23,20 +26,21 @@ class AbstractSpecMixin(models.AbstractModel):
 
         for xsd_field in xsd_fields:
             # TODO: Export number required fields with Zero.
-            # xsd_required = self.env[class_name]._fields[xsd_field]._attrs.get(
-            #     'xsd_required')
-
+            xsd_required = class_obj._fields[xsd_field]._attrs.get(
+                'xsd_required')
             # FIXME: xsd_field.replace(class_obj._field_prefix, '')
             field_spec_name = xsd_field.replace('nfe40_', '')
             member_spec = ds_class_sepc[field_spec_name]
 
-            # if not self[xsd_field]:
-            #     continue
-
-            # print(self[xsd_field])
-            # print(xsd_field)
-            # print(self._fields[xsd_field].type)
-            # print(member_spec.data_type[0])
+            if __debug__:
+                _logger.info(
+                    "Field: %s, xsd_required=%s, type(%s)/%s = %s",
+                    xsd_field,
+                    xsd_required,
+                    self._fields[xsd_field].type,
+                    member_spec.data_type[0],
+                    self[xsd_field]
+                )
 
             if self._fields[xsd_field].type == 'many2one':
                 field_data = self._export_many2one(xsd_field, class_obj)
@@ -55,7 +59,9 @@ class AbstractSpecMixin(models.AbstractModel):
             if not self[xsd_field] and not field_data:
                 continue
 
-            # print(field_data)
+            if __debug__:
+                _logger.info("Export: %s", field_data)
+
             export_dict[field_spec_name] = field_data
 
     def _export_many2one(self, field_name, class_obj=None):
