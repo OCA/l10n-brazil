@@ -105,7 +105,7 @@ msgid "ID"
 msgstr "EU IRIA"
 
 #. module: l10n_br_hr_contract
-#: code:addons/l10n_br_hr_contract/models/hr_contract.py:114
+#: code:addons/l10n_br_hr_contract/models/hr_contract.py:111
 #, python-format
 msgid "Invalid union CNPJ!"
 msgstr ""
