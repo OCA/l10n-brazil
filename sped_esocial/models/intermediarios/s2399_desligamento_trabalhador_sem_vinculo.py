@@ -258,6 +258,15 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         S2399.evento.infoTSVTermino.dtTerm.valor = self.hr_contract_id.date_end
         if rescisao_id.contract_id.category_id.code in ['721', '722', '410']:
 
+            # Indicativo de pensão alimentícia para fins de retenção de FGTS
+            S2399.evento.infoTSVTermino.pensAlim.valor = self.pens_alim
+            if self.pens_alim in ['1', '3']:
+                S2399.evento.infoTSVTermino.percAliment.valor = \
+                    str(self.perc_aliment)
+            if self.pens_alim in ['2', '3']:
+                S2399.evento.infoTSVTermino.vrAlim.valor = \
+                    str(self.vr_alim)
+
             if rescisao_id.contract_id.category_id.code in ['721']:
                 S2399.evento.infoTSVTermino.mtvDesligTSV.valor = \
                     rescisao_id.mtv_deslig_esocial.codigo
