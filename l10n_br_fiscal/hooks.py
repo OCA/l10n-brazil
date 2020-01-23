@@ -33,7 +33,12 @@ def post_init_hook(cr, registry):
             report=None,
         )
 
-    demofiles = ["demo/company_demo.xml", "demo/product_demo.xml"]
+    demofiles = [
+        "demo/company_demo.xml",
+        "demo/product_demo.xml",
+        "demo/partner_demo.xml",
+        "demo/l10n_br_fiscal_document_demo.xml",
+    ]
 
     for f in demofiles:
         convert_file(
