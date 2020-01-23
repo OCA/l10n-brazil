@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 # (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
+# (c) 2020 ABGF - Hendrix Costa <hendrix.costa@abgf.gov.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
 
-from openerp import exceptions, _
 from openerp import api, fields, models
+from openerp import exceptions, _
 
 _logger = logging.getLogger(__name__)
 
@@ -22,29 +23,68 @@ class L10nBrHrSocialTax(models.Model):
     _order = 'year desc, max_wage'
 
     year = fields.Integer(string='Year', required=True)
+
+    start_period_id = fields.Many2one(
+        string=u'Período Inicial',
+        comodel_name='account.period',
+        domain=[('special', '=', False)],
+        required=True,
+    )
+
+    end_period_id = fields.Many2one(
+        string=u'Período Final',
+        comodel_name='account.period',
+        domain=[('special', '=', False)],
+        required=True,
+    )
+
     min_wage = fields.Float(string='Min Wage', required=True)
+
     max_wage = fields.Float(string='Wage up to', required=True)
+
     rate = fields.Float(
         string='Rate (%)',
         help='Valor em percentagem. Ex.: 8% | 9%',
-        required=True)
+        required=True,
+    )
+
+    @api.onchange('year')
+    def onchange_year(self):
+        """
+        """
+        for record in self:
+            if record.year:
+                record.start_period_id = self.env['account.period'].\
+                    find('{}-01-01'.format(record.year))
+                record.end_period_id = self.env['account.period'].\
+                    find('{}-12-01'.format(record.year))
+            else:
+                record.start_period_id = False
+                record.end_period_id = False
+
+    def find(self, date_from):
+        """
+        :param period_id:
+        :return:
+        """
+        faixas_vigentes_ids = self.search([
+            ('start_period_id.date_start', '<=', date_from),
+            ('end_period_id.date_stop', '>=', date_from),
+        ])
+
+        return faixas_vigentes_ids
 
     @api.multi
     def name_get(self):
         result = []
-
         for record in self:
-            name = str(self.year).zfill(4)
-            # name += ' - ' + str(self.max_wage).replace('.', ',')
-            # name += ' - ' + str(self.amount).replace('.', ',')
+            name = str(record.year).zfill(4)
             result.append((record['id'], name))
-
         return result
 
     def _compute_inss(self, BASE_INSS, date_from):
         ano = fields.Datetime.from_string(date_from).year
-        tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
-        tabela_vigente = tabela_inss_obj.search([('year', '=', ano)])
+        tabela_vigente = self.find(date_from)
 
         if tabela_vigente:
             for faixa in tabela_vigente:
@@ -61,5 +101,4 @@ class L10nBrHrSocialTax(models.Model):
 
         else:
             raise exceptions.Warning(
-                _('Tabela de INSS do ano Vigente Não encontrada!'))
-            # _logger.info("Não encontrada tabelas de INSS do ano de " + ano)
+                _('Tabela de INSS do ano {} Não encontrada!'.format(ano)))
