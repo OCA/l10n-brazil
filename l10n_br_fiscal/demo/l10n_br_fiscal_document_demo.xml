@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_same_state">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
+        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
+        <!-- onchange don't filled the fields below -->
+        <field name="partner_legal_name">Cliente 1 SP</field>
+        <field name="partner_name">Cliente 1 SP Contribuinte</field>
+        <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
+        <field name="partner_inscr_est">454.504.604.553</field>
+        <field name="partner_tax_framework">3</field>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_same_state_1-1">
+        <field name="document_id" ref="demo_nfe_same_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_same_state_1-2">
+        <field name="document_id" ref="demo_nfe_same_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <!-- NFe Test - Empresa Contribuinte - Outro Estado -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_other_state">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe"/>
+        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
+        <!-- onchange don't filled the fields below -->
+        <field name="partner_legal_name">Cliente 5 PE</field>
+        <field name="partner_name">Cliente 5 - Contribuinte - PE</field>
+        <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
+        <field name="partner_inscr_est">8700737-10</field>
+        <field name="partner_tax_framework">3</field>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_other_state_2-1">
+        <field name="document_id" ref="demo_nfe_other_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_same_state_2-2">
+        <field name="document_id" ref="demo_nfe_same_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <!-- NFe Test - Empresa Contribuinte - Exterior -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_export">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="base.res_partner_2"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_export_3-1">
+        <field name="document_id" ref="demo_nfe_export"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_export_3-2">
+        <field name="document_id" ref="demo_nfe_export"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PJ -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_nao_contribuinte">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg"/>
+        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
+        <!-- onchange don't filled the fields below -->
+        <field name="partner_legal_name">Cliente 9 MG</field>
+        <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
+        <field name="partner_cnpj_cpf">	26.355.289/0001-55</field>
+        <field name="partner_tax_framework">3</field>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_nao_contribuinte_4-1">
+        <field name="document_id" ref="demo_nfe_nao_contribuinte"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_nao_contribuinte_4-2">
+        <field name="document_id" ref="demo_nfe_nao_contribuinte"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <!-- NFe Test - Empresa Simples Nacional - Mesmo Estado -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_same_state">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
+        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
+        <!-- onchange don't filled the fields below -->
+        <field name="partner_legal_name">Cliente 1 SP</field>
+        <field name="partner_name">Cliente 1 SP Contribuinte</field>
+        <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
+        <field name="partner_inscr_est">454.504.604.553</field>
+        <field name="partner_tax_framework">3</field>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_same_state_5-1">
+        <field name="document_id" ref="demo_nfe_sn_same_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_same_state_5-2">
+        <field name="document_id" ref="demo_nfe_sn_same_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_other_state">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe"/>
+        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
+        <!-- onchange don't filled the fields below -->
+        <field name="partner_legal_name">Cliente 5 PE</field>
+        <field name="partner_name">Cliente 5 - Contribuinte - PE</field>
+        <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
+        <field name="partner_inscr_est">8700737-10</field>
+        <field name="partner_tax_framework">3</field>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_other_state_6-1">
+        <field name="document_id" ref="demo_nfe_sn_other_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_other_state_6-2">
+        <field name="document_id" ref="demo_nfe_sn_other_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <!-- NFe Test - Empresa Simples Nacional - Exterior -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_export">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="base.res_partner_2"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_export_7-1">
+        <field name="document_id" ref="demo_nfe_sn_export"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_export_7-2">
+        <field name="document_id" ref="demo_nfe_sn_export"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
+    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_nao_contribuinte">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="key">1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg"/>
+        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
+        <!-- onchange don't filled the fields below -->
+        <field name="partner_legal_name">Cliente 9 MG</field>
+        <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
+        <field name="partner_cnpj_cpf">	26.355.289/0001-55</field>
+        <field name="partner_tax_framework">3</field>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_nao_contribuinte_7-1">
+        <field name="document_id" ref="demo_nfe_sn_other_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_nao_contribuinte_7-2">
+        <field name="document_id" ref="demo_nfe_sn_other_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">in</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
+    </record>
+
+</odoo>
