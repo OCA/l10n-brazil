@@ -288,23 +288,27 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
 
             # Verbas rescisórias do trabalhador
             for rubrica_line in rescisao_id.line_ids:
-                if rubrica_line.salary_rule_id.category_id.id in (
-                        self.env.ref('hr_payroll.PROVENTO').id,
-                        self.env.ref('hr_payroll.DEDUCAO').id
-                ):
-                    if rubrica_line.salary_rule_id.code != 'PENSAO_ALIMENTICIA':
+                if rubrica_line.salary_rule_id.nat_rubr:
+                    if rubrica_line.salary_rule_id.cod_inc_irrf_calculado not in \
+                            ['31', '32', '33', '34', '35', '51', '52', '53',
+                             '54', '55', '81', '82', '83']:
                         if rubrica_line.total > 0:
 
-                            det_verbas = \
-                                pysped.esocial.leiaute.S2399_DetVerbas_2()
+                            det_verbas = pysped.esocial.leiaute.S2399_DetVerbas_2()
                             det_verbas.codRubr.valor = \
                                 rubrica_line.salary_rule_id.codigo
                             det_verbas.ideTabRubr.valor = \
                                 rubrica_line.salary_rule_id.identificador
-                            # det_verbas.qtdRubr.valor = ''
-                            # det_verbas.fatorRubr.valor = ''
-                            # det_verbas.vrunit.valor = ''
-                            det_verbas.vrRubr.valor = str(rubrica_line.total)
+                            if rubrica_line.quantity and float(
+                                    rubrica_line.quantity) != 1:
+                                det_verbas.qtdRubr.valor = float(
+                                    rubrica_line.quantity)
+                                det_verbas.vrUnit.valor = float(
+                                    rubrica_line.amount)
+                            if rubrica_line.rate and rubrica_line.rate != 100:
+                                det_verbas.fatorRubr.valor = rubrica_line.rate
+                            det_verbas.vrRubr.valor = str(
+                                rubrica_line.total)
                             ide_estab_lot.detVerbas.append(det_verbas)
 
             # evtTSVAltContr.infoTSVTermino.VerbasResc.DmDev.
