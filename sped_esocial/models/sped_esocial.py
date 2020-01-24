@@ -1532,7 +1532,7 @@ class SpedEsocial(models.Model):
     # Controle de registros S-2399
     desligamento_sem_vinculo_ids = fields.Many2many(
         string='Desligamentos Sem Vínculo',
-        comodel_name='hr.contract',
+        comodel_name='sped.hr.rescisao.autonomo',
     )
     necessita_s2399 = fields.Boolean(
         string='Necessita S2399',
@@ -1573,7 +1573,7 @@ class SpedEsocial(models.Model):
             necessita_s2399 = False
             msg_desligamentos = False
             for desligamento in esocial.desligamento_sem_vinculo_ids:
-                if desligamento.situacao_s2399 not in ['4']:
+                if desligamento.situacao_esocial not in ['4']:
                     necessita_s2399 = True
                     msg_desligamentos = 'Pendências não enviadas ao e-Social'
             if not msg_desligamentos and \
