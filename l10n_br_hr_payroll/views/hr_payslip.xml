@@ -219,7 +219,7 @@
                 <!--Redefinindo campo de Estrutura-->
                 <field name="struct_id" position="replace">
                     <field name="struct_id"
-                           attrs="{'readonly': [('tipo_de_folha', '!=', 'rescisao')]}"
+                           attrs="{'readonly': [('tipo_de_folha', 'not in', ['rescisao', 'rescisao_complementar'])]}"
                            domain="[('tipo_estrutura', '=', tipo_de_folha)]" />
                     <field name="salary_unit_code" invisible="1" />
                     <field name="valor_tarefa" attrs="{'invisible': [('salary_unit_code', '!=', '6')], 'required': [('salary_unit_code', '=', '6')], 'readonly': [('state','!=','draft')]}" />

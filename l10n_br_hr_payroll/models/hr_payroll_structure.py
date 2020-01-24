@@ -163,6 +163,7 @@ class HrPayrollStructure(models.Model):
             ('adiantamento_13', u'Adiantamento do 13º'),
             ('segunda_parcela_13', u'Segunda Parcela do 13º'),
             ('rescisao', u'Rescisão'),
+            ('rescisao_complementar', u'Rescisão Complementar'),
             ('base', u'Base')
         ],
         string=u'Tipo de Estrutura de Salários',
