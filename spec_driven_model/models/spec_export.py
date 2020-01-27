@@ -43,7 +43,13 @@ class AbstractSpecMixin(models.AbstractModel):
                 )
 
             if self._fields[xsd_field].type == 'many2one':
+                if not self[xsd_field] and not xsd_required:
+                    if class_obj._fields[xsd_field].comodel_name \
+                            not in self._get_spec_classes():
+                        continue
                 field_data = self._export_many2one(xsd_field, class_obj)
+            elif not self[xsd_field] and not xsd_required:
+                continue
             elif self._fields[xsd_field].type == 'one2many':
                 field_data = self._export_one2many(xsd_field, class_obj)
             elif self._fields[xsd_field].type == 'datetime' and self[xsd_field]:
