@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend" inherit_id="web.assets_frontend" name="Portal Assets" priority="15">
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/l10n_br_portal/static/lib/cleave/cleave.min.js"></script>
+            <script type="text/javascript" src="/l10n_br_portal/static/src/js/l10n_br_portal.js"></script>
+            <script type="text/javascript" src="/l10n_br_portal/static/src/js/l10n_br_portal_tour.js"></script>
+        </xpath>
+    </template>
+
+</odoo>
