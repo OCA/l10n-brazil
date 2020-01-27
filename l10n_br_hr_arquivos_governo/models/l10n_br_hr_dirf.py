@@ -293,6 +293,7 @@ class L10nBrHrDirf(models.Model):
 
         RUBRICAS_DIRF = [
             ('RTPO', ['INSS', 'PSS'], 20),
+            ('RTPP', ['PREV_SUPLEMENTAR'], 25),
             ('RTIRF', ['IRPF', 'IRPF_FERIAS'], 40),
             ('RTPA', ['PENSAO_ALIMENTICIA_PORCENTAGEM',
                 'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS'], 60),
