@@ -245,7 +245,9 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
                 self.company_id.cnpj_cpf)[0:8]
 
         # evtTSVTermino.ideTrabSemVinculo
-        employee_id = self.sped_hr_rescisao_id.contract_id.employee_id or self.hr_contract_id.employee_id
+        employee_id = self.sped_hr_rescisao_id.contract_id.employee_id or \
+                      self.hr_contract_id.employee_id
+
         S2399.evento.ideTrabSemVinculo.cpfTrab.valor = \
             limpa_formatacao(employee_id.cpf)
         S2399.evento.ideTrabSemVinculo.nisTrab.valor = \
@@ -253,8 +255,15 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
         S2399.evento.ideTrabSemVinculo.codCateg.valor = \
             self.hr_contract_id.category_id.code
 
-        # evtTSVTermino.infoTSVTermino
+        domain = [
+            ('contract_id', '=', self.sped_hr_rescisao_id.contract_id.id),
+            ('tipo_de_folha', '=', 'rescisao_complementar'),
+        ]
+
+        rescisao_complementar_id = self.sped_hr_rescisao_id.search(domain)
         rescisao_id = self.sped_hr_rescisao_id
+
+        # evtTSVTermino.infoTSVTermino
         S2399.evento.infoTSVTermino.dtTerm.valor = self.hr_contract_id.date_end
         if rescisao_id.contract_id.category_id.code in ['721', '722', '410']:
 
@@ -287,7 +296,8 @@ class SpedHrRescisaoAutonomo(models.Model, SpedRegistroIntermediario):
                 rescisao_id.company_id.cod_lotacao
 
             # Verbas rescisórias do trabalhador
-            for rubrica_line in rescisao_id.line_ids:
+            for rubrica_line in \
+                    rescisao_id.line_ids + rescisao_complementar_id.line_ids:
                 if rubrica_line.salary_rule_id.nat_rubr:
                     if rubrica_line.salary_rule_id.cod_inc_irrf_calculado not in \
                             ['31', '32', '33', '34', '35', '51', '52', '53',

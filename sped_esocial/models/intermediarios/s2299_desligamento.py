@@ -258,6 +258,13 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         infoDeslig = S2299.evento.infoDeslig
         rescisao_id = self.sped_hr_rescisao_id
 
+        domain = [
+            ('contract_id', '=', self.sped_hr_rescisao_id.contract_id.id),
+            ('tipo_de_folha', '=', 'rescisao_complementar'),
+        ]
+        rescisao_complementar_id = self.sped_hr_rescisao_id.search(domain)
+
+
         infoDeslig.mtvDeslig.valor = rescisao_id.mtv_deslig_esocial.codigo
         infoDeslig.dtDeslig.valor = rescisao_id.date_to
         if rescisao_id.valor_pgto_aviso_previo_indenizado:
@@ -296,7 +303,8 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         cod_funcionario = True if rescisao_id.contract_id.category_id.code != '410' else False
         rubricas_convencao_coletiva = {}
 
-        for rubrica_line in rescisao_id.line_ids:
+        for rubrica_line in \
+                rescisao_id.line_ids + rescisao_complementar_id.line_ids:
             # if rubrica_line.salary_rule_id.category_id.id in (
             #         self.env.ref('hr_payroll.PROVENTO').id,
             #         self.env.ref('hr_payroll.DEDUCAO').id
