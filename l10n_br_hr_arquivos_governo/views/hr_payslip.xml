@@ -12,13 +12,13 @@
             <field name="arch" type="xml">
 
                 <button name="hr_verify_sheet" position="after">
-                    <button name='button_update_valores_IR' string='Atualizar Valores IR' type='object'/>
+                    <button name='button_update_valores_IR' string='Atualizar Valores IR' type='object' groups="base.group_hr_user,base.group_hr_manager"/>
                 </button>
 
                 <field name="credit_note" position="after">
-                        <field name="quantidade_dependente" readonly="1"/>
-                        <field name="rendimentos_tributaveis" readonly="1"/>
-                        <field name="valor_total_dependente" readonly="1"/>
+                        <field name="quantidade_dependente" readonly="1" groups="base.group_hr_user,base.group_hr_manager"/>
+                        <field name="rendimentos_tributaveis" readonly="1" groups="base.group_hr_user,base.group_hr_manager"/>
+                        <field name="valor_total_dependente" readonly="1" groups="base.group_hr_user,base.group_hr_manager"/>
                 </field>
                 <xpath expr="//notebook" position="inside">
                     <page string="GRRF"
