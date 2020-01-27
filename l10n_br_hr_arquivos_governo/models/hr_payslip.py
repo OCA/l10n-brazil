@@ -78,7 +78,10 @@ class HrPayslip(models.Model):
         ).mapped('total')) or 0
 
         # Montar a base tribuavel de ferias
-        ferias = ['FERIAS', '1/3_FERIAS', '1/3_FERIAS_S_ONUS']
+        ferias = [
+            'FERIAS', '1/3_FERIAS', '1/3_FERIAS_S_ONUS',
+            'DIF_MEDIA_SALARIO_FERIAS', '1/3_DIF_MEDIA_SUBSTITUICAO_FERIAS'
+        ]
         base_ferias = sum(self.line_ids.filtered(
             lambda x: x.code in ferias).mapped('total')) or 0
 
