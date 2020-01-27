@@ -15,10 +15,7 @@
     ],
     'data': [
         'views/assets.xml',
-
         'views/portal_templates.xml',
-    ],
-    'demo': [
     ],
     'auto_install': True,
 }
