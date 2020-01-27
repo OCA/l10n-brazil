@@ -62,7 +62,7 @@ class HrPayslip(models.Model):
             valores[rubrica] = self.line_ids.filtered(
                 lambda x: x.code == rubrica).total or 0
 
-        if not valores.get('BASE_IRPF'):
+        if not valores.get('BASE_IRPF') and not self.tipo_de_folha == 'ferias':
             return valores
 
         # Buscar provento que compoe BASE de imposto de renda
