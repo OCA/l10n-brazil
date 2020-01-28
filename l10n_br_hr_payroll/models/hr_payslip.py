@@ -3204,6 +3204,7 @@ class HrPayslip(models.Model):
             ('mes_do_ano', '=', self.mes_do_ano),
             ('ano', '=', self.ano),
             ('contract_id', '=', self.contract_id.id),
+            ('is_simulacao','=', False),
         ])
 
         total_bruto = 0.0
