@@ -41,6 +41,7 @@ class InformacoesComplementares():
         def __str__(self):
             return 'INF - {}'.format(self.cpf_inf)
 
+
 class Beneficiario():
 
     def __init__(self):
@@ -150,6 +151,45 @@ class Beneficiario():
         return ''
 
 
+class GrupoCodigoReceita():
+
+    def __init__(self):
+        self.identificador_de_registro_idrec = 'IDREC'
+        self.codigo_da_receita = ''
+
+        # 3.6 Registro de beneficiário pessoa física do declarante
+        # (identificador BPFDEC)
+        self.bpfdec = []
+
+    @property
+    def BPFDEC(self):
+        dirf = DIRF()
+        beneficiario = ''
+        for record in self.bpfdec:
+            bpfdec = dirf._validar(record.identificador_de_registro_bpfdec, 6)
+            bpfdec += dirf._validar(record.cpf_bpfdec, 11, tipo='N')
+            bpfdec += dirf._validar(record.nome_bpfdec, 60, tipo='A', preenchimento='variavel', caixaAlta='S')
+            bpfdec += dirf._validar(record.data_laudo, 1, tipo='A', preenchimento='variavel')
+            bpfdec += dirf._validar(record.identificacao_alimentado_bpfdec, 1, tipo='A')
+            bpfdec += dirf._validar(record.identificacao_previdencia_complementar, 1, tipo='A')
+            bpfdec += '\n'
+            bpfdec += record.VALORESMENSAIS
+            bpfdec += record.RENDIMENTOSISENTOS
+            # bpfdec += record.INFPA
+            beneficiario += bpfdec
+        return beneficiario
+
+    def add_beneficiario(self, bpfdec):
+        """
+        :param bpfdec: class BPFDEC
+        """
+        if not isinstance(bpfdec, Beneficiario):
+            raise ('Parâmetro no formato incorreto! Para adicionar '
+                   'beneficiário utilize a classe ```Beneficiario``` ')
+        self.bpfdec.append(bpfdec)
+        self.bpfdec.sort(key=lambda x: x.cpf_bpfdec)
+
+
 class DIRF(AbstractArquivosGoverno):
 
     def __init__(self, *args, **kwargs):
@@ -210,12 +250,11 @@ class DIRF(AbstractArquivosGoverno):
 
         # 3.5 Registro de identificação do código de receita
         # (identificador IDREC)
-        self.identificador_de_registro_idrec = 'IDREC'
-        self.codigo_da_receita = ''
+        self.grupoFuncionarioPorCodigoReceita = []
 
         # 3.6 Registro de beneficiário pessoa física do declarante
         # (identificador BPFDEC)
-        self.bpfdec = []
+
 
         # 3.7 Registro de beneficiário pessoa jurídica do declarante
         # (identificador BPJDEC)
@@ -426,7 +465,6 @@ class DIRF(AbstractArquivosGoverno):
         dirf += self.RESPO
         dirf += self.DECPJ
         dirf += self.IDREC
-        dirf += self.BPFDEC
         dirf += self.INF
         dirf += self.identificador_de_registro_fimdirf
         return dirf
@@ -476,27 +514,16 @@ class DIRF(AbstractArquivosGoverno):
 
     @property
     def IDREC(self):
-        idrec = self._validar(self.identificador_de_registro_idrec, 5)
-        idrec += self._validar(self.codigo_da_receita, 4, tipo='N', preenchimento='fixo')
-        idrec += '\n'
-        return idrec
-
-    @property
-    def BPFDEC(self):
-        beneficiario = ''
-        for record in self.bpfdec:
-            bpfdec = self._validar(record.identificador_de_registro_bpfdec, 6)
-            bpfdec += self._validar(record.cpf_bpfdec, 11, tipo='N')
-            bpfdec += self._validar(record.nome_bpfdec, 60, tipo='A', preenchimento='variavel', caixaAlta='S')
-            bpfdec += self._validar(record.data_laudo, 1, tipo='A', preenchimento='variavel')
-            bpfdec += self._validar(record.identificacao_alimentado_bpfdec, 1, tipo='A')
-            bpfdec += self._validar(record.identificacao_previdencia_complementar, 1, tipo='A')
-            bpfdec += '\n'
-            bpfdec += record.VALORESMENSAIS
-            bpfdec += record.RENDIMENTOSISENTOS
-            # bpfdec += record.INFPA
-            beneficiario += bpfdec
-        return beneficiario
+        """
+        Imprime os beneficiarios agrupados por código da receita
+        """
+        grupo_codigo_receita = ''
+        for idregistroreceita in self.grupoFuncionarioPorCodigoReceita:
+            grupo_codigo_receita += self._validar(idregistroreceita.identificador_de_registro_idrec, 5)
+            grupo_codigo_receita += self._validar(idregistroreceita.codigo_da_receita, 4, tipo='N', preenchimento='fixo')
+            grupo_codigo_receita += '\n'
+            grupo_codigo_receita += idregistroreceita.BPFDEC
+        return grupo_codigo_receita
 
     @property
     def INF(self):
@@ -511,16 +538,6 @@ class DIRF(AbstractArquivosGoverno):
             outras_informacoes += infComplementar
         return outras_informacoes
 
-    def add_beneficiario(self, bpfdec):
-        """
-        :param bpfdec: class BPFDEC
-        """
-        if not isinstance(bpfdec, Beneficiario):
-            raise ('Parâmetro no formato incorreto! Para adicionar '
-                   'beneficiário utilize a classe ```Beneficiario``` ')
-        self.bpfdec.append(bpfdec)
-        self.bpfdec.sort(key=lambda x: x.cpf_bpfdec)
-
     def add_informarmacaoComplementar(self, arrayinfo):
         """
         :param arrayinfo: class INFO
@@ -530,6 +547,29 @@ class DIRF(AbstractArquivosGoverno):
                    'info utilize a classe ```InformacoesComplementares```')
         self.informacoescomplementares.append(arrayinfo)
         self.informacoescomplementares.sort(key=lambda x: x.cpf_inf)
+
+    def add_grupoFuncionarioPorCodigoReceita(self, grupo):
+        """
+        :param arrayinfo: class INFO
+        """
+        if not isinstance(grupo, GrupoCodigoReceita):
+            raise ('Parâmetro no formato incorreto! Para adicionar '
+                   'grupos utilize a classe ```GrupoCodigoReceita```')
+        self.grupoFuncionarioPorCodigoReceita.append(grupo)
+        self.grupoFuncionarioPorCodigoReceita.sort(
+            key=lambda x: x.codigo_da_receita)
+
+    def get_grupoFuncionarioPorCodigoReceita(self,codigo):
+
+        grupo = filter(lambda x: x.codigo_da_receita == codigo,
+                       self.grupoFuncionarioPorCodigoReceita)
+        if not grupo:
+            grupo = GrupoCodigoReceita()
+            grupo.codigo_da_receita = codigo
+            self.grupoFuncionarioPorCodigoReceita.append(grupo)
+            return grupo
+
+        return grupo[0]
 
     def _validar(self, word, tam, tipo='AN', preenchimento='fixo', caixaAlta='N'):
         """

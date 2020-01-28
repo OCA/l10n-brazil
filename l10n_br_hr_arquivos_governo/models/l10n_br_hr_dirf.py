@@ -293,7 +293,6 @@ class L10nBrHrDirf(models.Model):
 
         RUBRICAS_DIRF = [
             ('RTPO', ['INSS', 'PSS'], 20),
-            ('RTPP', ['PREV_SUPLEMENTAR'], 25),
             ('RTIRF', ['IRPF', 'IRPF_FERIAS'], 40),
             ('RTPA', ['PENSAO_ALIMENTICIA_PORCENTAGEM',
                 'PENSAO_ALIMENTICIA_PORCENTAGEM_FERIAS'], 60),
@@ -570,8 +569,12 @@ class L10nBrHrDirf(models.Model):
             beneficiario.cpf_bpfdec = \
                 re.sub('[^0-9]', '', str(employee_id.cpf))
             beneficiario.nome_bpfdec = employee_id.name
-            self.populate_beneficiario(dirf, beneficiario, employee_id,
-                                       self.ano_referencia, self.company_id)
-            dirf.add_beneficiario(beneficiario)
+            self.populate_beneficiario(
+                dirf, beneficiario, employee_id, self.ano_referencia,
+                self.company_id)
+
+            grupo = dirf.get_grupoFuncionarioPorCodigoReceita(
+                employee_id.contract_id.codigo_guia_darf)
+            grupo.add_beneficiario(beneficiario)
 
         self.dirf = str(dirf)
