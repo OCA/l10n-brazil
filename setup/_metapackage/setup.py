@@ -17,6 +17,7 @@ setuptools.setup(
         'odoo10-addon-l10n_br_generic',
         'odoo10-addon-l10n_br_hr',
         'odoo10-addon-l10n_br_hr_contract',
+        'odoo10-addon-l10n_br_purchase',
         'odoo10-addon-l10n_br_resource',
         'odoo10-addon-l10n_br_sale',
         'odoo10-addon-l10n_br_sale_product',
