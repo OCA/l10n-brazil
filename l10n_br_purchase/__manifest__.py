@@ -8,7 +8,7 @@
     'category': 'Localisation',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
-    'version': '8.0.1.0.0',
+    'version': '10.0.1.0.0',
     'depends': [
         'l10n_br_stock_account',
         'account_fiscal_position_rule_purchase',
@@ -21,9 +21,8 @@
         'security/l10n_br_purchase_security.xml',
     ],
     'demo': [
-        # FIXME
-        # 'test/purchase_order_demo.yml'
+        'demo/l10n_br_purchase_demo.xml'
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

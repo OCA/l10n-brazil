@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- account.journal -->
+    <record id="demo_purchase_journal" model="account.journal">
+        <field name="name">Diário de Compras-l10n_br_purchase</field>
+        <field name="code">TPAJ-Teste</field>
+        <field name="type">purchase</field>
+        <field eval="1" name="revenue_expense"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <!-- Compras -->
+    <record id="demo_fiscal_category-compras" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="demo_purchase_journal"/>
+        <field name="code">Compras-l10n_br_purchase</field>
+        <field name="name">Compras</field>
+    </record>
+
+    <record id="l10n_br_purchase-fiscal_position_internal_demo" model="account.fiscal.position">
+        <field name="name">Compra para Dentro do Estado</field>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-compras"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_1102"/>
+    </record>
+
+    <record id="fiscal_position_tax_compras_sp" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_br_purchase-fiscal_position_internal_demo"/>
+        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_in_ipi15"/>
+        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_in_ipi2"/>
+    </record>
+
+    <!-- Account Fiscal Position Rule - Compra SP -->
+    <record id="fiscal_position_rule_compras_sp" model="account.fiscal.position.rule">
+        <field name="name">Compra SP</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="from_country" ref="base.br"/>
+        <field name="from_state" ref="base.state_br_sp"/>
+        <field name="to_invoice_country" ref="base.br"/>
+        <field name="to_invoice_state" ref="base.state_br_sp"/>
+        <field name="to_shipping_country" ref="base.br"/>
+        <field name="to_shipping_state" ref="base.state_br_sp"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-compras"/>
+        <field name="fiscal_position_id" ref="l10n_br_purchase-fiscal_position_internal_demo"/>
+        <field name="use_purchase">True</field>
+    </record>
+
+    <!-- CompraST -->
+    <record id="demo_fiscal_category-compras_sp_st" model="l10n_br_account.fiscal.category">
+        <field name="property_journal" ref="demo_purchase_journal"/>
+        <field name="code">CompraST-l10n_br_purchase</field>
+        <field name="name">CompraST</field>
+    </record>
+
+    <!-- Fiscal Position - Compra SP ST -->
+    <record id="demo_fiscal_position-compras_sp_st" model="account.fiscal.position">
+        <field name="name">Compra SP c/ ST</field>
+        <field name="active">True</field>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-compras_sp_st"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type">input</field>
+        <field name="cfop_id" ref="l10n_br_account_product.cfop_1403"/>
+    </record>
+
+    <record id="demo_fiscal_position_tax-compra_sp_st" model="account.fiscal.position.tax">
+        <field name="position_id" ref="demo_fiscal_position-compras_sp_st"/>
+        <field name="tax_src_id" ref="l10n_br_account_product.demo_tax_in_ipi15"/>
+        <field name="tax_dest_id" ref="l10n_br_account_product.demo_tax_in_ipi10"/>
+    </record>
+
+    <!-- Account Fiscal Position Rule - Compra SP -->
+    <record id="fiscal_position_rule_compras_sp_st" model="account.fiscal.position.rule">
+        <field name="name">Compra SP</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="from_country" ref="base.br"/>
+        <field name="from_state" ref="base.state_br_sp"/>
+        <field name="to_invoice_country" ref="base.br"/>
+        <field name="to_invoice_state" ref="base.state_br_sp"/>
+        <field name="to_shipping_country" ref="base.br"/>
+        <field name="to_shipping_state" ref="base.state_br_sp"/>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-compras_sp_st"/>
+        <field name="fiscal_position_id" ref="demo_fiscal_position-compras_sp_st"/>
+        <field name="use_purchase">True</field>
+    </record>
+
+    <!-- Demo Purchase Order - 1 -->
+    <record id="l10n_br_purchase_order-demo_1" model="purchase.order">
+        <field name="name">Demo l10n_br_purchase - 1</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="state">draft</field>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-compras"/>
+    </record>
+
+    <record id="l10n_br_purchase_orderline-demo_1-1" model="purchase.order.line">
+        <field name="order_id" ref="l10n_br_purchase_order-demo_1"/>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="product.product_uom_unit"/>
+        <field name="price_unit">3645.00</field>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-compras"/>
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')"/>
+    </record>
+
+    <record id="l10n_br_purchase_orderline-demo_1-2" model="purchase.order.line">
+        <field name="order_id" ref="l10n_br_purchase_order-demo_1"/>
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="product.product_uom_unit"/>
+        <field name="price_unit">12.50</field>
+        <field name="fiscal_category_id" ref="demo_fiscal_category-compras"/>
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')"/>
+    </record>
+
+</odoo>
