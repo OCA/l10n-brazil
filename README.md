@@ -86,6 +86,7 @@ addon | version | summary
 [l10n_br_generic](l10n_br_generic/) | 10.0.1.0.0 | Brazilian - Generic Accounting
 [l10n_br_hr](l10n_br_hr/) | 10.0.0.0.0 | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 10.0.0.0.0 | Brazilian Localization HR Contract
+[l10n_br_purchase](l10n_br_purchase/) | 10.0.1.0.0 | Brazilian Localization Purchase
 [l10n_br_resource](l10n_br_resource/) | 10.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_sale](l10n_br_sale/) | 10.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_sale_product](l10n_br_sale_product/) | 10.0.1.0.0 | Brazilian Localization Sale Product
@@ -105,7 +106,6 @@ addon | version | summary
 [l10n_br_data_account_service](l10n_br_data_account_service/) | 8.0.1.0.0 (unported) | Brazilian Localization Data Account for Service
 [l10n_br_delivery](l10n_br_delivery/) | 8.0.1.0.0 (unported) | Brazilian Localization Delivery
 [l10n_br_hr_timesheet_invoice](l10n_br_hr_timesheet_invoice/) | 1.0 (unported) | Brazilian Invoice on Timesheets
-[l10n_br_purchase](l10n_br_purchase/) | 8.0.1.0.0 (unported) | Brazilian Localization Purchase
 [l10n_br_sale_service](l10n_br_sale_service/) | 8.0.1.0.0 (unported) | Brazilian Localization Sale Service
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 8.0.1.0.0 (unported) | Brazilian Localization Sales and Warehouse
 [l10n_br_stock_account_report](l10n_br_stock_account_report/) | 8.0.1.0.0 (unported) | Brazilian Localization WMS Accounting Report
