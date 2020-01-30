@@ -45,6 +45,10 @@ class AbstractSpecMixin(models.AbstractModel):
             key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
             child_path = '%s.%s' % (path, key)
 
+            if key.startswith('nfe40_ICMS') and key not in [
+                    'nfe40_ICMS', 'nfe40_ICMSTot', 'nfe40_ICMSUFDest']:
+                vals['nfe40_choice11'] = key
+
             if attr.get_child_attrs().get('type') is None\
                     or attr.get_child_attrs().get('type') == 'xs:string':
                 # SimpleType
