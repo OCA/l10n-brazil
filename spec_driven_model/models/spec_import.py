@@ -49,6 +49,9 @@ class AbstractSpecMixin(models.AbstractModel):
                     'nfe40_ICMS', 'nfe40_ICMSTot', 'nfe40_ICMSUFDest']:
                 vals['nfe40_choice11'] = key
 
+            if key.startswith('nfe40_IPI') and key != 'nfe40_IPI':
+                vals['nfe40_choice3'] = key
+
             if attr.get_child_attrs().get('type') is None\
                     or attr.get_child_attrs().get('type') == 'xs:string':
                 # SimpleType
@@ -67,7 +70,13 @@ class AbstractSpecMixin(models.AbstractModel):
                     if node.original_tagname_.startswith('ICMS'):
                         vals['icms_cst_id'] = \
                             self.env['l10n_br_fiscal.cst'].search(
-                                [('code', '=', value)])[0].id
+                                [('code', '=', value),
+                                 ('tax_domain', '=', 'icms')])[0].id
+                    if node.original_tagname_.startswith('IPI'):
+                        vals['ipi_cst_id'] = \
+                            self.env['l10n_br_fiscal.cst'].search(
+                                [('code', '=', value),
+                                 ('tax_domain', '=', 'ipi')])[0].id
 
             else:
                 # ComplexType
