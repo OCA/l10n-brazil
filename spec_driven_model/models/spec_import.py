@@ -63,6 +63,11 @@ class AbstractSpecMixin(models.AbstractModel):
 
                 if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN']:
                     vals[key] = value  # TODO avoid collision with cls prefix
+                elif key == 'nfe40_CST':
+                    if node.original_tagname_.startswith('ICMS'):
+                        vals['icms_cst_id'] = \
+                            self.env['l10n_br_fiscal.cst'].search(
+                                [('code', '=', value)])[0].id
 
             else:
                 # ComplexType
