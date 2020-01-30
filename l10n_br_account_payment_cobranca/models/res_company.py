@@ -13,38 +13,38 @@ class ResCompany(models.Model):
 
     own_number_type = fields.Selection(
         selection=[
-            (SEQUENCIAL_EMPRESA, u"Sequêncial único por empresa"),
-            (SEQUENCIAL_FATURA, u"Numero sequêncial da Fatura"),
-            (SEQUENCIAL_CARTEIRA, u"Sequêncial único por carteira"),
+            (SEQUENCIAL_EMPRESA, "Sequêncial único por empresa"),
+            (SEQUENCIAL_FATURA, "Numero sequêncial da Fatura"),
+            (SEQUENCIAL_CARTEIRA, "Sequêncial único por carteira"),
         ],
-        string=u"Tipo de nosso número",
+        string="Tipo de nosso número",
         default="2",
     )
 
     own_number_sequence = fields.Many2one(
-        comodel_name="ir.sequence", string=u"Sequência do Nosso Número"
+        comodel_name="ir.sequence", string="Sequência do Nosso Número"
     )
 
     environment = fields.Selection(
-        string=u"Ambiente",
+        string="Ambiente",
         selection=[("1", "HOMOLOGAÇÃO"), ("2", "PRODUÇÃO")],
         default="1",
     )
 
-    client_id = fields.Char(string=u"ID do Cliente")
+    client_id = fields.Char(string="ID do Cliente")
 
-    client_secret = fields.Char(string=u"Segredo")
+    client_secret = fields.Char(string="Segredo")
 
-    itau_key = fields.Char(string=u"Chave")
+    itau_key = fields.Char(string="Chave")
 
-    api_endpoint = fields.Char(string=u"API ENDPOINT")
+    api_endpoint = fields.Char(string="API ENDPOINT")
 
-    raiz_endpoint = fields.Char(string=u"RAIZ ENDPOINT")
+    raiz_endpoint = fields.Char(string="RAIZ ENDPOINT")
 
-    api_itau_token = fields.Char(string=u"Itaú API Token", readonly=True)
+    api_itau_token = fields.Char(string="Itaú API Token", readonly=True)
 
     api_itau_token_due_datetime = fields.Datetime(
-        string=u"Validade do Token", readonly=True
+        string="Validade do Token", readonly=True
     )
 
     @api.multi

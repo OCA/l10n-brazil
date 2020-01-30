@@ -3,7 +3,6 @@
 #   @author  Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from __future__ import division, print_function, unicode_literals
 
 import logging
 
@@ -17,7 +16,7 @@ _logger = logging.getLogger(__name__)
 
 
 class PaymentOrder(models.Model):
-    _inherit = b"account.payment.order"
+    _inherit = "account.payment.order"
 
     active = fields.Boolean(string="Ativo", default=True)
 

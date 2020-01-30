@@ -31,49 +31,49 @@ class PaymentLine(models.Model):
             res.update({"aviso_ao_favorecido": mode.aviso_ao_favorecido})
         return res
 
-    nosso_numero = fields.Char(string=u"Nosso Numero")
-    numero_documento = fields.Char(string=u"Número documento")
-    identificacao_titulo_empresa = fields.Char(string=u"Identificação Titulo Empresa")
+    nosso_numero = fields.Char(string="Nosso Numero")
+    numero_documento = fields.Char(string="Número documento")
+    identificacao_titulo_empresa = fields.Char(string="Identificação Titulo Empresa")
     codigo_finalidade_doc = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
-        string=u"Complemento do Tipo de Serviço",
-        help=u"Campo P005 do CNAB",
+        string="Complemento do Tipo de Serviço",
+        help="Campo P005 do CNAB",
     )
     codigo_finalidade_ted = fields.Selection(
         selection=CODIGO_FINALIDADE_TED,
-        string=u"Código Finalidade da TED",
-        help=u"Campo P011 do CNAB",
+        string="Código Finalidade da TED",
+        help="Campo P011 do CNAB",
     )
     codigo_finalidade_complementar = fields.Char(
-        size=2, string=u"Código de finalidade complementar", help=u"Campo P013 do CNAB"
+        size=2, string="Código de finalidade complementar", help="Campo P013 do CNAB"
     )
     aviso_ao_favorecido = fields.Selection(
         selection=AVISO_FAVORECIDO,
-        string=u"Aviso ao Favorecido",
-        help=u"Campo P006 do CNAB",
+        string="Aviso ao Favorecido",
+        help="Campo P006 do CNAB",
         default="0",
     )
     abatimento = fields.Float(
         digits=(13, 2),
-        string=u"Valor do Abatimento",
-        help=u"Campo G045 do CNAB",
+        string="Valor do Abatimento",
+        help="Campo G045 do CNAB",
         default=0.00,
     )
     desconto = fields.Float(
         digits=(13, 2),
-        string=u"Valor do Desconto",
-        help=u"Campo G046 do CNAB",
+        string="Valor do Desconto",
+        help="Campo G046 do CNAB",
         default=0.00,
     )
     mora = fields.Float(
         digits=(13, 2),
-        string=u"Valor da Mora",
-        help=u"Campo G047 do CNAB",
+        string="Valor da Mora",
+        help="Campo G047 do CNAB",
         default=0.00,
     )
     multa = fields.Float(
         digits=(13, 2),
-        string=u"Valor da Multa",
-        help=u"Campo G048 do CNAB",
+        string="Valor da Multa",
+        help="Campo G048 do CNAB",
         default=0.00,
     )

@@ -42,117 +42,117 @@ PAGAMENTO_BENEFICIOS = "90"
 PAGAMENTOS_DIVERSOS = "98"
 
 TIPO_SERVICO = [
-    (COBRANCA, COBRANCA + u" - Cobrança"),
+    (COBRANCA, COBRANCA + " - Cobrança"),
     (
         BOLETO_PAGAMENTO_ELETRONICO,
-        BOLETO_PAGAMENTO_ELETRONICO + u" - Boleto de Pagamento Eletrônico",
+        BOLETO_PAGAMENTO_ELETRONICO + " - Boleto de Pagamento Eletrônico",
     ),
-    (CONCILIACAO_BANCARIA, CONCILIACAO_BANCARIA + u" - Conciliação Bancária"),
-    (DEBITOS, DEBITOS + u" - Débitos"),
-    (CUSTODIA_CHEQUES, CUSTODIA_CHEQUES + u" - Custódia de Cheques"),
-    (GESTAO_CAIXA, GESTAO_CAIXA + u" - Gestão de Caixa"),
+    (CONCILIACAO_BANCARIA, CONCILIACAO_BANCARIA + " - Conciliação Bancária"),
+    (DEBITOS, DEBITOS + " - Débitos"),
+    (CUSTODIA_CHEQUES, CUSTODIA_CHEQUES + " - Custódia de Cheques"),
+    (GESTAO_CAIXA, GESTAO_CAIXA + " - Gestão de Caixa"),
     (
         CONSULTA_INFORMACAO_MARGEM,
-        CONSULTA_INFORMACAO_MARGEM + u" - Consulta/Informação Margem",
+        CONSULTA_INFORMACAO_MARGEM + " - Consulta/Informação Margem",
     ),
     (
         AVERBACAO_CONSIGNACAO_RETENCAO,
-        AVERBACAO_CONSIGNACAO_RETENCAO + u" - Averbação da Consignação/Retenção",
+        AVERBACAO_CONSIGNACAO_RETENCAO + " - Averbação da Consignação/Retenção",
     ),
-    (PAGAMENTO_DIVIDENDOS, PAGAMENTO_DIVIDENDOS + u" - Pagamento Dividendos"),
-    (MANUTENCAO_CONSIGNACAO, MANUTENCAO_CONSIGNACAO + u" - Manutenção da Consignação"),
-    (CONSIGNACAO_PARCELAS, CONSIGNACAO_PARCELAS + u" - Consignação de Parcelas"),
-    (GLOSA_CONSIGNACAO, GLOSA_CONSIGNACAO + u" -  Glosa da Consignação (INSS)"),
+    (PAGAMENTO_DIVIDENDOS, PAGAMENTO_DIVIDENDOS + " - Pagamento Dividendos"),
+    (MANUTENCAO_CONSIGNACAO, MANUTENCAO_CONSIGNACAO + " - Manutenção da Consignação"),
+    (CONSIGNACAO_PARCELAS, CONSIGNACAO_PARCELAS + " - Consignação de Parcelas"),
+    (GLOSA_CONSIGNACAO, GLOSA_CONSIGNACAO + " -  Glosa da Consignação (INSS)"),
     (
         CONSULTA_TRIBUTOS_PAGAR,
-        CONSULTA_TRIBUTOS_PAGAR + u" - Consulta de Tributos a pagar",
+        CONSULTA_TRIBUTOS_PAGAR + " - Consulta de Tributos a pagar",
     ),
-    (PAGAMENTO_FORNECEDOR, PAGAMENTO_FORNECEDOR + u" - Pagamento Fornecedor"),
+    (PAGAMENTO_FORNECEDOR, PAGAMENTO_FORNECEDOR + " - Pagamento Fornecedor"),
     (
         PAGAMENTO_CONTAS_TRIBUTOS_IMPOSTOS,
         PAGAMENTO_CONTAS_TRIBUTOS_IMPOSTOS
-        + u" - Pagamento de Contas, Tributos e Impostos",
+        + " - Pagamento de Contas, Tributos e Impostos",
     ),
     (
         INTEROPERABILIDADE_CONTAS,
         INTEROPERABILIDADE_CONTAS
-        + u" - Interoperabilidade entre Contas de Instituições de Pagamentos",
+        + " - Interoperabilidade entre Contas de Instituições de Pagamentos",
     ),
-    (COMPROR, COMPROR + u" - Compror"),
-    (COMPROR_ROTATIVO, COMPROR_ROTATIVO + u" - Compror Rotativo"),
-    (ALEGACAO_PAGADOR, ALEGACAO_PAGADOR + u" - Alegação do Pagador"),
-    (PAGAMENTO_SALARIOS, PAGAMENTO_SALARIOS + u" - Pagamento Salários"),
-    (PAGAMENTO_HONORARIOS, PAGAMENTO_HONORARIOS + u" - Pagamento de honorários"),
+    (COMPROR, COMPROR + " - Compror"),
+    (COMPROR_ROTATIVO, COMPROR_ROTATIVO + " - Compror Rotativo"),
+    (ALEGACAO_PAGADOR, ALEGACAO_PAGADOR + " - Alegação do Pagador"),
+    (PAGAMENTO_SALARIOS, PAGAMENTO_SALARIOS + " - Pagamento Salários"),
+    (PAGAMENTO_HONORARIOS, PAGAMENTO_HONORARIOS + " - Pagamento de honorários"),
     (
         PAGAMENTO_BOLSA_AUXILIO,
-        PAGAMENTO_BOLSA_AUXILIO + u" - Pagamento de bolsa auxílio",
+        PAGAMENTO_BOLSA_AUXILIO + " - Pagamento de bolsa auxílio",
     ),
     (
         PAGAMENTO_PREBENDA,
         PAGAMENTO_PREBENDA
-        + u" - Pagamento de prebenda (remuneração a padres e sacerdotes)",
+        + " - Pagamento de prebenda (remuneração a padres e sacerdotes)",
     ),
-    (VENDOR, VENDOR + u" - Vendor"),
-    (VENDOR_TERMO, VENDOR_TERMO + u" - Vendor a Termo"),
+    (VENDOR, VENDOR + " - Vendor"),
+    (VENDOR_TERMO, VENDOR_TERMO + " - Vendor a Termo"),
     (
         PAGAMENTO_SINISTROS_SEGURADOS,
-        PAGAMENTO_SINISTROS_SEGURADOS + u" - Pagamento Sinistros Segurados",
+        PAGAMENTO_SINISTROS_SEGURADOS + " - Pagamento Sinistros Segurados",
     ),
     (
         PAGAMENTO_DESPESAS_VIAJANTE,
-        PAGAMENTO_DESPESAS_VIAJANTE + u" - Pagamento Despesas Viajante em Trânsito",
+        PAGAMENTO_DESPESAS_VIAJANTE + " - Pagamento Despesas Viajante em Trânsito",
     ),
-    (PAGAMENTO_AUTORIZADO, PAGAMENTO_AUTORIZADO + u" - Pagamento Autorizado"),
-    (PAGAMENTO_CREDENCIADOS, PAGAMENTO_CREDENCIADOS + u" - Pagamento Credenciados"),
-    (PAGAMENTO_REMUNERACAO, PAGAMENTO_REMUNERACAO + u" - Pagamento de Remuneração"),
+    (PAGAMENTO_AUTORIZADO, PAGAMENTO_AUTORIZADO + " - Pagamento Autorizado"),
+    (PAGAMENTO_CREDENCIADOS, PAGAMENTO_CREDENCIADOS + " - Pagamento Credenciados"),
+    (PAGAMENTO_REMUNERACAO, PAGAMENTO_REMUNERACAO + " - Pagamento de Remuneração"),
     (
         PAGAMENTO_REPRESENTANTES,
         PAGAMENTO_REPRESENTANTES
-        + u" - Pagamento Representantes / Vendedores Autorizados",
+        + " - Pagamento Representantes / Vendedores Autorizados",
     ),
-    (PAGAMENTO_BENEFICIOS, PAGAMENTO_BENEFICIOS + u" - Pagamento Benefícios"),
-    (PAGAMENTOS_DIVERSOS, PAGAMENTOS_DIVERSOS + u" - Pagamentos Diversos"),
+    (PAGAMENTO_BENEFICIOS, PAGAMENTO_BENEFICIOS + " - Pagamento Benefícios"),
+    (PAGAMENTOS_DIVERSOS, PAGAMENTOS_DIVERSOS + " - Pagamentos Diversos"),
 ]
 
-CREDITO_CONTA_CORRENTE_SALARIO = ("01", u"01 - Crédito em Conta Corrente/Salário")
-CHEQUE_PAGAMENTO_ADMINISTRATIVO = ("02", u"02 - Cheque Pagamento / Administrativo")
-DOC_TED = ("03", u"03 - DOC/TED (1) (2)")
-CARTAO_SALARIO = ("04", u"04 - Cartão Salário (somente para Tipo de Serviço = '30')")
-CREDITO_CONTA_POUPANCA = ("05", u"05 - Crédito em Conta Poupança")
-OP_A_DISPOSICAO = ("10", u"10 - OP à Disposição")
+CREDITO_CONTA_CORRENTE_SALARIO = ("01", "01 - Crédito em Conta Corrente/Salário")
+CHEQUE_PAGAMENTO_ADMINISTRATIVO = ("02", "02 - Cheque Pagamento / Administrativo")
+DOC_TED = ("03", "03 - DOC/TED (1) (2)")
+CARTAO_SALARIO = ("04", "04 - Cartão Salário (somente para Tipo de Serviço = '30')")
+CREDITO_CONTA_POUPANCA = ("05", "05 - Crédito em Conta Poupança")
+OP_A_DISPOSICAO = ("10", "10 - OP à Disposição")
 PAGAMENTO_CONTAS_TRIBUTOS_CODIGO_BARRAS = (
     "11",
-    u"11 - Pagamento de Contas e Tributos com Código de Barras",
+    "11 - Pagamento de Contas e Tributos com Código de Barras",
 )
-TRIBUTO_DARF_NORMAL = ("16", u"16 - Tributo - DARF Normal")
-TRIBUTO_GPS = ("17", u"17 - Tributo - GPS (Guia da Previdência Social)")
-TRIBUTO_DARF_SIMPLES = ("18", u"18 - Tributo - DARF Simples")
-TRIBUTO_IPTU_PREFEITURAS = ("19", u"19 - Tributo - IPTU – Prefeituras")
-PAGAMENTO_AUTENTICACAO = ("20", u"20 - Pagamento com Autenticação")
-TRIBUTO_DARJ = ("21", u"21 - Tributo – DARJ")
-TRIBUTO_GARE_SP_ICMS = ("22", u"22 - Tributo - GARE-SP ICMS")
-TRIBUTO_GARE_SP_DR = ("23", u"23 - Tributo - GARE-SP DR")
-TRIBUTO_GARE_SP_ITCMD = ("24", u"24 - Tributo - GARE-SP ITCMD")
-TRIBUTO_IPVA = ("25", u"25 - Tributo - IPVA")
-TRIBUTO_LICENCIAMENTO = ("26", u"26 - Tributo - Licenciamento")
-TRIBUTO_DPVAT = ("27", u"27 - Tributo – DPVAT")
+TRIBUTO_DARF_NORMAL = ("16", "16 - Tributo - DARF Normal")
+TRIBUTO_GPS = ("17", "17 - Tributo - GPS (Guia da Previdência Social)")
+TRIBUTO_DARF_SIMPLES = ("18", "18 - Tributo - DARF Simples")
+TRIBUTO_IPTU_PREFEITURAS = ("19", "19 - Tributo - IPTU – Prefeituras")
+PAGAMENTO_AUTENTICACAO = ("20", "20 - Pagamento com Autenticação")
+TRIBUTO_DARJ = ("21", "21 - Tributo – DARJ")
+TRIBUTO_GARE_SP_ICMS = ("22", "22 - Tributo - GARE-SP ICMS")
+TRIBUTO_GARE_SP_DR = ("23", "23 - Tributo - GARE-SP DR")
+TRIBUTO_GARE_SP_ITCMD = ("24", "24 - Tributo - GARE-SP ITCMD")
+TRIBUTO_IPVA = ("25", "25 - Tributo - IPVA")
+TRIBUTO_LICENCIAMENTO = ("26", "26 - Tributo - Licenciamento")
+TRIBUTO_DPVAT = ("27", "27 - Tributo – DPVAT")
 LIQUIDACAO_TITULOS_PROPRIO_BANCO = (
     "30",
-    u"30 - Liquidação de Títulos do Próprio Banco",
+    "30 - Liquidação de Títulos do Próprio Banco",
 )
-PAGAMENTO_TITULOS_OUTROS_BANCOS = ("31", u"31 - Pagamento de Títulos de Outros Bancos")
-EXTRATO_CONTA_CORRENTE = ("40", u"40 - Extrato de Conta Corrente")
-TED_OUTRA_TITULARIDADE = ("41", u"41 - TED – Outra Titularidade (1)")
-TED_MESMA_TITULARIDADE = ("43", u"43 - TED – Mesma Titularidade (1)")
+PAGAMENTO_TITULOS_OUTROS_BANCOS = ("31", "31 - Pagamento de Títulos de Outros Bancos")
+EXTRATO_CONTA_CORRENTE = ("40", "40 - Extrato de Conta Corrente")
+TED_OUTRA_TITULARIDADE = ("41", "41 - TED – Outra Titularidade (1)")
+TED_MESMA_TITULARIDADE = ("43", "43 - TED – Mesma Titularidade (1)")
 TED_TRANSFERENCIA_CONTA_INVESTIMENTO = (
     "44",
-    u"44 - TED para Transferência de Conta Investimento",
+    "44 - TED para Transferência de Conta Investimento",
 )
-DEBITO_CONTA_CORRENTE = ("50", u"50 - Débito em Conta Corrente")
-EXTRATO_GESTAO_CAIXA = ("70", u"70 - Extrato para Gestão de Caixa")
-DEPOSITO_JUDICIAL_CONTA_CORRENTE = ("71", u"71 - Depósito Judicial em Conta Corrente")
-DEPOSITO_JUDICIAL_POUPANCA = ("72", u"72 - Depósito Judicial em Poupança")
-EXTRATO_CONTA_INVESTIMENTO = ("73", u"73 - Extrato de Conta Investimento")
+DEBITO_CONTA_CORRENTE = ("50", "50 - Débito em Conta Corrente")
+EXTRATO_GESTAO_CAIXA = ("70", "70 - Extrato para Gestão de Caixa")
+DEPOSITO_JUDICIAL_CONTA_CORRENTE = ("71", "71 - Depósito Judicial em Conta Corrente")
+DEPOSITO_JUDICIAL_POUPANCA = ("72", "72 - Depósito Judicial em Poupança")
+EXTRATO_CONTA_INVESTIMENTO = ("73", "73 - Extrato de Conta Investimento")
 
 FORMA_LANCAMENTO = [
     CREDITO_CONTA_CORRENTE_SALARIO,
@@ -187,28 +187,28 @@ FORMA_LANCAMENTO = [
     EXTRATO_CONTA_INVESTIMENTO,
 ]
 
-CREDITO_EM_CONTA = ("01", u"01 - Crédito em Conta")
-PAGAMENTO_ALUGUEL = ("02", u"02 - Pagamento de Aluguel/Condomínio")
-PAGAMENTO_DUPLICATA_TITULOS = ("03", u"03 - Pagamento de Duplicata/Títulos")
-PAGAMENTO_DIVIDENDOS_C = ("04", u"04 - Pagamento de Dividendos")
-PAGAMENTO_MENSALIDADE_ESCOLAR = ("05", u"05 - Pagamento de Mensalidade Escolar")
-PAGAMENTO_SALARIOS_C = ("06", u"06 - Pagamento de Salários")
-PAGAMENTO_FORNECEDORES = ("07", u"07 - Pagamento a Fornecedores")
+CREDITO_EM_CONTA = ("01", "01 - Crédito em Conta")
+PAGAMENTO_ALUGUEL = ("02", "02 - Pagamento de Aluguel/Condomínio")
+PAGAMENTO_DUPLICATA_TITULOS = ("03", "03 - Pagamento de Duplicata/Títulos")
+PAGAMENTO_DIVIDENDOS_C = ("04", "04 - Pagamento de Dividendos")
+PAGAMENTO_MENSALIDADE_ESCOLAR = ("05", "05 - Pagamento de Mensalidade Escolar")
+PAGAMENTO_SALARIOS_C = ("06", "06 - Pagamento de Salários")
+PAGAMENTO_FORNECEDORES = ("07", "07 - Pagamento a Fornecedores")
 OPERACOES_CAMBIOS_FUNDOS_BOLSA = (
     "08",
-    u"08 - Operações de Câmbios/Fundos/Bolsa de Valores",
+    "08 - Operações de Câmbios/Fundos/Bolsa de Valores",
 )
-REPASSE_ARRECADACAO = ("09", u"09 - Repasse de Arrecadação/Pagamento de Tributos")
-TRANSFERECIA_INTERNACIONAL_EM_REAL = ("10", u"10 - Transferência Internacional em Real")
-DOC_POUPANCA = ("11", u"11 - DOC para Poupança")
-DOC_DEPOSITO_JUDICIAL = ("12", u"12 - DOC para Depósito Judicial")
-OUTROS = ("13", u"13 - Outros")
-PAGAMENTO_BOLSA_AUXILIO_C = ("16", u"16 - Pagamento de bolsa auxílio")
-REMUNERACAO_COOPERADO = ("17", u"17 - Remuneração à cooperado")
-PAGAMENTO_HONORARIOS_C = ("18", u"18 - Pagamento de honorários")
+REPASSE_ARRECADACAO = ("09", "09 - Repasse de Arrecadação/Pagamento de Tributos")
+TRANSFERECIA_INTERNACIONAL_EM_REAL = ("10", "10 - Transferência Internacional em Real")
+DOC_POUPANCA = ("11", "11 - DOC para Poupança")
+DOC_DEPOSITO_JUDICIAL = ("12", "12 - DOC para Depósito Judicial")
+OUTROS = ("13", "13 - Outros")
+PAGAMENTO_BOLSA_AUXILIO_C = ("16", "16 - Pagamento de bolsa auxílio")
+REMUNERACAO_COOPERADO = ("17", "17 - Remuneração à cooperado")
+PAGAMENTO_HONORARIOS_C = ("18", "18 - Pagamento de honorários")
 PAGAMENTO_PREBENDA_C = (
     "19",
-    u"19 - Pagamento de prebenda (Remuneração a padres e sacerdotes)",
+    "19 - Pagamento de prebenda (Remuneração a padres e sacerdotes)",
 )
 
 COMPLEMENTO_TIPO_SERVICO = [
@@ -237,18 +237,18 @@ COMPLEMENTO_TIPO_SERVICO = [
 # (www.bcb.gov.br), Sistema de Pagamentos Brasileiro,
 # Transferência de Arquivos,
 # Dicionários de Domínios para o SPB.
-CODIGO_FINALIDADE_TED = [("    ", u"Padrão")]
+CODIGO_FINALIDADE_TED = [("    ", "Padrão")]
 
-NAO_EMITE_AVISO = ("0", u"0 - Não Emite Aviso")
-EMITE_AVISO_REMETENTE = ("2", u"2 - Emite Aviso Somente para o Remetente")
-EMITE_AVISO_FAVORECIDO = ("5", u"5 - Emite Aviso Somente para o Favorecido")
+NAO_EMITE_AVISO = ("0", "0 - Não Emite Aviso")
+EMITE_AVISO_REMETENTE = ("2", "2 - Emite Aviso Somente para o Remetente")
+EMITE_AVISO_FAVORECIDO = ("5", "5 - Emite Aviso Somente para o Favorecido")
 EMITE_AVISO_REMETENTE_FAVORECIDO = (
     "6",
-    u"6 - Emite Aviso para o Remetente e Favorecido",
+    "6 - Emite Aviso para o Remetente e Favorecido",
 )
 EMITE_AVISO_FAVORECIDO_2_VIAS_REMETENTE = (
     "7",
-    u"7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente",
+    "7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente",
 )
 
 AVISO_FAVORECIDO = [
@@ -260,213 +260,213 @@ AVISO_FAVORECIDO = [
 ]
 
 INDICATIVO_FORMA_PAGAMENTO = [
-    ("01", u"01 - Débito em Conta Corrente"),
-    ("02", u"02 - Débito Empréstimo/Financiamento"),
-    ("03", u"03 - Débito Cartão de Crédito"),
+    ("01", "01 - Débito em Conta Corrente"),
+    ("02", "02 - Débito Empréstimo/Financiamento"),
+    ("03", "03 - Débito Cartão de Crédito"),
 ]
 
 TIPO_MOVIMENTO = [
-    ("0", u"0 - Indica INCLUSÃO"),
-    ("1", u"1 - Indica CONSULTA"),
-    ("2", u"2 - Indica SUSPENSÃO"),
-    ("3", u"3 - Indica ESTORNO (somente para retorno)"),
-    ("4", u"4 - Indica REATIVAÇÃO"),
-    ("5", u"5 - Indica ALTERAÇÃO"),
-    ("7", u"7 - Indica LIQUIDAÇAO"),
-    ("9", u"9 - Indica EXCLUSÃO"),
+    ("0", "0 - Indica INCLUSÃO"),
+    ("1", "1 - Indica CONSULTA"),
+    ("2", "2 - Indica SUSPENSÃO"),
+    ("3", "3 - Indica ESTORNO (somente para retorno)"),
+    ("4", "4 - Indica REATIVAÇÃO"),
+    ("5", "5 - Indica ALTERAÇÃO"),
+    ("7", "7 - Indica LIQUIDAÇAO"),
+    ("9", "9 - Indica EXCLUSÃO"),
 ]
 
 CODIGO_INSTRUCAO_MOVIMENTO = [
-    ("0", u"00 - Inclusão de Registro Detalhe Liberado"),
-    ("9", u"09 - Inclusão do Registro Detalhe Bloqueado"),
-    ("10", u"10 - Alteração do Pagamento Liberado para Bloqueado (Bloqueio)"),
-    ("11", u"11 - Alteração do Pagamento Bloqueado para Liberado (Liberação)"),
-    ("17", u"17 - Alteração do Valor do Título"),
-    ("19", u"19 - Alteração da Data de Pagamento"),
-    ("23", u"23 - Pagamento Direto ao Fornecedor - Baixar"),
-    ("25", u"25 - Manutenção em Carteira - Não Pagar"),
-    ("27", u"27 - Retirada de Carteira - Não Pagar"),
+    ("0", "00 - Inclusão de Registro Detalhe Liberado"),
+    ("9", "09 - Inclusão do Registro Detalhe Bloqueado"),
+    ("10", "10 - Alteração do Pagamento Liberado para Bloqueado (Bloqueio)"),
+    ("11", "11 - Alteração do Pagamento Bloqueado para Liberado (Liberação)"),
+    ("17", "17 - Alteração do Valor do Título"),
+    ("19", "19 - Alteração da Data de Pagamento"),
+    ("23", "23 - Pagamento Direto ao Fornecedor - Baixar"),
+    ("25", "25 - Manutenção em Carteira - Não Pagar"),
+    ("27", "27 - Retirada de Carteira - Não Pagar"),
     (
         "33",
-        u"33 - Estorno por Devolução da Câmara Centralizadora "
-        u"(somente para Tipo de Movimento = '3')",
+        "33 - Estorno por Devolução da Câmara Centralizadora "
+        "(somente para Tipo de Movimento = '3')",
     ),
-    ("40", u"40 - Alegação do Pagador"),
-    ("99", u"99 - Exclusão do Registro Detalhe Incluído Anteriormente"),
+    ("40", "40 - Alegação do Pagador"),
+    ("99", "99 - Exclusão do Registro Detalhe Incluído Anteriormente"),
 ]
 
 CODIGO_OCORRENCIAS = [
-    ("00", u"00 - Crédito ou Débito Efetivado"),
-    ("01", u"01 - Insuficiência de Fundos - Débito Não Efetuado"),
-    ("02", u"02 - Crédito ou Débito Cancelado pelo Pagador/Credor"),
-    ("03", u"03 - Débito Autorizado pela Agência - Efetuado"),
-    ("AA", u"AA - Controle Inválido"),
-    ("AB", u"AB - Tipo de Operação Inválido"),
-    ("AC", u"AC - Tipo de Serviço Inválido"),
-    ("AD", u"AD - Forma de Lançamento Inválida"),
-    ("AE", u"AE - Tipo/Número de Inscrição Inválido"),
-    ("AF", u"AF - Código de Convênio Inválido"),
-    ("AG", u"AG - Agência/Conta Corrente/DV Inválido"),
-    ("AH", u"AH - Nº Seqüencial do Registro no Lote Inválido"),
-    ("AI", u"AI - Código de Segmento de Detalhe Inválido"),
-    ("AJ", u"AJ - Tipo de Movimento Inválido"),
+    ("00", "00 - Crédito ou Débito Efetivado"),
+    ("01", "01 - Insuficiência de Fundos - Débito Não Efetuado"),
+    ("02", "02 - Crédito ou Débito Cancelado pelo Pagador/Credor"),
+    ("03", "03 - Débito Autorizado pela Agência - Efetuado"),
+    ("AA", "AA - Controle Inválido"),
+    ("AB", "AB - Tipo de Operação Inválido"),
+    ("AC", "AC - Tipo de Serviço Inválido"),
+    ("AD", "AD - Forma de Lançamento Inválida"),
+    ("AE", "AE - Tipo/Número de Inscrição Inválido"),
+    ("AF", "AF - Código de Convênio Inválido"),
+    ("AG", "AG - Agência/Conta Corrente/DV Inválido"),
+    ("AH", "AH - Nº Seqüencial do Registro no Lote Inválido"),
+    ("AI", "AI - Código de Segmento de Detalhe Inválido"),
+    ("AJ", "AJ - Tipo de Movimento Inválido"),
     (
         "AK",
-        u"AK - Código da Câmara de Compensação do Banco"
-        u" Favorecido/Depositário Inválido",
+        "AK - Código da Câmara de Compensação do Banco"
+        " Favorecido/Depositário Inválido",
     ),
     (
         "AL",
-        u"AL - Código do Banco Favorecido, Instituição de Pagamento"
-        u" ou Depositário Inválido",
+        "AL - Código do Banco Favorecido, Instituição de Pagamento"
+        " ou Depositário Inválido",
     ),
-    ("AM", u"AM - Agência Mantenedora da Conta Corrente do" u" Favorecido Inválida"),
-    ("AN", u"AN - Conta Corrente/DV/Conta de Pagamento do" u" Favorecido Inválido"),
-    ("AO", u"AO - Nome do Favorecido Não Informado"),
-    ("AP", u"AP - Data Lançamento Inválido"),
-    ("AQ", u"AQ - Tipo/Quantidade da Moeda Inválido"),
-    ("AR", u"AR - Valor do Lançamento Inválido"),
-    ("AS", u"AS - Aviso ao Favorecido - Identificação Inválida"),
-    ("AT", u"AT - Tipo/Número de Inscrição do Favorecido Inválido"),
-    ("AU", u"AU - Logradouro do Favorecido Não Informado"),
-    ("AV", u"AV - Nº do Local do Favorecido Não Informado"),
-    ("AW", u"AW - Cidade do Favorecido Não Informada"),
-    ("AX", u"AX - CEP/Complemento do Favorecido Inválido"),
-    ("AY", u"AY - Sigla do Estado do Favorecido Inválida"),
-    ("AZ", u"AZ - Código/Nome do Banco Depositário Inválido"),
-    ("BA", u"BA - Código/Nome da Agência Depositária Não Informado"),
-    ("BB", u"BB - Seu Número Inválido"),
-    ("BC", u"BC - Nosso Número Inválido"),
-    ("BD", u"BD - Inclusão Efetuada com Sucesso"),
-    ("BE", u"BE - Alteração Efetuada com Sucesso"),
-    ("BF", u"BF - Exclusão Efetuada com Sucesso"),
-    ("BG", u"BG - Agência/Conta Impedida Legalmente"),
-    ("BH", u"BH - Empresa não pagou salário"),
-    ("BI", u"BI - Falecimento do mutuário"),
-    ("BJ", u"BJ - Empresa não enviou remessa do mutuário"),
-    ("BK", u"BK - Empresa não enviou remessa no vencimento"),
-    ("BL", u"BL - Valor da parcela inválida"),
-    ("BM", u"BM - Identificação do contrato inválida"),
-    ("BN", u"BN - Operação de Consignação Incluída com Sucesso"),
-    ("BO", u"BO - Operação de Consignação Alterada com Sucesso"),
-    ("BP", u"BP - Operação de Consignação Excluída com Sucesso"),
-    ("BQ", u"BQ - Operação de Consignação Liquidada com Sucesso"),
-    ("BR", u"BR - Reativação Efetuada com Sucesso"),
-    ("BS", u"BS - Suspensão Efetuada com Sucesso"),
-    ("CA", u"CA - Código de Barras - Código do Banco Inválido"),
-    ("CB", u"CB - Código de Barras - Código da Moeda Inválido"),
-    ("CC", u"CC - Código de Barras - Dígito Verificador Geral Inválido"),
-    ("CD", u"CD - Código de Barras - Valor do Título Inválido"),
-    ("CE", u"CE - Código de Barras - Campo Livre Inválido"),
-    ("CF", u"CF - Valor do Documento Inválido"),
-    ("CG", u"CG - Valor do Abatimento Inválido"),
-    ("CH", u"CH - Valor do Desconto Inválido"),
-    ("CI", u"CI - Valor de Mora Inválido"),
-    ("CJ", u"CJ - Valor da Multa Inválido"),
-    ("CK", u"CK - Valor do IR Inválido"),
-    ("CL", u"CL - Valor do ISS Inválido"),
-    ("CM", u"CM - Valor do IOF Inválido"),
-    ("CN", u"CN - Valor de Outras Deduções Inválido"),
-    ("CO", u"CO - Valor de Outros Acréscimos Inválido"),
-    ("CP", u"CP - Valor do INSS Inválido"),
-    ("HA", u"HA - Lote Não Aceito"),
-    ("HB", u"HB - Inscrição da Empresa Inválida para o Contrato"),
-    ("HC", u"HC - Convênio com a Empresa Inexistente/Inválido" u" para o Contrato"),
+    ("AM", "AM - Agência Mantenedora da Conta Corrente do" " Favorecido Inválida"),
+    ("AN", "AN - Conta Corrente/DV/Conta de Pagamento do" " Favorecido Inválido"),
+    ("AO", "AO - Nome do Favorecido Não Informado"),
+    ("AP", "AP - Data Lançamento Inválido"),
+    ("AQ", "AQ - Tipo/Quantidade da Moeda Inválido"),
+    ("AR", "AR - Valor do Lançamento Inválido"),
+    ("AS", "AS - Aviso ao Favorecido - Identificação Inválida"),
+    ("AT", "AT - Tipo/Número de Inscrição do Favorecido Inválido"),
+    ("AU", "AU - Logradouro do Favorecido Não Informado"),
+    ("AV", "AV - Nº do Local do Favorecido Não Informado"),
+    ("AW", "AW - Cidade do Favorecido Não Informada"),
+    ("AX", "AX - CEP/Complemento do Favorecido Inválido"),
+    ("AY", "AY - Sigla do Estado do Favorecido Inválida"),
+    ("AZ", "AZ - Código/Nome do Banco Depositário Inválido"),
+    ("BA", "BA - Código/Nome da Agência Depositária Não Informado"),
+    ("BB", "BB - Seu Número Inválido"),
+    ("BC", "BC - Nosso Número Inválido"),
+    ("BD", "BD - Inclusão Efetuada com Sucesso"),
+    ("BE", "BE - Alteração Efetuada com Sucesso"),
+    ("BF", "BF - Exclusão Efetuada com Sucesso"),
+    ("BG", "BG - Agência/Conta Impedida Legalmente"),
+    ("BH", "BH - Empresa não pagou salário"),
+    ("BI", "BI - Falecimento do mutuário"),
+    ("BJ", "BJ - Empresa não enviou remessa do mutuário"),
+    ("BK", "BK - Empresa não enviou remessa no vencimento"),
+    ("BL", "BL - Valor da parcela inválida"),
+    ("BM", "BM - Identificação do contrato inválida"),
+    ("BN", "BN - Operação de Consignação Incluída com Sucesso"),
+    ("BO", "BO - Operação de Consignação Alterada com Sucesso"),
+    ("BP", "BP - Operação de Consignação Excluída com Sucesso"),
+    ("BQ", "BQ - Operação de Consignação Liquidada com Sucesso"),
+    ("BR", "BR - Reativação Efetuada com Sucesso"),
+    ("BS", "BS - Suspensão Efetuada com Sucesso"),
+    ("CA", "CA - Código de Barras - Código do Banco Inválido"),
+    ("CB", "CB - Código de Barras - Código da Moeda Inválido"),
+    ("CC", "CC - Código de Barras - Dígito Verificador Geral Inválido"),
+    ("CD", "CD - Código de Barras - Valor do Título Inválido"),
+    ("CE", "CE - Código de Barras - Campo Livre Inválido"),
+    ("CF", "CF - Valor do Documento Inválido"),
+    ("CG", "CG - Valor do Abatimento Inválido"),
+    ("CH", "CH - Valor do Desconto Inválido"),
+    ("CI", "CI - Valor de Mora Inválido"),
+    ("CJ", "CJ - Valor da Multa Inválido"),
+    ("CK", "CK - Valor do IR Inválido"),
+    ("CL", "CL - Valor do ISS Inválido"),
+    ("CM", "CM - Valor do IOF Inválido"),
+    ("CN", "CN - Valor de Outras Deduções Inválido"),
+    ("CO", "CO - Valor de Outros Acréscimos Inválido"),
+    ("CP", "CP - Valor do INSS Inválido"),
+    ("HA", "HA - Lote Não Aceito"),
+    ("HB", "HB - Inscrição da Empresa Inválida para o Contrato"),
+    ("HC", "HC - Convênio com a Empresa Inexistente/Inválido" " para o Contrato"),
     (
         "HD",
-        u"HD - Agência/Conta Corrente da Empresa Inexistente/Inválido"
-        u" para o Contrato",
+        "HD - Agência/Conta Corrente da Empresa Inexistente/Inválido"
+        " para o Contrato",
     ),
-    ("HE", u"HE - Tipo de Serviço Inválido para o Contrato"),
-    ("HF", u"HF - Conta Corrente da Empresa com Saldo Insuficiente"),
-    ("HG", u"HG - Lote de Serviço Fora de Seqüência"),
-    ("HH", u"HH - Lote de Serviço Inválido"),
-    ("HI", u"HI - Arquivo não aceito"),
-    ("HJ", u"HJ - Tipo de Registro Inválido"),
-    ("HK", u"HK - Código Remessa / Retorno Inválido"),
-    ("HL", u"HL - Versão de layout inválida"),
-    ("HM", u"HM - Mutuário não identificado"),
-    ("HN", u"HN - Tipo do beneficio não permite empréstimo"),
-    ("HO", u"HO - Beneficio cessado/suspenso"),
-    ("HP", u"HP - Beneficio possui representante legal"),
-    ("HQ", u"HQ - Beneficio é do tipo PA (Pensão alimentícia)"),
-    ("HR", u"HR - Quantidade de contratos permitida excedida"),
-    ("HS", u"HS - Beneficio não pertence ao Banco informado"),
-    ("HT", u"HT - Início do desconto informado já ultrapassado"),
-    ("HU", u"HU - Número da parcela inválida"),
-    ("HV", u"HV - Quantidade de parcela inválida"),
+    ("HE", "HE - Tipo de Serviço Inválido para o Contrato"),
+    ("HF", "HF - Conta Corrente da Empresa com Saldo Insuficiente"),
+    ("HG", "HG - Lote de Serviço Fora de Seqüência"),
+    ("HH", "HH - Lote de Serviço Inválido"),
+    ("HI", "HI - Arquivo não aceito"),
+    ("HJ", "HJ - Tipo de Registro Inválido"),
+    ("HK", "HK - Código Remessa / Retorno Inválido"),
+    ("HL", "HL - Versão de layout inválida"),
+    ("HM", "HM - Mutuário não identificado"),
+    ("HN", "HN - Tipo do beneficio não permite empréstimo"),
+    ("HO", "HO - Beneficio cessado/suspenso"),
+    ("HP", "HP - Beneficio possui representante legal"),
+    ("HQ", "HQ - Beneficio é do tipo PA (Pensão alimentícia)"),
+    ("HR", "HR - Quantidade de contratos permitida excedida"),
+    ("HS", "HS - Beneficio não pertence ao Banco informado"),
+    ("HT", "HT - Início do desconto informado já ultrapassado"),
+    ("HU", "HU - Número da parcela inválida"),
+    ("HV", "HV - Quantidade de parcela inválida"),
     (
         "HW",
-        u"HW - Margem consignável excedida para o mutuário dentro"
-        u" do prazo do contrato",
+        "HW - Margem consignável excedida para o mutuário dentro"
+        " do prazo do contrato",
     ),
-    ("HX", u"HX - Empréstimo já cadastrado"),
-    ("HY", u"HY - Empréstimo inexistente"),
-    ("HZ", u"HZ - Empréstimo já encerrado"),
-    ("H1", u"H1 - Arquivo sem trailer"),
-    ("H2", u"H2 - Mutuário sem crédito na competência"),
-    ("H3", u"H3 - Não descontado – outros motivos"),
-    ("H4", u"H4 - Retorno de Crédito não pago"),
-    ("H5", u"H5 - Cancelamento de empréstimo retroativo"),
-    ("H6", u"H6 - Outros Motivos de Glosa"),
+    ("HX", "HX - Empréstimo já cadastrado"),
+    ("HY", "HY - Empréstimo inexistente"),
+    ("HZ", "HZ - Empréstimo já encerrado"),
+    ("H1", "H1 - Arquivo sem trailer"),
+    ("H2", "H2 - Mutuário sem crédito na competência"),
+    ("H3", "H3 - Não descontado – outros motivos"),
+    ("H4", "H4 - Retorno de Crédito não pago"),
+    ("H5", "H5 - Cancelamento de empréstimo retroativo"),
+    ("H6", "H6 - Outros Motivos de Glosa"),
     (
         "H7",
-        u"H7 - Margem consignável excedida para o mutuário acima"
-        u" do prazo do contrato",
+        "H7 - Margem consignável excedida para o mutuário acima"
+        " do prazo do contrato",
     ),
-    ("H8", u"H8 - Mutuário desligado do empregador"),
-    ("H9", u"H9 - Mutuário afastado por licença"),
+    ("H8", "H8 - Mutuário desligado do empregador"),
+    ("H9", "H9 - Mutuário afastado por licença"),
     (
         "IA",
-        u"IA - Primeiro nome do mutuário diferente do primeiro nome"
-        u" do movimento do censo ou diferente da base de Titular"
-        u" do Benefício",
+        "IA - Primeiro nome do mutuário diferente do primeiro nome"
+        " do movimento do censo ou diferente da base de Titular"
+        " do Benefício",
     ),
-    ("IB", u"IB - Benefício suspenso/cessado pela APS ou Sisobi"),
-    ("IC", u"IC - Benefício suspenso por dependência de cálculo"),
-    ("ID", u"ID - Benefício suspenso/cessado pela inspetoria/auditoria"),
-    ("IE", u"IE - Benefício bloqueado para empréstimo pelo beneficiário"),
-    ("IF", u"IF - Benefício bloqueado para empréstimo por TBM"),
-    ("IG", u"IG - Benefício está em fase de concessão de PA ou desdobramento"),
-    ("IH", u"IH - Benefício cessado por óbito"),
-    ("II", u"II - Benefício cessado por fraude"),
-    ("IJ", u"IJ - Benefício cessado por concessão de outro benefício"),
-    ("IK", u"IK - Benefício cessado: estatutário transferido" u" para órgão de origem"),
-    ("IL", u"IL - Empréstimo suspenso pela APS"),
-    ("IM", u"IM - Empréstimo cancelado pelo banco"),
-    ("IN", u"IN - Crédito transformado em PAB"),
-    ("IO", u"IO - Término da consignação foi alterado"),
+    ("IB", "IB - Benefício suspenso/cessado pela APS ou Sisobi"),
+    ("IC", "IC - Benefício suspenso por dependência de cálculo"),
+    ("ID", "ID - Benefício suspenso/cessado pela inspetoria/auditoria"),
+    ("IE", "IE - Benefício bloqueado para empréstimo pelo beneficiário"),
+    ("IF", "IF - Benefício bloqueado para empréstimo por TBM"),
+    ("IG", "IG - Benefício está em fase de concessão de PA ou desdobramento"),
+    ("IH", "IH - Benefício cessado por óbito"),
+    ("II", "II - Benefício cessado por fraude"),
+    ("IJ", "IJ - Benefício cessado por concessão de outro benefício"),
+    ("IK", "IK - Benefício cessado: estatutário transferido" " para órgão de origem"),
+    ("IL", "IL - Empréstimo suspenso pela APS"),
+    ("IM", "IM - Empréstimo cancelado pelo banco"),
+    ("IN", "IN - Crédito transformado em PAB"),
+    ("IO", "IO - Término da consignação foi alterado"),
     (
         "IP",
-        u"IP - Fim do empréstimo ocorreu durante período" u" de suspensão ou concessão",
+        "IP - Fim do empréstimo ocorreu durante período" " de suspensão ou concessão",
     ),
-    ("IQ", u"IQ - Empréstimo suspenso pelo banco"),
+    ("IQ", "IQ - Empréstimo suspenso pelo banco"),
     (
         "IR",
-        u"IR - Não averbação de contrato – quantidade de"
-        u" parcelas/competências informadas ultrapassou a data limite"
-        u" da extinção de cota do dependente titular de benefícios",
+        "IR - Não averbação de contrato – quantidade de"
+        " parcelas/competências informadas ultrapassou a data limite"
+        " da extinção de cota do dependente titular de benefícios",
     ),
-    ("TA", u"TA - Lote Não Aceito - Totais do Lote com Diferença"),
-    ("YA", u"YA - Título Não Encontrado"),
-    ("YB", u"YB - Identificador Registro Opcional Inválido"),
-    ("YC", u"YC - Código Padrão Inválido"),
-    ("YD", u"YD - Código de Ocorrência Inválido"),
-    ("YE", u"YE - Complemento de Ocorrência Inválido"),
-    ("YF", u"YF - Alegação já Informada"),
-    ("ZA", u"ZA - Agência / Conta do Favorecido Substituída"),
+    ("TA", "TA - Lote Não Aceito - Totais do Lote com Diferença"),
+    ("YA", "YA - Título Não Encontrado"),
+    ("YB", "YB - Identificador Registro Opcional Inválido"),
+    ("YC", "YC - Código Padrão Inválido"),
+    ("YD", "YD - Código de Ocorrência Inválido"),
+    ("YE", "YE - Complemento de Ocorrência Inválido"),
+    ("YF", "YF - Alegação já Informada"),
+    ("ZA", "ZA - Agência / Conta do Favorecido Substituída"),
     (
         "ZB",
-        u"ZB - Divergência entre o primeiro e último nome do beneficiário"
-        u" versus primeiro e último nome na Receita Federal",
+        "ZB - Divergência entre o primeiro e último nome do beneficiário"
+        " versus primeiro e último nome na Receita Federal",
     ),
-    ("ZC", u"ZC - Confirmação de Antecipação de Valor"),
-    ("ZD", u"ZD - Antecipação parcial de valor"),
-    ("ZE", u"ZE - Título bloqueado na base"),
-    ("ZF", u"ZF - Sistema em contingência" u" – título valor maior que referência"),
-    ("ZG", u"ZG - Sistema em contingência – título vencido"),
-    ("ZH", u"ZH - Sistema em contingência – título indexado"),
-    ("ZI", u"ZI - Beneficiário divergente"),
-    ("ZJ", u"ZJ - Limite de pagamentos parciais excedido"),
-    ("ZK", u"ZK - Boleto já liquidado"),
+    ("ZC", "ZC - Confirmação de Antecipação de Valor"),
+    ("ZD", "ZD - Antecipação parcial de valor"),
+    ("ZE", "ZE - Título bloqueado na base"),
+    ("ZF", "ZF - Sistema em contingência" " – título valor maior que referência"),
+    ("ZG", "ZG - Sistema em contingência – título vencido"),
+    ("ZH", "ZH - Sistema em contingência – título indexado"),
+    ("ZI", "ZI - Beneficiário divergente"),
+    ("ZJ", "ZJ - Limite de pagamentos parciais excedido"),
+    ("ZK", "ZK - Boleto já liquidado"),
 ]

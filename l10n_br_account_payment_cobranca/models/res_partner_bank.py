@@ -12,22 +12,22 @@ class ResPartnerBank(models.Model):
     _inherit = "res.partner.bank"
 
     codigo_da_empresa = fields.Integer(
-        u"Código da empresa",
+        "Código da empresa",
         size=20,
-        help=u"Será informado pelo banco depois do cadastro do beneficiário "
-        u"na agência",
+        help="Será informado pelo banco depois do cadastro do beneficiário "
+        "na agência",
     )
 
     tipo_de_conta = fields.Selection(
         selection=[
-            ("01", u"Conta corrente individual"),
-            ("02", u"Conta poupança individual"),
-            ("03", u"Conta depósito judicial/Depósito em consignação " u"individual"),
-            ("11", u"Conta corrente conjunta"),
-            ("12", u"Conta poupança conjunta"),
-            ("13", u"Conta depósito judicial/Depósito em consignação " u"conjunta"),
+            ("01", "Conta corrente individual"),
+            ("02", "Conta poupança individual"),
+            ("03", "Conta depósito judicial/Depósito em consignação " "individual"),
+            ("11", "Conta corrente conjunta"),
+            ("12", "Conta poupança conjunta"),
+            ("13", "Conta depósito judicial/Depósito em consignação " "conjunta"),
         ],
-        string=u"Tipo de Conta",
+        string="Tipo de Conta",
         default="01",
     )
 

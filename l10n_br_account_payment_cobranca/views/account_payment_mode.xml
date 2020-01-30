@@ -6,7 +6,7 @@
         </field>
         <field name="model">account.payment.mode</field>
         <field name="inherit_id"
-               ref="l10n_br_account_payment_order.view_payment_mode_form_inherit_l10n_br_payment"/>
+               ref="l10n_br_account_payment_order.l10n_br_account_payment_mode_form"/>
         <field name="priority" eval="40"/>
         <field name="arch" type="xml">
             <group name="main" position="after">

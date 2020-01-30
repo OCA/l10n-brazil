@@ -17,31 +17,31 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    active = fields.Boolean(string=u"Ativo", default=True)
+    active = fields.Boolean(string="Ativo", default=True)
 
-    eval_state_cnab = fields.Selection(
-        string=u"Estado CNAB",
-        related="move_line_receivable_id.state_cnab",
-        readonly=True,
-        store=True,
-        index=True,
-    )
-
-    eval_situacao_pagamento = fields.Selection(
-        string=u"Situação do Pagamento",
-        related="move_line_receivable_id.situacao_pagamento",
-        readonly=True,
-        store=True,
-        index=True,
-    )
+    # eval_state_cnab = fields.Selection(
+    #     string=u"Estado CNAB",
+    #     related="move_line_receivable_id.state_cnab",
+    #     readonly=True,
+    #     store=True,
+    #     index=True,
+    # )
+    #
+    # eval_situacao_pagamento = fields.Selection(
+    #     string=u"Situação do Pagamento",
+    #     related="move_line_receivable_id.situacao_pagamento",
+    #     readonly=True,
+    #     store=True,
+    #     index=True,
+    # )
 
     eval_payment_mode_instrucoes = fields.Text(
-        string=u"Instruções de Cobrança do Modo de Pagamento",
+        string="Instruções de Cobrança do Modo de Pagamento",
         related="payment_mode_id.instrucoes",
         readonly=True,
     )
 
-    instrucoes = fields.Text(string=u"Instruções de cobrança")
+    instrucoes = fields.Text(string="Instruções de cobrança")
 
     bank_api_operation_ids = fields.One2many(
         string="Operações Realizadas",
@@ -298,9 +298,9 @@ class AccountInvoice(models.Model):
                 else:
                     raise UserError(
                         _(
-                            u"Favor acessar aba Cobrança da configuração da"
-                            u" sua empresa para determinar o tipo de "
-                            u"sequencia utilizada nas cobrancas"
+                            "Favor acessar aba Cobrança da configuração da"
+                            " sua empresa para determinar o tipo de "
+                            "sequencia utilizada nas cobrancas"
                         )
                     )
 

@@ -11,15 +11,15 @@ _logger = logging.getLogger(__name__)
 
 
 ESTADOS_CNAB = [
-    ("draft", u"Inicial"),
-    ("added", u"Adicionada à ordem de pagamento"),
-    ("added_paid", u"Adicionada para Baixa"),
-    ("exported", u"Exportada"),
-    ("exporting_error", u"Erro ao exportar"),
-    ("accepted", u"Aceita"),
-    ("accepted_hml", u"Aceita em Homologação"),
-    ("not_accepted", u"Não aceita pelo banco"),
-    ("done", u"Concluído"),
+    ("draft", "Inicial"),
+    ("added", "Adicionada à ordem de pagamento"),
+    ("added_paid", "Adicionada para Baixa"),
+    ("exported", "Exportada"),
+    ("exporting_error", "Erro ao exportar"),
+    ("accepted", "Aceita"),
+    ("accepted_hml", "Aceita em Homologação"),
+    ("not_accepted", "Não aceita pelo banco"),
+    ("done", "Concluído"),
 ]
 
 SITUACAO_PAGAMENTO = [
@@ -35,18 +35,18 @@ SITUACAO_PAGAMENTO = [
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    state_cnab = fields.Selection(ESTADOS_CNAB, u"Estados CNAB", default="draft")
-    date_payment_created = fields.Date(u"Data da criação do pagamento", readonly=True)
-    nosso_numero = fields.Char(string=u"Nosso Numero")
-    numero_documento = fields.Char(string=u"Número documento")
-    identificacao_titulo_empresa = fields.Char(string=u"Identificação Titulo Empresa")
+    state_cnab = fields.Selection(ESTADOS_CNAB, "Estados CNAB", default="draft")
+    date_payment_created = fields.Date("Data da criação do pagamento", readonly=True)
+    nosso_numero = fields.Char(string="Nosso Numero")
+    numero_documento = fields.Char(string="Número documento")
+    identificacao_titulo_empresa = fields.Char(string="Identificação Titulo Empresa")
     situacao_pagamento = fields.Selection(
-        selection=SITUACAO_PAGAMENTO, string=u"Situação do Pagamento", default="inicial"
+        selection=SITUACAO_PAGAMENTO, string="Situação do Pagamento", default="inicial"
     )
-    instrucoes = fields.Text(string=u"Instruções de cobrança", readonly=True)
+    instrucoes = fields.Text(string="Instruções de cobrança", readonly=True)
 
     residual = fields.Monetary(
-        string=u"Valor Residual", default=0.0, currency_field="company_currency_id"
+        string="Valor Residual", default=0.0, currency_field="company_currency_id"
     )
 
     @api.multi

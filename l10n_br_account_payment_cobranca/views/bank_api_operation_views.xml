@@ -16,59 +16,59 @@
         </field>
     </record>
 
-    <record id="bank_api_operation_search_view" model="ir.ui.view">
-        <field name="name">bank.api.operation.search.view</field>
-        <field name="model">bank.api.operation</field>
-        <field name="arch" type="xml">
-            <search string="Operações Bancárias">
-                <field name="user_id"/>
-                <field name="environment"/>
-                <field name="operation_type"/>
+<!--    <record id="bank_api_operation_search_view" model="ir.ui.view">-->
+<!--        <field name="name">bank.api.operation.search.view</field>-->
+<!--        <field name="model">bank.api.operation</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Operações Bancárias">-->
+<!--                <field name="user_id"/>-->
+<!--                <field name="environment"/>-->
+<!--                <field name="operation_type"/>-->
 
-                <separator/>
-                <field name="operation_datetime"
-                       string="Data Anterior a"
-                       filter_domain="[('operation_datetime', '&lt;', self)]"
-                />
-                <field name="operation_datetime"
-                       string="Data Posterior a"
-                       filter_domain="[('operation_datetime', '>', self)]"
-                />
+<!--                <separator/>-->
+<!--                <field name="operation_datetime"-->
+<!--                       string="Data Anterior a"-->
+<!--                       filter_domain="[('operation_datetime', '&lt;', self)]"-->
+<!--                />-->
+<!--                <field name="operation_datetime"-->
+<!--                       string="Data Posterior a"-->
+<!--                       filter_domain="[('operation_datetime', '>', self)]"-->
+<!--                />-->
 
-                <filter name="environment" string="Homologação"
-                        domain="[('environment', '=', '1')]"/>
+<!--                <filter name="environment" string="Homologação"-->
+<!--                        domain="[('environment', '=', '1')]"/>-->
 
-                <filter name="environment" string="Produção"
-                        domain="[('environment', '=', '2')]"/>
+<!--                <filter name="environment" string="Produção"-->
+<!--                        domain="[('environment', '=', '2')]"/>-->
 
-                <separator/>
-                <filter name="status" string="Sucesso"
-                        domain="[('status', 'like', '200')]"/>
-                <filter name="status" string="Erro nos Campos"
-                        domain="[('status', 'like', '400')]"/>
-                <filter name="status" string="Outros Erros"
-                        domain="[('status', 'not like', '200'), ('error_400', '=', False)]"/>
+<!--                <separator/>-->
+<!--                <filter name="status" string="Sucesso"-->
+<!--                        domain="[('status', 'like', '200')]"/>-->
+<!--                <filter name="status" string="Erro nos Campos"-->
+<!--                        domain="[('status', 'like', '400')]"/>-->
+<!--                <filter name="status" string="Outros Erros"-->
+<!--                        domain="[('status', 'not like', '200'), ('error_400', '=', False)]"/>-->
 
-                <separator/>
-                <group expand="0" string="Group By" >
+<!--                <separator/>-->
+<!--                <group expand="0" string="Group By" >-->
 
-                    <filter string="Usuário"
-                            context="{'group_by': 'user_id'}"/>
-                    <filter string="Ambiente"
-                            context="{'group_by': 'environment'}"/>
-                    <filter string="Data da Operação"
-                            context="{'group_by': 'operation_datetime'}"/>
-                    <filter string="Tipo da Operação"
-                            context="{'group_by': 'operation_type'}"/>
-                    <filter string="Situação"
-                            context="{'group_by': 'status'}"/>
-                    <filter string="Fatura"
-                            context="{'group_by': 'invoice_id'}"/>
-                </group>
+<!--                    <filter string="Usuário"-->
+<!--                            context="{'group_by': 'user_id'}"/>-->
+<!--                    <filter string="Ambiente"-->
+<!--                            context="{'group_by': 'environment'}"/>-->
+<!--                    <filter string="Data da Operação"-->
+<!--                            context="{'group_by': 'operation_datetime'}"/>-->
+<!--                    <filter string="Tipo da Operação"-->
+<!--                            context="{'group_by': 'operation_type'}"/>-->
+<!--                    <filter string="Situação"-->
+<!--                            context="{'group_by': 'status'}"/>-->
+<!--                    <filter string="Fatura"-->
+<!--                            context="{'group_by': 'invoice_id'}"/>-->
+<!--                </group>-->
 
-            </search>
-        </field>
-    </record>
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
 
     <record id="bank_api_operation_form_view" model="ir.ui.view">
         <field name="name">bank.api.operation.form.view</field>

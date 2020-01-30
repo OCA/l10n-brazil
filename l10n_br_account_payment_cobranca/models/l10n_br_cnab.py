@@ -16,13 +16,13 @@ _logger = logging.getLogger(__name__)
 STATE = [("draft", "Novo"), ("done", "Processado"), ("error", "Erro no Processamento")]
 
 TIPO_OPERACAO = {
-    "C": u"Lançamento a Crédito",
-    "D": u"Lançamento a Débito",
-    "E": u"Extrato para Conciliação",
-    "G": u"Extrato para Gestão de Caixa",
-    "I": u"Informações de Títulos Capturados do Próprio Banco",
-    "R": u"Arquivo Remessa",
-    "T": u"Arquivo Retorno",
+    "C": "Lançamento a Crédito",
+    "D": "Lançamento a Débito",
+    "E": "Extrato para Conciliação",
+    "G": "Extrato para Gestão de Caixa",
+    "I": "Informações de Títulos Capturados do Próprio Banco",
+    "R": "Arquivo Remessa",
+    "T": "Arquivo Retorno",
 }
 
 TIPO_SERVICO = {
@@ -255,9 +255,9 @@ class L10nBrHrCnab(models.Model):
         string="Lotes", comodel_name="l10n_br.cnab.lote", inverse_name="cnab_id"
     )
     name = fields.Char(string="Name")
-    num_eventos = fields.Integer(string=u"Número de Eventos")
-    num_lotes = fields.Integer(string=u"Número de Lotes")
-    state = fields.Selection(string=u"Estágio", selection=STATE, default="draft")
+    num_eventos = fields.Integer(string="Número de Eventos")
+    num_lotes = fields.Integer(string="Número de Lotes")
+    state = fields.Selection(string="Estágio", selection=STATE, default="draft")
 
     @api.one
     @api.depends("name")
@@ -673,7 +673,7 @@ class L10nBrHrCnab(models.Model):
         cnab_ids = self.search([("data", "=", data)], order="id desc")
         cnab_idx = 1
         if cnab_ids:
-            search_result = filter(
+            search_result = list(filter(
                 lambda x: x is not None,
                 [
                     re.search(r"\((\d)\)", name)
@@ -681,7 +681,7 @@ class L10nBrHrCnab(models.Model):
                         [("data", "=", data), ("id", "!=", self.id)], order="id desc"
                     ).mapped("name")
                 ],
-            )
+            ))
             if search_result:
                 cnab_idx = max(int(result.group(1)) for result in search_result) + 1
 
