@@ -47,9 +47,10 @@ class AbstractSpecMixin(models.AbstractModel):
                     if class_obj._fields[xsd_field].comodel_name \
                             not in self._get_spec_classes():
                         continue
+                    if not any(self[f] for f in self[xsd_field]._fields
+                               if self._fields[f]._attrs.get('xsd')):
+                        continue
                 field_data = self._export_many2one(xsd_field, class_obj)
-            elif not self[xsd_field] and not xsd_required:
-                continue
             elif self._fields[xsd_field].type == 'one2many':
                 field_data = self._export_one2many(xsd_field, class_obj)
             elif self._fields[xsd_field].type == 'datetime' and self[xsd_field]:
@@ -57,6 +58,8 @@ class AbstractSpecMixin(models.AbstractModel):
             elif self._fields[xsd_field].type == 'date' and self[xsd_field]:
                 field_data = self._export_date(xsd_field)
             elif self._fields[xsd_field].type in ('float', 'monetary') and self[xsd_field] is not False:
+                if not self[xsd_field] and not xsd_required:
+                    continue
                 field_data = self._export_float_monetary(
                     xsd_field, member_spec)
             else:
@@ -78,11 +81,11 @@ class AbstractSpecMixin(models.AbstractModel):
             )
         else:
             # continue
-            try:
-                field_data = self._build_generateds(
-                    class_obj._fields[field_name].comodel_name)
-            except:
+            if self[field_name]:
                 field_data = self[field_name]._build_generateds(
+                    class_obj._fields[field_name].comodel_name)
+            else:
+                field_data = self._build_generateds(
                     class_obj._fields[field_name].comodel_name)
         return field_data
 
