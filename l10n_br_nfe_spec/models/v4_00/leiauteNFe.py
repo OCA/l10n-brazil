@@ -1,6 +1,6 @@
 # Copyright 2019 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Tue Jan 21 14:56:31 2020 by generateDS.py(Akretion's branch).
+# Generated Thu Jan 30 10:03:16 2020 by generateDS.py(Akretion's branch).
 # Python 3.6.9 (default, Nov  7 2019, 10:44:02)  [GCC 8.3.0]
 #
 import textwrap
@@ -1229,8 +1229,7 @@ class COFINSOutr(models.AbstractModel):
         ('nfe40_pCOFINS', 'pCOFINS'),
         ('nfe40_qBCProd', 'qBCProd'),
         ('nfe40_vAliqProd', 'vAliqProd')],
-        "vBC/pCOFINS/qBCProd/vAliqProd",
-        default="nfe40_vBC")
+        "vBC/pCOFINS/qBCProd/vAliqProd")
     nfe40_CST = fields.Selection(
         CST_COFINSOUTR,
         string="Código de Situação Tributária do COFINS",
@@ -1345,8 +1344,7 @@ class COFINSST(models.AbstractModel):
         ('nfe40_pCOFINS', 'pCOFINS'),
         ('nfe40_qBCProd', 'qBCProd'),
         ('nfe40_vAliqProd', 'vAliqProd')],
-        "vBC/pCOFINS/qBCProd/vAliqProd",
-        default="nfe40_vBC")
+        "vBC/pCOFINS/qBCProd/vAliqProd")
     nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
         digits=2, choice='17',
         string="Valor da BC do COFINS ST",
@@ -1386,8 +1384,7 @@ class COFINS(models.AbstractModel):
         ('nfe40_COFINSQtde', 'COFINSQtde'),
         ('nfe40_COFINSNT', 'COFINSNT'),
         ('nfe40_COFINSOutr', 'COFINSOutr')],
-        "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr",
-        default="nfe40_COFINSAliq")
+        "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr")
     nfe40_COFINSAliq = fields.Many2one(
         "nfe.40.cofinsaliq",
         choice='15',
@@ -2822,8 +2819,7 @@ class ICMS(models.AbstractModel):
         ('nfe40_ICMSSN202', 'ICMSSN202'),
         ('nfe40_ICMSSN500', 'ICMSSN500'),
         ('nfe40_ICMSSN900', 'ICMSSN900')],
-        "ICMS00/ICMS10/ICMS20/ICMS30/ICMS40/ICMS51/ICMS60/I...",
-        default="nfe40_ICMS00")
+        "ICMS00/ICMS10/ICMS20/ICMS30/ICMS40/ICMS51/ICMS60/I...")
     nfe40_ICMS00 = fields.Many2one(
         "nfe.40.icms00",
         choice='11',
@@ -3095,8 +3091,7 @@ class IPITrib(models.AbstractModel):
         ('nfe40_pIPI', 'pIPI'),
         ('nfe40_qUnid', 'qUnid'),
         ('nfe40_vUnid', 'vUnid')],
-        "vBC/pIPI/qUnid/vUnid",
-        default="nfe40_vBC")
+        "vBC/pIPI/qUnid/vUnid")
     nfe40_CST = fields.Selection(
         CST_IPITRIB,
         string="Código da Situação Tributária do IPI",
@@ -3280,8 +3275,7 @@ class NFref(models.AbstractModel):
         ('nfe40_refNFP', 'refNFP'),
         ('nfe40_refCTe', 'refCTe'),
         ('nfe40_refECF', 'refECF')],
-        "refNFe/refNF/refNFP/refCTe/refECF",
-        default="nfe40_refNFe")
+        "refNFe/refNF/refNFP/refCTe/refECF")
     nfe40_refNFe = fields.Char(
         choice='4',
         string="Chave de acesso das NF",
@@ -3392,8 +3386,7 @@ class PISOutr(models.AbstractModel):
         ('nfe40_pPIS', 'pPIS'),
         ('nfe40_qBCProd', 'qBCProd'),
         ('nfe40_vAliqProd', 'vAliqProd')],
-        "vBC/pPIS/qBCProd/vAliqProd",
-        default="nfe40_vBC")
+        "vBC/pPIS/qBCProd/vAliqProd")
     nfe40_CST = fields.Selection(
         CST_PISOUTR,
         string="Código de Situação Tributária do PIS",
@@ -3465,8 +3458,7 @@ class PISST(models.AbstractModel):
         ('nfe40_pPIS', 'pPIS'),
         ('nfe40_qBCProd', 'qBCProd'),
         ('nfe40_vAliqProd', 'vAliqProd')],
-        "vBC/pPIS/qBCProd/vAliqProd",
-        default="nfe40_vBC")
+        "vBC/pPIS/qBCProd/vAliqProd")
     nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
         digits=2, choice='14',
         string="Valor da BC do PIS ST", xsd=True, xsd_required=True)
@@ -3502,8 +3494,7 @@ class PIS(models.AbstractModel):
         ('nfe40_PISQtde', 'PISQtde'),
         ('nfe40_PISNT', 'PISNT'),
         ('nfe40_PISOutr', 'PISOutr')],
-        "PISAliq/PISQtde/PISNT/PISOutr",
-        default="nfe40_PISAliq")
+        "PISAliq/PISQtde/PISNT/PISOutr")
     nfe40_PISAliq = fields.Many2one(
         "nfe.40.pisaliq",
         choice='12',
@@ -3728,8 +3719,7 @@ class TIpi(models.AbstractModel):
     nfe40_choice3 = fields.Selection([
         ('nfe40_IPITrib', 'IPITrib'),
         ('nfe40_IPINT', 'IPINT')],
-        "IPITrib/IPINT",
-        default="nfe40_IPITrib")
+        "IPITrib/IPINT")
     nfe40_CNPJProd = fields.Char(
         string="CNPJ do produtor da mercadoria",
         xsd=True,
@@ -3770,8 +3760,7 @@ class TLocal(models.AbstractModel):
     nfe40_choice2 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
-        "CNPJ/CPF",
-        default="nfe40_CNPJ")
+        "CNPJ/CPF")
     nfe40_CNPJ = fields.Char(
         choice='2',
         string="CNPJ", xsd=True, xsd_required=True)
@@ -3959,8 +3948,7 @@ class TRetEnviNFe(models.AbstractModel):
     nfe40_choice1 = fields.Selection([
         ('nfe40_infRec', 'infRec'),
         ('nfe40_protNFe', 'protNFe')],
-        "infRec/protNFe",
-        default="nfe40_infRec")
+        "infRec/protNFe")
     nfe40_versao = fields.Char(
         string="versao", xsd=True, xsd_required=True)
     nfe40_tpAmb = fields.Selection(
@@ -4108,8 +4096,7 @@ class AutXML(models.AbstractModel):
     nfe40_choice8 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
-        "CNPJ/CPF",
-        default="nfe40_CNPJ")
+        "CNPJ/CPF")
     nfe40_CNPJ = fields.Char(
         choice='8',
         string="CNPJ Autorizado", xsd=True, xsd_required=True)
@@ -4393,8 +4380,7 @@ class Dest(models.AbstractModel):
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF'),
         ('nfe40_idEstrangeiro', 'idEstrangeiro')],
-        "CNPJ/CPF/idEstrangeiro",
-        default="nfe40_CNPJ")
+        "CNPJ/CPF/idEstrangeiro")
     nfe40_CNPJ = fields.Char(
         choice='7',
         string="Número do CNPJ", xsd=True, xsd_required=True)
@@ -4572,8 +4558,7 @@ class Emit(models.AbstractModel):
     nfe40_choice6 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
-        "CNPJ/CPF",
-        default="nfe40_CNPJ")
+        "CNPJ/CPF")
     nfe40_CNPJ = fields.Char(
         choice='6',
         string="Número do CNPJ do emitente",
@@ -4938,8 +4923,7 @@ class Imposto(models.AbstractModel):
         ('nfe40_II', 'II'),
         ('nfe40_IPI', 'IPI'),
         ('nfe40_ISSQN', 'ISSQN')],
-        "ICMS/II/IPI/ISSQN",
-        default="nfe40_ICMS")
+        "ICMS/II/IPI/ISSQN")
     nfe40_vTotTrib = fields.Monetary(currency_field="brl_currency_id",
         digits=2, string="Valor estimado total de impostos federais",
         xsd=True,
@@ -5378,8 +5362,7 @@ class Prod(models.AbstractModel):
         ('nfe40_arma', 'arma'),
         ('nfe40_comb', 'comb'),
         ('nfe40_nRECOPI', 'nRECOPI')],
-        "veicProd/med/arma/comb/nRECOPI",
-        default="nfe40_veicProd")
+        "veicProd/med/arma/comb/nRECOPI")
     nfe40_cProd = fields.Char(
         string="Código do produto ou serviço",
         xsd=True,
@@ -5629,8 +5612,7 @@ class RefNFP(models.AbstractModel):
     nfe40_choice5 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
-        "CNPJ/CPF",
-        default="nfe40_CNPJ")
+        "CNPJ/CPF")
     nfe40_cUF = fields.Selection(
         TCODUFIBGE,
         string="cUF", xsd=True, xsd_required=True,
@@ -5813,8 +5795,7 @@ class Transp(models.AbstractModel):
         ('nfe40_reboque', 'reboque'),
         ('nfe40_vagao', 'vagao'),
         ('nfe40_balsa', 'balsa')],
-        "veicTransp/reboque/vagao/balsa",
-        default="nfe40_veicTransp")
+        "veicTransp/reboque/vagao/balsa")
     nfe40_modFrete = fields.Selection(
         MODFRETE_TRANSP,
         string="Modalidade do frete",
@@ -5875,8 +5856,7 @@ class Transporta(models.AbstractModel):
     nfe40_choice19 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
-        "CNPJ/CPF",
-        default="nfe40_CNPJ")
+        "CNPJ/CPF")
     nfe40_CNPJ = fields.Char(
         choice='19',
         string="CNPJ do transportador",
