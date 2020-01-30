@@ -63,6 +63,12 @@ class NFeLine(spec_models.StackedModel):
         "Típo de Produto",
         default="normal")
 
+    def _export_field(self, xsd_fields, class_obj, export_dict):
+        if class_obj._name == 'nfe.40.icms':
+            xsd_fields = [self.nfe40_choice11]
+        return super(NFeLine, self)._export_field(
+            xsd_fields, class_obj, export_dict)
+
 
 class ResCity(models.Model):
     _inherit = "res.city"
