@@ -63,11 +63,12 @@ class AbstractSpecMixin(models.AbstractModel):
                 field_data = self._export_float_monetary(
                     xsd_field, member_spec)
             else:
-                if class_obj._name.startswith('nfe.40.icms') and \
-                        xsd_field == 'nfe40_CST':
-                    field_data = self.icms_cst_id.code
-                else:
-                    field_data = self[xsd_field]
+                field_data = self[xsd_field]
+                if xsd_field == 'nfe40_CST':
+                    if class_obj._name.startswith('nfe.40.icms'):
+                        field_data = self.icms_cst_id.code
+                    elif class_obj._name.startswith('nfe.40.ipi'):
+                        field_data = self.ipi_cst_id.code
 
             if not self[xsd_field] and not field_data:
                 continue
