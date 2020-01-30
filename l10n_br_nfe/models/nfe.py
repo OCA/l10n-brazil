@@ -66,6 +66,10 @@ class NFeLine(spec_models.StackedModel):
     def _export_field(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
+        elif class_obj._name == 'nfe.40.tipi':
+            xsd_fields = [f for f in xsd_fields if f not in [
+                i[0] for i in class_obj._fields['nfe40_choice3'].selection]]
+            xsd_fields += [self.nfe40_choice3]
         return super(NFeLine, self)._export_field(
             xsd_fields, class_obj, export_dict)
 
