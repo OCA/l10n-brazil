@@ -49,7 +49,7 @@ class AbstractSpecMixin(models.AbstractModel):
                         continue
                     if not any(self[f] for f in self[xsd_field]._fields
                                if self._fields[f]._attrs.get('xsd')) and \
-                            xsd_field not in ['nfe40_PIS']:
+                            xsd_field not in ['nfe40_PIS', 'nfe40_COFINS']:
                         continue
                 field_data = self._export_many2one(xsd_field, class_obj)
             elif self._fields[xsd_field].type == 'one2many':
@@ -72,6 +72,8 @@ class AbstractSpecMixin(models.AbstractModel):
                         field_data = self.ipi_cst_id.code
                     elif class_obj._name.startswith('nfe.40.pis'):
                         field_data = self.pis_cst_id.code
+                    elif class_obj._name.startswith('nfe.40.cofins'):
+                        field_data = self.cofins_cst_id.code
 
             if not self[xsd_field] and not field_data:
                 continue
