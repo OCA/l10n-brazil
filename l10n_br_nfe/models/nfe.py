@@ -72,6 +72,8 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields += [self.nfe40_choice3]
         elif class_obj._name == 'nfe.40.pis':
             xsd_fields = [self.nfe40_choice12]
+        elif class_obj._name == 'nfe.40.cofins':
+            xsd_fields = [self.nfe40_choice15]
         return super(NFeLine, self)._export_field(
             xsd_fields, class_obj, export_dict)
 
