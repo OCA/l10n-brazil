@@ -51,6 +51,8 @@ class AbstractSpecMixin(models.AbstractModel):
                                if self._fields[f]._attrs.get('xsd')) and \
                             xsd_field not in ['nfe40_PIS', 'nfe40_COFINS']:
                         continue
+                if xsd_field == 'nfe40_ISSQN' and self.product_id.type == 'consu':
+                    continue
                 field_data = self._export_many2one(xsd_field, class_obj)
             elif self._fields[xsd_field].type == 'one2many':
                 field_data = self._export_one2many(xsd_field, class_obj)
