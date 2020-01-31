@@ -62,7 +62,10 @@ class AbstractSpecMixin(models.AbstractModel):
                 field_data = self._export_date(xsd_field)
             elif self._fields[xsd_field].type in ('float', 'monetary') and self[xsd_field] is not False:
                 if not self[xsd_field] and not xsd_required:
-                    continue
+                    if not (class_obj._name == 'nfe.40.imposto' and
+                            xsd_field == 'nfe40_vTotTrib') and not \
+                            (class_obj._name == 'nfe.40.fat'):
+                        continue
                 field_data = self._export_float_monetary(
                     xsd_field, member_spec)
             else:
