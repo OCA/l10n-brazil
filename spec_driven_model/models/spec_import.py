@@ -40,7 +40,7 @@ class AbstractSpecMixin(models.AbstractModel):
                               reverse=True)
         for attr in sorted_attrs:
             value = getattr(node, attr.get_name())
-            if value is None:
+            if value is None or value == []:
                 continue
             key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
             child_path = '%s.%s' % (path, key)
