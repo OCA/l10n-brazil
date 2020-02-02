@@ -44,19 +44,7 @@ from . import res_company
 from . import document
 from . import document_line
 from . import res_config_settings
+from . import res_country_state
 from . import uom_category
 from . import uom_uom
 from . import uom_uom_alternative
-
-# from . import l10n_br_account_product_document_related
-# from . import l10n_br_account_product_import_declaration
-# from . import l10n_br_account_product_import_declaration_line
-# from . import l10n_br_account_product_icms_relief
-# from . import l10n_br_tax_icms_partition
-# from . import account_invoice
-# from . import account_invoice_line
-# from . import account_payment_term
-# from . import account_tax_template
-# from . import account_fiscal_position
-# from . import account_fiscal_position_template
-# from . import res_country_state
