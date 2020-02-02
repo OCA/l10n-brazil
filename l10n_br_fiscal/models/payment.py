@@ -5,10 +5,23 @@
 from odoo import fields, models
 
 
-class AccountPaymentMode(models.Model):
-    _inherit = "account.payment.mode"
+class FiscalPayment(models.Model):
+    _inherit = "l10n_br_fiscal.payment"
 
-    type_nf_payment = fields.Selection(
+    name = fields.Char(
+        string='Name',
+        required=True)
+
+    indPag = fields.Selection(
+        selection=[
+            ("0", u"Pagamento à Vista"),
+            ("1", u"Pagamento à Prazo"),
+            ("2", "Outros"),
+        ],
+        string=u"Indicador de Pagamento",
+        default="1")
+
+    payment_type = fields.Selection(
         selection=[
             ("01", u"01 - Dinheiro"),
             ("02", u"02 - Cheque"),
