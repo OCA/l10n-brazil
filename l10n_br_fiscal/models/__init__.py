@@ -30,6 +30,7 @@ from . import tax_definition_company
 from . import tax_definition_cfop
 from . import document_type
 from . import document_serie
+from . import payment
 from . import product_genre
 from . import certificate
 from . import product_template
@@ -59,4 +60,3 @@ from . import uom_uom_alternative
 # from . import account_fiscal_position
 # from . import account_fiscal_position_template
 # from . import res_country_state
-# from . import account_payment_mode
