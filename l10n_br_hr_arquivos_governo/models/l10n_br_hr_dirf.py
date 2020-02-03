@@ -6,6 +6,7 @@ from __future__ import (
     division, print_function, unicode_literals, absolute_import
 )
 
+import base64
 import re
 
 from openerp import api, fields, models
@@ -121,6 +122,12 @@ class L10nBrHrDirf(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
+
+    dirf_file = fields.Binary(
+        string='Arquivo DIRF', readonly=True
+    )
+
+    dirf_filename = fields.Char(string="Filename", readonly=True)
 
     @api.onchange('responsible_partner_id')
     def set_contato(self):
@@ -578,3 +585,11 @@ class L10nBrHrDirf(models.Model):
             grupo.add_beneficiario(beneficiario)
 
         self.dirf = str(dirf)
+
+        # Gera o arquivo apartir do txt do grrf no temp do sistema
+        nome_arquivo = 'DIRF{}{}.txt'.format(
+            self.ano_referencia, self.company_id.name)
+
+        self.dirf_file = base64.b64encode(str(dirf))
+
+        self.dirf_filename = nome_arquivo
