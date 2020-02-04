@@ -95,6 +95,8 @@ class AbstractSpecMixin(models.AbstractModel):
                             self.env['l10n_br_fiscal.cst'].search(
                                 [('code', '=', value),
                                  ('tax_domain', '=', 'cofins')])[0].id
+                elif key == 'nfe40_modBC':
+                    vals['icms_base_type'] = value
 
             else:
                 # ComplexType
