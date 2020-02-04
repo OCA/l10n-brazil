@@ -1613,6 +1613,7 @@ class SpedEsocial(models.Model):
                 ('data_afastamento', '<=', self.periodo_id.date_stop),
                 ('state', 'in', ['verify', 'done']),
                 ('is_simulacao', '=', False),
+                ('tipo_de_folha','not in',['rescisao_complementar'])
             ])
             rescisoes_sem_registro = 0
 
