@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from ..constants.icms import ICMS_BASE_TYPE
 
 
 class DocumentLine(models.Model):
@@ -24,5 +25,10 @@ class DocumentLine(models.Model):
         domain=lambda self: self._operation_domain())
 
     document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Document")
+        comodel_name="l10n_br_fiscal.document", string="Document")
+
+    icms_base_type = fields.Selection(
+        selection=ICMS_BASE_TYPE,
+        string="ICMS Base Type",
+    )
+
