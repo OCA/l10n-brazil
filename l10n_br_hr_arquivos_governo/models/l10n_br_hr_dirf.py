@@ -199,7 +199,7 @@ class L10nBrHrDirf(models.Model):
         domain = [
             ('ano', '=', int(ano)),
             ('is_simulacao', '=', False),
-            ('company_id', '=', company_id.id),
+            # ('company_id', '=', company_id.id),
             ('state', 'in', ['done', 'verify']),
         ]
         if employee_id:
