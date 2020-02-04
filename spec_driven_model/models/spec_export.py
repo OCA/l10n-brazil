@@ -70,6 +70,8 @@ class AbstractSpecMixin(models.AbstractModel):
                     xsd_field, member_spec)
             else:
                 field_data = self[xsd_field]
+                if xsd_field == 'nfe40_modBC':
+                    field_data = self['icms_base_type']
                 if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
                         not field_data:
                     field_data = 'SEM GTIN'
