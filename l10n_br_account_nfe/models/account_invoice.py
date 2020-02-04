@@ -68,7 +68,7 @@ class AccountInvoiceLine(spec_models.SpecModel):
     _inherit = ['account.invoice.line', 'spec.mixin']
 
     nfe40_qTrib = fields.Float(related='quantity')
-    nfe40_cProd = fields.Char(related='product_id.code')
+    nfe40_cProd = fields.Char(related='product_id.default_code')
     nfe40_cEAN = fields.Char(related='product_id.barcode')
     nfe40_cEANTrib = fields.Char(related='product_id.barcode')
     nfe40_xProd = fields.Char(related='product_id.name')
