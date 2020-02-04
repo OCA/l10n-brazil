@@ -47,7 +47,7 @@ class NFeLine(spec_models.StackedModel):
     _force_stack_paths = ('det.imposto',)
     _rec_name = 'nfe40_xProd'
 
-    nfe40_cProd = fields.Char(related='product_id.code')
+    nfe40_cProd = fields.Char(related='product_id.default_code')
     nfe40_xProd = fields.Char(related='product_id.name')
     nfe40_cEAN = fields.Char(related='product_id.barcode')
     nfe40_cEANTrib = fields.Char(related='product_id.barcode')
