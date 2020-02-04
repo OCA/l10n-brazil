@@ -58,6 +58,8 @@ class AbstractSpecMixin(models.AbstractModel):
                         self.nfe40_det.mapped('product_id.type')
                 ):
                     continue
+                if xsd_field in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
+                    continue
                 field_data = self._export_many2one(xsd_field, class_obj)
             elif self._fields[xsd_field].type == 'one2many':
                 field_data = self._export_one2many(xsd_field, class_obj)
