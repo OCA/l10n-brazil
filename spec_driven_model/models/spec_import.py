@@ -214,6 +214,9 @@ class AbstractSpecMixin(models.AbstractModel):
         for related_m2o, sub_val in related_many2ones.items():
             comodel_name = fields[related_m2o]['relation']
             comodel = self.get_concrete_model(comodel_name)
+            if related_many2ones.get('product_id', {}).get('barcode') and \
+                    related_many2ones['product_id']['barcode'] == 'SEM GTIN':
+                del related_many2ones['product_id']['barcode']
             if hasattr(comodel, 'match_or_create_m2o'):
                 vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals,
                                                                 True)
@@ -236,6 +239,8 @@ class AbstractSpecMixin(models.AbstractModel):
         else:
             keys = [model._rec_name or model._concrete_rec_name or 'name']
         print("match_record", keys, rec_dict)
+        if model._name == 'product.product' and rec_dict.get('barcode'):
+            keys = ['barcode'] + keys
         for key in keys:
             if rec_dict.get(key):
                 # TODO enable to build criteria using parent_dict
