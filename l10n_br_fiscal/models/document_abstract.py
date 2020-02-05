@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from ..constants.fiscal import FISCAL_IN_OUT, TAX_FRAMEWORK
 
@@ -14,7 +15,16 @@ class DocumentAbstract(models.AbstractModel):
     @api.one
     @api.depends("line_ids")
     def _compute_amount(self):
+
         self.amount_untaxed = sum(line.amount_untaxed for line in self.line_ids)
+        self.amount_icms_base = sum(line.icms_base for line in self.line_ids)
+        self.amount_icms_value = sum(line.icms_value for line in self.line_ids)
+        self.amount_ipi_base = sum(line.ipi_base for line in self.line_ids)
+        self.amount_ipi_value = sum(line.ipi_value for line in self.line_ids)
+        self.amount_pis_base = sum(line.pis_base for line in self.line_ids)
+        self.amount_pis_value = sum(line.pis_value for line in self.line_ids)
+        self.amount_cofins_base = sum(line.cofins_base for line in self.line_ids)
+        self.amount_cofins_value = sum(line.cofins_value for line in self.line_ids)
         self.amount_tax = sum(line.amount_tax for line in self.line_ids)
         self.amount_discount = sum(line.discount for line in self.line_ids)
         self.amount_total = sum(line.amount_total for line in self.line_ids)
@@ -34,6 +44,13 @@ class DocumentAbstract(models.AbstractModel):
         string="Issuer",
     )
 
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        string='User',
+        index=True,
+        default=lambda self: self.env.user
+    )
+
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type", required=True
     )
@@ -42,7 +59,7 @@ class DocumentAbstract(models.AbstractModel):
         related="document_type_id.electronic", string="Electronic?"
     )
 
-    date = fields.Date(string="Date")
+    date = fields.Datetime(string="Date")
 
     date_in_out = fields.Datetime(string="Date Move")
 
@@ -127,6 +144,22 @@ class DocumentAbstract(models.AbstractModel):
 
     amount_untaxed = fields.Monetary(string="Amount Untaxed", compute="_compute_amount")
 
+    amount_icms_base = fields.Monetary(string="ICMS Base", compute="_compute_amount")
+
+    amount_icms_value = fields.Monetary(string="ICMS Value", compute="_compute_amount")
+
+    amount_ipi_base = fields.Monetary(string="IPI Base", compute="_compute_amount")
+
+    amount_ipi_value = fields.Monetary(string="IPI Value", compute="_compute_amount")
+
+    amount_pis_base = fields.Monetary(string="PIS Base", compute="_compute_amount")
+
+    amount_pis_value = fields.Monetary(string="PIS Value", compute="_compute_amount")
+
+    amount_cofins_base = fields.Monetary(string="COFINS Base", compute="_compute_amount")
+
+    amount_cofins_value = fields.Monetary(string="COFINS Value", compute="_compute_amount")
+
     amount_tax = fields.Monetary(string="Amount Tax", compute="_compute_amount")
 
     amount_total = fields.Monetary(string="Amount Total", compute="_compute_amount")
@@ -156,6 +189,30 @@ class DocumentAbstract(models.AbstractModel):
         string="Document Lines",
     )
 
+    @api.model
+    def _create_serie_number(self, document_serie_id, document_date):
+        document_serie = self.env['l10n_br_fiscal.document.serie'].browse(
+            document_serie_id)
+        return document_serie.internal_sequence_id.with_context(
+            ir_sequence_date=document_date)._next()
+
+    @api.model
+    def create(self, values):
+        if not values.get('date'):
+            values['date'] = fields.Datetime.now().strftime(
+                DEFAULT_SERVER_DATETIME_FORMAT)
+
+        if values.get('document_serie_id') and not values.get('number'):
+            values['number'] = self._create_serie_number(
+                values.get('document_serie_id'), values['date'])
+
+        return super(DocumentAbstract, self).create(values)
+
+    @api.onchange("document_serie_id")
+    def _onchange_document_serie_id(self):
+        if self.document_serie_id:
+            self.document_serie = self.document_serie_id.code
+
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
         if self.partner_id:
@@ -170,7 +227,6 @@ class DocumentAbstract(models.AbstractModel):
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        super(DocumentAbstract, self)._onchange_operation_id()
         if self.operation_id:
             self.document_type_id = self.operation_id.document_type_id
             self.document_serie_id = self.operation_id.document_serie_id
@@ -178,5 +234,8 @@ class DocumentAbstract(models.AbstractModel):
     @api.multi
     def _action_confirm(self):
         for d in self:
-            if d.document_electronic:
-                return True
+            if not d.number:
+                number = self._create_serie_number(d.document_serie_id.id)
+                d = number
+
+            d.state = 'open'
