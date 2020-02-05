@@ -68,8 +68,8 @@
     </record>
 
     <record id="l10n_br_account_document_event_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document_event.form</field>
-        <field name="model">l10n_br_fiscal.document_event</field>
+        <field name="name">l10n_br_fiscal.document.event.form</field>
+        <field name="model">l10n_br_fiscal.document.event</field>
         <field name="arch" type="xml">
             <form string="Eventos Eletronicos" version="7.0" edit="false" create="false">
                 <header>
@@ -93,8 +93,8 @@
     </record>
 
     <record id="l10n_br_account_document_event_tree" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document_event.tree</field>
-        <field name="model">l10n_br_fiscal.document_event</field>
+        <field name="name">l10n_br_fiscal.document.event.tree</field>
+        <field name="model">l10n_br_fiscal.document.event</field>
         <field name="arch" type="xml">
             <tree edit="false" create="false">
                     <field name="type"/>
@@ -150,7 +150,7 @@
     <record id="action_l10n_br_account_document_event" model="ir.actions.act_window">
         <field name="name">Eventos Eletronicos</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document_event</field>
+        <field name="res_model">l10n_br_fiscal.document.event</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="l10n_br_account_document_event_tree"/>
