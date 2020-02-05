@@ -204,7 +204,10 @@ class OperationLine(models.Model):
         )
     ]
 
-    def get_fiscal_taxes(self, company=None, partner=None, product=None):
+    def get_fiscal_taxes(self, company=None, partner=None, product=None,
+                         fiscal_price=None, fiscal_quantity=None,
+                         ncm=None, nbs=None, cest=None):
+
         # TODO Aplicar regras de operações para pegar os impostos
         tax_defs = self.env.user.company_id.tax_definition_ids
         fiscal_taxes = tax_defs.mapped('tax_id')
