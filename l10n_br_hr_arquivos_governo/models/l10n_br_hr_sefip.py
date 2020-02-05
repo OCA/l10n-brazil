@@ -372,7 +372,7 @@ class L10nBrSefip(models.Model):
         """Valida tamanho da linha (sempre igual a 360 posições) e
          adiciona quebra caso esteja correto"""
         if len(linha) == 360:
-            return linha + '\r\n'
+            return linha + '\n'
         else:
             raise ValidationError(
                 'Tamanho da linha diferente de 360 posicoes.'
@@ -633,7 +633,8 @@ class L10nBrSefip(models.Model):
         sefip = SEFIP()
         for record in self:
             # Cria um arquivo temporario txt e escreve o que foi gerado
-            path_arquivo = sefip._gerar_arquivo_temp(record.sefip, 'SEFIP')
+            sefip_txt = record.sefip.replace('\n', '\r\n')
+            path_arquivo = sefip._gerar_arquivo_temp(sefip_txt, 'SEFIP')
             # Gera o anexo apartir do txt do grrf no temp do sistema
             nome_arquivo = 'SEFIP.re'
             self._gerar_anexo(nome_arquivo, path_arquivo)
