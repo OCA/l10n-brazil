@@ -95,6 +95,15 @@
                                 </group>
                             </group>
                         </page>
+                        <page name="edoc" string="Documentos Eletrônicos">
+                            <group name="edoc">
+                                <group>
+                                    <field name="processador_edoc"/>
+
+                                </group>
+                                <group></group>
+                            </group>
+                        </page>
                     </notebook>
                 </page>
             </notebook>
