@@ -11,6 +11,7 @@ from ..constants.fiscal import (INDUSTRY_TYPE, INDUSTRY_TYPE_TRANSFORMATION,
                                 TAX_DOMAIN_IPI, TAX_DOMAIN_PIS, TAX_FRAMEWORK,
                                 TAX_FRAMEWORK_NORMAL, TAX_FRAMEWORK_SIMPLES,
                                 TAX_FRAMEWORK_SIMPLES_ALL)
+from ..constants.edoc import PROCESSADOR
 
 
 class ResCompany(models.Model):
@@ -175,6 +176,11 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.tax.definition.company",
         inverse_name="company_id",
         string="Tax Definition",
+    )
+
+    processador_edoc = fields.Selection(
+        selection=PROCESSADOR,
+        string='Processador documentos eletrônicos',
     )
 
     def _del_tax_definition(self, tax_domain):
