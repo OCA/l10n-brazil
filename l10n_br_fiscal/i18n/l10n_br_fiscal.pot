@@ -571,7 +571,7 @@ msgid "Advanced Taxes"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,state:0
+#: selection:l10n_br_fiscal.document.event,state:0
 msgid "Aguardando Retorno"
 msgstr ""
 
@@ -1276,7 +1276,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__cancel_document_event_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__cancel_document_event_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__cancel_document_event_id
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Cancelamento"
 msgstr ""
 
@@ -1571,27 +1571,27 @@ msgid "Confirmar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Consulta Cadastro"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Consulta Destinadas"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Consulta NFE"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Consulta Recibo"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Consulta Situação"
 msgstr ""
 
@@ -1809,12 +1809,12 @@ msgid "DISPLAY"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "DPEC Consulta"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "DPEC Recepção"
 msgstr ""
 
@@ -1995,7 +1995,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Distribuição DFe"
 msgstr ""
 
@@ -2079,7 +2079,7 @@ msgid "Done"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Download"
 msgstr ""
 
@@ -2145,7 +2145,7 @@ msgid "Energia elétrica"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,state:0
+#: selection:l10n_br_fiscal.document.event,state:0
 msgid "Enviado"
 msgstr ""
 
@@ -2160,7 +2160,7 @@ msgid "Envio"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Envio Lote"
 msgstr ""
 
@@ -2214,7 +2214,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__exception
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Exception"
 msgstr ""
 
@@ -3854,7 +3854,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__invalid_number_document_event_id
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Inutilização"
 msgstr ""
 
@@ -4172,7 +4172,7 @@ msgid "Main CNAE"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Manifestação"
 msgstr ""
 
@@ -5509,7 +5509,7 @@ msgid "ROLO"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,state:0
+#: selection:l10n_br_fiscal.document.event,state:0
 msgid "Rascunho"
 msgstr ""
 
@@ -5524,7 +5524,7 @@ msgid "Real"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,state:0
+#: selection:l10n_br_fiscal.document.event,state:0
 msgid "Recebido Retorno"
 msgstr ""
 
@@ -5535,7 +5535,7 @@ msgid "Receivement"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document_event,type:0
+#: selection:l10n_br_fiscal.document.event,type:0
 msgid "Recepção Evento"
 msgstr ""
 
@@ -6708,7 +6708,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_event
-msgid "l10n_br_fiscal.document_event"
+msgid "l10n_br_fiscal.document.event"
 msgstr ""
 
 #. module: l10n_br_fiscal
