@@ -4,18 +4,23 @@
 
 from openupgradelib import openupgrade
 
+_model_renames = [
+    ('l10n_br_base.city', 'res.city'),
+]
+
+_table_renames = [
+    ('l10n_br_base_city', 'res_city'),
+]
+
+
 @openupgrade.migrate()
 def migrate(env, version):
     cr = env.cr
-    cr.execute(
-        '''INSERT INTO res_city(id, name, country_id, state_id, ibge_code) 
-        SELECT nextval('res_city_id_seq'), name, (SELECT id FROM res_country 
-        WHERE code='BR'), state_id, ibge_code FROM l10n_br_base_city 
-        WHERE ibge_code NOT IN (SELECT ibge_code FROM res_city);
-        ''')
+    openupgrade.rename_models(cr, _model_renames)
+    openupgrade.rename_tables(cr, _table_renames)
     cr.execute(
         '''INSERT INTO state_tax_numbers(id, inscr_est, partner_id, state_id)
-        SELECT nextval('state_tax_numbers_id_seq'), inscr_est, partner_id, 
+        SELECT nextval('state_tax_numbers_id_seq'), inscr_est, partner_id,
         state_id FROM other_inscricoes_estaduais;
         ''')
     cr.execute(
