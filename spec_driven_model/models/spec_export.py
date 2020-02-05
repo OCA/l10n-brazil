@@ -203,14 +203,23 @@ class AbstractSpecMixin(models.AbstractModel):
         output.close()
         print(contents)
 
-    def export_xml(self):
+    def export_xml(self, print=True):
+        result = []
+
         if hasattr(self, '_stacked'):
             ds_object = self._build_generateds()
-            self._print_xml(ds_object)
+            if print:
+                self._print_xml(ds_object)
+            result.append(ds_object)
+
         else:
             spec_classes = self._get_spec_classes()
-            ds_objects = []
             for class_name in spec_classes:
                 ds_object = self._build_generateds(class_name)
-                self._print_xml(ds_object)
-                ds_objects.append(ds_object)
+                if print:
+                    self._print_xml(ds_object)
+                result.append(ds_object)
+        return result
+
+    def export_ds(self):
+        return self.export_xml(print=False)
