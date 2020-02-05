@@ -29,3 +29,7 @@ class Document(models.Model):
         inverse_name="document_id",
         string="Document Lines",
     )
+
+    # Pequeno hack, temporário, pois não devemos sobrescrever o
+    # estado da invoice e do sale.
+    state = fields.Selection(related="state_edoc")
