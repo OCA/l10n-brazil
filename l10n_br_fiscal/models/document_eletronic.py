@@ -3,11 +3,15 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.exceptions import Warning as UserError
 
-
-from ..constants.fiscal import (
-    SITUACAO_EDOC_AUTORIZADA,
-    PROCESSADOR_NENHUM
+from ..constants.edoc import (
+    SITUACAO_EDOC, SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_AUTORIZADA, SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA, SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_REJEITADA,
+    SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
+    SITUACAO_FISCAL, WORKFLOW_EDOC, PROCESSADOR, PROCESSADOR_NENHUM
 )
 
 import logging
@@ -18,6 +22,11 @@ _logger = logging.getLogger(__name__)
 def filter_processador(record):
     if record.document_electronic and \
             record.processador_edoc == PROCESSADOR_NENHUM:
+        return True
+    return False
+
+def fiter_processador_edoc_base(record):
+    if record.processador_edoc == PROCESSADOR_NENHUM:
         return True
     return False
 
