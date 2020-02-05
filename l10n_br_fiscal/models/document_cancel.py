@@ -5,23 +5,25 @@
 from odoo import api, fields, models
 
 
-class DocumentCorrection(models.Model):
-    _name = "l10n_br_fiscal.document.correction"
-    _description = "Carta de Correção no Sefaz"
+class DocumentCancel(models.Model):
+    _name = "l10n_br_fiscal.document.cancel"
+    _description = "Documento Eletrônico no Sefaz"
 
-    motivo = fields.Text(string=u"Motivo", readonly=True, required=True)
-
-    sequencia = fields.Char(
-        string=u"Sequência", help=u"Indica a sequência da carta de correcão"
+    partner_id = fields.Many2one(
+        comodel_name="res.partner", related="invoice_id.partner_id", string="Cliente"
     )
 
-    cce_document_event_ids = fields.One2many(
-        comodel_name="l10n_br_account.document_event",
-        inverse_name="document_event_ids",
+    justificative = fields.Char(
+        string="Justificativa", size=255, readonly=True, required=True
+    )
+
+    cancel_document_event_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document_event",
+        inverse_name="cancel_document_event_id",
         string=u"Eventos",
     )
 
-    display_name = fields.Char(string="Name", compute="_compute_display_name")
+    display_name = fields.Char(string=u"Nome", compute="_compute_display_name")
 
     @api.multi
     @api.depends("invoice_id.number", "invoice_id.partner_id.name")
@@ -29,3 +31,18 @@ class DocumentCorrection(models.Model):
         self.ensure_one()
         names = ["Fatura", self.invoice_id.number, self.invoice_id.partner_id.name]
         self.display_name = " / ".join(filter(None, names))
+
+    @api.multi
+    def _check_justificative(self):
+        for invalid in self:
+            if len(invalid.justificative) < 15:
+                return False
+        return True
+
+    _constraints = [
+        (
+            _check_justificative,
+            u"Justificativa deve ter tamanho mínimo de 15 caracteres.",
+            ["justificative"],
+        )
+    ]
