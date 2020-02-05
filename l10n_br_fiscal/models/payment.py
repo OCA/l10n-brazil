@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class FiscalPayment(models.Model):
-    _inherit = "l10n_br_fiscal.payment"
+    _name = "l10n_br_fiscal.payment"
+    _description = "Fiscal Payment"
 
     name = fields.Char(
         string='Name',
