@@ -24,6 +24,7 @@ from ..constants.fiscal import (
     TAX_DOMAIN_COFINS,
     TAX_DOMAIN_COFINS_ST
 )
+from ..constants.icms import ICMS_BASE_TYPE
 
 
 from ..constants.icms import (
@@ -204,6 +205,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="CST ICMS",
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'icms')]")
+
+    icms_base_type = fields.Selection(
+        selection=ICMS_BASE_TYPE,
+        string="ICMS Base Type",
+    )
 
     icms_origin = fields.Selection(
         selection=ICMS_ORIGIN,
