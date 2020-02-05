@@ -4,15 +4,14 @@
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import (
-    INDUSTRY_TYPE, INDUSTRY_TYPE_TRANSFORMATION,
-    PROFIT_CALCULATION, PROFIT_CALCULATION_PRESUMED,
-    TAX_DOMAIN_COFINS, TAX_DOMAIN_ICMS,
-    TAX_DOMAIN_ICMS_SN, TAX_DOMAIN_IPI,
-    TAX_DOMAIN_PIS, TAX_FRAMEWORK,
-    TAX_FRAMEWORK_NORMAL, TAX_FRAMEWORK_SIMPLES,
-    TAX_FRAMEWORK_SIMPLES_ALL
-)
+from ..constants.fiscal import (INDUSTRY_TYPE, INDUSTRY_TYPE_TRANSFORMATION,
+                                PROFIT_CALCULATION,
+                                PROFIT_CALCULATION_PRESUMED, TAX_DOMAIN_COFINS,
+                                TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN,
+                                TAX_DOMAIN_IPI, TAX_DOMAIN_PIS, TAX_FRAMEWORK,
+                                TAX_FRAMEWORK_NORMAL, TAX_FRAMEWORK_SIMPLES,
+                                TAX_FRAMEWORK_SIMPLES_ALL)
+from ..constants.edoc import PROCESSADOR
 
 
 class ResCompany(models.Model):
@@ -175,6 +174,11 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="company_id",
         string="Tax Definition")
+
+    processador_edoc = fields.Selection(
+        selection=PROCESSADOR,
+        string='Processador documentos eletrônicos',
+    )
 
     default_document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
