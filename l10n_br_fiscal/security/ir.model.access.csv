@@ -75,3 +75,4 @@
 "uom_alternative_user","UOM alternative for User","model_uom_uom_alternative","l10n_br_fiscal.group_user",1,0,0,0
 "uom_alternative_manager","UOM alternative for Manager","model_uom_uom_alternative","l10n_br_fiscal.group_manager",1,0,0,0
 "uom_alternative_maintenance","UOM alternative for Maintenance","model_uom_uom_alternative","l10n_br_fiscal.group_data_maintenance",1,1,1,1
+"l10n_br_fiscal_document_event_user","Fiscal Document Event for User","model_l10n_br_fiscal_document_event","l10n_br_fiscal.group_user",1,1,1,0
