@@ -425,7 +425,6 @@ class DocumentAbstract(models.AbstractModel):
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        super(DocumentAbstract, self)._onchange_operation_id()
         if self.operation_id:
             self.document_type_id = self.operation_id.document_type_id
             self.document_serie_id = self.operation_id.document_serie_id
