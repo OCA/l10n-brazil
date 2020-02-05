@@ -217,7 +217,8 @@ class DocumentEvent(models.Model):
             file_name += "proc-"
         if sequencia:
             file_name += str(sequencia) + "-"
-        file_name += CODIGO_NOME[self.fiscal_document_id.document_type_id.code]
+        file_name += CODIGO_NOME[
+            self.fiscal_document_id.document_type_id.code]
         file_name += "." + extensao_sem_ponto
 
         file_path = self._grava_arquivo_disco(arquivo, file_name)
