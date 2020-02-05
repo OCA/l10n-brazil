@@ -9,6 +9,10 @@ from odoo.addons.spec_driven_model.models import spec_models
 from ..constants.nfe import (NFE_ENVIRONMENT_DEFAULT, NFE_ENVIRONMENTS,
                              NFE_VERSION_DEFAULT, NFE_VERSIONS)
 
+PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
+
+PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
+
 
 class ResCompany(spec_models.SpecModel):
     _inherit = ['res.company', 'nfe.40.emit']
@@ -36,6 +40,10 @@ class ResCompany(spec_models.SpecModel):
         "res.partner",
         related='partner_id',
         original_spec_model='nfe.40.tenderemi'
+    )
+
+    processador_edoc = fields.Selection(
+        selection_add=PROCESSADOR
     )
 
     # TODO CPF/CNPJ
