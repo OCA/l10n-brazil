@@ -67,7 +67,6 @@ class AbstractSpecMixin(models.AbstractModel):
                     if 'T' in value:
                         if tz_datetime.match(value):
                             old_value = value
-                            tz = old_value[19:]
                             value = old_value[:19]
                             # TODO see python3/pysped/xml_sped/base.py#L692
                         value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
@@ -129,18 +128,18 @@ class AbstractSpecMixin(models.AbstractModel):
 #                    if key == 'nfe40_dest':
 #                        print("KKKKKKK00", key, new_value, vals)
 #                        x=a/0
-                    if comodel._name == self._name\
-                            or self._name == 'account.invoice.line'\
-                            and comodel._name == 'l10n_br_fiscal.document.line'\
-                            or self._name == 'account.invoice'\
-                            and comodel._name == 'l10n_br_fiscal.document':
+                    if comodel._name == self._name or \
+                            self._name == 'account.invoice.line' and \
+                            comodel._name == 'l10n_br_fiscal.document.line' \
+                            or self._name == 'account.invoice' and \
+                            comodel._name == 'l10n_br_fiscal.document':
                         # TODO do not hardcode!!
                         # stacked m2o
                         vals.update(new_value)
                         print("(stacked)", self)
                     else:
-                        vals[key] = comodel.match_or_create_m2o(new_value, vals,
-                                                                create_m2o)
+                        vals[key] = comodel.match_or_create_m2o(
+                            new_value, vals, create_m2o)
                 elif attr.get_container() == 1:
                     # o2m
                     lines = []
@@ -206,7 +205,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 elif len(v['related']) == 2 and k.startswith('nfe40_'):  # TODO
                     related_m2o = v['related'][0]
                     # don't mess with _inherits write system
-                    if not any(related_m2o == i[1]\
+                    if not any(related_m2o == i[1]
                                for i in self._inherits.items()):
                         key_vals = related_many2ones.get(related_m2o, {})
                         key_vals[v['related'][1]] = vals.get(k)
