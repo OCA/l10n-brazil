@@ -3,6 +3,7 @@ import logging
 import re
 from datetime import datetime
 from odoo import api, models
+from .spec_models import SpecModel
 
 _logger = logging.getLogger(__name__)
 
@@ -21,9 +22,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
         # TODO new or create choice
         # TODO ability to match existing record here
-        # TODO use SpecModel._get_concrete(...)
-        model_name = models.MetaModel.mixin_mappings.get(self._name,
-                                                         self._name)
+        model_name = SpecModel._get_concrete(self._name) or self._name
         model = self.env[model_name]
         attrs = model.build_attrs(node, create_m2o=True, defaults=defaults)
         _logger.info(attrs)
