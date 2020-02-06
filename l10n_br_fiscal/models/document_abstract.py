@@ -1,11 +1,12 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# Copyright (C) 2019  Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
-from ..constants.fiscal import (FISCAL_IN_OUT, SITUACAO_EDOC,
+from ..constants.fiscal import (SITUACAO_EDOC,
                                 SITUACAO_EDOC_A_ENVIAR,
                                 SITUACAO_EDOC_AUTORIZADA,
                                 SITUACAO_EDOC_CANCELADA,
@@ -17,13 +18,39 @@ from ..constants.fiscal import (FISCAL_IN_OUT, SITUACAO_EDOC,
                                 SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
                                 TAX_FRAMEWORK,
                                 WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
-                                WORKFLOW_EDOC)
+                                WORKFLOW_EDOC,
+                                PROCESSADOR)
+
+
+def fiter_nao_eletronico(record):
+    if not record.document_electronic:
+        return True
+    return False
 
 
 class DocumentAbstract(models.AbstractModel):
     _name = "l10n_br_fiscal.document.abstract"
     _inherit = ["mail.thread", "mail.activity.mixin", "l10n_br_fiscal.document.mixin"]
     _description = "Fiscal Document Abstract"
+
+    """ Implementação base dos documentos fiscais
+
+    Devemos sempre ter em mente que o modelo que vai usar este módulo abstrato
+     tem diversos metodos importantes e a intenção que os módulos da OCA que 
+     extendem este modelo, funcionem se possível sem a necessidade de 
+     codificação extra.
+
+    É preciso também estar atento que o documento fiscal tem dois estados:
+
+    - Estado do documento eletrônico / não eletônico: state_edoc
+    - Estado FISCAL: state_fiscal
+
+    O estado fiscal é um campo que é alterado apenas algumas vezes pelo código
+    e é de responsabilidade do responsável fiscal pela empresa de manter a
+    integridade do mesmo, pois ele não tem um fluxo realmente definido e
+    interfere no lançamento do registro no arquivo do SPED FISCAL.
+
+    """
 
     @api.one
     @api.depends("line_ids")
@@ -174,6 +201,13 @@ class DocumentAbstract(models.AbstractModel):
     state_fiscal = fields.Selection(
         selection=SITUACAO_FISCAL, string="Situação Fiscal", track_visibility="onchange"
     )
+
+    processador_edoc = fields.Selection(
+        string="Processador",
+        selection=PROCESSADOR,
+    )
+
+    is_edoc_printed = fields.Boolean(string="Impresso", readonly=True)
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
@@ -397,8 +431,7 @@ class DocumentAbstract(models.AbstractModel):
     @api.model
     def create(self, values):
         if not values.get('date'):
-            values['date'] = fields.Datetime.now().strftime(
-                DEFAULT_SERVER_DATETIME_FORMAT)
+            values['date'] = self._date_server_format()
 
         if values.get('document_serie_id') and not values.get('number'):
             values['number'] = self._create_serie_number(
@@ -423,10 +456,15 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
-    @api.onchange("operation_id")
+    @api.onchange("operation_id", "company_id")
     def _onchange_operation_id(self):
+        if self.company_id:
+            self.processador_edoc = self.company_id.processador_edoc
         if self.operation_id:
             self.document_type_id = self.operation_id.document_type_id
+            # Busca o processador para o tipo de documento;
+            # if self.document_type_id.processador_edoc:
+            #     self.processador_edoc = self.document_type_id.processador_edoc
             self.document_serie_id = self.operation_id.document_serie_id
 
     @api.onchange("document_type_id")
@@ -440,11 +478,74 @@ class DocumentAbstract(models.AbstractModel):
 
         self.document_serie_id = serie
 
-    @api.multi
-    def _action_confirm(self):
-        for d in self:
-            if not d.number:
-                number = self._create_serie_number(d.document_serie_id.id)
-                d = number
+    def _date_server_format(self):
+        return fields.Datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
-            d.state = 'open'
+    def document_date(self):
+        if not self.date:
+            self.date = self._date_server_format()
+
+    def document_number(self):
+        if not self.number and self.document_serie_id and self.date:
+            self.number = self._create_serie_number(
+                self.document_serie_id,
+                self.date
+            )
+
+    def document_check(self):
+        return True
+
+    def _document_confirm(self):
+        for record in self.filtered(fiter_nao_eletronico):
+            record._change_state(SITUACAO_EDOC_A_ENVIAR)
+
+    def action_document_confirm(self):
+        to_confirm = self.filtered(
+            lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR
+        )
+        # Este lambda acima evita erros quando o usuário clica várias vezes
+
+        to_confirm.document_date()
+        to_confirm.document_number()
+        to_confirm.document_check()
+
+        return to_confirm._document_confirm()
+
+    def _document_send(self):
+        for record in self.filtered(fiter_nao_eletronico):
+            self._change_state(SITUACAO_EDOC_AUTORIZADA)
+
+    def action_document_send(self):
+        to_confirm = self.filtered(
+            lambda inv: inv.state_edoc in (SITUACAO_EDOC_EM_DIGITACAO,
+                                           SITUACAO_EDOC_REJEITADA))
+        if to_confirm:
+            to_confirm.action_document_confirm()
+
+        to_send = self.filtered(
+            lambda inv: inv.state_edoc == SITUACAO_EDOC_A_ENVIAR
+        )
+        return to_send._document_send()
+
+    def _document_cancel(self, justificative):
+        self._change_state(SITUACAO_EDOC_CANCELADA)
+        msg = "Cancelamento: {}".format(justificative)
+        self.message_post(body=msg)
+
+    @api.multi
+    def action_document_cancel(self):
+        result = self.env["ir.actions.act_window"].for_xml_id(
+            "l10n_br_fiscal", "wizard_document_cancel_action"
+        )
+        return result
+
+    def _document_correction(self, justificative):
+        msg = "Carta de correção: {}".format(justificative)
+        self.message_post(body=msg)
+
+    @api.multi
+    def action_document_correction(self):
+        result = self.env["ir.actions.act_window"].for_xml_id(
+            "l10n_br_fiscal", "wizard_document_correction_action"
+        )
+        return result
