@@ -14,18 +14,19 @@ def post_init_hook(cr, registry, module_name, spec_module):
     remaining_models = get_remaining_spec_models(
         cr, registry, module_name, spec_module)
     fields = ['id', 'name', 'model_id/id', 'group_id/id',
-              'perm_read', 'perm_write' , 'perm_create', 'perm_unlink']
+              'perm_read', 'perm_write', 'perm_create', 'perm_unlink']
     access_data = []
     for model in remaining_models:
         underline_name = model.replace('.', '_')
         rec_id = "acl_%s_nfe_40_%s" % ('todo'.split('.')[-1],
-                                     underline_name)
+                                       underline_name)
         # TODO no nfe ref
         model_id = "l10n_br_nfe_spec.model_%s" % (underline_name,)
-        access_data.append([rec_id, underline_name, model_id, 'base.group_user',
-                            '1', '1', '1', '1'])
+        access_data.append([rec_id, underline_name, model_id,
+                            'base.group_user', '1', '1', '1', '1'])
         # TODO make more secure!
     env['ir.model.access'].load(fields, access_data)
+
 
 def get_remaining_spec_models(cr, registry, module_name, spec_module):
     cr.execute("""select ir_model.model from ir_model_data
@@ -63,12 +64,12 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
         # 2nd StackedModel classes, that we will visit
         if hasattr(base_class, '_stacked'):
             node = SpecModel._odoo_name_to_class(base_class._stacked,
-                                                spec_module)
+                                                 spec_module)
 
             # TODO with registry!!
             base_class._visit_stack(node, injected_classes,
-                                   base_class._stacked.split('.')[-1],
-                                   registry, cr)
+                                    base_class._stacked.split('.')[-1],
+                                    registry, cr)
             # for f in base_class._stack_skip:
             #    if base_class._fields[]
 
@@ -87,6 +88,7 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
     print("\n **** REMAINING spec models to init (%s): %s \n\n" % (
         len(remaining_models), remaining_models))
     return remaining_models
+
 
 def register_hook(env, module_name, spec_module):
     remaining_models = get_remaining_spec_models(env.cr, env.registry,
