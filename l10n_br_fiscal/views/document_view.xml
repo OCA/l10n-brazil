@@ -29,6 +29,7 @@
         <field name="amount_untaxed"/>
         <field name="amount_tax"/>
         <field name="amount_total"/>
+        <field name="state"/>
       </tree>
     </field>
   </record>
@@ -43,27 +44,15 @@
         <field name="document_electronic" invisible="1"/>
         <field name="operation_type" invisible="1"/>
         <header>
-            <button name="action_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" groups="l10n_br_fiscal.group_user"/>
-            <button name="action_edoc_confirm" string="Validate" class="oe_highlight"
-                        groups="base.group_user"
-                        type="object"/>
-<!--                        states="sefaz_export,sefaz_exception,open"-->
-                <button name="action_edoc_send" string="Enviar Fatura"
-                        groups="base.group_user"
-                        type="object"/>
-<!--                        attrs="{'invisible':[('state','in', ['draft', 'proforma2'])]}"-->
-                <button name="action_edoc_check" type="object"
-                        string="Consultar no sefaz"
-                        groups="base.group_no_one"/>
-<!--                        attrs="{'invisible':['|',('issuer','!=','0'),-->
-<!--                                                 ('state','not in',['open','paid'])]}"-->
-                <button name="action_edoc_cce" type="object"
-                        string="Carta de correção"/>
-<!--                        states="draft,proforma2,sefaz_export,sefaz_exception,open,paid"-->
-                <button name="action_edoc_cancel" string="Cancelar Fatura"
-                        groups="base.group_user"
-                        type="object"/>
-            <field name="state" widget="statusbar"/>
+            <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="oe_highlight"/>
+            <button name="action_document_send"    type="object" string="Enviar"      groups="l10n_br_fiscal.group_user"    states="a_enviar"         class="oe_highlight"/>
+            <button name="action_document_cancel"  type="object" string="Cancelar"    groups="l10n_br_fiscal.group_user"    states="em_digitacao,a_enviar,enviada,rejeitada,autorizada"/>
+            <button name="action_document_correction" type="object" string="Carta de correção" groups="l10n_br_fiscal.group_user" states="autorizada"/>
+<!--                <button name="action_edoc_check" type="object"-->
+<!--                        string="Consultar no sefaz"-->
+<!--                        groups="base.group_no_one"/>-->
+<!--            -->
+            <field name="state" widget="statusbar" statusbar_visible="em_digitacao,autorizada"/>
         </header>
         <sheet string="Fiscal Document">
           <div class="oe_title">
