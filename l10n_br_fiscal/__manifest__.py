@@ -6,7 +6,7 @@
     "summary": "Brazilian fiscal core module.",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "Akretion, " "Odoo Community Association (OCA)",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.0",
     "depends": ["uom", "decimal_precision", "product", "l10n_br_base"],
@@ -27,6 +27,13 @@
         "data/partner_profile_data.xml",
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
+
+        # Wizards
+
+        "wizards/wizard_document_cancel_view.xml",
+        "wizards/wizard_document_correction_view.xml",
+        "wizards/wizard_document_status_view.xml",
+
         # Views
         "views/cnae_view.xml",
         "views/cfop_view.xml",
