@@ -415,6 +415,11 @@ class DocumentAbstract(models.AbstractModel):
 
         return super(DocumentAbstract, self).create(values)
 
+    @api.onchange("document_serie_id")
+    def _onchange_document_serie_id(self):
+        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_serie = self.document_serie_id.code
+
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
         if self.partner_id:
@@ -427,33 +432,9 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
-    def _set_document_serie(self):
-        if self.operation_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            if self.document_type_id:
-                self.document_serie_id = self.operation_id.get_document_serie(
-                    self.company_id, self.document_type_id)
-
-                if not self.document_serie_id:
-                    self.document_serie_id = self.env[
-                        'l10n_br_fiscal.document.serie'].search([
-                            ('company_id', '=', self.company_id.id),
-                            ('document_type_id', '=', self.document_type_id.id),
-                            ('active', '=', True)], limit=1, order="code")
-
-        if not self.operation_id:
-            self.document_type_id = self.company_id.document_type_id
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        self._set_document_serie()
         if self.operation_id:
-            self.operation_name = self.operation_id.name
-
-    @api.onchange("document_type_id")
-    def _onchange_document_type_id(self):
-        self._set_document_serie()
-
-    @api.onchange("document_serie_id")
-    def _onchange_document_serie_id(self):
-        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie = self.document_serie_id.code
+            self.document_type_id = self.operation_id.document_type_id
+            self.document_serie_id = self.operation_id.document_serie_id
