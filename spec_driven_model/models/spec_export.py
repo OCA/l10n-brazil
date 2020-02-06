@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import logging
 
-from odoo import api, models, fields
+from odoo import models, fields
 from nfelib.v4_00 import leiauteNFe
 
 try:
@@ -51,7 +51,8 @@ class AbstractSpecMixin(models.AbstractModel):
                                if self._fields[f]._attrs.get('xsd')) and \
                             xsd_field not in ['nfe40_PIS', 'nfe40_COFINS']:
                         continue
-                if xsd_field == 'nfe40_ISSQN' and self.product_id.type == 'consu':
+                if xsd_field == 'nfe40_ISSQN' and \
+                        self.product_id.type == 'consu':
                     continue
                 if xsd_field == 'nfe40_ISSQNtot' and all(
                         t == 'consu' for t in
@@ -63,11 +64,13 @@ class AbstractSpecMixin(models.AbstractModel):
                 field_data = self._export_many2one(xsd_field, class_obj)
             elif self._fields[xsd_field].type == 'one2many':
                 field_data = self._export_one2many(xsd_field, class_obj)
-            elif self._fields[xsd_field].type == 'datetime' and self[xsd_field]:
+            elif self._fields[xsd_field].type == 'datetime' and \
+                    self[xsd_field]:
                 field_data = self._export_datetime(xsd_field)
             elif self._fields[xsd_field].type == 'date' and self[xsd_field]:
                 field_data = self._export_date(xsd_field)
-            elif self._fields[xsd_field].type in ('float', 'monetary') and self[xsd_field] is not False:
+            elif self._fields[xsd_field].type in ('float', 'monetary') and \
+                    self[xsd_field] is not False:
                 if not self[xsd_field] and not xsd_required:
                     if not (class_obj._name == 'nfe.40.imposto' and
                             xsd_field == 'nfe40_vTotTrib') and not \
@@ -160,7 +163,7 @@ class AbstractSpecMixin(models.AbstractModel):
             # the following filter to fields to show
             # when several XSD class are injected in the same object
             if self._context.get('spec_class') and c != self._context[
-                'spec_class']:
+                    'spec_class']:
                 continue
             spec_classes.append(c)
         return spec_classes
