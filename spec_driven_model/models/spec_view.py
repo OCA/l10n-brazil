@@ -4,10 +4,11 @@ from odoo import models, api
 from odoo.osv.orm import setup_modifiers
 
 
-TAB_NAME = "NFe" # TODO dynamic
+TAB_NAME = "NFe"  # TODO dynamic
 FIELD_PREFIX = "nfe40_"
 CHOICE_PREFIX = "nfe40_choice"
-# TODO use schema name as default root key unless a key is provided in the class
+# TODO use schema name as default root key unless a key is provided in the
+#  class
 
 
 # TODO use MetaModel._get_concrete
@@ -18,7 +19,8 @@ class SpecViewMixin(models.AbstractModel):
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
                         submenu=False):
-        res = super(SpecViewMixin, self.with_context(no_subcall=True)).fields_view_get(view_id, view_type, toolbar)
+        res = super(SpecViewMixin, self.with_context(no_subcall=True)
+                    ).fields_view_get(view_id, view_type, toolbar)
         print("+++++++++++++++", self, type(self), self._context)
         if self._context.get('no_subcall'):
             return res
@@ -43,7 +45,7 @@ class SpecViewMixin(models.AbstractModel):
                 arch, fields = self._build_spec_fragment()
                 node = doc.xpath("//sheet")[0]
                 arch.set("string", TAB_NAME)
-                arch.set("col", "2") # TODO ex fleet
+                arch.set("col", "2")  # TODO ex fleet
                 if res['name'] == 'default':
                     # we replace the default view by our own
                     print("Defaulttttttt view:")
@@ -57,15 +59,15 @@ class SpecViewMixin(models.AbstractModel):
                     print(etree.tostring(node, pretty_print=True).decode())
                 else:
                     node.insert(1000, arch)
-            elif len(doc.xpath("//form")) > 0: # ex invoice.line
+            elif len(doc.xpath("//form")) > 0:  # ex invoice.line
                 arch, fields = self._build_spec_fragment()
                 node = doc.xpath("//form")[0]
                 arch.set("string", TAB_NAME)
                 arch.set("col", "2")
                 node.insert(1000, arch)
 
-            #print("VIEW IS NOW:")
-            #print(etree.tostring(doc, pretty_print=True).decode())
+            # print("VIEW IS NOW:")
+            # print(etree.tostring(doc, pretty_print=True).decode())
             for field_name in fields:
                 if not self.fields_get().get(field_name):
                     continue
@@ -73,7 +75,8 @@ class SpecViewMixin(models.AbstractModel):
 #                print("----", field_name, field)
                 res['fields'][field_name] = field
                 # print("looking for", field_name)
-                field_node = doc.xpath("//field[@name='%s']" % (field_name,))[0]
+                field_node = doc.xpath("//field[@name='%s']" %
+                                       (field_name,))[0]
                 setup_modifiers(field_node, field)
 
             res['arch'] = etree.tostring(doc)
@@ -104,7 +107,8 @@ class SpecViewMixin(models.AbstractModel):
                 lib_model = self.fiscal_document_line_id
             else:
                 lib_model = self
-            classes = [getattr(x, '_name', None) for x in type(lib_model).mro()]
+            classes = [getattr(x, '_name', None)
+                       for x in type(lib_model).mro()]
             print("#####", lib_model, classes)
             for c in set(classes):
                 if c is None:
@@ -113,7 +117,8 @@ class SpecViewMixin(models.AbstractModel):
                     continue
                 # the following filter to fields to show
                 # when several XSD class are injected in the same object
-                if self._context.get('spec_class') and c != self._context['spec_class']:
+                if self._context.get('spec_class') and \
+                        c != self._context['spec_class']:
                     continue
                 lib_model = self.env[c]
                 short_desc = lib_model._description.splitlines()[0]
@@ -139,12 +144,13 @@ class SpecViewMixin(models.AbstractModel):
 #        for spec in lib_node.member_data_items_:
         for field_name, field in lib_node._fields.items():
             print("   field", field_name)
-            #import pudb; pudb.set_trace()
+            # import pudb; pudb.set_trace()
 
             # skip automatic m2 fields, non xsd fields
-            # and display choice selector only where it is used (possibly later)
+            # and display choice selector only where it is used
+            # (possibly later)
             if '_id' in field_name\
-                    or not FIELD_PREFIX in field_name\
+                    or FIELD_PREFIX not in field_name\
                     or CHOICE_PREFIX in field_name:
                 continue
 
@@ -169,15 +175,14 @@ class SpecViewMixin(models.AbstractModel):
             else:
                 selector_name = None
 
-
             if hasattr(field, 'view_attrs'):
                 attrs = getattr(field, 'view_attrs')
             else:
-                if False: # TODO getattr(field, 'xsd_required', None):
+                if False:  # TODO getattr(field, 'xsd_required', None):
                     required = True
                     # TODO if inside optionaly visible group, required should
                     # be optional too
-                else: # assume dynamically required via attrs
+                else:  # assume dynamically required via attrs
                     required = False
 
                 if selector_name is not None:
@@ -187,15 +192,16 @@ class SpecViewMixin(models.AbstractModel):
                 else:
                     attrs = False
 
-
             # complex m2o stacked child
-            if hasattr(type(self), '_stacked') and field.type == 'many2one' and field.comodel_name in stacked_classes:
+            if hasattr(type(self), '_stacked') and field.type == 'many2one' \
+                    and field.comodel_name in stacked_classes:
                 # TODO is is a suficient condition?
                 # study what happen in res.partner with dest#nfe_enderDest
                 print('STACKED', field_name, field.comodel_name)
                 wrapper_group = None
                 if hasattr(field, 'original_comodel_name'):
-                    lib_child = self.env[getattr(field, 'original_comodel_name')]
+                    lib_child = self.env[getattr(field,
+                                                 'original_comodel_name')]
                 else:
                     lib_child = self.env[field.comodel_name]
 
@@ -228,7 +234,8 @@ class SpecViewMixin(models.AbstractModel):
                             # in case the notebook has only one page,
                             # the visibility should be carried by the
                             # notebook itself
-                            wrapper_notebook.set('attrs', "{'invisible':%s}" % (invisible,))
+                            wrapper_notebook.set('attrs', "{'invisible':%s}" %
+                                                 (invisible,))
                             setup_modifiers(wrapper_notebook)
                     else:
                         # cancel notebook dynamic visbility
@@ -236,7 +243,7 @@ class SpecViewMixin(models.AbstractModel):
                         wrapper_notebook.set('modifiers', '')
                     view_child = E.group()
                     page.append(view_child)
-                    wrapper_notebook.append(page) # TODO attrs / choice
+                    wrapper_notebook.append(page)  # TODO attrs / choice
                     # TODO inherit required
                     self.build_arch(lib_child, view_child, fields, 0)
 
@@ -252,8 +259,9 @@ class SpecViewMixin(models.AbstractModel):
                     attrs['required'] = dyn_required
 
                 # TODO the _stack_path assignation doesn't work
-                if hasattr(field, '_stack_path'):# and field.args.get('_stack_path') is not None:
-                    path = getattr(field, '_stack_path')
+                # if hasattr(field, '_stack_path'):  # and
+                # field.args.get('_stack_path') is not None:
+                #     path = getattr(field, '_stack_path')
 
                 if hasattr(field, 'original_comodel_name'):
                     spec_class = getattr(field, 'original_comodel_name')
