@@ -10,8 +10,8 @@ from ..constants.fiscal import (INDUSTRY_TYPE, INDUSTRY_TYPE_TRANSFORMATION,
                                 TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN,
                                 TAX_DOMAIN_IPI, TAX_DOMAIN_PIS, TAX_FRAMEWORK,
                                 TAX_FRAMEWORK_NORMAL, TAX_FRAMEWORK_SIMPLES,
-                                TAX_FRAMEWORK_SIMPLES_ALL)
-from ..constants.edoc import PROCESSADOR
+                                TAX_FRAMEWORK_SIMPLES_ALL, PROCESSADOR,
+                                PROCESSADOR_NENHUM)
 
 
 class ResCompany(models.Model):
@@ -181,6 +181,7 @@ class ResCompany(models.Model):
     processador_edoc = fields.Selection(
         selection=PROCESSADOR,
         string='Processador documentos eletrônicos',
+        default=PROCESSADOR_NENHUM,
     )
 
     def _del_tax_definition(self, tax_domain):
