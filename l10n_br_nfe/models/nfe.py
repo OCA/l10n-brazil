@@ -59,42 +59,6 @@ def fiter_processador_edoc_nfe(record):
     return False
 
 
-class IrAttachment(models.Model):
-    _inherit = "ir.attachment"
-
-    @api.model
-    def _search(
-        self,
-        args,
-        offset=0,
-        limit=None,
-        order=None,
-        count=False,
-        access_rights_uid=None,
-    ):
-        result = super(IrAttachment, self)._search(
-            args, offset, limit, order, count, access_rights_uid
-        )
-        data = {}
-        for arg in args:
-            if type(arg) == list:
-                field, expression, values = arg
-                if field in ("res_model", "res_id"):
-                    data[field] = values
-
-        if data.get("res_model") == "l10n_br_fiscal.document":
-            res_id = data.get("res_id")
-            if res_id:
-                invoice_ids = self.env["l10n_br_fiscal.document"].browse(res_id)
-                result += (
-                    invoice_ids.mapped("file_xml_autorizacao_id").ids +
-                    invoice_ids.mapped(
-                        "file_xml_autorizacao_cancelamento_id").ids +
-                    invoice_ids.mapped("file_pdf_id").ids
-                )
-        return result
-
-
 class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
@@ -215,7 +179,16 @@ class NFe(spec_models.StackedModel):
     def _serialize(self, edocs):
         edocs = super(NFe, self)._serialize(edocs)
         for record in self.filtered(fiter_processador_edoc_nfe):
-            edocs.append(record.serialize_nfe())
+            inf_nfe = record.export_ds()[0]
+
+            tnfe = leiauteNFe.TNFe(
+                infNFe=inf_nfe,
+                infNFeSupl=None,
+                Signature=None)
+            tnfe.original_tagname_ = 'NFe'
+
+            edocs.append(tnfe)
+
         return edocs
 
     def _procesador(self):
@@ -238,16 +211,9 @@ class NFe(spec_models.StackedModel):
     def _edoc_export(self):
         super(NFe, self)._edoc_export()
         for record in self.filtered(fiter_processador_edoc_nfe):
-            inf_nfe = record.export_ds()[0]
-
-            tnfe = leiauteNFe.TNFe(
-                infNFe=inf_nfe,
-                infNFeSupl=None,
-                Signature=None)
-            tnfe.original_tagname_ = 'NFe'
-
+            edoc = record.serialize()[0]
             procesador = record._procesador()
-            xml_file = procesador._generateds_to_string_etree(tnfe)[0]
+            xml_file = procesador._generateds_to_string_etree(edoc)[0]
             event_id = self._gerar_evento(xml_file, type="0")
             record.autorizacao_event_id = event_id
             record._change_state(SITUACAO_EDOC_A_ENVIAR)
