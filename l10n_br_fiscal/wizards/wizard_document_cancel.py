@@ -1,16 +1,14 @@
-# -*- coding: utf-8 -*-
 # Copyright 2019 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from __future__ import unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 
-class EdocCceWizard(models.TransientModel):
+class WizardDocumentCancel(models.TransientModel):
 
-    _name = b'edoc.cce.wizard'
+    _name = 'l10n_br_fiscal.wizard_document_cancel'
 
     justificative = fields.Text('Justificativa', size=255, required=True)
 
@@ -27,7 +25,7 @@ class EdocCceWizard(models.TransientModel):
     @api.multi
     def doit(self):
         for wizard in self:
-            obj_invoice = self.env['account.invoice'].browse(
+            obj = self.env[self.env.context['active_model']].browse(
                 self.env.context['active_id'])
-            obj_invoice.cce_invoice_online(wizard.justificative)
+            obj._document_cancel(wizard.justificative)
         return {'type': 'ir.actions.act_window_close'}

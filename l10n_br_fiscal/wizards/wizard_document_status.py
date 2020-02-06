@@ -2,13 +2,13 @@
 # Copyright (C) 2014 Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 
 
-class L10nBrAccountDocumentStatusSefaz(models.TransientModel):
+class WizardDocumentStatus(models.TransientModel):
     """ Check fiscal document key"""
 
-    _name = "l10n_br_account_product.document_status_sefaz"
+    _name = "l10n_br_fiscal.wizard_document_status"
     _description = "Check fiscal document key on sefaz"
 
     state = fields.Selection(
