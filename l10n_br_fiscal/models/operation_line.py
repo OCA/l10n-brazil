@@ -204,17 +204,46 @@ class OperationLine(models.Model):
         )
     ]
 
-    def get_fiscal_taxes(self, company=None, partner=None, product=None,
+    def _get_cfop(self, company, partner):
+        cfop = False
+        if self.partner_id.state_id == self.company_id.state_id:
+            cfop = self.operation_line_id.cfop_internal_id
+        elif self.partner_id.state_id != self.company_id.state_id:
+            cfop = self.operation_line_id.cfop_external_id
+        elif self.partner_id.country_id != self.company_id.country_id:
+            cfop = self.operation_line_id.cfop_export_id
+
+        return cfop
+
+    def map_fiscal_taxes(self, company, partner, product=None,
                          fiscal_price=None, fiscal_quantity=None,
                          ncm=None, nbs=None, cest=None):
 
-        # TODO Aplicar regras de operações para pegar os impostos
-        tax_defs = self.env.user.company_id.tax_definition_ids
-        fiscal_taxes = tax_defs.mapped('tax_id')
-        if product:
-            fiscal_taxes |= product.ncm_id.tax_ipi_id
+        mapping_result = {
+            'taxes': False,
+            'cfop': False,
+            'taxes_value': 0.00
+        }
 
-        return fiscal_taxes
+        self.ensure_one()
+
+        # Define CFOP
+        mapping_result['cfop'] = self._get_cfop(company, partner)
+
+        # 1 Get Tax Defs from Company
+        tax_defs = self.env.user.company_id.tax_definition_ids
+        mapping_result['taxes'] = tax_defs.mapped('tax_id')
+
+        # 2 From NCM
+        if not ncm and product:
+            ncm = product_id.ncm_id
+
+        mapping_result['taxes'] |= product.ncm_id.tax_ipi_id
+
+        if cfop.destination == CFOP_DESTINATION_EXPORT:
+            mapping_result['taxes'] |= product.ncm_id.tax_ii_id
+
+        return mapping_result
 
     @api.multi
     def action_review(self):

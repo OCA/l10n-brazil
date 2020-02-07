@@ -86,6 +86,7 @@ TAX_DOMAIN = (
 
 
 TAX_DOMAIN_IPI = "ipi"
+TAX_DOMAIN_II = "ii"
 TAX_DOMAIN_ICMS = "icms"
 TAX_DOMAIN_ICMS_SN = "icmssn"
 TAX_DOMAIN_PIS = "pis"

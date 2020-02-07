@@ -25,6 +25,9 @@ class DocumentLineAbstract(models.AbstractModel):
     @api.depends(
         "price",
         "discount",
+        "insurance_value",
+        "other_costs_value",
+        "freight_value",
         "quantity",
         "product_id",
         "document_id.partner_id",
@@ -34,8 +37,10 @@ class DocumentLineAbstract(models.AbstractModel):
         round_curr = self.document_id.currency_id.round
         self.amount_untaxed = round_curr(self.price * self.quantity)
         self.amount_tax = 0.00
-        self.amount_total = (self.amount_untaxed + self.amount_tax -
-                             self.discount)
+        self.amount_total = (self.amount_untaxed + self.amount_tax +
+                             self.insurance_value +
+                             self.other_costs_value + self.freight_value +
+                             - self.discount)
 
     # TODO REMOVE
     @api.model
