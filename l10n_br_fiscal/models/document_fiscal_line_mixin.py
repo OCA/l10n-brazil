@@ -8,8 +8,8 @@ from odoo.addons import decimal_precision as dp
 from ..constants.fiscal import (
     FISCAL_IN_OUT, TAX_FRAMEWORK,
    TAX_BASE_TYPE, TAX_BASE_TYPE_PERCENT,
-   TAX_DOMAIN_ICMS, TAX_DOMAIN_IPI, TAX_DOMAIN_PIS,
-   TAX_DOMAIN_PIS_ST, TAX_DOMAIN_COFINS, TAX_DOMAIN_COFINS_ST
+   TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN, TAX_DOMAIN_IPI, TAX_DOMAIN_II,
+   TAX_DOMAIN_PIS, TAX_DOMAIN_PIS_ST, TAX_DOMAIN_COFINS, TAX_DOMAIN_COFINS_ST
 )
 
 
@@ -61,6 +61,12 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     fiscal_price = fields.Float(
         string="Fiscal Price",
         digits=dp.get_precision("Product Price"))
+
+    insurance_value = fields.Monetary(string='Insurance Value', default=0.00)
+
+    other_costs_value = fields.Monetary(string='Other Costs', default=0.00)
+
+    freight_value = fields.Monetary(string='Freight Value', default=0.00)
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
@@ -139,6 +145,20 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         domain="['|', ('cst_in_id', '=', ipi_cst_id),"
         "('cst_out_id', '=', ipi_cst_id)]",
     )
+
+    # II Fields
+    ii_base = fields.Float(
+        string='II Base', required=True, digits=dp.get_precision('Account'),
+        default=0.00)
+    ii_value = fields.Float(
+        'II Value', required=True, digits=dp.get_precision('Account'),
+        default=0.00)
+    ii_iof_value = fields.Float(
+        string='IOF Value', required=True, digits=dp.get_precision('Account'),
+        default=0.00)
+    ii_customhouse_charges = fields.Float(
+        string='Despesas Aduaneiras', required=True,
+        digits=dp.get_precision('Account'), default=0.00)
 
     # PIS/COFINS Fields
     # COFINS
@@ -297,18 +317,26 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     @api.multi
     def _update_fiscal_taxes(self):
         for d in self:
-            d.fiscal_tax_ids = d.operation_line_id.get_fiscal_taxes(
+            d.mapping_result = d.operation_line_id.map_fiscal_taxes(
                 company=self.company_id,
                 partner=self.partner_id,
                 product=self.product_id)
 
-            for tax in d.fiscal_tax_ids:
+            for tax in d.mapping_result['taxes']:
+                if tax.tax_domain == TAX_DOMAIN_ICMS:
+                    d.icms_tax_id = tax
+                if tax.tax_domain == TAX_DOMAIN_ICMS_SN:
+                    d.icmssn_tax_id = tax
                 if tax.tax_domain == TAX_DOMAIN_IPI:
                     d.ipi_tax_id = tax
+                if tax.tax_domain == TAX_DOMAIN_II:
+                    d.ii_tax_id = tax
                 if tax.tax_domain == TAX_DOMAIN_PIS:
                     d.pis_tax_id = tax
                 if tax.tax_domain == TAX_DOMAIN_COFINS:
                     d.cofins_tax_id = tax
+
+            d.cfop_id = mapping_result['cfop']
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
@@ -328,13 +356,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
             if self.operation_line_id:
                 self._update_fiscal_taxes()
-
-                if self.partner_id.state_id == self.company_id.state_id:
-                    self.cfop_id = self.operation_line_id.cfop_internal_id
-                elif self.partner_id.state_id != self.company_id.state_id:
-                    self.cfop_id = self.operation_line_id.cfop_external_id
-                elif self.partner_id.country_id != self.company_id.country_id:
-                    self.cfop_id = self.operation_line_id.cfop_export_id
 
     def _set_fields_icms(self, tax_dict):
         if tax_dict:
