@@ -12,7 +12,7 @@ class FiscalDocument(models.Model):
     # related field alias to be able to write them through account.invoice
     fiscal_doc_partner_id = fields.Many2one(related="partner_id", readonly=False)
 
-    fiscal_doc_date = fields.Date(related="date", readonly=False)
+    fiscal_doc_date = fields.Datetime(related="date", readonly=False)
 
     fiscal_doc_company_id = fields.Many2one(related="company_id", readonly=False)
 
