@@ -32,8 +32,37 @@ class EletronicDocument(models.AbstractModel):
 
     _description = "Fiscal Document"
 
-    # Eventos de envio
+    @api.depends('codigo_situacao', 'motivo_situacao')
+    def _compute_codigo_motivo_situacao(self):
+        for record in self:
+            if record.motivo_situacao and record.codigo_situacao:
+                record.codigo_motivo_situacao = '{} - {}'.format(
+                    record.codigo_situacao,
+                    record.motivo_situacao
+                )
 
+    codigo_situacao = fields.Char(
+        string='Código situação',
+    )
+
+    motivo_situacao = fields.Char(
+        string='Motivo situação',
+    )
+
+    codigo_motivo_situacao = fields.Char(
+        compute='_compute_codigo_motivo_situacao',
+        string='Situação'
+    )
+
+    # Eventos de envio
+    data_hora_autorizacao = fields.Datetime(
+        string="Data Hora",
+        readonly=True,
+    )
+    protocolo_autorizacao = fields.Char(
+        string="Protocolo",
+        readonly=True,
+    )
     autorizacao_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document_event",
         string="Autorização",
@@ -43,7 +72,7 @@ class EletronicDocument(models.AbstractModel):
     file_xml_id = fields.Many2one(
         comodel_name="ir.attachment",
         related="autorizacao_event_id.xml_sent_id",
-        string="XML",
+        string="XML envio",
         ondelete="restrict",
         copy=False,
         readonly=True,
@@ -56,9 +85,22 @@ class EletronicDocument(models.AbstractModel):
         copy=False,
         readonly=True,
     )
+    file_pdf_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="PDF",
+        ondelete="restrict",
+        copy=False,
+    )
 
     # Eventos de cancelamento
-
+    data_hora_cancelamento = fields.Datetime(
+        string="Data Hora Autorização",
+        readonly=True,
+    )
+    protocolo_cancelamento = fields.Char(
+        string="Protocolo Autorização",
+        readonly=True,
+    )
     cancel_document_event_id = fields.Many2one(
         comodel_name="l10n_br_account.invoice.cancel", string="Cancelamento"
     )
@@ -75,11 +117,10 @@ class EletronicDocument(models.AbstractModel):
         ondelete="restrict",
         copy=False,
     )
-    file_pdf_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="PDF DANFE/DANFCE",
-        ondelete="restrict",
-        copy=False,
+
+    document_version = fields.Char(
+        string='Versão',
+        readonly=True,
     )
 
     def _gerar_evento(self, arquivo_xml, type):
@@ -96,9 +137,17 @@ class EletronicDocument(models.AbstractModel):
         event_id._grava_anexo(arquivo_xml, "xml")
         return event_id
 
-    def _document_export(self):
-        pass
-
-    def _exec_after_SITUACAO_EDOC_A_ENVIAR(self):
-        super(EletronicDocument, self)._exec_before_SITUACAO_EDOC_A_ENVIAR()
+    def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
+        super(EletronicDocument, self)._exec_before_SITUACAO_EDOC_A_ENVIAR(
+            old_state, new_state
+        )
         self._document_export()
+
+    def serialize(self):
+        edocs = []
+        self._serialize(edocs)
+        return edocs
+
+    def _serialize(self, edocs):
+        return edocs
+
