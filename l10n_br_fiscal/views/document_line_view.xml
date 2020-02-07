@@ -26,6 +26,9 @@
                 </div>
                 <field name="price"/>
                 <field name="discount"/>
+                <field name="insurance_value"/>
+                <field name="other_costs_value"/>
+                <field name="freight_value"/>
               </group>
               <group name="fiscal_infors" string="Fiscal">
                 <label for="fiscal_quantity"/>
@@ -57,6 +60,7 @@
                   </group>
                   <group>
                       <group>
+                        <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                         <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                       </group>
@@ -83,6 +87,18 @@
                         <field name="ipi_value" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
                       </group>
                   </group>
+              </page>
+              <page name="ii" string="II">
+                <group>
+                  <group>
+                    <field name="ii_base"/>
+                    <field name="ii_value"/>
+                  </group>
+                  <group>
+                    <field name="ii_iof_value"/>
+                    <field name="ii_customhouse_charges"/>
+                  </group>
+                </group>
               </page>
               <page name="pis" string="PIS">
                   <group name="pis" string="PIS">
