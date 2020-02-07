@@ -164,6 +164,9 @@
                   <group string="Amounts">
                     <field name="amount_untaxed"/>
                     <field name="amount_discount"/>
+                    <field name="amount_insurance_value"/>
+                    <field name="amount_other_costs_value"/>
+                    <field name="amount_freight_value"/>
                     <field name="amount_tax"/>
                     <field name="amount_total"/>
                   </group>
