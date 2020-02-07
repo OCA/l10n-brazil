@@ -317,12 +317,12 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     @api.multi
     def _update_fiscal_taxes(self):
         for d in self:
-            d.mapping_result = d.operation_line_id.map_fiscal_taxes(
+            mapping_result = d.operation_line_id.map_fiscal_taxes(
                 company=self.company_id,
                 partner=self.partner_id,
                 product=self.product_id)
 
-            for tax in d.mapping_result['taxes']:
+            for tax in mapping_result['taxes']:
                 if tax.tax_domain == TAX_DOMAIN_ICMS:
                     d.icms_tax_id = tax
                 if tax.tax_domain == TAX_DOMAIN_ICMS_SN:
