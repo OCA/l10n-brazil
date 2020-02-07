@@ -45,7 +45,9 @@
         <field name="operation_type" invisible="1"/>
         <header>
             <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="oe_highlight"/>
-            <button name="action_document_send"    type="object" string="Enviar"      groups="l10n_br_fiscal.group_user"    states="a_enviar"         class="oe_highlight"/>
+            <button name="action_document_send"    type="object" string="Enviar"      groups="l10n_br_fiscal.group_user"    states="a_enviar,rejeitada"         class="oe_highlight"/>
+            <button name="visualizar_pdf" type="object" string="Visualizar PDF" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="oe_highlight"/>
+            <button name="visualizar_xml" type="object" string="Visualizar XML" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="oe_highlight"/>
             <button name="action_document_cancel"  type="object" string="Cancelar"    groups="l10n_br_fiscal.group_user"    states="em_digitacao,a_enviar,enviada,rejeitada,autorizada"/>
             <button name="action_document_correction" type="object" string="Carta de correção" groups="l10n_br_fiscal.group_user" states="autorizada"/>
 <!--                <button name="action_edoc_check" type="object"-->
@@ -71,12 +73,14 @@
             <div class="o_row" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}">
               <field name="key" force_save="1" class="oe_inline"/>
               <button name="action_search_key" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>
+              <button name="action_import_xml" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-upload oe_edit_only" aria-label="Upload" title="Upload"/>
             </div>
           </group>
           <group>
             <group>
               <field name="document_serie_id" attrs="{'invisible': [('issuer', '!=', 'company')], 'required': [('issuer', '=', 'company')]}" context="{'default_document_type_id': document_type_id}"/>
               <field name="document_serie" attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"/>
+              <field name="codigo_motivo_situacao" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
             </group>
             <group>
               <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
@@ -149,10 +153,28 @@
             </page>
             <page nam="others" string="Others">
                 <group>
-                    <group name="edoc">
+                    <group name="autorizacao" string="Autorização" colspan="4">
+                        <field name="data_hora_autorizacao"/>
+                        <field name="protocolo_autorizacao"/>
+                        <field name="file_xml_id"/>
+                        <field name="file_xml_autorizacao_id"/>
+                        <field name="file_pdf_id"/>
                     </group>
-                    <group>
+                    <group name="cancelamento" string="Autorização" colspan="4" attrs="{'invisible': [('state', '!=', 'cancelado')]}" >
+                        <field name="data_hora_cancelamento"/>
+                        <field name="protocolo_cancelamento"/>
+                        <field name="file_xml_cancelamento_id"/>
+                        <field name="file_xml_autorizacao_cancelamento_id"/>
                     </group>
+                    <field name="document_event_ids">
+                        <tree>
+                            <field name="id"/>
+                            <field name="type"/>
+                            <field name="origin"/>
+                            <field name="create_date"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
                 </group>
             </page>
             <page name="amounts" string="Amounts">
