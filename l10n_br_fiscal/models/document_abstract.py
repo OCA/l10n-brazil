@@ -107,6 +107,8 @@ class DocumentAbstract(models.AbstractModel):
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
 
+    is_edoc_printed = fields.Boolean(string="Impresso", readonly=True)
+
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
     active = fields.Boolean(

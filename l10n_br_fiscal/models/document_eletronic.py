@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.exceptions import Warning as UserError
+
 
 from ..constants.edoc import (
     SITUACAO_EDOC, SITUACAO_EDOC_A_ENVIAR,
@@ -26,7 +26,8 @@ def filter_processador(record):
     return False
 
 def fiter_processador_edoc_base(record):
-    if record.processador_edoc == PROCESSADOR_NENHUM:
+    if record.document_electronic and \
+        record.processador_edoc == PROCESSADOR_NENHUM:
         return True
     return False
 
