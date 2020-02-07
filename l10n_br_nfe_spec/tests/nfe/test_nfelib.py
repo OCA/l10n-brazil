@@ -4,10 +4,10 @@ import os
 import sys
 from os import path
 from xmldiff import main
-sys.path.append(path.join(path.dirname(__file__), '..', 'nfelib'))
 from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
 from nfelib.v4_00 import leiauteNFe as nfe
 from nfelib.v4_00 import leiauteInutNFe as inut
+sys.path.append(path.join(path.dirname(__file__), '..', 'nfelib'))
 
 
 def test_in_out_leiauteNFe():
@@ -19,7 +19,7 @@ def test_in_out_leiauteNFe():
         subtree.write(inputfile, encoding='utf-8')
 
         # agora vamos importar o XML da nota e transforma-lo em objeto Python:
-        obj = nfe_sub.parse(inputfile)#'%s/%s' % (path, filename,))
+        obj = nfe_sub.parse(inputfile)  # '%s/%s' % (path, filename,))
         # agora podemos trabalhar em cima do objeto e fazer operaçoes como:
         obj.infNFe.emit.CNPJ
 
@@ -31,6 +31,7 @@ def test_in_out_leiauteNFe():
         print(diff)
         assert len(diff) == 0
 
+
 def test_in_out_leiauteInutNFe():
     path = 'tests/nfe/v4_00/leiauteInutNFe'
     for filename in os.listdir(path):
@@ -40,11 +41,13 @@ def test_in_out_leiauteInutNFe():
         outputfile = 'tests/output.xml'
         with open(outputfile, 'w') as f:
             obj.export(f, level=0, name_='inutNFe',
-                namespacedef_='xmlns="http://www.portalfiscal.inf.br/nfe"')
+                       namespacedef_='xmlns='
+                                     '"http://www.portalfiscal.inf.br/nfe"')
 
         diff = main.diff_files(inputfile, outputfile)
         print(diff)
         assert len(diff) == 0
+
 
 def test_init_all():
     for mod in [nfe, inut]:
