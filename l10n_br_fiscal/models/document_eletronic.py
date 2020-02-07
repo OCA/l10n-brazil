@@ -151,3 +151,19 @@ class EletronicDocument(models.AbstractModel):
     def _serialize(self, edocs):
         return edocs
 
+    def _target_new_tab(self, attachment_id):
+        if attachment_id:
+            return {
+                'type' : 'ir.actions.act_url',
+                'url': '/web/content/{id}/{nome}'.format(
+                    id=attachment_id.id,
+                    nome=attachment_id.name),
+                'target': 'new',
+                }
+
+    def visualizar_xml(self):
+        xml_file = self.file_xml_autorizacao_id or self.file_xml_id
+        return self._target_new_tab(xml_file)
+
+    def visualizar_pdf(self):
+        return self._target_new_tab(self.file_pdf_id)
