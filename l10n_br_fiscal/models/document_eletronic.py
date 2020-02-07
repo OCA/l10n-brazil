@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.exceptions import Warning as UserError
+
 
 from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
@@ -17,13 +17,19 @@ _logger = logging.getLogger(__name__)
 
 
 def fiter_processador_edoc_base(record):
-    if record.processador_edoc == PROCESSADOR_NENHUM:
+    if record.document_electronic and \
+        record.processador_edoc == PROCESSADOR_NENHUM:
         return True
     return False
 
 
 class EletronicDocument(models.AbstractModel):
     _name = "l10n_br_fiscal.document.eletronic"
+    _inherit = ["mail.thread",
+                "mail.activity.mixin",
+                "l10n_br_fiscal.document.mixin",
+                "l10n_br_fiscal.document.workflow"]
+
     _description = "Fiscal Document"
 
     # Eventos de envio
@@ -76,24 +82,6 @@ class EletronicDocument(models.AbstractModel):
         copy=False,
     )
 
-    def action_invoice_open(self):
-        """ Estamos quebrando a cadei de chamadas pois este método não deve
-         ser chamado manualmente no Brasil. Caso você instale algum módulo
-         que esteja chamando ele fique atento.
-        :return:
-        """
-        _logger.warning('ALGUM MODULO ESTA CHAMANDO O action_invoice_open')
-        return self.action_edoc_confirm()
-
-    def action_invoice_cancel(self):
-        """ Estamos quebrando a cadei de chamadas pois este método não deve
-         ser chamado manualmente no Brasil. Caso você instale algum módulo
-         que esteja chamando ele fique atento.
-        :return:
-        """
-        _logger.warning('ALGUM MODULO ESTA CHAMANDO O action_invoice_cancel')
-        return self.action_edoc_cancel()
-
     def _gerar_evento(self, arquivo_xml, type):
         event_obj = self.env["l10n_br_fiscal.document_event"]
 
@@ -108,117 +96,9 @@ class EletronicDocument(models.AbstractModel):
         event_id._grava_anexo(arquivo_xml, "xml")
         return event_id
 
-    def _edoc_export(self):
-        for record in self.filtered(fiter_processador_edoc_base):
-            record._change_state(SITUACAO_EDOC_A_ENVIAR)
-
-    def _edoc_send(self):
-        for record in self.filtered(fiter_processador_edoc_base):
-            record._change_state(SITUACAO_EDOC_AUTORIZADA)
-
-    def _edoc_cancel(self):
-        for record in self.filtered(fiter_processador_edoc_base):
-            record._change_state(SITUACAO_EDOC_AUTORIZADA)
-
-    def edoc_export(self):
-        self._edoc_export()
-
-    @api.multi
-    def edoc_check(self):
-        return True
-
-    def action_number(self):
-        for record in self:
-            if not record.number:
-                record.number = record._create_serie_number(
-                    record.document_serie_id.id, record.date
-                )
-            if not record.key:
-                record.gera_nova_chave()
-
-    def action_edoc_confirm(self):
-        to_confirm = self.filtered(
-            lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR
-        )
-
-        to_confirm.action_number()
-        to_confirm.edoc_check()
-        return to_confirm.edoc_export()
-
-    # TODO: Move to account.invoice
-    # def action_edoc_send(self):
-    #     to_confirm = self.filtered(
-    #         lambda inv: inv.state_edoc in (SITUACAO_EDOC_EM_DIGITACAO,
-    #                                        SITUACAO_EDOC_REJEITADA))
-    #     to_confirm.action_edoc_confirm()
-    #     to_send = self.filtered(
-    #         lambda inv: inv.state_edoc == SITUACAO_EDOC_A_ENVIAR
-    #     )
-    #     return to_send._edoc_send()
-    #
-    # @api.multi
-    # def action_invoice_draft(self):
-    #     for record in self.filtered(fiter_processador_edoc_base):
-    #         record._change_state(SITUACAO_EDOC_EM_DIGITACAO)
-    #     return super(EletronicDocument, self).action_invoice_draft()
-
-    @api.multi
-    def action_edoc_cancel(self):
-        self.ensure_one()
-        document_serie_id = self.document_serie_id
-        fiscal_document_id = self.document_serie_id.fiscal_document_id
-        electronic = self.document_serie_id.fiscal_document_id.electronic
-        nfe_protocol = self.edoc_protocol_number
-        emitente = self.issuer
-
-        if (
-            (document_serie_id and fiscal_document_id and not electronic)
-            or not nfe_protocol
-        ) or emitente == u"1":
-            return self._edoc_cancel()
-        else:
-            result = self.env["ir.actions.act_window"].for_xml_id(
-                "edoc_base", "edoc_cancel_wizard_act_window"
-            )
-            return result
-
-    @api.multi
-    def action_edoc_cce(self):
-        self.ensure_one()
-        document_serie_id = self.document_serie_id
-        fiscal_document_id = self.document_serie_id.fiscal_document_id
-        electronic = self.document_serie_id.fiscal_document_id.electronic
-        nfe_protocol = self.edoc_protocol_number
-        emitente = self.issuer
-
-        if (
-            (document_serie_id and fiscal_document_id and not electronic)
-            or not nfe_protocol
-        ) or emitente == u"1":
-            raise UserError(
-                _(
-                    "Impossível enviar uma cartão de correção !!!\n"
-                    "Para uma nota fiscal não emitida / não eletônica"
-                )
-            )
-        else:
-            result = self.env["ir.actions.act_window"].for_xml_id(
-                "edoc_base", "edoc_cce_wizard_act_window"
-            )
-            return result
-
-    @api.multi
-    def cancel_invoice_online(self, justificative):
+    def _document_export(self):
         pass
 
-    @api.multi
-    def cce_invoice_online(self, justificative):
-        pass
-
-    def serialize(self):
-        edocs = []
-        self._serialize(edocs)
-        return edocs
-
-    def _serialize(self, edocs):
-        return edocs
+    def _exec_after_SITUACAO_EDOC_A_ENVIAR(self):
+        super(EletronicDocument, self)._exec_before_SITUACAO_EDOC_A_ENVIAR()
+        self._document_export()
