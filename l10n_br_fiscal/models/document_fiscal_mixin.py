@@ -3,6 +3,9 @@
 
 from lxml import etree
 from odoo import api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+
+
 
 from ..constants.fiscal import FISCAL_IN_OUT, TAX_FRAMEWORK
 
@@ -10,6 +13,9 @@ from ..constants.fiscal import FISCAL_IN_OUT, TAX_FRAMEWORK
 class DocumentFiscalMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.document.mixin"
     _description = "Document Fiscal Mixin"
+
+    def _date_server_format(self):
+        return fields.Datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
     @api.model
     def _default_operation(self):
