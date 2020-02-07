@@ -14,11 +14,11 @@
     "depends": [
         "l10n_br_fiscal",
         "l10n_br_nfe_spec",
-        ],
+    ],
     "data": [
         # Security
         "security/nfe_security.xml",
-#        'security/ir.model.access.csv',
+        # "security/ir.model.access.csv",
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
@@ -39,7 +39,6 @@
             'erpbrasil.assinatura',
             'erpbrasil.transmissao',
             'erpbrasil.edoc',
-            'xmldiff',
         ],
     },
 }
