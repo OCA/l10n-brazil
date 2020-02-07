@@ -8,7 +8,8 @@ from ..constants.fiscal import (FISCAL_IN_OUT_ALL, NFE_IND_IE_DEST,
                                 NFE_IND_IE_DEST_DEFAULT, OPERATION_STATE,
                                 OPERATION_STATE_DEFAULT, PRODUCT_FISCAL_TYPE,
                                 TAX_FRAMEWORK, OPERATION_FISCAL_TYPE,
-                                OPERATION_FISCAL_TYPE_DEFAULT)
+                                OPERATION_FISCAL_TYPE_DEFAULT,
+                                CFOP_DESTINATION_EXPORT)
 from ..constants.icms import ICMS_ORIGIN
 
 
@@ -206,12 +207,12 @@ class OperationLine(models.Model):
 
     def _get_cfop(self, company, partner):
         cfop = False
-        if self.partner_id.state_id == self.company_id.state_id:
-            cfop = self.operation_line_id.cfop_internal_id
-        elif self.partner_id.state_id != self.company_id.state_id:
-            cfop = self.operation_line_id.cfop_external_id
-        elif self.partner_id.country_id != self.company_id.country_id:
-            cfop = self.operation_line_id.cfop_export_id
+        if partner.state_id == company.state_id:
+            cfop = self.cfop_internal_id
+        elif partner.state_id != company.state_id:
+            cfop = self.cfop_external_id
+        elif partner.country_id != company.country_id:
+            cfop = self.cfop_export_id
 
         return cfop
 
@@ -236,11 +237,11 @@ class OperationLine(models.Model):
 
         # 2 From NCM
         if not ncm and product:
-            ncm = product_id.ncm_id
+            ncm = product.ncm_id
 
         mapping_result['taxes'] |= product.ncm_id.tax_ipi_id
 
-        if cfop.destination == CFOP_DESTINATION_EXPORT:
+        if mapping_result['cfop'].destination == CFOP_DESTINATION_EXPORT:
             mapping_result['taxes'] |= product.ncm_id.tax_ii_id
 
         return mapping_result
