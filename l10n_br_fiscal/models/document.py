@@ -33,6 +33,13 @@ class Document(models.Model):
         inverse_name="document_id",
         string="Document Lines",
     )
+    document_event_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document_event",
+        inverse_name="fiscal_document_event_id",
+        string=u"Eventos",
+        copy=False,
+        readonly=True,
+    )
 
     # Você não vai poder fazer isso em modelos que já tem state
     state = fields.Selection(related="state_edoc")
