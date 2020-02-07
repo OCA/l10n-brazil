@@ -27,6 +27,9 @@ class DocumentAbstract(models.AbstractModel):
         self.amount_cofins_value = sum(line.cofins_value for line in self.line_ids)
         self.amount_tax = sum(line.amount_tax for line in self.line_ids)
         self.amount_discount = sum(line.discount for line in self.line_ids)
+        self.amount_insurance_value = sum(line.insurance_value for line in self.line_ids)
+        self.amount_other_costs_value = sum(line.other_costs_value for line in self.line_ids)
+        self.amount_freight_value = sum(line.freight_value for line in self.line_ids)
         self.amount_total = sum(line.amount_total for line in self.line_ids)
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
@@ -152,21 +155,48 @@ class DocumentAbstract(models.AbstractModel):
 
     amount_ipi_value = fields.Monetary(string="IPI Value", compute="_compute_amount")
 
-    amount_pis_base = fields.Monetary(string="PIS Base", compute="_compute_amount")
+    amount_pis_base = fields.Monetary(
+        string="PIS Base",
+        compute="_compute_amount")
 
-    amount_pis_value = fields.Monetary(string="PIS Value", compute="_compute_amount")
+    amount_pis_value = fields.Monetary(
+        string="PIS Value",
+        compute="_compute_amount")
 
-    amount_cofins_base = fields.Monetary(string="COFINS Base", compute="_compute_amount")
+    amount_cofins_base = fields.Monetary(
+        string="COFINS Base",
+        compute="_compute_amount")
 
-    amount_cofins_value = fields.Monetary(string="COFINS Value", compute="_compute_amount")
+    amount_cofins_value = fields.Monetary(
+        string="COFINS Value",
+        compute="_compute_amount")
 
-    amount_tax = fields.Monetary(string="Amount Tax", compute="_compute_amount")
+    amount_tax = fields.Monetary(
+        string="Amount Tax",
+        compute="_compute_amount")
 
-    amount_total = fields.Monetary(string="Amount Total", compute="_compute_amount")
+    amount_total = fields.Monetary(
+        string="Amount Total",
+        compute="_compute_amount")
 
     amount_discount = fields.Monetary(
-        string="Amount Discount", compute="_compute_amount"
-    )
+        string="Amount Discount",
+        compute="_compute_amount")
+
+    amount_insurance_value = fields.Monetary(
+        string="Insurance Value",
+        default=0.00,
+        compute="_compute_amount")
+
+    amount_other_costs_value = fields.Monetary(
+        string="Other Costs",
+        default=0.00,
+        compute="_compute_amount")
+
+    amount_freight_value = fields.Monetary(
+        string="Freight Value",
+        default=0.00,
+        compute="_compute_amount")
 
     state = fields.Selection(
         selection=[
