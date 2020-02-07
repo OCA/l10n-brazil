@@ -1,6 +1,6 @@
 # Copyright 2019 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Thu Jan 30 10:03:16 2020 by generateDS.py(Akretion's branch).
+# Generated Fri Feb  7 11:58:31 2020 by generateDS.py(Akretion's branch).
 # Python 3.6.9 (default, Nov  7 2019, 10:44:02)  [GCC 8.3.0]
 #
 import textwrap
@@ -1107,15 +1107,18 @@ class CIDE(models.AbstractModel):
     _generateds_type = 'CIDEType'
     _concrete_rec_name = 'nfe40_qBCProd'
 
-    nfe40_qBCProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qBCProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="BC do CIDE", xsd=True, xsd_required=True,
         help="BC do CIDE ( Quantidade comercializada)")
-    nfe40_vAliqProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliqProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Alíquota do CIDE (em reais)",
         xsd=True,
         xsd_required=True,
         help="Alíquota do CIDE (em reais)")
-    nfe40_vCIDE = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCIDE = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do CIDE", xsd=True, xsd_required=True)
 
 
@@ -1141,13 +1144,16 @@ class COFINSAliq(models.AbstractModel):
         "\nAlíquota Normal (Cumulativo/Não Cumulativo);"
         "\n02 - Operação Tributável - Base de Calculo = Valor da Operação"
         "\n(Alíquota Diferenciada);")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do COFINS", xsd=True, xsd_required=True)
-    nfe40_pCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do COFINS (em percentual)",
         xsd=True,
         xsd_required=True)
-    nfe40_vCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do COFINS", xsd=True, xsd_required=True)
 
 
@@ -1276,26 +1282,31 @@ class COFINSOutr(models.AbstractModel):
         "\n75 - Operação de Aquisição por Substituição Tributária"
         "\n98 - Outras Operações de Entrada"
         "\n99 - Outras Operações.")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='16',
         string="Valor da BC do COFINS", xsd=True, xsd_required=True)
-    nfe40_pCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='16',
         string="Alíquota do COFINS (em percentual)",
         xsd=True,
         xsd_required=True)
-    nfe40_qBCProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qBCProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='16',
         string="Quantidade Vendida (NT2011/004)",
         xsd=True,
         xsd_required=True)
-    nfe40_vAliqProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliqProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='16',
         string="Alíquota do COFINS",
         xsd=True,
         xsd_required=True,
         help="Alíquota do COFINS (em reais) (NT2011/004)")
-    nfe40_vCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do COFINS", xsd=True, xsd_required=True)
 
 
@@ -1317,16 +1328,19 @@ class COFINSQtde(models.AbstractModel):
         help="Código de Situação Tributária do COFINS."
         "\n03 - Operação Tributável - Base de Calculo = Quantidade Vendida x"
         "\nAlíquota por Unidade de Produto;")
-    nfe40_qBCProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qBCProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Quantidade Vendida (NT2011/004)",
         xsd=True,
         xsd_required=True)
-    nfe40_vAliqProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliqProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Alíquota do COFINS",
         xsd=True,
         xsd_required=True,
         help="Alíquota do COFINS (em reais) (NT2011/004)")
-    nfe40_vCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do COFINS", xsd=True, xsd_required=True)
 
 
@@ -1345,27 +1359,32 @@ class COFINSST(models.AbstractModel):
         ('nfe40_qBCProd', 'qBCProd'),
         ('nfe40_vAliqProd', 'vAliqProd')],
         "vBC/pCOFINS/qBCProd/vAliqProd")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='17',
         string="Valor da BC do COFINS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_pCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='17',
         string="Alíquota do COFINS ST(em percentual)",
         xsd=True,
         xsd_required=True)
-    nfe40_qBCProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qBCProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='17',
         string="Quantidade Vendida",
         xsd=True,
         xsd_required=True)
-    nfe40_vAliqProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliqProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='17',
         string="Alíquota do COFINS ST(em reais)",
         xsd=True,
         xsd_required=True)
-    nfe40_vCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do COFINS ST",
         xsd=True,
         xsd_required=True)
@@ -1510,7 +1529,8 @@ class DI(models.AbstractModel):
         help="Via de transporte internacional informada na DI"
         "\n1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Ro"
         "\ndoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta.")
-    nfe40_vAFRMM = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAFRMM = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vAFRMM",
         xsd=True,
         help="Valor Adicional ao frete para renovação de marinha mercante")
@@ -1571,19 +1591,24 @@ class ICMS00(models.AbstractModel):
         "\n1 - Pauta (valor);"
         "\n2 - Preço Tabelado Máximo (valor);"
         "\n3 - Valor da Operação.")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS", xsd=True, xsd_required=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS", xsd=True, xsd_required=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS", xsd=True, xsd_required=True)
-    nfe40_pFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Percentual de ICMS relativo ao Fundo de Combate à Pobreza"
         "\n(FCP).")
-    nfe40_vFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
@@ -1620,22 +1645,28 @@ class ICMS10(models.AbstractModel):
         "\n1 - Pauta (valor);"
         "\n2 - Preço Tabelado Máximo (valor);"
         "\n3 - Valor da Operação.")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS", xsd=True, xsd_required=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS", xsd=True, xsd_required=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS", xsd=True, xsd_required=True)
-    nfe40_vBCFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Percentual de ICMS relativo ao Fundo de Combate à Pobreza"
         "\n(FCP).")
-    nfe40_vFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
@@ -1653,32 +1684,40 @@ class ICMS10(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor)"
         "\n6-Valor da Operação;")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True)
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True)
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST", xsd=True, xsd_required=True)
-    nfe40_vBCFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vBCFCPST",
         xsd=True,
         help="Valor da Base de cálculo do FCP retido por substituicao"
         "\ntributaria.")
-    nfe40_pFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
 
@@ -1713,31 +1752,39 @@ class ICMS20(models.AbstractModel):
         "\n1 - Pauta (valor);"
         "\n2 - Preço Tabelado Máximo (valor);"
         "\n3 - Valor da Operação.")
-    nfe40_pRedBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC",
         xsd=True,
         xsd_required=True)
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS", xsd=True, xsd_required=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS", xsd=True, xsd_required=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS", xsd=True, xsd_required=True)
-    nfe40_vBCFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Percentual de ICMS relativo ao Fundo de Combate à Pobreza"
         "\n(FCP).")
-    nfe40_vFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP).")
-    nfe40_vICMSDeson = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSDeson = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS de desoneração",
         xsd=True)
     nfe40_motDesICMS = fields.Selection(
@@ -1783,33 +1830,42 @@ class ICMS30(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor)."
         "\n6 - Valor da Operação")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True)
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True)
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST", xsd=True, xsd_required=True)
-    nfe40_vBCFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vICMSDeson = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSDeson = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS de desoneração",
         xsd=True)
     nfe40_motDesICMS = fields.Selection(
@@ -1845,7 +1901,8 @@ class ICMS40(models.AbstractModel):
         "\n41 - Não tributada"
         "\n50 - Suspensão"
         "\n51 - Diferimento")
-    nfe40_vICMSDeson = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSDeson = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vICMSDeson",
         xsd=True,
         help="O valor do ICMS será informado apenas nas operações com"
@@ -1891,37 +1948,47 @@ class ICMS51(models.AbstractModel):
         "\n1 - Pauta (valor);"
         "\n2 - Preço Tabelado Máximo (valor);"
         "\n3 - Valor da Operação.")
-    nfe40_pRedBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC",
         xsd=True)
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS",
         xsd=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do imposto",
         xsd=True)
-    nfe40_vICMSOp = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSOp = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS da Operação",
         xsd=True)
-    nfe40_pDif = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pDif = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual do diferemento",
         xsd=True)
-    nfe40_vICMSDif = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSDif = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS da diferido",
         xsd=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS",
         xsd=True)
-    nfe40_vBCFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Percentual de ICMS relativo ao Fundo de Combate à Pobreza"
         "\n(FCP).")
-    nfe40_vFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
@@ -1948,42 +2015,53 @@ class ICMS60(models.AbstractModel):
         string="Tributação pelo ICMS", xsd=True, xsd_required=True,
         help="Tributação pelo ICMS"
         "\n60 - ICMS cobrado anteriormente por substituição tributária")
-    nfe40_vBCSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST retido anteriormente",
         xsd=True)
-    nfe40_pST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Aliquota suportada pelo consumidor final",
         xsd=True)
-    nfe40_vICMSSubstituto = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSSubstituto = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vICMSSubstituto",
         xsd=True,
         help="Valor do ICMS Próprio do Substituto cobrado em operação"
         "\nanterior")
-    nfe40_vICMSSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST retido anteriormente",
         xsd=True)
-    nfe40_vBCFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vBCFCPSTRet",
         xsd=True,
         help="Valor da Base de cálculo do FCP retido anteriormente por ST.")
-    nfe40_pFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="pFCPSTRet",
         xsd=True,
         help="Percentual de FCP retido anteriormente por substituição"
         "\ntributária.")
-    nfe40_vFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
-    nfe40_pRedBCEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da base de cálculo efetiva",
         xsd=True)
-    nfe40_vBCEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da base de cálculo efetiva.",
         xsd=True)
-    nfe40_pICMSEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS efetiva.",
         xsd=True)
-    nfe40_vICMSEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS efetivo.",
         xsd=True)
 
@@ -2020,26 +2098,33 @@ class ICMS70(models.AbstractModel):
         "\n1 - Pauta (valor);"
         "\n2 - Preço Tabelado Máximo (valor);"
         "\n3 - Valor da Operação.")
-    nfe40_pRedBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC",
         xsd=True,
         xsd_required=True)
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS", xsd=True, xsd_required=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS", xsd=True, xsd_required=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS", xsd=True, xsd_required=True)
-    nfe40_vBCFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Percentual de ICMS relativo ao Fundo de Combate à Pobreza"
         "\n(FCP).")
-    nfe40_vFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
@@ -2057,35 +2142,44 @@ class ICMS70(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor)."
         "\n6 - Valor da Operação")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True)
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True)
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST", xsd=True, xsd_required=True)
-    nfe40_vBCFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vBCFCPST",
         xsd=True,
         help="Valor da Base de cálculo do FCP retido por substituição"
         "\ntributária.")
-    nfe40_pFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vICMSDeson = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSDeson = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS de desoneração",
         xsd=True)
     nfe40_motDesICMS = fields.Selection(
@@ -2121,28 +2215,35 @@ class ICMS90(models.AbstractModel):
         string="Modalidade de determinação da BC do ICMS",
         xsd=True,
         help="Modalidade de determinação da BC do ICMS:")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS",
         xsd=True)
-    nfe40_pRedBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC",
         xsd=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS",
         xsd=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS",
         xsd=True)
-    nfe40_vBCFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Percentual de ICMS relativo ao Fundo de Combate à Pobreza"
         "\n(FCP).")
-    nfe40_vFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
@@ -2159,32 +2260,41 @@ class ICMS90(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor)"
         "\n6 - Valor da Operação.")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True)
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True)
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST",
         xsd=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST",
         xsd=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST",
         xsd=True)
-    nfe40_vBCFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vICMSDeson = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSDeson = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS de desoneração",
         xsd=True)
     nfe40_motDesICMS = fields.Selection(
@@ -2226,14 +2336,18 @@ class ICMSPart(models.AbstractModel):
         xsd=True,
         xsd_required=True,
         help="Modalidade de determinação da BC do ICMS:")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS", xsd=True, xsd_required=True)
-    nfe40_pRedBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC",
         xsd=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS", xsd=True, xsd_required=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS", xsd=True, xsd_required=True)
     nfe40_modBCST = fields.Selection(
         MODBCST_ICMSPART,
@@ -2248,23 +2362,29 @@ class ICMSPart(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor)."
         "\n6 - Valor da Operação")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True)
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True)
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST", xsd=True, xsd_required=True)
-    nfe40_pBCOp = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pBCOp = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="pBCOp", xsd=True, xsd_required=True,
         help="Percentual para determinação do valor da Base de Cálculo da"
         "\noperação própria.")
@@ -2294,13 +2414,15 @@ class ICMSSN101(models.AbstractModel):
         string="101", xsd=True, xsd_required=True,
         help="101- Tributada pelo Simples Nacional com permissão de"
         "\ncrédito. (v.2.0)")
-    nfe40_pCredSN = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pCredSN = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota aplicável de cálculo do crédito",
         xsd=True,
         xsd_required=True,
         help="Alíquota aplicável de cálculo do crédito (Simples Nacional)."
         "\n(v2.0)")
-    nfe40_vCredICMSSN = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCredICMSSN = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vCredICMSSN", xsd=True, xsd_required=True,
         help="Valor crédito do ICMS que pode ser aproveitado nos termos do"
         "\nart. 23 da LC 123 (Simples Nacional) (v2.0)")
@@ -2363,43 +2485,53 @@ class ICMSSN201(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor). (v2.0)"
         "\n6 - Valor da Operação")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True,
         help="Percentual da Margem de Valor Adicionado ICMS ST (v2.0)")
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True,
         help="Percentual de redução da BC ICMS ST (v2.0)")
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST (v2.0)",
         xsd=True,
         xsd_required=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST (v2.0)",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST (v2.0)",
         xsd=True,
         xsd_required=True)
-    nfe40_vBCFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
-    nfe40_pCredSN = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pCredSN = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota aplicável de cálculo do crédito",
         xsd=True,
         xsd_required=True,
         help="Alíquota aplicável de cálculo do crédito (Simples Nacional)."
         "\n(v2.0)")
-    nfe40_vCredICMSSN = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCredICMSSN = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vCredICMSSN", xsd=True, xsd_required=True,
         help="Valor crédito do ICMS que pode ser aproveitado nos termos do"
         "\nart. 23 da LC 123 (Simples Nacional) (v2.0)")
@@ -2438,34 +2570,42 @@ class ICMSSN202(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor). (v2.0)"
         "\n6 - Valor da Operação")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True,
         help="Percentual da Margem de Valor Adicionado ICMS ST (v2.0)")
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True,
         help="Percentual de redução da BC ICMS ST (v2.0)")
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST (v2.0)",
         xsd=True,
         xsd_required=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST (v2.0)",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST (v2.0)",
         xsd=True,
         xsd_required=True)
-    nfe40_vBCFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
 
@@ -2491,42 +2631,53 @@ class ICMSSN500(models.AbstractModel):
         help="500 – ICMS cobrado anterirmente por substituição tributária"
         "\n(substituído) ou por antecipação"
         "\n(v.2.0)")
-    nfe40_vBCSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST retido anteriormente",
         xsd=True,
         help="Valor da BC do ICMS ST retido anteriormente (v2.0)")
-    nfe40_pST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Aliquota suportada pelo consumidor final",
         xsd=True)
-    nfe40_vICMSSubstituto = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSSubstituto = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS próprio do substituto",
         xsd=True)
-    nfe40_vICMSSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST retido anteriormente",
         xsd=True,
         help="Valor do ICMS ST retido anteriormente (v2.0)")
-    nfe40_vBCFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor da Base de cálculo do FCP retido anteriormente",
         xsd=True)
-    nfe40_pFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="pFCPSTRet",
         xsd=True,
         help="Percentual de FCP retido anteriormente por substituição"
         "\ntributária.")
-    nfe40_vFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
-    nfe40_pRedBCEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da base de cálculo efetiva",
         xsd=True)
-    nfe40_vBCEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da base de cálculo efetiva.",
         xsd=True)
-    nfe40_pICMSEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS efetiva.",
         xsd=True)
-    nfe40_vICMSEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS efetivo.",
         xsd=True)
 
@@ -2557,16 +2708,20 @@ class ICMSSN900(models.AbstractModel):
         string="Modalidade de determinação da BC do ICMS",
         xsd=True,
         help="Modalidade de determinação da BC do ICMS:")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS",
         xsd=True)
-    nfe40_pRedBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC",
         xsd=True)
-    nfe40_pICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS",
         xsd=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS",
         xsd=True)
     nfe40_modBCST = fields.Selection(
@@ -2581,37 +2736,47 @@ class ICMSSN900(models.AbstractModel):
         "\n4 - Margem Valor Agregado (%);"
         "\n5 - Pauta (valor)."
         "\n6 - Valor da Operação")
-    nfe40_pMVAST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pMVAST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual da Margem de Valor Adicionado ICMS ST",
         xsd=True)
-    nfe40_pRedBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da BC ICMS ST",
         xsd=True)
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ICMS ST",
         xsd=True)
-    nfe40_pICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS ST",
         xsd=True)
-    nfe40_vICMSST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS ST",
         xsd=True)
-    nfe40_vBCFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Base de cálculo do FCP.",
         xsd=True)
-    nfe40_pFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual de FCP retido por substituição tributária",
         xsd=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do FCP retido por substituição tributária",
         xsd=True)
-    nfe40_pCredSN = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pCredSN = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota aplicável de cálculo do crédito",
         xsd=True,
         help="Alíquota aplicável de cálculo do crédito (Simples Nacional)."
         "\n(v2.0)")
-    nfe40_vCredICMSSN = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCredICMSSN = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vCredICMSSN",
         xsd=True,
         help="Valor crédito do ICMS que pode ser aproveitado nos termos do"
@@ -2640,60 +2805,73 @@ class ICMSST(models.AbstractModel):
         help="Tributção pelo ICMS"
         "\n41-Não Tributado."
         "\n60-Cobrado anteriormente por substituição tributária.")
-    nfe40_vBCSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Informar o valor da BC do ICMS ST retido na UF remetente",
         xsd=True,
         xsd_required=True)
-    nfe40_pST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Aliquota suportada pelo consumidor final",
         xsd=True)
-    nfe40_vICMSSubstituto = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSSubstituto = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vICMSSubstituto",
         xsd=True,
         help="Valor do ICMS Próprio do Substituto cobrado em operação"
         "\nanterior")
-    nfe40_vICMSSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Informar o valor do ICMS ST retido na UF remetente",
         xsd=True,
         xsd_required=True,
         help="Informar o valor do ICMS ST retido na UF remetente (iv2.0))")
-    nfe40_vBCFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="vBCFCPSTRet",
         xsd=True,
         help="Informar o valor da Base de Cálculo do FCP retido"
         "\nanteriormente por ST.")
-    nfe40_pFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Percentual relativo ao Fundo de Combate à Pobreza (FCP)"
         "\nretido por substituição tributária.")
-    nfe40_vFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)"
         "\nretido por substituição tributária.")
-    nfe40_vBCSTDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCSTDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Informar o valor da BC do ICMS ST da UF destino",
         xsd=True,
         xsd_required=True,
         help="Informar o valor da BC do ICMS ST da UF destino")
-    nfe40_vICMSSTDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSSTDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Informar o valor da BC do ICMS ST da UF destino",
         xsd=True,
         xsd_required=True,
         help="Informar o valor da BC do ICMS ST da UF destino (v2.0)")
-    nfe40_pRedBCEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pRedBCEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de redução da base de cálculo efetiva",
         xsd=True)
-    nfe40_vBCEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da base de cálculo efetiva.",
         xsd=True)
-    nfe40_pICMSEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ICMS efetivo.",
         xsd=True)
-    nfe40_vICMSEfet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSEfet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS efetivo.",
         xsd=True)
 
@@ -2706,68 +2884,86 @@ class ICMSTot(models.AbstractModel):
     _generateds_type = 'ICMSTotType'
     _concrete_rec_name = 'nfe40_vBC'
 
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="BC do ICMS", xsd=True, xsd_required=True)
-    nfe40_vICMS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do ICMS", xsd=True, xsd_required=True)
-    nfe40_vICMSDeson = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSDeson = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do ICMS desonerado",
         xsd=True,
         xsd_required=True)
-    nfe40_vFCPUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor total do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Valor total do ICMS relativo ao Fundo de Combate à Pobreza"
         "\n(FCP) para a UF de destino.")
-    nfe40_vICMSUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor total do ICMS de partilha para a UF do destinatário",
         xsd=True)
-    nfe40_vICMSUFRemet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSUFRemet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor total do ICMS de partilha para a UF do remetente",
         xsd=True)
-    nfe40_vFCP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do FCP", xsd=True, xsd_required=True,
         help="Valor Total do FCP (Fundo de Combate à Pobreza).")
-    nfe40_vBCST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="BC do ICMS ST", xsd=True, xsd_required=True)
-    nfe40_vST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do ICMS ST",
         xsd=True,
         xsd_required=True)
-    nfe40_vFCPST = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do FCP", xsd=True, xsd_required=True,
         help="Valor Total do FCP (Fundo de Combate à Pobreza) retido por"
         "\nsubstituição tributária.")
-    nfe40_vFCPSTRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPSTRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do FCP",
         xsd=True,
         xsd_required=True,
         help="Valor Total do FCP (Fundo de Combate à Pobreza) retido"
         "\nanteriormente por substituição tributária.")
-    nfe40_vProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total dos produtos e serviços",
         xsd=True,
         xsd_required=True)
-    nfe40_vFrete = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFrete = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do Frete",
         xsd=True,
         xsd_required=True)
-    nfe40_vSeg = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vSeg = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do Seguro",
         xsd=True,
         xsd_required=True)
-    nfe40_vDesc = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDesc = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do Desconto",
         xsd=True,
         xsd_required=True)
-    nfe40_vII = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vII = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do II", xsd=True, xsd_required=True)
-    nfe40_vIPI = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vIPI = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do IPI", xsd=True, xsd_required=True)
-    nfe40_vIPIDevol = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vIPIDevol = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do IPI devolvido",
         xsd=True,
         xsd_required=True,
@@ -2776,17 +2972,22 @@ class ICMSTot(models.AbstractModel):
         "\nnota finNFe=4 (devolução) nas operações com não"
         "\ncontribuintes do IPI. Corresponde ao total da soma"
         "\ndos campos id: UA04.")
-    nfe40_vPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do PIS", xsd=True, xsd_required=True)
-    nfe40_vCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do COFINS", xsd=True, xsd_required=True)
-    nfe40_vOutro = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vOutro = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Outras Despesas acessórias",
         xsd=True,
         xsd_required=True)
-    nfe40_vNF = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vNF = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total da NF-e", xsd=True, xsd_required=True)
-    nfe40_vTotTrib = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vTotTrib = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor estimado total de impostos federais",
         xsd=True,
         help="Valor estimado total de impostos federais, estaduais e"
@@ -2973,22 +3174,26 @@ class ICMSUFDest(models.AbstractModel):
     _generateds_type = 'ICMSUFDestType'
     _concrete_rec_name = 'nfe40_vBCUFDest'
 
-    nfe40_vBCUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor da Base de Cálculo do ICMS na UF do destinatário",
         xsd=True,
         xsd_required=True)
-    nfe40_vBCFCPUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCFCPUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor da Base de Cálculo do FCP na UF do destinatário",
         xsd=True)
-    nfe40_pFCPUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pFCPUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="pFCPUFDest",
         xsd=True,
         help="Percentual adicional inserido na alíquota interna da UF de"
         "\ndestino, relativo ao Fundo de Combate à Pobreza (FCP)"
         "\nnaquela UF.")
-    nfe40_pICMSUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="pICMSUFDest", xsd=True, xsd_required=True,
         help="Alíquota adotada nas operações internas na UF do destinatário"
         "\npara o produto / mercadoria.")
@@ -3002,25 +3207,29 @@ class ICMSUFDest(models.AbstractModel):
         "\n- 7% para os Estados de origem do Sul e Sudeste (exceto ES),"
         "\ndestinado para os Estados do Norte e Nordeste ou ES"
         "\n- 12% para os demais casos.")
-    nfe40_pICMSInterPart = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSInterPart = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de partilha para a UF do destinatário",
         xsd=True,
         xsd_required=True,
         help="Percentual de partilha para a UF do destinatário: - 40% em"
         "\n2016; - 60% em 2017; - 80% em 2018; - 100% a partir"
         "\nde 2019.")
-    nfe40_vFCPUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFCPUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS relativo ao Fundo de Combate à Pobreza",
         xsd=True,
         help="Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP) da"
         "\nUF de destino.")
-    nfe40_vICMSUFDest = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSUFDest = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Valor do ICMS de partilha para a UF do destinatário",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSUFRemet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSUFRemet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS de partilha para a UF do remetente",
         xsd=True,
         xsd_required=True,
@@ -3036,19 +3245,23 @@ class II(models.AbstractModel):
     _generateds_type = 'IIType'
     _concrete_rec_name = 'nfe40_vBC'
 
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Base da BC do Imposto de Importação",
         xsd=True,
         xsd_required=True)
-    nfe40_vDespAdu = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDespAdu = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor das despesas aduaneiras",
         xsd=True,
         xsd_required=True)
-    nfe40_vII = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vII = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do Imposto de Importação",
         xsd=True,
         xsd_required=True)
-    nfe40_vIOF = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vIOF = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do Imposto sobre Operações Financeiras",
         xsd=True,
         xsd_required=True)
@@ -3102,25 +3315,30 @@ class IPITrib(models.AbstractModel):
         "\n49 - Outras entradas"
         "\n50-Saída tributada"
         "\n99-Outras saídas")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='20',
         string="Valor da BC do IPI", xsd=True, xsd_required=True)
-    nfe40_pIPI = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pIPI = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='20',
         string="Alíquota do IPI", xsd=True, xsd_required=True)
-    nfe40_qUnid = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qUnid = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='20',
         string="Quantidade total na unidade padrão para tributação",
         xsd=True,
         xsd_required=True)
-    nfe40_vUnid = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vUnid = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='20',
         string="Valor por Unidade Tributável",
         xsd=True,
         xsd_required=True,
         help="Valor por Unidade Tributável. Informar o valor do imposto"
         "\nPauta por unidade de medida.")
-    nfe40_vIPI = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vIPI = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do IPI", xsd=True, xsd_required=True)
 
 
@@ -3132,7 +3350,8 @@ class IPI(models.AbstractModel):
     _generateds_type = 'IPIType'
     _concrete_rec_name = 'nfe40_vIPIDevol'
 
-    nfe40_vIPIDevol = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vIPIDevol = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do IPI devolvido",
         xsd=True,
         xsd_required=True)
@@ -3146,11 +3365,14 @@ class ISSQN(models.AbstractModel):
     _generateds_type = 'ISSQNType'
     _concrete_rec_name = 'nfe40_vBC'
 
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ISSQN", xsd=True, xsd_required=True)
-    nfe40_vAliq = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliq = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do ISSQN", xsd=True, xsd_required=True)
-    nfe40_vISSQN = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vISSQN = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da do ISSQN", xsd=True, xsd_required=True)
     nfe40_cMunFG = fields.Char(
         string="cMunFG", xsd=True, xsd_required=True,
@@ -3163,19 +3385,24 @@ class ISSQN(models.AbstractModel):
         string="cListServ", xsd=True, xsd_required=True,
         help="Informar o Item da lista de serviços da LC 116/03 em que se"
         "\nclassifica o serviço.")
-    nfe40_vDeducao = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDeducao = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor dedução para redução da base de cálculo",
         xsd=True)
-    nfe40_vOutro = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vOutro = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor outras retenções",
         xsd=True)
-    nfe40_vDescIncond = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDescIncond = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor desconto incondicionado",
         xsd=True)
-    nfe40_vDescCond = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDescCond = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor desconto condicionado",
         xsd=True)
-    nfe40_vISSRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vISSRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Retenção ISS",
         xsd=True)
     nfe40_indISS = fields.Selection(
@@ -3216,21 +3443,26 @@ class ISSQNtot(models.AbstractModel):
     _generateds_type = 'ISSQNtotType'
     _concrete_rec_name = 'nfe40_vServ'
 
-    nfe40_vServ = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vServ = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total dos Serviços sob não",
         xsd=True,
         help="Valor Total dos Serviços sob não-incidência ou não tributados"
         "\npelo ICMS")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Base de Cálculo do ISS",
         xsd=True)
-    nfe40_vISS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vISS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do ISS",
         xsd=True)
-    nfe40_vPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do PIS sobre serviços",
         xsd=True)
-    nfe40_vCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do COFINS sobre serviços",
         xsd=True)
     nfe40_dCompet = fields.Date(
@@ -3238,19 +3470,24 @@ class ISSQNtot(models.AbstractModel):
         xsd=True,
         xsd_required=True,
         help="Data da prestação do serviço (AAAA-MM-DD)")
-    nfe40_vDeducao = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDeducao = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor dedução para redução da base de cálculo",
         xsd=True)
-    nfe40_vOutro = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vOutro = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor outras retenções",
         xsd=True)
-    nfe40_vDescIncond = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDescIncond = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor desconto incondicionado",
         xsd=True)
-    nfe40_vDescCond = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDescCond = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor desconto condicionado",
         xsd=True)
-    nfe40_vISSRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vISSRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total Retenção ISS",
         xsd=True)
     nfe40_cRegTrib = fields.Selection(
@@ -3335,13 +3572,16 @@ class PISAliq(models.AbstractModel):
         "\nAlíquota Normal (Cumulativo/Não Cumulativo);"
         "\n02 - Operação Tributável - Base de Calculo = Valor da Operação"
         "\n(Alíquota Diferenciada);")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da BC do PIS", xsd=True, xsd_required=True)
-    nfe40_pPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota do PIS (em percentual)",
         xsd=True,
         xsd_required=True)
-    nfe40_vPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do PIS", xsd=True, xsd_required=True)
 
 
@@ -3394,24 +3634,29 @@ class PISOutr(models.AbstractModel):
         xsd_required=True,
         help="Código de Situação Tributária do PIS."
         "\n99 - Outras Operações.")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='13',
         string="Valor da BC do PIS", xsd=True, xsd_required=True)
-    nfe40_pPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='13',
         string="Alíquota do PIS (em percentual)",
         xsd=True,
         xsd_required=True)
-    nfe40_qBCProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qBCProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='13',
         string="Quantidade Vendida (NT2011/004)",
         xsd=True,
         xsd_required=True)
-    nfe40_vAliqProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliqProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='13',
         string="Alíquota do PIS", xsd=True, xsd_required=True,
         help="Alíquota do PIS (em reais) (NT2011/004)")
-    nfe40_vPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do PIS", xsd=True, xsd_required=True)
 
 
@@ -3433,15 +3678,18 @@ class PISQtde(models.AbstractModel):
         help="Código de Situação Tributária do PIS."
         "\n03 - Operação Tributável - Base de Calculo = Quantidade Vendida x"
         "\nAlíquota por Unidade de Produto;")
-    nfe40_qBCProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qBCProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Quantidade Vendida (NT2011/004)",
         xsd=True,
         xsd_required=True,
         help="Quantidade Vendida (NT2011/004)")
-    nfe40_vAliqProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliqProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Alíquota do PIS", xsd=True, xsd_required=True,
         help="Alíquota do PIS (em reais) (NT2011/004)")
-    nfe40_vPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do PIS", xsd=True, xsd_required=True)
 
 
@@ -3459,25 +3707,30 @@ class PISST(models.AbstractModel):
         ('nfe40_qBCProd', 'qBCProd'),
         ('nfe40_vAliqProd', 'vAliqProd')],
         "vBC/pPIS/qBCProd/vAliqProd")
-    nfe40_vBC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='14',
         string="Valor da BC do PIS ST", xsd=True, xsd_required=True)
-    nfe40_pPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, choice='14',
         string="Alíquota do PIS ST (em percentual)",
         xsd=True,
         xsd_required=True)
-    nfe40_qBCProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qBCProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='14',
         string="Quantidade Vendida",
         xsd=True,
         xsd_required=True)
-    nfe40_vAliqProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vAliqProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, choice='14',
         string="Alíquota do PIS ST (em reais)",
         xsd=True,
         xsd_required=True)
-    nfe40_vPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do PIS ST", xsd=True, xsd_required=True)
 
 
@@ -4040,7 +4293,8 @@ class Adi(models.AbstractModel):
         xsd_required=True,
         help="Código do fabricante estrangeiro (usado nos sistemas internos"
         "\nde informação do emitente da NF-e)")
-    nfe40_vDescDI = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDescDI = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do desconto do item da DI – adição",
         xsd=True)
     nfe40_nDraw = fields.Char(
@@ -4137,7 +4391,8 @@ class Avulsa(models.AbstractModel):
     nfe40_dEmi = fields.Date(
         string="Data de emissão do DAR (AAAA-MM-DD)",
         xsd=True)
-    nfe40_vDAR = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDAR = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total constante no DAR",
         xsd=True)
     nfe40_repEmi = fields.Char(
@@ -4174,11 +4429,14 @@ class Cana(models.AbstractModel):
         xsd=True,
         xsd_required=True
     )
-    nfe40_qTotMes = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qTotMes = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=0, string="Total do mês", xsd=True, xsd_required=True)
-    nfe40_qTotAnt = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qTotAnt = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=0, string="Total Anterior", xsd=True, xsd_required=True)
-    nfe40_qTotGer = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qTotGer = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=0, string="Total Geral", xsd=True, xsd_required=True)
     nfe40_deduc = fields.One2many(
         "nfe.40.deduc",
@@ -4186,16 +4444,19 @@ class Cana(models.AbstractModel):
         string="Deduções - Taxas e Contribuições",
         xsd=True
     )
-    nfe40_vFor = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFor = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor dos fornecimentos",
         xsd=True,
         xsd_required=True,
         help="Valor dos fornecimentos")
-    nfe40_vTotDed = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vTotDed = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total das Deduções",
         xsd=True,
         xsd_required=True)
-    nfe40_vLiqFor = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vLiqFor = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Líquido dos fornecimentos",
         xsd=True,
         xsd_required=True)
@@ -4271,7 +4532,8 @@ class Comb(models.AbstractModel):
         help="Descrição do Produto conforme ANP. Utilizar a descrição de"
         "\nprodutos do Sistema de Informações de Movimentação de"
         "\nProdutos - SIMP (http://www.anp.gov.br/simp/).")
-    nfe40_pGLP = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pGLP = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2,
         string="Percentual do GLP derivado do petróleo no produto GLP",
         xsd=True,
@@ -4279,21 +4541,24 @@ class Comb(models.AbstractModel):
         "\n(cProdANP=210203001). Informar em número decimal o"
         "\npercentual do GLP derivado de petróleo no produto"
         "\nGLP. Valores 0 a 100.")
-    nfe40_pGNn = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pGNn = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de gás natural nacional",
         xsd=True,
         help="Percentual de gás natural nacional - GLGNn para o produto GLP"
         "\n(cProdANP=210203001). Informar em número decimal o"
         "\npercentual do Gás Natural Nacional - GLGNn para o"
         "\nproduto GLP. Valores de 0 a 100.")
-    nfe40_pGNi = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pGNi = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="pGNi",
         xsd=True,
         help="Percentual de gás natural importado GLGNi para o produto GLP"
         "\n(cProdANP=210203001). Informar em número deciaml o"
         "\npercentual do Gás Natural Importado - GLGNi para o"
         "\nproduto GLP. Valores de 0 a 100.")
-    nfe40_vPart = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPart = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor de partida",
         xsd=True,
         help="Valor de partida (cProdANP=210203001). Deve ser informado"
@@ -4305,7 +4570,8 @@ class Comb(models.AbstractModel):
         "\nquando a UF utilizar o CODIF (Sistema de Controle do"
         "\nDiferimento do Imposto nas Operações com AEAC -"
         "\nÁlcool Etílico Anidro Combustível).")
-    nfe40_qTemp = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qTemp = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Quantidade de combustível",
         xsd=True,
         help="Quantidade de combustível"
@@ -4364,7 +4630,8 @@ class Deduc(models.AbstractModel):
         "nfe.40.cana")
     nfe40_xDed = fields.Char(
         string="Descrição da Dedução", xsd=True, xsd_required=True)
-    nfe40_vDed = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDed = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="valor da dedução", xsd=True, xsd_required=True)
 
 
@@ -4479,7 +4746,8 @@ class DetPag(models.AbstractModel):
         "\nAlimentação;11-Vale Refeição;12-Vale Presente;13-Vale"
         "\nCombustível;14 - Duplicata Mercantil;15 - Boleto"
         "\nBancario;90 - Sem Pagamento;99 - Outros")
-    nfe40_vPag = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPag = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do Pagamento", xsd=True, xsd_required=True,
         help="Valor do Pagamento. Esta tag poderá ser omitida quando a tag"
         "\ntPag=90 (Sem Pagamento), caso contrário deverá ser"
@@ -4542,7 +4810,8 @@ class Dup(models.AbstractModel):
         string="Data de vencimento da duplicata",
         xsd=True,
         help="Data de vencimento da duplicata (AAAA-MM-DD)")
-    nfe40_vDup = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDup = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da duplicata", xsd=True, xsd_required=True)
 
 
@@ -4624,11 +4893,13 @@ class Encerrante(models.AbstractModel):
         string="nTanque", xsd=True, xsd_required=True,
         help="Numero de identificação do tanque ao qual o bico está"
         "\ninterligado")
-    nfe40_vEncIni = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vEncIni = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=3, string="Valor do Encerrante no ínicio do abastecimento",
         xsd=True,
         xsd_required=True)
-    nfe40_vEncFin = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vEncFin = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=3, string="Valor do Encerrante no final do abastecimento",
         xsd=True,
         xsd_required=True)
@@ -4651,7 +4922,8 @@ class ExportInd(models.AbstractModel):
         xsd=True,
         xsd_required=True,
         help="Chave de acesso da NF-e recebida para exportação")
-    nfe40_qExport = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qExport = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Quantidade do item efetivamente exportado",
         xsd=True,
         xsd_required=True)
@@ -4690,13 +4962,16 @@ class Fat(models.AbstractModel):
     nfe40_nFat = fields.Char(
         string="Número da fatura",
         xsd=True)
-    nfe40_vOrig = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vOrig = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor original da fatura",
         xsd=True)
-    nfe40_vDesc = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDesc = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do desconto da fatura",
         xsd=True)
-    nfe40_vLiq = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vLiq = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor líquido da fatura",
         xsd=True)
 
@@ -4713,7 +4988,8 @@ class ForDia(models.AbstractModel):
         "nfe.40.cana")
     nfe40_dia = fields.Char(
         string="dia", xsd=True, xsd_required=True)
-    nfe40_qtde = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qtde = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=0, string="Quantidade em quilogramas",
         xsd=True,
         xsd_required=True,
@@ -4899,7 +5175,8 @@ class ImpostoDevol(models.AbstractModel):
     _generateds_type = 'impostoDevolType'
     _concrete_rec_name = 'nfe40_pDevol'
 
-    nfe40_pDevol = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pDevol = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Percentual de mercadoria devolvida",
         xsd=True,
         xsd_required=True)
@@ -4924,7 +5201,8 @@ class Imposto(models.AbstractModel):
         ('nfe40_IPI', 'IPI'),
         ('nfe40_ISSQN', 'ISSQN')],
         "ICMS/II/IPI/ISSQN")
-    nfe40_vTotTrib = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vTotTrib = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor estimado total de impostos federais",
         xsd=True,
         help="Valor estimado total de impostos federais, estaduais e"
@@ -5256,7 +5534,8 @@ class Med(models.AbstractModel):
         "\no número da decisão que o isenta, como por exemplo o"
         "\nnúmero da Resolução da Diretoria Colegiada da ANVISA"
         "\n(RDC).")
-    nfe40_vPMC = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vPMC = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Preço Máximo ao Consumidor.",
         xsd=True,
         xsd_required=True)
@@ -5313,7 +5592,8 @@ class Pag(models.AbstractModel):
         xsd=True,
         xsd_required=True
     )
-    nfe40_vTroco = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vTroco = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do Troco.",
         xsd=True)
 
@@ -5421,19 +5701,22 @@ class Prod(models.AbstractModel):
         string="Cfop", xsd=True, xsd_required=True)
     nfe40_uCom = fields.Char(
         string="Unidade comercial", xsd=True, xsd_required=True)
-    nfe40_qCom = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qCom = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Quantidade Comercial do produto",
         xsd=True,
         xsd_required=True,
         help="Quantidade Comercial do produto, alterado para aceitar de 0 a"
         "\n4 casas decimais e 11 inteiros.")
-    nfe40_vUnCom = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vUnCom = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=0, string="Valor unitário de comercialização",
         xsd=True,
         xsd_required=True,
         help="Valor unitário de comercialização - alterado para aceitar 0 a"
         "\n10 casas decimais e 11 inteiros")
-    nfe40_vProd = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vProd = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor bruto do produto ou serviço.",
         xsd=True,
         xsd_required=True)
@@ -5443,28 +5726,34 @@ class Prod(models.AbstractModel):
         "\ncódigo EAN ou código de barras")
     nfe40_uTrib = fields.Char(
         string="Unidade Tributável", xsd=True, xsd_required=True)
-    nfe40_qTrib = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qTrib = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=4, string="Quantidade Tributável",
         xsd=True,
         xsd_required=True,
         help="Quantidade Tributável - alterado para aceitar de 0 a 4 casas"
         "\ndecimais e 11 inteiros")
-    nfe40_vUnTrib = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vUnTrib = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=0, string="Valor unitário de tributação",
         xsd=True,
         xsd_required=True,
         help="Valor unitário de tributação - - alterado para aceitar 0 a 10"
         "\ncasas decimais e 11 inteiros")
-    nfe40_vFrete = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vFrete = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do Frete",
         xsd=True)
-    nfe40_vSeg = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vSeg = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Total do Seguro",
         xsd=True)
-    nfe40_vDesc = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vDesc = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do Desconto",
         xsd=True)
-    nfe40_vOutro = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vOutro = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Outras despesas acessórias",
         xsd=True)
     nfe40_indTot = fields.Selection(
@@ -5553,7 +5842,8 @@ class Rastro(models.AbstractModel):
         string="Número do lote do produto.",
         xsd=True,
         xsd_required=True)
-    nfe40_qLote = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_qLote = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=3, string="Quantidade de produto no lote.",
         xsd=True,
         xsd_required=True)
@@ -5702,17 +5992,21 @@ class RetTransp(models.AbstractModel):
     _generateds_type = 'retTranspType'
     _concrete_rec_name = 'nfe40_vServ'
 
-    nfe40_vServ = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vServ = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do Serviço", xsd=True, xsd_required=True)
-    nfe40_vBCRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="BC da Retenção do ICMS",
         xsd=True,
         xsd_required=True)
-    nfe40_pICMSRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pICMSRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Alíquota da Retenção",
         xsd=True,
         xsd_required=True)
-    nfe40_vICMSRet = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vICMSRet = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor do ICMS Retido",
         xsd=True,
         xsd_required=True)
@@ -5736,25 +6030,32 @@ class RetTrib(models.AbstractModel):
     _generateds_type = 'retTribType'
     _concrete_rec_name = 'nfe40_vRetPIS'
 
-    nfe40_vRetPIS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vRetPIS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Retido de PIS",
         xsd=True)
-    nfe40_vRetCOFINS = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vRetCOFINS = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Retido de COFINS",
         xsd=True)
-    nfe40_vRetCSLL = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vRetCSLL = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Retido de CSLL",
         xsd=True)
-    nfe40_vBCIRRF = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCIRRF = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Base de Cálculo do IRRF",
         xsd=True)
-    nfe40_vIRRF = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vIRRF = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor Retido de IRRF",
         xsd=True)
-    nfe40_vBCRetPrev = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vBCRetPrev = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Base de Cálculo da Retenção da Previdêncica Social",
         xsd=True)
-    nfe40_vRetPrev = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_vRetPrev = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=2, string="Valor da Retenção da Previdêncica Social",
         xsd=True)
 
@@ -6020,10 +6321,12 @@ class Vol(models.AbstractModel):
     nfe40_nVol = fields.Char(
         string="Numeração dos volumes transportados",
         xsd=True)
-    nfe40_pesoL = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pesoL = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=3, string="Peso líquido (em kg)",
         xsd=True)
-    nfe40_pesoB = fields.Monetary(currency_field="brl_currency_id",
+    nfe40_pesoB = fields.Monetary(
+        currency_field="brl_currency_id",
         digits=3, string="Peso bruto (em kg)",
         xsd=True)
     nfe40_lacres = fields.One2many(
