@@ -27,7 +27,7 @@ def filter_processador(record):
 
 def fiter_processador_edoc_base(record):
     if record.document_electronic and \
-        record.processador_edoc == PROCESSADOR_NENHUM:
+            record.processador_edoc == PROCESSADOR_NENHUM:
         return True
     return False
 
