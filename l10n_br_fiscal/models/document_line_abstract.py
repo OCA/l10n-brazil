@@ -21,7 +21,6 @@ class DocumentLineAbstract(models.AbstractModel):
     _inherit = "l10n_br_fiscal.document.line.mixin"
     _description = "Fiscal Document Line Abstract"
 
-    @api.one
     @api.depends(
         "fiscal_price",
         "discount_value",
@@ -35,16 +34,18 @@ class DocumentLineAbstract(models.AbstractModel):
         "document_id.partner_id",
         "document_id.company_id")
     def _compute_amount(self):
-        round_curr = self.document_id.currency_id.round
-        self.amount_untaxed = round_curr(self.price * self.quantity)
-        self.amount_tax = self.amount_tax_not_included
-        self.amount_total = (
-            self.amount_untaxed +
-            self.amount_tax +
-            self.insurance_value +
-            self.other_costs_value +
-            self.freight_value -
-            self.discount_value)
+        for record in self:
+            round_curr = record.document_id.currency_id.round
+            record.amount_untaxed = round_curr(record.price * record.quantity)
+            record.amount_tax = 0.00
+            record.amount_total = (
+                record.amount_untaxed +
+                record.amount_tax +
+                record.insurance_value +
+                record.other_costs_value +
+                record.freight_value -
+                record.discount
+            )
 
     @api.model
     def _get_default_ncm_id(self):

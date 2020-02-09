@@ -35,26 +35,39 @@ class DocumentAbstract(models.AbstractModel):
     interfere no lançamento do registro no arquivo do SPED FISCAL.
     """
 
-    @api.one
     @api.depends("line_ids")
     def _compute_amount(self):
-        self.amount_untaxed = sum(line.amount_untaxed for line in self.line_ids)
-        self.amount_icms_base = sum(line.icms_base for line in self.line_ids)
-        self.amount_icms_value = sum(line.icms_value for line in self.line_ids)
-        self.amount_ipi_base = sum(line.ipi_base for line in self.line_ids)
-        self.amount_ipi_value = sum(line.ipi_value for line in self.line_ids)
-        self.amount_pis_base = sum(line.pis_base for line in self.line_ids)
-        self.amount_pis_value = sum(line.pis_value for line in self.line_ids)
-        self.amount_cofins_base = sum(line.cofins_base for line in self.line_ids)
-        self.amount_cofins_value = sum(line.cofins_value for line in self.line_ids)
-        self.amount_tax = sum(line.amount_tax for line in self.line_ids)
-        self.amount_discount = sum(line.discount for line in self.line_ids)
-        self.amount_insurance_value = sum(
-            line.insurance_value for line in self.line_ids)
-        self.amount_other_costs_value = sum(
-            line.other_costs_value for line in self.line_ids)
-        self.amount_freight_value = sum(line.freight_value for line in self.line_ids)
-        self.amount_total = sum(line.amount_total for line in self.line_ids)
+        for record in self:
+            record.amount_untaxed = sum(
+                line.amount_untaxed for line in record.line_ids)
+            record.amount_icms_base = sum(
+                line.icms_base for line in record.line_ids)
+            record.amount_icms_value = sum(
+                line.icms_value for line in record.line_ids)
+            record.amount_ipi_base = sum(
+                line.ipi_base for line in record.line_ids)
+            record.amount_ipi_value = sum(
+                line.ipi_value for line in record.line_ids)
+            record.amount_pis_base = sum(
+                line.pis_base for line in record.line_ids)
+            record.amount_pis_value = sum(
+                line.pis_value for line in record.line_ids)
+            record.amount_cofins_base = sum(
+                line.cofins_base for line in record.line_ids)
+            record.amount_cofins_value = sum(
+                line.cofins_value for line in record.line_ids)
+            record.amount_tax = sum(
+                line.amount_tax for line in record.line_ids)
+            record.amount_discount = sum(
+                line.discount for line in record.line_ids)
+            record.amount_insurance_value = sum(
+                line.insurance_value for line in record.line_ids)
+            record.amount_other_costs_value = sum(
+                line.other_costs_value for line in record.line_ids)
+            record.amount_freight_value = sum(
+                line.freight_value for line in record.line_ids)
+            record.amount_total = sum(
+                line.amount_total for line in record.line_ids)
 
     processador_edoc = fields.Selection(
         string="Processador",
