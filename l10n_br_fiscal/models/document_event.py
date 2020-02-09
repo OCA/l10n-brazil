@@ -5,7 +5,7 @@
 import base64
 import os
 
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base import misc
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import config
@@ -15,7 +15,7 @@ CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
 
 def caminho_empresa(company_id, document):
     db_name = company_id._cr.dbname
-    cnpj = punctuation_rm(company_id.cnpj_cpf)
+    cnpj = misc.punctuation_rm(company_id.cnpj_cpf)
 
     filestore = config.filestore(db_name)
     path = "/".join([filestore, "edoc", document, cnpj])
