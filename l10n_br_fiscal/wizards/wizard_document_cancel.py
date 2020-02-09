@@ -9,6 +9,7 @@ from odoo.exceptions import UserError
 class WizardDocumentCancel(models.TransientModel):
 
     _name = 'l10n_br_fiscal.wizard_document_cancel'
+    _description = "Document fiscal cancel wizard"
 
     justificative = fields.Text('Justificativa', size=255, required=True)
 

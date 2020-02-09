@@ -35,6 +35,7 @@ def caminho_empresa(company_id, document):
 
 class DocumentEvent(models.Model):
     _name = "l10n_br_fiscal.document_event"
+    _description = "Fiscal document event"
 
     type = fields.Selection(
         selection=[
