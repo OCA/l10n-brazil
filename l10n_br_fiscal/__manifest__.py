@@ -96,7 +96,7 @@
         # 'report/account_invoice_report_view.xml',
     ],
     "demo": [
-        #'demo/partner_demo.xml',
+        # 'demo/partner_demo.xml',
         # 'demo/account_fiscal_position_rule_demo.xml',
         # 'demo/product_taxes.yml',
         # 'demo/account_invoice_demo.yml',
