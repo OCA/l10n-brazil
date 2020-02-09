@@ -38,7 +38,8 @@ class TestCustomerNFeRefund(TransactionCase):
         self.invoice_same_state.action_sefaz_open()
         # I totally pay the Invoice
         self.invoice_same_state.pay_and_reconcile(
-            self.env["account.journal"].search([("type", "=", "bank")], limit=1), 2000.0
+            self.env["account.journal"].search([("type", "=", "bank")], limit=1),
+            2000.0
         )
 
         # I verify that invoice is now in Paid state
@@ -62,7 +63,8 @@ class TestCustomerNFeRefund(TransactionCase):
             invoice_refund = self.env["account.invoice"].browse(invoice_refund_id)
             assert (
                 invoice_refund.fiscal_category_id.id
-                == self.invoice_same_state.fiscal_category_id.refund_fiscal_category_id.id
+                == self.invoice_same_state.fiscal_category_id.
+                refund_fiscal_category_id.id
             ), "Wrong refund fiscal category!"
             for line in invoice_refund.invoice_line_ids:
                 assert line.cfop_id.code == "1201", "Wrong CFOP Code"
