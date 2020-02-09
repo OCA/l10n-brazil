@@ -6,8 +6,6 @@ from odoo import api, fields, models
 
 
 from ..constants.fiscal import (
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
     PROCESSADOR_NENHUM
 )
 
@@ -18,7 +16,7 @@ _logger = logging.getLogger(__name__)
 
 def fiter_processador_edoc_base(record):
     if record.document_electronic and \
-        record.processador_edoc == PROCESSADOR_NENHUM:
+            record.processador_edoc == PROCESSADOR_NENHUM:
         return True
     return False
 
