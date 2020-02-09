@@ -8,7 +8,8 @@ from ..constants.fiscal import (FISCAL_IN_OUT_ALL, NFE_IND_IE_DEST,
                                 NFE_IND_IE_DEST_DEFAULT, OPERATION_STATE,
                                 OPERATION_STATE_DEFAULT, PRODUCT_FISCAL_TYPE,
                                 TAX_FRAMEWORK, OPERATION_FISCAL_TYPE,
-                                OPERATION_FISCAL_TYPE_DEFAULT)
+                                CFOP_DESTINATION_EXPORT,
+                                )
 from ..constants.icms import ICMS_ORIGIN
 
 
@@ -29,19 +30,25 @@ class OperationLine(models.Model):
     cfop_internal_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Internal",
-        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '1')]",
+        domain="[('type_in_out', '=', operation_type), "
+               "('type_move', '=ilike', fiscal_type + '%'), "
+               "('destination', '=', '1')]",
     )
 
     cfop_external_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP External",
-        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '2')]",
+        domain="[('type_in_out', '=', operation_type), "
+               "('type_move', '=ilike', fiscal_type + '%'), "
+               "('destination', '=', '2')]",
     )
 
     cfop_export_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Export",
-        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '3')]",
+        domain="[('type_in_out', '=', operation_type), "
+               "('type_move', '=ilike', fiscal_type + '%'), "
+               "('destination', '=', '3')]",
     )
 
     operation_type = fields.Selection(
@@ -228,15 +235,17 @@ class OperationLine(models.Model):
         self.ensure_one()
 
         # Define CFOP
-        mapping_result['cfop'] = self._get_cfop(company, partner)
+        cfop = self._get_cfop(company, partner)
+        mapping_result['cfop'] = cfop
 
         # 1 Get Tax Defs from Company
         tax_defs = self.env.user.company_id.tax_definition_ids
         mapping_result['taxes'] = tax_defs.mapped('tax_id')
 
-        # 2 From NCM
-        if not ncm and product:
-            ncm = product_id.ncm_id
+        # FIXME: map_fiscal_taxes ncm logic, not used variable
+        # # 2 From NCM
+        # if not ncm and product:
+        #     ncm = product.ncm_id
 
         mapping_result['taxes'] |= product.ncm_id.tax_ipi_id
 
