@@ -8,24 +8,25 @@ from erpbrasil.base import misc
 
 class Document(models.Model):
     _name = "l10n_br_fiscal.document"
-    _inherit = ["l10n_br_fiscal.document.abstract",
-                "l10n_br_fiscal.document.eletronic"]
+    _inherit = [
+        "l10n_br_fiscal.document.abstract",
+        "l10n_br_fiscal.document.electronic"
+    ]
 
     _description = "Fiscal Document"
 
     @api.model
     def _default_operation(self):
         # TODO add in res.company default Operation?
-        return self.env['l10n_br_fiscal.operation']
+        return self.env["l10n_br_fiscal.operation"]
 
     @api.model
     def _operation_domain(self):
-        domain = [('state', '=', 'approved')]
+        domain = [("state", "=", "approved")]
         return domain
 
     operation_id = fields.Many2one(
-        default=_default_operation,
-        domain=lambda self: self._operation_domain()
+        default=_default_operation, domain=lambda self: self._operation_domain()
     )
 
     line_ids = fields.One2many(
@@ -47,21 +48,20 @@ class Document(models.Model):
     def document_number(self):
         super(Document, self).document_number()
         for record in self:
-            if record.issuer == 'company' and not record.key:
+            if record.issuer == "company" and record.document_electronic and \
+                    not record.key:
                 record._generate_key()
 
     def _generate_key(self):
         company = self.company_id.partner_id
-        chave = str(company.state_id and
-                    company.state_id.ibge_code or '').zfill(2)
+        chave = str(company.state_id and company.state_id.ibge_code or "").zfill(2)
 
-        chave += self.date.strftime('%y%m').zfill(4)
+        chave += self.date.strftime("%y%m").zfill(4)
 
-        chave += str(misc.punctuation_rm(
-            self.company_id.partner_id.cnpj_cpf)).zfill(14)
-        chave += str(self.document_type_id.code or '').zfill(2)
-        chave += str(self.document_serie or '').zfill(3)
-        chave += str(self.number or '').zfill(9)
+        chave += str(misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf)).zfill(14)
+        chave += str(self.document_type_id.code or "").zfill(2)
+        chave += str(self.document_serie or "").zfill(3)
+        chave += str(self.number or "").zfill(9)
 
         #
         # A inclusão do tipo de emissão na chave já torna a chave válida também
@@ -86,7 +86,7 @@ class Document(models.Model):
         if len(codigo) > 8:
             codigo = codigo[-8:]
         else:
-            codigo = codigo.rjust(8, '0')
+            codigo = codigo.rjust(8, "0")
 
         chave += codigo
 
