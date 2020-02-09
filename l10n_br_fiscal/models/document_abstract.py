@@ -434,7 +434,6 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
-
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
         if self.operation_id:

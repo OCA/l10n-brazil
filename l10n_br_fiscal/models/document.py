@@ -259,7 +259,7 @@ class Document(models.Model):
         if len(codigo) > 8:
             codigo = codigo[-8:]
         else:
-            codigo = codigo.rjust(8, '0')
+            codigo = codigo.rjust(8, "0")
 
         chave += codigo
 
