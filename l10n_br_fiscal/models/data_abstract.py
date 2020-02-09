@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base import misc
 from odoo import api, fields, models
 from odoo.osv import expression
 
@@ -31,7 +31,7 @@ class DataAbstract(models.AbstractModel):
     def _compute_code_unmasked(self):
         for r in self:
             # TODO mask code and unmasck
-            r.code_unmasked = punctuation_rm(r.code)
+            r.code_unmasked = misc.punctuation_rm(r.code)
 
     @api.model
     def _name_search(
