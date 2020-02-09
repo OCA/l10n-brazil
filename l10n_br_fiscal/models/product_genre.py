@@ -1,7 +1,7 @@
 # Copyright (C) 2019 Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ProductGenre(models.Model):
@@ -18,12 +18,15 @@ class ProductGenre(models.Model):
         string="Products Quantity",
         compute="_compute_product_tmpl_info")
 
-    @api.one
     def _compute_product_tmpl_info(self):
-        product_tmpls = self.env["product.template"].search([
-            ("fiscal_genre_id", "=", self.id),
-            "|",
-            ("active", "=", False),
-            ("active", "=", True)])
-        self.product_tmpl_ids = product_tmpls
-        self.product_tmpl_qty = len(product_tmpls)
+        for record in self:
+            product_tmpls = record.env["product.template"].search(
+                [
+                    ("fiscal_genre_id", "=", record.id),
+                    "|",
+                    ("active", "=", False),
+                    ("active", "=", True),
+                ]
+            )
+            record.product_tmpl_ids = product_tmpls
+            record.product_tmpl_qty = len(product_tmpls)

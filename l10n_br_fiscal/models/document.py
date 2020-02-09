@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base import misc
 
 
 class Document(models.Model):
@@ -57,7 +57,7 @@ class Document(models.Model):
 
         chave += self.date.strftime('%y%m').zfill(4)
 
-        chave += str(punctuation_rm(
+        chave += str(misc.punctuation_rm(
             self.company_id.partner_id.cnpj_cpf)).zfill(14)
         chave += str(self.document_type_id.code or '').zfill(2)
         chave += str(self.document_serie or '').zfill(3)
