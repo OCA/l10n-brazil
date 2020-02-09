@@ -16,6 +16,8 @@ from ..constants.fiscal import (SITUACAO_EDOC,
                                 SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
                                 WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
                                 WORKFLOW_EDOC,
+                                PROCESSADOR_NENHUM,
+                                PROCESSADOR
                                 )
 
 import logging
@@ -215,6 +217,10 @@ class DocumentWorkflow(models.AbstractModel):
         index=True,
     )
 
+    document_electronic = fields.Boolean(
+        string="Electronic?"
+    )
+
     issuer = fields.Selection(
         selection=[("company", "Company"), ("partner", "Partner")],
         default="company",
@@ -228,6 +234,12 @@ class DocumentWorkflow(models.AbstractModel):
 
     correction_reason = fields.Char(
         string="Correction Reason",
+    )
+
+    processador_edoc = fields.Selection(
+        string="Processador",
+        selection=PROCESSADOR,
+        default=PROCESSADOR_NENHUM,
     )
 
     def document_date(self):
@@ -254,11 +266,8 @@ class DocumentWorkflow(models.AbstractModel):
         if to_confirm:
             to_confirm._document_confirm()
 
-    def _eletronic_document_send(self):
-        """ Implement this method in your transmission module,
-        to send the eletronic document and use the method _change_state
-        to update the state of the transmited document"""
-        pass
+    def _document_send(self):
+        self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def _document_export(self):
         pass
@@ -269,10 +278,8 @@ class DocumentWorkflow(models.AbstractModel):
             SITUACAO_EDOC_ENVIADA,
             SITUACAO_EDOC_REJEITADA,
         ))
-        no_eletronic = to_send.filtered(lambda d: not d.document_electronic)
-        no_eletronic._change_state(SITUACAO_EDOC_AUTORIZADA)
-        eletronic = to_send - no_eletronic
-        eletronic._eletronic_document_send()
+        if to_send:
+            to_send._document_send()
 
     def _document_cancel(self, justificative):
         self.cancel_reason = justificative
