@@ -51,9 +51,11 @@ class DocumentAbstract(models.AbstractModel):
         self.amount_cofins_base = sum(line.cofins_base for line in self.line_ids)
         self.amount_cofins_value = sum(line.cofins_value for line in self.line_ids)
         self.amount_tax = sum(line.amount_tax for line in self.line_ids)
-        self.amount_discount_value = sum(line.discount_value for line in self.line_ids)
-        self.amount_insurance_value = sum(line.insurance_value for line in self.line_ids)
-        self.amount_other_costs_value = sum(line.other_costs_value for line in self.line_ids)
+        self.amount_discount = sum(line.discount for line in self.line_ids)
+        self.amount_insurance_value = sum(
+            line.insurance_value for line in self.line_ids)
+        self.amount_other_costs_value = sum(
+            line.other_costs_value for line in self.line_ids)
         self.amount_freight_value = sum(line.freight_value for line in self.line_ids)
         self.amount_total = sum(line.amount_total for line in self.line_ids)
 
