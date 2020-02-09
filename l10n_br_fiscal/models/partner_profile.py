@@ -48,18 +48,18 @@ class PartnerProfile(models.Model):
         )
     ]
 
-    @api.one
     def _compute_partner_info(self):
-        partners = self.env["res.partner"].search(
-            [
-                ("fiscal_profile_id", "=", self.id),
-                "|",
-                ("active", "=", False),
-                ("active", "=", True),
-            ]
-        )
-        self.partner_ids = partners
-        self.partner_qty = len(partners)
+        for record in self:
+            partners = record.env["res.partner"].search(
+                [
+                    ("fiscal_profile_id", "=", record.id),
+                    "|",
+                    ("active", "=", False),
+                    ("active", "=", True),
+                ]
+            )
+            record.partner_ids = partners
+            record.partner_qty = len(partners)
 
     @api.constrains("default", "is_company")
     def _check_default(self):
