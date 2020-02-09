@@ -2,9 +2,7 @@
 # Copyright (C) 2019  Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo import api, fields, models
 
 from ..constants.fiscal import (TAX_FRAMEWORK,
                                 PROCESSADOR)
@@ -35,7 +33,6 @@ class DocumentAbstract(models.AbstractModel):
     e é de responsabilidade do responsável fiscal pela empresa de manter a
     integridade do mesmo, pois ele não tem um fluxo realmente definido e
     interfere no lançamento do registro no arquivo do SPED FISCAL.
-
     """
 
     @api.one
