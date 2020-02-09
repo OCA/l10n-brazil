@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import SUPERUSER_ID, api
-from odoo.tools import convert_file
 from odoo.tools.sql import column_exists, create_column
 
 
