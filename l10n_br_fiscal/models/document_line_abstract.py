@@ -5,10 +5,10 @@ from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (CFOP_DESTINATION_EXPORT, FISCAL_IN,
-                                FISCAL_IN_OUT, FISCAL_OUT, NCM_FOR_SERVICE_REF,
+                                FISCAL_OUT, NCM_FOR_SERVICE_REF,
                                 PRODUCT_FISCAL_TYPE,
-                                PRODUCT_FISCAL_TYPE_SERVICE, TAX_BASE_TYPE,
-                                TAX_BASE_TYPE_PERCENT, TAX_DOMAIN_COFINS,
+                                PRODUCT_FISCAL_TYPE_SERVICE,
+                                TAX_DOMAIN_COFINS,
                                 TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN,
                                 TAX_DOMAIN_IPI, TAX_DOMAIN_PIS,
                                 TAX_FRAMEWORK,
@@ -46,11 +46,11 @@ class DocumentLineAbstract(models.AbstractModel):
     @api.model
     def default_get(self, fields):
         defaults = super(DocumentLineAbstract, self).default_get(fields)
-        if self.env.context.get("default_company_id"):
-            company_id = self.env.context.get("default_company_id")
-            operation_type = self.env.context.get("default_operation_type")
-            # taxes_dict = self._set_default_taxes(company_id, operation_type)
-            # defaults.update(taxes_dict)
+        # if self.env.context.get("default_company_id"):
+        #     company_id = self.env.context.get("default_company_id")
+        #     operation_type = self.env.context.get("default_operation_type")
+        #     taxes_dict = self._set_default_taxes(company_id, operation_type)
+        #     defaults.update(taxes_dict)
         return defaults
 
     @api.model
@@ -137,13 +137,17 @@ class DocumentLineAbstract(models.AbstractModel):
     notes = fields.Text(string="Notes")
 
     # Amount Fields
-    amount_estimate_tax = fields.Monetary(string="Amount Estimate Total", compute="_compute_amount", default=0.00)
+    amount_estimate_tax = fields.Monetary(string="Amount Estimate Total",
+                                          compute="_compute_amount", default=0.00)
 
-    amount_untaxed = fields.Monetary(string="Amount Untaxed", compute="_compute_amount", default=0.00)
+    amount_untaxed = fields.Monetary(string="Amount Untaxed",
+                                     compute="_compute_amount", default=0.00)
 
-    amount_tax = fields.Monetary(string="Amount Tax", compute="_compute_amount", default=0.00)
+    amount_tax = fields.Monetary(string="Amount Tax",
+                                 compute="_compute_amount", default=0.00)
 
-    amount_total = fields.Monetary(string="Amount Total", compute="_compute_amount", default=0.00)
+    amount_total = fields.Monetary(string="Amount Total",
+                                   compute="_compute_amount", default=0.00)
 
     # TODO REMOVE
     def _set_default_taxes(self, company_id, operation_type=FISCAL_OUT):
