@@ -2,20 +2,15 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import os
-import datetime
 import base64
+import os
+
 from erpbrasil.base.misc import punctuation_rm
-
-from odoo.tools import config
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import config
 
-CODIGO_NOME = {
-    "55": "nf-e",
-    "SE": "nfs-e",
-    "65": "nfc-e",
-}
+CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
 
 
 def caminho_empresa(company_id, document):
@@ -23,17 +18,19 @@ def caminho_empresa(company_id, document):
     cnpj = punctuation_rm(company_id.cnpj_cpf)
 
     filestore = config.filestore(db_name)
-    path = '/'.join([filestore, 'edoc', document, cnpj])
+    path = "/".join([filestore, "edoc", document, cnpj])
     if not os.path.exists(path):
         try:
             os.makedirs(path)
         except OSError:
-            raise RedirectWarning(
-                _(u'Erro!'),
-                _(u"""Verifique as permissões de escrita
-                    e o caminho da pasta"""))
+            raise UserError(
+                _(u"Erro!"),
+                _(
+                    u"""Verifique as permissões de escrita
+                    e o caminho da pasta"""
+                ),
+            )
     return path
-
 
 
 class DocumentEvent(models.Model):
@@ -163,7 +160,10 @@ class DocumentEvent(models.Model):
         save_dir = self.monta_caminho(
             ambiente=int(self.company_id.nfe_environment),
             company_id=self.company_id,
-            chave=self.fiscal_document_event_id.key or self.fiscal_document_event_id.number  # FIXME:,
+            chave=(
+                self.fiscal_document_event_id.key
+                or self.fiscal_document_event_id.number,
+            )  # FIXME:
         )
         file_path = os.path.join(save_dir, file_name)
         try:
@@ -190,14 +190,15 @@ class DocumentEvent(models.Model):
         self.ensure_one()
 
         file_name = ""
-        file_name += self.fiscal_document_event_id.key or self.fiscal_document_event_id.number  # FIXME:
+        file_name += (
+            self.fiscal_document_event_id.key or self.fiscal_document_event_id.number
+        )  # FIXME:
         file_name += "-"
         if autorizacao:
             file_name += "proc-"
         if sequencia:
             file_name += str(sequencia) + "-"
-        file_name += CODIGO_NOME[
-            self.fiscal_document_event_id.document_type_id.code]
+        file_name += CODIGO_NOME[self.fiscal_document_event_id.document_type_id.code]
         file_name += "." + extensao_sem_ponto
 
         file_path = self._grava_arquivo_disco(arquivo, file_name)
@@ -217,7 +218,7 @@ class DocumentEvent(models.Model):
                 "datas_fname": file_name,
                 "res_model": self._name,
                 "res_id": self.id,
-                "datas": base64.b64encode(arquivo.encode('utf-8')),
+                "datas": base64.b64encode(arquivo.encode("utf-8")),
                 "mimetype": "application/" + extensao_sem_ponto,
                 "type": "binary",
             }
@@ -234,4 +235,3 @@ class DocumentEvent(models.Model):
     def set_done(self, arquivo_xml):
         self._grava_anexo(arquivo_xml, "xml", autorizacao=True)
         self.write({"state": "done", "end_date": fields.Datetime.now()})
-
