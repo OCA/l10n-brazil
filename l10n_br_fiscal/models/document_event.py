@@ -163,7 +163,7 @@ class DocumentEvent(models.Model):
             chave=(
                 self.fiscal_document_event_id.key
                 or self.fiscal_document_event_id.number,
-            )  # FIXME:
+            ),  # FIXME:
         )
         file_path = os.path.join(save_dir, file_name)
         try:

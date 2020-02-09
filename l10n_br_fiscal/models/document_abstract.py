@@ -4,8 +4,7 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import (TAX_FRAMEWORK,
-                                PROCESSADOR)
+from ..constants.fiscal import TAX_FRAMEWORK
 
 
 class DocumentAbstract(models.AbstractModel):
@@ -69,11 +68,6 @@ class DocumentAbstract(models.AbstractModel):
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
 
-    processador_edoc = fields.Selection(
-        string="Processador",
-        selection=PROCESSADOR,
-    )
-
     is_edoc_printed = fields.Boolean(string="Impresso", readonly=True)
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
@@ -95,7 +89,8 @@ class DocumentAbstract(models.AbstractModel):
 
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
-        string="Electronic?")
+        string="Electronic?", store=True,
+    )
 
     date_in_out = fields.Datetime(string="Date Move")
 
@@ -147,6 +142,11 @@ class DocumentAbstract(models.AbstractModel):
         required=True,
         default=lambda self: self.env["res.company"]._company_default_get(
             "l10n_br_fiscal.document"))
+
+    processador_edoc = fields.Selection(
+        related='company_id.processador_edoc',
+        store=True,
+    )
 
     company_legal_name = fields.Char(
         string="Company Legal Name",
@@ -305,15 +305,10 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
-    @api.onchange("operation_id", "company_id")
+    @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        if self.company_id:
-            self.processador_edoc = self.company_id.processador_edoc
         if self.operation_id:
             self.document_type_id = self.operation_id.document_type_id
-            # Busca o processador para o tipo de documento;
-            # if self.document_type_id.processador_edoc:
-            #     self.processador_edoc = self.document_type_id.processador_edoc
             self.document_serie_id = self.operation_id.document_serie_id
 
     @api.onchange("document_type_id")
