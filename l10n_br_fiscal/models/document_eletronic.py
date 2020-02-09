@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 
 from ..constants.fiscal import (
+    SITUACAO_EDOC_AUTORIZADA,
     PROCESSADOR_NENHUM
 )
 
@@ -14,7 +15,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-def fiter_processador_edoc_base(record):
+def filter_processador(record):
     if record.document_electronic and \
             record.processador_edoc == PROCESSADOR_NENHUM:
         return True
@@ -22,7 +23,7 @@ def fiter_processador_edoc_base(record):
 
 
 class EletronicDocument(models.AbstractModel):
-    _name = "l10n_br_fiscal.document.eletronic"
+    _name = "l10n_br_fiscal.document.electronic"
     _inherit = ["mail.thread",
                 "mail.activity.mixin",
                 "l10n_br_fiscal.document.mixin",
@@ -120,6 +121,28 @@ class EletronicDocument(models.AbstractModel):
         string='Versão',
         readonly=True,
     )
+
+    def _eletronic_document_send(self):
+        """ Implement this method in your transmission module,
+        to send the electronic document and use the method _change_state
+        to update the state of the transmited document,
+
+        def _eletronic_document_send(self):
+            super(EletronicDocument, self)._document_send()
+            for record in self.filtered(myfilter):
+                Do your transmission stuff
+                [...]
+                Change the state of the document
+        """
+        for record in self.filtered(filter_processador):
+            record._change_state(SITUACAO_EDOC_AUTORIZADA)
+
+    def _document_send(self):
+        no_electronic = self.filtered(lambda d: not d.document_electronic)
+        super(EletronicDocument, no_electronic)._document_send()
+
+        electronic = self - no_electronic
+        electronic._eletronic_document_send()
 
     def _gerar_evento(self, arquivo_xml, event_type):
         event_obj = self.env["l10n_br_fiscal.document_event"]
