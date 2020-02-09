@@ -35,19 +35,19 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 
-    @api.one
     @api.depends("simplifed_tax_id", "annual_revenue")
     def _compute_simplifed_tax_range(self):
-        tax_range = self.env["l10n_br_fiscal.simplified.tax.range"].search(
-            [
-                ("inital_revenue", "<=", self.annual_revenue),
-                ("final_revenue", ">=", self.annual_revenue),
-            ],
-            limit=1,
-        )
+        for record in self:
+            tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
+                [
+                    ("inital_revenue", "<=", record.annual_revenue),
+                    ("final_revenue", ">=", record.annual_revenue),
+                ],
+                limit=1,
+            )
 
-        if tax_range:
-            self.simplifed_tax_range_id = tax_range.id
+            if tax_range:
+                record.simplifed_tax_range_id = tax_range.id
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",

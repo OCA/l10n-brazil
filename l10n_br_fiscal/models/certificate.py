@@ -32,7 +32,7 @@ class Certificate(models.Model):
     _description = "Certificate"
     _order = "date_expiration"
 
-    name = fields.Char(string="Name", compute="compute_name", readonly=True)
+    name = fields.Char(string="Name", compute="_compute_name", readonly=True)
 
     active = fields.Boolean(string="Active", default=True)
 
@@ -108,7 +108,7 @@ class Certificate(models.Model):
                 raise ValidationError(_("Cannot load Certificate !"))
 
     @api.depends("file", "password")
-    def compute_name(self):
+    def _compute_name(self):
         for c in self:
             if c.file and c.password:
                 c.name = "{} - {} - {} - Valid: {}".format(

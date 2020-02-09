@@ -121,11 +121,11 @@ class EletronicDocument(models.AbstractModel):
         readonly=True,
     )
 
-    def _gerar_evento(self, arquivo_xml, type):
+    def _gerar_evento(self, arquivo_xml, event_type):
         event_obj = self.env["l10n_br_fiscal.document_event"]
 
         vals = {
-            "type": type,
+            "type": event_type,
             "company_id": self.company_id.id,
             "origin": self.document_type_id.code + "/" + self.number,
             "create_date": fields.Datetime.now(),

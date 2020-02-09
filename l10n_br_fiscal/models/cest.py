@@ -40,18 +40,18 @@ class Cest(models.Model):
         string="Products Quantity", compute="_compute_product_tmpl_info"
     )
 
-    @api.one
     def _compute_product_tmpl_info(self):
-        product_tmpls = self.env["product.template"].search(
-            [
-                ("cest_id", "=", self.id),
-                "|",
-                ("active", "=", False),
-                ("active", "=", True),
-            ]
-        )
-        self.product_tmpl_ids = product_tmpls
-        self.product_tmpl_qty = len(product_tmpls)
+        for record in self:
+            product_tmpls = record.env["product.template"].search(
+                [
+                    ("cest_id", "=", record.id),
+                    "|",
+                    ("active", "=", False),
+                    ("active", "=", True),
+                ]
+            )
+            record.product_tmpl_ids = product_tmpls
+            record.product_tmpl_qty = len(product_tmpls)
 
     @api.depends("ncms")
     def _compute_ncms(self):
