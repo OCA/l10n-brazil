@@ -108,5 +108,8 @@
     "installable": True,
     "application": True,
     "auto_install": False,
-    "external_dependencies": {"python": ["erpbrasil.assinatura"]},
+    "external_dependencies": {"python": [
+        "erpbrasil.base",
+        "erpbrasil.assinatura",
+    ]},
 }
