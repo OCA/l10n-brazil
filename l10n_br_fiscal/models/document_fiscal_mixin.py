@@ -1,13 +1,13 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from lxml import etree
+# from lxml import etree
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 
-from ..constants.fiscal import FISCAL_IN_OUT, TAX_FRAMEWORK
+from ..constants.fiscal import FISCAL_IN_OUT
 
 
 class DocumentFiscalMixin(models.AbstractModel):
@@ -42,27 +42,27 @@ class DocumentFiscalMixin(models.AbstractModel):
 
     @api.model
     def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False):
+            self, view_id=None, view_type="form", toolbar=False, submenu=False):
 
         model_view = super(DocumentFiscalMixin, self).fields_view_get(
             view_id, view_type, toolbar, submenu
         )
-        return model_view # TO REMOVE
+        return model_view  # TO REMOVE
 
-        if view_type == "form":
-            fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_mixin_form")
-
-            doc = etree.fromstring(model_view.get("arch"))
-
-            for fiscal_node in doc.xpath("//group[@name='l10n_br_fiscal']"):
-                sub_view_node = etree.fromstring(fiscal_view["arch"])
-
-                from odoo.osv.orm import setup_modifiers
-                setup_modifiers(fiscal_node)
-                try:
-                    fiscal_node.getparent().replace(fiscal_node, sub_view_node)
-                    model_view["arch"] = etree.tostring(doc, encoding="unicode")
-                except ValueError:
-                    return model_view
-
-        return model_view
+        # if view_type == "form":
+        #     fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_mixin_form")
+        #
+        #     doc = etree.fromstring(model_view.get("arch"))
+        #
+        #     for fiscal_node in doc.xpath("//group[@name='l10n_br_fiscal']"):
+        #         sub_view_node = etree.fromstring(fiscal_view["arch"])
+        #
+        #         from odoo.osv.orm import setup_modifiers
+        #         setup_modifiers(fiscal_node)
+        #         try:
+        #             fiscal_node.getparent().replace(fiscal_node, sub_view_node)
+        #             model_view["arch"] = etree.tostring(doc, encoding="unicode")
+        #         except ValueError:
+        #             return model_view
+        #
+        # return model_view

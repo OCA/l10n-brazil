@@ -5,7 +5,6 @@ from base64 import b64encode
 from datetime import timedelta
 
 from odoo import fields
-from odoo.exceptions import ValidationError
 from odoo.tests import common
 from odoo.tools.misc import format_date
 from OpenSSL import crypto
