@@ -4,7 +4,7 @@
 import logging
 from datetime import timedelta
 
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base import misc
 from lxml import etree
 from odoo import _, api, fields, models
 from odoo.addons import decimal_precision as dp
@@ -20,29 +20,29 @@ class Ncm(models.Model):
     _inherit = ["l10n_br_fiscal.data.abstract", "mail.thread", "mail.activity.mixin"]
     _description = "NCM"
 
-    @api.one
     @api.depends("tax_estimate_ids")
     def _compute_amount(self):
-        last_estimated = self.env["l10n_br_fiscal.tax.estimate"].search(
-            [
-                ("ncm_id", "=", self.id),
-                ("company_id", "=", self.env.user.company_id.id),
-            ],
-            order="create_date DESC",
-            limit=1,
-        )
+        for record in self:
+            last_estimated = record.env["l10n_br_fiscal.tax.estimate"].search(
+                [
+                    ("ncm_id", "=", record.id),
+                    ("company_id", "=", record.env.user.company_id.id),
+                ],
+                order="create_date DESC",
+                limit=1,
+            )
 
-        if last_estimated:
-            self.estimate_tax_imported = (
-                last_estimated.federal_taxes_import
-                + last_estimated.state_taxes
-                + last_estimated.municipal_taxes
-            )
-            self.estimate_tax_national = (
-                last_estimated.federal_taxes_national
-                + last_estimated.state_taxes
-                + last_estimated.municipal_taxes
-            )
+            if last_estimated:
+                record.estimate_tax_imported = (
+                    last_estimated.federal_taxes_import
+                    + last_estimated.state_taxes
+                    + last_estimated.municipal_taxes
+                )
+                record.estimate_tax_national = (
+                    last_estimated.federal_taxes_national
+                    + last_estimated.state_taxes
+                    + last_estimated.municipal_taxes
+                )
 
     code = fields.Char(size=10)
 
@@ -104,15 +104,18 @@ class Ncm(models.Model):
         "unique (code, exception)",
         "NCM already exists with this code !")]
 
-    @api.one
     def _compute_product_tmpl_info(self):
-        product_tmpls = self.env["product.template"].search([
-            ("ncm_id", "=", self.id), "|",
-            ("active", "=", False),
-            ("active", "=", True)])
-
-        self.product_tmpl_ids = product_tmpls
-        self.product_tmpl_qty = len(product_tmpls)
+        for record in self:
+            product_tmpls = record.env["product.template"].search(
+                [
+                    ("ncm_id", "=", record.id),
+                    "|",
+                    ("active", "=", False),
+                    ("active", "=", True),
+                ]
+            )
+            record.product_tmpl_ids = product_tmpls
+            record.product_tmpl_qty = len(product_tmpls)
 
     @api.multi
     def get_ibpt(self):
@@ -125,8 +128,9 @@ class Ncm(models.Model):
 
                 config = DeOlhoNoImposto(
                     company.ibpt_token,
-                    punctuation_rm(company.cnpj_cpf),
-                    company.state_id.code)
+                    misc.punctuation_rm(company.cnpj_cpf),
+                    company.state_id.code,
+                )
 
                 result = get_ibpt_product(config, ncm.code_unmasked)
 
