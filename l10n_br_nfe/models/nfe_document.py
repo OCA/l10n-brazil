@@ -6,6 +6,6 @@ from odoo import models
 
 class NFe(models.Model):
     _name = "l10n_br_nfe.document"
-    _inherit = ["l10n_br_fiscal.document", "l10n_br_fiscal.document.eletronic"]
+    _inherit = ["l10n_br_fiscal.document", "l10n_br_fiscal.document.electronic"]
     _table = "l10n_br_fiscal_document"
     _description = "NFe"
