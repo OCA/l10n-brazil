@@ -59,6 +59,8 @@
 "l10n_br_fiscal_document_manager","Fiscal Document for Manager","model_l10n_br_fiscal_document","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_document_line_user","Fiscal Document Line for User","model_l10n_br_fiscal_document_line","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_document_line_manager","Fiscal Document Line for Manager","model_l10n_br_fiscal_document_line","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_payment_user","Fiscal payment for User","model_l10n_br_fiscal_payment","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_payment_manager","Fiscal Document for Manager","model_l10n_br_fiscal_payment","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_comment_user","Comment for User","model_l10n_br_fiscal_comment","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_comment_manager","Comment for Manager","model_l10n_br_fiscal_comment","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_definition_user","Tax Definition for User","model_l10n_br_fiscal_tax_definition","l10n_br_fiscal.group_user",1,0,0,0
