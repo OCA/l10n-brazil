@@ -8,8 +8,6 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE,
     OPERATION_FISCAL_TYPE_DEFAULT,
     FISCAL_IN_OUT_ALL,
-    CFOP_TYPE_MOVE,
-    CFOP_TYPE_MOVE_DEFAULT,
     OPERATION_STATE_DEFAULT,
     OPERATION_STATE
 )
@@ -62,14 +60,16 @@ class Operation(models.Model):
         string="Return Operation",
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('operation_type', '!=', operation_type), ('fiscal_type', 'in', {'sale': ['sale_refund'], 'purchase': "
+        domain="[('operation_type', '!=', operation_type), "
+               "('fiscal_type', 'in', {'sale': ['sale_refund'], 'purchase': "
                "['purchase_refund'], 'other': ['return_in', 'return_out']}.get("
                "fiscal_type, []))]")
 
     inverse_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Inverse Operation",
-        domain="[('operation_type', '!=', operation_type), ('fiscal_type', '!=', fiscal_type)]",
+        domain="[('operation_type', '!=', operation_type), "
+               "('fiscal_type', '!=', fiscal_type)]",
         readonly=True,
         states={"draft": [("readonly", False)]})
 
