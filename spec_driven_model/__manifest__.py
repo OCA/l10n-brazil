@@ -14,4 +14,7 @@
     ],
     'demo': [
     ],
+    'python': [
+        'nfelib',  # FIXME: Remove it and move to my module!!!
+    ],
 }
