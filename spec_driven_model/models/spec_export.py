@@ -3,7 +3,11 @@
 import logging
 
 from odoo import models, fields
-from nfelib.v4_00 import leiauteNFe
+
+try:
+    from nfelib.v4_00 import leiauteNFe  # FIXME: Move me to my module!
+except ImportError:
+    pass
 
 try:
     from StringIO import StringIO
@@ -21,6 +25,7 @@ class AbstractSpecMixin(models.AbstractModel):
         return getattr(leiauteNFe, class_obj._generateds_type)
 
     def _export_field(self, xsd_fields, class_obj, export_dict):
+        # FIXME: Remove all references of nfe, make it generic!
         ds_class = self._get_ds_class(class_obj)
         ds_class_sepc = {i.name: i for i in ds_class.member_data_items_}
 
@@ -133,8 +138,8 @@ class AbstractSpecMixin(models.AbstractModel):
         if member_spec.data_type[0]:
             TDec = ''.join(filter(lambda x: x.isdigit(),
                                   member_spec.data_type[0]))[-2:]
-            format = "%.{0}f".format(TDec)
-            return str(format % self[field_name])
+            my_format = "%.{0}f".format(TDec)
+            return str(my_format % self[field_name])
         else:
             raise NotImplementedError
 
@@ -204,14 +209,14 @@ class AbstractSpecMixin(models.AbstractModel):
         )
         contents = output.getvalue()
         output.close()
-        print(contents)
+        _logger.info(contents)
 
-    def export_xml(self, print=True):
+    def export_xml(self, print_xml=True):
         result = []
 
         if hasattr(self, '_stacked'):
             ds_object = self._build_generateds()
-            if print:
+            if print_xml:
                 self._print_xml(ds_object)
             result.append(ds_object)
 
@@ -225,4 +230,4 @@ class AbstractSpecMixin(models.AbstractModel):
         return result
 
     def export_ds(self):
-        return self.export_xml(print=False)
+        return self.export_xml(print_xml=False)

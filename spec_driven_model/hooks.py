@@ -1,10 +1,13 @@
 # Copyright (C) 2019 - Raphael Valyi Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+import logging
 
 import sys
 import inspect
 from odoo import api, models, SUPERUSER_ID
 from .models.spec_models import SpecModel, StackedModel
+
+_logger = logging.getLogger(__name__)
 
 
 def post_init_hook(cr, registry, module_name, spec_module):
@@ -74,18 +77,18 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
             #    if base_class._fields[]
 
     used_models = [c._name for c in injected_classes]
-    print(" **** injected spec models (%s): %s" % (
+    _logger.info(" **** injected spec models (%s): %s" % (
         len(used_models), used_models))
     # TODO replace by SELECT like for module_models ?
     all_spec_models = set([c._name for name, c
                            in inspect.getmembers(
                                sys.modules[spec_module], inspect.isclass)])
 
-    print("number of all spec models:", len(all_spec_models))
+    _logger.info("number of all spec models:", len(all_spec_models))
     remaining_models = remaining_models.union(
         set([i for i in all_spec_models
              if i not in [c._name for c in injected_classes]]))
-    print("\n **** REMAINING spec models to init (%s): %s \n\n" % (
+    _logger.info("\n **** REMAINING spec models to init (%s): %s \n\n" % (
         len(remaining_models), remaining_models))
     return remaining_models
 
