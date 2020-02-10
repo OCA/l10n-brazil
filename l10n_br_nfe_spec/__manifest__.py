@@ -8,4 +8,10 @@
     'depends': ['spec_driven_model'],
     'installable': True,
     'application': False,
+    'external_dependencies': {
+        'python': [
+            'nfelib',
+            'xmldiff',
+        ],
+    },
 }
