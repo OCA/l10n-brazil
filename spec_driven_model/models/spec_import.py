@@ -1,6 +1,10 @@
+import logging
+
 import re
 from datetime import datetime
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 
 tz_datetime = re.compile(r'.*[-+]0[0-9]:00$')
@@ -10,7 +14,11 @@ class AbstractSpecMixin(models.AbstractModel):
     _inherit = 'spec.mixin'
 
     @api.model
-    def build(self, node, defaults={}):
+    def build(self, node, defaults=False):
+
+        if not defaults:
+            defaults = dict()
+
         # TODO new or create choice
         # TODO ability to match existing record here
         # TODO use SpecModel._get_concrete(...)
@@ -18,16 +26,20 @@ class AbstractSpecMixin(models.AbstractModel):
                                                          self._name)
         model = self.env[model_name]
         attrs = model.build_attrs(node, create_m2o=True, defaults=defaults)
-        print(attrs)
+        _logger.info(attrs)
         return model.create(attrs)
 
     @api.model
-    def build_attrs(self, node, create_m2o=False, path='', defaults={}):
+    def build_attrs(self, node, create_m2o=False, path='', defaults=False):
         """A recursive Odoo object builder that works along with the
         GenerateDS object builder from the parsed XML.
         Here we take into account the concrete Odoo objects where the schema
         mixins where injected and possible matcher or builder overrides."""
-        print("\n\n %s BUILD_ATTRS %s %s " % (path, self, node,))
+
+        if not defaults:
+            defaults = dict()
+
+        _logger.info("\n\n %s BUILD_ATTRS %s %s " % (path, self, node,))
         fields = self.fields_get()
         # no default image for easier debugging
         vals = self.default_get([f for f, v in fields.items()
@@ -99,7 +111,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
             else:
                 # ComplexType
-                print("\n\nNEW COMPLEX TYPE", key, value)
+                _logger.info("\n\nNEW COMPLEX TYPE", key, value)
                 if fields.get(key) and fields[key].get('related'):
                     # example: company.nfe40_enderEmit related on partner_id
                     # then we need to set partner_id, not nfe40_enderEmit
@@ -114,19 +126,18 @@ class AbstractSpecMixin(models.AbstractModel):
 
                 if attr.get_container() == 0:
                     # m2o
-                    print("m2o or stacked", self, key, comodel_name,
-                          comodel)
+                    _logger.info("m2o or stacked", self, key, comodel_name, comodel)
                     new_value = comodel.build_attrs(value,
                                                     create_m2o=create_m2o,
                                                     path=child_path,
                                                     defaults=defaults)
-                    print("NEW_VALUE", self._name, key, comodel._name,
-                          new_value)
+                    _logger.info("NEW_VALUE", self._name, key, comodel._name,
+                                 new_value)
                     child_defaults = self._extract_related_values(vals, key)
 
                     new_value.update(child_defaults)
 #                    if key == 'nfe40_dest':
-#                        print("KKKKKKK00", key, new_value, vals)
+#                        _logger.info("KKKKKKK00", key, new_value, vals)
 #                        x=a/0
                     if comodel._name == self._name or \
                             self._name == 'account.invoice.line' and \
@@ -136,7 +147,7 @@ class AbstractSpecMixin(models.AbstractModel):
                         # TODO do not hardcode!!
                         # stacked m2o
                         vals.update(new_value)
-                        print("(stacked)", self)
+                        _logger.info("(stacked)", self)
                     else:
                         vals[key] = comodel.match_or_create_m2o(
                             new_value, vals, create_m2o)
@@ -178,16 +189,20 @@ class AbstractSpecMixin(models.AbstractModel):
                     and vals.get(k) is not None:
                 key_vals[v['related'][1]] = vals[k]
         if key_vals != {}:
-            print("\nEXTRACT RELATED FROM PARENT:", self, key, key_vals)
+            _logger.info("\nEXTRACT RELATED FROM PARENT:", self, key, key_vals)
         # TODO use inside match_or_create??
         return key_vals
 
     @api.model
-    def _prepare_import_dict(self, vals, defaults={}):
+    def _prepare_import_dict(self, vals, defaults=False):
         """NOTE: this is debatable if we could use an api multi with values in
         self instead of the vals dict. Then that would be like when new()
         is used in account_invoice or sale_order before playing some onchanges
         """
+
+        if not defaults:
+            defaults = dict()  # FIXME: default not used
+
         related_many2ones = {}
         fields = self.fields_get()
         for k, v in fields.items():
@@ -224,7 +239,7 @@ class AbstractSpecMixin(models.AbstractModel):
             else:  # res.country for instance
                 vals[related_m2o] = self.match_or_create_m2o(sub_val, vals,
                                                              True, comodel)
-                print("related_m2o found", related_m2o, vals[related_m2o])
+                _logger.info("related_m2o found", related_m2o, vals[related_m2o])
         return vals
 
     @api.model
@@ -239,7 +254,7 @@ class AbstractSpecMixin(models.AbstractModel):
             keys = model._nfe_search_keys + default_key
         else:
             keys = [model._rec_name or model._concrete_rec_name or 'name']
-        print("match_record", keys, rec_dict)
+        _logger.info("match_record", keys, rec_dict)
         if model._name == 'product.product' and rec_dict.get('barcode'):
             keys = ['barcode'] + keys
         for key in keys:
@@ -251,12 +266,12 @@ class AbstractSpecMixin(models.AbstractModel):
                                                          rec_dict.get(key))]
                 else:
                     domain = [(key, '=', rec_dict.get(key))]
-                print('domain', domain)
+                _logger.info('domain', domain)
                 match_ids = model.search(domain)
-                print("\nSEARCH", model, key, rec_dict.get(key), match_ids)
+                _logger.info("\nSEARCH", model, key, rec_dict.get(key), match_ids)
                 if match_ids:
                     if len(match_ids) > 1:
-                        print("!! WARNING more than 1 record found!!")
+                        _logger.warning("!! WARNING more than 1 record found!!")
                     return match_ids[0].id
         return False
 
@@ -270,7 +285,7 @@ class AbstractSpecMixin(models.AbstractModel):
         # TODO log things in chatter like in base_business_document_import
         if model is None:
             model = self
-        print("match or create", model, rec_dict, parent_dict)
+        _logger.info("match or create", model, rec_dict, parent_dict)
         if hasattr(model, '_match_record'):
             rec_id = model.match_record(rec_dict, parent_dict, model)
         else:
@@ -278,7 +293,7 @@ class AbstractSpecMixin(models.AbstractModel):
         if not rec_id:
             if create_m2o:
                 r = model.create(rec_dict)
-                print('r', r)
+                _logger.info('r', r)
                 rec_id = r.id
             else:  # do we use it?
                 rec_id = model.new(rec_dict).id
