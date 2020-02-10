@@ -1,8 +1,11 @@
+import logging
+
 from lxml import etree
 from lxml.builder import E
 from odoo import models, api
 from odoo.osv.orm import setup_modifiers
 
+_logger = logging.getLogger(__name__)
 
 TAB_NAME = "NFe"  # TODO dynamic
 FIELD_PREFIX = "nfe40_"
@@ -21,7 +24,7 @@ class SpecViewMixin(models.AbstractModel):
                         submenu=False):
         res = super(SpecViewMixin, self.with_context(no_subcall=True)
                     ).fields_view_get(view_id, view_type, toolbar)
-        print("+++++++++++++++", self, type(self), self._context)
+        _logger.info("+++++++++++++++", self, type(self), self._context)
         if self._context.get('no_subcall'):
             return res
         # TODO collect class ancestors of StackedModel kind and
@@ -48,15 +51,15 @@ class SpecViewMixin(models.AbstractModel):
                 arch.set("col", "2")  # TODO ex fleet
                 if res['name'] == 'default':
                     # we replace the default view by our own
-                    print("Defaulttttttt view:")
-                    print(etree.tostring(node, pretty_print=True).decode())
+                    _logger.info("Defaulttttttt view:")
+                    _logger.info(etree.tostring(node, pretty_print=True).decode())
                     for c in node.getchildren():
                         node.remove(c)
                     arch = arch.getchildren()[0]
                     arch.set("col", "4")
                     node.insert(1000, arch)
-                    print("Specccccccccc View:")
-                    print(etree.tostring(node, pretty_print=True).decode())
+                    _logger.info("Specccccccccc View:")
+                    _logger.info(etree.tostring(node, pretty_print=True).decode())
                 else:
                     node.insert(1000, arch)
             elif len(doc.xpath("//form")) > 0:  # ex invoice.line
@@ -109,7 +112,7 @@ class SpecViewMixin(models.AbstractModel):
                 lib_model = self
             classes = [getattr(x, '_name', None)
                        for x in type(lib_model).mro()]
-            print("#####", lib_model, classes)
+            _logger.info("#####", lib_model, classes)
             for c in set(classes):
                 if c is None:
                     continue
@@ -125,7 +128,7 @@ class SpecViewMixin(models.AbstractModel):
                 sub_container = E.group(string=short_desc)
                 self.build_arch(lib_model, sub_container, fields, 1)
                 container.append(sub_container)
-        print(etree.tostring(container, pretty_print=True).decode())
+        _logger.info(etree.tostring(container, pretty_print=True).decode())
         return container, fields
 
     # TODO cache!!
@@ -134,7 +137,7 @@ class SpecViewMixin(models.AbstractModel):
     @api.model
     def build_arch(self, lib_node, view_node, fields, depth=0):
         """Creates a view arch from an generateds lib model arch"""
-        print("BUILD ARCH", lib_node)
+        _logger.info("BUILD ARCH", lib_node)
         choices = set()
         wrapper_group = None
         wrapper_notebook = None
@@ -143,7 +146,7 @@ class SpecViewMixin(models.AbstractModel):
 
 #        for spec in lib_node.member_data_items_:
         for field_name, field in lib_node._fields.items():
-            print("   field", field_name)
+            _logger.info("   field", field_name)
             # import pudb; pudb.set_trace()
 
             # skip automatic m2 fields, non xsd fields
@@ -197,7 +200,7 @@ class SpecViewMixin(models.AbstractModel):
                     and field.comodel_name in stacked_classes:
                 # TODO is is a suficient condition?
                 # study what happen in res.partner with dest#nfe_enderDest
-                print('STACKED', field_name, field.comodel_name)
+                _logger.info('STACKED', field_name, field.comodel_name)
                 wrapper_group = None
                 if hasattr(field, 'original_comodel_name'):
                     lib_child = self.env[getattr(field,
