@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="document_invalidate_number_search" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.invalidate.number.search</field>
+    <field name="model">l10n_br_fiscal.document.invalidate.number</field>
+    <field name="arch" type="xml">
+      <search string="Fiscal Document">
+        <field name="document_id"/>
+        <field name="company_id"/>
+        <field name="partner_id"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="document_invalidate_number_tree" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.invalidate.number.tree</field>
+    <field name="model">l10n_br_fiscal.document.invalidate.number</field>
+    <field name="arch" type="xml">
+      <tree string="Fiscal Document">
+          <field name="company_id"/>
+          <field name="document_id"/>
+          <field name="partner_id"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="document_invalidate_number_form" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.invalidate.number.form</field>
+    <field name="model">l10n_br_fiscal.document.invalidate.number</field>
+    <field name="arch" type="xml">
+      <form string="Fiscal Document">
+          <group>
+              <field name="company_id"/>
+              <field name="document_id"/>
+              <field name="partner_id"/>
+          </group>
+          <group>
+              <field name="justificative"/>
+          </group>
+          <notebook>
+              <page string="Eventos">
+                  <field name="invalidate_number_document_event_ids"/>
+              </page>
+          </notebook>
+      </form>
+    </field>
+  </record>
+
+</odoo>
