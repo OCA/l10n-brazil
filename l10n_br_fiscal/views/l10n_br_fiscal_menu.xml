@@ -13,6 +13,15 @@
     # Fiscal Documents
     <menuitem id="document_menu" action="document_action" name="Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="10"/>
 
+<!--    # Fiscal Document Cancel-->
+<!--    <menuitem id="document_cancel_menu" action="document_cancel_action" name="Cancellation" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="20"/>-->
+<!---->
+<!--    # Fiscal Document Correction-->
+<!--    <menuitem id="document_correction_menu" action="document_correction_action" name="Correction" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="30"/>-->
+<!---->
+<!--    # Fiscal Document Invalidate-->
+<!--    <menuitem id="document_invalidate_menu" action="document_invalidate_number_action" name="Invalidate Number" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="40"/>-->
+
     # Partners
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
 

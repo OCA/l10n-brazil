@@ -474,6 +474,63 @@
         </field>
     </record>
 
+<!--    # Fiscal Document Cancel-->
+<!--    <record id="document_cancel_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Document Cancel</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">l10n_br_fiscal.document.cancel</field>-->
+<!--        <field name="view_type">form</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="search_view_id" ref="document_cancel_search"/>-->
+<!--        <field name="view_id" ref="document_cancel_tree"/>-->
+<!--        <field name="help" type="html">-->
+<!--          <p class="o_view_nocontent_smiling_face">-->
+<!--            Cancel a Document-->
+<!--          </p><p>-->
+<!--            Odoo helps you easily track all activities-->
+<!--            related to a fiscal operation.-->
+<!--          </p>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    # Fiscal Document Correction-->
+<!--    <record id="document_correction_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Document Correction</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">l10n_br_fiscal.document.correction</field>-->
+<!--        <field name="view_type">form</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="search_view_id" ref="document_correction_search"/>-->
+<!--        <field name="view_id" ref="document_correction_tree"/>-->
+<!--        <field name="help" type="html">-->
+<!--          <p class="o_view_nocontent_smiling_face">-->
+<!--            Correction a Document-->
+<!--          </p><p>-->
+<!--            Odoo helps you easily track all activities-->
+<!--            related to a fiscal operation.-->
+<!--          </p>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    # Fiscal Document Invalidate Number-->
+<!--    <record id="document_invalidate_number_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Document Invalidate Number</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">l10n_br_fiscal.document.invalidate_number</field>-->
+<!--        <field name="view_type">form</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="search_view_id" ref="document_invalidate_number_search"/>-->
+<!--        <field name="view_id" ref="document_invalidate_number_tree"/>-->
+<!--        <field name="help" type="html">-->
+<!--          <p class="o_view_nocontent_smiling_face">-->
+<!--            Invalidate Document Number-->
+<!--          </p><p>-->
+<!--            Odoo helps you easily track all activities-->
+<!--            related to a fiscal operation.-->
+<!--          </p>-->
+<!--        </field>-->
+<!--    </record>-->
+
     # Config Settings
     <record id="config_action" model="ir.actions.act_window">
         <field name="name">Settings</field>
