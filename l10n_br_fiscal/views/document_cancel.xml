@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="document_cancel_search" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.cancel.search</field>
+    <field name="model">l10n_br_fiscal.document.cancel</field>
+    <field name="arch" type="xml">
+      <search string="Fiscal Document">
+        <field name="document_id"/>
+        <field name="company_id"/>
+        <field name="partner_id"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="document_cancel_tree" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.cancel.tree</field>
+    <field name="model">l10n_br_fiscal.document.cancel</field>
+    <field name="arch" type="xml">
+      <tree string="Fiscal Document">
+          <field name="company_id"/>
+          <field name="document_id"/>
+          <field name="partner_id"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="document_cancel_form" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.cancel.form</field>
+    <field name="model">l10n_br_fiscal.document.cancel</field>
+    <field name="arch" type="xml">
+      <form string="Fiscal Document">
+          <group>
+              <field name="company_id"/>
+              <field name="document_id"/>
+              <field name="partner_id"/>
+          </group>
+          <group>
+              <field name="justificative"/>
+          </group>
+          <notebook>
+              <page string="Eventos">
+                  <field name="cancel_document_event_ids"/>
+              </page>
+          </notebook>
+      </form>
+    </field>
+  </record>
+
+</odoo>
