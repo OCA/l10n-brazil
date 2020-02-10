@@ -94,8 +94,8 @@ class DocumentEletronic(models.AbstractModel):
         readonly=True)
 
     cancel_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.cancel",
-        string="Cancelamento")
+        comodel_name="l10n_br_fiscal.document.cancel", string="Cancelamento"
+    )
 
     file_xml_cancelamento_id = fields.Many2one(
         comodel_name="ir.attachment",
