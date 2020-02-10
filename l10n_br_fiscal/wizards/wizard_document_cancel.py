@@ -27,7 +27,8 @@ class DocumentCancelWizard(models.TransientModel):
     @api.multi
     def doit(self):
         for wizard in self:
-            obj = self.env[self.env.context['active_model']].browse(
-                self.env.context['active_id'])
+            obj = self.env[self.env.context["active_model"]].browse(
+                self.env.context["active_id"]
+            )
             obj._document_cancel(wizard.justificative)
-        return {'type': 'ir.actions.act_window_close'}
+        return {"type": "ir.actions.act_window_close"}
