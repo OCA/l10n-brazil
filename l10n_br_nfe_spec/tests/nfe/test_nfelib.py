@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+import logging
 
 import os
 import sys
@@ -8,6 +8,8 @@ from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
 from nfelib.v4_00 import leiauteNFe as nfe
 from nfelib.v4_00 import leiauteInutNFe as inut
 sys.path.append(path.join(path.dirname(__file__), '..', 'nfelib'))
+
+_logger = logging.getLogger(__name__)
 
 
 def test_in_out_leiauteNFe():
@@ -21,14 +23,14 @@ def test_in_out_leiauteNFe():
         # agora vamos importar o XML da nota e transforma-lo em objeto Python:
         obj = nfe_sub.parse(inputfile)  # '%s/%s' % (path, filename,))
         # agora podemos trabalhar em cima do objeto e fazer operaçoes como:
-        obj.infNFe.emit.CNPJ
+        # obj.infNFe.emit.CNPJ
 
         outputfile = 'tests/output.xml'
         with open(outputfile, 'w') as f:
             nfe_sub.export(obj, nfeProc=False, stream=f)
 
         diff = main.diff_files(inputfile, outputfile)
-        print(diff)
+        _logger.info(diff)
         assert len(diff) == 0
 
 
@@ -45,7 +47,7 @@ def test_in_out_leiauteInutNFe():
                                      '"http://www.portalfiscal.inf.br/nfe"')
 
         diff = main.diff_files(inputfile, outputfile)
-        print(diff)
+        _logger.info(diff)
         assert len(diff) == 0
 
 
