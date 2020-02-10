@@ -2,108 +2,116 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-# import datetime
-
-# from odoo import api, fields, models
-from odoo import models
+from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
 class DocumentInvalidateNumber(models.Model):
     _name = "l10n_br_fiscal.document.invalidate.number"
     _description = "Fiscal Document Invalidate Number Record"
 
-    # TODO
-    """
-    type = fields.Selection(
-        selection=[
-            ("-1", u"Exception"),
-            ("0", u"Envio Lote"),
-            ("1", u"Consulta Recibo"),
-            ("2", u"Cancelamento"),
-            ("3", u"Inutilização"),
-            ("4", u"Consulta NFE"),
-            ("5", u"Consulta Situação"),
-            ("6", u"Consulta Cadastro"),
-            ("7", u"DPEC Recepção"),
-            ("8", u"DPEC Consulta"),
-            ("9", u"Recepção Evento"),
-            ("10", u"Download"),
-            ("11", u"Consulta Destinadas"),
-            ("12", u"Distribuição DFe"),
-            ("13", u"Manifestação"),
-        ],
-        string="Serviço",
-    )
-
-    response = fields.Char(string=u"Descrição", size=64, readonly=True)
+    @api.multi
+    def name_get(self):
+        return [(rec.id,
+                 u"{0} ({1}): {2} - {3}".format(
+                     rec.fiscal_document_id.name,
+                     rec.document_serie_id.name,
+                     rec.number_start, rec.number_end)
+                 ) for rec in self]
 
     company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Empresa",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        'res.company', 'Empresa', readonly=True,
+        states={'draft': [('readonly', False)]}, required=True,
+        default=lambda self: self.env['res.company']._company_default_get(
+            'l10n_br_fiscal.document.invalidate.number'))
 
-    origin = fields.Char(
-        string=u"Documento de Origem",
-        size=64,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-        help=u"Referência ao documento que gerou o evento.",
-    )
+    fiscal_document_id = fields.Many2one(
+        'l10n_br_fiscal.document', 'Documento Fiscal',
+        readonly=True, states={'draft': [('readonly', False)]},
+        required=True)
 
-    file_sent = fields.Char(string="Envio", readonly=True)
+    document_serie_id = fields.Many2one(
+        'l10n_br_fiscal.document.serie', 'Série',
+        domain="[('fiscal_document_id', '=', fiscal_document_id), "
+        "('company_id', '=', company_id)]", readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
 
-    file_returned = fields.Char(string="Retorno", readonly=True)
+    number_start = fields.Integer(
+        u'Número Inicial', readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
 
-    status = fields.Char(string=u"Código", readonly=True)
-
-    message = fields.Char(string=u"Mensagem", readonly=True)
-
-    create_date = fields.Datetime(string=u"Data Criação", readonly=True)
-
-    write_date = fields.Datetime(string=u"Data Alteração", readonly=True)
-
-    end_date = fields.Datetime(string=u"Data Finalização", readonly=True)
+    number_end = fields.Integer(
+        u'Número Final', readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
 
     state = fields.Selection(
-        selection=[
-            ("draft", "Rascunho"),
-            ("send", "Enviado"),
-            ("wait", "Aguardando Retorno"),
-            ("done", "Recebido Retorno"),
-        ],
-        string=u"Status",
-        index=True,
-        readonly=True,
-        default="draft",
-    )
+        [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
+         ('done', u'Concluído')], 'Status', required=True, default='draft')
 
-    document_event_ids = fields.Many2one(
-        comodel_name="account.invoice", string=u"Documentos"
-    )
+    justificative = fields.Char(
+        'Justificativa', size=255, readonly=True,
+        states={'draft': [('readonly', False)]}, required=True)
 
-    cancel_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_account.invoice.cancel", string="Cancelamento"
-    )
+    invalid_number_document_event_ids = fields.One2many(
+        'l10n_br_fiscal.document.event', 'invalid_number_document_event_id',
+        u'Eventos', states={'done': [('readonly', True)]})
 
-    invalid_number_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_account.invoice.invalid.number", string=u"Inutilização"
-    )
+    _sql_constraints = [
+        ('number_uniq',
+         'unique(document_serie_id, number_start, number_end, state)',
+         u'Sequência existente!'),
+    ]
 
-    display_name = fields.Char(string="Nome", compute="_compute_display_name")
-
-    _order = "write_date desc"
-
-    @api.multi
-    @api.depends("company_id.name", "origin")
-    def _compute_display_name(self):
-        self.ensure_one()
-        names = ["Evento", self.company_id.name, self.origin]
-        self.display_name = " / ".join(filter(None, names))
-
-    @api.multi
-    def set_done(self):
-        self.write({"state": "done", "end_date": datetime.datetime.now()})
+    @api.one
+    @api.constrains('justificative')
+    def _check_justificative(self):
+        if len(self.justificative) < 15:
+            raise UserError(
+                _('Justificativa deve ter tamanho minimo de 15 caracteres.'))
         return True
-    """
+
+    @api.one
+    @api.constrains('number_start', 'number_end')
+    def _check_range(self):
+        where = []
+        if self.number_start:
+            where.append("((number_end>='%s') or (number_end is null))" % (
+                self.number_start,))
+        if self.number_end:
+            where.append(
+                "((number_start<='%s') or (number_start is null))" % (
+                    self.number_end,))
+
+        self._cr.execute(
+            'SELECT id \
+            FROM l10n_br_account_invoice_invalid_number \
+            WHERE ' + ' and '.join(where) + (where and ' and ' or '') +
+            "document_serie_id = %s \
+            AND state = 'done' \
+            AND id <> %s" % (self.document_serie_id.id, self.id))
+        if self._cr.fetchall() or (self.number_start > self.number_end):
+            raise UserError(_(u'Não é permitido faixas sobrepostas!'))
+        return True
+
+    _constraints = [
+        (_check_range, u'Não é permitido faixas sobrepostas!',
+            ['number_start', 'number_end']),
+        (_check_justificative,
+            'Justificativa deve ter tamanho minimo de 15 caracteres.',
+            ['justificative'])
+    ]
+
+    def action_draft_done(self):
+        self.write({'state': 'done'})
+        return True
+
+    @api.multi
+    def unlink(self):
+        unlink_ids = []
+        for invalid_number in self:
+            if invalid_number['state'] in ('draft'):
+                unlink_ids.append(invalid_number['id'])
+            else:
+                raise UserError(_(
+                    u'Você não pode excluir uma sequência concluída.'))
+        return super(InvalidateNumber, self).unlink()
