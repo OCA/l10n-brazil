@@ -8,6 +8,9 @@ from . import document_abstract
 from . import document_line_abstract
 from . import document_event
 from . import document_eletronic
+from . import document_invalidate_number
+from . import document_cancel
+from . import document_correction
 from . import comment
 from . import ibpt
 from . import cfop

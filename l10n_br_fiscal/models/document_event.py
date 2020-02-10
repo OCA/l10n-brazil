@@ -107,11 +107,15 @@ class DocumentEvent(models.Model):
     )
 
     cancel_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_account.invoice.cancel", string="Cancelamento"
+        comodel_name="l10n_br_fiscal.document.cancel", string="Cancelamento"
+    )
+
+    correction_document_event_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.correction", string="Carta de correção"
     )
 
     invalid_number_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_account.invoice.invalid.number", string=u"Inutilização"
+        comodel_name="l10n_br_fiscal.document.invalidate_number", string=u"Inutilização"
     )
 
     display_name = fields.Char(string="Nome", compute="_compute_display_name")

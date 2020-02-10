@@ -9,7 +9,29 @@ class DocumentCorrection(models.Model):
     _name = "l10n_br_fiscal.document.correction"
     _description = "Carta de Correção no Sefaz"
 
-    motivo = fields.Text(string=u"Motivo", readonly=True, required=True)
+    document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Documento",
+        index=True,
+    )
+
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        related="document_id.partner_id",
+        string="Partner",
+        index=True,
+    )
+
+    company_id = fields.Many2one(
+        comodel_name="res.partner",
+        related="document_id.partner_id",
+        string="Company",
+        index=True,
+    )
+
+    justificative = fields.Char(
+        string="Justificativa", size=255, readonly=True, required=True
+    )
 
     sequencia = fields.Char(
         string=u"Sequência", help=u"Indica a sequência da carta de correcão"
@@ -17,15 +39,15 @@ class DocumentCorrection(models.Model):
 
     cce_document_event_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document_event",
-        inverse_name="document_event_ids",
+        inverse_name="correction_document_event_id",
         string=u"Eventos",
     )
 
     display_name = fields.Char(string="Name", compute="_compute_display_name")
 
     @api.multi
-    @api.depends("invoice_id.number", "invoice_id.partner_id.name")
+    @api.depends("document_id.number", "document_id.partner_id")
     def _compute_display_name(self):
         self.ensure_one()
-        names = ["Fatura", self.invoice_id.number, self.invoice_id.partner_id.name]
+        names = ["Fatura", self.document_id.number, self.document_id.partner_id.name]
         self.display_name = " / ".join(filter(None, names))

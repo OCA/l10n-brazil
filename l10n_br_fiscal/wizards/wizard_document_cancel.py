@@ -8,25 +8,25 @@ from odoo.exceptions import UserError
 
 class WizardDocumentCancel(models.TransientModel):
 
-    _name = 'l10n_br_fiscal.wizard_document_cancel'
+    _name = "l10n_br_fiscal.wizard_document_cancel"
     _description = "Document fiscal cancel wizard"
 
-    justificative = fields.Text('Justificativa', size=255, required=True)
+    justificative = fields.Text("Justificativa", size=255, required=True)
 
-    @api.constrains('justificative')
+    @api.constrains("justificative")
     @api.multi
     def _check_justificative(self):
         for record in self:
             if len(record.justificative) < 15:
                 raise UserError(
-                    _('Justificativa deve ter o tamanho mínimo de 15 '
-                      'caracteres.')
+                    _("Justificativa deve ter o tamanho mínimo de 15 " "caracteres.")
                 )
 
     @api.multi
     def doit(self):
         for wizard in self:
-            obj = self.env[self.env.context['active_model']].browse(
-                self.env.context['active_id'])
+            obj = self.env[self.env.context["active_model"]].browse(
+                self.env.context["active_id"]
+            )
             obj._document_cancel(wizard.justificative)
-        return {'type': 'ir.actions.act_window_close'}
+        return {"type": "ir.actions.act_window_close"}

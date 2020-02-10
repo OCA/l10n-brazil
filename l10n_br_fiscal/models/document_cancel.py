@@ -9,8 +9,24 @@ class DocumentCancel(models.Model):
     _name = "l10n_br_fiscal.document.cancel"
     _description = "Documento Eletrônico no Sefaz"
 
+    document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Documento",
+        index=True,
+    )
+
     partner_id = fields.Many2one(
-        comodel_name="res.partner", related="invoice_id.partner_id", string="Cliente"
+        comodel_name="res.partner",
+        related="document_id.partner_id",
+        string="Partner",
+        index=True,
+    )
+
+    company_id = fields.Many2one(
+        comodel_name="res.partner",
+        related="document_id.partner_id",
+        string="Company",
+        index=True,
     )
 
     justificative = fields.Char(
@@ -26,23 +42,16 @@ class DocumentCancel(models.Model):
     display_name = fields.Char(string=u"Nome", compute="_compute_display_name")
 
     @api.multi
-    @api.depends("invoice_id.number", "invoice_id.partner_id.name")
+    @api.depends("document_id.number", "document_id.partner_id.name")
     def _compute_display_name(self):
         self.ensure_one()
-        names = ["Fatura", self.invoice_id.number, self.invoice_id.partner_id.name]
+        names = ["Fatura", self.document_id.number, self.document_id.partner_id.name]
         self.display_name = " / ".join(filter(None, names))
 
     @api.multi
+    @api.constrains('justificative')
     def _check_justificative(self):
         for invalid in self:
             if len(invalid.justificative) < 15:
                 return False
         return True
-
-    _constraints = [
-        (
-            _check_justificative,
-            u"Justificativa deve ter tamanho mínimo de 15 caracteres.",
-            ["justificative"],
-        )
-    ]
