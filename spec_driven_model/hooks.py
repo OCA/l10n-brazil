@@ -76,20 +76,20 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
             # for f in base_class._stack_skip:
             #    if base_class._fields[]
 
-    used_models = [c._name for c in injected_classes]
-    _logger.info(" **** injected spec models (%s): %s" % (
-        len(used_models), used_models))
+    # used_models = [c._name for c in injected_classes]
+    # _logger.info(" **** injected spec models (%s): %s" % (
+    #     len(used_models), used_models))
     # TODO replace by SELECT like for module_models ?
     all_spec_models = set([c._name for name, c
                            in inspect.getmembers(
                                sys.modules[spec_module], inspect.isclass)])
 
-    _logger.info("number of all spec models: %s", len(all_spec_models))
+    # _logger.info("number of all spec models: %s", len(all_spec_models))
     remaining_models = remaining_models.union(
         set([i for i in all_spec_models
              if i not in [c._name for c in injected_classes]]))
-    _logger.info("\n **** REMAINING spec models to init (%s): %s \n\n" % (
-        len(remaining_models), remaining_models))
+    # _logger.info("\n **** REMAINING spec models to init (%s): %s \n\n" % (
+    #     len(remaining_models), remaining_models))
     return remaining_models
 
 
