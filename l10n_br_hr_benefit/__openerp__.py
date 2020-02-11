@@ -3,10 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'L10n Br Hr Benefit',
-    'summary': """
-        Benefícios de Funcionários (Alimentação / Baba / Cesta /
- Creche / Refeição / Saúde / Vida)""",
+    'name': 'Benefícios de Funcionários',
     'version': '8.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
