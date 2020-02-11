@@ -3,7 +3,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base import misc
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -81,13 +81,13 @@ class ResCompany(spec_models.SpecModel):
         """Set schema data which are not just related fields"""
         for rec in self:
             if rec.cnpj_cpf:
-                rec.nfe40_CNPJ = punctuation_rm(rec.cnpj_cpf)
+                rec.nfe40_CNPJ = misc.punctuation_rm(rec.cnpj_cpf)
 
             if rec.zip:
-                rec.nfe40_CEP = punctuation_rm(rec.zip)
+                rec.nfe40_CEP = misc.punctuation_rm(rec.zip)
 
             if rec.inscr_est:
-                rec.nfe40_IE = punctuation_rm(rec.inscr_est)
+                rec.nfe40_IE = misc.punctuation_rm(rec.inscr_est)
 
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
