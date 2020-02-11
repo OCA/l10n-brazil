@@ -81,6 +81,7 @@ Contributors
 
 * Átila Graciano <atilla.silva@kmee.com.br>
 * Bianca Bartolomei <bianca.bartolomei@kmee.com.br>
+* Hendrix Costa <hendrix.costa@abgf.gov.br>
 * Wagner Pereira <wagner.pereira@kmee.com.br>
 
 Maintainer

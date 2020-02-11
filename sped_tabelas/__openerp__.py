@@ -7,7 +7,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Tabelas SPED Gerais',
+    'name': 'SPED Tabelas Gerais',
     'summary': """
         Implementa as tabelas fixas do SPED (e-Social e EFD/REINF)
         """,
