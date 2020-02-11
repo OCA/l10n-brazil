@@ -3,7 +3,7 @@
 
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base import misc
 
 
 class ResPartner(spec_models.SpecModel):
@@ -77,10 +77,10 @@ class ResPartner(spec_models.SpecModel):
             rec.nfe40_cMun = "%s%s" % (rec.state_id.ibge_code,
                                        rec.city_id.ibge_code)
             if rec.zip:
-                rec.nfe40_CEP = punctuation_rm(rec.zip)
+                rec.nfe40_CEP = misc.punctuation_rm(rec.zip)
 
             if rec.phone:
-                rec.nfe40_fone = punctuation_rm(rec.phone).replace(" ", "")
+                rec.nfe40_fone = misc.punctuation_rm(rec.phone).replace(" ", "")
 
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
