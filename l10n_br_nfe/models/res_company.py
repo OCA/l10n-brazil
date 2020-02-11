@@ -33,6 +33,7 @@ class ResCompany(spec_models.SpecModel):
     nfe40_CNPJ = fields.Char(
         compute='_compute_nfe_data',
         inverse='_inverse_nfe40_CNPJ',
+        store=True,
     )
     nfe40_IE = fields.Char(
         compute='_compute_nfe_data',
