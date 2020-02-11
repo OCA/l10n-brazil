@@ -21,7 +21,7 @@
 
 
 {
-    'name': 'Sped Transmissão de Registros',
+    'name': 'SPED Transmissão de Registros',
     'version': '8.0.0.0.1',
     'category': 'Base',
     'license': 'AGPL-3',

@@ -37,6 +37,7 @@ Credits
 Contributors
 ------------
 
+* Hendrix Costa (hendrix.costa@abgf.gov.br)
 * Wagner Pereira (wagner.pereira@abgf.gov.br)
 
 
