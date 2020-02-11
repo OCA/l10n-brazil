@@ -111,7 +111,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
             else:
                 # ComplexType
-                _logger.info("\n\nNEW COMPLEX TYPE", key, value)
+                _logger.info("\n\nNEW COMPLEX TYPE %s %s", key, value)
                 if fields.get(key) and fields[key].get('related'):
                     # example: company.nfe40_enderEmit related on partner_id
                     # then we need to set partner_id, not nfe40_enderEmit
@@ -126,13 +126,14 @@ class AbstractSpecMixin(models.AbstractModel):
 
                 if attr.get_container() == 0:
                     # m2o
-                    _logger.info("m2o or stacked", self, key, comodel_name, comodel)
+                    _logger.info("m2o or stacked %s %s %s %s",
+                                 self, key, comodel_name, comodel)
                     new_value = comodel.build_attrs(value,
                                                     create_m2o=create_m2o,
                                                     path=child_path,
                                                     defaults=defaults)
-                    _logger.info("NEW_VALUE", self._name, key, comodel._name,
-                                 new_value)
+                    _logger.info("NEW_VALUE %s %s %s %s",
+                                 self._name, key, comodel._name, new_value)
                     child_defaults = self._extract_related_values(vals, key)
 
                     new_value.update(child_defaults)
@@ -147,7 +148,7 @@ class AbstractSpecMixin(models.AbstractModel):
                         # TODO do not hardcode!!
                         # stacked m2o
                         vals.update(new_value)
-                        _logger.info("(stacked)", self)
+                        _logger.info("(stacked) %s", self)
                     else:
                         vals[key] = comodel.match_or_create_m2o(
                             new_value, vals, create_m2o)
@@ -239,7 +240,8 @@ class AbstractSpecMixin(models.AbstractModel):
             else:  # res.country for instance
                 vals[related_m2o] = self.match_or_create_m2o(sub_val, vals,
                                                              True, comodel)
-                _logger.info("related_m2o found", related_m2o, vals[related_m2o])
+                _logger.info("related_m2o found %s %s",
+                             related_m2o, vals[related_m2o])
         return vals
 
     @api.model
@@ -254,7 +256,7 @@ class AbstractSpecMixin(models.AbstractModel):
             keys = model._nfe_search_keys + default_key
         else:
             keys = [model._rec_name or model._concrete_rec_name or 'name']
-        _logger.info("match_record", keys, rec_dict)
+        _logger.info("match_record %s %s", keys, rec_dict)
         if model._name == 'product.product' and rec_dict.get('barcode'):
             keys = ['barcode'] + keys
         for key in keys:
@@ -266,9 +268,10 @@ class AbstractSpecMixin(models.AbstractModel):
                                                          rec_dict.get(key))]
                 else:
                     domain = [(key, '=', rec_dict.get(key))]
-                _logger.info('domain', domain)
+                _logger.info('domain %s', domain)
                 match_ids = model.search(domain)
-                _logger.info("\nSEARCH", model, key, rec_dict.get(key), match_ids)
+                _logger.info("\nSEARCH %s %s %s %s",
+                             model, key, rec_dict.get(key), match_ids)
                 if match_ids:
                     if len(match_ids) > 1:
                         _logger.warning("!! WARNING more than 1 record found!!")
@@ -285,7 +288,7 @@ class AbstractSpecMixin(models.AbstractModel):
         # TODO log things in chatter like in base_business_document_import
         if model is None:
             model = self
-        _logger.info("match or create", model, rec_dict, parent_dict)
+        _logger.info("match or create %s %s %s", model, rec_dict, parent_dict)
         if hasattr(model, '_match_record'):
             rec_id = model.match_record(rec_dict, parent_dict, model)
         else:
@@ -293,7 +296,7 @@ class AbstractSpecMixin(models.AbstractModel):
         if not rec_id:
             if create_m2o:
                 r = model.create(rec_dict)
-                _logger.info('r', r)
+                _logger.info('r %s', r)
                 rec_id = r.id
             else:  # do we use it?
                 rec_id = model.new(rec_dict).id
