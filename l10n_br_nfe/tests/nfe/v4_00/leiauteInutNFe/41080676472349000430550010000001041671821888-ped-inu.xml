@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<inutNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+  <infInut Id="ID41107647234900043055001000000101000000101">
+    <tpAmb>2</tpAmb>
+    <xServ>INUTILIZAR</xServ>
+    <cUF>41</cUF>
+    <ano>10</ano>
+    <CNPJ>76472349000430</CNPJ>
+    <mod>55</mod>
+    <serie>1</serie>
+    <nNFIni>101</nNFIni>
+    <nNFFin>101</nNFFin>
+    <xJust>Ocorreu uma falha no sistema que pulou a sequencia de numeracao</xJust>
+  </infInut>
+</inutNFe>
