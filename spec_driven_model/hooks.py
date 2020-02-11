@@ -84,7 +84,7 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
                            in inspect.getmembers(
                                sys.modules[spec_module], inspect.isclass)])
 
-    _logger.info("number of all spec models:", len(all_spec_models))
+    _logger.info("number of all spec models: %s", len(all_spec_models))
     remaining_models = remaining_models.union(
         set([i for i in all_spec_models
              if i not in [c._name for c in injected_classes]]))
