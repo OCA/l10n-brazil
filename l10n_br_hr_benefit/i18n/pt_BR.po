@@ -1,0 +1,1499 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_hr_benefit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-11 13:00+0000\n"
+"PO-Revision-Date: 2020-02-11 13:00+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:355
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit_line.py:565
+#, python-format
+msgid "\n"
+"Favor solicitar a aprovação de um gerente"
+msgstr "\n"
+"Favor solicitar a aprovação de um gerente"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:341
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit_line.py:538
+#, python-format
+msgid "\n"
+"Para enviar para aprovação é necessário\n"
+"                 anexar o comprovante"
+msgstr "\n"
+"Para enviar para aprovação é necessário\n"
+"                 anexar o comprovante"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit_line.py:534
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit_line.py:560
+#, python-format
+msgid "\n"
+"Somente membros do RH podem aprovar \n"
+"                benefícios após a data limite de confirmação"
+msgstr "\n"
+"Somente membros do RH podem aprovar \n"
+"                benefícios após a data limite de confirmação"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,line_count:0
+msgid "# Apurações"
+msgstr "# Apurações"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,issue_count:0
+msgid "# Issues"
+msgstr "# Issues"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,supplier_invoice_count:0
+msgid "# Supplier Invoices"
+msgstr "# Supplier Invoices"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,task_count:0
+msgid "# Tasks"
+msgstr "# Tasks"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,purchase_order_count:0
+msgid "# of Purchase Order"
+msgstr "# of Purchase Order"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,sale_order_count:0
+msgid "# of Sales Order"
+msgstr "# of Sales Order"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,type_calc:0
+msgid "% do valor gasto"
+msgstr "% do valor gasto"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,type_calc:0
+msgid "% do valor gasto, limitado ao teto"
+msgstr "% do valor gasto, limitado ao teto"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,percent:0
+msgid "(%) do valor"
+msgstr "(%) do valor"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Idade máxima, em meses, para receber o auxílio Creche/Babá até o limite do teto. O valor apurado é, neste caso, o menor valor entre teto e valor comprovado. (Caso não preenchido, o valor padrão é 71 meses)"
+msgstr "* Idade máxima, em meses, para receber o auxílio Creche/Babá até o limite do teto. O valor apurado é, neste caso, o menor valor entre teto e valor comprovado. (Caso não preenchido, o valor padrão é 71 meses)"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Idade máxima, em meses, para receber o auxílio Creche/Babá em sua totalidade. O valor apurado é, neste caso, igual ao valor comprovado. (Caso não preenchido, o valor padrão é 5 meses)"
+msgstr "* Idade máxima, em meses, para receber o auxílio Creche/Babá em sua totalidade. O valor apurado é, neste caso, igual ao valor comprovado. (Caso não preenchido, o valor padrão é 5 meses)"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Percentual apurado da Dedução"
+msgstr "* Percentual apurado da Dedução"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Percentual apurado do Provento"
+msgstr "* Percentual apurado do Provento"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Quantidadae apurada da Dedução"
+msgstr "* Quantidadae apurada da Dedução"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Quantidade apurada do Provento"
+msgstr "* Quantidade apurada do Provento"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Valor Apurado"
+msgstr "* Valor Apurado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Valor Comprovado"
+msgstr "* Valor Comprovado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Valor apurado da Dedução"
+msgstr "* Valor apurado da Dedução"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "* Valor apurado do Provento"
+msgstr "* Valor apurado do Provento"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,extra_income:0
+msgid "13º Benefício?"
+msgstr "13º Benefício?"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_search_view
+msgid "A Aprovar"
+msgstr "A Aprovar"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.employee.dependent,state:0
+msgid "A aprovar"
+msgstr "A aprovar"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:450
+#, python-format
+msgid "A porcentagem total de recebimento dos beneficiários do Seguro de Vida é maior que 100%"
+msgstr "A porcentagem total de recebimento dos beneficiários do Seguro de Vida é maior que 100%"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Abril"
+msgstr "Abril"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_account_payable:0
+msgid "Account Payable"
+msgstr "Account Payable"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_account_receivable:0
+msgid "Account Receivable"
+msgstr "Account Receivable"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,line_need_approval:0
+msgid "Adiciona necessidade de aprovação gerencial para aprovar as prestações de contas deste benefício"
+msgstr "Adiciona necessidade de aprovação gerencial para aprovar as prestações de contas deste benefício"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,need_approval:0
+msgid "Adiciona necessidade de aprovação gerencial para criação de um benefício deste tipo"
+msgstr "Adiciona necessidade de aprovação gerencial para criação de um benefício deste tipo"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,need_approval_file:0
+msgid "Adiciona necessidade de arquivo de anexo para criação de um benefício deste tipo"
+msgstr "Adiciona necessidade de arquivo de anexo para criação de um benefício deste tipo"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,line_need_approval_file:0
+msgid "Adiciona necessidade de documento anexo para aprovar as prestações de contas deste benefício"
+msgstr "Adiciona necessidade de documento anexo para aprovar as prestações de contas deste benefício"
+
+#. module: l10n_br_hr_benefit
+#: model:ir.actions.act_window,name:l10n_br_hr_benefit.wizard_hr_contract_benefit_create_act_window
+msgid "Adicionar Benefícios"
+msgstr "Adicionar Benefícios"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Agosto"
+msgstr "Agosto"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_search_view
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_search_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_search_view
+msgid "Agrupar Por..."
+msgstr "Agrupar Por..."
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,line_group_benefits:0
+msgid "Agrupar prestação de contas?"
+msgstr "Agrupar prestação de contas?"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit.line,state:0
+msgid "Aguardando Comprovante"
+msgstr "Aguardando Comprovante"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit,state:0
+msgid "Aguardando aprovação"
+msgstr "Aguardando aprovação"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Aguardando apuração"
+msgstr "Aguardando apuração"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Aguardando comprovante"
+msgstr "Aguardando comprovante"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,line_need_approval_file:0
+#: field:hr.benefit.type,need_approval_file:0
+msgid "Anexo obrigatório"
+msgstr "Anexo obrigatório"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,attachment_ids:0
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_form_view
+#: field:hr.contract.benefit.line,attachment_ids:0
+msgid "Anexos"
+msgstr "Anexos"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.employee.dependent,state:0
+msgid "Aprovada"
+msgstr "Aprovada"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit,state:0
+msgid "Aprovado"
+msgstr "Aprovado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_search_view
+msgid "Aprovados"
+msgstr "Aprovados"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_form_view
+msgid "Aprovar"
+msgstr "Aprovar"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_form_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_form_view
+msgid "Aprovar comprovante"
+msgstr "Aprovar comprovante"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_tree_view
+msgid "Aprovação Benefício?"
+msgstr "Aprovação Benefício?"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_tree_view
+msgid "Aprovação Prestação?"
+msgstr "Aprovação Prestação?"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,line_need_approval:0
+#: field:hr.benefit.type,need_approval:0
+msgid "Aprovação gerencial"
+msgstr "Aprovação gerencial"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit.line,state:0
+msgid "Apurado"
+msgstr "Apurado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_form_view
+#: field:hr.contract.benefit,line_ids:0
+msgid "Apurações"
+msgstr "Apurações"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,active:0
+msgid "Ativo"
+msgstr "Ativo"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_search_view
+#: field:hr.contract.benefit,partner_id:0
+msgid "Beneficiário"
+msgstr "Beneficiário"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,beneficiary_name:0
+msgid "Beneficiário do seguro"
+msgstr "Beneficiário do seguro"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,beneficiary_ids:0
+#: view:hr.employee:l10n_br_hr_benefit.hr_employee_form_view
+#: model:ir.actions.act_window,name:l10n_br_hr_benefit.hr_benefit_employee_dependent_act_window
+#: model:ir.ui.menu,name:l10n_br_hr_benefit.hr_benefit_employee_dependent_menu
+msgid "Beneficiários"
+msgstr "Beneficiários"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Beneficiários aptos ao Benefício"
+msgstr "Beneficiários aptos ao Benefício"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,insurance_beneficiary_ids:0
+msgid "Beneficiários do Seguro de Vida"
+msgstr "Beneficiários do Seguro de Vida"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.payslip,benefit_line_ids:0
+msgid "Benefit line ids"
+msgstr "Benefit line ids"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Benefício"
+msgstr "Benefício"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,daily_admission_type:0
+msgid "Benefício na Admissão"
+msgstr "Benefício na Admissão"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,benefit_id:0
+msgid "Benefício relacionado"
+msgstr "Benefício relacionado"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_employee_dependent.py:27
+#: view:hr.contract:l10n_br_hr_benefit.hr_contract_form_view
+#: field:hr.contract,benefit_ids:0
+#: view:hr.employee:l10n_br_hr_benefit.hr_employee_form_view
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_form_view
+#: view:hr.payslip:l10n_br_hr_benefit.hr_payslip_form_view
+#: model:ir.actions.act_window,name:l10n_br_hr_benefit.hr_contract_benefit_act_window
+#: model:ir.model,name:l10n_br_hr_benefit.model_hr_contract_benefit
+#: model:ir.ui.menu,name:l10n_br_hr_benefit.hr_benefit_config_menu
+#: model:ir.ui.menu,name:l10n_br_hr_benefit.hr_benefit_main_menu
+#: model:ir.ui.menu,name:l10n_br_hr_benefit.hr_contract_benefit_menu
+#, python-format
+msgid "Benefícios"
+msgstr "Benefícios"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee:l10n_br_hr_benefit.hr_employee_form_view
+msgid "Benefícios / Beneficiários"
+msgstr "Benefícios / Beneficiários"
+
+#. module: l10n_br_hr_benefit
+#: field:wizard.hr.contract.benefit.create,old_benfit_ids:0
+msgid "Benefícios Atuais"
+msgstr "Benefícios Atuais"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee,benefit_ids:0
+#: field:hr.employee.dependent,benefit_ids:0
+msgid "Benefícios ativos"
+msgstr "Benefícios ativos"
+
+#. module: l10n_br_hr_benefit
+#: view:wizard.hr.contract.benefit.create:l10n_br_hr_benefit.wizard_hr_contract_benefit_create_form_view
+#: view:wizard.hr.contract.benefit.periodic:l10n_br_hr_benefit.wizard_hr_contract_benefit_periodic_form_view
+msgid "Cancel"
+msgstr "Cancel"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit,state:0
+#: selection:hr.contract.benefit.line,state:0
+msgid "Cancelado"
+msgstr "Cancelado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_form_view
+#: view:wizard.benefit.exception.cause:l10n_br_hr_benefit.benefit_exception_wizard_form
+msgid "Cancelar"
+msgstr "Cancelar"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,line_group_benefits:0
+msgid "Caso selecionado, múltiplos benefícios serão inseridos numa única entrada de holerite."
+msgstr "Caso selecionado, múltiplos benefícios serão inseridos numa única entrada de holerite."
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,extra_income:0
+msgid "Caso selecionado, o benefício será aplicado, também, no mês do 13º salário."
+msgstr "Caso selecionado, o benefício será aplicado, também, no mês do 13º salário."
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,contract_category_ids:0
+msgid "Categorias de Contratos"
+msgstr "Categorias de Contratos"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,vat_subjected:0
+msgid "Check this box if the partner is subjected to the VAT. It will be used for the VAT legal statement."
+msgstr "Check this box if the partner is subjected to the VAT. It will be used for the VAT legal statement."
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,employee_id:0
+#: field:hr.contract.benefit.line,employee_id:0
+msgid "Colaborador"
+msgstr "Colaborador"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,ref_companies:0
+msgid "Companies that refers to partner"
+msgstr "Companies that refers to partner"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+#: field:hr.contract.benefit.line,period_id:0
+msgid "Competência"
+msgstr "Competência"
+
+#. module: l10n_br_hr_benefit
+#: model:ir.model,name:l10n_br_hr_benefit.model_hr_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,contract_ids:0
+#: field:hr.employee.dependent,contracts_count:0
+msgid "Contracts"
+msgstr "Contracts"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,contract_id:0
+#: field:hr.contract.benefit.line,contract_id:0
+msgid "Contrato"
+msgstr "Contrato"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,create_uid:0
+#: field:hr.benefit.type,create_uid:0
+#: field:hr.contract.benefit,create_uid:0
+#: field:hr.contract.benefit.line,create_uid:0
+#: field:wizard.benefit.exception.cause,create_uid:0
+#: field:wizard.hr.contract.benefit.create,create_uid:0
+#: field:wizard.hr.contract.benefit.periodic,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,create_date:0
+#: field:hr.benefit.type,create_date:0
+#: field:hr.contract.benefit,create_date:0
+#: field:hr.contract.benefit.line,create_date:0
+#: field:wizard.benefit.exception.cause,create_date:0
+#: field:wizard.hr.contract.benefit.create,create_date:0
+#: field:wizard.hr.contract.benefit.periodic,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_stock_customer:0
+msgid "Customer Location"
+msgstr "Customer Location"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,customer_payment_mode:0
+msgid "Customer Payment Mode"
+msgstr "Customer Payment Mode"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_payment_term:0
+msgid "Customer Payment Term"
+msgstr "Customer Payment Term"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,type_calc:0
+msgid "Cálculo utilizado para o valor final do benefício"
+msgstr "Cálculo utilizado para o valor final do benefício"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,python_code:0
+msgid "Código Python"
+msgstr "Código Python"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,date_stop:0
+msgid "Data Fim"
+msgstr "Data Fim"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,date_start:0
+msgid "Data Início"
+msgstr "Data Início"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,date_stop:0
+msgid "Data de fim da vigência deste tipo de benefício."
+msgstr "Data de fim da vigência deste tipo de benefício."
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,date_start:0
+msgid "Data de início da vigência deste tipo de benefício."
+msgstr "Data de início da vigência deste tipo de benefício."
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:198
+#, python-format
+msgid "Data final menor que data inicial"
+msgstr "Data final menor que data inicial"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,message_last_post:0
+#: help:hr.contract.benefit,message_last_post:0
+#: help:hr.contract.benefit.line,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date of the last message posted on the record."
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,last_reconciliation_date:0
+msgid "Date on which the partner accounting entries were fully reconciled last time. It differs from the last date where a reconciliation has been made for this partner, as here we depict the fact that nothing more was to be reconciled at this date. This can be achieved in 2 different ways: either the last unreconciled debit/credit entry of this partner was reconciled, either the user pressed the button \"Nothing more to reconcile\" during the manual reconciliation process."
+msgstr "Date on which the partner accounting entries were fully reconciled last time. It differs from the last date where a reconciliation has been made for this partner, as here we depict the fact that nothing more was to be reconciled at this date. This can be achieved in 2 different ways: either the last unreconciled debit/credit entry of this partner was reconciled, either the user pressed the button \"Nothing more to reconcile\" during the manual reconciliation process."
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,deduction_rule_id:0
+msgid "Dedução (-)"
+msgstr "Dedução (-)"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,deduction_rule_id:0
+msgid "Dedução / Desconto (-)"
+msgstr "Dedução / Desconto (-)"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_delivery_carrier:0
+msgid "Delivery Method"
+msgstr "Delivery Method"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:173
+#, python-format
+msgid "Dependentes não são permitidos para este benefício"
+msgstr "Dependentes não são permitidos para este benefício"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Dezembro"
+msgstr "Dezembro"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,display_name:0
+#: field:hr.benefit.type,display_name:0
+#: field:hr.contract.benefit,display_name:0
+#: field:hr.contract.benefit.line,display_name:0
+#: field:wizard.benefit.exception.cause,display_name:0
+#: field:wizard.hr.contract.benefit.create,display_name:0
+#: field:wizard.hr.contract.benefit.periodic,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_search_view
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_search_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Em Vigor"
+msgstr "Em Vigor"
+
+#. module: l10n_br_hr_benefit
+#: model:ir.model,name:l10n_br_hr_benefit.model_hr_employee
+msgid "Employee"
+msgstr "Funcionário"
+
+#. module: l10n_br_hr_benefit
+#: model:ir.model,name:l10n_br_hr_benefit.model_hr_employee_dependent
+msgid "Employee's Dependents"
+msgstr "Dependentes do funcionário"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit.line,state:0
+msgid "Enviado para apuração"
+msgstr "Enviado para apuração"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_form_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_form_view
+msgid "Enviar para aprovação"
+msgstr "Enviar para aprovação"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:160
+#, python-format
+msgid "Este beneficiário já possui um benefício ativo para a rúbrica %s"
+msgstr "Este beneficiário já possui um benefício ativo para a rúbrica %s"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:167
+#, python-format
+msgid "Este funcionário não possui uma categoria de contrato apta para o tipo de benefício escolhido."
+msgstr "Este funcionário não possui uma categoria de contrato apta para o tipo de benefício escolhido."
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit_line.py:433
+#, python-format
+msgid "Este funcionário não possui uma categoria de contrato apta para o tipo de benefício escolhido. O benefício foi cancelado"
+msgstr "Este funcionário não possui uma categoria de contrato apta para o tipo de benefício escolhido. O benefício foi cancelado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Exemplo benefício Creche"
+msgstr "Exemplo benefício Creche"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Exemplo benefício VR"
+msgstr "Exemplo benefício VR"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Fevereiro"
+msgstr "Fevereiro"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,date_stop:0
+msgid "Fim de Vigência"
+msgstr "Fim de Vigência"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,date_stop:0
+msgid "Fim de vigência"
+msgstr "Fim de vigência"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_account_position:0
+msgid "Fiscal Position"
+msgstr "Fiscal Position"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_form_view
+#: field:hr.contract.benefit.line,hr_payslip_id:0
+msgid "Folha de pagamento"
+msgstr "Folha de pagamento"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,message_follower_ids:0
+#: field:hr.contract.benefit,message_follower_ids:0
+#: field:hr.contract.benefit.line,message_follower_ids:0
+msgid "Followers"
+msgstr "Followers"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_search_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_search_view
+msgid "Funcionário"
+msgstr "Funcionário"
+
+#. module: l10n_br_hr_benefit
+#: model:ir.actions.act_window,name:l10n_br_hr_benefit.wizard_hr_contract_benefit_periodic_act_window
+#: model:ir.ui.menu,name:l10n_br_hr_benefit.hr_benefit_periodic_menu
+msgid "Gerar Prestação de contas"
+msgstr "Gerar Prestação de contas"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,habilitado_sintegra:0
+msgid "Habilitado no Sintegra"
+msgstr "Habilitado no Sintegra"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,message_summary:0
+#: help:hr.contract.benefit,message_summary:0
+#: help:hr.contract.benefit.line,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit.line,state:0
+msgid "Holerite Cancelado"
+msgstr "Holerite Cancelado"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,id:0
+#: field:hr.benefit.type,id:0
+#: field:hr.contract.benefit,id:0
+#: field:hr.contract.benefit.line,id:0
+#: field:wizard.benefit.exception.cause,id:0
+#: field:wizard.hr.contract.benefit.create,id:0
+#: field:wizard.hr.contract.benefit.periodic,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,message_unread:0
+#: help:hr.contract.benefit,message_unread:0
+#: help:hr.contract.benefit.line,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "If checked new messages require your attention."
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Instruções para implementação das regras do benefício via Python Code:"
+msgstr "Instruções para implementação das regras do benefício via Python Code:"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,daily_admission_type:0
+msgid "Integral"
+msgstr "Integral"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Integração com a Folha"
+msgstr "Integração com a Folha"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,invoice_ids:0
+msgid "Invoices"
+msgstr "Invoices"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,date_start:0
+msgid "Início de Vigência"
+msgstr "Início de Vigência"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,date_start:0
+msgid "Início de vigência"
+msgstr "Início de vigência"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,message_is_follower:0
+#: field:hr.contract.benefit,message_is_follower:0
+#: field:hr.contract.benefit.line,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Is a Follower"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Janeiro"
+msgstr "Janeiro"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,journal_item_count:0
+msgid "Journal Items"
+msgstr "Journal Items"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Julho"
+msgstr "Julho"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Junho"
+msgstr "Junho"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_benefit_type.py:198
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:228
+#, python-format
+msgid "Já existe um tipo de benefício com o mesmo nome e com datas que sobrepõem essa"
+msgstr "Já existe um tipo de benefício com o mesmo nome e com datas que sobrepõem essa"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,message_last_post:0
+#: field:hr.contract.benefit,message_last_post:0
+#: field:hr.contract.benefit.line,message_last_post:0
+msgid "Last Message Date"
+msgstr "Last Message Date"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,__last_update:0
+#: field:hr.benefit.type,__last_update:0
+#: field:hr.contract.benefit,__last_update:0
+#: field:hr.contract.benefit.line,__last_update:0
+#: field:wizard.benefit.exception.cause,__last_update:0
+#: field:wizard.hr.contract.benefit.create,__last_update:0
+#: field:wizard.hr.contract.benefit.periodic,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,write_uid:0
+#: field:hr.benefit.type,write_uid:0
+#: field:hr.contract.benefit,write_uid:0
+#: field:hr.contract.benefit.line,write_uid:0
+#: field:wizard.benefit.exception.cause,write_uid:0
+#: field:wizard.hr.contract.benefit.create,write_uid:0
+#: field:wizard.hr.contract.benefit.periodic,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,write_date:0
+#: field:hr.benefit.type,write_date:0
+#: field:hr.contract.benefit,write_date:0
+#: field:hr.contract.benefit.line,write_date:0
+#: field:wizard.benefit.exception.cause,write_date:0
+#: field:wizard.hr.contract.benefit.create,write_date:0
+#: field:wizard.hr.contract.benefit.periodic,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,last_reconciliation_date:0
+msgid "Latest Full Reconciliation Date"
+msgstr "Latest Full Reconciliation Date"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,type_calc:0
+msgid "Limitado ao teto"
+msgstr "Limitado ao teto"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,line_days_approval_limit:0
+msgid "Limite de aprovação em dias"
+msgstr "Limite de aprovação em dias"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,line_days_approval_limit:0
+msgid "Limite em dias para aprovar o benefício. Após esse limite somente um funcionário do RH poderá aprová-lo."
+msgstr "Limite em dias para aprovar o benefício. Após esse limite somente um funcionário do RH poderá aprová-lo."
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Maio"
+msgstr "Maio"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Março"
+msgstr "Março"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_search_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_search_view
+msgid "Mensagens não lidas"
+msgstr "Mensagens não lidas"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,message_ids:0
+#: field:hr.contract.benefit,message_ids:0
+#: field:hr.contract.benefit.line,message_ids:0
+msgid "Messages"
+msgstr "Messages"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,message_ids:0
+#: help:hr.contract.benefit,message_ids:0
+#: help:hr.contract.benefit.line,message_ids:0
+msgid "Messages and communication history"
+msgstr "Messages and communication history"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,exception_message:0
+#: field:hr.contract.benefit.line,exception_message:0
+msgid "Motivo da exceção na apuração"
+msgstr "Motivo da exceção na apuração"
+
+#. module: l10n_br_hr_benefit
+#: field:wizard.benefit.exception.cause,message:0
+msgid "Motivo da rejeição"
+msgstr "Motivo da rejeição"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,extra_income_month:0
+msgid "Mês 13º Benefício"
+msgstr "Mês 13º Benefício"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,min_worked_days:0
+msgid "Mín dias trabalhados"
+msgstr "Mín dias trabalhados"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,daily_admission_type:0
+msgid "Mínimo de dias trabalhados"
+msgstr "Mínimo de dias trabalhados"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,name:0
+#: field:hr.contract.benefit.line,name:0
+msgid "Name"
+msgstr "Name"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_tree_view
+msgid "Necessita Anexo?"
+msgstr "Necessita Anexo?"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,line_need_clearance:0
+msgid "Necessita Apuração?"
+msgstr "Necessita Apuração?"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_search_view
+msgid "Necessita aprovação"
+msgstr "Necessita aprovação"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit,state:0
+#: selection:hr.contract.benefit.line,state:0
+msgid "Negado"
+msgstr "Negado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Negados"
+msgstr "Negados"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Novembro"
+msgstr "Novembro"
+
+#. module: l10n_br_hr_benefit
+#: field:wizard.hr.contract.benefit.create,new_benefit_ids:0
+msgid "Novos Benefícios"
+msgstr "Novos Benefícios"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_search_view
+msgid "Não necessita aprovação"
+msgstr "Não necessita aprovação"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,benefit_count:0
+msgid "Número de benefícios"
+msgstr "Número de benefícios"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,crc_number:0
+msgid "Número do registro CRC"
+msgstr "Número do registro CRC"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,line_need_clearance:0
+msgid "O funcionário precisará inserir valor e clicar em apurar caso selecionado."
+msgstr "O funcionário precisará inserir valor e clicar em apurar caso selecionado."
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Outubro"
+msgstr "Outubro"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit_line.py:544
+#, python-format
+msgid "Para enviar para aprovação é necessário anexar ao menos um comprovante e preencher o valor comprovado"
+msgstr "Para enviar para aprovação é necessário anexar ao menos um comprovante e preencher o valor comprovado"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,daily_admission_type:0
+msgid "Parcial"
+msgstr "Parcial"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_search_view
+msgid "Parentesco"
+msgstr "Parentesco"
+
+#. module: l10n_br_hr_benefit
+#: model:ir.model,name:l10n_br_hr_benefit.model_hr_payslip
+msgid "Pay Slip"
+msgstr "Holerite"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,debit_limit:0
+msgid "Payable Limit"
+msgstr "Payable Limit"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,deduction_percentual:0
+#: field:hr.contract.benefit.line,income_percentual:0
+msgid "Percentual apurado"
+msgstr "Percentual apurado"
+
+#. module: l10n_br_hr_benefit
+#: field:wizard.hr.contract.benefit.periodic,period_id:0
+msgid "Period"
+msgstr "Period"
+
+#. module: l10n_br_hr_benefit
+#: field:benefit.insurance.beneficiary,benefit_percent:0
+msgid "Porcentagem para o beneficiário"
+msgstr "Porcentagem para o beneficiário"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Prestaçao de Contas"
+msgstr "Prestaçao de Contas"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:25
+#: model:ir.actions.act_window,name:l10n_br_hr_benefit.hr_contract_benefit_line_act_window
+#: model:ir.model,name:l10n_br_hr_benefit.model_hr_contract_benefit_line
+#: model:ir.ui.menu,name:l10n_br_hr_benefit.hr_contract_benefit_line_menu
+#, python-format
+msgid "Prestação de contas"
+msgstr "Prestação de contas"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,is_payroll_processed:0
+msgid "Processado"
+msgstr "Processado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Processados em folha"
+msgstr "Processados em folha"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,protocols_ids:0
+msgid "Protocolos Relacionados"
+msgstr "Protocolos Relacionados"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,income_rule_id:0
+msgid "Provento (+)"
+msgstr "Provento (+)"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,income_rule_id:0
+msgid "Provento / Benefício (+)"
+msgstr "Provento / Benefício (+)"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_product_pricelist_purchase:0
+msgid "Purchase Pricelist"
+msgstr "Purchase Pricelist"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Python Code"
+msgstr "Python Code"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,deduction_quantity:0
+#: field:hr.contract.benefit.line,income_quantity:0
+msgid "Quantidade apurada"
+msgstr "Quantidade apurada"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.contract.benefit,state:0
+msgid "Rascunho"
+msgstr "Rascunho"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,partner_special_fiscal_type_id:0
+msgid "Regime especial"
+msgstr "Regime especial"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,daily_admission_type:0
+msgid "Regra dos 15 dias"
+msgstr "Regra dos 15 dias"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_form_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_form_view
+#: view:wizard.benefit.exception.cause:l10n_br_hr_benefit.benefit_exception_wizard_form
+msgid "Rejeitar comprovante"
+msgstr "Rejeitar comprovante"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_search_view
+msgid "Rubrica"
+msgstr "Rubrica"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Rúbrica de Dedução"
+msgstr "Rúbrica de Dedução"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Rúbrica de Provento"
+msgstr "Rúbrica de Provento"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,deduction_rule_id:0
+msgid "Rúbrica de dedução utilizada pelo benefício"
+msgstr "Rúbrica de dedução utilizada pelo benefício"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,income_rule_id:0
+msgid "Rúbrica de provento utilizada pelo benefício"
+msgstr "Rúbrica de provento utilizada pelo benefício"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,sale_order_ids:0
+msgid "Sales Order"
+msgstr "Sales Order"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,customer_payment_mode:0
+msgid "Select the default payment mode for this customer."
+msgstr "Select the default payment mode for this customer."
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,supplier_payment_mode:0
+msgid "Select the default payment mode for this supplier."
+msgstr "Select the default payment mode for this supplier."
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,extra_income_month:0
+msgid "Setembro"
+msgstr "Setembro"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_search_view
+#: field:hr.contract.benefit,state:0
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+#: field:hr.contract.benefit.line,state:0
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_search_view
+msgid "Situação"
+msgstr "Situação"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,state:0
+msgid "State"
+msgstr "State"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,message_summary:0
+#: field:hr.contract.benefit,message_summary:0
+#: field:hr.contract.benefit.line,message_summary:0
+msgid "Summary"
+msgstr "Summary"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_stock_supplier:0
+msgid "Supplier Location"
+msgstr "Supplier Location"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,supplier_payment_mode:0
+msgid "Supplier Payment Mode"
+msgstr "Supplier Payment Mode"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,property_supplier_payment_term:0
+msgid "Supplier Payment Term"
+msgstr "Supplier Payment Term"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,task_ids:0
+msgid "Tasks"
+msgstr "Tasks"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_account_position:0
+msgid "The fiscal position will determine taxes and accounts used for the partner."
+msgstr "The fiscal position will determine taxes and accounts used for the partner."
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_account_payable:0
+msgid "This account will be used instead of the default one as the payable account for the current partner"
+msgstr "This account will be used instead of the default one as the payable account for the current partner"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_account_receivable:0
+msgid "This account will be used instead of the default one as the receivable account for the current partner"
+msgstr "This account will be used instead of the default one as the receivable account for the current partner"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_delivery_carrier:0
+msgid "This delivery method will be used when invoicing from picking."
+msgstr "This delivery method will be used when invoicing from picking."
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_supplier_payment_term:0
+msgid "This payment term will be used instead of the default one for purchase orders and supplier invoices"
+msgstr "This payment term will be used instead of the default one for purchase orders and supplier invoices"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_payment_term:0
+msgid "This payment term will be used instead of the default one for sale orders and customer invoices"
+msgstr "This payment term will be used instead of the default one for sale orders and customer invoices"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_product_pricelist_purchase:0
+msgid "This pricelist will be used, instead of the default one, for purchases from the current partner"
+msgstr "This pricelist will be used, instead of the default one, for purchases from the current partner"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_stock_customer:0
+msgid "This stock location will be used, instead of the default one, as the destination location for goods you send to this partner"
+msgstr "This stock location will be used, instead of the default one, as the destination location for goods you send to this partner"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,property_stock_supplier:0
+msgid "This stock location will be used, instead of the default one, as the source location for goods you receive from the current partner"
+msgstr "This stock location will be used, instead of the default one, as the source location for goods you receive from the current partner"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,name:0
+msgid "Tipo"
+msgstr "Tipo"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit,benefit_type_id:0
+#: field:hr.contract.benefit.line,benefit_type_id:0
+msgid "Tipo Benefício"
+msgstr "Tipo Benefício"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,partner_fiscal_type_id:0
+msgid "Tipo Fiscal do Parceiro"
+msgstr "Tipo Fiscal do Parceiro"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_search_view
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+#: model:ir.actions.act_window,name:l10n_br_hr_benefit.hr_benefit_type_act_window
+#: model:ir.model,name:l10n_br_hr_benefit.model_hr_benefit_type
+#: model:ir.ui.menu,name:l10n_br_hr_benefit.hr_benefit_type_menu
+msgid "Tipo de Benefício"
+msgstr "Tipo de Benefício"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,type_calc:0
+msgid "Tipo de Cálculo"
+msgstr "Tipo de Cálculo"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,tp_lograd:0
+msgid "Tipo de Logradouro"
+msgstr "Tipo de Logradouro"
+
+#. module: l10n_br_hr_benefit
+#: view:benefit.insurance.beneficiary:l10n_br_hr_benefit.view_insurance_beneficiary_tree_view
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,total_invoiced:0
+msgid "Total Invoiced"
+msgstr "Total Invoiced"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,debit:0
+msgid "Total Payable"
+msgstr "Total Payable"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,credit:0
+msgid "Total Receivable"
+msgstr "Total Receivable"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,credit:0
+msgid "Total amount this customer owes you."
+msgstr "Total amount this customer owes you."
+
+#. module: l10n_br_hr_benefit
+#: help:hr.employee.dependent,debit:0
+msgid "Total amount you have to pay to this supplier."
+msgstr "Total amount you have to pay to this supplier."
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,message_unread:0
+#: field:hr.contract.benefit,message_unread:0
+#: field:hr.contract.benefit.line,message_unread:0
+msgid "Unread Messages"
+msgstr "Unread Messages"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,beneficiary_list:0
+#: field:hr.contract.benefit,beneficiary_list:0
+msgid "Usar lista de beneficiarios ao invés de parceiro"
+msgstr "Usar lista de beneficiarios ao invés de parceiro"
+
+#. module: l10n_br_hr_benefit
+#: help:hr.benefit.type,beneficiary_list:0
+#: help:hr.contract.benefit,beneficiary_list:0
+msgid "Utiliza uma lista de nomes de beneficiários ao invés de selecionar um parceiro para receber este benefício. Usado no benefício seguro de vida."
+msgstr "Utiliza uma lista de nomes de beneficiários ao invés de selecionar um parceiro para receber este benefício. Usado no benefício seguro de vida."
+
+#. module: l10n_br_hr_benefit
+#: field:hr.employee.dependent,vat_subjected:0
+msgid "VAT Legal Statement"
+msgstr "VAT Legal Statement"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_search_view
+msgid "Validado"
+msgstr "Validado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "Validações"
+msgstr "Validações"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,amount:0
+msgid "Valor"
+msgstr "Valor"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,amount_benefit:0
+msgid "Valor Apurado"
+msgstr "Valor Apurado"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,amount_base:0
+msgid "Valor Comprovado"
+msgstr "Valor Comprovado"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,type_calc:0
+msgid "Valor Diário"
+msgstr "Valor Diário"
+
+#. module: l10n_br_hr_benefit
+#: selection:hr.benefit.type,type_calc:0
+msgid "Valor Fixo"
+msgstr "Valor Fixo"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.contract.benefit.line,deduction_amount:0
+#: field:hr.contract.benefit.line,income_amount:0
+msgid "Valor apurado"
+msgstr "Valor apurado"
+
+#. module: l10n_br_hr_benefit
+#: field:hr.benefit.type,amount_max:0
+msgid "Valor máximo"
+msgstr "Valor máximo"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:331
+#, python-format
+msgid "Verifique as configurações do benefit.type %s\n"
+"Erro: %s"
+msgstr "Verifique as configurações do benefit.type %s\n"
+"Erro: %s"
+
+#. module: l10n_br_hr_benefit
+#: code:addons/l10n_br_hr_benefit/models/hr_contract_benefit.py:388
+#, python-format
+msgid "Você não pode deletar um registro aprovado"
+msgstr "Você não pode deletar um registro aprovado"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit:l10n_br_hr_benefit.hr_contract_benefit_form_view
+msgid "Voltar ao início"
+msgstr "Voltar ao início"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_form_view
+msgid "Voltar para edição"
+msgstr "Voltar para edição"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.contract.benefit.line:l10n_br_hr_benefit.hr_contract_benefit_line_form_view
+msgid "Voltar para início"
+msgstr "Voltar para início"
+
+#. module: l10n_br_hr_benefit
+#: view:wizard.hr.contract.benefit.create:l10n_br_hr_benefit.wizard_hr_contract_benefit_create_form_view
+#: view:wizard.hr.contract.benefit.periodic:l10n_br_hr_benefit.wizard_hr_contract_benefit_periodic_form_view
+msgid "Wizard Hr Contract Benefit"
+msgstr "Wizard Hr Contract Benefit"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "amount_base"
+msgstr "amount_base"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "amount_benefit"
+msgstr "amount_benefit"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "deduction_amount"
+msgstr "deduction_amount"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "deduction_amount = 0.01 * amount_benefit"
+msgstr "deduction_amount = 0.01 * amount_benefit"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "deduction_percentual"
+msgstr "deduction_percentual"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "deduction_percentual = 100"
+msgstr "deduction_percentual = 100"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "deduction_quantity"
+msgstr "deduction_quantity"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "deduction_quantity = 1"
+msgstr "deduction_quantity = 1"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "income_amount"
+msgstr "income_amount"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "income_amount = amount_benefit"
+msgstr "income_amount = amount_benefit"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "income_percentual"
+msgstr "income_percentual"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "income_percentual = 100"
+msgstr "income_percentual = 100"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "income_quantity"
+msgstr "income_quantity"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "income_quantity = 1"
+msgstr "income_quantity = 1"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "max_age_full_income"
+msgstr "max_age_full_income"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "max_age_full_income = 5"
+msgstr "max_age_full_income = 5"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "max_age_income"
+msgstr "max_age_income"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.benefit.type:l10n_br_hr_benefit.hr_benefit_type_form_view
+msgid "max_age_income = 71"
+msgstr "max_age_income = 71"
+
+#. module: l10n_br_hr_benefit
+#: view:wizard.hr.contract.benefit.create:l10n_br_hr_benefit.wizard_hr_contract_benefit_create_form_view
+#: view:wizard.hr.contract.benefit.periodic:l10n_br_hr_benefit.wizard_hr_contract_benefit_periodic_form_view
+msgid "or"
+msgstr "or"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee.dependent:l10n_br_hr_benefit.hr_employee_dependent_form_view
+msgid "{'readonly': [('state', '=', 'approved')]}"
+msgstr "{'readonly': [('state', '=', 'approved')]}"
+
+#. module: l10n_br_hr_benefit
+#: view:hr.employee:l10n_br_hr_benefit.hr_employee_form_view
+msgid "É Dependente (IRRF) ?"
+msgstr "É Dependente (IRRF) ?"
+
