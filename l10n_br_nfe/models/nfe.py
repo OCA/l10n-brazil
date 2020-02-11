@@ -2,7 +2,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from erpbrasil.assinatura.certificado import Certificado
+from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.v4_00 import leiauteNFe
@@ -119,7 +119,7 @@ class NFe(spec_models.StackedModel):
         if not self.company_id.certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
 
-        certificado = Certificado(
+        certificado = cert.Certificado(
             arquivo=self.company_id.certificate_nfe_id.file,
             senha=self.company_id.certificate_nfe_id.password,
         )
