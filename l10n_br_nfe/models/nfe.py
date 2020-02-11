@@ -42,7 +42,7 @@ def fiter_processador_edoc_nfe(record):
 class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
-                "l10n_br_fiscal.document.eletronic"]
+                "l10n_br_fiscal.document.electronic"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
     _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
