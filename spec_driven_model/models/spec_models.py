@@ -163,7 +163,7 @@ class SpecModel(models.AbstractModel):
     def _register_hook(self):
         res = super(SpecModel, self)._register_hook()
         if not hasattr(self.env.registry, '_spec_loaded'):  # TODO schema wise
-            _logger.info("HHHHHHHHHHHHHHHOOK", self._module)
+            _logger.info("HHHHHHHHHHHHHHHOOK %s", self._module)
             from .. import hooks  # importing here avoids loop
             hooks.register_hook(
                 self.env, 'l10n_br_nfe',
