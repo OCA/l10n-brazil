@@ -21,7 +21,7 @@
 
 
 {
-    'name': 'Sped e-Social',
+    'name': 'SPED e-Social',
     'version': '8.0.0.0.1',
     'category': 'Base',
     'license': 'AGPL-3',
