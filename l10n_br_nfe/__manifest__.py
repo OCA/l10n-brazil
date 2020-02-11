@@ -39,6 +39,7 @@
             'erpbrasil.assinatura',
             'erpbrasil.transmissao',
             'erpbrasil.edoc',
+            'xmldiff',
         ],
     },
 }
