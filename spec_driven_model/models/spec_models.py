@@ -68,7 +68,7 @@ class SpecModel(models.AbstractModel):
         # mutate o2m and o2m related to m2o comodel to target proper
         # concrete implementation
         if len(cls._inherit) > 1:  # only debug non automatic models
-            _logger.info("\n==== BUILDING SpecModel %s %s" % (cls._name, cls))
+            # _logger.info("\n==== BUILDING SpecModel %s %s" % (cls._name, cls))
             env = api.Environment(cr, SUPERUSER_ID, {})
             env[cls._name]._prepare_setup()
             env[cls._name]._setup_base()
@@ -163,7 +163,7 @@ class SpecModel(models.AbstractModel):
     def _register_hook(self):
         res = super(SpecModel, self)._register_hook()
         if not hasattr(self.env.registry, '_spec_loaded'):  # TODO schema wise
-            _logger.info("HHHHHHHHHHHHHHHOOK %s", self._module)
+            # _logger.info("HHHHHHHHHHHHHHHOOK %s", self._module)
             from .. import hooks  # importing here avoids loop
             hooks.register_hook(
                 self.env, 'l10n_br_nfe',
@@ -202,7 +202,7 @@ class StackedModel(SpecModel):
         "inject all stacked m2o as inherited classes"
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
+            # _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             classes = set()
             cls._visit_stack(node, classes, cls._stacked.split('.')[-1], pool,
@@ -221,21 +221,21 @@ class StackedModel(SpecModel):
         """
         # TODO may be an option to print the stack (for debug)
         # after field mutation happened
-        path_items = path.split('.')
-        indent = '    '.join(['' for i in range(0, len(path_items) + 2)])
+        # path_items = path.split('.')
+        # indent = '    '.join(['' for i in range(0, len(path_items) + 2)])
 
         concrete_model = SpecModel._get_concrete(node._name)
         if concrete_model is not None and concrete_model != cls._name:
             # we won't stack the class but leave the field
             # as a many2one relation to the existing Odoo class
             # were the class is already mapped
-            _logger.info("  %s<%s> %s" % (indent, path, concrete_model))
+            # _logger.info("  %s<%s> %s" % (indent, path, concrete_model))
             return
         else:
             # ok we will stack the class
             SpecModel._map_concrete(node._name, cls._name, quiet=True)
-            _logger.info("%s> <%s>  <<-- %s" % (
-                indent, path.split('.')[-1], node._name))
+            # _logger.info("%s> <%s>  <<-- %s" % (
+            #     indent, path.split('.')[-1], node._name))
         classes.add(node)
         fields = collections.OrderedDict()
         env = api.Environment(cr, SUPERUSER_ID, {})
@@ -274,8 +274,8 @@ class StackedModel(SpecModel):
             child_concrete = SpecModel._get_concrete(child._name)
             field_path = name.replace(cls._field_prefix, '')
             if f['type'] == 'one2many':
-                _logger.info("%s    \u2261 <%s> %s" % (
-                    indent, field_path, child_concrete or child._name))
+                # _logger.info("%s    \u2261 <%s> %s" % (
+                #     indent, field_path, child_concrete or child._name))
                 continue
             # TODO this elif and next elif should in fact be replaced by the
             # inicial if where we look if node has a concrete model or not.
@@ -289,10 +289,10 @@ class StackedModel(SpecModel):
 #                field.args['_stack_path'] = path  TODO
                 child_path = "%s.%s" % (path, field_path)
                 cls._visit_stack(child, classes, child_path, registry, cr)
-            else:
-                if child_concrete:
-                    _logger.info("%s    - <%s>  -->%s " % (
-                        indent, field_path, child_concrete))
-                else:
-                    _logger.info("%s    - <%s> %s" % (
-                        indent, field_path, child._name))
+            # else:
+            #     if child_concrete:
+            #         _logger.info("%s    - <%s>  -->%s " % (
+            #             indent, field_path, child_concrete))
+            #     else:
+            #         _logger.info("%s    - <%s> %s" % (
+            #             indent, field_path, child._name))
