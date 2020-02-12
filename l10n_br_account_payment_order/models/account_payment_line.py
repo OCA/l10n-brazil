@@ -48,6 +48,6 @@ class PaymentLine(models.Model):
     operation_type = fields.Selection(
         selection=OPERATION_TYPE,
         string='Tipo de Operação',
-        related='order_id.payment_mode_id.operation_type',
+        related='order_id.operation_type',
         store=True
     )

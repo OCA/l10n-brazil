@@ -12,8 +12,11 @@
         <field name="inherit_id"
                ref="account_payment_order.account_payment_order_form"/>
         <field name="arch" type="xml">
-            <field name="payment_mode_id" position="after">
-                <field name="operation_type"/>
+            <field name="payment_mode_id" position="replace">
+                <field name="payment_mode_id"
+                       domain="[('payment_order_ok', '=', True), ('payment_type', '=', payment_type), ('operation_type', '=', operation_type)]"
+                       widget="selection"/>
+                <field name="operation_type" invisible="1"/>
             </field>
         </field>
     </record>
