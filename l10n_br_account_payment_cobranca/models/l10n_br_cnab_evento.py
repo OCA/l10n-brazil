@@ -17,6 +17,11 @@ class L10nBrCnabEvento(models.Model):
         string="Bank Payment Line",
         comodel_name="bank.payment.line",
     )
+    cnab_id = fields.Many2one(
+        string='Retorno Importado',
+        comodel_name='l10n_br.cnab',
+        related='lote_id.cnab_id',
+    )
     data_real_pagamento = fields.Date(
         string="Data do Crédito"
     )

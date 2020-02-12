@@ -76,6 +76,7 @@
                 </header>
                 <group attrs="{'readonly': [('state', '=', 'done')]}">
                     <group>
+                        <field name="cnab_id"/>
                         <field name="invoice_id"/>
                         <field name="partner_id"/>
                         <field name="data_ocorrencia"/>
