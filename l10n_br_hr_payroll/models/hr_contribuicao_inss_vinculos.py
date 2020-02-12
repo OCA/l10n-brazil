@@ -72,16 +72,6 @@ class HrContribuicaoInssVinculos(models.Model):
                 'Só é possível uma entrada por vínculo no período selecionado!'
             )
 
-    @api.onchange('employee_id')
-    def onchange_funcionario(self):
-        """
-        COnfigurar o tipo do contrato de acordo com o tipo de vinculo do
-        funcionario
-        """
-        for record in self:
-            if record.employee_id:
-                record.tipo = record.employee_id.tipo
-
     @api.constrains('categoria')
     def constrains_categoria(self):
         """
