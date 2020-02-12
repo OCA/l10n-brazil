@@ -22,6 +22,10 @@
                 </group>
             </xpath>
 
+            <field name="payment_method_id" position="after">
+                <field name="operation_type"/>
+            </field>
+
         </field>
     </record>
 
