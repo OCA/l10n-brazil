@@ -15,6 +15,7 @@
             <xpath expr="//field[@name='currency_id']" position="after">
                 <field name="percent_interest"/>
                 <field name="amount_interest"/>
+                <field name="operation_type" invisible="0"/>
             </xpath>
         </field>
     </record>
