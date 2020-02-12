@@ -5,6 +5,7 @@
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 from odoo.tools.float_utils import float_round as round
+from .account_payment_mode import OPERATION_TYPE
 
 
 class PaymentLine(models.Model):
@@ -43,3 +44,10 @@ class PaymentLine(models.Model):
     amount_interest = fields.Float(string="Valor Juros",
                                    compute='_compute_interest',
                                    digits=dp.get_precision('Account'))
+
+    operation_type = fields.Selection(
+        selection=OPERATION_TYPE,
+        string='Tipo de Operação',
+        related='order_id.payment_mode_id.operation_type',
+        store=True
+    )
