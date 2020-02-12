@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Reports for l10n_br_hr_payslip',
-    'summary': 'Reports for l10n_br_hr_payslip',
+    'name': 'Payroll Reports',
+    'summary': 'Reports for l10n_br_hr_payroll',
     'version': '8.0.1.0.0',
     'category': 'Reports',
     'website': 'http://www.kmee.com.br',

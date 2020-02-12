@@ -1,0 +1,574 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_hr_payroll_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-12 12:50+0000\n"
+"PO-Revision-Date: 2020-02-12 12:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "13º Salário"
+msgstr "13º Salário"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Abril"
+msgstr "Abril"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Agosto"
+msgstr "Agosto"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+#: field:wizard.l10n_br_hr_employee.ficha_registro,change_job_ids:0
+msgid "Alterações de Cargo"
+msgstr "Alterações de Cargo"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+#: field:wizard.l10n_br_hr_employee.ficha_registro,change_salary_ids:0
+msgid "Alterações de Salário"
+msgstr "Alterações de Salário"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.report_analytic_py3o_report
+msgid "Analitico"
+msgstr "Analitico"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_payroll.analytic_report,ano:0
+msgid "Ano"
+msgstr "Ano"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.report_payslip_py3o_aviso_ferias
+msgid "Aviso de Ferias"
+msgstr "Aviso de Ferias"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,cbo:0
+msgid "CBO"
+msgstr "CBO"
+
+#. module: l10n_br_hr_payroll_report
+#: field:res.company,cnpj_cei:0
+msgid "CNPJ/CEI Tomadora/Obra"
+msgstr "CNPJ/CEI Tomadora/Obra"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,cpf:0
+msgid "CPF"
+msgstr "CPF"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,ctps:0
+msgid "CTPS"
+msgstr "CTPS"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.act_window,name:l10n_br_hr_payroll_report.action_field_rescission
+#: model:ir.ui.menu,name:l10n_br_hr_payroll_report.menu_field_rescission
+msgid "Campos de Rescisão"
+msgstr "Campos de Rescisão"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+#: view:wizard.l10n_br_hr_payroll.analytic_report:l10n_br_hr_payroll_report.wizard_l10n_br_hr_payroll_analytic_report_form_view
+msgid "Cancel"
+msgstr "Cancel"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,cargo:0
+msgid "Cargo"
+msgstr "Cargo"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,conjuge_brasileiro:0
+msgid "Casado com Brasileiro"
+msgstr "Casado com Brasileiro"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.model,name:l10n_br_hr_payroll_report.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,company_cabecalho:0
+msgid "Company cabecalho"
+msgstr "Company cabecalho"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.model,name:l10n_br_hr_payroll_report.model_hr_contract
+#: field:wizard.l10n_br_hr_employee.ficha_registro,contract_id:0
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,create_uid:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,create_date:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,codigo:0
+#: field:hr.field.rescission,codigo_fmt:0
+msgid "Código"
+msgstr "Código"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.salary.rule,campo_rescisao:0
+msgid "Código da Rescisão"
+msgstr "Código da Rescisão"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,conjuge:0
+msgid "Cônjuge"
+msgstr "Cônjuge"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+msgid "Data"
+msgstr "Data"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,birthday:0
+msgid "Data Nascimento"
+msgstr "Data Nascimento"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,date_start:0
+msgid "Data da Admissão"
+msgstr "Data da Admissão"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,dt_opc_fgts:0
+msgid "Data da Opção"
+msgstr "Data da Opção"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.employee,birthday_fmt:0
+msgid "Data de Nascimento"
+msgstr "Data de Nascimento"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.payslip,data_afastamento_fmt:0
+#: field:hr.payslip,data_aviso_previo_fmt:0
+msgid "Data do aviso prévio"
+msgstr "Data do aviso prévio"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,dt_desligamento:0
+msgid "Data do desligamento"
+msgstr "Data do desligamento"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,dependent_ids:0
+msgid "Dependentes"
+msgstr "Dependentes"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Dezembro"
+msgstr "Dezembro"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,display_name:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,display_name:0
+#: field:wizard.l10n_br_hr_payroll.analytic_report,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,tipo_de_folha:0
+msgid "Décimo Terceiro (13º)"
+msgstr "Décimo Terceiro (13º)"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.model,name:l10n_br_hr_payroll_report.model_hr_employee
+msgid "Employee"
+msgstr "Funcionário"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,employee_id:0
+msgid "Employee id"
+msgstr "Employee id"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_payroll.analytic_report,company_id:0
+msgid "Empresa"
+msgstr "Empresa"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,endereco:0
+msgid "Endereço"
+msgstr "Endereço"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,estado_civil:0
+msgid "Estado Civil"
+msgstr "Estado Civil"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Fevereiro"
+msgstr "Fevereiro"
+
+#. module: l10n_br_hr_payroll_report
+#: view:hr.employee:l10n_br_hr_payroll_report.vhr_view_employee_form_inherited
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.report_payslip_py3o_ficha_registro
+msgid "Ficha Registro"
+msgstr "Ficha Registro"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+msgid "Fim Período Aquisitivo"
+msgstr "Fim Período Aquisitivo"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+msgid "Fim do Gozo"
+msgstr "Fim do Gozo"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,tipo_de_folha:0
+msgid "Folha Normal"
+msgstr "Folha Normal"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,forma_pg:0
+msgid "Forma de Pagto"
+msgstr "Forma de Pagto"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+#: field:wizard.l10n_br_hr_employee.ficha_registro,vacation_control_ids:0
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,tipo_de_folha:0
+msgid "Férias"
+msgstr "Férias"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+msgid "Gerar Ficha Registro"
+msgstr "Gerar Ficha Registro"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,educational_attainment:0
+msgid "Grau de Instrução"
+msgstr "Grau de Instrução"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.report_payslip_py3o_report
+msgid "Holerite"
+msgstr "Holerite"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+#: field:wizard.l10n_br_hr_employee.ficha_registro,working_hours:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,working_hours_dict:0
+msgid "Horário de Trabalho"
+msgstr "Horário de Trabalho"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,id:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,identidade:0
+msgid "Identidade"
+msgstr "Identidade"
+
+#. module: l10n_br_hr_payroll_report
+#: view:hr.payslip:l10n_br_hr_payroll_report.view_hr_payslip_form
+msgid "Imprimir"
+msgstr "Imprimir"
+
+#. module: l10n_br_hr_payroll_report
+#: view:hr.payslip:l10n_br_hr_payroll_report.view_hr_payslip_form
+msgid "Imprimir Aviso"
+msgstr "Imprimir Aviso"
+
+#. module: l10n_br_hr_payroll_report
+#: view:hr.payslip:l10n_br_hr_payroll_report.view_hr_payslip_form
+msgid "Imprimir Recibo"
+msgstr "Imprimir Recibo"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+msgid "Ini. Período Aquisitivo"
+msgstr "Ini. Período Aquisitivo"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+msgid "Início do Gozo"
+msgstr "Início do Gozo"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Janeiro"
+msgstr "Janeiro"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Julho"
+msgstr "Julho"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Junho"
+msgstr "Junho"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,__last_update:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,__last_update:0
+#: field:wizard.l10n_br_hr_payroll.analytic_report,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,write_uid:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,write_date:0
+#: field:wizard.l10n_br_hr_employee.ficha_registro,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: l10n_br_hr_payroll_report
+#: help:wizard.l10n_br_hr_employee.ficha_registro,contract_id:0
+msgid "Latest contract of the employee"
+msgstr "Latest contract of the employee"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,companylogo:0
+msgid "Logo ABGF"
+msgstr "Logo ABGF"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Maio"
+msgstr "Maio"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Março"
+msgstr "Março"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,matricula:0
+msgid "Matricula"
+msgstr "Matricula"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,image_medium:0
+msgid "Medium-sized photo"
+msgstr "Medium-sized photo"
+
+#. module: l10n_br_hr_payroll_report
+#: help:wizard.l10n_br_hr_employee.ficha_registro,image_medium:0
+msgid "Medium-sized photo of the employee. It is automatically resized as a 128x128px image, with aspect ratio preserved. Use this field in form views or some kanban views."
+msgstr "Medium-sized photo of the employee. It is automatically resized as a 128x128px image, with aspect ratio preserved. Use this field in form views or some kanban views."
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Mês"
+msgstr "Mês"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,nacionalidade:0
+msgid "Nacionalidade"
+msgstr "Nacionalidade"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,name:0
+msgid "Name"
+msgstr "Name"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,naturalidade:0
+msgid "Naturalidade"
+msgstr "Naturalidade"
+
+#. module: l10n_br_hr_payroll_report
+#: code:addons/l10n_br_hr_payroll_report/reports/payslip_report_analitico.py:512
+#, python-format
+msgid "Nenhum Holerite confirmado encontrado no período indicado!"
+msgstr "Nenhum Holerite confirmado encontrado no período indicado!"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,name:0
+msgid "Nome"
+msgstr "Nome"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,mother_name:0
+msgid "Nome da Mãe"
+msgstr "Nome da Mãe"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,father_name:0
+msgid "Nome do Pai"
+msgstr "Nome do Pai"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Novembro"
+msgstr "Novembro"
+
+#. module: l10n_br_hr_payroll_report
+#: code:addons/l10n_br_hr_payroll_report/wizards/wizard_l10n_br_hr_payroll_analytic_report.py:60
+#, python-format
+msgid "Não foi encontrado lote de holerite dentro do período selecionado."
+msgstr "Não foi encontrado lote de holerite dentro do período selecionado."
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Outubro"
+msgstr "Outubro"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,pis_pasep:0
+msgid "PIS/PASEP"
+msgstr "PIS/PASEP"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.model,name:l10n_br_hr_payroll_report.model_hr_payslip
+msgid "Pay Slip"
+msgstr "Holerite"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,tipo_de_folha:0
+msgid "Provisão 13º Salário"
+msgstr "Provisão 13º Salário"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,tipo_de_folha:0
+msgid "Provisão de Férias"
+msgstr "Provisão de Férias"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.report_payslip_autonomo_py3o_report
+msgid "RPA"
+msgstr "RPA"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.payslip_report_recibo_ferias
+msgid "Recibo de Ferias"
+msgstr "Recibo de Ferias"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,rule:0
+msgid "Regras de Salário"
+msgstr "Regras de Salário"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.act_window,name:l10n_br_hr_payroll_report.wizard_l10n_br_hr_payroll_analytic_report_act_window
+#: model:ir.ui.menu,name:l10n_br_hr_payroll_report.wizard_l10n_br_hr_payroll_analytic_report_menu
+msgid "Relatório analitico"
+msgstr "Relatório analitico"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.report_payslip_py3o_rescisao
+msgid "Rescisão"
+msgstr "Rescisão"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,creservist:0
+msgid "Reservista"
+msgstr "Reservista"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,wage:0
+msgid "Salário"
+msgstr "Salário"
+
+#. module: l10n_br_hr_payroll_report
+#: selection:wizard.l10n_br_hr_payroll.analytic_report,mes_do_ano:0
+msgid "Setembro"
+msgstr "Setembro"
+
+#. module: l10n_br_hr_payroll_report
+#: model:ir.actions.report.xml,name:l10n_br_hr_payroll_report.report_telefonia_py3o_report
+msgid "Telefonia"
+msgstr "Telefonia"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,blood_type:0
+msgid "Tipo Sanguíneo"
+msgstr "Tipo Sanguíneo"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_payroll.analytic_report,tipo_de_folha:0
+msgid "Tipo de folha"
+msgstr "Tipo de folha"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,titulo_eleitoral:0
+msgid "Titulo Eleitoral"
+msgstr "Titulo Eleitoral"
+
+#. module: l10n_br_hr_payroll_report
+#: field:hr.field.rescission,variaveis:0
+msgid "Variáveis disponíveis"
+msgstr "Variáveis disponíveis"
+
+#. module: l10n_br_hr_payroll_report
+#: code:addons/l10n_br_hr_payroll_report/reports/payslip_report_analitico.py:511
+#, python-format
+msgid "Warning!"
+msgstr "Warning!"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_payroll.analytic_report:l10n_br_hr_payroll_report.wizard_l10n_br_hr_payroll_analytic_report_form_view
+msgid "Wizard L10n_br_hr_payroll Analytic_report"
+msgstr "Wizard L10n_br_hr_payroll Analytic_report"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+msgid "Wizard l10n_br_hr_employee ficha_registro"
+msgstr "Wizard l10n_br_hr_employee ficha_registro"
+
+#. module: l10n_br_hr_payroll_report
+#: view:hr.field.rescission:l10n_br_hr_payroll_report.hr_field_rescission_tree_view
+msgid "codigo"
+msgstr "codigo"
+
+#. module: l10n_br_hr_payroll_report
+#: view:hr.field.rescission:l10n_br_hr_payroll_report.hr_field_rescission_tree_view
+#: field:hr.field.rescission,descricao:0
+msgid "descrição"
+msgstr "descrição"
+
+#. module: l10n_br_hr_payroll_report
+#: view:wizard.l10n_br_hr_employee.ficha_registro:l10n_br_hr_payroll_report.wizard_l10n_br_hr_employee_ficha_funcional_form_view
+#: view:wizard.l10n_br_hr_payroll.analytic_report:l10n_br_hr_payroll_report.wizard_l10n_br_hr_payroll_analytic_report_form_view
+msgid "or"
+msgstr "or"
+
+#. module: l10n_br_hr_payroll_report
+#: field:wizard.l10n_br_hr_employee.ficha_registro,naturalizado:0
+msgid "É naturalizado?"
+msgstr "É naturalizado?"
+
