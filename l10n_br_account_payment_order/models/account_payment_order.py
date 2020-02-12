@@ -12,6 +12,4 @@ class AccountPaymentOrder(models.Model):
     operation_type = fields.Selection(
         selection=OPERATION_TYPE,
         string='Tipo de Operação',
-        related='payment_mode_id.operation_type',
-        store=True
     )
