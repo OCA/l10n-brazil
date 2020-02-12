@@ -5,6 +5,22 @@
     <menuitem id="menu_remessa_categ" name="Remessa"
               parent="account_payment_order.payment_root" sequence="1"/>
 
+    <record id="account_payment_order.account_payment_order_outbound_action" model="ir.actions.act_window">
+        <field name="name">Payment Orders</field>
+        <field name="res_model">account.payment.order</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="domain">[('payment_type', '=', 'outbound'),('operation_type', '=', '1')]</field>
+        <field name="context">{'default_payment_type': 'outbound','default_operation_type': '1'}</field>
+    </record>
+
+    <record id="account_payment_order_inbound_action" model="ir.actions.act_window">
+        <field name="name">Debit Orders</field>
+        <field name="res_model">account.payment.order</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="domain">[('payment_type', '=', 'inbound'),('operation_type', '=', '3')]</field>
+        <field name="context">{'default_payment_type': 'inbound','default_operation_type': '3'}</field>
+    </record>
+
 
     <menuitem id="account_payment_order.account_payment_order_outbound_menu"
               parent="menu_remessa_categ"
