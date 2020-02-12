@@ -104,4 +104,5 @@ class Document(models.Model):
             digito = 0
 
         chave += str(digito)
-        self.key = chave
+        # FIXME: Fazer sufixo depender do modelo
+        self.key = 'NFe' + chave
