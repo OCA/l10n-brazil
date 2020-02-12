@@ -178,6 +178,15 @@ class NFe(spec_models.StackedModel):
             if processo.resposta.cStat in LOTE_PROCESSADO:
                 for protocolo in processo.resposta.protNFe:
                     record.atualiza_status_nfe(protocolo.infProt)
+            elif processo.resposta.cStat == '225':
+                state = SITUACAO_EDOC_REJEITADA
+
+                self._change_state(state)
+
+                self.write({
+                    'codigo_situacao': processo.resposta.cStat,
+                    'motivo_situacao': processo.resposta.xMotivo,
+                })
         return
 
     @api.multi
