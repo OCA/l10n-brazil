@@ -138,7 +138,7 @@ class NFe(spec_models.StackedModel):
             edoc = record.serialize()[0]
             procesador = record._procesador()
             xml_file = procesador._generateds_to_string_etree(edoc)[0]
-            event_id = self._gerar_evento(xml_file, type="0")
+            event_id = self._gerar_evento(xml_file, event_type="0")
             record.autorizacao_event_id = event_id
 
     def atualiza_status_nfe(self, infProt):
