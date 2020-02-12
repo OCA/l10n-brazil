@@ -13,7 +13,7 @@
         <field name="context">{'default_payment_type': 'outbound','default_operation_type': '1'}</field>
     </record>
 
-    <record id="account_payment_order_inbound_action" model="ir.actions.act_window">
+    <record id="account_payment_order.account_payment_order_inbound_action" model="ir.actions.act_window">
         <field name="name">Debit Orders</field>
         <field name="res_model">account.payment.order</field>
         <field name="view_mode">tree,form,pivot,graph</field>
