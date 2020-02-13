@@ -6,8 +6,7 @@ from odoo import models, fields
 
 OPERATION_TYPE = [
     ('1', 'Pagamento'),
-    ('2', 'Cobrança'),
-    ('3', 'Debito em conta corrente'),
+    ('2', 'Debito em conta corrente'),
 ]
 
 
