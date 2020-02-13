@@ -53,7 +53,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="l10n_br_hr_rat_fap_action">
-            <field name="name">RAT/FAP</field>
+            <field name="name">Tabela RAT/FAP</field>
             <field name="res_model">l10n_br.hr.rat.fap</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="l10n_br_hr_rat_fap_tree"/>
@@ -66,6 +66,7 @@
             name="RAT/FAP"
             parent="hr.menu_hr_configuration"
             sequence="44"
+            groups="base.group_hr_user"
             />
 
         <record model="ir.actions.act_window.view" id="l10n_br_hr_rat_fap_action_tree">
