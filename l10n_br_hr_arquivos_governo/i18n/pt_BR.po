@@ -1,0 +1,1468 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_hr_arquivos_governo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-12 14:29+0000\n"
+"PO-Revision-Date: 2020-02-12 14:29+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,centralizadora:0
+msgid "0 - Não centraliza"
+msgstr "0 - Não centraliza"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,natureza_declarante:0
+msgid "0 - Pessoa jurídica de direito privado"
+msgstr "0 - Pessoa jurídica de direito privado"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "01 - Empregado"
+msgstr "01 - Empregado"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "03 - Trabalhador não vinculado ao RGPS, mas com direito ao FGTS"
+msgstr "03 - Trabalhador não vinculado ao RGPS, mas com direito ao FGTS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "04 - Empregado sob contrato de trabalho por prazo determinado - Lei n° 9.601/98, com as alterações da Medida Provisória n° 2.164-41, de 24/08/2001."
+msgstr "04 - Empregado sob contrato de trabalho por prazo determinado - Lei n° 9.601/98, com as alterações da Medida Provisória n° 2.164-41, de 24/08/2001."
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "05 - Contribuinte individual - Diretor não empregado com FGTS – Lei nº 8.036/90, art. 16"
+msgstr "05 - Contribuinte individual - Diretor não empregado com FGTS – Lei nº 8.036/90, art. 16"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,codigo_receita:0
+msgid "0561"
+msgstr "0561"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,codigo_receita:0
+msgid "0588"
+msgstr "0588"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "07 - Menor aprendiz - Lei n°10.097/2000."
+msgstr "07 - Menor aprendiz - Lei n°10.097/2000."
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,centralizadora:0
+msgid "1 - Centralizadora"
+msgstr "1 - Centralizadora"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,natureza_declarante:0
+msgid "1 - Órgãos, autarquias e fundações da administração pública federal"
+msgstr "1 - Órgãos, autarquias e fundações da administração pública federal"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_gps:0
+msgid "1-GPF no prazo"
+msgstr "1-GPF no prazo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_fgts:0
+msgid "1-GRF no prazo"
+msgstr "1-GRF no prazo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "11 - Contribuinte Individual - Diretor não empregado e demais empresários sem FGTS."
+msgstr "11 - Contribuinte Individual - Diretor não empregado e demais empresários sem FGTS."
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "115 - Recolhimento ao FGTS e informações à Previdência Social"
+msgstr "115 - Recolhimento ao FGTS e informações à Previdência Social"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "13 - Contribuinte individual – Trabalhador autônomo ou a este equiparado, inclusive o operador de máquina, com contribuição sobre remuneração; trabalhador associado à cooperativa de produção."
+msgstr "13 - Contribuinte individual – Trabalhador autônomo ou a este equiparado, inclusive o operador de máquina, com contribuição sobre remuneração; trabalhador associado à cooperativa de produção."
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "130 - Recolhimento ao FGTS e informações à Previdência Social relativas ao trabalhador avulso portuário"
+msgstr "130 - Recolhimento ao FGTS e informações à Previdência Social relativas ao trabalhador avulso portuário"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "135 - Recolhimento e/ou declaração ao FGTS e informações à Previdência Social relativas ao trabalhador avulso não portuário"
+msgstr "135 - Recolhimento e/ou declaração ao FGTS e informações à Previdência Social relativas ao trabalhador avulso não portuário"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "13º Salário"
+msgstr "13º Salário"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "145 - Recolhimento ao FGTS  de diferenças apuradas pela CAIXA"
+msgstr "145 - Recolhimento ao FGTS  de diferenças apuradas pela CAIXA"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "150 - Recolhimento ao FGTS  e informações à Previdência Social de empresa prestadora de serviços com cessão de mâo-de-obra e empresa de trabalho temporário Lei nº 6.019/74, em relação aos empregados cedidos, ou de obra de construção civil - empreitada parcial"
+msgstr "150 - Recolhimento ao FGTS  e informações à Previdência Social de empresa prestadora de serviços com cessão de mâo-de-obra e empresa de trabalho temporário Lei nº 6.019/74, em relação aos empregados cedidos, ou de obra de construção civil - empreitada parcial"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "155 - Recolhimento ao FGTS  e informações à Previdência Social de obra de construção civil - empreitada total ou obra própria"
+msgstr "155 - Recolhimento ao FGTS  e informações à Previdência Social de obra de construção civil - empreitada total ou obra própria"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,centralizadora:0
+msgid "2 - Centralizada"
+msgstr "2 - Centralizada"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,natureza_declarante:0
+msgid "2 - Órgãos, autarquias e fundações da administração pública estadual, municipal ou do Distrito Federal"
+msgstr "2 - Órgãos, autarquias e fundações da administração pública estadual, municipal ou do Distrito Federal"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_gps:0
+msgid "2-GPF em atraso"
+msgstr "2-GPF em atraso"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_fgts:0
+msgid "2-GRF em atraso"
+msgstr "2-GRF em atraso"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.contract,categoria_sefip:0
+msgid "21 - Servidor Público titular de cargo efetivo, magistrado, membro do Ministério Público e do Tribunal e Conselho de Contas"
+msgstr "21 - Servidor Público titular de cargo efetivo, magistrado, membro do Ministério Público e do Tribunal e Conselho de Contas"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "211 - Declaração para a Previdência Social de Cooperativa de Trabalho relativa aos contribuintes individuais cooperados que prestam serviçõs a tomadores"
+msgstr "211 - Declaração para a Previdência Social de Cooperativa de Trabalho relativa aos contribuintes individuais cooperados que prestam serviçõs a tomadores"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,natureza_declarante:0
+msgid "3 - Empresa pública ou sociedade de economia mista federal"
+msgstr "3 - Empresa pública ou sociedade de economia mista federal"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_fgts:0
+msgid "3-GRF em atraso - Ação Fiscal"
+msgstr "3-GRF em atraso - Ação Fiscal"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_gps:0
+msgid "3-Não gera GPS"
+msgstr "3-Não gera GPS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "307 - Recolhimento de Parcelamento de débito com o FGTS"
+msgstr "307 - Recolhimento de Parcelamento de débito com o FGTS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "317 - Recolhimento de Parcelamento de débito com o FGTS de empresa com tomador de serviços"
+msgstr "317 - Recolhimento de Parcelamento de débito com o FGTS de empresa com tomador de serviços"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,codigo_receita:0
+msgid "3223"
+msgstr "3223"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "327 - Recolhimento de Parcelamento de débito com o FGTS priorizando os valores devidos aos trabalhores"
+msgstr "327 - Recolhimento de Parcelamento de débito com o FGTS priorizando os valores devidos aos trabalhores"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "337 - Recolhimento de Parcelamento de débito com o FGTS de empresas com tomador de serviços, priorizando os valores devidos aos trabalhadores"
+msgstr "337 - Recolhimento de Parcelamento de débito com o FGTS de empresas com tomador de serviços, priorizando os valores devidos aos trabalhadores"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "345 - Recolhimento de parcelamento de débito com o FGTS relativo a diferença de recolhimento, priorizando os valores devidos aos trabalhadores"
+msgstr "345 - Recolhimento de parcelamento de débito com o FGTS relativo a diferença de recolhimento, priorizando os valores devidos aos trabalhadores"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,natureza_declarante:0
+msgid "4 - Empresa pública ou sociedade de economia mista estadual, municipal ou do Distrito Federal"
+msgstr "4 - Empresa pública ou sociedade de economia mista estadual, municipal ou do Distrito Federal"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "418 - Recolhimento recursal para o FGTS"
+msgstr "418 - Recolhimento recursal para o FGTS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_fgts:0
+msgid "5-Individualização"
+msgstr "5-Individualização"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_fgts:0
+msgid "6-Individualização - Ação Fiscal"
+msgstr "6-Individualização - Ação Fiscal"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "604 - Recolhimento ao FGTS  de entidades com fins filantrópicos - Decreto-Lei nº194, de 24/02/1967 (competências anteriores a 10/1989"
+msgstr "604 - Recolhimento ao FGTS  de entidades com fins filantrópicos - Decreto-Lei nº194, de 24/02/1967 (competências anteriores a 10/1989"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "608 - Recolhimento ao FGTS e informações à Previdência Social relativo a dirigente sindical"
+msgstr "608 - Recolhimento ao FGTS e informações à Previdência Social relativo a dirigente sindical"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "640 - Recolhimento ao FGTS para empregado não optante (competência anterior a 10/1988)"
+msgstr "640 - Recolhimento ao FGTS para empregado não optante (competência anterior a 10/1988)"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "650 - Recolhimento ao FGTS e Informações à Previdência Social relativo a Anistiados, Reclamatória Trabalhista, Reclamatória Trabalhista com reconhecimento de vínculo, Acordo ou Dissídio ou Convenção Coletiva, Comissão Conciliação Prévia ou Núcleo Intersindical Conciliação Trabalhista"
+msgstr "650 - Recolhimento ao FGTS e Informações à Previdência Social relativo a Anistiados, Reclamatória Trabalhista, Reclamatória Trabalhista com reconhecimento de vínculo, Acordo ou Dissídio ou Convenção Coletiva, Comissão Conciliação Prévia ou Núcleo Intersindical Conciliação Trabalhista"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "660 - Recolhimento exclusivo ao FGTS relativo a Anistiados, Conversão Licença Saúde em Acidente Trabalho, Reclamatória Trabalhista, Acordo ou Dissídio ou Convenção Coletiva, Comissão Conciliação Prévia ou Núcleo Intersindical Conciliação Trabalhista"
+msgstr "660 - Recolhimento exclusivo ao FGTS relativo a Anistiados, Conversão Licença Saúde em Acidente Trabalho, Reclamatória Trabalhista, Acordo ou Dissídio ou Convenção Coletiva, Comissão Conciliação Prévia ou Núcleo Intersindical Conciliação Trabalhista"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.dirf,natureza_declarante:0
+msgid "8 - Entidade com alteração de natureza jurídica (uso restrito)"
+msgstr "8 - Entidade com alteração de natureza jurídica (uso restrito)"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_contract.py:27
+#, python-format
+msgid "A quantidade de horas semanais deve estar entre 1 e 44."
+msgstr "A quantidade de horas semanais deve estar entre 1 e 44."
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Abril"
+msgstr "Abril"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Agosto"
+msgstr "Agosto"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.actions.report.xml,name:l10n_br_hr_arquivos_governo.report_py3o_darf_analitico
+msgid "Analítico DARF"
+msgstr "Analítico DARF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,related_attachment_ids:0
+#: field:l10n_br.hr.sefip,related_attachment_ids:0
+msgid "Anexos Relacionados"
+msgstr "Anexos Relacionados"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,ano:0
+#: field:l10n_br.hr.sefip,ano:0
+msgid "Ano"
+msgstr "Ano"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,ano_calendario:0
+msgid "Ano Calendário"
+msgstr "Ano Calendário"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,ano_referencia:0
+msgid "Ano Referência"
+msgstr "Ano Referência"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,ano_processo:0
+msgid "Ano do processo"
+msgstr "Ano do processo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+#: field:hr.dirf,dirf_file:0
+msgid "Arquivo DIRF"
+msgstr "Arquivo DIRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.caged.attachments,attachment_ids:0
+#: field:l10n_br.hr.sefip.attachments,attachment_ids:0
+msgid "Arquivo anexo"
+msgstr "Arquivo anexo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.caged.attachments,caged_id:0
+#: field:l10n_br.hr.sefip.attachments,sefip_id:0
+msgid "Arquivo do governo relacionado"
+msgstr "Arquivo do governo relacionado"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.caged:l10n_br_hr_arquivos_governo.hr_caged_form_view
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Arquivos Anexos"
+msgstr "Arquivos Anexos"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.payslip,attachment_ids:0
+msgid "Attachments"
+msgstr "Attachments"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip:l10n_br_hr_arquivos_governo.hr_payslip_form_view
+msgid "Atualizar Valores IR"
+msgstr "Atualizar Valores IR"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Atualizar Valores dos Holerites"
+msgstr "Atualizar Valores dos Holerites"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Autônomos"
+msgstr "Autônomos"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:388
+#, python-format
+msgid "Bairro {0} não preenchido\n"
+""
+msgstr "Bairro {0} não preenchido\n"
+""
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip.run:l10n_br_hr_arquivos_governo.hr_payslip_run_form_view
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Boletos"
+msgstr "Boletos"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip.run:l10n_br_hr_arquivos_governo.hr_payslip_run_form_view
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Boletos Gerados"
+msgstr "Boletos Gerados"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Buscar Funcionários"
+msgstr "Buscar Funcionários"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.ui.menu,name:l10n_br_hr_arquivos_governo.l10n_br_hr_arquivos_governo_caged
+msgid "CAGED"
+msgstr "CAGED"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,caged_txt:0
+msgid "CAGED TXT"
+msgstr "CAGED TXT"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.actions.act_window,name:l10n_br_hr_arquivos_governo.action_l10n_br_hr_arquivos_governo_caged
+msgid "CAGED's"
+msgstr "CAGED's"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,responsible_cnpj_cpf:0
+msgid "CPF Responsável"
+msgstr "CPF Responsável"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,cpf_responsavel:0
+msgid "CPF do Responsável"
+msgstr "CPF do Responsável"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:l10n_br.hr.sefip,codigo_fpas:0
+msgid "Campo obrigatório:\n"
+"\n"
+"        • Deve ser um FPAS válido.\n"
+"\n"
+"        • Deve ser diferente de 744 e 779, pois as GPS desses códigos serão\n"
+"        geradas automaticamente, sempre que forem informados os respectivos\n"
+"        fatos geradores dessas contribuições.\n"
+"\n"
+"        • Deve ser diferente de 620, pois a informação das categorias 15, 16,\n"
+"        18, 23 e 25 indica os respectivos fatos geradores dessas\n"
+"        contribuições.\n"
+"\n"
+"        • Deve ser diferente de 663 e 671 a partir da competência 04/2004.\n"
+"\n"
+"        • Deve ser igual a 868 para empregador doméstico."
+msgstr "Campo obrigatório:\n"
+"\n"
+"        • Deve ser um FPAS válido.\n"
+"\n"
+"        • Deve ser diferente de 744 e 779, pois as GPS desses códigos serão\n"
+"        geradas automaticamente, sempre que forem informados os respectivos\n"
+"        fatos geradores dessas contribuições.\n"
+"\n"
+"        • Deve ser diferente de 620, pois a informação das categorias 15, 16,\n"
+"        18, 23 e 25 indica os respectivos fatos geradores dessas\n"
+"        contribuições.\n"
+"\n"
+"        • Deve ser diferente de 663 e 671 a partir da competência 04/2004.\n"
+"\n"
+"        • Deve ser igual a 868 para empregador doméstico."
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,darf_carteira_cobranca:0
+#: field:res.company,gps_carteira_cobranca:0
+msgid "Carteira de cobrança"
+msgstr "Carteira de cobrança"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:res.company,payment_mode_sindicato_id:0
+msgid "Carteira padrão para geração de boletos do sindicato."
+msgstr "Carteira padrão para geração de boletos do sindicato."
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,payment_mode_sindicato_id:0
+msgid "Carteira para Sindicato"
+msgstr "Carteira para Sindicato"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.contract,categoria_sefip:0
+msgid "Categoria sefip"
+msgstr "Categoria sefip"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,centralizadora:0
+msgid "Centralizadora do FGTS"
+msgstr "Centralizadora do FGTS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:390
+#, python-format
+msgid "Cep {0} não preenchido\n"
+""
+msgstr "Cep {0} não preenchido\n"
+""
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_tree_view
+msgid "Check Line"
+msgstr "Check Line"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:392
+#, python-format
+msgid "Cidade {0} não preenchida\n"
+""
+msgstr "Cidade {0} não preenchida\n"
+""
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:abstract.arquivos.governo.workflow,state:0
+#: selection:hr.caged,state:0
+#: selection:hr.dirf,state:0
+#: selection:l10n_br.hr.sefip,state:0
+msgid "Confirmada"
+msgstr "Confirmada"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.caged:l10n_br_hr_arquivos_governo.hr_caged_form_view
+msgid "Confirmar Caged"
+msgstr "Confirmar Caged"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Confirmar DIRF"
+msgstr "Confirmar DIRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.caged:l10n_br_hr_arquivos_governo.hr_caged_form_view
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Confirmar Envio"
+msgstr "Confirmar Envio"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Confirmar SEFIP"
+msgstr "Confirmar SEFIP"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,modalidade_arquivo:0
+msgid "Confirmação Informações anteriores – Rec/Decl ao FGTS e Decl à Previdência"
+msgstr "Confirmação Informações anteriores – Rec/Decl ao FGTS e Decl à Previdência"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,darf_account_id:0
+#: field:res.company,gps_account_id:0
+msgid "Conta"
+msgstr "Conta"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,financial_account_sindicato_id:0
+msgid "Conta Sindicato"
+msgstr "Conta Sindicato"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:res.company,darf_account_id:0
+#: help:res.company,gps_account_id:0
+msgid "Conta para lançamentos da DARF"
+msgstr "Conta para lançamentos da DARF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:res.company,financial_account_sindicato_id:0
+msgid "Conta para lançamentos do sindicato."
+msgstr "Conta para lançamentos do sindicato."
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_hr_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_hr_contract_type
+msgid "Contract Type"
+msgstr "Tipo de contrato"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,contract_ids:0
+msgid "Contratos"
+msgstr "Contratos"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,create_uid:0
+#: field:hr.dirf,create_uid:0
+#: field:l10n_br.hr.caged.attachments,create_uid:0
+#: field:l10n_br.hr.sefip,create_uid:0
+#: field:l10n_br.hr.sefip.attachments,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,create_date:0
+#: field:hr.dirf,create_date:0
+#: field:l10n_br.hr.caged.attachments,create_date:0
+#: field:l10n_br.hr.sefip,create_date:0
+#: field:l10n_br.hr.sefip.attachments,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.contract,codigo_guia_darf:0
+msgid "Código DARF"
+msgstr "Código DARF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,codigo_fpas:0
+msgid "Código FPAS"
+msgstr "Código FPAS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.salary.rule,codigo_darf:0
+msgid "Código da DARF"
+msgstr "Código da DARF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,codigo_receita:0
+msgid "Código da Receita"
+msgstr "Código da Receita"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,codigo_outras_entidades:0
+msgid "Código de Outras Entidades"
+msgstr "Código de Outras Entidades"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,codigo_outras_entidades:0
+msgid "Código de outras entidades"
+msgstr "Código de outras entidades"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,codigo_recolhimento:0
+msgid "Código de recolhimento"
+msgstr "Código de recolhimento"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,codigo_recolhimento_gps:0
+#: field:res.company,codigo_recolhimento_GPS:0
+msgid "Código de recolhimento do GPS"
+msgstr "Código de recolhimento do GPS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.contract.type,code:0
+msgid "Código do tipo de contrato"
+msgstr "Código do tipo de contrato"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.contract,codigo_guia_darf:0
+msgid "Código para geração da Guia DARF"
+msgstr "Código para geração da Guia DARF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:res.company:l10n_br_hr_arquivos_governo.hr_arquivos_governo_company_form_view
+msgid "DARF"
+msgstr "DARF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,responsible_ddd:0
+msgid "DDD"
+msgstr "DDD"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_tree_view
+#: model:ir.actions.act_window,name:l10n_br_hr_arquivos_governo.hr_dirf_act_window
+#: model:ir.ui.menu,name:l10n_br_hr_arquivos_governo.hr_dirf_menu
+msgid "DIRF"
+msgstr "DIRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,data_inicio:0
+msgid "Data de Início"
+msgstr "Data de Início"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,data_vencimento_grcsu:0
+msgid "Data de Vencimento da GRCSU"
+msgstr "Data de Vencimento da GRCSU"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,data_recolhimento_fgts:0
+msgid "Data de recolhimento do FGTS"
+msgstr "Data de recolhimento do FGTS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,data_recolhimento_gps:0
+msgid "Data de recolhimento do GPS"
+msgstr "Data de recolhimento do GPS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,data_termino:0
+msgid "Data de término"
+msgstr "Data de término"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,data_geracao:0
+msgid "Data do arquivo"
+msgstr "Data do arquivo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.caged,message_last_post:0
+#: help:hr.dirf,message_last_post:0
+#: help:l10n_br.hr.sefip,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date of the last message posted on the record."
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,modalidade_arquivo:0
+msgid "Declaração ao FGTS e à Previdência"
+msgstr "Declaração ao FGTS e à Previdência"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.caged,primeira_declaracao:0
+msgid "Define se é ou não a primeira declaração do estabelecimento ao Cadastro Geral de Empregados e Desempregados - CAGED  Lei nº 4.923/65."
+msgstr "Define se é ou não a primeira declaração do estabelecimento ao Cadastro Geral de Empregados e Desempregados - CAGED  Lei nº 4.923/65."
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Dezembro"
+msgstr "Dezembro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,darf_dia_vencimento:0
+msgid "Dia de vencimento"
+msgstr "Dia de vencimento"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:res.company,darf_dia_vencimento:0
+msgid "Dia de vencimento da guia do DARF de todo mês"
+msgstr "Dia de vencimento da guia do DARF de todo mês"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:abstract.arquivos.governo.workflow,display_name:0
+#: field:hr.caged,display_name:0
+#: field:hr.dirf,display_name:0
+#: field:l10n_br.hr.caged.attachments,display_name:0
+#: field:l10n_br.hr.sefip,display_name:0
+#: field:l10n_br.hr.sefip.attachments,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:financial.move,tipo_documento:0
+msgid "Document Type"
+msgstr "Document Type"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,document_type_sindicato_id:0
+msgid "Documento Sindicato"
+msgstr "Documento Sindicato"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,eh_obrigatorio_codigo_outras_entidades:0
+msgid "Eh obrigatorio codigo outras entidades"
+msgstr "Eh obrigatorio codigo outras entidades"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,eh_obrigatorio_informacoes_processo:0
+msgid "Eh obrigatorio informacoes processo"
+msgstr "Eh obrigatorio informacoes processo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,recolhimento_fgts:0
+#: selection:res.company,codigo_outras_entidades:0
+msgid "Em branco"
+msgstr "Em branco"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_hr_dirf
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_l10n_br_hr_sefip
+msgid "Email Thread"
+msgstr "Tópico do E-mail"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,email_responsavel:0
+msgid "Email do Responsável"
+msgstr "Email do Responsável"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,company_id:0
+#: field:hr.dirf,company_id:0
+#: field:l10n_br.hr.sefip,company_id:0
+msgid "Empresa"
+msgstr "Empresa"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:abstract.arquivos.governo.workflow,state:0
+#: selection:hr.caged,state:0
+#: selection:hr.dirf,state:0
+#: selection:l10n_br.hr.sefip,state:0
+#: selection:l10n_br.hr.sefip.attachments,type:0
+msgid "Enviado"
+msgstr "Enviado"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:627
+#, python-format
+msgid "Existe uma empresa centralizada porém não existe nenhuma centralizadora"
+msgstr "Existe uma empresa centralizada porém não existe nenhuma centralizadora"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:621
+#, python-format
+msgid "Existe uma empresa centralizadora porém não existe nenhuma centralizada"
+msgstr "Existe uma empresa centralizadora porém não existe nenhuma centralizada"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "FGTS"
+msgstr "FGTS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "FPAS"
+msgstr "FPAS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Fevereiro"
+msgstr "Fevereiro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,dirf_filename:0
+msgid "Filename"
+msgstr "Filename"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_financial_move
+msgid "Financial Move"
+msgstr "Lançamento Financeiro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:res.company:l10n_br_hr_arquivos_governo.hr_arquivos_governo_company_form_view
+msgid "Folha de Pagamento"
+msgstr "Folha de Pagamento"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,message_follower_ids:0
+#: field:hr.dirf,message_follower_ids:0
+#: field:l10n_br.hr.sefip,message_follower_ids:0
+msgid "Followers"
+msgstr "Followers"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,supplier_partner_id:0
+msgid "Fornecedor do sistema"
+msgstr "Fornecedor do sistema"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+#: field:hr.dirf,employee_ids:0
+msgid "Funcionários"
+msgstr "Funcionários"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Funcionários na DIRF"
+msgstr "Funcionários na DIRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "GPS"
+msgstr "GPS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "GRCSU (Guia de Contribuição Sindical Urbana)"
+msgstr "GRCSU (Guia de Contribuição Sindical Urbana)"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip:l10n_br_hr_arquivos_governo.hr_payslip_form_view
+#: field:hr.payslip,grrf_txt:0
+msgid "GRRF"
+msgstr "GRRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.caged:l10n_br_hr_arquivos_governo.hr_caged_form_view
+msgid "Gerar Caged"
+msgstr "Gerar Caged"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Gerar DIRF"
+msgstr "Gerar DIRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip:l10n_br_hr_arquivos_governo.hr_payslip_form_view
+msgid "Gerar GRRF"
+msgstr "Gerar GRRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip.run:l10n_br_hr_arquivos_governo.hr_payslip_run_form_view
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Gerar Guias"
+msgstr "Gerar Guias"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Gerar SEFIP"
+msgstr "Gerar SEFIP"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip:l10n_br_hr_arquivos_governo.hr_payslip_form_view
+msgid "Gerar Seguro Desemprego"
+msgstr "Gerar Seguro Desemprego"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:res.company:l10n_br_hr_arquivos_governo.hr_arquivos_governo_company_form_view
+msgid "Guia GPS"
+msgstr "Guia GPS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/hr_payslip_run.py:327
+#, python-format
+msgid "Guias geradas"
+msgstr "Guias geradas"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:1013
+#, python-format
+msgid "Guias geradas pelo SEFIP"
+msgstr "Guias geradas pelo SEFIP"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.payslip.run,boletos_ids:0
+#: field:l10n_br.hr.sefip,boletos_ids:0
+msgid "Guias/Boletos"
+msgstr "Guias/Boletos"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.caged,message_summary:0
+#: help:hr.dirf,message_summary:0
+#: help:l10n_br.hr.sefip,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+#: field:l10n_br.hr.sefip,folha_ids:0
+msgid "Holerites"
+msgstr "Holerites"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,folha_autonomo_ids:0
+msgid "Holerites de Autônomos"
+msgstr "Holerites de Autônomos"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Holerites do SEFIP"
+msgstr "Holerites do SEFIP"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:abstract.arquivos.governo.workflow,id:0
+#: field:hr.caged,id:0
+#: field:hr.dirf,id:0
+#: field:l10n_br.hr.caged.attachments,id:0
+#: field:l10n_br.hr.sefip,id:0
+#: field:l10n_br.hr.sefip.attachments,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,codigo_outras_entidades:0
+msgid "INCRA"
+msgstr "INCRA"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.caged,message_unread:0
+#: help:hr.dirf,message_unread:0
+#: help:l10n_br.hr.sefip,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "If checked new messages require your attention."
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_caged.py:449
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_payslip.py:230
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:1756
+#, python-format
+msgid "Impossível gerar Anexo do %s"
+msgstr "Impossível gerar Anexo do %s"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,message_is_follower:0
+#: field:hr.dirf,message_is_follower:0
+#: field:l10n_br.hr.sefip,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Is a Follower"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Janeiro"
+msgstr "Janeiro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Julho"
+msgstr "Julho"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Junho"
+msgstr "Junho"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,message_last_post:0
+#: field:hr.dirf,message_last_post:0
+#: field:l10n_br.hr.sefip,message_last_post:0
+msgid "Last Message Date"
+msgstr "Last Message Date"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:abstract.arquivos.governo.workflow,__last_update:0
+#: field:hr.caged,__last_update:0
+#: field:hr.dirf,__last_update:0
+#: field:l10n_br.hr.caged.attachments,__last_update:0
+#: field:l10n_br.hr.sefip,__last_update:0
+#: field:l10n_br.hr.sefip.attachments,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,write_uid:0
+#: field:hr.dirf,write_uid:0
+#: field:l10n_br.hr.caged.attachments,write_uid:0
+#: field:l10n_br.hr.sefip,write_uid:0
+#: field:l10n_br.hr.sefip.attachments,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,write_date:0
+#: field:hr.dirf,write_date:0
+#: field:l10n_br.hr.caged.attachments,write_date:0
+#: field:l10n_br.hr.sefip,write_date:0
+#: field:l10n_br.hr.sefip.attachments,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:financial.move,hr_payslip_run_id:0
+msgid "Lote"
+msgstr "Lote"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Maio"
+msgstr "Maio"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Março"
+msgstr "Março"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,message_ids:0
+#: field:hr.dirf,message_ids:0
+#: field:l10n_br.hr.sefip,message_ids:0
+msgid "Messages"
+msgstr "Messages"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.caged,message_ids:0
+#: help:hr.dirf,message_ids:0
+#: help:l10n_br.hr.sefip,message_ids:0
+msgid "Messages and communication history"
+msgstr "Messages and communication history"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,modalidade_arquivo:0
+msgid "Modalidade do arquivo"
+msgstr "Modalidade do arquivo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,mes_do_ano:0
+#: field:l10n_br.hr.sefip,mes:0
+msgid "Mês"
+msgstr "Mês"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,name:0
+msgid "Name"
+msgstr "Name"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,natureza_declarante:0
+msgid "Natureza do Declarante"
+msgstr "Natureza do Declarante"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:res.company,darf_carteira_cobranca:0
+#: help:res.company,gps_carteira_cobranca:0
+msgid "Nome da carteira de cobrança caso exista"
+msgstr "Nome da carteira de cobrança caso exista"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Novembro"
+msgstr "Novembro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/res_company.py:41
+#, python-format
+msgid "Número do Telefone Inválido"
+msgstr "Número do Telefone Inválido"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,num_processo:0
+msgid "Número do processo"
+msgstr "Número do processo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,numero_recibo:0
+msgid "Número do recibo"
+msgstr "Número do recibo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.dirf,numero_recibo:0
+msgid "Número do recibo a retificar. Não preencher se não for arquivo retificadora"
+msgstr "Número do recibo a retificar. Não preencher se não for arquivo retificadora"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.caged.attachments,name:0
+#: field:l10n_br.hr.sefip.attachments,name:0
+msgid "Observações"
+msgstr "Observações"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Outubro"
+msgstr "Outubro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:492
+#, python-format
+msgid "Para empregador doméstico utilizar o número 9700500."
+msgstr "Para empregador doméstico utilizar o número 9700500."
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_hr_payslip
+msgid "Pay Slip"
+msgstr "Holerite"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.model,name:l10n_br_hr_arquivos_governo.model_hr_payslip_run
+msgid "Payslip Batches"
+msgstr "Lotes de Holerite"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,porcentagem_filantropia:0
+msgid "Porcentagem de Isenção de Filantropia"
+msgstr "Porcentagem de Isenção de Filantropia"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,primeira_declaracao:0
+msgid "Primeira declaração?"
+msgstr "Primeira declaração?"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Processo, convenção ou coletiva"
+msgstr "Processo, convenção ou coletiva"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Prévia DIRF"
+msgstr "Prévia DIRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,dirf:0
+msgid "Prévia da DIRF"
+msgstr "Prévia da DIRF"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.caged:l10n_br_hr_arquivos_governo.hr_caged_form_view
+msgid "Prévia do CAGED"
+msgstr "Prévia do CAGED"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+#: field:l10n_br.hr.sefip,sefip:0
+msgid "Prévia do SEFIP"
+msgstr "Prévia do SEFIP"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.payslip,quantidade_dependente:0
+msgid "Quantidade de dependentes"
+msgstr "Quantidade de dependentes"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.payslip,quantidade_dependente:0
+msgid "Quantidade de dependentes que o funcionário tem naquele mes/ano."
+msgstr "Quantidade de dependentes que o funcionário tem naquele mes/ano."
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,responsible_ramal:0
+msgid "Ramal"
+msgstr "Ramal"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:abstract.arquivos.governo.workflow,state:0
+#: selection:hr.caged,state:0
+#: selection:hr.dirf,state:0
+#: selection:l10n_br.hr.sefip,state:0
+msgid "Rascunho"
+msgstr "Rascunho"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip,modalidade_arquivo:0
+msgid "Recolhimento ao FGTS e Declaração à Previdência"
+msgstr "Recolhimento ao FGTS e Declaração à Previdência"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,recolhimento_fgts:0
+msgid "Recolhimento do FGTS"
+msgstr "Recolhimento do FGTS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,recolhimento_gps:0
+msgid "Recolhimento do GPS"
+msgstr "Recolhimento do GPS"
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.ui.menu,name:l10n_br_hr_arquivos_governo.menu_hr_root_payroll_relatorios
+msgid "Relatórios"
+msgstr "Relatórios"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.payslip,rendimentos_tributaveis:0
+msgid "Rendimentos tributáveis IR (Mensal)"
+msgstr "Rendimentos tributáveis IR (Mensal)"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,responsavel:0
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Responsável"
+msgstr "Responsável"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,responsible_partner_cnpj_id:0
+msgid "Responsável pelo CNPJ"
+msgstr "Responsável pelo CNPJ"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Responsável pelo envio"
+msgstr "Responsável pelo envio"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+msgid "Responsável perante CNPJ"
+msgstr "Responsável perante CNPJ"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,retificadora:0
+msgid "Retificadora?"
+msgstr "Retificadora?"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:386
+#, python-format
+msgid "Rua {0} não preenchida\n"
+""
+msgstr "Rua {0} não preenchida\n"
+""
+
+#. module: l10n_br_hr_arquivos_governo
+#: model:ir.actions.act_window,name:l10n_br_hr_arquivos_governo.hr_sefip_act_window
+#: model:ir.ui.menu,name:l10n_br_hr_arquivos_governo.hr_sefip_menu
+#: model:ir.ui.menu,name:l10n_br_hr_arquivos_governo.hr_sefip_submenu
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "SEFIP"
+msgstr "SEFIP"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,codigo_outras_entidades:0
+msgid "SESCOOP"
+msgstr "SESCOOP"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,codigo_outras_entidades:0
+msgid "SESCOOP + INCRA"
+msgstr "SESCOOP + INCRA"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,codigo_outras_entidades:0
+msgid "SESCOOP + INCRA + Salário educação"
+msgstr "SESCOOP + INCRA + Salário educação"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,codigo_outras_entidades:0
+msgid "SESCOOP + Salário educação"
+msgstr "SESCOOP + Salário educação"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,codigo_outras_entidades:0
+msgid "Salário educação"
+msgstr "Salário educação"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:res.company,codigo_outras_entidades:0
+msgid "Salário educação + INCRA"
+msgstr "Salário educação + INCRA"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:financial.move,sefip_id:0
+#: field:hr.payslip,sefip_id:0
+#: field:hr.payslip.autonomo,sefip_id:0
+msgid "Sefip"
+msgstr "Sefip"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.payslip:l10n_br_hr_arquivos_governo.hr_payslip_form_view
+#: field:hr.payslip,seguro_desemprego_txt:0
+msgid "Seguro Desemprego"
+msgstr "Seguro Desemprego"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,darf_sequence_id:0
+#: field:res.company,gps_sequence_id:0
+msgid "Sequencia dos documentos"
+msgstr "Sequencia dos documentos"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:hr.caged,mes_do_ano:0
+#: selection:l10n_br.hr.sefip,mes:0
+msgid "Setembro"
+msgstr "Setembro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:res.company:l10n_br_hr_arquivos_governo.hr_arquivos_governo_company_form_view
+msgid "Sindicato"
+msgstr "Sindicato"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:abstract.arquivos.governo.workflow,state:0
+#: field:hr.caged,state:0
+#: field:hr.dirf,state:0
+#: field:l10n_br.hr.sefip,state:0
+msgid "State"
+msgstr "State"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,message_summary:0
+#: field:hr.dirf,message_summary:0
+#: field:l10n_br.hr.sefip,message_summary:0
+msgid "Summary"
+msgstr "Summary"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,responsible_telefone:0
+msgid "Telefone"
+msgstr "Telefone"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,telefone_responsavel:0
+msgid "Telefone do Responsável"
+msgstr "Telefone do Responsável"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:398
+#, python-format
+msgid "Telefone {0} não preenchido\n"
+""
+msgstr "Telefone {0} não preenchido\n"
+""
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/abstract_workflow.py:43
+#, python-format
+msgid "This state transition is not allowed"
+msgstr "This state transition is not allowed"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip.attachments,type:0
+msgid "Tipo"
+msgstr "Tipo"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:res.company,document_type_sindicato_id:0
+msgid "Tipo de documento para boleto do sindicato."
+msgstr "Tipo de documento para boleto do sindicato."
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:res.company,darf_document_type:0
+#: field:res.company,gps_document_type:0
+msgid "Tipo do documento"
+msgstr "Tipo do documento"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:res.company,darf_document_type:0
+#: help:res.company,gps_document_type:0
+msgid "Tipo do documento que irá aparecer no lançamento financeiro"
+msgstr "Tipo do documento que irá aparecer no lançamento financeiro"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:394
+#, python-format
+msgid "UF {0} não preenchido\n"
+""
+msgstr "UF {0} não preenchido\n"
+""
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.caged,message_unread:0
+#: field:hr.dirf,message_unread:0
+#: field:l10n_br.hr.sefip,message_unread:0
+msgid "Unread Messages"
+msgstr "Unread Messages"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.dirf,responsible_partner_id:0
+#: field:l10n_br.hr.sefip,responsible_user_id:0
+msgid "Usuário Responsável"
+msgstr "Usuário Responsável"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.payslip,rendimentos_tributaveis:0
+msgid "Valor dos rendimentos tributáveis do funcionário naquele mes/ano."
+msgstr "Valor dos rendimentos tributáveis do funcionário naquele mes/ano."
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:hr.payslip,valor_total_dependente:0
+msgid "Valor por dependente multiplicado pela quantidade de dependentes do funcionário tem naquele mes/ano."
+msgstr "Valor por dependente multiplicado pela quantidade de dependentes do funcionário tem naquele mes/ano."
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:hr.payslip,valor_total_dependente:0
+msgid "Valor total de dependentes"
+msgstr "Valor total de dependentes"
+
+#. module: l10n_br_hr_arquivos_governo
+#: field:l10n_br.hr.sefip,vara_jcj:0
+msgid "Vara/JCJ"
+msgstr "Vara/JCJ"
+
+#. module: l10n_br_hr_arquivos_governo
+#: view:hr.caged:l10n_br_hr_arquivos_governo.hr_caged_form_view
+#: view:hr.dirf:l10n_br_hr_arquivos_governo.hr_dirf_form_view
+#: view:l10n_br.hr.sefip:l10n_br_hr_arquivos_governo.hr_sefip_form_view
+msgid "Voltar para provisório"
+msgstr "Voltar para provisório"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/abstract_workflow.py:65
+#, python-format
+msgid "You cannot delete a record which is not draft or cancelled state!"
+msgstr "You cannot delete a record which is not draft or cancelled state!"
+
+#. module: l10n_br_hr_arquivos_governo
+#: selection:l10n_br.hr.sefip.attachments,type:0
+msgid "relatorio"
+msgstr "relatorio"
+
+#. module: l10n_br_hr_arquivos_governo
+#: code:addons/l10n_br_hr_arquivos_governo/models/l10n_br_hr_sefip.py:648
+#, python-format
+msgid "É necessário adicionar o relatório gerado pelo aplicativo na aba \"Arquivos Anexos\" para confirmar o envio"
+msgstr "É necessário adicionar o relatório gerado pelo aplicativo na aba \"Arquivos Anexos\" para confirmar o envio"
+
+#. module: l10n_br_hr_arquivos_governo
+#: help:l10n_br.hr.sefip,modalidade_arquivo:0
+msgid "• Pode ser:\n"
+"Branco – Recolhimento ao FGTS e Declaração à Previdência\n"
+"1 - Declaração ao FGTS e à Previdência\n"
+"9 - Confirmação Informações anteriores – Rec/Decl ao FGTS e Decl à Previdência\n"
+" • Para competência anterior a 10/1998 deve ser igual a branco ou 1.\n"
+" • A modalidade 9 não pode ser informada para competências anteriores a 10/1998.\n"
+" • Para os códigos 145, 307, 317, 327, 337, 345 e 640 deve ser igual a branco.\n"
+" • Para o código 211 deve ser igual a 1 ou 9.\n"
+" • Para o FPAS 868 deve igual a branco ou 9.\n"
+" • Para a competência 13, deve ser igual a 1 ou 9.\n"
+" • Serão acatadas até três cargas consecutivas de SEFIP.RE.\n"
+" • Deverá existir apenas um arquivo SEFIP.RE para cada modalidade."
+msgstr "• Pode ser:\n"
+"Branco – Recolhimento ao FGTS e Declaração à Previdência\n"
+"1 - Declaração ao FGTS e à Previdência\n"
+"9 - Confirmação Informações anteriores – Rec/Decl ao FGTS e Decl à Previdência\n"
+" • Para competência anterior a 10/1998 deve ser igual a branco ou 1.\n"
+" • A modalidade 9 não pode ser informada para competências anteriores a 10/1998.\n"
+" • Para os códigos 145, 307, 317, 327, 337, 345 e 640 deve ser igual a branco.\n"
+" • Para o código 211 deve ser igual a 1 ou 9.\n"
+" • Para o FPAS 868 deve igual a branco ou 9.\n"
+" • Para a competência 13, deve ser igual a 1 ou 9.\n"
+" • Serão acatadas até três cargas consecutivas de SEFIP.RE.\n"
+" • Deverá existir apenas um arquivo SEFIP.RE para cada modalidade."
+
