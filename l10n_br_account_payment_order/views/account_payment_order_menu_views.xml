@@ -17,8 +17,8 @@
         <field name="name">Debit Orders</field>
         <field name="res_model">account.payment.order</field>
         <field name="view_mode">tree,form,pivot,graph</field>
-        <field name="domain">[('payment_type', '=', 'inbound'),('operation_type', '=', '3')]</field>
-        <field name="context">{'default_payment_type': 'inbound','default_operation_type': '3'}</field>
+        <field name="domain">[('payment_type', '=', 'inbound'),('operation_type', '=', '2')]</field>
+        <field name="context">{'default_payment_type': 'inbound','default_operation_type': '2'}</field>
     </record>
 
 
