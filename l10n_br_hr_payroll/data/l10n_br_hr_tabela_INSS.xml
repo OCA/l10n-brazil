@@ -1,89 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2017 - KMEE
+     Copyright 2020 - Hendrix Costa ABGF
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
-    <data>
+    <data noupdate="1">
 
-        <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2017-->
-        <!--http://www.previdencia.gov.br/servicos-ao-cidadao/todos-os-servicos/gps/tabela-contribuicao-mensal/-->
+        <!--http://portal.esocial.gov.br/noticias/nota-tecnica-17-2019-disponivel-no-ambiente-de-testes-->
+        <record id="l10n_br_hr_payroll_INSS21_2020" model="l10n_br.hr.social.security.tax">
+            <field name="year">2020</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1045.00</field>
+            <field name="rate">7.5</field>
+            <field eval="'2020-03-01'" name="date_start"/>
+            <field eval="'2020-12-31'" name="date_stop"/>
+            <field name="calculo_progressivo" eval="True"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS22_2020" model="l10n_br.hr.social.security.tax">
+            <field name="year">2020</field>
+            <field name="min_wage">1045.01</field>
+            <field name="max_wage">2089.60</field>
+            <field name="rate">9</field>
+            <field eval="'2020-03-01'" name="date_start"/>
+            <field eval="'2020-12-31'" name="date_stop"/>
+            <field name="calculo_progressivo" eval="True"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS23_2020" model="l10n_br.hr.social.security.tax">
+            <field name="year">2020</field>
+            <field name="min_wage">2089.61</field>
+            <field name="max_wage">3134.40</field>
+            <field name="rate">12</field>
+            <field eval="'2020-03-01'" name="date_start"/>
+            <field eval="'2020-12-31'" name="date_stop"/>
+            <field name="calculo_progressivo" eval="True"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS24_2020" model="l10n_br.hr.social.security.tax">
+            <field name="year">2020</field>
+            <field name="min_wage">3134.41</field>
+            <field name="max_wage">6101.06</field>
+            <field name="rate">14</field>
+            <field eval="'2020-03-01'" name="date_start"/>
+            <field eval="'2020-12-31'" name="date_stop"/>
+            <field name="calculo_progressivo" eval="True"/>
+        </record>
+
+        <!--https://www.inss.gov.br/portaria-oficializa-reajuste-de-448-para-beneficios-do-inss-acima-do-minimo-em-2020/-->
+        <record id="l10n_br_hr_payroll_INSS1_2020" model="l10n_br.hr.social.security.tax">
+            <field name="year">2020</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1830.29</field>
+            <field name="rate">8</field>
+            <field eval="'2020-01-01'" name="date_start"/>
+            <field eval="'2020-02-29'" name="date_stop"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS2_2020" model="l10n_br.hr.social.security.tax">
+            <field name="year">2020</field>
+            <field name="min_wage">1830.30</field>
+            <field name="max_wage">3050.52</field>
+            <field name="rate">9</field>
+            <field eval="'2020-01-01'" name="date_start"/>
+            <field eval="'2020-02-29'" name="date_stop"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS3_2020" model="l10n_br.hr.social.security.tax">
+            <field name="year">2020</field>
+            <field name="min_wage">3050.53</field>
+            <field name="max_wage">6101.01</field>
+            <field name="rate">11</field>
+            <field eval="'2020-01-01'" name="date_start"/>
+            <field eval="'2020-02-29'" name="date_stop"/>
+        </record>
+
+        <!--https://www.inss.gov.br/servicos-do-inss/calculo-da-guia-da-previdencia-social-gps/tabela-de-contribuicao-mensal/-->
+        <record id="l10n_br_hr_payroll_INSS1_2019" model="l10n_br.hr.social.security.tax">
+            <field name="year">2019</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1751.81</field>
+            <field name="rate">8</field>
+            <field eval="'2019-01-01'" name="date_start"/>
+            <field eval="'2019-03-31'" name="date_stop"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS2_2019" model="l10n_br.hr.social.security.tax">
+            <field name="year">2019</field>
+            <field name="min_wage">1751.82</field>
+            <field name="max_wage">2919.72</field>
+            <field name="rate">9</field>
+            <field eval="'2019-01-01'" name="date_start"/>
+            <field eval="'2019-03-31'" name="date_stop"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS3_2019" model="l10n_br.hr.social.security.tax">
+            <field name="year">2019</field>
+            <field name="min_wage">2919.73</field>
+            <field name="max_wage">5839.45</field>
+            <field name="rate">11</field>
+            <field eval="'2019-01-01'" name="date_start"/>
+            <field eval="'2019-03-31'" name="date_stop"/>
+        </record>
+
+        <!--https://www.inss.gov.br/servicos-do-inss/calculo-da-guia-da-previdencia-social-gps/tabela-de-contribuicao-mensal/tabela-de-contribuicao-historico/-->
+        <record id="l10n_br_hr_payroll_INSS1_2018" model="l10n_br.hr.social.security.tax">
+            <field name="year">2018</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1693.72</field>
+            <field name="rate">8</field>
+            <field eval="'2018-01-01'" name="date_start"/>
+            <field eval="'2018-03-31'" name="date_stop"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS2_2018" model="l10n_br.hr.social.security.tax">
+            <field name="year">2018</field>
+            <field name="min_wage">1693.73</field>
+            <field name="max_wage">2822.90</field>
+            <field name="rate">9</field>
+            <field eval="'2018-01-01'" name="date_start"/>
+            <field eval="'2018-03-31'" name="date_stop"/>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS3_2018" model="l10n_br.hr.social.security.tax">
+            <field name="year">2018</field>
+            <field name="min_wage">2822.91</field>
+            <field name="max_wage">5645.80</field>
+            <field name="rate">11</field>
+            <field eval="'2018-01-01'" name="date_start"/>
+            <field eval="'2018-03-31'" name="date_stop"/>
+        </record>
+
         <record id="l10n_br_hr_payroll_INSS1_2017" model="l10n_br.hr.social.security.tax">
             <field name="year">2017</field>
             <field name="min_wage">0</field>
             <field name="max_wage">1659.38</field>
             <field name="rate">8</field>
+            <field eval="'2017-01-01'" name="date_start"/>
+            <field eval="'2017-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS2_2017" model="l10n_br.hr.social.security.tax">
             <field name="year">2017</field>
             <field name="min_wage">1659.39</field>
             <field name="max_wage">2765.66</field>
             <field name="rate">9</field>
+            <field eval="'2017-01-01'" name="date_start"/>
+            <field eval="'2017-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS3_2017" model="l10n_br.hr.social.security.tax">
             <field name="year">2017</field>
             <field name="min_wage">2765.67</field>
             <field name="max_wage">5531.31</field>
             <field name="rate">11</field>
+            <field eval="'2017-01-01'" name="date_start"/>
+            <field eval="'2017-03-31'" name="date_stop"/>
         </record>
 
-        <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2016-->
         <record id="l10n_br_hr_payroll_INSS1_2016" model="l10n_br.hr.social.security.tax">
             <field name="year">2016</field>
             <field name="min_wage">0</field>
             <field name="max_wage">1556.94</field>
             <field name="rate">8</field>
+            <field eval="'2016-01-01'" name="date_start"/>
+            <field eval="'2016-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS2_2016" model="l10n_br.hr.social.security.tax">
             <field name="year">2016</field>
             <field name="min_wage">1556.95</field>
             <field name="max_wage">2594.92</field>
             <field name="rate">9</field>
+            <field eval="'2016-01-01'" name="date_start"/>
+            <field eval="'2016-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS3_2016" model="l10n_br.hr.social.security.tax">
             <field name="year">2016</field>
             <field name="min_wage">2594.93</field>
             <field name="max_wage">5189.82</field>
             <field name="rate">11</field>
+            <field eval="'2016-01-01'" name="date_start"/>
+            <field eval="'2016-03-31'" name="date_stop"/>
         </record>
 
-        <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2015-->
         <record id="l10n_br_hr_payroll_INSS1_2015" model="l10n_br.hr.social.security.tax">
             <field name="year">2015</field>
             <field name="min_wage">0</field>
             <field name="max_wage">1399.12</field>
             <field name="rate">8</field>
+            <field eval="'2015-01-01'" name="date_start"/>
+            <field eval="'2015-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS2_2015" model="l10n_br.hr.social.security.tax">
             <field name="year">2015</field>
             <field name="min_wage">1399.13</field>
             <field name="max_wage">2331.88</field>
             <field name="rate">9</field>
+            <field eval="'2015-01-01'" name="date_start"/>
+            <field eval="'2015-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS3_2015" model="l10n_br.hr.social.security.tax">
             <field name="year">2015</field>
             <field name="min_wage">2331.89</field>
             <field name="max_wage">4663.75</field>
             <field name="rate">11</field>
+            <field eval="'2015-01-01'" name="date_start"/>
+            <field eval="'2015-03-31'" name="date_stop"/>
         </record>
 
-       <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2014-->
         <record id="l10n_br_hr_payroll_INSS1_2014" model="l10n_br.hr.social.security.tax">
             <field name="year">2014</field>
             <field name="min_wage">0</field>
             <field name="max_wage">1317.07</field>
             <field name="rate">8</field>
+            <field eval="'2014-01-01'" name="date_start"/>
+            <field eval="'2014-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS2_2014" model="l10n_br.hr.social.security.tax">
             <field name="year">2014</field>
             <field name="min_wage">1317.08</field>
             <field name="max_wage">2195.12</field>
             <field name="rate">9</field>
+            <field eval="'2014-01-01'" name="date_start"/>
+            <field eval="'2014-03-31'" name="date_stop"/>
         </record>
         <record id="l10n_br_hr_payroll_INSS3_2014" model="l10n_br.hr.social.security.tax">
             <field name="year">2014</field>
             <field name="min_wage">2195.13</field>
             <field name="max_wage">4390.24</field>
             <field name="rate">11</field>
+            <field eval="'2014-01-01'" name="date_start"/>
+            <field eval="'2014-03-31'" name="date_stop"/>
         </record>
 
     </data>

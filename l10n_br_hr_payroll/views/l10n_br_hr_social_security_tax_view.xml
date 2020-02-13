@@ -8,12 +8,13 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Social Security Tax Table">
-                    <field name="start_period_id" />
-                    <field name="end_period_id" />
+                    <field name="date_start" />
+                    <field name="date_stop" />
                     <field name="year" />
                     <field name="min_wage"/>
                     <field name="max_wage"/>
                     <field name="rate"/>
+                    <field name="calculo_progressivo" />
                 </tree>
             </field>
         </record>
@@ -23,19 +24,27 @@
             <field name="model">l10n_br.hr.social.security.tax</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form>
-                    <group col="4" colspan="4">
-                        <field name="year" required="1" />
-                        <newline/>
-                        <field name="start_period_id"  options="{'no_create': True, 'no_open': True}"/>
-                        <newline/>
-                        <field name="end_period_id" options="{'no_create': True, 'no_open': True}" />
-                        <newline/>
-                        <field name="min_wage" required="1"/>
-                        <newline/>
-                        <field name="max_wage" required="1"/>
-                        <newline/>
-                        <field name="rate" required="1"/>
+                <form >
+                    <group col="4" colspan="4" string="Tabela do INSS">
+
+                        <group col="4" colspan="4" string="Período">
+                            <field name="year" required="1" />
+                        </group>
+
+                        <group col="4" colspan="4" >
+                            <field name="date_start"  required="1"/>
+                            <field name="date_stop" required="1"/>
+                        </group>
+
+                        <group col="4" colspan="4" string="Faixa Salarial">
+                            <field name="min_wage" required="1" string="De:"/>
+                            <field name="max_wage" required="1" string="Até:"/>
+                        </group>
+
+                        <group colspan="4" col="4" string="Configuração">
+                            <field name="rate" required="1" colspan="4"  /><span>%</span>
+                            <field name="calculo_progressivo" colspan="4" />
+                        </group>
                     </group>
                 </form>
             </field>
@@ -48,8 +57,8 @@
             <field name="arch" type="xml">
                 <search string="Social Security Tax Table">
                     <field name="year"/>
-                    <field name="start_period_id" />
-                    <field name="end_period_id" />
+                    <field name="date_start" />
+                    <field name="date_stop" />
                     <field name="min_wage" />
                     <field name="max_wage" />
                     <field name="rate" />
@@ -58,7 +67,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="l10n_br_hr_social_security_tax_action">
-            <field name="name">Taxa de Seguridade Social</field>
+            <field name="name">Tabela INSS</field>
             <field name="res_model">l10n_br.hr.social.security.tax</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="l10n_br_hr_social_security_tax_tree"/>
