@@ -24,10 +24,10 @@ from . import tax_pis_cofins_credit
 from . import ncm_tax_pis_cofins
 from . import tax_ipi_guideline
 from . import tax_estimate
-from . import tax_definition_abstract
+from . import tax_definition
 from . import tax_definition_company
 from . import tax_definition_cfop
-from . import tax_icms
+from . import icms_regulation
 from . import document_type
 from . import document_serie
 from . import payment
