@@ -2,7 +2,6 @@
 "tax_group_icms","ICMS","icms",True
 "tax_group_icmssn","ICMS - Simples Nacional","icmssn",True
 "tax_group_icmsst","ICMS ST","icmsst",False
-"tax_group_icmsdifal","ICMS Difal","icmsdifal",False
 "tax_group_icmsfcp","ICMS FCP","icmsfcp",True
 "tax_group_pis","PIS","pis",True
 "tax_group_pisst","PIS ST","pisst",True
