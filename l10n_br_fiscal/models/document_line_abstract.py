@@ -42,17 +42,6 @@ class DocumentLineAbstract(models.AbstractModel):
                              self.other_costs_value + self.freight_value +
                              - self.discount)
 
-    # TODO REMOVE
-    @api.model
-    def default_get(self, fields):
-        defaults = super(DocumentLineAbstract, self).default_get(fields)
-        if self.env.context.get("default_company_id"):
-            company_id = self.env.context.get("default_company_id")
-            operation_type = self.env.context.get("default_operation_type")
-            # taxes_dict = self._set_default_taxes(company_id, operation_type)
-            # defaults.update(taxes_dict)
-        return defaults
-
     @api.model
     def _get_default_ncm_id(self):
         fiscal_type = self.env.context.get("default_fiscal_type")
@@ -74,8 +63,7 @@ class DocumentLineAbstract(models.AbstractModel):
         comodel_name="res.company",
         related="document_id.company_id",
         store=True,
-        string="Company",
-    )
+        string="Company")
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
@@ -83,20 +71,26 @@ class DocumentLineAbstract(models.AbstractModel):
         string="Tax Framework")
 
     partner_id = fields.Many2one(
-        comodel_name="res.partner", related="document_id.partner_id", string="Partner"
-    )
+        comodel_name="res.partner",
+        related="document_id.partner_id",
+        string="Partner")
 
     currency_id = fields.Many2one(
-        comodel_name="res.currency", related="company_id.currency_id", string="Currency"
-    )
+        comodel_name="res.currency",
+        related="company_id.currency_id",
+        string="Currency")
 
-    product_id = fields.Many2one(comodel_name="product.product", string="Product")
+    product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Product")
 
-    uom_id = fields.Many2one(comodel_name="uom.uom", string="UOM")
+    uom_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="UOM")
 
     quantity = fields.Float(
-        string="Quantity", digits=dp.get_precision("Product Unit of Measure")
-    )
+        string="Quantity",
+        digits=dp.get_precision("Product Unit of Measure"))
 
     price = fields.Float(string="Price Unit", digits=dp.get_precision("Product Price"))
 
@@ -244,22 +238,6 @@ class DocumentLineAbstract(models.AbstractModel):
             self.uot_id = self.product_id.uot_id or self.product_id.uom_id
 
         self._onchange_operation_id()
-
-    @api.onchange("operation_id")
-    def _onchange_operation_id(self):
-
-        super(DocumentLineAbstract, self)._onchange_operation_id()
-
-        if not self.operation_id:
-            self.operation_id = self.document_id.operation_id
-
-            if self.operation_line_id:
-                if self.partner_id.state_id == self.company_id.state_id:
-                    self.cfop_id = self.operation_line_id.cfop_internal_id
-                elif self.partner_id.state_id != self.company_id.state_id:
-                    self.cfop_id = self.operation_line_id.cfop_external_id
-                elif self.partner_id.country_id != self.company_id.country_id:
-                    self.cfop_id = self.operation_line_id.cfop_export_id
 
     @api.onchange("uot_id", "uom_id", "price", "quantity")
     def _onchange_commercial_quantity(self):
