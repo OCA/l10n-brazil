@@ -151,6 +151,7 @@ FISCAL_IN_OUT = (("in", "In"), ("out", "Out"))
 
 FISCAL_IN_OUT_ALL = (("in", "In"), ("out", "Out"), ("all", "All"))
 
+
 FISCAL_IN = "in"
 
 
