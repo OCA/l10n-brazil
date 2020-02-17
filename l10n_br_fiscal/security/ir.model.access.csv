@@ -10,10 +10,8 @@
 "l10n_br_fiscal_cst_maintenance","Fiscal CST for Maintenance","model_l10n_br_fiscal_cst","l10n_br_fiscal.group_data_maintenance",1,1,1,1
 "l10n_br_fiscal_tax_group_user","Fiscal Tax Group for User","model_l10n_br_fiscal_tax_group","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_group_manager","Fiscal Tax Group for Manager","model_l10n_br_fiscal_tax_group","l10n_br_fiscal.group_manager",1,1,1,1
-"l10n_br_fiscal_tax_icms_regulation_user","Fiscal Tax ICMS Regulation for User","model_l10n_br_fiscal_tax_icms_regulation","l10n_br_fiscal.group_user",1,0,0,0
-"l10n_br_fiscal_tax_icms_regulation_manager","Fiscal Tax ICMS Regulation for Manager","model_l10n_br_fiscal_tax_icms_regulation","l10n_br_fiscal.group_manager",1,1,1,1
-"l10n_br_fiscal_tax_icms_user","Fiscal Tax ICMS for User","model_l10n_br_fiscal_tax_icms","l10n_br_fiscal.group_user",1,0,0,0
-"l10n_br_fiscal_tax_icms_manager","Fiscal Tax ICMS for Manager","model_l10n_br_fiscal_tax_icms","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_icms_regulation_user","Fiscal Tax ICMS Regulation for User","model_l10n_br_fiscal_icms_regulation","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_icms_regulation_manager","Fiscal Tax ICMS Regulation for Manager","model_l10n_br_fiscal_icms_regulation","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_user","Fiscal Tax for User","model_l10n_br_fiscal_tax","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_manager","Fiscal Tax for Manager","model_l10n_br_fiscal_tax","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_estimate_user","Fiscal Tax Estimate for User","model_l10n_br_fiscal_tax_estimate","l10n_br_fiscal.group_user",1,0,0,0
@@ -61,8 +59,8 @@
 "l10n_br_fiscal_document_line_manager","Fiscal Document Line for Manager","model_l10n_br_fiscal_document_line","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_comment_user","Comment for User","model_l10n_br_fiscal_comment","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_comment_manager","Comment for Manager","model_l10n_br_fiscal_comment","l10n_br_fiscal.group_manager",1,1,1,1
-"l10n_br_fiscal_tax_definition_cfop_user","Tax Definition CFOP for User","model_l10n_br_fiscal_tax_definition_cfop","l10n_br_fiscal.group_user",1,0,0,0
-"l10n_br_fiscal_tax_definition_cfop_manager","Tax Definition CFOP for Manager","model_l10n_br_fiscal_tax_definition_cfop","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_tax_definition_user","Tax Definition for User","model_l10n_br_fiscal_tax_definition","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_tax_definition_manager","Tax Definition for Manager","model_l10n_br_fiscal_tax_definition","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_pis_cofins_user","Tax PIS COFINS for User","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_pis_cofins_manager","Tax PIS COFINS for Manager","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_tax_pis_cofins_maintenance","Tax PIS COFINS for Maintenance","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_data_maintenance",1,1,1,1
@@ -72,8 +70,6 @@
 "l10n_br_fiscal_tax_pis_cofins_credit_user","Tax PIS COFINS Credit for User","model_l10n_br_fiscal_tax_pis_cofins_credit","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_pis_cofins_credit_manager","Tax PIS COFINS Credit for Manager","model_l10n_br_fiscal_tax_pis_cofins_credit","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_tax_pis_cofins_credit_maintenance","Tax PIS COFINS Credit for Maintenance","model_l10n_br_fiscal_tax_pis_cofins_credit","l10n_br_fiscal.group_data_maintenance",1,1,1,1
-"l10n_br_fiscal_tax_definition_company_user","Tax Definition Company for User","model_l10n_br_fiscal_tax_definition_company","l10n_br_fiscal.group_user",1,0,0,0
-"l10n_br_fiscal_tax_definition_company_manager","Tax Definition Company for Manager","model_l10n_br_fiscal_tax_definition_company","l10n_br_fiscal.group_manager",1,1,1,1
 "uom_alternative_user","UOM alternative for User","model_uom_uom_alternative","l10n_br_fiscal.group_user",1,0,0,0
 "uom_alternative_manager","UOM alternative for Manager","model_uom_uom_alternative","l10n_br_fiscal.group_manager",1,0,0,0
 "uom_alternative_maintenance","UOM alternative for Maintenance","model_uom_uom_alternative","l10n_br_fiscal.group_data_maintenance",1,1,1,1
