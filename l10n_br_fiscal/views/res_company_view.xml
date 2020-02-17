@@ -56,6 +56,7 @@
                                   </group>
                                   <group name="icms_taxes" string="ICMS">
                                       <field name="tax_icms_id" attrs="{'invisible': [('tax_framework', '=', '3')], 'required': [('tax_framework', 'in', ('1', '2'))]}" domain="{'3': [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icms)d)]}.get(tax_framework, [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icmssn)d)])"/>
+                                      <field name="icms_regulation_id" attrs="{'invisible': [('tax_framework', '!=', '3')], 'required': [('tax_framework', '=', '3')]}"/>
                                   </group>
                                   <group name="issqn_taxes" string="ISSQN">
                                       <field name="tax_issqn_id"/>

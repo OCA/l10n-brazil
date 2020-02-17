@@ -975,7 +975,7 @@ class ICMSRegulation(models.Model):
     def fields_view_get(self, view_id=None, view_type='form',
                         toolbar=False, submenu=False):
 
-        view_super = super(TaxICMSRegulation, self).fields_view_get(
+        view_super = super(ICMSRegulation, self).fields_view_get(
             view_id, view_type, toolbar, submenu)
 
         if view_type == 'form':
@@ -1025,7 +1025,7 @@ class ICMSRegulation(models.Model):
         self.ensure_one()
 
         tax_definitions = self.env['l10n_br_fiscal.tax.definition'].search([
-            ('icms_regulation_id', '=', 8),
+            ('icms_regulation_id', '=', self.id),
             ('state_from_id', '=', company.state_id.id),
             ('state_to_id', '=', partner.state_id.id)])
 
