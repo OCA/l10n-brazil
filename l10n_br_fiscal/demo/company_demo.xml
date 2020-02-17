@@ -10,23 +10,22 @@
     </record>
 
     <!-- Sua Empresa -->
-
     <record id="base.main_company" model="res.company">
         <field name="cnpj_cpf">97.231.608/0001-69</field>
         <field name='country_id' ref='base.br'/>
         <field name='state_id' ref='base.state_br_sp'/>
         <field name="inscr_est">454.504.604.553</field>
         <field name="currency_id" ref="base.BRL"/>
+        <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200"/>
         <field name="tax_framework">3</field>
         <field name="profit_calculation">presumed</field>
         <field name="is_industry" eval="True"/>
         <field name="ripi" eval="True"/>
+        <field name="icms_regulation_id" ref="tax_icms_regulation"/>
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo"/>
-        <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200"/>
     </record>
 
     <!-- Empresa Simples Nacional -->
-
     <record id="simples_nacional_partner" model="res.partner">
         <field name="name">TESTE - Simples Nacional</field>
         <field name="company_name">TESTE - Simples Nacional</field>
