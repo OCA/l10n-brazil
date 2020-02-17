@@ -9,7 +9,8 @@ from ..constants.fiscal import (
     FISCAL_IN_OUT, TAX_FRAMEWORK,
    TAX_BASE_TYPE, TAX_BASE_TYPE_PERCENT,
    TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN, TAX_DOMAIN_IPI, TAX_DOMAIN_II,
-   TAX_DOMAIN_PIS, TAX_DOMAIN_PIS_ST, TAX_DOMAIN_COFINS, TAX_DOMAIN_COFINS_ST
+   TAX_DOMAIN_PIS, TAX_DOMAIN_PIS_ST, TAX_DOMAIN_COFINS, TAX_DOMAIN_COFINS_ST,
+   CFOP_DESTINATION
 )
 
 
@@ -53,6 +54,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP",
         domain="[('type_in_out', '=', operation_type)]")
+
+    cfop_destination = fields.Selection(
+        selection=CFOP_DESTINATION,
+        related="cfop_id.destination",
+        string="CFOP Destination")
 
     fiscal_quantity = fields.Float(
         string="Fiscal Quantity",
@@ -106,10 +112,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     icmssn_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CSOSN",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'icmssn')]",
-    )
+        domain="[('cst_type', '=', operation_type),"
+               "('tax_domain', '=', 'icmssn')]")
 
-    icmssn_credit_value = fields.Monetary(string="ICMS SN Credit")
+    icmssn_credit_value = fields.Monetary(
+        string="ICMS SN Credit")
 
     # IPI Fields
     ipi_tax_id = fields.Many2one(
