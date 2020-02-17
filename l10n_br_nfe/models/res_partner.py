@@ -53,7 +53,7 @@ class ResPartner(spec_models.SpecModel):
     nfe40_cPais = fields.Char(related='country_id.ibge_code')
     nfe40_xPais = fields.Char(related='country_id.name')
     nfe40_fone = fields.Char(
-        compute='_compute_nfe_phone',
+        compute='_compute_nfe_data',
         nverse='_inverse_nfe40_phone'
     )  # TODO or mobile?
 
