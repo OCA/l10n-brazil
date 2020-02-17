@@ -336,7 +336,7 @@ class AccountInvoice(models.Model):
                     response = boleto.post(token, itau_key, barcode_endpoint)
                     if response and response.ok:
                         # Remove Invoice from debit.orders
-                        record._remove_payment_order_line(_raise=False)
+                        # record._remove_payment_order_line(_raise=False)
 
                         # Create new Debit Order for payment_order_line
                         try:
