@@ -1,0 +1,914 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_ressarcimento
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-17 13:43+0000\n"
+"PO-Revision-Date: 2020-02-17 13:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_confirmado_provisao
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <br/><p>Informamos a disponibilização no SAB dos valores a serem ressarcidos do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme valores abaixo: </p><br/>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''}  </strong></p>\n"
+"                    <p>Valor total do Ressarcimento (provisionado): <strong> R$ ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p>Enviado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <br/><p>Informamos a disponibilização no SAB dos valores a serem ressarcidos do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme valores abaixo: </p><br/>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''}  </strong></p>\n"
+"                    <p>Valor total do Ressarcimento (provisionado): <strong> R$ ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p>Enviado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_confirmado
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <br/><p>Informamos a disponibilização no SAB dos valores a serem ressarcidos do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme valores abaixo: </p><br/>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data do Ressarcimento: <strong>${object.date_ressarcimento.split('-')[2]+'/'+object.date_ressarcimento.split('-')[1]+'/'+object.date_ressarcimento.split('-')[0] or ''}</strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> R$ ${\"%.2f\" % object.total} </strong></p>\n"
+"                    <p>Enviado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"            %if object.date_provisao:\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p><strong> PROVISIONAMENTO: </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name} </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''} </strong></p>\n"
+"                    <p>Valor total do Ressarcimento provisionado: <strong> R$ ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p></p>\n"
+"                </p>\n"
+"                <table width=\"50%\" border=\"1\">\n"
+"                    <tr>\n"
+"                        <th colspan=\"2\">Detalhamento do Ressarcimento (provisionado)</th>\n"
+"                    </tr>\n"
+"                    <tr>\n"
+"                        <th>Descrição</th>\n"
+"                        <th>Valor</th>\n"
+"                    </tr>\n"
+"                    % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                        <tr style=\"font-weight:bold;\" >\n"
+"                            <td>${line.hr_salary_rule_id.name}</td>\n"
+"                            <td>${\"%.2f\" % line.total}</td>\n"
+"                        </tr>\n"
+"                    % endfor\n"
+"                </table>\n"
+"            %endif\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <br/><p>Informamos a disponibilização no SAB dos valores a serem ressarcidos do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme valores abaixo: </p><br/>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data do Ressarcimento: <strong>${object.date_ressarcimento.split('-')[2]+'/'+object.date_ressarcimento.split('-')[1]+'/'+object.date_ressarcimento.split('-')[0] or ''}</strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> R$ ${\"%.2f\" % object.total} </strong></p>\n"
+"                    <p>Enviado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"            %if object.date_provisao:\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p><strong> PROVISIONAMENTO: </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name} </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''} </strong></p>\n"
+"                    <p>Valor total do Ressarcimento provisionado: <strong> R$ ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p></p>\n"
+"                </p>\n"
+"                <table width=\"50%\" border=\"1\">\n"
+"                    <tr>\n"
+"                        <th colspan=\"2\">Detalhamento do Ressarcimento (provisionado)</th>\n"
+"                    </tr>\n"
+"                    <tr>\n"
+"                        <th>Descrição</th>\n"
+"                        <th>Valor</th>\n"
+"                    </tr>\n"
+"                    % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                        <tr style=\"font-weight:bold;\" >\n"
+"                            <td>${line.hr_salary_rule_id.name}</td>\n"
+"                            <td>${\"%.2f\" % line.total}</td>\n"
+"                        </tr>\n"
+"                    % endfor\n"
+"                </table>\n"
+"            %endif\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_alertp
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Data limite para cadastro de ressarcimento</strong></p>\n"
+"                <p>Informamos que existe valor provisionado, mas não consta os valores, data e protocolo do ressarcimento para o contrato abaixo.</p>\n"
+"                <p>Competência: <strong> ${object.account_period} </strong> </p>\n"
+"                <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"            </div>\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Data limite para cadastro de ressarcimento</strong></p>\n"
+"                <p>Informamos que existe valor provisionado, mas não consta os valores, data e protocolo do ressarcimento para o contrato abaixo.</p>\n"
+"                <p>Competência: <strong> ${object.account_period} </strong> </p>\n"
+"                <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"            </div>\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_alert
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Data limite para cadastro de ressarcimento</strong></p>\n"
+"                <p>Informamos que o contrato abaixo esta fora do prazo definido.</p>\n"
+"                <p>Competência: <strong> ${object.account_period} </strong> </p>\n"
+"                <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"            </div>\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Data limite para cadastro de ressarcimento</strong></p>\n"
+"                <p>Informamos que o contrato abaixo esta fora do prazo definido.</p>\n"
+"                <p>Competência: <strong> ${object.account_period} </strong> </p>\n"
+"                <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"            </div>\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_reprovadop
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Provisão do ressarcimento de contrato Reprovado.</strong></p>\n"
+"                <p>Informamos a não aprovação dos valores a serem provisionado referente ao ressarcimento do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme indicado abaixo:</p>\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Reprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Provisão do ressarcimento de contrato Reprovado.</strong></p>\n"
+"                <p>Informamos a não aprovação dos valores a serem provisionado referente ao ressarcimento do funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme indicado abaixo:</p>\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Reprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_reprovado
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Ressarcimento de contrato Reprovado.</strong></p>\n"
+"                <p>Informamos a não aprovação dos valores a serem ressarcido referente ao funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme indicado abaixo:</p>\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência da provisão: <strong> ${object.account_period_id.name or object.account_period_id.name}  </strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> ${\"%.2f\" % object.total} </strong></p>\n"
+"                    <p>Reprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p><strong>Ressarcimento de contrato Reprovado.</strong></p>\n"
+"                <p>Informamos a não aprovação dos valores a serem ressarcido referente ao funcionário cedido, <strong>${object.contract_id.display_name}</strong> conforme indicado abaixo:</p>\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência da provisão: <strong> ${object.account_period_id.name or object.account_period_id.name}  </strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> ${\"%.2f\" % object.total} </strong></p>\n"
+"                    <p>Reprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_aprovadop
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p>Ressarcimento de contrato Aprovado!</p>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''}  </strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p>Aprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p>Ressarcimento de contrato Aprovado!</p>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''}  </strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p>Aprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,body_html:l10n_br_ressarcimento.email_template_contract_ressarcimento_aprovado
+msgid "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p>Ressarcimento de contrato Aprovado!</p>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data do Ressarcimento: <strong>${object.date_ressarcimento.split('-')[2]+'/'+object.date_ressarcimento.split('-')[1]+'/'+object.date_ressarcimento.split('-')[0] or ''}</strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> ${\"%.2f\" % object.total} </strong></p>\n"
+"                    <p>Aprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"\n"
+"            %if object.date_provisao:\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p><strong> PROVISIONAMENTO: </strong></p>\n"
+"                    <p>Competência da provisão: <strong> ${object.account_period_id.name} </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''} </strong></p>\n"
+"                    <p>Valor total do Ressarcimento provisionado: <strong> R$ ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p></p>\n"
+"                </p>\n"
+"                <table width=\"50%\" border=\"1\">\n"
+"                    <tr>\n"
+"                        <th colspan=\"2\">Detalhamento do Ressarcimento (provisionado)</th>\n"
+"                    </tr>\n"
+"                    <tr>\n"
+"                        <th>Descrição</th>\n"
+"                        <th>Valor</th>\n"
+"                    </tr>\n"
+"                    % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                        <tr style=\"font-weight:bold;\" >\n"
+"                            <td>${line.hr_salary_rule_id.name}</td>\n"
+"                            <td>${\"%.2f\" % line.total}</td>\n"
+"                        </tr>\n"
+"                    % endfor\n"
+"                </table>\n"
+"            %endif\n"
+"            "
+msgstr "\n"
+"            <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 15px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"                <p>Ressarcimento de contrato Aprovado!</p>\n"
+"\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p>Contrato: <strong> ${object.contract_id.display_name} </strong></p>\n"
+"                    <p>Competência: <strong> ${object.account_period_id.name}  </strong></p>\n"
+"                    <p>Data do Ressarcimento: <strong>${object.date_ressarcimento.split('-')[2]+'/'+object.date_ressarcimento.split('-')[1]+'/'+object.date_ressarcimento.split('-')[0] or ''}</strong></p>\n"
+"                    <p>Valor total do Ressarcimento: <strong> ${\"%.2f\" % object.total} </strong></p>\n"
+"                    <p>Aprovado por: <strong> ${object.env.user.name} </strong></p>\n"
+"                </p>\n"
+"            </div>\n"
+"            <table width=\"50%\" border=\"1\">\n"
+"                <tr>\n"
+"                    <th colspan=\"2\">Detalhamento do Ressarcimento</th>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <th>Descrição</th>\n"
+"                    <th>Valor</th>\n"
+"                </tr>\n"
+"                % for line in object.contract_ressarcimento_line_ids:\n"
+"                    <tr style=\"font-weight:bold;\" >\n"
+"                        <td>${line.hr_salary_rule_id.name}</td>\n"
+"                        <td>${\"%.2f\" % line.total}</td>\n"
+"                    </tr>\n"
+"                % endfor\n"
+"            </table>\n"
+"\n"
+"            %if object.date_provisao:\n"
+"                <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
+"                    <p><strong> PROVISIONAMENTO: </strong></p>\n"
+"                    <p>Competência da provisão: <strong> ${object.account_period_id.name} </strong></p>\n"
+"                    <p>Data da provisão: <strong> ${object.date_provisao.split('-')[2]+'/'+object.date_provisao.split('-')[1]+'/'+object.date_provisao.split('-')[0] or ''} </strong></p>\n"
+"                    <p>Valor total do Ressarcimento provisionado: <strong> R$ ${\"%.2f\" % object.total_provisionado} </strong></p>\n"
+"                    <p></p>\n"
+"                </p>\n"
+"                <table width=\"50%\" border=\"1\">\n"
+"                    <tr>\n"
+"                        <th colspan=\"2\">Detalhamento do Ressarcimento (provisionado)</th>\n"
+"                    </tr>\n"
+"                    <tr>\n"
+"                        <th>Descrição</th>\n"
+"                        <th>Valor</th>\n"
+"                    </tr>\n"
+"                    % for line in object.contract_ressarcimento_provisionado_line_ids:\n"
+"                        <tr style=\"font-weight:bold;\" >\n"
+"                            <td>${line.hr_salary_rule_id.name}</td>\n"
+"                            <td>${\"%.2f\" % line.total}</td>\n"
+"                        </tr>\n"
+"                    % endfor\n"
+"                </table>\n"
+"            %endif\n"
+"            "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_alert
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_alertp
+msgid "  SAB Alerta - Ressarcimento(s) fora do prazo ${object.contract_id.display_name} - ${object.account_period} "
+msgstr "  SAB Alerta - Ressarcimento(s) fora do prazo ${object.contract_id.display_name} - ${object.account_period} "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_confirmado
+msgid " Ressarcimento ${object.contract_id.name} - competência ${object.account_period_id.name} "
+msgstr " Ressarcimento ${object.contract_id.name} - competência ${object.account_period_id.name} "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_confirmado_provisao
+msgid " Ressarcimento ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} "
+msgstr " Ressarcimento ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_reprovadop
+msgid " Ressarcimento do Contrato ${object.contract_id.name} (provisão) - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado "
+msgstr " Ressarcimento do Contrato ${object.contract_id.name} (provisão) - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_reprovado
+msgid " Ressarcimento do Contrato ${object.contract_id.name} - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado "
+msgstr " Ressarcimento do Contrato ${object.contract_id.name} - competência ${object.account_period_id.name or object.account_period_id.name} - Reprovado "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_aprovadop
+msgid " Ressarcimento do Contrato ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} - Aprovado "
+msgstr " Ressarcimento do Contrato ${object.contract_id.name} - competência (provisão) ${object.account_period_id.name} - Aprovado "
+
+#. module: l10n_br_ressarcimento
+#: model:email.template,subject:l10n_br_ressarcimento.email_template_contract_ressarcimento_aprovado
+msgid " Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name} "
+msgstr " Ressarcimento do Contrato ${object.contract_id.name} competência ${object.account_period_id.name} "
+
+#. module: l10n_br_ressarcimento
+#: selection:contract.ressarcimento,state:0
+msgid "Aberto"
+msgstr "Aberto"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.config.line,account_period:0
+msgid "Account period"
+msgstr "Account period"
+
+#. module: l10n_br_ressarcimento
+#: selection:contract.ressarcimento,state:0
+msgid "Aguardando aprovação"
+msgstr "Aguardando aprovação"
+
+#. module: l10n_br_ressarcimento
+#: selection:contract.ressarcimento,state:0
+msgid "Aguardando aprovação provisão"
+msgstr "Aguardando aprovação provisão"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento.config:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_config_form_view
+msgid "Alertas via e-mail"
+msgstr "Alertas via e-mail"
+
+#. module: l10n_br_ressarcimento
+#: selection:contract.ressarcimento,state:0
+msgid "Aprovado"
+msgstr "Aprovado"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,aprovado_por:0
+msgid "Aprovado por"
+msgstr "Aprovado por"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Aprovar e Enviar email"
+msgstr "Aprovar e Enviar email"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_structure_search
+msgid "Buscar por:"
+msgstr "Buscar por:"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_structure_search
+#: field:contract.ressarcimento,account_period_id:0
+msgid "Competência"
+msgstr "Competência"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.config.line,contract_ressarcimento_config_id:0
+msgid "Configuração Ressarcimento"
+msgstr "Configuração Ressarcimento"
+
+#. module: l10n_br_ressarcimento
+#: model:ir.ui.menu,name:l10n_br_ressarcimento.menu_hr_contract_ressarcimento_config
+msgid "Configurações"
+msgstr "Configurações"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento.config:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_config_form_view
+msgid "Configurações de Ressarcimento"
+msgstr "Configurações de Ressarcimento"
+
+#. module: l10n_br_ressarcimento
+#: model:ir.model,name:l10n_br_ressarcimento.model_contract_ressarcimento_config
+msgid "Configurações do Ressarcimento de Contrato"
+msgstr "Configurações do Ressarcimento de Contrato"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+#: model:ir.model,name:l10n_br_ressarcimento.model_hr_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_structure_search
+#: field:contract.ressarcimento,contract_id:0
+#: field:contract.ressarcimento,default_contract_id:0
+#: field:contract.ressarcimento.config.line,contract_id:0
+msgid "Contrato"
+msgstr "Contrato"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento.config:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_config_form_view
+msgid "Contratos Monitorados"
+msgstr "Contratos Monitorados"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento.config:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_config_form_view
+msgid "Contratos e data limite"
+msgstr "Contratos e data limite"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,create_uid:0
+#: field:contract.ressarcimento.config,create_uid:0
+#: field:contract.ressarcimento.config.line,create_uid:0
+#: field:contract.ressarcimento.line,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,create_date:0
+#: field:contract.ressarcimento.config,create_date:0
+#: field:contract.ressarcimento.config.line,create_date:0
+#: field:contract.ressarcimento.line,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,date_provisao:0
+msgid "Data da Provisão"
+msgstr "Data da Provisão"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,date_ressarcimento:0
+msgid "Data do Ressarcimento"
+msgstr "Data do Ressarcimento"
+
+#. module: l10n_br_ressarcimento
+#: help:contract.ressarcimento,message_last_post:0
+#: help:contract.ressarcimento.config.line,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date of the last message posted on the record."
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.line,descricao:0
+msgid "Descrição"
+msgstr "Descrição"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.config.line,dia_limite:0
+msgid "Dia limite"
+msgstr "Dia limite"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.config,dias_apos_provisao:0
+msgid "Dias após provisão"
+msgstr "Dias após provisão"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,display_name:0
+#: field:contract.ressarcimento.config,display_name:0
+#: field:contract.ressarcimento.config.line,display_name:0
+#: field:contract.ressarcimento.line,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: l10n_br_ressarcimento
+#: model:ir.model,name:l10n_br_ressarcimento.model_contract_ressarcimento_config_line
+msgid "Email Thread"
+msgstr "Tópico do E-mail"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,message_follower_ids:0
+#: field:contract.ressarcimento.config.line,message_follower_ids:0
+msgid "Followers"
+msgstr "Followers"
+
+#. module: l10n_br_ressarcimento
+#: help:contract.ressarcimento,message_summary:0
+#: help:contract.ressarcimento.config.line,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,id:0
+#: field:contract.ressarcimento.config,id:0
+#: field:contract.ressarcimento.config.line,id:0
+#: field:contract.ressarcimento.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_ressarcimento
+#: help:contract.ressarcimento,message_unread:0
+#: help:contract.ressarcimento.config.line,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "If checked new messages require your attention."
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,message_is_follower:0
+#: field:contract.ressarcimento.config.line,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Is a Follower"
+
+#. module: l10n_br_ressarcimento
+#: sql_constraint:contract.ressarcimento:0
+msgid "Já existe Ressarcimento/Provisão cadastrada para esse contrato nessa competência."
+msgstr "Já existe Ressarcimento/Provisão cadastrada para esse contrato nessa competência."
+
+#. module: l10n_br_ressarcimento
+#: sql_constraint:contract.ressarcimento.config.line:0
+msgid "Já existe alerta configurado para esse contrato"
+msgstr "Já existe alerta configurado para esse contrato"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,message_last_post:0
+#: field:contract.ressarcimento.config.line,message_last_post:0
+msgid "Last Message Date"
+msgstr "Last Message Date"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,__last_update:0
+#: field:contract.ressarcimento.config,__last_update:0
+#: field:contract.ressarcimento.config.line,__last_update:0
+#: field:contract.ressarcimento.line,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,write_uid:0
+#: field:contract.ressarcimento.config,write_uid:0
+#: field:contract.ressarcimento.config.line,write_uid:0
+#: field:contract.ressarcimento.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,write_date:0
+#: field:contract.ressarcimento.config,write_date:0
+#: field:contract.ressarcimento.config.line,write_date:0
+#: field:contract.ressarcimento.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: l10n_br_ressarcimento
+#: model:ir.model,name:l10n_br_ressarcimento.model_contract_ressarcimento_line
+msgid "Linhas dos Ressarcimentos de outros Vínculos"
+msgstr "Linhas dos Ressarcimentos de outros Vínculos"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,message_ids:0
+#: field:contract.ressarcimento.config.line,message_ids:0
+msgid "Messages"
+msgstr "Messages"
+
+#. module: l10n_br_ressarcimento
+#: help:contract.ressarcimento,message_ids:0
+#: help:contract.ressarcimento.config.line,message_ids:0
+msgid "Messages and communication history"
+msgstr "Messages and communication history"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.line,name:0
+msgid "Name"
+msgstr "Name"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,name:0
+msgid "Nome"
+msgstr "Nome"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento.config:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_config_form_view
+msgid "Notificação de mudança de status"
+msgstr "Notificação de mudança de status"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Não aprovar"
+msgstr "Não aprovar"
+
+#. module: l10n_br_ressarcimento
+#: view:hr.contract:l10n_br_ressarcimento.hr_contract_form_view
+msgid "Outros vínculos/ressarcimentos"
+msgstr "Outros vínculos/ressarcimentos"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.config,partner_ids:0
+msgid "Parceiros para alertar no dia limite"
+msgstr "Parceiros para alertar no dia limite"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,partner_ids:0
+msgid "Parceiros para notificar"
+msgstr "Parceiros para notificar"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.config,nt_st_partner_ids:0
+msgid "Parceiros para notificar mudança de status"
+msgstr "Parceiros para notificar mudança de status"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento.config:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_config_form_view
+msgid "Parceiros para notificar mudança de status(Default)"
+msgstr "Parceiros para notificar mudança de status(Default)"
+
+#. module: l10n_br_ressarcimento
+#: help:contract.ressarcimento.config,partner_ids:0
+msgid "Parceiros que receberão alertas caso não exista registro de ressarcimento/provisão para o contrato."
+msgstr "Parceiros que receberão alertas caso não exista registro de ressarcimento/provisão para o contrato."
+
+#. module: l10n_br_ressarcimento
+#: help:contract.ressarcimento.config,nt_st_partner_ids:0
+msgid "Parceiros que receberão alertas da mudança de status dodo ressarcimento."
+msgstr "Parceiros que receberão alertas da mudança de status dodo ressarcimento."
+
+#. module: l10n_br_ressarcimento
+#: selection:contract.ressarcimento,state:0
+msgid "Provisionado"
+msgstr "Provisionado"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,provisao_aprovado_por:0
+msgid "Provisão aprovada por"
+msgstr "Provisão aprovada por"
+
+#. module: l10n_br_ressarcimento
+#: help:contract.ressarcimento.config,dias_apos_provisao:0
+msgid "Quantidade de dias que o sistema deve alertar caso haja valor provisionado, mas sem o ressarcimento real, contados a partir do dia limite para inclusão definido no item acima."
+msgstr "Quantidade de dias que o sistema deve alertar caso haja valor provisionado, mas sem o ressarcimento real, contados a partir do dia limite para inclusão definido no item acima."
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Reenviar email"
+msgstr "Reenviar email"
+
+#. module: l10n_br_ressarcimento
+#: field:hr.contract,contract_ressarcimento_ids:0
+msgid "Ressarcimento"
+msgstr "Ressarcimento"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_tree_view
+msgid "Ressarcimento de Contrato"
+msgstr "Ressarcimento de Contrato"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,contract_ressarcimento_line_ids:0
+#: field:contract.ressarcimento.config,contract_ressarcimento_config_line_ids:0
+msgid "Ressarcimento do Contrato"
+msgstr "Ressarcimento do Contrato"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.line,contract_ressarcimento_id:0
+#: field:contract.ressarcimento.line,contract_ressarcimento_provisionado_id:0
+msgid "Ressarcimento do Contratro"
+msgstr "Ressarcimento do Contratro"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,contract_ressarcimento_provisionado_line_ids:0
+msgid "Ressarcimento do Contratro (provisionado)"
+msgstr "Ressarcimento do Contratro (provisionado)"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Ressarcimento do contrato"
+msgstr "Ressarcimento do contrato"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Ressarcimento do contrato (provisionamento)"
+msgstr "Ressarcimento do contrato (provisionamento)"
+
+#. module: l10n_br_ressarcimento
+#: model:ir.model,name:l10n_br_ressarcimento.model_contract_ressarcimento
+msgid "Ressarcimentos de outros Vínculos do Contrato"
+msgstr "Ressarcimentos de outros Vínculos do Contrato"
+
+#. module: l10n_br_ressarcimento
+#: model:ir.actions.act_window,name:l10n_br_ressarcimento.hr_contract_ressarcimento_action
+#: model:ir.ui.menu,name:l10n_br_ressarcimento.menu_hr_contract_ressarcimento
+msgid "Ressarcimentos do Contrato"
+msgstr "Ressarcimentos do Contrato"
+
+#. module: l10n_br_ressarcimento
+#: model:ir.actions.act_window,name:l10n_br_ressarcimento.hr_contract_ressarcimento_config_action
+msgid "Ressarcimentos do Contrato Configurações"
+msgstr "Ressarcimentos do Contrato Configurações"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.line,hr_salary_rule_id:0
+msgid "Rubricas de Ressarcimento"
+msgstr "Rubricas de Ressarcimento"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento.config:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_config_form_view
+msgid "Salvar"
+msgstr "Salvar"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.l10n_br_hr_contract_ressarcimento_structure_search
+#: field:contract.ressarcimento,state:0
+msgid "Situação"
+msgstr "Situação"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Submeter para Aprovação"
+msgstr "Submeter para Aprovação"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,message_summary:0
+#: field:contract.ressarcimento.config.line,message_summary:0
+msgid "Summary"
+msgstr "Summary"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,total:0
+msgid "Total de Ressarcimento"
+msgstr "Total de Ressarcimento"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,total_provisionado:0
+msgid "Total de Ressarcimento Provisionado"
+msgstr "Total de Ressarcimento Provisionado"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Total de ressarcimento"
+msgstr "Total de ressarcimento"
+
+#. module: l10n_br_ressarcimento
+#: view:contract.ressarcimento:l10n_br_ressarcimento.hr_contract_ressarcimento_form_view
+msgid "Total de ressarcimento Provisionado"
+msgstr "Total de ressarcimento Provisionado"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,message_unread:0
+#: field:contract.ressarcimento.config.line,message_unread:0
+msgid "Unread Messages"
+msgstr "Unread Messages"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento.line,total:0
+msgid "Valor"
+msgstr "Valor"
+
+#. module: l10n_br_ressarcimento
+#: field:contract.ressarcimento,valor_provisionado:0
+msgid "Valor Provisionado?"
+msgstr "Valor Provisionado?"
+
