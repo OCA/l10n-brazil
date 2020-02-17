@@ -95,7 +95,7 @@
     <record id="tax_icms_regulation_action" model="ir.actions.act_window">
         <field name="name">ICMS Regulation</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.tax.icms.regulation</field>
+        <field name="res_model">l10n_br_fiscal.icms.regulation</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="tax_icms_regulation_tree"/>

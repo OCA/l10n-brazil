@@ -19,6 +19,7 @@ def post_init_hook(cr, registry):
         "data/l10n_br_fiscal.service.type.csv",
         "data/simplified_tax_data.xml",
         "data/operation_data.xml",
+        "data/l10n_br_fiscal_tax_icms_data.xml",
     ]
 
     for file in files:
