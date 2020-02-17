@@ -350,10 +350,11 @@ class AccountInvoice(models.Model):
                         })
 
                 except Exception as e:
-                    raise UserError(_(
-                        u"Erro ao registrar a fatura boleto. Verifique se as "
-                        u"configurações da API estão corretas. %s"
-                    ) % str(e))
+                    raise_message = _(
+                       u"Erro ao registrar a fatura boleto. Verifique se as "
+                       u"configuracoes da API estao corretas. %s"
+                   ) % str(e)
+                    raise UserError(raise_message)
 
                 finally:
                     if response and response.ok:
