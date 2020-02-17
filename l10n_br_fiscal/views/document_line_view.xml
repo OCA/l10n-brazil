@@ -46,6 +46,8 @@
                 <field name="operation_id" required="1"/>
                 <field name="operation_line_id" required="1"/>
                 <field name="cfop_id"/>
+                <field name="cfop_destination" invisible="1"/>
+
               </group>
             </group>
           </page>
@@ -88,7 +90,7 @@
                       </group>
                   </group>
               </page>
-              <page name="ii" string="II">
+              <page name="ii" string="II" attrs="{'invisible': [('cfop_destination', '!=', '3')]}">
                 <group>
                   <group>
                     <field name="ii_base"/>
