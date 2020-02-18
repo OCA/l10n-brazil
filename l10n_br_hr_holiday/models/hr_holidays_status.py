@@ -15,7 +15,7 @@ TYPE_DAY = [
 
 class HrHolidaysStatus(models.Model):
 
-    _inherit = 'hr.holidays.status'
+    _inherit = 'hr.leave.type'
 
     message = fields.Char(
         string=u"Mensagem",

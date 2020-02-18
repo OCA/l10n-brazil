@@ -6,8 +6,8 @@
 <data>
 
     <record model="ir.ui.view" id="hr_holidays_status_form_view">
-        <field name="name">hr.holidays.status.form (in l10n_br_hr_holiday)</field>
-        <field name="model">hr.holidays.status</field>
+        <field name="name">hr.leave.type.form (in l10n_br_hr_holiday)</field>
+        <field name="model">hr.leave.type</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='second']/.." position="before">
