@@ -43,9 +43,9 @@ class HrLeave(models.Model):
         help='Descontar DSR da semana de ocorrência do evento?',
     )
 
-    tipo = fields.Selection(
+    tipo_ocorrencia = fields.Selection(
         selection=OCORRENCIA_TIPO,
-        string="Tipo",
+        string="Tipo de Ocorrência",
     )
 
     type = fields.Selection(
@@ -54,7 +54,7 @@ class HrLeave(models.Model):
     )
 
     holiday_status_id = fields.Many2one(
-        domain="[('tipo', '=', tipo)]",
+        domain="[('tipo_ocorrencia', '=', tipo_ocorrencia)]",
     )
     contrato_id = fields.Many2one(
         comodel_name='hr.contract',
@@ -72,12 +72,12 @@ class HrLeave(models.Model):
     @api.onchange('holiday_status_id')
     def _onchange_tipo(self):
         """
-        Definir o tipo de holidays baseado no tipo do holidays_status
+        Definir o tipo_ocorrencia do leave baseado no tipo do leave type
         :return:
         """
         for record in self:
-            if record.holiday_status_id and record.holiday_status_id.tipo:
-                record.tipo = record.holiday_status_id.tipo
+            if record.holiday_status_id and record.holiday_status_id.tipo_ocorrencia:
+                record.tipo_ocorrencia = record.holiday_status_id.tipo_ocorrencia
 
     @api.depends('contrato_id')
     def _compute_department_id(self):

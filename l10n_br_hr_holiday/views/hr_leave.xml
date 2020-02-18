@@ -22,7 +22,7 @@
             </field>
 
             <field name="holiday_status_id" position="before">
-                <field name="tipo"
+                <field name="tipo_ocorrencia"
                        attrs="{'invisible':[('type','=', 'remove')],
                                'readonly':[('state','in',['validate','validate1','refuse'])],
                                'required':[('type','=', 'add')]}"/>
@@ -75,7 +75,7 @@
                                     'default_type': 'remove',
                                     'search_default_my_leaves':1}</field>
             <field name="domain">[('type', '=', 'remove'),
-                                  ('tipo', '=', 'ferias')]</field>
+                                  ('tipo_ocorrencia', '=', 'ferias')]</field>
             <field name="search_view_id"
                    ref="hr_holidays.view_hr_holidays_filter"/>
             <field name="help" type="html">

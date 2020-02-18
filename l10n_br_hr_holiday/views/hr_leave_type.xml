@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='calendar']/.." position="before">
                 <group name="definition" string="Definições">
-                    <field name="tipo" />
+                    <field name="tipo_ocorrencia" />
                     <field name="message" />
                     <field name="days_limit" />
                     <field name="hours_limit"/>

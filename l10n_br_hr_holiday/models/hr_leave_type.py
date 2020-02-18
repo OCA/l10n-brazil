@@ -51,15 +51,15 @@ class HrLeaveType(models.Model):
         help='Descontar DSR da semana de ocorrência do evento?',
     )
 
-    tipo = fields.Selection(
-        string='Tipo',
+    tipo_ocorrencia = fields.Selection(
+        string='Tipo de Ocorrência',
         selection=OCORRENCIA_TIPO,
         default='ocorrencias',
     )
 
     type = fields.Selection(
         selection=OCORRENCIA_TIPO,
-        string="Tipo",
+        string="Type",
     )
 
     limit = fields.Boolean(

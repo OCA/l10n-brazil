@@ -8,7 +8,7 @@
             <field name="message">Acima de 3 dias o atestado devera ser homologado na empresa de Medicina do Trabalho!</field>
             <field name="type_day">corridos</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_dental_treatment">
             <field name="name">Dental Treatment</field>
@@ -17,14 +17,14 @@
             <field name="message">Acima de 3 dias o atestado devera ser homologado na empresa de Medicina do Trabalho!</field>
             <field name="type_day">corridos</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_end_of_year_recess">
             <field name="name">End of year recess</field>
             <field name="limit" eval="False"></field>
             <field name="color_name">black</field>
             <field name="need_attachment" eval="False"></field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_compensation_1hour">
             <field name="name">Compensation 1 hour</field>
@@ -33,7 +33,7 @@
             <field name="hours_limit">1</field>
             <field name="message"></field>
             <field name="need_attachment" eval="False"></field>
-            <field name="tipo">compensacao</field>
+            <field name="tipo_ocorrencia">compensacao</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_compensation_2hour">
             <field name="name">Compensation 2 hours</field>
@@ -41,7 +41,7 @@
             <field name="color_name">lavender</field>
             <field name="hours_limit">2</field>
             <field name="need_attachment" eval="False"></field>
-            <field name="tipo">compensacao</field>
+            <field name="tipo_ocorrencia">compensacao</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_justified_absence_without_receipt">
             <field name="name">Absence justified without receipt</field>
@@ -49,14 +49,14 @@
             <field name="color_name">brown</field>
             <field name="message">Ausência justificada e autorizada sem recebimento de salário</field>
             <field name="need_attachment" eval="False"></field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_justified_absence">
             <field name="name">Absence justified</field>
             <field name="limit">True</field>
             <field name="color_name">lavender</field>
             <field name="need_attachment" eval="False"></field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_unjustified_absence">
             <field name="name">Absence unjustified</field>
@@ -64,7 +64,7 @@
             <field name="payroll_discount">True</field>
             <field name="color_name">brown</field>
             <field name="need_attachment" eval="False"></field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_death_of_relatives">
             <field name="name">Death of relatives</field>
@@ -74,7 +74,7 @@
             <field name="days_limit">5</field>
             <field name="message">(pai, mãe, avós, bisavós, filhos, netos, irmãos e pessoas que comprovadamente viva sob dependência econômica)</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_marriage">
             <field name="name">Marriage</field>
@@ -83,7 +83,7 @@
             <field name="type_day">corridos</field>
             <field name="days_limit">5</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_maternity_leave">
             <field name="name">Maternity leave</field>
@@ -92,7 +92,7 @@
             <field name="type_day">corridos</field>
             <field name="days_limit">120</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_maternity_leave_60_days">
             <field name="name">Licença Maternidade - Complemento</field>
@@ -101,7 +101,7 @@
             <field name="type_day">corridos</field>
             <field name="days_limit">60</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_maternity_leave_15_days">
             <field name="name">Licença Paternidade - Complemento</field>
@@ -110,7 +110,7 @@
             <field name="type_day">corridos</field>
             <field name="days_limit">15</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_paternity_leave">
             <field name="name">Paternity leave</field>
@@ -119,7 +119,7 @@
             <field name="type_day">corridos</field>
             <field name="days_limit">5</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_Legal_adoption">
             <field name="name">Legal Adoption</field>
@@ -128,14 +128,14 @@
             <field name="type_day">uteis</field>
             <field name="days_limit">5</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_breastfeeding_period">
             <field name="name">Breastfeeding period</field>
             <field name="limit">True</field>
             <field name="color_name">red</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_blood_donation">
             <field name="name">Blood donation</field>
@@ -143,7 +143,7 @@
             <field name="color_name">red</field>
             <field name="message">1 dia de trabalho a cada 12 meses de trabalho</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_alistamento_eleitoral">
             <field name="name">Alistamento Eleitoral</field>
@@ -152,7 +152,7 @@
             <field name="type_day">uteis</field>
             <field name="days_limit">2</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_alistamento_militar">
             <field name="name">Alistamento Militar</field>
@@ -161,7 +161,7 @@
             <field name="type_day">corridos</field>
             <field name="message">No período de tempo em que tiver de cumprir as exigências do serviço militar</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_disposicao_TRE">
             <field name="name">Disposicao TRE</field>
@@ -171,7 +171,7 @@
             <field name="type_day">uteis</field>
             <field name="days_limit">2</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_acompanhamento_de_filho_gravidez">
             <field name="name">Acompanhamento de Filho quando em gravidez</field>
@@ -181,7 +181,7 @@
             <field name="type_day">uteis</field>
             <field name="message">2 dias para acompanhar consultas médicas e exames complementares durante a gravidez de esposa ou companheira</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_acompanhamento_de_filho_anual">
             <field name="name">Acompanhamento de Filho anual</field>
@@ -191,7 +191,7 @@
             <field name="type_day">uteis</field>
             <field name="message">No caso de internação de filho menor de 18 anos e portadores de deficiência física (sem limite de idade)</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
         <record model="hr.leave.type" id="holiday_type_abono_estudante">
             <field name="name">Abono de Falta Estudante</field>
@@ -203,13 +203,13 @@
                 Em dia de prova escolar obrigatória por lei.
                 Em dias de exame vestibular ou ENEM.</field>
             <field name="need_attachment">True</field>
-            <field name="tipo">ocorrencias</field>
+            <field name="tipo_ocorrencia">ocorrencias</field>
         </record>
 
         <record model="hr.leave.type" id="holiday_type_vacation">
             <field name="name">Férias</field>
             <field name="color_name">lightgreen</field>
-            <field name="tipo">ferias</field>
+            <field name="tipo_ocorrencia">ferias</field>
             <field name="limit" eval="True"/>
         </record>
 
