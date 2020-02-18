@@ -1,4 +1,5 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
+# Copyright 2020 Hendrix Costa <hendrix.costa@abgf.gov.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -9,6 +10,7 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'hr_holidays',
+        'hr_contract',
         'l10n_br_resource',
     ],
     'data': [

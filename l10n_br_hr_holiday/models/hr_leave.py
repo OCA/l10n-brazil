@@ -7,9 +7,13 @@ from odoo import api, fields, models, _
 from odoo.exceptions import Warning as UserError
 
 OCORRENCIA_TIPO = [
-    ('ferias', u'Férias'),
-    ('ocorrencias', u'Ocorrências'),
-    ('compensacao', u'Compensação de Horas'),
+    ('ferias', 'Férias'),
+    ('ocorrencias', 'Ocorrências'),
+    ('compensacao', 'Compensação de Horas'),
+]
+TYPE = [
+    ('add', 'ADD'),
+    ('remove', 'Remove'),
 ]
 
 
@@ -18,25 +22,25 @@ class HrLeave(models.Model):
     _inherit = 'hr.leave'
 
     message = fields.Char(
-        string=u"Mensagem",
+        string="Mensagem",
         related='holiday_status_id.message',
     )
     need_attachment = fields.Boolean(
-        string=u'Need attachment',
+        string='Need attachment',
         related='holiday_status_id.need_attachment',
     )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
-        string=u'Justification'
+        string='Justification'
     )
     payroll_discount = fields.Boolean(
-        string=u'Descontar dia no Holerite?',
-        help=u'Na ocorrência desse evento, será descontado em folha a '
-             u'quantidade de dias em afastamento.',
+        string='Descontar dia no Holerite?',
+        help='Na ocorrência desse evento, será descontado em folha a '
+             'quantidade de dias em afastamento.',
     )
     descontar_DSR = fields.Boolean(
-        string=u'Descontar DSR',
-        help=u'Descontar DSR da semana de ocorrência do evento?',
+        string='Descontar DSR',
+        help='Descontar DSR da semana de ocorrência do evento?',
     )
 
     tipo = fields.Selection(
@@ -44,15 +48,20 @@ class HrLeave(models.Model):
         string="Tipo",
     )
 
+    type = fields.Selection(
+        selection=TYPE,
+        string="Type",
+    )
+
     holiday_status_id = fields.Many2one(
         domain="[('tipo', '=', tipo)]",
     )
     contrato_id = fields.Many2one(
         comodel_name='hr.contract',
-        string=u'Contrato Associado',
+        string='Contrato Associado',
     )
 
-    department_id = fields.Many2one(
+    department_id=fields.Many2one(
         string="Departamento/lotação",
         comodel_name='hr.department',
         compute='_compute_department_id',
@@ -85,31 +94,32 @@ class HrLeave(models.Model):
                     'date_to', 'number_of_days_temp')
     def validate_days_status_id(self):
         for record in self:
-            # Validar anexo
-            if record.need_attachment:
-                if not record.attachment_ids:
-                    raise UserError(_("Atestado Obrigatório!"))
-            # Validar Limite de dias
-            if record.holiday_status_id.days_limit:
-                if record.holiday_status_id.type_day == u'uteis':
-                    resource_calendar_obj = self.env['resource.calendar']
-                    date_to = fields.Date.to_date(record.date_to)
-                    date_from = fields.Date.to_date(record.date_from)
-                    if resource_calendar_obj.quantidade_dias_uteis(
-                            date_from, date_to) > \
-                            record.holiday_status_id.days_limit:
-                        raise UserError(_("Number of days exceeded!"))
-                if record.holiday_status_id.type_day == u'corridos':
-                    if record.number_of_days_temp > \
-                            record.holiday_status_id.days_limit:
-                        raise UserError(_("Number of days exceeded!"))
-            # Validar Limite de Horas
-            # if record.holiday_status_id.hours_limit:
-            #     if ffields.Datetime.to_datetime(record.date_to) - \
-            #             fields.Datetime.to_datetime(record.date_from) > \
-            #             timedelta(minutes=60 *
-            #                       record.holiday_status_id.hours_limit):
-            #         raise UserError(_("Number of hours exceeded!"))
+            if record.type == 'remove':
+                # Validar anexo
+                if record.need_attachment:
+                    if not record.attachment_ids:
+                        raise UserError(_("Atestado Obrigatório!"))
+                # Validar Limite de dias
+                if record.holiday_status_id.days_limit:
+                    if record.holiday_status_id.type_day == 'uteis':
+                        resource_calendar_obj = self.env['resource.calendar']
+                        date_to = fields.Date.from_string(record.date_to)
+                        date_from = fields.Date.from_string(record.date_from)
+                        if resource_calendar_obj.quantidade_dias_uteis(
+                                date_from, date_to) > \
+                                record.holiday_status_id.days_limit:
+                            raise UserError(_("Number of days exceeded!"))
+                    if record.holiday_status_id.type_day == 'corridos':
+                        if record.number_of_days_temp > \
+                                record.holiday_status_id.days_limit:
+                            raise UserError(_("Number of days exceeded!"))
+                # Validar Limite de Horas
+                # if record.holiday_status_id.hours_limit:
+                #     if fields.Datetime.from_string(record.date_to) - \
+                #             fields.Datetime.from_string(record.date_from) > \
+                #             timedelta(minutes=60 *
+                #                       record.holiday_status_id.hours_limit):
+                #         raise UserError(_("Number of hours exceeded!"))
 
     @api.onchange('payroll_discount', 'holiday_status_id')
     def _set_payroll_discount(self):
@@ -145,10 +155,10 @@ class HrLeave(models.Model):
 
         clause_1 = [
             ('data_inicio', '>=', data_from), ('data_inicio', '<=', data_to)]
-        holidays_1_ids = self.env['hr.holidays'].search(domain + clause_1)
+        holidays_1_ids = self.env['hr.leave'].search(domain + clause_1)
 
         clause_2 = [('data_fim', '>=', data_from), ('data_fim', '<=', data_to)]
-        holidays_2_ids = self.env['hr.holidays'].search(domain + clause_2)
+        holidays_2_ids = self.env['hr.leave'].search(domain + clause_2)
 
         for leave in holidays_1_ids | holidays_2_ids:
             qtd_dias_dentro_mes = 0

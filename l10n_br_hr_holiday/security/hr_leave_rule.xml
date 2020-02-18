@@ -3,7 +3,7 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <odoo>
-<data>
+
         <!-- Visualizar olidays de funcinoários ativos. Funcionarios ativos
         sao funcinoarios que tem no contrato ativo a data de demissao
         menor do que hoje -->
@@ -18,5 +18,5 @@
             <field name="domain_force">['|', ('contrato_id.date_end','>=', time.strftime("%Y-%m-%d")), ('contrato_id.date_end','=', False)]</field>
         </record>
 
-</data>
+
 </odoo>

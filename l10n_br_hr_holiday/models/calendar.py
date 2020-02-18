@@ -28,7 +28,7 @@ class L10nBrHrCalendar(models.Model):
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=submenu
         )
-        if view_type == "form" and not res['name'] == u'Meetings Popup':
+        if view_type == "form" and not res['name'] == 'Meetings Popup':
             doc = etree.XML(res['arch'])
             nodes = doc.xpath("//field")
             id_found = self.env.ref('hr_holidays.model_hr_holidays').id
