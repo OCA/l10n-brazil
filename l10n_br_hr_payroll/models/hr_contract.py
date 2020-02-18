@@ -187,10 +187,10 @@ class HrContract(models.Model):
 
             # Dentro deste período houve alteração contratual ?
             #
-            if data_inicio <= change[i].change_date <= data_fim:
+            if data_inicio <= change[i].change_date_reference <= data_fim:
                 i_2 = i + 1
                 data_mudanca = \
-                    datetime.strptime(change[i].change_date, "%Y-%m-%d")
+                    datetime.strptime(change[i].change_date_reference, "%Y-%m-%d")
                 d_inicio = datetime.strptime(data_inicio, "%Y-%m-%d")
                 d_fim = datetime.strptime(data_fim, "%Y-%m-%d")
                 d_fim = d_fim.replace(day=30)
@@ -243,7 +243,7 @@ class HrContract(models.Model):
 
             # Houve alteração contratual anterior ao período atual
             #
-            elif change[i].change_date < data_inicio:
+            elif change[i].change_date_reference < data_inicio:
                 salario_medio = change[i].wage
                 break
 
