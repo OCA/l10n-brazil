@@ -188,45 +188,6 @@ class DocumentLineAbstract(models.AbstractModel):
 
         return defaults
 
-    def _compute_taxes(self, taxes, cst=None):
-        return taxes.compute_taxes(
-            company=self.company_id,
-            partner=self.partner_id,
-            item=self.product_id,
-            prince=self.price,
-            quantity=self.quantity,
-            uom_id=self.uom_id,
-            fiscal_price=self.fiscal_price,
-            fiscal_quantity=self.fiscal_quantity,
-            uot_id=self.uot_id,
-            ncm=self.ncm_id,
-            cest=self.cest_id,
-            operation_type=self.operation_type,
-        )
-
-    @api.multi
-    def compute_taxes(self):
-
-        result_taxes = super(DocumentLineAbstract, self).compute_taxes()
-
-        for line in self:
-            taxes = self.env["l10n_br_fiscal.tax"]
-
-            # Compute all taxes
-            taxes |= (
-                line.icms_tax_id
-                + line.icmssn_tax_id
-                + line.ipi_tax_id
-                + line.pis_tax_id
-                + line.pisst_tax_id
-                + line.cofins_tax_id
-                + line.cofinsst_tax_id
-            )
-
-            result_taxes = line._compute_taxes(taxes)
-            # TODO populate field taxes
-        return result_taxes
-
     @api.onchange("product_id")
     def _onchange_product_id(self):
         if self.product_id:
