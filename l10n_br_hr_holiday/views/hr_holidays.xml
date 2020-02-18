@@ -13,6 +13,7 @@
 
             <field name="employee_id" position="replace">
                 <field name="employee_id" invisible="1"/>
+                <field name="type" invisible="1"/>
                 <field name="contrato_id"
                        attrs="{'readonly':[('state','in',['validate','validate1','refuse'])],
                                'required':[('type','=', 'remove')],

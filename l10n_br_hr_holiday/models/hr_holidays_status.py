@@ -11,6 +11,10 @@ TYPE_DAY = [
     ('corridos', u'Dias corridos'),
     ('naouteis', u'Dias não úteis'),
 ]
+TYPE = [
+    ('add', u'ADD'),
+    ('remove', u'Remove'),
+]
 
 
 class HrHolidaysStatus(models.Model):
@@ -53,4 +57,9 @@ class HrHolidaysStatus(models.Model):
         string=u'Tipo',
         selection=OCORRENCIA_TIPO,
         default='ocorrencias',
+    )
+
+    type = fields.Selection(
+        selection=OCORRENCIA_TIPO,
+        string="Tipo",
     )

@@ -12,6 +12,10 @@ OCORRENCIA_TIPO = [
     ('ocorrencias', u'Ocorrências'),
     ('compensacao', u'Compensação de Horas'),
 ]
+TYPE = [
+    ('add', u'ADD'),
+    ('remove', u'Remove'),
+]
 
 
 class HrHolidays(models.Model):
@@ -43,6 +47,11 @@ class HrHolidays(models.Model):
     tipo = fields.Selection(
         selection=OCORRENCIA_TIPO,
         string="Tipo",
+    )
+
+    type = fields.Selection(
+        selection=TYPE,
+        string="Type",
     )
 
     holiday_status_id = fields.Many2one(
