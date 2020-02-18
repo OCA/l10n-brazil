@@ -16,7 +16,7 @@ OCORRENCIA_TIPO = [
 
 class HrHolidays(models.Model):
 
-    _inherit = 'hr.holidays'
+    _inherit = 'hr.leave'
 
     message = fields.Char(
         string=u"Mensagem",
@@ -147,10 +147,10 @@ class HrHolidays(models.Model):
 
         clause_1 = [
             ('data_inicio', '>=', data_from), ('data_inicio', '<=', data_to)]
-        holidays_1_ids = self.env['hr.holidays'].search(domain + clause_1)
+        holidays_1_ids = self.env['hr.leave'].search(domain + clause_1)
 
         clause_2 = [('data_fim', '>=', data_from), ('data_fim', '<=', data_to)]
-        holidays_2_ids = self.env['hr.holidays'].search(domain + clause_2)
+        holidays_2_ids = self.env['hr.leave'].search(domain + clause_2)
 
         for leave in holidays_1_ids | holidays_2_ids:
             qtd_dias_dentro_mes = 0

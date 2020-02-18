@@ -18,7 +18,7 @@ class TestHrHoliday(common.TransactionCase):
         self.hr_employee = self.env['hr.employee']
 
         group_employee_id = self.ref('base.group_user')
-        self.hr_holidays = self.env['hr.holidays']
+        self.hr_holidays = self.env['hr.leave']
 
         # Test users to use through the various tests
         self.user_hruser_id = self.res_users.create({
