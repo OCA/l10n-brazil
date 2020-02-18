@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="l10n_br_account_payment_cobranca_action" model="ir.actions.act_window">
+        <field name="name">Cobrança</field>
+        <field name="res_model">account.payment.order</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree'}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('l10n_br_account_payment_cobranca.payment_cnab_payment_order_sequence')}),
+            (0, 0, {'view_mode': 'pivot'}),
+            (0, 0, {'view_mode': 'graph'})
+            ]"/>
+        <field name="domain">[('payment_type', '=', 'inbound'),('operation_type', '=', '3')]</field>
+        <field name="context">{'default_payment_type': 'inbound','default_operation_type': '3'}</field>
+    </record>
+
+
+    <menuitem id="l10n_br_account_payment_cobranca_menu"
+              parent="l10n_br_account_payment_order.menu_remessa_categ"
+              action="l10n_br_account_payment_cobranca_action"
+              sequence="30"/>
+
+</odoo>

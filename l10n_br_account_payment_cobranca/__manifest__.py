@@ -23,6 +23,7 @@
         "views/account_payment_mode.xml",
         "views/res_partner_bank.xml",
         "views/account_payment_order.xml",
+        "views/account_payment_order_menu_views.xml",
         "views/account_payment_line.xml",
         "views/account_payment_term_view.xml",
         "views/bank_payment_line.xml",
