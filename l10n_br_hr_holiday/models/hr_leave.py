@@ -61,7 +61,7 @@ class HrLeave(models.Model):
         string='Contrato Associado',
     )
 
-    department_id=fields.Many2one(
+    department_id = fields.Many2one(
         string="Departamento/lotação",
         comodel_name='hr.department',
         compute='_compute_department_id',
@@ -76,8 +76,10 @@ class HrLeave(models.Model):
         :return:
         """
         for record in self:
-            if record.holiday_status_id and record.holiday_status_id.tipo_ocorrencia:
-                record.tipo_ocorrencia = record.holiday_status_id.tipo_ocorrencia
+            holiday_status_id = record.holiday_status_id
+            if holiday_status_id and holiday_status_id.tipo_ocorrencia:
+                record.tipo_ocorrencia = \
+                    record.holiday_status_id.tipo_ocorrencia
 
     @api.depends('contrato_id')
     def _compute_department_id(self):
@@ -166,8 +168,8 @@ class HrLeave(models.Model):
             data_fim_holidays = fields.Datetime.to_datetime(leave.data_fim)
 
             while data_referencia <= data_fim_holidays:
-                if data_referencia >= fields.Datetime.to_datetime(data_from) and \
-                        data_referencia <= fields.Datetime.to_datetime(data_to):
+                if self.data_no_periodo(data_referencia, data_from, data_to):
+
                     # Levar em consideração o tipo de dias
                     if leave.holiday_status_id.type_day == 'uteis':
                         rc = self.env['resource.calendar']
@@ -186,6 +188,16 @@ class HrLeave(models.Model):
                 faltas['quantidade_dias_faltas_remuneradas'] += \
                     qtd_dias_dentro_mes
         return faltas
+
+    def data_no_periodo(self, data_referencia, data_from, data_to):
+        """
+        Verificar se a data_referencia esta dentro
+        do periodo date_from ate date_to
+        """
+        if data_referencia >= fields.Datetime.to_datetime(data_from):
+            if data_referencia <= fields.Datetime.to_datetime(data_to):
+                return True
+        return False
 
     @api.multi
     def holidays_validate(self):
