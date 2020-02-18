@@ -6,9 +6,10 @@
 -->
 <odoo>
 
-    <record id="l10n_br-account_payment_line_form" model="ir.ui.view">
+    <record id="l10n_br_account_payment_line_form" model="ir.ui.view">
         <field name="name">l10n_br_account.payment.line.form.banking</field>
         <field name="model">account.payment.line</field>
+        <field name="mode">primary</field>
         <field name="inherit_id"
                ref="account_payment_order.account_payment_line_form"/>
         <field name="arch" type="xml">
