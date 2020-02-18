@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import (NFE_IND_IE_DEST, NFE_IND_IE_DEST_3,
+from ..constants.fiscal import (NFE_IND_IE_DEST, NFE_IND_IE_DEST_9,
                                 NFE_IND_IE_DEST_DEFAULT, TAX_FRAMEWORK,
                                 TAX_FRAMEWORK_NORMAL)
 
@@ -63,6 +63,6 @@ class ResPartner(models.Model):
 
     @api.onchange("ind_ie_dest")
     def _onchange_ind_ie_dest(self):
-        if self.ind_ie_dest == NFE_IND_IE_DEST_3:
+        if self.ind_ie_dest == NFE_IND_IE_DEST_9:
             self.inscr_est = False
             self.state_tax_number_ids = False
