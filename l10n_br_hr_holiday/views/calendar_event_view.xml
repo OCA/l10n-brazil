@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <data>
+
 
         <record id="l10n_br_hr_holiday_calendar_event_view" model="ir.ui.view">
             <field name="name">L10n Br Hr Holiday Calendar Event</field>
@@ -14,5 +14,5 @@
             </field>
         </record>
 
-    </data>
+
 </odoo>

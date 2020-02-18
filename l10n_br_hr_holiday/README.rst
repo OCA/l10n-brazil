@@ -67,7 +67,7 @@ Contributors
 ------------
 
 * Hendrix Costa <hendrix.costa@kmee.com.br>
-
+* Luis Felipe Mileo <mileo@kmee.com.br>
 
 Maintainer
 ----------

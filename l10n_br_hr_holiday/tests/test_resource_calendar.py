@@ -15,7 +15,7 @@ class TestHrHoliday(common.TransactionCase):
         self.hr_employee = self.env['hr.employee']
 
         group_employee_id = self.ref('base.group_user')
-        self.hr_holidays = self.env['hr.holidays']
+        self.hr_holidays = self.env['hr.leave']
 
         # Test users to use through the various tests
         self.user_hruser_id = self.res_users.create({
@@ -61,8 +61,8 @@ class TestHrHoliday(common.TransactionCase):
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name,
-            # u'[Employee Luiza] Absence unjustified (10/01/2017-10/01/2017)',
-            u'Falta Injusticada',
+            # '[Employee Luiza] Absence unjustified (10/01/2017-10/01/2017)',
+            'Falta Injusticada',
             'ERRO: Nao foi possivel obter faltas do Funcionario!'
         )
 
@@ -99,6 +99,6 @@ class TestHrHoliday(common.TransactionCase):
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name,
             # u'[Employee Luiza] Absence unjustified (10/01/2017-12/01/2017)',
-            u'Falta Injusticada de 3 dias',
+            'Falta Injusticada de 3 dias',
             'ERRO: Nao foi possivel obter faltas do Funcionario!'
         )

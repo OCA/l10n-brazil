@@ -8,7 +8,7 @@ class HrContract(models.Model):
     _inherit = 'hr.contract'
 
     hr_holiday_ids = fields.One2many(
-        comodel_name='hr.holidays',
+        comodel_name='hr.leave',
         inverse_name='contrato_id',
         string='Abonos de faltas'
     )
