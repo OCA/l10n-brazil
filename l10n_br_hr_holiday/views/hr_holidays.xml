@@ -2,8 +2,8 @@
 <!-- Copyright 2016 KMEE INFORMATICA LTDA
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<openerp>
-<data>
+<odoo>
+
 
     <record model="ir.ui.view" id="hr_holidays_form_view">
         <field name="name">hr.leave.form (in l10n_br_hr_holiday)</field>
@@ -89,5 +89,5 @@
         </record>
 
 
-</data>
-</openerp>
+
+</odoo>

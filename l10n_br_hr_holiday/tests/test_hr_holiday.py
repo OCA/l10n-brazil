@@ -5,8 +5,8 @@
 import base64
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from openerp import fields
-from openerp.tests import common
+from odoo import fields
+from odoo.tests import common
 
 
 class TestHrHoliday(common.TransactionCase):

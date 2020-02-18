@@ -2,8 +2,8 @@
 <!-- Copyright 2016 KMEE INFORMATICA LTDA
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<openerp>
-<data>
+<odoo>
+
 
     <record model="ir.model.access" id="hr_holidays_status_write_employee">
         <field name="name">hr.holidays.status write employee</field>
@@ -24,5 +24,5 @@
         <field name="groups" eval="[(4,ref('base.group_user'))]"/>
     </record>
 
-</data>
-</openerp>
+
+</odoo>

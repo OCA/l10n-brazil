@@ -2,9 +2,9 @@
 # Copyright 2016 KMEE - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import fields, models, api
-from openerp.osv.orm import setup_modifiers
-from openerp.exceptions import Warning
+from odoo import fields, models, api
+from odoo.osv.orm import setup_modifiers
+from odoo.exceptions import Warning
 from lxml import etree
 
 
@@ -29,7 +29,7 @@ class L10nBrHrCalendar(models.Model):
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=submenu
         )
-        if view_type == "form" and not res['name'] == u'Meetings Popup':
+        if view_type == "form" and not res['name'] == 'Meetings Popup':
             doc = etree.XML(res['arch'])
             nodes = doc.xpath("//field")
             id_found = self.env.ref('hr_holidays.model_hr_holidays').id

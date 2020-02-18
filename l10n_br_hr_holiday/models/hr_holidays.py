@@ -4,17 +4,17 @@
 
 from datetime import timedelta
 
-from openerp import api, fields, models, _
-from openerp.exceptions import Warning as UserError
+from odoo import api, fields, models, _
+from odoo.exceptions import Warning as UserError
 
 OCORRENCIA_TIPO = [
-    ('ferias', u'Férias'),
-    ('ocorrencias', u'Ocorrências'),
-    ('compensacao', u'Compensação de Horas'),
+    ('ferias', 'Férias'),
+    ('ocorrencias', 'Ocorrências'),
+    ('compensacao', 'Compensação de Horas'),
 ]
 TYPE = [
-    ('add', u'ADD'),
-    ('remove', u'Remove'),
+    ('add', 'ADD'),
+    ('remove', 'Remove'),
 ]
 
 
@@ -23,25 +23,25 @@ class HrHolidays(models.Model):
     _inherit = 'hr.leave'
 
     message = fields.Char(
-        string=u"Mensagem",
+        string="Mensagem",
         related='holiday_status_id.message',
     )
     need_attachment = fields.Boolean(
-        string=u'Need attachment',
+        string='Need attachment',
         related='holiday_status_id.need_attachment',
     )
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
-        string=u'Justification'
+        string='Justification'
     )
     payroll_discount = fields.Boolean(
-        string=u'Descontar dia no Holerite?',
-        help=u'Na ocorrência desse evento, será descontado em folha a '
-             u'quantidade de dias em afastamento.',
+        string='Descontar dia no Holerite?',
+        help='Na ocorrência desse evento, será descontado em folha a '
+             'quantidade de dias em afastamento.',
     )
     descontar_DSR = fields.Boolean(
-        string=u'Descontar DSR',
-        help=u'Descontar DSR da semana de ocorrência do evento?',
+        string='Descontar DSR',
+        help='Descontar DSR da semana de ocorrência do evento?',
     )
 
     tipo = fields.Selection(
@@ -59,7 +59,7 @@ class HrHolidays(models.Model):
     )
     contrato_id = fields.Many2one(
         comodel_name='hr.contract',
-        string=u'Contrato Associado',
+        string='Contrato Associado',
     )
 
     department_id=fields.Many2one(
@@ -102,7 +102,7 @@ class HrHolidays(models.Model):
                         raise UserError(_("Atestado Obrigatório!"))
                 # Validar Limite de dias
                 if record.holiday_status_id.days_limit:
-                    if record.holiday_status_id.type_day == u'uteis':
+                    if record.holiday_status_id.type_day == 'uteis':
                         resource_calendar_obj = self.env['resource.calendar']
                         date_to = fields.Date.from_string(record.date_to)
                         date_from = fields.Date.from_string(record.date_from)
@@ -110,7 +110,7 @@ class HrHolidays(models.Model):
                                 date_from, date_to) > \
                                 record.holiday_status_id.days_limit:
                             raise UserError(_("Number of days exceeded!"))
-                    if record.holiday_status_id.type_day == u'corridos':
+                    if record.holiday_status_id.type_day == 'corridos':
                         if record.number_of_days_temp > \
                                 record.holiday_status_id.days_limit:
                             raise UserError(_("Number of days exceeded!"))

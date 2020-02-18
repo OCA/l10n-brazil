@@ -2,8 +2,8 @@
 <!-- Copyright 2019 ABGF.gov.br
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<openerp>
-<data>
+<odoo>
+
         <!-- Visualizar olidays de funcinoários ativos. Funcionarios ativos
         sao funcinoarios que tem no contrato ativo a data de demissao
         menor do que hoje -->
@@ -18,5 +18,5 @@
             <field name="domain_force">['|', ('contrato_id.date_end','>=', time.strftime("%Y-%m-%d")), ('contrato_id.date_end','=', False)]</field>
         </record>
 
-</data>
-</openerp>
+
+</odoo>

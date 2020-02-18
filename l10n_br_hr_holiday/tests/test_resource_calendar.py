@@ -2,8 +2,8 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import fields
-from openerp.tests import common
+from odoo import fields
+from odoo.tests import common
 
 
 class TestHrHoliday(common.TransactionCase):
@@ -62,8 +62,8 @@ class TestHrHoliday(common.TransactionCase):
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name,
-            # u'[Employee Luiza] Absence unjustified (10/01/2017-10/01/2017)',
-            u'Falta Injusticada',
+            # '[Employee Luiza] Absence unjustified (10/01/2017-10/01/2017)',
+            'Falta Injusticada',
             'ERRO: Nao foi possivel obter faltas do Funcionario!'
         )
 
@@ -100,6 +100,6 @@ class TestHrHoliday(common.TransactionCase):
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name,
             # u'[Employee Luiza] Absence unjustified (10/01/2017-12/01/2017)',
-            u'Falta Injusticada de 3 dias',
+            'Falta Injusticada de 3 dias',
             'ERRO: Nao foi possivel obter faltas do Funcionario!'
         )

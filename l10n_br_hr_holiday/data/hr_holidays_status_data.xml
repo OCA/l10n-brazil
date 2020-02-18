@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
-    <data>
+<odoo>
         <record model="hr.leave.type" id="holiday_status_medical_certificate">
             <field name="name">Medical Certificate</field>
             <field name="limit">True</field>
@@ -215,5 +214,4 @@
             <field name="limit" eval="True"/>
         </record>
 
-    </data>
-</openerp>
+</odoo>
