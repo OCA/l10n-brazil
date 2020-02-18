@@ -27,11 +27,7 @@
                                'required':[('type','=', 'add')]}"/>
             </field>
 
-            <field name="holiday_status_id" position="attributes">
-                <attribute name="context">{'contrato_id': contrato_id}</attribute>
-            </field>
-
-            <field name="notes" position="before">
+            <field name="report_note" position="before">
                 <field name="payroll_discount"  invisible="1" />
                 <h2><field name="message" readonly="1" /></h2>
                 <field name="need_attachment" invisible="1" />
@@ -47,33 +43,33 @@
     </record>
 
     <!-- Libera o MENU de Pedido de Férias para todos os usuarios-->
-    <record id="hr_holidays.menu_open_ask_holidays_new" model="ir.ui.menu">
+    <record id="hr_holidays.menu_open_employee_leave" model="ir.ui.menu">
         <field name="groups_id" eval="[(4,ref('base.group_user'))]" />
     </record>
 
     <act_window
             id="l10n_br_hr_holiday_action_ocorrencias"
             name="Ocorrências"
-            res_model="hr.holidays"
+            res_model="hr.leave"
             view_mode="calendar,form,tree"
             domain="[('type','=', 'remove')]"
             context="{'default_tipo':'ocorrencias', 'default_type': 'remove',
-                'search_default_my_leaves':1, 'search_default_group_type':1}"/>
+                'search_default_my_leaves':1, 'search_default_group_type':1, 'search_default_filter_year_2019':1}"/>
 
     <menuitem
             id="menu_ocorrencias"
             name="Ocorrencias"
             action="l10n_br_hr_holiday_action_ocorrencias"
-            parent="hr_holidays.menu_open_ask_holidays"
+            parent="hr_holidays.hr_leave_menu_new_request"
             groups="base.group_user"
             sequence="8"/>
 
     <record model="ir.actions.act_window" id="open_ask_holidays">
             <field name="name">Pedido de Férias</field>
-            <field name="res_model">hr.holidays</field>
-            <field name="inherit_id" ref="hr_holidays.open_ask_holidays"/>
+            <field name="res_model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_action_new_request"/>
             <field name="view_type">form</field>
-            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="view_id" ref="hr_holidays.hr_leave_view_form"/>
             <field name="context">{ 'default_tipo': 'ferias',
                                     'default_type': 'remove',
                                     'search_default_my_leaves':1}</field>
