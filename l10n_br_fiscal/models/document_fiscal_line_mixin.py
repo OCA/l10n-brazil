@@ -321,6 +321,31 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
         return model_view
 
+    def _compute_taxes(self, taxes, cst=None):
+        return taxes.compute_taxes(
+            company=self.company_id,
+            partner=self.partner_id,
+            product=self.product_id,
+            price=self.price,
+            quantity=self.quantity,
+            uom_id=self.uom_id,
+            fiscal_price=self.fiscal_price,
+            fiscal_quantity=self.fiscal_quantity,
+            uot_id=self.uot_id,
+            discount=self.discount,
+            insurance_value=self.insurance_value,
+            other_costs_value=self.other_costs_value,
+            freight_value=self.freight_value,
+            ncm=self.ncm_id,
+            cest=self.cest_id,
+            operation_line=self.operation_line_id)
+
+    @api.multi
+    def compute_taxes(self):
+        for line in self:
+            result_taxes = line._compute_taxes(line.fiscal_tax_ids)
+        return result_taxes
+
     @api.multi
     def _update_fiscal_taxes(self):
         for d in self:
@@ -330,10 +355,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                 product=self.product_id)
 
             for tax in mapping_result['taxes']:
-                if tax.tax_domain == TAX_DOMAIN_ICMS:
-                    d.icms_tax_id = tax
-                if tax.tax_domain == TAX_DOMAIN_ICMS_SN:
-                    d.icmssn_tax_id = tax
                 if tax.tax_domain == TAX_DOMAIN_IPI:
                     d.ipi_tax_id = tax
                 if tax.tax_domain == TAX_DOMAIN_II:
@@ -342,6 +363,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                     d.pis_tax_id = tax
                 if tax.tax_domain == TAX_DOMAIN_COFINS:
                     d.cofins_tax_id = tax
+                if tax.tax_domain == TAX_DOMAIN_ICMS:
+                    d.icms_tax_id = tax
+                if tax.tax_domain == TAX_DOMAIN_ICMS_SN:
+                    d.icmssn_tax_id = tax
 
             d.cfop_id = mapping_result['cfop']
 
@@ -376,8 +401,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     @api.onchange("icms_tax_id", "fiscal_price", "fiscal_quantity")
     def _onchange_icms_tax_id(self):
         if self.icms_tax_id:
-            result_taxes = self._compute_taxes(self.icms_tax_id)
+            result_taxes = self._compute_taxes(
+                 self.ipi_tax_id + self.icms_tax_id)
             self._set_fields_icms(result_taxes.get(TAX_DOMAIN_ICMS))
+            self._set_fields_ipi(result_taxes.get(TAX_DOMAIN_IPI))
         else:
             self.icms_cst_id = False
 
