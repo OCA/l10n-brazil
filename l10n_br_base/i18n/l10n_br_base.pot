@@ -7575,6 +7575,18 @@ msgid "Dirceu Arcoverde"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__disable_cpf_cnpj_validation
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Disable CPF and CNPJ validation"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__disable_ie_validation
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Disable IE validation"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
 msgid "Display Name"
 msgstr ""
@@ -8287,7 +8299,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:178
+#: code:addons/l10n_br_base/models/res_partner.py:189
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr ""
@@ -10776,7 +10788,7 @@ msgid "Inocência"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:193
+#: code:addons/l10n_br_base/models/res_partner.py:204
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr ""
@@ -22374,6 +22386,16 @@ msgid "Selbach"
 msgstr ""
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Select to disable CPF and CNPJ validation"
+msgstr ""
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Select to disable IE validation"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5007802
 msgid "Selvíria"
 msgstr ""
@@ -23010,7 +23032,7 @@ msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:209
+#: code:addons/l10n_br_base/models/res_partner.py:220
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr ""
@@ -25358,7 +25380,7 @@ msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:196
+#: code:addons/l10n_br_base/models/res_partner.py:207
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
@@ -27052,7 +27074,7 @@ msgid "Zé Doca"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:159
+#: code:addons/l10n_br_base/models/res_partner.py:165
 #, python-format
 msgid "{} Invalid!"
 msgstr ""
