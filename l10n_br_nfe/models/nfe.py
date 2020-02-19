@@ -166,7 +166,6 @@ class NFe(spec_models.StackedModel):
         self._change_state(state)
 
         self.write({
-            'key': infProt.chNFe,
             'codigo_situacao': infProt.cStat,
             'motivo_situacao': infProt.xMotivo,
             'data_hora_autorizacao': infProt.dhRecbto,
