@@ -4,6 +4,11 @@
 
 from odoo import models, fields
 
+OPERATION_TYPE = [
+    ('1', 'Pagamento'),
+    ('2', 'Debito em conta corrente'),
+]
+
 
 class AccountPaymentMode(models.Model):
     _inherit = 'account.payment.mode'
@@ -12,6 +17,11 @@ class AccountPaymentMode(models.Model):
     instrucoes = fields.Text('Instruções de cobrança')
     invoice_print = fields.Boolean(
         'Gerar relatorio na conclusão da fatura?')
+
+    operation_type = fields.Selection(
+        selection=OPERATION_TYPE,
+        string='Tipo de Operação'
+    )
 
     _sql_constraints = [
         ('internal_sequence_id_unique',
