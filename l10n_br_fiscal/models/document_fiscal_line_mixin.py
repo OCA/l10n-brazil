@@ -68,11 +68,21 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Fiscal Price",
         digits=dp.get_precision("Product Price"))
 
-    insurance_value = fields.Monetary(string='Insurance Value', default=0.00)
+    discount_value = fields.Monetary(
+        string="Discount Value",
+        default=0.00)
 
-    other_costs_value = fields.Monetary(string='Other Costs', default=0.00)
+    insurance_value = fields.Monetary(
+        string='Insurance Value',
+        default=0.00)
 
-    freight_value = fields.Monetary(string='Freight Value', default=0.00)
+    other_costs_value = fields.Monetary(
+        string='Other Costs',
+        default=0.00)
+
+    freight_value = fields.Monetary(
+        string='Freight Value',
+        default=0.00)
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
@@ -80,6 +90,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         column1='document_id',
         column2='fiscal_tax_id',
         string="Fiscal Taxes")
+
+    amount_tax_not_included = fields.Monetary(
+        string="Amount Tax not Included",
+        default=0.00)
 
     # ICMS Fields
     icms_tax_id = fields.Many2one(
@@ -91,23 +105,30 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     icms_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST ICMS",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'icms')]",
-    )
+        domain="[('cst_type', '=', operation_type),"
+               "('tax_domain', '=', 'icms')]")
 
-    icms_base = fields.Monetary(string="ICMS Base")
+    icms_base = fields.Monetary(
+        string="ICMS Base",
+        default=0.00)
 
-    icms_percent = fields.Float(string="ICMS %")
+    icms_percent = fields.Float(
+        string="ICMS %",
+        default=0.00)
 
-    icms_reduction = fields.Float(string="ICMS % Reduction")
+    icms_reduction = fields.Float(
+        string="ICMS % Reduction",
+        default=0.00)
 
-    icms_value = fields.Monetary(string="ICMS Value")
+    icms_value = fields.Monetary(
+        string="ICMS Value",
+        default=0.00)
 
     # ICMS Simples Nacional Fields
     icmssn_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS SN",
-        domain="[('tax_domain', '=', 'icmssn')]",
-    )
+        domain="[('tax_domain', '=', 'icmssn')]")
 
     icmssn_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
@@ -115,90 +136,112 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'icmssn')]")
 
+    icmssn_base = fields.Monetary(
+        string="ICMS SN Base",
+        default=0.00)
+
+    icmssn_reduction = fields.Monetary(
+        string="ICMS SN Reduction",
+        default=0.00)
+
     icmssn_credit_value = fields.Monetary(
-        string="ICMS SN Credit")
+        string="ICMS SN Credit",
+        default=0.00)
 
     # IPI Fields
     ipi_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IPI",
-        domain="[('tax_domain', '=', 'ipi')]",
-    )
+        domain="[('tax_domain', '=', 'ipi')]")
 
     ipi_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST IPI",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'ipi')]",
-    )
+        domain="[('cst_type', '=', operation_type),"
+               "('tax_domain', '=', 'ipi')]")
 
     ipi_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="IPI Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
-        required=True,
-    )
+        default=TAX_BASE_TYPE_PERCENT)
 
-    ipi_base = fields.Monetary(string="IPI Base")
+    ipi_base = fields.Monetary(
+        string="IPI Base")
 
-    ipi_percent = fields.Float(string="IPI %")
+    ipi_percent = fields.Float(
+        string="IPI %")
 
-    ipi_reduction = fields.Float(string="IPI % Reduction")
+    ipi_reduction = fields.Float(
+        string="IPI % Reduction")
 
-    ipi_value = fields.Monetary(string="IPI Value")
+    ipi_value = fields.Monetary(
+        string="IPI Value")
 
     ipi_guideline_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.ipi.guideline",
         string="IPI Guideline",
         domain="['|', ('cst_in_id', '=', ipi_cst_id),"
-        "('cst_out_id', '=', ipi_cst_id)]",
-    )
+               "('cst_out_id', '=', ipi_cst_id)]")
 
     # II Fields
     ii_base = fields.Float(
-        string='II Base', required=True, digits=dp.get_precision('Account'),
+        string='II Base',
+        required=True,
+        digits=dp.get_precision('Account'),
         default=0.00)
+
     ii_value = fields.Float(
-        'II Value', required=True, digits=dp.get_precision('Account'),
+        string='II Value',
+        required=True,
+        digits=dp.get_precision('Account'),
         default=0.00)
+
     ii_iof_value = fields.Float(
-        string='IOF Value', required=True, digits=dp.get_precision('Account'),
+        string='IOF Value',
+        required=True,
+        digits=dp.get_precision('Account'),
         default=0.00)
+
     ii_customhouse_charges = fields.Float(
-        string='Despesas Aduaneiras', required=True,
-        digits=dp.get_precision('Account'), default=0.00)
+        string='Despesas Aduaneiras',
+        required=True,
+        digits=dp.get_precision('Account'),
+        default=0.00)
 
     # PIS/COFINS Fields
     # COFINS
     cofins_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax COFINS",
-        domain="[('tax_domain', '=', 'cofins')]",
-    )
+        domain="[('tax_domain', '=', 'cofins')]")
 
     cofins_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'cofins')]",
-    )
+        domain="[('cst_type', '=', operation_type),"
+               "('tax_domain', '=', 'cofins')]")
 
     cofins_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS Base Type",
         default=TAX_BASE_TYPE_PERCENT,
-        required=True,
-    )
+        required=True)
 
-    cofins_base = fields.Monetary(string="COFINS Base")
+    cofins_base = fields.Monetary(
+        string="COFINS Base")
 
-    cofins_percent = fields.Float(string="COFINS %")
+    cofins_percent = fields.Float(
+        string="COFINS %")
 
-    cofins_reduction = fields.Float(string="COFINS % Reduction")
+    cofins_reduction = fields.Float(
+        string="COFINS % Reduction")
 
-    cofins_value = fields.Monetary(string="COFINS Value")
+    cofins_value = fields.Monetary(
+        string="COFINS Value")
 
     cofins_base_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.pis.cofins.base", string="COFINS Base"
-    )
+        comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
+        string="COFINS Base")
 
     cofins_credit_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins.credit",
@@ -214,43 +257,43 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS ST",
         domain="[('cst_type', '=', operation_type),"
-               "('tax_domain', '=', 'cofinsst')]",
-    )
+               "('tax_domain', '=', 'cofinsst')]")
 
     cofinsst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS ST Base Type",
         default=TAX_BASE_TYPE_PERCENT,
-        required=True,
-    )
+        required=True)
 
-    cofinsst_base = fields.Monetary(string="COFINS ST Base")
+    cofinsst_base = fields.Monetary(
+        string="COFINS ST Base")
 
-    cofinsst_percent = fields.Float(string="COFINS ST %")
+    cofinsst_percent = fields.Float(
+        string="COFINS ST %")
 
-    cofinsst_reduction = fields.Float(string="COFINS ST % Reduction")
+    cofinsst_reduction = fields.Float(
+        string="COFINS ST % Reduction")
 
-    cofinsst_value = fields.Monetary(string="COFINS ST Value")
+    cofinsst_value = fields.Monetary(
+        string="COFINS ST Value")
 
     # PIS
     pis_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax PIS",
-        domain="[('tax_domain', '=', 'pis')]",
-    )
+        domain="[('tax_domain', '=', 'pis')]")
 
     pis_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'pis')]",
-    )
+        domain="[('cst_type', '=', operation_type),"
+               "('tax_domain', '=', 'pis')]")
 
     pis_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS Base Type",
         default=TAX_BASE_TYPE_PERCENT,
-        required=True,
-    )
+        required=True)
 
     pis_base = fields.Monetary(string="PIS Base")
 
@@ -261,40 +304,42 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     pis_value = fields.Monetary(string="PIS Value")
 
     pis_base_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.pis.cofins.base", string="PIS Base Code"
-    )
+        comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
+        string="PIS Base Code")
 
     pis_credit_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.pis.cofins.credit", string="PIS Credit"
-    )
+        comodel_name="l10n_br_fiscal.tax.pis.cofins.credit",
+        string="PIS Credit")
 
     # PIS ST
     pisst_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax PIS ST",
-        domain="[('tax_domain', '=', 'pisst')]",
-    )
+        domain="[('tax_domain', '=', 'pisst')]")
 
     pisst_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS ST",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'pisst')]",
-    )
+        domain="[('cst_type', '=', operation_type),"
+               "('tax_domain', '=', 'pisst')]")
 
     pisst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS ST Base Type",
         default=TAX_BASE_TYPE_PERCENT,
-        required=True,
-    )
+        required=True)
 
-    pisst_base = fields.Monetary(string="PIS ST Base")
+    pisst_base = fields.Monetary(
+        string="PIS ST Base")
 
-    pisst_percent = fields.Float(string="PIS ST %")
+    pisst_percent = fields.Float(
+        string="PIS ST %")
 
-    pisst_reduction = fields.Float(string="PIS ST % Reduction")
+    pisst_reduction = fields.Float(
+        string="PIS ST % Reduction")
 
-    pisst_value = fields.Monetary(string="PIS ST Value")
+    pisst_value = fields.Monetary(
+        string="PIS ST Value")
 
     @api.model
     def fields_view_get(
@@ -306,7 +351,8 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         return model_view # TO REMOVE
 
         if view_type == "form":
-            fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_line_mixin_form")
+            fiscal_view = self.env.ref(
+                "l10n_br_fiscal.document_fiscal_line_mixin_form")
 
             doc = etree.fromstring(model_view.get("arch"))
 
@@ -332,7 +378,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             fiscal_price=self.fiscal_price,
             fiscal_quantity=self.fiscal_quantity,
             uot_id=self.uot_id,
-            discount=self.discount,
+            discount_value=self.discount_value,
             insurance_value=self.insurance_value,
             other_costs_value=self.other_costs_value,
             freight_value=self.freight_value,
@@ -343,32 +389,50 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     @api.multi
     def compute_taxes(self):
         for line in self:
-            result_taxes = line._compute_taxes(line.fiscal_tax_ids)
-        return result_taxes
+            computed_taxes = line._compute_taxes(line.fiscal_tax_ids)
+        return computed_taxes
 
     @api.multi
-    def _update_fiscal_taxes(self):
-        for d in self:
-            mapping_result = d.operation_line_id.map_fiscal_taxes(
-                company=self.company_id,
-                partner=self.partner_id,
-                product=self.product_id)
+    def _update_fiscal_tax_ids(self, taxes):
+        for l in self:
+            fiscal_taxes = l.fiscal_tax_ids.filtered(
+                lambda ft: ft not in taxes)
 
-            for tax in mapping_result['taxes']:
+            l.fiscal_tax_ids = fiscal_taxes + taxes
+
+    @api.multi
+    def _update_taxes(self):
+        for l in self:
+
+            computed_taxes = self._compute_taxes(l.fiscal_tax_ids)
+
+            for tax in l.fiscal_tax_ids:
+
+                computed_tax = computed_taxes.get(tax.tax_domain)
+
+                if computed_tax:
+                    if not computed_tax.get("tax_include"):
+                        l.amount_tax_not_included = computed_tax.get(
+                            "tax_value", 0.00)
+
                 if tax.tax_domain == TAX_DOMAIN_IPI:
-                    d.ipi_tax_id = tax
+                    l.ipi_tax_id = tax
+                    self._set_fields_ipi(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_II:
-                    d.ii_tax_id = tax
+                    l.ii_tax_id = tax
+                    self._set_fields_ii(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_PIS:
-                    d.pis_tax_id = tax
+                    l.pis_tax_id = tax
+                    self._set_fields_pis(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_COFINS:
-                    d.cofins_tax_id = tax
+                    l.cofins_tax_id = tax
+                    self._set_fields_cofins(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_ICMS:
-                    d.icms_tax_id = tax
+                    l.icms_tax_id = tax
+                    self._set_fields_icms(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_ICMS_SN:
-                    d.icmssn_tax_id = tax
-
-            d.cfop_id = mapping_result['cfop']
+                    l.icmssn_tax_id = tax
+                    self._set_fields_icmssn(computed_tax)
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
@@ -387,7 +451,14 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             )
 
             if self.operation_line_id:
-                self._update_fiscal_taxes()
+                mapping_result = self.operation_line_id.map_fiscal_taxes(
+                    company=self.company_id,
+                    partner=self.partner_id,
+                    product=self.product_id)
+
+                self.cfop_id = mapping_result['cfop']
+                self.fiscal_tax_ids = mapping_result['taxes']
+                self._update_taxes()
 
     def _set_fields_icms(self, tax_dict):
         if tax_dict:
@@ -398,26 +469,29 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.icms_reduction = tax_dict.get("percent_reduction")
             self.icms_value = tax_dict.get("tax_value")
 
-    @api.onchange("icms_tax_id", "fiscal_price", "fiscal_quantity")
-    def _onchange_icms_tax_id(self):
-        if self.icms_tax_id:
-            result_taxes = self._compute_taxes(
-                 self.ipi_tax_id + self.icms_tax_id)
-            self._set_fields_icms(result_taxes.get(TAX_DOMAIN_ICMS))
-            self._set_fields_ipi(result_taxes.get(TAX_DOMAIN_IPI))
-        else:
-            self.icms_cst_id = False
-
-    @api.onchange("icms_base", "icms_percent", "icms_reduction", "icms_value")
+    @api.onchange(
+        "icms_base",
+        "icms_percent",
+        "icms_reduction",
+        "icms_value")
     def _onchange_icms_fields(self):
         pass
 
-    @api.onchange("icmssn_tax_id", "fiscal_price", "fiscal_quantity")
-    def _onchange_icmssn_tax_id(self):
-        if self.icmssn_tax_id:
-            self.icmssn_cst_id = self.icmssn_tax_id.cst_from_tax(self.operation_type)
+    def _set_fields_icmssn(self, tax_dict):
+        self.icmssn_cst_id = self.icmssn_cst_id.cst_from_tax(
+            self.operation_type)
 
-    @api.onchange("icms_base", "icms_percent", "icms_reduction", "icms_value")
+        self.icmssn_base_type = tax_dict.get("base_type")
+        self.icmssn_base = tax_dict.get("base")
+        self.icmssn_percent = tax_dict.get("percent_amount")
+        self.icmssn_reduction = tax_dict.get("percent_reduction")
+        self.icmssn_credit_value = tax_dict.get("tax_value")
+
+    @api.onchange(
+        "icms_base",
+        "icms_percent",
+        "icms_reduction",
+        "icms_value")
     def _onchange_icmssn_fields(self):
         pass
 
@@ -430,15 +504,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.ipi_reduction = tax_dict.get("percent_reduction")
             self.ipi_value = tax_dict.get("tax_value")
 
-    @api.onchange("ipi_tax_id", "fiscal_price", "fiscal_quantity")
-    def _onchange_ipi_tax_id(self):
-        if self.ipi_tax_id:
-            result_taxes = self._compute_taxes(self.ipi_tax_id)
-            self._set_fields_ipi(result_taxes.get(TAX_DOMAIN_IPI))
-        else:
-            self.ipi_cst_id = False
-
-    @api.onchange("ipi_base", "ipi_percent", "ipi_reduction", "ipi_value")
+    @api.onchange(
+        "ipi_base",
+        "ipi_percent",
+        "ipi_reduction",
+        "ipi_value")
     def _onchange_ipi_fields(self):
         pass
 
@@ -451,17 +521,12 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.pis_reduction = tax_dict.get("percent_reduction")
             self.pis_value = tax_dict.get("tax_value")
 
-    @api.onchange("pis_tax_id", "fiscal_price", "fiscal_quantity")
-    def _onchange_pis_tax_id(self):
-        if self.pis_tax_id:
-            result_taxes = self._compute_taxes(self.pis_tax_id)
-            self._set_fields_pis(result_taxes.get(TAX_DOMAIN_PIS))
-        else:
-            self.pis_cst_id = False
-
     @api.onchange(
-        "pis_base_type", "pis_base", "pis_percent", "pis_reduction", "pis_value"
-    )
+        "pis_base_type",
+        "pis_base",
+        "pis_percent",
+        "pis_reduction",
+        "pis_value")
     def _onchange_pis_fields(self):
         pass
 
@@ -475,42 +540,26 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.pisst_reduction = tax_dict.get("percent_reduction")
             self.pisst_value = tax_dict.get("tax_value")
 
-    @api.onchange("pisst_tax_id", "fiscal_price", "fiscal_quantity")
-    def _onchange_pisst_tax_id(self):
-        if self.pisst_tax_id:
-            result_taxes = self._compute_taxes(self.pisst_tax_id)
-            self._set_fields_pisst(result_taxes.get(TAX_DOMAIN_PIS_ST))
-        else:
-            self.pisst_cst_id = False
-
     @api.onchange("pisst_base")
     def _onchange_pisst_fields(self):
         pass
 
     def _set_fields_cofins(self, tax_dict):
         if tax_dict:
-            self.cofins_cst_id = self.cofins_tax_id.cst_from_tax(self.operation_type)
+            self.cofins_cst_id = self.cofins_tax_id.cst_from_tax(
+                self.operation_type)
             self.cofins_base_type = tax_dict.get("base_type")
             self.cofins_base = tax_dict.get("base")
             self.cofins_percent = tax_dict.get("percent_amount")
             self.cofins_reduction = tax_dict.get("percent_reduction")
             self.cofins_value = tax_dict.get("tax_value")
 
-    @api.onchange("cofins_tax_id", "fiscal_price", "fiscal_quantity")
-    def _onchange_cofins_tax_id(self):
-        if self.cofins_tax_id:
-            result_taxes = self._compute_taxes(self.cofins_tax_id)
-            self._set_fields_cofins(result_taxes.get(TAX_DOMAIN_COFINS))
-        else:
-            self.cofins_cst_id = False
-
     @api.onchange(
         "cofins_base_type",
         "cofins_base",
         "cofins_percent",
         "cofins_reduction",
-        "cofins_value",
-    )
+        "cofins_value")
     def _onchange_cofins_fields(self):
         pass
 
@@ -524,14 +573,65 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.cofinsst_reduction = tax_dict.get("percent_reduction")
             self.cofinsst_value = tax_dict.get("tax_value")
 
-    @api.onchange("cofinsst_tax_id", "fiscal_price", "fiscal_quantity")
-    def _onchange_cofinsst_tax_id(self):
+    @api.onchange(
+        "cofinsst_base_type",
+        "cofinsst_base",
+        "cofinsst_percent",
+        "cofinsst_reduction",
+        "cofinsst_value")
+    def _onchange_cofinsst_fields(self):
+        pass
+
+    @api.onchange(
+        "icms_tax_id",
+        "ipi_tax_id",
+        "pis_tax_id",
+        "pisst_tax_id",
+        "cofins_tax_id",
+        "cofinsst_tax_id",
+        "fiscal_price",
+        "fiscal_quantity",
+        "discount_value",
+        "insurance_value",
+        "other_costs_value",
+        "freight_value")
+    def _onchange_fiscal_taxes(self):
+        taxes = self.env['l10n_br_fiscal.tax']
+        if self.ipi_tax_id:
+            taxes |= self.ipi_tax_id
+        else:
+            self.ipi_cst_id = False
+
+        if self.pis_tax_id:
+            taxes |= self.pis_tax_id
+        else:
+            self.pis_cst_id = False
+
+        if self.pisst_tax_id:
+            taxes |= self.pisst_tax_id
+        else:
+            self.pisst_cst_id = False
+
+        if self.cofins_tax_id:
+            taxes |= self.cofins_tax_id
+        else:
+            self.cofins_cst_id = False
+
         if self.cofinsst_tax_id:
-            result_taxes = self._compute_taxes(self.cofinsst_tax_id)
-            self._set_fields_cofinsst(result_taxes.get(TAX_DOMAIN_COFINS_ST))
+            taxes |= self.cofinsst_tax_id
         else:
             self.cofinsst_cst_id = False
 
-    @api.onchange("cofinsst_base", "fiscal_price", "fiscal_quantity")
-    def _onchange_cofins_fields(self):
-        pass
+        if self.icms_tax_id:
+            taxes |= self.icms_tax_id
+        else:
+            self.icms_cst_id = False
+
+        if self.icmssn_tax_id:
+            taxes |= self.icmssn_tax_id
+        else:
+            self.icmssn_cst_id = False
+
+
+        self._update_fiscal_tax_ids(taxes)
+        self._update_taxes()
