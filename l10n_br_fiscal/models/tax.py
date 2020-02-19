@@ -161,55 +161,71 @@ class Tax(models.Model):
             cst = self.cst_out_id
         return cst
 
-    def _compute_icms(self, tax, taxes_dict, **kwargs):
+    def _compute_tax_base(self, tax, tax_dict, **kwargs):
+        company = kwargs.get("company", tax.env.user.company_id)
+        currency = kwargs.get("currency", company.currency_id)
+        precision = currency.decimal_places
+        fiscal_price = kwargs.get("fiscal_price", 0.00)
+        fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
+        add_to_base = kwargs.get("add_to_base", 0.00)
+        remove_from_base = kwargs.get("remove_from_base", 0.00)
+
+        tax_dict["base_type"] = tax.tax_base_type
+        tax_dict["tax_include"] = tax.tax_group_id.tax_include
+        tax_dict["fiscal_tax_id"] = tax.id
+        tax_dict["tax_domain"] = tax.tax_domain
+        tax_dict["percent_reduction"] = tax.percent_reduction
+
+        if tax_dict["base_type"] == "percent":
+            tax_dict["percent_amount"] = tax.percent_amount
+
+            # Compute initial Tax Base
+            base = round(fiscal_price * fiscal_quantity, precision)
+
+        if tax_dict["base_type"] == "quantity":
+            tax_dict["value_amount"] = tax.value_amount
+
+            # Compute initial Tax Base
+            base = fiscal_quantity
+
+        if tax_dict["base_type"] == "fixed":
+            tax_dict["value_amount"] = tax.value_amount
+
+            # Compute initial Tax Base
+            base = round(fiscal_price * fiscal_quantity, precision)
+
+        # Compute Tax Base Reduction
+        base_reduction = round(
+            base * abs(tax.percent_reduction / 100), precision)
+
+        # Compute Tax Base Amount
+        base_amount = (
+            (base + add_to_base) - (base_reduction + remove_from_base))
+        tax_dict["base"] = base_amount
+
+        return tax_dict
+
+    def _compute_tax(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         company = kwargs.get("company", tax.env.user.company_id)
         partner = kwargs.get("partner")
         currency = kwargs.get("currency", company.currency_id)
         precision = currency.decimal_places
-        # price = kwargs.get('price', 0.00)
-        # quantity = kwargs.get('quantity', 0.00)
-        # uom_id = kwargs.get('uom_id')
+        price = kwargs.get('price', 0.00)
+        quantity = kwargs.get('quantity', 0.00)
+        uom_id = kwargs.get('uom_id')
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
-        discount = kwargs.get("discount", 0.00)
+        discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
         other_costs_value = kwargs.get("other_costs_value", 0.00)
-        # uot_id = kwargs.get('uot_id')
+        uot_id = kwargs.get('uot_id')
 
-        tax_dict["tax_include"] = tax.tax_group_id.tax_include
-        tax_dict["fiscal_tax_id"] = tax.id
-        tax_dict["tax_domain"] = tax.tax_domain
+        tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
+        base_amount = tax_dict.get("base", 0.00)
 
-        if tax.tax_base_type == "percent":
-            tax_dict["base_type"] = tax.tax_base_type
-            tax_dict["percent_amount"] = tax.percent_amount
-            tax_dict["percent_reduction"] = tax.percent_reduction
-
-            # Compute Tax Base
-            base = round(fiscal_price * fiscal_quantity, precision)
-            base -= discount
-            base += insurance_value
-            base += freight_value
-            base += other_costs_value
-
-            if partner.ind_ie_dest in (NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9):
-                tax_dict_ipi = taxes_dict.get("ipi")
-                if tax_dict_ipi:
-                    ipi_value = tax_dict_ipi.get("tax_value")
-                    base += ipi_value
-
-            # Compute Tax Base Reduction
-            base_reduction = round(
-                base * abs(tax.percent_reduction / 100),
-                precision)
-
-            # Compute Tax Base Amount
-            base_amount = base - base_reduction
-
-            tax_dict["base"] = base_amount
-
+        if tax_dict["base_type"] == "percent":
             # Compute Tax Value
             tax_value = round(
                 base_amount * (tax.percent_amount / 100),
@@ -217,34 +233,41 @@ class Tax(models.Model):
 
             tax_dict["tax_value"] = tax_value
 
-        if tax.tax_base_type == "quantity":
-            # Tax base
-            base_amount = fiscal_quantity
-            tax_dict["base"] = base_amount
-
-            # Tax value by unit
-            tax_dict["value_amount"] = tax.value_amount
+        if tax.tax_base_type in ("quantity", "fixed"):
 
             tax_dict["tax_value"] = round(
                 base_amount * tax.value_amount,
                 precision)
 
-        if tax.tax_base_type == "fixed":
-            # Compute Tax Base
-            base = round(fiscal_price * fiscal_quantity, precision)
-
-            # Compute Tax Base Reduction
-            base_reduction = round(
-                base * abs(tax.percent_reduction / 100),
-                precision)
-
-            # Compute Tax Base Amount
-            base_amount = base_amount - base_reduction
-
-            tax_dict["base"] = base_amount
-            tax_dict["value_amount"] = tax.value_amount
-
         return tax_dict
+
+    def _compute_icms(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        partner = kwargs.get("partner")
+        discount_value = kwargs.get("discount_value", 0.00)
+        insurance_value = kwargs.get("insurance_value", 0.00)
+        freight_value = kwargs.get("freight_value", 0.00)
+        other_costs_value = kwargs.get("other_costs_value", 0.00)
+
+        add_to_base = [insurance_value, freight_value, other_costs_value]
+        remove_from_base = [discount_value]
+
+        # Get Computed IPI Tax
+        tax_dict_ipi = taxes_dict.get("ipi", {})
+
+        if partner.ind_ie_dest in (NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9):
+            # Add IPI in ICMS Base
+            add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
+
+        kwargs.update({
+            'add_to_base': sum(add_to_base),
+            'remove_from_base': sum(remove_from_base)
+        })
+
+        taxes_dict.update(self._compute_tax_base(
+            tax, taxes_dict.get(tax.tax_domain), **kwargs))
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_icmsn(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
@@ -253,9 +276,6 @@ class Tax(models.Model):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_icms_difal(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ii(self, tax, taxes_dict, **kwargs):
@@ -274,74 +294,10 @@ class Tax(models.Model):
         return tax_dict
 
     def _compute_generic(self, tax, taxes_dict, **kwargs):
-        tax_dict = taxes_dict.get(tax.tax_domain)
-        company = kwargs.get("company", tax.env.user.company_id)
-        currency = kwargs.get("currency", company.currency_id)
-        precision = currency.decimal_places
-        # price = kwargs.get('price', 0.00)
-        # quantity = kwargs.get('quantity', 0.00)
-        # uom_id = kwargs.get('uom_id')
-        fiscal_price = kwargs.get("fiscal_price", 0.00)
-        fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
-        # uot_id = kwargs.get('uot_id')
+        taxes_dict.update(self._compute_tax_base(
+            tax, taxes_dict.get(tax.tax_domain), **kwargs))
 
-        tax_dict["tax_include"] = tax.tax_group_id.tax_include
-        tax_dict["fiscal_tax_id"] = tax.id
-        tax_dict["tax_domain"] = tax.tax_domain
-
-        if tax.tax_base_type == "percent":
-            tax_dict["base_type"] = tax.tax_base_type
-            tax_dict["percent_amount"] = tax.percent_amount
-            tax_dict["percent_reduction"] = tax.percent_reduction
-
-            # Compute Tax Base
-            base = round(fiscal_price * fiscal_quantity, precision)
-
-            # Compute Tax Base Reduction
-            base_reduction = round(
-                base * abs(tax.percent_reduction / 100),
-                precision)
-
-            # Compute Tax Base Amount
-            base_amount = base - base_reduction
-
-            tax_dict["base"] = base_amount
-
-            # Compute Tax Value
-            tax_value = round(
-                base_amount * (tax.percent_amount / 100),
-                precision)
-
-            tax_dict["tax_value"] = tax_value
-
-        if tax.tax_base_type == "quantity":
-            # Tax base
-            base_amount = fiscal_quantity
-            tax_dict["base"] = base_amount
-
-            # Tax value by unit
-            tax_dict["value_amount"] = tax.value_amount
-
-            tax_dict["tax_value"] = round(
-                base_amount * tax.value_amount,
-                precision)
-
-        if tax.tax_base_type == "fixed":
-            # Compute Tax Base
-            base = round(fiscal_price * fiscal_quantity, precision)
-
-            # Compute Tax Base Reduction
-            base_reduction = round(
-                base * abs(tax.percent_reduction / 100),
-                precision)
-
-            # Compute Tax Base Amount
-            base_amount = base_amount - base_reduction
-
-            tax_dict["base"] = base_amount
-            tax_dict["value_amount"] = tax.value_amount
-
-        return tax_dict
+        return self._compute_tax(tax, taxes_dict, **kwargs)
 
     @api.multi
     def compute_taxes(self, **kwargs):
@@ -356,7 +312,7 @@ class Tax(models.Model):
             fiscal_price,
             fiscal_quantity,
             uot_id,
-            discount,
+            discount_value,
             insurance_value,
             other_costs_value,
             freight_value,
@@ -380,7 +336,7 @@ class Tax(models.Model):
                 )
             except AttributeError:
                 taxes[tax.tax_domain].update(
-                    tax._compute_generic(tax, taxes[tax.tax_domain], **kwargs))
+                    tax._compute_generic(tax, taxes, **kwargs))
                 # Caso não exista campos especificos dos impostos
                 # no documento fiscal, os mesmos são calculados.
                 continue
