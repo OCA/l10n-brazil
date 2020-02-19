@@ -33,6 +33,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 col-lg-6 o_setting_box" name="disable_cpf_cnpj_validation">
+                            <div class="o_setting_left_pane">
+                                <field name="disable_cpf_cnpj_validation"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label string="Disable CPF and CNPJ validation" for="l10n_br_base"/>
+                                <div class="text-muted">
+                                   Select to disable CPF and CNPJ validation
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" name="disable_ie_validation">
+                            <div class="o_setting_left_pane">
+                                <field name="disable_ie_validation"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label string="Disable IE validation" for="l10n_br_base"/>
+                                <div class="text-muted">
+                                   Select to disable IE validation
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </xpath>

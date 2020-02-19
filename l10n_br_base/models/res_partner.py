@@ -144,19 +144,25 @@ class Partner(models.Model):
     def _check_cnpj_cpf(self):
         result = True
         for record in self:
-            if record.country_id:
-                country_code = record.country_id.code
-                if country_code:
-                    if record.cnpj_cpf and country_code.upper() == "BR":
-                        if record.is_company:
-                            if not cnpj_cpf.validar(record.cnpj_cpf):
+
+            disable_cnpj_ie_validation = record.env["ir.config_parameter"].sudo()\
+                .get_param(
+                "l10n_br_base.disable_cpf_cnpj_validation", default=False
+            )
+            if not disable_cnpj_ie_validation:
+                if record.country_id:
+                    country_code = record.country_id.code
+                    if country_code:
+                        if record.cnpj_cpf and country_code.upper() == "BR":
+                            if record.is_company:
+                                if not cnpj_cpf.validar(record.cnpj_cpf):
+                                    result = False
+                                    document = "CNPJ"
+                            elif not cnpj_cpf.validar(record.cnpj_cpf):
                                 result = False
-                                document = "CNPJ"
-                        elif not cnpj_cpf.validar(record.cnpj_cpf):
-                            result = False
-                            document = "CPF"
-            if not result:
-                raise ValidationError(_("{} Invalid!").format(document))
+                                document = "CPF"
+                if not result:
+                    raise ValidationError(_("{} Invalid!").format(document))
 
     @api.multi
     @api.constrains("inscr_est", "state_id")
@@ -170,12 +176,17 @@ class Partner(models.Model):
         """
         for record in self:
             result = True
-            if record.inscr_est and record.is_company and record.state_id:
-                state_code = record.state_id.code or ""
-                uf = state_code.lower()
-                result = ie.validar(uf, record.inscr_est)
-            if not result:
-                raise ValidationError(_("Estadual Inscription Invalid !"))
+
+            disable_ie_validation = record.env["ir.config_parameter"].sudo().get_param(
+                "l10n_br_base.disable_ie_validation", default=False
+            )
+            if not disable_ie_validation:
+                if record.inscr_est and record.is_company and record.state_id:
+                    state_code = record.state_id.code or ""
+                    uf = state_code.lower()
+                    result = ie.validar(uf, record.inscr_est)
+                if not result:
+                    raise ValidationError(_("Estadual Inscription Invalid !"))
 
     @api.multi
     @api.constrains("state_tax_number_ids")
