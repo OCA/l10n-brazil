@@ -15,7 +15,6 @@ class DocumentAbstract(models.AbstractModel):
     @api.one
     @api.depends("line_ids")
     def _compute_amount(self):
-
         self.amount_untaxed = sum(line.amount_untaxed for line in self.line_ids)
         self.amount_icms_base = sum(line.icms_base for line in self.line_ids)
         self.amount_icms_value = sum(line.icms_value for line in self.line_ids)
@@ -26,7 +25,7 @@ class DocumentAbstract(models.AbstractModel):
         self.amount_cofins_base = sum(line.cofins_base for line in self.line_ids)
         self.amount_cofins_value = sum(line.cofins_value for line in self.line_ids)
         self.amount_tax = sum(line.amount_tax for line in self.line_ids)
-        self.amount_discount = sum(line.discount for line in self.line_ids)
+        self.amount_discount_value = sum(line.discount_value for line in self.line_ids)
         self.amount_insurance_value = sum(line.insurance_value for line in self.line_ids)
         self.amount_other_costs_value = sum(line.other_costs_value for line in self.line_ids)
         self.amount_freight_value = sum(line.freight_value for line in self.line_ids)
@@ -34,126 +33,153 @@ class DocumentAbstract(models.AbstractModel):
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(
+        string="Active",
+        default=True)
 
-    number = fields.Char(string="Number", index=True)
+    number = fields.Char(
+        string="Number",
+        index=True)
 
-    key = fields.Char(string="key", index=True)
+    key = fields.Char(
+        string="key",
+        index=True)
 
     issuer = fields.Selection(
         selection=[("company", "Company"), ("partner", "Partner")],
         default="company",
         required=True,
-        string="Issuer",
-    )
+        string="Issuer")
 
     user_id = fields.Many2one(
         comodel_name='res.users',
         string='User',
         index=True,
-        default=lambda self: self.env.user
-    )
+        default=lambda self: self.env.user)
 
     document_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.type", required=True
-    )
+        comodel_name="l10n_br_fiscal.document.type",
+        required=True)
 
     document_electronic = fields.Boolean(
-        related="document_type_id.electronic", string="Electronic?"
-    )
+        related="document_type_id.electronic",
+        string="Electronic?")
 
-    date = fields.Datetime(string="Date")
+    date = fields.Datetime(
+        string="Date")
 
-    date_in_out = fields.Datetime(string="Date Move")
+    date_in_out = fields.Datetime(
+        string="Date Move")
 
     document_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
-        domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
-    )
+        domain="[('active', '=', True),"
+               "('document_type_id', '=', document_type_id)]")
 
-    document_serie = fields.Char(string="Serie Number")
+    document_serie = fields.Char(
+        string="Serie Number")
 
-    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Partner")
 
-    partner_legal_name = fields.Char(string="Legal Name")
+    partner_legal_name = fields.Char(
+        string="Legal Name")
 
-    partner_name = fields.Char(string="Name")
+    partner_name = fields.Char(
+        string="Name")
 
-    partner_cnpj_cpf = fields.Char(string="CNPJ")
+    partner_cnpj_cpf = fields.Char(
+        string="CNPJ")
 
-    partner_inscr_est = fields.Char(string="State Tax Number")
+    partner_inscr_est = fields.Char(
+        string="State Tax Number")
 
-    partner_inscr_mun = fields.Char(string="Municipal Tax Number")
+    partner_inscr_mun = fields.Char(
+        string="Municipal Tax Number")
 
-    partner_suframa = fields.Char(string="Suframa")
+    partner_suframa = fields.Char(
+        string="Suframa")
 
     partner_cnae_main_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cnae", string="Main CNAE"
-    )
+        comodel_name="l10n_br_fiscal.cnae",
+        string="Main CNAE")
 
     partner_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Tax Framework"
-    )
+        selection=TAX_FRAMEWORK,
+        string="Tax Framework")
 
     partner_shipping_id = fields.Many2one(
-        comodel_name="res.partner", string="Shipping Address"
-    )
+        comodel_name="res.partner",
+        string="Shipping Address")
 
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
         required=True,
         default=lambda self: self.env["res.company"]._company_default_get(
-            "l10n_br_fiscal.tax.estimate"
-        ),
-    )
+            "l10n_br_fiscal.tax.estimate"))
 
     company_legal_name = fields.Char(
-        string="Legal Name", related="company_id.legal_name"
-    )
+        string="Legal Name",
+        related="company_id.legal_name")
 
-    company_name = fields.Char(string="Name", related="company_id.name", size=128)
+    company_name = fields.Char(
+        string="Name",
+        related="company_id.name",
+        size=128)
 
-    company_cnpj_cpf = fields.Char(string="CNPJ", related="company_id.cnpj_cpf")
+    company_cnpj_cpf = fields.Char(
+        string="CNPJ",
+        related="company_id.cnpj_cpf")
 
     company_inscr_est = fields.Char(
-        string="State Tax Number", related="company_id.inscr_est"
-    )
+        string="State Tax Number",
+        related="company_id.inscr_est")
 
     company_inscr_mun = fields.Char(
-        string="Municipal Tax Number", related="company_id.inscr_mun"
-    )
+        string="Municipal Tax Number",
+        related="company_id.inscr_mun")
 
-    company_suframa = fields.Char(string="Suframa", related="company_id.suframa")
+    company_suframa = fields.Char(
+        string="Suframa",
+        related="company_id.suframa")
 
     company_cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
         related="company_id.cnae_main_id",
-        string="Main CNAE",
-    )
+        string="Main CNAE")
 
     company_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         related="company_id.tax_framework",
-        string="Tax Framework",
-    )
+        string="Tax Framework")
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         related="company_id.currency_id",
         store=True,
-        readonly=True,
-    )
+        readonly=True)
 
-    amount_untaxed = fields.Monetary(string="Amount Untaxed", compute="_compute_amount")
+    amount_untaxed = fields.Monetary(
+        string="Amount Untaxed",
+        compute="_compute_amount")
 
-    amount_icms_base = fields.Monetary(string="ICMS Base", compute="_compute_amount")
+    amount_icms_base = fields.Monetary(
+        string="ICMS Base",
+        compute="_compute_amount")
 
-    amount_icms_value = fields.Monetary(string="ICMS Value", compute="_compute_amount")
+    amount_icms_value = fields.Monetary(
+        string="ICMS Value",
+        compute="_compute_amount")
 
-    amount_ipi_base = fields.Monetary(string="IPI Base", compute="_compute_amount")
+    amount_ipi_base = fields.Monetary(
+        string="IPI Base",
+        compute="_compute_amount")
 
-    amount_ipi_value = fields.Monetary(string="IPI Value", compute="_compute_amount")
+    amount_ipi_value = fields.Monetary(
+        string="IPI Value",
+        compute="_compute_amount")
 
     amount_pis_base = fields.Monetary(
         string="PIS Base",
@@ -203,21 +229,18 @@ class DocumentAbstract(models.AbstractModel):
             ("draft", "Draft"),
             ("open", "Open"),
             ("done", "Done"),
-            ("cancelled", "Cancelled"),
-        ],
+            ("cancelled", "Cancelled")],
         string="State",
         default="draft",
         index=True,
         readonly=True,
         track_visibility="onchange",
-        copy=False,
-    )
+        copy=False)
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line.abstract",
         inverse_name="document_id",
-        string="Document Lines",
-    )
+        string="Document Lines")
 
     @api.model
     def _create_serie_number(self, document_serie_id, document_date):
