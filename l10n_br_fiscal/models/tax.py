@@ -23,6 +23,7 @@ TAX_DICT_VALUES = {
     "cst_code": False,
     "base_type": "percent",
     "base": 0.00,
+    "base_reduction": 0.00,
     "percent_amount": 0.00,
     "percent_reduction": 0.00,
     "value_amount": 0.00,
@@ -36,7 +37,10 @@ class Tax(models.Model):
     _order = "sequence, tax_domain, name"
     _description = "Tax"
 
-    name = fields.Char(string="Name", size=256, required=True)
+    name = fields.Char(
+        string="Name",
+        size=256,
+        required=True)
 
     sequence = fields.Integer(
         string="Sequence",
@@ -44,49 +48,42 @@ class Tax(models.Model):
         related="tax_group_id.sequence",
         required=True,
         help="The sequence field is used to define "
-        "order in which the tax lines are applied.",
-    )
+        "order in which the tax lines are applied.")
 
     tax_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="Tax Base Type",
         default=TAX_BASE_TYPE_PERCENT,
-        required=True,
-    )
+        required=True)
 
     percent_amount = fields.Float(
         string="Percent",
         default="0.00",
         digits=dp.get_precision("Fiscal Tax Percent"),
-        required=True,
-    )
+        required=True)
 
     percent_reduction = fields.Float(
         string="Percent Reduction",
         default="0.00",
         digits=dp.get_precision("Fiscal Tax Percent"),
-        required=True,
-    )
+        required=True)
 
     percent_debit_credit = fields.Float(
         string="Percent Debit/Credit",
         default="0.00",
         digits=dp.get_precision("Fiscal Tax Percent"),
-        required=True,
-    )
+        required=True)
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         default=lambda self: self.env.ref("base.BRL"),
-        string="Currency",
-    )
+        string="Currency")
 
     value_amount = fields.Float(
         string="Value",
         default="0.00",
         digits=dp.get_precision("Fiscal Tax Value"),
-        required=True,
-    )
+        required=True)
 
     uot_id = fields.Many2one(
         comodel_name="uom.uom",
@@ -95,45 +92,39 @@ class Tax(models.Model):
     tax_group_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.group",
         string="Fiscal Tax Group",
-        required=True,
-    )
+        required=True)
 
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
         related="tax_group_id.tax_domain",
         string="Tax Domain",
         required=True,
-        readonly=True,
-    )
+        readonly=True)
 
     cst_in_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST In",
         domain="[('cst_type', 'in', ('in', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
-    )
+        "('tax_domain', '=', tax_domain)]")
 
     cst_out_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST Out",
         domain="[('cst_type', 'in', ('out', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
-    )
+        "('tax_domain', '=', tax_domain)]")
 
     # ICMS Fields
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
         required=True,
-        default=ICMS_BASE_TYPE_DEFAULT,
-    )
+        default=ICMS_BASE_TYPE_DEFAULT)
 
     icms_st_base_type = fields.Selection(
         selection=ICMS_ST_BASE_TYPE,
         string=u"Tipo Base ICMS ST",
         required=True,
-        default=ICMS_ST_BASE_TYPE_DEFAULT,
-    )
+        default=ICMS_ST_BASE_TYPE_DEFAULT)
 
     _sql_constraints = [(
         "fiscal_tax_code_uniq", "unique (name)",
@@ -206,21 +197,27 @@ class Tax(models.Model):
         return tax_dict
 
     def _compute_tax(self, tax, taxes_dict, **kwargs):
+
         tax_dict = taxes_dict.get(tax.tax_domain)
+
         company = kwargs.get("company", tax.env.user.company_id)
         partner = kwargs.get("partner")
         currency = kwargs.get("currency", company.currency_id)
         precision = currency.decimal_places
-        price = kwargs.get('price', 0.00)
-        quantity = kwargs.get('quantity', 0.00)
-        uom_id = kwargs.get('uom_id')
+        product = kwargs.get("product")
+        price = kwargs.get("price", 0.00)
+        quantity = kwargs.get("quantity", 0.00)
+        uom_id = kwargs.get("uom_id")
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
+        uot_id = kwargs.get("uot_id")
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
         other_costs_value = kwargs.get("other_costs_value", 0.00)
-        uot_id = kwargs.get('uot_id')
+        freight_value = kwargs.get("freight_value", 0.00)
+        ncm = kwargs.get("ncm")
+        cest = kwargs.get("cest")
+        operation_line = kwargs.get("operation_line")
 
         tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
         base_amount = tax_dict.get("base", 0.00)
@@ -270,6 +267,9 @@ class Tax(models.Model):
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_icmsn(self, tax, taxes_dict, **kwargs):
+        return self._compute_generic(tax, taxes_dict, **kwargs)
+
+    def _compute_issqn(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
