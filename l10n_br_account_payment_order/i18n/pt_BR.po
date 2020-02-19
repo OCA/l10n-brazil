@@ -22,6 +22,11 @@ msgid "Bank Accounts"
 msgstr "Contas Bancárias"
 
 #. module: l10n_br_account_payment_order
+#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_boleto
+msgid "Boleto Bancario"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br-account_payment_mode_form
 msgid "Configurações Brasileiras"
 msgstr ""
@@ -30,6 +35,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__date_scheduled
 msgid "Data Prevista"
 msgstr "Data Prevista"
+
+#. module: l10n_br_account_payment_order
+#: selection:account.payment.mode,operation_type:0
+#: selection:account.payment.order,operation_type:0
+msgid "Debito em conta corrente"
+msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br-account_payment_mode_form
@@ -72,6 +83,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: selection:account.payment.mode,operation_type:0
+#: selection:account.payment.order,operation_type:0
+#, fuzzy
+msgid "Pagamento"
+msgstr "Ordens de Pagamentos"
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_line
 #, fuzzy
 msgid "Payment Lines"
@@ -82,6 +100,11 @@ msgstr "Linha de Pagamento"
 #, fuzzy
 msgid "Payment Modes"
 msgstr "Ordens de Pagamentos"
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_order
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__percent_interest
@@ -109,6 +132,13 @@ msgid "Sequência já usada! Crie uma sequência unica para cada modo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__operation_type
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__operation_type
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__operation_type
+msgid "Tipo de Operação"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__amount_interest
 msgid "Valor Juros"
 msgstr ""
@@ -124,9 +154,6 @@ msgstr ""
 
 #~ msgid "Impossible confirm empty line!"
 #~ msgstr "Impossível confirmar linha vazia!"
-
-#~ msgid "Payment Order"
-#~ msgstr "Ordem de Pagamento"
 
 #~ msgid "Total Credit"
 #~ msgstr "Total de Crédito"
