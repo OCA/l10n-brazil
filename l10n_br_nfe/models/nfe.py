@@ -72,6 +72,14 @@ class NFe(spec_models.StackedModel):
                                 comodel_name='l10n_br_fiscal.document.line',
                                 inverse_name='document_id')
 
+    nfe40_dhEmi = fields.Datetime(
+        related='date'
+    )
+
+    nfe40_dhSaiEnt = fields.Datetime(
+        related='date_in_out'
+    )
+
     processador_edoc = fields.Selection(
         selection_add=PROCESSADOR,
         related='company_id.processador_edoc',
