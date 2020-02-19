@@ -69,7 +69,6 @@ TAX_DOMAIN = (
     ("icms", "ICMS - Próprio"),
     ("icmssn", "ICMS - Simples Nacional"),
     ("icmsfcp", "ICMS FCP - Fundo de Combate a Pobreza"),
-    ("icmsdifal", "ICMS - Interstatual"),
     ("icmsst", "ICMS - Subistituição Tributária"),
     ("pis", "PIS"),
     ("pisst", "PIS ST"),
