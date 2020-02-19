@@ -4,16 +4,18 @@
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import (CFOP_DESTINATION_EXPORT, FISCAL_IN,
-                                FISCAL_IN_OUT, FISCAL_OUT, NCM_FOR_SERVICE_REF,
-                                PRODUCT_FISCAL_TYPE,
-                                PRODUCT_FISCAL_TYPE_SERVICE, TAX_BASE_TYPE,
-                                TAX_BASE_TYPE_PERCENT, TAX_DOMAIN_COFINS,
-                                TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN,
-                                TAX_DOMAIN_IPI, TAX_DOMAIN_PIS,
-                                TAX_FRAMEWORK,
-                                TAX_FRAMEWORK_NORMAL,
-                                TAX_FRAMEWORK_SIMPLES_ALL)
+from ..constants.fiscal import (
+    CFOP_DESTINATION_EXPORT, FISCAL_IN,
+    FISCAL_IN_OUT, FISCAL_OUT, NCM_FOR_SERVICE_REF,
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_SERVICE, TAX_BASE_TYPE,
+    TAX_BASE_TYPE_PERCENT, TAX_DOMAIN_COFINS,
+    TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN,
+    TAX_DOMAIN_IPI, TAX_DOMAIN_PIS,
+    TAX_FRAMEWORK,
+    TAX_FRAMEWORK_NORMAL,
+    TAX_FRAMEWORK_SIMPLES_ALL
+)
 
 
 class DocumentLineAbstract(models.AbstractModel):
@@ -23,24 +25,28 @@ class DocumentLineAbstract(models.AbstractModel):
 
     @api.one
     @api.depends(
-        "price",
-        "discount",
+        "fiscal_price",
+        "discount_value",
         "insurance_value",
         "other_costs_value",
         "freight_value",
-        "quantity",
+        "fiscal_quantity",
+        "amount_tax_not_included",
+        "uot_id",
         "product_id",
         "document_id.partner_id",
-        "document_id.company_id",
-    )
+        "document_id.company_id")
     def _compute_amount(self):
         round_curr = self.document_id.currency_id.round
         self.amount_untaxed = round_curr(self.price * self.quantity)
-        self.amount_tax = 0.00
-        self.amount_total = (self.amount_untaxed + self.amount_tax +
-                             self.insurance_value +
-                             self.other_costs_value + self.freight_value +
-                             - self.discount)
+        self.amount_tax = self.amount_tax_not_included
+        self.amount_total = (
+            self.amount_untaxed +
+            self.amount_tax +
+            self.insurance_value +
+            self.other_costs_value +
+            self.freight_value -
+            self.discount_value)
 
     @api.model
     def _get_default_ncm_id(self):
@@ -51,13 +57,15 @@ class DocumentLineAbstract(models.AbstractModel):
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(
+        string="Active",
+        default=True)
 
     name = fields.Text(string="Name")
 
     document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.abstract", string="Document"
-    )
+        comodel_name="l10n_br_fiscal.document.abstract",
+        string="Document")
 
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -92,101 +100,67 @@ class DocumentLineAbstract(models.AbstractModel):
         string="Quantity",
         digits=dp.get_precision("Product Unit of Measure"))
 
-    price = fields.Float(string="Price Unit", digits=dp.get_precision("Product Price"))
+    price = fields.Float(
+        string="Price Unit",
+        digits=dp.get_precision("Product Price"))
 
-    uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
+    uot_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="Tax UoM")
 
-    discount = fields.Monetary(string="Discount")
-
-    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
+    fiscal_type = fields.Selection(
+        selection=PRODUCT_FISCAL_TYPE,
+        string="Fiscal Type")
 
     fiscal_genre_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.product.genre", string="Fiscal Genre"
-    )
+        comodel_name="l10n_br_fiscal.product.genre",
+        string="Fiscal Genre")
 
     ncm_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.ncm",
         index=True,
         default=_get_default_ncm_id,
-        string="NCM",
-    )
+        string="NCM")
 
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         index=True,
         string="CEST",
-        domain="[('ncm_ids', '=', ncm_id)]",
-    )
+        domain="[('ncm_ids', '=', ncm_id)]")
 
     nbs_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.nbs", index=True, string="NBS"
-    )
+        comodel_name="l10n_br_fiscal.nbs",
+        index=True,
+        string="NBS")
 
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
         string="Service Type",
-        domain="[('internal_type', '=', 'normal')]",
-    )
+        domain="[('internal_type', '=', 'normal')]")
 
-    notes = fields.Text(string="Notes")
+    notes = fields.Text(
+        string="Notes")
 
     # Amount Fields
-    amount_estimate_tax = fields.Monetary(string="Amount Estimate Total", compute="_compute_amount", default=0.00)
+    amount_estimate_tax = fields.Monetary(
+        string="Amount Estimate Total",
+        compute="_compute_amount",
+        default=0.00)
 
-    amount_untaxed = fields.Monetary(string="Amount Untaxed", compute="_compute_amount", default=0.00)
+    amount_untaxed = fields.Monetary(
+        string="Amount Untaxed",
+        compute="_compute_amount",
+        default=0.00)
 
-    amount_tax = fields.Monetary(string="Amount Tax", compute="_compute_amount", default=0.00)
+    amount_tax = fields.Monetary(
+        string="Amount Tax",
+        compute="_compute_amount",
+        default=0.00)
 
-    amount_total = fields.Monetary(string="Amount Total", compute="_compute_amount", default=0.00)
-
-    # TODO REMOVE
-    def _set_default_taxes(self, company_id, operation_type=FISCAL_OUT):
-        company = self.env["res.company"].browse(company_id)
-        defaults = {}
-        if not self.env.context.get("default_operation_type") == FISCAL_OUT:
-            return defaults
-
-        for tax_def in company.tax_definition_ids:
-            # Default ICMS SN
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_ICMS_SN:
-                if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-                    defaults["icmssn_tax_id"] = tax_def.tax_id.id
-                    defaults["icmssn_cst_id"] = tax_def.tax_id.cst_from_tax(
-                        operation_type
-                    ).id
-
-            # Default ICMS
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_ICMS:
-                if company.tax_framework == TAX_FRAMEWORK_NORMAL:
-                    defaults["icms_tax_id"] = tax_def.tax_id.id
-                    defaults["icms_cst_id"] = tax_def.tax_id.cst_from_tax(
-                        operation_type
-                    ).id
-
-            # Default IPI
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_IPI:
-                if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-                    defaults["ipi_tax_id"] = tax_def.tax_id.id
-                    defaults["ipi_cst_id"] = tax_def.tax_id.cst_from_tax(
-                        operation_type
-                    ).id
-
-            if company.tax_framework == TAX_FRAMEWORK_NORMAL and not company.ripi:
-                defaults["ipi_tax_id"] = tax_def.tax_id.id
-                defaults["ipi_cst_id"] = tax_def.tax_id.cst_from_tax(operation_type).id
-
-            # Default PIS/COFINS
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_PIS:
-                defaults["pis_tax_id"] = tax_def.tax_id.id
-                defaults["pis_cst_id"] = tax_def.tax_id.cst_from_tax(operation_type).id
-
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_COFINS:
-                defaults["cofins_tax_id"] = tax_def.tax_id.id
-                defaults["cofins_cst_id"] = tax_def.tax_id.cst_from_tax(
-                    operation_type
-                ).id
-
-        return defaults
+    amount_total = fields.Monetary(
+        string="Amount Total",
+        compute="_compute_amount",
+        default=0.00)
 
     @api.onchange("product_id")
     def _onchange_product_id(self):
