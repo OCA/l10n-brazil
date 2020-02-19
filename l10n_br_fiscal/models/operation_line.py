@@ -22,170 +22,92 @@ class OperationLine(models.Model):
         comodel_name="l10n_br_fiscal.operation",
         string="Operation",
         ondelete="cascade",
-        required=True,
-    )
+        required=True)
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(
+        string="Name",
+        required=True)
 
     cfop_internal_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Internal",
-        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '1')]",
-    )
+        domain="[('type_in_out', '=', operation_type), "
+               "('type_move', '=ilike', fiscal_type + '%'), "
+               "('destination', '=', '1')]")
 
     cfop_external_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP External",
-        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '2')]",
-    )
+        domain="[('type_in_out', '=', operation_type), "
+               "('type_move', '=ilike', fiscal_type + '%'), "
+               "('destination', '=', '2')]")
 
     cfop_export_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Export",
-        domain="[('type_in_out', '=', operation_type), ('type_move', '=ilike', fiscal_type + '%'), ('destination', '=', '3')]",
-    )
+        domain="[('type_in_out', '=', operation_type), "
+               "('type_move', '=ilike', fiscal_type + '%'), "
+               "('destination', '=', '3')]")
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         related="operation_id.operation_type",
         string="Operation Type",
         store=True,
-        readonly=True,
-    )
+        readonly=True)
 
     fiscal_type = fields.Selection(
         selection=OPERATION_FISCAL_TYPE,
         related="operation_id.fiscal_type",
         string="Fiscal Type",
         store=True,
-        readonly=True,
-    )
+        readonly=True)
 
     line_inverse_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line Inverse",
         domain="[('operation_type', '!=', operation_type)]",
-        copy=False,
-    )
+        copy=False)
 
     line_refund_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line Refund",
         domain="[('operation_type', '!=', operation_type)]",
-        copy=False,
-    )
+        copy=False)
 
     partner_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Partner Tax Framework"
-    )
+        selection=TAX_FRAMEWORK,
+        string="Partner Tax Framework")
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
         string="Contribuinte do ICMS",
         required=True,
-        default=NFE_IND_IE_DEST_DEFAULT,
-    )
+        default=NFE_IND_IE_DEST_DEFAULT)
 
-    product_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
+    product_type = fields.Selection(
+        selection=PRODUCT_FISCAL_TYPE,
+        string="Fiscal Type")
 
     company_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Copmpany Tax Framework"
-    )
+        selection=TAX_FRAMEWORK,
+        string="Copmpany Tax Framework")
 
-    add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)
+    add_to_amount = fields.Boolean(
+        string="Add to Document Amount?",
+        default=True)
 
-    # ICMS Fields
-    icms_custom = fields.Boolean(string="Custom ICMS", default=False)
-
-    icms_origin = fields.Selection(selection=ICMS_ORIGIN, string="Origin", default="0")
-
-    icms_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Tax ICMS",
-        domain="[('tax_domain', '=', 'icms')]",
-    )
-
-    icms_cst_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cst",
-        string="CST ICMS",
-        domain="[('cst_type', '=', 'all')," "('tax_domain', '=', 'icms')]",
-    )
-
-    """
-    motivo_icms_desonerado = fields.Selection(
-        selection=MOTIVO_DESONERACAO_ICMS,
-        string='Motivo da desoneração do ICMS')
-    """
-
-    icms_cst_csosn_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cst",
-        string="CSOSN",
-        domain="[('cst_type', '=', 'all')," "('tax_domain', '=', 'simples')]",
-    )
-
-    icms_base_add_ipi = fields.Boolean(string="Add IPI value in ICMS base amount?")
-
-    icms_st_base_add_ipi = fields.Boolean(
-        string="Add IPI value in ICMS ST base amount?"
-    )
-
-    # IPI Fields
-    ipi_custom = fields.Boolean(string="Custom IPI", default=False)
-
-    ipi_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Tax IPI",
-        domain="[('tax_domain', '=', 'ipi')]",
-    )
-
-    ipi_cst_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cst",
-        string="CST IPI",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'ipi')]",
-    )
-
-    ipi_guideline_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.ipi.guideline", string="IPI Guideline"
-    )
-
-    # PIS/COFINS Fields
-    pis_cofins_custom = fields.Boolean(string="Custom PIS/COFINS", default=False)
-
-    # PIS Fields
-    pis_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Tax PIS",
-        domain="[('tax_domain', '=', 'pis')]",
-    )
-
-    pis_cst_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cst",
-        string="CST PIS",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'pis')]",
-    )
-
-    # Cofins Fields
-    cofins_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Tax Cofins",
-        domain="[('tax_domain', '=', 'cofins')]",
-    )
-
-    cofins_cst_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cst",
-        string="CST COFINS",
-        domain="[('cst_type', '=', operation_type)," "('tax_domain', '=', 'cofins')]",
-    )
-
-    pis_cofins_revenue_code = fields.Char(string="PIS/COFINS Revenue Code", size=3)
+    icms_origin = fields.Selection(
+        selection=ICMS_ORIGIN,
+        string="Origin",
+        default="0")
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="l10n_br_fiscal_operation_line_comment_rel",
         column1="operation_id",
         column2="comment_id",
-        string="Comment",
-    )
+        string="Comment")
 
     state = fields.Selection(
         selection=OPERATION_STATE,
@@ -194,16 +116,12 @@ class OperationLine(models.Model):
         index=True,
         readonly=True,
         track_visibility="onchange",
-        copy=False,
-    )
+        copy=False)
 
-    _sql_constraints = [
-        (
-            "fiscal_operation_name_uniq",
-            "unique (name, operation_id)",
-            _("Fiscal Operation Line already exists with this name !"),
-        )
-    ]
+    _sql_constraints = [(
+        "fiscal_operation_name_uniq",
+        "unique (name, operation_id)",
+        _("Fiscal Operation Line already exists with this name !"))]
 
     def _get_cfop(self, company, partner):
         cfop = False
