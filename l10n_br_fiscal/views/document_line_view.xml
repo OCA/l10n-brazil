@@ -11,6 +11,7 @@
         <field name="company_id" invisible="1"/>
         <field name="partner_id" invisible="1"/>
         <field name="tax_framework" invisible="1"/>
+        <field name="amount_tax_not_included" invisible="1"/>
         <group>
           <field name="product_id" context="{'form_view_ref': 'product.product_template_form_view'}"/>
           <field name="name" required="1"/>
@@ -25,7 +26,7 @@
                   <field name="uom_id" groups="uom.group_uom" class="oe_inline"/>
                 </div>
                 <field name="price"/>
-                <field name="discount"/>
+                <field name="discount_value"/>
                 <field name="insurance_value"/>
                 <field name="other_costs_value"/>
                 <field name="freight_value"/>
@@ -42,12 +43,12 @@
                 <field name="nbs_id"/>
               </group>
               <group name="l10n_br_fiscal" string="Operation">
+                <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
                 <field name="operation_type" invisible="1" readonly="1"/>
                 <field name="operation_id" required="1"/>
                 <field name="operation_line_id" required="1"/>
                 <field name="cfop_id"/>
                 <field name="cfop_destination" invisible="1"/>
-
               </group>
             </group>
           </page>
