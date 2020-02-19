@@ -87,6 +87,8 @@ class AbstractSpecMixin(models.AbstractModel):
                     elif class_obj._name == 'nfe.40.icmstot':
                         self[xsd_field] = sum(
                             self['nfe40_det'].mapped('nfe40_vProd'))
+                if xsd_field == 'nfe40_pICMSInterPart':
+                    self[xsd_field] = 100.0
                 if not self[xsd_field] and not xsd_required:
                     if not (class_obj._name == 'nfe.40.imposto' and
                             xsd_field == 'nfe40_vTotTrib') and not \
