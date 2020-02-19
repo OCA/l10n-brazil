@@ -100,6 +100,13 @@ class NFe(spec_models.StackedModel):
     # )
 
     @api.multi
+    def document_number(self):
+        super(NFe, self).document_number()
+        if len(self.key) == 47:
+            self.nfe40_cNF = self.key[38:-1]
+            self.nfe40_cDV = self.key[-1]
+
+    @api.multi
     def document_check(self):
         super(NFe, self).document_check()
         to_check = self.filtered(
