@@ -80,6 +80,13 @@ class AbstractSpecMixin(models.AbstractModel):
                 field_data = self._export_date(xsd_field)
             elif self._fields[xsd_field].type in ('float', 'monetary') and \
                     self[xsd_field] is not False:
+                if xsd_field == 'nfe40_vProd':
+                    if class_obj._name == 'nfe.40.prod':
+                        self[xsd_field] = self['nfe40_qCom'] * \
+                                          self['nfe40_vUnCom']
+                    elif class_obj._name == 'nfe.40.icmstot':
+                        self[xsd_field] = sum(
+                            self['nfe40_det'].mapped('nfe40_vProd'))
                 if not self[xsd_field] and not xsd_required:
                     if not (class_obj._name == 'nfe.40.imposto' and
                             xsd_field == 'nfe40_vTotTrib') and not \
