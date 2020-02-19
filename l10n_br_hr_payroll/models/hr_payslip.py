@@ -66,10 +66,10 @@ class HrPayslip(models.Model):
                     holerite.contract_id.action_button_update_controle_ferias()
 
                 # Validação para confirmação
-                liquido = holerite.line_ids.filtered(
-                    lambda x: x.code == 'LIQUIDO').total
+                liquido = sum(holerite.line_ids.filtered(
+                    lambda x: x.code == 'LIQUIDO').mapped('total'))
                 if liquido and float_compare(
-                        holerite.total_folha, liquido, precision_digits=2):
+                        holerite.total_folha, liquido, precision_rounding=0.1):
                     raise exceptions.Warning(
                         _('Rúbrica LIQUIDO com valor inválido!'))
 
