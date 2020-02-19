@@ -47,6 +47,10 @@ class AbstractSpecMixin(models.AbstractModel):
                     self[xsd_field]
                 )
 
+            if xsd_field == 'nfe40_tpAmb':
+                self.env.context = dict(self.env.context)
+                self.env.context.update({'tpAmb': self[xsd_field]})
+
             if self._fields[xsd_field].type == 'many2one':
                 if not self[xsd_field] and not xsd_required:
                     if class_obj._fields[xsd_field].comodel_name \
@@ -85,6 +89,11 @@ class AbstractSpecMixin(models.AbstractModel):
                     xsd_field, member_spec)
             else:
                 field_data = self[xsd_field]
+                if xsd_field == 'nfe40_xNome' and \
+                        class_obj._name == 'nfe.40.dest' and \
+                        self.env.context.get('tpAmb') == '2':
+                    field_data = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO' \
+                                 ' - SEM VALOR FISCAL'
                 if xsd_field == 'nfe40_modBC':
                     field_data = self['icms_base_type']
                 if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
