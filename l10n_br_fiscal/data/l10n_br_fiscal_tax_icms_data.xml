@@ -5,6 +5,7 @@
     <field name="name">Regulamento do ICMS</field>
   </record>
 
+  <!-- ICMS -->
   <!-- AC -->
   <record id="tax_icms_regulation_ac_ac" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation"/>
@@ -5862,6 +5863,288 @@
     <field name="state_to_id" ref="base.state_br_to"/>
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms"/>
+  </record>
+
+
+  "tax_icmsfcp_nt"
+  "tax_icmsfcp_1"
+  "tax_icmsfcp_16"
+  "tax_icmsfcp_19"
+  "tax_icmsfcp_2"
+  <!-- FCP -->
+  <!-- AC -->
+  <record id="tax_icmsfcp_2_regulation_ac_ac" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_ac"/>
+    <field name="state_to_id" ref="base.state_br_ac"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- AL -->
+  <record id="tax_icmsfcp_1_regulation_al_al" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_al"/>
+    <field name="state_to_id" ref="base.state_br_al"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_1"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <record id="tax_icmsfcp_2_regulation_al_al" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_al"/>
+    <field name="state_to_id" ref="base.state_br_al"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- AM -->
+  <record id="tax_icmsfcp_16_regulation_am_am" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_am"/>
+    <field name="state_to_id" ref="base.state_br_am"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_16"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <record id="tax_icmsfcp_19_regulation_am_am" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_am"/>
+    <field name="state_to_id" ref="base.state_br_am"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_19"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <record id="tax_icmsfcp_2_regulation_am_am" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_am"/>
+    <field name="state_to_id" ref="base.state_br_am"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- AP -->
+  <record id="tax_icmsfcp_nt_regulation_ap_ap" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_ap"/>
+    <field name="state_to_id" ref="base.state_br_ap"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_nt"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- BA -->
+  <record id="tax_icmsfcp_2_regulation_ba_ba" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_ba"/>
+    <field name="state_to_id" ref="base.state_br_ba"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- CE -->
+  <record id="tax_icmsfcp_2_regulation_ce_ce" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_ce"/>
+    <field name="state_to_id" ref="base.state_br_ce"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- DF -->
+  <record id="tax_icmsfcp_2_regulation_df_df" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_df"/>
+    <field name="state_to_id" ref="base.state_br_df"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- ES -->
+  <record id="tax_icmsfcp_2_regulation_es_es" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_es"/>
+    <field name="state_to_id" ref="base.state_br_es"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- GO -->
+  <record id="tax_icmsfcp_2_regulation_go_go" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_go"/>
+    <field name="state_to_id" ref="base.state_br_go"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- MA -->
+  <record id="tax_icmsfcp_2_regulation_ma_ma" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_ma"/>
+    <field name="state_to_id" ref="base.state_br_ma"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- MT -->
+  <record id="tax_icmsfcp_2_regulation_mt_mt" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_mt"/>
+    <field name="state_to_id" ref="base.state_br_mt"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- MS -->
+  <record id="tax_icmsfcp_2_regulation_ms_ms" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_ms"/>
+    <field name="state_to_id" ref="base.state_br_ms"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- MG -->
+  <record id="tax_icmsfcp_2_regulation_mg_mg" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_mg"/>
+    <field name="state_to_id" ref="base.state_br_mg"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- PA -->
+  <record id="tax_icmsfcp_nt_regulation_pa_pa" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_pa"/>
+    <field name="state_to_id" ref="base.state_br_pa"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_nt"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- PB -->
+  <record id="tax_icmsfcp_nt_regulation_pb_pb" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_pb"/>
+    <field name="state_to_id" ref="base.state_br_pb"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- PB -->
+  <record id="tax_icmsfcp_2_regulation_pb_pb" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_pr"/>
+    <field name="state_to_id" ref="base.state_br_pr"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- PB -->
+  <record id="tax_icmsfcp_2_regulation_pe_pe" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_pe"/>
+    <field name="state_to_id" ref="base.state_br_pe"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- PI -->
+  <record id="tax_icmsfcp_1_regulation_pi_pi" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_pi"/>
+    <field name="state_to_id" ref="base.state_br_pi"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_1"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <record id="tax_icmsfcp_2_regulation_pi_pi" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_pi"/>
+    <field name="state_to_id" ref="base.state_br_pi"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- RN -->
+  <record id="tax_icmsfcp_2_regulation_rn_rn" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_rn"/>
+    <field name="state_to_id" ref="base.state_br_rn"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- RS -->
+  <record id="tax_icmsfcp_2_regulation_rs_rs" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_rs"/>
+    <field name="state_to_id" ref="base.state_br_rs"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- RJ -->
+  <record id="tax_icmsfcp_4_regulation_rj_rj" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_rj"/>
+    <field name="state_to_id" ref="base.state_br_rj"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_4"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- RO -->
+  <record id="tax_icmsfcp_2_regulation_ro_ro" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_ro"/>
+    <field name="state_to_id" ref="base.state_br_ro"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- RR -->
+  <record id="tax_icmsfcp_2_regulation_rr_rr" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_rr"/>
+    <field name="state_to_id" ref="base.state_br_rr"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- SC -->
+  <record id="tax_icmsfcp_nt_regulation_sc_sc" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_sc"/>
+    <field name="state_to_id" ref="base.state_br_sc"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_nt"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- SP -->
+  <record id="tax_icmsfcp_2_regulation_sp_sp" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_sp"/>
+    <field name="state_to_id" ref="base.state_br_sp"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- SE -->
+  <record id="tax_icmsfcp_2_regulation_se_se" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_se"/>
+    <field name="state_to_id" ref="base.state_br_se"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
+  </record>
+
+  <!-- TO -->
+  <record id="tax_icmsfcp_2_regulation_to_to" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation"/>
+    <field name="state_from_id" ref="base.state_br_to"/>
+    <field name="state_to_id" ref="base.state_br_to"/>
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2"/>
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp"/>
   </record>
 
 </odoo>

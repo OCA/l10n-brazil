@@ -60,6 +60,12 @@
 "tax_icms_18","ICMS 18%","percent","18.00","0.00","tax_group_icms","cst_icms_00","cst_icms_00",,,,,"999"
 "tax_icms_19","ICMS 19%","percent","19.00","0.00","tax_group_icms","cst_icms_00","cst_icms_00",,,,,"999"
 "tax_icms_20","ICMS 20%","percent","20.00","0.00","tax_group_icms","cst_icms_00","cst_icms_00",,,,,"999"
+"tax_icmsfcp_nt","FCP Não Tributado","percent","0.00","0.00","tax_group_icmsfcp",,,,,,,
+"tax_icmsfcp_1","FCP 1%","percent","1.00","0.00","tax_group_icmsfcp",,,,,,,
+"tax_icmsfcp_16","FCP 1,60%","percent","1.60","0.00","tax_group_icmsfcp",,,,,,,
+"tax_icmsfcp_19","FCP 1,90%","percent","1.90","0.00","tax_group_icmsfcp",,,,,,,
+"tax_icmsfcp_2","FCP 2%","percent","2.00","0.00","tax_group_icmsfcp",,,,,,,
+"tax_icmsfcp_4","FCP 4%","percent","4.00","0.00","tax_group_icmsfcp",,,,,,,
 "tax_icms_sn_com_credito","ICMS SN Com Permissão de Crédito","percent","0.00","0.00","tax_group_icmssn","cst_icmssn_101","cst_icmssn_101",,,,,"999"
 "tax_icms_sn_sem_credito","ICMS SN Sem Permissão de Crédito","percent","0.00","0.00","tax_group_icmssn","cst_icmssn_102","cst_icmssn_102",,,,,"999"
 "tax_icms_sn_isento_faixa_bruta","ICMS SN Isento para a faixa de receita bruta","percent","0.00","0.00","tax_group_icmssn","cst_icmssn_103","cst_icmssn_103",,,,,"999"
