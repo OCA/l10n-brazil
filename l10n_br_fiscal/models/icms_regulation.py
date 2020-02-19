@@ -1024,9 +1024,17 @@ class ICMSRegulation(models.Model):
 
         self.ensure_one()
 
-        tax_definitions = self.env['l10n_br_fiscal.tax.definition'].search([
+        domain = [
             ('icms_regulation_id', '=', self.id),
-            ('state_from_id', '=', company.state_id.id),
-            ('state_to_id', '=', partner.state_id.id)])
+            ('state_from_id', '=', company.state_id.id)]
+
+        # Partner Is Company?
+        if partner.is_company:
+            domain.append(('state_to_id', '=', partner.state_id.id))
+        else:
+            domain.append(('state_to_id', '=', company.state_id.id))
+
+        tax_definitions = self.env['l10n_br_fiscal.tax.definition'].search(
+            domain)
 
         return tax_definitions.mapped('tax_id')
