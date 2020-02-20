@@ -254,6 +254,13 @@ class NFe(spec_models.StackedModel):
     #             )
     #             pass
 
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        for record in self:
+            if record.company_id.partner_id.state_id.ibge_code:
+                record.nfe40_cUF = \
+                    record.company_id.partner_id.state_id.ibge_code
+
 
 class NFeLine(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document.line'
