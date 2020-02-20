@@ -112,10 +112,6 @@ class DocumentLineAbstract(models.AbstractModel):
         selection=PRODUCT_FISCAL_TYPE,
         string="Fiscal Type")
 
-    fiscal_genre_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.product.genre",
-        string="Fiscal Genre")
-
     ncm_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.ncm",
         index=True,
@@ -132,11 +128,6 @@ class DocumentLineAbstract(models.AbstractModel):
         comodel_name="l10n_br_fiscal.nbs",
         index=True,
         string="NBS")
-
-    service_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.service.type",
-        string="Service Type",
-        domain="[('internal_type', '=', 'normal')]")
 
     notes = fields.Text(
         string="Notes")
@@ -161,18 +152,6 @@ class DocumentLineAbstract(models.AbstractModel):
         string="Amount Total",
         compute="_compute_amount",
         default=0.00)
-
-    @api.onchange("product_id")
-    def _onchange_product_id(self):
-        if self.product_id:
-            self.name = self.product_id.display_name
-            self.uom_id = self.product_id.uom_id
-            self.ncm_id = self.product_id.ncm_id
-            self.cest_id = self.product_id.cest_id
-            self.nbs_id = self.product_id.nbs_id
-            self.uot_id = self.product_id.uot_id or self.product_id.uom_id
-
-        self._onchange_operation_id()
 
     @api.onchange("uot_id", "uom_id", "price", "quantity")
     def _onchange_commercial_quantity(self):
