@@ -1020,7 +1020,8 @@ class ICMSRegulation(models.Model):
         return view_super
 
     @api.multi
-    def map_tax_icms(self, company, partner, product, operation_line=None):
+    def map_tax_icms(self, company, partner, product, ncm=None,
+                     cest=None, operation_line=None):
 
         self.ensure_one()
 
