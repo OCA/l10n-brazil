@@ -58,7 +58,7 @@ class DocumentAbstract(models.AbstractModel):
             record.amount_tax = sum(
                 line.amount_tax for line in record.line_ids)
             record.amount_discount = sum(
-                line.discount for line in record.line_ids)
+                line.discount_value for line in record.line_ids)
             record.amount_insurance_value = sum(
                 line.insurance_value for line in record.line_ids)
             record.amount_other_costs_value = sum(
