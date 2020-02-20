@@ -44,7 +44,7 @@ class DocumentLineAbstract(models.AbstractModel):
                 record.insurance_value +
                 record.other_costs_value +
                 record.freight_value -
-                record.discount
+                record.discount_value
             )
 
     @api.model
