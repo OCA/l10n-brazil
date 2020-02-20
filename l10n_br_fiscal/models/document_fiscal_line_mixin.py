@@ -8,14 +8,15 @@ from odoo.addons import decimal_precision as dp
 from ..constants.fiscal import (
     FISCAL_IN_OUT, TAX_FRAMEWORK,
    TAX_BASE_TYPE, TAX_BASE_TYPE_PERCENT,
-   TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN, TAX_DOMAIN_IPI, TAX_DOMAIN_II,
-   TAX_DOMAIN_PIS, TAX_DOMAIN_PIS_ST, TAX_DOMAIN_COFINS, TAX_DOMAIN_COFINS_ST,
-   CFOP_DESTINATION
+   TAX_DOMAIN_ISSQN, TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN, TAX_DOMAIN_IPI,
+   TAX_DOMAIN_II, TAX_DOMAIN_PIS, TAX_DOMAIN_PIS_ST, TAX_DOMAIN_COFINS,
+   TAX_DOMAIN_COFINS_ST, CFOP_DESTINATION
 )
 
 from .tax import TAX_DICT_VALUES
 
 FISCAL_TAX_ID_FIELDS = [
+    'issqn_tax_id',
     'icms_tax_id',
     'icmsst_tax_id',
     'icmssn_tax_id',
@@ -53,6 +54,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         comodel_name="res.currency",
         string="Currency",
         default=lambda self: self.env.ref('base.BRL'))
+
+    product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Product")
 
     operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
@@ -117,11 +122,46 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Amount Tax not Included",
         default=0.00)
 
+    fiscal_genre_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.product.genre",
+        string="Fiscal Genre")
+
+    fiscal_genre_code = fields.Char(
+        related="fiscal_genre_id.code",
+        string="Product Genre Code")
+
+    service_type_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.service.type",
+        string="Service Type",
+        domain="[('internal_type', '=', 'normal')]")
+
+    # ISSQN Fields
+    issqn_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax ISSQN",
+        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN)])
+
+    issqn_base = fields.Monetary(
+        string="ISSQN Base",
+        default=0.00)
+
+    issqn_percent = fields.Float(
+        string="ISSQN %",
+        default=0.00)
+
+    issqn_reduction = fields.Float(
+        string="ISSQN % Reduction",
+        default=0.00)
+
+    issqn_value = fields.Monetary(
+        string="ISSQN Value",
+        default=0.00)
+
     # ICMS Fields
     icms_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS",
-        domain="[('tax_domain', '=', 'icms')]")
+        domain=[('tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
@@ -185,7 +225,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     ipi_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IPI",
-        domain="[('tax_domain', '=', 'ipi')]")
+        domain=[('tax_domain', '=', TAX_DOMAIN_IPI)])
 
     ipi_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
@@ -279,11 +319,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
     cofins_base_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
-        string="COFINS Base")
+        string="COFINS Base Code")
 
     cofins_credit_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins.credit",
-        string="COFINS Credit")
+        string="COFINS Credit Code")
 
     # COFINS ST
     cofinsst_tax_id = fields.Many2one(
@@ -450,8 +490,14 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
                 l[fiscal_tax_field] = False
 
-            self._set_fields_ipi(TAX_DICT_VALUES)
+            self._set_fields_issqn(TAX_DICT_VALUES)
             self._set_fields_icms(TAX_DICT_VALUES)
+            self._set_fields_ipi(TAX_DICT_VALUES)
+            self._set_fields_ii(TAX_DICT_VALUES)
+            self._set_fields_pis(TAX_DICT_VALUES)
+            self._set_fields_pisst(TAX_DICT_VALUES)
+            self._set_fields_cofins(TAX_DICT_VALUES)
+            self._set_fields_cofinsst(TAX_DICT_VALUES)
 
     @api.multi
     def _update_fiscal_tax_ids(self, taxes):
@@ -510,22 +556,66 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                 partner=self.partner_id,
                 product=self.product_id)
 
-            if self.operation_line_id:
+    @api.onchange("operation_line_id")
+    def _onchange_operation_line_id(self):
 
-                # Reset Taxes
-                self._remove_all_fiscal_tax_ids()
+        # Reset Taxes
+        self._remove_all_fiscal_tax_ids()
+        
+        if self.operation_line_id:
 
-                mapping_result = self.operation_line_id.map_fiscal_taxes(
-                    company=self.company_id,
-                    partner=self.partner_id,
-                    product=self.product_id,
-                    ncm=self.ncm_id,
-                    nbs=self.nbs_id,
-                    cest=self.cest_id)
+            mapping_result = self.operation_line_id.map_fiscal_taxes(
+                company=self.company_id,
+                partner=self.partner_id,
+                product=self.product_id,
+                ncm=self.ncm_id,
+                nbs=self.nbs_id,
+                cest=self.cest_id)
 
-                self.cfop_id = mapping_result['cfop']
-                self.fiscal_tax_ids = mapping_result['taxes']
-                self._update_taxes()
+            self.cfop_id = mapping_result['cfop']
+            self.fiscal_tax_ids = mapping_result['taxes']
+            self._update_taxes()
+
+        if not self.operation_line_id:
+            self.cfop_id = False
+
+    @api.onchange("product_id")
+    def _onchange_product_id(self):
+        if self.product_id:
+            self.name = self.product_id.display_name
+            self.uom_id = self.product_id.uom_id
+            self.ncm_id = self.product_id.ncm_id
+            self.cest_id = self.product_id.cest_id
+            self.nbs_id = self.product_id.nbs_id
+            self.fiscal_genre_id = self.product_id.fiscal_genre_id
+            self.service_type_id = self.product_id.service_type_id
+            self.uot_id = self.product_id.uot_id or self.product_id.uom_id
+        else:
+            self.name = False
+            self.uom_id = False
+            self.ncm_id = False
+            self.cest_id = False
+            self.nbs_id = False
+            self.fiscal_genre_id = False
+            self.service_type_id = False
+            self.uot_id = False
+
+        self._onchange_operation_id()
+
+    def _set_fields_issqn(self, tax_dict):
+        if tax_dict:
+            self.issqn_base = tax_dict.get("base")
+            self.issqn_percent = tax_dict.get("percent_amount")
+            self.issqn_reduction = tax_dict.get("percent_reduction")
+            self.issqn_value = tax_dict.get("tax_value")
+
+    @api.onchange(
+        "issqn_base",
+        "issqn_percent",
+        "issqn_reduction",
+        "issqn_value")
+    def _onchange_issqn_fields(self):
+        pass
 
     def _set_fields_icms(self, tax_dict):
         if tax_dict:
@@ -577,6 +667,19 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_ipi_fields(self):
         pass
 
+    def _set_fields_ii(self, tax_dict):
+        if tax_dict:
+            self.ii_base = tax_dict.get("base", 0.00)
+            self.ii_percent = tax_dict.get("percent_amount", 0.00)
+            self.ii_value = tax_dict.get("tax_value", 0.00)
+
+    @api.onchange(
+        "ii_base",
+        "ii_percent",
+        "ii_value")
+    def _onchange_ii_fields(self):
+        pass
+
     def _set_fields_pis(self, tax_dict):
         if tax_dict:
             self.pis_cst_id = tax_dict.get("cst_id")
@@ -604,7 +707,12 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.pisst_reduction = tax_dict.get("percent_reduction", 0.00)
             self.pisst_value = tax_dict.get("tax_value", 0.00)
 
-    @api.onchange("pisst_base")
+    @api.onchange(
+        "pisst_base_type",
+        "pisst_base",
+        "pisst_percent",
+        "pisst_reduction",
+        "pisst_value")
     def _onchange_pisst_fields(self):
         pass
 
@@ -645,6 +753,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         pass
 
     @api.onchange(
+        "issqn_tax_id",
         "icms_tax_id",
         "icmsst_tax_id",
         "ipi_tax_id",
