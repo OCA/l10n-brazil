@@ -220,6 +220,10 @@ class Tax(models.Model):
         operation_line = kwargs.get("operation_line")
 
         tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
+
+        operation_type = operation_line.operation_type or FISCAL_OUT
+        tax_dict['cst_id'] = tax.cst_from_tax(operation_type)
+
         base_amount = tax_dict.get("base", 0.00)
 
         if tax_dict["base_type"] == "percent":
