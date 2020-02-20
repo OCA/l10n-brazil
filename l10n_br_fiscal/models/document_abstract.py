@@ -121,39 +121,39 @@ class DocumentAbstract(models.AbstractModel):
             "l10n_br_fiscal.tax.estimate"))
 
     company_legal_name = fields.Char(
-        string="Legal Name",
+        string="Company Legal Name",
         related="company_id.legal_name")
 
     company_name = fields.Char(
-        string="Name",
+        string="Company Name",
         related="company_id.name",
         size=128)
 
     company_cnpj_cpf = fields.Char(
-        string="CNPJ",
+        string="Company CNPJ",
         related="company_id.cnpj_cpf")
 
     company_inscr_est = fields.Char(
-        string="State Tax Number",
+        string="Company State Tax Number",
         related="company_id.inscr_est")
 
     company_inscr_mun = fields.Char(
-        string="Municipal Tax Number",
+        string="Company Municipal Tax Number",
         related="company_id.inscr_mun")
 
     company_suframa = fields.Char(
-        string="Suframa",
+        string="Company Suframa",
         related="company_id.suframa")
 
     company_cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
         related="company_id.cnae_main_id",
-        string="Main CNAE")
+        string="Company Main CNAE")
 
     company_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         related="company_id.tax_framework",
-        string="Tax Framework")
+        string="Company Tax Framework")
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
