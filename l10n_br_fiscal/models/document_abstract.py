@@ -252,19 +252,6 @@ class DocumentAbstract(models.AbstractModel):
         default=0.00,
         compute="_compute_amount")
 
-    state = fields.Selection(
-        selection=[
-            ("draft", "Draft"),
-            ("open", "Open"),
-            ("done", "Done"),
-            ("cancelled", "Cancelled")],
-        string="State",
-        default="draft",
-        index=True,
-        readonly=True,
-        track_visibility="onchange",
-        copy=False)
-
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line.abstract",
         inverse_name="document_id",
