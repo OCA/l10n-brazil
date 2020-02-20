@@ -157,16 +157,18 @@ class OperationLine(models.Model):
         if not ncm and product:
             ncm = product.ncm_id
 
-        mapping_result['taxes'] |= product.ncm_id.tax_ipi_id
+        mapping_result['taxes'] |= ncm.tax_ipi_id
 
         if mapping_result['cfop'].destination == CFOP_DESTINATION_EXPORT:
-            mapping_result['taxes'] |= product.ncm_id.tax_ii_id
+            mapping_result['taxes'] |= ncm.tax_ii_id
 
         # 3 ICMS Tax Definition
         mapping_result['taxes'] |= company.icms_regulation_id.map_tax_icms(
             company=company,
             partner=partner,
-            product=product)
+            product=product,
+            ncm=ncm,
+            cest=cest)
 
         return mapping_result
 
