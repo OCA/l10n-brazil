@@ -119,6 +119,7 @@ class EletronicDocument(models.AbstractModel):
 
     document_version = fields.Char(
         string='Versão',
+        default='4.00',
         readonly=True,
     )
 
