@@ -186,18 +186,4 @@ class DocumentLineAbstract(models.AbstractModel):
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
-        if self.ncm_id:
-            # Get IPI from NCM
-            if self.company_id.ripi:
-                self.ipi_tax_id = self.ncm_id.tax_ipi_id
-
-            # Get II from NCM but only comming from other country
-            if (
-                self.cfop_id.destination == CFOP_DESTINATION_EXPORT
-                and self.operation_type == FISCAL_IN
-            ):
-                self.ii_tax_id = self.ncm_id.tax_ii_id
-
-            # TODO cest_id compute ICMS ST
-
-            # TODO nbs_id compute ISSQN
+        self._onchange_operation_id()
