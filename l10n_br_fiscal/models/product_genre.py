@@ -12,22 +12,18 @@ class ProductGenre(models.Model):
     product_tmpl_ids = fields.One2many(
         comodel_name="product.template",
         string="Products",
-        compute="_compute_product_tmpl_info",
-    )
+        compute="_compute_product_tmpl_info")
 
     product_tmpl_qty = fields.Integer(
-        string="Products Quantity", compute="_compute_product_tmpl_info"
-    )
+        string="Products Quantity",
+        compute="_compute_product_tmpl_info")
 
     @api.one
     def _compute_product_tmpl_info(self):
-        product_tmpls = self.env["product.template"].search(
-            [
-                ("fiscal_genre_id", "=", self.id),
-                "|",
-                ("active", "=", False),
-                ("active", "=", True),
-            ]
-        )
+        product_tmpls = self.env["product.template"].search([
+            ("fiscal_genre_id", "=", self.id),
+            "|",
+            ("active", "=", False),
+            ("active", "=", True)])
         self.product_tmpl_ids = product_tmpls
         self.product_tmpl_qty = len(product_tmpls)
