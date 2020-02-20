@@ -160,6 +160,7 @@ class Tax(models.Model):
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
         add_to_base = kwargs.get("add_to_base", 0.00)
         remove_from_base = kwargs.get("remove_from_base", 0.00)
+        compute_reduction = kwargs.get("compute_reduction", True)
 
         tax_dict["base_type"] = tax.tax_base_type
         tax_dict["tax_include"] = tax.tax_group_id.tax_include
@@ -185,13 +186,17 @@ class Tax(models.Model):
             # Compute initial Tax Base
             base = round(fiscal_price * fiscal_quantity, precision)
 
+        # Update Base Value
+        base_amount = (base + add_to_base) - remove_from_base
+
         # Compute Tax Base Reduction
         base_reduction = round(
-            base * abs(tax.percent_reduction / 100), precision)
+            base_amount * abs(tax.percent_reduction / 100), precision)
 
         # Compute Tax Base Amount
-        base_amount = (
-            (base + add_to_base) - (base_reduction + remove_from_base))
+        if compute_reduction:
+            base_amount -= base_reduction
+
         tax_dict["base"] = base_amount
 
         return tax_dict
@@ -245,6 +250,7 @@ class Tax(models.Model):
     def _compute_icms(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
+        company = kwargs.get("company")
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
@@ -260,9 +266,14 @@ class Tax(models.Model):
             # Add IPI in ICMS Base
             add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
 
+        compute_reduction = True
+        if company.state_id != partner.state_id and not partner.is_company:
+            compute_reduction = False
+
         kwargs.update({
             'add_to_base': sum(add_to_base),
-            'remove_from_base': sum(remove_from_base)
+            'remove_from_base': sum(remove_from_base),
+            'compute_reduction': compute_reduction
         })
 
         taxes_dict.update(self._compute_tax_base(

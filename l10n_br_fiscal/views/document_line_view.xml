@@ -11,6 +11,7 @@
         <field name="company_id" invisible="1"/>
         <field name="partner_id" invisible="1"/>
         <field name="tax_framework" invisible="1"/>
+        <field name="fiscal_genre_code" invisible="1"/>
         <field name="amount_tax_not_included" invisible="1"/>
         <group>
           <field name="product_id" context="{'form_view_ref': 'product.product_template_form_view'}"/>
@@ -39,8 +40,10 @@
                 </div>
                 <field name="fiscal_price"/>
                 <field name="ncm_id"/>
+                <field name="fiscal_genre_id"/>
                 <field name="cest_id"/>
                 <field name="nbs_id"/>
+                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
               </group>
               <group name="l10n_br_fiscal" string="Operation">
                 <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
@@ -54,7 +57,22 @@
           </page>
           <page name="taxes" string="Taxes">
             <notebook>
-              <page name="icms" string="ICMS">
+              <page name="issqn" string="ISSQN" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
+                <group>
+                  <field name="issqn_tax_id"/>
+                </group>
+                <group>
+                    <group>
+                      <field name="issqn_base" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                      <field name="issqn_percent" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    </group>
+                    <group>
+                      <field name="issqn_reduction" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                      <field name="issqn_value" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    </group>
+                </group>
+              </page>
+              <page name="icms" string="ICMS" attrs="{'invisible': [('fiscal_genre_code', '=', '00')]}">
                   <group>
                       <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                       <field name="icms_cst_id" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
