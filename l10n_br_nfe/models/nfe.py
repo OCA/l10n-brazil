@@ -283,6 +283,69 @@ class NFeLine(spec_models.StackedModel):
         "Típo de Produto",
         default="normal")
 
+    nfe40_choice11 = fields.Selection(
+        compute='_compute_choice11',
+        store=True,
+    )
+
+    nfe40_choice12 = fields.Selection(
+        compute='_compute_choice12',
+        store=True,
+    )
+
+    nfe40_choice15 = fields.Selection(
+        compute='_compute_choice15',
+        store=True,
+    )
+
+    @api.depends('icms_cst_id')
+    def _compute_choice11(self):
+        for record in self:
+            if record.icms_cst_id.code == '00':
+                record.nfe40_choice11 = 'nfe40_ICMS00'
+            elif record.icms_cst_id.code == '10':
+                record.nfe40_choice11 = 'nfe40_ICMS10'
+            elif record.icms_cst_id.code == '20':
+                record.nfe40_choice11 = 'nfe40_ICMS20'
+            elif record.icms_cst_id.code == '30':
+                record.nfe40_choice11 = 'nfe40_ICMS30'
+            elif record.icms_cst_id.code in ['40', '41', '50']:
+                record.nfe40_choice11 = 'nfe40_ICMS40'
+            elif record.icms_cst_id.code == '51':
+                record.nfe40_choice11 = 'nfe40_ICMS51'
+            elif record.icms_cst_id.code == '60':
+                record.nfe40_choice11 = 'nfe40_ICMS60'
+            elif record.icms_cst_id.code == '70':
+                record.nfe40_choice11 = 'nfe40_ICMS70'
+            elif record.icms_cst_id.code == '90':
+                record.nfe40_choice11 = 'nfe40_ICMS90'
+            elif record.icms_cst_id.code == '400':
+                record.nfe40_choice11 = 'nfe40_ICMSSN102'
+
+    @api.depends('pis_cst_id')
+    def _compute_choice12(self):
+        for record in self:
+            if record.pis_cst_id.code in ['01', '02']:
+                record.nfe40_choice12 = 'nfe40_PISAliq'
+            elif record.pis_cst_id.code == '03':
+                record.nfe40_choice12 = 'nfe40_PISQtde'
+            elif record.pis_cst_id.code in ['04', '06', '07', '08', '09']:
+                record.nfe40_choice12 = 'nfe40_PISNT'
+            else:
+                record.nfe40_choice12 = 'nfe40_PISOutr'
+
+    @api.depends('cofins_cst_id')
+    def _compute_choice15(self):
+        for record in self:
+            if record.cofins_cst_id.code in ['01', '02']:
+                record.nfe40_choice15 = 'nfe40_COFINSAliq'
+            elif record.cofins_cst_id.code == '03':
+                record.nfe40_choice15 = 'nfe40_COFINSQtde'
+            elif record.cofins_cst_id.code in ['04', '06', '07', '08', '09']:
+                record.nfe40_choice15 = 'nfe40_COFINSNT'
+            else:
+                record.nfe40_choice15 = 'nfe40_COFINSOutr'
+
     def _export_field(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
