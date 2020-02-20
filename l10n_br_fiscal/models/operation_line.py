@@ -87,7 +87,7 @@ class OperationLine(models.Model):
 
     product_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
-        string="Fiscal Type")
+        string="Product Fiscal Type")
 
     company_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
