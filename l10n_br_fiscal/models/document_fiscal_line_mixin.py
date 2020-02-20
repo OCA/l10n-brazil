@@ -695,7 +695,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _set_fields_icms(self, tax_dict):
         if tax_dict:
             self.icms_cst_id = tax_dict.get("cst_id")
-            self.icms_base_type = tax_dict.get("base_type")
             self.icms_base = tax_dict.get("base")
             self.icms_percent = tax_dict.get("percent_amount")
             self.icms_reduction = tax_dict.get("percent_reduction")
