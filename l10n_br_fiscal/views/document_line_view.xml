@@ -92,6 +92,9 @@
                   </group>
               </page>
               <page name="ii" string="II" attrs="{'invisible': [('cfop_destination', '!=', '3')]}">
+                <group string="II">
+                    <field name="ii_tax_id"/>
+                </group>
                 <group>
                   <group>
                     <field name="ii_base"/>
