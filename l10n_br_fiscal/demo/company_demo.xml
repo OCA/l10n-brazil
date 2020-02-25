@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo noupdate="1">
 
     <record id="base.user_admin" model="res.users">
         <field name="in_group_4">1</field>
