@@ -12,38 +12,42 @@ class DocumentSerie(models.Model):
     _description = "Fiscal Document Serie"
     _inherit = "l10n_br_fiscal.data.abstract"
 
-    code = fields.Char(size=3)
+    code = fields.Char(
+        size=3)
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(
+        string="Name",
+        required=True)
 
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(
+        string="Active",
+        default=True)
 
     fiscal_type = fields.Selection(
-        selection=FISCAL_IN_OUT, string=u"Type", default=FISCAL_IN_OUT_DEFAULT
-    )
+        selection=FISCAL_IN_OUT,
+        string=u"Type",
+        default=FISCAL_IN_OUT_DEFAULT)
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         string="Fiscal Document",
-        required=True,
-    )
+        required=True)
 
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
         required=True,
         default=lambda self: self.env["res.company"]._company_default_get(
-            "l10n_br_fiscal.document.serie"
-        ),
+            "l10n_br_fiscal.document.serie"),
     )
 
     internal_sequence_id = fields.Many2one(
         comodel_name="ir.sequence",
         domain="[('company_id', '=', company_id)]",
-        string="Sequence",
-    )
+        string="Sequence")
 
-    sequence_number_next = fields.Integer(related="internal_sequence_id.number_next")
+    sequence_number_next = fields.Integer(
+        related="internal_sequence_id.number_next")
 
     @api.model
     def _create_sequence(self, values):
