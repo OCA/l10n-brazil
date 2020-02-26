@@ -4,12 +4,21 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.fiscal import (FISCAL_IN_OUT_ALL, NFE_IND_IE_DEST,
-                                NFE_IND_IE_DEST_DEFAULT, OPERATION_STATE,
-                                OPERATION_STATE_DEFAULT, PRODUCT_FISCAL_TYPE,
-                                TAX_FRAMEWORK, OPERATION_FISCAL_TYPE,
-                                OPERATION_FISCAL_TYPE_DEFAULT,
-                                CFOP_DESTINATION_EXPORT)
+from ..constants.fiscal import (
+    FISCAL_IN_OUT_ALL,
+    NFE_IND_IE_DEST,
+    NFE_IND_IE_DEST_DEFAULT,
+    OPERATION_STATE,
+    OPERATION_STATE_DEFAULT,
+    PRODUCT_FISCAL_TYPE,
+    TAX_FRAMEWORK,
+    TAX_FRAMEWORK_NORMAL,
+    TAX_FRAMEWORK_SIMPLES_ALL,
+    OPERATION_FISCAL_TYPE,
+    OPERATION_FISCAL_TYPE_DEFAULT,
+    CFOP_DESTINATION_EXPORT
+)
+
 from ..constants.icms import ICMS_ORIGIN
 
 
@@ -157,18 +166,19 @@ class OperationLine(models.Model):
         if not ncm and product:
             ncm = product.ncm_id
 
-        mapping_result['taxes'] |= ncm.tax_ipi_id
+        if company.tax_framework == TAX_FRAMEWORK_NORMAL:
+            mapping_result['taxes'] |= ncm.tax_ipi_id
 
-        if mapping_result['cfop'].destination == CFOP_DESTINATION_EXPORT:
-            mapping_result['taxes'] |= ncm.tax_ii_id
+            if mapping_result['cfop'].destination == CFOP_DESTINATION_EXPORT:
+                mapping_result['taxes'] |= ncm.tax_ii_id
 
-        # 3 ICMS Tax Definition
-        mapping_result['taxes'] |= company.icms_regulation_id.map_tax_icms(
-            company=company,
-            partner=partner,
-            product=product,
-            ncm=ncm,
-            cest=cest)
+            # 3 From ICMS Regulation
+            mapping_result['taxes'] |= company.icms_regulation_id.map_tax_icms(
+                company=company,
+                partner=partner,
+                product=product,
+                ncm=ncm,
+                cest=cest)
 
         return mapping_result
 
