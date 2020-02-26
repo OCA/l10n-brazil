@@ -8,23 +8,22 @@ class TestIbptService(common.TransactionCase):
     def setUp(self):
         super().setUp()
 
-        self.company_model = self.env["res.company"]
         self.company = self._create_compay()
         self._switch_user_company(self.env.user, self.company)
         self.nbs_115069000 = self.env.ref("l10n_br_fiscal.nbs_115069000")
         self.nbs_124043300 = self.env.ref("l10n_br_fiscal.nbs_124043300")
         self.product_tmpl_model = self.env["product.template"]
         self.product_tmpl_1 = self._create_product_tmpl(
-            name="Service Test 1 - With NBS: 1.1506.90.00", nbs=self.nbs_115069000
-        )
+            name="Service Test 1 - With NBS: 1.1506.90.00",
+            nbs=self.nbs_115069000)
 
         self.product_tmpl_2 = self._create_product_tmpl(
-            name="Product Test 2 - With NBS: 1.1506.90.00", nbs=self.nbs_115069000
-        )
+            name="Product Test 2 - With NBS: 1.1506.90.00",
+            nbs=self.nbs_115069000)
 
         self.product_tmpl_3 = self._create_product_tmpl(
-            name="Product Test 3 - With NBS: 1.2404.33.00", nbs=self.nbs_124043300
-        )
+            name="Product Test 3 - With NBS: 1.2404.33.00",
+            nbs=self.nbs_124043300)
 
         self.tax_estimate_model = self.env["l10n_br_fiscal.tax.estimate"]
         self.nbs_model = self.env["l10n_br_fiscal.nbs"]
@@ -58,7 +57,9 @@ class TestIbptService(common.TransactionCase):
 
     def _create_product_tmpl(self, name, nbs):
         # Creating a product
-        product = self.product_tmpl_model.create({"name": name, "nbs_id": nbs.id})
+        product = self.product_tmpl_model.create({
+            "name": name,
+            "nbs_id": nbs.id})
         return product
 
     def test_update_ibpt_service(self):
