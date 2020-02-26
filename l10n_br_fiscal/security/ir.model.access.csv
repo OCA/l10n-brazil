@@ -51,6 +51,8 @@
 "l10n_br_fiscal_operation_manager","Fiscal Operation for Manager","model_l10n_br_fiscal_operation","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_operation_line_user","Fiscal Operation Line for User","model_l10n_br_fiscal_operation_line","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_operation_line_manager","Fiscal Operation Line for Manager","model_l10n_br_fiscal_operation_line","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_operation_document_type_user","Fiscal Operation Document Type for User","model_l10n_br_fiscal_operation_document_type","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_operation_document_type_manager","Fiscal Operation Document Type for Manager","model_l10n_br_fiscal_operation_document_type","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_partner_profile_user","Fiscal Partner Profile for User","model_l10n_br_fiscal_partner_profile","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_partner_profile_manager","Fiscal Partner Profile for Manager","model_l10n_br_fiscal_partner_profile","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_document_user","Fiscal Document for User","model_l10n_br_fiscal_document","l10n_br_fiscal.group_user",1,0,0,0

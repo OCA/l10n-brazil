@@ -176,6 +176,10 @@ class ResCompany(models.Model):
         inverse_name="company_id",
         string="Tax Definition")
 
+    default_document_type_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.type",
+        string="Default Document Type")
+
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(
             lambda d: d.tax_group_id.tax_domain != tax_domain
