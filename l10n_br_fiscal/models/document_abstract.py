@@ -118,7 +118,7 @@ class DocumentAbstract(models.AbstractModel):
         string="Company",
         required=True,
         default=lambda self: self.env["res.company"]._company_default_get(
-            "l10n_br_fiscal.tax.estimate"))
+            "l10n_br_fiscal.document"))
 
     company_legal_name = fields.Char(
         string="Company Legal Name",
@@ -280,9 +280,18 @@ class DocumentAbstract(models.AbstractModel):
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        if self.operation_id:
-            self.document_type_id = self.operation_id.document_type_id
-            self.document_serie_id = self.operation_id.document_serie_id
+        self.document_type_id = self.company_id.default_document_type_id
+
+    @api.onchange("document_type_id")
+    def _onchange_document_type_id(self):
+        serie = self.env['l10n_br_fiscal.document.serie']
+        if self.document_type_id:
+            serie = self.env['l10n_br_fiscal.document.serie'].search([
+                ('company_id', '=', self.company_id.id),
+                ('document_type_id', '=', self.document_type_id.id),
+                ('active', '=', True)])
+
+        self.document_serie_id = serie
 
     @api.multi
     def _action_confirm(self):
