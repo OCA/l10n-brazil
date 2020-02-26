@@ -5,15 +5,28 @@ from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
-    FISCAL_IN, FISCAL_OUT, TAX_BASE_TYPE,
-    TAX_BASE_TYPE_PERCENT, TAX_DOMAIN,
-    NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9)
+    FISCAL_IN,
+    FISCAL_OUT,
+    TAX_BASE_TYPE,
+    TAX_BASE_TYPE_PERCENT,
+    TAX_DOMAIN,
+    NFE_IND_IE_DEST_1,
+    NFE_IND_IE_DEST_2,
+    NFE_IND_IE_DEST_9
+)
 
 from ..constants.icms import (
-    ICMS_BASE_TYPE, ICMS_BASE_TYPE_DEFAULT,
-    ICMS_ST_BASE_TYPE, ICMS_ST_BASE_TYPE_DEFAULT)
+    ICMS_BASE_TYPE,
+    ICMS_BASE_TYPE_DEFAULT,
+    ICMS_ST_BASE_TYPE,
+    ICMS_ST_BASE_TYPE_DEFAULT,
+    ICMS_SN_CST_WITH_CREDIT
+)
 
-from ..constants.pis_cofins import CST_COFINS_NO_TAXED, CST_PIS_NO_TAXED
+from ..constants.pis_cofins import (
+    CST_COFINS_NO_TAXED,
+    CST_PIS_NO_TAXED
+)
 
 TAX_DICT_VALUES = {
     "fiscal_tax_id": False,
@@ -168,21 +181,21 @@ class Tax(models.Model):
         tax_dict["tax_domain"] = tax.tax_domain
         tax_dict["percent_reduction"] = tax.percent_reduction
 
-        if tax_dict["base_type"] == "percent":
-            tax_dict["percent_amount"] = tax.percent_amount
+        base = 0.00
 
-            # Compute initial Tax Base
+        if not tax_dict.get("percent_amount") and tax.percent_amount:
+            tax_dict["percent_amount"] = tax.percent_amount
+            tax_dict["value_amount"] = tax.value_amount
+
+        if tax_dict["base_type"] == "percent":
+            # Compute initial Tax Base for base_type Percent
             base = round(fiscal_price * fiscal_quantity, precision)
 
         if tax_dict["base_type"] == "quantity":
-            tax_dict["value_amount"] = tax.value_amount
-
-            # Compute initial Tax Base
+            # Compute initial Tax Base for base_type Quantity
             base = fiscal_quantity
 
         if tax_dict["base_type"] == "fixed":
-            tax_dict["value_amount"] = tax.value_amount
-
             # Compute initial Tax Base
             base = round(fiscal_price * fiscal_quantity, precision)
 
@@ -234,15 +247,15 @@ class Tax(models.Model):
         if tax_dict["base_type"] == "percent":
             # Compute Tax Value
             tax_value = round(
-                base_amount * (tax.percent_amount / 100),
+                base_amount * (tax_dict["percent_amount"] / 100),
                 precision)
 
             tax_dict["tax_value"] = tax_value
 
-        if tax.tax_base_type in ("quantity", "fixed"):
+        if tax_dict["base_type"] in ("quantity", "fixed"):
 
             tax_dict["tax_value"] = round(
-                base_amount * tax.value_amount,
+                base_amount * tax_dict["value_amount"],
                 precision)
 
         return tax_dict
@@ -281,8 +294,52 @@ class Tax(models.Model):
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
-    def _compute_icmsn(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
+    def _compute_icmssn(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        partner = kwargs.get("partner")
+        company = kwargs.get("company")
+        cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
+        discount_value = kwargs.get("discount_value", 0.00)
+        insurance_value = kwargs.get("insurance_value", 0.00)
+        freight_value = kwargs.get("freight_value", 0.00)
+        other_costs_value = kwargs.get("other_costs_value", 0.00)
+        icmssn_range = kwargs.get("icmssn_range")
+
+        add_to_base = [insurance_value, freight_value, other_costs_value]
+        remove_from_base = [discount_value]
+
+        # Get Computed IPI Tax
+        tax_dict_ipi = taxes_dict.get("ipi", {})
+
+        # Partner not ICMS's Contributor
+        if partner.ind_ie_dest == NFE_IND_IE_DEST_9:
+            # Add IPI in ICMS Base
+            add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
+
+        # Partner ICMS's Contributor
+        if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
+            if cst.code in ICMS_SN_CST_WITH_CREDIT:
+                icms_sn_percent = round(
+                    icmssn_range.total_tax_percent *
+                    (icmssn_range.tax_icms_percent / 100), 2)
+
+                tax_dict["percent_amount"] = icms_sn_percent
+                tax_dict["value_amount"] = icms_sn_percent
+
+        compute_reduction = True
+        if company.state_id != partner.state_id and not partner.is_company:
+            compute_reduction = False
+
+        kwargs.update({
+            'add_to_base': sum(add_to_base),
+            'remove_from_base': sum(remove_from_base),
+            'compute_reduction': compute_reduction
+        })
+
+        taxes_dict.update(self._compute_tax_base(
+            tax, taxes_dict.get(tax.tax_domain), **kwargs))
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_issqn(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
@@ -334,6 +391,7 @@ class Tax(models.Model):
             ncm,
             cest,
             operation_line,
+            icmssn_range
         """
         taxes = {}
         for tax in self:
