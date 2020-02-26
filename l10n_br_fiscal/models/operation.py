@@ -24,49 +24,29 @@ class Operation(models.Model):
         string="Code",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     name = fields.Char(
         string="Name",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         string="Type",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
-    document_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.type",
-        required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
-    document_electronic = fields.Boolean(
-        related="document_type_id.electronic", string="Electronic?"
-    )
-
-    document_serie_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.serie",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-        domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
-    )
+        states={"draft": [("readonly", False)]})
 
     default_price_unit = fields.Selection(
-        selection=[("sale_price", _("Sale Price")), ("cost_price", _("Cost Price"))],
+        selection=[
+            ("sale_price", _("Sale Price")),
+            ("cost_price", _("Cost Price"))],
         string="Default Price Unit?",
         default="sale_price",
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     fiscal_type = fields.Selection(
         selection=OPERATION_FISCAL_TYPE,
@@ -84,23 +64,20 @@ class Operation(models.Model):
         states={"draft": [("readonly", False)]},
         domain="[('operation_type', '!=', operation_type), ('fiscal_type', 'in', {'sale': ['sale_refund'], 'purchase': "
                "['purchase_refund'], 'other': ['return_in', 'return_out']}.get("
-               "fiscal_type, []))]"
-    )
+               "fiscal_type, []))]")
 
     inverse_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Inverse Operation",
         domain="[('operation_type', '!=', operation_type), ('fiscal_type', '!=', fiscal_type)]",
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     state = fields.Selection(
         selection=OPERATION_STATE,
@@ -109,24 +86,28 @@ class Operation(models.Model):
         index=True,
         readonly=True,
         track_visibility="onchange",
-        copy=False,
-    )
+        copy=False)
+
+    document_type_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.operation.document.type",
+        inverse_name="operation_id",
+        string="Operation Document Types",
+        readonly=True,
+        states={"draft": [("readonly", False)]})
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.operation.line",
         inverse_name="operation_id",
         string="Operation Line",
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="l10n_br_fiscal_operation_line_comment_rel",
         column1="operation_id",
         column2="comment_id",
-        string="Comment",
-    )
+        string="Comment")
 
     _sql_constraints = [
         (
@@ -157,6 +138,17 @@ class Operation(models.Model):
         if operations:
             raise UserError(_("You cannot delete an Operation which is not draft !"))
         return super(Operation, self).unlink()
+
+    @api.multi
+    def get_document_serie(self, company, document_type):
+        document_serie = self.env['l10n_br_fiscal.document.serie'].search([
+            '|', '|',
+            ('company_id', '=', False),
+            ('company_id', '=', company.id),
+            ('document_type_id', '=', document_type.id)],
+            limit=1)
+
+        return document_serie
 
     def _line_domain(self, company, partner, product):
 
@@ -193,7 +185,7 @@ class Operation(models.Model):
             company = self.env.user.company_id
 
         line = self.line_ids.search(
-            self._line_domain(company, partner, product), limit=1
-        )
+            self._line_domain(company, partner, product),
+            limit=1)
 
         return line
