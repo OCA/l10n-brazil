@@ -23,6 +23,7 @@
         <field name="ripi" eval="True"/>
         <field name="icms_regulation_id" ref="tax_icms_regulation"/>
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo"/>
+        <field name="default_document_type_id" ref="l10n_br_fiscal.document_55"/>
     </record>
 
     <!-- Empresa Simples Nacional -->
@@ -55,6 +56,7 @@
         <field name="tax_ipi_id" ref="l10n_br_fiscal.tax_ipi_simples_nacional"/>
         <field name="tax_icms_id" ref="l10n_br_fiscal.tax_icms_sn_com_credito"/>
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200"/>
+        <field name="default_document_type_id" ref="l10n_br_fiscal.document_55"/>
     </record>
 
 </odoo>
