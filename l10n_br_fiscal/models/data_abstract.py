@@ -11,13 +11,21 @@ class DataAbstract(models.AbstractModel):
     _description = "Fiscal Data Abstract"
     _order = "code"
 
-    code = fields.Char(string="Code", required=True, index=True)
+    code = fields.Char(
+        string="Code",
+        required=True,
+        index=True)
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(
+        string="Name",
+        required=True,
+        index=True)
 
     code_unmasked = fields.Char(
-        string="Unmasked Code", compute="_compute_code_unmasked", store=True, index=True
-    )
+        string="Unmasked Code",
+        compute="_compute_code_unmasked",
+        store=True,
+        index=True)
 
     @api.depends("code")
     def _compute_code_unmasked(self):
