@@ -11,7 +11,7 @@ class TestPartnerFiscalType(TransactionCase):
         default_type = self.env["l10n_br_fiscal.partner.profile"].search(
             [("default", "=", True)]
         )
-        assert default_type, "The data of Partner Fiscal Type is not load."
+        assert default_type, "The data of Partner Fiscal Type not loaded."
         with self.assertRaises(ValidationError):
             self.env["l10n_br_fiscal.partner.profile"].create(
                 {"code": "TESTE", "default": True, "is_company": True}
