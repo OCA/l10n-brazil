@@ -76,16 +76,51 @@
                   <group>
                       <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                       <field name="icms_cst_id" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
-                      <field name="icmssn_tax_id" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
-                      <field name="icmssn_cst_id" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                      <field name="icmssn_tax_id" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
+                      <field name="icmssn_cst_id" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                      <field name="icms_origin" force_save="1" attrs="{'readonly': ['|', ('icmssn_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"/>
                   </group>
                   <group>
                       <group>
-                        <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_range_id" force_save="1" readonly="1" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_base" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_reduction" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                         <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                       </group>
                       <group>
+                        <field name="icmssn_percent" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icms_reduction" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                        <field name="icms_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                      </group>
+                  </group>
+                  <group name="icmsst" string="ICMS ST" attrs="{'invisible': ['|', '|', ('icms_cst_id.code', 'in', ('10', '30', '70')), ('icmssn_cst_id.code', 'in', ('201', '202', '203'))]}">
+                      <field name="icmsst_tax_id"/>
+                      <group>
+                        <field name="icmssn_base" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_reduction" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                        <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                      </group>
+                      <group>
+                        <field name="icmssn_percent" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icms_reduction" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                        <field name="icms_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                      </group>
+                  </group>
+                  <group name="icms_difal" string="ICMS DIFAL">
+                      <field name="icmsfcp_tax_id"/>
+                      <group>
+                        <field name="icmssn_base" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_reduction" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                        <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                      </group>
+                      <group>
+                        <field name="icmssn_percent" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                        <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_reduction" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                         <field name="icms_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                       </group>
