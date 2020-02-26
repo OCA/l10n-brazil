@@ -12,18 +12,21 @@ class DocumentType(models.Model):
     _description = "Fiscal Document Type"
     _inheirt = "l10n_br_fiscal.data.abstract"
 
-    code = fields.Char(size=8)
+    code = fields.Char(
+        size=8)
 
-    name = fields.Char(size=128)
+    name = fields.Char(
+        size=128)
 
-    electronic = fields.Boolean(string="Is Electronic?")
+    electronic = fields.Boolean(
+        string="Is Electronic?")
 
     type = fields.Selection(
-        selection=DOCUMENT_TYPE, string="Document Type", required=True
-    )
+        selection=DOCUMENT_TYPE,
+        string="Document Type",
+        required=True)
 
     document_serie_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.serie",
         inverse_name="document_type_id",
-        string="Document Series",
-    )
+        string="Document Series")
