@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo noupdate="1">
 
     <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_same_state">
+    <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="key">1</field>
@@ -16,7 +16,7 @@
         <field name="partner_tax_framework">3</field>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_same_state_1-1">
+    <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_same_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -28,7 +28,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_same_state_1-2">
+    <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_same_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
@@ -41,7 +41,7 @@
     </record>
 
     <!-- NFe Test - Empresa Contribuinte - Outro Estado -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_other_state">
+    <record id="demo_nfe_other_state" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="key">1</field>
@@ -55,7 +55,7 @@
         <field name="partner_tax_framework">3</field>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_other_state_2-1">
+    <record id="demo_nfe_line_other_state_2-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -67,7 +67,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_same_state_2-2">
+    <record id="demo_nfe_line_same_state_2-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_same_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
@@ -80,14 +80,14 @@
     </record>
 
     <!-- NFe Test - Empresa Contribuinte - Exterior -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_export">
+    <record id="demo_nfe_export" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_export_3-1">
+    <record id="demo_nfe_line_export_3-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_export"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -99,7 +99,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_export_3-2">
+    <record id="demo_nfe_line_export_3-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_export"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
@@ -112,7 +112,7 @@
     </record>
 
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PJ -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_nao_contribuinte">
+    <record id="demo_nfe_nao_contribuinte" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="key">1</field>
@@ -125,7 +125,7 @@
         <field name="partner_tax_framework">3</field>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_nao_contribuinte_4-1">
+    <record id="demo_nfe_line_nao_contribuinte_4-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_nao_contribuinte"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -137,7 +137,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_nao_contribuinte_4-2">
+    <record id="demo_nfe_line_nao_contribuinte_4-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_nao_contribuinte"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
@@ -150,7 +150,7 @@
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Mesmo Estado -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_same_state">
+    <record id="demo_nfe_sn_same_state" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
@@ -165,7 +165,7 @@
         <field name="partner_tax_framework">3</field>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_same_state_5-1">
+    <record id="demo_nfe_line_sn_same_state_5-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_same_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -177,7 +177,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_same_state_5-2">
+    <record id="demo_nfe_line_sn_same_state_5-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_same_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
@@ -190,7 +190,7 @@
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_other_state">
+    <record id="demo_nfe_sn_other_state" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
@@ -205,7 +205,7 @@
         <field name="partner_tax_framework">3</field>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_other_state_6-1">
+    <record id="demo_nfe_line_sn_other_state_6-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -217,7 +217,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_other_state_6-2">
+    <record id="demo_nfe_line_sn_other_state_6-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
@@ -230,7 +230,7 @@
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Exterior -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_export">
+    <record id="demo_nfe_sn_export" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
@@ -238,7 +238,7 @@
         <field name="partner_id" ref="base.res_partner_2"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_export_7-1">
+    <record id="demo_nfe_line_sn_export_7-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_export"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -250,7 +250,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_export_7-2">
+    <record id="demo_nfe_line_sn_export_7-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_export"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
@@ -263,7 +263,7 @@
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
-    <record model="l10n_br_fiscal.document" id="demo_nfe_sn_nao_contribuinte">
+    <record id="demo_nfe_sn_nao_contribuinte" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda_55"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
@@ -277,7 +277,7 @@
         <field name="partner_tax_framework">3</field>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_nao_contribuinte_7-1">
+    <record id="demo_nfe_line_sn_nao_contribuinte_7-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -289,7 +289,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_55"/>
     </record>
 
-    <record model="l10n_br_fiscal.document.line" id="demo_nfe_line_sn_nao_contribuinte_7-2">
+    <record id="demo_nfe_line_sn_nao_contribuinte_7-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
