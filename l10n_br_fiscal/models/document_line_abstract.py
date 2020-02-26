@@ -155,6 +155,9 @@ class DocumentLineAbstract(models.AbstractModel):
 
     @api.onchange("uot_id", "uom_id", "price", "quantity")
     def _onchange_commercial_quantity(self):
+        if not self.uot_id:
+            self.uot_id = self.uom_id
+
         if self.uom_id == self.uot_id:
             self.fiscal_price = self.price
             self.fiscal_quantity = self.quantity
