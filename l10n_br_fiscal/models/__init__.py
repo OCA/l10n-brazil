@@ -38,6 +38,7 @@ from . import simplified_tax
 from . import simplified_tax_range
 from . import operation
 from . import operation_line
+from . import operation_document_type
 from . import partner_profile
 from . import res_partner
 from . import res_company

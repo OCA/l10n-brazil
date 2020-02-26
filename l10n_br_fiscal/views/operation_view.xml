@@ -49,8 +49,6 @@
                             <field name="company_id"/>
                         </group>
                         <group>
-                            <field name="document_type_id"/>
-                            <field name="document_serie_id" context="{'default_document_type_id': document_type_id}"/>
                             <field name="default_price_unit"/>
                             <field name="return_operation_id"/>
                             <field name="inverse_operation_id"/>
@@ -67,6 +65,19 @@
                                     <field name="operation_type"/>
                                     <field name="state"/>
                                 </tree>
+                            </field>
+                        </page>
+                        <page name="operation_document_type" string="Fiscal Documents">
+                            <field name="document_type_ids" context="{'default_operation_id': id}">
+                                <tree>
+                                    <field name="document_type_id"/>
+                                    <field name="document_serie_id"/>
+                                </tree>
+                                <form>
+                                  <field name="company_id" invisible="1"/>
+                                  <field name="document_type_id"/>
+                                  <field name="document_serie_id" context="{'default_document_type_id': document_type_id, 'default_company_id': company_id}"/>
+                                </form>
                             </field>
                         </page>
                         <page name="notes" string="Notes">
