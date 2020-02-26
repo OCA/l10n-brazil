@@ -21,9 +21,8 @@ class DocumentLine(models.Model):
 
     operation_id = fields.Many2one(
         default=_default_operation,
-        domain=lambda self: self._operation_domain()
-    )
+        domain=lambda self: self._operation_domain())
 
     document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document", string="Document"
-    )
+        comodel_name="l10n_br_fiscal.document",
+        string="Document")
