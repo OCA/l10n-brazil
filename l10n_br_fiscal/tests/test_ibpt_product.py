@@ -8,7 +8,6 @@ class TestIbptProduct(common.TransactionCase):
     def setUp(self):
         super().setUp()
 
-        self.company_model = self.env["res.company"]
         self.company = self._create_compay()
         self._switch_user_company(self.env.user, self.company)
         self.ncm_85030010 = self.env.ref("l10n_br_fiscal.ncm_85030010")
