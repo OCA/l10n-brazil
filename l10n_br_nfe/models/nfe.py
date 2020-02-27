@@ -96,6 +96,26 @@ class NFe(spec_models.StackedModel):
         copy=False,
     )
 
+    nfe40_natOp = fields.Char(
+        related='operation_id.code'
+    )
+
+    nfe40_serie = fields.Char(
+        related='document_serie_id.code'
+    )
+
+    nfe40_indFinal = fields.Selection(
+        related='ind_final'
+    )
+
+    nfe40_indPres = fields.Selection(
+        related='ind_pres'
+    )
+
+    nfe40_vNF = fields.Monetary(
+        related='amount_total'
+    )
+
     # cce_document_ids = fields.One2many(
     #     comodel_name="l10n_br_account.invoice.cce",
     #     inverse_name="fiscal_document_event_ids",
