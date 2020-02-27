@@ -30,4 +30,5 @@ class DocumentLine(models.Model):
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
+        default='0',
     )
