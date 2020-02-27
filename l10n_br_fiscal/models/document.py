@@ -36,6 +36,17 @@ class Document(models.Model):
         default=_default_operation,
         domain=lambda self: self._operation_domain())
 
+    edoc_purpose = fields.Selection(
+        selection=[
+            ('1', 'Normal'),
+            ('2', 'Complementar'),
+            ('3', 'Ajuste'),
+            ('4', 'Devolução de mercadoria'),
+        ],
+        string='Finalidade',
+        default='1',
+    )
+
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
