@@ -278,12 +278,55 @@ class NFe(spec_models.StackedModel):
     #             )
     #             pass
 
-    @api.onchange('company_id')
-    def _onchange_company_id(self):
+    @api.multi
+    def action_document_confirm(self):
         for record in self:
             if record.company_id.partner_id.state_id.ibge_code:
                 record.nfe40_cUF = \
                     record.company_id.partner_id.state_id.ibge_code
+            if record.document_type_id.code:
+                record.nfe40_mod = record.document_type_id.code
+            record.date = fields.Datetime.now()
+            record.date_in_out = fields.Datetime.now()
+            if record.operation_id.operation_type == 'in':
+                record.nfe40_tpNF = '0'
+            else:
+                record.nfe40_tpNF = '1'
+            if record.company_id.partner_id.state_id == \
+                    record.partner_id.state_id:
+                record.nfe40_idDest = '1'
+            elif record.company_id.partner_id.country_id == \
+                    record.partner_id.country_id:
+                record.nfe40_idDest = '2'
+            else:
+                record.nfe40_idDest = '3'
+            record.nfe40_cMunFG = '%s%s' % (
+                record.company_id.partner_id.state_id.ibge_code,
+                record.company_id.partner_id.city_id.ibge_code)
+            record.nfe40_tpImp = '1'
+            record.nfe40_tpEmis = '1'
+            record.nfe40_tpAmb = '2'
+            record.nfe40_procEmi = '0'
+            record.nfe40_verProc = 'Odoo Brasil v12.0'
+            record.nfe40_vBC = sum(record.line_ids.mapped('nfe40_vBC'))
+            record.nfe40_vICMS = sum(record.line_ids.mapped('nfe40_vICMS'))
+            record.nfe40_vPIS = sum(record.line_ids.mapped('nfe40_vPIS'))
+            record.nfe40_vCOFINS = sum(
+                record.line_ids.mapped('nfe40_vCOFINS'))
+            for line in record.line_ids:
+                line.nfe40_NCM = line.ncm_id.code.replace('.', '')
+                line.nfe40_CEST = line.cest_id.code.replace('.', '')
+                line.nfe40_CFOP = line.cfop_id.code
+                line.nfe40_qCom = line.quantity
+                line.nfe40_qTrib = line.quantity
+                line.nfe40_indTot = '1'
+                line.nfe40_pICMS = line.icms_percent
+                line.nfe40_cEnq = str(line.ipi_guideline_id.code or '999'
+                                      ).zfill(3)
+                line.nfe40_pPIS = line.pis_percent
+                line.nfe40_pCOFINS = line.cofins_percent
+
+        super(NFe, self).action_document_confirm()
 
 
 class NFeLine(spec_models.StackedModel):
