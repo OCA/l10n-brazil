@@ -71,6 +71,7 @@
             <field name="operation_id"/> <!-- USE MIXIN VIEW -->
             <field name="edoc_purpose"/>
             <field name="ind_final"/>
+            <field name="ind_pres"/>
           </group>
           <group>
             <field name="issuer"/>
