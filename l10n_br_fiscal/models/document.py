@@ -101,6 +101,29 @@ class Document(models.Model):
         default='1',
     )
 
+    ind_final = fields.Selection(
+        selection=[
+            ('0', 'Não'),
+            ('1', 'Sim')
+        ],
+        string='Operação com consumidor final',
+        default='1',
+    )
+
+    ind_pres = fields.Selection(
+        selection=[
+            ('0', 'Não se aplica'),
+            ('1', 'Operação presencial'),
+            ('2', 'Não presencial, internet'),
+            ('3', 'Não presencial, teleatendimento'),
+            ('4', 'NFC-e entrega em domicílio'),
+            ('5', 'Operação presencial, fora do estabelecimento'),
+            ('9', 'Não presencial, outros'),
+        ],
+        string='Indicador de presença do comprador no estabelecimento',
+        default='0',
+    )
+
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
