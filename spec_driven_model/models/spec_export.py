@@ -144,12 +144,15 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def _export_one2many(self, field_name, class_obj=None):
         relational_data = []
+        i = 0
         for relational_field in self[field_name]:
-            relational_data.append(
-                relational_field._build_generateds(
-                    class_obj._fields[field_name].comodel_name
-                )
+            i += 1
+            field_data = relational_field._build_generateds(
+                class_obj._fields[field_name].comodel_name
             )
+            if class_obj._fields[field_name].comodel_name == 'nfe.40.det':
+                field_data.nItem = i
+            relational_data.append(field_data)
         return relational_data
 
     def _export_float_monetary(self, field_name, member_spec):
