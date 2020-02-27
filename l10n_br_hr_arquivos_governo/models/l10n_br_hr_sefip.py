@@ -1083,18 +1083,30 @@ class L10nBrSefip(models.Model):
                 # Acumulador para todos holerites. Dict para organizar
                 # automaticamente a ordem
                 holerites = {}
+
                 # Acumulador para holerites
                 for folha in folhas_da_empresa:
-                    holerites[
-                        punctuation_rm(folha.employee_id.pis_pasep)] = folha
-                # Acumulador para autonomos
+                    pis_pasep = punctuation_rm(folha.employee_id.pis_pasep)
+
+                    # Adicionar os 2 holerites continuando em ordem pelo PIS
+                    if self._get_qtd_vinculos_mesmo_empregador(
+                            folhas_da_empresa, pis_pasep) > 1:
+
+                        # caso exista duplo vinculo, Categoria 11 vira por
+                        # ultimo na ordem de listagem
+                        if folha.contract_id.categoria_sefip == '11':
+                            pis_pasep += '2'
+                        else:
+                            pis_pasep += '1'
+                    holerites[pis_pasep] = folha
+
                 for folha in folhas_autonomo_empresa_ids:
                     holerites[
                         punctuation_rm(folha.employee_id.pis_pasep)] = folha
                 
                 for key in sorted(list(holerites)):
                     record.sefip += self._valida_tamanho_linha(
-                        record._preencher_registro_30(sefip, holerites[key]))
+                        record._preencher_registro_30(sefip, holerites, key))
 
                     if holerites[key].tipo_de_folha == 'rescisao':
                         record.sefip += self._valida_tamanho_linha(
@@ -1434,7 +1446,19 @@ class L10nBrSefip(models.Model):
         # return ocorrencias_no_periodo_ids
         return []
 
-    def _trabalhador_ocorrencia(self, folha):
+    def _get_qtd_vinculos_mesmo_empregador(self, holerites, pis_pasep):
+        """
+        :param holerites:
+        :param pis_pasep:
+        :return:
+        """
+        # se tiver dupla contribuição na mesma empresa
+        lista_pis_pasep = \
+            map(lambda x: punctuation_rm(x.employee_id.pis_pasep), holerites)
+
+        return lista_pis_pasep.count(punctuation_rm(pis_pasep))
+
+    def _trabalhador_ocorrencia(self, holerites, key):
         """ Registro 30. Item 19
         Ocorrencia: Acidente de trabalho, rescisão, afastamento por
         doença lic maternidade, ( situaçeõs que o funcionario deixa de
@@ -1447,6 +1471,7 @@ class L10nBrSefip(models.Model):
          -
 
         """
+        folha = holerites[key]
         #
         # Se contribuir INSS em outra entidade o código eh 05
         #
@@ -1455,6 +1480,12 @@ class L10nBrSefip(models.Model):
 
         # Aba Outros vinculos preenchida
         if folha.contract_id.contribuicao_inss_ids:
+            return '05'
+
+        # Quando possuir multiplos vinculos sinalizar com '05'
+        pis_pasep = punctuation_rm(folha.employee_id.pis_pasep)
+        if self._get_qtd_vinculos_mesmo_empregador(
+                holerites.values(), pis_pasep) > 1:
             return '05'
 
         #
@@ -1598,7 +1629,7 @@ class L10nBrSefip(models.Model):
         #     return folha.base_inss
         return 0.00
 
-    def _preencher_registro_30(self, sefip, folha):
+    def _preencher_registro_30(self, sefip, holerites, key):
         """
 
         Recomendações gerais!:
@@ -1609,6 +1640,8 @@ class L10nBrSefip(models.Model):
 
         """
         # if folha.tipo_de_folha == 'ferias':
+
+        folha = holerites[key]
 
         codigo_categoria = folha.contract_id.categoria_sefip
 
@@ -1666,14 +1699,15 @@ class L10nBrSefip(models.Model):
             sefip.data_de_nascimento = '      '
 
         if not folha.contract_id.job_id:
-            raise ValidationError("Contrato " + folha.contract_id.name + " faltando campo função !")
+            msg = 'Contrato {} faltando campo função!'.\
+                format(folha.contract_id.nome_contrato)
+            raise ValidationError(msg)
 
         if codigo_categoria in '06':
             sefip.trabalhador_cbo = '05121'
         else:
-            sefip.trabalhador_cbo = '0' + \
-                                    folha.contract_id.job_id.cbo_id.code[:4]
-        # Revisar daqui para a frente
+            sefip.trabalhador_cbo = \
+                '0' + folha.contract_id.job_id.cbo_id.code[:4]
 
         sefip.trabalhador_remun_13 = \
             self._trabalhador_remun_13(folha) or ''
@@ -1683,7 +1717,8 @@ class L10nBrSefip(models.Model):
         sefip.trabalhador_classe_contrib = \
             self._trabalhador_classe_contrib(folha) or ''
 
-        sefip.trabalhador_ocorrencia = self._trabalhador_ocorrencia(folha) or ''
+        sefip.trabalhador_ocorrencia = \
+            self._trabalhador_ocorrencia(holerites, key) or ''
         sefip.trabalhador_valor_desc_segurado = \
             self._trabalhador_valor_desc_segurado(folha) or ''
         sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = \
