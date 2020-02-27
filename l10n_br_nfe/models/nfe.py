@@ -52,6 +52,10 @@ class NFe(spec_models.StackedModel):
     # all m2o at this level will be stacked even if not required:
     _force_stack_paths = ('infnfe.total',)
 
+    nfe40_finNFe = fields.Selection(
+        related='edoc_purpose',
+    )
+
     nfe40_versao = fields.Char(related='document_version')
     nfe40_nNF = fields.Char(related='number')
     nfe40_Id = fields.Char(related='key')
