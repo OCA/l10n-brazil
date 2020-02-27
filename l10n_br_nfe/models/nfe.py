@@ -344,6 +344,7 @@ class NFeLine(spec_models.StackedModel):
     nfe40_cEAN = fields.Char(related='product_id.barcode')
     nfe40_cEANTrib = fields.Char(related='product_id.barcode')
     nfe40_uCom = fields.Char(related='product_id.uom_id.code')
+    nfe40_uTrib = fields.Char(related='product_id.uom_id.code')
     nfe40_vUnCom = fields.Float(related='price')  # TODO sure?
     nfe40_vUnTrib = fields.Float(related='fiscal_price')  # TODO sure?
 
@@ -375,6 +376,30 @@ class NFeLine(spec_models.StackedModel):
     nfe40_choice3 = fields.Selection(
         compute='_compute_choice3',
         store=True,
+    )
+
+    nfe40_orig = fields.Selection(
+        related='operation_line_id.icms_origin'
+    )
+
+    nfe40_modBC = fields.Selection(
+        related='icms_base_type'
+    )
+
+    nfe40_vBC = fields.Monetary(
+        related='icms_base'
+    )
+
+    nfe40_vICMS = fields.Monetary(
+        related='icms_value'
+    )
+
+    nfe40_vPIS = fields.Monetary(
+        related='pis_value'
+    )
+
+    nfe40_vCOFINS = fields.Monetary(
+        related='cofins_value'
     )
 
     @api.depends('icms_cst_id')
