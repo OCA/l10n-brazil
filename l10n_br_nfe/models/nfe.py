@@ -372,6 +372,11 @@ class NFeLine(spec_models.StackedModel):
         store=True,
     )
 
+    nfe40_choice3 = fields.Selection(
+        compute='_compute_choice3',
+        store=True,
+    )
+
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
         for record in self:
@@ -419,6 +424,14 @@ class NFeLine(spec_models.StackedModel):
                 record.nfe40_choice15 = 'nfe40_COFINSNT'
             else:
                 record.nfe40_choice15 = 'nfe40_COFINSOutr'
+
+    @api.depends('ipi_cst_id')
+    def _compute_choice3(self):
+        for record in self:
+            if record.ipi_cst_id.code in ['00', '49', '50', '99']:
+                record.nfe40_choice3 = 'nfe40_IPITrib'
+            else:
+                record.nfe40_choice3 = 'nfe40_IPINT'
 
     def _export_field(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
