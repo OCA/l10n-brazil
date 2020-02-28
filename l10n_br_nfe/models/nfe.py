@@ -325,6 +325,40 @@ class NFe(spec_models.StackedModel):
                                       ).zfill(3)
                 line.nfe40_pPIS = line.pis_percent
                 line.nfe40_pCOFINS = line.cofins_percent
+                if record.ind_final == '1' and record.nfe40_idDest == '2' and \
+                        record.partner_id.nfe40_indIEDest == '9':
+                    line.nfe40_vBCUFDest = line.nfe40_vBC
+                    if record.partner_id.state_id.code in [
+                            'AC', 'CE', 'ES', 'GO', 'MT', 'MS', 'PA',
+                            'PI', 'RR', 'SC']:
+                        line.nfe40_pICMSUFDest = 17.0
+                    elif record.partner_id.state_id.code == 'RO':
+                        line.nfe40_pICMSUFDest = 17.5
+                    elif record.partner_id.state_id.code in [
+                            'AM', 'AP', 'BA', 'DF', 'MA', 'MG', 'PB', 'PR',
+                            'PE', 'RN', 'RS', 'SP', 'SE', 'TO']:
+                        line.nfe40_pICMSUFDest = 18.0
+                    elif record.partner_id.state_id.code == 'RJ':
+                        line.nfe40_pICMSUFDest = 20.0
+                    line.nfe40_pICMSInter = '7.00'
+                    line.nfe40_pICMSInterPart = 100.0
+                    line.nfe40_vICMSUFDest = (
+                        line.nfe40_vBCUFDest * (
+                            (line.nfe40_pICMSUFDest - float(
+                                line.nfe40_pICMSInter)
+                             ) / 100) * (line.nfe40_pICMSInterPart / 100))
+                    line.nfe40_vICMSUFRemet = (
+                        line.nfe40_vBCUFDest * (
+                            (line.nfe40_pICMSUFDest - float(
+                                line.nfe40_pICMSInter)
+                             ) / 100) * ((100 - line.nfe40_pICMSInterPart
+                                          ) / 100))
+            if record.ind_final == '1' and record.nfe40_idDest == '2' and \
+                    record.partner_id.nfe40_indIEDest == '9':
+                record.nfe40_vICMSUFDest = sum(
+                    record.line_ids.mapped('nfe40_vICMSUFDest'))
+                record.nfe40_vICMSUFRemet = sum(
+                    record.line_ids.mapped('nfe40_vICMSUFRemet'))
 
         super(NFe, self).action_document_confirm()
 
