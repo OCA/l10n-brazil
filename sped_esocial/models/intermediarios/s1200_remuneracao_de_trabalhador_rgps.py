@@ -233,7 +233,14 @@ class SpedEsocialRemuneracao(models.Model, SpedRegistroIntermediario):
         for contrato in self.trabalhador_id.contract_ids:
             if contrato.contribuicao_inss_ids:
                 for vinculo in contrato.contribuicao_inss_ids:
+                    # Somente contribuicao do mesmo período
                     if not vinculo.period_id.id == self.periodo_id.id:
+                        continue
+
+                    # Não enviar Informacao de contribuicao no mesmo vinculo
+                    # (caso de duplo vinculo na mesma empresa) nao enviar
+                    if limpa_formatacao(vinculo.cnpj_cpf_vinculo) == \
+                            limpa_formatacao(self.company_id.cnpj_cpf):
                         continue
 
                     info_mv = pysped.esocial.leiaute.S1200_InfoMV_2()
