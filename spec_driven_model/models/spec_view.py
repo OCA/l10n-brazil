@@ -79,8 +79,9 @@ class SpecViewMixin(models.AbstractModel):
                 res['fields'][field_name] = field
                 # print("looking for", field_name)
                 field_node = doc.xpath("//field[@name='%s']" %
-                                       (field_name,))[0]
-                setup_modifiers(field_node, field)
+                                       (field_name,))
+                if field_node:
+                    setup_modifiers(field_node[0], field)
 
             res['arch'] = etree.tostring(doc)
         return res
