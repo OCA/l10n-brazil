@@ -30,6 +30,91 @@
     </field>
   </record>
 
+  <record id="nfe_document_form_inherit" model="ir.ui.view">
+      <field name="name">l10n_br_nfe.document.form.inherit</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
+      <field name="arch" type="xml">
+          <page name="amounts" position="after">
+              <page name="transp" string="Transporte">
+                  <group>
+                      <group>
+                          <field name="nfe40_modFrete"/>
+                          <field name="nfe40_transporta"/>
+                      </group>
+                      <group>
+                          <field name="nfe40_vol"/>
+                      </group>
+                  </group>
+              </page>
+              <page name="pag" string="Pagamento">
+                  <group>
+                      <field name="nfe40_detPag"/>
+                  </group>
+              </page>
+          </page>
+          <field name="state_fiscal" position="after">
+              <field name="nfe40_infAdic"/>
+          </field>
+      </field>
+  </record>
+
+  <record id="nfe_40_infadic_form" model="ir.ui.view">
+      <field name="name">nfe.40.infadic.form</field>
+      <field name="model">nfe.40.infadic</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_infCpl"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_detpag_form" model="ir.ui.view">
+      <field name="name">nfe.40.detpag.form</field>
+      <field name="model">nfe.40.detpag</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_tPag"/>
+                  <field name="nfe40_vPag"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_vol_form" model="ir.ui.view">
+      <field name="name">nfe.40.vol.form</field>
+      <field name="model">nfe.40.vol</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_qVol"/>
+                  <field name="nfe40_pesoL"/>
+                  <field name="nfe40_pesoB"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_transporta_form" model="ir.ui.view">
+      <field name="name">nfe.40.transporta.form</field>
+      <field name="model">nfe.40.transporta</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_CNPJ"/>
+                  <field name="nfe40_xNome"/>
+                  <field name="nfe40_IE"/>
+                  <field name="nfe40_xEnder"/>
+                  <field name="nfe40_xMun"/>
+                  <field name="nfe40_UF"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
   <record id="nfe_document_form" model="ir.ui.view">
     <field name="name">l10n_br_nfe.document.form</field>
     <field name="model">l10n_br_fiscal.document</field>
