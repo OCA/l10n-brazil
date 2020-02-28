@@ -102,7 +102,7 @@
     </record>
 
     <record id="fo_devolucao_revenda_devolucao_revenda" model="l10n_br_fiscal.operation.line">
-        <field name="operation_id" ref="l10n_br_fiscal.fo_devolucao_venda_55"/>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_devolucao_venda"/>
         <field name="name">Devolução de Revenda</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1202"/>
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2202"/>
@@ -194,14 +194,14 @@
 
 
     <!-- l10n_br_fiscal.operation relations -->
-    <record id="fo_venda_55" model="l10n_br_fiscal.operation">
-        <field name="return_operation_id" ref="fo_devolucao_venda_55"/>
-        <field name="inverse_operation_id" ref="fo_compras_55"/>
+    <record id="fo_venda" model="l10n_br_fiscal.operation">
+        <field name="return_operation_id" ref="fo_devolucao_venda"/>
+        <field name="inverse_operation_id" ref="fo_compras"/>
     </record>
 
-    <record id="fo_compras_55" model="l10n_br_fiscal.operation">
-        <field name="return_operation_id" ref="fo_devolucao_compras_55"/>
-        <field name="inverse_operation_id" ref="fo_venda_55"/>
+    <record id="fo_compras" model="l10n_br_fiscal.operation">
+        <field name="return_operation_id" ref="fo_devolucao_compras"/>
+        <field name="inverse_operation_id" ref="fo_venda"/>
     </record>
 
     <!--
