@@ -213,7 +213,7 @@ class NFe(spec_models.StackedModel):
                 for p in procesador.processar_documento(edoc):
                     processo = p
 
-            if processo.resposta.cStat in LOTE_PROCESSADO:
+            if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
                 for protocolo in processo.resposta.protNFe:
                     record.atualiza_status_nfe(protocolo.infProt)
             elif processo.resposta.cStat == '225':
