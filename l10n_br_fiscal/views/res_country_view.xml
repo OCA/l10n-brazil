@@ -36,7 +36,7 @@
         <field name="name">l10n_br_tax.definition.state.product.tree</field>
         <field name="model">l10n_br_tax.definition.state.product</field>
         <field name="arch" type="xml">
-            <tree string="Definição de Impostos" editable="bottom">
+            <tree editable="bottom">
                 <field name="fiscal_classification_id"/>
                 <field name="cest_id"/>
                 <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>

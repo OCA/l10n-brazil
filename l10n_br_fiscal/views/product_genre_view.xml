@@ -16,7 +16,7 @@
         <field name="name">l10n_br_fiscal.product.genre.tree</field>
         <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
-            <tree string="Product Genre">
+            <tree>
               <field name="code"/>
               <field name="name"/>
             </tree>
