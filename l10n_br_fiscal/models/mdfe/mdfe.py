@@ -43,12 +43,10 @@ class MDFe(models.Model):
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
-        required=True,
     )
     key = fields.Char(
         string="Access Key",
         size=44,
-        required=True,
     )
     serie = fields.Char(
         string="Serie",
@@ -85,7 +83,6 @@ class MDFe(models.Model):
             ("1", "Saída")
         ],
         string="Operation Type",
-        readonly=True,
     )
 
     document_value = fields.Float(
@@ -102,12 +99,10 @@ class MDFe(models.Model):
     # partner_id = fields.Many2one(
     #     comodel_name="l10n_br_fiscal.partner.profile",
     #     string="Supplier",
-    #     invisible=True,
     # )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Supplier (partner)",
-        invisible=True,
     )
 
     supplier = fields.Char(
@@ -155,19 +150,16 @@ class MDFe(models.Model):
         string="Document State",
         selection=SITUACAO_NFE,
         select=True,
-        readonly=True,
     )
 
     state = fields.Selection(
         string="Manifestation State",
         selection=SITUACAO_MANIFESTACAO,
         select=True,
-        readonly=True,
     )
     dfe_id = fields.Many2one(
         string="DF-e",
         comodel_name="l10n_br_fiscal.dfe",
-        readonly=True,
     )
 
     @api.multi
