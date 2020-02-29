@@ -35,7 +35,7 @@
             <field name="name">l10n_br_account_product.nfe.tree</field>
             <field name="model">account.invoice</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel'" string="NFe">
+                <tree colors="blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel'">
                     <field name="partner_id" groups="base.group_user"/>
                     <field name="commercial_partner_id" invisible="1"/>
                     <field name="date_invoice"/>
@@ -117,7 +117,7 @@
                             <field name="invoice_line_ids" nolabel="1" widget="one2many_list"
                                    context="{'type': type, 'fiscal_type': 'product', 'partner_id': partner_id, 'company_id': company_id,
                                    'default_fiscal_category_id': fiscal_category_id, 'default_fiscal_position_id': fiscal_position_id, 'form_view_ref': 'l10n_br_account_product.l10n_br_account_product_nfe_line_form'}">
-                                <tree string="Invoice Lines">
+                                <tree>
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id"
                                         domain="[('fiscal_type', '=', 'product')]"
@@ -178,7 +178,7 @@
                             </group>
                             <group string="Vencimentos">
                                 <field nolabel="1" name="move_line_receivable_id">
-                                    <tree string="Vencimentos">
+                                    <tree>
                                         <field name="journal_id"/>
                                         <field name="date_maturity"/>
                                         <field name="name"/>
@@ -191,7 +191,7 @@
                             </group>
                             <group string="Pagamentos">
                                 <field nolabel="1" name="payment_ids">
-                                    <tree string="Payments">
+                                    <tree>
                                       <field name="payment_date"/>
                                       <field name="name"/>
                                       <field name="journal_id"/>

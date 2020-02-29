@@ -425,31 +425,6 @@
         <field name="uom_type">bigger</field>
     </record>
 
-    <!-- PARES -->
-    <record id="UOM_PARES" model="uom.uom">
-        <field name="category_id" ref="uom.product_uom_categ_unit"/>
-        <field name="code">PARES</field>
-        <field name="name">PARES</field>
-        <field name="factor_inv" eval="2"/>
-        <field name="uom_type">bigger</field>
-    </record>
-
-    <record id="UOM_PC" model="uom.uom">
-        <field name="code">PC</field>
-        <field name="name">PEÇA</field>
-        <field name="category_id" ref="uom.product_uom_categ_unit"/>
-        <field name="factor" eval="1.0"/>
-        <field name="uom_type">bigger</field>
-    </record>
-
-    <record id="UOM_POTE" model="uom.uom">
-        <field name="code">POTE</field>
-        <field name="name">POTE</field>
-        <field name="category_id" ref="uom.product_uom_categ_unit"/>
-        <field name="factor" eval="1.0"/>
-        <field name="uom_type">bigger</field>
-    </record>
-
     <record id="UOM_QUILATE" model="uom.uom">
         <field name="category_id" ref="uom.product_uom_categ_kgm"/>
         <field name="code">K</field>
