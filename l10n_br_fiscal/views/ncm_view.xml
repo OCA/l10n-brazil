@@ -21,7 +21,7 @@
         <field name="name">l10n_br_fiscal.ncm.tree</field>
         <field name="model">l10n_br_fiscal.ncm</field>
         <field name="arch" type="xml">
-            <tree string="NCM">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="exception"/>

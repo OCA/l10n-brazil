@@ -21,7 +21,7 @@
         <field name="name">l10n_br_fiscal.cst.tree</field>
         <field name="model">l10n_br_fiscal.cst</field>
         <field name="arch" type="xml">
-            <tree string="CST">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="cst_type"/>

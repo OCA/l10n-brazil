@@ -20,7 +20,7 @@
     <field name="name">l10n_br_fiscal.document.tree</field>
     <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
-      <tree string="Fiscal Document">
+      <tree>
         <field name="document_type_id"/>
         <field name="number"/>
         <field name="date"/>

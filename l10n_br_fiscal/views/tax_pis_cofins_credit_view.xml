@@ -16,7 +16,7 @@
         <field name="name">l10n_br_fiscal.tax.pis.cofins.credit.tree</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins.credit</field>
         <field name="arch" type="xml">
-            <tree string="PIS COFINS Credit">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
             </tree>
