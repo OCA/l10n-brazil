@@ -19,7 +19,7 @@
         <field name="name">product.product.tree</field>
         <field name="model">product.product</field>
         <field name="arch" type="xml">
-            <tree string="Product">
+            <tree>
               <field name="default_code"/>
               <field name="name"/>
               <field name="ncm_id"/>
