@@ -73,6 +73,12 @@
     <!-- Product UOM -->
     <menuitem id="uom_menu" action="uom.product_uom_form_action" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="40"/>
 
+    # Consult DF-e
+    <menuitem action="dfe_action" id="dfe_consult_menu" name="Consult DF-e" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="50"/>
+
+    # MDF-e
+    <menuitem action="l10n_br_fiscal_mdfe_action" id="mdfe_menu" name="Recipient Manifestation" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="60"/>
+
     # Configuration Menu
     <menuitem id="accountant_menu" name="Accountant" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="900"/>
 
