@@ -56,7 +56,7 @@
         <field name="tax_framework">3</field>
     </record>
 
-    <record id="partner_fiscal_profile_int" model="l10n_br_fiscal.partner.profile">
+    <record id="partner_fiscal_profile_pfc" model="l10n_br_fiscal.partner.profile">
         <field name="code">PFC</field>
         <field name="name">Contribuinte</field>
         <field name="is_company" eval="False"/>

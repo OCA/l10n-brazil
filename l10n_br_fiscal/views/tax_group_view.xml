@@ -16,7 +16,7 @@
         <field name="name">l10n_br_fiscal.tax.group.tree</field>
         <field name="model">l10n_br_fiscal.tax.group</field>
         <field name="arch" type="xml">
-            <tree string="Tax">
+            <tree>
                 <field name="name"/>
                 <field name="sequence"/>
                 <field name="tax_domain"/>
