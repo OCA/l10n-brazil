@@ -5,7 +5,7 @@
         <field name="name">l10n_br_fiscal.document.type.tree</field>
         <field name="model">l10n_br_fiscal.document.type</field>
         <field name="arch" type="xml">
-            <tree string="Fiscal Document Type">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="electronic"/>
