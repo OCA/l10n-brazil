@@ -35,13 +35,11 @@ class DFe(models.Model):
     company_id = fields.Many2one(
         comodel_name='res.company',
         string="Company",
-        required=True,
     )
     last_nsu = fields.Char(
         string="Last NSU",
         size=25,
         default='0',
-        required=True,
     )
     last_query = fields.Datetime(
         string="Last query",
@@ -542,7 +540,6 @@ class DFeXML(models.Model):
     dfe_id = fields.Many2one(
         string=u'DF-e Consult',
         comodel_name='l10n_br_fiscal.dfe',
-        readonly=True,
     )
 
     xml_type = fields.Selection([
@@ -552,11 +549,9 @@ class DFeXML(models.Model):
         ('3', 'Resposta-LoteDistDFeInt-DocZip(NFe)')
     ],
         string="XML Type",
-        readonly=True,
     )
 
     xml = fields.Char(
         string="XML",
         size=5000,
-        required=True,
     )
