@@ -20,6 +20,7 @@
             <field name="type">str</field>
             <!--            <field name="column_start">True</field>-->
             <!--            <field name="column_title">True</field>-->
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <!--        ATIVO CIRCULANTE        -->
@@ -32,6 +33,7 @@
             <field name="expression">caixa+contas_a_receber+estoques+outros_creditos</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="balanco_patrimonial_caixa" model="mis.report.kpi">
@@ -104,6 +106,7 @@
             <field name="expression">realizavel_longo_prazo+investimentos+imobilizado+intangivel+depreciacao_amortizacao</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="balanco_patrimonial_realizavel_longo_prazo" model="mis.report.kpi">
@@ -166,6 +169,7 @@
             <field name="expression">circulante_ativo+nao_circulante_ativo</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <!--        LADO ESQUERDO       -->
@@ -183,6 +187,7 @@
             <field name="type">str</field>
             <!--            <field name="column_start">True</field>-->
             <!--            <field name="column_title">True</field>-->
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="balanco_patrimonial_passivo_circulante" model="mis.report.kpi">
@@ -193,6 +198,7 @@
             <field name="expression">fornecedores+emprestimos_financiamentos+obrigacoes_fiscais+obrigacoes_trabalhistas_sociais+contas_a_pagar+provisoes</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="balanco_patrimonial_fornecedores" model="mis.report.kpi">
@@ -277,6 +283,7 @@
             <field name="expression">financiamentos_longo+emprestimos_longo</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="balanco_patrimonial_financiamentos_longo" model="mis.report.kpi">
@@ -319,6 +326,7 @@
             <field name="expression">capital_social+reservas_capital+reservas_lucros+lucros+prejuizos</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="balanco_patrimonial_capital_social" model="mis.report.kpi">
@@ -379,6 +387,7 @@
             <field name="expression">patrimonio_liquido+passivo_nao_circulante+passivo_circulante</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
     </data>
