@@ -32,7 +32,7 @@
         <field name="name">l10n_br_fiscal.simplified.tax.tree</field>
         <field name="model">l10n_br_fiscal.simplified.tax</field>
         <field name="arch" type="xml">
-            <tree string="Simplified Tax">
+            <tree>
                 <field name="name"/>
             </tree>
         </field>

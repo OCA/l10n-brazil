@@ -25,7 +25,7 @@
         <field name="name">l10n_br_fiscal.cfop.tree</field>
         <field name="model">l10n_br_fiscal.cfop</field>
         <field name="arch" type="xml">
-            <tree string="CFOP">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="type_in_out"/>
