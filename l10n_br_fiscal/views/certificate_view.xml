@@ -15,7 +15,7 @@
         <field name="name">l10n_br_fiscal.certificate.tree</field>
         <field name="model">l10n_br_fiscal.certificate</field>
         <field name="arch" type="xml">
-            <tree string="Certificate">
+            <tree>
                 <field name="name"/>
                 <field name="type"/>
             </tree>

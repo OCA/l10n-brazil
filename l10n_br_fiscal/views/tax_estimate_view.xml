@@ -5,7 +5,7 @@
         <field name="name">l10n_br_fiscal.tax.estimate.tree</field>
         <field name="model">l10n_br_fiscal.tax.estimate</field>
         <field name="arch" type="xml">
-            <tree string="Estimate Tax">
+            <tree>
                 <field name="ncm_id" invisible="1"/>
                 <field name="nbs_id" invisible="1"/>
                 <field name="state_id"/>
