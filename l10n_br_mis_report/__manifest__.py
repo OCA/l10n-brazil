@@ -11,9 +11,11 @@
     'website': 'https://github.com/OCA/l10n-brazil',
     'maintainers': ['mileo'],
     "development_status": "Alpha",
-    'depends': ['l10n_br_account'],
+    'depends': [
+        'mis_builder',
+    ],
     'data': [
-        # 'data/mis_report_styles.xml',
+        'data/mis_report_styles.xml',
 
         'data/mis_report_bp.xml',
         'data/mis_report_dre.xml',
