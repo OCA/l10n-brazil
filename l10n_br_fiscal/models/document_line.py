@@ -31,4 +31,3 @@ class DocumentLine(models.Model):
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
     )
-
