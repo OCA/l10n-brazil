@@ -18,7 +18,7 @@
         <field name="name">l10n_br_fiscal.comment.tree</field>
         <field name="model">l10n_br_fiscal.comment</field>
         <field name="arch" type="xml">
-            <tree string="Comment">
+            <tree>
                 <field name="sequence"/>
                 <field name="name"/>
                 <field name="comment_type"/>

@@ -3,7 +3,7 @@
 
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
