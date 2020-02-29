@@ -19,7 +19,7 @@
         <field name="name">l10n_br_fiscal.operation.tree</field>
         <field name="model">l10n_br_fiscal.operation</field>
         <field name="arch" type="xml">
-            <tree string="Fiscal Operation">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="state"/>
