@@ -19,7 +19,7 @@
         <field name="name">l10n_br_tax.definition.sale.template.tree</field>
         <field name="model">l10n_br_tax.definition.sale.template</field>
         <field name="arch" type="xml">
-            <tree string="Definição de Impostos" editable="bottom">
+            <tree editable="bottom">
                 <field name="tax_template_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
                 <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
@@ -47,7 +47,7 @@
         <field name="name">l10n_br_tax.definition.purchase.template.tree</field>
         <field name="model">l10n_br_tax.definition.purchase.template</field>
         <field name="arch" type="xml">
-            <tree string="Definição de Impostos" editable="bottom">
+            <tree editable="bottom">
                 <field name="tax_template_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]"/>
                 <field name="tax_group_id" invisible="1"/>
                 <field name="cst_id"/>
@@ -126,7 +126,7 @@
         <field name="name">fiscal_classification_normal_form_view_tree</field>
         <field name="model">account.product.fiscal.classification.template</field>
         <field name="arch" type="xml">
-            <tree string="Fiscal Classification Template">
+            <tree>
                 <field name="name"/>
                 <field name="description"/>
             </tree>

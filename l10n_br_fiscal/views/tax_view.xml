@@ -20,7 +20,7 @@
         <field name="name">l10n_br_fiscal.tax.tree</field>
         <field name="model">l10n_br_fiscal.tax</field>
         <field name="arch" type="xml">
-            <tree string="Tax">
+            <tree>
                 <field name="tax_domain" invisible="1"/>
                 <field name="name"/>
                 <field name="tax_group_id"/>

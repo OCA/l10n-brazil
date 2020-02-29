@@ -15,7 +15,7 @@
         <field name="name">l10n_br_fiscal.icms.regulation.tree</field>
         <field name="model">l10n_br_fiscal.icms.regulation</field>
         <field name="arch" type="xml">
-            <tree string="ICMS Regulation">
+            <tree>
                 <field name="name"/>
             </tree>
         </field>
