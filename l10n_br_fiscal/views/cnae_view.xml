@@ -20,7 +20,7 @@
         <field name="model">l10n_br_fiscal.cnae</field>
         <field name="field_parent">children_ids</field>
         <field name="arch" type="xml">
-            <tree string="CNAE">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="version"/>
