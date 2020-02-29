@@ -14,6 +14,7 @@
             <field name="name">header_receita</field>
             <field name="expression">""</field>
             <field name="type">str</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="dre_receita_vendas" model="mis.report.kpi">
@@ -44,6 +45,8 @@
             <field name="expression">receita_vendas+deducoes_receita</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+
         </record>
 
         <record id="dre_header_custo_vendas" model="mis.report.kpi">
@@ -53,6 +56,8 @@
             <field name="name">header_custo_vendas</field>
             <field name="expression">""</field>
             <field name="type">str</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+
         </record>
 
         <record id="dre_custo_vendas" model="mis.report.kpi">
@@ -68,11 +73,13 @@
         <record id="dre_lucro_bruto" model="mis.report.kpi">
             <field name="sequence">70</field>
             <field name="report_id" ref="dre"/>
-            <field name="description"></field>
+            <field name="description">= LUCRO BRUTO</field>
             <field name="name">lucro_bruto</field>
             <field name="expression">receita-custo_vendas</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+
         </record>
 
         <record id="dre_header_despesas_operacionais" model="mis.report.kpi">
@@ -80,17 +87,17 @@
             <field name="report_id" ref="dre"/>
             <field name="description">(-) DESPESAS OPERACIONAIS</field>
             <field name="name">depesas_operacionais</field>
-            <field name="expression">
-                despesas_administrativas+despesas_vendas+despesas_gerais
-            </field>
+            <field name="expression">despesas_administrativas+despesas_vendas+despesas_gerais</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+
         </record>
 
         <record id="dre_despesas_administrativas" model="mis.report.kpi">
             <field name="sequence">90</field>
             <field name="report_id" ref="dre"/>
-            <field name="description"></field>
+            <field name="description">Despesas Administrativas</field>
             <field name="name">despesas_administrativas</field>
             <field name="expression">bale[3.2.2.01]</field>
             <field name="type">num</field>
@@ -100,7 +107,7 @@
         <record id="dre_despesas_vendas" model="mis.report.kpi">
             <field name="sequence">100</field>
             <field name="report_id" ref="dre"/>
-            <field name="description"></field>
+            <field name="description">Despesas com Vendas</field>
             <field name="name">despesas_vendas</field>
             <field name="expression">bale[3.2.2.02]</field>
             <field name="type">num</field>
@@ -110,7 +117,7 @@
         <record id="dre_despesas_gerais" model="mis.report.kpi">
             <field name="sequence">110</field>
             <field name="report_id" ref="dre"/>
-            <field name="description"></field>
+            <field name="description">Outras Despesas Gerais</field>
             <field name="name">despesas_gerais</field>
             <field name="expression">bale[3.2.2.03]</field>
             <field name="type">num</field>
@@ -120,11 +127,12 @@
         <record id="dre_resultado_operacional" model="mis.report.kpi">
             <field name="sequence">120</field>
             <field name="report_id" ref="dre"/>
-            <field name="description"></field>
+            <field name="description">= RESULTADO OPERACIONAL ANTES DO RESULTADO FINANCEIRO</field>
             <field name="name">resultado_operacional</field>
             <field name="expression">lucro_bruto-depesas_operacionais</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="dre_resultado_financeiro" model="mis.report.kpi">
@@ -135,22 +143,23 @@
             <field name="expression">receitas_financeiras+despesas_financeiras</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="dre_receitas_financeiras" model="mis.report.kpi">
             <field name="sequence">140</field>
             <field name="report_id" ref="dre"/>
-            <field name="description"></field>
+            <field name="description">Receitas Financeiras</field>
             <field name="name">receitas_financeiras</field>
             <field name="expression">bale[3.1.2]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
 
-        <record id="dre_despesas_vendas" model="mis.report.kpi">
+        <record id="dre_despesas_financeiras" model="mis.report.kpi">
             <field name="sequence">150</field>
             <field name="report_id" ref="dre"/>
-            <field name="description"></field>
+            <field name="description">(-) Despesas Financeiras</field>
             <field name="name">despesas_financeiras</field>
             <field name="expression">bale[3.2.3]</field>
             <field name="type">num</field>
@@ -162,21 +171,23 @@
             <field name="sequence">160</field>
             <field name="report_id" ref="dre"/>
             <field name="description">(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS</field>
-            <field name="name">outras_receitas_despesas_operacionais</field>
+            <field name="name">outras_receitas_despesas_op</field>
             <field name="expression">bale[3.2.4]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
 
         <record id="dre_resultado_antes_lucro" model="mis.report.kpi">
             <field name="sequence">170</field>
             <field name="report_id" ref="dre"/>
-            <field name="description">(+/-) RESULTADO FINANCEIRO</field>
+            <field name="description">= RESULTADO ANTES DAS DESPESAS COM TRIBUTOS SOBRE O LUCRO</field>
             <field name="name">resultado_antes_lucro</field>
-            <field name="expression">resultado_operacional+resultado_financeiro+outras_receitas_despesas_operacionais</field>
+            <field name="expression">resultado_operacional+resultado_financeiro+outras_receitas_despesas_op</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
         <record id="dre_contribuicao_social" model="mis.report.kpi">
@@ -207,6 +218,7 @@
             <field name="expression">resultado_antes_lucro+contribuicao_social+imposto_renda_pj</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
         </record>
 
     </data>
