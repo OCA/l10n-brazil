@@ -24,9 +24,7 @@ def filter_processador(record):
 
 class EletronicDocument(models.AbstractModel):
     _name = "l10n_br_fiscal.document.electronic"
-    _inherit = ["mail.thread",
-                "mail.activity.mixin",
-                "l10n_br_fiscal.document.mixin",
+    _inherit = ["l10n_br_fiscal.document.mixin",
                 "l10n_br_fiscal.document.workflow"]
 
     _description = "Fiscal Document"
