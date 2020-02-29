@@ -87,7 +87,6 @@
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
         "views/l10n_br_fiscal_action.xml",
-        "views/l10n_br_fiscal_menu.xml",
         "views/uom_uom.xml",
         "views/operation_dashboard_view.xml",
         "views/closing.xml",
@@ -95,6 +94,25 @@
         "views/document_invalidate_number.xml",
         "views/document_cancel.xml",
         "views/document_correction.xml",
+        'views/mdfe/mdfe_views.xml',
+        'views/dfe/dfe_views.xml',
+
+
+        "views/l10n_br_fiscal_menu.xml",
+        # 'data/l10n_br_account_product_sequence.xml',
+        # 'data/l10n_br_account_data.xml',
+        # 'data/l10n_br_account_product_data.xml',
+        # 'data/l10n_br_tax.icms_partition.csv',
+        # 'views/l10n_br_account_product_icms_relief_view.xml',
+        # 'wizards/l10n_br_account_invoice_costs_ratio_view.xml',
+        # 'views/nfe/account_invoice_nfe_view.xml',
+        # 'views/account_fiscal_position_view.xml',
+        # 'views/res_country_view.xml',
+        # 'wizards/l10n_br_account_nfe_export_invoice_view.xml',
+        # 'wizards/l10n_br_account_nfe_export_view.xml',
+        # 'wizards/l10n_br_account_document_status_sefaz_view.xml',
+        # 'wizards/account_invoice_refund_view.xml',
+        # 'report/account_invoice_report_view.xml',
     ],
     "demo": [
         # Some demo data is being loaded via post_init_hook in hook file
