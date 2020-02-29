@@ -7,7 +7,6 @@ from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
     FISCAL_IN_OUT,
-    TAX_FRAMEWORK,
     TAX_FRAMEWORK_SIMPLES_ALL,
     CFOP_DESTINATION,
     TAX_BASE_TYPE,

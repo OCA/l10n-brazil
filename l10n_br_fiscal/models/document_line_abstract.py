@@ -4,8 +4,7 @@
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import (CFOP_DESTINATION_EXPORT, FISCAL_IN,
-                                FISCAL_OUT, NCM_FOR_SERVICE_REF,
+from ..constants.fiscal import (FISCAL_OUT, NCM_FOR_SERVICE_REF,
                                 PRODUCT_FISCAL_TYPE,
                                 PRODUCT_FISCAL_TYPE_SERVICE,
                                 TAX_DOMAIN_COFINS,
