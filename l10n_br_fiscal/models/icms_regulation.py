@@ -3,7 +3,28 @@
 
 from lxml import etree
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
+
+VIEW = """
+<page name="uf_{0}" string="{1}">
+    <notebook>
+        <page name="uf_{0}_internal" string="Interno">
+            <group name="icms_internal_{0}" string="Internal">
+            <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icms)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
+            </group>
+            <group name="icms_external_{0}" string="External">
+            <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icms)d, 'default_state_from_id': %(base.state_br_{0})d}}"/>
+            </group>
+        </page>
+        <page name="uf_{0}_st" string="ST">
+            <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icmsst)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
+        </page>
+        <page name="uf_{0}_others" string="Outros">
+            <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icmsfcp)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
+        </page>
+    </notebook>
+</page>
+"""  # noqa
 
 
 class TaxDefinitionICMS(models.Model):
@@ -24,25 +45,25 @@ class TaxDefinitionICMS(models.Model):
         domain=[('country_id.code', '=', 'BR')])
 
     #
-    #icms_ids = fields.One2many(
+    # icms_ids = fields.One2many(
     #    comodel_name="l10n_br_fiscal.tax.icms",
     #    inverse_name="regulation_id")
 
-    #icms_st_ids = fields.One2many(
+    # icms_st_ids = fields.One2many(
     #    comodel_name="l10n_br_fiscal.tax.icms",
     #    inverse_name="regulation_id")
 
-    #icms_fcp_id = fields.One2many(
+    # icms_fcp_id = fields.One2many(
     #    comodel_name="l10n_br_fiscal.tax.icms",
     #    inverse_name="regulation_id")
 
-    #name = fields.Text(string="Name", required=True, index=True)
+    # name = fields.Text(string="Name", required=True, index=True)
 
-    #icms_tax_id = fields.Many2one(
+    # icms_tax_id = fields.Many2one(
     #    comodel_name="l10n_br_fiscal.tax",
     #    string="ICMS Tax",
     #    domain="[('tax_domain', '=', 'icms')]",
-    #)
+    # )
 
     # ncms = fields.Char(string="NCM")
     #
@@ -988,27 +1009,7 @@ class ICMSRegulation(models.Model):
                     order="name")
 
                 for state in br_states:
-
-                    state_page = """
-    <page name="uf_{0}" string="{1}">
-        <notebook>
-            <page name="uf_{0}_internal" string="Interno">
-                <group name="icms_internal_{0}" string="Internal">
-                <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icms)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
-                </group>
-                <group name="icms_external_{0}" string="External">
-                <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icms)d, 'default_state_from_id': %(base.state_br_{0})d}}"/>
-                </group>
-            </page>
-            <page name="uf_{0}_st" string="ST">
-                <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icmsst)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
-            </page>
-            <page name="uf_{0}_others" string="Outros">
-                <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icmsfcp)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
-            </page>
-        </notebook>
-    </page>
-    """.format(state.code.lower(), state.name)
+                    state_page = VIEW.format(state.code.lower(), state.name)
 
                     node_page = etree.fromstring(state_page)
                     node.insert(-1, node_page)
