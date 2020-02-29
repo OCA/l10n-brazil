@@ -23,7 +23,7 @@
         <field name="name">l10n_br_fiscal.tax.pis.cofins.tree</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins</field>
         <field name="arch" type="xml">
-            <tree string="Tax PIS COFINS">
+            <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="tax_pis_id"/>
