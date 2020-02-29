@@ -39,25 +39,25 @@
                             string="Download Document's XML"
                             type="object"
                             attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
-                    <field name="state" statusbar_visible="pendente,ciente,confirmado"
+                    <field name="state" statusbar_visible="pendente,ciente,confirmado" readonly="1"
                            statusbar_colors='{"confirmado":"blue","desconhecido":"red","nao_realizado":"red"}'
                            widget="statusbar" nolabel="1"
                            />
                 </header>
                 <group>
                     <group>
-                        <field name="key" select="1"/>
+                        <field name="key" select="1" required="1"/>
                         <field name="document_id"/>
                         <field name="number"/>
                         <field name="nsu"/>
                         <field name="ie"/>
-                        <field name="company_id"/>
+                        <field name="company_id" required="1"/>
                         <field name="supplier"/>
                     </group>
                     <group>
-                        <field name="operation_type"/>
+                        <field name="operation_type" readonly="1"/>
                         <field name="document_value" widget="monetary"/>
-                        <field name="document_state"/>
+                        <field name="document_state" readonly="1"/>
                         <field name="inclusion_mode"/>
                         <field name="cnpj_cpf"/>
                         <field name="inclusion_datetime"/>
@@ -101,9 +101,9 @@
                 <field name="nsu"/>
                 <field name="supplier"/>
                 <field name="cnpj_cpf"/>
-                <field name="company_id"/>
+                <field name="company_id" required="1"/>
                 <field name="emission_datetime"/>
-                <field name="state"/>
+                <field name="state" readonly="1"/>
                 <field name="document_value"/>
             </tree>
         </field>
