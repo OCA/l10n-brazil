@@ -43,7 +43,7 @@
                     </group>
 
 
-                    <field name="imported_dfe_ids" nolabel="1"
+                    <field name="imported_dfe_ids" nolabel="1" readonly="1"
                             context="{'tree_view_ref':
                            'l10n_br_fiscal.dfe_manifestacao_tree'}"/>
 
@@ -65,9 +65,9 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree string="DF-e Consult" duplicate="false">
-                <field name="company_id" />
-                <field name="last_nsu" />
-                <field name="last_query" />
+                <field name="company_id" required="1"/>
+                <field name="last_nsu" required="1"/>
+                <field name="last_query"/>
             </tree>
         </field>
     </record>
@@ -160,8 +160,8 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="XML's" create="false">
-                <field name="xml_type"/>
-                <field name="xml"/>
+                <field name="xml_type" readonly="1"/>
+                <field name="xml" required="1"/>
             </tree>
         </field>
     </record>
