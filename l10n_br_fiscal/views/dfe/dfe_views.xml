@@ -22,7 +22,7 @@
                         <newline />
                         <field name="last_query" readonly="1" />
                         <newline />
-                        <button name="busca_documentos"
+                        <button name="search_documents"
                                 string="Search Documents"
                                 type="object" class="btn-primary" />
                         <button name="baixa_documentos"
