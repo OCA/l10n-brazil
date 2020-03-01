@@ -220,7 +220,7 @@ class MDFe(models.Model):
     def action_ciencia_emissao(self):
         for record in self:
 
-            record.sped_consulta_dfe_id.validate_nfe_configuration(
+            record.sped_consulta_dfe_id.validate_document_configuration(
                 record.company_id)
 
             nfe_result = record.sped_consulta_dfe_id.send_event(
@@ -241,7 +241,7 @@ class MDFe(models.Model):
     @api.multi
     def action_confirmar_operacacao(self):
         for record in self:
-            record.sped_consulta_dfe_id.validate_nfe_configuration(
+            record.sped_consulta_dfe_id.validate_document_configuration(
                 record.company_id)
             nfe_result = record.sped_consulta_dfe_id.send_event(
                 record.company_id,
@@ -261,7 +261,7 @@ class MDFe(models.Model):
     def action_operacao_desconhecida(self):
         for record in self:
             record.sped_consulta_dfe_id.\
-                validate_nfe_configuration(record.company_id)
+                validate_document_configuration(record.company_id)
             nfe_result = record.sped_consulta_dfe_id.send_event(
                 record.company_id,
                 record.key,
@@ -279,7 +279,7 @@ class MDFe(models.Model):
     def action_negar_operacao(self):
         for record in self:
             record.sped_consulta_dfe_id.\
-                validate_nfe_configuration(record.company_id)
+                validate_document_configuration(record.company_id)
             nfe_result = record.sped_consulta_dfe_id.send_event(
                 record.company_id,
                 record.key,
@@ -318,7 +318,7 @@ class MDFe(models.Model):
     def action_download_xml(self):
         for record in self:
             record.sped_consulta_dfe_id.\
-                validate_nfe_configuration(record.company_id)
+                validate_document_configuration(record.company_id)
             nfe_result = record.sped_consulta_dfe_id.\
                 download_nfe(record.company_id, record.key)
 
@@ -349,7 +349,7 @@ class MDFe(models.Model):
     def action_importa_xml(self):
         for record in self:
             record.sped_consulta_dfe_id.\
-                validate_nfe_configuration(record.company_id)
+                validate_document_configuration(record.company_id)
             nfe_result = record.sped_consulta_dfe_id.\
                 download_nfe(record.company_id, record.key)
 
