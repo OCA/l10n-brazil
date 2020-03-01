@@ -10,17 +10,56 @@ import base64
 import re
 import gzip
 import io
+import tempfile
 
 from datetime import datetime
 from lxml import objectify
+from requests import Session
 
-import logging
+from erpbrasil.assinatura import certificado as cert
+from erpbrasil.edoc import NFe as edoc_nfe
+from erpbrasil.transmissao import TransmissaoSOAP
+
 
 from odoo.osv import orm
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+import logging
 _logger = logging.getLogger(__name__)
+
+
+def _format_nsu(nsu):
+    nsu = int(nsu)
+    return "%015d" % (nsu,)
+
+def _processador(company_id):
+    """
+    # TODO: Utilizar método _procesador(self) já existente no l10n_br_fiscal.document
+    :param company_id: Empresa
+    :return: Um elemento edoc_nfe
+    """
+    if not company_id.certificate_nfe_id:
+        raise UserError(_("Certificate not found"))
+
+    tmp_certificate = tempfile.NamedTemporaryFile(delete=True)
+    tmp_certificate.seek(0)
+    tmp_certificate.write(base64.b64decode(
+        company_id.certificate_nfe_id.file.decode('utf8')))
+    tmp_certificate.flush()
+
+    certificado = cert.Certificado(
+        arquivo=tmp_certificate.name,
+        senha=company_id.certificate_nfe_id.password,
+    )
+    session = Session()
+    session.verify = False
+    transmissao = TransmissaoSOAP(certificado, session)
+    # TODO: Utilizar ambiente
+    return edoc_nfe(
+        transmissao, company_id.state_id.ibge_code,
+        versao='1.01', ambiente='1' # 1 - PROD. 2-HML
+    )
 
 
 class DFe(models.Model):
@@ -90,49 +129,47 @@ class DFe(models.Model):
                 ('company_id', '=', self.company_id.id)]),
         }
 
-    def _format_nsu(self, nsu):
-        # nsu = long(nsu)
-        return "%015d" % (nsu,)
+    def document_distribution(self, company_id, last_nsu):
+        last_nsu = _format_nsu(last_nsu)
 
-    def distribuicao_nfe(self, company, last_nsu):
-        last_nsu = self._format_nsu(last_nsu)
-        p = company.processador_nfe()
-        cnpj_partner = re.sub('[^0-9]', '', company.cnpj_cpf)
-        result = p.consultar_distribuicao(
+        processor = _processador(company_id)
+
+        cnpj_partner = re.sub('[^0-9]', '', company_id.cnpj_cpf)
+        result = processor.consultar_distribuicao(
             cnpj_cpf=cnpj_partner,
-            last_nsu=last_nsu)
+            ultimo_nsu=last_nsu
+        )
 
-        if result.resposta.status == 200:  # Webservice ok
-            if (result.resposta.cStat.valor == '137' or
-                result.resposta.cStat.valor == '138'):
+        if result.retorno.status_code == 200:  # Webservice ok
+            if (result.resposta.cStat in ['137', '138']):
 
                 nfe_list = []
                 for doc in result.resposta.loteDistDFeInt.docZip:
                     nfe_list.append({
-                        'xml': doc.texto, 'NSU': doc.NSU.valor,
-                        'schema': doc.schema.valor
+                        'xml': doc.valueOf_, 'NSU': doc.NSU,
+                        'schema': doc.schema
                     })
 
                 return {
                     'result': result,
-                    'code': result.resposta.cStat.valor,
-                    'message': result.resposta.xMotivo.valor,
-                    'list_nfe': nfe_list, 'file_returned': result.resposta.xml
+                    'code': result.resposta.cStat,
+                    'message': result.resposta.xMotivo,
+                    'list_nfe': nfe_list, 'file_returned': result.retorno.text
                 }
             else:
                 return {
                     'result': result,
-                    'code': result.resposta.cStat.valor,
-                    'message': result.resposta.xMotivo.valor,
-                    'file_sent': result.envio.xml,
-                    'file_returned': result.resposta.xml
+                    'code': result.resposta.cStat,
+                    'message': result.resposta.xMotivo,
+                    'file_sent': result.envio_xml,
+                    'file_returned': result.retorno.text
                 }
         else:
             return {
                 'result': result,
-                'code': result.resposta.status,
-                'message': result.resposta.reason,
-                'file_sent': result.envio.xml, 'file_returned': None
+                'code': result.retorno.status_code,
+                'message': result.resposta.xMotivo,
+                'file_sent': result.envio_xml, 'file_returned': None
             }
 
     @staticmethod
@@ -186,7 +223,7 @@ class DFe(models.Model):
                         erros.append((manifesto.id, e))
                         continue
 
-            self.validate_nfe_configuration(self.company_id)
+            self.validate_document_configuration(self.company_id)
 
             nfe_result = self.download_nfe(self.company_id,
                                            manifesto.chave)
@@ -213,7 +250,7 @@ class DFe(models.Model):
 
         return nfe_ids
 
-    def _cron_busca_documentos(self, context=None):
+    def _cron_search_documents(self, context=None):
         """ Método chamado pelo agendador do sistema, processa
         automaticamente a busca de documentos conforme configuração do
         sistema.
@@ -225,189 +262,202 @@ class DFe(models.Model):
 
         for consulta_id in consulta_ids:
             if consulta_id.use_cron:
-                consulta_id.busca_documentos()
+                consulta_id.search_documents()
 
     @api.multi
-    def busca_documentos(self, raise_error=False):
+    def search_documents(self, context=None, raise_error=False):
         nfe_mdes = []
         xml_ids = []
-        company = self.company_id
-        for consulta in self:
+        for record in self:
             try:
-                consulta.validate_nfe_configuration(company)
-                last_nsu = consulta.last_nsu
-                nfe_result = consulta.distribuicao_nfe(
-                    company, last_nsu)
-                consulta.last_query = fields.Datetime.now()
-                _logger.info('%s.busca_documentos(), lastNSU: %s',
-                             company.name, last_nsu)
-            except Exception:
-                _logger.error("Erro ao consultar Manifesto", exc_info=True)
+                record.validate_document_configuration(record.company_id)
+                nfe_result = record.document_distribution(
+                    record.company_id, record.last_nsu)
+                record.last_query = fields.Datetime.now()
+                _logger.info('%s.search_documents(), lastNSU: %s',
+                             record.company_id.name, record.last_nsu)
+            except Exception as e:
+                _logger.error("Erro ao consultar Manifesto.\n%s" % e, exc_info=True)
                 if raise_error:
                     raise UserError(
-                        u'Atenção',
-                        u'Não foi possivel efetuar a consulta!\n '
-                        u'Verifique o log')
+                        'Atenção',
+                        'Não foi possivel efetuar a consulta!\n '
+                        '%s' %e)
             else:
-                if nfe_result['code'] == '137' or nfe_result['code'] == '138':
-                    env_mde = self.env['l10n_br_fiscal.mdfe']
-                    env_mde_xml = self.env[
-                        'l10n_br_fiscal.dfe_xml']
+                if nfe_result['code'] in ['137', '138']:
+                    env_mdfe = self.env['l10n_br_fiscal.mdfe']
+                    env_mdfe_xml = self.env['l10n_br_fiscal.dfe_xml']
 
                     xml_ids.append(
-                        env_mde_xml.create(
+                        env_mdfe_xml.create(
                             {
-                                'consulta_id': self.id,
+                                'dfe_id': record.id,
                                 'xml_type': '0',
-                                'xml': nfe_result['result'].envio.original
+                                # TODO: Inserir XML de fato. 'envio_xml' é um
+                                #  arquivo gz codificado em base64
+                                'xml': nfe_result['result'].envio_xml
                             }).id
                     )
                     xml_ids.append(
-                        env_mde_xml.create(
+                        env_mdfe_xml.create(
                             {
-                                'consulta_id': self.id,
+                                'dfe_id': record.id,
                                 'xml_type': '1',
-                                'xml': nfe_result['result'].resposta.original
+                                # TODO: Inserir XML de fato. 'retorno.text' é
+                                #  um arquivo gz codificado em base64
+                                'xml': nfe_result['result'].retorno.text
                             }).id
                     )
                     xml_ids.append(
-                        env_mde_xml.create(
+                        env_mdfe_xml.create(
                             {
-                                'consulta_id': self.id,
+                                'dfe_id': record.id,
                                 'xml_type': '2',
-                                'xml': nfe_result[
-                                    'result'].resposta.loteDistDFeInt.xml
+                                # TODO: Obter o XML do loteDistDFeInt
+                                # 'xml': nfe_result[
+                                #     'result'].resposta.loteDistDFeInt.xml
                             }).id
                     )
 
                     for nfe in nfe_result['list_nfe']:
-                        exists_nsu = self.env['l10n_br_fiscal.mdfe']
-                        exists_nsu.search(
-                            [('nsu', '=', nfe['NSU']),
-                             ('company_id', '=', company.id),
-                             ]).id
-                        nfe_xml = nfe['xml'].encode('utf-8')
+                        exists_nsu = env_mdfe.search([
+                            ('nsu', '=', nfe['NSU']), # TODO: Verificar se formatação dos dois campos NSU equivalem
+                            ('company_id', '=', self.company_id.id),
+                        ])
+                        nfe_b64decode = base64.b64decode(nfe['xml'])
+
+                        tmp_nfe_zip = tempfile.NamedTemporaryFile(delete=True)
+                        tmp_nfe_zip.seek(0)
+                        tmp_nfe_zip.write(nfe_b64decode)
+                        tmp_nfe_zip.flush()
+
+                        nfe_xml = gzip.open(tmp_nfe_zip.name, 'rb').read()
+
                         root = objectify.fromstring(nfe_xml)
                         self.last_nsu = nfe['NSU']
 
-                        if nfe['schema'] == u'procNFe_v3.10.xsd' and \
+                        if nfe['schema'] == 'procNFe_v3.10.xsd' and \
                             not exists_nsu:
                             chave_nfe = root.protNFe.infProt.chNFe
-                            exists_chnfe = self.env[
-                                'l10n_br_fiscal.mdfe'].search(
-                                [('chave', '=', chave_nfe)]).id
+                            exists_chnfe = env_mdfe.search(
+                                [('key', '=', chave_nfe)]).id
 
                             if not exists_chnfe:
-                                cnpj_forn = self._mask_cnpj(
+                                cnpj_forn = record._mask_cnpj(
                                     ('%014d' % root.NFe.infNFe.emit.CNPJ))
-                                partner = self.env['sped.participante'].search(
+                                # TODO: Verificar qual modelo utilizar para parceiro
+                                # partner = self.env['sped.participante'].search(
+                                partner = self.env['res.partner'].search(
                                     [('cnpj_cpf', '=', cnpj_forn)])
 
-                                invoice_eletronic = {
-                                    'numero': root.NFe.infNFe.ide.nNF,
-                                    'chave': chave_nfe,
+                                mdfe_dict = {
+                                    'number': root.NFe.infNFe.ide.nNF,
+                                    'key': chave_nfe,
                                     'nsu': nfe['NSU'],
                                     # 'fornecedor': root.xNome,
-                                    'tipo_operacao': str(root.NFe.infNFe.ide.
+                                    'operation_type': str(root.NFe.infNFe.ide.
                                                          tpNF),
-                                    'valor_documento':
+                                    'document_value':
                                         root.NFe.infNFe.total.ICMSTot.vNF,
                                     'state': 'pendente',
-                                    'data_hora_inclusao': datetime.now(),
+                                    'inclusion_datetime': datetime.now(),
                                     'cnpj_cpf': cnpj_forn,
                                     'ie': root.NFe.infNFe.emit.IE,
-                                    'participante_id': partner.id,
-                                    'data_hora_emissao': datetime.strptime(
+                                    'partner_id': partner.id,
+                                    'emission_datetime': datetime.strptime(
                                         str(root.NFe.infNFe.ide.dhEmi)[:19],
                                         '%Y-%m-%dT%H:%M:%S'),
-                                    'company_id': company.id,
-                                    'dfe_id': consulta.id,
-                                    'forma_inclusao': u'Verificação agendada'
+                                    'company_id': record.company.id,
+                                    'dfe_id': record.id,
+                                    'inclusion_mode': 'Verificação agendada'
                                 }
-                                obj_nfe = env_mde.create(invoice_eletronic)
+                                obj_nfe = env_mdfe.create(mdfe_dict)
                                 file_name = 'resumo_nfe-%s.xml' % nfe['NSU']
                                 self.env['ir.attachment'].create(
                                     {
                                         'name': file_name,
                                         'datas': base64.b64encode(nfe_xml),
                                         'datas_fname': file_name,
-                                        'description': u'NFe via manifesto',
+                                        'description': 'NFe via manifest',
                                         'res_model':
                                             'l10n_br_fiscal.mdfe',
                                         'res_id': obj_nfe.id
                                     })
 
                                 xml_ids.append(
-                                    env_mde_xml.create(
+                                    env_mdfe_xml.create(
                                         {
-                                            'consulta_id': self.id,
+                                            'dfe_id': record.id,
                                             'xml_type': '3',
                                             'xml': nfe['xml']
                                         }).id
                                 )
                             else:
                                 manifesto = \
-                                    self.env['l10n_br_fiscal.mdfe'] \
+                                    record.env['l10n_br_fiscal.mdfe'] \
                                         .browse(exists_chnfe)
 
                                 if not manifesto.dfe_id:
                                     manifesto.update({
-                                        'dfe_id': consulta.id,
+                                        'dfe_id': record.id,
                                     })
 
                         elif nfe['schema'] == 'resNFe_v1.01.xsd' and \
                             not exists_nsu:
                             chave_nfe = root.chNFe
-                            exists_chnfe = self.env[
-                                'l10n_br_fiscal.mdfe'].search(
-                                [('chave', '=', chave_nfe)]).id
+                            exists_chnfe = env_mdfe.search([
+                                ('key', '=', chave_nfe)
+                            ]).id
 
                             if not exists_chnfe:
-                                cnpj_forn = self._mask_cnpj(
+                                cnpj_forn = record._mask_cnpj(
                                     ('%014d' % root.CNPJ))
-                                partner = self.env['sped.participante'].search(
+                                # TODO: Verificar qual modelo de parceiro usar
+                                # partner_id = self.env['sped.participante'].search(
+                                #     [('cnpj_cpf', '=', cnpj_forn)])
+                                partner_id = self.env['res.partner'].search(
                                     [('cnpj_cpf', '=', cnpj_forn)])
 
-                                invoice_eletronic = {
-                                    # 'numero': root.NFe.infNFe.ide.nNF,
-                                    'chave': chave_nfe,
+                                mdfe_dict = {
+                                    # 'number': root.NFe.infNFe.ide.nNF,
+                                    'key': chave_nfe,
                                     'nsu': nfe['NSU'],
                                     'fornecedor': root.xNome,
-                                    'tipo_operacao': str(root.tpNF),
-                                    'valor_documento': root.vNF,
+                                    'operation_type': str(root.tpNF),
+                                    'document_value': root.vNF,
                                     'situacao_nfe': str(root.cSitNFe),
                                     'state': 'pendente',
-                                    'data_hora_inclusao': datetime.now(),
+                                    'inclusion_datetime': datetime.now(),
                                     'cnpj_cpf': cnpj_forn,
                                     'ie': root.IE,
-                                    'participante_id': partner.id,
-                                    'data_hora_emissao': datetime.strptime(
+                                    'partner_id': partner_id.id,
+                                    'emission_datetime': datetime.strptime(
                                         str(root.dhEmi)[:19],
                                         '%Y-%m-%dT%H:%M:%S'),
-                                    'company_id': company.id,
-                                    'dfe_id': consulta.id,
-                                    'forma_inclusao': u'Verificação agendada -'
-                                                      u' manifestada por '
-                                                      u'outro '
-                                                      u'app'
+                                    'company_id': record.company_id.id,
+                                    'dfe_id': record.id,
+                                    'inclusion_mode': 'Verificação agendada -'
+                                                      ' manifestada por '
+                                                      'outro '
+                                                      'app'
                                 }
-                                obj_nfe = env_mde.create(invoice_eletronic)
+                                obj_nfe = env_mdfe.create(mdfe_dict)
                                 file_name = 'resumo_nfe-%s.xml' % nfe['NSU']
                                 self.env['ir.attachment'].create(
                                     {
                                         'name': file_name,
                                         'datas': base64.b64encode(nfe_xml),
                                         'datas_fname': file_name,
-                                        'description': u'NFe via manifesto',
+                                        'description': 'NFe via manifesto',
                                         'res_model':
                                             'l10n_br_fiscal.mdfe',
                                         'res_id': obj_nfe.id
                                     })
 
                                 xml_ids.append(
-                                    env_mde_xml.create(
+                                    env_mdfe_xml.create(
                                         {
-                                            'consulta_id': self.id,
+                                            'dfe_id': record.id,
                                             'xml_type': '3',
                                             'xml': nfe['xml']
                                         }).id
@@ -415,12 +465,11 @@ class DFe(models.Model):
 
                             else:
                                 manifesto = \
-                                    self.env['l10n_br_fiscal.mdfe'] \
-                                        .browse(exists_chnfe)
+                                    env_mdfe.browse(exists_chnfe)
 
                                 if not manifesto.dfe_id:
                                     manifesto.update({
-                                        'dfe_id': consulta.id,
+                                        'dfe_id': record.id,
                                     })
 
                         nfe_mdes.append(nfe)
@@ -434,15 +483,17 @@ class DFe(models.Model):
         return nfe_mdes
 
     @staticmethod
-    def validate_nfe_configuration(company):
-        error = u'As seguintes configurações estão faltando:\n'
+    def validate_document_configuration(company_id):
+        missing_configs = []
 
-        if not company.certificate_nfe_id.arquivo:
-            error += u'Empresa - Arquivo NF-e A1\n'
-        if not company.certificate_nfe_id.senha:
-            error += u'Empresa - Senha NF-e A1\n'
-        if error != u'As seguintes configurações estão faltando:\n':
-            raise orm.except_orm(_(u'Validação !'), _(error))
+        if not company_id.certificate_nfe_id.file:
+            missing_configs.append(_('Company - NF-e A1 File'))
+        if not company_id.certificate_nfe_id.password:
+            missing_configs.append(_('Company - NF-e A1 Password'))
+        if missing_configs:
+            error_msg = 'The following configurations are missing\n' + \
+                        '\n'.join([m for m in missing_configs])
+            raise orm.except_orm(_('Validation!'), _(error_msg))
 
     def send_event(self, company, nfe_key, method):
         p = company.processador_nfe()
@@ -538,7 +589,7 @@ class DFeXML(models.Model):
     _description = 'DF-e XML Document'
 
     dfe_id = fields.Many2one(
-        string=u'DF-e Consult',
+        string='DF-e Consult',
         comodel_name='l10n_br_fiscal.dfe',
     )
 
