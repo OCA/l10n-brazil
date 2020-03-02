@@ -37,7 +37,7 @@
 
                     <group colspan="2">
                      <button string="Manage" class="oe_highlight"
-                             name="action_gerencia_manifestacoes"
+                             name="action_manage_manifestations"
                              colspan="1"
                              type="object"/>
                     </group>
