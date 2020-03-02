@@ -217,81 +217,66 @@ class MDFe(models.Model):
         }
 
     @api.multi
-    def action_ciencia_emissao(self):
+    def action_send_event(self, operation, valid_codes, new_state):
+        """
+        Método para enviar o evento da operação escolhida.
+        :param operation:   "ciencia_operacao"
+                            "confirma_operacao"
+                            "desconhece_operacao"
+                            "nao_realizar_operacao"
+        :param valid_codes: Lista de códigos de retorno válidos para que a
+                            operação seja aceita
+        :param new_state: Novo estado tomado pela MDF-e caso um código válido
+                          seja retornado
+        :return: True caso a operação seja concluída com êxito
+        """
         for record in self:
+            record.dfe_id.validate_document_configuration(record.company_id)
 
-            record.sped_consulta_dfe_id.validate_document_configuration(
-                record.company_id)
-
-            nfe_result = record.sped_consulta_dfe_id.send_event(
+            nfe_result = record.dfe_id.send_event(
                 record.company_id,
                 record.key,
-                "ciencia_operacao"
+                operation
             )
-            if nfe_result["code"] == "135":
-                record.state = "ciente"
-            elif nfe_result["code"] == "573":
-                record.state = "ciente"
+            if nfe_result["code"] in valid_codes:
+                record.state = new_state
             else:
-                raise models.ValidationError(
-                    nfe_result["code"] + ' - ' + nfe_result["message"])
+                raise models.ValidationError('{} - {}'.format(
+                    nfe_result["code"], nfe_result["message"]))
 
         return True
+
+    @api.multi
+    def action_ciencia_emissao(self):
+        return self.action_send_event(
+            'ciencia_operacao',
+            ['135', '573'],
+            'ciente'
+        )
 
     @api.multi
     def action_confirmar_operacacao(self):
-        for record in self:
-            record.sped_consulta_dfe_id.validate_document_configuration(
-                record.company_id)
-            nfe_result = record.sped_consulta_dfe_id.send_event(
-                record.company_id,
-                record.key,
-                "confirma_operacao")
-
-            if nfe_result["code"] == "135":
-                record.state = "confirmado"
-            else:
-                raise models.ValidationError(_(
-                        nfe_result["code"] + ' - ' + nfe_result["message"])
-                )
-
-        return True
+        return self.action_send_event(
+            'confirma_operacao',
+            ['135'],
+            'confirmado'
+        )
 
     @api.multi
     def action_operacao_desconhecida(self):
-        for record in self:
-            record.sped_consulta_dfe_id.\
-                validate_document_configuration(record.company_id)
-            nfe_result = record.sped_consulta_dfe_id.send_event(
-                record.company_id,
-                record.key,
-                "desconhece_operacao")
-
-            if nfe_result["code"] == "135":
-                record.state = "desconhecido"
-            else:
-                raise models.ValidationError(_(
-                    nfe_result["code"] + ' - ' + nfe_result["message"]))
-
-        return True
+        return self.action_send_event(
+            'desconhece_operacao',
+            ['135'],
+            'desconhecido'
+        )
 
     @api.multi
     def action_negar_operacao(self):
-        for record in self:
-            record.sped_consulta_dfe_id.\
-                validate_document_configuration(record.company_id)
-            nfe_result = record.sped_consulta_dfe_id.send_event(
-                record.company_id,
-                record.key,
-                "nao_realizar_operacao")
-
-            if nfe_result["code"] == "135":
-                record.state = "nap_realizado"
-            else:
-                raise models.ValidationError(_(
-                    nfe_result["code"] + ' - ' + nfe_result["message"]))
-
-        return True
+        return self.action_send_event(
+            'nao_realizar_operacao',
+            ['135'],
+            'nao_realizado'
+        )
 
     @api.multi
     def action_download_xmls(self):
