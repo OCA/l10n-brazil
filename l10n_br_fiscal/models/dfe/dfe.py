@@ -495,49 +495,48 @@ class DFe(models.Model):
                         '\n'.join([m for m in missing_configs])
             raise orm.except_orm(_('Validation!'), _(error_msg))
 
-    def send_event(self, company, nfe_key, method):
-        p = company.processador_nfe()
-        cnpj_partner = re.sub('[^0-9]', '', company.cnpj_cpf)
+    def send_event(self, company_id, nfe_key, method):
+        processor = _processador(company_id)
+        cnpj_partner = re.sub('[^0-9]', '', company_id.cnpj_cpf)
         result = {}
         if method == 'ciencia_operacao':
-            result = p.conhecer_operacao_evento(
-                cnpj=cnpj_partner,
-                # CNPJ do destinatário/gerador do evento
-                chave_nfe=nfe_key)
+            result = processor.ciencia_da_operacao(
+                nfe_key,
+                cnpj_partner) # CNPJ do destinatário/gerador do evento
         elif method == 'confirma_operacao':
-            result = p.confirmar_operacao_evento(
-                cnpj=cnpj_partner,
-                chave_nfe=nfe_key)
+            result = processor.confirmacao_da_operacao(
+                nfe_key,
+                cnpj_partner) # CNPJ do destinatário/gerador do evento
         elif method == 'desconhece_operacao':
-            result = p.desconhecer_operacao_evento(
-                cnpj=cnpj_partner,
-                chave_nfe=nfe_key)
+            result = processor.desconhecimento_da_operacao(
+                nfe_key,
+                cnpj_partner) # CNPJ do destinatário/gerador do evento
         elif method == 'nao_realizar_operacao':
-            result = p.nao_realizar_operacao_evento(
-                cnpj=cnpj_partner,
-                chave_nfe=nfe_key)
+            result = processor.operacao_nao_realizada(
+                nfe_key,
+                cnpj_partner) # CNPJ do destinatário/gerador do evento
 
-        if result.resposta.status == 200:  # Webservice ok
-            if result.resposta.cStat.valor == '128':
+        if result.retorno.status_code == 200:  # Webservice ok
+            if result.resposta.cStat == '128':
                 inf_evento = result.resposta.retEvento[0].infEvento
                 return {
-                    'code': inf_evento.cStat.valor,
-                    'message': inf_evento.xMotivo.valor,
-                    'file_sent': result.envio.xml,
-                    'file_returned': result.resposta.xml
+                    'code': inf_evento.cStat,
+                    'message': inf_evento.xMotivo,
+                    'file_sent': result.envio_xml,
+                    'file_returned': result.retorno.text
                 }
             else:
                 return {
-                    'code': result.resposta.cStat.valor,
-                    'message': result.resposta.xMotivo.valor,
-                    'file_sent': result.envio.xml,
-                    'file_returned': result.resposta.xml
+                    'code': result.resposta.cStat,
+                    'message': result.resposta.xMotivo,
+                    'file_sent': result.envio_xml,
+                    'file_returned': result.retorno.text
                 }
         else:
             return {
                 'code': result.resposta.status,
                 'message': result.resposta.reason,
-                'file_sent': result.envio.xml,
+                'file_sent': result.envio_xml,
                 'file_returned': None
             }
 
@@ -551,9 +550,9 @@ class DFe(models.Model):
             chave_nfe=list_nfe)
 
         if result.resposta.status == 200:  # Webservice ok
-            if result.resposta.cStat.valor == '138':
+            if result.resposta.cStat == '138':
                 nfe_zip = result.resposta.loteDistDFeInt.docZip[
-                    0].docZip.valor
+                    0].docZip
                 orig_file_desc = gzip.GzipFile(
                     mode='r',
                     fileobj=io.StringIO(
@@ -563,24 +562,24 @@ class DFe(models.Model):
                 orig_file_desc.close()
 
                 return {
-                    'code': result.resposta.cStat.valor,
-                    'message': result.resposta.xMotivo.valor,
-                    'file_sent': result.envio.xml,
-                    'file_returned': result.resposta.xml,
+                    'code': result.resposta.cStat,
+                    'message': result.resposta.xMotivo,
+                    'file_sent': result.envio_xml,
+                    'file_returned': result.retorno.text,
                     'nfe': nfe,
                 }
             else:
                 return {
-                    'code': result.resposta.cStat.valor,
-                    'message': result.resposta.xMotivo.valor,
-                    'file_sent': result.envio.xml,
-                    'file_returned': result.resposta.xml
+                    'code': result.resposta.cStat,
+                    'message': result.resposta.xMotivo,
+                    'file_sent': result.envio_xml,
+                    'file_returned': result.retorno.text
                 }
         else:
             return {
                 'code': result.resposta.status,
                 'message': result.resposta.reason,
-                'file_sent': result.envio.xml, 'file_returned': None
+                'file_sent': result.envio_xml, 'file_returned': None
             }
 
 
