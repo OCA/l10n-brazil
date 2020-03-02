@@ -116,10 +116,10 @@ class DFe(models.Model):
     )
 
     @api.multi
-    def action_gerencia_manifestacoes(self):
+    def action_manage_manifestations(self):
 
         return {
-            'name': self.company_id.razao_social,
+            'name': self.company_id.legal_name,
             'view_mode': 'tree,form',
             'res_model': 'l10n_br_fiscal.mdfe',
             'type': 'ir.actions.act_window',
