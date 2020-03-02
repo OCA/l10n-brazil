@@ -12,7 +12,7 @@
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "http://www.kmee.com.br",
-    "depends": ["base_transaction_id", "l10n_br_account_payment_order"],
+    "depends": ["l10n_br_account_payment_order"],
     "data": [
         "data/l10n_br_payment_export_type.xml",
         "data/boleto_data.xml",
