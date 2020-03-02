@@ -36,7 +36,7 @@
 #
 #         if active_model == "account.invoice":
 #             for invoices in env["account.invoice"].browse(active_ids):
-#                 receivable_ids = invoices.mapped("move_line_receivable_id")
+#                 receivable_ids = invoices.mapped("move_line_receivable_ids")
 #                 if receivable_ids:
 #                     ids_move_lines = receivable_ids
 #         elif active_model == "account.move.line":

@@ -17,6 +17,24 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
+    @api.multi
+    @api.depends('state', 'move_id.line_ids', 'move_id.line_ids.account_id')
+    def _compute_receivables(self):
+        for record in self:
+            lines = self.env['account.move.line']
+            for line in record.move_id.line_ids:
+                if (line.account_id.id == record.account_id.id and
+                    line.account_id.internal_type in
+                    ('receivable', 'payable')):
+                    lines |= line
+            record.move_line_receivable_ids = lines.sorted()
+
+    move_line_receivable_ids = fields.Many2many(
+        comodel_name='account.move.line',
+        string=u'Receivables',
+        store=True,
+        compute='_compute_receivables')
+
     active = fields.Boolean(string="Ativo", default=True)
 
     # eval_state_cnab = fields.Selection(
@@ -121,9 +139,9 @@ class AccountInvoice(models.Model):
             )
 
     def _remove_payment_order_line(self, _raise=True):
-        move_line_receivable_id = self.move_line_receivable_id
+        move_line_receivable_ids = self.move_line_receivable_ids
         payment_order_ids = self.env["account.payment.order"].search(
-            [("payment_line_ids.move_line_id", "in", [move_line_receivable_id.id])]
+            [("payment_line_ids.move_line_id", "in", [move_line_receivable_ids.id])]
         )
 
         if payment_order_ids:
@@ -143,7 +161,7 @@ class AccountInvoice(models.Model):
                 p_line_id = self.env["account.payment.line"].search(
                     [
                         ("order_id", "=", po_id.id),
-                        ("move_line_id", "=", move_line_receivable_id.id),
+                        ("move_line_id", "=", move_line_receivable_ids.id),
                     ]
                 )
                 po_id.payment_line_ids -= p_line_id
@@ -283,7 +301,7 @@ class AccountInvoice(models.Model):
         for inv in self:
             # inv.transaction_id = sequence
             inv._compute_receivables()
-            for index, interval in enumerate(inv.move_line_receivable_id):
+            for index, interval in enumerate(inv.move_line_receivable_ids):
                 inv_number = inv.get_invoice_fiscal_number().split("/")[-1].zfill(8)
                 numero_documento = inv_number + "/" + str(index + 1).zfill(2)
 
@@ -437,7 +455,7 @@ class AccountInvoice(models.Model):
 
         for inv in self:
             inv._compute_receivables()
-            receivable_id = inv.move_line_receivable_id
+            receivable_id = inv.move_line_receivable_ids
             receivable_id.residual = inv.residual
 
         return res
