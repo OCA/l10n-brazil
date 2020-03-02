@@ -18,7 +18,7 @@ class ResCompany(models.Model):
             (SEQUENCIAL_CARTEIRA, "Sequêncial único por carteira"),
         ],
         string="Tipo de nosso número",
-        default="2",
+        default=SEQUENCIAL_FATURA,
     )
 
     own_number_sequence = fields.Many2one(

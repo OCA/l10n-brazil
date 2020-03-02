@@ -45,25 +45,28 @@
         <field name="name">view.l10n_br_account.invoice.form.form.inherit</field>
         <field name="model">account.invoice</field>
         <field name="inherit_id"
-               ref="account.invoice_supplier_form"/>
+               ref="account_payment_order.invoice_form"/>
         <field name="arch" type="xml">
+            <button name="create_account_payment_line" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
 <!--            <xpath expr="//field[@name='move_id']" position="after">-->
 <!--                <field name="state_cnab"/>-->
 <!--                <field name="nosso_numero"/>-->
 <!--            </xpath>-->
-            <header position="inside">
+<!--            <header position="inside">-->
 <!--                <field name="eval_state_cnab" invisible="1"/>-->
-                <button name="%(account_invoice_api_action)d"
-                        string="Registrar Boleto via API" type="action"
-                        groups="base.group_user"
-                        class="oe_highlight" style="background-color:red; text-color:white;"
-                        attrs="{'invisible': ['|','|',
-                        ('state', '!=', 'open')
-                        ]}"
-                />
+<!--                <button name="%(account_invoice_api_action)d"-->
+<!--                        string="Registrar Boleto via API" type="action"-->
+<!--                        groups="base.group_user"-->
+<!--                        class="oe_highlight" style="background-color:red; text-color:white;"-->
+<!--                        attrs="{'invisible': ['|','|',-->
+<!--                        ('state', '!=', 'open')-->
+<!--                        ]}"-->
+<!--                />-->
 <!--                        ('eval_state_cnab', 'in', ('added_paid', 'accepted', 'done', 'accepted_hml')),-->
 <!--                        ('eval_situacao_pagamento', 'in', ('aberta'))-->
-            </header>
+<!--            </header>-->
 
 <!--            <field name="payment_mode_id" position="after">-->
 <!--                <field name="eval_state_cnab" attrs="{'invisible': [('eval_state_cnab', '=', False)]}"/>-->
@@ -71,7 +74,11 @@
 <!--            </field>-->
 
             <notebook position="inside">
-                <page string="Instruções de Cobrança">
+                <page string="Vencimentos" name="vencimentos">
+                    <field name="operation_type" invisible="1"/>
+                    <field name="move_line_receivable_ids"/>
+                </page>
+                <page string="Instruções de Cobrança" attrs="{'invisible': [('operation_type', '!=', '3')]}">
                     <group>
                         <separator string="Instruções do Modo de Pagamento" />
                         <field name="eval_payment_mode_instrucoes" nolabel="1" colspan="4"
@@ -82,9 +89,9 @@
                         <field name="instrucoes" class="oe_inline" nolabel="=1" colspan="4"/>
                     </group>
                 </page>
-                <page string="Operações Bancárias Via API">
-                    <field name="bank_api_operation_ids" class="oe_inline" readonly="True"/>
-                </page>
+<!--                <page string="Operações Bancárias Via API">-->
+<!--                    <field name="bank_api_operation_ids" class="oe_inline" readonly="True"/>-->
+<!--                </page>-->
             </notebook>
         </field>
     </record>

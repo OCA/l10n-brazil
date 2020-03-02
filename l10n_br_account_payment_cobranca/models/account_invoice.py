@@ -68,6 +68,10 @@ class AccountInvoice(models.Model):
         readonly=True,
     )
 
+    operation_type = fields.Selection(
+        related='payment_mode_id.operation_type',
+    )
+
     def register_invoice_api(self):
         """ Registrar o boleto via sua API"""
         raise NotImplementedError
@@ -414,6 +418,20 @@ class AccountInvoice(models.Model):
         if filtered_invoice_ids:
             filtered_invoice_ids.create_account_payment_line()
         return result
+
+    @api.multi
+    def _prepare_new_payment_order(self, payment_mode=None):
+        vals = super(AccountInvoice, self)._prepare_new_payment_order(
+            payment_mode)
+        if payment_mode is None:
+            payment_mode = self.env['account.payment.mode']
+        vals.update(
+            {
+                'operation_type': payment_mode.operation_type or
+                                  self.payment_mode_id.operation_type
+            }
+        )
+        return vals
 
     @api.multi
     def assign_outstanding_credit(self, credit_aml_id):
