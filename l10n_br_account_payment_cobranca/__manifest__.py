@@ -40,7 +40,7 @@
         "security/ir.model.access.csv",
     ],
     "demo": [
-        # 'demo/l10n_br_payment_mode.xml',
+        'demo/l10n_br_payment_mode.xml',
     ],
     "test": [
         # 'tests/invoice_create.yml'

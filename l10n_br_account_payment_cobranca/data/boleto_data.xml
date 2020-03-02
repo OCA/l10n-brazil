@@ -11,6 +11,7 @@
 
     <record id="base.main_company" model="res.company">
         <field name="own_number_sequence" ref="sequence_boleto_own_number"/>
+        <field name="own_number_type">1</field>
     </record>
 
 </odoo>
