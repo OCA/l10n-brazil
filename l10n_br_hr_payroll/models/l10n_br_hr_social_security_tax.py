@@ -108,8 +108,13 @@ class L10nBrHrSocialTax(models.Model):
             else:
                 # Quando for forma progressiva, acumula o valor de cada faixa
                 if self.forma_de_calculo_progressivo(tabela_vigente):
-                    inss += (Decimal(faixa.max_wage) - Decimal(faixa.min_wage)) * Decimal(faixa.rate) / 100
-                    # inss = inss.quantize(Decimal('0.01'), ROUND_DOWN)
+                    agregado = \
+                        (faixa.max_wage - faixa.min_wage) * faixa.rate / 100
+
+                    # O INSS usa o truncamento de 2 casas decimais
+                    agregado = \
+                        Decimal(agregado).quantize(Decimal('0.01'), ROUND_DOWN)
+                    inss += agregado
                     base_inss -= Decimal(faixa.max_wage)
 
         # Forma progressiva e ainda nao encontrou o teto, entao retornar
