@@ -22,12 +22,9 @@ def filter_processador(record):
     return False
 
 
-class EletronicDocument(models.AbstractModel):
+class DocumentEletronic(models.AbstractModel):
     _name = "l10n_br_fiscal.document.electronic"
-    _inherit = ["l10n_br_fiscal.document.mixin",
-                "l10n_br_fiscal.document.workflow"]
-
-    _description = "Fiscal Document"
+    _description = "Fiscal Eletronic Document"
 
     @api.depends('codigo_situacao', 'motivo_situacao')
     def _compute_codigo_motivo_situacao(self):
@@ -39,68 +36,64 @@ class EletronicDocument(models.AbstractModel):
                 )
 
     codigo_situacao = fields.Char(
-        string='Código situação',
-    )
+        string='Código situação')
 
     motivo_situacao = fields.Char(
-        string='Motivo situação',
-    )
+        string='Motivo situação')
 
     codigo_motivo_situacao = fields.Char(
         compute='_compute_codigo_motivo_situacao',
-        string='Situação'
-    )
+        string='Situação')
 
     # Eventos de envio
     data_hora_autorizacao = fields.Datetime(
         string="Data Hora",
-        readonly=True,
-    )
+        readonly=True)
+
     protocolo_autorizacao = fields.Char(
         string="Protocolo",
-        readonly=True,
-    )
+        readonly=True)
+
     autorizacao_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document_event",
         string="Autorização",
         readonly=True,
-        copy=False,
-    )
+        copy=False)
+
     file_xml_id = fields.Many2one(
         comodel_name="ir.attachment",
         related="autorizacao_event_id.xml_sent_id",
         string="XML envio",
         ondelete="restrict",
         copy=False,
-        readonly=True,
-    )
+        readonly=True)
+
     file_xml_autorizacao_id = fields.Many2one(
         comodel_name="ir.attachment",
         related="autorizacao_event_id.xml_returned_id",
         string="XML de autorização",
         ondelete="restrict",
         copy=False,
-        readonly=True,
-    )
+        readonly=True)
+
     file_pdf_id = fields.Many2one(
         comodel_name="ir.attachment",
         string="PDF",
         ondelete="restrict",
-        copy=False,
-    )
+        copy=False)
 
     # Eventos de cancelamento
     data_hora_cancelamento = fields.Datetime(
         string="Data Hora Autorização",
-        readonly=True,
-    )
+        readonly=True)
+
     protocolo_cancelamento = fields.Char(
         string="Protocolo Autorização",
-        readonly=True,
-    )
+        readonly=True)
+
     cancel_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_account.invoice.cancel", string="Cancelamento"
-    )
+        comodel_name="l10n_br_account.invoice.cancel",
+        string="Cancelamento")
 
     file_xml_cancelamento_id = fields.Many2one(
         comodel_name="ir.attachment",
@@ -112,14 +105,16 @@ class EletronicDocument(models.AbstractModel):
         comodel_name="ir.attachment",
         string="XML de autorização de cancelamento",
         ondelete="restrict",
-        copy=False,
-    )
+        copy=False)
 
     document_version = fields.Char(
         string='Versão',
         default='4.00',
-        readonly=True,
-    )
+        readonly=True)
+
+    is_edoc_printed = fields.Boolean(
+        string="Impresso",
+        readonly=True)
 
     def _eletronic_document_send(self):
         """ Implement this method in your transmission module,
@@ -127,7 +122,7 @@ class EletronicDocument(models.AbstractModel):
         to update the state of the transmited document,
 
         def _eletronic_document_send(self):
-            super(EletronicDocument, self)._document_send()
+            super(DocumentEletronic, self)._document_send()
             for record in self.filtered(myfilter):
                 Do your transmission stuff
                 [...]
@@ -138,7 +133,7 @@ class EletronicDocument(models.AbstractModel):
 
     def _document_send(self):
         no_electronic = self.filtered(lambda d: not d.document_electronic)
-        super(EletronicDocument, no_electronic)._document_send()
+        super(DocumentEletronic, no_electronic)._document_send()
 
         electronic = self - no_electronic
         electronic._eletronic_document_send()
@@ -158,7 +153,7 @@ class EletronicDocument(models.AbstractModel):
         return event_id
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        super(EletronicDocument, self)._exec_before_SITUACAO_EDOC_A_ENVIAR(
+        super(DocumentEletronic, self)._exec_before_SITUACAO_EDOC_A_ENVIAR(
             old_state, new_state
         )
         self._document_export()
@@ -181,9 +176,9 @@ class EletronicDocument(models.AbstractModel):
                 'target': 'new',
                 }
 
-    def visualizar_xml(self):
+    def view_xml(self):
         xml_file = self.file_xml_autorizacao_id or self.file_xml_id
         return self._target_new_tab(xml_file)
 
-    def visualizar_pdf(self):
+    def view_pdf(self):
         return self._target_new_tab(self.file_pdf_id)
