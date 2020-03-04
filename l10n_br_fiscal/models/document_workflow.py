@@ -193,12 +193,6 @@ class DocumentWorkflow(models.AbstractModel):
             record.state_edoc = new_state
             record._after_change_state(old_state, new_state)
 
-    number = fields.Char(string="Number", index=True)
-
-    key = fields.Char(string="Key", index=True)
-
-    date = fields.Datetime(string="Date", index=True)
-
     state_edoc = fields.Selection(
         selection=SITUACAO_EDOC,
         string="Situação e-doc",
@@ -206,41 +200,25 @@ class DocumentWorkflow(models.AbstractModel):
         copy=False,
         required=True,
         track_visibility="onchange",
-        index=True,
-    )
+        index=True)
 
     state_fiscal = fields.Selection(
         selection=SITUACAO_FISCAL,
         string="Situação Fiscal",
         copy=False,
         track_visibility="onchange",
-        index=True,
-    )
-
-    document_electronic = fields.Boolean(
-        string="Electronic?"
-    )
-
-    issuer = fields.Selection(
-        selection=[("company", "Company"), ("partner", "Partner")],
-        default="company",
-        required=True,
-        string="Issuer",
-    )
+        index=True)
 
     cancel_reason = fields.Char(
-        string="Cancel Reason",
-    )
+        string="Cancel Reason")
 
     correction_reason = fields.Char(
-        string="Correction Reason",
-    )
+        string="Correction Reason")
 
     processador_edoc = fields.Selection(
         string="Processador",
         selection=PROCESSADOR,
-        default=PROCESSADOR_NENHUM,
-    )
+        default=PROCESSADOR_NENHUM)
 
     def document_date(self):
         if not self.date:
