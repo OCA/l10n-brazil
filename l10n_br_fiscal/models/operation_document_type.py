@@ -17,8 +17,7 @@ class OperationDocumentType(models.Model):
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]})
+    )
 
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
@@ -26,9 +25,7 @@ class OperationDocumentType(models.Model):
 
     document_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
-        readonly=True,
         company_dependent=True,
-        states={"draft": [("readonly", False)]},
         domain="[('active', '=', True),"
                "('document_type_id', '=', document_type_id)]")
 
