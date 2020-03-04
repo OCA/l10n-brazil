@@ -25,14 +25,12 @@ class Document(models.Model):
         # TODO add in res.company default Operation?
         return self.env["l10n_br_fiscal.operation"]
 
-    @api.model
-    def _operation_domain(self):
-        domain = [("state", "=", "approved")]
-        return domain
+    operation_type = fields.Selection(related=False)
 
     operation_id = fields.Many2one(
         default=_default_operation,
-        domain=lambda self: self._operation_domain())
+        domain="[('state', '=', 'approved'),'|',('operation_type', '=', operation_type),('operation_type', '=', 'all')]"
+    )
 
     edoc_purpose = fields.Selection(
         selection=[

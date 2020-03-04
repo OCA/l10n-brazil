@@ -10,8 +10,11 @@
     # Fiscal Documents
     <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
 
-    # Fiscal Documents
-    <menuitem id="document_menu" action="document_action" name="Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="10"/>
+    # Fiscal Documents In
+    <menuitem id="document_in_menu" action="document_in_action" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="10"/>
+
+    # Fiscal Documents Out
+    <menuitem id="document_out_menu" action="document_out_action" name="Emission" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="11"/>
 
     # Partners
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
