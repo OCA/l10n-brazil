@@ -74,9 +74,11 @@
                                     <field name="document_serie_id"/>
                                 </tree>
                                 <form>
-                                  <field name="company_id" invisible="1"/>
-                                  <field name="document_type_id"/>
-                                  <field name="document_serie_id" context="{'default_document_type_id': document_type_id, 'default_company_id': company_id}"/>
+                                    <group>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="document_type_id"/>
+                                        <field name="document_serie_id" context="{'default_document_type_id': document_type_id, 'default_company_id': company_id}"/>
+                                    </group>
                                 </form>
                             </field>
                         </page>
