@@ -163,10 +163,9 @@ class OperationLine(models.Model):
         tax_defs = self.env.user.company_id.tax_definition_ids
         mapping_result['taxes'] = tax_defs.mapped('tax_id')
 
-        # FIXME: map_fiscal_taxes ncm logic, not used variable
-        # # 2 From NCM
-        # if not ncm and product:
-        #     ncm = product.ncm_id
+        # 2 From NCM
+        if not ncm and product:
+            ncm = product.ncm_id
 
         if company.tax_framework == TAX_FRAMEWORK_NORMAL:
             mapping_result['taxes'] |= ncm.tax_ipi_id
