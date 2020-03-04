@@ -181,7 +181,6 @@ class AccountInvoice(models.Model):
                 record.state = 'open'
                 if record.payment_move_line_ids:
                     for line_id in record.move_line_receivable_id:
-                        line_id.with_context(dict(invoice_id=record.id)).remove_move_reconcile()
                         line_id.remove_move_reconcile()
 
         super(AccountInvoice, self).action_invoice_cancel()
