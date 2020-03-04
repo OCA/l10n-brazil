@@ -9,11 +9,7 @@ from ..constants.fiscal import TAX_FRAMEWORK
 
 class DocumentAbstract(models.AbstractModel):
     _name = "l10n_br_fiscal.document.abstract"
-    _inherit = ["mail.thread",
-                "mail.activity.mixin",
-                "l10n_br_fiscal.document.mixin",
-                "l10n_br_fiscal.document.workflow"]
-
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Fiscal Document Abstract"
 
     """ Implementação base dos documentos fiscais
@@ -68,13 +64,28 @@ class DocumentAbstract(models.AbstractModel):
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
 
-    is_edoc_printed = fields.Boolean(string="Impresso", readonly=True)
-
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
     active = fields.Boolean(
         string="Active",
         default=True)
+
+    number = fields.Char(
+        string="Number",
+        index=True)
+
+    key = fields.Char(
+        string="key",
+        index=True)
+
+    issuer = fields.Selection(
+        selection=[("company", "Company"), ("partner", "Partner")],
+        default="company",
+        required=True,
+        string="Issuer")
+
+    date = fields.Datetime(
+        string="Date")
 
     user_id = fields.Many2one(
         comodel_name='res.users',
@@ -88,8 +99,8 @@ class DocumentAbstract(models.AbstractModel):
 
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
-        string="Electronic?", store=True,
-    )
+        string="Electronic?",
+        store=True)
 
     date_in_out = fields.Datetime(string="Date Move")
 
@@ -143,9 +154,8 @@ class DocumentAbstract(models.AbstractModel):
             "l10n_br_fiscal.document"))
 
     processador_edoc = fields.Selection(
-        related='company_id.processador_edoc',
-        store=True,
-    )
+        related="company_id.processador_edoc",
+        store=True)
 
     company_legal_name = fields.Char(
         string="Company Legal Name",
@@ -274,11 +284,6 @@ class DocumentAbstract(models.AbstractModel):
 
         return super(DocumentAbstract, self).create(values)
 
-    @api.onchange("document_serie_id")
-    def _onchange_document_serie_id(self):
-        if self.document_serie_id:
-            self.document_serie = self.document_serie_id.code
-
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
         if self.partner_id:
@@ -293,17 +298,22 @@ class DocumentAbstract(models.AbstractModel):
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        if self.operation_id:
-            self.document_type_id = self.operation_id.document_type_id
-            self.document_serie_id = self.operation_id.document_serie_id
+        self.document_type_id = self.company_id.default_document_type_id
 
     @api.onchange("document_type_id")
     def _onchange_document_type_id(self):
-        serie = self.env['l10n_br_fiscal.document.serie']
-        if self.document_type_id:
-            serie = self.env['l10n_br_fiscal.document.serie'].search([
-                ('company_id', '=', self.company_id.id),
-                ('document_type_id', '=', self.document_type_id.id),
-                ('active', '=', True)])
+        if self.operation_id and self.document_type_id:
+            self.document_serie_id = self.operation_id.get_document_serie(
+                self.company_id, self.document_type_id)
 
-        self.document_serie_id = serie
+        if self.document_type_id and not self.document_serie_id:
+            self.document_serie_id = self.env[
+                'l10n_br_fiscal.document.serie'].search([
+                    ('company_id', '=', self.company_id.id),
+                    ('document_type_id', '=', self.document_type_id.id),
+                    ('active', '=', True)], limit=1)
+
+    @api.onchange("document_serie_id")
+    def _onchange_document_serie_id(self):
+        if self.document_serie_id:
+            self.document_serie = self.document_serie_id.code
