@@ -205,6 +205,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'icms')]")
 
+    icms_cst_code = fields.Char(
+        related="icms_cst_id.code",
+        string="ICMS CST Code",
+        store=True)
+
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
@@ -260,6 +265,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'icmssn')]")
 
+    icmssn_cst_code = fields.Char(
+        related="icmssn_cst_id.code",
+        string="ICMS SN CST Code",
+        store=True)
+
     icmssn_base = fields.Monetary(
         string="ICMS SN Base",
         default=0.00)
@@ -287,6 +297,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="CST IPI",
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'ipi')]")
+
+    ipi_cst_code = fields.Char(
+        comodel_name="ipi_cst_id.code",
+        string="IPI CST Code",
+        store=True)
 
     ipi_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -357,6 +372,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'cofins')]")
 
+    cofins_cst_code = fields.Char(
+        comodel_name="cofins_cst_id.code",
+        string="COFINS CST Code",
+        store=True)
+
     cofins_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS Base Type",
@@ -395,6 +415,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'cofinsst')]")
 
+    cofinsst_cst_code = fields.Char(
+        comodel_name="cofinsst_cst_id.code",
+        string="COFINS ST CST Code",
+        store=True)
+
     cofinsst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS ST Base Type",
@@ -424,6 +449,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="CST PIS",
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'pis')]")
+
+    pis_cst_code = fields.Char(
+        comodel_name="pis_cst_id.code",
+        string="PIS CST Code",
+        store=True)
 
     pis_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -458,6 +488,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="CST PIS ST",
         domain="[('cst_type', '=', operation_type),"
                "('tax_domain', '=', 'pisst')]")
+
+    pisst_cst_code = fields.Char(
+        comodel_name="pisst_cst_id.code",
+        string="PIS ST CST Code",
+        store=True)
 
     pisst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
