@@ -76,8 +76,10 @@
                   <group>
                       <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                       <field name="icms_cst_id" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                      <field name="icms_cst_code" readonly="1" invisible="1"/>
                       <field name="icmssn_tax_id" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
                       <field name="icmssn_cst_id" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                      <field name="icmssn_cst_code" readonly="1" invisible="1"/>
                       <field name="icms_origin" force_save="1" attrs="{'readonly': ['|', ('icmssn_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"/>
                   </group>
                   <group>
@@ -95,7 +97,7 @@
                         <field name="icms_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                       </group>
                   </group>
-                  <group name="icmsst" string="ICMS ST" attrs="{'invisible': ['|', '|', ('icms_cst_id.code', 'in', ('10', '30', '70')), ('icmssn_cst_id.code', 'in', ('201', '202', '203'))]}">
+                  <group name="icmsst" string="ICMS ST" attrs="{'invisible': ['|', '|', ('icms_cst_code', 'in', ('10', '30', '70')), ('icmssn_cst_code', 'in', ('201', '202', '203'))]}">
                       <field name="icmsst_tax_id"/>
                       <group>
                         <field name="icmssn_base" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
@@ -130,6 +132,7 @@
                   <group string="IPI">
                       <field name="ipi_tax_id"/>
                       <field name="ipi_cst_id" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                      <field name="ipi_cst_code" readonly="1" invisible="1"/>
                       <field name="ipi_guideline_id" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
                   </group>
                   <group>
@@ -163,6 +166,7 @@
                   <group name="pis" string="PIS">
                     <field name="pis_tax_id"/>
                     <field name="pis_cst_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
+                    <field name="pis_cst_code" readonly="1" invisible="1"/>
                     <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
                   </group>
                   <group>
@@ -180,6 +184,7 @@
                   <group name="pis_st" string="PIS ST">
                     <field name="pisst_tax_id"/>
                     <field name="pisst_cst_id" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
+                    <field name="pisst_cst_code" readonly="1" invisible="1"/>
                   </group>
                   <group>
                     <group>
@@ -197,6 +202,7 @@
                 <group name="cofins" string="COFINS">
                   <field name="cofins_tax_id"/>
                   <field name="cofins_cst_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
+                  <field name="cofins_cst_code" readonly="1" invisible="1"/>
                   <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
                 </group>
                 <group>
@@ -214,6 +220,7 @@
                 <group name="cofins_st" string="COFINS ST">
                   <field name="cofinsst_tax_id"/>
                   <field name="cofinsst_cst_id" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
+                  <field name="cofinsst_cst_code" readonly="1" invisible="1"/>
                 </group>
                 <group>
                   <group>
