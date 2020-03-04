@@ -115,7 +115,7 @@ class L10nBrHrSocialTax(models.Model):
                     agregado = \
                         Decimal(agregado).quantize(Decimal('0.01'), ROUND_DOWN)
                     inss += agregado
-                    base_inss -= Decimal(faixa.max_wage)
+                    base_inss -= Decimal(faixa.max_wage - faixa.min_wage)
 
         # Forma progressiva e ainda nao encontrou o teto, entao retornar
         # valor acumulado
