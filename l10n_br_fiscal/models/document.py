@@ -10,9 +10,9 @@ class Document(models.Model):
     _name = "l10n_br_fiscal.document"
     _inherit = [
         "l10n_br_fiscal.document.abstract",
-        "l10n_br_fiscal.document.electronic"
-    ]
-
+        "l10n_br_fiscal.document.mixin",
+        "l10n_br_fiscal.document.workflow",
+        "l10n_br_fiscal.document.electronic"]
     _description = "Fiscal Document"
 
     @api.model
@@ -26,25 +26,26 @@ class Document(models.Model):
         return domain
 
     operation_id = fields.Many2one(
-        default=_default_operation, domain=lambda self: self._operation_domain()
-    )
+        default=_default_operation,
+        domain=lambda self: self._operation_domain())
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
-        string="Document Lines",
-    )
+        string="Document Lines")
+
     document_event_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document_event",
         inverse_name="fiscal_document_event_id",
         string=u"Eventos",
         copy=False,
-        readonly=True,
-    )
+        readonly=True)
 
     # Você não vai poder fazer isso em modelos que já tem state
+    # TODO Porque não usar o campo state do fiscal.document???
     state = fields.Selection(related="state_edoc")
 
+    # TODO Este método deveria estar no fiscal document abstract
     def document_number(self):
         super(Document, self).document_number()
         for record in self:
@@ -52,6 +53,7 @@ class Document(models.Model):
                     not record.key:
                 record._generate_key()
 
+    # TODO este método deveria estar no Deveria
     def _generate_key(self):
         company = self.company_id.partner_id
         chave = str(company.state_id and company.state_id.ibge_code or "").zfill(2)
