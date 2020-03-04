@@ -4,15 +4,20 @@
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import (FISCAL_OUT, NCM_FOR_SERVICE_REF,
-                                PRODUCT_FISCAL_TYPE,
-                                PRODUCT_FISCAL_TYPE_SERVICE,
-                                TAX_DOMAIN_COFINS,
-                                TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN,
-                                TAX_DOMAIN_IPI, TAX_DOMAIN_PIS,
-                                TAX_FRAMEWORK,
-                                TAX_FRAMEWORK_NORMAL,
-                                TAX_FRAMEWORK_SIMPLES_ALL)
+from ..constants.fiscal import (
+    FISCAL_OUT,
+    NCM_FOR_SERVICE_REF,
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_SERVICE,
+    TAX_DOMAIN_COFINS,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_SN,
+    TAX_DOMAIN_IPI,
+    TAX_DOMAIN_PIS,
+    TAX_FRAMEWORK,
+    TAX_FRAMEWORK_NORMAL,
+    TAX_FRAMEWORK_SIMPLES_ALL
+)
 
 
 class DocumentLineAbstract(models.AbstractModel):
@@ -36,15 +41,14 @@ class DocumentLineAbstract(models.AbstractModel):
         for record in self:
             round_curr = record.document_id.currency_id.round
             record.amount_untaxed = round_curr(record.price * record.quantity)
-            record.amount_tax = 0.00
+            record.amount_tax = record.amount_tax_not_included
             record.amount_total = (
                 record.amount_untaxed +
                 record.amount_tax +
                 record.insurance_value +
                 record.other_costs_value +
                 record.freight_value -
-                record.discount_value
-            )
+                record.discount_value)
 
     @api.model
     def _get_default_ncm_id(self):
@@ -150,67 +154,6 @@ class DocumentLineAbstract(models.AbstractModel):
         string="Amount Total",
         compute="_compute_amount",
         default=0.00)
-
-    # TODO REMOVE
-    def _set_default_taxes(self, company_id, operation_type=FISCAL_OUT):
-        company = self.env["res.company"].browse(company_id)
-        defaults = {}
-        if not self.env.context.get("default_operation_type") == FISCAL_OUT:
-            return defaults
-
-        for tax_def in company.tax_definition_ids:
-            # Default ICMS SN
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_ICMS_SN:
-                if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-                    defaults["icmssn_tax_id"] = tax_def.tax_id.id
-                    defaults["icmssn_cst_id"] = tax_def.tax_id.cst_from_tax(
-                        operation_type
-                    ).id
-
-            # Default ICMS
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_ICMS:
-                if company.tax_framework == TAX_FRAMEWORK_NORMAL:
-                    defaults["icms_tax_id"] = tax_def.tax_id.id
-                    defaults["icms_cst_id"] = tax_def.tax_id.cst_from_tax(
-                        operation_type
-                    ).id
-
-            # Default IPI
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_IPI:
-                if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-                    defaults["ipi_tax_id"] = tax_def.tax_id.id
-                    defaults["ipi_cst_id"] = tax_def.tax_id.cst_from_tax(
-                        operation_type
-                    ).id
-
-            if company.tax_framework == TAX_FRAMEWORK_NORMAL and not company.ripi:
-                defaults["ipi_tax_id"] = tax_def.tax_id.id
-                defaults["ipi_cst_id"] = tax_def.tax_id.cst_from_tax(operation_type).id
-
-            # Default PIS/COFINS
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_PIS:
-                defaults["pis_tax_id"] = tax_def.tax_id.id
-                defaults["pis_cst_id"] = tax_def.tax_id.cst_from_tax(operation_type).id
-
-            if tax_def.tax_group_id.tax_domain == TAX_DOMAIN_COFINS:
-                defaults["cofins_tax_id"] = tax_def.tax_id.id
-                defaults["cofins_cst_id"] = tax_def.tax_id.cst_from_tax(
-                    operation_type
-                ).id
-
-        return defaults
-
-    @api.onchange("product_id")
-    def _onchange_product_id(self):
-        if self.product_id:
-            self.name = self.product_id.display_name
-            self.uom_id = self.product_id.uom_id
-            self.ncm_id = self.product_id.ncm_id
-            self.cest_id = self.product_id.cest_id
-            self.nbs_id = self.product_id.nbs_id
-            self.uot_id = self.product_id.uot_id or self.product_id.uom_id
-
-        self._onchange_operation_id()
 
     @api.onchange("uot_id", "uom_id", "price", "quantity")
     def _onchange_commercial_quantity(self):
