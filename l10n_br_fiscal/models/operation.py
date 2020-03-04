@@ -141,14 +141,19 @@ class Operation(models.Model):
 
     @api.multi
     def get_document_serie(self, company, document_type):
-        document_serie = self.env['l10n_br_fiscal.document.serie'].search([
-            '|', '|',
-            ('company_id', '=', False),
-            ('company_id', '=', company.id),
-            ('document_type_id', '=', document_type.id)],
-            limit=1)
+        self.ensure_one()
+        serie = self.env['l10n_br_fiscal.document.serie']
+        document_type_serie = self.env[
+            'l10n_br_fiscal.operation.document.type'].search([
+                ('operation_id', '=', self.id),
+                ('company_id', '=', company.id),
+                ('document_type_id', '=', document_type.id)],
+                limit=1)
 
-        return document_serie
+        if document_type_serie:
+            serie = document_type_serie.document_serie_id
+
+        return serie
 
     def _line_domain(self, company, partner, product):
 
