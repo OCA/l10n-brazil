@@ -173,6 +173,17 @@ class AccountInvoice(models.Model):
 
             record._remove_payment_order_line()
 
+            move_id = record.move_id
+            if move_id:
+                move_id.button_cancel()
+                record.move_id = False
+                move_id.unlink()
+                record.state = 'open'
+                if record.payment_move_line_ids:
+                    for line_id in record.move_line_receivable_id:
+                        line_id.with_context(dict(invoice_id=record.id)).remove_move_reconcile()
+                        line_id.remove_move_reconcile()
+
         super(AccountInvoice, self).action_invoice_cancel()
 
     def create_bank_api_operation(self, request, operation_type=False,
