@@ -80,6 +80,7 @@
         "views/l10n_br_fiscal_menu.xml",
         "views/uom_uom.xml",
         "views/operation_dashboard_view.xml",
+        "views/close.xml",
     ],
     "demo": [
         # Some demo data is being loaded via post_init_hook in hook file
