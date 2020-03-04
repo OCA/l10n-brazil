@@ -299,8 +299,7 @@ class DocumentAbstract(models.AbstractModel):
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
         if self.operation_id:
-            self.document_type_id = self.operation_id.document_type_id
-            self.document_serie_id = self.operation_id.document_serie_id
+            self.document_type_id = self.company_id.default_document_type_id
             self.natureza_operacao_id = self.natureza_operacao_id
 
     @api.onchange("document_type_id")
