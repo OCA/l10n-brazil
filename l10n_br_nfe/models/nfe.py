@@ -101,7 +101,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_serie = fields.Char(
-        related='document_serie_id.code'
+        related='document_serie'
     )
 
     nfe40_indFinal = fields.Selection(
@@ -315,7 +315,7 @@ class NFe(spec_models.StackedModel):
                 record.line_ids.mapped('nfe40_vCOFINS'))
             for line in record.line_ids:
                 line.nfe40_NCM = line.ncm_id.code.replace('.', '')
-                line.nfe40_CEST = line.cest_id.code.replace('.', '')
+                line.nfe40_CEST = line.cest_id and line.cest_id.code.replace('.', '') or False
                 line.nfe40_CFOP = line.cfop_id.code
                 line.nfe40_qCom = line.quantity
                 line.nfe40_qTrib = line.quantity
@@ -413,7 +413,7 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_orig = fields.Selection(
-        related='operation_line_id.icms_origin'
+        related='icms_origin'
     )
 
     nfe40_modBC = fields.Selection(
