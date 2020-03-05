@@ -182,7 +182,7 @@ class DFe(models.Model):
         return cnpj
 
     @api.multi
-    def baixa_documentos(self, manifestos=None):
+    def download_documents(self, manifests=None):
         '''
         - Declara Ciência da Emissão para todas as manifestações já recebidas,
         - Realiza Download dos XMLs das NF-e
@@ -190,19 +190,19 @@ class DFe(models.Model):
         '''
 
         # Coletando os erros para caso seja de importância no futuro
-        erros = []
+        errors = []
 
         nfe_ids = []
-        if not manifestos or isinstance(manifestos, dict):
-            manifestos = self.env['l10n_br_fiscal.mdfe']. \
+        if not manifests or isinstance(manifests, dict):
+            manifests = self.env['l10n_br_fiscal.mdfe']. \
                 search([('company_id', '=', self.company_id.id)])
 
-        for manifesto in manifestos:
+        for mdfe in manifests:
 
-            if not manifesto.state in ['pendente', 'ciente']:
+            if not mdfe.state in ['pendente', 'ciente']:
                 continue
 
-            elif manifesto.state == 'pendente':
+            elif mdfe.state == 'pendente':
                 '''
                 Aqui é importante tentar manifestar Ciência da
                 Emissão duas vezes pois existe a possibilidade de uma
@@ -213,33 +213,35 @@ class DFe(models.Model):
                 manifestação na receita federal.
                 '''
                 try:
-                    manifesto.action_ciencia_emissao()
+                    mdfe.action_ciencia_emissao()
                 except Exception as e:
-                    erros.append(('manifesto', manifesto.id, e))
+                    errors.append(('mdfe', mdfe.id, e))
 
                     try:
-                        manifesto.action_ciencia_emissao()
+                        mdfe.action_ciencia_emissao()
                     except:
-                        erros.append((manifesto.id, e))
+                        errors.append((mdfe.id, e))
                         continue
 
             self.validate_document_configuration(self.company_id)
 
-            nfe_result = self.download_nfe(self.company_id,
-                                           manifesto.chave)
+            nfe_result = self.download_nfe(self.company_id, mdfe.key)
 
             if nfe_result['code'] == '138':
                 nfe = objectify.fromstring(nfe_result['nfe'])
-                documento = self.env['l10n_br_fiscal.document'].new()
-                documento.modelo = nfe.NFe.infNFe.ide.mod.text
-                nfe = documento.le_nfe(xml=nfe_result['nfe'])
+                document_id = self.env['l10n_br_fiscal.document'].new()
+                document_id.modelo = nfe.NFe.infNFe.ide.mod.text
 
-                manifesto.documento_id = nfe
+                # TODO: Chamar método para construir um
+                #  'l10n_br_fiscal.document'
+                document_id = document_id.le_nfe(xml=nfe_result['nfe'])
+
+                mdfe.documento_id = nfe
 
                 nfe_ids.append(nfe)
 
             else:
-                erros.append(('nfe', False,
+                errors.append(('nfe', False,
                               nfe_result['code'] + ' - ' +
                               nfe_result['message']))
 
