@@ -67,7 +67,7 @@ class ResCompany(spec_models.SpecModel):
 
     nfe40_CEP = fields.Char(
         compute='_compute_nfe_data',
-        nverse='_inverse_nfe40_zip'
+        inverse='_inverse_nfe40_zip'
         )
 
     @api.model
