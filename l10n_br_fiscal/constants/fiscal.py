@@ -163,10 +163,15 @@ FISCAL_OUT = "out"
 FISCAL_IN_OUT_DEFAULT = "in"
 
 
+# TODO - REMOVE???
 DOCUMENT_TYPE = (("icms", "ICMS"), ("service", "Serviço Municipal"))
 
 
-DOCUMENT_ISSUER = (("0", "Emissão Própria"), ("1", "Terceiros"))
+DOCUMENT_ISSUER = (("company", "Company"), ("partner", "Partner"))
+
+
+DOCUMENT_ISSUER_COMPANY = "company"
+DOCUMENT_ISSUER_PARTNER = "partner"
 
 
 CFOP_DESTINATION = (
