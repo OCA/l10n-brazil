@@ -107,3 +107,4 @@
 "l10n_br_fiscal_dfe_xml_manager","Consut DFe XML for Manager","model_l10n_br_fiscal_dfe_xml","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_mdfe_user","MDFe for User","model_l10n_br_fiscal_mdfe","l10n_br_fiscal.group_user",1,1,1,0
 "l10n_br_fiscal_mdfe_manager","MDFe for Manager","model_l10n_br_fiscal_mdfe","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_attachment_user","MDFe for User","model_l10n_br_fiscal_attachment","l10n_br_fiscal.group_user",1,1,1,1
