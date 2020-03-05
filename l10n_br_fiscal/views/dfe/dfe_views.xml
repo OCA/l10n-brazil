@@ -25,7 +25,7 @@
                         <button name="search_documents"
                                 string="Search Documents"
                                 type="object" class="btn-primary" />
-                        <button name="baixa_documentos"
+                        <button name="download_documents"
                                 string="Import all available NF-e"
                                 confirm="AVISO - Ao baixar as Notas você estará dando ciência da emissão aos manifestos correspondentes."
                                 type="object" class="btn-primary" />
@@ -127,15 +127,15 @@
                 <attribute name="invisible">True</attribute>
             </field>
             <field name='document_value' position="after">
-                <button string="Import Document" name="action_baixa_documento"
+                <button string="Import Document" name="action_import_document"
                         type="object"
-                        confirm="AVISO - Ao importar uma NF-e você estará dando ciência da emissão ao manifesto correspondente. Deseja continuar?"
+                        confirm="WARNING - When importing a document, you will be informing the issuance of the corresponding manifest. Do you wish to continue?"
                         attrs="{'readonly':[('document_id','!=',False)]}"
                 />
 
-                <button string="Save XML" name="action_download_xmls"
+                <button string="Save XML" name="action_download_all_xmls"
                         type="object"
-                        confirm="AVISO - Ao salvar o XML de uma NF-e você estará dando ciência da emissão ao manifesto correspondente. Deseja continuar?"
+                        confirm="WARNING - When saving the XML of a document, you will be informing the corresponding manifest about the issue. Do you wish to continue?"
                 />
                 <field name="document_id" invisible="True"/>
             </field>
