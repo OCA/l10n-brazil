@@ -30,7 +30,7 @@
                             type="object"
                             confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
                             attrs="{'invisible':[['state','not in',['ciente']]]}"/>
-                    <button name="action_importa_xml"
+                    <button name="action_import_xml"
                             string="Import Document"
                             type="object"
                             confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
