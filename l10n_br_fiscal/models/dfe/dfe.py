@@ -262,10 +262,10 @@ class DFe(models.Model):
 
         for consulta_id in consulta_ids:
             if consulta_id.use_cron:
-                consulta_id.search_documents()
+                consulta_id.search_documents(raise_error=False)
 
     @api.multi
-    def search_documents(self, context=None, raise_error=False):
+    def search_documents(self, context=None, raise_error=True):
         nfe_mdes = []
         xml_ids = []
         for record in self:
