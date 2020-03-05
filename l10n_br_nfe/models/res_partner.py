@@ -54,7 +54,7 @@ class ResPartner(spec_models.SpecModel):
     nfe40_xPais = fields.Char(related='country_id.name')
     nfe40_fone = fields.Char(
         compute='_compute_nfe_data',
-        nverse='_inverse_nfe40_phone'
+        inverse='_inverse_nfe40_phone'
     )  # TODO or mobile?
 
     # nfe.40.dest
@@ -71,9 +71,9 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             if rec.cnpj_cpf:
                 if rec.is_company:
-                    rec.nfe40_CNPJ = rec.cnpj_cpf
+                    rec.nfe40_CNPJ = misc.punctuation_rm(rec.cnpj_cpf)
                 else:
-                    rec.nfe40_CPF = rec.cnpj_cpf
+                    rec.nfe40_CPF = misc.punctuation_rm(rec.cnpj_cpf)
             rec.nfe40_cMun = "%s%s" % (rec.state_id.ibge_code,
                                        rec.city_id.ibge_code)
             if rec.zip:
