@@ -173,27 +173,28 @@ class MDFe(models.Model):
         return self.env["wizard.confirma.acao"].create(dados)
 
     @api.multi
-    def action_baixa_documento(self):
+    def action_import_document(self):
         self.ensure_one()
-        documento = self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+        document_id = self.dfe_id.download_documents(manifests=self)
 
-        if len(documento) > 1:
-            view_id = self.env.ref(
-                "sped_nfe.sped_documento_ajuste_recebimento_tree").id
-            view_type = "tree"
-
-        else:
-            view_id = self.env.ref(
-                "sped_nfe.sped_documento_ajuste_recebimento_form").id
-            view_type = "form"
+        # TODO: Verificar necessidade
+        # if len(document_id) > 1:
+        #     view_id = self.env.ref(
+        #         "sped_nfe.sped_documento_ajuste_recebimento_tree").id
+        #     view_type = "tree"
+        #
+        # else:
+        #     view_id = self.env.ref(
+        #         "sped_nfe.sped_documento_ajuste_recebimento_form").id
+        #     view_type = "form"
 
         return {
-            "name": "Baixa documentos",
+            "name": "Download Documents",
             "view_mode": "form",
-            "view_type": view_type,
-            "view_id": view_id,
-            "res_id": documento.ids,
-            "res_model": "sped.documento",
+            "view_type": 'tree',
+            # "view_id": view_id,
+            "res_id": document_id.ids,
+            "res_model": "l10n_br_fiscal.document",
             "type": "ir.actions.act_window",
             "target": "current",
         }
@@ -201,12 +202,12 @@ class MDFe(models.Model):
     @api.multi
     def action_salva_xml(self):
 
-        return self.baixa_attachment(
-            self.action_baixa_documento()
+        return self.download_attachment(
+            self.action_import_document()
         )
 
     @api.multi
-    def baixa_attachment(self, attachment=None):
+    def download_attachment(self, attachment=None):
 
         return {
             "type": "ir.actions.report.xml",
@@ -279,13 +280,13 @@ class MDFe(models.Model):
         )
 
     @api.multi
-    def action_download_xmls(self):
+    def action_download_all_xmls(self):
 
         if len(self) == 1:
             if self.state == "pendente":
                 self.action_ciencia_emissao()
 
-            return self.baixa_attachment(self.action_download_xml())
+            return self.download_attachment(self.action_download_xml())
 
         attachments = []
 
@@ -293,19 +294,20 @@ class MDFe(models.Model):
             attachment = record.action_download_xml()
             attachments.append(attachment)
 
-        monta_anexo = self.env["sped.monta.anexo"].create([])
+        monta_anexo = self.env["l10n_br_fiscal.attachment"].create([])
 
-        attachment_id = monta_anexo.monta_anexo_compactado(attachments)
+        attachment_id = monta_anexo.build_compressed_attachment(attachments)
 
-        return self.baixa_attachment(attachment_id)
+        return self.download_attachment(attachment_id)
 
     @api.multi
     def action_download_xml(self):
         for record in self:
-            record.sped_consulta_dfe_id.\
-                validate_document_configuration(record.company_id)
-            nfe_result = record.sped_consulta_dfe_id.\
-                download_nfe(record.company_id, record.key)
+            record.dfe_id.validate_document_configuration(record.company_id)
+            nfe_result = record.dfe_id.download_nfe(
+                record.company_id,
+                record.key
+            )
 
             if nfe_result["code"] == "138":
 
@@ -326,21 +328,21 @@ class MDFe(models.Model):
                 )
 
     @api.multi
-    def action_importa_xmls(self):
+    def action_import_all_xmls(self):
         for record in self:
-            record.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+            record.dfe_id.download_documents(manifestos=self)
 
     @api.multi
-    def action_importa_xml(self):
+    def action_import_xml(self):
         for record in self:
-            record.sped_consulta_dfe_id.\
+            record.dfe_id.\
                 validate_document_configuration(record.company_id)
-            nfe_result = record.sped_consulta_dfe_id.\
+            nfe_result = record.dfe_id.\
                 download_nfe(record.company_id, record.key)
 
             if nfe_result["code"] == "138":
                 nfe = objectify.fromstring(nfe_result["nfe"])
-                documento = self.env["sped.documento"].new()
+                documento = self.env["l10n_br_fiscal.document"].new()
                 documento.modelo = nfe.NFe.infNFe.ide.mod.text
                 dados = documento.le_nfe(xml=nfe_result["nfe"])
                 record.document_id = dados
@@ -350,7 +352,7 @@ class MDFe(models.Model):
                     "view_type": "form",
                     "view_id": self.env.ref("sped_nfe.sped_documento_ajuste_recebimento_form").id,
                     "res_id": dados.id,
-                    "res_model": "sped.documento",
+                    "res_model": "l10n_br_fiscal.document",
                     "type": "ir.actions.act_window",
                     "target": "new",
                     "flags": {"form": {"action_buttons": True, "options": {"mode": "edit"}}},
