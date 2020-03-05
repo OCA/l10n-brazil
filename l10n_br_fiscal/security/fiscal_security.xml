@@ -41,4 +41,18 @@
         <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
     </record>
 
+    <record id="l10n_br_fiscal_document_rule" model="ir.rule">
+        <field name="name">Fiscal Document multi-company</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_document"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <record id="l10n_br_fiscal_document_line_rule" model="ir.rule">
+        <field name="name">Fiscal Document line multi-company</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
 </odoo>
