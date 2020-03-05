@@ -4,7 +4,11 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import TAX_FRAMEWORK
+from ..constants.fiscal import (
+    TAX_FRAMEWORK,
+    DOCUMENT_ISSUER,
+    DOCUMENT_ISSUER_COMPANY
+)
 
 
 class DocumentAbstract(models.AbstractModel):
@@ -72,20 +76,23 @@ class DocumentAbstract(models.AbstractModel):
 
     number = fields.Char(
         string="Number",
+        copy=False,
         index=True)
 
     key = fields.Char(
         string="key",
+        copy=False,
         index=True)
 
     issuer = fields.Selection(
-        selection=[("company", "Company"), ("partner", "Partner")],
-        default="company",
+        selection=DOCUMENT_ISSUER,
+        default=DOCUMENT_ISSUER_COMPANY,
         required=True,
         string="Issuer")
 
     date = fields.Datetime(
-        string="Date")
+        string="Date",
+        copy=False)
 
     user_id = fields.Many2one(
         comodel_name='res.users',
@@ -102,7 +109,9 @@ class DocumentAbstract(models.AbstractModel):
         string="Electronic?",
         store=True)
 
-    date_in_out = fields.Datetime(string="Date Move")
+    date_in_out = fields.Datetime(
+        string="Date Move",
+        copy=False)
 
     document_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
@@ -296,24 +305,31 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
+    def _set_document_serie(self):
+        if self.operation_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            if self.document_type_id:
+                self.document_serie_id = self.operation_id.get_document_serie(
+                    self.company_id, self.document_type_id)
+
+                if not self.document_serie_id:
+                    self.document_serie_id = self.env[
+                        'l10n_br_fiscal.document.serie'].search([
+                            ('company_id', '=', self.company_id.id),
+                            ('document_type_id', '=', self.document_type_id.id),
+                            ('active', '=', True)], limit=1, order="code")
+
+        if not self.operation_id:
+            self.document_type_id = self.company_id.default_document_type_id
+
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        self.document_type_id = self.company_id.default_document_type_id
+        self._set_document_serie()
 
     @api.onchange("document_type_id")
     def _onchange_document_type_id(self):
-        if self.operation_id and self.document_type_id:
-            self.document_serie_id = self.operation_id.get_document_serie(
-                self.company_id, self.document_type_id)
-
-        if self.document_type_id and not self.document_serie_id:
-            self.document_serie_id = self.env[
-                'l10n_br_fiscal.document.serie'].search([
-                    ('company_id', '=', self.company_id.id),
-                    ('document_type_id', '=', self.document_type_id.id),
-                    ('active', '=', True)], limit=1)
+        self._set_document_serie()
 
     @api.onchange("document_serie_id")
     def _onchange_document_serie_id(self):
-        if self.document_serie_id:
+        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
