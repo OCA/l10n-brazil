@@ -280,9 +280,8 @@ class DFe(models.Model):
                 _logger.error("Erro ao consultar Manifesto.\n%s" % e, exc_info=True)
                 if raise_error:
                     raise UserError(
-                        'Atenção',
                         'Não foi possivel efetuar a consulta!\n '
-                        '%s' %e)
+                        '%s' % e)
             else:
                 if nfe_result['code'] in ['137', '138']:
                     env_mdfe = self.env['l10n_br_fiscal.mdfe']
@@ -477,8 +476,10 @@ class DFe(models.Model):
                     self.write({'recipient_xml_ids': [(6, 0, xml_ids)]})
 
                 else:
-                    raise models.ValidationError(
-                        nfe_result['code'] + ' - ' + nfe_result['message'])
+                    raise models.ValidationError( '{} - {}'.format(
+                        nfe_result.get('code', '???'),
+                        nfe_result.get('message', ''))
+                    )
 
         return nfe_mdes
 
