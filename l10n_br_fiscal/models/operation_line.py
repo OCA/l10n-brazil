@@ -136,11 +136,10 @@ class OperationLine(models.Model):
         cfop = False
         if partner.state_id == company.state_id:
             cfop = self.cfop_internal_id
-        elif partner.state_id != company.state_id:
+        if partner.state_id != company.state_id:
             cfop = self.cfop_external_id
-        elif partner.country_id != company.country_id:
+        if partner.country_id != company.country_id:
             cfop = self.cfop_export_id
-
         return cfop
 
     def map_fiscal_taxes(self, company, partner, product=None,
@@ -160,7 +159,7 @@ class OperationLine(models.Model):
         mapping_result['cfop'] = cfop
 
         # 1 Get Tax Defs from Company
-        tax_defs = self.env.user.company_id.tax_definition_ids
+        tax_defs = company.tax_definition_ids
         mapping_result['taxes'] = tax_defs.mapped('tax_id')
 
         # 2 From NCM
