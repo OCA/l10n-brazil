@@ -111,6 +111,11 @@ class OperationLine(models.Model):
         string="Origin",
         default="0")
 
+    tax_definition_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="operation_line_id",
+        string="Tax Definition")
+
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="l10n_br_fiscal_operation_line_comment_rel",
