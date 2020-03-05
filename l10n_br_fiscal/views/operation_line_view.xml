@@ -25,20 +25,50 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="cfop_internal_id"/>
-                        <field name="cfop_external_id"/>
-                        <field name="cfop_export_id"/>
                     </group>
-                    <group string="Tax Framework" name="tax_framework">
-                        <field name="partner_tax_framework"/>
-                        <field name="company_tax_framework"/>
-                        <field name="ind_ie_dest"/>
-                    </group>
-                    <group>
-                        <field name="product_type"/>
-                        <field name="icms_origin"/>
-                        <field name="add_to_amount"/>
-                    </group>
+                    <notebook>
+                      <page name="general" string="General">
+                        <group string="Tax Framework" name="tax_framework">
+                            <field name="partner_tax_framework"/>
+                            <field name="company_tax_framework"/>
+                            <field name="ind_ie_dest"/>
+                        </group>
+                        <group>
+                            <field name="product_type"/>
+                            <field name="icms_origin"/>
+                            <field name="add_to_amount"/>
+                        </group>
+                      </page>
+                      <page name="cfop" string="CFOPs" attrs="{'invisible': [('operation_type', '=', 'all')]}">
+                          <group>
+                            <field name="cfop_internal_id"/>
+                            <field name="cfop_external_id"/>
+                            <field name="cfop_export_id"/>
+                          </group>
+                      </page>
+                      <page name="tax_definitions" string="Tax Definitions">
+                          <field name="tax_definition_ids" nolabel="1" context="{'default_company_id': id}">
+                              <tree>
+                                  <field name="tax_group_id"/>
+                                  <field name="is_taxed"/>
+                              </tree>
+                              <form string="Tax Definition">
+                                  <field name="company_id" invisible="1"/>
+                                  <field name="tax_domain" invisible="1"/>
+                                  <field name="type_in_out" invisible="1"/>
+                                  <group>
+                                      <field name="tax_group_id"/>
+                                      <field name="is_taxed"/>
+                                      <field name="is_debit_credit" attrs="{'invisible': [('is_taxed', '=', False)]}"/>
+                                      <field name="tax_retention"/>
+                                      <field name="custom_tax"/>
+                                      <field name="tax_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
+                                      <field name="cst_id" attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"/>
+                                  </group>
+                              </form>
+                          </field>
+                      </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>

@@ -30,6 +30,7 @@ from . import tax_definition
 from . import tax_definition_company
 from . import tax_definition_cfop
 from . import tax_definition_icms
+from . import tax_definition_operation_line
 from . import icms_regulation
 from . import document_type
 from . import document_serie
