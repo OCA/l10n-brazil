@@ -299,7 +299,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                "('tax_domain', '=', 'ipi')]")
 
     ipi_cst_code = fields.Char(
-        comodel_name="ipi_cst_id.code",
+        related="ipi_cst_id.code",
         string="IPI CST Code",
         store=True)
 
@@ -373,7 +373,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                "('tax_domain', '=', 'cofins')]")
 
     cofins_cst_code = fields.Char(
-        comodel_name="cofins_cst_id.code",
+        related="cofins_cst_id.code",
         string="COFINS CST Code",
         store=True)
 
@@ -416,7 +416,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                "('tax_domain', '=', 'cofinsst')]")
 
     cofinsst_cst_code = fields.Char(
-        comodel_name="cofinsst_cst_id.code",
+        related="cofinsst_cst_id.code",
         string="COFINS ST CST Code",
         store=True)
 
@@ -451,7 +451,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                "('tax_domain', '=', 'pis')]")
 
     pis_cst_code = fields.Char(
-        comodel_name="pis_cst_id.code",
+        related="pis_cst_id.code",
         string="PIS CST Code",
         store=True)
 
@@ -490,7 +490,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                "('tax_domain', '=', 'pisst')]")
 
     pisst_cst_code = fields.Char(
-        comodel_name="pisst_cst_id.code",
+        related="pisst_cst_id.code",
         string="PIS ST CST Code",
         store=True)
 
