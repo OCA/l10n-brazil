@@ -74,7 +74,7 @@ class TestPaymentOrder(TransactionCase):
             test_balance_value = line.get_balance()
 
         self.assertEquals(
-            test_balance_value, 300.0,
+            test_balance_value, 700.0,
             "Error with method get_balance()")
 
     def test_cancel_payment_order(self):
@@ -104,7 +104,7 @@ class TestPaymentOrder(TransactionCase):
             )
             test_amount_interest = line.amount_interest
         self.assertEquals(
-            test_amount_interest, 4.5,
+            test_amount_interest, 10.5,
             "Error with compute field amount_interest.")
 
         # Open payment order
