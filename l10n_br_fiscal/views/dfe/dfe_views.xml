@@ -48,7 +48,7 @@
                            'l10n_br_fiscal.dfe_manifestacao_tree'}"/>
 
                     <newline />
-                    <separator string="Imported NF-e" />
+                    <separator string="Imported Documents" />
                     <field name="imported_document_ids" nolabel="1"
                            context="{'tree_view_ref':
                            'l10n_br_fiscal.dfe_documents_tree'}"/>
