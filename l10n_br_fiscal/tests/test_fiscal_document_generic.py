@@ -148,7 +148,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " for Venda de Contribuinte p/ Fora do Estado.")
 
             # ICMS FCP
-            #self.assertEquals(
+            # self.assertEquals(
             #    line.icmsfcp_tax_id.name, 'FCP 2%',
             #    "Erro ao mapear ICMS FCP 2%"
             #    " para Venda de Contribuinte p/ Fora do Estado.")
@@ -223,7 +223,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " for Venda de Contribuinte p/ Não Contribuinte.")
 
             # ICMS FCP
-            #self.assertEquals(
+            # self.assertEquals(
             #    line.icmsfcp_tax_id.name, 'FCP 2%',
             #    "Erro ao mapear ICMS FCP 2%"
             #    " para Venda de Contribuinte p/ Não Contribuinte.")
