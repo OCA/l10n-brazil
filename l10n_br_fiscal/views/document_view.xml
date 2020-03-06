@@ -154,6 +154,9 @@
             </page>
             <page nam="others" string="Others">
                 <group>
+                    <field name="operation_name"/>
+                </group>
+                <group>
                     <group name="autorizacao" string="Autorização" colspan="4">
                         <field name="data_hora_autorizacao"/>
                         <field name="protocolo_autorizacao"/>
