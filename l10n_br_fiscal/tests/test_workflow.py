@@ -16,7 +16,10 @@ class TestWorkflow(TransactionCase):
 
     def setUp(self):
         super().setUp()
-        self.fiscal_document = self.env["l10n_br_fiscal.document"].create({})
+        self.fiscal_document = self.env["l10n_br_fiscal.document"].create({
+            'document_type_id': self.env.ref(
+                'l10n_br_fiscal.document_55_serie_1').id,
+        })
 
     def test_no_electronic_01_confirm(self):
         self.fiscal_document.document_electronic = False
