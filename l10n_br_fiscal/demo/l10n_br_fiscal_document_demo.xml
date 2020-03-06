@@ -5,10 +5,11 @@
     <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">1</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
-        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
-        <!-- onchange don't filled the fields below -->
+        <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 1 SP</field>
         <field name="partner_name">Cliente 1 SP Contribuinte</field>
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
@@ -44,10 +45,11 @@
     <record id="demo_nfe_other_state" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">2</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe"/>
-        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
-        <!-- onchange don't filled the fields below -->
+        <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 5 PE</field>
         <field name="partner_name">Cliente 5 - Contribuinte - PE</field>
         <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
@@ -83,6 +85,9 @@
     <record id="demo_nfe_export" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">3</field>
+        <field name="user_id" ref="base.user_demo"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
     </record>
@@ -115,10 +120,11 @@
     <record id="demo_nfe_nao_contribuinte" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">4</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg"/>
-        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
-        <!-- onchange don't filled the fields below -->
+        <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 9 MG</field>
         <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="partner_cnpj_cpf">	26.355.289/0001-55</field>
@@ -154,10 +160,11 @@
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">5</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
-        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
-        <!-- onchange don't filled the fields below -->
+        <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 1 SP</field>
         <field name="partner_name">Cliente 1 SP Contribuinte</field>
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
@@ -194,10 +201,11 @@
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">6</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe"/>
-        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
-        <!-- onchange don't filled the fields below -->
+        <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 5 PE</field>
         <field name="partner_name">Cliente 5 - Contribuinte - PE</field>
         <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
@@ -234,6 +242,9 @@
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">7</field>
+        <field name="user_id" ref="base.user_demo"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
     </record>
@@ -267,10 +278,11 @@
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">8</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg"/>
-        <!-- Não tem mais usuário ? <field name="user_id" ref="base.user_demo"/>-->
-        <!-- onchange don't filled the fields below -->
+        <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 9 MG</field>
         <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="partner_cnpj_cpf">	26.355.289/0001-55</field>
