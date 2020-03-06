@@ -58,7 +58,7 @@ class TestHrEmployeeDependent(TransactionCase):
         Data de nascimento maior do que hoje.
         """
         self.employee_dependent.write(
-            {"dependent_dob": Date.today() + relativedelta(days=1)}
+            {"dependent_dob": Date.today() + relativedelta(days=10)}
         )
 
         with self.assertRaises(ValidationError) as context:
