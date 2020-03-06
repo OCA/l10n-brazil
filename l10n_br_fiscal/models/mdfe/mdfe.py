@@ -200,9 +200,8 @@ class MDFe(models.Model):
     @api.multi
     def action_salva_xml(self):
 
-        return self.download_attachment(
-            self.action_import_document()
-        )
+        attachment_id = self.action_import_document()
+        return self.download_attachment(attachment_id)
 
     @api.multi
     def download_attachment(self, attachment_id=None):
