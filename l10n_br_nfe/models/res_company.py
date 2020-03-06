@@ -77,6 +77,7 @@ class ResCompany(spec_models.SpecModel):
             vals['name'] = vals.get('nfe40_xFant') or vals.get('nfe40_xNome')
         return vals
 
+    @api.depends('cnpj_cpf', 'zip', 'inscr_est')
     @api.multi
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
