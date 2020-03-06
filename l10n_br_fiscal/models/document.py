@@ -18,7 +18,6 @@ class Document(models.Model):
     _inherit = [
         "l10n_br_fiscal.document.abstract",
         "l10n_br_fiscal.document.mixin",
-        "l10n_br_fiscal.document.workflow",
         "l10n_br_fiscal.document.electronic"]
     _description = "Fiscal Document"
 
