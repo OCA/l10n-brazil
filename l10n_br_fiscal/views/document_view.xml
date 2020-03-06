@@ -66,6 +66,7 @@
           <group name="l10n_br_fiscal" colspan="4">
             <field name="operation_id"/> <!-- USE MIXIN VIEW -->
             <field name="edoc_purpose"/>
+            <field name="ind_final"/>
           </group>
           <group>
             <field name="issuer"/>
