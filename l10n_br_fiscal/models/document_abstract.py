@@ -104,6 +104,10 @@ class DocumentAbstract(models.AbstractModel):
         comodel_name="l10n_br_fiscal.document.type",
         required=True)
 
+    operation_name = fields.Char(
+        string="Operation",
+    )
+
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
@@ -324,6 +328,8 @@ class DocumentAbstract(models.AbstractModel):
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
         self._set_document_serie()
+        if self.operation_id:
+            self.operation_name = self.operation_id.name
 
     @api.onchange("document_type_id")
     def _onchange_document_type_id(self):
