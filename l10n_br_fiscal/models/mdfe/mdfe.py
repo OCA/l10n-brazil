@@ -205,15 +205,19 @@ class MDFe(models.Model):
         )
 
     @api.multi
-    def download_attachment(self, attachment=None):
+    def download_attachment(self, attachment_id=None):
 
-        return {
-            "type": "ir.actions.report.xml",
-            "report_type": "controller",
-            "report_file":
-                "/web/content/ir.attachment/" + str(attachment.id) +
-                "/datas/" + attachment.display_name + "?download=true",
+        action = {
+            'name': _('Download Attachment'),
+            'view_mode': 'form',
+            'res_model': 'ir.attachment',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'flags': {'mode': 'readonly'}, # default is 'edit'
+            'res_id': attachment_id.id,
         }
+
+        return action
 
     @api.multi
     def action_send_event(self, operation, valid_codes, new_state):
