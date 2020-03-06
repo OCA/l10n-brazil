@@ -2,64 +2,102 @@
 <odoo>
 
     <record id="l10n_br_simple.tax_template_out_ipi" model="account.tax.template">
-        <field name="fiscal_tax_ids" eval="[(6, False, [ref('')])]"/>
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_ipi_simples_nacional'), ref('l10n_br_fiscal.tax_ipi_0'),
+            ref('l10n_br_fiscal.tax_ipi_isento'), ref('l10n_br_fiscal.tax_ipi_nt'),
+            ref('l10n_br_fiscal.tax_ipi_imune'), ref('l10n_br_fiscal.tax_ipi_suspensao'),
+            ref('l10n_br_fiscal.tax_ipi_2'), ref('l10n_br_fiscal.tax_ipi_3'),
+            ref('l10n_br_fiscal.tax_ipi_4'), ref('l10n_br_fiscal.tax_ipi_5'),
+            ref('l10n_br_fiscal.tax_ipi_6'), ref('l10n_br_fiscal.tax_ipi_7'),
+            ref('l10n_br_fiscal.tax_ipi_8'), ref('l10n_br_fiscal.tax_ipi_10'),
+            ref('l10n_br_fiscal.tax_ipi_12'), ref('l10n_br_fiscal.tax_ipi_13'),
+            ref('l10n_br_fiscal.tax_ipi_15'), ref('l10n_br_fiscal.tax_ipi_16'),
+            ref('l10n_br_fiscal.tax_ipi_18'), ref('l10n_br_fiscal.tax_ipi_20'),
+            ref('l10n_br_fiscal.tax_ipi_22'), ref('l10n_br_fiscal.tax_ipi_24'),
+            ref('l10n_br_fiscal.tax_ipi_25'), ref('l10n_br_fiscal.tax_ipi_27'),
+            ref('l10n_br_fiscal.tax_ipi_30'), ref('l10n_br_fiscal.tax_ipi_35'),
+            ref('l10n_br_fiscal.tax_ipi_40'), ref('l10n_br_fiscal.tax_ipi_42'),
+            ref('l10n_br_fiscal.tax_ipi_45'), ref('l10n_br_fiscal.tax_ipi_50'),
+            ref('l10n_br_fiscal.tax_ipi_60'), ref('l10n_br_fiscal.tax_ipi_300'),
+         ])]"/>
     </record>
 
-    tax_ipi_simples_nacional"
-    "tax_ipi_0"
-    "tax_ipi_isento"
-    "tax_ipi_nt"
-    "tax_ipi_imune"
-    "tax_ipi_suspensao"
-    "tax_ipi_2"
-    "tax_ipi_3","IPI 3%","percent","3.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_4","IPI 4%","percent","4.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_5","IPI 5%","percent","5.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_6","IPI 6%","percent","6.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_7","IPI 7%","percent","7.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_8","IPI 8%","percent","8.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_10","IPI 10%","percent","10.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_12","IPI 12%","percent","12.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_13","IPI 13%","percent","13.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_15","IPI 15%","percent","15.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_16","IPI 16%","percent","16.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_18","IPI 18%","percent","18.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_20","IPI 20%","percent","20.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_22","IPI 22%","percent","22.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_24","IPI 24%","percent","24.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_25","IPI 25%","percent","25.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_27","IPI 27%","percent","27.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_30","IPI 30%","percent","30.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_35","IPI 35%","percent","35.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_40","IPI 40%","percent","40.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_42","IPI 42%","percent","42.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_45","IPI 45%","percent","45.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_50","IPI 50%","percent","50.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_60","IPI 60%","percent","60.00","0.00","tax_group_ipi","cst_ipi_00","cst_ipi_50",,,,,
-    "tax_ipi_300
-
     <record id="l10n_br_simple.tax_template_in_ipi" model="account.tax.template">
-    <field name="fiscal_tax_ids" eval="[(6, False, [ref('')])]"/>
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_ipi_simples_nacional'), ref('l10n_br_fiscal.tax_ipi_0'),
+            ref('l10n_br_fiscal.tax_ipi_isento'), ref('l10n_br_fiscal.tax_ipi_nt'),
+            ref('l10n_br_fiscal.tax_ipi_imune'), ref('l10n_br_fiscal.tax_ipi_suspensao'),
+            ref('l10n_br_fiscal.tax_ipi_2'), ref('l10n_br_fiscal.tax_ipi_3'),
+            ref('l10n_br_fiscal.tax_ipi_4'), ref('l10n_br_fiscal.tax_ipi_5'),
+            ref('l10n_br_fiscal.tax_ipi_6'), ref('l10n_br_fiscal.tax_ipi_7'),
+            ref('l10n_br_fiscal.tax_ipi_8'), ref('l10n_br_fiscal.tax_ipi_10'),
+            ref('l10n_br_fiscal.tax_ipi_12'), ref('l10n_br_fiscal.tax_ipi_13'),
+            ref('l10n_br_fiscal.tax_ipi_15'), ref('l10n_br_fiscal.tax_ipi_16'),
+            ref('l10n_br_fiscal.tax_ipi_18'), ref('l10n_br_fiscal.tax_ipi_20'),
+            ref('l10n_br_fiscal.tax_ipi_22'), ref('l10n_br_fiscal.tax_ipi_24'),
+            ref('l10n_br_fiscal.tax_ipi_25'), ref('l10n_br_fiscal.tax_ipi_27'),
+            ref('l10n_br_fiscal.tax_ipi_30'), ref('l10n_br_fiscal.tax_ipi_35'),
+            ref('l10n_br_fiscal.tax_ipi_40'), ref('l10n_br_fiscal.tax_ipi_42'),
+            ref('l10n_br_fiscal.tax_ipi_45'), ref('l10n_br_fiscal.tax_ipi_50'),
+            ref('l10n_br_fiscal.tax_ipi_60'), ref('l10n_br_fiscal.tax_ipi_300'),
+        ])]"/>
     </record>
 
     <record id="l10n_br_simple.tax_template_out_ii" model="account.tax.template">
-        <field name="fiscal_tax_ids" eval="[(6, False, [ref('')])]"/>
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_ii_0'), ref('l10n_br_fiscal.tax_ii_2'),
+            ref('l10n_br_fiscal.tax_ii_6'), ref('l10n_br_fiscal.tax_ii_8'),
+            ref('l10n_br_fiscal.tax_ii_10'), ref('l10n_br_fiscal.tax_ii_12'),
+            ref('l10n_br_fiscal.tax_ii_14'), ref('l10n_br_fiscal.tax_ii_16'),
+            ref('l10n_br_fiscal.tax_ii_18'), ref('l10n_br_fiscal.tax_ii_20'),
+            ref('l10n_br_fiscal.tax_ii_26'), ref('l10n_br_fiscal.tax_ii_28'),
+            ref('l10n_br_fiscal.tax_ii_35')
+        ])]"/>
     </record>
 
     <record id="l10n_br_simple.tax_template_in_ii" model="account.tax.template">
-        <field name="fiscal_tax_ids" eval="[(6, False, [ref('')])]"/>
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_ii_0'), ref('l10n_br_fiscal.tax_ii_2'),
+            ref('l10n_br_fiscal.tax_ii_6'), ref('l10n_br_fiscal.tax_ii_8'),
+            ref('l10n_br_fiscal.tax_ii_10'), ref('l10n_br_fiscal.tax_ii_12'),
+            ref('l10n_br_fiscal.tax_ii_14'), ref('l10n_br_fiscal.tax_ii_16'),
+            ref('l10n_br_fiscal.tax_ii_18'), ref('l10n_br_fiscal.tax_ii_20'),
+            ref('l10n_br_fiscal.tax_ii_26'), ref('l10n_br_fiscal.tax_ii_28'),
+            ref('l10n_br_fiscal.tax_ii_35')
+        ])]"/>
     </record>
 
     <record id="l10n_br_simple.tax_template_out_icms" model="account.tax.template">
-        <field name="fiscal_tax_ids" eval="[(6, False, [ref('')])]"/>
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
+            ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'),
+            ref('l10n_br_fiscal.tax_icms_antst'), ref('l10n_br_fiscal.tax_icms_outras'),
+            ref('l10n_br_fiscal.tax_icms_4'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_12'),
+            ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_175'),
+            ref('l10n_br_fiscal.tax_icms_18'), ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20')
+        ])]"/>
     </record>
 
     <record id="l10n_br_simple.tax_template_in_icms" model="account.tax.template">
-        <field name="fiscal_tax_ids" eval="[(6, False, [ref('')])]"/>
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
+            ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'),
+            ref('l10n_br_fiscal.tax_icms_antst'), ref('l10n_br_fiscal.tax_icms_outras'),
+            ref('l10n_br_fiscal.tax_icms_4'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_12'),
+            ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_175'),
+            ref('l10n_br_fiscal.tax_icms_18'), ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20')
+        ])]"/>
     </record>
 
     <record id="l10n_br_simple.tax_template_simples" model="account.tax.template">
-        <field name="fiscal_tax_ids" eval="[(6, False, [ref('')])]"/>
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_icms_sn_com_credito'), ref('l10n_br_fiscal.tax_icms_sn_sem_credito'),
+            ref('l10n_br_fiscal.tax_icms_sn_isento_faixa_bruta'), ref('l10n_br_fiscal.tax_icms_sn_com_credito_st'),
+            ref('l10n_br_fiscal.tax_icms_sn_sem_credito_st'), ref('l10n_br_fiscal.tax_icms_sn_isento_st'),
+            ref('l10n_br_fiscal.tax_icms_sn_imune'), ref('l10n_br_fiscal.tax_icms_sn_nt'),
+            ref('l10n_br_fiscal.tax_icms_sn_nt'), ref('l10n_br_fiscal.tax_icms_sn_nt'),
+            ref('l10n_br_fiscal.tax_icms_sn_cobrado_ant_st'), ref('l10n_br_fiscal.tax_icms_sn_outros')
+        ])]"/>
     </record>
 
 </odoo>
