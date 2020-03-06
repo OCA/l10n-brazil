@@ -58,7 +58,7 @@ def _processador(company_id):
     # TODO: Utilizar ambiente
     return edoc_nfe(
         transmissao, company_id.state_id.ibge_code,
-        versao='1.01', ambiente='1' # 1 - PROD. 2-HML
+        versao='1.01', ambiente=company_id.nfe_environment # 1 - PROD. 2-HML
     )
 
 
