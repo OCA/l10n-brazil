@@ -325,14 +325,16 @@ class DFe(models.Model):
                             ('nsu', '=', nfe['NSU']), # TODO: Verificar se formatação dos dois campos NSU equivalem
                             ('company_id', '=', self.company_id.id),
                         ])
-                        nfe_b64decode = base64.b64decode(nfe['xml'])
 
-                        tmp_nfe_zip = tempfile.NamedTemporaryFile(delete=True)
-                        tmp_nfe_zip.seek(0)
-                        tmp_nfe_zip.write(nfe_b64decode)
-                        tmp_nfe_zip.flush()
+                        arq = io.BytesIO()
+                        arq.write(base64.b64decode(nfe['xml']))
+                        arq.seek(0)
 
-                        nfe_xml = gzip.open(tmp_nfe_zip.name, 'rb').read()
+                        tmp_nfe_zip = gzip.GzipFile(
+                            mode='r',
+                            fileobj=arq
+                        )
+                        nfe_xml = tmp_nfe_zip.read()
 
                         root = objectify.fromstring(nfe_xml)
                         self.last_nsu = nfe['NSU']
