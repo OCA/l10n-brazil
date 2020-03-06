@@ -276,17 +276,23 @@ class MDFe(models.Model):
             if self.state == SIT_MANIF_PENDENTE[0]:
                 self.action_ciencia_emissao()
 
-            return self.download_attachment(self.action_download_xml())
+            attachment_id = self.action_download_xml()
+            # TODO: Message post de Download concluído no formulário do MDF-e
+            # TODO: Exibir conversação na MDF-e
+            return self.download_attachment(attachment_id)
 
         attachments = []
 
         for record in self:
+            # TODO: Message post de Download concluído no formulário do MDF-e
+            # TODO: Exibir conversação na MDF-e
             attachment = record.action_download_xml()
             attachments.append(attachment)
 
-        monta_anexo = self.env["l10n_br_fiscal.attachment"].create([])
+        built_attachment = self.env["l10n_br_fiscal.attachment"].create([])
 
-        attachment_id = monta_anexo.build_compressed_attachment(attachments)
+        attachment_id = built_attachment.\
+            build_compressed_attachment(attachments)
 
         return self.download_attachment(attachment_id)
 
