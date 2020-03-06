@@ -147,6 +147,24 @@ class HrContract(models.Model):
     )
 
     @api.multi
+    def _get_job_position(self, date=False):
+
+        if not date:
+            return self.job_id
+
+        alteracao_cargo = self.env['l10n_br_hr.contract.change'].search([
+            ('contract_id', '=', self.id),
+            ('change_type', '=', 'cargo-atividade'),
+            ('state', '=', 'applied'),
+        ], order="change_date_reference DESC")
+
+        for change in alteracao_cargo:
+            if date >= change.change_date_reference:
+                return change.job_id
+
+        return self.job_id
+
+    @api.multi
     def _buscar_salario_vigente_periodo(
             self, data_inicio, data_fim, inicial=False, final=False):
         contract_change_obj = self.env['l10n_br_hr.contract.change']
