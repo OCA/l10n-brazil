@@ -186,6 +186,30 @@ class DFe(models.Model):
                                            val[8:12], val[12:14])
         return cnpj
 
+    def parse_xml_document(self, doc_xml):
+        """
+        Converte um documento de XML para um objeto l10n_br_fiscal.document
+        :param doc_xml: XML (str ou byte[]) do documento a ser convertido
+        :return: Um novo objeto do modelo l10n_br_fiscal.document
+        """
+
+        from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
+
+        # TODO: Identificar o tipo do documento e utilizar o parser correto
+        #  doc_obj = objectify.fromstring(doc_xml)
+        #  modelo = doc_obj.NFe.infNFe.ide.mod.text
+
+        tmp_document = tempfile.NamedTemporaryFile(delete=True)
+        tmp_document.seek(0)
+        tmp_document.write(doc_xml)
+        tmp_document.flush()
+        file_path = tmp_document.name
+
+        obj = nfe_sub.parse(file_path)
+        nfe = self.env["nfe.40.infnfe"].build(obj.infNFe)
+
+        return nfe
+
     @api.multi
     def download_documents(self, manifests=None):
         '''
