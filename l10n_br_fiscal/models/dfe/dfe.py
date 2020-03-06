@@ -478,6 +478,13 @@ class DFe(models.Model):
                     self.write({'recipient_xml_ids': [(6, 0, xml_ids)]})
 
                 else:
+                    if not nfe_result.get('code') and not \
+                        nfe_result.get('message'):
+                        raise models.ValidationError(_(
+                            'The service returned an incomprehensible answer. '
+                            'Check the handling of the service response'
+                        ))
+
                     raise models.ValidationError( '{} - {}'.format(
                         nfe_result.get('code', '???'),
                         nfe_result.get('message', ''))
