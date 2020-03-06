@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from ..constants.icms import ICMS_BASE_TYPE
+from ..constants.icms import ICMS_BASE_TYPE, ICMS_BASE_TYPE_DEFAULT
 
 
 class DocumentLine(models.Model):
@@ -30,5 +30,5 @@ class DocumentLine(models.Model):
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
-        default='0',
+        default=ICMS_BASE_TYPE_DEFAULT,
     )
