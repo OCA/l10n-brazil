@@ -33,6 +33,10 @@ def payslip_report(pool, cr, uid, local_context, context):
 
     local_context['data_pagamento'] = data_pagamento or ' '
 
+    # funcao
+    job_id = payslip_id.contract_id._get_job_position(payslip_id.date_from)
+    local_context['funcao'] = job_id.name or ' '
+
     # Competencia
     competencia = dict(payslip_id._fields.get('mes_do_ano').selection).get(
         payslip_id.mes_do_ano) + ' de ' + str(payslip_id.ano)
