@@ -173,25 +173,14 @@ class MDFe(models.Model):
     @api.multi
     def action_import_document(self):
         self.ensure_one()
-        document_id = self.dfe_id.download_documents(manifests=self)
-
-        # TODO: Verificar necessidade
-        # if len(document_id) > 1:
-        #     view_id = self.env.ref(
-        #         "sped_nfe.sped_documento_ajuste_recebimento_tree").id
-        #     view_type = "tree"
-        #
-        # else:
-        #     view_id = self.env.ref(
-        #         "sped_nfe.sped_documento_ajuste_recebimento_form").id
-        #     view_type = "form"
+        document_id = self.dfe_id.download_documents(mdfe_ids=self)
 
         return {
             "name": "Download Documents",
             "view_mode": "form",
             "view_type": 'tree',
             # "view_id": view_id,
-            "res_id": document_id.ids,
+            "res_id": document_id.id,
             "res_model": "l10n_br_fiscal.document",
             "type": "ir.actions.act_window",
             "target": "current",
