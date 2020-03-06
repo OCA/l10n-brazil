@@ -61,10 +61,14 @@ class ResPartner(spec_models.SpecModel):
     #    nfe40_idEstrangeiro = fields.Char(
     nfe40_xNome = fields.Char(related='legal_name')
     #    nfe40_enderDest = fields.Many2one TODO
-    #    nfe40_IE = fields.Char(related='') TODO
+    nfe40_IE = fields.Char(compute='_compute_nfe_data',
+                             inverse='_inverse_nfe40_IE',
+                             store=True)
     nfe40_ISUF = fields.Char(related='suframa')
     nfe40_email = fields.Char(related='email')
+    nfe40_indIEDest = fields.Selection(related='ind_ie_dest')
 
+    @api.depends('cnpj_cpf', 'zip', 'inscr_est', 'phone')
     @api.multi
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
@@ -79,6 +83,9 @@ class ResPartner(spec_models.SpecModel):
             if rec.zip:
                 rec.nfe40_CEP = misc.punctuation_rm(rec.zip)
 
+            if rec.inscr_est:
+                rec.nfe40_IE = misc.punctuation_rm(rec.inscr_est)
+
             if rec.phone:
                 rec.nfe40_fone = misc.punctuation_rm(rec.phone).replace(" ", "")
 
@@ -87,6 +94,12 @@ class ResPartner(spec_models.SpecModel):
             if rec.nfe40_CNPJ:
                 rec.is_company = True
                 rec.cnpj_cpf = rec.nfe40_CNPJ
+
+    def _inverse_nfe40_IE(self):
+        for rec in self:
+            if rec.nfe40_IE:
+                rec.is_company = True
+                rec.inscr_est = rec.nfe40_IE
 
     def _inverse_nfe40_CPF(self):
         for rec in self:
