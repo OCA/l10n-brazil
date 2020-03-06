@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
-    <record id="base.user_admin" model="res.users">
-        <field name="in_group_4">1</field>
-    </record>
-
-    <record id="base.user_demo" model="res.users">
-        <field name="in_group_4">1</field>
-    </record>
-
     <!-- Sua Empresa -->
     <record id="base.main_company" model="res.company">
         <field name="cnpj_cpf">97.231.608/0001-69</field>
@@ -24,6 +16,26 @@
         <field name="icms_regulation_id" ref="tax_icms_regulation"/>
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo"/>
         <field name="default_document_type_id" ref="l10n_br_fiscal.document_55"/>
+    </record>
+
+    <record id="cofins_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins"/>
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_3"/>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_01"/>
+    </record>
+
+    <record id="pis_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis"/>
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0_65"/>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_01"/>
     </record>
 
     <!-- Empresa Simples Nacional -->
@@ -49,7 +61,6 @@
         <field name="tax_framework">1</field>
         <field name="cnpj_cpf">59.594.315/0001-57</field>
         <field name="inscr_est">755.338.250.133</field>
-        <!-- <field name="profit_calculation">presumed</field> -->
         <field name="is_industry" eval="True"/>
         <field name="ripi" eval="True"/>
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_simples_nacional"/>
@@ -57,6 +68,57 @@
         <field name="tax_icms_id" ref="l10n_br_fiscal.tax_icms_sn_com_credito"/>
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200"/>
         <field name="default_document_type_id" ref="l10n_br_fiscal.document_55"/>
+    </record>
+
+    <record id="icms_tax_definition_empresa_simples_nacional" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn"/>
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_com_credito"/>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_101"/>
+    </record>
+
+    <record id="cofins_tax_definition_simples_nacional" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins"/>
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_simples_nacional"/>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49"/>
+    </record>
+
+    <record id="pis_tax_definition_simples_nacional" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis"/>
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_simples_nacional"/>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49"/>
+    </record>
+
+    <record id="ipi_tax_definition_simples_nacional" model="l10n_br_fiscal.tax.definition">
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi"/>
+        <field name="is_taxed">True</field>
+        <field name="is_debit_credit">True</field>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_simples_nacional"/>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_99"/>
+    </record>
+
+    <!-- Configure Users -->
+    <record id="base.user_admin" model="res.users">
+        <field name="in_group_4">1</field>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('empresa_simples_nacional')])]"/>
+    </record>
+
+    <record id="base.user_demo" model="res.users">
+        <field name="in_group_4">1</field>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('empresa_simples_nacional')])]"/>
     </record>
 
 </odoo>
