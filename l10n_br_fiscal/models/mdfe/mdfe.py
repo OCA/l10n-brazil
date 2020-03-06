@@ -254,7 +254,7 @@ class MDFe(models.Model):
         return self.action_send_event(
             'ciencia_operacao',
             ['135', '573'],
-            SIT_MANIF_CIENTE
+            SIT_MANIF_CIENTE[0]
         )
 
     @api.multi
@@ -262,7 +262,7 @@ class MDFe(models.Model):
         return self.action_send_event(
             'confirma_operacao',
             ['135'],
-            SIT_MANIF_CONFIRMADO
+            SIT_MANIF_CONFIRMADO[0]
         )
 
     @api.multi
@@ -270,7 +270,7 @@ class MDFe(models.Model):
         return self.action_send_event(
             'desconhece_operacao',
             ['135'],
-            SIT_MANIF_DESCONHECIDO
+            SIT_MANIF_DESCONHECIDO[0]
         )
 
     @api.multi
@@ -278,14 +278,14 @@ class MDFe(models.Model):
         return self.action_send_event(
             'nao_realizar_operacao',
             ['135'],
-            SIT_MANIF_NAO_REALIZADO
+            SIT_MANIF_NAO_REALIZADO[0]
         )
 
     @api.multi
     def action_download_all_xmls(self):
 
         if len(self) == 1:
-            if self.state == SIT_MANIF_PENDENTE:
+            if self.state == SIT_MANIF_PENDENTE[0]:
                 self.action_ciencia_emissao()
 
             return self.download_attachment(self.action_download_xml())
