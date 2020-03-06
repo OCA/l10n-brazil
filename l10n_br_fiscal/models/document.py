@@ -29,8 +29,9 @@ class Document(models.Model):
 
     operation_id = fields.Many2one(
         default=_default_operation,
-        domain="[('state', '=', 'approved'),'|',('operation_type', '=', operation_type),('operation_type', '=', 'all')]"
-    )
+        domain="[('state', '=', 'approved'), "
+               "'|', ('operation_type', '=', operation_type),"
+               " ('operation_type', '=', 'all')]")
 
     edoc_purpose = fields.Selection(
         selection=[
