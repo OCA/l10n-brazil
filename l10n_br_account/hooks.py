@@ -38,9 +38,10 @@ def pre_init_hook(cr):
 def post_init_hook(cr, registry):
     """Relate fiscal taxes to account taxes."""
     env = api.Environment(cr, SUPERUSER_ID, {})
-    l10n_br_chart = env.ref("l10n_br_simple.l10n_br_account_chart_template")
+    l10n_br_simple_chart = env.ref(
+        "l10n_br_simple.l10n_br_simple_chart_template")
     companies = env["res.company"].search(
-        [("chart_template_id", "=", l10n_br_chart.id)]
+        [("chart_template_id", "=", l10n_br_simple_chart.id)]
     )
 
     for company in companies:
@@ -53,4 +54,4 @@ def post_init_hook(cr, registry):
                 ref_name = ref_name.replace(str(company.id) + "_", "")
                 tax_source_ref = ".".join([ref_module, ref_name])
                 tax_template = env.ref(tax_source_ref)
-                tax.fiscal_tax_id = tax_template.fiscal_tax_id
+                tax.fiscal_tax_ids = tax_template.fiscal_tax_ids
