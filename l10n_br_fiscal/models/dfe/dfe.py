@@ -28,12 +28,16 @@ from odoo.exceptions import UserError
 import logging
 _logger = logging.getLogger(__name__)
 
+# TODO: Remover chamadas envolvendo essas constante
+REMOVE_AMBIENTE_PADRAO_PROD = 1 # PRODUÇÃO
+REMOVE_AMBIENTE_PADRAO_HML = 2 # HOMOLOGAÇÃO
+
 
 def _format_nsu(nsu):
     nsu = int(nsu)
     return "%015d" % (nsu,)
 
-def _processador(company_id):
+def _processador(company_id, force_ambiente=REMOVE_AMBIENTE_PADRAO_HML):
     """
     # TODO: Utilizar método _procesador(self) já existente no l10n_br_fiscal.document
     :param company_id: Empresa
@@ -55,7 +59,8 @@ def _processador(company_id):
     session = Session()
     session.verify = False
     transmissao = TransmissaoSOAP(certificado, session)
-    ambiente = company_id.nfe_environment
+
+    ambiente = force_ambiente or company_id.nfe_environment
     return edoc_nfe(
         transmissao, company_id.state_id.ibge_code,
         versao='1.01', ambiente=ambiente # 1 - PROD. 2-HML
@@ -132,7 +137,7 @@ class DFe(models.Model):
     def document_distribution(self, company_id, last_nsu):
         last_nsu = _format_nsu(last_nsu)
 
-        processor = _processador(company_id)
+        processor = _processador(company_id, force_ambiente=False)
 
         cnpj_partner = re.sub('[^0-9]', '', company_id.cnpj_cpf)
         result = processor.consultar_distribuicao(
@@ -553,9 +558,9 @@ class DFe(models.Model):
             }
 
     @staticmethod
-    def download_nfe(company, list_nfe):
-        p = company.processador_nfe()
-        cnpj_partner = re.sub('[^0-9]', '', company.cnpj_cpf)
+    def download_nfe(company_id, list_nfe):
+        p = _processador(company_id, force_ambiente=False)
+        cnpj_partner = re.sub('[^0-9]', '', company_id.cnpj_cpf)
 
         result = p.consultar_distribuicao(
             cnpj_cpf=cnpj_partner,
