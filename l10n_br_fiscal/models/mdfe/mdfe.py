@@ -14,19 +14,20 @@ from lxml import objectify
 
 _logger = logging.getLogger(__name__)
 
-SITUACAO_NFE = [
-    ("1", "Autorizada"),
-    ("2", "Cancelada"),
-    ("3", "Denegada"),
-]
+from ...constants.mdfe import (
+    SIT_MANIF_PENDENTE,
+    SIT_MANIF_CIENTE,
+    SIT_MANIF_CONFIRMADO,
+    SIT_MANIF_DESCONHECIDO,
+    SIT_MANIF_NAO_REALIZADO,
+    SIT_NFE_AUTORIZADA,
+    SIT_NFE_CANCELADA,
+    SIT_NFE_DENEGADA,
 
-SITUACAO_MANIFESTACAO = [
-         ("pendente", "Pendente"),
-         ("ciente", 'Ciente da operação'),
-         ("confirmado", 'Confirmada operação'),
-         ("desconhecido", "Desconhecimento"),
-         ("nao_realizado", 'Não realizado'),
-]
+    OPERATION_TYPE,
+    SITUACAO_MANIFESTACAO,
+    SITUACAO_NFE
+)
 
 
 class MDFe(models.Model):
@@ -78,10 +79,7 @@ class MDFe(models.Model):
     )
 
     operation_type = fields.Selection(
-        selection=[
-            ("0", "Entrada"),
-            ("1", "Saída")
-        ],
+        selection=OPERATION_TYPE,
         string="Operation Type",
     )
 
@@ -252,7 +250,7 @@ class MDFe(models.Model):
         return self.action_send_event(
             'ciencia_operacao',
             ['135', '573'],
-            'ciente'
+            SIT_MANIF_CIENTE
         )
 
     @api.multi
@@ -260,7 +258,7 @@ class MDFe(models.Model):
         return self.action_send_event(
             'confirma_operacao',
             ['135'],
-            'confirmado'
+            SIT_MANIF_CONFIRMADO
         )
 
     @api.multi
@@ -268,7 +266,7 @@ class MDFe(models.Model):
         return self.action_send_event(
             'desconhece_operacao',
             ['135'],
-            'desconhecido'
+            SIT_MANIF_DESCONHECIDO
         )
 
     @api.multi
@@ -276,14 +274,14 @@ class MDFe(models.Model):
         return self.action_send_event(
             'nao_realizar_operacao',
             ['135'],
-            'nao_realizado'
+            SIT_MANIF_NAO_REALIZADO
         )
 
     @api.multi
     def action_download_all_xmls(self):
 
         if len(self) == 1:
-            if self.state == "pendente":
+            if self.state == SIT_MANIF_PENDENTE:
                 self.action_ciencia_emissao()
 
             return self.download_attachment(self.action_download_xml())
