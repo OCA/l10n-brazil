@@ -97,7 +97,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_natOp = fields.Char(
-        related='operation_id.code'
+        related='operation_name'
     )
 
     nfe40_serie = fields.Char(
@@ -372,6 +372,7 @@ class NFe(spec_models.StackedModel):
             record.nfe40_vBC = sum(record.line_ids.mapped('nfe40_vBC'))
             record.nfe40_vICMS = sum(record.line_ids.mapped('nfe40_vICMS'))
             record.nfe40_vPIS = sum(record.line_ids.mapped('nfe40_vPIS'))
+            record.nfe40_vIPI = record.amount_ipi_value
             record.nfe40_vCOFINS = sum(
                 record.line_ids.mapped('nfe40_vCOFINS'))
             for line in record.line_ids:
@@ -382,6 +383,8 @@ class NFe(spec_models.StackedModel):
                 line.nfe40_qTrib = line.quantity
                 line.nfe40_indTot = '1'
                 line.nfe40_pICMS = line.icms_percent
+                line.nfe40_pIPI = line.ipi_percent
+                line.nfe40_vIPI = line.ipi_value
                 line.nfe40_cEnq = str(line.ipi_guideline_id.code or '999'
                                       ).zfill(3)
                 line.nfe40_pPIS = line.pis_percent
@@ -473,6 +476,11 @@ class NFeLine(spec_models.StackedModel):
         store=True,
     )
 
+    nfe40_choice20 = fields.Selection(
+        compute='_compute_nfe40_choice20',
+        store=True,
+    )
+
     nfe40_orig = fields.Selection(
         related='icms_origin'
     )
@@ -553,6 +561,14 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice3 = 'nfe40_IPINT'
 
+    @api.depends('ipi_base_type')
+    def _compute_nfe40_choice20(self):
+        for record in self:
+            if record.ipi_base_type == 'percent':
+                record.nfe40_choice20 = 'nfe40_pIPI'
+            else:
+                record.nfe40_choice20 = 'nfe40_vUnid'
+
     def _export_field(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
@@ -564,6 +580,14 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields = [self.nfe40_choice12]
         elif class_obj._name == 'nfe.40.cofins':
             xsd_fields = [self.nfe40_choice15]
+        elif class_obj._name == 'nfe.40.ipitrib':
+            xsd_fields = [i for i in xsd_fields]
+            # if class_obj._fields['nfe40_choice20'] == 'nfe40_pIPI':
+            xsd_fields.remove('nfe40_qUnid')
+            xsd_fields.remove('nfe40_vUnid')
+            # else:
+            #     xsd_fields.remove('nfe40_vBC')
+            #     xsd_fields.remove('nfe40_pIPI')
         return super(NFeLine, self)._export_field(
             xsd_fields, class_obj, export_dict)
 
@@ -610,3 +634,20 @@ class ResCountryState(models.Model):
     _inherit = "res.country.state"
     _nfe_search_keys = ['ibge_code', 'code']
     _nfe_extra_domain = [('ibge_code', '!=', False)]
+
+
+class IPITrib(models.AbstractModel):
+    _inherit = 'nfe.40.ipitrib'
+
+    def _export_field(self, xsd_fields, class_obj, export_dict):
+        if class_obj._name == self._inherit:
+            xsd_fields = [i for i in xsd_fields]
+            if class_obj._fields['nfe40_choice20'] == 'nfe40_pIPI':
+                xsd_fields.remove('nfe40_qUnid')
+                xsd_fields.remove('nfe40_vUnid')
+            else:
+                xsd_fields.remove('nfe40_vBC')
+                xsd_fields.remove('nfe40_pIPI')
+
+        return super(NFeLine, self)._export_field(
+            xsd_fields, class_obj, export_dict)
