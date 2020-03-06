@@ -46,6 +46,15 @@ class Document(models.Model):
         default='1',
     )
 
+    ind_final = fields.Selection(
+        selection=[
+            ('0', 'Não'),
+            ('1', 'Sim')
+        ],
+        string='Operação com consumidor final',
+        default='1',
+    )
+
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
