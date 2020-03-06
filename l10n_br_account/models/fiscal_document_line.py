@@ -26,4 +26,4 @@ class FiscalDocumentLine(models.Model):
 
     fiscal_doc_line_price = fields.Float(related="price", readonly=False)
 
-    fiscal_doc_line_discount = fields.Monetary(related="discount", readonly=False)
+    fiscal_doc_line_discount = fields.Monetary(related="discount_value", readonly=False)
