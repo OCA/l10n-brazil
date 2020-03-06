@@ -211,27 +211,29 @@ class DFe(models.Model):
         return nfe
 
     @api.multi
-    def download_documents(self, manifests=None):
-        '''
+    def download_documents(self, mdfe_ids=None):
+        """
         - Declara Ciência da Emissão para todas as manifestações já recebidas,
         - Realiza Download dos XMLs das NF-e
         - Cria um sped_documento para cada XML importado
-        '''
+        :param mdfe_ids: Recordset de objetos l10n_br_fiscal.mdfe
+        :return: Um recordset de l10n_br_fiscal.document instanciados
+        """
 
         # Coletando os erros para caso seja de importância no futuro
         errors = []
 
-        nfe_ids = []
-        if not manifests or isinstance(manifests, dict):
-            manifests = self.env['l10n_br_fiscal.mdfe']. \
+        document_ids = self.env['l10n_br_fiscal.document']
+        if not mdfe_ids or isinstance(mdfe_ids, dict):
+            mdfe_ids = self.env['l10n_br_fiscal.mdfe']. \
                 search([('company_id', '=', self.company_id.id)])
 
-        for mdfe in manifests:
+        for mdfe_id in mdfe_ids:
 
-            if not mdfe.state in ['pendente', 'ciente']:
+            if not mdfe_id.state in ['pendente', 'ciente']:
                 continue
 
-            elif mdfe.state == 'pendente':
+            elif mdfe_id.state == 'pendente':
                 '''
                 Aqui é importante tentar manifestar Ciência da
                 Emissão duas vezes pois existe a possibilidade de uma
@@ -242,44 +244,40 @@ class DFe(models.Model):
                 manifestação na receita federal.
                 '''
                 try:
-                    mdfe.action_ciencia_emissao()
+                    mdfe_id.action_ciencia_emissao()
                 except Exception as e:
-                    errors.append(('mdfe', mdfe.id, e))
+                    errors.append(('MDF-e', mdfe_id.id, e))
 
                     try:
-                        mdfe.action_ciencia_emissao()
+                        mdfe_id.action_ciencia_emissao()
                     except:
-                        errors.append((mdfe.id, e))
-                        continue
+                        errors.append((mdfe_id.id, e))
+                        # continue
 
             self.validate_document_configuration(self.company_id)
 
-            nfe_result = self.download_nfe(self.company_id, mdfe.key)
+            nfe_result = self.download_nfe(self.company_id, mdfe_id.key)
 
             if nfe_result['code'] == '138':
-                nfe = objectify.fromstring(nfe_result['nfe'])
-                document_id = self.env['l10n_br_fiscal.document'].new()
-                document_id.modelo = nfe.NFe.infNFe.ide.mod.text
 
-                # TODO: Chamar método para construir um
-                #  'l10n_br_fiscal.document'
-                document_id = document_id.le_nfe(xml=nfe_result['nfe'])
+                # O XML do documento será convertido para
+                # um novo objeto l10n_br_fiscal.document
+                document_id = self.parse_xml_document(nfe_result['nfe'])
 
-                mdfe.documento_id = nfe
-
-                nfe_ids.append(nfe)
+                mdfe_id.document_id = document_id
+                document_ids += document_id
 
             else:
-                errors.append(('nfe', False,
-                              nfe_result['code'] + ' - ' +
-                              nfe_result['message']))
+                errors.append(('nfe', False, '{} - {}'.format(
+                    nfe_result.get('code', '???'),
+                    nfe_result.get('message', ''))))
 
-        # TODO: Descomentar
-        # dados = [nfe.id for nfe in nfe_ids] + self.nfe_importada_ids.ids
+        data = document_ids.ids + self.imported_document_ids.ids
 
-        # self.update({'nfe_importada_ids': [(6, False, dados)]})
+        # Atualiza a lista de documentos atual com os novos documentos criados
+        self.update({'imported_document_ids': [(6, False, data)]})
 
-        return nfe_ids
+        return document_ids
 
     def _cron_search_documents(self, context=None):
         """ Método chamado pelo agendador do sistema, processa
@@ -590,14 +588,16 @@ class DFe(models.Model):
             cnpj_cpf=cnpj_partner,
             chave_nfe=list_nfe)
 
-        if result.resposta.status == 200:  # Webservice ok
+        if result.retorno.status_code == 200:  # Webservice ok
             if result.resposta.cStat == '138':
-                nfe_zip = result.resposta.loteDistDFeInt.docZip[
-                    0].docZip
+                nfe_zip = result.resposta.loteDistDFeInt.docZip[0].valueOf_
+                arq = io.BytesIO()
+                arq.write(base64.b64decode(nfe_zip))
+                arq.seek(0)
+
                 orig_file_desc = gzip.GzipFile(
                     mode='r',
-                    fileobj=io.StringIO(
-                        base64.b64decode(nfe_zip))
+                    fileobj=arq
                 )
                 nfe = orig_file_desc.read()
                 orig_file_desc.close()
