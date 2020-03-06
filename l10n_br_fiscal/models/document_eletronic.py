@@ -26,6 +26,8 @@ class DocumentEletronic(models.AbstractModel):
     _name = "l10n_br_fiscal.document.electronic"
     _description = "Fiscal Eletronic Document"
 
+    _inherit = "l10n_br_fiscal.document.workflow"
+
     @api.depends('codigo_situacao', 'motivo_situacao')
     def _compute_codigo_motivo_situacao(self):
         for record in self:
