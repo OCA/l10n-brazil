@@ -82,8 +82,7 @@ class AbstractSpecMixin(models.AbstractModel):
                     self[xsd_field] is not False:
                 if xsd_field == 'nfe40_vProd':
                     if class_obj._name == 'nfe.40.prod':
-                        self[xsd_field] = self['nfe40_qCom'] * \
-                                          self['nfe40_vUnCom']
+                        self[xsd_field] = self['nfe40_qCom'] * self['nfe40_vUnCom']
                     elif class_obj._name == 'nfe.40.icmstot':
                         self[xsd_field] = sum(
                             self['nfe40_det'].mapped('nfe40_vProd'))
