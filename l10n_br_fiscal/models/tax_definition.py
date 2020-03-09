@@ -57,6 +57,10 @@ class TaxDefinition(models.Model):
     tax_retention = fields.Boolean(
         string="Tax Retention?")
 
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company")
+
     ncms = fields.Char(string="NCM")
 
     ncm_exception = fields.Char(string="NCM Exeption")
