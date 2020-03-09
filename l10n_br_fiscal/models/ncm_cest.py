@@ -13,5 +13,4 @@ class NCM(models.Model):
         colunm1="ncm_id",
         colunm2="cest_id",
         readonly=True,
-        string="CESTs",
-    )
+        string="CESTs")

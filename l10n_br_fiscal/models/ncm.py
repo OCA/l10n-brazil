@@ -17,7 +17,10 @@ _logger = logging.getLogger(__name__)
 
 class Ncm(models.Model):
     _name = "l10n_br_fiscal.ncm"
-    _inherit = ["l10n_br_fiscal.data.abstract", "mail.thread", "mail.activity.mixin"]
+    _inherit = [
+        "l10n_br_fiscal.data.abstract",
+        "mail.thread",
+        "mail.activity.mixin"]
     _description = "NCM"
 
     @api.depends("tax_estimate_ids")
