@@ -152,7 +152,7 @@ class OperationLine(models.Model):
                          ncm=None, nbs=None, cest=None):
 
         mapping_result = {
-            'taxes': False,
+            'taxes': {},
             'cfop': False,
             'taxes_value': 0.00
         }
@@ -164,26 +164,39 @@ class OperationLine(models.Model):
         mapping_result['cfop'] = cfop
 
         # 1 Get Tax Defs from Company
-        tax_defs = company.tax_definition_ids
-        mapping_result['taxes'] = tax_defs.mapped('tax_id')
+        for tax in company.tax_definition_ids.mapped('tax_id'):
+            mapping_result['taxes'][tax.tax_domain] = tax
 
         # 2 From NCM
         if not ncm and product:
             ncm = product.ncm_id
 
         if company.tax_framework == TAX_FRAMEWORK_NORMAL:
-            mapping_result['taxes'] |= ncm.tax_ipi_id
+            tax_ipi = ncm.tax_ipi_id
+            tax_ii = ncm.tax_ii_id
+            mapping_result['taxes'][tax_ipi.tax_domain] = tax_ipi
 
             if mapping_result['cfop'].destination == CFOP_DESTINATION_EXPORT:
-                mapping_result['taxes'] |= ncm.tax_ii_id
+                mapping_result['taxes'][tax_ii.tax_domain] = tax_ii
 
             # 3 From ICMS Regulation
-            mapping_result['taxes'] |= company.icms_regulation_id.map_tax_icms(
+            tax_icms_ids = company.icms_regulation_id.map_tax_icms(
                 company=company,
                 partner=partner,
                 product=product,
                 ncm=ncm,
                 cest=cest)
+
+            for tax in tax_icms_ids:
+                mapping_result['taxes'][tax.tax_domain] = tax
+
+            # 4 From Operation Line
+            for tax in self.tax_definition_ids.mapped('tax_id'):
+                mapping_result['taxes'][tax.tax_domain] = tax
+
+            # 5 From CFOP
+            for tax in cfop.tax_definition_ids.mapped('tax_id'):
+                mapping_result['taxes'][tax.tax_domain] = tax
 
         return mapping_result
 
