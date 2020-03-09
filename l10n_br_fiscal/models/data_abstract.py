@@ -34,9 +34,8 @@ class DataAbstract(models.AbstractModel):
             r.code_unmasked = misc.punctuation_rm(r.code)
 
     @api.model
-    def _name_search(
-        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
-    ):
+    def _name_search(self, name, args=None, operator="ilike",
+                     limit=100, name_get_uid=None):
         args = args or []
         domain = []
         if name:
@@ -47,9 +46,10 @@ class DataAbstract(models.AbstractModel):
                 ("code_unmasked", "ilike", name + "%"),
                 ("name", operator, name),
             ]
-        recs = self._search(
-            expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
-        )
+        recs = self._search(expression.AND([domain, args]),
+                            limit=limit,
+                            access_rights_uid=name_get_uid)
+
         return self.browse(recs).name_get()
 
     @api.multi
@@ -62,4 +62,5 @@ class DataAbstract(models.AbstractModel):
         if self._context.get("show_code_only"):
             return [(r.id, "{}".format(r.code)) for r in self]
 
-        return [(r.id, "{} - {}".format(r.code, truncate_name(r.name))) for r in self]
+        return [(r.id, "{} - {}".format(
+            r.code, truncate_name(r.name))) for r in self]
