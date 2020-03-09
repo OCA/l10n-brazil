@@ -4,8 +4,11 @@
 from odoo import fields, models
 
 from ..constants.fiscal import (
-    CFOP_DESTINATION, CFOP_TYPE_MOVE,
-    CFOP_TYPE_MOVE_DEFAULT, FISCAL_IN_OUT, FISCAL_OUT)
+    CFOP_DESTINATION,
+    CFOP_TYPE_MOVE,
+    CFOP_TYPE_MOVE_DEFAULT,
+    FISCAL_IN_OUT,
+    FISCAL_OUT)
 
 
 class Cfop(models.Model):
@@ -76,5 +79,4 @@ class Cfop(models.Model):
     _sql_constraints = [(
         "fiscal_cfop_code_uniq",
         "unique (code)",
-        "CFOP already exists with this code !"
-    )]
+        "CFOP already exists with this code !")]
