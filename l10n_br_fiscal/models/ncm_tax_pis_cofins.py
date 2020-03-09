@@ -13,5 +13,4 @@ class NCM(models.Model):
         colunm1="ncm_id",
         colunm2="piscofins_id",
         readonly=True,
-        string="PIS/COFINS",
-    )
+        string="PIS/COFINS")
