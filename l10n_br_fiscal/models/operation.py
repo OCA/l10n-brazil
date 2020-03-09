@@ -9,8 +9,7 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE_DEFAULT,
     FISCAL_IN_OUT_ALL,
     OPERATION_STATE_DEFAULT,
-    OPERATION_STATE
-)
+    OPERATION_STATE)
 
 
 class Operation(models.Model):
