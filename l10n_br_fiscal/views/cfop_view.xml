@@ -61,26 +61,7 @@
                         </group>
                     </group>
                     <group name="tax_settings" string="Taxes Settings">
-                        <field name="tax_definition_ids" nolabel="1" context="{'default_cfop_id': id}">
-                            <tree>
-                                <field name="tax_group_id"/>
-                                <field name="is_taxed"/>
-                            </tree>
-                            <form string="Tax Definition">
-                                <field name="cfop_id" invisible="1"/>
-                                <field name="tax_domain" invisible="1"/>
-                                <field name="type_in_out" invisible="1"/>
-                                <group>
-                                    <field name="tax_group_id"/>
-                                    <field name="is_taxed"/>
-                                    <field name="is_debit_credit" attrs="{'invisible': [('is_taxed', '=', False)]}"/>
-                                    <field name="tax_retention"/>
-                                    <field name="custom_tax"/>
-                                    <field name="tax_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
-                                    <field name="cst_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
-                                </group>
-                            </form>
-                        </field>
+                        <field name="tax_definition_ids" nolabel="1" context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_cfop_id': id}"/>
                     </group>
                 </sheet>
             </form>
