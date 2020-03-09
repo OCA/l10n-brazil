@@ -11,13 +11,23 @@ class Cest(models.Model):
     _inherit = "l10n_br_fiscal.data.abstract"
     _description = "CEST"
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(
+        string="Name",
+        required=True,
+        index=True)
 
-    item = fields.Char(string="Item", required=True, size=6)
+    item = fields.Char(
+        string="Item",
+        required=True,
+        size=6)
 
-    segment = fields.Selection(selection=CEST_SEGMENT, string="Segment", required=True)
+    segment = fields.Selection(
+        selection=CEST_SEGMENT,
+        string="Segment",
+        required=True)
 
-    ncms = fields.Char(string="NCM")
+    ncms = fields.Char(
+        string="NCM")
 
     ncm_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.ncm",
@@ -27,29 +37,25 @@ class Cest(models.Model):
         compute="_compute_ncms",
         store=True,
         readonly=True,
-        string="NCMs",
-    )
+        string="NCMs")
 
     product_tmpl_ids = fields.One2many(
         comodel_name="product.template",
         string="Products",
-        compute="_compute_product_tmpl_info",
-    )
+        compute="_compute_product_tmpl_info")
 
     product_tmpl_qty = fields.Integer(
-        string="Products Quantity", compute="_compute_product_tmpl_info"
-    )
+        string="Products Quantity",
+        compute="_compute_product_tmpl_info")
 
     def _compute_product_tmpl_info(self):
         for record in self:
-            product_tmpls = record.env["product.template"].search(
-                [
-                    ("cest_id", "=", record.id),
-                    "|",
-                    ("active", "=", False),
-                    ("active", "=", True),
-                ]
-            )
+            product_tmpls = record.env["product.template"].search([
+                ("cest_id", "=", record.id),
+                "|",
+                ("active", "=", False),
+                ("active", "=", True)])
+
             record.product_tmpl_ids = product_tmpls
             record.product_tmpl_qty = len(product_tmpls)
 
@@ -60,8 +66,11 @@ class Cest(models.Model):
             if r.ncms:
                 ncms = r.ncms.split(",")
                 domain = ["|"] * (len(ncms) - 1)
-                domain += [("code_unmasked", "=", n) for n in ncms if len(n) == 8]
-                domain += [
-                    ("code_unmasked", "=ilike", n + "%") for n in ncms if len(n) < 8
-                ]
+
+                domain += [("code_unmasked", "=", n)
+                           for n in ncms if len(n) == 8]
+
+                domain += [("code_unmasked", "=ilike", n + "%")
+                           for n in ncms if len(n) < 8]
+
                 r.ncm_ids = ncm.search(domain)
