@@ -683,7 +683,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                 cest=self.cest_id)
 
             self.cfop_id = mapping_result['cfop']
-            self.fiscal_tax_ids = mapping_result['taxes']
+            taxes = self.env['l10n_br_fiscal.tax']
+            for tax in mapping_result['taxes'].values():
+                taxes |= tax
+            self.fiscal_tax_ids = taxes
             self._update_taxes()
 
         if not self.operation_line_id:
