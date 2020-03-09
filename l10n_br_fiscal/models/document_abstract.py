@@ -7,8 +7,7 @@ from odoo import api, fields, models
 from ..constants.fiscal import (
     TAX_FRAMEWORK,
     DOCUMENT_ISSUER,
-    DOCUMENT_ISSUER_COMPANY
-)
+    DOCUMENT_ISSUER_COMPANY)
 
 
 class DocumentAbstract(models.AbstractModel):
