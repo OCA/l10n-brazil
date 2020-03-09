@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class TaxDefinitionCFOP(models.Model):
@@ -11,10 +12,20 @@ class TaxDefinitionCFOP(models.Model):
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP")
 
-    _sql_constraints = [(
-        "fiscal_tax_definition_cfop_uniq",
-        "unique (cfop_id, tax_group_id)",
-        _("Tax Definition already exists with this CFOP, Group !"))]
+    @api.multi
+    @api.constrains("cfop_id")
+    def _check_cfop_id(self):
+        for record in self:
+            if record.cfop_id:
+                domain = [
+                    ("id", "!=", record.id),
+                    ('cfop_id', '=', record.cfop_id.id),
+                    ('tax_group_id', '=', record.tax_group_id.id)]
+
+                if record.env["l10n_br_fiscal.tax.definition"].search(domain):
+                    raise ValidationError(_(
+                        "Tax Definition already exists "
+                        "for this CFOP and Tax Group !"))
 
     @api.onchange('cfop_id')
     def _onchange_cfop_id(self):
