@@ -224,7 +224,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
-        string="Service Type",
+        string="Service Type LC 166",
         domain="[('internal_type', '=', 'normal')]")
 
     # ISSQN Fields
