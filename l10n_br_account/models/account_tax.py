@@ -1,12 +1,21 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class AccountTax(models.Model):
     _name = "account.tax"
     _inherit = ["account.tax.fiscal.abstract", "account.tax"]
+
+    fiscal_tax_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.tax",
+        relation="l10n_br_fiscal_account_tax_rel",
+        colunm1="account_tax_id",
+        colunm2="fiscal_tax_id",
+        readonly=True,
+        string="Fiscal Taxes",
+    )
 
     @api.multi
     def compute_all(
