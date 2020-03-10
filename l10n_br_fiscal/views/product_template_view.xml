@@ -10,7 +10,7 @@
                 <field string="NCM" name="ncm_id" filter_domain="[('ncm_id', '=', raw_value)]"/>
                 <field string="NBS" name="nbs_id" filter_domain="[('nbs_id', '=', raw_value)]"/>
                 <field string="CEST" name="cest_id" filter_domain="[('cest_id', '=', raw_value)]"/>
-                <field string="Service Type" name="service_type_id" filter_domain="[('service_type_id', '=', raw_value)]"/>
+                <field string="Service Type LC 166" name="service_type_id" filter_domain="[('service_type_id', '=', raw_value)]"/>
             </field>
         </field>
     </record>
