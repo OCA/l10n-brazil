@@ -273,7 +273,7 @@
 
     # Service Type
     <record id="service_type_action" model="ir.actions.act_window">
-        <field name="name">Service Type</field>
+        <field name="name">Service Type LC 166</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.service.type</field>
         <field name="view_mode">tree,form,kanban</field>
