@@ -16,6 +16,7 @@
         <field name="partner_id" ref="base.main_partner"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="fiscal_document_line_dummy" model="l10n_br_fiscal.document.line">
