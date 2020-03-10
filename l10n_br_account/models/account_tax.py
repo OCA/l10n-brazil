@@ -5,8 +5,7 @@ from odoo import api, fields, models
 
 
 class AccountTax(models.Model):
-    _name = "account.tax"
-    _inherit = ["account.tax.fiscal.abstract", "account.tax"]
+    _inherit = "account.tax"
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
