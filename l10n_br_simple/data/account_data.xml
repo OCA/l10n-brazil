@@ -8,12 +8,12 @@
             <field name="name">ICMS</field>
         </record>
 
-        <record id="tax_group_icmsst" model="account.tax.group">
-            <field name="name">ICMS ST</field>
+        <record id="tax_group_icmssn" model="account.tax.group">
+            <field name="name">ICMS SN</field>
         </record>
 
-        <record id="tax_group_icmsdifal" model="account.tax.group">
-            <field name="name">ICMS Interestadual</field>
+        <record id="tax_group_icmsst" model="account.tax.group">
+            <field name="name">ICMS ST</field>
         </record>
 
         <record id="tax_group_icmsfcp" model="account.tax.group">
