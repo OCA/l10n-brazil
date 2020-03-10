@@ -81,14 +81,24 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            self.assertEquals(
-                line.ipi_tax_id.name, 'IPI 5%',
-                "Error to mapping IPI 5%"
-                " for Venda de Contribuinte Dentro do Estado.")
-            self.assertEquals(
-                line.ipi_cst_id.code, '50',
-                "Error to mapping CST 50 from IPI 5%"
-                " to Venda de Contribuinte Dentro do Estado.")
+            if line.operation_line_id.name == 'Revenda':
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI NT',
+                    "Error to mapping IPI NT"
+                    " for Revenda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '53',
+                    "Error to mapping CST 53 from IPI NT"
+                    " to Revenda de Contribuinte Dentro do Estado.")
+            else:
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI 5%',
+                    "Error to mapping IPI 5%"
+                    " for Venda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '50',
+                    "Error to mapping CST 50 from IPI 5%"
+                    " to Venda de Contribuinte Dentro do Estado.")
 
             # PIS
             self.assertEquals(
@@ -154,14 +164,24 @@ class TestFiscalDocumentGeneric(TransactionCase):
             #    " para Venda de Contribuinte p/ Fora do Estado.")
 
             # IPI
-            self.assertEquals(
-                line.ipi_tax_id.name, 'IPI 5%',
-                "Error to mapping IPI 5%"
-                " for Venda de Contribuinte p/ Fora do Estado.")
-            self.assertEquals(
-                line.ipi_cst_id.code, '50',
-                "Error to mapping CST 50 from IPI 5%"
-                " for Venda de Contribuinte p/ Fora do Estado.")
+            if line.operation_line_id.name == 'Revenda':
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI NT',
+                    "Error to mapping IPI NT"
+                    " for Revenda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '53',
+                    "Error to mapping CST 53 from IPI NT"
+                    " to Revenda de Contribuinte Dentro do Estado.")
+            else:
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI 5%',
+                    "Error to mapping IPI 5%"
+                    " for Venda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '50',
+                    "Error to mapping CST 50 from IPI 5%"
+                    " to Venda de Contribuinte Dentro do Estado.")
 
             # PIS
             self.assertEquals(
@@ -229,14 +249,24 @@ class TestFiscalDocumentGeneric(TransactionCase):
             #    " para Venda de Contribuinte p/ Não Contribuinte.")
 
             # IPI
-            self.assertEquals(
-                line.ipi_tax_id.name, 'IPI 5%',
-                "Error to mapping IPI 5%"
-                " for Venda de Contribuinte p/ Não Contribuinte.")
-            self.assertEquals(
-                line.ipi_cst_id.code, '50',
-                "Error to mapping CST 50 from IPI 5%"
-                " for Venda de Contribuinte p/ Não Contribuinte.")
+            if line.operation_line_id.name == 'Revenda':
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI NT',
+                    "Error to mapping IPI NT"
+                    " for Revenda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '53',
+                    "Error to mapping CST 53 from IPI NT"
+                    " to Revenda de Contribuinte Dentro do Estado.")
+            else:
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI 5%',
+                    "Error to mapping IPI 5%"
+                    " for Venda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '50',
+                    "Error to mapping CST 50 from IPI 5%"
+                    " to Venda de Contribuinte Dentro do Estado.")
 
             # PIS
             self.assertEquals(
@@ -304,14 +334,24 @@ class TestFiscalDocumentGeneric(TransactionCase):
             #    " para Venda de Contribuinte p/ o Exterior.")
 
             # IPI
-            self.assertEquals(
-                line.ipi_tax_id.name, 'IPI 5%',
-                "Error to mapping IPI 5%"
-                " for Venda de Contribuinte p/ o Exterior.")
-            self.assertEquals(
-                line.ipi_cst_id.code, '50',
-                "Error to mapping CST 50 from IPI 5%"
-                " for Venda de Contribuinte p/ o Exterior.")
+            if line.operation_line_id.name == 'Revenda':
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI NT',
+                    "Error to mapping IPI NT"
+                    " for Revenda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '53',
+                    "Error to mapping CST 53 from IPI NT"
+                    " to Revenda de Contribuinte Dentro do Estado.")
+            else:
+                self.assertEquals(
+                    line.ipi_tax_id.name, 'IPI 5%',
+                    "Error to mapping IPI 5%"
+                    " for Venda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    line.ipi_cst_id.code, '50',
+                    "Error to mapping CST 50 from IPI 5%"
+                    " to Venda de Contribuinte Dentro do Estado.")
 
             # PIS
             self.assertEquals(
