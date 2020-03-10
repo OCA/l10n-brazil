@@ -25,7 +25,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -37,7 +37,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -66,19 +66,19 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_same_state_2-2" model="l10n_br_fiscal.document.line">
-        <field name="document_id" ref="demo_nfe_same_state"/>
+        <field name="document_id" ref="demo_nfe_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -102,7 +102,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -114,7 +114,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -142,7 +142,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -154,7 +154,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -184,7 +184,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -196,7 +196,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -226,7 +226,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -238,7 +238,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -263,7 +263,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -275,7 +275,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -304,7 +304,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -316,7 +316,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">in</field>
+        <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
