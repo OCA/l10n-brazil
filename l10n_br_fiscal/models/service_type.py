@@ -6,9 +6,12 @@ from odoo import fields, models
 
 
 class ServiceType(models.Model):
+    """ Fiscal Service Type - Tabela de Códigos de Serviço
+    [LC 166] Lei Complementar 116 / 2013"""
+
     _name = "l10n_br_fiscal.service.type"
     _inherit = ["l10n_br_fiscal.data.abstract", "mail.thread", "mail.activity.mixin"]
-    _description = "Service Fiscal Type"
+    _description = "Service Type LC 166"
 
     parent_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type", string="Parent Service Type"
