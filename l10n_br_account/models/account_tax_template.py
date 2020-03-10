@@ -1,12 +1,21 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class AccountTaxTemplate(models.Model):
     _name = "account.tax.template"
     _inherit = ["account.tax.fiscal.abstract", "account.tax.template"]
+
+    fiscal_tax_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.tax",
+        relation="l10n_br_fiscal_account_template_tax_rel",
+        colunm1="account_tax_id",
+        colunm2="fiscal_tax_id",
+        readonly=True,
+        string="Fiscal Taxes",
+    )
 
     @api.multi
     def _generate_tax(self, company):
@@ -17,7 +26,7 @@ class AccountTaxTemplate(models.Model):
         for tax_template in taxes_template:
             tax_id = mapping.get("tax_template_to_tax").get(tax_template.id)
             self.env["account.tax"].browse(tax_id).write(
-                {"fiscal_tax_id": tax_template.fiscal_tax_id.id}
+                {"fiscal_tax_ids": tax_template.fiscal_tax_ids}
             )
 
         return mapping
