@@ -76,12 +76,6 @@
 "tax_icms_sn_nt","ICMS SN Não Tributado","percent","0.00","0.00","tax_group_icmssn","cst_icmssn_400","cst_icmssn_400",,,,,"999"
 "tax_icms_sn_cobrado_ant_st","ICMS SN cobrado anteriormente por ST ou por antecipação","percent","0.00","0.00","tax_group_icmssn","cst_icmssn_500","cst_icmssn_500",,,,,"999"
 "tax_icms_sn_outros","ICMS SN Outros","percent","0.00","0.00","tax_group_icmssn","cst_icmssn_900","cst_icmssn_900",,,,,"999"
-"tax_issqn_nt","ISSQN NT","percent","0.00","0.00","tax_group_issqn",,,,,,,
-"tax_issqn_1","ISSQN 1%","percent","1.00","0.00","tax_group_issqn",,,,,,,
-"tax_issqn_2","ISSQN 2%","percent","2.00","0.00","tax_group_issqn",,,,,,,
-"tax_issqn_3","ISSQN 3%","percent","3.00","0.00","tax_group_issqn",,,,,,,
-"tax_issqn_4","ISSQN 4%","percent","4.00","0.00","tax_group_issqn",,,,,,,
-"tax_issqn_5","ISSQN 5%","percent","5.00","0.00","tax_group_issqn",,,,,,,
 "tax_pis_value_0_0122","PIS Monofásico R$ 0,0122 por Litro","percent","0.00","0.00","tax_group_pis","cst_pis_70","cst_pis_03","0.0122","base.BRL","uom.product_uom_litre",,
 "tax_pis_value_0_0125","PIS Monofásico R$ 0,0125 por Litro","percent","0.00","0.00","tax_group_pis","cst_pis_70","cst_pis_03","0.0125","base.BRL","uom.product_uom_litre",,
 "tax_pis_value_0_0174","PIS Monofásico R$ 0,0174 por Litro","percent","0.00","0.00","tax_group_pis","cst_pis_70","cst_pis_03","0.0174","base.BRL","uom.product_uom_litre",,
@@ -300,3 +294,18 @@
 "tax_pis_aliqdif_3_12_cred_3_12","PIS Aliq. Dif 3,12% Crédito 3,12%","percent","3.12","0.0","tax_group_pis","cst_cofins_02","cst_cofins_98",,,,"3.12",
 "tax_pis_aliqdif_3_52_cred_3_52","PIS Aliq. Dif 3,52% Crédito 3,52%","percent","3.52","0.0","tax_group_pis","cst_cofins_02","cst_cofins_98",,,,"3.52",
 "tax_simples","Simples Nacional","percent","0.00","0.00","tax_group_simples",,,,,,,
+"tax_issqn_nt","ISSQN NT","percent","0.00","0.00","tax_group_issqn",,,,,,,
+"tax_issqn_1","ISSQN 1%","percent","1.00","0.00","tax_group_issqn",,,,,,,
+"tax_issqn_2","ISSQN 2%","percent","2.00","0.00","tax_group_issqn",,,,,,,
+"tax_issqn_3","ISSQN 3%","percent","3.00","0.00","tax_group_issqn",,,,,,,
+"tax_issqn_4","ISSQN 4%","percent","4.00","0.00","tax_group_issqn",,,,,,,
+"tax_issqn_5","ISSQN 5%","percent","5.00","0.00","tax_group_issqn",,,,,,,
+"tax_csll_nt","CSLL NT","percent","0.00","0.00","tax_group_csll",,,,,,,
+"tax_csll_1","CSLL 1%","percent","1.00","0.00","tax_group_csll",,,,,,,
+"tax_csll_2_8","CSLL 2,8%","percent","2.80","0.00","tax_group_csll",,,,,,,
+"tax_irpj_nt","IRPJ NT","percent","0.00","0.00","tax_group_irpj",,,,,,,
+"tax_irpj_1","IRPJ 1,5%","percent","1.50","0.00","tax_group_irpj",,,,,,,
+"tax_irpj_4_6","IRPJ 4_8%","percent","4.80","0.00","tax_group_irpj",,,,,,,
+"tax_inss_nt","INSS NT","percent","0.00","0.00","tax_group_inss",,,,,,,
+"tax_inss_11","INSS 11%","percent","11.00","0.00","tax_group_inss",,,,,,,
+
