@@ -41,7 +41,7 @@ class ProductTemplate(models.Model):
 
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
-        string="Service Type",
+        string="Service Type LC 166",
         domain="[('internal_type', '=', 'normal')]")
 
     fiscal_genre_code = fields.Char(
