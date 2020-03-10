@@ -79,6 +79,7 @@ TAX_DOMAIN = (
     ("ir", "IR"),
     ("csll", "CSLL"),
     ("ii", "II"),
+    ("inss", "INSS"),
     ("simples", "Simples Nacional"),
     ("others", "Outros"),
 )
@@ -86,6 +87,7 @@ TAX_DOMAIN = (
 
 TAX_DOMAIN_IPI = "ipi"
 TAX_DOMAIN_II = "ii"
+TAX_DOMAIN_INSS = "inss"
 TAX_DOMAIN_ICMS = "icms"
 TAX_DOMAIN_ICMS_SN = "icmssn"
 TAX_DOMAIN_ICMS_ST = "icmsst"
