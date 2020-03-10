@@ -15,6 +15,7 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
@@ -55,6 +56,7 @@
         <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
         <field name="partner_inscr_est">8700737-10</field>
         <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_other_state_2-1" model="l10n_br_fiscal.document.line">
@@ -90,6 +92,7 @@
         <field name="user_id" ref="base.user_demo"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_export_3-1" model="l10n_br_fiscal.document.line">
@@ -129,6 +132,7 @@
         <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="partner_cnpj_cpf">	26.355.289/0001-55</field>
         <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_nao_contribuinte_4-1" model="l10n_br_fiscal.document.line">
@@ -170,6 +174,7 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_same_state_5-1" model="l10n_br_fiscal.document.line">
@@ -211,6 +216,7 @@
         <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
         <field name="partner_inscr_est">8700737-10</field>
         <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_other_state_6-1" model="l10n_br_fiscal.document.line">
@@ -247,6 +253,7 @@
         <field name="user_id" ref="base.user_demo"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_export_7-1" model="l10n_br_fiscal.document.line">
@@ -287,6 +294,7 @@
         <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="partner_cnpj_cpf">	26.355.289/0001-55</field>
         <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_nao_contribuinte_7-1" model="l10n_br_fiscal.document.line">
