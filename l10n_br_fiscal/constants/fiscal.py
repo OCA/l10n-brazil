@@ -118,9 +118,6 @@ TAX_DOMAIN = (
     (TAX_DOMAIN_INSS, "INSS"),
     ("simples", "Simples Nacional"),
     ("others", "Outros"),
-)
-
-TAX_DOMAIN_RET = (
     (TAX_DOMAIN_ISSQN_RET, "issqnret"),
     (TAX_DOMAIN_PIS_RET, "pisret"),
     (TAX_DOMAIN_COFINS_RET, "cofinsret"),
