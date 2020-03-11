@@ -73,6 +73,9 @@
     <!-- Product UOM -->
     <menuitem id="uom_menu" action="uom.product_uom_form_action" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="40"/>
 
+    # Export XMLs
+    <menuitem id="menu_processamento_periodico" name="Exportar XMLs" parent="l10n_br_fiscal.product_service_menu" action="action_close" groups="l10n_br_fiscal.group_manager" sequence="99"/>
+
     <!-- Configuration Menu -->
     <menuitem id="configuration_menu" name="Configuration" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="999"/>
 
