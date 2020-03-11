@@ -8,6 +8,8 @@ import base64
 import zipfile
 import io
 import logging
+from datetime import datetime
+import calendar
 
 from odoo import models, fields, _
 from pybrasil.inscricao import limpa_formatacao
@@ -21,13 +23,18 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
     MODELO_FISCAL_NFSE,
     MODELO_FISCAL_RL,
-    #AMBIENTE_NFE_PRODUCAO,
-    #AMBIENTE_NFE_HOMOLOGACAO,
-    # SITUACAO_NFE_REJEITADA,
-    # SITUACAO_NFE_AUTORIZADA,
-    # SITUACAO_NFE_CANCELADA,
-    # SITUACAO_NFE_DENEGADA,
-    # SITUACAO_NFE_INUTILIZADA,
+    SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_REJEITADA,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
+)
+
+from odoo.addons.l10n_br_nfe.constants.nfe import (
+    NFE_ENVIRONMENTS
 )
 
 _logger = logging.getLogger(__name__)
@@ -40,41 +47,41 @@ PATH_MODELO = {
     MODELO_FISCAL_NFSE: 'nfse',
     MODELO_FISCAL_RL: 'rl',
 }
-#
-# SITUACOES_COM_XML = [
-#     SITUACAO_NFE_REJEITADA,
-#     SITUACAO_NFE_AUTORIZADA,
-#     SITUACAO_NFE_CANCELADA,
-#     SITUACAO_NFE_DENEGADA,
-#     SITUACAO_NFE_INUTILIZADA,
-# ]
-#
-# PATH_AMBIENTE = {
-#     AMBIENTE_NFE_HOMOLOGACAO: 'homologacao',
-#     AMBIENTE_NFE_PRODUCAO: 'producao',
-# }
+
+PATH_AMBIENTE = dict(NFE_ENVIRONMENTS)
+
+SITUACAO_EDOC = [
+    SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_REJEITADA,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
+]
 
 XMLS_IMPORTANTES = [
-    'arquivo_xml_autorizacao_id',
-    'arquivo_xml_autorizacao_cancelamento_id',
-    'arquivo_xml_autorizacao_inutilizacao_id',
+    'file_xml_autorizacao_id',
+    'file_xml_autorizacao_cancelamento_id',
+    'file_xml_autorizacao_inutilizacao_id',
+    'file_pdf_id',
 ]
 
 
-class SpedDocumentoExportar(models.Model):
-    _name = 'sped.documento.exportar.xml'
+class Close(models.Model):
+    _name = 'close'
     _description = 'Export NFes'
 
     name = fields.Char(
         string='Nome',
         size=255
     )
-    date_start = fields.Date(
-        string='Data Inicial'
+    year = fields.Char(
+        string='Year',
     )
-    date_stop = fields.Date(
-        comodel_name='account.period',
-        string='Data Final'
+    month = fields.Char(
+        string='Month',
     )
     zip_file = fields.Binary(
         string='Zip Files',
@@ -88,75 +95,134 @@ class SpedDocumentoExportar(models.Model):
         readonly=True
     )
     export_type = fields.Selection(
-        selection=[('periodo', 'Por período'),
+        selection=[('period', 'Por período'),
                    ('all', 'Tudo')],
-        string='Exportar',
-        default='periodo',
+        string='Export',
+        default='period',
         required=True
     )
     pasta_individual = fields.Boolean(
-        string='Pasta individual para documento',
+        string='Individual document folder',
         default=False
     )
     raiz = fields.Char(
-        string='Caminho da estrutura de pastas',
+        string='Folder structure path',
         default=''
     )
 
-    def monta_caminho(self, documento):
-        path_documento = '/'.join([
-            PATH_AMBIENTE[documento.ambiente_nfe],
-            limpa_formatacao(documento.empresa_id.cnpj_cpf),
-            PATH_MODELO[documento.modelo],
-            documento.data_emissao[:7],
-            documento.serie.zfill(3) +
-            ('-' + limpa_formatacao(str(documento.numero)).zfill(9)
+    document_nfe_id = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        string=" NFe Documents",
+        inverse_name="close_id",
+        domain=[('document_type', '=', '55')]
+    )
+
+    document_nfce_id = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        string="NFCe Documents",
+        inverse_name="close_id",
+        domain=[('document_type', '=', '65')]
+    )
+
+    document_cfe_id = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        string="CFe Documents",
+        inverse_name="close_id",
+        domain=[('document_type', '=', '59')]
+    )
+
+    document_cfeecf_id = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        string="CFe ECF Documents",
+        inverse_name="close_id",
+        domain=[('document_type', '=', '60')]
+    )
+
+    document_nfse_id = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        string="NFce Documents",
+        inverse_name="close_id",
+        domain=[('document_type', '=', 'SE')]
+    )
+
+    document_rl_id = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        string="RL Documents",
+        inverse_name="close_id",
+        domain=[('document_type', '=', 'RL')]
+    )
+
+
+
+    def monta_caminho(self, document):
+        document_path = '/'.join([
+            # TODO: Colocar ambiente
+            # PATH_AMBIENTE[documento.nfe_environment],
+            limpa_formatacao(document.company_cnpj_cpf),
+            PATH_MODELO[document.document_type_id.code],
+            document.date.strftime("%m-%Y"),
+            document.document_serie_id.code.zfill(3) +
+            ('-' + limpa_formatacao(str(document.number)).zfill(9)
              if self.pasta_individual else '')
         ])
         if self.raiz:
-            if not os.path.exists(self.raiz + '/' + path_documento):
+            if not os.path.exists(self.raiz + '/' + document_path):
                 try:
-                    os.makedirs(self.raiz + '/' + path_documento)
+                    os.makedirs(self.raiz + '/' + document_path)
                 except OSError:
                     raise RedirectWarning(
-                        _('Erro!'),
-                        _('Verifique as permissões de '
-                          'escrita e o caminho da pasta'))
-        return path_documento
+                        _('Error!'),
+                        _('Check write permissions and folder path'))
+        return document_path
 
     def _prepara_arquivos(self, periodic_export=False):
-        domain = [('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
+        domain = [('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
                    MODELO_FISCAL_EMISSAO_SERVICO),
-                  ('situacao_nfe', 'in', SITUACOES_COM_XML)]
-        domain += [
-            ('data_emissao', '>=', self.date_start),
-            ('data_emissao', '<=', self.date_stop),
-        ] if self.export_type == 'periodo' else []
+                  ('state_edoc', 'in', SITUACAO_EDOC)]
+
+        if self.export_type == 'period':
+            date_range = calendar.monthrange(int(self.year), int(self.month))
+            date_min = '-'.join((self.year, self.month, str(date_range[0])))
+            date_min = datetime.strptime(date_min, '%Y-%m-%d')
+
+            date_max = '-'.join((self.year, self.month, str(date_range[1])))
+            date_max = datetime.strptime(date_max, '%Y-%m-%d')
 
         domain += [
-            ('xmls_exportados', '=', False)
+            ('date', '>=', date_min),
+            ('date', '<=', date_max),
+        ] if self.export_type == 'period' else []
+
+        domain += [
+            ('close_id', '=', False)
         ] if periodic_export else []
 
-        documentos = self.env['sped.documento'].search(domain)
+        documents = self.env['l10n_br_fiscal.document'].search(domain)
+        # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
+        # documents += self.env['l10n_br_fiscal.document_cancel'].search(domain)
 
-        arquivos = {}
-        for documento in documentos:
-            anexos = [getattr(documento, campo) for campo in XMLS_IMPORTANTES
-                      if getattr(documento, campo)]
+        files = {}
+        for document in documents:
+            anexos = [getattr(document, campo) for campo in XMLS_IMPORTANTES
+                      if hasattr(document, campo)
+                      and getattr(document, campo).id is not False]
+
+            document.close_id = self.id
+
             if not anexos:
                 continue
-            path_documento = self.monta_caminho(documento)
+            document_path = self.monta_caminho(document)
             try:
                 for anexo in anexos:
-                    arquivos[path_documento + '/' + anexo.datas_fname] = \
+                    files[document_path + '/' + anexo.datas_fname] = \
                         base64.b64decode(anexo.datas)
                 if periodic_export:
-                    documento.xmls_exportados = True
+                    document.close_id = self.id
             except Exception:
-                _logger.error(_('Falha na replicação: anexos do documento '
-                                '[id=%s] não está presente no banco de dados.'
-                                % documento.id))
-        return arquivos
+                _logger.error(_('Replication failed: document attachments '
+                                '[id =% s] is not present in the database.'
+                                % document.id))
+        return files
 
     def periodic_export(self):
         export = self.new()
@@ -171,15 +237,15 @@ class SpedDocumentoExportar(models.Model):
             f.close()
 
     def export(self):
-        arquivos = self._prepara_arquivos()
+        files = self._prepara_arquivos()
         order_file = io.BytesIO()
         order_zip = zipfile.ZipFile(
             order_file, mode="w", compression=zipfile.ZIP_DEFLATED
         )
-        for arquivo in arquivos.keys():
+        for file in files.keys():
             order_zip.writestr(
-                arquivo,
-                arquivos[arquivo]
+                file,
+                files[file]
             )
         order_zip.close()
         self.write({
