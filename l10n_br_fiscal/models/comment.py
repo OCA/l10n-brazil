@@ -18,12 +18,6 @@ class Comment(models.Model):
     _order = "sequence"
     _rec_name = "comment"
 
-    document = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Documento",
-        required=False,
-    )
-
     sequence = fields.Integer(string="Sequence", default=10)
 
     name = fields.Char(
