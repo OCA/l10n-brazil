@@ -63,48 +63,77 @@ TAX_BASE_TYPE = (
 
 TAX_BASE_TYPE_PERCENT = "percent"
 
-
-TAX_DOMAIN = (
-    ("ipi", "IPI"),
-    ("icms", "ICMS - Próprio"),
-    ("icmssn", "ICMS - Simples Nacional"),
-    ("icmsfcp", "ICMS FCP - Fundo de Combate a Pobreza"),
-    ("icmsst", "ICMS - Subistituição Tributária"),
-    ("pis", "PIS"),
-    ("pisst", "PIS ST"),
-    ("cofins", "COFINS"),
-    ("cofinsst", "COFINS ST"),
-    ("issqn", "ISSQN"),
-    ("irpj", "IRPJ"),
-    ("ir", "IR"),
-    ("csll", "CSLL"),
-    ("ii", "II"),
-    ("inss", "INSS"),
-    ("simples", "Simples Nacional"),
-    ("others", "Outros"),
-)
-
-
 TAX_DOMAIN_IPI = "ipi"
 TAX_DOMAIN_II = "ii"
-TAX_DOMAIN_INSS = "inss"
 TAX_DOMAIN_ICMS = "icms"
 TAX_DOMAIN_ICMS_SN = "icmssn"
 TAX_DOMAIN_ICMS_ST = "icmsst"
 TAX_DOMAIN_ICMS_FCP = "icmsfcp"
-TAX_DOMAIN_ISSQN = "issqn"
 TAX_DOMAIN_PIS = "pis"
 TAX_DOMAIN_PIS_ST = "pisst"
 TAX_DOMAIN_COFINS = "cofins"
 TAX_DOMAIN_COFINS_ST = "cofinsst"
 
+TAX_DOMAIN_ISSQN = "issqn"
+TAX_DOMAIN_CSLL = "csll"
+TAX_DOMAIN_IRPJ = "irpj"
+TAX_DOMAIN_INSS = "inss"
+
+TAX_DOMAIN_PCC = (
+    TAX_DOMAIN_PIS,
+    TAX_DOMAIN_COFINS,
+    TAX_DOMAIN_CSLL
+)
+
+TAX_DOMAIN_ISSQN_RET = "issqnret"
+TAX_DOMAIN_PIS_RET = "pisret"
+TAX_DOMAIN_COFINS_RET = "cofinsret"
+TAX_DOMAIN_CSLL_RET = "csllret"
+TAX_DOMAIN_IRPJ_RET = "irpjret"
+TAX_DOMAIN_INSS_RET = "inssret"
+
+TAX_DOMAIN_IR = 'ir'
+
+TAX_DOMAIN_PCC_RET = (
+    TAX_DOMAIN_PIS_RET,
+    TAX_DOMAIN_COFINS_RET,
+    TAX_DOMAIN_CSLL_RET
+)
+
+TAX_DOMAIN = (
+    (TAX_DOMAIN_IPI, "IPI"),
+    (TAX_DOMAIN_ICMS, "ICMS - Próprio"),
+    (TAX_DOMAIN_ICMS_SN, "ICMS - Simples Nacional"),
+    (TAX_DOMAIN_ICMS_FCP, "ICMS FCP - Fundo de Combate a Pobreza"),
+    (TAX_DOMAIN_ICMS_ST, "ICMS - Subistituição Tributária"),
+    (TAX_DOMAIN_PIS, "PIS"),
+    (TAX_DOMAIN_PIS_ST, "PIS ST"),
+    (TAX_DOMAIN_COFINS, "COFINS"),
+    (TAX_DOMAIN_COFINS_ST, "COFINS ST"),
+    (TAX_DOMAIN_ISSQN, "ISSQN"),
+    (TAX_DOMAIN_IRPJ, "IRPJ"),
+    (TAX_DOMAIN_IR, "IR"),
+    (TAX_DOMAIN_CSLL, "CSLL"),
+    (TAX_DOMAIN_II, "II"),
+    (TAX_DOMAIN_INSS, "INSS"),
+    ("simples", "Simples Nacional"),
+    ("others", "Outros"),
+)
+
+TAX_DOMAIN_RET = (
+    (TAX_DOMAIN_ISSQN_RET, "issqnret"),
+    (TAX_DOMAIN_PIS_RET, "pisret"),
+    (TAX_DOMAIN_COFINS_RET, "cofinsret"),
+    (TAX_DOMAIN_CSLL_RET, "csllret"),
+    (TAX_DOMAIN_IRPJ_RET, "irpjret"),
+    (TAX_DOMAIN_INSS_RET, "inssret"),
+)
 
 TAX_FRAMEWORK = (
     ("1", "1 - Simples Nacional"),
     ("2", "2 - Simples Nacional – excesso de sublimite da receita bruta"),
     ("3", "3 - Regime Normal"),
 )
-
 
 TAX_FRAMEWORK_SIMPLES = "1"
 TAX_FRAMEWORK_SIMPLES_EX = "2"
