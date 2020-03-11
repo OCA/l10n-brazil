@@ -246,6 +246,13 @@
                 </group>
               </group>
             </page>
+                        <page name="extra_info" string="Extra Info">
+                            <group>
+                                <field name="comment_ids" widget="many2many_tags"
+                                       domain="[('object','=','l10n_br_fiscal.document')]"/>
+                                <field name="processed_comments"/>
+                            </group>
+                        </page>
           </notebook>
         </sheet>
         <div class="oe_chatter">
