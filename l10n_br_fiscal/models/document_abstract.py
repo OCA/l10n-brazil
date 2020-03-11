@@ -50,10 +50,50 @@ class DocumentAbstract(models.AbstractModel):
                 line.pis_base for line in record.line_ids)
             record.amount_pis_value = sum(
                 line.pis_value for line in record.line_ids)
+            record.amount_pis_ret_base = sum(
+                line.pisret_base for line in record.line_ids)
+            record.amount_pis_ret_value = sum(
+                line.pisret_value for line in record.line_ids)
             record.amount_cofins_base = sum(
                 line.cofins_base for line in record.line_ids)
             record.amount_cofins_value = sum(
                 line.cofins_value for line in record.line_ids)
+            record.amount_cofins_ret_base = sum(
+                line.cofinsret_base for line in record.line_ids)
+            record.amount_cofins_ret_value = sum(
+                line.cofinsret_value for line in record.line_ids)
+            record.amount_csll_base = sum(
+                line.csll_base for line in record.line_ids)
+            record.amount_csll_value = sum(
+                line.csll_value for line in record.line_ids)
+            record.amount_csll_ret_base = sum(
+                line.csllret_base for line in record.line_ids)
+            record.amount_csll_ret_value = sum(
+                line.csllret_value for line in record.line_ids)
+            record.amount_issqn_base = sum(
+                line.issqn_base for line in record.line_ids)
+            record.amount_issqn_value = sum(
+                line.issqn_value for line in record.line_ids)
+            record.amount_issqn_ret_base = sum(
+                line.issqnret_base for line in record.line_ids)
+            record.amount_issqn_ret_value = sum(
+                line.issqnret_value for line in record.line_ids)
+            record.amount_irpj_base = sum(
+                line.irpj_base for line in record.line_ids)
+            record.amount_irpj_value = sum(
+                line.irpj_value for line in record.line_ids)
+            record.amount_irpj_ret_base = sum(
+                line.irpjret_base for line in record.line_ids)
+            record.amount_irpj_ret_value = sum(
+                line.irpjret_value for line in record.line_ids)
+            record.amount_inss_base = sum(
+                line.inss_base for line in record.line_ids)
+            record.amount_inss_value = sum(
+                line.inss_value for line in record.line_ids)
+            record.amount_inss_ret_base = sum(
+                line.inssret_base for line in record.line_ids)
+            record.amount_inss_ret_value = sum(
+                line.inssret_value for line in record.line_ids)
             record.amount_tax = sum(
                 line.amount_tax for line in record.line_ids)
             record.amount_discount = sum(
@@ -238,12 +278,92 @@ class DocumentAbstract(models.AbstractModel):
         string="PIS Value",
         compute="_compute_amount")
 
+    amount_pis_ret_base = fields.Monetary(
+        string="PIS Ret Base",
+        compute="_compute_amount")
+
+    amount_pis_ret_value = fields.Monetary(
+        string="PIS Ret Value",
+        compute="_compute_amount")
+
     amount_cofins_base = fields.Monetary(
         string="COFINS Base",
         compute="_compute_amount")
 
     amount_cofins_value = fields.Monetary(
         string="COFINS Value",
+        compute="_compute_amount")
+
+    amount_cofins_ret_base = fields.Monetary(
+        string="COFINS Ret Base",
+        compute="_compute_amount")
+
+    amount_cofins_ret_value = fields.Monetary(
+        string="COFINS Ret Value",
+        compute="_compute_amount")
+
+    amount_issqn_base = fields.Monetary(
+        string="ISSQN Base",
+        compute="_compute_amount")
+
+    amount_issqn_value = fields.Monetary(
+        string="ISSQN Value",
+        compute="_compute_amount")
+
+    amount_issqn_ret_base = fields.Monetary(
+        string="ISSQN Ret Base",
+        compute="_compute_amount")
+
+    amount_issqn_ret_value = fields.Monetary(
+        string="ISSQN Ret Value",
+        compute="_compute_amount")
+
+    amount_csll_base = fields.Monetary(
+        string="CSLL Base",
+        compute="_compute_amount")
+
+    amount_csll_value = fields.Monetary(
+        string="CSLL Value",
+        compute="_compute_amount")
+
+    amount_csll_ret_base = fields.Monetary(
+        string="CSLL Ret Base",
+        compute="_compute_amount")
+
+    amount_csll_ret_value = fields.Monetary(
+        string="CSLL Ret Value",
+        compute="_compute_amount")
+
+    amount_irpj_base = fields.Monetary(
+        string="IRPJ Base",
+        compute="_compute_amount")
+
+    amount_irpj_value = fields.Monetary(
+        string="IRPJ Value",
+        compute="_compute_amount")
+
+    amount_irpj_ret_base = fields.Monetary(
+        string="IRPJ Ret Base",
+        compute="_compute_amount")
+
+    amount_irpj_ret_value = fields.Monetary(
+        string="IRPJ Ret Value",
+        compute="_compute_amount")
+
+    amount_inss_base = fields.Monetary(
+        string="INSS Base",
+        compute="_compute_amount")
+
+    amount_inss_value = fields.Monetary(
+        string="INSS Value",
+        compute="_compute_amount")
+
+    amount_inss_ret_base = fields.Monetary(
+        string="INSS Ret Base",
+        compute="_compute_amount")
+
+    amount_inss_ret_value = fields.Monetary(
+        string="INSS Ret Value",
         compute="_compute_amount")
 
     amount_tax = fields.Monetary(

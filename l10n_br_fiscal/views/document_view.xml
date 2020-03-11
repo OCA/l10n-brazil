@@ -193,13 +193,41 @@
                     <field name="amount_ipi_base"/>
                     <field name="amount_ipi_value"/>
                   </group>
+                  <group string="ISSQN">
+                    <field name="amount_issqn_base"/>
+                    <field name="amount_issqn_value"/>
+                    <field name="amount_issqn_ret_base"/>
+                    <field name="amount_issqn_ret_value"/>
+                  </group>
                   <group string="PIS">
                     <field name="amount_pis_base"/>
                     <field name="amount_pis_value"/>
+                    <field name="amount_pis_ret_base"/>
+                    <field name="amount_pis_ret_value"/>
                   </group>
                   <group string="COFINS">
                     <field name="amount_cofins_base"/>
                     <field name="amount_cofins_value"/>
+                    <field name="amount_cofins_ret_base"/>
+                    <field name="amount_cofins_ret_value"/>
+                  </group>
+                  <group string="CSLL">
+                    <field name="amount_csll_base"/>
+                    <field name="amount_csll_value"/>
+                    <field name="amount_csll_ret_base"/>
+                    <field name="amount_csll_ret_value"/>
+                  </group>
+                  <group string="IRPJ">
+                    <field name="amount_irpj_base"/>
+                    <field name="amount_irpj_value"/>
+                    <field name="amount_irpj_ret_base"/>
+                    <field name="amount_irpj_ret_value"/>
+                  </group>
+                  <group string="INSS">
+                    <field name="amount_inss_base"/>
+                    <field name="amount_inss_value"/>
+                    <field name="amount_inss_ret_base"/>
+                    <field name="amount_inss_ret_value"/>
                   </group>
                 </group>
                 <group>
