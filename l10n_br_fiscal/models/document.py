@@ -104,6 +104,16 @@ class Document(models.Model):
         copy=False,
         readonly=True)
 
+    close_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.sped_documento_exportar_xml",
+        string="Close ID",)
+
+    document_type = fields.Char(
+        related='document_type_id.code',
+        stored=True,
+    )
+
+
     # Você não vai poder fazer isso em modelos que já tem state
     # TODO Porque não usar o campo state do fiscal.document???
     state = fields.Selection(
