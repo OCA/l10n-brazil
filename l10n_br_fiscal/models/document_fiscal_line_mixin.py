@@ -6,25 +6,28 @@ from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
-    FISCAL_IN_OUT,
-    TAX_FRAMEWORK_SIMPLES_ALL,
     CFOP_DESTINATION,
     NCM_FOR_SERVICE_REF,
     PRODUCT_FISCAL_TYPE,
     PRODUCT_FISCAL_TYPE_SERVICE,
+    FISCAL_IN_OUT,
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
-    TAX_DOMAIN_ISSQN,
+    TAX_DOMAIN_COFINS,
+    TAX_DOMAIN_COFINS_ST,
+    TAX_DOMAIN_CSLL,
     TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_FCP,
     TAX_DOMAIN_ICMS_SN,
     TAX_DOMAIN_ICMS_ST,
-    TAX_DOMAIN_ICMS_FCP,
-    TAX_DOMAIN_IPI,
     TAX_DOMAIN_II,
+    TAX_DOMAIN_INSS,
+    TAX_DOMAIN_IPI,
+    TAX_DOMAIN_IRPJ,
+    TAX_DOMAIN_ISSQN,
     TAX_DOMAIN_PIS,
     TAX_DOMAIN_PIS_ST,
-    TAX_DOMAIN_COFINS,
-    TAX_DOMAIN_COFINS_ST
+    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
 from ..constants.icms import (
@@ -40,6 +43,9 @@ from .tax import TAX_DICT_VALUES
 
 
 FISCAL_TAX_ID_FIELDS = [
+    'csll_tax_id',
+    'irpj_tax_id',
+    'inss_tax_id',
     'issqn_tax_id',
     'icms_tax_id',
     'icmsst_tax_id',
@@ -658,6 +664,72 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     pisst_value = fields.Monetary(
         string="PIS ST Value")
 
+    # CSLL Fields
+
+    csll_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax CSLL",
+        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL)])
+
+    csll_base = fields.Monetary(
+        string="CSLL Base",
+        default=0.00)
+
+    csll_percent = fields.Float(
+        string="CSLL %",
+        default=0.00)
+
+    csll_reduction = fields.Float(
+        string="CSLL % Reduction",
+        default=0.00)
+
+    csll_value = fields.Monetary(
+        string="CSLL Value",
+        default=0.00)
+
+    irpj_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax IRPJ",
+        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ)])
+
+    irpj_base = fields.Monetary(
+        string="IRPJ Base",
+        default=0.00)
+
+    irpj_percent = fields.Float(
+        string="IRPJ %",
+        default=0.00)
+
+    irpj_reduction = fields.Float(
+        string="IRPJ % Reduction",
+        default=0.00)
+
+    irpj_value = fields.Monetary(
+        string="IRPJ Value",
+        default=0.00)
+
+    inss_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax INSS",
+        domain=[('tax_domain', '=', TAX_DOMAIN_INSS)])
+
+    inss_base = fields.Monetary(
+        string="INSS Base",
+        default=0.00)
+
+    inss_percent = fields.Float(
+        string="INSS %",
+        default=0.00)
+
+    inss_reduction = fields.Float(
+        string="INSS % Reduction",
+        default=0.00)
+
+    inss_value = fields.Monetary(
+        string="INSS Value",
+        default=0.00)
+
+
     @api.model
     def fields_view_get(
             self, view_id=None, view_type="form", toolbar=False, submenu=False):
@@ -730,6 +802,9 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                 l[fiscal_tax_field] = False
 
             self._set_fields_issqn(TAX_DICT_VALUES)
+            self._set_fields_csll(TAX_DICT_VALUES)
+            self._set_fields_irpj(TAX_DICT_VALUES)
+            self._set_fields_inss(TAX_DICT_VALUES)
             self._set_fields_icms(TAX_DICT_VALUES)
             self._set_fields_icmssn(TAX_DICT_VALUES)
             self._set_fields_ipi(TAX_DICT_VALUES)
@@ -794,6 +869,15 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                 if tax.tax_domain == TAX_DOMAIN_ISSQN:
                     l.issqn_tax_id = tax
                     self._set_fields_issqn(computed_tax)
+                if tax.tax_domain == TAX_DOMAIN_CSLL:
+                    l.csll_tax_id = tax
+                    self._set_fields_csll(computed_tax)
+                if tax.tax_domain == TAX_DOMAIN_IRPJ:
+                    l.irpj_tax_id = tax
+                    self._set_fields_irpj(computed_tax)
+                if tax.tax_domain == TAX_DOMAIN_INSS:
+                    l.inss_tax_id = tax
+                    self._set_fields_inss(computed_tax)
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
@@ -873,6 +957,51 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         "issqn_reduction",
         "issqn_value")
     def _onchange_issqn_fields(self):
+        pass
+
+    def _set_fields_csll(self, tax_dict):
+        if tax_dict:
+            self.csll_base = tax_dict.get("base")
+            self.csll_percent = tax_dict.get("percent_amount")
+            self.csll_reduction = tax_dict.get("percent_reduction")
+            self.csll_value = tax_dict.get("tax_value")
+
+    @api.onchange(
+        "csll_base",
+        "csll_percent",
+        "csll_reduction",
+        "csll_value")
+    def _onchange_csll_fields(self):
+        pass
+
+    def _set_fields_irpj(self, tax_dict):
+        if tax_dict:
+            self.irpj_base = tax_dict.get("base")
+            self.irpj_percent = tax_dict.get("percent_amount")
+            self.irpj_reduction = tax_dict.get("percent_reduction")
+            self.irpj_value = tax_dict.get("tax_value")
+
+    @api.onchange(
+        "irpj_base",
+        "irpj_percent",
+        "irpj_reduction",
+        "irpj_value")
+    def _onchange_irpj_fields(self):
+        pass
+
+    def _set_fields_inss(self, tax_dict):
+        if tax_dict:
+            self.inss_base = tax_dict.get("base")
+            self.inss_percent = tax_dict.get("percent_amount")
+            self.inss_reduction = tax_dict.get("percent_reduction")
+            self.inss_value = tax_dict.get("tax_value")
+
+    @api.onchange(
+        "inss_base",
+        "inss_percent",
+        "inss_reduction",
+        "inss_value")
+    def _onchange_inss_fields(self):
         pass
 
     def _set_fields_icms(self, tax_dict):
@@ -1057,6 +1186,9 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         pass
 
     @api.onchange(
+        "csll_tax_id",
+        "irpj_tax_id",
+        "inss_tax_id",
         "issqn_tax_id",
         "icms_tax_id",
         "icmssn_tax_id",
