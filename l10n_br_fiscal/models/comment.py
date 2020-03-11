@@ -114,7 +114,7 @@ class Comment(models.Model):
 
         return u'{pre}{0}{post}'.format(formatted_amount, pre=pre, post=post)
 
-    def action_compute_message(self):
+    def compute_message(self, vals):
         from jinja2.sandbox import SandboxedEnvironment
         mako_template_env = SandboxedEnvironment(
             block_start_string="<%",
@@ -155,17 +155,16 @@ class Comment(models.Model):
         mako_safe_env.autoescape = False
 
         result = ''
-        for item in self.document:
-            template = mako_safe_env.from_string(tools.ustr(self.comment))
-            variables = self._get_variables_msg()
-            render_result = template.render(variables)
+        for record in self:
+            template = mako_safe_env.from_string(tools.ustr(record.comment))
+            render_result = template.render(vals)
             result += render_result + '\n'
-        self.processed_comment = result
-        return
+        return result
 
-    def _get_variables_msg(self):
-        return {
+    def action_compute_message(self):
+        vals = {
             'user': self.env.user,
             'ctx': self._context,
             'doc': self.object_id
         }
+        self.processed_comment = self.compute_message(vals)
