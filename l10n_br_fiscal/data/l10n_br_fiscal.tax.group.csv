@@ -1,18 +1,24 @@
 "id","name","tax_domain","tax_include"
+"tax_group_cofins","COFINS","cofins",True
+"tax_group_cofinsret","COFINS RET","cofinsret",True
+"tax_group_cofinsst","COFINS ST","cofinsst",True
+"tax_group_csll","CSLL","csll",True
+"tax_group_csllret","CSLL RET","csllret",True
 "tax_group_icms","ICMS","icms",True
+"tax_group_icmsfcp","ICMS FCP","icmsfcp",True
 "tax_group_icmssn","ICMS - Simples Nacional","icmssn",True
 "tax_group_icmsst","ICMS ST","icmsst",False
-"tax_group_icmsfcp","ICMS FCP","icmsfcp",True
-"tax_group_pis","PIS","pis",True
-"tax_group_pisst","PIS ST","pisst",True
-"tax_group_cofins","COFINS","cofins",True
-"tax_group_cofinsst","COFINS ST","cofinsst",True
-"tax_group_irpj","IRPJ","irpj",True
-"tax_group_simples","Simples Nacional","simples",True
-"tax_group_ir","IR","ir",True
-"tax_group_issqn","ISSQN","issqn",True
-"tax_group_csll","CSLL","csll",True
-"tax_group_ipi","IPI","ipi",False
 "tax_group_ii","II","ii",True
 "tax_group_inss","INSS","inss",True
+"tax_group_inssret","INSS RET","inssret",True
+"tax_group_ipi","IPI","ipi",False
+"tax_group_ir","IR","ir",True
+"tax_group_irpj","IRPJ","irpj",True
+"tax_group_irpjret","IRPJ RET","irpjret",True
+"tax_group_issqn","ISSQN","issqn",True
+"tax_group_issqnret","ISSQN RET","issqnret",Tr ue
 "tax_group_others","Outros","others",True
+"tax_group_pis","PIS","pis",True
+"tax_group_pisret","PIS RET","pisret",True
+"tax_group_pisst","PIS ST","pisst",True
+"tax_group_simples","Simples Nacional","simples",True
