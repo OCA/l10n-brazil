@@ -343,6 +343,15 @@ class Tax(models.Model):
     def _compute_issqn(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
+    def _compute_csll(self, tax, taxes_dict, **kwargs):
+        return self._compute_generic(tax, taxes_dict, **kwargs)
+
+    def _compute_irpj(self, tax, taxes_dict, **kwargs):
+        return self._compute_generic(tax, taxes_dict, **kwargs)
+
+    def _compute_inss(self, tax, taxes_dict, **kwargs):
+        return self._compute_generic(tax, taxes_dict, **kwargs)
+
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
