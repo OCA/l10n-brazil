@@ -51,7 +51,6 @@
                         <group>
                             <field name="date_begin"/>
                             <field name="date_end"/>
-                            <field name="document"/>
                         </group>
                     </group>
                     <group string="Test Message">
