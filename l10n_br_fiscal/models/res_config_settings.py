@@ -29,7 +29,7 @@ class ResConfigSettings(models.TransientModel):
         required=True,
         default=30)
 
-    default_document_type_id = fields.Many2one(
+    document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
-        related="company_id.default_document_type_id",
+        related="company_id.document_type_id",
         string="Default Document Type")
