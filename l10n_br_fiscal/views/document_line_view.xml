@@ -72,6 +72,19 @@
                       <field name="issqn_value" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
                     </group>
                 </group>
+                  <group string="Retenções">
+                      <field name="issqnret_tax_id"/>
+                  </group>
+                  <group>
+                      <group>
+                          <field name="issqnret_base" force_save="1" attrs="{'readonly': [('issqnret_tax_id', '!=', False)]}"/>
+                          <field name="issqnret_percent" force_save="1" attrs="{'readonly': [('issqnret_tax_id', '!=', False)]}"/>
+                      </group>
+                      <group>
+                          <field name="issqnret_reduction" force_save="1" attrs="{'readonly': [('issqnret_tax_id', '!=', False)]}"/>
+                          <field name="issqnret_value" force_save="1" attrs="{'readonly': [('issqnret_tax_id', '!=', False)]}"/>
+                      </group>
+                  </group>
               </page>
               <page name="icms" string="ICMS" attrs="{'invisible': [('fiscal_genre_code', '=', '00')]}">
                   <group name="icms" string="ICMS">
@@ -192,6 +205,19 @@
                       <field name="pisst_value" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
                     </group>
                   </group>
+                  <group string="Retenções">
+                      <field name="pisret_tax_id"/>
+                  </group>
+                  <group>
+                      <group>
+                          <field name="pisret_base" force_save="1" attrs="{'readonly': [('pisret_tax_id', '!=', False)]}"/>
+                          <field name="pisret_percent" force_save="1" attrs="{'readonly': [('pisret_tax_id', '!=', False)]}"/>
+                      </group>
+                      <group>
+                          <field name="pisret_reduction" force_save="1" attrs="{'readonly': [('pisret_tax_id', '!=', False)]}"/>
+                          <field name="pisret_value" force_save="1" attrs="{'readonly': [('pisret_tax_id', '!=', False)]}"/>
+                      </group>
+                  </group>
               </page>
               <page name="cofins" string="COFINS">
                 <group name="cofins" string="COFINS">
@@ -228,6 +254,19 @@
                     <field name="cofinsst_value" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
                   </group>
                 </group>
+                  <group string="Retenções">
+                      <field name="cofinsret_tax_id"/>
+                  </group>
+                  <group>
+                      <group>
+                          <field name="cofinsret_base" force_save="1" attrs="{'readonly': [('cofinsret_tax_id', '!=', False)]}"/>
+                          <field name="cofinsret_percent" force_save="1" attrs="{'readonly': [('cofinsret_tax_id', '!=', False)]}"/>
+                      </group>
+                      <group>
+                          <field name="cofinsret_reduction" force_save="1" attrs="{'readonly': [('cofinsret_tax_id', '!=', False)]}"/>
+                          <field name="cofinsret_value" force_save="1" attrs="{'readonly': [('cofinsret_tax_id', '!=', False)]}"/>
+                      </group>
+                  </group>
               </page>
                 <page name="csll" string="CSLL">
                     <group>
@@ -241,6 +280,19 @@
                         <group>
                             <field name="csll_reduction" force_save="1" attrs="{'readonly': [('csll_tax_id', '!=', False)]}"/>
                             <field name="csll_value" force_save="1" attrs="{'readonly': [('csll_tax_id', '!=', False)]}"/>
+                        </group>
+                    </group>
+                    <group string="Retenções">
+                        <field name="csllret_tax_id"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="csllret_base" force_save="1" attrs="{'readonly': [('csllret_tax_id', '!=', False)]}"/>
+                            <field name="csllret_percent" force_save="1" attrs="{'readonly': [('csllret_tax_id', '!=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="csllret_reduction" force_save="1" attrs="{'readonly': [('csllret_tax_id', '!=', False)]}"/>
+                            <field name="csllret_value" force_save="1" attrs="{'readonly': [('csllret_tax_id', '!=', False)]}"/>
                         </group>
                     </group>
                 </page>
@@ -258,6 +310,19 @@
                             <field name="irpj_value" force_save="1" attrs="{'readonly': [('irpj_tax_id', '!=', False)]}"/>
                         </group>
                     </group>
+                    <group string="Retenções">
+                        <field name="irpjret_tax_id"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="irpjret_base" force_save="1" attrs="{'readonly': [('irpjret_tax_id', '!=', False)]}"/>
+                            <field name="irpjret_percent" force_save="1" attrs="{'readonly': [('irpjret_tax_id', '!=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="irpjret_reduction" force_save="1" attrs="{'readonly': [('irpjret_tax_id', '!=', False)]}"/>
+                            <field name="irpjret_value" force_save="1" attrs="{'readonly': [('irpjret_tax_id', '!=', False)]}"/>
+                        </group>
+                    </group>
                 </page>
                 <page name="inss" string="INSS">
                     <group>
@@ -271,6 +336,19 @@
                         <group>
                             <field name="inss_reduction" force_save="1" attrs="{'readonly': [('inss_tax_id', '!=', False)]}"/>
                             <field name="inss_value" force_save="1" attrs="{'readonly': [('inss_tax_id', '!=', False)]}"/>
+                        </group>
+                    </group>
+                    <group string="Retenções">
+                        <field name="inssret_tax_id"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="inssret_base" force_save="1" attrs="{'readonly': [('inssret_tax_id', '!=', False)]}"/>
+                            <field name="inssret_percent" force_save="1" attrs="{'readonly': [('inssret_tax_id', '!=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="inssret_reduction" force_save="1" attrs="{'readonly': [('inssret_tax_id', '!=', False)]}"/>
+                            <field name="inssret_value" force_save="1" attrs="{'readonly': [('inssret_tax_id', '!=', False)]}"/>
                         </group>
                     </group>
                 </page>
