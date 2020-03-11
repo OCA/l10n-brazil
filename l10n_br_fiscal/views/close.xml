@@ -4,17 +4,17 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-    <record id="sped_documento_exportar_form" model="ir.ui.view">
-        <field name="name">sped.documento.exportar.xml.form</field>
-        <field name="model">sped.documento.exportar.xml</field>
+    <record id="close" model="ir.ui.view">
+        <field name="name">close.form</field>
+        <field name="model">close</field>
         <field name="arch" type="xml">
             <form string="Processamento Periodico">
                 <field invisible="1" name="state"/>
                 <group states="init">
                     <group>
                         <field name="export_type"/>
-                        <field name="date_start" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
-                        <field name="date_stop" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
+                        <field name="year" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
+                        <field name="month" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
                     </group>
                     <group>
                         <field name="raiz" invisible="True"/>
@@ -22,10 +22,31 @@
                     </group>
                 </group>
                 <group states="done">
-                    <h1>Arquivos XMLs exportados!</h1>
+                    <h1>XMLs files exported!</h1>
                     <group>
                         <field name="zip_file" colspan="4" filename="name"/>
-                    </group>
+                    </group >
+                    <notebook colspan="4">
+                        <page string="NFe">
+                            <field name="document_nfe_id" readonly="1"/>
+                        </page>
+                        <page string="NFCe">
+                            <field name="document_nfce_id" readonly="1"/>
+                        </page>
+                        <page string="CFe">
+                            <field name="document_cfe_id" readonly="1"/>
+                        </page>
+                        <page string="CFe ECF">
+                            <field name="document_cfeecf_id" readonly="1"/>
+                        </page>
+                        <page string="NFSe">
+                            <field name="document_nfse_id" readonly="1"/>
+                        </page>
+                        <page string="RL">
+                            <field name="document_rl_id" readonly="1"/>
+                        </page>
+
+                    </notebook>
                 </group>
                 <footer states="init">
                     <button string="Exportar" name="export" type="object" class="oe_highlight"/> ou
@@ -37,18 +58,31 @@
             </form>
         </field>
     </record>
-    <record id="action_sped_documento_exportar" model="ir.actions.act_window">
-        <field name="name">Exportar Notas Fiscais do periodo</field>
-        <field name="res_model">sped.documento.exportar.xml</field>
-        <field name="view_mode">form</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="sped_documento_exportar_form"/>
-        <field name="target">new</field>
-    </record>
-    <menuitem id="menu_processamento_periodico" name="Exportar XMLs" parent="l10n_br_fiscal.product_service_menu"
-              action="action_sped_documento_exportar" groups="l10n_br_fiscal.group_manager" sequence="99"/>
 
-<!--    <record id="xml_exportacao_periodica" model="ir.cron">-->
+    <record id="close_tree" model="ir.ui.view">
+        <field name="name">close.form</field>
+        <field name="model">close</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="export_type"/>
+                <field name="year"/>
+                <field name="month"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_close" model="ir.actions.act_window">
+        <field name="name">Exportar Notas Fiscais do periodo</field>
+        <field name="res_model">close</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="close_tree"/>
+        <field name="target">current</field>
+    </record>
+
+
+
+<!--    <record id="close_periodica" model="ir.cron">-->
 <!--        <field name="name">Exportação periódica de XMLs</field>-->
 <!--        <field name="active" eval="True"/>-->
 <!--        <field name="user_id" ref="base.user_root"/>-->
@@ -56,7 +90,7 @@
 <!--        <field name="interval_type">days</field>-->
 <!--        <field name="numbercall">-1</field>-->
 <!--        <field name="doall" eval="True"/>-->
-<!--        <field name="model">sped.documento.exportar.xml</field>-->
+<!--        <field name="model">close</field>-->
 <!--        <field name="function" eval="'periodic_export'"/>-->
 <!--        <field name="args" eval="'()'"/>-->
 <!--    </record>-->
