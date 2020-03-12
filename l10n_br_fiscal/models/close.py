@@ -11,6 +11,7 @@ import logging
 from datetime import datetime
 import calendar
 
+
 from odoo import api, models, fields, _
 from odoo.exceptions import RedirectWarning
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -192,6 +193,8 @@ class FiscalClose(models.Model):
     file_simples = fields.Binary(string='Simples')
     file_honorarios = fields.Binary(string='Accountant Fee')
 
+    block = fields.Boolean(string='Block period', help="Avoid new fiscal moves")
+
     notes = fields.Text(string="Accountant notes")
 
     def monta_caminho(self, document):
@@ -264,18 +267,6 @@ class FiscalClose(models.Model):
                                 % document.id))
         return files
 
-    def periodic_export(self):
-        export = self.new()
-        export.criar_arquivo_zip = False
-        export.export_type = 'all'
-        export.raiz = self.env['ir.values'].get_default(
-            'base.config.settings', 'pasta_contabilidade')
-        arquivos = export._prepara_arquivos(periodic_export=True)
-        for nome in arquivos.keys():
-            f = open(export.raiz + '/' + nome, 'w')
-            f.write(arquivos[nome])
-            f.close()
-
     def action_export(self):
         files = self._prepara_arquivos()
         order_file = io.BytesIO()
@@ -294,4 +285,6 @@ class FiscalClose(models.Model):
         })
 
     def action_close(self):
-        return True
+        """ Sobrescrever este método para, notificar seguidores,
+        processar documentos anexos, criar contas a pagar"""
+        self.state = 'closed'
