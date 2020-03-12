@@ -10,8 +10,6 @@
         <field name="arch" type="xml">
             <form string="Inutilização de documento fiscal">
                 <group>
-                    <field name="initial_number"/>
-                    <field name="final_number"/>
                     <field name="justificative"/>
                 </group>
                 <footer>
