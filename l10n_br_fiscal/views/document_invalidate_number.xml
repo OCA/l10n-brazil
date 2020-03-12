@@ -33,10 +33,12 @@
       <form string="Fiscal Document">
           <header>
               <field name="state" widget="statusbar"/>
+              <button name="action_invalidate" type="object" string="Confirmar" states="draft" class="oe_highlight"/>
           </header>
           <group>
               <field name="company_id"/>
               <field name="document_id"/>
+              <field name="document_serie_id"/>
           </group>
           <group>
               <field name="number_start"/>
