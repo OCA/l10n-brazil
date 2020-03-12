@@ -322,7 +322,7 @@ class DocumentAbstract(models.AbstractModel):
                             ('active', '=', True)], limit=1, order="code")
 
         if not self.operation_id:
-            self.document_type_id = self.company_id.default_document_type_id
+            self.document_type_id = self.company_id.document_type_id
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
