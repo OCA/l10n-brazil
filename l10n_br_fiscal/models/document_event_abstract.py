@@ -30,7 +30,7 @@ class EventAbstract(models.AbstractModel):
     )
 
     justificative = fields.Char(
-        string="Justificativa", size=255, readonly=True, required=True
+        string="Justificativa", size=255, required=True
     )
 
     display_name = fields.Char(string=u"Nome", compute="_compute_display_name")
