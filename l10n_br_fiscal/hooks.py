@@ -6,6 +6,7 @@ from odoo import tools
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
+    from odoo.tools import convert_file
 
     files = [
         "data/l10n_br_fiscal.cnae.csv",
