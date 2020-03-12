@@ -381,7 +381,7 @@
           <page name="extra_info" string="Extra Info">
             <group>
                 <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document.line')]"/>
-                <field name="processed_comments"/>
+                <field name="additional_data"/>
             </group>
           </page>
         </notebook>
