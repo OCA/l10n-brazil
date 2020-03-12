@@ -50,6 +50,12 @@
                       <page name="tax_definitions" string="Tax Definitions">
                           <field name="tax_definition_ids" nolabel="1" context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_operation_line_id': id}"/>
                       </page>
+                      <page name="extra_info" string="Extra Info">
+                        <group>
+                            <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document.line')]"/>
+                            <field name="additional_data"/>
+                        </group>
+                      </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
