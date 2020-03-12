@@ -40,6 +40,11 @@ class PartnerProfile(models.Model):
         string="Partner Quantity", compute="_compute_partner_info"
     )
 
+    tax_definition_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="fiscal_profile_id",
+        string="Tax Definition")
+
     _sql_constraints = [
         (
             "fiscal_partner_profile_code_uniq",
