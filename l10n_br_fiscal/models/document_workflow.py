@@ -275,6 +275,13 @@ class DocumentWorkflow(models.AbstractModel):
         )
         return result
 
+    @api.multi
+    def action_document_invalidate(self):
+        result = self.env["ir.actions.act_window"].for_xml_id(
+            "l10n_br_fiscal", "wizard_document_invalidate_action"
+        )
+        return result
+
     def _document_correction(self, justificative):
         self.correction_reason = justificative
         msg = "Carta de correção: {}".format(justificative)
