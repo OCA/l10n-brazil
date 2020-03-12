@@ -85,19 +85,19 @@ TAX_DOMAIN_PCC = (
     TAX_DOMAIN_CSLL
 )
 
-TAX_DOMAIN_ISSQN_RET = "issqn_wh"
-TAX_DOMAIN_PIS_RET = "pis_wh"
-TAX_DOMAIN_COFINS_RET = "cofins_wh"
-TAX_DOMAIN_CSLL_RET = "csll_wh"
-TAX_DOMAIN_IRPJ_RET = "irpj_wh"
-TAX_DOMAIN_inss_wh = "inss_wh"
+TAX_DOMAIN_ISSQN_WH = "issqn_wh"
+TAX_DOMAIN_PIS_WH = "pis_wh"
+TAX_DOMAIN_COFINS_WH = "cofins_wh"
+TAX_DOMAIN_CSLL_WH = "csll_wh"
+TAX_DOMAIN_IRPJ_WH = "irpj_wh"
+TAX_DOMAIN_INSS_WH = "inss_wh"
 
 TAX_DOMAIN_IR = 'ir'
 
 TAX_DOMAIN_PCC_RET = (
-    TAX_DOMAIN_PIS_RET,
-    TAX_DOMAIN_COFINS_RET,
-    TAX_DOMAIN_CSLL_RET
+    TAX_DOMAIN_PIS_WH,
+    TAX_DOMAIN_COFINS_WH,
+    TAX_DOMAIN_CSLL_WH
 )
 
 TAX_DOMAIN = (
@@ -118,12 +118,12 @@ TAX_DOMAIN = (
     (TAX_DOMAIN_INSS, "INSS"),
     ("simples", "Simples Nacional"),
     ("others", "Outros"),
-    (TAX_DOMAIN_ISSQN_RET, "issqn_wh"),
-    (TAX_DOMAIN_PIS_RET, "pis_wh"),
-    (TAX_DOMAIN_COFINS_RET, "cofins_wh"),
-    (TAX_DOMAIN_CSLL_RET, "csll_wh"),
-    (TAX_DOMAIN_IRPJ_RET, "irpj_wh"),
-    (TAX_DOMAIN_inss_wh, "inss_wh"),
+    (TAX_DOMAIN_ISSQN_WH, "issqn_wh"),
+    (TAX_DOMAIN_PIS_WH, "pis_wh"),
+    (TAX_DOMAIN_COFINS_WH, "cofins_wh"),
+    (TAX_DOMAIN_CSLL_WH, "csll_wh"),
+    (TAX_DOMAIN_IRPJ_WH, "irpj_wh"),
+    (TAX_DOMAIN_INSS_WH, "inss_wh"),
 )
 
 TAX_FRAMEWORK = (

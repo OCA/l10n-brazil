@@ -14,24 +14,24 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_DOMAIN_COFINS,
-    TAX_DOMAIN_COFINS_RET,
+    TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_COFINS_ST,
     TAX_DOMAIN_CSLL,
-    TAX_DOMAIN_CSLL_RET,
+    TAX_DOMAIN_CSLL_WH,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ICMS_FCP,
     TAX_DOMAIN_ICMS_SN,
     TAX_DOMAIN_ICMS_ST,
     TAX_DOMAIN_II,
     TAX_DOMAIN_INSS,
-    TAX_DOMAIN_inss_wh,
+    TAX_DOMAIN_INSS_WH,
     TAX_DOMAIN_IPI,
     TAX_DOMAIN_IRPJ,
-    TAX_DOMAIN_IRPJ_RET,
+    TAX_DOMAIN_IRPJ_WH,
     TAX_DOMAIN_ISSQN,
-    TAX_DOMAIN_ISSQN_RET,
+    TAX_DOMAIN_ISSQN_WH,
     TAX_DOMAIN_PIS,
-    TAX_DOMAIN_PIS_RET,
+    TAX_DOMAIN_PIS_WH,
     TAX_DOMAIN_PIS_ST,
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
@@ -270,7 +270,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     issqn_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ISSQN RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN_RET)])
+        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN_WH)])
 
     issqn_wh_base = fields.Monetary(
         string="ISSQN RET Base",
@@ -620,7 +620,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     cofins_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax COFINS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_RET)])
+        domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_WH)])
 
     cofins_wh_base = fields.Monetary(
         string="COFINS RET Base",
@@ -721,7 +721,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     pis_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax PIS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_PIS_RET)])
+        domain=[('tax_domain', '=', TAX_DOMAIN_PIS_WH)])
 
     pis_wh_base = fields.Monetary(
         string="PIS RET Base",
@@ -765,7 +765,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     csll_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax CSLL RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL_RET)])
+        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL_WH)])
 
     csll_wh_base = fields.Monetary(
         string="CSLL RET Base",
@@ -807,7 +807,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     irpj_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IRPJ RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ_RET)])
+        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ_WH)])
 
     irpj_wh_base = fields.Monetary(
         string="IRPJ RET Base",
@@ -849,7 +849,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     inss_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax INSS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_inss_wh)])
+        domain=[('tax_domain', '=', TAX_DOMAIN_INSS_WH)])
 
     inss_wh_base = fields.Monetary(
         string="INSS RET Base",
@@ -1023,22 +1023,22 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                     l.inss_tax_id = tax
                     self._set_fields_inss(computed_tax)
 
-                if tax.tax_domain == TAX_DOMAIN_ISSQN_RET:
+                if tax.tax_domain == TAX_DOMAIN_ISSQN_WH:
                     l.issqn_wh_tax_id = tax
                     self._set_fields_issqn_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_PIS_RET:
+                if tax.tax_domain == TAX_DOMAIN_PIS_WH:
                     l.pis_wh_tax_id = tax
                     self._set_fields_pis_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_COFINS_RET:
+                if tax.tax_domain == TAX_DOMAIN_COFINS_WH:
                     l.cofins_wh_tax_id = tax
                     self._set_fields_cofins_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_CSLL_RET:
+                if tax.tax_domain == TAX_DOMAIN_CSLL_WH:
                     l.csll_wh_tax_id = tax
                     self._set_fields_csll_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_IRPJ_RET:
+                if tax.tax_domain == TAX_DOMAIN_IRPJ_WH:
                     l.irpj_wh_tax_id = tax
                     self._set_fields_irpj_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_inss_wh:
+                if tax.tax_domain == TAX_DOMAIN_INSS_WH:
                     l.inss_wh_tax_id = tax
                     self._set_fields_inss_wh(computed_tax)
 

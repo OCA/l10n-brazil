@@ -46,6 +46,8 @@
                             <group name="normal_taxes" string="Default Taxes">
                                   <group name="piscofins_taxes" string="PIS/COFINS">
                                       <field name="piscofins_id" required="1" domain="{'3': [('piscofins_type', '=', 'company'), ('id', '!=', %(l10n_br_fiscal.tax_pis_cofins_simples_nacional)d)]}.get(tax_framework, [('piscofins_type', '=', 'company'), ('id', '=', %(l10n_br_fiscal.tax_pis_cofins_simples_nacional)d)])"/>
+                                      <field name="tax_pis_wh_id"/>
+                                      <field name="tax_cofins_wh_id"/>
                                   </group>
                                   <group name="ipi_taxes" string="IPI">
                                       <field name="ripi" attrs="{'invisible': [('tax_framework', '!=', '3')]}"/>
@@ -60,6 +62,19 @@
                                   </group>
                                   <group name="issqn_taxes" string="ISSQN">
                                       <field name="tax_issqn_id"/>
+                                      <field name="tax_issqn_wh_id"/>
+                                  </group>
+                                  <group name="csll_taxes" string="CSLL">
+                                      <field name="tax_csll_id"/>
+                                      <field name="tax_csll_wh_id"/>
+                                  </group>
+                                  <group name="irpj_taxes" string="IRPJ">
+                                      <field name="tax_irpj_id"/>
+                                      <field name="tax_irpj_wh_id"/>
+                                  </group>
+                                  <group name="inss_taxes" string="INSS">
+                                      <field name="tax_inss_id"/>
+                                      <field name="tax_inss_wh_id"/>
                                   </group>
                             </group>
                             <group name="advanced_taxes" string="Advanced Taxes">
