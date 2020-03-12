@@ -24,12 +24,18 @@ class AccountTax(models.Model):
         quantity=1.0,
         product=None,
         partner=None,
-        cfop_id=False,
+        fiscal_taxes=None,
         operation_line=False,
-        insurance_value=0.0,
-        freight_value=0.0,
-        other_costs_value=0.0,
-        base_tax=0.0,
+        ncm=None,
+        cest=None,
+        discount_value=None,
+        insurance_value=None,
+        other_costs_value=None,
+        freight_value=None,
+        fiscal_price=None,
+        fiscal_quantity=None,
+        uot=None,
+        icmssn_range=None
     ):
         """ Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
@@ -53,51 +59,51 @@ class AccountTax(models.Model):
             }]
         } """
 
-        core_taxes = self.filtered(lambda t: not t.fiscal_tax_id)
+        taxes_results = super(AccountTax, self).compute_all(
+            price_unit, currency, quantity, product, partner)
 
-        tax_result = super(AccountTax, core_taxes).compute_all(
-            price_unit, currency, quantity, product, partner
-        )
-
-        l10n_br_taxes = self.filtered(
-            lambda t: t.fiscal_tax_id).mapped('fiscal_tax_id')
-
-        account_fiscal_taxes = {
-            t.fiscal_tax_id.id: t
-            for t in self.filtered(lambda t: t.fiscal_tax_id)}
-
-        l10n_br_result = l10n_br_taxes.compute_taxes(
-            company=self.env.user.company_id,
+        fiscal_taxes_results = fiscal_taxes.compute_taxes(
+            company=self.env.user.company_id, # FIXME Should get company from document?
             partner=partner,
-            item=product,
+            product=product,
             prince=price_unit,
             quantity=quantity,
             uom_id=product.uom_id,
-            fiscal_price=price_unit,  # FIXME convert if product has uot_id
-            fiscal_quantity=quantity,  # FIXME convert if product has uot_id
-            uot_id=product.uot_id,  # FIXME
-            ncm=product.ncm_id,
-            cest=product.cest_id,
-            operation_type="out",
-        )
+            fiscal_price=fiscal_price,
+            fiscal_quantity=fiscal_quantity,
+            uot_id=uot or product.uot_id,
+            ncm=ncm or product.ncm_id,
+            cest=cest or product.cest_id,
+            discount_value=discount_value,
+            insurance_value=insurance_value,
+            other_costs_value=other_costs_value,
+            freight_value=freight_value,
+            operation_line=operation_line,
+            icmssn_range=icmssn_range)
 
-        for l10n_br_tax in l10n_br_result.values():
-            account_tax = account_fiscal_taxes.get(
-                l10n_br_tax.get('fiscal_tax_id'))
+        account_taxes_by_domain = {}
+        for tax in self:
+            tax_domain = tax.tax_group_id.fiscal_tax_group_id.tax_domain
+            account_taxes_by_domain.update({tax.id: tax_domain})
 
-            if not l10n_br_tax.get('tax_include'):
-                tax_result['total_included'] += l10n_br_tax.get('tax_value')
+        for account_tax in taxes_results['taxes']:
+            fiscal_tax = fiscal_taxes_results.get(
+                account_taxes_by_domain.get(
+                    account_tax_result.get('id')))
 
-            tax_result['taxes'].append({
+            if not fiscal_tax_result.get('tax_include'):
+                taxes_results['total_included'] += fiscal_tax.get('tax_value')
+
+            account_tax.append({
                 'id': account_tax.id,
                 'name': account_tax.name,
-                'amount': l10n_br_tax.get('tax_value'),
-                'base': l10n_br_tax.get('base'),
+                'amount': fiscal_tax.get('tax_value'),
+                'base': fiscal_tax.get('base'),
                 'sequence': account_tax.sequence,
                 'account_id': account_tax.account_id.id,
                 'refund_account_id': account_tax.refund_account_id.id,
                 'analytic': account_tax.analytic,
-                'tax_include': l10n_br_tax.get('tax_include')
+                'tax_include': fiscal_tax.get('tax_include')
             })
 
-        return tax_result
+        return taxes_results
