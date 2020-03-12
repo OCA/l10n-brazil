@@ -26,7 +26,7 @@ class Comment(models.Model):
         string="Comment",
         required=True)
 
-    processed_comment = fields.Text(string="Processed Comment")
+    test_comment = fields.Text(string="Test Comment")
 
     comment_type = fields.Selection(
         selection=COMMENT_TYPE,
@@ -89,7 +89,7 @@ class Comment(models.Model):
     # We'll call this function when setting the variables env below
     def format_amount(self, env, amount, currency):
         fmt = "%.{0}f".format(currency.decimal_places)
-        lang = env['res.lang']._lang_get(env.context.get('lang') or 'en_US')
+        lang = env['res.lang']._lang_get('pt_BR')
 
         formatted_amount = lang.format(
             fmt, currency.round(amount), grouping=True, monetary=True).replace(
@@ -138,9 +138,9 @@ class Comment(models.Model):
                 *a, **kw),
             # adding format amount
             # now we can format values like currency on fiscal observation
-            'format_amount': lambda amount,
-                                    context=self._context: self.format_amount(
-                self.env, amount, self.env.ref('base.BRL')),
+            'format_amount':
+                lambda amount, context=self._context: self.format_amount(
+                    self.env, amount, self.env.ref('base.BRL')),
         })
         mako_safe_env = copy.copy(mako_template_env)
         mako_safe_env.autoescape = False
@@ -152,10 +152,10 @@ class Comment(models.Model):
             result += render_result + '\n'
         return result
 
-    def action_compute_message(self):
+    def action_test_message(self):
         vals = {
             'user': self.env.user,
             'ctx': self._context,
             'doc': self.object_id
         }
-        self.processed_comment = self.compute_message(vals)
+        self.test_comment = self.compute_message(vals)
