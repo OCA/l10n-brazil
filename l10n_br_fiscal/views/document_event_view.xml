@@ -181,7 +181,7 @@
         <field name="view_type">form</field>
     </record>
 
-    <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="fiscal_menu" sequence="0"/>
+    <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="fiscal_menu" sequence="12"/>
 
     <menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_document_event"/>
 
