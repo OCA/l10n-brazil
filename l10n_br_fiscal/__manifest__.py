@@ -40,6 +40,7 @@
         # Wizards
         "wizards/wizard_document_cancel_view.xml",
         "wizards/wizard_document_correction_view.xml",
+        "wizards/wizard_document_invalidate_view.xml",
         "wizards/wizard_document_status_view.xml",
 
         # Views
