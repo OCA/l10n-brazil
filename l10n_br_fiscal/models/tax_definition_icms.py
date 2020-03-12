@@ -33,7 +33,7 @@ class TaxDefinitionICMS(models.Model):
                     ('state_from_id', '=', record.state_from_id.id),
                     ('tax_group_id', '=', record.tax_group_id.id)]
 
-                if record.env["l10n_br_fiscal.tax.definition"].search(domain):
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(_(
                         "Tax Definition already exists "
                         "for this ICMS and Tax Group !"))
