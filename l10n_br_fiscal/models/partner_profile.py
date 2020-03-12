@@ -87,3 +87,10 @@ class PartnerProfile(models.Model):
     def _onchange_is_company(self):
         if not self.is_company:
             self.tax_framework = False
+
+    @api.multi
+    def action_view_partners(self):
+        self.ensure_one()
+        action = self.env.ref('base.action_partner_other_form').read()[0]
+        action['domain'] = [('fiscal_profile_id', '=', self.id)]
+        return action
