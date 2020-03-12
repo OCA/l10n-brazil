@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
+    <record id="dummy_file_1" model="ir.attachment">
+        <field name="datas">PGR1bW15PgogICAgPGJvZHk+RHVtbXkgWE1MPC9ib2R5Pgo8L2R1bW15Pg===</field>
+        <field name="datas_fname">dummy.xml</field>
+        <field name="name">dummy.xml</field>
+    </record>
+
     <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
     <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -16,7 +22,9 @@
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
         <field name="operation_type">out</field>
+<!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
     </record>
+
 
     <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_same_state"/>

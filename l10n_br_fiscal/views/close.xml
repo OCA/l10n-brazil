@@ -41,6 +41,7 @@
                                     <field name="file_icms"/>
                                     <field name="file_icms_st"/>
                                     <field name="file_ipi"/>
+                                    <field name="block"/>
                                 </group>
                                 <group name="close_right">
                                     <field name="file_honorarios"/>
