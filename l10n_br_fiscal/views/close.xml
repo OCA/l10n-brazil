@@ -4,82 +4,106 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-    <record id="close" model="ir.ui.view">
-        <field name="name">close.form</field>
-        <field name="model">close</field>
+    <record id="l10n_br_fiscal_close_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.close.form</field>
+        <field name="model">l10n_br_fiscal.close</field>
         <field name="arch" type="xml">
             <form string="Processamento Periodico">
-                <field invisible="1" name="state"/>
-                <group states="init">
-                    <group>
+                <header>
+                    <button string="Export" name="action_export" type="object" class="oe_highlight" states="draft"/>
+                    <button string="Close" name="action_close" type="object" class="oe_highlight" states="open"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                <group>
+                    <group string="Period">
                         <field name="export_type"/>
-                        <field name="year" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
                         <field name="month" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
+                        <field name="year" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
+                        <field name="group_folder"/>
                     </group>
-                    <group>
-                        <field name="raiz" invisible="True"/>
-                        <field name="pasta_individual" colspan="4" filename="name"/>
+                    <group states="open">
+                        <field name="file_name" invisible="1"/>
+                        <h3>
+                            Fazer o download: <field name="zip_file" filename="file_name" nolabel="1"/>
+                            <p/>
+                            <p/>
+                            Enviar por email: <button type="action" name="%(mail.action_email_compose_message_wizard)d" icon="fa-paper-plane fa-lg" class="btn-link"/>
+                        </h3>
                     </group>
                 </group>
-                <group states="done">
-                    <h1>XMLs files exported!</h1>
-                    <group>
-                        <field name="zip_file" colspan="4" filename="name"/>
-                    </group >
+                <group states="open">
                     <notebook colspan="4">
+                        <page string="Fechamento">
+                            <group>
+                                <group name="close_left">
+                                    <field name="file_simples"/>
+                                    <field name="file_icms"/>
+                                    <field name="file_icms_st"/>
+                                    <field name="file_ipi"/>
+                                </group>
+                                <group name="close_right">
+                                    <field name="file_honorarios"/>
+                                    <field name="file_iss"/>
+                                    <field name="file_pis"/>
+                                    <field name="file_cofins"/>
+                                    <field name="file_csll"/>
+                                    <field name="file_irpj"/>
+                                </group>
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                                <field name="notes"/>
+                            </group>
+                        </page>
                         <page string="NFe">
-                            <field name="document_nfe_id" readonly="1"/>
+                            <field name="document_nfe_ids" readonly="1"/>
                         </page>
                         <page string="NFCe">
-                            <field name="document_nfce_id" readonly="1"/>
+                            <field name="document_nfce_ids" readonly="1"/>
                         </page>
                         <page string="CFe">
-                            <field name="document_cfe_id" readonly="1"/>
+                            <field name="document_cfe_ids" readonly="1"/>
                         </page>
                         <page string="CFe ECF">
-                            <field name="document_cfeecf_id" readonly="1"/>
+                            <field name="document_cfeecf_ids" readonly="1"/>
                         </page>
                         <page string="NFSe">
-                            <field name="document_nfse_id" readonly="1"/>
+                            <field name="document_nfse_ids" readonly="1"/>
                         </page>
                         <page string="RL">
-                            <field name="document_rl_id" readonly="1"/>
+                            <field name="document_rl_ids" readonly="1"/>
                         </page>
-
                     </notebook>
                 </group>
-                <footer states="init">
-                    <button string="Exportar" name="export" type="object" class="oe_highlight"/> ou
-                    <button string="Cancel" special="cancel" type="object" class="oe_link"/>
-                </footer>
-                <footer states="done">
-                    <button string="Done" name="done" type="object"/>
-                </footer>
+
+            </sheet>
+            <div class="o_attachment_preview"/>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
             </form>
         </field>
     </record>
 
-    <record id="close_tree" model="ir.ui.view">
-        <field name="name">close.form</field>
-        <field name="model">close</field>
+    <record id="l10n_br_fiscal_close_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.close.tree</field>
+        <field name="model">l10n_br_fiscal.close</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="export_type"/>
-                <field name="year"/>
                 <field name="month"/>
+                <field name="year"/>
+                <field name="export_type"/>
             </tree>
         </field>
     </record>
 
-    <record id="action_close" model="ir.actions.act_window">
-        <field name="name">Exportar Notas Fiscais do periodo</field>
-        <field name="res_model">close</field>
+    <record id="l10n_br_fiscal_close_action" model="ir.actions.act_window">
+        <field name="name">Fechamento Fiscal</field>
+        <field name="res_model">l10n_br_fiscal.close</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="view_id" ref="close_tree"/>
-        <field name="target">current</field>
     </record>
-
 
 
 <!--    <record id="close_periodica" model="ir.cron">-->

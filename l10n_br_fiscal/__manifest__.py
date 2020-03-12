@@ -9,7 +9,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.0",
-    "depends": ["uom", "decimal_precision", "product", "l10n_br_base"],
+    "depends": ["uom", "decimal_precision", "product", "l10n_br_base", "l10n_br_portal"],
     "data": [
         # security
         "security/fiscal_security.xml",
