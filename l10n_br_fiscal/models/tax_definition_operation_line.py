@@ -22,7 +22,7 @@ class TaxDefinitionOperationLine(models.Model):
                     ('operation_line_id', '=', record.operation_line_id.id),
                     ('tax_group_id', '=', record.tax_group_id.id)]
 
-                if record.env["l10n_br_fiscal.tax.definition"].search(domain):
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(_(
                         "Tax Definition already exists "
                         "for this Operation Line and Tax Group !"))
