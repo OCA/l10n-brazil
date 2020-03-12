@@ -89,5 +89,5 @@
 "l10n_br_fiscal_document_cancel_user","Fiscal Document Cancel for User","model_l10n_br_fiscal_document_cancel","l10n_br_fiscal.group_user",1,1,1,0
 "l10n_br_fiscal_document_correction_user","Fiscal Document Correction for User","model_l10n_br_fiscal_document_correction","l10n_br_fiscal.group_user",1,1,1,0
 "l10n_br_fiscal_document_invalidate_number_user","Fiscal Document Invalidate_Number for User","model_l10n_br_fiscal_document_invalidate_number","l10n_br_fiscal.group_user",1,1,1,0
-"l10n_br_fiscal_close_user","Fiscal Document Event for User","model_close","l10n_br_fiscal.group_user",1,1,1,0
-"l10n_br_fiscal_close_manager","Fiscal Document Event for User","model_close","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_close_user","Fiscal Document Event for User","model_l10n_br_fiscal_close","l10n_br_fiscal.group_user",1,1,1,0
+"l10n_br_fiscal_close_manager","Fiscal Document Event for User","model_l10n_br_fiscal_close","l10n_br_fiscal.group_manager",1,1,1,1

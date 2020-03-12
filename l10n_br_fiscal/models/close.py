@@ -11,8 +11,7 @@ import logging
 from datetime import datetime
 import calendar
 
-from odoo import models, fields, _
-from pybrasil.inscricao import limpa_formatacao
+from odoo import api, models, fields, _
 from odoo.exceptions import RedirectWarning
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
@@ -38,6 +37,11 @@ from odoo.addons.l10n_br_nfe.constants.nfe import (
 )
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base import misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 PATH_MODELO = {
     MODELO_FISCAL_NFE: 'nfe',
@@ -69,29 +73,52 @@ XMLS_IMPORTANTES = [
 ]
 
 
-class Close(models.Model):
-    _name = 'close'
-    _description = 'Export NFes'
+class FiscalClose(models.Model):
+    _name = 'l10n_br_fiscal.close'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
+    _description = 'Fechamento Fiscal'
+
+    @api.depends('month', 'year', 'export_type')
+    def _compute_name(self):
+        for record in self:
+            if record.export_type == 'period':
+                record.name = "{}/{}".format(record.month, record.year)
+                record.file_name = "{}-{}".format(record.month, record.year) + '.zip'
+            else:
+                now = fields.Datetime.tostring(fields.Datetime.now())
+                record.name = now
+                record.file_name = now + '.zip'
+
+    state = fields.Selection(
+        selection=[
+            ('draft', 'Draft'),
+            ('open', 'Open'),
+            ('closed', 'Closed'),
+        ],
+        string='state',
+        default='draft',
+        readonly=True
+    )
 
     name = fields.Char(
         string='Nome',
-        size=255
+        compute='_compute_name',
+        store=True,
+        size=7,
+        index=True,
     )
-    year = fields.Char(
-        string='Year',
+
+    file_name = fields.Char(
+        string='Nome',
+        compute='_compute_name',
+        store=True,
+        size=11,
+        index=True,
     )
-    month = fields.Char(
-        string='Month',
-    )
+    year = fields.Char(string='Year', size=4, index=True)
+    month = fields.Char(string='Month', size=2,index=True)
     zip_file = fields.Binary(
         string='Zip Files',
-        readonly=True
-    )
-    state = fields.Selection(
-        selection=[('init', 'init'),
-                   ('done', 'done')],
-        string='state',
-        default='init',
         readonly=True
     )
     export_type = fields.Selection(
@@ -101,69 +128,82 @@ class Close(models.Model):
         default='period',
         required=True
     )
-    pasta_individual = fields.Boolean(
-        string='Individual document folder',
-        default=False
+    group_folder = fields.Boolean(
+        string='Group documents',
     )
     raiz = fields.Char(
         string='Folder structure path',
         default=''
     )
 
-    document_nfe_id = fields.One2many(
+    document_nfe_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string=" NFe Documents",
         inverse_name="close_id",
         domain=[('document_type', '=', '55')]
     )
 
-    document_nfce_id = fields.One2many(
+    document_nfce_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="NFCe Documents",
         inverse_name="close_id",
         domain=[('document_type', '=', '65')]
     )
 
-    document_cfe_id = fields.One2many(
+    document_cfe_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="CFe Documents",
         inverse_name="close_id",
         domain=[('document_type', '=', '59')]
     )
 
-    document_cfeecf_id = fields.One2many(
+    document_cfeecf_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="CFe ECF Documents",
         inverse_name="close_id",
         domain=[('document_type', '=', '60')]
     )
 
-    document_nfse_id = fields.One2many(
+    document_nfse_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="NFce Documents",
         inverse_name="close_id",
         domain=[('document_type', '=', 'SE')]
     )
 
-    document_rl_id = fields.One2many(
+    document_rl_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="RL Documents",
         inverse_name="close_id",
         domain=[('document_type', '=', 'RL')]
     )
+    attachment_ids = fields.Many2many(
+        'ir.attachment', string="Other accountant files",
+    )
 
+    file_icms = fields.Binary(string='ICMS')
+    file_icms_st = fields.Binary(string='ICMS ST')
+    file_ipi = fields.Binary(string='IPI')
+    file_iss = fields.Binary(string='ISS')
+    file_pis = fields.Binary(string='PIS')
+    file_cofins = fields.Binary(string='COFINS')
+    file_csll = fields.Binary(string='CSLL')
+    file_irpj = fields.Binary(string='IRPJ')
+    file_simples = fields.Binary(string='Simples')
+    file_honorarios = fields.Binary(string='Accountant Fee')
 
+    notes = fields.Text(string="Accountant notes")
 
     def monta_caminho(self, document):
         document_path = '/'.join([
             # TODO: Colocar ambiente
             # PATH_AMBIENTE[documento.nfe_environment],
-            limpa_formatacao(document.company_cnpj_cpf),
+            misc.punctuation_rm(document.company_cnpj_cpf),
             PATH_MODELO[document.document_type_id.code],
             document.date.strftime("%m-%Y"),
             document.document_serie_id.code.zfill(3) +
-            ('-' + limpa_formatacao(str(document.number)).zfill(9)
-             if self.pasta_individual else '')
+            ('-' + misc.punctuation_rm(str(document.number)).zfill(9)
+             if self.group_folder else '')
         ])
         if self.raiz:
             if not os.path.exists(self.raiz + '/' + document_path):
@@ -236,7 +276,7 @@ class Close(models.Model):
             f.write(arquivos[nome])
             f.close()
 
-    def export(self):
+    def action_export(self):
         files = self._prepara_arquivos()
         order_file = io.BytesIO()
         order_zip = zipfile.ZipFile(
@@ -250,17 +290,8 @@ class Close(models.Model):
         order_zip.close()
         self.write({
             'zip_file': base64.b64encode(order_file.getvalue()),
-            'name': 'xmls.zip',
-            'state': 'done'
+            'state': 'open'
         })
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': self._name,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_id': self.id,
-            'target': 'new',
-        }
 
-    def done(self):
+    def action_close(self):
         return True
