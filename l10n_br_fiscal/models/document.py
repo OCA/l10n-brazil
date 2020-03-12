@@ -288,3 +288,9 @@ class Document(models.Model):
             old_state, new_state
         )
         self.document_comment()
+
+    @api.onchange("operation_id")
+    def _onchange_operation_id(self):
+        super(Document, self)._onchange_operation_id()
+        for comment_id in self.operation_id.comment_ids:
+            self.comment_ids += comment_id
