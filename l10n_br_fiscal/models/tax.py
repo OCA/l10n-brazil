@@ -343,25 +343,25 @@ class Tax(models.Model):
     def _compute_issqn(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
-    def _compute_issqnret(self, tax, taxes_dict, **kwargs):
+    def _compute_issqn_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_csll(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
-    def _compute_csllret(self, tax, taxes_dict, **kwargs):
+    def _compute_csll_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_irpj(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
-    def _compute_irpjret(self, tax, taxes_dict, **kwargs):
+    def _compute_irpj_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_inss(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
-    def _compute_inssret(self, tax, taxes_dict, **kwargs):
+    def _compute_inss_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
@@ -379,7 +379,7 @@ class Tax(models.Model):
             tax_dict = self._compute_generic(tax, taxes_dict, **kwargs)
         return tax_dict
 
-    def _compute_pisret(self, tax, taxes_dict, **kwargs):
+    def _compute_pis_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins(self, tax, taxes_dict, **kwargs):
@@ -388,7 +388,7 @@ class Tax(models.Model):
             tax_dict = self._compute_generic(tax, taxes_dict, **kwargs)
         return tax_dict
 
-    def _compute_cofinsret(self, tax, taxes_dict, **kwargs):
+    def _compute_cofins_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_generic(self, tax, taxes_dict, **kwargs):
