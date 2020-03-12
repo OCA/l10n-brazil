@@ -40,27 +40,27 @@ class DocumentEvent(models.Model):
 
     type = fields.Selection(
         selection=[
-            ("-1", "Exception"),
-            ("0", "Envio Lote"),
-            ("1", "Consulta Recibo"),
-            ("2", "Cancelamento"),
-            ("3", "Inutilização"),
-            ("4", "Consulta NFE"),
-            ("5", "Consulta Situação"),
-            ("6", "Consulta Cadastro"),
-            ("7", "DPEC Recepção"),
-            ("8", "DPEC Consulta"),
-            ("9", "Recepção Evento"),
-            ("10", "Download"),
-            ("11", "Consulta Destinadas"),
-            ("12", "Distribuição DFe"),
-            ("13", "Manifestação")],
-        string="Service")
+            ("-1", u"Exception"),
+            ("0", u"Envio Lote"),
+            ("1", u"Consulta Recibo"),
+            ("2", u"Cancelamento"),
+            ("3", u"Inutilização"),
+            ("4", u"Consulta NFE"),
+            ("5", u"Consulta Situação"),
+            ("6", u"Consulta Cadastro"),
+            ("7", u"DPEC Recepção"),
+            ("8", u"DPEC Consulta"),
+            ("9", u"Recepção Evento"),
+            ("10", u"Download"),
+            ("11", u"Consulta Destinadas"),
+            ("12", u"Distribuição DFe"),
+            ("13", u"Manifestação"),
+            ("14", u"Carta de Correção"),
+        ],
+        string="Serviço",
+    )
 
-    response = fields.Char(
-        string="Description",
-        size=64,
-        readonly=True)
+    response = fields.Char(string=u"Descrição", size=64, readonly=True)
 
     company_id = fields.Many2one(
         comodel_name="res.company",
