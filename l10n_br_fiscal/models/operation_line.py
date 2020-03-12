@@ -198,6 +198,10 @@ class OperationLine(models.Model):
             for tax in cfop.tax_definition_ids.mapped('tax_id'):
                 mapping_result['taxes'][tax.tax_domain] = tax
 
+            # 6 From Partner Profile
+            for tax in partner.fiscal_profile_id.tax_definition_ids.mapped('tax_id'):
+                mapping_result['taxes'][tax.tax_domain] = tax
+
         return mapping_result
 
     @api.multi
