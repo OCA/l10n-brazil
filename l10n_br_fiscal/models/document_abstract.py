@@ -51,49 +51,49 @@ class DocumentAbstract(models.AbstractModel):
             record.amount_pis_value = sum(
                 line.pis_value for line in record.line_ids)
             record.amount_pis_ret_base = sum(
-                line.pisret_base for line in record.line_ids)
+                line.pis_wh_base for line in record.line_ids)
             record.amount_pis_ret_value = sum(
-                line.pisret_value for line in record.line_ids)
+                line.pis_wh_value for line in record.line_ids)
             record.amount_cofins_base = sum(
                 line.cofins_base for line in record.line_ids)
             record.amount_cofins_value = sum(
                 line.cofins_value for line in record.line_ids)
             record.amount_cofins_ret_base = sum(
-                line.cofinsret_base for line in record.line_ids)
+                line.cofins_wh_base for line in record.line_ids)
             record.amount_cofins_ret_value = sum(
-                line.cofinsret_value for line in record.line_ids)
+                line.cofins_wh_value for line in record.line_ids)
             record.amount_csll_base = sum(
                 line.csll_base for line in record.line_ids)
             record.amount_csll_value = sum(
                 line.csll_value for line in record.line_ids)
             record.amount_csll_ret_base = sum(
-                line.csllret_base for line in record.line_ids)
+                line.csll_wh_base for line in record.line_ids)
             record.amount_csll_ret_value = sum(
-                line.csllret_value for line in record.line_ids)
+                line.csll_wh_value for line in record.line_ids)
             record.amount_issqn_base = sum(
                 line.issqn_base for line in record.line_ids)
             record.amount_issqn_value = sum(
                 line.issqn_value for line in record.line_ids)
             record.amount_issqn_ret_base = sum(
-                line.issqnret_base for line in record.line_ids)
+                line.issqn_wh_base for line in record.line_ids)
             record.amount_issqn_ret_value = sum(
-                line.issqnret_value for line in record.line_ids)
+                line.issqn_wh_value for line in record.line_ids)
             record.amount_irpj_base = sum(
                 line.irpj_base for line in record.line_ids)
             record.amount_irpj_value = sum(
                 line.irpj_value for line in record.line_ids)
             record.amount_irpj_ret_base = sum(
-                line.irpjret_base for line in record.line_ids)
+                line.irpj_wh_base for line in record.line_ids)
             record.amount_irpj_ret_value = sum(
-                line.irpjret_value for line in record.line_ids)
+                line.irpj_wh_value for line in record.line_ids)
             record.amount_inss_base = sum(
                 line.inss_base for line in record.line_ids)
             record.amount_inss_value = sum(
                 line.inss_value for line in record.line_ids)
-            record.amount_inss_ret_base = sum(
-                line.inssret_base for line in record.line_ids)
-            record.amount_inss_ret_value = sum(
-                line.inssret_value for line in record.line_ids)
+            record.amount_inss_wh_base = sum(
+                line.inss_wh_base for line in record.line_ids)
+            record.amount_inss_wh_value = sum(
+                line.inss_wh_value for line in record.line_ids)
             record.amount_tax = sum(
                 line.amount_tax for line in record.line_ids)
             record.amount_discount = sum(
@@ -358,11 +358,11 @@ class DocumentAbstract(models.AbstractModel):
         string="INSS Value",
         compute="_compute_amount")
 
-    amount_inss_ret_base = fields.Monetary(
+    amount_inss_wh_base = fields.Monetary(
         string="INSS Ret Base",
         compute="_compute_amount")
 
-    amount_inss_ret_value = fields.Monetary(
+    amount_inss_wh_value = fields.Monetary(
         string="INSS Ret Value",
         compute="_compute_amount")
 
