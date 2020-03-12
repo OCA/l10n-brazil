@@ -54,7 +54,9 @@ class DocumentEvent(models.Model):
             ("10", "Download"),
             ("11", "Consulta Destinadas"),
             ("12", "Distribuição DFe"),
-            ("13", "Manifestação")],
+            ("13", "Manifestação"),
+            ("14", "Carta de Correção"),
+        ],
         string="Service")
 
     response = fields.Char(
