@@ -8,7 +8,6 @@
       <search string="Fiscal Document">
         <field name="document_id"/>
         <field name="company_id"/>
-        <field name="partner_id"/>
       </search>
     </field>
   </record>
@@ -20,7 +19,9 @@
       <tree string="Fiscal Document">
           <field name="company_id"/>
           <field name="document_id"/>
-          <field name="partner_id"/>
+          <field name="number_start"/>
+          <field name="number_end"/>
+          <field name="state"/>
       </tree>
     </field>
   </record>
@@ -30,17 +31,21 @@
     <field name="model">l10n_br_fiscal.document.invalidate.number</field>
     <field name="arch" type="xml">
       <form string="Fiscal Document">
+          <header>
+              <field name="state" widget="statusbar"/>
+          </header>
           <group>
               <field name="company_id"/>
               <field name="document_id"/>
-              <field name="partner_id"/>
           </group>
           <group>
+              <field name="number_start"/>
+              <field name="number_end"/>
               <field name="justificative"/>
           </group>
           <notebook>
               <page string="Eventos">
-                  <field name="invalidate_number_document_event_ids"/>
+                  <field name="invalid_number_document_event_ids"/>
               </page>
           </notebook>
       </form>

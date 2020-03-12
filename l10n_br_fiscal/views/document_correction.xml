@@ -40,7 +40,7 @@
           </group>
           <notebook>
               <page string="Eventos">
-                  <field name="correction_document_event_ids"/>
+                  <field name="cce_document_event_ids"/>
               </page>
           </notebook>
       </form>
