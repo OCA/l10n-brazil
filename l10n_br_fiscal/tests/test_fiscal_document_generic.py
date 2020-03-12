@@ -120,6 +120,8 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 "Error to mapping CST 01 - Operação Tributável com Alíquota Básica"
                 " Básica to COFINS 3% de Venda de Contribuinte Dentro do Estado.")
 
+        self.nfe_same_state.action_document_confirm()
+
     def test_nfe_other_state(self):
         """ Test NFe other state. """
 
