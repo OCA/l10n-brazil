@@ -40,6 +40,15 @@ class ServiceType(models.Model):
         string="Products Quantity", compute="_compute_product_tmpl_info"
     )
 
+    withholding_at_place = fields.Boolean(
+        string="Tax Retention at place of provision",
+        help="The tax is due at the location of the provider establishment, "
+             "except in the cases that this field is true, "
+             "where it will be due at the place of provision.")
+
+    withholding_possible = fields.Boolean(
+        string="Subject to withholding tax")
+
     def _compute_product_tmpl_info(self):
         for record in self:
             product_tmpls = record.env["product.template"].search(
