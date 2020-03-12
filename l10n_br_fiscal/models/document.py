@@ -36,9 +36,7 @@ class Document(models.Model):
         string="Comments"
     )
 
-    processed_comments = fields.Text(string="Processed Comments")
-
-    processed_line_comments = fields.Text(string="Processed Line Comments")
+    additional_data = fields.Text(string="Additional Data")
 
     operation_id = fields.Many2one(
         default=_default_operation,
@@ -279,9 +277,9 @@ class Document(models.Model):
 
     def document_comment(self):
         for record in self:
-            record.processed_comments = record.processed_comments and \
-                                        record.processed_comments + ' - ' or ''
-            record.processed_comments += record.comment_ids.compute_message(
+            record.additional_data = \
+                record.additional_data and record.additional_data + ' - ' or ''
+            record.additional_data += record.comment_ids.compute_message(
                 record._document_comment_vals())
             record.line_ids.document_comment()
 
