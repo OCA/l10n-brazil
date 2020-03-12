@@ -226,8 +226,8 @@
                   <group string="INSS">
                     <field name="amount_inss_base"/>
                     <field name="amount_inss_value"/>
-                    <field name="amount_inss_ret_base"/>
-                    <field name="amount_inss_ret_value"/>
+                    <field name="amount_inss_wh_base"/>
+                    <field name="amount_inss_wh_value"/>
                   </group>
                 </group>
                 <group>
