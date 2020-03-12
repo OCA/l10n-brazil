@@ -24,7 +24,7 @@ from ..constants.fiscal import (
     TAX_DOMAIN_ICMS_ST,
     TAX_DOMAIN_II,
     TAX_DOMAIN_INSS,
-    TAX_DOMAIN_INSS_RET,
+    TAX_DOMAIN_inss_wh,
     TAX_DOMAIN_IPI,
     TAX_DOMAIN_IRPJ,
     TAX_DOMAIN_IRPJ_RET,
@@ -50,24 +50,24 @@ from .tax import TAX_DICT_VALUES
 
 FISCAL_TAX_ID_FIELDS = [
     'cofins_tax_id',
-    'cofinsret_tax_id',
+    'cofins_wh_tax_id',
     'cofinsst_tax_id',
     'csll_tax_id',
-    'csllret_tax_id',
+    'csll_wh_tax_id',
     'icms_tax_id',
     'icmsfcp_tax_id',
     'icmssn_tax_id',
     'icmsst_tax_id',
     'ii_tax_id',
     'inss_tax_id',
-    'inssret_tax_id',
+    'inss_wh_tax_id',
     'ipi_tax_id',
     'irpj_tax_id',
-    'irpjret_tax_id',
+    'irpj_wh_tax_id',
     'issqn_tax_id',
-    'issqnret_tax_id',
+    'issqn_wh_tax_id',
     'pis_tax_id',
-    'pisret_tax_id',
+    'pis_wh_tax_id',
     'pisst_tax_id',
 ]
 
@@ -267,25 +267,25 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="ISSQN Value",
         default=0.00)
 
-    issqnret_tax_id = fields.Many2one(
+    issqn_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
-        string="Tax INSS RET",
+        string="Tax ISSQN RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN_RET)])
 
-    issqnret_base = fields.Monetary(
-        string="INSS RET Base",
+    issqn_wh_base = fields.Monetary(
+        string="ISSQN RET Base",
         default=0.00)
 
-    issqnret_percent = fields.Float(
-        string="INSS RET %",
+    issqn_wh_percent = fields.Float(
+        string="ISSQN RET %",
         default=0.00)
 
-    issqnret_reduction = fields.Float(
-        string="INSS RET % Reduction",
+    issqn_wh_reduction = fields.Float(
+        string="ISSQN RET % Reduction",
         default=0.00)
 
-    issqnret_value = fields.Monetary(
-        string="INSS RET Value",
+    issqn_wh_value = fields.Monetary(
+        string="ISSQN RET Value",
         default=0.00)
 
     # ICMS Fields
@@ -617,25 +617,25 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     cofinsst_value = fields.Monetary(
         string="COFINS ST Value")
 
-    cofinsret_tax_id = fields.Many2one(
+    cofins_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
-        string="Tax INSS RET",
+        string="Tax COFINS RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_RET)])
 
-    cofinsret_base = fields.Monetary(
-        string="INSS RET Base",
+    cofins_wh_base = fields.Monetary(
+        string="COFINS RET Base",
         default=0.00)
 
-    cofinsret_percent = fields.Float(
-        string="INSS RET %",
+    cofins_wh_percent = fields.Float(
+        string="COFINS RET %",
         default=0.00)
 
-    cofinsret_reduction = fields.Float(
-        string="INSS RET % Reduction",
+    cofins_wh_reduction = fields.Float(
+        string="COFINS RET % Reduction",
         default=0.00)
 
-    cofinsret_value = fields.Monetary(
-        string="INSS RET Value",
+    cofins_wh_value = fields.Monetary(
+        string="COFINS RET Value",
         default=0.00)
 
     # PIS
@@ -718,25 +718,25 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     pisst_value = fields.Monetary(
         string="PIS ST Value")
 
-    pisret_tax_id = fields.Many2one(
+    pis_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
-        string="Tax INSS RET",
+        string="Tax PIS RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_PIS_RET)])
 
-    pisret_base = fields.Monetary(
-        string="INSS RET Base",
+    pis_wh_base = fields.Monetary(
+        string="PIS RET Base",
         default=0.00)
 
-    pisret_percent = fields.Float(
-        string="INSS RET %",
+    pis_wh_percent = fields.Float(
+        string="PIS RET %",
         default=0.00)
 
-    pisret_reduction = fields.Float(
-        string="INSS RET % Reduction",
+    pis_wh_reduction = fields.Float(
+        string="PIS RET % Reduction",
         default=0.00)
 
-    pisret_value = fields.Monetary(
-        string="INSS RET Value",
+    pis_wh_value = fields.Monetary(
+        string="PIS RET Value",
         default=0.00)
 
     # CSLL Fields
@@ -762,24 +762,24 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="CSLL Value",
         default=0.00)
 
-    csllret_tax_id = fields.Many2one(
+    csll_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax CSLL RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_CSLL_RET)])
 
-    csllret_base = fields.Monetary(
+    csll_wh_base = fields.Monetary(
         string="CSLL RET Base",
         default=0.00)
 
-    csllret_percent = fields.Float(
+    csll_wh_percent = fields.Float(
         string="CSLL RET %",
         default=0.00)
 
-    csllret_reduction = fields.Float(
+    csll_wh_reduction = fields.Float(
         string="CSLL RET % Reduction",
         default=0.00)
 
-    csllret_value = fields.Monetary(
+    csll_wh_value = fields.Monetary(
         string="CSLL RET Value",
         default=0.00)
 
@@ -804,24 +804,24 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="IRPJ Value",
         default=0.00)
 
-    irpjret_tax_id = fields.Many2one(
+    irpj_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IRPJ RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ_RET)])
 
-    irpjret_base = fields.Monetary(
+    irpj_wh_base = fields.Monetary(
         string="IRPJ RET Base",
         default=0.00)
 
-    irpjret_percent = fields.Float(
+    irpj_wh_percent = fields.Float(
         string="IRPJ RET %",
         default=0.00)
 
-    irpjret_reduction = fields.Float(
+    irpj_wh_reduction = fields.Float(
         string="IRPJ RET % Reduction",
         default=0.00)
 
-    irpjret_value = fields.Monetary(
+    irpj_wh_value = fields.Monetary(
         string="IRPJ RET Value",
         default=0.00)
 
@@ -846,24 +846,24 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="INSS Value",
         default=0.00)
 
-    inssret_tax_id = fields.Many2one(
+    inss_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax INSS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_INSS_RET)])
+        domain=[('tax_domain', '=', TAX_DOMAIN_inss_wh)])
 
-    inssret_base = fields.Monetary(
+    inss_wh_base = fields.Monetary(
         string="INSS RET Base",
         default=0.00)
 
-    inssret_percent = fields.Float(
+    inss_wh_percent = fields.Float(
         string="INSS RET %",
         default=0.00)
 
-    inssret_reduction = fields.Float(
+    inss_wh_reduction = fields.Float(
         string="INSS RET % Reduction",
         default=0.00)
 
-    inssret_value = fields.Monetary(
+    inss_wh_value = fields.Monetary(
         string="INSS RET Value",
         default=0.00)
 
@@ -951,12 +951,12 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self._set_fields_cofins(TAX_DICT_VALUES)
             self._set_fields_cofinsst(TAX_DICT_VALUES)
 
-            self._set_fields_issqnret(TAX_DICT_VALUES)
-            self._set_fields_pisret(TAX_DICT_VALUES)
-            self._set_fields_cofinsret(TAX_DICT_VALUES)
-            self._set_fields_csllret(TAX_DICT_VALUES)
-            self._set_fields_irpjret(TAX_DICT_VALUES)
-            self._set_fields_inssret(TAX_DICT_VALUES)
+            self._set_fields_issqn_wh(TAX_DICT_VALUES)
+            self._set_fields_pis_wh(TAX_DICT_VALUES)
+            self._set_fields_cofins_wh(TAX_DICT_VALUES)
+            self._set_fields_csll_wh(TAX_DICT_VALUES)
+            self._set_fields_irpj_wh(TAX_DICT_VALUES)
+            self._set_fields_inss_wh(TAX_DICT_VALUES)
 
     @api.multi
     def _update_fiscal_tax_ids(self, taxes):
@@ -1024,23 +1024,23 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                     self._set_fields_inss(computed_tax)
 
                 if tax.tax_domain == TAX_DOMAIN_ISSQN_RET:
-                    l.issqnret_tax_id = tax
-                    self._set_fields_issqnret(computed_tax)
+                    l.issqn_wh_tax_id = tax
+                    self._set_fields_issqn_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_PIS_RET:
-                    l.pisret_tax_id = tax
-                    self._set_fields_pisret(computed_tax)
+                    l.pis_wh_tax_id = tax
+                    self._set_fields_pis_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_COFINS_RET:
-                    l.cofinsret_tax_id = tax
-                    self._set_fields_cofinsret(computed_tax)
+                    l.cofins_wh_tax_id = tax
+                    self._set_fields_cofins_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_CSLL_RET:
-                    l.csllret_tax_id = tax
-                    self._set_fields_csllret(computed_tax)
+                    l.csll_wh_tax_id = tax
+                    self._set_fields_csll_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_IRPJ_RET:
-                    l.irpjret_tax_id = tax
-                    self._set_fields_irpjret(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_INSS_RET:
-                    l.inssret_tax_id = tax
-                    self._set_fields_inssret(computed_tax)
+                    l.irpj_wh_tax_id = tax
+                    self._set_fields_irpj_wh(computed_tax)
+                if tax.tax_domain == TAX_DOMAIN_inss_wh:
+                    l.inss_wh_tax_id = tax
+                    self._set_fields_inss_wh(computed_tax)
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
@@ -1122,19 +1122,19 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_issqn_fields(self):
         pass
 
-    def _set_fields_issqnret(self, tax_dict):
+    def _set_fields_issqn_wh(self, tax_dict):
         if tax_dict:
-            self.issqnret_base = tax_dict.get("base")
-            self.issqnret_percent = tax_dict.get("percent_amount")
-            self.issqnret_reduction = tax_dict.get("percent_reduction")
-            self.issqnret_value = tax_dict.get("tax_value")
+            self.issqn_wh_base = tax_dict.get("base")
+            self.issqn_wh_percent = tax_dict.get("percent_amount")
+            self.issqn_wh_reduction = tax_dict.get("percent_reduction")
+            self.issqn_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "issqnret_base",
-        "issqnret_percent",
-        "issqnret_reduction",
-        "issqnret_value")
-    def _onchange_issqnret_fields(self):
+        "issqn_wh_base",
+        "issqn_wh_percent",
+        "issqn_wh_reduction",
+        "issqn_wh_value")
+    def _onchange_issqn_wh_fields(self):
         pass
 
     def _set_fields_csll(self, tax_dict):
@@ -1152,19 +1152,19 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_csll_fields(self):
         pass
 
-    def _set_fields_csllret(self, tax_dict):
+    def _set_fields_csll_wh(self, tax_dict):
         if tax_dict:
-            self.csllret_base = tax_dict.get("base")
-            self.csllret_percent = tax_dict.get("percent_amount")
-            self.csllret_reduction = tax_dict.get("percent_reduction")
-            self.csllret_value = tax_dict.get("tax_value")
+            self.csll_wh_base = tax_dict.get("base")
+            self.csll_wh_percent = tax_dict.get("percent_amount")
+            self.csll_wh_reduction = tax_dict.get("percent_reduction")
+            self.csll_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "csllret_base",
-        "csllret_percent",
-        "csllret_reduction",
-        "csllret_value")
-    def _onchange_csllret_fields(self):
+        "csll_wh_base",
+        "csll_wh_percent",
+        "csll_wh_reduction",
+        "csll_wh_value")
+    def _onchange_csll_wh_fields(self):
         pass
 
     def _set_fields_irpj(self, tax_dict):
@@ -1182,19 +1182,19 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_irpj_fields(self):
         pass
 
-    def _set_fields_irpjret(self, tax_dict):
+    def _set_fields_irpj_wh(self, tax_dict):
         if tax_dict:
-            self.irpjret_base = tax_dict.get("base")
-            self.irpjret_percent = tax_dict.get("percent_amount")
-            self.irpjret_reduction = tax_dict.get("percent_reduction")
-            self.irpjret_value = tax_dict.get("tax_value")
+            self.irpj_wh_base = tax_dict.get("base")
+            self.irpj_wh_percent = tax_dict.get("percent_amount")
+            self.irpj_wh_reduction = tax_dict.get("percent_reduction")
+            self.irpj_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "irpjret_base",
-        "irpjret_percent",
-        "irpjret_reduction",
-        "irpjret_value")
-    def _onchange_irpjret_fields(self):
+        "irpj_wh_base",
+        "irpj_wh_percent",
+        "irpj_wh_reduction",
+        "irpj_wh_value")
+    def _onchange_irpj_wh_fields(self):
         pass
 
     def _set_fields_inss(self, tax_dict):
@@ -1212,19 +1212,19 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_inss_fields(self):
         pass
 
-    def _set_fields_inssret(self, tax_dict):
+    def _set_fields_inss_wh(self, tax_dict):
         if tax_dict:
-            self.inssret_base = tax_dict.get("base")
-            self.inssret_percent = tax_dict.get("percent_amount")
-            self.inssret_reduction = tax_dict.get("percent_reduction")
-            self.inssret_value = tax_dict.get("tax_value")
+            self.inss_wh_base = tax_dict.get("base")
+            self.inss_wh_percent = tax_dict.get("percent_amount")
+            self.inss_wh_reduction = tax_dict.get("percent_reduction")
+            self.inss_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "inssret_base",
-        "inssret_percent",
-        "inssret_reduction",
-        "inssret_value")
-    def _onchange_inssret_fields(self):
+        "inss_wh_base",
+        "inss_wh_percent",
+        "inss_wh_reduction",
+        "inss_wh_value")
+    def _onchange_inss_wh_fields(self):
         pass
 
     def _set_fields_icms(self, tax_dict):
@@ -1354,22 +1354,22 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_pis_fields(self):
         pass
 
-    def _set_fields_pisret(self, tax_dict):
+    def _set_fields_pis_wh(self, tax_dict):
         if tax_dict:
-            self.pisret_cst_id = tax_dict.get("cst_id")
-            self.pisret_base_type = tax_dict.get("base_type")
-            self.pisret_base = tax_dict.get("base", 0.00)
-            self.pisret_percent = tax_dict.get("percent_amount", 0.00)
-            self.pisret_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.pisret_value = tax_dict.get("tax_value", 0.00)
+            self.pis_wh_cst_id = tax_dict.get("cst_id")
+            self.pis_wh_base_type = tax_dict.get("base_type")
+            self.pis_wh_base = tax_dict.get("base", 0.00)
+            self.pis_wh_percent = tax_dict.get("percent_amount", 0.00)
+            self.pis_wh_reduction = tax_dict.get("percent_reduction", 0.00)
+            self.pis_wh_value = tax_dict.get("tax_value", 0.00)
 
     @api.onchange(
-        "pisret_base_type",
-        "pisret_base",
-        "pisret_percent",
-        "pisret_reduction",
-        "pisret_value")
-    def _onchange_pisret_fields(self):
+        "pis_wh_base_type",
+        "pis_wh_base",
+        "pis_wh_percent",
+        "pis_wh_reduction",
+        "pis_wh_value")
+    def _onchange_pis_wh_fields(self):
         pass
 
     def _set_fields_pisst(self, tax_dict):
@@ -1408,22 +1408,22 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_cofins_fields(self):
         pass
 
-    def _set_fields_cofinsret(self, tax_dict):
+    def _set_fields_cofins_wh(self, tax_dict):
         if tax_dict:
-            self.cofinsret_cst_id = tax_dict.get("cst_id")
-            self.cofinsret_base_type = tax_dict.get("base_type")
-            self.cofinsret_base = tax_dict.get("base", 0.00)
-            self.cofinsret_percent = tax_dict.get("percent_amount", 0.00)
-            self.cofinsret_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.cofinsret_value = tax_dict.get("tax_value", 0.00)
+            self.cofins_wh_cst_id = tax_dict.get("cst_id")
+            self.cofins_wh_base_type = tax_dict.get("base_type")
+            self.cofins_wh_base = tax_dict.get("base", 0.00)
+            self.cofins_wh_percent = tax_dict.get("percent_amount", 0.00)
+            self.cofins_wh_reduction = tax_dict.get("percent_reduction", 0.00)
+            self.cofins_wh_value = tax_dict.get("tax_value", 0.00)
 
     @api.onchange(
-        "cofinsret_base_type",
-        "cofinsret_base",
-        "cofinsret_percent",
-        "cofinsret_reduction",
-        "cofinsret_value")
-    def _onchange_cofinsret_fields(self):
+        "cofins_wh_base_type",
+        "cofins_wh_base",
+        "cofins_wh_percent",
+        "cofins_wh_reduction",
+        "cofins_wh_value")
+    def _onchange_cofins_wh_fields(self):
         pass
 
     def _set_fields_cofinsst(self, tax_dict):
@@ -1446,13 +1446,13 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
     @api.onchange(
         "csll_tax_id",
-        "csllret_tax_id",
+        "csll_wh_tax_id",
         "irpj_tax_id",
-        "irpjret_tax_id",
+        "irpj_wh_tax_id",
         "inss_tax_id",
-        "inssret_tax_id",
+        "inss_wh_tax_id",
         "issqn_tax_id",
-        "issqnret_tax_id",
+        "issqn_wh_tax_id",
         "icms_tax_id",
         "icmssn_tax_id",
         "icmsst_tax_id",
@@ -1460,10 +1460,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         "ipi_tax_id",
         "ii_tax_id",
         "pis_tax_id",
-        "pisret_tax_id",
+        "pis_wh_tax_id",
         "pisst_tax_id",
         "cofins_tax_id",
-        "cofinsret_tax_id",
+        "cofins_wh_tax_id",
         "cofinsst_tax_id",
         "fiscal_price",
         "fiscal_quantity",
