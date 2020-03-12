@@ -58,9 +58,9 @@
                             <field name="object_id"/>
                         </group>
                         <group>
-                            <button name="action_compute_message" type="object" class="btn btn-primary" string="Test"/>
+                            <button name="action_test_message" type="object" class="btn btn-primary" string="Test"/>
                         </group>
-                        <field name="processed_comment" readonly="1"/>
+                        <field name="test_comment" readonly="1"/>
                     </group>
                 </sheet>
             </form>
