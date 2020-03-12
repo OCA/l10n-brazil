@@ -6,8 +6,6 @@ from odoo import api, fields, models, tools
 from dateutil.relativedelta import relativedelta
 from odoo.osv import expression
 from datetime import datetime
-from odoo.exceptions import UserError
-import re
 
 from ..constants.fiscal import COMMENT_TYPE, COMMENT_TYPE_DEFAULT
 
@@ -140,10 +138,9 @@ class Comment(models.Model):
                 *a, **kw),
             # adding format amount
             # now we can format values like currency on fiscal observation
-            # TODO: get currency from fiscal document instead of using 'self.env.ref('base.BRL')'
             'format_amount': lambda amount,
-                                    context=self._context: self.format_amount(self.env, amount,
-                                                                              self.env.ref('base.BRL')),
+                                    context=self._context: self.format_amount(
+                self.env, amount, self.env.ref('base.BRL')),
         })
         mako_safe_env = copy.copy(mako_template_env)
         mako_safe_env.autoescape = False
