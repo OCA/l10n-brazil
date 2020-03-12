@@ -37,12 +37,12 @@
             <form string="Fiscal Partner Profile">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button type="action"
+                        <button type="object"
                                 class="oe_stat_button"
                                 id="partner_button"
                                 icon="fa-bars"
-                                name="%(base.action_partner_other_form)d"
-                                context="{'search_default_fiscal_profile_id': active_id}"
+                                name="action_view_partners"
+                                context="{'default_fiscal_profile_id': active_id}"
                                 attrs="{'invisible': [('partner_qty', '=', 0)]}">
                             <field string="Partners" widget="statinfo" name="partner_qty"/>
                         </button>
