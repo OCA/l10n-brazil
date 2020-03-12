@@ -22,7 +22,7 @@ class TaxDefinitionCFOP(models.Model):
                     ('cfop_id', '=', record.cfop_id.id),
                     ('tax_group_id', '=', record.tax_group_id.id)]
 
-                if record.env["l10n_br_fiscal.tax.definition"].search(domain):
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(_(
                         "Tax Definition already exists "
                         "for this CFOP and Tax Group !"))
