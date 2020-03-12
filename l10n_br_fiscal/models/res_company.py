@@ -1,17 +1,37 @@
 # Copyright (C) 2013  Renato Lima - Akretion
+# Copyright (C) 2020  Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import (INDUSTRY_TYPE, INDUSTRY_TYPE_TRANSFORMATION,
-                                PROFIT_CALCULATION,
-                                PROFIT_CALCULATION_PRESUMED, TAX_DOMAIN_COFINS,
-                                TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN,
-                                TAX_DOMAIN_IPI, TAX_DOMAIN_PIS, TAX_FRAMEWORK,
-                                TAX_FRAMEWORK_NORMAL, TAX_FRAMEWORK_SIMPLES,
-                                TAX_FRAMEWORK_SIMPLES_ALL, PROCESSADOR,
-                                PROCESSADOR_NENHUM)
+from ..constants.fiscal import (
+    INDUSTRY_TYPE,
+    INDUSTRY_TYPE_TRANSFORMATION,
+    PROCESSADOR,
+    PROCESSADOR_NENHUM,
+    PROFIT_CALCULATION,
+    PROFIT_CALCULATION_PRESUMED,
+    TAX_DOMAIN_COFINS,
+    TAX_DOMAIN_COFINS_WH,
+    TAX_DOMAIN_CSLL,
+    TAX_DOMAIN_CSLL_WH,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_SN,
+    TAX_DOMAIN_INSS,
+    TAX_DOMAIN_INSS_WH,
+    TAX_DOMAIN_IPI,
+    TAX_DOMAIN_IRPJ,
+    TAX_DOMAIN_IRPJ_WH,
+    TAX_DOMAIN_ISSQN,
+    TAX_DOMAIN_ISSQN_WH,
+    TAX_DOMAIN_PIS,
+    TAX_DOMAIN_PIS_WH,
+    TAX_FRAMEWORK,
+    TAX_FRAMEWORK_NORMAL,
+    TAX_FRAMEWORK_SIMPLES,
+    TAX_FRAMEWORK_SIMPLES_ALL,
+)
 
 
 class ResCompany(models.Model):
@@ -148,6 +168,26 @@ class ResCompany(models.Model):
         string="PIS/COFINS",
         domain="[('piscofins_type', '=', 'company')]")
 
+    tax_cofins_wh_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default COFINS RET",
+        domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_WH)])
+
+    tax_pis_wh_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default PIS RET",
+        domain=[('tax_domain', '=', TAX_DOMAIN_PIS_WH)])
+
+    tax_csll_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default CSLL",
+        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL)])
+
+    tax_csll_wh_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default CSLL RET",
+        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL_WH)])
+
     ripi = fields.Boolean(
         string="RIPI")
 
@@ -159,7 +199,7 @@ class ResCompany(models.Model):
     tax_icms_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default ICMS",
-        domain="[('tax_domain', 'in', ('icms', 'icmssn'))]")
+        domain=[('tax_domain', 'in', (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN))])
 
     icms_regulation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.icms.regulation",
@@ -168,7 +208,32 @@ class ResCompany(models.Model):
     tax_issqn_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default ISSQN",
-        domain="[('tax_domain', '=', 'issqn')]")
+        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN)])
+
+    tax_issqn_wh_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default ISSQN RET",
+        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN_WH)])
+
+    tax_irpj_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default IRPJ",
+        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ)])
+
+    tax_irpj_wh_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default IRPJ RET",
+        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ_WH)])
+
+    tax_inss_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default INSS",
+        domain=[('tax_domain', '=', TAX_DOMAIN_INSS)])
+
+    tax_inss_wh_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Default INSS RET",
+        domain=[('tax_domain', '=',  TAX_DOMAIN_INSS_WH)])
 
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
@@ -196,6 +261,10 @@ class ResCompany(models.Model):
             lambda d: d.tax_group_id == tax.tax_group_id
         )
 
+        tax_retention = False
+        if 'wh' in tax.tax_domain:
+            tax_retention = True
+
         tax_def_values = {
             "type_in_out": "out",
             "tax_group_id": tax.tax_group_id.id,
@@ -204,7 +273,7 @@ class ResCompany(models.Model):
             "custom_tax": True,
             "tax_id": tax.id,
             "cst_id": tax.cst_out_id.id,
-            "tax_retention": False,
+            "tax_retention": tax_retention,
         }
 
         if tax_def:
@@ -252,6 +321,16 @@ class ResCompany(models.Model):
         self._onchange_tax_ipi_id()
         self._onchange_tax_icms_id()
         self._onchange_tax_issqn_id()
+        self._onchange_tax_csll_id()
+        self._onchange_tax_irpj_id()
+        self._onchange_tax_inss_id()
+
+        self._onchange_tax_issqn_wh_id()
+        self._onchange_tax_pis_wh_id()
+        self._onchange_tax_cofins_wh_id()
+        self._onchange_tax_csll_wh_id()
+        self._onchange_tax_irpj_wh_id()
+        self._onchange_tax_inss_wh_id()
 
     @api.onchange("is_industry")
     def _onchange_is_industry(self):
@@ -279,6 +358,34 @@ class ResCompany(models.Model):
             self._del_tax_definition(TAX_DOMAIN_PIS)
             self._del_tax_definition(TAX_DOMAIN_COFINS)
 
+    @api.onchange("tax_pis_wh_id")
+    def _onchange_tax_pis_wh_id(self):
+        if self.tax_pis_wh_id:
+            self._set_tax_definition(self.tax_pis_wh_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_PIS_WH)
+
+    @api.onchange("tax_cofins_wh_id")
+    def _onchange_tax_cofins_wh_id(self):
+        if self.tax_cofins_wh_id:
+            self._set_tax_definition(self.tax_cofins_wh_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_COFINS_WH)
+
+    @api.onchange("tax_csll_id")
+    def _onchange_tax_csll_id(self):
+        if self.tax_csll_id:
+            self._set_tax_definition(self.tax_csll_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_CSLL)
+
+    @api.onchange("tax_csll_wh_id")
+    def _onchange_tax_csll_wh_id(self):
+        if self.tax_csll_wh_id:
+            self._set_tax_definition(self.tax_csll_wh_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_CSLL_WH)
+
     @api.onchange("tax_ipi_id")
     def _onchange_tax_ipi_id(self):
         if self.tax_ipi_id:
@@ -299,4 +406,39 @@ class ResCompany(models.Model):
         if self.tax_issqn_id:
             self._set_tax_definition(self.tax_issqn_id)
         else:
-            self._del_tax_definition("issqn")
+            self._del_tax_definition(TAX_DOMAIN_ISSQN)
+
+    @api.onchange("tax_issqn_wh_id")
+    def _onchange_tax_issqn_wh_id(self):
+        if self.tax_issqn_wh_id:
+            self._set_tax_definition(self.tax_issqn_wh_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_ISSQN_WH)
+
+    @api.onchange("tax_irpj_id")
+    def _onchange_tax_irpj_id(self):
+        if self.tax_irpj_id:
+            self._set_tax_definition(self.tax_irpj_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_IRPJ)
+
+    @api.onchange("tax_irpj_wh_id")
+    def _onchange_tax_irpj_wh_id(self):
+        if self.tax_irpj_wh_id:
+            self._set_tax_definition(self.tax_irpj_wh_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_IRPJ_WH)
+
+    @api.onchange("tax_inss_id")
+    def _onchange_tax_inss_id(self):
+        if self.tax_inss_id:
+            self._set_tax_definition(self.tax_inss_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_INSS)
+
+    @api.onchange("tax_inss_wh_id")
+    def _onchange_tax_inss_wh_id(self):
+        if self.tax_inss_wh_id:
+            self._set_tax_definition(self.tax_inss_wh_id)
+        else:
+            self._del_tax_definition(TAX_DOMAIN_INSS_WH)
