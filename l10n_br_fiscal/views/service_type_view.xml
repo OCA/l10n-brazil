@@ -82,6 +82,8 @@
                         <field name="name"/>
                         <field name="internal_type"/>
                         <field name="parent_id"/>
+                        <field name="withholding_at_place"/>
+                        <field name="withholding_possible"/>
                     </group>
                     <notebook>
                         <page string="Related Produts" name="tax_product_tmpl">
