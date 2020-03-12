@@ -62,8 +62,9 @@ class AccountTax(models.Model):
         taxes_results = super(AccountTax, self).compute_all(
             price_unit, currency, quantity, product, partner)
 
+        # FIXME Should get company from document?
         fiscal_taxes_results = fiscal_taxes.compute_taxes(
-            company=self.env.user.company_id, # FIXME Should get company from document?
+            company=self.env.user.company_id,
             partner=partner,
             product=product,
             prince=price_unit,
@@ -89,9 +90,9 @@ class AccountTax(models.Model):
         for account_tax in taxes_results['taxes']:
             fiscal_tax = fiscal_taxes_results.get(
                 account_taxes_by_domain.get(
-                    account_tax_result.get('id')))
+                    account_tax.get('id')))
 
-            if not fiscal_tax_result.get('tax_include'):
+            if not fiscal_tax.get('tax_include'):
                 taxes_results['total_included'] += fiscal_tax.get('tax_value')
 
             account_tax.append({
