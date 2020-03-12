@@ -53,5 +53,7 @@ class DocumentLine(models.Model):
 
     def document_comment(self):
         for record in self.filtered('comment_ids'):
-            record.processed_comments = record.processed_comments and record.processed_comments + ' - ' or ''
-            record.processed_comments += record.comment_ids.compute_message(record._document_comment_vals())
+            record.processed_comments = record.processed_comments and \
+                                        record.processed_comments + ' - ' or ''
+            record.processed_comments += record.comment_ids.compute_message(
+                record._document_comment_vals())
