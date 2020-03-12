@@ -103,7 +103,7 @@ class Operation(models.Model):
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
-        relation="l10n_br_fiscal_operation_line_comment_rel",
+        relation="l10n_br_fiscal_operation_comment_rel",
         column1="operation_id",
         column2="comment_id",
         string="Comment")
