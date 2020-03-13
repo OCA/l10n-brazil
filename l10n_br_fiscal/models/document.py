@@ -26,7 +26,7 @@ class Document(models.Model):
         # TODO add in res.company default Operation?
         return self.env["l10n_br_fiscal.operation"]
 
-    operation_type = fields.Selection(required=True, related=False)
+    operation_type = fields.Selection(related=False)
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
