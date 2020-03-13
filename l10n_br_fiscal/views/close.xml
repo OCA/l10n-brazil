@@ -20,6 +20,7 @@
                         <field name="export_type"/>
                         <field name="month" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
                         <field name="year" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
+                        <field name="company_id"/>
                         <field name="group_folder"/>
                     </group>
                     <group states="open">
