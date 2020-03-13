@@ -54,7 +54,7 @@ class TaxDefinition(models.Model):
     is_debit_credit = fields.Boolean(
         string="Debit/Credit?")
 
-    tax_retention = fields.Boolean(
+    tax_withholding = fields.Boolean(
         string="Tax Retention?")
 
     company_id = fields.Many2one(

@@ -232,6 +232,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Amount Tax not Included",
         default=0.00)
 
+    amount_tax_withholding = fields.Monetary(
+        string="Amount Tax Withholding",
+        default=0.00)
+
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
         string="Fiscal Genre")
@@ -913,11 +917,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             operation_line=self.operation_line_id,
             icmssn_range=self.icmssn_range_id)
 
-    @api.multi
-    def compute_taxes(self):
-        for line in self:
-            computed_taxes = line._compute_taxes(line.fiscal_tax_ids)
-        return computed_taxes
+    # @api.multi
+    # def compute_taxes(self):
+    #     for line in self:
+    #         computed_taxes = line._compute_taxes(line.fiscal_tax_ids)
+    #     return computed_taxes
 
     @api.multi
     def _get_all_tax_id_fields(self):
@@ -970,14 +974,18 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _update_taxes(self):
         for l in self:
             computed_taxes = self._compute_taxes(l.fiscal_tax_ids)
-
+            l.amount_tax_not_included = 0.0
+            l.amount_tax_withholding = 0.0
             for tax in l.fiscal_tax_ids:
 
                 computed_tax = computed_taxes.get(tax.tax_domain)
 
                 if computed_tax:
                     if not computed_tax.get("tax_include"):
-                        l.amount_tax_not_included += computed_tax.get(
+                        l.amount_tax_not_included = computed_tax.get(
+                            "tax_value", 0.00)
+                    if computed_tax.get("tax_withholding"):
+                        l.amount_tax_withholding += computed_tax.get(
                             "tax_value", 0.00)
 
                 if tax.tax_domain == TAX_DOMAIN_IPI:
