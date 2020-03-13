@@ -114,6 +114,30 @@ class NFe(spec_models.StackedModel):
     nfe40_vNF = fields.Monetary(
         related='amount_total'
     )
+    nfe40_tpNF = fields.Selection(
+        compute='_compute_nfe_data',
+        inverse='_inverse_nfe40_tpNF',
+    )
+
+    @api.depends('operation_type')
+    @api.multi
+    def _compute_nfe_data(self):
+        """Set schema data which are not just related fields"""
+        for rec in self:
+            operation_2_tpNF = {
+                'out': '1',
+                'in': '0',
+            }
+            rec.nfe40_tpNF = operation_2_tpNF[rec.operation_type]
+
+    def _inverse_nfe40_tpNF(self):
+        for rec in self:
+            if rec.nfe40_tpNF:
+                tpNF_2_operation = {
+                    '1': 'out',
+                    '0': 'in',
+                }
+                rec.operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
     # cce_document_ids = fields.One2many(
     #     comodel_name="l10n_br_account.invoice.cce",
