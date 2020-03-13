@@ -33,9 +33,204 @@
                 <group id="l10n_br_fiscal">
                 </group>
             </xpath>
+            <field name="date_order" position="after">
+                <field name="operation_id"/>
+            </field>
             <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
-              <field name="operation_id" groups="sales_team.group_sale_salesman" required="1"/>
-              <field name="operation_line_id" groups="sales_team.group_sale_salesman" required="1"/>
+                <group name="l10n_br_fiscal" string="Operation">
+                    <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
+                    <field name="operation_type" invisible="1" readonly="1"/>
+                    <field name="operation_id" required="1"/>
+                    <field name="operation_line_id" required="1"/>
+                    <field name="cfop_id"/>
+                    <field name="cfop_destination" invisible="1"/>
+                    <field name="fiscal_genre_code" invisible="1"/>
+                    <field name="tax_framework" invisible="1"/>
+                  </group>
+                <notebook>
+                  <page name="taxes" string="Taxes">
+                <notebook>
+                      <page name="issqn" string="ISSQN" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
+                            <group>
+                                <field name="issqn_tax_id"/>
+                            </group>
+                            <group>
+                                <group>
+                                      <field name="issqn_base" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                                      <field name="issqn_percent" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                                </group>
+                                <group>
+                                      <field name="issqn_reduction" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                                      <field name="issqn_value" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                                </group>
+                            </group>
+                      </page>
+                      <page name="icms" string="ICMS" attrs="{'invisible': [('fiscal_genre_code', '=', '00')]}">
+                          <group>
+                              <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              <field name="icms_cst_id" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              <field name="icms_cst_code" readonly="1" invisible="1"/>
+                              <field name="icmssn_tax_id" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
+                              <field name="icmssn_cst_id" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                              <field name="icmssn_cst_code" readonly="1" invisible="1"/>
+                              <field name="icms_origin" force_save="1" attrs="{'readonly': ['|', ('icmssn_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"/>
+                          </group>
+                          <group>
+                              <group>
+                                    <field name="icmssn_range_id" force_save="1" readonly="1" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icms_base_type" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
+                                    <field name="icmssn_base" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icmssn_reduction" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                                    <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              </group>
+                              <group>
+                                    <field name="icmssn_percent" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icms_reduction" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                                    <field name="icms_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              </group>
+                          </group>
+                          <group name="icmsst" string="ICMS ST" attrs="{'invisible': ['|', '|', ('icms_cst_code', 'in', ('10', '30', '70')), ('icmssn_cst_code', 'in', ('201', '202', '203'))]}">
+                              <field name="icmsst_tax_id"/>
+                              <group>
+                                    <field name="icmssn_base" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icmssn_reduction" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                                    <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              </group>
+                              <group>
+                                    <field name="icmssn_percent" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icms_reduction" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                                    <field name="icms_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              </group>
+                          </group>
+                          <group name="icms_difal" string="ICMS DIFAL">
+                              <field name="icmsfcp_tax_id"/>
+                              <group>
+                                    <field name="icmssn_base" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icmssn_reduction" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                                    <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              </group>
+                              <group>
+                                    <field name="icmssn_percent" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icmssn_credit_value" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
+                                    <field name="icms_reduction" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                                    <field name="icms_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                              </group>
+                          </group>
+                      </page>
+                      <page name="ipi" string="IPI">
+                          <group string="IPI">
+                              <field name="ipi_tax_id"/>
+                              <field name="ipi_cst_id" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                              <field name="ipi_cst_code" readonly="1" invisible="1"/>
+                              <field name="ipi_guideline_id" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                          </group>
+                          <group>
+                              <group>
+                                    <field name="ipi_base_type" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                                    <field name="ipi_percent" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                                    <field name="ipi_reduction" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                              </group>
+                              <group>
+                                    <field name="ipi_base" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                                    <field name="ipi_value" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
+                              </group>
+                          </group>
+                      </page>
+                      <page name="ii" string="II" attrs="{'invisible': [('cfop_destination', '!=', '3')]}">
+                        <group string="II">
+                            <field name="ii_tax_id"/>
+                        </group>
+                        <group>
+                          <group>
+                                <field name="ii_base"/>
+                                <field name="ii_value"/>
+                          </group>
+                          <group>
+                                <field name="ii_iof_value"/>
+                                <field name="ii_customhouse_charges"/>
+                          </group>
+                        </group>
+                      </page>
+                      <page name="pis" string="PIS">
+                          <group name="pis" string="PIS">
+                                <field name="pis_tax_id"/>
+                                <field name="pis_cst_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
+                                <field name="pis_cst_code" readonly="1" invisible="1"/>
+                                <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                          </group>
+                          <group>
+                                <group>
+                                      <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                                      <field name="pis_base_type" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
+                                      <field name="pis_percent" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
+                                      <field name="pis_reduction" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
+                                </group>
+                                <group>
+                                      <field name="pis_base" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
+                                      <field name="pis_value" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
+                                </group>
+                          </group>
+                          <group name="pis_st" string="PIS ST">
+                                <field name="pisst_tax_id"/>
+                                <field name="pisst_cst_id" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
+                                <field name="pisst_cst_code" readonly="1" invisible="1"/>
+                          </group>
+                          <group>
+                                <group>
+                                      <field name="pisst_base_type" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
+                                      <field name="pisst_percent" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
+                                      <field name="pisst_reduction" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
+                                </group>
+                                <group>
+                                      <field name="pisst_base" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
+                                      <field name="pisst_value" force_save="1" attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"/>
+                                </group>
+                          </group>
+                      </page>
+                      <page name="cofins" string="COFINS">
+                            <group name="cofins" string="COFINS">
+                                  <field name="cofins_tax_id"/>
+                                  <field name="cofins_cst_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
+                                  <field name="cofins_cst_code" readonly="1" invisible="1"/>
+                                  <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                            </group>
+                          <group>
+                          <group>
+                                <field name="cofins_base_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                                <field name="cofins_base_type" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
+                                <field name="cofins_percent" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
+                                <field name="cofins_reduction" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
+                          </group>
+                          <group>
+                                <field name="cofins_base" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
+                                <field name="cofins_value" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
+                          </group>
+                        </group>
+                        <group name="cofins_st" string="COFINS ST">
+                              <field name="cofinsst_tax_id"/>
+                              <field name="cofinsst_cst_id" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
+                              <field name="cofinsst_cst_code" readonly="1" invisible="1"/>
+                        </group>
+                        <group>
+                          <group>
+                                <field name="cofinsst_base_type" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
+                                <field name="cofinsst_percent" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
+                                <field name="cofinsst_reduction" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
+                          </group>
+                          <group>
+                                <field name="cofinsst_base" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
+                                <field name="cofinsst_value" force_save="1" attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"/>
+                          </group>
+                        </group>
+                      </page>
+                    </notebook>
+                  </page>
+              </notebook>
             </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
                 <group style="width: 65%%"
