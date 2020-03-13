@@ -2,6 +2,7 @@
 # Copyright (C) 2019  KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from ast import literal_eval
 from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
@@ -52,7 +53,9 @@ class Document(models.Model):
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
-        string="Document Lines")
+        string="Document Lines",
+        copy=True,
+    )
 
     document_event_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document_event",
@@ -151,3 +154,43 @@ class Document(models.Model):
         chave += str(digito)
         # FIXME: Fazer sufixo depender do modelo
         self.key = 'NFe' + chave
+
+    def _onchange_all(self):
+        self._onchange_operation_id()
+        self._onchange_document_type_id()
+        self._onchange_document_serie_id()
+        self._onchange_partner_id()
+
+    def _create_return(self):
+        return_ids = self.env[self._name]
+        for record in self:
+            if record.operation_id.return_operation_id:
+                new = record.copy()
+                new.operation_id = record.operation_id.return_operation_id
+                if record.operation_type == 'out':
+                    new.operation_type = 'in'
+                else:
+                    new.operation_type = 'out'
+                new._onchange_all()
+                new.line_ids.write({'operation_id': new.operation_id.id})
+
+                for item in new.line_ids:
+                    item._onchange_all()
+
+                return_ids |= new
+        return return_ids
+
+    def action_create_return(self):
+        self.ensure_one()
+        return_id = self._create_return()
+        if return_id.operation_type == 'out':
+            return_id.operation_type = 'in'
+            action = self.env.ref('l10n_br_fiscal.document_in_action').read()[0]
+        else:
+            return_id.operation_type = 'out'
+            action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
+
+        action['domain'] = literal_eval(action['domain'])
+        action['domain'].append(('id', '=', return_id.id))
+        return action
+
