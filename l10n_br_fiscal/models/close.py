@@ -229,23 +229,35 @@ class FiscalClose(models.Model):
                         _('Check write permissions and folder path'))
         return document_path
 
+    def _date_range(self):
+        date_range = calendar.monthrange(int(self.year), int(self.month))
+        date_min = '-'.join((self.year, self.month, str(date_range[0])))
+        date_min = datetime.strptime(date_min, '%Y-%m-%d')
+
+        date_max = '-'.join((self.year, self.month, str(date_range[1])))
+        date_max = datetime.strptime(date_max, '%Y-%m-%d')
+
+        return date_min, date_max
+
+    def _save_temp_file(self, document_path, anexo, temp_dir):
+        document_path = document_path + '/' + anexo.datas_fname
+        filename = os.path.join(temp_dir.name, document_path)
+
+        if not os.path.exists(os.path.dirname(filename)):
+            try:
+                os.makedirs(os.path.dirname(filename))
+            except OSError:
+                raise RedirectWarning(
+                    _('Error!'),
+                    _('Check write permissions and folder path'))
+
+            with open(filename, 'wb') as file:
+                file.write(base64.b64decode(anexo.datas))
+
     def _prepara_arquivos(self, temp_dir, periodic_export=False):
         domain = [('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
                    MODELO_FISCAL_EMISSAO_SERVICO),
                   ('state_edoc', 'in', SITUACAO_EDOC)]
-
-        if self.export_type == 'period':
-            date_range = calendar.monthrange(int(self.year), int(self.month))
-            date_min = '-'.join((self.year, self.month, str(date_range[0])))
-            date_min = datetime.strptime(date_min, '%Y-%m-%d')
-
-            date_max = '-'.join((self.year, self.month, str(date_range[1])))
-            date_max = datetime.strptime(date_max, '%Y-%m-%d')
-
-        domain += [
-            ('date', '>=', date_min),
-            ('date', '<=', date_max),
-        ] if self.export_type == 'period' else []
 
         domain += [
             ('close_id', '=', False)
@@ -254,6 +266,14 @@ class FiscalClose(models.Model):
         domain += [
             ('company_id', '=', self.company_id.ids)
         ] if self.company_id else []
+
+        if self.export_type == 'period':
+            date_min, date_max = self._date_range()
+
+            domain += [
+                ('date', '>=', date_min),
+                ('date', '<=', date_max),
+            ]
 
         documents = self.env['l10n_br_fiscal.document'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
@@ -272,17 +292,7 @@ class FiscalClose(models.Model):
             document_path = self.monta_caminho(document)
             try:
                 for anexo in anexos:
-                    document_path = document_path + '/' + anexo.datas_fname
-                    filename = os.path.join(temp_dir.name, document_path)
-
-                    if not os.path.exists(os.path.dirname(filename)):
-                        try:
-                            os.makedirs(os.path.dirname(filename))
-                        except OSError as exc:
-                            raise
-
-                        with open(filename, 'wb') as file:
-                            file.write(base64.b64decode(anexo.datas))
+                    self._save_temp_file(document_path, anexo, temp_dir)
 
             except Exception:
                 _logger.error(_('Replication failed: document attachments '
