@@ -1,10 +1,11 @@
 # Copyright (C) 2019 - Renato Lima Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from odoo import tools
+
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
-    from odoo.tools import convert_file
 
     files = [
         "data/l10n_br_fiscal.cnae.csv",
@@ -23,7 +24,7 @@ def post_init_hook(cr, registry):
     ]
 
     for file in files:
-        convert_file(
+        tools.convert_file(
             cr,
             "l10n_br_fiscal",
             file,
@@ -34,21 +35,22 @@ def post_init_hook(cr, registry):
             report=None,
         )
 
-    demofiles = [
-        "demo/company_demo.xml",
-        "demo/product_demo.xml",
-        "demo/partner_demo.xml",
-        "demo/l10n_br_fiscal_document_demo.xml",
-    ]
+    if not tools.config['without_demo']:
+        demofiles = [
+            "demo/company_demo.xml",
+            "demo/product_demo.xml",
+            "demo/partner_demo.xml",
+            "demo/l10n_br_fiscal_document_demo.xml",
+        ]
 
-    for f in demofiles:
-        convert_file(
-            cr,
-            "l10n_br_fiscal",
-            f,
-            None,
-            mode="init",
-            noupdate=False,
-            kind="demo",
-            report=None,
-        )
+        for f in demofiles:
+            tools.convert_file(
+                cr,
+                "l10n_br_fiscal",
+                f,
+                None,
+                mode="init",
+                noupdate=False,
+                kind="demo",
+                report=None,
+            )
