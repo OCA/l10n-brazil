@@ -103,12 +103,12 @@ class SaleOrder(models.Model):
         fp_ids = []
 
         for line in order.order_line:
-            if line.fiscal_position_id and \
-                    line.fiscal_position_id.inv_copy_note and \
-                    line.fiscal_position_id.note:
-                if line.fiscal_position_id.id not in fp_ids:
-                    fp_comment.append(line.fiscal_position_id.note)
-                    fp_ids.append(line.fiscal_position_id.id)
+            if line.operation_line_id and \
+                    line.operation_line_id.inv_copy_note and \
+                    line.operation_line_id.note:
+                if line.operation_line_id.id not in fp_ids:
+                    fp_comment.append(line.operation_line_id.note)
+                    fp_ids.append(line.operation_line_id.id)
 
         return fp_comment
 
@@ -119,15 +119,15 @@ class SaleOrder(models.Model):
         context = self.env.context
 
         if (context.get('fiscal_type') == 'service' and
-                self.order_line and self.order_line[0].fiscal_category_id):
-            fiscal_category_id = self.order_line[0].fiscal_category_id.id
-            result['fiscal_position_id'] = self.order_line.fiscal_position.id
+                self.order_line and self.order_line[0].operation_id):
+            operation_id = self.order_line[0].operation_id.id
+            result['operation_id'] = self.order_line.operation_id.id
         else:
-            fiscal_category_id = self.fiscal_category_id
-            result['fiscal_position_id'] = self.fiscal_position_id.id
+            operation_id = self.operation_id
+            result['operation_id'] = self.operation_id.id
 
-        if fiscal_category_id:
-            result['journal_id'] = fiscal_category_id.property_journal.id
+        if operation_id:
+            result['journal_id'] = operation_id.property_journal.id
 
         result['partner_shipping_id'] = self.partner_shipping_id.id
 
@@ -138,6 +138,6 @@ class SaleOrder(models.Model):
         fiscal_comment = self._fiscal_comment(self)
         result['comment'] = " - ".join(comment)
         result['fiscal_comment'] = " - ".join(fiscal_comment)
-        result['fiscal_category_id'] = fiscal_category_id.id
+        result['operation_id'] = operation_id.id
 
         return result
