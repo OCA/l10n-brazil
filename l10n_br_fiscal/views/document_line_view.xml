@@ -365,6 +365,13 @@
                 <field name="amount_estimate_tax"/>
               </group>
               <group>
+                <field name="amount_tax_withholding"/>
+                <field name="amount_fiscal"/>
+                <field name="amount_operation"/>
+                <field name="amount_fiscal_operation"/>
+                <field name="amount_financial"/>
+              </group>
+              <group>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
                 <field name="amount_total"/>

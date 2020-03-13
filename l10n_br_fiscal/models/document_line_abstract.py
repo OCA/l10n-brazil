@@ -26,16 +26,41 @@ class DocumentLineAbstract(models.AbstractModel):
     def _compute_amount(self):
         for record in self:
             round_curr = record.document_id.currency_id.round
+            # Valor dos produtos
             record.amount_untaxed = round_curr(
                 record.price_unit * record.quantity)
-            record.amount_tax = record.amount_tax_not_included
-            record.amount_total = (
-                record.amount_untaxed +
-                record.amount_tax +
+            record.amount_fiscal = round_curr(
+                record.fiscal_price * record.fiscal_quantity)
+
+            amount_insurance_other_freight_discount = (
                 record.insurance_value +
                 record.other_costs_value +
                 record.freight_value -
-                record.discount_value)
+                record.discount_value
+            )
+
+            record.amount_operation = (
+                record.amount_untaxed +
+                amount_insurance_other_freight_discount
+            )
+            record.amount_fiscal_operation = (
+                record.amount_fiscal +
+                amount_insurance_other_freight_discount
+                # + Impostos de importação
+            )
+
+            record.amount_tax = record.amount_tax_not_included
+            # Valor do documento (NF)
+            record.amount_total = (
+                record.amount_untaxed +
+                record.amount_tax +
+                amount_insurance_other_freight_discount
+            )
+
+            record.amount_financial = (
+                record.amount_total
+                # - Valor Rentenções
+            )
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
@@ -88,6 +113,26 @@ class DocumentLineAbstract(models.AbstractModel):
 
     amount_tax = fields.Monetary(
         string="Amount Tax",
+        compute="_compute_amount",
+        default=0.00)
+
+    amount_fiscal = fields.Monetary(
+        string="Amount Fiscal",
+        compute="_compute_amount",
+        default=0.00)
+
+    amount_operation = fields.Monetary(
+        string="Amount Operation",
+        compute="_compute_amount",
+        default=0.00)
+
+    amount_fiscal_operation = fields.Monetary(
+        string="Amount Fiscal Operation",
+        compute="_compute_amount",
+        default=0.00)
+
+    amount_financial = fields.Monetary(
+        string="Amount Financial",
         compute="_compute_amount",
         default=0.00)
 
