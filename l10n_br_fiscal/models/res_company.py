@@ -261,9 +261,9 @@ class ResCompany(models.Model):
             lambda d: d.tax_group_id == tax.tax_group_id
         )
 
-        tax_retention = False
-        if 'wh' in tax.tax_domain:
-            tax_retention = True
+        tax_withholding = False
+        if tax.tax_group_id.tax_withholding:
+            tax_withholding = True
 
         tax_def_values = {
             "type_in_out": "out",
@@ -273,7 +273,7 @@ class ResCompany(models.Model):
             "custom_tax": True,
             "tax_id": tax.id,
             "cst_id": tax.cst_out_id.id,
-            "tax_retention": tax_retention,
+            "tax_withholding": tax_withholding,
         }
 
         if tax_def:
