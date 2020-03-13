@@ -39,16 +39,34 @@ class Document(models.Model):
             ('1', 'Normal'),
             ('2', 'Complementar'),
             ('3', 'Ajuste'),
-            ('4', 'Devolução de mercadoria')],
+            ('4', 'Devolução de mercadoria'),
+        ],
         string='Finalidade',
-        default='1')
+        default='1',
+    )
 
     ind_final = fields.Selection(
         selection=[
             ('0', 'Não'),
-            ('1', 'Sim')],
+            ('1', 'Sim')
+        ],
         string='Operação com consumidor final',
-        default='1')
+        default='1',
+    )
+
+    ind_pres = fields.Selection(
+        selection=[
+            ('0', 'Não se aplica'),
+            ('1', 'Operação presencial'),
+            ('2', 'Não presencial, internet'),
+            ('3', 'Não presencial, teleatendimento'),
+            ('4', 'NFC-e entrega em domicílio'),
+            ('5', 'Operação presencial, fora do estabelecimento'),
+            ('9', 'Não presencial, outros'),
+        ],
+        string='Indicador de presença do comprador no estabelecimento',
+        default='0',
+    )
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
@@ -69,6 +87,12 @@ class Document(models.Model):
     state = fields.Selection(
         related="state_edoc",
         string="State")
+
+    @api.multi
+    @api.onchange("operation_id")
+    def _onchange_operation_id(self):
+        if self.operation_id:
+            self.operation_name = self.operation_id.name
 
     @api.multi
     @api.constrains("number")
