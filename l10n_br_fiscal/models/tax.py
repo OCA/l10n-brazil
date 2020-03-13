@@ -31,6 +31,7 @@ from ..constants.pis_cofins import (
 TAX_DICT_VALUES = {
     "fiscal_tax_id": False,
     "tax_include": False,
+    "tax_withholding": False,
     "tax_domain": False,
     "cst_id": False,
     "cst_code": False,
@@ -177,6 +178,7 @@ class Tax(models.Model):
 
         tax_dict["base_type"] = tax.tax_base_type
         tax_dict["tax_include"] = tax.tax_group_id.tax_include
+        tax_dict["tax_withholding"] = tax.tax_group_id.tax_withholding
         tax_dict["fiscal_tax_id"] = tax.id
         tax_dict["tax_domain"] = tax.tax_domain
         tax_dict["percent_reduction"] = tax.percent_reduction
@@ -288,7 +290,7 @@ class Tax(models.Model):
             'compute_reduction': compute_reduction
         })
 
-        taxes_dict.update(self._compute_tax_base(
+        taxes_dict[tax.tax_domain].update(self._compute_tax_base(
             tax, taxes_dict.get(tax.tax_domain), **kwargs))
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
@@ -376,8 +378,8 @@ class Tax(models.Model):
     def _compute_pis(self, tax, taxes_dict, **kwargs):
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
         if cst.code not in CST_PIS_NO_TAXED:
-            tax_dict = self._compute_generic(tax, taxes_dict, **kwargs)
-        return tax_dict
+            taxes_dict = self._compute_generic(tax, taxes_dict, **kwargs)
+        return taxes_dict
 
     def _compute_pis_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
@@ -385,14 +387,14 @@ class Tax(models.Model):
     def _compute_cofins(self, tax, taxes_dict, **kwargs):
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
         if cst.code not in CST_COFINS_NO_TAXED:
-            tax_dict = self._compute_generic(tax, taxes_dict, **kwargs)
-        return tax_dict
+            taxes_dict = self._compute_generic(tax, taxes_dict, **kwargs)
+        return taxes_dict
 
     def _compute_cofins_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_generic(self, tax, taxes_dict, **kwargs):
-        taxes_dict.update(self._compute_tax_base(
+        taxes_dict[tax.tax_domain].update(self._compute_tax_base(
             tax, taxes_dict.get(tax.tax_domain), **kwargs))
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
