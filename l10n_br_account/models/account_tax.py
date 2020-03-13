@@ -62,6 +62,8 @@ class AccountTax(models.Model):
         taxes_results = super(AccountTax, self).compute_all(
             price_unit, currency, quantity, product, partner)
 
+        return taxes_results
+
         # FIXME Should get company from document?
         fiscal_taxes_results = fiscal_taxes.compute_taxes(
             company=self.env.user.company_id,
