@@ -35,6 +35,7 @@
                         <field name="tax_domain"/>
                         <field name="sequence"/>
                         <field name="tax_include"/>
+                        <field name="tax_withholding"/>
                     </group>
                     <notebook>
                         <page name="taxes" string="Taxes">
