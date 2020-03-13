@@ -43,6 +43,7 @@
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
         <field name="operation_type" invisible="1"/>
+        <field name="document_section" invisible="1"/>
         <header>
             <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="btn-primary"/>
             <button name="action_document_send"    type="object" string="Enviar"      groups="l10n_br_fiscal.group_user"    states="a_enviar,rejeitada"         class="btn-primary"/>

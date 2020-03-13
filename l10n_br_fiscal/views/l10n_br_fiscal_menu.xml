@@ -11,10 +11,28 @@
 <!--    <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>-->
 
     # Fiscal Documents In
-    <menuitem id="document_in_menu" action="document_in_action" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+    <menuitem id="document_in_menu" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+
+    <menuitem id="document_nfe_in_menu" action="document_nfe_in_action" name="NF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="10"/>
+
+    <menuitem id="document_nfse_recibos_in_menu" action="document_nfse_recibos_in_action" name="NFS-e e Recibos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="15"/>
+
+    <menuitem id="document_cte_in_menu" action="document_cte_in_action" name="CT-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="20"/>
+
+    <menuitem id="document_all_in_menu" action="document_in_action" name="Todos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="25"/>
 
     # Fiscal Documents Out
-    <menuitem id="document_out_menu" action="document_out_action" name="Emission" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="11"/>
+    <menuitem id="document_out_menu" name="Emission" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="11"/>
+
+    <menuitem id="document_nfe_out_menu" action="document_nfe_out_action" name="NF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="10"/>
+
+    <menuitem id="document_nfse_recibos_out_menu" action="document_nfse_recibos_out_action" name="NFS-e e Recibos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="15"/>
+
+    <menuitem id="document_nfce_cfe_out_menu" action="document_nfce_cfe_out_action" name="NFC-e e CF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="20"/>
+
+    <menuitem id="document_cte_out_menu" action="document_cte_out_action" name="CT-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="25"/>
+
+    <menuitem id="document_all_out_menu" action="document_out_action" name="Todos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="30"/>
 
     <!-- Partners -->
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
