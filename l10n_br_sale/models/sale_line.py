@@ -5,6 +5,10 @@
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
+from ...l10n_br_fiscal.constants.fiscal import (
+    TAX_FRAMEWORK,
+)
+
 
 class SaleOrderLine(models.Model):
     _name = 'sale.order.line'
@@ -56,13 +60,32 @@ class SaleOrderLine(models.Model):
         compute='_amount_line', string='Subtotal',
         digits=dp.get_precision('Sale Price'))
 
+    fiscal_tax_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.tax',
+        relation='fiscal_sale_line_tax_rel',
+        column1='document_id',
+        column2='fiscal_tax_id',
+        string="Fiscal Taxes")
+
+    # Create to avoid error l10n_br_fiscal/models/
+    # document_fiscal_line_mixin.py", line 548, in _compute_taxes
+    quantity = fields.Float(
+        related='product_uom_qty',
+        string="Quantity",
+        digits=dp.get_precision("Product Unit of Measure"))
+
+    tax_framework = fields.Selection(
+        selection=TAX_FRAMEWORK,
+        related="order_id.company_id.tax_framework",
+        string="Tax Framework")
+
     @api.multi
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
         result = super(SaleOrderLine, self)._prepare_invoice_line(qty)
-        result['fiscal_category_id'] = \
-            self.fiscal_category_id.id or self.order_id.fiscal_category_id.id \
+        result['operation_id'] = \
+            self.operation_id.id or self.order_id.operation_id.id \
             or False
-        result['fiscal_position_id'] = self.fiscal_position_id.id or \
-            self.order_id.fiscal_position_id.id or False
+        result['operation_line_id'] = self.operation_line_id.id or \
+            False
         return result
