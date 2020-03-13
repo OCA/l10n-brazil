@@ -6,7 +6,6 @@ from odoo import tools
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
-    from odoo.tools import convert_file
 
     files = [
         "data/l10n_br_fiscal.cnae.csv",
@@ -44,6 +43,7 @@ def post_init_hook(cr, registry):
             "demo/product_demo.xml",
             "demo/partner_demo.xml",
             "demo/l10n_br_fiscal_document_demo.xml",
+            "demo/fiscal_operation_demo.xml",
         ]
 
         for f in demofiles:
