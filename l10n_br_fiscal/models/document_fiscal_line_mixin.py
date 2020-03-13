@@ -977,7 +977,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
                 if computed_tax:
                     if not computed_tax.get("tax_include"):
-                        l.amount_tax_not_included = computed_tax.get(
+                        l.amount_tax_not_included += computed_tax.get(
                             "tax_value", 0.00)
 
                 if tax.tax_domain == TAX_DOMAIN_IPI:
