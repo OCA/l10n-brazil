@@ -22,7 +22,7 @@
         # Action
         "views/nfe_action.xml",
         # Menu
-        "views/nfe_menu.xml",
+        # "views/nfe_menu.xml",
     ],
     "installable": False,
     "auto_install": False,
