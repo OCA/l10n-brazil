@@ -184,6 +184,7 @@ class AbstractSpecMixin(models.AbstractModel):
         key_vals = {}
         for k, v in self.fields_get().items():
             if v.get('related') is not None\
+                    and hasattr(v['related'], '__len__')\
                     and len(v['related']) == 2\
                     and v['related'][0] == key\
                     and vals.get(k) is not None:
