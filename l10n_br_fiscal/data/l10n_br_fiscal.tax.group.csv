@@ -1,24 +1,24 @@
-"id","name","tax_domain","tax_include"
-"tax_group_cofins","COFINS","cofins",True
-"tax_group_cofins_wh","COFINS RET","cofins_wh",True
-"tax_group_cofinsst","COFINS ST","cofinsst",True
-"tax_group_csll","CSLL","csll",True
-"tax_group_csll_wh","CSLL RET","csll_wh",True
-"tax_group_icms","ICMS","icms",True
-"tax_group_icmsfcp","ICMS FCP","icmsfcp",True
-"tax_group_icmssn","ICMS - Simples Nacional","icmssn",True
-"tax_group_icmsst","ICMS ST","icmsst",False
-"tax_group_ii","II","ii",True
-"tax_group_inss","INSS","inss",True
-"tax_group_inss_wh","INSS RET","inss_wh",True
-"tax_group_ipi","IPI","ipi",False
-"tax_group_ir","IR","ir",True
-"tax_group_irpj","IRPJ","irpj",True
-"tax_group_irpj_wh","IRPJ RET","irpj_wh",True
-"tax_group_issqn","ISSQN","issqn",True
-"tax_group_issqn_wh","ISSQN RET","issqn_wh",True
-"tax_group_others","Outros","others",True
-"tax_group_pis","PIS","pis",True
-"tax_group_pis_wh","PIS RET","pis_wh",True
-"tax_group_pisst","PIS ST","pisst",True
-"tax_group_simples","Simples Nacional","simples",True
+"id","name","tax_domain","tax_include","tax_withholding"
+"tax_group_cofins","COFINS","cofins",True,False
+"tax_group_cofins_wh","COFINS RET","cofins_wh",True,True
+"tax_group_cofinsst","COFINS ST","cofinsst",True,False
+"tax_group_csll","CSLL","csll",True,False
+"tax_group_csll_wh","CSLL RET","csll_wh",True,True
+"tax_group_icms","ICMS","icms",True,False
+"tax_group_icmsfcp","ICMS FCP","icmsfcp",True,False
+"tax_group_icmssn","ICMS - Simples Nacional","icmssn",True,False
+"tax_group_icmsst","ICMS ST","icmsst",False,False
+"tax_group_ii","II","ii",True,False
+"tax_group_inss","INSS","inss",True,False
+"tax_group_inss_wh","INSS RET","inss_wh",True,True
+"tax_group_ipi","IPI","ipi",False,False
+"tax_group_ir","IR","ir",True,False
+"tax_group_irpj","IRPJ","irpj",True,False
+"tax_group_irpj_wh","IRPJ RET","irpj_wh",True,True
+"tax_group_issqn","ISSQN","issqn",True,False
+"tax_group_issqn_wh","ISSQN RET","issqn_wh",True,True
+"tax_group_others","Outros","others",True,False
+"tax_group_pis","PIS","pis",True,False
+"tax_group_pis_wh","PIS RET","pis_wh",True,True
+"tax_group_pisst","PIS ST","pisst",True,False
+"tax_group_simples","Simples Nacional","simples",True,False
