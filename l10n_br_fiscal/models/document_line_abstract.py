@@ -97,9 +97,6 @@ class DocumentLineAbstract(models.AbstractModel):
         comodel_name="product.product",
         string="Product")
 
-    notes = fields.Text(
-        string="Notes")
-
     # Amount Fields
     amount_estimate_tax = fields.Monetary(
         string="Amount Estimate Total",
