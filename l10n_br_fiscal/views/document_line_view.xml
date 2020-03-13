@@ -354,11 +354,6 @@
                 </page>
             </notebook>
           </page>
-          <page name="others" string="Others">
-            <group>
-              <field name="notes"/>
-            </group>
-          </page>
           <page name="amounts" string="Amounts">
             <group>
               <group>
