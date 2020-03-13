@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 import os
 import base64
+import re
+import tempfile
 import zipfile
 import io
 import logging
@@ -78,6 +80,10 @@ class FiscalClose(models.Model):
     _name = 'l10n_br_fiscal.close'
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'Fechamento Fiscal'
+    _sql_constraints = [('fiscal_close_unique',
+                         'unique (company_id, month, year, export_type)',
+                         "The closing must be unique for the company in a "
+                         "period of time.")]
 
     @api.depends('month', 'year', 'export_type')
     def _compute_name(self):
@@ -182,6 +188,11 @@ class FiscalClose(models.Model):
         'ir.attachment', string="Other accountant files",
     )
 
+    company_id = fields.Many2one(
+        'res.company',
+        string="Empresas"
+    )
+
     file_icms = fields.Binary(string='ICMS')
     file_icms_st = fields.Binary(string='ICMS ST')
     file_ipi = fields.Binary(string='IPI')
@@ -218,7 +229,7 @@ class FiscalClose(models.Model):
                         _('Check write permissions and folder path'))
         return document_path
 
-    def _prepara_arquivos(self, periodic_export=False):
+    def _prepara_arquivos(self, temp_dir, periodic_export=False):
         domain = [('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
                    MODELO_FISCAL_EMISSAO_SERVICO),
                   ('state_edoc', 'in', SITUACAO_EDOC)]
@@ -240,11 +251,15 @@ class FiscalClose(models.Model):
             ('close_id', '=', False)
         ] if periodic_export else []
 
+        domain += [
+            ('company_id', '=', self.company_id.ids)
+        ] if self.company_id else []
+
         documents = self.env['l10n_br_fiscal.document'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_cancel'].search(domain)
 
-        files = {}
+
         for document in documents:
             anexos = [getattr(document, campo) for campo in XMLS_IMPORTANTES
                       if hasattr(document, campo)
@@ -257,27 +272,42 @@ class FiscalClose(models.Model):
             document_path = self.monta_caminho(document)
             try:
                 for anexo in anexos:
-                    files[document_path + '/' + anexo.datas_fname] = \
-                        base64.b64decode(anexo.datas)
-                if periodic_export:
-                    document.close_id = self.id
+                    document_path = document_path + '/' + anexo.datas_fname
+                    filename = os.path.join(temp_dir.name, document_path)
+
+                    if not os.path.exists(os.path.dirname(filename)):
+                        try:
+                            os.makedirs(os.path.dirname(filename))
+                        except OSError as exc:
+                            raise
+
+                        with open(filename, 'wb') as file:
+                            file.write(base64.b64decode(anexo.datas))
+
             except Exception:
                 _logger.error(_('Replication failed: document attachments '
                                 '[id =% s] is not present in the database.'
                                 % document.id))
-        return files
+        return temp_dir.name
+
+    def zipdir(self, path, ziph):
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                zip_path = re.sub(".*/odoo/.*?/.", "/", root)
+                ziph.writestr(os.path.join(zip_path, file), file)
 
     def action_export(self):
-        files = self._prepara_arquivos()
+        temp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
+
+        files_dir = self._prepara_arquivos(temp_dir)
         order_file = io.BytesIO()
         order_zip = zipfile.ZipFile(
             order_file, mode="w", compression=zipfile.ZIP_DEFLATED
         )
-        for file in files.keys():
-            order_zip.writestr(
-                file,
-                files[file]
-            )
+
+        self.zipdir(files_dir, order_zip)
+        temp_dir.cleanup()
+
         order_zip.close()
         self.write({
             'zip_file': base64.b64encode(order_file.getvalue()),
