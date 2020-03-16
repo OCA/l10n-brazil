@@ -32,6 +32,12 @@ class L10nBrAccountMoveTemplateLine(models.Model):
         comodel_name='account.account',
         string=u'Crédito',
     )
+    history_id = fields.Many2one(
+        comodel_name='l10n_br_account.move.history',
+        string=u'Histórico',
+        required=True,
+    )
+
 
     @api.onchange('model_ids')
     def _onchange_model_ids(self):

@@ -14,6 +14,7 @@
                 <field name="field_id"/>
                 <field name="account_debit_id"/>
                 <field name="account_credit_id"/>
+                <field name="history_id"/>
             </tree>
         </field>
     </record>
