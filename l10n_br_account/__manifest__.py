@@ -33,6 +33,8 @@
         'views/fiscal_operation_line_view.xml',
         'views/account_invoice_view.xml',
         'views/account_invoice_line_view.xml',
+        'views/document_view.xml',
+        'views/document_line_view.xml',
         'views/l10n_br_account_move_template_line.xml',
         'views/l10n_br_account_move_template.xml',
         'views/l10n_br_account_move_history.xml',
