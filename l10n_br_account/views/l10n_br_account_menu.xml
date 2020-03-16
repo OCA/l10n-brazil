@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.menu" id="menu_l10n_br_account_configuration">
+            <field name="parent_id" ref="account.menu_finance_configuration"/>
+            <field name="name">Lançamentos Contábeis</field>
+            <field name="sequence" eval="999"/>
+        </record>
+
+    </data>
+</odoo>

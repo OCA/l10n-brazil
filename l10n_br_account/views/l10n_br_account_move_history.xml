@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_account_move_history_form_view">
+        <field name="name">l10n_br_account.move.history.form (in l10n_br_account)</field>
+        <field name="model">l10n_br_account.move.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- TODO -->
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                    </group>
+                    <field name="name" placeholder="Histórico Contábil"/>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_account_move_history_search_view">
+        <field name="name">l10n_br_account.move.history.search (in l10n_br_account)</field>
+        <field name="model">l10n_br_account.move.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- TODO -->
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_account_move_history_tree_view">
+        <field name="name">l10n_br_account.move.history.tree (in l10n_br_account)</field>
+        <field name="model">l10n_br_account.move.history</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_account_move_history_act_window">
+        <field name="name">Históricos Contábeis</field> <!-- TODO -->
+        <field name="res_model">l10n_br_account.move.history</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_account_move_history_menu">
+        <field name="name">Históricos Contábeis</field>
+        <field name="parent_id" ref="l10n_br_account.menu_l10n_br_account_configuration"/>
+        <field name="action" ref="l10n_br_account_move_history_act_window"/>
+        <field name="sequence" eval="90"/>
+    </record>
+
+</odoo>

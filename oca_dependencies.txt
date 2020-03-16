@@ -3,3 +3,4 @@ bank-payment
 account-payment
 account-invoicing
 mis-builder
+account-financial-reporting
