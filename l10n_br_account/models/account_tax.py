@@ -62,7 +62,8 @@ class AccountTax(models.Model):
         taxes_results = super(AccountTax, self).compute_all(
             price_unit, currency, quantity, product, partner)
 
-        return taxes_results
+        if not fiscal_taxes:
+            fiscal_taxes = self.env['l10n_br_fiscal.tax']
 
         # FIXME Should get company from document?
         fiscal_taxes_results = fiscal_taxes.compute_taxes(
@@ -94,19 +95,21 @@ class AccountTax(models.Model):
                 account_taxes_by_domain.get(
                     account_tax.get('id')))
 
-            if not fiscal_tax.get('tax_include'):
-                taxes_results['total_included'] += fiscal_tax.get('tax_value')
+            if fiscal_tax:
+                if not fiscal_tax.get('tax_include'):
+                    taxes_results['total_included'] += fiscal_tax.get(
+                        'tax_value')
 
-            account_tax.append({
-                'id': account_tax.id,
-                'name': account_tax.name,
-                'amount': fiscal_tax.get('tax_value'),
-                'base': fiscal_tax.get('base'),
-                'sequence': account_tax.sequence,
-                'account_id': account_tax.account_id.id,
-                'refund_account_id': account_tax.refund_account_id.id,
-                'analytic': account_tax.analytic,
-                'tax_include': fiscal_tax.get('tax_include')
-            })
+                account_tax.append({
+                    'id': account_tax.id,
+                    'name': account_tax.name,
+                    'amount': fiscal_tax.get('tax_value'),
+                    'base': fiscal_tax.get('base'),
+                    'sequence': account_tax.sequence,
+                    'account_id': account_tax.account_id.id,
+                    'refund_account_id': account_tax.refund_account_id.id,
+                    'analytic': account_tax.analytic,
+                    'tax_include': fiscal_tax.get('tax_include')
+                })
 
         return taxes_results
