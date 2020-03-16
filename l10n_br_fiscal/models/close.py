@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright 2018 KMEE INFORMATICA LTDA
 #   Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
@@ -16,7 +14,7 @@ import calendar
 
 from odoo import api, models, fields, _
 from odoo.exceptions import RedirectWarning
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+from ..constants.fiscal import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
     MODELO_FISCAL_NFE,
