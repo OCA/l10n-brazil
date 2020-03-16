@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.model.access" id="l10n_br_account_move_history_access_name"> <!-- TODO acl id -->
+        <field name="name">l10n_br_account.move.history access name</field> <!-- TODO acl name -->
+        <field name="model_id" ref="model_l10n_br_account_move_history"/>
+        <!-- TODO review and adapt -->
+        <field name="group_id" ref="base.group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+</odoo>

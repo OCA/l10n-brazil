@@ -8,15 +8,23 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.1",
-    "depends": ["account_cancel", "l10n_br_coa", "l10n_br_fiscal"],
+    "depends": [
+	"account_cancel",
+	"account_export_csv",
+	"l10n_br_coa",
+	"l10n_br_fiscal",
+	],
     "data": [
         # security
         'security/ir.model.access.csv',
+        'security/l10n_br_account_move_history.xml',
+        'security/l10n_br_account_move_template.xml',
 
         # data
         "data/l10n_br_account_tax_data.xml",
         "data/l10n_br_account_tax_group_data.xml",
 
+        "views/l10n_br_account_menu.xml",
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
@@ -27,6 +35,7 @@
         'views/account_invoice_line_view.xml',
         'views/l10n_br_account_move_template_line.xml',
         'views/l10n_br_account_move_template.xml',
+        'views/l10n_br_account_move_history.xml',
 
         # Wizards
         'wizards/account_invoice_refund_view.xml',
@@ -34,6 +43,7 @@
     "demo": [
         "demo/account_journal_demo.xml",
         "demo/fiscal_operation_demo.xml"
+        'demo/l10n_br_account_move_history.xml',
         'demo/l10n_br_account_move_template_line.xml',
         'demo/l10n_br_account_move_template.xml',
     ],

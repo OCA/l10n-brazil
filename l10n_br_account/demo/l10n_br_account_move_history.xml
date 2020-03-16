@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo noupdate="1">
+
+    <!-- TODO
+    <record model="l10n_br_account.move.history" id="l10n_br_account_move_history_demo_1">
+       <field name="name">...</field>
+    </record>
+    -->
+
+</odoo>
