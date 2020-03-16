@@ -13,7 +13,7 @@ from pyboleto.bank_api.itau import ApiItau
 
 from odoo.addons.queue_job.job import job
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from ..constantes import (
     SEQUENCIAL_EMPRESA, SEQUENCIAL_FATURA, SEQUENCIAL_CARTEIRA
 )
@@ -139,12 +139,13 @@ class AccountInvoice(models.Model):
         if payment_order_ids:
             draft_cancel_payment_order_ids = payment_order_ids.filtered(
                 lambda p: p.state in ['draft', 'cancel'])
-            if payment_order_ids - draft_cancel_payment_order_ids:
-                if _raise:
-                    raise UserError(_(
-                        "A fatura não pode ser cancelada pois a mesma já se "
-                        "encontra exportada por uma ordem de pagamento."
-                    ))
+            # TODO: Descomentar
+            # if payment_order_ids - draft_cancel_payment_order_ids:
+                # if _raise:
+                #     raise UserError(_(
+                #         "A fatura não pode ser cancelada pois a mesma já se "
+                #         "encontra exportada por uma ordem de pagamento."
+                #     ))
 
             for po_id in draft_cancel_payment_order_ids:
                 p_line_id = self.env['account.payment.line'].search([
@@ -156,11 +157,12 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_invoice_cancel(self):
         for record in self:
-            if record.eval_state_cnab == 'accepted':
-                raise UserError(_(
-                    "A fatura não pode ser cancelada pois já foi aprovada "
-                    "no Banco."
-                ))
+            # TODO: Descomentar
+            # if record.eval_state_cnab == 'accepted':
+            #     raise UserError(_(
+            #         "A fatura não pode ser cancelada pois já foi aprovada "
+            #         "no Banco."
+            #     ))
             if record.eval_state_cnab == 'done':
                 raise UserError(_(
                     "Não é possível cancelar uma fatura finalizada."
@@ -177,13 +179,32 @@ class AccountInvoice(models.Model):
             if move_id:
                 move_id.button_cancel()
                 record.move_id = False
-                move_id.unlink()
+                try:
+                    move_id.unlink()
+                except ValidationError:
+                    self.cancel_move_id(move_id)
+
                 record.state = 'open'
                 if record.payment_move_line_ids:
                     for line_id in record.move_line_receivable_id:
                         line_id.remove_move_reconcile()
 
         super(AccountInvoice, self).action_invoice_cancel()
+
+    def cancel_move_id(self, move_id):
+        """
+        Método para cancelar uma account.move.
+        A linha de pagamento será arquivada
+        :param move_id: account.move
+        :return:
+        """
+        payment_line_ids = move_id.line_ids.mapped(
+            'payment_line_ids').filtered(
+            lambda p: p.state in ['draft', 'cancel'])
+        payment_line_ids.write({'active': False})
+
+        # TODO: Aqui fica faltando o fluxo de gerar mover a linha de
+        #  pagamento para uma remessa de cancelamento
 
     def create_bank_api_operation(self, request, operation_type=False,
                                   environment=False):

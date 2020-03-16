@@ -11,6 +11,11 @@ from ..constantes import COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, \
 class PaymentLine(models.Model):
     _inherit = 'account.payment.line'
 
+    active = fields.Boolean(
+        string=u'Ativo',
+        default=True,
+    )
+
     @api.model
     def default_get(self, fields_list):
         res = super(PaymentLine, self).default_get(fields_list)
