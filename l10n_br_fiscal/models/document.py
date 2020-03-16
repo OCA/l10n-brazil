@@ -113,7 +113,6 @@ class Document(models.Model):
         stored=True,
     )
 
-
     # Você não vai poder fazer isso em modelos que já tem state
     # TODO Porque não usar o campo state do fiscal.document???
     state = fields.Selection(
