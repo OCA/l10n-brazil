@@ -4,12 +4,7 @@
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import (
-    NCM_FOR_SERVICE_REF,
-    PRODUCT_FISCAL_TYPE,
-    PRODUCT_FISCAL_TYPE_SERVICE,
-    TAX_FRAMEWORK,
-)
+from ..constants.fiscal import TAX_FRAMEWORK
 
 
 class DocumentLineAbstract(models.AbstractModel):
@@ -41,13 +36,6 @@ class DocumentLineAbstract(models.AbstractModel):
                 record.other_costs_value +
                 record.freight_value -
                 record.discount_value)
-
-    @api.model
-    def _get_default_ncm_id(self):
-        fiscal_type = self.env.context.get("default_fiscal_type")
-        if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
-            ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
-            return ncm_id
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
@@ -101,27 +89,6 @@ class DocumentLineAbstract(models.AbstractModel):
     uot_id = fields.Many2one(
         comodel_name="uom.uom",
         string="Tax UoM")
-
-    fiscal_type = fields.Selection(
-        selection=PRODUCT_FISCAL_TYPE,
-        string="Fiscal Type")
-
-    ncm_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.ncm",
-        index=True,
-        default=_get_default_ncm_id,
-        string="NCM")
-
-    cest_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cest",
-        index=True,
-        string="CEST",
-        domain="[('ncm_ids', '=', ncm_id)]")
-
-    nbs_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.nbs",
-        index=True,
-        string="NBS")
 
     notes = fields.Text(
         string="Notes")
