@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="ind_ie_dest" position="after">
                 <field name="fiscal_position_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="move_template_id"/>
             </field>
         </field>
     </record>
