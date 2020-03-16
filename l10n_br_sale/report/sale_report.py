@@ -6,22 +6,18 @@ from odoo import fields, models
 
 class SaleReport(models.Model):
     _inherit = "sale.report"
-    fiscal_category_id = fields.Many2one(
-        "l10n_br_account.fiscal.category", "Fiscal Category", readonly=True
-    )
-    fiscal_position_id = fields.Many2one(
-        "account.fiscal.position", "Fiscal Position", readonly=True
+    operation_id = fields.Many2one(
+        "l10n_br_fiscal.operation", "Operation", readonly=True
     )
 
     def _select(self):
         return (
             super(SaleReport, self)._select()
-            + ", l.fiscal_category_id as fiscal_category_id, "
-            "l.fiscal_position_id as fiscal_position_id"
+            + ", l.operation_id as operation_id, "
         )
 
     def _group_by(self):
         return (
             super(SaleReport, self)._group_by()
-            + ", l.fiscal_category_id, l.fiscal_position_id"
+            + ", l.operation_id"
         )
