@@ -9,6 +9,9 @@ from ..constants.fiscal import (
     FISCAL_IN_OUT,
     TAX_FRAMEWORK_SIMPLES_ALL,
     CFOP_DESTINATION,
+    NCM_FOR_SERVICE_REF,
+    PRODUCT_FISCAL_TYPE,
+    PRODUCT_FISCAL_TYPE_SERVICE,
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_DOMAIN_ISSQN,
@@ -23,16 +26,16 @@ from ..constants.fiscal import (
     TAX_DOMAIN_COFINS,
     TAX_DOMAIN_COFINS_ST
 )
-from ..constants.icms import ICMS_BASE_TYPE, ICMS_BASE_TYPE_DEFAULT
 
+from ..constants.icms import ICMS_BASE_TYPE, ICMS_BASE_TYPE_DEFAULT
 
 from ..constants.icms import (
     ICMS_ORIGIN,
     ICMS_ORIGIN_DEFAULT
 )
 
-
 from .tax import TAX_DICT_VALUES
+
 
 FISCAL_TAX_ID_FIELDS = [
     'issqn_tax_id',
@@ -47,6 +50,7 @@ FISCAL_TAX_ID_FIELDS = [
     'cofins_tax_id',
     'cofinsst_tax_id'
 ]
+
 
 FISCAL_CST_ID_FIELDS = [
     'icms_cst_id',
@@ -82,6 +86,13 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         return stax_range_id
 
     @api.model
+    def _get_default_ncm_id(self):
+        fiscal_type = self.env.context.get("default_fiscal_type")
+        if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
+            ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
+            return ncm_id
+
+    @api.model
     def _operation_domain(self):
         domain = [('state', '=', 'approved')]
         return domain
@@ -94,6 +105,27 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product")
+
+    fiscal_type = fields.Selection(
+        selection=PRODUCT_FISCAL_TYPE,
+        string="Fiscal Type")
+
+    ncm_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.ncm",
+        index=True,
+        default=_get_default_ncm_id,
+        string="NCM")
+
+    cest_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cest",
+        index=True,
+        string="CEST",
+        domain="[('ncm_ids', '=', ncm_id)]")
+
+    nbs_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.nbs",
+        index=True,
+        string="NBS")
 
     operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
