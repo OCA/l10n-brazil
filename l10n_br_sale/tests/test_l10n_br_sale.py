@@ -17,6 +17,7 @@ class TestL10nBRSale(common.TransactionCase):
             self.ref('l10n_br_fiscal.fo_venda_revenda'))
 
     def test_l10n_br_sale_order(self):
+        """ Test brazilian fiscal mapping. """
         self.sale_order_1.onchange_partner_id()
         self.sale_order_1.onchange_partner_shipping_id()
         self.assertTrue(
@@ -112,12 +113,6 @@ class TestL10nBRSale(common.TransactionCase):
                 "Error to mapping CST 01 - Operação Tributável com Alíquota Básica"
                 " Básica to COFINS 3% de Venda de Contribuinte Dentro do Estado.")
 
-            for tax in line.tax_id:
-                self.assertEquals(
-                    tax.name,
-                    u"IPI Saída 5% - l10n_br_sale",
-                    u"Error to mapping correct TAX ( IPI Saída 5%" u" - l10n_br_sale).",
-                )
             # Change Operation Line
             line.operation_line_id = self.operation_line_revenda.id
             self.assertTrue(
@@ -131,14 +126,7 @@ class TestL10nBRSale(common.TransactionCase):
                 "Error to mapping correct Operation Line on Sale Order Line"
                 " after change Operation Line.",
             )
-            for tax in line.tax_id:
-                if tax.tax_group_id.name == "IPI":
-                    self.assertEquals(
-                        tax.name,
-                        u"IPI Saída 2% - l10n_br_sale",
-                        u"Error to mapping correct TAX ("
-                        u" IPI Saída 2% - l10n_br_sale).",
-                    )
+
         self.sale_order_1.action_confirm()
 
         # Create and check invoice
@@ -148,30 +136,18 @@ class TestL10nBRSale(common.TransactionCase):
         )
         for invoice in self.sale_order_1.invoice_ids:
             self.assertTrue(
-                invoice.fiscal_category_id,
-                "Error to included Fiscal Category on invoice"
-                " dictionary from Sale Order.",
-            )
-            self.assertTrue(
-                invoice.fiscal_position_id,
-                "Error to included Fiscal Position on invoice"
+                invoice.operation_id,
+                "Error to included Operation on invoice"
                 " dictionary from Sale Order.",
             )
             for line in invoice.invoice_line_ids:
                 self.assertTrue(
-                    line.fiscal_position_id,
-                    "Error to mapping Fiscal Position on Sale Order Line.",
+                    line.operation_line_id,
+                    "Error to included Operation Line from Sale Order Line.",
                 )
-                for tax in line.invoice_line_tax_ids:
-                    if tax.tax_group_id.name == "IPI":
-                        self.assertEquals(
-                            tax.name,
-                            u"IPI Saída 2% - l10n_br_sale",
-                            u"Error to mapping correct TAX ("
-                            u" IPI Saída 2% - l10n_br_sale).",
-                        )
 
     def test_l10n_br_sale_discount(self):
+        """ Test sale discount in l10n_br_sale """
         self.sale_discount = self.sale_object.create(
             dict(
                 name="TESTE DESCONTO",
@@ -186,21 +162,18 @@ class TestL10nBRSale(common.TransactionCase):
                 state="draft",
                 operation_id=self.env.ref('l10n_br_fiscal.fo_venda').id,
                 order_line=[
-                    (
-                        0,
-                        0,
-                        dict(
-                            name="TESTE DISCOUNT",
-                            product_id=self.env.ref("product.product_product_27").id,
-                            product_uom_qty=1,
-                            product_uom=self.env.ref("uom.product_uom_unit").id,
-                            price_unit=100,
-                            operation_id=self.env.ref('l10n_br_fiscal.fo_venda').id,
-                            operation_line_id=self.env.ref(
-                                'l10n_br_fiscal.fo_venda_venda').id,
-                        ),
-                    )
-                ],
+                    (0, 0,
+                     dict(
+                         name="TESTE DISCOUNT",
+                         product_id=self.env.ref("product.product_product_27").id,
+                         product_uom_qty=1,
+                         product_uom=self.env.ref("uom.product_uom_unit").id,
+                         price_unit=100,
+                         operation_id=self.env.ref('l10n_br_fiscal.fo_venda').id,
+                         operation_line_id=self.env.ref(
+                            'l10n_br_fiscal.fo_venda_venda').id,
+                     ),
+                     )],
             )
         )
         self.sale_discount.onchange_partner_id()
@@ -226,7 +199,6 @@ class TestL10nBRSale(common.TransactionCase):
                 line.operation_line_id,
                 "Error to mapping Operation Line on Sale Order Line.",
             )
-            line._compute_product_updatable()
 
         self.sale_discount.action_confirm()
         self.assertTrue(self.sale_discount.state == 'sale')
