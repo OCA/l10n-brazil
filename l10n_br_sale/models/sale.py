@@ -97,20 +97,21 @@ class SaleOrder(models.Model):
             for sale_line in sale_order.order_line:
                 sale_line.discount = sale_order.discount_rate
 
-    @api.model
-    def _fiscal_comment(self, order):
-        fp_comment = []
-        fp_ids = []
-
-        for line in order.order_line:
-            if line.operation_line_id and \
-                    line.operation_line_id.inv_copy_note and \
-                    line.operation_line_id.note:
-                if line.operation_line_id.id not in fp_ids:
-                    fp_comment.append(line.operation_line_id.note)
-                    fp_ids.append(line.operation_line_id.id)
-
-        return fp_comment
+    # TODO FIscal Comment
+    # @api.model
+    # def _fiscal_comment(self, order):
+    #     fp_comment = []
+    #     fp_ids = []
+    #
+    #     for line in order.order_line:
+    #         if line.operation_line_id and \
+    #                 line.operation_line_id.inv_copy_note and \
+    #                 line.operation_line_id.note:
+    #             if line.operation_line_id.id not in fp_ids:
+    #                 fp_comment.append(line.operation_line_id.note)
+    #                 fp_ids.append(line.operation_line_id.id)
+    #
+    #      return fp_comment
 
     @api.multi
     def _prepare_invoice(self):
@@ -126,8 +127,9 @@ class SaleOrder(models.Model):
             operation_id = self.operation_id
             result['operation_id'] = self.operation_id.id
 
-        if operation_id:
-            result['journal_id'] = operation_id.property_journal.id
+        # TODO check journal
+        # if operation_id:
+        #    result['journal_id'] = operation_id.property_journal.id
 
         result['partner_shipping_id'] = self.partner_shipping_id.id
 
@@ -135,9 +137,10 @@ class SaleOrder(models.Model):
         if self.note and self.copy_note:
             comment.append(self.note)
 
-        fiscal_comment = self._fiscal_comment(self)
+        # TODO FISCAL Commnet
+        # fiscal_comment = self._fiscal_comment(self)
         result['comment'] = " - ".join(comment)
-        result['fiscal_comment'] = " - ".join(fiscal_comment)
+        # result['fiscal_comment'] = " - ".join(fiscal_comment)
         result['operation_id'] = operation_id.id
 
         return result
