@@ -7,14 +7,10 @@
         <field name="inherit_id" ref="sale.view_order_product_search"/>
         <field name="arch" type="xml">
             <filter name="Sales" position="after">
-                <filter string="Fiscal Operation Category"
+                <filter string="Fiscal Operation"
                         icon="terp-stock_symbol-selection"
-                        name="fiscal_category_id"
-                        context="{'group_by':'fiscal_category_id'}"/>
-                <filter string="Fiscal Position"
-                        icon="terp-stock_symbol-selection"
-                        name="fiscal_position_id"
-                        context="{'group_by':'fiscal_position_id'}"/>
+                        name="operation_id"
+                        context="{'group_by':'operation_id'}"/>
             </filter>
         </field>
     </record>
