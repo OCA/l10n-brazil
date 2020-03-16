@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Produtos -->
+    <record id="product.product_product_27" model="product.product">
+        <field name="invoice_policy">order</field>
+    </record>
+
+    <record id="product.product_product_12" model="product.product">
+        <field name="invoice_policy">order</field>
+    </record>
+
     <!-- Sale Order Teste - 1 -->
     <record id="sale_order_teste_1" model="sale.order">
         <field name="name">Teste l10n_br_sale - 1</field>
