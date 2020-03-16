@@ -1,3 +1,4 @@
 currency
 bank-payment
 account-payment
+account-financial-reporting
