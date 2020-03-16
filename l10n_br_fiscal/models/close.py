@@ -121,7 +121,7 @@ class FiscalClose(models.Model):
         index=True,
     )
     year = fields.Char(string='Year', size=4, index=True)
-    month = fields.Char(string='Month', size=2,index=True)
+    month = fields.Char(string='Month', size=2, index=True)
     zip_file = fields.Binary(
         string='Zip Files',
         readonly=True
@@ -276,7 +276,6 @@ class FiscalClose(models.Model):
         documents = self.env['l10n_br_fiscal.document'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_cancel'].search(domain)
-
 
         for document in documents:
             anexos = [getattr(document, campo) for campo in XMLS_IMPORTANTES
