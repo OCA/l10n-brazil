@@ -36,7 +36,7 @@
             <field name="date_order" position="after">
                 <field name="operation_id"/>
             </field>
-            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
+            <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
                 <group name="l10n_br_fiscal" string="Operation">
                     <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
                     <field name="operation_type" invisible="1" readonly="1"/>
@@ -241,6 +241,10 @@
                         %%
                     </div>
                 </group>
+            </xpath>
+            <!-- In brazilian localization we need to open Form view to see all fields -->
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="editable">False</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                 <field name="price_gross"/>
