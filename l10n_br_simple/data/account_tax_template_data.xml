@@ -400,7 +400,7 @@
         <field name="description">II</field>
         <field name="name">II Entrada</field>
         <field name="amount">0.00</field>
-        <field name="type_tax_use">sale</field>
+        <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
         <field ref="l10n_br_simple_chart_template" name="chart_template_id"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
