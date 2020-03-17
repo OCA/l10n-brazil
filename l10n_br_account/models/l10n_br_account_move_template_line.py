@@ -2,7 +2,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 
 
 class L10nBrAccountMoveTemplateLine(models.Model):
@@ -14,15 +14,15 @@ class L10nBrAccountMoveTemplateLine(models.Model):
         string=u'Modelo',
         ondelete='cascade',
     )
-    model_ids = fields.Many2many(
+    model_id = fields.Many2one(
         comodel_name='ir.model',
-        related='template_id.model_ids',
+        related='template_id.model_id',
         readonly=True,
     )
     field_id = fields.Many2one(
         comodel_name='ir.model.fields',
         string=u'Campo',
-        required=True,
+        domain="[('model_id', '=', model_id),('ttype', 'in', ['monetary'])]"
     )
     account_debit_id = fields.Many2one(
         comodel_name='account.account',
@@ -38,14 +38,19 @@ class L10nBrAccountMoveTemplateLine(models.Model):
         required=True,
     )
 
+    @api.multi
+    def move_line_template_create(self, obj, lines):
+        for template_line in self:
+            for obj_line in obj:
 
-    @api.onchange('model_ids')
-    def _onchange_model_ids(self):
-        return {
-            'domain': {
-                'field_id': [
-                    ('model_id', 'in', self.model_ids.ids),
-                    ('ttype', 'in', ['float', 'monetary'])
-                ]
-            }
-        }
+                if not template_line.field_id:
+                    continue
+                value = getattr(obj_line, template_line.field_id.name, 0.0)
+
+                if value:
+                    obj_line.generate_double_entrie(lines, value, template_line)
+
+        move_template = self.mapped('template_id')
+        if move_template.parent_id:
+            return move_template.parent_id.item_ids.move_line_template_create(
+                obj, lines)

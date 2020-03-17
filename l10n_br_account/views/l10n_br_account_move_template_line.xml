@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="template_id" invisible="1"/>
-                <field name="model_ids" invisible="1"/>
+                <field name="model_id" invisible="1"/>
                 <field name="field_id"/>
                 <field name="account_debit_id"/>
                 <field name="account_credit_id"/>

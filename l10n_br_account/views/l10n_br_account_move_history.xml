@@ -16,9 +16,10 @@
                     <group>
                         <group>
                             <field name="code"/>
+                            <field name="name"/>
                         </group>
                     </group>
-                    <field name="name" placeholder="Histórico Contábil"/>
+                    <field name="history" placeholder="Histórico Contábil"/>
                 </sheet>
                 <div class="oe_chatter"></div>
             </form>
@@ -42,6 +43,7 @@
             <tree>
                 <field name="code"/>
                 <field name="name"/>
+                <field name="history"/>
             </tree>
         </field>
     </record>
