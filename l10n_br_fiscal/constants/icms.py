@@ -48,6 +48,21 @@ ICMS_ORIGIN = (
 ICMS_ORIGIN_DEFAULT = "0"
 
 
+ICMS_CST = [
+    "00",
+    "10",
+    "20",
+    "30",
+    "40",
+    "41",
+    "50",
+    "51",
+    "60",
+    "70",
+    "90"
+]
+
+
 ICMS_BASE_TYPE = [
     ("0", "Margem Valor Agregado (%)"),
     ("1", "Pauta (valor)"),
@@ -70,6 +85,20 @@ ICMS_ST_BASE_TYPE = [
 
 
 ICMS_ST_BASE_TYPE_DEFAULT = "4"
+
+
+ICMS_SN_CST = [
+    "101",
+    "102",
+    "103",
+    "201",
+    "202",
+    "203",
+    "300",
+    "400",
+    "500",
+    "900"
+]
 
 
 ICMS_SN_CST_WITH_CREDIT = [

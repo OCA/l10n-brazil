@@ -38,20 +38,16 @@ class Document(models.Model):
             ('1', 'Normal'),
             ('2', 'Complementar'),
             ('3', 'Ajuste'),
-            ('4', 'Devolução de mercadoria'),
-        ],
+            ('4', 'Devolução de mercadoria')],
         string='Finalidade',
-        default='1',
-    )
+        default='1')
 
     ind_final = fields.Selection(
         selection=[
             ('0', 'Não'),
-            ('1', 'Sim')
-        ],
+            ('1', 'Sim')],
         string='Operação com consumidor final',
-        default='1',
-    )
+        default='1')
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
