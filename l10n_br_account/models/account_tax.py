@@ -35,8 +35,7 @@ class AccountTax(models.Model):
         fiscal_price=None,
         fiscal_quantity=None,
         uot=None,
-        icmssn_range=None
-    ):
+        icmssn_range=None):
         """ Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
             We consider the sequence of the parent for group of taxes.
