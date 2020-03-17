@@ -25,10 +25,10 @@ class DocumentLine(models.Model):
         domain=lambda self: self._operation_domain())
 
     document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document", string="Document")
+        comodel_name="l10n_br_fiscal.document",
+        string="Document")
 
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
-        default=ICMS_BASE_TYPE_DEFAULT,
-    )
+        default=ICMS_BASE_TYPE_DEFAULT)
