@@ -8,14 +8,11 @@ from odoo import api, fields, models, _
 
 class L10nBrAccountMoveTemplate(models.Model):
     _name = 'l10n_br_account.move.template'
+    _inherit = 'l10n_br_fiscal.data.abstract'
     _description = 'Modelo de partidas dobradas'
 
-    name = fields.Char(
-        string=u'Descrição',
-        required=True,
-        index=True,
-    )
-    model_ids = fields.Many2many(
+    code = fields.Char(required=False)
+    model_id = fields.Many2one(
         comodel_name='ir.model',
     )
     parent_id = fields.Many2one(

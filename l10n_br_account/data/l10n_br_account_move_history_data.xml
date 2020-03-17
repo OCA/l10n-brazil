@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+        <record id="history_provisao_venda" model="l10n_br_account.move.history">
+            <field name="code">100</field>
+            <field name="name">Provisão da NF Emitida</field>
+            <field name="history">Prov. {o.name or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_provisao_servico" model="l10n_br_account.move.history">
+            <field name="code">102</field>
+            <field name="name">Provisão do Serviço Prestado</field>
+            <field name="history">Prov. Serviço {o.name or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_104" model="l10n_br_account.move.history">
+            <field name="code">104</field>
+            <field name="name">Provisão da NF do Fornecedor</field>
+            <field name="history">Prov. {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_106" model="l10n_br_account.move.history">
+            <field name="code">106</field>
+            <field name="name">Provisão do CT-e da Transportadora</field>
+            <field name="history">Prov. {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_108" model="l10n_br_account.move.history">
+            <field name="code">108</field>
+            <field name="name">Provisão do INSS Retido</field>
+            <field name="history">Prov. INSS retido v Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_109" model="l10n_br_account.move.history">
+            <field name="code">109</field>
+            <field name="name">Provisão do IR Retido</field>
+            <field name="history">Prov. IR retido {o.name or ' '} Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_iss_retido" model="l10n_br_account.move.history">
+            <field name="code">110</field>
+            <field name="name">Provisão do ISS Retido</field>
+            <field name="history">Prov. ISS retido {o.name or ' '} Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_pis_retido" model="l10n_br_account.move.history">
+            <field name="code">111</field>
+            <field name="name">Provisão do PIS Retido</field>
+            <field name="history">Prov. PIS retido {o.name or ' '} Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_cofins_retido" model="l10n_br_account.move.history">
+            <field name="code">112</field>
+            <field name="name">Provisão do COFINS Retido</field>
+            <field name="history">Prov. COFINS retido {o.name or ' '} Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_csll_retido" model="l10n_br_account.move.history">
+            <field name="code">113</field>
+            <field name="name">Provisão do CSLL Retido</field>
+            <field name="history">Prov. CSLL retido {o.name or ' '} Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_120" model="l10n_br_account.move.history">
+            <field name="code">120</field>
+            <field name="name">Provisão do ICMS a Recuperar</field>
+            <field name="history">Prov. ICMS a recuperar {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_icms_recolher" model="l10n_br_account.move.history">
+            <field name="code">122</field>
+            <field name="name">Provisão do ICMS a Recolher</field>
+            <field name="history">Prov. ICMS a recolher {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_ipi_recolher" model="l10n_br_account.move.history">
+            <field name="code">124</field>
+            <field name="name">Provisão do IPI a Recolher</field>
+            <field name="history">Prov. IPI a recolher {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_pis_recolher" model="l10n_br_account.move.history">
+            <field name="code">126</field>
+            <field name="name">Provisão do PIS a Recolher</field>
+            <field name="history">Prov. PIS a recolher {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_cofins_recolher" model="l10n_br_account.move.history">
+            <field name="code">128</field>
+            <field name="name">Provisão do COFINS a Recolher</field>
+            <field name="history">Prov. COFINS a recolher {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_icms_st_recolher" model="l10n_br_account.move.history">
+            <field name="code">130</field>
+            <field name="name">Provisão do ICMS ST a Recolher</field>
+            <field name="history">Prov. ICMS ST a recolher {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_132" model="l10n_br_account.move.history">
+            <field name="code">132</field>
+            <field name="name">Provisão do ICMS s/ Frete a Recuperar</field>
+            <field name="history">Prov. ICMS s/ Frete a recuperar {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_134" model="l10n_br_account.move.history">
+            <field name="code">134</field>
+            <field name="name">Provisão do PIS a Recuperar</field>
+            <field name="history">Prov. PIS a recuperar {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_136" model="l10n_br_account.move.history">
+            <field name="code">136</field>
+            <field name="name">Provisão do COFINS a Recuperar</field>
+            <field name="history">Prov. COFINS a recuperar {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_138" model="l10n_br_account.move.history">
+            <field name="code">138</field>
+            <field name="name">Provisão do IPI a Recuperar</field>
+            <field name="history">Prov. IPI a recuperar {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_140" model="l10n_br_account.move.history">
+            <field name="code">140</field>
+            <field name="name">Provisão do ICMS ST a Recuperar</field>
+            <field name="history">Prov. ICMS ST a recuperar {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_142" model="l10n_br_account.move.history">
+            <field name="code">142</field>
+            <field name="name">Provisão do Frete s/ Venda</field>
+            <field name="history">Prov. Frete s/ Venda {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_144" model="l10n_br_account.move.history">
+            <field name="code">144</field>
+            <field name="name">Provisão do Seguro de Transp. s/ Venda</field>
+            <field name="history">Prov. Seguro de Transp. s/ Venda {o.name} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_146" model="l10n_br_account.move.history">
+            <field name="code">146</field>
+            <field name="name">Provisão de Conta a Pagar (Manual)</field>
+            <field name="history">Prov. {o.name} Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_148" model="l10n_br_account.move.history">
+            <field name="code">148</field>
+            <field name="name">Juros Pagos</field>
+            <field name="history">Juros pagos a {o.legal_name or ' '} {o.name} Parc {o.TODO or ' '}</field>
+        </record>
+
+        <record id="history_149" model="l10n_br_account.move.history">
+            <field name="code">149</field>
+            <field name="name">Multa Paga</field>
+            <field name="history">Multa paga a {o.legal_name or ' '} {o.name} Parc {o.TODO or ' '}</field>
+        </record>
+
+        <record id="history_150" model="l10n_br_account.move.history">
+            <field name="code">150</field>
+            <field name="name">Desconto Obtido</field>
+            <field name="history">Desconto obtido de {o.legal_name or ' '} {o.name} Parc {o.TODO or ' '}</field>
+        </record>
+
+        <record id="history_151" model="l10n_br_account.move.history">
+            <field name="code">151</field>
+            <field name="name">Baixa de Pagamento</field>
+            <field name="history">Pagamento {o.name} Parc {o.TODO or ' '} {o.legal_name or ' '} - Observação do Pagto. ou Rcbto.</field>
+        </record>
+
+        <record id="history_152" model="l10n_br_account.move.history">
+            <field name="code">152</field>
+            <field name="name">Provisão de Conta a Receber (Manual)</field>
+            <field name="history">Prov. {o.name} Parc {o.TODO or ' '} {o.legal_name or ' '}</field>
+        </record>
+
+        <record id="history_154" model="l10n_br_account.move.history">
+            <field name="code">154</field>
+            <field name="name">Juros Recebidos</field>
+            <field name="history">Juros recebidos de {o.legal_name or ' '} {o.name} Parc {o.TODO or ' '}</field>
+        </record>
+
+        <record id="history_155" model="l10n_br_account.move.history">
+            <field name="code">155</field>
+            <field name="name">Multa Recebida</field>
+            <field name="history">Multa recebida de {o.legal_name or ' '} {o.name} Parc {o.TODO or ' '}</field>
+        </record>
+
+        <record id="history_156" model="l10n_br_account.move.history">
+            <field name="code">156</field>
+            <field name="name">Desconto Concedido</field>
+            <field name="history">Desconto concedido a {o.legal_name or ' '} {o.name} Parc {o.TODO or ' '}</field>
+        </record>
+
+        <record id="history_157" model="l10n_br_account.move.history">
+            <field name="code">157</field>
+            <field name="name">Baixa de Recebimento</field>
+            <field name="history">Recebimento {o.name} Parc {o.TODO or ' '} {o.legal_name or ' '} - Observação do Pagto. ou Rcbto.</field>
+        </record>
+
+        <record id="history_158" model="l10n_br_account.move.history">
+            <field name="code">158</field>
+            <field name="name">Lançam. de Conta Corrente (Entrada ou Receita)</field>
+            <field name="history">Descrição da Categoria {o.legal_name or ' '} - Observação</field>
+        </record>
+
+        <record id="history_159" model="l10n_br_account.move.history">
+            <field name="code">159</field>
+            <field name="name">Lançam. de Conta Corrente (Saída ou Despesa)</field>
+            <field name="history">Descrição da Categoria {o.legal_name or ' '} - Observação</field>
+        </record>
+
+        <record id="history_160" model="l10n_br_account.move.history">
+            <field name="code">160</field>
+            <field name="name">Transferência entre Contas (Origem)</field>
+            <field name="history">Transf. realizada para Conta Corrente de Destino</field>
+        </record>
+
+        <record id="history_161" model="l10n_br_account.move.history">
+            <field name="code">161</field>
+            <field name="name">Transferência entre Contas (Destino)</field>
+            <field name="history">Transf. recebida de Conta Corrente de Origem</field>
+        </record>
+
+</odoo>

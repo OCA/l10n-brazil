@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--    Operações gerais com notas fiscais-->
+
+    <record id="template_receita_all" model="l10n_br_account.move.template">
+        <field name="code">100</field>
+        <field name="name">Clientes – Venda Geral</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_receita_icms" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_value"/>
+        <field name="history_id" ref="l10n_br_account.history_icms_recolher"/>
+    </record>
+
+    <record id="line_receita_icms_st" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_st_value"/>
+        <field name="history_id" ref="l10n_br_account.history_icms_st_recolher"/>
+    </record>
+
+    <record id="line_receita_ipi" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__ipi_value"/>
+        <field name="history_id" ref="l10n_br_account.history_ipi_recolher"/>
+    </record>
+
+    <record id="line_receita_pis" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__pis_value"/>
+        <field name="history_id" ref="l10n_br_account.history_pis_recolher"/>
+    </record>
+
+    <record id="line_receita_cofins" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_value"/>
+        <field name="history_id" ref="l10n_br_account.history_cofins_recolher"/>
+    </record>
+
+    <!--    Operações com produtos fabricados -->
+
+    <record id="template_receita_venda_fabricadas" model="l10n_br_account.move.template">
+        <field name="code">101</field>
+        <field name="name">Clientes – Venda de Mercadorias Fabricadas</field>
+        <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_receita_venda" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_venda_fabricadas"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_total"/>
+        <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
+    </record>
+
+    <!--    Operações com mercadorias revendidas -->
+
+    <record id="template_receita_revenda_mercadoria" model="l10n_br_account.move.template">
+        <field name="code">102</field>
+        <field name="name">Clientes – Revenda de Mercadoria</field>
+        <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_receita_revenda" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_revenda_mercadoria"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_total"/>
+        <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
+    </record>
+
+    <!--    Operações de vendas de serviços -->
+
+    <record id="template_receita_venda_serviços" model="l10n_br_account.move.template">
+        <field name="code">103</field>
+        <field name="name">Clientes – Serviços Prestados</field>
+        <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_receita_iss_retido" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_venda_serviços"/>
+<!--        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_value"/>-->
+        <field name="history_id" ref="l10n_br_account.history_iss_retido"/>
+    </record>
+
+    <record id="line_receita_pis_retido" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_venda_serviços"/>
+<!--        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_value"/>-->
+        <field name="history_id" ref="l10n_br_account.history_pis_retido"/>
+    </record>
+
+    <record id="line_receita_cofins_retido" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_venda_serviços"/>
+<!--        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_value"/>-->
+        <field name="history_id" ref="l10n_br_account.history_cofins_retido"/>
+    </record>
+
+    <record id="line_receita_csll_retido" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_venda_serviços"/>
+<!--        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_value"/>-->
+        <field name="history_id" ref="l10n_br_account.history_csll_retido"/>
+    </record>
+
+</odoo>
