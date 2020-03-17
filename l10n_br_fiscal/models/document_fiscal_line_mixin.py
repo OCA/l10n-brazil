@@ -27,11 +27,13 @@ from ..constants.fiscal import (
     TAX_DOMAIN_COFINS_ST
 )
 
-from ..constants.icms import ICMS_BASE_TYPE, ICMS_BASE_TYPE_DEFAULT
-
 from ..constants.icms import (
     ICMS_ORIGIN,
-    ICMS_ORIGIN_DEFAULT
+    ICMS_ORIGIN_DEFAULT,
+    ICMS_BASE_TYPE,
+    ICMS_BASE_TYPE_DEFAULT,
+    ICMS_ST_BASE_TYPE,
+    ICMS_ST_BASE_TYPE_DEFAULT
 )
 
 from .tax import TAX_DICT_VALUES
@@ -54,7 +56,6 @@ FISCAL_TAX_ID_FIELDS = [
 
 FISCAL_CST_ID_FIELDS = [
     'icms_cst_id',
-    'icmssn_cst_id',
     'ipi_cst_id',
     'pis_cst_id',
     'pisst_cst_id',
@@ -105,6 +106,10 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product")
+
+    price_unit = fields.Float(
+        string="Price Unit",
+        digits=dp.get_precision("Product Price"))
 
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
@@ -234,8 +239,8 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     icms_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST ICMS",
-        domain="[('cst_type', '=', operation_type),"
-               "('tax_domain', '=', 'icms')]")
+        domain="[('tax_domain', '=', {'1': 'icmssn', '2': 'icmssn', "
+               "'3': 'icms'}.get(tax_framework))]")
 
     icms_cst_code = fields.Char(
         related="icms_cst_id.code",
@@ -245,8 +250,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
-        default=ICMS_BASE_TYPE_DEFAULT,
-    )
+        default=ICMS_BASE_TYPE_DEFAULT)
 
     icms_origin = fields.Selection(
         selection=ICMS_ORIGIN,
@@ -275,6 +279,20 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Tax ICMS ST",
         domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
+    icmsst_base_type = fields.Selection(
+        selection=ICMS_ST_BASE_TYPE,
+        string="ICMS ST Base Type",
+        required=True,
+        default=ICMS_ST_BASE_TYPE_DEFAULT)
+
+    icmsst_wh_base = fields.Monetary(
+        string="ICMS ST WH Base",
+        default=0.00)
+
+    icmsst_wh_value = fields.Monetary(
+        string="ICMS ST WH Value",
+        default=0.00)
+
     # ICMS FCP
     icmsfcp_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
@@ -291,17 +309,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS SN",
         domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_SN)])
-
-    icmssn_cst_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cst",
-        string="CSOSN",
-        domain="[('cst_type', '=', operation_type),"
-               "('tax_domain', '=', 'icmssn')]")
-
-    icmssn_cst_code = fields.Char(
-        related="icmssn_cst_id.code",
-        string="ICMS SN CST Code",
-        store=True)
 
     icmssn_base = fields.Monetary(
         string="ICMS SN Base",
@@ -402,7 +409,8 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     cofins_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS",
-        domain="[('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', operation_type),"
+               "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'cofins')]")
 
     cofins_cst_code = fields.Char(
@@ -445,7 +453,8 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     cofinsst_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS ST",
-        domain="[('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', operation_type),"
+               "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'cofinsst')]")
 
     cofinsst_cst_code = fields.Char(
@@ -480,7 +489,8 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     pis_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS",
-        domain="[('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', operation_type),"
+               "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'pis')]")
 
     pis_cst_code = fields.Char(
@@ -494,13 +504,17 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         required=True)
 
-    pis_base = fields.Monetary(string="PIS Base")
+    pis_base = fields.Monetary(
+        string="PIS Base")
 
-    pis_percent = fields.Float(string="PIS %")
+    pis_percent = fields.Float(
+        string="PIS %")
 
-    pis_reduction = fields.Float(string="PIS % Reduction")
+    pis_reduction = fields.Float(
+        string="PIS % Reduction")
 
-    pis_value = fields.Monetary(string="PIS Value")
+    pis_value = fields.Monetary(
+        string="PIS Value")
 
     pis_base_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
@@ -519,7 +533,8 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     pisst_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS ST",
-        domain="[('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', operation_type),"
+               "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'pisst')]")
 
     pisst_cst_code = fields.Char(
@@ -576,7 +591,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             company=self.company_id,
             partner=self.partner_id,
             product=self.product_id,
-            price=self.price,
+            price_unit=self.price_unit,
             quantity=self.quantity,
             uom_id=self.uom_id,
             fiscal_price=self.fiscal_price,
@@ -637,7 +652,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     @api.multi
     def _update_taxes(self):
         for l in self:
-
             computed_taxes = self._compute_taxes(l.fiscal_tax_ids)
 
             for tax in l.fiscal_tax_ids:
@@ -691,7 +705,8 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                 "cost_price": self.product_id.standard_price,
             }
 
-            self.price = price.get(self.operation_id.default_price_unit, 0.00)
+            self.price_unit = price.get(self.operation_id.default_price_unit,
+                                        0.00)
 
             self.operation_line_id = self.operation_id.line_definition(
                 company=self.company_id,
@@ -779,7 +794,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         pass
 
     def _set_fields_icmssn(self, tax_dict):
-        self.icmssn_cst_id = tax_dict.get("cst_id")
+        self.icms_cst_id = tax_dict.get("cst_id")
         self.icmssn_base = tax_dict.get("base")
         self.icmssn_percent = tax_dict.get("percent_amount")
         self.icmssn_reduction = tax_dict.get("percent_reduction")
@@ -944,3 +959,20 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
         self._update_taxes()
+
+    @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
+    def _onchange_commercial_quantity(self):
+        if not self.uot_id:
+            self.uot_id = self.uom_id
+
+        if self.uom_id == self.uot_id:
+            self.fiscal_price = self.price_unit
+            self.fiscal_quantity = self.quantity
+
+        if self.uom_id != self.uot_id:
+            self.fiscal_price = self.price_unit / self.product_id.uot_factor
+            self.fiscal_quantity = self.quantity * self.product_id.uot_factor
+
+    @api.onchange("ncm_id", "nbs_id", "cest_id")
+    def _onchange_ncm_id(self):
+        self._onchange_operation_id()
