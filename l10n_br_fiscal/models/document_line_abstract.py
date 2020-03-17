@@ -27,7 +27,8 @@ class DocumentLineAbstract(models.AbstractModel):
     def _compute_amount(self):
         for record in self:
             round_curr = record.document_id.currency_id.round
-            record.amount_untaxed = round_curr(record.price * record.quantity)
+            record.amount_untaxed = round_curr(
+                record.price_unit * record.quantity)
             record.amount_tax = record.amount_tax_not_included
             record.amount_total = (
                 record.amount_untaxed +
@@ -65,6 +66,9 @@ class DocumentLineAbstract(models.AbstractModel):
         related="document_id.partner_id",
         string="Partner")
 
+    partner_company_type = fields.Selection(
+        related="partner_id.company_type")
+
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         related="company_id.currency_id",
@@ -81,10 +85,6 @@ class DocumentLineAbstract(models.AbstractModel):
     quantity = fields.Float(
         string="Quantity",
         digits=dp.get_precision("Product Unit of Measure"))
-
-    price = fields.Float(
-        string="Price Unit",
-        digits=dp.get_precision("Product Price"))
 
     uot_id = fields.Many2one(
         comodel_name="uom.uom",
@@ -113,20 +113,3 @@ class DocumentLineAbstract(models.AbstractModel):
         string="Amount Total",
         compute="_compute_amount",
         default=0.00)
-
-    @api.onchange("uot_id", "uom_id", "price", "quantity")
-    def _onchange_commercial_quantity(self):
-        if not self.uot_id:
-            self.uot_id = self.uom_id
-
-        if self.uom_id == self.uot_id:
-            self.fiscal_price = self.price
-            self.fiscal_quantity = self.quantity
-
-        if self.uom_id != self.uot_id:
-            self.fiscal_price = self.price / self.product_id.uot_factor
-            self.fiscal_quantity = self.quantity * self.product_id.uot_factor
-
-    @api.onchange("ncm_id", "nbs_id", "cest_id")
-    def _onchange_ncm_id(self):
-        self._onchange_operation_id()
