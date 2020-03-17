@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <act_window id="action_l10n_br_account_product_icms_relief_form"
-        name="Desoneração de ICMS"
-        res_model="l10n_br_account_product.icms_relief"
-        view_mode="tree,form"/>
+    <record id="tax_icms_relief_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.icms.relief.search</field>
+        <field name="model">l10n_br_fiscal.icms.relief</field>
+        <field name="arch" type="xml">
+            <search string="ICMS relief">
+                <field name="code"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
 
-    <menuitem id="menu_action_icms_relief_form"
-        name="Desoneração de ICMS"
-        parent="l10n_br_account.menu_l10n_br_account_fiscal_manager"
-        action="action_l10n_br_account_product_icms_relief_form"
-        sequence="61"/>
+    <record id="tax_icms_relief_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.icms.relief.tree</field>
+        <field name="model">l10n_br_fiscal.icms.relief</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="tax_icms_relief_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.icms.relief.form</field>
+        <field name="model">l10n_br_fiscal.icms.relief</field>
+        <field name="arch" type="xml">
+          <form string="ICMS relief">
+            <sheet>
+              <group>
+                <field name="code" required="1"/>
+                <field name="name" required="1"/>
+              </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
 
 </odoo>
