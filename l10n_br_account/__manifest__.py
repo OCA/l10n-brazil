@@ -23,6 +23,8 @@
         # data
         "data/account_tax_group.xml",
         "data/account_tax_template.xml",
+        "data/l10n_br_account_move_history_data.xml",
+        "data/l10n_br_account_move_template_data.xml",
 
         "views/l10n_br_account_menu.xml",
         # Views
