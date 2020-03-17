@@ -34,7 +34,7 @@ class FiscalTax(models.Model):
                 tax_values['tax_base_type'] = tax_amount
                 tax_values['amount_type'] = type_amount
 
-                account_tax = self.env['account.tax'].create(tax_values)
+                self.env['account.tax'].create(tax_values)
 
     @api.model
     def create(self, values):
