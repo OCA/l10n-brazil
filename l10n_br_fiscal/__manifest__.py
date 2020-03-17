@@ -19,6 +19,7 @@
         "data/uom_data.xml",
         "data/product_data.xml",
         "data/l10n_br_fiscal.tax.group.csv",
+        "data/l10n_br_fiscal.icms.relief.csv",
         "data/l10n_br_fiscal.document.type.csv",
         "data/l10n_br_fiscal.product.genre.csv",
         "data/l10n_br_fiscal.cst.csv",
