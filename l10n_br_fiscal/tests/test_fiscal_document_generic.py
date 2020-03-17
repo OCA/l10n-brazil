@@ -408,7 +408,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 "Error to mapping ICMS SN Com Permissão de Crédito"
                 " for Venda de Simples Nacional Dentro do Estado.")
             self.assertEquals(
-                line.icmssn_cst_id.code, '101',
+                line.icms_cst_id.code, '101',
                 "Error to mapping CST 101 do ICMS SN Com Permissão de Crédito"
                 " for Venda de Simples Nacional Dentro do Estado.")
 
@@ -483,7 +483,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 "Error to mapping ICMS SN Com Permissão de Crédito"
                 " for Venda de Simples Nacional Dentro do Estado.")
             self.assertEquals(
-                line.icmssn_cst_id.code, '101',
+                line.icms_cst_id.code, '101',
                 "Erro ao mapear a CST 101 do ICMS SN Com Permissão de Crédito"
                 " para Venda de Simples Nacional Dentro do Estado.")
 
@@ -633,7 +633,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 "Error to mapping ICMS SN Com Permissão de Crédito"
                 " for Venda de Simples Nacional Dentro do Estado.")
             self.assertEquals(
-                line.icmssn_cst_id.code, '101',
+                line.icms_cst_id.code, '101',
                 "Erro ao mapear a CST 101 do ICMS SN Com Permissão de Crédito"
                 " para Venda de Simples Nacional Dentro do Estado.")
 
