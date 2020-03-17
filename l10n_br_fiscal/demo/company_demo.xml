@@ -70,6 +70,14 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
     </record>
 
+    <record id="empresa_sn_document_55_serie_1" model="l10n_br_fiscal.document.serie">
+        <field name="code">1</field>
+        <field name="name">Série 1</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="active">True</field>
+    </record>
+
     <record id="icms_tax_definition_empresa_simples_nacional" model="l10n_br_fiscal.tax.definition">
         <field name="company_id" ref="empresa_simples_nacional"/>
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn"/>
