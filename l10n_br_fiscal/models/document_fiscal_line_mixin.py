@@ -273,17 +273,53 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="ICMS Value",
         default=0.00)
 
+    # motDesICMS - Motivo da desoneração do ICMS
+    icms_relief_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.icms.relief",
+        string="ICMS Relief")
+
+    # vICMSDeson - Valor do ICMS desonerado
+    icms_relief_value = fields.Monetary(
+        string="ICMS Relief Value",
+        default=0.00)
+
     # ICMS ST
     icmsst_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS ST",
         domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
+    # modBCST - Modalidade de determinação da BC do ICMS ST
     icmsst_base_type = fields.Selection(
         selection=ICMS_ST_BASE_TYPE,
         string="ICMS ST Base Type",
         required=True,
         default=ICMS_ST_BASE_TYPE_DEFAULT)
+
+    # pMVAST - Percentual da margem de valor Adicionado do ICMS ST
+    icmsst_mva_percent = fields.Float(
+        string="ICMS ST MVA %",
+        default=0.00)
+
+    # pRedBCST - Percentual da Redução de BC do ICMS ST
+    icmsst_reduction = fields.Float(
+        string="ICMS % Reduction",
+        default=0.00)
+
+    # vBCST - Valor da BC do ICMS ST
+    icmsst_base = fields.Monetary(
+        string="ICMS Base",
+        default=0.00)
+
+    # pICMSST - Alíquota do imposto do ICMS ST
+    icmsst_percent = fields.Float(
+        string="ICMS %",
+        default=0.00)
+
+    # vICMSST - Valor do ICMS ST
+    icmsst_value = fields.Monetary(
+        string="ICMS ST Value",
+        default=0.00)
 
     icmsst_wh_base = fields.Monetary(
         string="ICMS ST WH Base",
