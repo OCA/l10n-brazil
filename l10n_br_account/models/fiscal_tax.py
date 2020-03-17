@@ -20,7 +20,8 @@ class FiscalTax(models.Model):
                     'name': tax.name + ' ' + tax_users.get(tax_use),
                     'type_tax_use': tax_use,
                     'fiscal_tax_id': tax.id,
-                    'tax_group_id': account_tax_group_id.id
+                    'tax_group_id': account_tax_group_id.id,
+                    'amount': 0.00
                 }
 
                 if tax.tax_base_type == 'percent':
@@ -34,7 +35,6 @@ class FiscalTax(models.Model):
                 tax_values['amount_type'] = type_amount
 
                 account_tax = self.env['account.tax'].create(tax_values)
-                account_tax._onchange_fiscal_tax_id()
 
     @api.model
     def create(self, values):
