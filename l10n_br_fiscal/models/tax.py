@@ -223,7 +223,7 @@ class Tax(models.Model):
         currency = kwargs.get("currency", company.currency_id)
         precision = currency.decimal_places
         # product = kwargs.get("product")
-        # price = kwargs.get("price", 0.00)
+        # price_unit = kwargs.get("price_unit", 0.00)
         # quantity = kwargs.get("quantity", 0.00)
         # uom_id = kwargs.get("uom_id")
         # fiscal_price = kwargs.get("fiscal_price", 0.00)
@@ -377,7 +377,7 @@ class Tax(models.Model):
             company,
             partner,
             product,
-            price,
+            price_unit,
             quantity,
             uom_id,
             fiscal_price,

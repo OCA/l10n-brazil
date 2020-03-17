@@ -145,7 +145,7 @@
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
-                  <field name="price"/>
+                  <field name="price_unit"/>
                   <field name="quantity"/>
                   <field name="amount_total"/>
                 </tree>
