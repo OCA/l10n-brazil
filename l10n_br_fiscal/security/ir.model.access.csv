@@ -46,9 +46,15 @@
 "l10n_br_fiscal_simplified_tax_range_user","Fiscal Simplified Range Tax for User","model_l10n_br_fiscal_simplified_tax_range","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_simplified_tax_range_manager","Fiscal Simplified Range Tax for Manager","model_l10n_br_fiscal_simplified_tax_range","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_simplified_tax_range_maintenance","Fiscal Simplified Range Tax for Maintenance","model_l10n_br_fiscal_simplified_tax_range","l10n_br_fiscal.group_data_maintenance",1,1,1,1
+"l10n_br_fiscal_tax_ipi_control_seal_user","Fiscal Tax IPI Control Seal for User","model_l10n_br_fiscal_tax_ipi_control_seal","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_tax_ipi_control_seal_manager","Fiscal Tax IPI Control Seal for Manager","model_l10n_br_fiscal_tax_ipi_control_seal","l10n_br_fiscal.group_manager",1,0,0,0
+"l10n_br_fiscal_tax_ipi_control_seal_maintenance","Fiscal Tax IPI Control Seal for Maintenance","model_l10n_br_fiscal_tax_ipi_control_seal","l10n_br_fiscal.group_data_maintenance",1,1,1,1
 "l10n_br_fiscal_tax_ipi_guideline_user","Fiscal Tax IPI Guideline for User","model_l10n_br_fiscal_tax_ipi_guideline","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_ipi_guideline_manager","Fiscal Tax IPI Guideline for Manager","model_l10n_br_fiscal_tax_ipi_guideline","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_tax_ipi_guideline_maintenance","Fiscal Tax IPI Guideline for Maintenance","model_l10n_br_fiscal_tax_ipi_guideline","l10n_br_fiscal.group_data_maintenance",1,1,1,1
+"l10n_br_fiscal_tax_ipi_guideline_class_user","IPI Guideline Class for User","model_l10n_br_fiscal_tax_ipi_guideline_class","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_tax_ipi_guideline_class_manager","IPI Guideline Class for Manager","model_l10n_br_fiscal_tax_ipi_guideline_class","l10n_br_fiscal.group_manager",1,0,0,0
+"l10n_br_fiscal_tax_ipi_guideline_class_maintenance","IPI Guideline Class for Maintenance","model_l10n_br_fiscal_tax_ipi_guideline_class","l10n_br_fiscal.group_data_maintenance",1,1,1,1
 "l10n_br_fiscal_operation_user","Fiscal Operation for User","model_l10n_br_fiscal_operation","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_operation_manager","Fiscal Operation for Manager","model_l10n_br_fiscal_operation","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_operation_line_user","Fiscal Operation Line for User","model_l10n_br_fiscal_operation_line","l10n_br_fiscal.group_user",1,0,0,0

@@ -24,3 +24,11 @@ CST_IPI_OUT_IN = {
     "55": "05",
     "99": "49"
 }
+
+
+IPI_GUIDELINE_GROUP = [
+    ("imunidade", "Imunidade"),
+    ("suspensao", "Suspensão"),
+    ("isencao", "Isenção"),
+    ("reducao", "Redução"),
+    ("outros", "Outros")]
