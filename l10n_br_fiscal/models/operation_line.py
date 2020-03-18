@@ -126,8 +126,6 @@ class OperationLine(models.Model):
         column2="comment_id",
         string="Comment")
 
-    additional_data = fields.Text(string="Additional Data")
-
     state = fields.Selection(
         selection=OPERATION_STATE,
         string="State",
