@@ -49,6 +49,14 @@ class ProductTemplate(models.Model):
         store=True,
         string="Fiscal Genre Code")
 
+    ipi_guideline_class_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.ipi.guideline.class",
+        string="IPI Guideline Class")
+
+    ipi_control_seal_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.ipi.control.seal",
+        string="IPI Control Seal")
+
     nbs_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.nbs",
         index=True,

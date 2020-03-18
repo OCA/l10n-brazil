@@ -181,9 +181,27 @@
         </field>
     </record>
 
+    # Tax IPI Control Seal
+    <record id="tax_ipi_control_seal_action" model="ir.actions.act_window">
+        <field name="name">IPI Control Seal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.tax.ipi.control.seal</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="tax_ipi_control_seal_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Tax IPI Control Seal
+            </p><p>
+              A Tax IPI control seal is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
     # Tax IPI Guideline
     <record id="tax_ipi_guideline_action" model="ir.actions.act_window">
-        <field name="name">Tax IPI Guideline</field>
+        <field name="name">IPI Guideline</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.ipi.guideline</field>
         <field name="view_mode">tree,form</field>
@@ -194,6 +212,24 @@
               Add a new Tax IPI Guideline
             </p><p>
               A Tax IPI guideline is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
+    # Tax IPI Guideline Class
+    <record id="tax_ipi_guideline_class_action" model="ir.actions.act_window">
+        <field name="name">Tax IPI Guideline Class</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.tax.ipi.guideline.class</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="tax_ipi_guideline_class_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Tax IPI Guideline Class
+            </p><p>
+              A Tax IPI guideline Class is necessary to create
               fiscal operations for your fiscal moves.
             </p>
         </field>
