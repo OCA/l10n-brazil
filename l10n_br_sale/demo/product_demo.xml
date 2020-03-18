@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+    <!-- On Site Monitoring -->
+    <record id="product.product_product_1" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- On Site Assistance -->
+    <record id="product.product_product_2" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- PC Assemble SC234 -->
+    <record id="product.product_product_3" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- iPad Retina Display -->
+    <record id="product.product_product_4" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <record id="product.product_product_4_product_template" model="product.template">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Bose Mini Bluetooth Speaker -->
+    <record id="product.product_product_5b" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- PC Assemble + Custom (PC on Demand) -->
+    <record id="product.product_product_5" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- iPad Mini -->
+    <record id="product.product_product_6" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Apple In-Ear Headphones -->
+    <record id="product.product_product_7" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- iMac -->
+    <record id="product.product_product_8" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Apple Wireless Keyboard -->
+    <record id="product.product_product_9" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Mouse, Optical -->
+    <record id="product.product_product_10" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- iPod -->
+    <record id="product.product_product_11" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Mouse, Wireless -->
+    <record id="product.product_product_12" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- RAM SR5 -->
+    <record id="product.product_product_13" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Computer Case -->
+    <record id="product.product_product_16" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- HDD SH-1 -->
+    <record id="product.product_product_17" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Motherboard I9P57 -->
+    <record id="product.product_product_20" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Processor Core i5 2.70 Ghz -->
+    <record id="product.product_product_22" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Graphics Card -->
+    <record id="product.product_product_24" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Laptop E5023 -->
+    <record id="product.product_product_25" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+    <!-- Laptop Customized -->
+    <record id="product.product_product_27" model="product.product">
+        <field name="fiscal_type">product</field>
+    </record>
+
+</odoo>
