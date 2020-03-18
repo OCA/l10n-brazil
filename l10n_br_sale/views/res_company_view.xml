@@ -12,6 +12,7 @@
                         <group>
                             <field name="sale_fiscal_operation_id"/>
                             <field name="copy_note"/>
+                            <field name="default_ind_pres"/>
                         </group>
                     </group>
                 </page>
