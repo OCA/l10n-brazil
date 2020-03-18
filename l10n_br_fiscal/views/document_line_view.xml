@@ -111,13 +111,13 @@
                         <field name="icmsst_wh_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"/>
                         <field name="icmsst_wh_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"/>
                       </group>
-                      <group name="icms_difal" string="ICMS DIFAL" attrs="{'invisible': [('partner_company_type', 'in', ('company', False)), ('cfop_destination', 'in', ('1', '3', False))]}">
+                      <group name="icms_difal" string="ICMS DIFAL" attrs="{'invisible': [('partner_company_type', 'in', ('company', False)), ('tax_framework', '=', '3'), ('cfop_destination', 'in', ('1', '3', False))]}">
                         <field name="icms_destination_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_origin_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_destination_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_sharing_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_origin_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
-                        <field name="icmsfcp_tax_id"/>
+                        <field name="icmsfcp_tax_id" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icmsfcp_percent" force_save="1" attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icmsfcp_value" force_save="1" attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                       </group>
