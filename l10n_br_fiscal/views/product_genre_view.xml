@@ -28,18 +28,18 @@
         <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
             <form string="Product Genre">
-                <div class="oe_button_box" name="button_box">
-                    <button type="action"
-                            class="oe_stat_button"
-                            id="product_tmpl_button"
-                            icon="fa-bars"
-                            name="%(product.product_template_action_all)d"
-                            context="{'search_default_ncm_id': active_id}"
-                            attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}">
-                        <field string="Products" widget="statinfo" name="product_tmpl_qty"/>
-                    </button>
-                </div>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                                class="oe_stat_button"
+                                id="product_tmpl_button"
+                                icon="fa-bars"
+                                name="action_view_product"
+                                context="{'default_fiscal_genre_id': active_id}"
+                                attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}">
+                            <field string="Products" widget="statinfo" name="product_tmpl_qty"/>
+                        </button>
+                    </div>
                     <group>
                       <field name="code"/>
                       <field name="name"/>
