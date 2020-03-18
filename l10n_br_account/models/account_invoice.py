@@ -190,6 +190,6 @@ if False:  # TODO
         result = super(AccountInvoice, self).invoice_line_move_line_get()
         i = 0
         for l in self.invoice_line_ids:
-            result[i]["price"] = l.price_subtotal - l.amount_tax_discount
+            result[i]["price_unit"] = l.price_subtotal - l.amount_tax_discount
             i += 1
         return result

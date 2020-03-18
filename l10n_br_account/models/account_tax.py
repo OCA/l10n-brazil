@@ -70,7 +70,7 @@ class AccountTax(models.Model):
             company=self.env.user.company_id,
             partner=partner,
             product=product,
-            prince=price_unit,
+            price_unit=price_unit,
             quantity=quantity,
             uom_id=product.uom_id,
             fiscal_price=fiscal_price,
