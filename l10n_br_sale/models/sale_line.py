@@ -130,8 +130,10 @@ class SaleOrderLine(models.Model):
         result["insurance_value"] = self.insurance_value
         result["other_costs_value"] = self.other_costs_value
         result["freight_value"] = self.freight_value
-        result["partner_order"] = self.customer_order
-        result["partner_order_line"] = self.customer_order_line
+
+        # TODO - fields don't exist in account.invoice.line
+        # result["partner_order"] = self.customer_order
+        # result["partner_order_line"] = self.customer_order_line
 
         if self.product_id.fiscal_type == "product":
             if self.operation_line_id:
