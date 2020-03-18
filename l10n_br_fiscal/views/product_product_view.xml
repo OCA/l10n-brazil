@@ -48,6 +48,8 @@
                             <field name="fiscal_genre_id" required="1"/>
                             <field name="cest_id" attrs="{'invisible': [('fiscal_type', '=', '09')]}"/>
                             <field name="nbs_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
+                            <field name="ipi_guideline_class_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
+                            <field name="ipi_control_seal_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
                         </group>
                         <group string="Tax UOM">
                             <field name="uoe_id"/>
