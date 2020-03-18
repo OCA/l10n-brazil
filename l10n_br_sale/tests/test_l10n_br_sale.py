@@ -208,6 +208,6 @@ class TestL10nBRSale(common.TransactionCase):
         for invoice in self.sale_discount.invoice_ids:
             self.assertEquals(
                 invoice.amount_untaxed,
-                90.0,
+                3280.5,
                 u"Error to apply discount on invoice" u" created from sale order.",
             )
