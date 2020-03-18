@@ -118,7 +118,7 @@
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
-                  <field name="price"/>
+                  <field name="fiscal_price"/>
                   <field name="quantity"/>
                   <field name="amount_total"/>
                 </tree>
