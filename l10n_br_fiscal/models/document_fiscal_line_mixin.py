@@ -111,6 +111,13 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Price Unit",
         digits=dp.get_precision("Product Price"))
 
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Partner")
+
+    partner_company_type = fields.Selection(
+        related="partner_id.company_type")
+
     uom_id = fields.Many2one(
         comodel_name="uom.uom",
         string="UOM")
