@@ -111,6 +111,14 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Price Unit",
         digits=dp.get_precision("Product Price"))
 
+    uom_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="UOM")
+
+    quantity = fields.Float(
+        string="Quantity",
+        digits=dp.get_precision("Product Unit of Measure"))
+
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
         string="Fiscal Type")
@@ -160,13 +168,17 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         related="cfop_id.destination",
         string="CFOP Destination")
 
-    fiscal_quantity = fields.Float(
-        string="Fiscal Quantity",
-        digits=dp.get_precision("Product Unit of Measure"))
-
     fiscal_price = fields.Float(
         string="Fiscal Price",
         digits=dp.get_precision("Product Price"))
+
+    uot_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="Tax UoM")
+
+    fiscal_quantity = fields.Float(
+        string="Fiscal Quantity",
+        digits=dp.get_precision("Product Unit of Measure"))
 
     discount_value = fields.Monetary(
         string="Discount Value",
@@ -283,7 +295,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="ICMS Relief Value",
         default=0.00)
 
-    # ICMS ST
+    # ICMS ST Fields
     icmsst_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS ST",
@@ -303,17 +315,17 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
     # pRedBCST - Percentual da Redução de BC do ICMS ST
     icmsst_reduction = fields.Float(
-        string="ICMS % Reduction",
+        string="ICMS ST % Reduction",
         default=0.00)
 
     # vBCST - Valor da BC do ICMS ST
     icmsst_base = fields.Monetary(
-        string="ICMS Base",
+        string="ICMS ST Base",
         default=0.00)
 
     # pICMSST - Alíquota do imposto do ICMS ST
     icmsst_percent = fields.Float(
-        string="ICMS %",
+        string="ICMS ST %",
         default=0.00)
 
     # vICMSST - Valor do ICMS ST
@@ -329,11 +341,54 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="ICMS ST WH Value",
         default=0.00)
 
-    # ICMS FCP
+    # ICMS FCP Fields
     icmsfcp_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS FCP",
         domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
+
+    # pFCPUFDest - Percentual do ICMS relativo ao Fundo de
+    # Combate à Pobreza (FCP) na UF de destino
+    icmsfcp_percent = fields.Float(
+        string="ICMS FCP %",
+        default=0.00)
+
+    # vFCPUFDest - Valor do ICMS relativo ao Fundo
+    # de Combate à Pobreza (FCP) da UF de destino
+    icmsfcp_value = fields.Monetary(
+        string="ICMS FCP Value",
+        default=0.00)
+
+    # ICMS DIFAL Fields
+    # vBCUFDest - Valor da BC do ICMS na UF de destino
+    icms_destination_base = fields.Monetary(
+        string="ICMS Destination Base",
+        default=0.00)
+
+    # pICMSUFDest - Alíquota interna da UF de destino
+    icms_origin_percent = fields.Float(
+        string="ICMS Internal %",
+        default=0.00)
+
+    # pICMSInter - Alíquota interestadual das UF envolvidas
+    icms_destination_percent = fields.Float(
+        string="ICMS External %",
+        default=0.00)
+
+    # pICMSInterPart - Percentual provisório de partilha do ICMS Interestadual
+    icms_sharing_percent = fields.Float(
+        string="ICMS Sharing %",
+        default=0.00)
+
+    # vICMSUFRemet - Valor do ICMS Interestadual para a UF do remetente
+    icms_origin_value = fields.Monetary(
+        string="ICMS Origin Value",
+        default=0.00)
+
+    # vICMSUFDest - Valor do ICMS Interestadual para a UF de destino
+    icms_destination_value = fields.Monetary(
+        string="ICMS Destination Value",
+        default=0.00)
 
     # ICMS Simples Nacional Fields
     icmssn_range_id = fields.Many2one(
@@ -821,11 +876,25 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.icms_reduction = tax_dict.get("percent_reduction")
             self.icms_value = tax_dict.get("tax_value")
 
+            # TODO
+            # self.icms_destination_base = tax_dict.get(
+            #     "icms_destination_base")
+            # self.icms_origin_percent = tax_dict.get("icms_origin_percent")
+            # self.icms_destination_percent = tax_dict.get(
+            #     "icms_destination_percent")
+            # self.icms_sharing_percent = tax_dict.get("icms_sharing_percent")
+            # self.icms_origin_value = tax_dict.get("icms_origin_value")
+
     @api.onchange(
         "icms_base",
         "icms_percent",
         "icms_reduction",
-        "icms_value")
+        "icms_value",
+        "icms_destination_base",
+        "icms_origin_percent",
+        "icms_destination_percent",
+        "icms_sharing_percent",
+        "icms_origin_value")
     def _onchange_icms_fields(self):
         pass
 
@@ -845,29 +914,35 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         pass
 
     def _set_fields_icmsst(self, tax_dict):
-        self.icmsst_base = tax_dict.get("base")
+        self.icmsst_base_type = tax_dict.get("icmsst_base_type")
+        self.icmsst_mva_percent = tax_dict.get("icmsst_mva_percent")
         self.icmsst_percent = tax_dict.get("percent_amount")
         self.icmsst_reduction = tax_dict.get("percent_reduction")
+        self.icmsst_base = tax_dict.get("base")
         self.icmsst_value = tax_dict.get("tax_value")
 
+        # TODO - OTHER TAX icmsst_wh_tax_id
+        # self.icmsst_wh_base
+        # self.icmsst_wh_value
+
     @api.onchange(
-        "icmsst_base",
+        "icmsst_base_type",
+        "icmsst_mva_percent",
         "icmsst_percent",
         "icmsst_reduction",
-        "icmsst_value")
+        "icmsst_base",
+        "icmsst_value",
+        "icmsst_wh_base",
+        "icmsst_wh_value")
     def _onchange_icmsst_fields(self):
         pass
 
     def _set_fields_icmsfcp(self, tax_dict):
-        self.icmsfcp_base = tax_dict.get("base")
         self.icmsfcp_percent = tax_dict.get("percent_amount")
-        self.icmsfcp_reduction = tax_dict.get("percent_reduction")
         self.icmsfcp_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "icmsfcp_base",
         "icmsfcp_percent",
-        "icmsfcp_reduction",
         "icmsfcp_value")
     def _onchange_icmsfcp_fields(self):
         pass
