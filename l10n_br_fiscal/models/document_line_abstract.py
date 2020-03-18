@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import TAX_FRAMEWORK
 
@@ -77,18 +76,6 @@ class DocumentLineAbstract(models.AbstractModel):
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product")
-
-    uom_id = fields.Many2one(
-        comodel_name="uom.uom",
-        string="UOM")
-
-    quantity = fields.Float(
-        string="Quantity",
-        digits=dp.get_precision("Product Unit of Measure"))
-
-    uot_id = fields.Many2one(
-        comodel_name="uom.uom",
-        string="Tax UoM")
 
     notes = fields.Text(
         string="Notes")
