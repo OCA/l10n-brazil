@@ -119,30 +119,31 @@ class L10nBrZip(models.Model):
     def _consultar_cep(self, zip_code):
         zip_str = misc.punctuation_rm(zip_code)
         try:
-            cep = pycep_correios.consultar_cep(zip_str)
+            cep = pycep_correios.get_address_from_cep(zip_str)
         except Exception as e:
             raise UserError(_("Erro no PyCEP-Correios : ") + str(e))
 
         values = {}
         if cep:
             # Search Brazil id
-            country = self.env["res.country"].search([("code", "=", "BR")], limit=1)
+            country = self.env["res.country"].search(
+                [("code", "=", "BR")], limit=1)
 
             # Search state with state_code and country id
-            state = self.env["res.country.state"].search(
-                [("code", "=", cep["uf"]), ("country_id", "=", country.id)], limit=1
-            )
+            state = self.env["res.country.state"].search([
+                ("code", "=", cep.get("uf")),
+                ("country_id", "=", country.id)], limit=1)
 
             # search city with name and state
-            city = self.env["res.city"].search(
-                [("name", "=", cep["cidade"]), ("state_id.id", "=", state.id)], limit=1
-            )
+            city = self.env["res.city"].search([
+                ("name", "=", cep.get("cidade")),
+                ("state_id.id", "=", state.id)], limit=1)
 
             values = {
                 "zip_code": zip_str,
-                "street": cep["end"],
-                "zip_complement": cep["complemento2"],
-                "district": cep["bairro"],
+                "street": cep.get("logradouro"),
+                "zip_complement": cep.get("complemento"),
+                "district": cep.get("bairro"),
                 "city_id": city.id or False,
                 "state_id": state.id or False,
                 "country_id": country.id or False,
