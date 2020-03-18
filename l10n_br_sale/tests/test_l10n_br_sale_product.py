@@ -10,7 +10,7 @@ class TestL10nBRSaleProduct(common.TransactionCase):
         super(TestL10nBRSaleProduct, self).setUp()
         self.sale_object = self.env["sale.order"]
         self.sale_stock = self.sale_object.browse(
-            self.ref("l10n_br_sale_product.l10n_br_sale_product_demo_1")
+            self.ref("l10n_br_sale.l10n_br_sale_product_demo_1")
         )
 
     def test_l10n_br_sale_product(self):
@@ -19,16 +19,18 @@ class TestL10nBRSaleProduct(common.TransactionCase):
         self.sale_stock.onchange_partner_id()
         self.sale_stock.onchange_partner_shipping_id()
         for line in self.sale_stock.order_line:
-            line.product_id_change()
-            line.onchange_fiscal()
+            line._onchange_product_id()
+            line._onchange_operation_id()
+            line._onchange_operation_line_id()
+            line._onchange_fiscal_taxes()
             self.assertTrue(
-                line.fiscal_position_id,
-                "Error to mapping Fiscal Position on Sale Order Line.",
+                line.operation_line_id,
+                "Operation Line is missing in Sale Order Line.",
             )
 
         self.assertEquals(
             self.sale_stock.amount_total,
-            7473.3,
+            7327.0,
             u"Error to apply discount on sale order.",
         )
         self.assertEquals(
