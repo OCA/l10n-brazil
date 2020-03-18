@@ -84,7 +84,7 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:165
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:166
 #, python-format
 msgid "Erro a Carregar Atributo: "
 msgstr ""
