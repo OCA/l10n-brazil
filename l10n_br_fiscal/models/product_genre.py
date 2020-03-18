@@ -30,3 +30,14 @@ class ProductGenre(models.Model):
             )
             record.product_tmpl_ids = product_tmpls
             record.product_tmpl_qty = len(product_tmpls)
+
+    def action_view_product(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Products',
+            'res_model': 'product.template',
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'target': 'current',
+            'domain': [('fiscal_genre_id', '=', self.id)]
+        }
