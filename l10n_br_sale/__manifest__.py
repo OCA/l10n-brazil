@@ -26,7 +26,9 @@
     ],
     "demo": [
         # Demo
-        "demo/l10n_br_sale_demo.xml"],
+        "demo/l10n_br_sale_demo.xml",
+        "demo/l10n_br_sale_product_demo.xml",
+    ],
     "installable": True,
     "auto_install": True,
     "development_status": "Production/Stable",
