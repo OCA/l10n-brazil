@@ -61,12 +61,7 @@ class DocumentLineAbstract(models.AbstractModel):
         string="Tax Framework")
 
     partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        related="document_id.partner_id",
-        string="Partner")
-
-    partner_company_type = fields.Selection(
-        related="partner_id.company_type")
+        related="document_id.partner_id")
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
