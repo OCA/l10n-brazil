@@ -48,6 +48,7 @@ PRODUCT_FISCAL_TYPE = (
     ("99", "Outras"),
 )
 
+
 PRODUCT_FISCAL_TYPE_SERVICE = "09"
 
 NCM_FOR_SERVICE = "0000.00.00"
@@ -63,6 +64,7 @@ TAX_BASE_TYPE = (
 
 TAX_BASE_TYPE_PERCENT = "percent"
 
+
 TAX_DOMAIN_IPI = "ipi"
 TAX_DOMAIN_II = "ii"
 TAX_DOMAIN_ICMS = "icms"
@@ -71,13 +73,22 @@ TAX_DOMAIN_ICMS_ST = "icmsst"
 TAX_DOMAIN_ICMS_FCP = "icmsfcp"
 TAX_DOMAIN_PIS = "pis"
 TAX_DOMAIN_PIS_ST = "pisst"
+TAX_DOMAIN_PIS_WH = "pis_wh"
 TAX_DOMAIN_COFINS = "cofins"
 TAX_DOMAIN_COFINS_ST = "cofinsst"
-
+TAX_DOMAIN_COFINS_WH = "cofins_wh"
 TAX_DOMAIN_ISSQN = "issqn"
+TAX_DOMAIN_ISSQN_WH = "issqn_wh"
 TAX_DOMAIN_CSLL = "csll"
+TAX_DOMAIN_CSLL_WH = "csll_wh"
+TAX_DOMAIN_IR = 'ir'
 TAX_DOMAIN_IRPJ = "irpj"
+TAX_DOMAIN_IRPJ_WH = "irpj_wh"
 TAX_DOMAIN_INSS = "inss"
+TAX_DOMAIN_INSS_WH = "inss_wh"
+TAX_DOMAIN_SIMPLES = "simples"
+TAX_DOMAIN_OTHERS = "others"
+
 
 TAX_DOMAIN_PCC = (
     TAX_DOMAIN_PIS,
@@ -85,20 +96,13 @@ TAX_DOMAIN_PCC = (
     TAX_DOMAIN_CSLL
 )
 
-TAX_DOMAIN_ISSQN_WH = "issqn_wh"
-TAX_DOMAIN_PIS_WH = "pis_wh"
-TAX_DOMAIN_COFINS_WH = "cofins_wh"
-TAX_DOMAIN_CSLL_WH = "csll_wh"
-TAX_DOMAIN_IRPJ_WH = "irpj_wh"
-TAX_DOMAIN_INSS_WH = "inss_wh"
-
-TAX_DOMAIN_IR = 'ir'
 
 TAX_DOMAIN_PCC_RET = (
     TAX_DOMAIN_PIS_WH,
     TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_CSLL_WH
 )
+
 
 TAX_DOMAIN = (
     (TAX_DOMAIN_IPI, "IPI"),
@@ -108,23 +112,24 @@ TAX_DOMAIN = (
     (TAX_DOMAIN_ICMS_ST, "ICMS - Subistituição Tributária"),
     (TAX_DOMAIN_PIS, "PIS"),
     (TAX_DOMAIN_PIS_ST, "PIS ST"),
+    (TAX_DOMAIN_PIS_WH, "pis_wh"),
     (TAX_DOMAIN_COFINS, "COFINS"),
     (TAX_DOMAIN_COFINS_ST, "COFINS ST"),
+    (TAX_DOMAIN_COFINS_WH, "COFINS WH"),
     (TAX_DOMAIN_ISSQN, "ISSQN"),
-    (TAX_DOMAIN_IRPJ, "IRPJ"),
+    (TAX_DOMAIN_ISSQN_WH, "ISSQN WH"),
     (TAX_DOMAIN_IR, "IR"),
+    (TAX_DOMAIN_IRPJ, "IRPJ"),
+    (TAX_DOMAIN_IRPJ_WH, "IRPJ WH"),
     (TAX_DOMAIN_CSLL, "CSLL"),
+    (TAX_DOMAIN_CSLL_WH, "CSLL WH"),
     (TAX_DOMAIN_II, "II"),
     (TAX_DOMAIN_INSS, "INSS"),
-    ("simples", "Simples Nacional"),
-    ("others", "Outros"),
-    (TAX_DOMAIN_ISSQN_WH, "issqn_wh"),
-    (TAX_DOMAIN_PIS_WH, "pis_wh"),
-    (TAX_DOMAIN_COFINS_WH, "cofins_wh"),
-    (TAX_DOMAIN_CSLL_WH, "csll_wh"),
-    (TAX_DOMAIN_IRPJ_WH, "irpj_wh"),
-    (TAX_DOMAIN_INSS_WH, "inss_wh"),
+    (TAX_DOMAIN_INSS_WH, "INSS WH"),
+    (TAX_DOMAIN_SIMPLES, "Simples Nacional"),
+    (TAX_DOMAIN_OTHERS, "Outros")
 )
+
 
 TAX_FRAMEWORK = (
     ("1", "1 - Simples Nacional"),
@@ -132,10 +137,12 @@ TAX_FRAMEWORK = (
     ("3", "3 - Regime Normal"),
 )
 
+
 TAX_FRAMEWORK_SIMPLES = "1"
 TAX_FRAMEWORK_SIMPLES_EX = "2"
 TAX_FRAMEWORK_NORMAL = "3"
 TAX_FRAMEWORK_SIMPLES_ALL = ("1", "2")
+
 
 PROFIT_CALCULATION = (
     ("real", "Real"),
@@ -227,11 +234,8 @@ CEST_SEGMENT = (
     ("10", "Materiais de construção e congêneres"),
     ("11", "Materiais de limpeza"),
     ("12", "Materiais elétricos"),
-    (
-        "13",
-        "Medicamentos de uso humano e outros produtos"
-        " farmacêuticos para uso humano ou veterinário",
-    ),
+    ("13", "Medicamentos de uso humano e outros produtos"
+           " farmacêuticos para uso humano ou veterinário"),
     ("14", "Papéis, plásticos, produtos cerâmicos e vidros"),
     ("15", "Pneumáticos, câmaras de ar e protetores de borracha"),
     ("16", "Produtos alimentícios"),
