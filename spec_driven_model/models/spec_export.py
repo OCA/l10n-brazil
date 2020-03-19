@@ -30,117 +30,66 @@ class AbstractSpecMixin(models.AbstractModel):
         ds_class_sepc = {i.name: i for i in ds_class.member_data_items_}
 
         for xsd_field in xsd_fields:
-            # TODO: Export number required fields with Zero.
-            xsd_required = class_obj._fields[xsd_field]._attrs.get(
-                'xsd_required')
-            # FIXME: xsd_field.replace(class_obj._field_prefix, '')
-            field_spec_name = xsd_field.replace('nfe40_', '')
+            field_spec_name = xsd_field.replace(self._field_prefix, '')
             member_spec = ds_class_sepc[field_spec_name]
-
-            if xsd_field == 'nfe40_tpAmb':
-                self.env.context = dict(self.env.context)
-                self.env.context.update({'tpAmb': self[xsd_field]})
-
-            if self._fields[xsd_field].type == 'many2one':
-                if not self[xsd_field] and not xsd_required:
-                    if class_obj._fields[xsd_field].comodel_name \
-                            not in self._get_spec_classes():
-                        continue
-                    if not any(self[f] for f in self[xsd_field]._fields
-                               if self._fields[f]._attrs.get('xsd')) and \
-                            xsd_field not in ['nfe40_PIS', 'nfe40_COFINS']:
-                        continue
-                if xsd_field == 'nfe40_ISSQN' and \
-                        self.product_id.type == 'consu':
-                    continue
-                if xsd_field == 'nfe40_ISSQNtot' and all(
-                        t == 'consu' for t in
-                        self.nfe40_det.mapped('product_id.type')
-                ):
-                    continue
-                if xsd_field in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
-                    continue
-                field_data = self._export_many2one(xsd_field, class_obj)
-            elif self._fields[xsd_field].type == 'one2many':
-                field_data = self._export_one2many(xsd_field, class_obj)
-            elif self._fields[xsd_field].type == 'datetime' and \
-                    self[xsd_field]:
-                field_data = self._export_datetime(xsd_field)
-            elif self._fields[xsd_field].type == 'date' and self[xsd_field]:
-                field_data = self._export_date(xsd_field)
-            elif self._fields[xsd_field].type in ('float', 'monetary') and \
-                    self[xsd_field] is not False:
-                if xsd_field == 'nfe40_vProd':
-                    if class_obj._name == 'nfe.40.prod':
-                        self[xsd_field] = self['nfe40_qCom'] * self['nfe40_vUnCom']
-                    elif class_obj._name == 'nfe.40.icmstot':
-                        self[xsd_field] = sum(
-                            self['nfe40_det'].mapped('nfe40_vProd'))
-                if xsd_field == 'nfe40_pICMSInterPart':
-                    self[xsd_field] = 100.0
-                if not self[xsd_field] and not xsd_required:
-                    if not (class_obj._name == 'nfe.40.imposto' and
-                            xsd_field == 'nfe40_vTotTrib') and not \
-                            (class_obj._name == 'nfe.40.fat'):
-                        continue
-                field_data = self._export_float_monetary(
-                    xsd_field, member_spec)
-            else:
-                field_data = self[xsd_field]
-                if xsd_field == 'nfe40_xNome' and \
-                        class_obj._name == 'nfe.40.dest' and \
-                        self.env.context.get('tpAmb') == '2':
-                    field_data = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO' \
-                                 ' - SEM VALOR FISCAL'
-                if xsd_field == 'nfe40_modBC':
-                    field_data = self['icms_base_type']
-                if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
-                        not field_data:
-                    field_data = 'SEM GTIN'
-                if xsd_field == 'nfe40_CST':
-                    if class_obj._name.startswith('nfe.40.icms'):
-                        field_data = self.icms_cst_id.code
-                    elif class_obj._name.startswith('nfe.40.ipi'):
-                        field_data = self.ipi_cst_id.code
-                    elif class_obj._name.startswith('nfe.40.pis'):
-                        field_data = self.pis_cst_id.code
-                    elif class_obj._name.startswith('nfe.40.cofins'):
-                        field_data = self.cofins_cst_id.code
+            field_data = self._export_field(xsd_field, class_obj, member_spec)
 
             if not self[xsd_field] and not field_data:
                 continue
 
             export_dict[field_spec_name] = field_data
 
-    def _export_many2one(self, field_name, class_obj=None):
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        # TODO: Export number required fields with Zero.
+        xsd_required = class_obj._fields[xsd_field]._attrs.get(
+            'xsd_required')
+
+        if self._fields[xsd_field].type == 'many2one':
+            if not self[xsd_field] and not xsd_required:
+                if class_obj._fields[xsd_field].comodel_name \
+                        not in self._get_spec_classes():
+                    return False
+            return self._export_many2one(xsd_field, xsd_required,
+                                               class_obj)
+        elif self._fields[xsd_field].type == 'one2many':
+            return self._export_one2many(xsd_field, class_obj)
+        elif self._fields[xsd_field].type == 'datetime' and \
+                self[xsd_field]:
+            return self._export_datetime(xsd_field)
+        elif self._fields[xsd_field].type == 'date' and self[xsd_field]:
+            return self._export_date(xsd_field)
+        elif self._fields[xsd_field].type in ('float', 'monetary') and \
+                self[xsd_field] is not False:
+            return self._export_float_monetary(
+                xsd_field, member_spec, class_obj, xsd_required)
+        else:
+            return self[xsd_field]
+
+    def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if self._fields[field_name]._attrs.get('original_spec_model'):
-            field_data = self[field_name]._build_generateds(
+            return self[field_name]._build_generateds(
                 class_name=self._fields[field_name]._attrs.get(
                     'original_spec_model')
             )
         else:
             if self[field_name]:
-                field_data = self[field_name]._build_generateds(
+                return self[field_name]._build_generateds(
                     class_obj._fields[field_name].comodel_name)
             else:
-                field_data = self._build_generateds(
+                return self._build_generateds(
                     class_obj._fields[field_name].comodel_name)
-        return field_data
 
     def _export_one2many(self, field_name, class_obj=None):
         relational_data = []
-        i = 0
         for relational_field in self[field_name]:
-            i += 1
             field_data = relational_field._build_generateds(
                 class_obj._fields[field_name].comodel_name
             )
-            if class_obj._fields[field_name].comodel_name == 'nfe.40.det':
-                field_data.nItem = i
             relational_data.append(field_data)
         return relational_data
 
-    def _export_float_monetary(self, field_name, member_spec):
+    def _export_float_monetary(self, field_name, member_spec, class_obj,
+                               xsd_required):
         if member_spec.data_type[0]:
             TDec = ''.join(filter(lambda x: x.isdigit(),
                                   member_spec.data_type[0]))[-2:]
