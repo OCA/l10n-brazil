@@ -9,51 +9,57 @@ class FiscalTax(models.Model):
 
     @api.multi
     def _create_account_tax(self):
-        for tax in self:
+        for fiscal_tax in self:
             account_tax_group_id = self.env["account.tax.group"].search(
-                [("fiscal_tax_group_id", "=", tax.tax_group_id.id)], limit=1)
+                [("fiscal_tax_group_id", "=", fiscal_tax.tax_group_id.id)],
+                limit=1)
 
-            tax_users = {"sale": "out", "purchase": "in"}
+            account_taxes = self.env['account.tax'].search(
+                [("tax_group_id", "=", account_tax_group_id.id)])
 
-            for tax_use in tax_users.keys():
-                tax_values = {
-                    'name': tax.name + ' ' + tax_users.get(tax_use),
-                    'type_tax_use': tax_use,
-                    'fiscal_tax_id': tax.id,
-                    'tax_group_id': account_tax_group_id.id,
-                    'amount': 0.00
-                }
+            if not account_taxes:
 
-                if tax.tax_base_type == 'percent':
-                    type_amount = 'percent'
-                    tax_amount = tax.percent_amount
-                else:
-                    type_amount = 'fixed'
-                    tax_amount = tax.value_amount
+                tax_users = {"sale": "out", "purchase": "in"}
 
-                tax_values['tax_base_type'] = tax_amount
-                tax_values['amount_type'] = type_amount
+                for tax_use in tax_users.keys():
+                    tax_values = {
+                        'name': fiscal_tax.name + ' ' + tax_users.get(tax_use),
+                        'type_tax_use': tax_user,
+                        'fiscal_tax_ids': [(4, fiscal_tax.id)],
+                        'tax_group_id': account_tax_group_id.id,
+                        'amount': 0.00
+                    }
 
-                self.env['account.tax'].create(tax_values)
+                    self.env['account.tax'].create(tax_values)
+
+            else:
+                account_taxes.write({
+                    'fiscal_tax_ids': [(4, t.id) for t in account_taxes]
+                })
 
     @api.model
     def create(self, values):
-        if not values.get("partner_id"):
-            self.clear_caches()
-
         fiscal_taxes = super(FiscalTax, self).create(values)
         fiscal_taxes._create_account_tax()
         return fiscal_taxes
 
     @api.multi
     def unlink(self):
-        account_taxes = self.env['account.tax'].search(
-            [('fiscal_tax_id', '=', self.ids)])
-        active_datetime = fields.Datetime.to_string(fields.Datetime.now())
+        for fiscal_tax in self:
+            account_tax_group_id = self.env["account.tax.group"].search(
+                [("fiscal_tax_group_id", "=", fiscal_tax.tax_group_id.id)],
+                limit=1)
 
-        for tax in account_taxes:
-            tax.write({
-                'name': tax.name + ' Inative ' + active_datetime,
-                'fiscal_tax_id': False,
-                'active': False})
+            account_taxes = self.env['account.tax'].search(
+                [("tax_group_id", "=", account_tax_group_id.id)])
+
+            for account_tax in account_taxes:
+
+                account_tax.fiscal_tax_ids -= fiscal_tax
+
+                if not account_tax.fiscal_tax_ids:
+                    tax.write({
+                        'name': tax.name + ' Inative ' + active_datetime,
+                        'fiscal_tax_id': False,
+                        'active': False})
         return super(FiscalTax, self).unlink()
