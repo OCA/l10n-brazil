@@ -442,6 +442,47 @@ class NFe(spec_models.StackedModel):
 
         super(NFe, self).action_document_confirm()
 
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field == 'nfe40_tpAmb':
+            self.env.context = dict(self.env.context)
+            self.env.context.update({'tpAmb': self[xsd_field]})
+
+        return super(NFe, self)._export_field(
+            xsd_field, class_obj, member_spec)
+
+    def _export_many2one(self, field_name, xsd_required, class_obj=None):
+        if not self[field_name] and not xsd_required:
+            if not any(self[f] for f in self[field_name]._fields
+                       if self._fields[f]._attrs.get('xsd')) and \
+                    field_name not in ['nfe40_PIS', 'nfe40_COFINS']:
+                return False
+        if field_name == 'nfe40_ISSQNtot' and all(
+                t == 'consu' for t in
+                self.nfe40_det.mapped('product_id.type')
+        ):
+            self[field_name] = False
+            return False
+        return super(NFe, self)._export_many2one(
+            field_name, xsd_required, class_obj)
+
+    def _export_float_monetary(self, field_name, member_spec, class_obj,
+                               xsd_required):
+        if field_name == 'nfe40_vProd' and \
+                class_obj._name == 'nfe.40.icmstot':
+            self[field_name] = sum(
+                self['nfe40_det'].mapped('nfe40_vProd'))
+        return super(NFe, self)._export_float_monetary(
+            field_name, member_spec, class_obj, xsd_required)
+
+    def _export_one2many(self, field_name, class_obj=None):
+        res = super(NFe, self)._export_one2many(field_name, class_obj)
+        i = 0
+        for field_data in res:
+            i += 1
+            if class_obj._fields[field_name].comodel_name == 'nfe.40.det':
+                field_data.nItem = i
+        return res
+
 
 class NFeLine(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document.line'
@@ -598,10 +639,62 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields = [self.nfe40_choice15]
         elif class_obj._name == 'nfe.40.ipitrib':
             xsd_fields = [i for i in xsd_fields]
-            xsd_fields.remove('nfe40_qUnid')
-            xsd_fields.remove('nfe40_vUnid')
+            if self.nfe40_choice20 == 'nfe40_pIPI':
+                xsd_fields.remove('nfe40_qUnid')
+                xsd_fields.remove('nfe40_vUnid')
+            else:
+                xsd_fields.remove('nfe40_vBC')
+                xsd_fields.remove('nfe40_pIPI')
         return super(NFeLine, self)._export_fields(
             xsd_fields, class_obj, export_dict)
+
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
+                not self[xsd_field]:
+            return 'SEM GTIN'
+        elif xsd_field == 'nfe40_CST':
+            if class_obj._name.startswith('nfe.40.icms'):
+                return self.icms_cst_id.code
+            elif class_obj._name.startswith('nfe.40.ipi'):
+                return self.ipi_cst_id.code
+            elif class_obj._name.startswith('nfe.40.pis'):
+                return self.pis_cst_id.code
+            elif class_obj._name.startswith('nfe.40.cofins'):
+                return self.cofins_cst_id.code
+        else:
+            return super(NFeLine, self)._export_field(
+                xsd_field, class_obj, member_spec)
+
+    def _export_many2one(self, field_name, xsd_required, class_obj=None):
+        if not self[field_name] and not xsd_required:
+            if not any(self[f] for f in self[field_name]._fields
+                       if self._fields[f]._attrs.get('xsd')) and \
+                    field_name not in ['nfe40_PIS', 'nfe40_COFINS']:
+                return False
+        if field_name == 'nfe40_ISSQN' and \
+                self.product_id.type == 'consu':
+            self[field_name] = False
+            return False
+        if field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
+            self[field_name] = False
+            return False
+        return super(NFeLine, self)._export_many2one(
+            field_name, xsd_required, class_obj)
+
+    def _export_float_monetary(self, field_name, member_spec, class_obj,
+                               xsd_required):
+        if field_name == 'nfe40_vProd' and class_obj._name == 'nfe.40.prod':
+            self[field_name] = self['nfe40_qCom'] * self['nfe40_vUnCom']
+        if field_name == 'nfe40_pICMSInterPart':
+            self[field_name] = 100.0
+        if not self[field_name] and not xsd_required:
+            if not (class_obj._name == 'nfe.40.imposto' and
+                    field_name == 'nfe40_vTotTrib') and not \
+                    (class_obj._name == 'nfe.40.fat'):
+                self[field_name] = False
+                return False
+        return super(NFeLine, self)._export_float_monetary(
+            field_name, member_spec, class_obj, xsd_required)
 
 
 class ResCity(models.Model):
@@ -648,18 +741,14 @@ class ResCountryState(models.Model):
     _nfe_extra_domain = [('ibge_code', '!=', False)]
 
 
-class IPITrib(models.AbstractModel):
-    _inherit = 'nfe.40.ipitrib'
+class ResPartner(models.Model):
+    _inherit = "res.partner"
 
-    def _export_field(self, xsd_fields, class_obj, export_dict):
-        if class_obj._name == self._inherit:
-            xsd_fields = [i for i in xsd_fields]
-            if class_obj._fields['nfe40_choice20'] == 'nfe40_pIPI':
-                xsd_fields.remove('nfe40_qUnid')
-                xsd_fields.remove('nfe40_vUnid')
-            else:
-                xsd_fields.remove('nfe40_vBC')
-                xsd_fields.remove('nfe40_pIPI')
-
-        return super(NFeLine, self)._export_field(
-            xsd_fields, class_obj, export_dict)
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field == 'nfe40_xNome' and \
+                class_obj._name == 'nfe.40.dest' and \
+                self.env.context.get('tpAmb') == '2':
+            return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO' \
+                   ' - SEM VALOR FISCAL'
+        return super(ResPartner, self)._export_field(
+            xsd_field, class_obj, member_spec)
