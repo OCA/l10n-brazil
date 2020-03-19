@@ -1,163 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    # Main Menu
+    <!-- Main Menu -->
     <menuitem id="fiscal_menu" name="Fiscal" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" web_icon="l10n_br_fiscal,static/description/icon.png" sequence="30"/>
 
-    # Fiscal Overview
+    <!-- Fiscal Overview -->
     <menuitem id="overview_menu" name="Overview" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="0"/>
 
-<!--    # Fiscal Documents-->
-<!--    <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>-->
+    <!-- Fiscal Documents -->
+    <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
 
-    # Fiscal Documents In
-    <menuitem id="document_in_menu" action="document_in_action" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+    <!-- Fiscal Documents In -->
+    <menuitem id="document_in_menu" action="document_in_action" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="10"/>
 
-    # Fiscal Documents Out
-    <menuitem id="document_out_menu" action="document_out_action" name="Emission" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="11"/>
+    <!-- Fiscal Documents Out -->
+    <menuitem id="document_out_menu" action="document_out_action" name="Emission" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="documents_menu" sequence="11"/>
 
-    # Partners
+    <!-- Partners -->
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
 
-    # Partner
+    <!-- Partner -->
     <menuitem id="partner_menu" action="partner_action" name="Partner" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="partners_menu" sequence="10"/>
 
-    # Company
+    <!-- Company -->
     <menuitem id="company_menu" action="base.action_res_company_form" name="Company" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="partners_menu" sequence="20"/>
 
-    # Adresses
+    <!-- Adresses -->
     <menuitem id="andresses_menu" name="Andresses" groups="l10n_br_fiscal.group_manager" parent="partners_menu" sequence="30"/>
 
-    # Country
+    <!-- Country -->
     <menuitem id="country_menu" action="base.action_country" name="Country" groups="l10n_br_fiscal.group_manager" parent="andresses_menu" sequence="10"/>
 
-    # Country Group
+    <!-- Country Group -->
     <menuitem id="country_group_menu" action="base.action_country_group" name="Country Group" groups="l10n_br_fiscal.group_manager" parent="andresses_menu" sequence="20"/>
 
-    # State
+    <!-- State -->
     <menuitem id="state_menu" action="base.action_country_state" name="State" groups="l10n_br_fiscal.group_manager" parent="andresses_menu" sequence="30"/>
 
-    # City
+    <!-- City -->
     <menuitem id="city_menu" action="base_address_city.action_res_city_tree" name="City" groups="l10n_br_fiscal.group_manager" parent="andresses_menu" sequence="40"/>
 
-    # Product and Service
+    <!-- Product and Service -->
     <menuitem id="product_service_menu" name="Product and Service" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="30"/>
 
-    # Product
+    <!-- Product -->
     <menuitem id="product_menu" action="product_action" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="10"/>
 
-    # Service
+    <!-- Service -->
     <menuitem id="menu_service" action="service_action" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="20"/>
 
-    # Product Category
+    <!-- Product Category -->
     <menuitem id="product_category_menu" action="product.product_category_action_form" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="30"/>
 
-    # Product UOM
+    <!-- Product UOM -->
     <menuitem id="uom_menu" action="uom.product_uom_form_action" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="40"/>
 
-    # Configuration Menu
+    <!-- Configuration Menu -->
     <menuitem id="configuration_menu" name="Configuration" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="999"/>
 
-    # Configuration Settings
+    <!-- Configuration Settings -->
     <menuitem id="fiscal_config_menu" action="config_action" groups="l10n_br_fiscal.group_manager" parent="configuration_menu" sequence="0"/>
 
-    # Partners Settings
+    <!-- Partners Settings -->
     <menuitem id="partners_config_menu" name="Partners" groups="l10n_br_fiscal.group_manager" parent="configuration_menu" sequence="10"/>
 
-    # CNAE
+    <!-- CNAE -->
     <menuitem id="cnae_menu" action="cnae_action" groups="l10n_br_fiscal.group_manager" parent="partners_config_menu" sequence="10"/>
 
-    # Partner Profile
+    <!-- Partner Profile -->
     <menuitem id="partner_profile_menu" action="partner_profile_action" groups="l10n_br_fiscal.group_manager" parent="partners_config_menu" sequence="140"/>
 
-    # Products Settings
+    <!-- Products Settings -->
     <menuitem id="products_config_menu" name="Products" groups="l10n_br_fiscal.group_manager" parent="configuration_menu" sequence="20"/>
 
-    # NBS
+    <!-- NBS -->
     <menuitem id="nbs_menu" action="nbs_action" groups="l10n_br_fiscal.group_manager" parent="products_config_menu" sequence="10"/>
 
-    # Service Type
+    <!-- Service Type -->
     <menuitem id="service_type_menu" action="service_type_action" groups="l10n_br_fiscal.group_manager" parent="products_config_menu" sequence="20"/>
 
-    # NCM
+    <!-- NCM -->
     <menuitem id="ncm_menu" action="ncm_action" groups="l10n_br_fiscal.group_manager" parent="products_config_menu" sequence="30"/>
 
-    # CEST
+    <!-- CEST -->
     <menuitem id="cest_menu" action="cest_action" groups="l10n_br_fiscal.group_manager" parent="products_config_menu" sequence="40"/>
 
-    # Product Genre
+    <!-- Product Genre -->
     <menuitem id="product_genre_menu" action="product_genre_action" groups="l10n_br_fiscal.group_manager" parent="products_config_menu" sequence="50"/>
 
-    # Taxes Settings
+    <!-- Taxes Settings -->
     <menuitem id="taxes_config_menu" name="Taxes" groups="l10n_br_fiscal.group_manager" parent="configuration_menu" sequence="30"/>
 
-    # Tax Group
+    <!-- Tax Group -->
     <menuitem id="tax_group_menu" action="tax_group_action" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="10"/>
 
-    # Tax
+    <!-- Tax -->
     <menuitem id="tax_menu" action="tax_action" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="20"/>
 
-    # Simplified Tax
+    <!-- Simplified Tax -->
     <menuitem id="simplified_tax_menu" action="simplified_tax_action" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="30"/>
 
-    # Tax ICMS Settings
+    <!-- Tax ICMS Settings -->
     <menuitem id="tax_icms_config_menu" name="ICMS" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="40"/>
 
-    # Tax ICMS Relief
+    <!-- Tax ICMS Relief -->
     <menuitem id="tax_icms_relief_menu" action="tax_icms_relief_action" groups="l10n_br_fiscal.group_manager" parent="tax_icms_config_menu" sequence="10"/>
 
-    # Tax ICMS Regulation
+    <!-- Tax ICMS Regulation -->
     <menuitem id="tax_icms_regulation_menu" action="tax_icms_regulation_action" groups="l10n_br_fiscal.group_manager" parent="tax_icms_config_menu" sequence="20"/>
 
-    # Tax IPI Settings
+    <!-- Tax IPI Settings -->
     <menuitem id="tax_ipi_config_menu" name="IPI" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="50"/>
 
-    # Tax IPI Control Seal
+    <!-- Tax IPI Control Seal -->
     <menuitem id="tax_ipi_control_seal_menu" action="tax_ipi_control_seal_action" groups="l10n_br_fiscal.group_manager" parent="tax_ipi_config_menu" sequence="10"/>
 
-    # Tax IPI Guideline
+    <!-- Tax IPI Guideline -->
     <menuitem id="tax_ipi_guideline_menu" action="tax_ipi_guideline_action" groups="l10n_br_fiscal.group_manager" parent="tax_ipi_config_menu" sequence="20"/>
 
-    # Tax IPI Guideline Class
+    <!-- Tax IPI Guideline Class -->
     <menuitem id="tax_ipi_guideline_class_menu" action="tax_ipi_guideline_class_action" groups="l10n_br_fiscal.group_manager" parent="tax_ipi_config_menu" sequence="30"/>
 
-    # Tax PIS COFINS Settings
+    <!-- Tax PIS COFINS Settings -->
     <menuitem id="tax_pis_cofins_config_menu" name="PIS/COFINS" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="60"/>
 
-    # Tax PIS COFINS
+    <!-- Tax PIS COFINS -->
     <menuitem id="tax_pis_cofins_menu" action="tax_pis_cofins_action" groups="l10n_br_fiscal.group_manager" parent="tax_pis_cofins_config_menu" sequence="10"/>
 
-    # Tax PIS COFINS Base
+    <!-- Tax PIS COFINS Base -->
     <menuitem id="tax_pis_cofins_base_menu" action="tax_pis_cofins_base_action" groups="l10n_br_fiscal.group_manager" parent="tax_pis_cofins_config_menu" sequence="20"/>
 
-    # Tax PIS COFINS Credit
+    <!-- Tax PIS COFINS Credit -->
     <menuitem id="tax_pis_cofins_credit_menu" action="tax_pis_cofins_credit_action" groups="l10n_br_fiscal.group_manager" parent="tax_pis_cofins_config_menu" sequence="30"/>
 
-    # Operations Settings
+    <!-- Operations Settings -->
     <menuitem id="operations_config_menu" name="Operations" groups="l10n_br_fiscal.group_manager" parent="configuration_menu" sequence="40"/>
 
-    # Operation
+    <!-- Operation -->
     <menuitem id="operation_menu" action="operation_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="10"/>
 
-    # CFOP
+    <!-- CFOP -->
     <menuitem id="cfop_menu" action="cfop_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="20"/>
 
-    # CST
+    <!-- CST -->
     <menuitem id="cst_menu" action="cst_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="30"/>
 
-    # Others Settings
+    <!-- Others Settings -->
     <menuitem id="others_config_menu" name="Others" groups="l10n_br_fiscal.group_manager" parent="configuration_menu" sequence="999"/>
 
-    # Fiscal Document
+    <!-- Fiscal Document -->
     <menuitem id="document_type_menu" action="document_type_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="10"/>
 
-    # Fiscal Document Serie
+    <!-- Fiscal Document Serie -->
     <menuitem id="document_serie_menu" action="document_serie_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="20"/>
 
-    # Fiscal Document Serie
+    <!-- Fiscal Document Serie -->
     <menuitem id="certificate_menu" action="certificate_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="30"/>
 
-    # Comment
+    <!-- Comment -->
     <menuitem id="comment_menu" action="comment_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="40"/>
 
 </odoo>

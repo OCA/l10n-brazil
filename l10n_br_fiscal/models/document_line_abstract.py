@@ -27,8 +27,8 @@ class DocumentLineAbstract(models.AbstractModel):
         for record in self:
             round_curr = record.document_id.currency_id.round
             # Valor dos produtos
-            record.amount_untaxed = round_curr(
-                record.price_unit * record.quantity)
+            record.amount_untaxed = round_curr(record.price_unit *
+                                               record.quantity)
             record.amount_fiscal = round_curr(
                 record.fiscal_price * record.fiscal_quantity)
 
