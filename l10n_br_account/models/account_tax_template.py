@@ -13,8 +13,7 @@ class AccountTaxTemplate(models.Model):
         colunm1="account_tax_id",
         colunm2="fiscal_tax_id",
         readonly=True,
-        string="Fiscal Taxes",
-    )
+        string="Fiscal Taxes")
 
     @api.multi
     def _generate_tax(self, company):
@@ -25,7 +24,6 @@ class AccountTaxTemplate(models.Model):
         for tax_template in taxes_template:
             tax_id = mapping.get("tax_template_to_tax").get(tax_template.id)
             self.env["account.tax"].browse(tax_id).write(
-                {"fiscal_tax_ids": tax_template.fiscal_tax_ids}
-            )
+                {"fiscal_tax_ids": tax_template.fiscal_tax_ids})
 
         return mapping
