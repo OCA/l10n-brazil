@@ -585,7 +585,7 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice20 = 'nfe40_vUnid'
 
-    def _export_field(self, xsd_fields, class_obj, export_dict):
+    def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
         elif class_obj._name == 'nfe.40.tipi':
@@ -600,7 +600,7 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields = [i for i in xsd_fields]
             xsd_fields.remove('nfe40_qUnid')
             xsd_fields.remove('nfe40_vUnid')
-        return super(NFeLine, self)._export_field(
+        return super(NFeLine, self)._export_fields(
             xsd_fields, class_obj, export_dict)
 
 
