@@ -2,10 +2,13 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from lxml import etree
+
 from odoo import _, api, fields, models
 from odoo.osv.orm import setup_modifiers
-from ..models.account_invoice import REFUND_TO_OPERATION, FISCAL_TYPE_REFUND
 from odoo.exceptions import Warning as UserError
+
+from ..models.account_invoice import REFUND_TO_OPERATION, FISCAL_TYPE_REFUND
+
 
 
 class AccountInvoiceRefund(models.TransientModel):
@@ -13,8 +16,7 @@ class AccountInvoiceRefund(models.TransientModel):
 
     force_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Force Fiscal Operation",
-    )
+        string="Force Fiscal Operation")
 
     @api.multi
     def compute_refund(self, mode="refund"):
@@ -94,19 +96,18 @@ class AccountInvoiceRefund(models.TransientModel):
             return result
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-
+    def fields_view_get(self, view_id=None, view_type="form", toolbar=False,
+                        submenu=False):
         result = super(AccountInvoiceRefund, self).fields_view_get(
-            view_id, view_type, toolbar, submenu
-        )
+            view_id, view_type, toolbar, submenu)
 
         invoice_type = self.env.context.get("type", "out_invoice")
         operation_type = REFUND_TO_OPERATION[invoice_type]
         fiscal_type = FISCAL_TYPE_REFUND[operation_type]
         eview = etree.fromstring(result["arch"])
-        operation_id = eview.xpath("//field[@name='force_fiscal_operation_id']")
+        operation_id = eview.xpath(
+            "//field[@name='force_fiscal_operation_id']")
+
         for field in operation_id:
             field.set(
                 "domain",
