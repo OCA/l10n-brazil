@@ -139,13 +139,6 @@ class NFe(spec_models.StackedModel):
                 }
                 rec.operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
-    # cce_document_ids = fields.One2many(
-    #     comodel_name="l10n_br_account.invoice.cce",
-    #     inverse_name="fiscal_document_event_ids",
-    #     string=u"Carta de correção",
-    #     copy=False,
-    # )
-
     def _generate_key(self):
         key = super()._generate_key()
         if self.document_type_id.code == MODELO_FISCAL_NFE:
@@ -605,12 +598,8 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields = [self.nfe40_choice15]
         elif class_obj._name == 'nfe.40.ipitrib':
             xsd_fields = [i for i in xsd_fields]
-            # if class_obj._fields['nfe40_choice20'] == 'nfe40_pIPI':
             xsd_fields.remove('nfe40_qUnid')
             xsd_fields.remove('nfe40_vUnid')
-            # else:
-            #     xsd_fields.remove('nfe40_vBC')
-            #     xsd_fields.remove('nfe40_pIPI')
         return super(NFeLine, self)._export_field(
             xsd_fields, class_obj, export_dict)
 
