@@ -14,7 +14,9 @@ class AccountInvoiceLine(models.Model):
     # disable with active=False in their fiscal_document_line table.
     # To make these invoice lines still visible, we set active=True
     # in the invoice.line table.
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(
+        string="Active",
+        default=True)
 
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
@@ -25,5 +27,5 @@ class AccountInvoiceLine(models.Model):
         string="Fiscal Document Line",
         required=True,
         ondelete="cascade",
-        default=lambda self: self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy"),
-    )
+        default=lambda self: self.env.ref(
+            "l10n_br_fiscal.fiscal_document_line_dummy"))
