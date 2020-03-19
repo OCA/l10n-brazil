@@ -155,12 +155,6 @@ class Document(models.Model):
         # FIXME: Fazer sufixo depender do modelo
         self.key = 'NFe' + chave
 
-    def _onchange_all(self):
-        self._onchange_operation_id()
-        self._onchange_document_type_id()
-        self._onchange_document_serie_id()
-        self._onchange_partner_id()
-
     def _create_return(self):
         return_ids = self.env[self._name]
         for record in self:
@@ -171,11 +165,11 @@ class Document(models.Model):
                     new.operation_type = 'in'
                 else:
                     new.operation_type = 'out'
-                new._onchange_all()
+                new._onchange_operation_id()
                 new.line_ids.write({'operation_id': new.operation_id.id})
 
                 for item in new.line_ids:
-                    item._onchange_all()
+                    item._onchange_operation_id()
 
                 return_ids |= new
         return return_ids
