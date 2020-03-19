@@ -24,7 +24,7 @@ class AbstractSpecMixin(models.AbstractModel):
         #  FIXME: leiauteNFe hardcoded
         return getattr(leiauteNFe, class_obj._generateds_type)
 
-    def _export_field(self, xsd_fields, class_obj, export_dict):
+    def _export_fields(self, xsd_fields, class_obj, export_dict):
         # FIXME: Remove all references of nfe, make it generic!
         ds_class = self._get_ds_class(class_obj)
         ds_class_sepc = {i.name: i for i in ds_class.member_data_items_}
@@ -198,7 +198,7 @@ class AbstractSpecMixin(models.AbstractModel):
         kwargs = {}
 
         ds_class = self._get_ds_class(class_obj)
-        self._export_field(xsd_fields, class_obj, export_dict=kwargs)
+        self._export_fields(xsd_fields, class_obj, export_dict=kwargs)
 
         if kwargs:
             ds_object = ds_class(**kwargs)
