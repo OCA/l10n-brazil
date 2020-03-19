@@ -63,36 +63,36 @@
                   <field name="issqn_tax_id"/>
                 </group>
                 <group>
-                    <group>
-                      <field name="issqn_base" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
-                      <field name="issqn_percent" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
-                    </group>
-                    <group>
-                      <field name="issqn_reduction" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
-                      <field name="issqn_value" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
-                    </group>
+                  <group>
+                    <field name="issqn_base" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_percent" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                  </group>
+                  <group>
+                    <field name="issqn_reduction" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_value" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                  </group>
                 </group>
                   <group string="Retenções">
-                      <field name="issqn_wh_tax_id"/>
+                    <field name="issqn_wh_tax_id"/>
                   </group>
                   <group>
                       <group>
-                          <field name="issqn_wh_base" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
-                          <field name="issqn_wh_percent" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
+                        <field name="issqn_wh_base" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
+                        <field name="issqn_wh_percent" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
                       </group>
                       <group>
-                          <field name="issqn_wh_reduction" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
-                          <field name="issqn_wh_value" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
+                        <field name="issqn_wh_reduction" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
+                        <field name="issqn_wh_value" force_save="1" attrs="{'readonly': [('issqn_wh_tax_id', '!=', False)]}"/>
                       </group>
                   </group>
               </page>
               <page name="icms" string="ICMS" attrs="{'invisible': [('fiscal_genre_code', '=', '00')]}">
                   <group name="icms" string="ICMS">
-                      <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
-                      <field name="icmssn_tax_id" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
-                      <field name="icms_cst_id" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
-                      <field name="icms_cst_code" readonly="1" invisible="1"/>
-                      <field name="icms_origin" force_save="1" attrs="{'readonly': ['|', ('icmssn_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"/>
+                    <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
+                    <field name="icmssn_tax_id" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
+                    <field name="icms_cst_id" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
+                    <field name="icms_cst_code" readonly="1" invisible="1"/>
+                    <field name="icms_origin" force_save="1" attrs="{'readonly': ['|', ('icmssn_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"/>
                   </group>
                   <group>
                       <group>
