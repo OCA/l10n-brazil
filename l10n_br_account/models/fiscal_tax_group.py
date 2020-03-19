@@ -20,9 +20,3 @@ class FiscalTaxGroup(models.Model):
         string='Tax Account on Credit Notes',
         company_dependent=True,
         ondelete='restrict')
-
-    @api.model
-    def create(self, values):
-        if not values.get("partner_id"):
-            self.clear_caches()
-            return super(FiscalTaxGroup, self).create(values)
