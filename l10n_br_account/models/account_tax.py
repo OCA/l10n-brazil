@@ -13,15 +13,14 @@ class AccountTax(models.Model):
         colunm1="account_tax_id",
         colunm2="fiscal_tax_id",
         readonly=True,
-        string="Fiscal Taxes",
-    )
+        string="Fiscal Taxes")
 
     @api.multi
     def compute_all(
         self,
         price_unit,
         currency=None,
-        quantity=1.0,
+        quantity=None,
         product=None,
         partner=None,
         fiscal_taxes=None,
