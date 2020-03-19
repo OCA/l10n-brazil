@@ -683,6 +683,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             [i[2] for i in action['domain'] if i[0] == 'id'])
 
         self.assertEquals(
-            return_id.operation_id.id, self.nfe_same_state.operation_id.return_operation_id.id,
+            return_id.operation_id.id,
+            self.nfe_same_state.operation_id.return_operation_id.id,
             "Error on creation return"
         )
