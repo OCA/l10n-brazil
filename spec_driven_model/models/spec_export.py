@@ -37,16 +37,6 @@ class AbstractSpecMixin(models.AbstractModel):
             field_spec_name = xsd_field.replace('nfe40_', '')
             member_spec = ds_class_sepc[field_spec_name]
 
-            # if __debug__:
-            #     _logger.info(
-            #         "Field: %s, xsd_required=%s, type(%s)/%s = %s",
-            #         xsd_field,
-            #         xsd_required,
-            #         self._fields[xsd_field].type,
-            #         member_spec.data_type[0],
-            #         self[xsd_field]
-            #     )
-
             if xsd_field == 'nfe40_tpAmb':
                 self.env.context = dict(self.env.context)
                 self.env.context.update({'tpAmb': self[xsd_field]})
@@ -120,9 +110,6 @@ class AbstractSpecMixin(models.AbstractModel):
             if not self[xsd_field] and not field_data:
                 continue
 
-            # if __debug__:
-            #     _logger.info("Export: %s", field_data)
-
             export_dict[field_spec_name] = field_data
 
     def _export_many2one(self, field_name, class_obj=None):
@@ -132,7 +119,6 @@ class AbstractSpecMixin(models.AbstractModel):
                     'original_spec_model')
             )
         else:
-            # continue
             if self[field_name]:
                 field_data = self[field_name]._build_generateds(
                     class_obj._fields[field_name].comodel_name)
@@ -227,9 +213,7 @@ class AbstractSpecMixin(models.AbstractModel):
             0,
             pretty_print=True,
         )
-        # contents = output.getvalue()
         output.close()
-        # _logger.info(contents)
 
     def export_xml(self, print_xml=True):
         result = []
