@@ -58,15 +58,17 @@ class Document(models.Model):
     )
 
     document_event_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document_event",
-        inverse_name="fiscal_document_event_id",
-        string=u"Eventos",
+        comodel_name="l10n_br_fiscal.document.event",
+        inverse_name="fiscal_document_id",
+        string="Events",
         copy=False,
         readonly=True)
 
     # Você não vai poder fazer isso em modelos que já tem state
     # TODO Porque não usar o campo state do fiscal.document???
-    state = fields.Selection(related="state_edoc")
+    state = fields.Selection(
+        related="state_edoc",
+        string="State")
 
     @api.multi
     @api.constrains("number")
