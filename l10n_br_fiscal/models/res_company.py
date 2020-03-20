@@ -75,8 +75,7 @@ class ResCompany(models.Model):
         inverse="_inverse_cnae_main_id",
         domain="[('internal_type', '=', 'normal'), "
         "('id', 'not in', cnae_secondary_ids)]",
-        string="Main CNAE",
-    )
+        string="Main CNAE")
 
     cnae_secondary_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cnae",
@@ -243,12 +242,11 @@ class ResCompany(models.Model):
     processador_edoc = fields.Selection(
         selection=PROCESSADOR,
         string='Processador documentos eletrônicos',
-        default=PROCESSADOR_NENHUM,
-    )
+        default=PROCESSADOR_NENHUM)
 
     document_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.type",
-        string="Default Document Type")
+        comodel_name='l10n_br_fiscal.document.type',
+        string='Default Document Type')
 
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(
