@@ -2,10 +2,10 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import base64
 import os
-
+import base64
 from erpbrasil.base import misc
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import config
@@ -24,9 +24,9 @@ def caminho_empresa(company_id, document):
             os.makedirs(path)
         except OSError:
             raise UserError(
-                _(u"Erro!"),
+                _("Erro!"),
                 _(
-                    u"""Verifique as permissões de escrita
+                    """Verifique as permissões de escrita
                     e o caminho da pasta"""
                 ),
             )
@@ -34,88 +34,117 @@ def caminho_empresa(company_id, document):
 
 
 class DocumentEvent(models.Model):
-    _name = "l10n_br_fiscal.document_event"
+    _name = "l10n_br_fiscal.document.event"
+    _description = "Fiscal Document Event"
+    _order = "write_date desc"
 
     type = fields.Selection(
         selection=[
-            ("-1", u"Exception"),
-            ("0", u"Envio Lote"),
-            ("1", u"Consulta Recibo"),
-            ("2", u"Cancelamento"),
-            ("3", u"Inutilização"),
-            ("4", u"Consulta NFE"),
-            ("5", u"Consulta Situação"),
-            ("6", u"Consulta Cadastro"),
-            ("7", u"DPEC Recepção"),
-            ("8", u"DPEC Consulta"),
-            ("9", u"Recepção Evento"),
-            ("10", u"Download"),
-            ("11", u"Consulta Destinadas"),
-            ("12", u"Distribuição DFe"),
-            ("13", u"Manifestação"),
-        ],
-        string="Serviço",
-    )
+            ("-1", "Exception"),
+            ("0", "Envio Lote"),
+            ("1", "Consulta Recibo"),
+            ("2", "Cancelamento"),
+            ("3", "Inutilização"),
+            ("4", "Consulta NFE"),
+            ("5", "Consulta Situação"),
+            ("6", "Consulta Cadastro"),
+            ("7", "DPEC Recepção"),
+            ("8", "DPEC Consulta"),
+            ("9", "Recepção Evento"),
+            ("10", "Download"),
+            ("11", "Consulta Destinadas"),
+            ("12", "Distribuição DFe"),
+            ("13", "Manifestação")],
+        string="Service")
 
-    response = fields.Char(string=u"Descrição", size=64, readonly=True)
+    response = fields.Char(
+        string="Description",
+        size=64,
+        readonly=True)
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Empresa",
+        string="Company",
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     origin = fields.Char(
-        string=u"Documento de Origem",
+        string="Source Document",
         size=64,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        help=u"Referência ao documento que gerou o evento.",
-    )
+        help="Referência ao documento que gerou o evento.")
 
-    file_sent = fields.Char(string="Envio", readonly=True)
+    file_sent = fields.Char(
+        string="Dispatch File",
+        readonly=True)
 
-    file_returned = fields.Char(string="Retorno", readonly=True)
+    file_returned = fields.Char(
+        string="Return file",
+        readonly=True)
 
-    status = fields.Char(string=u"Código", readonly=True)
+    status = fields.Char(
+        string="Status Code",
+        readonly=True)
 
-    message = fields.Char(string=u"Mensagem", readonly=True)
+    message = fields.Char(
+        string="Mensagem",
+        readonly=True)
 
-    create_date = fields.Datetime(string=u"Data Criação", readonly=True)
+    create_date = fields.Datetime(
+        string="Create Date",
+        readonly=True)
 
-    write_date = fields.Datetime(string=u"Data Alteração", readonly=True)
+    write_date = fields.Datetime(
+        string="Write Date",
+        readonly=True)
 
-    end_date = fields.Datetime(string=u"Data Finalização", readonly=True)
+    end_date = fields.Datetime(
+        string="Completion Date",
+        readonly=True)
 
     state = fields.Selection(
         selection=[
             ("draft", "Rascunho"),
             ("send", "Enviado"),
             ("wait", "Aguardando Retorno"),
-            ("done", "Recebido Retorno"),
-        ],
-        string=u"Status",
+            ("done", "Recebido Retorno")],
+        string="Status",
         index=True,
         readonly=True,
-        default="draft",
-    )
+        default="draft")
 
-    fiscal_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document", string=u"Documentos"
-    )
+    # FIXME Porque existe este campo m2o com ele mesmo???
+    fiscal_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Document")
 
-    cancel_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_account.invoice.cancel", string="Cancelamento"
-    )
+    document_cancel_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.cancel",
+        string="Cancel Document")
 
-    invalid_number_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_account.invoice.invalid.number", string=u"Inutilização"
-    )
+    document_correction_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.correction",
+        string="Correction Document")
 
-    display_name = fields.Char(string="Nome", compute="_compute_display_name")
+    document_invalidate_number_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.invalidate.number",
+        string="Invalidate Document")
 
-    _order = "write_date desc"
+    display_name = fields.Char(
+        string="Nome",
+        compute="_compute_display_name")
+
+    xml_sent_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="XML", copy=False,
+        readony=True)
+
+    xml_returned_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="XML de autorização",
+        copy=False,
+        readony=True)
 
     @api.multi
     @api.depends("company_id.name", "origin")
@@ -123,16 +152,6 @@ class DocumentEvent(models.Model):
         self.ensure_one()
         names = ["Evento", self.company_id.name, self.origin]
         self.display_name = " / ".join(filter(None, names))
-
-    xml_sent_id = fields.Many2one(
-        comodel_name="ir.attachment", string="XML", copy=False, readony=True
-    )
-    xml_returned_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="XML de autorização",
-        copy=False,
-        readony=True,
-    )
 
     @staticmethod
     def monta_caminho(ambiente, company_id, chave):
@@ -161,8 +180,8 @@ class DocumentEvent(models.Model):
             ambiente=int(self.company_id.nfe_environment),
             company_id=self.company_id,
             chave=(
-                self.fiscal_document_event_id.key
-                or self.fiscal_document_event_id.number
+                self.fiscal_document_id.key
+                or self.fiscal_document_id.number
             ),  # FIXME:
         )
         file_path = os.path.join(save_dir, file_name)
@@ -172,9 +191,9 @@ class DocumentEvent(models.Model):
             f = open(file_path, "w")
         except IOError:
             raise UserError(
-                _(u"Erro!"),
+                _("Erro!"),
                 _(
-                    u"""Não foi possível salvar o arquivo
+                    """Não foi possível salvar o arquivo
                     em disco, verifique as permissões de escrita
                     e o caminho da pasta"""
                 ),
@@ -191,14 +210,14 @@ class DocumentEvent(models.Model):
 
         file_name = ""
         file_name += (
-            self.fiscal_document_event_id.key or self.fiscal_document_event_id.number
+            self.fiscal_document_id.key or self.fiscal_document_id.number
         )  # FIXME:
         file_name += "-"
         if autorizacao:
             file_name += "proc-"
         if sequencia:
             file_name += str(sequencia) + "-"
-        file_name += CODIGO_NOME[self.fiscal_document_event_id.document_type_id.code]
+        file_name += CODIGO_NOME[self.fiscal_document_id.document_type_id.code]
         file_name += "." + extensao_sem_ponto
 
         file_path = self._grava_arquivo_disco(arquivo, file_name)
