@@ -34,6 +34,9 @@ class OperationLine(models.Model):
         string="Name",
         required=True)
 
+    document_type_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.type')
+
     cfop_internal_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Internal",
@@ -136,6 +139,20 @@ class OperationLine(models.Model):
         "fiscal_operation_name_uniq",
         "unique (name, operation_id)",
         _("Fiscal Operation Line already exists with this name !"))]
+
+    def get_document_type(self, company):
+        self.ensure_one()
+        if self.document_type_id:
+            document_type = self.document_type_id
+        else:
+            if not company.document_type_id:
+                raise UserError(
+                    _("You need set a default fiscal document "
+                      "in your company !"))
+
+            document_type = company.document_type_id
+
+        return document_type
 
     def _get_cfop(self, company, partner):
         cfop = False
