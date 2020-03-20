@@ -6,9 +6,20 @@
         <field name="model">l10n_br_fiscal.document</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
         <field name="arch" type="xml">
-            <field name="operation_id" position="after">
-                <field name="move_template_ids" widget="many2many_tags"/>
-            </field>
+            <page name="amounts" position="after">
+                <page name="account" string="Accounting">
+                    <group>
+                        <group>
+                            <field name="move_template_ids" widget="many2many_tags"/>
+                            <field name="journal_id"/>
+                        </group>
+                        <group>
+                            <field name="move_id"/>
+                            <button type="object" name="action_move_create" string="Gerar Lançamento"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
         </field>
     </record>
 </odoo>
