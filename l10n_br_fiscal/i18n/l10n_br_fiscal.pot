@@ -2059,7 +2059,7 @@ msgid "Documento de Origem"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__fiscal_document_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__fiscal_document_id
 msgid "Documentos"
 msgstr ""
 
@@ -2074,7 +2074,7 @@ msgid "Documents"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.wizard_document_status,state:0
+#: selection:l10n_br_fiscal.wizard_document.status,state:0
 msgid "Done"
 msgstr ""
 
@@ -2172,7 +2172,7 @@ msgid "Erro!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.wizard_document_status,state:0
+#: selection:l10n_br_fiscal.wizard_document.status,state:0
 msgid "Error"
 msgstr ""
 
@@ -2624,7 +2624,7 @@ msgid "Group By..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.wizard_document_status,nfe_environment:0
+#: selection:l10n_br_fiscal.wizard_document.status,nfe_environment:0
 msgid "Homologação"
 msgstr ""
 
@@ -3801,7 +3801,7 @@ msgid "Industry Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.wizard_document_status,state:0
+#: selection:l10n_br_fiscal.wizard_document.status,state:0
 msgid "Init"
 msgstr ""
 
@@ -5391,7 +5391,7 @@ msgid "Produtos eletrônicos, eletroeletrônicos e eletrodomésticos"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.wizard_document_status,nfe_environment:0
+#: selection:l10n_br_fiscal.wizard_document.status,nfe_environment:0
 msgid "Produção"
 msgstr ""
 
@@ -6725,4 +6725,3 @@ msgstr ""
 #: selection:uom.category,measure_type:0
 msgid "Àrea / Superfície"
 msgstr ""
-
