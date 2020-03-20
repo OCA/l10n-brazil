@@ -5,38 +5,55 @@
 from odoo import api, fields, models
 
 
-class WizardDocumentStatus(models.TransientModel):
-    """ Check fiscal document key"""
-
-    _name = "l10n_br_fiscal.wizard_document_status"
-    _description = "Check fiscal document key on sefaz"
+class DocumentStatusWizard(models.TransientModel):
+    _name = "l10n_br_fiscal.document.status.wizard"
+    _description = "Fiscal Document Status Inquiry on SEFAZ"
 
     state = fields.Selection(
-        selection=[("init", "Init"), ("error", "Error"), ("done", "Done")],
+        selection=[
+            ("init", "Init"),
+            ("error", "Error"),
+            ("done", "Done")],
         string="State",
         index=True,
         readonly=True,
-        default="init",
-    )
+        default="init")
 
-    version = fields.Text(string=u"Versão", readonly=True)
+    version = fields.Text(
+        string="Version",
+        readonly=True)
 
+    # TODO Este campo deveria estar no módulo l10n_br_nfe
+    # Esta classe deveria ser um abstract
     nfe_environment = fields.Selection(
-        selection=[("1", u"Produção"), ("2", u"Homologação")], string="Ambiente"
-    )
+        selection=[
+            ("1", u"Produção"),
+            ("2", u"Homologação")],
+        string="Ambiente")
 
-    xMotivo = fields.Text(string="Motivo", readonly=True)
+    xMotivo = fields.Text(
+        string="Motivo", readonly=True)
 
     # FIXME
-    cUF = fields.Integer(string="Codigo Estado", readonly=True)
+    cUF = fields.Integer(
+        string="Codigo Estado",
+        readonly=True)
 
-    chNFe = fields.Char(string="Chave de Acesso NFE", size=44)
+    chNFe = fields.Char(
+        string="Chave de Acesso NFE",
+        size=44)
 
-    protNFe = fields.Text(string="Protocolo NFE", readonly=True)
+    protNFe = fields.Text(
+        string="Protocolo NFE",
+        readonly=True)
 
-    retCancNFe = fields.Text(string="Cancelamento NFE", readonly=True)
+    retCancNFe = fields.Text(
+        string="Cancelamento NFE",
+        readonly=True)
 
-    procEventoNFe = fields.Text(sting="Processamento Evento NFE", readonly=True)
+    procEventoNFe = fields.Text(
+        sting="Processamento Evento NFE",
+        readonly=True)
 
     @api.multi
     def get_document_status(self):
