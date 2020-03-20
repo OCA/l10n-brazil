@@ -4,9 +4,9 @@
 
 <odoo>
 
-    <record model="ir.ui.view" id="wizard_document_correction_form">
-        <field name="name">l10n_br_fiscal.wizard_document_correction.form (in l10n_br_fiscal)</field>
-        <field name="model">l10n_br_fiscal.wizard_document_correction</field>
+    <record id="document_correction_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.correction.wizard.form (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.document.correction.wizard</field>
         <field name="arch" type="xml">
             <form string="Carta de Correção">
                 <group>
@@ -25,13 +25,12 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="wizard_document_correction_action">
+    <record id="document_correction_wizard_action" model="ir.actions.act_window">
         <field name="name">Carta de Correção</field>
-        <field name="res_model">l10n_br_fiscal.wizard_document_correction</field>
+        <field name="res_model">l10n_br_fiscal.document.correction.wizard</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
         <field name="target">new</field>
     </record>
-
 
 </odoo>
