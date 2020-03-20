@@ -276,18 +276,18 @@ class TestCustomerInvoice(TransactionCase):
         )
 
     def test_account_invoice_cce(self):
-        self.account_cce = self.env["l10n_br_account.invoice.cce"].create(
+        self.account_cce = self.env["l10n_br_fiscal.document.correction"].create(
             dict(invoice_id=self.invoice_3.id, motivo="TESTE")
         )
         assert self.account_cce.display_name, (
             "Error with function display_name() of object "
-            "l10n_br_account.invoice.cce"
+            "l10n_br_fiscal.document.correction"
         )
 
     def test_account_invoice_cancel(self):
         with self.assertRaises(ValidationError):
             self.account_invoice_cancel = self.env[
-                "l10n_br_account.invoice.cancel"
+                "l10n_br_fiscal.document.cancel"
             ].create(dict(invoice_id=self.invoice_3.id, justificative="TESTE"))
         self.account_invoice_cancel = self.env["l10n_br_account.invoice.cancel"].create(
             dict(
@@ -297,5 +297,5 @@ class TestCustomerInvoice(TransactionCase):
         )
         assert self.account_invoice_cancel.display_name, (
             "Error with function display_name() of object "
-            "l10n_br_account.invoice.cancel"
+            "l10n_br_fiscal.document.cancel"
         )
