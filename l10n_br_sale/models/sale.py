@@ -6,6 +6,8 @@ import logging
 
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools import float_is_zero, float_compare
 
 _logger = logging.getLogger(__name__)
 
@@ -182,6 +184,7 @@ class SaleOrder(models.Model):
         string=u'Inscrição Estadual',
         related='partner_id.inscr_est')
 
+    # TODO - move to l10n_br_fiscal
     ind_pres = fields.Selection(
         selection=[
             (
@@ -310,15 +313,6 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         result = super(SaleOrder, self)._prepare_invoice()
-        context = self.env.context
-
-        if (context.get('fiscal_type') == 'service' and
-                self.order_line and self.order_line[0].operation_id):
-            operation_id = self.order_line[0].operation_id.id
-            result['operation_id'] = self.order_line.operation_id.id
-        else:
-            operation_id = self.operation_id
-            result['operation_id'] = self.operation_id.id
 
         # TODO check journal
         # if operation_id:
@@ -331,9 +325,130 @@ class SaleOrder(models.Model):
             comment.append(self.note)
 
         # TODO FISCAL Commnet
-        # fiscal_comment = self._fiscal_comment(self)
-        result['comment'] = " - ".join(comment)
         # result['fiscal_comment'] = " - ".join(fiscal_comment)
-        result['operation_id'] = operation_id.id
+        # fiscal_comment = self._fiscal_comment(self)
+
+        result['comment'] = " - ".join(comment)
+        result['operation_id'] = self.operation_id.id
+
+        # TODO - Error -
+        #  null value in column "operation_type"
+        #  violates not-null constraint -
+        #  INSERT INTO "l10n_br_fiscal_document"
+        #  but the field are going on the dictionary
+        # result['fiscal_document_id'] = False
+        # result['document_type_id'] = self._context.get('document_type_id')
+        # result['operation_type'] = self.operation_id.operation_type
 
         return result
+
+    @api.multi
+    def action_invoice_create(self, grouped=False, final=False):
+        """
+        Create the invoice associated to the SO.
+        :param grouped: if True, invoices are grouped by SO id.
+         If False, invoices are grouped by
+                        (partner_invoice_id, currency)
+        :param final: if True, refunds will be generated if necessary
+        :returns: list of created invoices
+        """
+        inv_obj = self.env['account.invoice']
+        precision = self.env['decimal.precision'].precision_get(
+            'Product Unit of Measure')
+        invoices = {}
+        references = {}
+        invoices_origin = {}
+        invoices_name = {}
+
+        # Keep track of the sequences of the lines
+        # To keep lines under their section
+        inv_line_sequence = 0
+        for order in self:
+
+            # In brazilian localization we need to overwrite this method
+            # to changing the code below, because when there is a sale
+            # order has line with Fiscal Type service and another
+            # product, the method should be create two invoices separated.
+
+            # group_key = order.id if grouped else (
+            # order.partner_invoice_id.id, order.currency_id.id)
+
+            # We only want to create sections that have at least
+            # one invoiceable line
+            pending_section = None
+
+            # Create lines in batch to avoid performance problems
+            line_vals_list = []
+            # sequence is the natural order of order_lines
+            for line in order.order_line:
+
+                # Here we made the change for brazilian localization
+                group_key = (
+                    order.id, line.operation_line_id.document_type_id.id
+                ) if grouped else (
+                    order.partner_invoice_id.id, order.currency_id.id,
+                    line.operation_line_id.document_type_id.id)
+
+                if line.display_type == 'line_section':
+                    pending_section = line
+                    continue
+                if float_is_zero(
+                    line.qty_to_invoice, precision_digits=precision):
+                    continue
+                if group_key not in invoices:
+                    inv_data = order.with_context(
+                        document_type_id=
+                        line.operation_line_id.get_document_type(
+                            line.order_id.company_id).id
+                    )._prepare_invoice()
+                    invoice = inv_obj.create(inv_data)
+                    references[invoice] = order
+                    invoices[group_key] = invoice
+                    invoices_origin[group_key] = [invoice.origin]
+                    invoices_name[group_key] = [invoice.name]
+                elif group_key in invoices:
+                    if order.name not in invoices_origin[group_key]:
+                        invoices_origin[group_key].append(order.name)
+                    if (order.client_order_ref and
+                        order.client_order_ref not in invoices_name[group_key]):
+                        invoices_name[group_key].append(order.client_order_ref)
+
+                if line.qty_to_invoice > 0 or (line.qty_to_invoice < 0 and final):
+                    if pending_section:
+                        section_invoice = pending_section.invoice_line_create_vals(
+                            invoices[group_key].id,
+                            pending_section.qty_to_invoice
+                        )
+                        inv_line_sequence += 1
+                        section_invoice[0]['sequence'] = inv_line_sequence
+                        line_vals_list.extend(section_invoice)
+                        pending_section = None
+
+                    inv_line_sequence += 1
+                    inv_line = line.invoice_line_create_vals(
+                        invoices[group_key].id, line.qty_to_invoice
+                    )
+                    inv_line[0]['sequence'] = inv_line_sequence
+                    line_vals_list.extend(inv_line)
+
+            if references.get(invoices.get(group_key)):
+                if order not in references[invoices[group_key]]:
+                    references[invoices[group_key]] |= order
+
+            self.env['account.invoice.line'].create(line_vals_list)
+
+        for group_key in invoices:
+            invoices[group_key].write({'name': ', '.join(invoices_name[group_key]),
+                                       'origin': ', '.join(invoices_origin[group_key])})
+            sale_orders = references[invoices[group_key]]
+            if len(sale_orders) == 1:
+                invoices[group_key].reference = sale_orders.reference
+
+        if not invoices:
+            raise UserError(_(
+                'There is no invoiceable line. If a product has a Delivered'
+                ' quantities invoicing policy, please make sure that'
+                ' a quantity has been delivered.'))
+
+        self._finalize_invoices(invoices, references)
+        return [inv.id for inv in invoices.values()]
