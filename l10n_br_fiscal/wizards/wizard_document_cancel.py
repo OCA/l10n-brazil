@@ -1,26 +1,28 @@
 # Copyright 2019 KMEE
+# Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 
+class DocumentCancelWizard(models.TransientModel):
+    _name = 'l10n_br_fiscal.document.cancel.wizard'
+    _description = 'Fiscal Document Cancel Wizard'
 
-class WizardDocumentCancel(models.TransientModel):
+    justificative = fields.Text(
+        string='Justificativa',
+        size=255,
+        required=True)
 
-    _name = 'l10n_br_fiscal.wizard_document_cancel'
-
-    justificative = fields.Text('Justificativa', size=255, required=True)
-
-    @api.constrains('justificative')
     @api.multi
+    @api.constrains('justificative')
     def _check_justificative(self):
         for record in self:
             if len(record.justificative) < 15:
-                raise UserError(
+                raise ValidationError(
                     _('Justificativa deve ter o tamanho mínimo de 15 '
-                      'caracteres.')
-                )
+                      'caracteres.'))
 
     @api.multi
     def doit(self):

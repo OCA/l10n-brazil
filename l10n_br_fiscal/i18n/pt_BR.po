@@ -2061,7 +2061,7 @@ msgid "Documento de Origem"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__fiscal_document_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__fiscal_document_id
 msgid "Documentos"
 msgstr ""
 

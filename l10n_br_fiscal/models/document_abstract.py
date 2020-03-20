@@ -144,8 +144,7 @@ class DocumentAbstract(models.AbstractModel):
         required=True)
 
     operation_name = fields.Char(
-        string="Operation",
-    )
+        string="Operation Name")
 
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
