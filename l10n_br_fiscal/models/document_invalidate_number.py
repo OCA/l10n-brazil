@@ -2,14 +2,18 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import datetime
+# import datetime
 
-from odoo import api, fields, models
+# from odoo import api, fields, models
+from odoo import models
 
 
-class DocumentEvent(models.Model):
-    _name = "l10n_br_fiscal.document.event"
+class DocumentInvalidateNumber(models.Model):
+    _name = "l10n_br_fiscal.document.invalidate.number"
+    _description = "Fiscal Document Invalidate Number Record"
 
+    # TODO
+    """
     type = fields.Selection(
         selection=[
             ("-1", u"Exception"),
@@ -102,3 +106,4 @@ class DocumentEvent(models.Model):
     def set_done(self):
         self.write({"state": "done", "end_date": datetime.datetime.now()})
         return True
+    """

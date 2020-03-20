@@ -626,6 +626,12 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Tax COFINS RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_WH)])
 
+    cofins_wh_base_type = fields.Selection(
+        selection=TAX_BASE_TYPE,
+        string="COFINS WH Base Type",
+        default=TAX_BASE_TYPE_PERCENT,
+        required=True)
+
     cofins_wh_base = fields.Monetary(
         string="COFINS RET Base",
         default=0.00)
@@ -727,6 +733,12 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="Tax PIS RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_PIS_WH)])
 
+    pis_wh_base_type = fields.Selection(
+        selection=TAX_BASE_TYPE,
+        string="PIS WH Base Type",
+        default=TAX_BASE_TYPE_PERCENT,
+        required=True)
+
     pis_wh_base = fields.Monetary(
         string="PIS RET Base",
         default=0.00)
@@ -744,7 +756,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         default=0.00)
 
     # CSLL Fields
-
     csll_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax CSLL",
