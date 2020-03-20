@@ -10,7 +10,6 @@ from odoo.exceptions import Warning as UserError
 from ..models.account_invoice import REFUND_TO_OPERATION, FISCAL_TYPE_REFUND
 
 
-
 class AccountInvoiceRefund(models.TransientModel):
     _inherit = "account.invoice.refund"
 
