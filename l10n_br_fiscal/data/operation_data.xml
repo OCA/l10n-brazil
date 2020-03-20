@@ -54,6 +54,14 @@
         <field name="product_type">00</field>
     </record>
 
+    <record id="fo_venda_servico" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="name">Venda de Serviço</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE"/>
+        <field name="state">approved</field>
+        <field name="product_type">09</field>
+    </record>
+
     <record id="fo_venda_revenda_ipi_nt" model="l10n_br_fiscal.tax.definition">
         <field name="operation_line_id" ref="fo_venda_revenda"/>
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi"/>
