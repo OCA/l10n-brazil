@@ -6,13 +6,13 @@ from odoo import fields, models
 
 
 class Operation(models.Model):
-    _inherit = "l10n_br_fiscal.operation"
+    _inherit = 'l10n_br_fiscal.operation'
 
     journal_id = fields.Many2one(
-        comodel_name="account.journal",
-        string="Account Journal",
+        comodel_name='account.journal',
+        string='Account Journal',
         readonly=True,
-        states={"draft": [("readonly", False)]},
+        states={'draft': [('readonly', False)]},
         domain="[('type', 'in', {'out': ['sale'], 'in': "
                "['purchase'], 'all': ['sale', 'purchase']}.get("
                "operation_type, []))]")
