@@ -61,3 +61,37 @@ class FiscalDocumentLine(models.Model):
         related='operation_line_id.move_template_id',
         readonly=True,
     )
+
+    def generate_double_entrie(self, lines, value, template_line):
+
+        if template_line.account_debit_id:
+            data = {
+                # 'invl_id': self.id,  # FIXME
+                'name': self.name.split('\n')[0][:64],
+                'narration': template_line.history_id.history,
+                'debit': value,
+                'currency_id':
+                    self.currency_id and self.currency_id.id or False,
+                'partner_id': self.partner_id and self.partner_id.id or False,
+                'account_id': template_line.account_debit_id.id,
+                'product_id': self.product_id and self.product_id.id or False,
+                'quantity': self.quantity or 0,
+                'product_uom_id': self.uom_id and self.uom_id.id or False,
+            }
+            lines.append((0, 0, data))
+
+        if template_line.account_credit_id:
+            data = {
+                # 'invl_id': self.id,  # FIXME
+                'name': self.name.split('\n')[0][:64],
+                'narration': template_line.history_id.history,
+                'credit': value,
+                'currency_id':
+                    self.currency_id and self.currency_id.id or False,
+                'partner_id': self.partner_id and self.partner_id.id or False,
+                'account_id': template_line.account_credit_id.id,
+                'product_id': self.product_id and self.product_id.id or False,
+                'quantity': self.quantity or 0,
+                'product_uom_id': self.uom_id and self.uom_id.id or False,
+            }
+            lines.append((0, 0, data))

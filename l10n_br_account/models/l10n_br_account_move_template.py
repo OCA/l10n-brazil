@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class L10nBrAccountMoveTemplate(models.Model):
@@ -29,3 +29,7 @@ class L10nBrAccountMoveTemplate(models.Model):
         inverse_name='template_id',
         string=u'Itens',
     )
+
+    def generate_move(self, obj, lines):
+        return self.item_ids.move_line_template_create(
+            obj, lines)
