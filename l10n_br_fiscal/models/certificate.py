@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
-from base64 import b64decode
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -105,7 +104,7 @@ class Certificate(models.Model):
         if cert_file and cert_password:
             try:
                 cert = certificado.Certificado(
-                    b64decode(cert_file), cert_password)
+                    cert_file, cert_password)
             except Exception as e:
                 raise ValidationError(
                     _("Cannot load Certificate ! \n\n {}".format(e)))
