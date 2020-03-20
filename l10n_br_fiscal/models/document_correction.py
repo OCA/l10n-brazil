@@ -7,25 +7,30 @@ from odoo import api, fields, models
 
 class DocumentCorrection(models.Model):
     _name = "l10n_br_fiscal.document.correction"
-    _description = "Carta de Correção no Sefaz"
+    _description = "Fiscal Document Correction Record"
 
-    motivo = fields.Text(string=u"Motivo", readonly=True, required=True)
+    motivo = fields.Text(
+        string="Reason Description",
+        readonly=True,
+        required=True)
 
-    sequencia = fields.Char(
-        string=u"Sequência", help=u"Indica a sequência da carta de correcão"
-    )
+    sequence = fields.Char(
+        string="Sequence",
+        help="Indica a sequência da carta de correcão")
 
-    cce_document_event_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document_event",
-        inverse_name="document_event_ids",
-        string=u"Eventos",
-    )
+    document_event_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.event",
+        inverse_name="document_correction_id",
+        string="Events")
 
-    display_name = fields.Char(string="Name", compute="_compute_display_name")
+    display_name = fields.Char(
+        string="Name",
+        compute="_compute_display_name")
 
     @api.multi
-    @api.depends("invoice_id.number", "invoice_id.partner_id.name")
+    @api.depends("document_event_ids")
     def _compute_display_name(self):
-        self.ensure_one()
-        names = ["Fatura", self.invoice_id.number, self.invoice_id.partner_id.name]
-        self.display_name = " / ".join(filter(None, names))
+        for record in self:
+            if record.document_event_ids:
+                # TODO
+                record.display_name = record.document_event_ids[0].origin
