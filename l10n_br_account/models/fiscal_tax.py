@@ -5,26 +5,26 @@ from odoo import api, fields, models
 
 
 class FiscalTax(models.Model):
-    _inherit = "l10n_br_fiscal.tax"
+    _inherit = 'l10n_br_fiscal.tax'
 
     @api.multi
     def _create_account_tax(self):
         for fiscal_tax in self:
-            account_tax_group_id = self.env["account.tax.group"].search(
-                [("fiscal_tax_group_id", "=", fiscal_tax.tax_group_id.id)],
+            account_tax_group_id = self.env['account.tax.group'].search(
+                [('fiscal_tax_group_id', '=', fiscal_tax.tax_group_id.id)],
                 limit=1)
 
             account_taxes = self.env['account.tax'].search(
-                [("tax_group_id", "=", account_tax_group_id.id)])
+                [('tax_group_id', '=', account_tax_group_id.id)])
 
             if not account_taxes:
 
-                tax_users = {"sale": "out", "purchase": "in"}
+                tax_users = {'sale': 'out', 'purchase': 'in'}
 
                 for tax_use in tax_users.keys():
                     tax_values = {
                         'name': fiscal_tax.name + ' ' + tax_users.get(tax_use),
-                        'type_tax_use': tax_user,
+                        'type_tax_use': tax_use,
                         'fiscal_tax_ids': [(4, fiscal_tax.id)],
                         'tax_group_id': account_tax_group_id.id,
                         'amount': 0.00
@@ -46,20 +46,24 @@ class FiscalTax(models.Model):
     @api.multi
     def unlink(self):
         for fiscal_tax in self:
-            account_tax_group_id = self.env["account.tax.group"].search(
-                [("fiscal_tax_group_id", "=", fiscal_tax.tax_group_id.id)],
+            account_tax_group_id = self.env['account.tax.group'].search(
+                [('fiscal_tax_group_id', '=', fiscal_tax.tax_group_id.id)],
                 limit=1)
 
             account_taxes = self.env['account.tax'].search(
-                [("tax_group_id", "=", account_tax_group_id.id)])
+                [('tax_group_id', '=', account_tax_group_id.id)])
 
             for account_tax in account_taxes:
 
                 account_tax.fiscal_tax_ids -= fiscal_tax
 
                 if not account_tax.fiscal_tax_ids:
-                    tax.write({
-                        'name': tax.name + ' Inative ' + active_datetime,
+                    active_datetime = fields.Datetime.to_string(
+                        fields.Datetime.now())
+
+                    account_tax.write({
+                        'name': (account_tax.name +
+                                 ' Inative ' + active_datetime),
                         'fiscal_tax_id': False,
                         'active': False})
         return super(FiscalTax, self).unlink()
