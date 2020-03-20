@@ -32,6 +32,7 @@
                             <field name="partner_tax_framework"/>
                             <field name="company_tax_framework"/>
                             <field name="ind_ie_dest"/>
+                            <field name="document_type_id"/>
                         </group>
                         <group>
                             <field name="product_type"/>
