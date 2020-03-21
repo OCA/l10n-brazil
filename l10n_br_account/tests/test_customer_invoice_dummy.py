@@ -25,46 +25,13 @@ class TestCustomerInvoice(TransactionCase):
                 refund_sequence=True,
                 default_debit_account_id=self.sale_account.id,
                 default_credit_account_id=self.sale_account.id,
-                revenue_expense=True,
-            )
-        )
-        self.fiscal_category = self.env["l10n_br_account.fiscal.category"].create(
-            dict(
-                code="Venda Teste",
-                name="Venda Teste",
-                type="output",
-                journal_type="sale",
-                property_journal=self.sale_journal.id,
-            )
-        )
-        self.fiscal_position = self.env["account.fiscal.position"].create(
-            dict(
-                name="Venda Teste",
-                type="output",
-                company_id=self.env.ref("base.main_company").id,
-                fiscal_category_id=self.fiscal_category.id,
-            )
-        )
-        self.fiscal_position_rule = self.env["account.fiscal.position.rule"].create(
-            dict(
-                name="Venda",
-                description="Venda",
-                company_id=self.env.ref("base.main_company").id,
-                from_country=self.env.ref("base.br").id,
-                fiscal_category_id=self.fiscal_category.id,
-                fiscal_position_id=self.fiscal_position.id,
-                use_sale=True,
-                use_invoice=True,
-                use_picking=True,
             )
         )
         self.invoice_1 = self.env["account.invoice"].create(
             dict(
                 name="Test Customer Invoice",
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
-                fiscal_category_id=self.fiscal_category.id,
                 partner_id=self.env.ref("base.res_partner_3").id,
-                reference_type="none",
                 journal_id=self.sale_journal.id,
                 invoice_line_ids=[
                     (
@@ -89,8 +56,7 @@ class TestCustomerInvoice(TransactionCase):
                             )
                             .id,
                             "name": "product test 5",
-                            "uom_id": self.env.ref("product.product_uom_unit").id,
-                            "fiscal_category_id": self.fiscal_category.id,
+                            "uom_id": self.env.ref("uom.product_uom_unit").id,
                         },
                     )
                 ],
@@ -128,9 +94,7 @@ class TestCustomerInvoice(TransactionCase):
             dict(
                 name="Test Customer Invoice",
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
-                fiscal_category_id=self.fiscal_category.id,
                 partner_id=self.env.ref("base.res_partner_3").id,
-                reference_type="none",
                 journal_id=self.sale_journal.id,
                 invoice_line_ids=[
                     (
@@ -155,8 +119,7 @@ class TestCustomerInvoice(TransactionCase):
                             )
                             .id,
                             "name": "product test 5",
-                            "uom_id": self.env.ref("product.product_uom_unit").id,
-                            "fiscal_category_id": self.fiscal_category.id,
+                            "uom_id": self.env.ref("uom.product_uom_unit").id,
                             "invoice_line_tax_ids": [
                                 (
                                     6,
@@ -179,17 +142,14 @@ class TestCustomerInvoice(TransactionCase):
                 "name": "Tax 20.0% (Discount)",
                 "amount": 20.0,
                 "amount_type": "percent",
-                "include_base_amount": False,
-                "tax_discount": True,
+                "include_base_amount": False
             }
         )
         self.invoice_3 = self.env["account.invoice"].create(
             dict(
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
-                fiscal_category_id=self.fiscal_category.id,
                 currency_id=self.env.ref("base.EUR").id,
                 partner_id=self.env.ref("base.res_partner_3").id,
-                reference_type="none",
                 journal_id=self.sale_journal.id,
                 invoice_line_ids=[
                     (
@@ -214,8 +174,7 @@ class TestCustomerInvoice(TransactionCase):
                             )
                             .id,
                             "name": "product test 5",
-                            "uom_id": self.env.ref("product.product_uom_unit").id,
-                            "fiscal_category_id": self.fiscal_category.id,
+                            "uom_id": self.env.ref("uom.product_uom_unit").id,
                             "invoice_line_tax_ids": [
                                 (
                                     6,
@@ -248,7 +207,7 @@ class TestCustomerInvoice(TransactionCase):
             self.invoice_2.state, "open", "Invoice should be in state Open"
         )
         invoice_tax = self.invoice_2.tax_line_ids.sorted(key=lambda r: r.sequence)
-        self.assertEquals(invoice_tax.mapped("amount"), [110.0, 550.0, 220.0])
+        self.assertEquals(invoice_tax.mapped("amount"), [50.0, 550.0, 220.0])
         self.assertEquals(invoice_tax.mapped("base"), [500.0, 550.0, 1100.0])
         assert self.invoice_2.move_id, "Move not created for open invoice"
         self.invoice_2.pay_and_reconcile(
@@ -268,34 +227,5 @@ class TestCustomerInvoice(TransactionCase):
         )
         self.invoice_3.action_invoice_open()
         assert self.invoice_3.move_id, "Move Receivable not created for open invoice"
-        assert (
-            self.invoice_3.move_line_receivable_id
-        ), "Field move_line_receivable_id not created for open invoice"
         self.assertEquals(
-            self.invoice_3.state, "open", "Invoice should be in state Open"
-        )
-
-    def test_account_invoice_cce(self):
-        self.account_cce = self.env["l10n_br_fiscal.document.correction"].create(
-            dict(invoice_id=self.invoice_3.id, motivo="TESTE")
-        )
-        assert self.account_cce.display_name, (
-            "Error with function display_name() of object "
-            "l10n_br_fiscal.document.correction"
-        )
-
-    def test_account_invoice_cancel(self):
-        with self.assertRaises(ValidationError):
-            self.account_invoice_cancel = self.env[
-                "l10n_br_fiscal.document.cancel"
-            ].create(dict(invoice_id=self.invoice_3.id, justificative="TESTE"))
-        self.account_invoice_cancel = self.env["l10n_br_account.invoice.cancel"].create(
-            dict(
-                invoice_id=self.invoice_3.id,
-                justificative="TESTE DEVE TER MAIS DE QUINZE CARACTERES.",
-            )
-        )
-        assert self.account_invoice_cancel.display_name, (
-            "Error with function display_name() of object "
-            "l10n_br_fiscal.document.cancel"
-        )
+            self.invoice_3.state, "open", "Invoice should be in state Open")
