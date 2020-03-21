@@ -354,11 +354,6 @@
                 </page>
             </notebook>
           </page>
-          <page name="others" string="Others">
-            <group>
-              <field name="notes"/>
-            </group>
-          </page>
           <page name="amounts" string="Amounts">
             <group>
               <group>
@@ -376,6 +371,12 @@
                 <field name="amount_tax"/>
                 <field name="amount_total"/>
               </group>
+            </group>
+          </page>
+          <page name="extra_info" string="Extra Info">
+            <group>
+                <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document.line')]"/>
+                <field name="additional_data"/>
             </group>
           </page>
         </notebook>

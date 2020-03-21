@@ -20,6 +20,16 @@ class DocumentLine(models.Model):
         domain = [('state', '=', 'approved')]
         return domain
 
+    comment_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.comment",
+        relation="l10n_br_fiscal_document_line_comment_rel",
+        column1="document_line_id",
+        column2="comment_id",
+        string="Comments"
+    )
+
+    additional_data = fields.Text(string="Additional Data")
+
     operation_id = fields.Many2one(
         default=_default_operation,
         domain=lambda self: self._operation_domain())
@@ -32,3 +42,24 @@ class DocumentLine(models.Model):
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
         default=ICMS_BASE_TYPE_DEFAULT)
+
+    def _document_comment_vals(self):
+        return {
+            'user': self.env.user,
+            'ctx': self._context,
+            'doc': self.document_id,
+            'item': self,
+        }
+
+    def document_comment(self):
+        for record in self.filtered('comment_ids'):
+            record.additional_data = \
+                record.additional_data and record.additional_data + ' - ' or ''
+            record.additional_data += record.comment_ids.compute_message(
+                record._document_comment_vals())
+
+    @api.onchange("operation_line_id")
+    def _onchange_operation_line_id(self):
+        super(DocumentLine, self)._onchange_operation_line_id()
+        for comment_id in self.operation_line_id.comment_ids:
+            self.comment_ids += comment_id

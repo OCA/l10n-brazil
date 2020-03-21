@@ -9,7 +9,13 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.0",
-    "depends": ["uom", "decimal_precision", "product", "l10n_br_base"],
+    "depends": [
+        "uom",
+        "decimal_precision",
+        "product",
+        "l10n_br_base",
+        "l10n_br_portal"
+    ],
     "data": [
         # security
         "security/fiscal_security.xml",
@@ -29,6 +35,7 @@
         "data/partner_profile_data.xml",
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
+        "data/l10n_br_fiscal_comment_data.xml",
 
         # Wizards
 
@@ -79,6 +86,7 @@
         "views/l10n_br_fiscal_menu.xml",
         "views/uom_uom.xml",
         "views/operation_dashboard_view.xml",
+        "views/close.xml",
     ],
     "demo": [
         # Some demo data is being loaded via post_init_hook in hook file
