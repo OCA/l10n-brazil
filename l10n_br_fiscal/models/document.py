@@ -105,8 +105,8 @@ class Document(models.Model):
         readonly=True)
 
     close_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.close",
-        string="Close ID",)
+        comodel_name='l10n_br_fiscal.closing',
+        string='Close ID')
 
     document_type = fields.Char(
         related='document_type_id.code',
