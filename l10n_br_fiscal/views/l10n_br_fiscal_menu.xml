@@ -7,8 +7,8 @@
     <!-- Fiscal Overview -->
     <menuitem id="overview_menu" name="Overview" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="0"/>
 
-<!--    # Fiscal Documents-->
-<!--    <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>-->
+    <!--    # Fiscal Documents-->
+    <!--    <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>-->
 
     # Fiscal Documents In
     <menuitem id="document_in_menu" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
@@ -76,8 +76,8 @@
     # Configuration Menu
     <menuitem id="accountant_menu" name="Accountant" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="900"/>
 
-    # Fiscal Close
-    <menuitem id="fiscal_close_menu" name="Fiscal Close" parent="accountant_menu" action="l10n_br_fiscal_close_action" groups="l10n_br_fiscal.group_manager" sequence="99"/>
+    # Fiscal Closing
+    <menuitem id="fiscal_closing_menu" name="Fiscal Closing" parent="accountant_menu" action="fiscal_closing_action" groups="l10n_br_fiscal.group_manager" sequence="99"/>
 
     <!-- Configuration Menu -->
     <menuitem id="configuration_menu" name="Configuration" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="999"/>
