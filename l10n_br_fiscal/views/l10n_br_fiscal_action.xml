@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    # CNAE
+    <!-- CNAE -->
     <record id="cnae_action" model="ir.actions.act_window">
         <field name="name">CNAE</field>
         <field name="type">ir.actions.act_window</field>
@@ -19,7 +19,7 @@
         </field>
     </record>
 
-    # CFOP
+    <!-- CFOP -->
     <record id="cfop_action" model="ir.actions.act_window">
         <field name="name">CFOP</field>
         <field name="type">ir.actions.act_window</field>
@@ -37,7 +37,7 @@
         </field>
     </record>
 
-    # CST
+    <!-- CST -->
     <record id="cst_action" model="ir.actions.act_window">
         <field name="name">CST</field>
         <field name="type">ir.actions.act_window</field>
@@ -55,7 +55,7 @@
         </field>
     </record>
 
-    # Tax Group
+    <!-- Tax Group -->
     <record id="tax_group_action" model="ir.actions.act_window">
         <field name="name">Tax Group</field>
         <field name="type">ir.actions.act_window</field>
@@ -73,7 +73,7 @@
         </field>
     </record>
 
-    # Tax
+    <!-- Tax -->
     <record id="tax_action" model="ir.actions.act_window">
         <field name="name">Tax</field>
         <field name="type">ir.actions.act_window</field>
@@ -91,7 +91,7 @@
         </field>
     </record>
 
-    # Tax ICMS Regulation
+    <!-- Tax ICMS Regulation -->
     <record id="tax_icms_regulation_action" model="ir.actions.act_window">
         <field name="name">ICMS Regulation</field>
         <field name="type">ir.actions.act_window</field>
@@ -109,7 +109,7 @@
         </field>
     </record>
 
-    # Tax ICMS Relief
+    <!-- Tax ICMS Relief -->
     <record id="tax_icms_relief_action" model="ir.actions.act_window">
         <field name="name">ICMS Relief</field>
         <field name="type">ir.actions.act_window</field>
@@ -127,7 +127,7 @@
         </field>
     </record>
 
-    # Tax PIS/COFINS
+    <!-- Tax PIS/COFINS -->
     <record id="tax_pis_cofins_action" model="ir.actions.act_window">
         <field name="name">PIS/COFINS</field>
         <field name="type">ir.actions.act_window</field>
@@ -145,7 +145,7 @@
         </field>
     </record>
 
-    # Tax PIS/COFINS Base
+    <!-- Tax PIS/COFINS Base -->
     <record id="tax_pis_cofins_base_action" model="ir.actions.act_window">
         <field name="name">PIS COFINS Base</field>
         <field name="type">ir.actions.act_window</field>
@@ -163,7 +163,7 @@
         </field>
     </record>
 
-    # Tax PIS/COFINS Credit
+    <!-- Tax PIS/COFINS Credit -->
     <record id="tax_pis_cofins_credit_action" model="ir.actions.act_window">
         <field name="name">PIS COFINS Credit</field>
         <field name="type">ir.actions.act_window</field>
@@ -181,7 +181,7 @@
         </field>
     </record>
 
-    # Tax IPI Control Seal
+    <!-- Tax IPI Control Seal -->
     <record id="tax_ipi_control_seal_action" model="ir.actions.act_window">
         <field name="name">IPI Control Seal</field>
         <field name="type">ir.actions.act_window</field>
@@ -199,7 +199,7 @@
         </field>
     </record>
 
-    # Tax IPI Guideline
+    <!-- Tax IPI Guideline -->
     <record id="tax_ipi_guideline_action" model="ir.actions.act_window">
         <field name="name">IPI Guideline</field>
         <field name="type">ir.actions.act_window</field>
@@ -217,7 +217,7 @@
         </field>
     </record>
 
-    # Tax IPI Guideline Class
+    <!-- Tax IPI Guideline Class -->
     <record id="tax_ipi_guideline_class_action" model="ir.actions.act_window">
         <field name="name">Tax IPI Guideline Class</field>
         <field name="type">ir.actions.act_window</field>
@@ -235,7 +235,7 @@
         </field>
     </record>
 
-    # NCM
+    <!-- NCM -->
     <record id="ncm_action" model="ir.actions.act_window">
         <field name="name">NCM</field>
         <field name="type">ir.actions.act_window</field>
@@ -253,7 +253,7 @@
         </field>
     </record>
 
-    # NBS
+    <!-- NBS -->
     <record id="nbs_action" model="ir.actions.act_window">
         <field name="name">NBS</field>
         <field name="type">ir.actions.act_window</field>
@@ -271,7 +271,7 @@
         </field>
     </record>
 
-    # Service Type
+    <!-- Service Type -->
     <record id="service_type_action" model="ir.actions.act_window">
         <field name="name">Service Type LC 166</field>
         <field name="type">ir.actions.act_window</field>
@@ -289,7 +289,7 @@
         </field>
     </record>
 
-    # CEST
+    <!-- CEST -->
     <record id="cest_action" model="ir.actions.act_window">
         <field name="name">CEST</field>
         <field name="type">ir.actions.act_window</field>
@@ -307,7 +307,7 @@
         </field>
     </record>
 
-    # Product Genre
+    <!-- Product Genre -->
     <record id="product_genre_action" model="ir.actions.act_window">
         <field name="name">Product Genre</field>
         <field name="type">ir.actions.act_window</field>
@@ -325,7 +325,7 @@
         </field>
     </record>
 
-    # Fiscal Document Type
+    <!-- Fiscal Document Type -->
     <record id="document_type_action" model="ir.actions.act_window">
         <field name="name">Fiscal Document</field>
         <field name="type">ir.actions.act_window</field>
@@ -343,7 +343,7 @@
         </field>
     </record>
 
-    # Fiscal Document Serie
+    <!-- Fiscal Document Serie -->
     <record id="document_serie_action" model="ir.actions.act_window">
         <field name="name">Fiscal Document Serie</field>
         <field name="type">ir.actions.act_window</field>
@@ -361,7 +361,7 @@
         </field>
     </record>
 
-    # Certificate
+    <!-- Certificate -->
     <record id="certificate_action" model="ir.actions.act_window">
         <field name="name">Certificate</field>
         <field name="type">ir.actions.act_window</field>
@@ -379,7 +379,7 @@
         </field>
     </record>
 
-    # Simplefied Tax
+    <!-- Simplefied Tax -->
     <record id="simplified_tax_action" model="ir.actions.act_window">
         <field name="name">Simplified Tax</field>
         <field name="type">ir.actions.act_window</field>
@@ -397,7 +397,7 @@
         </field>
     </record>
 
-    # Partner
+    <!-- Partner -->
     <record id="partner_action" model="ir.actions.act_window">
         <field name="name">Partner</field>
         <field name="type">ir.actions.act_window</field>
@@ -414,7 +414,7 @@
         </field>
     </record>
 
-    # Partner Profile
+    <!-- Partner Profile -->
     <record id="partner_profile_action" model="ir.actions.act_window">
         <field name="name">Partner Profile</field>
         <field name="type">ir.actions.act_window</field>
@@ -433,7 +433,7 @@
         </field>
     </record>
 
-    # Product
+    <!-- Product -->
     <record id="product_action" model="ir.actions.act_window">
         <field name="name">Products</field>
         <field name="type">ir.actions.act_window</field>
@@ -451,7 +451,7 @@
         </field>
     </record>
 
-    # Service
+    <!-- Service -->
     <record id="service_action" model="ir.actions.act_window">
         <field name="name">Services</field>
         <field name="type">ir.actions.act_window</field>
@@ -471,7 +471,7 @@
         </field>
     </record>
 
-    # Operation
+    <!-- Operation -->
     <record id="operation_action" model="ir.actions.act_window">
         <field name="name">Operation</field>
         <field name="type">ir.actions.act_window</field>
@@ -490,7 +490,7 @@
         </field>
     </record>
 
-    # Comment
+    <!-- Comment -->
     <record id="comment_action" model="ir.actions.act_window">
         <field name="name">Comment</field>
         <field name="type">ir.actions.act_window</field>
@@ -509,7 +509,7 @@
         </field>
     </record>
 
-    # Fiscal Document In
+    <!-- Fiscal Document In -->
     <record id="document_nfe_in_action" model="ir.actions.act_window">
         <field name="name">NF-e Receivement</field>
         <field name="type">ir.actions.act_window</field>
@@ -590,7 +590,7 @@
         </field>
     </record>
 
-    # Fiscal Document Out
+    <!-- Fiscal Document Out -->
     <record id="document_nfe_out_action" model="ir.actions.act_window">
         <field name="name">NF-e Emission</field>
         <field name="type">ir.actions.act_window</field>
@@ -691,7 +691,7 @@
         </field>
     </record>
 
-    # Config Settings
+    <!-- Config Settings -->
     <record id="config_action" model="ir.actions.act_window">
         <field name="name">Settings</field>
         <field name="type">ir.actions.act_window</field>
@@ -701,5 +701,12 @@
         <field name="context">{'module': 'l10n_br_fiscal'}</field>
     </record>
 
+    <!-- Fiscal Closing -->
+    <record id="fiscal_closing_action" model="ir.actions.act_window">
+        <field name="name">Fiscal Closing</field>
+        <field name="res_model">l10n_br_fiscal.closing</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
 
 </odoo>
