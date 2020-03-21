@@ -19,7 +19,7 @@
         # security
         "security/fiscal_security.xml",
         "security/ir.model.access.csv",
-                
+
         # Data
         # Some data is being loaded via post_init_hook in hook file
         "data/l10n_br_fiscal_data.xml",
