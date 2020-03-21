@@ -1,6 +1,8 @@
 # Copyright 2018 KMEE INFORMATICA LTDA
 #   Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+# Copyright (C) 2020 Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+
 import os
 import base64
 import re
@@ -11,9 +13,9 @@ import logging
 from datetime import datetime
 import calendar
 
-
 from odoo import api, models, fields, _
 from odoo.exceptions import RedirectWarning
+
 from ..constants.fiscal import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
@@ -74,14 +76,10 @@ XMLS_IMPORTANTES = [
 ]
 
 
-class FiscalClose(models.Model):
-    _name = 'l10n_br_fiscal.close'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
-    _description = 'Fechamento Fiscal'
-    _sql_constraints = [('fiscal_close_unique',
-                         'unique (company_id, month, year, export_type)',
-                         "The closing must be unique for the company in a "
-                         "period of time.")]
+class FiscalClosing(models.Model):
+    _name = 'l10n_br_fiscal.closing'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = 'Fiscal Closing Period'
 
     @api.depends('month', 'year', 'export_type')
     def _compute_name(self):
@@ -98,113 +96,139 @@ class FiscalClose(models.Model):
         selection=[
             ('draft', 'Draft'),
             ('open', 'Open'),
-            ('closed', 'Closed'),
-        ],
+            ('closed', 'Closed')],
         string='state',
         default='draft',
-        readonly=True
-    )
+        readonly=True)
 
     name = fields.Char(
-        string='Nome',
+        string='Name',
         compute='_compute_name',
         store=True,
         size=7,
-        index=True,
-    )
+        index=True)
 
     file_name = fields.Char(
-        string='Nome',
+        string='File Name',
         compute='_compute_name',
         store=True,
         size=11,
-        index=True,
-    )
-    year = fields.Char(string='Year', size=4, index=True)
-    month = fields.Char(string='Month', size=2, index=True)
+        index=True)
+
+    year = fields.Char(
+        string='Year',
+        size=4,
+        index=True)
+
+    month = fields.Char(
+        string='Month',
+        size=2,
+        index=True)
+
     zip_file = fields.Binary(
         string='Zip Files',
-        readonly=True
-    )
+        readonly=True)
+
     export_type = fields.Selection(
-        selection=[('period', 'Por período'),
-                   ('all', 'Tudo')],
+        selection=[
+            ('period', 'Por período'),
+            ('all', 'Tudo')],
         string='Export',
         default='period',
-        required=True
-    )
+        required=True)
+
     group_folder = fields.Boolean(
-        string='Group documents',
-    )
+        string='Group documents')
+
     raiz = fields.Char(
         string='Folder structure path',
-        default=''
-    )
+        default=False)
 
     document_nfe_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string=" NFe Documents",
         inverse_name="close_id",
-        domain=[('document_type', '=', '55')]
-    )
+        domain=[('document_type', '=', MODELO_FISCAL_NFE)])
 
     document_nfce_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="NFCe Documents",
         inverse_name="close_id",
-        domain=[('document_type', '=', '65')]
-    )
+        domain=[('document_type', '=', MODELO_FISCAL_NFCE)])
 
     document_cfe_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="CFe Documents",
         inverse_name="close_id",
-        domain=[('document_type', '=', '59')]
-    )
+        domain=[('document_type', '=', MODELO_FISCAL_CFE)])
 
     document_cfeecf_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="CFe ECF Documents",
         inverse_name="close_id",
-        domain=[('document_type', '=', '60')]
-    )
+        domain=[('document_type', '=', MODELO_FISCAL_CUPOM_FISCAL_ECF)])
 
     document_nfse_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
-        string="NFce Documents",
+        string="NFSe Documents",
         inverse_name="close_id",
-        domain=[('document_type', '=', 'SE')]
-    )
+        domain=[('document_type', '=', MODELO_FISCAL_NFSE)])
 
     document_rl_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
         string="RL Documents",
         inverse_name="close_id",
-        domain=[('document_type', '=', 'RL')]
-    )
+        domain=[('document_type', '=', MODELO_FISCAL_RL)])
+
     attachment_ids = fields.Many2many(
-        'ir.attachment', string="Other accountant files",
-    )
+        comodel_name='ir.attachment',
+        string='Other accountant files')
 
     company_id = fields.Many2one(
-        'res.company',
-        string="Empresas"
-    )
+        comodel_name='res.company',
+        string='Company')
 
-    file_icms = fields.Binary(string='ICMS')
-    file_icms_st = fields.Binary(string='ICMS ST')
-    file_ipi = fields.Binary(string='IPI')
-    file_iss = fields.Binary(string='ISS')
-    file_pis = fields.Binary(string='PIS')
-    file_cofins = fields.Binary(string='COFINS')
-    file_csll = fields.Binary(string='CSLL')
-    file_irpj = fields.Binary(string='IRPJ')
-    file_simples = fields.Binary(string='Simples')
-    file_honorarios = fields.Binary(string='Accountant Fee')
+    file_icms = fields.Binary(
+        string='ICMS')
 
-    block = fields.Boolean(string='Block period', help="Avoid new fiscal moves")
+    file_icms_st = fields.Binary(
+        string='ICMS ST')
 
-    notes = fields.Text(string="Accountant notes")
+    file_ipi = fields.Binary(
+        string='IPI')
+
+    file_iss = fields.Binary(
+        string='ISS')
+
+    file_pis = fields.Binary(
+        string='PIS')
+
+    file_cofins = fields.Binary(
+        string='COFINS')
+
+    file_csll = fields.Binary(
+        string='CSLL')
+
+    file_irpj = fields.Binary(
+        string='IRPJ')
+
+    file_simples = fields.Binary(
+        string='Simples')
+
+    file_honorarios = fields.Binary(
+        string='Accountant Fee')
+
+    block = fields.Boolean(
+        string='Block period',
+        help="Avoid new fiscal moves")
+
+    notes = fields.Text(
+        string="Accountant notes")
+
+    _sql_constraints = [(
+        'fiscal_closing_unique',
+        'unique (company_id, month, year, export_type)',
+        "The closing must be unique for the company in a period of time.")]
 
     def monta_caminho(self, document):
         document_path = '/'.join([
