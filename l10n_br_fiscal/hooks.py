@@ -42,7 +42,7 @@ def post_init_hook(cr, registry):
             "demo/company_demo.xml",
             "demo/product_demo.xml",
             "demo/partner_demo.xml",
-            "demo/l10n_br_fiscal_document_demo.xml",
+            "demo/fiscal_document_demo.xml",
             "demo/fiscal_operation_demo.xml",
         ]
 
