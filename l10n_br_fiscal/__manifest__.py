@@ -14,12 +14,12 @@
         "decimal_precision",
         "product",
         "l10n_br_base",
-        "l10n_br_portal"
     ],
     "data": [
         # security
         "security/fiscal_security.xml",
         "security/ir.model.access.csv",
+                
         # Data
         # Some data is being loaded via post_init_hook in hook file
         "data/l10n_br_fiscal_data.xml",
@@ -38,7 +38,6 @@
         "data/l10n_br_fiscal_comment_data.xml",
 
         # Wizards
-
         "wizards/wizard_document_cancel_view.xml",
         "wizards/wizard_document_correction_view.xml",
         "wizards/wizard_document_status_view.xml",
