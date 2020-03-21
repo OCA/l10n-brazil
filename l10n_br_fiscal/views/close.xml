@@ -4,9 +4,22 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-    <record id="l10n_br_fiscal_close_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.close.form</field>
-        <field name="model">l10n_br_fiscal.close</field>
+
+    <record id="fiscal_closing_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.closing.tree</field>
+        <field name="model">l10n_br_fiscal.closing</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="month"/>
+                <field name="year"/>
+                <field name="export_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fiscal_closing_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.closing.form</field>
+        <field name="model">l10n_br_fiscal.closing</field>
         <field name="arch" type="xml">
             <form string="Processamento Periodico">
                 <header>
@@ -88,36 +101,4 @@
         </field>
     </record>
 
-    <record id="l10n_br_fiscal_close_tree" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.close.tree</field>
-        <field name="model">l10n_br_fiscal.close</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="month"/>
-                <field name="year"/>
-                <field name="export_type"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="l10n_br_fiscal_close_action" model="ir.actions.act_window">
-        <field name="name">Fechamento Fiscal</field>
-        <field name="res_model">l10n_br_fiscal.close</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
-    </record>
-
-
-<!--    <record id="close_periodica" model="ir.cron">-->
-<!--        <field name="name">Exportação periódica de XMLs</field>-->
-<!--        <field name="active" eval="True"/>-->
-<!--        <field name="user_id" ref="base.user_root"/>-->
-<!--        <field name="interval_number">1</field>-->
-<!--        <field name="interval_type">days</field>-->
-<!--        <field name="numbercall">-1</field>-->
-<!--        <field name="doall" eval="True"/>-->
-<!--        <field name="model">close</field>-->
-<!--        <field name="function" eval="'periodic_export'"/>-->
-<!--        <field name="args" eval="'()'"/>-->
-<!--    </record>-->
 </odoo>
