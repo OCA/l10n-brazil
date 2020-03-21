@@ -44,21 +44,51 @@ class Document(models.Model):
                "'|', ('operation_type', '=', operation_type),"
                " ('operation_type', '=', 'all')]")
 
+    document_section = fields.Selection(
+        selection=[
+            ('nfe', 'NF-e'),
+            ('nfse_recibos', 'NFS-e e Recibos'),
+            ('nfce_cfe', 'NFC-e e CF-e'),
+            ('cte', 'CT-e'),
+            ('todos', 'Todos'),
+        ],
+        string='Seção do documento',
+        readonly=True,
+    )
+
     edoc_purpose = fields.Selection(
         selection=[
             ('1', 'Normal'),
             ('2', 'Complementar'),
             ('3', 'Ajuste'),
-            ('4', 'Devolução de mercadoria')],
+            ('4', 'Devolução de mercadoria'),
+        ],
         string='Finalidade',
-        default='1')
+        default='1',
+    )
 
     ind_final = fields.Selection(
         selection=[
             ('0', 'Não'),
-            ('1', 'Sim')],
+            ('1', 'Sim')
+        ],
         string='Operação com consumidor final',
-        default='1')
+        default='1',
+    )
+
+    ind_pres = fields.Selection(
+        selection=[
+            ('0', 'Não se aplica'),
+            ('1', 'Operação presencial'),
+            ('2', 'Não presencial, internet'),
+            ('3', 'Não presencial, teleatendimento'),
+            ('4', 'NFC-e entrega em domicílio'),
+            ('5', 'Operação presencial, fora do estabelecimento'),
+            ('9', 'Não presencial, outros'),
+        ],
+        string='Indicador de presença do comprador no estabelecimento',
+        default='0',
+    )
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
@@ -88,6 +118,44 @@ class Document(models.Model):
     state = fields.Selection(
         related="state_edoc",
         string="State")
+
+    @api.multi
+    @api.onchange("operation_id")
+    def _onchange_operation_id(self):
+        if self.operation_id:
+            self.operation_name = self.operation_id.name
+
+    @api.multi
+    @api.onchange('document_section')
+    def _onchange_document_section(self):
+        if self.document_section:
+            domain = dict()
+            if self.document_section == 'nfe':
+                domain['document_type_id'] = [('code', '=', '55')]
+                self.document_type_id = \
+                    self.env['l10n_br_fiscal.document.type'].search([
+                        ('code', '=', '55')
+                    ])[0]
+            elif self.document_section == 'nfse_recibos':
+                domain['document_type_id'] = [('code', '=', 'SE')]
+                self.document_type_id = \
+                    self.env['l10n_br_fiscal.document.type'].search([
+                        ('code', '=', 'SE')
+                    ])[0]
+            elif self.document_section == 'nfce_cfe':
+                domain['document_type_id'] = [('code', 'in', ('59', '65'))]
+                self.document_type_id = \
+                    self.env['l10n_br_fiscal.document.type'].search([
+                        ('code', '=', '59')
+                    ])[0]
+            elif self.document_section == 'cte':
+                domain['document_type_id'] = [('code', '=', '57')]
+                self.document_type_id = \
+                    self.env['l10n_br_fiscal.document.type'].search([
+                        ('code', '=', '57')
+                    ])[0]
+
+            return {'domain': domain}
 
     @api.multi
     @api.constrains("number")

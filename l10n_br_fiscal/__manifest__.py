@@ -85,6 +85,7 @@
         "views/l10n_br_fiscal_action.xml",
         "views/l10n_br_fiscal_menu.xml",
         "views/uom_uom.xml",
+        "views/operation_dashboard_view.xml",
         "views/close.xml",
     ],
     "demo": [
