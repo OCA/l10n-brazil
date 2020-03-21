@@ -30,8 +30,8 @@
         'wizards/account_invoice_refund_view.xml',
     ],
     "demo": [
-        "demo/l10n_br_account_journal_demo.xml",
-        "demo/l10n_br_fiscal_operation_demo.xml"
+        "demo/account_journal_demo.xml",
+        "demo/fiscal_operation_demo.xml"
     ],
     "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
