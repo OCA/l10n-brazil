@@ -483,6 +483,15 @@ class NFe(spec_models.StackedModel):
                 field_data.nItem = i
         return res
 
+    def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
+        if self._name == 'account.invoice' and \
+                comodel._name == 'l10n_br_fiscal.document':
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            super(NFe, self)._build_many2one(comodel, vals, new_value,
+                                             key, create_m2o)
+
 
 class NFeLine(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document.line'
@@ -695,6 +704,79 @@ class NFeLine(spec_models.StackedModel):
                 return False
         return super(NFeLine, self)._export_float_monetary(
             field_name, member_spec, class_obj, xsd_required)
+
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
+                    defaults):
+        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
+
+        if key.startswith('nfe40_ICMS') and key not in [
+                'nfe40_ICMS', 'nfe40_ICMSTot', 'nfe40_ICMSUFDest']:
+            vals['nfe40_choice11'] = key
+
+        if key.startswith('nfe40_IPI') and key != 'nfe40_IPI':
+            vals['nfe40_choice3'] = key
+
+        if key.startswith('nfe40_PIS') and key not in [
+                'nfe40_PIS', 'nfe40_PISST']:
+            vals['nfe40_choice12'] = key
+
+        if key.startswith('nfe40_COFINS') and key not in [
+                'nfe40_COFINS', 'nfe40_COFINSST']:
+            vals['nfe40_choice15'] = key
+
+        return super(NFeLine, self)._build_attr(
+            node, fields, vals, path, attr, create_m2o, defaults)
+
+    def _build_string_not_simple_type(self, key, vals, value, node):
+        if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN']:
+            super(NFeLine, self)._build_string_not_simple_type(
+                key, vals, value, node)
+            # TODO avoid collision with cls prefix
+        elif key == 'nfe40_CST':
+            if node.original_tagname_.startswith('ICMS'):
+                vals['icms_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'icms')])[0].id
+            if node.original_tagname_.startswith('IPI'):
+                vals['ipi_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'ipi')])[0].id
+            if node.original_tagname_.startswith('PIS'):
+                vals['pis_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'pis')])[0].id
+            if node.original_tagname_.startswith('COFINS'):
+                vals['cofins_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'cofins')])[0].id
+        elif key == 'nfe40_modBC':
+            vals['icms_base_type'] = value
+
+    def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
+        if self._name == 'account.invoice.line' and \
+                comodel._name == 'l10n_br_fiscal.document.line':
+            # TODO do not hardcode!!
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            super(NFeLine, self)._build_many2one(comodel, vals, new_value,
+                                                 key, create_m2o)
+
+    def _verify_related_many2ones(self, related_many2ones):
+        if related_many2ones.get('product_id', {}).get('barcode') and \
+                related_many2ones['product_id']['barcode'] == 'SEM GTIN':
+            del related_many2ones['product_id']['barcode']
+        return super(NFeLine, self)._verify_related_many2ones(
+            related_many2ones)
+
+    def _get_aditional_keys(self, model, rec_dict, keys):
+        if model._name == 'product.product' and rec_dict.get('barcode'):
+            return ['barcode'] + super(NFeLine, self)._get_aditional_keys(
+                model, rec_dict, keys)
 
 
 class ResCity(models.Model):
