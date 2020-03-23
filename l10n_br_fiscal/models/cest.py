@@ -4,6 +4,7 @@
 from odoo import api, fields, models
 
 from ..constants.fiscal import CEST_SEGMENT
+from ..tools import misc
 
 
 class Cest(models.Model):
@@ -47,5 +48,5 @@ class Cest(models.Model):
         ncm = self.env['l10n_br_fiscal.ncm']
         for r in self:
             if r.ncms:
-                domain = self._domain_field_codes(r.ncms)
+                domain = misc.domain_field_codes(r.ncms)
                 r.ncm_ids = ncm.search(domain)
