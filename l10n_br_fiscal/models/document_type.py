@@ -8,9 +8,9 @@ from ..constants.fiscal import DOCUMENT_TYPE
 
 
 class DocumentType(models.Model):
-    _name = "l10n_br_fiscal.document.type"
-    _description = "Fiscal Document Type"
-    _inheirt = "l10n_br_fiscal.data.abstract"
+    _name = 'l10n_br_fiscal.document.type'
+    _description = 'Fiscal Document Type'
+    _inheirt = 'l10n_br_fiscal.data.abstract'
 
     code = fields.Char(
         size=8)
@@ -19,14 +19,14 @@ class DocumentType(models.Model):
         size=128)
 
     electronic = fields.Boolean(
-        string="Is Electronic?")
+        string='Is Electronic?')
 
     type = fields.Selection(
         selection=DOCUMENT_TYPE,
-        string="Document Type",
+        string='Document Type',
         required=True)
 
     document_serie_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.serie",
-        inverse_name="document_type_id",
-        string="Document Series")
+        comodel_name='l10n_br_fiscal.document.serie',
+        inverse_name='document_type_id',
+        string='Document Series')
