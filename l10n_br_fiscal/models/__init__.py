@@ -63,4 +63,4 @@ from . import uom_category
 from . import uom_uom
 from . import uom_uom_alternative
 from . import operation_dashboard
-from . import close
+from . import closing
