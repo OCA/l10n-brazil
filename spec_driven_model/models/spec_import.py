@@ -48,111 +48,79 @@ class AbstractSpecMixin(models.AbstractModel):
                               key=lambda a: a.get_container() in [0, 1],
                               reverse=True)
         for attr in sorted_attrs:
-            value = getattr(node, attr.get_name())
-            if value is None or value == []:
-                continue
-            key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
-            child_path = '%s.%s' % (path, key)
-
-            if key.startswith('nfe40_ICMS') and key not in [
-                    'nfe40_ICMS', 'nfe40_ICMSTot', 'nfe40_ICMSUFDest']:
-                vals['nfe40_choice11'] = key
-
-            if key.startswith('nfe40_IPI') and key != 'nfe40_IPI':
-                vals['nfe40_choice3'] = key
-
-            if key.startswith('nfe40_PIS') and key not in [
-                    'nfe40_PIS', 'nfe40_PISST']:
-                vals['nfe40_choice12'] = key
-
-            if key.startswith('nfe40_COFINS') and key not in [
-                    'nfe40_COFINS', 'nfe40_COFINSST']:
-                vals['nfe40_choice15'] = key
-
-            if attr.get_child_attrs().get('type') is None\
-                    or attr.get_child_attrs().get('type') == 'xs:string':
-                # SimpleType
-                if fields[key]['type'] == 'datetime':
-                    if 'T' in value:
-                        if tz_datetime.match(value):
-                            old_value = value
-                            value = old_value[:19]
-                            # TODO see python3/pysped/xml_sped/base.py#L692
-                        value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
-
-                if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN']:
-                    vals[key] = value  # TODO avoid collision with cls prefix
-                elif key == 'nfe40_CST':
-                    if node.original_tagname_.startswith('ICMS'):
-                        vals['icms_cst_id'] = \
-                            self.env['l10n_br_fiscal.cst'].search(
-                                [('code', '=', value),
-                                 ('tax_domain', '=', 'icms')])[0].id
-                    if node.original_tagname_.startswith('IPI'):
-                        vals['ipi_cst_id'] = \
-                            self.env['l10n_br_fiscal.cst'].search(
-                                [('code', '=', value),
-                                 ('tax_domain', '=', 'ipi')])[0].id
-                    if node.original_tagname_.startswith('PIS'):
-                        vals['pis_cst_id'] = \
-                            self.env['l10n_br_fiscal.cst'].search(
-                                [('code', '=', value),
-                                 ('tax_domain', '=', 'pis')])[0].id
-                    if node.original_tagname_.startswith('COFINS'):
-                        vals['cofins_cst_id'] = \
-                            self.env['l10n_br_fiscal.cst'].search(
-                                [('code', '=', value),
-                                 ('tax_domain', '=', 'cofins')])[0].id
-                elif key == 'nfe40_modBC':
-                    vals['icms_base_type'] = value
-
-            else:
-                # ComplexType
-                if fields.get(key) and fields[key].get('related'):
-                    # example: company.nfe40_enderEmit related on partner_id
-                    # then we need to set partner_id, not nfe40_enderEmit
-                    key = fields[key]['related'][-1]  # -1 works with _inherits
-                    comodel_name = fields[key]['relation']
-                else:
-                    clean_type = attr.get_child_attrs()[
-                        'type'].replace('Type', '').lower()
-                    comodel_name = "nfe.40.%s" % (clean_type,)  # TODO clean
-
-                comodel = self.get_concrete_model(comodel_name)
-
-                if attr.get_container() == 0:
-                    # m2o
-                    new_value = comodel.build_attrs(value,
-                                                    create_m2o=create_m2o,
-                                                    path=child_path,
-                                                    defaults=defaults)
-                    child_defaults = self._extract_related_values(vals, key)
-
-                    new_value.update(child_defaults)
-                    if comodel._name == self._name or \
-                            self._name == 'account.invoice.line' and \
-                            comodel._name == 'l10n_br_fiscal.document.line' \
-                            or self._name == 'account.invoice' and \
-                            comodel._name == 'l10n_br_fiscal.document':
-                        # TODO do not hardcode!!
-                        # stacked m2o
-                        vals.update(new_value)
-                    else:
-                        vals[key] = comodel.match_or_create_m2o(
-                            new_value, vals, create_m2o)
-                elif attr.get_container() == 1:
-                    # o2m
-                    lines = []
-                    for line in [l for l in value if l]:
-                        line_vals = comodel.build_attrs(line,
-                                                        create_m2o=create_m2o,
-                                                        path=child_path,
-                                                        defaults=defaults)
-                        lines.append((0, 0, line_vals))
-                    vals[key] = lines
+            self._build_attr(node, fields, vals, path, attr, create_m2o,
+                             defaults)
 
         vals = self._prepare_import_dict(vals, defaults=defaults)
         return vals
+
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
+                    defaults):
+        value = getattr(node, attr.get_name())
+        if value is None or value == []:
+            return False
+        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
+        child_path = '%s.%s' % (path, key)
+
+        if attr.get_child_attrs().get('type') is None\
+                or attr.get_child_attrs().get('type') == 'xs:string':
+            # SimpleType
+            if fields[key]['type'] == 'datetime':
+                if 'T' in value:
+                    if tz_datetime.match(value):
+                        old_value = value
+                        value = old_value[:19]
+                        # TODO see python3/pysped/xml_sped/base.py#L692
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
+
+            self._build_string_not_simple_type(key, vals, value, node)
+
+        else:
+            # ComplexType
+            if fields.get(key) and fields[key].get('related'):
+                # example: company.nfe40_enderEmit related on partner_id
+                # then we need to set partner_id, not nfe40_enderEmit
+                key = fields[key]['related'][-1]  # -1 works with _inherits
+                comodel_name = fields[key]['relation']
+            else:
+                clean_type = attr.get_child_attrs()[
+                    'type'].replace('Type', '').lower()
+                comodel_name = "nfe.40.%s" % (clean_type,)  # TODO clean
+
+            comodel = self.get_concrete_model(comodel_name)
+
+            if attr.get_container() == 0:
+                # m2o
+                new_value = comodel.build_attrs(value,
+                                                create_m2o=create_m2o,
+                                                path=child_path,
+                                                defaults=defaults)
+                child_defaults = self._extract_related_values(vals, key)
+
+                new_value.update(child_defaults)
+                self._build_many2one(comodel, vals, new_value, key,
+                                     create_m2o)
+            elif attr.get_container() == 1:
+                # o2m
+                lines = []
+                for line in [l for l in value if l]:
+                    line_vals = comodel.build_attrs(line,
+                                                    create_m2o=create_m2o,
+                                                    path=child_path,
+                                                    defaults=defaults)
+                    lines.append((0, 0, line_vals))
+                vals[key] = lines
+
+    def _build_string_not_simple_type(self, key, vals, value, node):
+        vals[key] = value
+
+    def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
+        if comodel._name == self._name:
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            vals[key] = comodel.match_or_create_m2o(
+                new_value, vals, create_m2o)
 
     @api.model
     def get_concrete_model(self, comodel_name):
@@ -220,9 +188,8 @@ class AbstractSpecMixin(models.AbstractModel):
         for related_m2o, sub_val in related_many2ones.items():
             comodel_name = fields[related_m2o]['relation']
             comodel = self.get_concrete_model(comodel_name)
-            if related_many2ones.get('product_id', {}).get('barcode') and \
-                    related_many2ones['product_id']['barcode'] == 'SEM GTIN':
-                del related_many2ones['product_id']['barcode']
+            related_many2ones = \
+                self._verify_related_many2ones(related_many2ones)
             if hasattr(comodel, 'match_or_create_m2o'):
                 vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals,
                                                                 True)
@@ -230,6 +197,9 @@ class AbstractSpecMixin(models.AbstractModel):
                 vals[related_m2o] = self.match_or_create_m2o(sub_val, vals,
                                                              True, comodel)
         return vals
+
+    def _verify_related_many2ones(self, related_many2ones):
+        return related_many2ones
 
     @api.model
     def match_record(self, rec_dict, parent_dict, model=None):
@@ -243,8 +213,7 @@ class AbstractSpecMixin(models.AbstractModel):
             keys = model._nfe_search_keys + default_key
         else:
             keys = [model._rec_name or model._concrete_rec_name or 'name']
-        if model._name == 'product.product' and rec_dict.get('barcode'):
-            keys = ['barcode'] + keys
+        keys = self._get_aditional_keys(model, rec_dict, keys)
         for key in keys:
             if rec_dict.get(key):
                 # TODO enable to build criteria using parent_dict
@@ -257,9 +226,13 @@ class AbstractSpecMixin(models.AbstractModel):
                 match_ids = model.search(domain)
                 if match_ids:
                     if len(match_ids) > 1:
-                        _logger.warning("!! WARNING more than 1 record found!!")
+                        _logger.warning(
+                            "!! WARNING more than 1 record found!!")
                     return match_ids[0].id
         return False
+
+    def _get_aditional_keys(self, model, rec_dict, keys):
+        return keys
 
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict,
