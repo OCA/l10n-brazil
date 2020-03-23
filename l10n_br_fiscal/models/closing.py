@@ -13,7 +13,7 @@ import logging
 from datetime import datetime
 import calendar
 
-from odoo import api, models, fields, _
+from odoo import _, api, fields, models
 from odoo.exceptions import RedirectWarning
 
 from ..constants.fiscal import (
