@@ -5,25 +5,25 @@ from odoo import api, fields, models
 
 
 class AccountTaxTemplate(models.Model):
-    _inherit = "account.tax.template"
+    _inherit = 'account.tax.template'
 
     fiscal_tax_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.tax",
-        relation="l10n_br_fiscal_account_template_tax_rel",
-        colunm1="account_tax_id",
-        colunm2="fiscal_tax_id",
-        readonly=True,
-        string="Fiscal Taxes")
+        comodel_name='l10n_br_fiscal.tax',
+        relation='l10n_br_fiscal_account_template_tax_rel',
+        colunm1='account_tax_id',
+        colunm2='fiscal_tax_id',
+        string='Fiscal Taxes')
 
     @api.multi
     def _generate_tax(self, company):
         mapping = super(AccountTaxTemplate, self)._generate_tax(company)
 
-        taxes_template = self.browse(mapping.get("tax_template_to_tax").keys())
+        taxes_template = self.browse(mapping.get('tax_template_to_tax').keys())
 
         for tax_template in taxes_template:
-            tax_id = mapping.get("tax_template_to_tax").get(tax_template.id)
-            self.env["account.tax"].browse(tax_id).write(
-                {"fiscal_tax_ids": tax_template.fiscal_tax_ids})
+            tax_id = mapping.get('tax_template_to_tax').get(tax_template.id)
+            self.env['account.tax'].browse(tax_id).write(
+                {'fiscal_tax_ids':
+                    [(6, False, tax_template.fiscal_tax_ids.ids)]})
 
         return mapping
