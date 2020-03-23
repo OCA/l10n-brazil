@@ -7,70 +7,45 @@ from ..constants.fiscal import CEST_SEGMENT
 
 
 class Cest(models.Model):
-    _name = "l10n_br_fiscal.cest"
-    _inherit = "l10n_br_fiscal.data.abstract"
-    _description = "CEST"
+    _name = 'l10n_br_fiscal.cest'
+    _inherit = 'l10n_br_fiscal.data.product.abstract'
+    _description = 'CEST'
 
     name = fields.Text(
-        string="Name",
+        string='Name',
         required=True,
         index=True)
 
     item = fields.Char(
-        string="Item",
+        string='Item',
         required=True,
         size=6)
 
     segment = fields.Selection(
         selection=CEST_SEGMENT,
-        string="Segment",
+        string='Segment',
         required=True)
 
+    product_tmpl_ids = fields.One2many(
+        inverse_name='cest_id')
+
     ncms = fields.Char(
-        string="NCM")
+        string='NCM')
 
     ncm_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.ncm",
-        relation="fiscal_cest_ncm_rel",
-        colunm1="cest_id",
-        colunm2="ncm_id",
-        compute="_compute_ncms",
+        comodel_name='l10n_br_fiscal.ncm',
+        relation='fiscal_cest_ncm_rel',
+        colunm1='cest_id',
+        colunm2='ncm_id',
+        compute='_compute_ncms',
         store=True,
         readonly=True,
-        string="NCMs")
+        string='NCMs')
 
-    product_tmpl_ids = fields.One2many(
-        comodel_name="product.template",
-        string="Products",
-        compute="_compute_product_tmpl_info")
-
-    product_tmpl_qty = fields.Integer(
-        string="Products Quantity",
-        compute="_compute_product_tmpl_info")
-
-    def _compute_product_tmpl_info(self):
-        for record in self:
-            product_tmpls = record.env["product.template"].search([
-                ("cest_id", "=", record.id),
-                "|",
-                ("active", "=", False),
-                ("active", "=", True)])
-
-            record.product_tmpl_ids = product_tmpls
-            record.product_tmpl_qty = len(product_tmpls)
-
-    @api.depends("ncms")
+    @api.depends('ncms')
     def _compute_ncms(self):
-        ncm = self.env["l10n_br_fiscal.ncm"]
+        ncm = self.env['l10n_br_fiscal.ncm']
         for r in self:
             if r.ncms:
-                ncms = r.ncms.split(",")
-                domain = ["|"] * (len(ncms) - 1)
-
-                domain += [("code_unmasked", "=", n)
-                           for n in ncms if len(n) == 8]
-
-                domain += [("code_unmasked", "=ilike", n + "%")
-                           for n in ncms if len(n) < 8]
-
+                domain = self._domain_field_codes(r.ncms)
                 r.ncm_ids = ncm.search(domain)

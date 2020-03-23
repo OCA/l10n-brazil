@@ -1,228 +1,61 @@
 # Copyright (C) 2012  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
-from datetime import timedelta
+from odoo import _, fields, models
+from .ibpt.taxes import get_ibpt_product
 
-from erpbrasil.base import misc
-from lxml import etree
-from odoo import _, api, fields, models
-from odoo.addons import decimal_precision as dp
-from odoo.osv import orm
-
-from .ibpt.taxes import DeOlhoNoImposto, get_ibpt_product
-
-_logger = logging.getLogger(__name__)
+from ..constants.fiscal import (
+    TAX_DOMAIN_II,
+    TAX_DOMAIN_IPI
+)
 
 
 class Ncm(models.Model):
-    _name = "l10n_br_fiscal.ncm"
+    _name = 'l10n_br_fiscal.ncm'
     _inherit = [
-        "l10n_br_fiscal.data.abstract",
-        "mail.thread",
-        "mail.activity.mixin"]
-    _description = "NCM"
+        'l10n_br_fiscal.data.ncm.nbs.abstract',
+        'mail.thread',
+        'mail.activity.mixin']
+    _description = 'NCM'
 
-    @api.depends("tax_estimate_ids")
-    def _compute_amount(self):
-        for record in self:
-            last_estimated = record.env["l10n_br_fiscal.tax.estimate"].search(
-                [
-                    ("ncm_id", "=", record.id),
-                    ("company_id", "=", record.env.user.company_id.id),
-                ],
-                order="create_date DESC",
-                limit=1,
-            )
+    code = fields.Char(
+        size=10)
 
-            if last_estimated:
-                record.estimate_tax_imported = (
-                    last_estimated.federal_taxes_import
-                    + last_estimated.state_taxes
-                    + last_estimated.municipal_taxes
-                )
-                record.estimate_tax_national = (
-                    last_estimated.federal_taxes_national
-                    + last_estimated.state_taxes
-                    + last_estimated.municipal_taxes
-                )
-
-    code = fields.Char(size=10)
-
-    code_unmasked = fields.Char(size=8)
+    code_unmasked = fields.Char(
+        size=8)
 
     exception = fields.Char(
-        string="Exception",
+        string='Exception',
         size=2)
 
     tax_ipi_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Tax IPI",
-        domain="[('tax_domain', '=', 'ipi')]")
+        comodel_name='l10n_br_fiscal.tax',
+        string='Tax IPI',
+        domain=[('tax_domain', '=', TAX_DOMAIN_IPI)])
 
     tax_ii_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Tax II",
-        domain="[('tax_domain', '=', 'ii')]")
+        comodel_name='l10n_br_fiscal.tax',
+        string='Tax II',
+        domain=[('tax_domain', '=', TAX_DOMAIN_II)])
 
     uot_id = fields.Many2one(
-        comodel_name="uom.uom",
-        string="Tax UoM")
+        comodel_name='uom.uom',
+        string='Tax UoM')
 
     uoe_id = fields.Many2one(
-        comodel_name="uom.uom",
-        string="Export UoM")
-
-    tax_estimate_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.tax.estimate",
-        inverse_name="ncm_id",
-        string=u"Estimate Taxes",
-        readonly=True)
+        comodel_name='uom.uom',
+        string='Export UoM')
 
     product_tmpl_ids = fields.One2many(
-        comodel_name="product.template",
-        string="Products",
-        compute="_compute_product_tmpl_info")
+        inverse_name='ncm_id')
 
-    product_tmpl_qty = fields.Integer(
-        string="Products Quantity",
-        compute="_compute_product_tmpl_info")
-
-    estimate_tax_national = fields.Float(
-        string="Estimate Tax Nacional Percent",
-        store=True,
-        readonly=True,
-        digits=dp.get_precision("Fiscal Tax Percent"),
-        compute="_compute_amount")
-
-    estimate_tax_imported = fields.Float(
-        string="Estimate Tax Imported Percent",
-        store=True,
-        readonly=True,
-        digits=dp.get_precision("Fiscal Tax Percent"),
-        compute="_compute_amount")
+    tax_estimate_ids = fields.One2many(
+        inverse_name='ncm_id')
 
     _sql_constraints = [(
-        "fiscal_ncm_code_exception_uniq",
+        'fiscal_ncm_code_exception_uniq',
         "unique (code, exception)",
-        "NCM already exists with this code !")]
+        _("NCM already exists with this code !"))]
 
-    def _compute_product_tmpl_info(self):
-        for record in self:
-            product_tmpls = record.env["product.template"].search(
-                [
-                    ("ncm_id", "=", record.id),
-                    "|",
-                    ("active", "=", False),
-                    ("active", "=", True),
-                ]
-            )
-            record.product_tmpl_ids = product_tmpls
-            record.product_tmpl_qty = len(product_tmpls)
-
-    @api.multi
-    def get_ibpt(self):
-        if not self.env.user.company_id.ibpt_api:
-            return False
-
-        for ncm in self:
-            try:
-                company = self.env.user.company_id
-
-                config = DeOlhoNoImposto(
-                    company.ibpt_token,
-                    misc.punctuation_rm(company.cnpj_cpf),
-                    company.state_id.code,
-                )
-
-                result = get_ibpt_product(config, ncm.code_unmasked)
-
-                values = {
-                    "ncm_id": ncm.id,
-                    "key": result.chave,
-                    "origin": result.fonte,
-                    "state_id": company.state_id.id,
-                    "state_taxes": result.estadual,
-                    "federal_taxes_national": result.nacional,
-                    "federal_taxes_import": result.importado,
-                }
-
-                self.env["l10n_br_fiscal.tax.estimate"].create(values)
-
-                ncm.message_post(
-                    body=_("NCM Tax Estimate Updated"),
-                    subject=_("NCM Tax Estimate Updated"),
-                )
-
-            except Exception as e:
-                _logger.warning(
-                    "NCM Tax Estimate Failure: %s" % e)
-                ncm.message_post(
-                    body=str(e),
-                    subject=_("NCM Tax Estimate Failure"))
-                continue
-
-    @api.model
-    def _scheduled_update(self):
-        _logger.info("Scheduled NCM estimate taxes update...")
-
-        config_date = self.env.user.company_id.ibpt_update_days
-        today = fields.date.today()
-        data_max = today - timedelta(days=config_date)
-
-        all_ncm = self.env["l10n_br_fiscal.ncm"].search([])
-
-        not_estimated = all_ncm.filtered(
-            lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids
-        )
-
-        query = (
-            "WITH ncm_max_date AS ("
-            "   SELECT "
-            "       ncm_id, "
-            "       max(create_date) "
-            "   FROM  "
-            "       l10n_br_fiscal_tax_estimate "
-            "   GROUP BY "
-            "       ncm_id"
-            ") SELECT ncm_id "
-            "FROM "
-            "   ncm_max_date "
-            "WHERE "
-            "   max < %(create_date)s  "
-        )
-
-        query_params = {"create_date": data_max.strftime("%Y-%m-%d")}
-
-        self.env.cr.execute(self.env.cr.mogrify(query, query_params))
-        past_estimated = self.env.cr.fetchall()
-
-        ids = [estimate[0] for estimate in past_estimated]
-
-        ncm_past_estimated = self.env["l10n_br_fiscal.ncm"].browse(ids)
-
-        for ncm in not_estimated + ncm_past_estimated:
-            try:
-                ncm.get_ibpt()
-            except Exception:
-                continue
-
-        _logger.info("Scheduled NCM estimate taxes update complete.")
-
-    @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        res = super(Ncm, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
-        )
-        if view_type == "form":
-            xml = etree.XML(res["arch"])
-            xml_button = xml.xpath("//button[@name='get_ibpt']")
-            if xml_button and not self.env.user.company_id.ibpt_api:
-                xml_button[0].attrib["invisible"] = "1"
-                orm.setup_modifiers(xml_button[0])
-                res["arch"] = etree.tostring(xml, pretty_print=True)
-        if res.get("toolbar") and not self.env.user.company_id.ibpt_api:
-            res["toolbar"]["action"] = []
-        return res
+    def _get_ibpt(self, config, code_unmasked):
+        return get_ibpt_product(config, code_unmasked)

@@ -69,10 +69,10 @@ class TestIbptProduct(common.TransactionCase):
 
     def test_update_ibpt_product(self):
         """Check tax estimate update"""
-        self.ncm_85030010.get_ibpt()
+        self.ncm_85030010.action_ibpt_inquiry()
         self.assertTrue(self.ncm_85030010.tax_estimate_ids)
 
-        self.ncm_85014029.get_ibpt()
+        self.ncm_85014029.action_ibpt_inquiry()
         self.assertTrue(self.ncm_85014029.tax_estimate_ids)
 
         self.tax_estimate_model.search(
