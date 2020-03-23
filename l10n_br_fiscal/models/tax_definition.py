@@ -3,11 +3,8 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import (
-    FISCAL_IN_OUT,
-    FISCAL_OUT,
-    TAX_DOMAIN
-)
+from ..constants.fiscal import FISCAL_IN_OUT, FISCAL_OUT, TAX_DOMAIN
+from ..tools import misc
 
 
 class TaxDefinition(models.Model):
@@ -39,8 +36,8 @@ class TaxDefinition(models.Model):
                "('tax_domain', '=', tax_domain)]")
 
     cst_code = fields.Char(
-        string="CST Code",
-        related="cst_id.code")
+        string='CST Code',
+        related='cst_id.code')
 
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
@@ -71,95 +68,83 @@ class TaxDefinition(models.Model):
         string='Not in NCM')
 
     ncm_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.ncm",
-        relation="tax_definition_ncm_rel",
-        colunm1="tax_definition_id",
-        colunm2="ncm_id",
-        compute="_compute_ncms",
+        comodel_name='l10n_br_fiscal.ncm',
+        relation='tax_definition_ncm_rel',
+        colunm1='tax_definition_id',
+        colunm2='ncm_id',
+        compute='_compute_ncms',
         store=True,
         readonly=True,
-        string="NCMs")
+        string='NCMs')
 
-    cests = fields.Char(string="CEST")
+    cests = fields.Char(
+        string='CEST')
 
     cest_ids = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cest",
-        relation="tax_definition_cest_rel",
-        colunm1="tax_definition_id",
-        colunm2="ncm_id",
-        compute="_compute_cests",
+        comodel_name='l10n_br_fiscal.cest',
+        relation='tax_definition_cest_rel',
+        colunm1='tax_definition_id',
+        colunm2='ncm_id',
+        compute='_compute_cests',
         store=True,
         readonly=True,
-        string="CESTs")
+        string='CESTs')
 
-    @api.depends("ncms")
+    @api.multi
+    @api.depends('ncms')
     def _compute_ncms(self):
         ncm = self.env['l10n_br_fiscal.ncm']
-        domain = False
         for r in self:
-            # Clear Field
-            domain = False
+            domain = []
+
+            # Clear Field to recompute
             r.ncm_ids = False
             if r.ncms:
-                ncms = r.ncms.split(';')
-                domain = ['|'] * (len(ncms) - 1)
-                domain += [("code_unmasked", "=", n) for n in ncms if len(n) == 8]
-                domain += [
-                    ("code_unmasked", "=ilike", n + "%") for n in ncms if len(n) < 8
-                ]
+                domain = misc.domain_field_codes(r.ncms)
 
             if r.not_in_ncms:
-                not_in_ncms = r.not_in_ncms.split(";")
-                domain += [
-                    ("code_unmasked", "=", n) for n in not_in_ncms if len(n) == 8
-                ]
-
-                domain += [
-                    ("code_unmasked", "not ilike", n + "%")
-                    for n in not_in_ncms
-                    if len(n) < 8
-                ]
+                domain += misc.domain_field_codes(
+                    field_codes=r.not_in_ncms,
+                    operator1="!=", operator2="not ilike")
 
             if r.ncm_exception:
-                ncm_exception = r.ncm_exception.split(";")
-                domain += [("exception", "=", n) for n in ncm_exception]
+                domain += misc.domain_field_codes(
+                    field_codes=r.ncm_exception,
+                    field_name="exception",
+                    code_size=2)
 
             if domain:
                 r.ncm_ids = ncm.search(domain)
 
-    @api.depends("cests")
+    @api.multi
+    @api.depends('cests')
     def _compute_cests(self):
-        cest = self.env["l10n_br_fiscal.cest"]
-        domain = False
+        cest = self.env['l10n_br_fiscal.cest']
         for r in self:
+            domain = []
+
             # Clear Field
-            domain = False
             r.cest_ids = False
             if r.cests:
-                cests = r.cests.split(";")
-                domain = ["|"] * (len(cests) - 1)
-                domain += [("code_unmasked", "=", n) for n in cests if len(n) == 7]
-                domain += [
-                    ("code_unmasked", "=ilike", n + "%") for n in cests if len(n) < 7
-                ]
+                domain = misc.domain_field_codes(r.cests, code_size=7)
 
             if domain:
                 r.cest_ids = cest.search(domain)
 
-    @api.onchange("is_taxed")
+    @api.onchange('is_taxed')
     def _onchange_tribute(self):
         if not self.is_taxed:
             self.is_debit_credit = False
         else:
             self.is_debit_credit = True
 
-    @api.onchange("custom_tax")
+    @api.onchange('custom_tax')
     def _onchange_custom_tax(self):
         if not self.custom_tax:
             self.tax_id = False
             self.cst_id = False
 
-    @api.onchange("tax_id")
+    @api.onchange('tax_id')
     def _onchange_tax_id(self):
         if self.tax_id:
             if self.type_in_out == FISCAL_OUT:
