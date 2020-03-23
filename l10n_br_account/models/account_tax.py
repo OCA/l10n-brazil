@@ -5,15 +5,14 @@ from odoo import api, fields, models
 
 
 class AccountTax(models.Model):
-    _inherit = "account.tax"
+    _inherit = 'account.tax'
 
     fiscal_tax_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.tax",
-        relation="l10n_br_fiscal_account_tax_rel",
-        colunm1="account_tax_id",
-        colunm2="fiscal_tax_id",
-        readonly=True,
-        string="Fiscal Taxes")
+        comodel_name='l10n_br_fiscal.tax',
+        relation='l10n_br_fiscal_account_tax_rel',
+        colunm1='account_tax_id',
+        colunm2='fiscal_tax_id',
+        string='Fiscal Taxes')
 
     @api.multi
     def compute_all(
