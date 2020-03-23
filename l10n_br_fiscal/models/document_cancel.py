@@ -3,9 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    CANCELADO, SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
     SITUACAO_EDOC_CANCELADA, SITUACAO_FISCAL_CANCELADO,
 )
 
