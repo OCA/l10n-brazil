@@ -32,5 +32,4 @@ class TestAccountTaxes(TransactionCase):
             if tax.tax_group_id.fiscal_group_id and tax.fiscal_tax_ids:
                 is_fiscal_taxes = True
 
-        assert(is_fiscal_taxes,
-               "There are not fiscal taxes related with account taxes")
+        assert is_fiscal_taxes, "There are not fiscal taxes related"
