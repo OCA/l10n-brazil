@@ -29,7 +29,7 @@ class Cnae(models.Model):
 
     internal_type = fields.Selection(
         selection=[
-            ("view", u"View"),
+            ("view", "View"),
             ("normal", "Normal")],
         string="Internal Type",
         required=True,
