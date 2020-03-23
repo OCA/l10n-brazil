@@ -64,6 +64,6 @@ class FiscalTax(models.Model):
                     account_tax.write({
                         'name': (account_tax.name +
                                  ' Inative ' + active_datetime),
-                        'fiscal_tax_id': False,
+                        'fiscal_tax_ids': False,
                         'active': False})
         return super(FiscalTax, self).unlink()
