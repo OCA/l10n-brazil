@@ -5,3 +5,4 @@ from . import res_company
 from . import nfe
 from . import res_config_settings
 from . import document_cancel
+from . import document_correction
