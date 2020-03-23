@@ -27,33 +27,6 @@ class DocumentCorrection(models.Model):
             if not record.document_id or not record.justificative:
                 continue
 
-            processador = record.document_id._processador()
-
-            evento = processador.carta_correcao(
-                chave=record.document_id.key[3:],
-                sequencia=record.sequencia,
-                justificativa=record.justificative
-            )
-            processo = processador.enviar_lote_evento(
-                lista_eventos=[evento]
-            )
-
-            for retevento in processo.resposta.retEvento:
-                if not retevento.infEvento.chNFe == \
-                       record.document_id.key[3:]:
-                    continue
-
-                if retevento.infEvento.cStat not in ('135', '136'):
-                    mensagem = 'Erro na carta de correção'
-                    mensagem += '\nCódigo: ' + retevento.infEvento.cStat
-                    mensagem += '\nMotivo: ' + \
-                                retevento.infEvento.xMotivo
-                    raise UserError(mensagem)
-
-                event_id.write({
-                    'file_sent': processo.envio_xml,
-                    'file_returned': processo.retorno.content,
-                    'status': retevento.infEvento.cStat,
-                    'message': retevento.infEvento.xMotivo,
-                    'state': 'done',
-                })
+            event_id.write({
+                'state': 'done',
+            })
