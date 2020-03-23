@@ -11,32 +11,32 @@ from ..constants.fiscal import (
 
 
 class TaxDefinition(models.Model):
-    _name = "l10n_br_fiscal.tax.definition"
-    _description = "Tax Definition"
+    _name = 'l10n_br_fiscal.tax.definition'
+    _description = 'Tax Definition'
 
     type_in_out = fields.Selection(
         selection=FISCAL_IN_OUT,
-        string="Type",
+        string='Type',
         required=True,
         default=FISCAL_OUT)
 
     tax_group_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.group",
-        string="Tax Group")
+        comodel_name='l10n_br_fiscal.tax.group',
+        string='Tax Group')
 
     custom_tax = fields.Boolean(
-        string="Custom Tax")
+        string='Custom Tax')
 
     tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        domain="[('tax_group_id', '=', tax_group_id)]",
-        string="Tax")
+        comodel_name='l10n_br_fiscal.tax',
+        string='Tax',
+        domain="[('tax_group_id', '=', tax_group_id)]")
 
     cst_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cst",
-        domain="[('cst_type', 'in', (type_in_out, 'all')),"
-        "('tax_domain', '=', tax_domain)]",
-        string="CST")
+        comodel_name='l10n_br_fiscal.cst',
+        string='CST',
+        domain="[('cst_type', 'in', (type_in_out, 'all')), "
+               "('tax_domain', '=', tax_domain)]")
 
     cst_code = fields.Char(
         string="CST Code",
@@ -44,28 +44,31 @@ class TaxDefinition(models.Model):
 
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
-        related="tax_group_id.tax_domain",
+        related='tax_group_id.tax_domain',
         store=True,
-        string="Tax Domain")
+        string='Tax Domain')
 
     is_taxed = fields.Boolean(
-        string="Taxed?")
+        string='Taxed?')
 
     is_debit_credit = fields.Boolean(
-        string="Debit/Credit?")
+        string='Debit/Credit?')
 
     tax_withholding = fields.Boolean(
-        string="Tax Retention?")
+        string='Tax Retention?')
 
     company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company")
+        comodel_name='res.company',
+        string='Company')
 
-    ncms = fields.Char(string="NCM")
+    ncms = fields.Char(
+        string='NCM List')
 
-    ncm_exception = fields.Char(string="NCM Exeption")
+    ncm_exception = fields.Char(
+        string='NCM Exeption')
 
-    not_in_ncms = fields.Char(string="Not in NCM")
+    not_in_ncms = fields.Char(
+        string='Not in NCM')
 
     ncm_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.ncm",
@@ -91,15 +94,15 @@ class TaxDefinition(models.Model):
 
     @api.depends("ncms")
     def _compute_ncms(self):
-        ncm = self.env["l10n_br_fiscal.ncm"]
+        ncm = self.env['l10n_br_fiscal.ncm']
         domain = False
         for r in self:
             # Clear Field
             domain = False
             r.ncm_ids = False
             if r.ncms:
-                ncms = r.ncms.split(";")
-                domain = ["|"] * (len(ncms) - 1)
+                ncms = r.ncms.split(';')
+                domain = ['|'] * (len(ncms) - 1)
                 domain += [("code_unmasked", "=", n) for n in ncms if len(n) == 8]
                 domain += [
                     ("code_unmasked", "=ilike", n + "%") for n in ncms if len(n) < 8
