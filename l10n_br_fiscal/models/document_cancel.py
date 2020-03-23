@@ -27,44 +27,9 @@ class DocumentCancel(models.Model):
             if not record.document_id or not record.justificative:
                 continue
 
-            processador = record.document_id._processador()
+            record.document_id.state_fiscal = SITUACAO_FISCAL_CANCELADO
+            record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
 
-            evento = processador.cancela_documento(
-                chave=record.document_id.key[3:],
-                protocolo_autorizacao=
-                record.document_id.protocolo_autorizacao,
-                justificativa=record.justificative
-            )
-            processo = processador.enviar_lote_evento(
-                lista_eventos=[evento]
-            )
-
-            for retevento in processo.resposta.retEvento:
-                if not retevento.infEvento.chNFe == \
-                       record.document_id.key[3:]:
-                    continue
-
-                if retevento.infEvento.cStat not in CANCELADO:
-                    mensagem = 'Erro no cancelamento'
-                    mensagem += '\nCódigo: ' + \
-                                retevento.infEvento.cStat
-                    mensagem += '\nMotivo: ' + \
-                                retevento.infEvento.xMotivo
-                    raise UserError(mensagem)
-
-                if retevento.infEvento.cStat == '155':
-                    record.document_id.state_fiscal = \
-                        SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-                    record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
-                elif retevento.infEvento.cStat == '135':
-                    record.document_id.state_fiscal = \
-                        SITUACAO_FISCAL_CANCELADO
-                    record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
-
-                event_id.write({
-                    'file_sent': processo.envio_xml,
-                    'file_returned': processo.retorno.content,
-                    'status': retevento.infEvento.cStat,
-                    'message': retevento.infEvento.xMotivo,
-                    'state': 'done',
-                })
+            event_id.write({
+                'state': 'done',
+            })
