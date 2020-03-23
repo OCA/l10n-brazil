@@ -23,16 +23,3 @@ class DataProductAbstract(models.AbstractModel):
     def _compute_product_tmpl_infos(self):
         for record in self:
             record.product_tmpl_qty = len(record.product_tmpl_ids)
-
-    def _domain_field_codes(self, field_codes):
-        list_codes = field_codes.split(',')
-
-        domain = ['|'] * (len(list_codes) - 1)
-
-        domain += [('code_unmasked', '=', n)
-                   for n in list_codes if len(n) == 8]
-
-        domain += [('code_unmasked', '=ilike', n + '%')
-                   for n in list_codes if len(n) < 8]
-
-        return domain
