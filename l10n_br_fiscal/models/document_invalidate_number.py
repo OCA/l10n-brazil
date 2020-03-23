@@ -95,7 +95,7 @@ class DocumentInvalidateNumber(models.Model):
             else:
                 raise UserError(_(
                     u'Você não pode excluir uma sequência concluída.'))
-        return super(InvalidateNumber, self).unlink()
+        return super(DocumentInvalidateNumber, self).unlink()
 
     @api.multi
     def action_invalidate(self):
@@ -134,4 +134,3 @@ class DocumentInvalidateNumber(models.Model):
                         'issuer': 'company',
                         'number': str(number),
                     })
-
