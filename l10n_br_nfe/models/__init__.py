@@ -6,3 +6,4 @@ from . import nfe
 from . import res_config_settings
 from . import document_cancel
 from . import document_correction
+from . import document_invalidate_number
