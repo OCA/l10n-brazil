@@ -163,6 +163,11 @@ class DocumentAbstract(models.AbstractModel):
     document_serie = fields.Char(
         string="Serie Number")
 
+    fiscal_document_related_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.document.related',
+        inverse_name='fiscal_document_id',
+        string='Fiscal Document Related')
+
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Partner")
@@ -396,6 +401,13 @@ class DocumentAbstract(models.AbstractModel):
         comodel_name="l10n_br_fiscal.document.line.abstract",
         inverse_name="document_id",
         string="Document Lines")
+
+    @api.multi
+    def name_get(self):
+        return [(r.id, '{0} - Série: {1} - Número: {2}'.format(
+            r.document_type_id.name,
+            r.document_serie,
+            r.number)) for r in self]
 
     @api.model
     def _create_serie_number(self, document_serie_id, document_date):
