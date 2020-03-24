@@ -1,8 +1,10 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
-from erpbrasil.base.fiscal import cnpj_cpf, ie
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+
+from erpbrasil.base import fiscal
 
 
 class DocumentRelated(models.Model):
@@ -73,7 +75,7 @@ class DocumentRelated(models.Model):
 
             if not disable_cnpj_ie_validation:
                 if record.cpfcnpj_type == 'cnpj':
-                    if not cnpj_cpf.validar(record.cnpj_cpf):
+                    if not fiscal.cnpj_cpf.validar(record.cnpj_cpf):
                         result = False
                         document = "CNPJ"
                 elif record.cpfcnpj_type == 'cpf':
@@ -97,7 +99,7 @@ class DocumentRelated(models.Model):
                 if record.inscr_est and record.state_id:
                     state_code = record.state_id.code or ""
                     uf = state_code.lower()
-                    result = ie.validar(uf, record.inscr_est)
+                    result = fiscal.ie.validar(uf, record.inscr_est)
                 if not result:
                     raise ValidationError(_("Estadual Inscription Invalid !"))
 
@@ -143,4 +145,4 @@ class DocumentRelated(models.Model):
 
     @api.onchange('cnpj_cpf', 'cpfcnpj_type')
     def _onchange_mask_cnpj_cpf(self):
-        self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
+        self.cnpj_cpf = fiscal.cnpj_cpf.formata(str(self.cnpj_cpf))
