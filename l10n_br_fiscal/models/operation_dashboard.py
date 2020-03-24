@@ -9,11 +9,11 @@ class Operation(models.Model):
     _inherit = "l10n_br_fiscal.operation"
 
     @api.one
-    def _kanban_dashboard(self):
+    def _compute_kanban_dashboard(self):
         self.kanban_dashboard = json.dumps(
             self.get_operation_dashboard_datas())
 
-    kanban_dashboard = fields.Text(compute='_kanban_dashboard')
+    kanban_dashboard = fields.Text(compute='_compute_kanban_dashboard')
     color = fields.Integer("Color Index", default=0)
 
     @api.multi
