@@ -13,7 +13,7 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
-        <field name="key">1</field>
+        <field name="key">11</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 1 SP</field>
@@ -55,8 +55,8 @@
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="document_serie">2</field>
-        <field name="key">1</field>
+        <field name="document_serie">1</field>
+        <field name="key">12</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe"/>
         <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 5 PE</field>
@@ -96,7 +96,7 @@
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="document_serie">3</field>
+        <field name="document_serie">13</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
@@ -132,7 +132,7 @@
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="document_serie">4</field>
+        <field name="document_serie">14</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg"/>
         <field name="user_id" ref="base.user_demo"/>
@@ -173,7 +173,7 @@
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="document_serie">5</field>
+        <field name="document_serie">15</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
@@ -215,7 +215,7 @@
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="document_serie">6</field>
+        <field name="document_serie">16</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe"/>
         <field name="user_id" ref="base.user_demo"/>
@@ -257,7 +257,7 @@
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="document_serie">7</field>
+        <field name="document_serie">17</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
@@ -294,7 +294,7 @@
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="document_serie">8</field>
+        <field name="document_serie">18</field>
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg"/>
         <field name="user_id" ref="base.user_demo"/>
