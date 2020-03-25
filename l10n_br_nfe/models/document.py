@@ -368,12 +368,10 @@ class NFe(spec_models.StackedModel):
             for line in record.line_ids:
                 line.nfe40_NCM = line.ncm_id.code.replace('.', '')
                 line.nfe40_CEST = line.cest_id and line.cest_id.code.replace('.', '') or False
-                line.nfe40_CFOP = line.cfop_id.code
                 line.nfe40_qCom = line.quantity
                 line.nfe40_qTrib = line.quantity
                 line.nfe40_pICMS = line.icms_percent
                 line.nfe40_pIPI = line.ipi_percent
-                line.nfe40_vIPI = line.ipi_value
                 line.nfe40_cEnq = str(line.ipi_guideline_id.code or '999'
                                       ).zfill(3)
                 line.nfe40_pPIS = line.pis_percent
