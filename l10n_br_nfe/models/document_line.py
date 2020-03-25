@@ -82,6 +82,7 @@ class NFeLine(spec_models.StackedModel):
         related='cofins_value'
     )
 
+    nfe40_indTot = fields.Selection(default='1')
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
         for record in self:
