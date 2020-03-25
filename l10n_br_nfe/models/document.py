@@ -89,8 +89,8 @@ class NFe(spec_models.StackedModel):
     )
 
     fiscal_document_event_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document_event",
-        inverse_name="fiscal_document_event_id",
+        comodel_name="l10n_br_fiscal.document.event",
+        inverse_name="fiscal_document_id",
         string=u"Eventos",
         copy=False,
     )
