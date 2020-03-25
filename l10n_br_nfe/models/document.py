@@ -118,6 +118,11 @@ class NFe(spec_models.StackedModel):
         compute='_compute_nfe_data',
         inverse='_inverse_nfe40_tpNF',
     )
+    nfe40_tpImp = fields.Selection(default='1')
+    nfe40_tpEmis = fields.Selection(default='1')
+    nfe40_tpAmb = fields.Selection(default='2')
+    nfe40_procEmi = fields.Selection(default='0')
+    nfe40_verProc = fields.Char(default='Odoo Brasil v12.0')
 
     @api.depends('operation_type')
     @api.multi
@@ -380,11 +385,6 @@ class NFe(spec_models.StackedModel):
             record.nfe40_cMunFG = '%s%s' % (
                 record.company_id.partner_id.state_id.ibge_code,
                 record.company_id.partner_id.city_id.ibge_code)
-            record.nfe40_tpImp = '1'
-            record.nfe40_tpEmis = '1'
-            record.nfe40_tpAmb = '2'
-            record.nfe40_procEmi = '0'
-            record.nfe40_verProc = 'Odoo Brasil v12.0'
             record.nfe40_vBC = sum(record.line_ids.mapped('nfe40_vBC'))
             record.nfe40_vICMS = sum(record.line_ids.mapped('nfe40_vICMS'))
             record.nfe40_vPIS = sum(record.line_ids.mapped('nfe40_vPIS'))
@@ -397,7 +397,6 @@ class NFe(spec_models.StackedModel):
                 line.nfe40_CFOP = line.cfop_id.code
                 line.nfe40_qCom = line.quantity
                 line.nfe40_qTrib = line.quantity
-                line.nfe40_indTot = '1'
                 line.nfe40_pICMS = line.icms_percent
                 line.nfe40_pIPI = line.ipi_percent
                 line.nfe40_vIPI = line.ipi_value
