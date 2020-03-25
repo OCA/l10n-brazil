@@ -336,9 +336,9 @@ class SaleOrder(models.Model):
         #  violates not-null constraint -
         #  INSERT INTO "l10n_br_fiscal_document"
         #  but the field are going on the dictionary
-        # result['fiscal_document_id'] = False
-        # result['document_type_id'] = self._context.get('document_type_id')
-        # result['operation_type'] = self.operation_id.operation_type
+        result['fiscal_document_id'] = False
+        result['document_type_id'] = self._context.get('document_type_id')
+        result['operation_type'] = self.operation_id.operation_type
 
         return result
 
