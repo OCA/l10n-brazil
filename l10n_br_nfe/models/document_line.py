@@ -173,6 +173,50 @@ class NFeLine(spec_models.StackedModel):
             else:
                 xsd_fields.remove('nfe40_vBC')
                 xsd_fields.remove('nfe40_pIPI')
+
+        self.nfe40_NCM = self.ncm_id.code.replace('.', '')
+        self.nfe40_CEST = self.cest_id and \
+            self.cest_id.code.replace('.', '') or False
+        self.nfe40_qCom = self.quantity
+        self.nfe40_qTrib = self.quantity
+        self.nfe40_pICMS = self.icms_percent
+        self.nfe40_pIPI = self.ipi_percent
+        self.nfe40_pPIS = self.pis_percent
+        self.nfe40_pCOFINS = self.cofins_percent
+        self.nfe40_cEnq = str(self.ipi_guideline_id.code or '999'
+                              ).zfill(3)
+
+        if self.document_id.ind_final == '1' and \
+                self.document_id.nfe40_idDest == '2' and \
+                self.document_id.partner_id.nfe40_indIEDest == '9':
+            self.nfe40_vBCUFDest = self.nfe40_vBC
+            if self.document_id.partner_id.state_id.code in [
+                    'AC', 'CE', 'ES', 'GO', 'MT', 'MS', 'PA', 'PI', 'RR', 'SC'
+            ]:
+                self.nfe40_pICMSUFDest = 17.0
+            elif self.document_id.partner_id.state_id.code == 'RO':
+                self.nfe40_pICMSUFDest = 17.5
+            elif self.document_id.partner_id.state_id.code in [
+                    'AM', 'AP', 'BA', 'DF', 'MA', 'MG', 'PB', 'PR', 'PE',
+                    'RN', 'RS', 'SP', 'SE', 'TO'
+            ]:
+                self.nfe40_pICMSUFDest = 18.0
+            elif self.document_id.partner_id.state_id.code == 'RJ':
+                self.nfe40_pICMSUFDest = 20.0
+            self.nfe40_pICMSInter = '7.00'
+            self.nfe40_pICMSInterPart = 100.0
+            self.nfe40_vICMSUFDest = (
+                self.nfe40_vBCUFDest * (
+                (self.nfe40_pICMSUFDest - float(
+                    self.nfe40_pICMSInter)
+                 ) / 100) * (self.nfe40_pICMSInterPart / 100))
+            self.nfe40_vICMSUFRemet = (
+                self.nfe40_vBCUFDest * (
+                (self.nfe40_pICMSUFDest - float(
+                    self.nfe40_pICMSInter)
+                 ) / 100) * ((100 - self.nfe40_pICMSInterPart
+                              ) / 100))
+
         return super(NFeLine, self)._export_fields(
             xsd_fields, class_obj, export_dict)
 
