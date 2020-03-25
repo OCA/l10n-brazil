@@ -363,34 +363,8 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def action_document_confirm(self):
         for record in self:
-            if record.company_id.partner_id.state_id.ibge_code:
-                record.nfe40_cUF = \
-                    record.company_id.partner_id.state_id.ibge_code
-            if record.document_type_id.code:
-                record.nfe40_mod = record.document_type_id.code
             record.date = fields.Datetime.now()
             record.date_in_out = fields.Datetime.now()
-            if record.operation_id.operation_type == 'in':
-                record.nfe40_tpNF = '0'
-            else:
-                record.nfe40_tpNF = '1'
-            if record.company_id.partner_id.state_id == \
-                    record.partner_id.state_id:
-                record.nfe40_idDest = '1'
-            elif record.company_id.partner_id.country_id == \
-                    record.partner_id.country_id:
-                record.nfe40_idDest = '2'
-            else:
-                record.nfe40_idDest = '3'
-            record.nfe40_cMunFG = '%s%s' % (
-                record.company_id.partner_id.state_id.ibge_code,
-                record.company_id.partner_id.city_id.ibge_code)
-            record.nfe40_vBC = sum(record.line_ids.mapped('nfe40_vBC'))
-            record.nfe40_vICMS = sum(record.line_ids.mapped('nfe40_vICMS'))
-            record.nfe40_vPIS = sum(record.line_ids.mapped('nfe40_vPIS'))
-            record.nfe40_vIPI = record.amount_ipi_value
-            record.nfe40_vCOFINS = sum(
-                record.line_ids.mapped('nfe40_vCOFINS'))
             for line in record.line_ids:
                 line.nfe40_NCM = line.ncm_id.code.replace('.', '')
                 line.nfe40_CEST = line.cest_id and line.cest_id.code.replace('.', '') or False
@@ -432,16 +406,43 @@ class NFe(spec_models.StackedModel):
                                 line.nfe40_pICMSInter)
                              ) / 100) * ((100 - line.nfe40_pICMSInterPart
                                           ) / 100))
-            if record.ind_final == '1' and record.nfe40_idDest == '2' and \
-                    record.partner_id.nfe40_indIEDest == '9':
-                record.nfe40_vICMSUFDest = sum(
-                    record.line_ids.mapped('nfe40_vICMSUFDest'))
-                record.nfe40_vICMSUFRemet = sum(
-                    record.line_ids.mapped('nfe40_vICMSUFRemet'))
 
         super(NFe, self).action_document_confirm()
 
+    def _export_fields(self, xsd_fields, class_obj, export_dict):
+        if self.company_id.partner_id.state_id.ibge_code:
+            self.nfe40_cUF = \
+                self.company_id.partner_id.state_id.ibge_code
+        if self.document_type_id.code:
+            self.nfe40_mod = self.document_type_id.code
+        if self.company_id.partner_id.state_id == \
+                self.partner_id.state_id:
+            self.nfe40_idDest = '1'
+        elif self.company_id.partner_id.country_id == \
+                self.partner_id.country_id:
+            self.nfe40_idDest = '2'
+        else:
+            self.nfe40_idDest = '3'
+        self.nfe40_cMunFG = '%s%s' % (
+            self.company_id.partner_id.state_id.ibge_code,
+            self.company_id.partner_id.city_id.ibge_code)
+        self.nfe40_vBC = sum(self.line_ids.mapped('nfe40_vBC'))
+        self.nfe40_vICMS = sum(self.line_ids.mapped('nfe40_vICMS'))
+        self.nfe40_vPIS = sum(self.line_ids.mapped('nfe40_vPIS'))
+        self.nfe40_vIPI = self.amount_ipi_value
+        self.nfe40_vCOFINS = sum(
+            self.line_ids.mapped('nfe40_vCOFINS'))
+        return super(NFe, self)._export_fields(
+            xsd_fields, class_obj, export_dict)
+
     def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field in ('nfe40_vICMSUFDest', 'nfe40_vICMSUFRemet'):
+            if self.ind_final == '1' and self.nfe40_idDest == '2' and \
+                    self.partner_id.nfe40_indIEDest == '9':
+                self.nfe40_vICMSUFDest = sum(
+                    self.line_ids.mapped('nfe40_vICMSUFDest'))
+                self.nfe40_vICMSUFRemet = sum(
+                    self.line_ids.mapped('nfe40_vICMSUFRemet'))
         if xsd_field == 'nfe40_tpAmb':
             self.env.context = dict(self.env.context)
             self.env.context.update({'tpAmb': self[xsd_field]})
