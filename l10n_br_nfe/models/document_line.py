@@ -82,7 +82,14 @@ class NFeLine(spec_models.StackedModel):
         related='cofins_value'
     )
 
+    nfe40_CFOP = fields.Char(
+        related='cfop_id.code'
+    )
     nfe40_indTot = fields.Selection(default='1')
+    nfe40_vIPI = fields.Monetary(
+        related='ipi_value'
+    )
+
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
         for record in self:
