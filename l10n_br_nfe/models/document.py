@@ -1,20 +1,12 @@
-# Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
+# Copyright 2019 Akretion
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import base64
-import logging
-from requests import Session
-
 from erpbrasil.assinatura import certificado as cert
-from erpbrasil.base import misc
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
-from erpbrasil.edoc.pdf import base
+from erpbrasil.edoc import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.v4_00 import leiauteNFe
-
-from odoo import _, api, fields
-
+from odoo import api, fields, models, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     DENEGADO,
@@ -29,24 +21,15 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
-
+from odoo.addons.l10n_br_nfe.sped.nfe.validator import txt
 from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
-from ..constants.nfe import (
-    NFE_ENVIRONMENT_DEFAULT,
-    NFE_ENVIRONMENTS,
-    NFE_VERSION_DEFAULT,
-    NFE_VERSIONS,
-)
+from requests import Session
 
-PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
-
-PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
-
-_logger = logging.getLogger(__name__)
+from .res_company import PROCESSADOR, PROCESSADOR_ERPBRASIL_EDOC
 
 
-def filter_processador_edoc_nfe(record):
+def fiter_processador_edoc_nfe(record):
     if (record.processador_edoc == PROCESSADOR_ERPBRASIL_EDOC and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFE,
@@ -58,17 +41,47 @@ def filter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
-                "nfe.40.tendereco", "nfe.40.tenderemi",
-                "nfe.40.dest", "nfe.40.emit"]
+    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
-    _spec_module = 'odoo.addons.l10n_br_spec_nfe.models.v4_00.leiauteNFe'
+    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
 #    _concrete_skip = ('nfe.40.det',) # will be mixed in later
     _nfe_search_keys = ['nfe40_Id']
 
     # all m2o at this level will be stacked even if not required:
     _force_stack_paths = ('infnfe.total',)
+
+    nfe40_finNFe = fields.Selection(
+        related='edoc_purpose',
+    )
+
+    nfe40_versao = fields.Char(related='document_version')
+    nfe40_nNF = fields.Char(related='number')
+    nfe40_Id = fields.Char(related='key')
+
+    nfe40_emit = fields.Many2one(
+        related="company_id",
+        comodel_name="res.company",
+        original_spec_model="nfe.40.emit",
+    )
+
+    nfe40_dest = fields.Many2one(
+        related='partner_id',
+        comodel_name='res.partner'
+    )  # TODO in invoice
+
+    # TODO should be done by framework?
+    nfe40_det = fields.One2many(related='line_ids',
+                                comodel_name='l10n_br_fiscal.document.line',
+                                inverse_name='document_id')
+
+    nfe40_dhEmi = fields.Datetime(
+        related='date'
+    )
+
+    nfe40_dhSaiEnt = fields.Datetime(
+        related='date_in_out'
+    )
 
     processador_edoc = fields.Selection(
         selection_add=PROCESSADOR,
@@ -76,57 +89,14 @@ class NFe(spec_models.StackedModel):
     )
 
     fiscal_document_event_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.event',
-        inverse_name='fiscal_document_id',
-        string='Events',
+        comodel_name="l10n_br_fiscal.document_event",
+        inverse_name="fiscal_document_event_id",
+        string=u"Eventos",
         copy=False,
     )
 
-    nfe_version = fields.Selection(
-        selection=NFE_VERSIONS,
-        string='NFe Version',
-        default=lambda self: self.env.user.company_id.nfe_version,
-    )
-
-    nfe_environment = fields.Selection(
-        selection=NFE_ENVIRONMENTS,
-        string='NFe Environment',
-        default=lambda self: self.env.user.company_id.nfe_environment,
-    )
-
-    nfe40_finNFe = fields.Selection(
-        related='edoc_purpose',
-    )
-
-    nfe40_versao = fields.Char(
-        related='document_version',
-    )
-
-    nfe40_nNF = fields.Char(
-        related='number',
-    )
-
-    nfe40_Id = fields.Char(
-        related='key',
-    )
-
-    # TODO should be done by framework?
-    nfe40_det = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.line',
-        inverse_name='document_id',
-        related='line_ids',
-    )
-
-    nfe40_dhEmi = fields.Datetime(
-        related='date',
-    )
-
-    nfe40_dhSaiEnt = fields.Datetime(
-        related='date_in_out',
-    )
-
     nfe40_natOp = fields.Char(
-        related='operation_name',
+        related='operation_name'
     )
 
     nfe40_serie = fields.Char(
@@ -134,75 +104,23 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_indFinal = fields.Selection(
-        related='ind_final',
+        related='ind_final'
     )
 
     nfe40_indPres = fields.Selection(
-        related='ind_pres',
+        related='ind_pres'
     )
 
     nfe40_vNF = fields.Monetary(
-        related='amount_total',
+        related='amount_total'
     )
-
-    nfe40_tpAmb = fields.Selection(
-        related='nfe_environment',
-    )
-
-    nfe40_indIEDest = fields.Selection(
-        related='partner_ind_ie_dest',
-    )
-
     nfe40_tpNF = fields.Selection(
         compute='_compute_nfe_data',
         inverse='_inverse_nfe40_tpNF',
     )
 
-    nfe40_tpImp = fields.Selection(
-        default='1',
-    )
-
-    nfe40_modFrete = fields.Selection(
-        default='9',
-    )
-
-    nfe40_tpEmis = fields.Selection(
-        default='1',
-    )
-
-    nfe40_procEmi = fields.Selection(
-        default='0',
-    )
-
-    nfe40_verProc = fields.Char(
-        default='Odoo Brasil v12.0', # Shound be a ir.parameter?
-    )
-
-    nfe40_CRT = fields.Selection(
-        related='company_tax_framework',
-    )
-
-    nfe40_infAdic = fields.Many2one(
-        compute='_compute_inf_adic',
-    )
-
+    @api.depends('operation_type')
     @api.multi
-    @api.depends('fiscal_additional_data', 'customer_additional_data')
-    def _compute_inf_adic(self):
-        for d in self:
-            if d.fiscal_additional_data or d.customer_additional_data:
-                inf_adic_vals = {
-                    'nfe40_infAdFisco': d.fiscal_additional_data,
-                    'nfe40_infCpl': d.customer_additional_data,
-                }
-                if not d.nfe40_infAdic:
-                    d.nfe40_infAdic = self.env['nfe.40.infadic'].create(
-                        inf_adic_vals)
-                else:
-                    d.nfe40_infAdic.write(inf_adic_vals)
-
-    @api.multi
-    @api.depends('fiscal_operation_type')
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
@@ -210,7 +128,7 @@ class NFe(spec_models.StackedModel):
                 'out': '1',
                 'in': '0',
             }
-            rec.nfe40_tpNF = operation_2_tpNF[rec.fiscal_operation_type]
+            rec.nfe40_tpNF = operation_2_tpNF[rec.operation_type]
 
     def _inverse_nfe40_tpNF(self):
         for rec in self:
@@ -219,7 +137,7 @@ class NFe(spec_models.StackedModel):
                     '1': 'out',
                     '0': 'in',
                 }
-                rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
+                rec.operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
     def _generate_key(self):
         key = super()._generate_key()
@@ -284,15 +202,23 @@ class NFe(spec_models.StackedModel):
 
     @api.multi
     def document_number(self):
-        super().document_number()
-        if self.key and len(self.key) == 47:
+        super(NFe, self).document_number()
+        if len(self.key) == 47:
             self.nfe40_cNF = self.key[38:-1]
             self.nfe40_cDV = self.key[-1]
 
+    @api.multi
+    def document_check(self):
+        super(NFe, self).document_check()
+        to_check = self.filtered(
+            lambda inv: self.document_type_id.code == '55'
+        )
+        if to_check:
+            txt.validate(to_check)
+
     def _serialize(self, edocs):
-        edocs = super()._serialize(edocs)
-        for record in self.with_context(
-            {'lang': 'pt_BR'}).filtered(filter_processador_edoc_nfe):
+        edocs = super(NFe, self)._serialize(edocs)
+        for record in self.filtered(fiter_processador_edoc_nfe):
             inf_nfe = record.export_ds()[0]
 
             tnfe = leiauteNFe.TNFe(
@@ -305,7 +231,7 @@ class NFe(spec_models.StackedModel):
 
         return edocs
 
-    def _processador(self):
+    def _procesador(self):
         if not self.company_id.certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
 
@@ -318,32 +244,16 @@ class NFe(spec_models.StackedModel):
         transmissao = TransmissaoSOAP(certificado, session)
         return edoc_nfe(
             transmissao, self.company_id.state_id.ibge_code,
-            versao=self.nfe_version, ambiente=self.nfe_environment
+            versao='4.00', ambiente='2'
         )
 
     @api.multi
-    def _document_export(self, pretty_print=True):
-        super()._document_export()
-        for record in self.filtered(filter_processador_edoc_nfe):
-            # TODO map this better
-            total = sum(self.line_ids.filtered(
-                lambda l: l.cfop_id.finance_move).mapped('amount_total'))
-            tpag = '99'
-            if not total:
-                tpag = '90'
-
-            record.nfe40_detPag = [(5, 0, 0), (0, 0, {
-                'nfe40_indPag': '0',
-                'nfe40_tPag': tpag,
-                'nfe40_vPag': total,
-            })]
-            record.nfe40_detPag.__class__._field_prefix = 'nfe40_'
-
+    def _document_export(self):
+        super(NFe, self)._document_export()
+        for record in self.filtered(fiter_processador_edoc_nfe):
             edoc = record.serialize()[0]
-            processador = record._processador()
-            xml_file = processador.\
-                _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
-            _logger.debug(xml_file)
+            procesador = record._procesador()
+            xml_file = procesador._generateds_to_string_etree(edoc)[0]
             event_id = self._gerar_evento(xml_file, event_type="0")
             record.autorizacao_event_id = event_id
 
@@ -373,47 +283,16 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
-        for record in self.filtered(filter_processador_edoc_nfe):
-            # TODO map this better
-            total = sum(self.line_ids.filtered(
-                lambda l: l.cfop_id.finance_move).mapped('amount_total'))
-            tpag = '99'
-            if not total:
-                tpag = '90'
-            record.nfe40_detPag = [(5, 0, 0), (0, 0, {
-                'nfe40_indPag': '0',
-                'nfe40_tPag': tpag,
-                'nfe40_vPag': total,
-            })]
-            record.nfe40_detPag.__class__._field_prefix = 'nfe40_'
-
-            processador = record._processador()
+        for record in self.filtered(fiter_processador_edoc_nfe):
+            procesador = record._procesador()
             for edoc in record.serialize():
                 processo = None
-                for p in processador.processar_documento(edoc):
+                for p in procesador.processar_documento(edoc):
                     processo = p
-                    if processo.webservice == 'nfeAutorizacaoLote':
-                        event_id = self._gerar_evento(
-                            processo.envio_xml.decode('utf-8'),
-                            event_type="0")
-                        record.autorizacao_event_id = event_id
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
-                protocolos = processo.resposta.protNFe
-                if type(protocolos) != list:
-                    protocolos = [protocolos]
-                for protocolo in protocolos:
-                    nfe_proc = leiauteNFe.TNfeProc(
-                        NFe=edoc,
-                        protNFe=protocolo,
-                    )
-                    nfe_proc.original_tagname_ = 'nfeProc'
-                    xml_file = \
-                        processador._generateds_to_string_etree(nfe_proc)[0]
-                    record.autorizacao_event_id.set_done(xml_file)
+                for protocolo in processo.resposta.protNFe:
                     record.atualiza_status_nfe(protocolo.infProt)
-                    if protocolo.infProt.cStat == AUTORIZADO:
-                        record.gera_pdf()
             elif processo.resposta.cStat == '225':
                 state = SITUACAO_EDOC_REJEITADA
 
@@ -428,9 +307,9 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def cancel_invoice_online(self, justificative):
         super(NFe, self).cancel_invoice_online(justificative)
-        for record in self.filtered(filter_processador_edoc_nfe):
+        for record in self.filtered(fiter_processador_edoc_nfe):
             if record.state in ('open', 'paid'):
-                processador = record._processador()
+                processador = record._procesador()
 
                 evento = processador.cancela_documento(
                     chave=record.edoc_access_key,
@@ -462,9 +341,9 @@ class NFe(spec_models.StackedModel):
 
     # def cce_invoice_online(self, justificative):
     #     super(NFe, self).cce_invoice_online(justificative)
-    #     for record in self.filtered(filter_processador_edoc_nfe):
+    #     for record in self.filtered(fiter_processador_edoc_nfe):
     #         if record.state in ('open', 'paid'):
-    #             processador = record._processador()
+    #             processador = record._procesador()
     #
     #             evento = processador.carta_correcao(
     #                 chave=record.edoc_access_key,
@@ -479,172 +358,94 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def action_document_confirm(self):
         for record in self:
+            if record.company_id.partner_id.state_id.ibge_code:
+                record.nfe40_cUF = \
+                    record.company_id.partner_id.state_id.ibge_code
+            if record.document_type_id.code:
+                record.nfe40_mod = record.document_type_id.code
             record.date = fields.Datetime.now()
             record.date_in_out = fields.Datetime.now()
+            if record.operation_id.operation_type == 'in':
+                record.nfe40_tpNF = '0'
+            else:
+                record.nfe40_tpNF = '1'
+            if record.company_id.partner_id.state_id == \
+                    record.partner_id.state_id:
+                record.nfe40_idDest = '1'
+            elif record.company_id.partner_id.country_id == \
+                    record.partner_id.country_id:
+                record.nfe40_idDest = '2'
+            else:
+                record.nfe40_idDest = '3'
+            record.nfe40_cMunFG = '%s%s' % (
+                record.company_id.partner_id.state_id.ibge_code,
+                record.company_id.partner_id.city_id.ibge_code)
+            record.nfe40_tpImp = '1'
+            record.nfe40_tpEmis = '1'
+            record.nfe40_tpAmb = '2'
+            record.nfe40_procEmi = '0'
+            record.nfe40_verProc = 'Odoo Brasil v12.0'
+            record.nfe40_vBC = sum(record.line_ids.mapped('nfe40_vBC'))
+            record.nfe40_vICMS = sum(record.line_ids.mapped('nfe40_vICMS'))
+            record.nfe40_vPIS = sum(record.line_ids.mapped('nfe40_vPIS'))
+            record.nfe40_vIPI = record.amount_ipi_value
+            record.nfe40_vCOFINS = sum(
+                record.line_ids.mapped('nfe40_vCOFINS'))
+            for line in record.line_ids:
+                line.nfe40_NCM = line.ncm_id.code.replace('.', '')
+                line.nfe40_CEST = line.cest_id and line.cest_id.code.replace('.', '') or False
+                line.nfe40_CFOP = line.cfop_id.code
+                line.nfe40_qCom = line.quantity
+                line.nfe40_qTrib = line.quantity
+                line.nfe40_indTot = '1'
+                line.nfe40_pICMS = line.icms_percent
+                line.nfe40_pIPI = line.ipi_percent
+                line.nfe40_vIPI = line.ipi_value
+                line.nfe40_cEnq = str(line.ipi_guideline_id.code or '999'
+                                      ).zfill(3)
+                line.nfe40_pPIS = line.pis_percent
+                line.nfe40_pCOFINS = line.cofins_percent
+                if record.ind_final == '1' and record.nfe40_idDest == '2' and \
+                        record.partner_id.nfe40_indIEDest == '9':
+                    line.nfe40_vBCUFDest = line.nfe40_vBC
+                    if record.partner_id.state_id.code in [
+                            'AC', 'CE', 'ES', 'GO', 'MT', 'MS', 'PA',
+                            'PI', 'RR', 'SC']:
+                        line.nfe40_pICMSUFDest = 17.0
+                    elif record.partner_id.state_id.code == 'RO':
+                        line.nfe40_pICMSUFDest = 17.5
+                    elif record.partner_id.state_id.code in [
+                            'AM', 'AP', 'BA', 'DF', 'MA', 'MG', 'PB', 'PR',
+                            'PE', 'RN', 'RS', 'SP', 'SE', 'TO']:
+                        line.nfe40_pICMSUFDest = 18.0
+                    elif record.partner_id.state_id.code == 'RJ':
+                        line.nfe40_pICMSUFDest = 20.0
+                    line.nfe40_pICMSInter = '7.00'
+                    line.nfe40_pICMSInterPart = 100.0
+                    line.nfe40_vICMSUFDest = (
+                        line.nfe40_vBCUFDest * (
+                            (line.nfe40_pICMSUFDest - float(
+                                line.nfe40_pICMSInter)
+                             ) / 100) * (line.nfe40_pICMSInterPart / 100))
+                    line.nfe40_vICMSUFRemet = (
+                        line.nfe40_vBCUFDest * (
+                            (line.nfe40_pICMSUFDest - float(
+                                line.nfe40_pICMSInter)
+                             ) / 100) * ((100 - line.nfe40_pICMSInterPart
+                                          ) / 100))
+            if record.ind_final == '1' and record.nfe40_idDest == '2' and \
+                    record.partner_id.nfe40_indIEDest == '9':
+                record.nfe40_vICMSUFDest = sum(
+                    record.line_ids.mapped('nfe40_vICMSUFDest'))
+                record.nfe40_vICMSUFRemet = sum(
+                    record.line_ids.mapped('nfe40_vICMSUFRemet'))
 
         super(NFe, self).action_document_confirm()
 
-    def _export_fields(self, xsd_fields, class_obj, export_dict):
-        if self.company_id.partner_id.state_id.ibge_code:
-            self.nfe40_cUF = \
-                self.company_id.partner_id.state_id.ibge_code
-        if self.document_type_id.code:
-            self.nfe40_mod = self.document_type_id.code
-        if self.company_id.partner_id.state_id == \
-                self.partner_id.state_id:
-            self.nfe40_idDest = '1'
-        elif self.company_id.partner_id.country_id == \
-                self.partner_id.country_id:
-            self.nfe40_idDest = '2'
-        else:
-            self.nfe40_idDest = '3'
-        self.nfe40_cMunFG = '%s%s' % (
-            self.company_id.partner_id.state_id.ibge_code,
-            self.company_id.partner_id.city_id.ibge_code)
-        self.nfe40_vBC = sum(self.line_ids.mapped('nfe40_vBC'))
-        self.nfe40_vICMS = sum(self.line_ids.mapped('nfe40_vICMS'))
-        self.nfe40_vPIS = sum(self.line_ids.mapped('nfe40_vPIS'))
-        self.nfe40_vIPI = self.amount_ipi_value
-        self.nfe40_vCOFINS = sum(
-            self.line_ids.mapped('nfe40_vCOFINS'))
-        return super(NFe, self)._export_fields(
-            xsd_fields, class_obj, export_dict)
-
     def _export_field(self, xsd_field, class_obj, member_spec):
-        if xsd_field in ('nfe40_vICMSUFDest', 'nfe40_vICMSUFRemet'):
-            if self.ind_final == '1' and self.nfe40_idDest == '2' and \
-                    self.nfe40_indIEDest == '9':
-                self.nfe40_vICMSUFDest = sum(
-                    self.line_ids.mapped('nfe40_vICMSUFDest'))
-                self.nfe40_vICMSUFRemet = sum(
-                    self.line_ids.mapped('nfe40_vICMSUFRemet'))
         if xsd_field == 'nfe40_tpAmb':
             self.env.context = dict(self.env.context)
             self.env.context.update({'tpAmb': self[xsd_field]})
-
-        if xsd_field == 'nfe40_CNPJ':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_cnpj_cpf:
-                    return self.company_cnpj_cpf.replace(
-                        '.', '').replace('/', '').replace('-', '')
-            elif class_obj._name == 'nfe.40.dest' and self.partner_is_company:
-                if self.partner_cnpj_cpf:
-                    return self.partner_cnpj_cpf.replace(
-                        '.', '').replace('/', '').replace('-', '')
-        if xsd_field == 'nfe40_CPF':
-            if class_obj._name == 'nfe.40.dest' and \
-                    not self.partner_is_company:
-                if self.partner_cnpj_cpf:
-                    return self.partner_cnpj_cpf.replace(
-                        '.', '').replace('/', '').replace('-', '')
-        if xsd_field == 'nfe40_xNome':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_legal_name:
-                    return self.company_legal_name
-            if class_obj._name == 'nfe.40.dest':
-                if self.nfe40_tpAmb == '2':
-                    return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO ' \
-                           '- SEM VALOR FISCAL'
-                if self.partner_legal_name:
-                    return self.partner_legal_name
-        if xsd_field == 'nfe40_IE':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_inscr_est:
-                    return self.company_inscr_est.replace('.', '')
-            if class_obj._name == 'nfe.40.dest':
-                if self.partner_inscr_est:
-                    return self.partner_inscr_est.replace('.', '')
-        if xsd_field == 'nfe40_ISUF':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_suframa:
-                    return self.company_suframa
-            if class_obj._name == 'nfe.40.dest':
-                if self.partner_suframa:
-                    return self.partner_suframa
-
-        if xsd_field == 'nfe40_xLgr':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_street:
-                    return self.company_street
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_street:
-                    return self.partner_street
-        if xsd_field == 'nfe40_nro':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_number:
-                    return self.company_number
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_number:
-                    return self.partner_number
-        if xsd_field == 'nfe40_xCpl':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_street2:
-                    return self.company_street2
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_street2:
-                    return self.partner_street2
-        if xsd_field == 'nfe40_xBairro':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_district:
-                    return self.company_district
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_district:
-                    return self.partner_district
-        if xsd_field == 'nfe40_cMun':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_state_id and self.company_city_id:
-                    return '%s%s' % (self.company_state_id.ibge_code,
-                                     self.company_city_id.ibge_code)
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_state_id and self.partner_city_id:
-                    return '%s%s' % (self.partner_state_id.ibge_code,
-                                     self.partner_city_id.ibge_code)
-        if xsd_field == 'nfe40_xMun':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_city_id.name:
-                    return self.company_city_id.name
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_city_id.name:
-                    return self.partner_city_id.name
-        if xsd_field == 'nfe40_UF':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_state_id.code:
-                    return self.company_state_id.code
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_state_id.code:
-                    return self.partner_state_id.code
-        if xsd_field == 'nfe40_CEP':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_zip:
-                    return self.company_zip.replace('-', '')
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_zip:
-                    return self.partner_zip.replace('-', '')
-        if xsd_field == 'nfe40_cPais':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_country_id.ibge_code:
-                    return self.company_country_id.ibge_code
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_country_id.ibge_code:
-                    return self.partner_country_id.ibge_code
-        if xsd_field == 'nfe40_xPais':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_country_id.name:
-                    return self.company_country_id.name
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_country_id.name:
-                    return self.partner_country_id.name
-        if xsd_field == 'nfe40_fone':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_phone:
-                    return self.company_phone.replace('(', '').replace(
-                        ')', '').replace(' ', '').replace(
-                        '-', '').replace('+', '')
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_phone:
-                    return self.partner_phone.replace('(', '').replace(
-                        ')', '').replace(' ', '').replace(
-                        '-', '').replace('+', '')
 
         return super(NFe, self)._export_field(
             xsd_field, class_obj, member_spec)
@@ -653,12 +454,11 @@ class NFe(spec_models.StackedModel):
         if not self[field_name] and not xsd_required:
             if not any(self[f] for f in self[field_name]._fields
                        if self._fields[f]._attrs.get('xsd')) and \
-                    field_name not in ['nfe40_PIS', 'nfe40_COFINS',
-                                       'nfe40_enderDest']:
+                    field_name not in ['nfe40_PIS', 'nfe40_COFINS']:
                 return False
-        if field_name == 'nfe40_ISSQNtot' and not any(
-                t == 'issqn' for t in
-                self.nfe40_det.mapped('product_id.tax_icms_or_issqn')
+        if field_name == 'nfe40_ISSQNtot' and all(
+                t == 'consu' for t in
+                self.nfe40_det.mapped('product_id.type')
         ):
             self[field_name] = False
             return False
@@ -683,102 +483,6 @@ class NFe(spec_models.StackedModel):
                 field_data.nItem = i
         return res
 
-    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
-                    defaults):
-        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
-        value = getattr(node, attr.get_name())
-        comodel_name = "nfe.40.%s" % (node.original_tagname_,)
-
-        if key == 'nfe40_mod':
-            vals['document_section'] = 'nfe' if value == '55' else False
-            vals['document_type_id'] = \
-                self.env['l10n_br_fiscal.document.type'].search([
-                    ('code', '=', value)], limit=1).id
-
-        if key == 'nfe40_CNPJ':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_cnpj_cpf'] = value
-            elif comodel_name == 'nfe.40.dest':
-                vals['partner_is_company'] = True
-                vals['partner_cnpj_cpf'] = value
-        if key == 'nfe40_CPF':
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_is_company'] = False
-                vals['partner_cnpj_cpf'] = value
-        if key == 'nfe40_xNome':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_legal_name'] = value
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_legal_name'] = value
-        if key == 'nfe40_IE':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_inscr_est'] = value
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_inscr_est'] = value
-        if key == 'nfe40_ISUF':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_suframa'] = value
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_suframa'] = value
-
-        if key == 'nfe40_xLgr':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_street'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_street'] = value
-        if key == 'nfe40_nro':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_number'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_number'] = value
-        if key == 'nfe40_xCpl':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_street2'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_street2'] = value
-        if key == 'nfe40_xBairro':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_district'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_district'] = value
-        if key == 'nfe40_cMun':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_state_id'] = \
-                    self.env['res.country.state'].search([
-                        ('ibge_code', '=', value[:2])], limit=1).id
-                vals['company_city_id'] = \
-                    self.env['res.city'].search([
-                        ('ibge_code', '=', value[2:])], limit=1).id
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_state_id'] = \
-                    self.env['res.country.state'].search([
-                        ('ibge_code', '=', value[:2])], limit=1).id
-                vals['partner_city_id'] = \
-                    self.env['res.city'].search([
-                        ('ibge_code', '=', value[2:])], limit=1).id
-        if key == 'nfe40_CEP':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_zip'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_zip'] = value
-        if key == 'nfe40_cPais':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_country_id'] = \
-                    self.env['res.country'].search([
-                        ('ibge_code', '=', value)], limit=1).id
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_country_id'] = \
-                    self.env['res.country'].search([
-                        ('ibge_code', '=', value)], limit=1).id
-        if key == 'nfe40_fone':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_phone'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_phone'] = value
-
-        return super(NFe, self)._build_attr(
-            node, fields, vals, path, attr, create_m2o, defaults)
-
     def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
         if self._name == 'account.invoice' and \
                 comodel._name == 'l10n_br_fiscal.document':
@@ -788,34 +492,345 @@ class NFe(spec_models.StackedModel):
             super(NFe, self)._build_many2one(comodel, vals, new_value,
                                              key, create_m2o)
 
-    def gera_pdf(self):
-        file_pdf = self.file_pdf_id
-        self.file_pdf_id = False
-        file_pdf.unlink()
-        output = self.autorizacao_event_id.monta_caminho(
-            ambiente=self.nfe40_tpAmb,
-            company_id=self.company_id,
-            chave=self.key,
-        )
-        arquivo = output + self.file_xml_autorizacao_id.datas_fname
-        base.ImprimirXml.imprimir(caminho_xml=arquivo, output_dir=output)
-        file_name = 'danfe.pdf'
-        with open(output + file_name, 'rb') as f:
-            arquivo_data = f.read()
 
-        self.file_pdf_id = self.env['ir.attachment'].create(
-            {
-                "name": file_name,
-                "datas_fname": file_name,
-                "res_model": self._name,
-                "res_id": self.id,
-                "datas": base64.b64encode(arquivo_data),
-                "mimetype": "application/pdf",
-                "type": "binary",
-            }
-        )
+class NFeLine(spec_models.StackedModel):
+    _name = 'l10n_br_fiscal.document.line'
+    _inherit = ["l10n_br_fiscal.document.line", "nfe.40.det"]
+    _stacked = 'nfe.40.det'
+    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
+    _stack_skip = 'nfe40_det_infNFe_id'
+    # all m2o below this level will be stacked even if not required:
+    _force_stack_paths = ('det.imposto',)
+    _rec_name = 'nfe40_xProd'
 
-    def view_pdf(self):
-        if not self.file_pdf_id:
-            self.gera_pdf()
-        return super(NFe, self).view_pdf()
+    nfe40_cProd = fields.Char(related='product_id.default_code')
+    nfe40_xProd = fields.Char(related='product_id.name')
+    nfe40_cEAN = fields.Char(related='product_id.barcode')
+    nfe40_cEANTrib = fields.Char(related='product_id.barcode')
+    nfe40_uCom = fields.Char(related='product_id.uom_id.code')
+    nfe40_uTrib = fields.Char(related='product_id.uom_id.code')
+    nfe40_vUnCom = fields.Float(related='price')  # TODO sure?
+    nfe40_vUnTrib = fields.Float(related='fiscal_price')  # TODO sure?
+
+    nfe40_choice9 = fields.Selection([
+        ('normal', 'Produto Normal'),  # overriden to allow normal product
+        ('nfe40_veicProd', 'Veículo'),
+        ('nfe40_med', 'Medicamento'),
+        ('nfe40_arma', 'Arma'),
+        ('nfe40_comb', 'Combustível'),
+        ('nfe40_nRECOPI', 'Número do RECOPI')],
+        "Típo de Produto",
+        default="normal")
+
+    nfe40_choice11 = fields.Selection(
+        compute='_compute_choice11',
+        store=True,
+    )
+
+    nfe40_choice12 = fields.Selection(
+        compute='_compute_choice12',
+        store=True,
+    )
+
+    nfe40_choice15 = fields.Selection(
+        compute='_compute_choice15',
+        store=True,
+    )
+
+    nfe40_choice3 = fields.Selection(
+        compute='_compute_choice3',
+        store=True,
+    )
+
+    nfe40_choice20 = fields.Selection(
+        compute='_compute_nfe40_choice20',
+        store=True,
+    )
+
+    nfe40_orig = fields.Selection(
+        related='icms_origin'
+    )
+
+    nfe40_modBC = fields.Selection(
+        related='icms_base_type'
+    )
+
+    nfe40_vBC = fields.Monetary(
+        related='icms_base'
+    )
+
+    nfe40_vICMS = fields.Monetary(
+        related='icms_value'
+    )
+
+    nfe40_vPIS = fields.Monetary(
+        related='pis_value'
+    )
+
+    nfe40_vCOFINS = fields.Monetary(
+        related='cofins_value'
+    )
+
+    @api.depends('icms_cst_id')
+    def _compute_choice11(self):
+        for record in self:
+            if record.icms_cst_id.code == '00':
+                record.nfe40_choice11 = 'nfe40_ICMS00'
+            elif record.icms_cst_id.code == '10':
+                record.nfe40_choice11 = 'nfe40_ICMS10'
+            elif record.icms_cst_id.code == '20':
+                record.nfe40_choice11 = 'nfe40_ICMS20'
+            elif record.icms_cst_id.code == '30':
+                record.nfe40_choice11 = 'nfe40_ICMS30'
+            elif record.icms_cst_id.code in ['40', '41', '50']:
+                record.nfe40_choice11 = 'nfe40_ICMS40'
+            elif record.icms_cst_id.code == '51':
+                record.nfe40_choice11 = 'nfe40_ICMS51'
+            elif record.icms_cst_id.code == '60':
+                record.nfe40_choice11 = 'nfe40_ICMS60'
+            elif record.icms_cst_id.code == '70':
+                record.nfe40_choice11 = 'nfe40_ICMS70'
+            elif record.icms_cst_id.code == '90':
+                record.nfe40_choice11 = 'nfe40_ICMS90'
+            elif record.icms_cst_id.code == '400':
+                record.nfe40_choice11 = 'nfe40_ICMSSN102'
+
+    @api.depends('pis_cst_id')
+    def _compute_choice12(self):
+        for record in self:
+            if record.pis_cst_id.code in ['01', '02']:
+                record.nfe40_choice12 = 'nfe40_PISAliq'
+            elif record.pis_cst_id.code == '03':
+                record.nfe40_choice12 = 'nfe40_PISQtde'
+            elif record.pis_cst_id.code in ['04', '06', '07', '08', '09']:
+                record.nfe40_choice12 = 'nfe40_PISNT'
+            else:
+                record.nfe40_choice12 = 'nfe40_PISOutr'
+
+    @api.depends('cofins_cst_id')
+    def _compute_choice15(self):
+        for record in self:
+            if record.cofins_cst_id.code in ['01', '02']:
+                record.nfe40_choice15 = 'nfe40_COFINSAliq'
+            elif record.cofins_cst_id.code == '03':
+                record.nfe40_choice15 = 'nfe40_COFINSQtde'
+            elif record.cofins_cst_id.code in ['04', '06', '07', '08', '09']:
+                record.nfe40_choice15 = 'nfe40_COFINSNT'
+            else:
+                record.nfe40_choice15 = 'nfe40_COFINSOutr'
+
+    @api.depends('ipi_cst_id')
+    def _compute_choice3(self):
+        for record in self:
+            if record.ipi_cst_id.code in ['00', '49', '50', '99']:
+                record.nfe40_choice3 = 'nfe40_IPITrib'
+            else:
+                record.nfe40_choice3 = 'nfe40_IPINT'
+
+    @api.depends('ipi_base_type')
+    def _compute_nfe40_choice20(self):
+        for record in self:
+            if record.ipi_base_type == 'percent':
+                record.nfe40_choice20 = 'nfe40_pIPI'
+            else:
+                record.nfe40_choice20 = 'nfe40_vUnid'
+
+    def _export_fields(self, xsd_fields, class_obj, export_dict):
+        if class_obj._name == 'nfe.40.icms':
+            xsd_fields = [self.nfe40_choice11]
+        elif class_obj._name == 'nfe.40.tipi':
+            xsd_fields = [f for f in xsd_fields if f not in [
+                i[0] for i in class_obj._fields['nfe40_choice3'].selection]]
+            xsd_fields += [self.nfe40_choice3]
+        elif class_obj._name == 'nfe.40.pis':
+            xsd_fields = [self.nfe40_choice12]
+        elif class_obj._name == 'nfe.40.cofins':
+            xsd_fields = [self.nfe40_choice15]
+        elif class_obj._name == 'nfe.40.ipitrib':
+            xsd_fields = [i for i in xsd_fields]
+            if self.nfe40_choice20 == 'nfe40_pIPI':
+                xsd_fields.remove('nfe40_qUnid')
+                xsd_fields.remove('nfe40_vUnid')
+            else:
+                xsd_fields.remove('nfe40_vBC')
+                xsd_fields.remove('nfe40_pIPI')
+        return super(NFeLine, self)._export_fields(
+            xsd_fields, class_obj, export_dict)
+
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
+                not self[xsd_field]:
+            return 'SEM GTIN'
+        elif xsd_field == 'nfe40_CST':
+            if class_obj._name.startswith('nfe.40.icms'):
+                return self.icms_cst_id.code
+            elif class_obj._name.startswith('nfe.40.ipi'):
+                return self.ipi_cst_id.code
+            elif class_obj._name.startswith('nfe.40.pis'):
+                return self.pis_cst_id.code
+            elif class_obj._name.startswith('nfe.40.cofins'):
+                return self.cofins_cst_id.code
+        else:
+            return super(NFeLine, self)._export_field(
+                xsd_field, class_obj, member_spec)
+
+    def _export_many2one(self, field_name, xsd_required, class_obj=None):
+        if not self[field_name] and not xsd_required:
+            if not any(self[f] for f in self[field_name]._fields
+                       if self._fields[f]._attrs.get('xsd')) and \
+                    field_name not in ['nfe40_PIS', 'nfe40_COFINS']:
+                return False
+        if field_name == 'nfe40_ISSQN' and \
+                self.product_id.type == 'consu':
+            self[field_name] = False
+            return False
+        if field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
+            self[field_name] = False
+            return False
+        return super(NFeLine, self)._export_many2one(
+            field_name, xsd_required, class_obj)
+
+    def _export_float_monetary(self, field_name, member_spec, class_obj,
+                               xsd_required):
+        if field_name == 'nfe40_vProd' and class_obj._name == 'nfe.40.prod':
+            self[field_name] = self['nfe40_qCom'] * self['nfe40_vUnCom']
+        if field_name == 'nfe40_pICMSInterPart':
+            self[field_name] = 100.0
+        if not self[field_name] and not xsd_required:
+            if not (class_obj._name == 'nfe.40.imposto' and
+                    field_name == 'nfe40_vTotTrib') and not \
+                    (class_obj._name == 'nfe.40.fat'):
+                self[field_name] = False
+                return False
+        return super(NFeLine, self)._export_float_monetary(
+            field_name, member_spec, class_obj, xsd_required)
+
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
+                    defaults):
+        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
+
+        if key.startswith('nfe40_ICMS') and key not in [
+                'nfe40_ICMS', 'nfe40_ICMSTot', 'nfe40_ICMSUFDest']:
+            vals['nfe40_choice11'] = key
+
+        if key.startswith('nfe40_IPI') and key != 'nfe40_IPI':
+            vals['nfe40_choice3'] = key
+
+        if key.startswith('nfe40_PIS') and key not in [
+                'nfe40_PIS', 'nfe40_PISST']:
+            vals['nfe40_choice12'] = key
+
+        if key.startswith('nfe40_COFINS') and key not in [
+                'nfe40_COFINS', 'nfe40_COFINSST']:
+            vals['nfe40_choice15'] = key
+
+        return super(NFeLine, self)._build_attr(
+            node, fields, vals, path, attr, create_m2o, defaults)
+
+    def _build_string_not_simple_type(self, key, vals, value, node):
+        if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN']:
+            super(NFeLine, self)._build_string_not_simple_type(
+                key, vals, value, node)
+            # TODO avoid collision with cls prefix
+        elif key == 'nfe40_CST':
+            if node.original_tagname_.startswith('ICMS'):
+                vals['icms_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'icms')])[0].id
+            if node.original_tagname_.startswith('IPI'):
+                vals['ipi_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'ipi')])[0].id
+            if node.original_tagname_.startswith('PIS'):
+                vals['pis_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'pis')])[0].id
+            if node.original_tagname_.startswith('COFINS'):
+                vals['cofins_cst_id'] = \
+                    self.env['l10n_br_fiscal.cst'].search(
+                        [('code', '=', value),
+                         ('tax_domain', '=', 'cofins')])[0].id
+        elif key == 'nfe40_modBC':
+            vals['icms_base_type'] = value
+
+    def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
+        if self._name == 'account.invoice.line' and \
+                comodel._name == 'l10n_br_fiscal.document.line':
+            # TODO do not hardcode!!
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            super(NFeLine, self)._build_many2one(comodel, vals, new_value,
+                                                 key, create_m2o)
+
+    def _verify_related_many2ones(self, related_many2ones):
+        if related_many2ones.get('product_id', {}).get('barcode') and \
+                related_many2ones['product_id']['barcode'] == 'SEM GTIN':
+            del related_many2ones['product_id']['barcode']
+        return super(NFeLine, self)._verify_related_many2ones(
+            related_many2ones)
+
+    def _get_aditional_keys(self, model, rec_dict, keys):
+        if model._name == 'product.product' and rec_dict.get('barcode'):
+            return ['barcode'] + super(NFeLine, self)._get_aditional_keys(
+                model, rec_dict, keys)
+
+
+class ResCity(models.Model):
+    _inherit = "res.city"
+    _nfe_search_keys = ['ibge_code']
+
+    # TODO understand why this is still required
+    @api.model
+    def match_or_create_m2o(self, rec_dict, parent_dict,
+                            create_m2o=False, model=None):
+        "if city not found, break hard, don't create it"
+        if parent_dict.get('nfe40_cMun') or parent_dict.get('nfe40_cMunFG'):
+            ibge_code = parent_dict.get('nfe40_cMun',
+                                        parent_dict.get('nfe40_cMunFG'))
+            ibge_code = ibge_code[2:8]
+            domain = [('ibge_code', '=', ibge_code)]
+            match = self.search(domain, limit=1)
+            if match:
+                return match.id
+        return False
+
+
+class Uom(models.Model):
+    _inherit = "uom.uom"
+
+    @api.model
+    def match_or_create_m2o(self, rec_dict, parent_dict,
+                            create_m2o=False, model=None):
+        "if uom not found, break hard, don't create it"
+        if rec_dict.get('name'):
+            # TODO FIXME where are the BR unit names supposed to live?
+            BR2ODOO = {'UN': 'Unit(s)', 'LU': 'Liter(s)'}
+            name = BR2ODOO.get(rec_dict['name'], rec_dict['name'])
+            domain = [('name', '=', name)]
+            match = self.search(domain, limit=1)
+            if match:
+                return match.id
+        return False
+
+
+class ResCountryState(models.Model):
+    _inherit = "res.country.state"
+    _nfe_search_keys = ['ibge_code', 'code']
+    _nfe_extra_domain = [('ibge_code', '!=', False)]
+
+
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field == 'nfe40_xNome' and \
+                class_obj._name == 'nfe.40.dest' and \
+                self.env.context.get('tpAmb') == '2':
+            return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO' \
+                   ' - SEM VALOR FISCAL'
+        return super(ResPartner, self)._export_field(
+            xsd_field, class_obj, member_spec)
