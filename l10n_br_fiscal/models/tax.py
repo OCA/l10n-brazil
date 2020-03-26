@@ -9,6 +9,7 @@ from ..constants.fiscal import (
     FISCAL_OUT,
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
+    TAX_BASE_TYPE_VALUE,
     TAX_DOMAIN,
     NFE_IND_IE_DEST_1,
     NFE_IND_IE_DEST_2,
@@ -72,19 +73,19 @@ class Tax(models.Model):
 
     percent_amount = fields.Float(
         string="Percent",
-        default="0.00",
+        default=0.00,
         digits=dp.get_precision("Fiscal Tax Percent"),
         required=True)
 
     percent_reduction = fields.Float(
         string="Percent Reduction",
-        default="0.00",
+        default=0.00,
         digits=dp.get_precision("Fiscal Tax Percent"),
         required=True)
 
     percent_debit_credit = fields.Float(
         string="Percent Debit/Credit",
-        default="0.00",
+        default=0.00,
         digits=dp.get_precision("Fiscal Tax Percent"),
         required=True)
 
@@ -95,7 +96,7 @@ class Tax(models.Model):
 
     value_amount = fields.Float(
         string="Value",
-        default="0.00",
+        default=0.00,
         digits=dp.get_precision("Fiscal Tax Value"),
         required=True)
 
@@ -134,9 +135,9 @@ class Tax(models.Model):
         required=True,
         default=ICMS_BASE_TYPE_DEFAULT)
 
-    icms_st_base_type = fields.Selection(
+    icmsst_base_type = fields.Selection(
         selection=ICMS_ST_BASE_TYPE,
-        string=u"Tipo Base ICMS ST",
+        string="ICMS ST Base Type",
         required=True,
         default=ICMS_ST_BASE_TYPE_DEFAULT)
 
@@ -287,7 +288,8 @@ class Tax(models.Model):
         kwargs.update({
             'add_to_base': sum(add_to_base),
             'remove_from_base': sum(remove_from_base),
-            'compute_reduction': compute_reduction
+            'compute_reduction': compute_reduction,
+            'icms_base_type': tax.icms_base_type
         })
 
         taxes_dict[tax.tax_domain].update(self._compute_tax_base(
@@ -370,7 +372,31 @@ class Tax(models.Model):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
+        partner = kwargs.get("partner")
+        company = kwargs.get("company")
+        discount_value = kwargs.get("discount_value", 0.00)
+        insurance_value = kwargs.get("insurance_value", 0.00)
+        freight_value = kwargs.get("freight_value", 0.00)
+        other_costs_value = kwargs.get("other_costs_value", 0.00)
+
+        add_to_base = [insurance_value, freight_value, other_costs_value]
+        remove_from_base = [discount_value]
+
+        # Get Computed IPI Tax
+        tax_dict_ipi = taxes_dict.get("ipi", {})
+        add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
+
+        kwargs.update({
+            'add_to_base': sum(add_to_base),
+            'remove_from_base': sum(remove_from_base),
+            'compute_reduction': compute_reduction,
+            'icmsst_base_type': tax.icmsst_base_type
+        })
+
+        taxes_dict[tax.tax_domain].update(self._compute_tax_base(
+            tax, taxes_dict.get(tax.tax_domain), **kwargs))
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_ii(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
@@ -442,3 +468,17 @@ class Tax(models.Model):
                 # no documento fiscal, os mesmos são calculados.
                 continue
         return taxes
+
+    @api.onchange('icmsst_base_type')
+    def _onchange_icmsst_base_type(self):
+        if self.icmsst_base_type:
+            ICMS_ST_BASE_TYPE_REL = {
+                '0': TAX_BASE_TYPE_VALUE,
+                '1': TAX_BASE_TYPE_VALUE,
+                '2': TAX_BASE_TYPE_VALUE,
+                '3': TAX_BASE_TYPE_VALUE,
+                '4': TAX_BASE_TYPE_PERCENT,
+                '5': TAX_BASE_TYPE_VALUE}
+
+            self.tax_base_type = ICMS_ST_BASE_TYPE_REL.get(
+                self.icmsst_base_type)
