@@ -32,6 +32,7 @@
     <field name="arch" type="xml">
       <form string="Tax Definition">
         <field name="company_id" invisible="1"/>
+        <field name="icms_regulation_id" invisible="1"/>
         <field name="tax_domain" invisible="1"/>
         <field name="type_in_out" invisible="1"/>
         <group>
@@ -39,7 +40,9 @@
           <field name="is_taxed"/>
           <field name="is_debit_credit" attrs="{'invisible': [('is_taxed', '=', False)]}"/>
           <field name="tax_withholding"/>
-          <field name="custom_tax"/>
+          <field name="state_from_id"/>
+          <field name="state_to_id" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
+          <field name="custom_tax" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
           <field name="tax_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
           <field name="cst_id" attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"/>
         </group>

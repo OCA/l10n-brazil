@@ -13,8 +13,12 @@ class Operation(models.Model):
         self.kanban_dashboard = json.dumps(
             self.get_operation_dashboard_datas())
 
-    kanban_dashboard = fields.Text(compute='_compute_kanban_dashboard')
-    color = fields.Integer("Color Index", default=0)
+    kanban_dashboard = fields.Text(
+        compute='_compute_kanban_dashboard')
+
+    color = fields.Integer(
+        string='Color Index',
+        default=0)
 
     @api.multi
     def get_operation_dashboard_datas(self):
