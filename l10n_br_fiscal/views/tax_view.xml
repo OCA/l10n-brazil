@@ -39,14 +39,16 @@
                 <field name="sequence" invisible="1"/>
                 <sheet>
                     <group>
+                        <field name="tax_group_id"/>
                         <field name="name"/>
-                        <field name="tax_base_type"/>
+                        <field name="tax_base_type" attrs="{'invisible': [('tax_domain', 'in', ('icms', 'icmsst'))]}"/>
+                        <field name="icms_base_type" attrs="{'invisible': [('tax_domain', '!=', 'icms')]}"/>
+                        <field name="icmsst_base_type" attrs="{'invisible': [('tax_domain', '!=', 'icmsst')]}"/>
                         <field name="percent_amount" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
                         <field name="percent_reduction" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
                         <field name="percent_debit_credit" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
                         <field name="value_amount" attrs="{'invisible': [('tax_base_type', 'not in', ('quantity', 'fixed'))]}" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                         <field name="uot_id" attrs="{'invisible': [('tax_base_type', '!=', 'quantity')], 'required': [('tax_base_type', '=', 'quantity')]}"/>
-                        <field name="tax_group_id"/>
                         <field name="cst_in_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"/>
                         <field name="cst_out_id" attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"/>
                     </group>
