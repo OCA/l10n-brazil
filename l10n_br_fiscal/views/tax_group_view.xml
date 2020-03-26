@@ -39,10 +39,14 @@
                     </group>
                     <notebook>
                         <page name="taxes" string="Taxes">
-                            <field name="tax_ids" nolabel="1"/>
+                            <field name="tax_ids" nolabel="1" context="{'default_tax_group_id': active_id}"/>
                         </page>
-                        <page name="csts" string="CSTs">
+                        <page name="csts" string="CSTs" attrs="{'invisible': [('tax_domain', 'not in', ('icms', 'ipi', 'pis', 'cofins'))]}">
                             <field name="cst_ids" nolabel="1"/>
+                        </page>
+                        <page name="withholding_info" string="Withholding" attrs="{'invisible': [('tax_withholding', '=', False)]}">
+                            <group>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
