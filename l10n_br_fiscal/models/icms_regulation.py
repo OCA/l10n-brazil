@@ -5,22 +5,28 @@ from lxml import etree
 
 from odoo import api, fields, models
 
+from ..constants.fiscal import (
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_ST,
+    TAX_DOMAIN_ICMS_FCP
+)
+
 VIEW = """
 <page name="uf_{0}" string="{1}">
     <notebook>
         <page name="uf_{0}_internal" string="Interno">
             <group name="icms_internal_{0}" string="Internal">
-            <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icms)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
+            <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}, 'default_state_to_id': {5}}}"/>
             </group>
             <group name="icms_external_{0}" string="External">
-            <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icms)d, 'default_state_from_id': %(base.state_br_{0})d}}"/>
+            <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}"/>
             </group>
         </page>
         <page name="uf_{0}_st" string="ST">
-            <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icmsst)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
+            <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {3}, 'default_state_from_id': {5}, 'default_state_to_id': {5}}}"/>
         </page>
         <page name="uf_{0}_others" string="Outros">
-            <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': %(l10n_br_fiscal.tax_group_icmsfcp)d, 'default_state_from_id': %(base.state_br_{0})d, 'default_state_to_id': %(base.state_br_{0})d}}"/>
+            <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {4}, 'default_state_from_id': {5}, 'default_state_to_id': {5}}}"/>
         </page>
     </notebook>
 </page>
@@ -28,12 +34,12 @@ VIEW = """
 
 
 class ICMSRegulation(models.Model):
-    _name = "l10n_br_fiscal.icms.regulation"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Tax ICMS Regulation"
+    _name = 'l10n_br_fiscal.icms.regulation'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = 'Tax ICMS Regulation'
 
     name = fields.Text(
-        string="Name",
+        string='Name',
         required=True,
         index=True)
 
@@ -43,7 +49,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal AC',
         domain=[('state_from_id.code', '=', 'AC'),
                 ('state_to_id.code', '=', 'AC'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_ac_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -51,7 +57,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External AC',
         domain=[('state_from_id.code', '=', 'AC'),
                 ('state_to_id.code', '!=', 'AC'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_ac_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -59,7 +65,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST AC',
         domain=[('state_from_id.code', '=', 'AC'),
                 ('state_to_id.code', '=', 'AC'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_ac_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -67,7 +73,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP AC',
         domain=[('state_from_id.code', '=', 'AC'),
                 ('state_to_id.code', '=', 'AC'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_al_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -75,7 +81,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal AL',
         domain=[('state_from_id.code', '=', 'AL'),
                 ('state_to_id.code', '=', 'AL'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_al_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -83,7 +89,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External AL',
         domain=[('state_from_id.code', '=', 'AL'),
                 ('state_to_id.code', '!=', 'AL'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_al_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -91,7 +97,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST AL',
         domain=[('state_from_id.code', '=', 'AL'),
                 ('state_to_id.code', '=', 'AL'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_al_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -99,7 +105,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP AL',
         domain=[('state_from_id.code', '=', 'AL'),
                 ('state_to_id.code', '=', 'AL'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_am_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -107,7 +113,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal AM',
         domain=[('state_from_id.code', '=', 'AM'),
                 ('state_to_id.code', '=', 'AM'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_am_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -115,7 +121,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External AM',
         domain=[('state_from_id.code', '=', 'AM'),
                 ('state_to_id.code', '!=', 'AM'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_am_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -123,7 +129,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST AM',
         domain=[('state_from_id.code', '=', 'AM'),
                 ('state_to_id.code', '=', 'AM'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_am_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -131,7 +137,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP AM',
         domain=[('state_from_id.code', '=', 'AM'),
                 ('state_to_id.code', '=', 'AM'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_ap_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -139,7 +145,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal AP',
         domain=[('state_from_id.code', '=', 'AP'),
                 ('state_to_id.code', '=', 'AP'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_ap_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -147,7 +153,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External AP',
         domain=[('state_from_id.code', '=', 'AP'),
                 ('state_to_id.code', '!=', 'AP'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_ap_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -155,7 +161,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST AP',
         domain=[('state_from_id.code', '=', 'AP'),
                 ('state_to_id.code', '=', 'AP'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_ap_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -163,7 +169,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP AP',
         domain=[('state_from_id.code', '=', 'AP'),
                 ('state_to_id.code', '=', 'AP'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_ba_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -171,7 +177,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal BA',
         domain=[('state_from_id.code', '=', 'BA'),
                 ('state_to_id.code', '=', 'BA'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_ba_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -179,7 +185,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External BA',
         domain=[('state_from_id.code', '=', 'BA'),
                 ('state_to_id.code', '!=', 'BA'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_ba_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -187,7 +193,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST BA',
         domain=[('state_from_id.code', '=', 'BA'),
                 ('state_to_id.code', '=', 'BA'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_ba_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -195,7 +201,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP BA',
         domain=[('state_from_id.code', '=', 'BA'),
                 ('state_to_id.code', '=', 'BA'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_ce_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -203,7 +209,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal CE',
         domain=[('state_from_id.code', '=', 'CE'),
                 ('state_to_id.code', '=', 'CE'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_ce_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -211,7 +217,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External CE',
         domain=[('state_from_id.code', '=', 'CE'),
                 ('state_to_id.code', '!=', 'CE'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_ce_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -219,7 +225,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST CE',
         domain=[('state_from_id.code', '=', 'CE'),
                 ('state_to_id.code', '=', 'CE'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_ce_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -227,7 +233,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP CE',
         domain=[('state_from_id.code', '=', 'CE'),
                 ('state_to_id.code', '=', 'CE'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_df_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -235,7 +241,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal DF',
         domain=[('state_from_id.code', '=', 'DF'),
                 ('state_to_id.code', '=', 'DF'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_df_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -243,7 +249,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External DF',
         domain=[('state_from_id.code', '=', 'DF'),
                 ('state_to_id.code', '!=', 'DF'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_df_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -251,7 +257,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST DF',
         domain=[('state_from_id.code', '=', 'DF'),
                 ('state_to_id.code', '=', 'DF'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_df_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -259,7 +265,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP DF',
         domain=[('state_from_id.code', '=', 'DF'),
                 ('state_to_id.code', '=', 'DF'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_es_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -267,7 +273,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal ES',
         domain=[('state_from_id.code', '=', 'ES'),
                 ('state_to_id.code', '=', 'ES'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_es_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -275,7 +281,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External ES',
         domain=[('state_from_id.code', '=', 'ES'),
                 ('state_to_id.code', '!=', 'ES'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_es_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -283,7 +289,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST ES',
         domain=[('state_from_id.code', '=', 'ES'),
                 ('state_to_id.code', '=', 'ES'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_es_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -291,7 +297,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP ES',
         domain=[('state_from_id.code', '=', 'ES'),
                 ('state_to_id.code', '=', 'ES'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_go_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -299,7 +305,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal GO',
         domain=[('state_from_id.code', '=', 'GO'),
                 ('state_to_id.code', '=', 'GO'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_go_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -307,7 +313,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External GO',
         domain=[('state_from_id.code', '=', 'GO'),
                 ('state_to_id.code', '!=', 'GO'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_go_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -315,7 +321,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST GO',
         domain=[('state_from_id.code', '=', 'GO'),
                 ('state_to_id.code', '=', 'GO'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_go_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -323,7 +329,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP GO',
         domain=[('state_from_id.code', '=', 'GO'),
                 ('state_to_id.code', '=', 'GO'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_ma_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -331,7 +337,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal MA',
         domain=[('state_from_id.code', '=', 'MA'),
                 ('state_to_id.code', '=', 'MA'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_ma_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -339,7 +345,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External MA',
         domain=[('state_from_id.code', '=', 'MA'),
                 ('state_to_id.code', '!=', 'MA'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_ma_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -347,7 +353,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST MA',
         domain=[('state_from_id.code', '=', 'MA'),
                 ('state_to_id.code', '=', 'MA'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_ma_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -355,7 +361,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP MA',
         domain=[('state_from_id.code', '=', 'MA'),
                 ('state_to_id.code', '=', 'MA'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_mt_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -363,7 +369,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal MT',
         domain=[('state_from_id.code', '=', 'MT'),
                 ('state_to_id.code', '=', 'MT'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_mt_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -371,7 +377,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External MT',
         domain=[('state_from_id.code', '=', 'MT'),
                 ('state_to_id.code', '!=', 'MT'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_mt_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -379,7 +385,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST MT',
         domain=[('state_from_id.code', '=', 'MT'),
                 ('state_to_id.code', '=', 'MT'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_mt_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -387,7 +393,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP MT',
         domain=[('state_from_id.code', '=', 'MT'),
                 ('state_to_id.code', '=', 'MT'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_ms_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -395,7 +401,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal MS',
         domain=[('state_from_id.code', '=', 'MS'),
                 ('state_to_id.code', '=', 'MS'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_ms_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -403,7 +409,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External MS',
         domain=[('state_from_id.code', '=', 'MS'),
                 ('state_to_id.code', '!=', 'MS'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_ms_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -411,7 +417,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST MS',
         domain=[('state_from_id.code', '=', 'MS'),
                 ('state_to_id.code', '=', 'MS'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_ms_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -419,7 +425,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP MS',
         domain=[('state_from_id.code', '=', 'MS'),
                 ('state_to_id.code', '=', 'MS'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_mg_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -427,7 +433,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal MG',
         domain=[('state_from_id.code', '=', 'MG'),
                 ('state_to_id.code', '=', 'MG'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_mg_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -435,7 +441,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External MG',
         domain=[('state_from_id.code', '=', 'MG'),
                 ('state_to_id.code', '!=', 'MG'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_mg_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -443,7 +449,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST MG',
         domain=[('state_from_id.code', '=', 'MG'),
                 ('state_to_id.code', '=', 'MG'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_mg_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -451,7 +457,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP MG',
         domain=[('state_from_id.code', '=', 'MG'),
                 ('state_to_id.code', '=', 'MG'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_pa_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -459,7 +465,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal PA',
         domain=[('state_from_id.code', '=', 'PA'),
                 ('state_to_id.code', '=', 'PA'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_pa_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -467,7 +473,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External PA',
         domain=[('state_from_id.code', '=', 'PA'),
                 ('state_to_id.code', '!=', 'PA'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_pa_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -475,7 +481,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST PA',
         domain=[('state_from_id.code', '=', 'PA'),
                 ('state_to_id.code', '=', 'PA'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_pa_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -483,7 +489,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP PA',
         domain=[('state_from_id.code', '=', 'PA'),
                 ('state_to_id.code', '=', 'PA'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_pb_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -491,7 +497,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal PB',
         domain=[('state_from_id.code', '=', 'PB'),
                 ('state_to_id.code', '=', 'PB'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_pb_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -499,7 +505,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External PB',
         domain=[('state_from_id.code', '=', 'PB'),
                 ('state_to_id.code', '!=', 'PB'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_pb_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -507,7 +513,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST PB',
         domain=[('state_from_id.code', '=', 'PB'),
                 ('state_to_id.code', '=', 'PB'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_pb_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -515,7 +521,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP PB',
         domain=[('state_from_id.code', '=', 'PB'),
                 ('state_to_id.code', '=', 'PB'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_pr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -523,7 +529,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal PR',
         domain=[('state_from_id.code', '=', 'PR'),
                 ('state_to_id.code', '=', 'PR'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_pr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -531,7 +537,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External PR',
         domain=[('state_from_id.code', '=', 'PR'),
                 ('state_to_id.code', '!=', 'PR'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_pr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -539,7 +545,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST PR',
         domain=[('state_from_id.code', '=', 'PR'),
                 ('state_to_id.code', '=', 'PR'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_pr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -547,7 +553,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP PR',
         domain=[('state_from_id.code', '=', 'PR'),
                 ('state_to_id.code', '=', 'PR'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_pe_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -555,7 +561,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal PE',
         domain=[('state_from_id.code', '=', 'PE'),
                 ('state_to_id.code', '=', 'PE'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_pe_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -563,7 +569,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External PE',
         domain=[('state_from_id.code', '=', 'PE'),
                 ('state_to_id.code', '!=', 'PE'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_pe_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -571,7 +577,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST PE',
         domain=[('state_from_id.code', '=', 'PE'),
                 ('state_to_id.code', '=', 'PE'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_pe_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -579,7 +585,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP PE',
         domain=[('state_from_id.code', '=', 'PE'),
                 ('state_to_id.code', '=', 'PE'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_pi_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -587,7 +593,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal PI',
         domain=[('state_from_id.code', '=', 'PI'),
                 ('state_to_id.code', '=', 'PI'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_pi_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -595,7 +601,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External PI',
         domain=[('state_from_id.code', '=', 'PI'),
                 ('state_to_id.code', '!=', 'PI'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_pi_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -603,7 +609,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST PI',
         domain=[('state_from_id.code', '=', 'PI'),
                 ('state_to_id.code', '=', 'PI'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_pi_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -611,7 +617,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP PI',
         domain=[('state_from_id.code', '=', 'PI'),
                 ('state_to_id.code', '=', 'PI'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_rn_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -619,7 +625,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal RN',
         domain=[('state_from_id.code', '=', 'RN'),
                 ('state_to_id.code', '=', 'RN'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_rn_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -627,7 +633,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External RN',
         domain=[('state_from_id.code', '=', 'RN'),
                 ('state_to_id.code', '!=', 'RN'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_rn_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -635,7 +641,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST RN',
         domain=[('state_from_id.code', '=', 'RN'),
                 ('state_to_id.code', '=', 'RN'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_rn_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -643,7 +649,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP RN',
         domain=[('state_from_id.code', '=', 'RN'),
                 ('state_to_id.code', '=', 'RN'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_rs_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -651,7 +657,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal RS',
         domain=[('state_from_id.code', '=', 'RS'),
                 ('state_to_id.code', '=', 'RS'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_rs_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -659,7 +665,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External RS',
         domain=[('state_from_id.code', '=', 'RS'),
                 ('state_to_id.code', '!=', 'RS'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_rs_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -667,7 +673,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST RS',
         domain=[('state_from_id.code', '=', 'RS'),
                 ('state_to_id.code', '=', 'RS'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_rs_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -675,7 +681,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP RS',
         domain=[('state_from_id.code', '=', 'RS'),
                 ('state_to_id.code', '=', 'RS'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_rj_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -683,7 +689,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal RJ',
         domain=[('state_from_id.code', '=', 'RJ'),
                 ('state_to_id.code', '=', 'RJ'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_rj_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -691,7 +697,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External RJ',
         domain=[('state_from_id.code', '=', 'RJ'),
                 ('state_to_id.code', '!=', 'RJ'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_rj_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -699,7 +705,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST RJ',
         domain=[('state_from_id.code', '=', 'RJ'),
                 ('state_to_id.code', '=', 'RJ'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_rj_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -707,7 +713,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP RJ',
         domain=[('state_from_id.code', '=', 'RJ'),
                 ('state_to_id.code', '=', 'RJ'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_ro_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -715,7 +721,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal RO',
         domain=[('state_from_id.code', '=', 'RO'),
                 ('state_to_id.code', '=', 'RO'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_ro_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -723,7 +729,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External RO',
         domain=[('state_from_id.code', '=', 'RO'),
                 ('state_to_id.code', '!=', 'RO'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_ro_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -731,7 +737,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST RO',
         domain=[('state_from_id.code', '=', 'RO'),
                 ('state_to_id.code', '=', 'RO'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_ro_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -739,7 +745,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP RO',
         domain=[('state_from_id.code', '=', 'RO'),
                 ('state_to_id.code', '=', 'RO'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_rr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -747,7 +753,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal RR',
         domain=[('state_from_id.code', '=', 'RR'),
                 ('state_to_id.code', '=', 'RR'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_rr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -755,7 +761,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External RR',
         domain=[('state_from_id.code', '=', 'RR'),
                 ('state_to_id.code', '!=', 'RR'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_rr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -763,7 +769,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST RR',
         domain=[('state_from_id.code', '=', 'RR'),
                 ('state_to_id.code', '=', 'RR'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_rr_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -771,7 +777,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP RR',
         domain=[('state_from_id.code', '=', 'RR'),
                 ('state_to_id.code', '=', 'RR'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_sc_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -779,7 +785,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal SC',
         domain=[('state_from_id.code', '=', 'SC'),
                 ('state_to_id.code', '=', 'SC'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_sc_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -787,7 +793,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External SC',
         domain=[('state_from_id.code', '=', 'SC'),
                 ('state_to_id.code', '!=', 'SC'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_sc_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -795,7 +801,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST SC',
         domain=[('state_from_id.code', '=', 'SC'),
                 ('state_to_id.code', '=', 'SC'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_sc_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -803,7 +809,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP SC',
         domain=[('state_from_id.code', '=', 'SC'),
                 ('state_to_id.code', '=', 'SC'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_sp_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -811,7 +817,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal SP',
         domain=[('state_from_id.code', '=', 'SP'),
                 ('state_to_id.code', '=', 'SP'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_sp_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -819,7 +825,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External SP',
         domain=[('state_from_id.code', '=', 'SP'),
                 ('state_to_id.code', '!=', 'SP'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_sp_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -827,7 +833,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST SP',
         domain=[('state_from_id.code', '=', 'SP'),
                 ('state_to_id.code', '=', 'SP'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_sp_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -835,7 +841,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP SP',
         domain=[('state_from_id.code', '=', 'SP'),
                 ('state_to_id.code', '=', 'SP'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_se_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -843,7 +849,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal SE',
         domain=[('state_from_id.code', '=', 'SE'),
                 ('state_to_id.code', '=', 'SE'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_se_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -851,7 +857,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External SE',
         domain=[('state_from_id.code', '=', 'SE'),
                 ('state_to_id.code', '!=', 'SE'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_se_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -859,7 +865,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST SE',
         domain=[('state_from_id.code', '=', 'SE'),
                 ('state_to_id.code', '=', 'SE'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_se_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -867,7 +873,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP SE',
         domain=[('state_from_id.code', '=', 'SE'),
                 ('state_to_id.code', '=', 'SE'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     icms_internal_to_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -875,7 +881,7 @@ class ICMSRegulation(models.Model):
         string='ICMS Internal TO',
         domain=[('state_from_id.code', '=', 'TO'),
                 ('state_to_id.code', '=', 'TO'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_external_to_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -883,7 +889,7 @@ class ICMSRegulation(models.Model):
         string='ICMS External TO',
         domain=[('state_from_id.code', '=', 'TO'),
                 ('state_to_id.code', '!=', 'TO'),
-                ('tax_group_id.tax_domain', '=', 'icms')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
 
     icms_st_to_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -891,7 +897,7 @@ class ICMSRegulation(models.Model):
         string='ICMS ST TO',
         domain=[('state_from_id.code', '=', 'TO'),
                 ('state_to_id.code', '=', 'TO'),
-                ('tax_group_id.tax_domain', '=', 'icmsst')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
 
     icms_fcp_to_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
@@ -899,7 +905,7 @@ class ICMSRegulation(models.Model):
         string='ICMS FCP TO',
         domain=[('state_from_id.code', '=', 'TO'),
                 ('state_to_id.code', '=', 'TO'),
-                ('tax_group_id.tax_domain', '=', 'icmsfcp')])
+                ('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
@@ -915,13 +921,22 @@ class ICMSRegulation(models.Model):
 
                 br_states = self.env['res.country.state'].search(
                     [('country_id', '=', self.env.ref('base.br').id)],
-                    order="name")
+                    order="code")
 
                 for state in br_states:
-                    state_page = VIEW.format(state.code.lower(), state.name)
-
+                    state_page = VIEW.format(
+                        state.code.lower(),
+                        state.name,
+                        self.env.ref('l10n_br_fiscal.tax_group_icms').id,
+                        self.env.ref('l10n_br_fiscal.tax_group_icmsst').id,
+                        self.env.ref('l10n_br_fiscal.tax_group_icmsfcp').id,
+                        state.id)
                     node_page = etree.fromstring(state_page)
                     node.insert(-1, node_page)
+
+            view_super['arch'] = etree.tostring(doc, encoding='unicode')
+
+            print(etree.tostring(doc, encoding='unicode'))
 
         return view_super
 
