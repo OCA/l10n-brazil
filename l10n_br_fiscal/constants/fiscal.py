@@ -63,6 +63,7 @@ TAX_BASE_TYPE = (
 
 
 TAX_BASE_TYPE_PERCENT = "percent"
+TAX_BASE_TYPE_VALUE = "fixed"
 
 
 TAX_DOMAIN_IPI = "ipi"
