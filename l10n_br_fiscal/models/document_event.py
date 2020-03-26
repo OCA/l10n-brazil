@@ -177,7 +177,8 @@ class DocumentEvent(models.Model):
 
     def _grava_arquivo_disco(self, arquivo, file_name):
         save_dir = self.monta_caminho(
-            ambiente=int(self.company_id.nfe_environment),
+            # ambiente=int(self.company_id.nfe_environment),
+                ambiente =False,
             company_id=self.company_id,
             chave=(
                 self.fiscal_document_id.key
