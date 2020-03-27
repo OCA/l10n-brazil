@@ -20,6 +20,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+    NFE_IND_IE_DEST, NFE_IND_IE_DEST_DEFAULT,
+    TAX_FRAMEWORK, TAX_FRAMEWORK_NORMAL,
 )
 from odoo.addons.l10n_br_nfe.sped.nfe.validator import txt
 from odoo.addons.spec_driven_model.models import spec_models
@@ -116,6 +118,61 @@ class NFe(spec_models.StackedModel):
     nfe40_tpAmb = fields.Selection(default='2')
     nfe40_procEmi = fields.Selection(default='0')
     nfe40_verProc = fields.Char(default='Odoo Brasil v12.0')
+    nfe40_CRT = fields.Selection(
+        related='company_tax_framework'
+    )
+
+    partner_ind_ie_dest = fields.Selection(
+        selection=NFE_IND_IE_DEST,
+        string=u"Contribuinte do ICMS",
+        required=True,
+        default=NFE_IND_IE_DEST_DEFAULT,
+    )
+    nfe40_indIEDest = fields.Selection(related='partner_ind_ie_dest')
+
+    company_street = fields.Char(string="Rua")
+    company_number = fields.Char(string="Número")
+    company_street2 = fields.Char(string="Complemento")
+    company_district = fields.Char(string="Bairro")
+    company_country_id = fields.Many2one(
+        string="País",
+        comodel_name='res.country',
+    )
+    company_state_id = fields.Many2one(
+        string="Estado",
+        comodel_name='res.country.state',
+        domain="[('country_id', '=', company_country_id)]",
+    )
+    company_city_id = fields.Many2one(
+        string="Cidade",
+        comodel_name='res.city',
+        domain="[('state_id', '=', company_state_id)]",
+    )
+    company_zip = fields.Char(string="CEP")
+    company_phone = fields.Char(string="Telefone")
+
+    partner_street = fields.Char(string="Rua")
+    partner_number = fields.Char(string="Número")
+    partner_street2 = fields.Char(string="Complemento")
+    partner_district = fields.Char(string="Bairro")
+    partner_country_id = fields.Many2one(
+        string="País",
+        comodel_name='res.country',
+    )
+    partner_state_id = fields.Many2one(
+        string="Estado",
+        comodel_name='res.country.state',
+        domain="[('country_id', '=', partner_country_id)]",
+    )
+    partner_city_id = fields.Many2one(
+        string="Cidade",
+        comodel_name='res.city',
+        domain="[('state_id', '=', partner_state_id)]",
+    )
+    partner_zip = fields.Char(string="CEP")
+    partner_phone = fields.Char(string="Telefone")
+    partner_is_company = fields.Boolean(string="É uma empresa")
+
 
     @api.depends('operation_type')
     @api.multi
