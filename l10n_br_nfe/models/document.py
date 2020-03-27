@@ -173,6 +173,38 @@ class NFe(spec_models.StackedModel):
     partner_phone = fields.Char(string="Telefone")
     partner_is_company = fields.Boolean(string="É uma empresa")
 
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        super(NFe, self)._onchange_company_id()
+        if self.company_id:
+            self.company_street = self.company_id.street
+            self.company_street2 = self.company_id.street2
+            self.company_district = self.company_id.district
+            self.company_country_id = self.company_id.country_id
+            self.company_state_id = self.company_id.state_id
+            self.company_city_id = self.company_id.city_id
+            self.company_zip = self.company_id.zip
+            self.company_phone = self.company_id.phone
+            self.env.cr.execute('select street_number from res_partner '
+                                'where id=%s' % self.company_id.partner_id.id)
+            [(self.company_number,)] = self.env.cr.fetchall()
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        super(NFe, self)._onchange_partner_id()
+        if self.partner_id:
+            self.partner_street = self.partner_id.street
+            self.partner_number = self.partner_id.street_number
+            self.partner_street2 = self.partner_id.street2
+            self.partner_district = self.partner_id.district
+            self.partner_country_id = self.partner_id.country_id
+            self.partner_state_id = self.partner_id.state_id
+            self.partner_city_id = self.partner_id.city_id
+            self.partner_zip = self.partner_id.zip
+            self.partner_phone = self.partner_id.phone
+            self.env.cr.execute('select street_number from res_partner '
+                                'where id=%s' % self.partner_id.id)
+            [(self.partner_number,)] = self.env.cr.fetchall()
 
     @api.depends('operation_type')
     @api.multi
