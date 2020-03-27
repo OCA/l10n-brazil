@@ -125,8 +125,6 @@ class AbstractSpecMixin(models.AbstractModel):
     @api.model
     def get_concrete_model(self, comodel_name):
         "Lookup for concrete models where abstract schema mixins were injected"
-        if comodel_name == 'nfe.40.tenderemi':  # TODO not a related field
-            comodel_name = 'res.partner'
         if hasattr(models.MetaModel, 'mixin_mappings') \
                 and models.MetaModel.mixin_mappings.get(comodel_name)\
                 is not None:
