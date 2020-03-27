@@ -88,7 +88,7 @@ class FiscalClosing(models.Model):
                 record.name = "{}/{}".format(record.month, record.year)
                 record.file_name = "{}-{}".format(record.month, record.year) + '.zip'
             else:
-                now = fields.Datetime.tostring(fields.Datetime.now())
+                now = fields.Datetime.now().strftime('%d/%m/%Y')
                 record.name = now
                 record.file_name = now + '.zip'
 
