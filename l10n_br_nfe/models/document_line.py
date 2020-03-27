@@ -188,7 +188,7 @@ class NFeLine(spec_models.StackedModel):
 
         if self.document_id.ind_final == '1' and \
                 self.document_id.nfe40_idDest == '2' and \
-                self.document_id.partner_id.nfe40_indIEDest == '9':
+                self.document_id.nfe40_indIEDest == '9':
             self.nfe40_vBCUFDest = self.nfe40_vBC
             if self.document_id.partner_id.state_id.code in [
                     'AC', 'CE', 'ES', 'GO', 'MT', 'MS', 'PA', 'PI', 'RR', 'SC'
