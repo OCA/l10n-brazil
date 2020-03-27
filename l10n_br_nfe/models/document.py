@@ -488,6 +488,127 @@ class NFe(spec_models.StackedModel):
             self.env.context = dict(self.env.context)
             self.env.context.update({'tpAmb': self[xsd_field]})
 
+        if xsd_field == 'nfe40_CNPJ':
+            if class_obj._name == 'nfe.40.emit':
+                if self.company_cnpj_cpf:
+                    return self.company_cnpj_cpf
+            elif class_obj._name == 'nfe.40.dest' and self.partner_is_company:
+                if self.partner_cnpj_cpf:
+                    return self.partner_cnpj_cpf
+        if xsd_field == 'nfe40_CPF':
+            if class_obj._name == 'nfe.40.dest' and \
+                    not self.partner_is_company:
+                if self.partner_cnpj_cpf:
+                    return self.partner_cnpj_cpf
+        if xsd_field == 'nfe40_xNome':
+            if class_obj._name == 'nfe.40.emit':
+                if self.company_legal_name:
+                    return self.company_legal_name
+            if class_obj._name == 'nfe.40.dest':
+                if self.nfe40_tpAmb == '2':
+                    return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO ' \
+                           '- SEM VALOR FISCAL'
+                if self.partner_legal_name:
+                    return self.partner_legal_name
+        if xsd_field == 'nfe40_IE':
+            if class_obj._name == 'nfe.40.emit':
+                if self.company_inscr_est:
+                    return self.company_inscr_est.replace('.', '')
+            if class_obj._name == 'nfe.40.dest':
+                if self.partner_inscr_est:
+                    return self.partner_inscr_est.replace('.', '')
+        if xsd_field == 'nfe40_ISUF':
+            if class_obj._name == 'nfe.40.emit':
+                if self.company_suframa:
+                    return self.company_suframa
+            if class_obj._name == 'nfe.40.dest':
+                if self.partner_suframa:
+                    return self.partner_suframa
+
+        if xsd_field == 'nfe40_xLgr':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_street:
+                    return self.company_street
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_street:
+                    return self.partner_street
+        if xsd_field == 'nfe40_nro':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_number:
+                    return self.company_number
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_number:
+                    return self.partner_number
+        if xsd_field == 'nfe40_xCpl':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_street2:
+                    return self.company_street2
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_street2:
+                    return self.partner_street2
+        if xsd_field == 'nfe40_xBairro':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_district:
+                    return self.company_district
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_district:
+                    return self.partner_district
+        if xsd_field == 'nfe40_cMun':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_state_id and self.company_city_id:
+                    return '%s%s' % (self.company_state_id.ibge_code,
+                                     self.company_city_id.ibge_code)
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_state_id and self.partner_city_id:
+                    return '%s%s' % (self.partner_state_id.ibge_code,
+                                     self.partner_city_id.ibge_code)
+        if xsd_field == 'nfe40_xMun':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_city_id.name:
+                    return self.company_city_id.name
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_city_id.name:
+                    return self.partner_city_id.name
+        if xsd_field == 'nfe40_UF':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_state_id.code:
+                    return self.company_state_id.code
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_state_id.code:
+                    return self.partner_state_id.code
+        if xsd_field == 'nfe40_CEP':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_zip:
+                    return self.company_zip.replace('-', '')
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_zip:
+                    return self.partner_zip.replace('-', '')
+        if xsd_field == 'nfe40_cPais':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_country_id.ibge_code:
+                    return self.company_country_id.ibge_code
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_country_id.ibge_code:
+                    return self.partner_country_id.ibge_code
+        if xsd_field == 'nfe40_xPais':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_country_id.name:
+                    return self.company_country_id.name
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_country_id.name:
+                    return self.partner_country_id.name
+        if xsd_field == 'nfe40_fone':
+            if class_obj._name == 'nfe.40.tenderemi':
+                if self.company_phone:
+                    return self.company_phone.replace('(', '').replace(
+                        ')', '').replace(' ', '').replace(
+                        '-', '').replace('+', '')
+            if class_obj._name == 'nfe.40.tendereco':
+                if self.partner_phone:
+                    return self.partner_phone.replace('(', '').replace(
+                        ')', '').replace(' ', '').replace(
+                        '-', '').replace('+', '')
+
         return super(NFe, self)._export_field(
             xsd_field, class_obj, member_spec)
 
