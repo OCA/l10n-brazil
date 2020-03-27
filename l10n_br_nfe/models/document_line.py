@@ -337,6 +337,7 @@ class NFeLine(spec_models.StackedModel):
             related_many2ones)
 
     def _get_aditional_keys(self, model, rec_dict, keys):
+        keys = super(NFeLine, self)._get_aditional_keys(model, rec_dict, keys)
         if model._name == 'product.product' and rec_dict.get('barcode'):
-            return ['barcode'] + super(NFeLine, self)._get_aditional_keys(
-                model, rec_dict, keys)
+            return ['barcode'] + keys
+        return keys
