@@ -26,7 +26,9 @@ from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
 from requests import Session
 
-from .res_company import PROCESSADOR, PROCESSADOR_ERPBRASIL_EDOC
+
+PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
+PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
 
 
 def fiter_processador_edoc_nfe(record):
@@ -41,7 +43,9 @@ def fiter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
+    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
+                "nfe.40.tendereco", "nfe.40.tenderemi",
+                "nfe.40.dest", "nfe.40.emit"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
     _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
@@ -58,17 +62,6 @@ class NFe(spec_models.StackedModel):
     nfe40_versao = fields.Char(related='document_version')
     nfe40_nNF = fields.Char(related='number')
     nfe40_Id = fields.Char(related='key')
-
-    nfe40_emit = fields.Many2one(
-        related="company_id",
-        comodel_name="res.company",
-        original_spec_model="nfe.40.emit",
-    )
-
-    nfe40_dest = fields.Many2one(
-        related='partner_id',
-        comodel_name='res.partner'
-    )  # TODO in invoice
 
     # TODO should be done by framework?
     nfe40_det = fields.One2many(related='line_ids',
