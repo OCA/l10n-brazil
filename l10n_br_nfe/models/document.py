@@ -390,7 +390,7 @@ class NFe(spec_models.StackedModel):
     def _export_field(self, xsd_field, class_obj, member_spec):
         if xsd_field in ('nfe40_vICMSUFDest', 'nfe40_vICMSUFRemet'):
             if self.ind_final == '1' and self.nfe40_idDest == '2' and \
-                    self.partner_id.nfe40_indIEDest == '9':
+                    self.nfe40_indIEDest == '9':
                 self.nfe40_vICMSUFDest = sum(
                     self.line_ids.mapped('nfe40_vICMSUFDest'))
                 self.nfe40_vICMSUFRemet = sum(
