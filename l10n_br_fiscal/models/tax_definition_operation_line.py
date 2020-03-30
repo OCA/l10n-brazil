@@ -6,23 +6,25 @@ from odoo.exceptions import ValidationError
 
 
 class TaxDefinitionOperationLine(models.Model):
-    _inherit = "l10n_br_fiscal.tax.definition"
+    _inherit = 'l10n_br_fiscal.tax.definition'
 
     operation_line_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation.line",
-        string="Operation Line")
+        comodel_name='l10n_br_fiscal.operation.line',
+        string='Operation Line')
 
     @api.multi
-    @api.constrains("operation_line_id")
+    @api.constrains('operation_line_id')
     def _check_operation_line_id(self):
         for record in self:
             if record.operation_line_id:
                 domain = [
-                    ("id", "!=", record.id),
+                    ('id', '!=', record.id),
                     ('operation_line_id', '=', record.operation_line_id.id),
-                    ('tax_group_id', '=', record.tax_group_id.id)]
+                    ('tax_group_id', '=', record.tax_group_id.id),
+                    ('tax_id', '=', record.tax_id.id)]
 
-                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                if record.env['l10n_br_fiscal.tax.definition'].search_count(
+                        domain):
                     raise ValidationError(_(
                         "Tax Definition already exists "
                         "for this Operation Line and Tax Group !"))
