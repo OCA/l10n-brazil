@@ -56,11 +56,11 @@
                         <field name="tax_framework" attrs="{'invisible': [('is_company', '=', False)]}"/>
                     </group>
                     <notebook>
-                        <page name="tax_settings" string="Taxes Settings">
-                            <field name="tax_definition_ids" nolabel="1" context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_fiscal_profile_id': id}"/>
-                        </page>
                         <page string="Related Partners" name="partner_related">
                             <field name="partner_ids"/>
+                        </page>
+                        <page name="tax_settings" string="Taxes Settings">
+                            <field name="tax_definition_ids" context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_fiscal_profile_id': id}"/>
                         </page>
                         <page string="Notes" name="notes">
                         </page>
