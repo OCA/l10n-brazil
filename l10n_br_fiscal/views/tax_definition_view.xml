@@ -40,11 +40,31 @@
           <field name="is_taxed"/>
           <field name="is_debit_credit" attrs="{'invisible': [('is_taxed', '=', False)]}"/>
           <field name="tax_withholding"/>
-          <field name="state_from_id"/>
-          <field name="state_to_id" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
-          <field name="custom_tax" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
+          <field name="custom_tax"/>
           <field name="tax_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
           <field name="cst_id" attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"/>
+        </group>
+        <group name="state" string="State">
+          <field name="state_from_id" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
+          <field name="state_to_id" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
+        </group>
+        <group name="ncms" string="NCMs">
+          <label for="ncms"/>
+          <div class="o_row">
+            <field name="ncms" force_save="1" class="oe_inline"/>
+            <button name="action_search_ncms" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Search NCMs" title="Search NCMs"/>
+          </div>
+          <field name="ncm_ids" force_save="1" nolabel="1" colspan="2"/>
+          <field name="ncm_exception"/>
+          <field name="not_in_ncms"/>
+        </group>
+        <group name="ncms" string="CESTs">
+          <div class="o_row">
+            <label for="cests"/>
+            <field name="cests" force_save="1" class="oe_inline"/>
+            <button name="action_search_cests" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Search CESTs" title="Search CESTs"/>
+          </div>
+          <field name="cest_ids" force_save="1" nolabel="1" colspan="2"/>
         </group>
       </form>
     </field>
