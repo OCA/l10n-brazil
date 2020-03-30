@@ -6,19 +6,21 @@ from odoo.exceptions import ValidationError
 
 
 class TaxDefinitionCompany(models.Model):
-    _inherit = "l10n_br_fiscal.tax.definition"
+    _inherit = 'l10n_br_fiscal.tax.definition'
 
     @api.multi
-    @api.constrains("company_id")
+    @api.constrains('company_id')
     def _check_company_id(self):
         for record in self:
             if record.company_id:
                 domain = [
-                    ("id", "!=", record.id),
+                    ('id', '!=', record.id),
                     ('company_id', '=', record.company_id.id),
-                    ('tax_group_id', '=', record.tax_group_id.id)]
+                    ('tax_group_id', '=', record.tax_group_id.id),
+                    ('tax_id', '=', record.tax_id.id)]
 
-                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                if record.env['l10n_br_fiscal.tax.definition'].search_count(
+                        domain):
                     raise ValidationError(_(
                         "Tax Definition already exists "
                         "for this Company and Tax Group !"))

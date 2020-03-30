@@ -6,23 +6,25 @@ from odoo.exceptions import ValidationError
 
 
 class TaxDefinitionCFOP(models.Model):
-    _inherit = "l10n_br_fiscal.tax.definition"
+    _inherit = 'l10n_br_fiscal.tax.definition'
 
     cfop_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cfop",
-        string="CFOP")
+        comodel_name='l10n_br_fiscal.cfop',
+        string='CFOP')
 
     @api.multi
-    @api.constrains("cfop_id")
+    @api.constrains('cfop_id')
     def _check_cfop_id(self):
         for record in self:
             if record.cfop_id:
                 domain = [
-                    ("id", "!=", record.id),
+                    ('id', '!=', record.id),
                     ('cfop_id', '=', record.cfop_id.id),
-                    ('tax_group_id', '=', record.tax_group_id.id)]
+                    ('tax_group_id', '=', record.tax_group_id.id),
+                    ('tax_id', '=', record.tax_id.id)]
 
-                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                if record.env['l10n_br_fiscal.tax.definition'].search_count(
+                        domain):
                     raise ValidationError(_(
                         "Tax Definition already exists "
                         "for this CFOP and Tax Group !"))
