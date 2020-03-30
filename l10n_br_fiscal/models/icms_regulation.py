@@ -43,6 +43,11 @@ class ICMSRegulation(models.Model):
         required=True,
         index=True)
 
+    icms_imported_tax_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.tax',
+        string='ICMS Tax Imported',
+        domain=[('tax_group_id.tax_domain', '=', TAX_DOMAIN_ICMS)])
+
     icms_internal_ac_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
         inverse_name='icms_regulation_id',
@@ -923,7 +928,9 @@ class ICMSRegulation(models.Model):
                     [('country_id', '=', self.env.ref('base.br').id)],
                     order="code")
 
+                i = 0
                 for state in br_states:
+                    i += 1
                     state_page = VIEW.format(
                         state.code.lower(),
                         state.name,
@@ -932,11 +939,9 @@ class ICMSRegulation(models.Model):
                         self.env.ref('l10n_br_fiscal.tax_group_icmsfcp').id,
                         state.id)
                     node_page = etree.fromstring(state_page)
-                    node.insert(-1, node_page)
+                    node.insert(i, node_page)
 
             view_super['arch'] = etree.tostring(doc, encoding='unicode')
-
-            print(etree.tostring(doc, encoding='unicode'))
 
         return view_super
 
