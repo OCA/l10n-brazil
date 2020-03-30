@@ -5,14 +5,22 @@
 def domain_field_codes(field_codes, field_name="code_unmasked",
                        delimiter=",", operator1="=",
                        operator2="=ilike", code_size=8):
+
+    field_codes = field_codes.replace('.', '')
     list_codes = field_codes.split(delimiter)
 
-    domain = ['|'] * (len(list_codes) - 1)
+    domain = []
 
-    domain += [('code_unmasked', operator1, n)
-               for n in list_codes if len(n) == code_size]
+    if (len(list_codes) > 1
+            and operator1 not in ('!=', 'not ilike')
+            and operator2 not in ('!=', 'not ilike')):
+        domain.append('|' * (len(list_codes) - 1))
 
-    domain += [('code_unmasked', operator2, n + '%')
-               for n in list_codes if len(n) < code_size]
+    for n in list_codes:
+        if len(n) == code_size:
+            domain.append((field_name, operator1, n))
+
+        if len(n) < code_size:
+            domain.append((field_name, operator2, n + '%'))
 
     return domain
