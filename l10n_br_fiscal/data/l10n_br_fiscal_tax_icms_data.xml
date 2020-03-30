@@ -3,6 +3,7 @@
 
   <record id="tax_icms_regulation" model="l10n_br_fiscal.icms.regulation">
     <field name="name">Regulamento do ICMS</field>
+    <field name="icms_imported_tax_id" ref="l10n_br_fiscal.tax_icms_4"/>
   </record>
 
   <!-- ICMS -->
