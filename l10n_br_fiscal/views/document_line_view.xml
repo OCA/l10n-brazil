@@ -268,7 +268,7 @@
                       </group>
                   </group>
               </page>
-                <page name="csll" string="CSLL">
+                <page name="csll" string="CSLL" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
                     <group>
                         <field name="csll_tax_id"/>
                     </group>
@@ -296,7 +296,7 @@
                         </group>
                     </group>
                 </page>
-                <page name="irpj" string="IRPJ">
+                <page name="irpj" string="IRPJ" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
                     <group>
                         <field name="irpj_tax_id"/>
                     </group>
@@ -324,7 +324,7 @@
                         </group>
                     </group>
                 </page>
-                <page name="inss" string="INSS">
+                <page name="inss" string="INSS" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
                     <group>
                         <field name="inss_tax_id"/>
                     </group>

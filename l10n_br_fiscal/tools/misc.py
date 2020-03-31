@@ -14,7 +14,7 @@ def domain_field_codes(field_codes, field_name="code_unmasked",
     if (len(list_codes) > 1
             and operator1 not in ('!=', 'not ilike')
             and operator2 not in ('!=', 'not ilike')):
-        domain.append('|' * (len(list_codes) - 1))
+        domain += ['|'] * (len(list_codes) - 1)
 
     for n in list_codes:
         if len(n) == code_size:
