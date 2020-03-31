@@ -333,10 +333,10 @@ class HrPayslipRun(models.Model):
                         # payslip._compute_set_dates()
                         payslip.compute_sheet()
                         self.env.cr.commit()
-                        _logger.info(u"Holerite " + contrato.name +
+                        _logger.info(u"Holerite " + contrato.display_name +
                                      u" processado com sucesso!")
                     except:
-                        _logger.warning(u"Holerite " + contrato.name +
+                        _logger.warning(u"Holerite " + contrato.display_name +
                                         u" falhou durante o cálculo!")
                         payslip.unlink()
                         return
