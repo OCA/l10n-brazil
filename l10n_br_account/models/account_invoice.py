@@ -25,17 +25,17 @@ FISCAL_TYPE_REFUND = {
 
 
 class AccountInvoice(models.Model):
-    _name = "account.invoice"
-    _inherit = ["account.invoice", "l10n_br_fiscal.document.mixin"]
-    _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
-    _order = "date_invoice DESC, number DESC"
+    _name = 'account.invoice'
+    _inherit = 'account.invoice'
+    _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
+    _order = 'date_invoice DESC, number DESC'
 
     # initial account.invoice inherits on fiscal.document that are
     # disable with active=False in their fiscal_document table.
     # To make these invoices still visible, we set active=True
     # in the invoice table.
     active = fields.Boolean(
-        string="Active",
+        string='Active',
         default=True)
 
     cnpj_cpf = fields.Char(
@@ -43,11 +43,11 @@ class AccountInvoice(models.Model):
         related='partner_id.cnpj_cpf')
 
     legal_name = fields.Char(
-        string='Razão Social',
+        string='Legal Name',
         related='partner_id.legal_name')
 
     ie = fields.Char(
-        string='Inscrição Estadual',
+        string='State Tax Number',
         related='partner_id.inscr_est')
 
     # this default should be overwritten to False in a module pretending to
