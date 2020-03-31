@@ -52,9 +52,6 @@ class TaxDefinition(models.Model):
     is_debit_credit = fields.Boolean(
         string='Debit/Credit?')
 
-    tax_withholding = fields.Boolean(
-        string='Tax Retention?')
-
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company')
@@ -130,7 +127,8 @@ class TaxDefinition(models.Model):
     @api.model
     def create(self, values):
         create_super = super(TaxDefinition, self).create(values)
-        if ('ncms', 'not_in_ncms', 'ncm_exception') in values.keys():
+        ncm_fields_list = ('ncms', 'not_in_ncms', 'ncm_exception')
+        if set(ncm_fields_list).intersection(values.keys()):
             create_super.action_search_ncms()
 
         if 'cests' in values.keys():
@@ -141,13 +139,36 @@ class TaxDefinition(models.Model):
     @api.multi
     def write(self, values):
         write_super = super(TaxDefinition, self).write(values)
-        if ('ncms', 'not_in_ncms', 'ncm_exception') in values.keys():
+        ncm_fields_list = ('ncms', 'not_in_ncms', 'ncm_exception')
+        if set(ncm_fields_list).intersection(values.keys()):
             self.action_search_ncms()
 
         if 'cests' in values.keys():
             self.action_search_cests()
 
         return write_super
+
+    @api.multi
+    def map_tax_definition(self, company, partner, product=None,
+                           ncm=None, nbs=None, cest=None):
+
+        if not ncm:
+            ncm = product.ncm_id
+
+        if not cest:
+            cest = product.cest_id
+
+        domain = [
+            ('id', 'in', self.ids),
+            '|',
+            ('ncm_ids', '=', False),
+            ('ncm_ids', '=', ncm.id),
+            '|',
+            ('cest_ids', '=', False),
+            ('cest_ids', '=', cest.id),
+        ]
+
+        return self.search(domain)
 
     @api.onchange('is_taxed')
     def _onchange_tribute(self):
