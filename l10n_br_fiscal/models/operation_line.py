@@ -20,42 +20,41 @@ from ..constants.icms import ICMS_ORIGIN
 
 
 class OperationLine(models.Model):
-    _name = "l10n_br_fiscal.operation.line"
-    _description = "Fiscal Operation Line"
-    _inherit = ["mail.thread"]
+    _name = 'l10n_br_fiscal.operation.line'
+    _description = 'Fiscal Operation Line'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     operation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation",
-        string="Operation",
-        ondelete="cascade",
+        comodel_name='l10n_br_fiscal.operation',
+        string='Operation',
+        ondelete='cascade',
         required=True)
 
     name = fields.Char(
-        string="Name",
+        string='Name',
         required=True)
 
     document_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.type')
 
     cfop_internal_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cfop",
-        string="CFOP Internal",
+        comodel_name='l10n_br_fiscal.cfop',
+        string='CFOP Internal',
         domain="[('type_in_out', '=', operation_type), "
                "('type_move', '=ilike', fiscal_type + '%'), "
-               "('destination', '=', '1')]",
-    )
+               "('destination', '=', '1')]")
 
     cfop_external_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cfop",
-        string="CFOP External",
+        comodel_name='l10n_br_fiscal.cfop',
+        string='CFOP External',
         domain="[('type_in_out', '=', operation_type), "
                "('type_move', '=ilike', fiscal_type + '%'), "
                "('destination', '=', '2')]",
     )
 
     cfop_export_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cfop",
-        string="CFOP Export",
+        comodel_name='l10n_br_fiscal.cfop',
+        string='CFOP Export',
         domain="[('type_in_out', '=', operation_type), "
                "('type_move', '=ilike', fiscal_type + '%'), "
                "('destination', '=', '3')]",
@@ -63,77 +62,82 @@ class OperationLine(models.Model):
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
-        related="operation_id.operation_type",
-        string="Operation Type",
+        related='operation_id.operation_type',
+        string='Operation Type',
         store=True,
         readonly=True)
 
     fiscal_type = fields.Selection(
         selection=OPERATION_FISCAL_TYPE,
-        related="operation_id.fiscal_type",
-        string="Fiscal Type",
+        related='operation_id.fiscal_type',
+        string='Fiscal Type',
         store=True,
         readonly=True)
 
     line_inverse_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation.line",
-        string="Operation Line Inverse",
+        comodel_name='l10n_br_fiscal.operation.line',
+        string='Operation Line Inverse',
         domain="[('operation_type', '!=', operation_type)]",
         copy=False)
 
     line_refund_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation.line",
-        string="Operation Line Refund",
+        comodel_name='l10n_br_fiscal.operation.line',
+        string='Operation Line Refund',
         domain="[('operation_type', '!=', operation_type)]",
         copy=False)
 
     partner_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        string="Partner Tax Framework")
+        string='Partner Tax Framework')
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
-        string="Contribuinte do ICMS",
+        string='ICMS Taxpayer',
         required=True,
         default=NFE_IND_IE_DEST_DEFAULT)
 
     product_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
-        string="Product Fiscal Type")
+        string='Product Fiscal Type')
 
     company_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        string="Copmpany Tax Framework")
+        string='Copmpany Tax Framework')
 
     add_to_amount = fields.Boolean(
-        string="Add to Document Amount?",
+        string='Add to Document Amount?',
         default=True)
 
     icms_origin = fields.Selection(
         selection=ICMS_ORIGIN,
-        string="Origin",
-        default="0")
+        string='Origin')
 
     tax_definition_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.tax.definition",
-        inverse_name="operation_line_id",
-        string="Tax Definition")
+        comodel_name='l10n_br_fiscal.tax.definition',
+        inverse_name='operation_line_id',
+        string='Tax Definition')
 
     comment_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.comment",
-        relation="l10n_br_fiscal_operation_line_comment_rel",
-        column1="operation_id",
-        column2="comment_id",
-        string="Comment")
+        comodel_name='l10n_br_fiscal.comment',
+        relation='l10n_br_fiscal_operation_line_comment_rel',
+        column1='operation_id',
+        column2='comment_id',
+        string='Comment')
 
     state = fields.Selection(
         selection=OPERATION_STATE,
-        string="State",
+        string='State',
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,
-        track_visibility="onchange",
+        track_visibility='onchange',
         copy=False)
+
+    date_start = fields.Datetime(
+        string='Start Date')
+
+    date_end = fields.Datetime(
+        string='End Date')
 
     _sql_constraints = [(
         "fiscal_operation_name_uniq",
@@ -181,7 +185,10 @@ class OperationLine(models.Model):
         mapping_result['cfop'] = cfop
 
         # 1 Get Tax Defs from Company
-        for tax in company.tax_definition_ids.mapped('tax_id'):
+        company_tax_defs = company.tax_definition_ids.map_tax_definition(
+            company, partner, product, ncm, nbs, cest)
+
+        for tax in company_tax_defs.mapped('tax_id'):
             mapping_result['taxes'][tax.tax_domain] = tax
 
         # 2 From NCM
@@ -223,23 +230,22 @@ class OperationLine(models.Model):
 
     @api.multi
     def action_review(self):
-        self.write({"state": "review"})
+        self.write({'state': 'review'})
 
     @api.multi
     def unlink(self):
-        lines = self.filtered(lambda l: l.state == "approved")
+        lines = self.filtered(lambda l: l.state == 'approved')
         if lines:
             raise UserError(
-                _("You cannot delete an Operation Line which is not draft !")
-            )
+                _("You cannot delete an Operation Line which is not draft !"))
         return super(OperationLine, self).unlink()
 
     @api.multi
-    @api.onchange("operation_id")
+    @api.onchange('operation_id')
     def _onchange_operation_id(self):
         if not self.operation_id.operation_type:
             warning = {
                 "title": _("Warning!"),
                 "message": _("You must first select a operation type."),
             }
-            return {"warning": warning}
+            return {'warning': warning}
