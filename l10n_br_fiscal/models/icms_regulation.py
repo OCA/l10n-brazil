@@ -950,18 +950,45 @@ class ICMSRegulation(models.Model):
                      cest=None, operation_line=None):
 
         self.ensure_one()
+        tax_definitions = self.env['l10n_br_fiscal.tax.definition']
+        tax_group_icms = self.env.ref('l10n_br_fiscal.tax_group_icms')
+        tax_group_icmsst = self.env.ref('l10n_br_fiscal.tax_group_icmsst')
+        # tax_group_icmsfcp = self.env.ref('l10n_br_fiscal.tax_group_icmsfcp')
+
+        if not ncm:
+            ncm = product.ncm_id
+
+        if not cest:
+            cest = product.cest_id
 
         domain = [
             ('icms_regulation_id', '=', self.id),
-            ('state_from_id', '=', company.state_id.id)]
+            ('state_from_id', '=', company.state_id.id),
+        ]
 
-        # Partner Is Company?
+        # Is Partner ICMS Taxpayer?
+        # ICMS
+        icms_domain = domain
         if partner.is_company:
-            domain.append(('state_to_id', '=', partner.state_id.id))
+            icms_domain.append(('state_to_id', '=', partner.state_id.id))
         else:
-            domain.append(('state_to_id', '=', company.state_id.id))
+            icms_domain.append(('state_to_id', '=', company.state_id.id))
 
-        tax_definitions = self.env['l10n_br_fiscal.tax.definition'].search(
-            domain)
+        icms_domain.append(('tax_group_id', '=', tax_group_icms.id))
+
+        tax_definitions |= tax_definitions.search(icms_domain)
+
+        # ICMS ST
+        icmsst_domain = domain
+        icmsst_domain += [
+            '|',
+            ('state_to_id', '=', partner.state_id.id),
+            ('state_to_id', '=', company.state_id.id)]
+
+        icmsst_domain.append(('tax_group_id', '=', tax_group_icmsst.id))
+        icmsst_domain.append(('ncm_ids', '=', ncm.id))
+        icmsst_domain.append(('cest_ids', '=', cest.id))
+
+        tax_definitions |= tax_definitions.search(icmsst_domain)
 
         return tax_definitions.mapped('tax_id')
