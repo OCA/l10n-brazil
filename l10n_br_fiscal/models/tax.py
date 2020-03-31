@@ -48,9 +48,9 @@ TAX_DICT_VALUES = {
 
 
 class Tax(models.Model):
-    _name = "l10n_br_fiscal.tax"
-    _order = "sequence, tax_domain, name"
-    _description = "Tax"
+    _name = 'l10n_br_fiscal.tax'
+    _order = 'sequence, tax_domain, name'
+    _description = 'Fiscal Tax'
 
     name = fields.Char(
         string="Name",
@@ -59,11 +59,11 @@ class Tax(models.Model):
 
     sequence = fields.Integer(
         string="Sequence",
-        default=10,
         related="tax_group_id.sequence",
+        default=10,
         required=True,
         help="The sequence field is used to define "
-        "order in which the tax lines are applied.")
+             "order in which the tax lines are applied.")
 
     tax_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -372,8 +372,8 @@ class Tax(models.Model):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
-        partner = kwargs.get("partner")
-        company = kwargs.get("company")
+        # partner = kwargs.get("partner")
+        # company = kwargs.get("company")
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
@@ -389,7 +389,6 @@ class Tax(models.Model):
         kwargs.update({
             'add_to_base': sum(add_to_base),
             'remove_from_base': sum(remove_from_base),
-            'compute_reduction': compute_reduction,
             'icmsst_base_type': tax.icmsst_base_type
         })
 
