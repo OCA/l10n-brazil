@@ -38,15 +38,27 @@ class Cest(models.Model):
         relation='fiscal_cest_ncm_rel',
         colunm1='cest_id',
         colunm2='ncm_id',
-        compute='_compute_ncms',
-        store=True,
         readonly=True,
         string='NCMs')
 
-    @api.depends('ncms')
-    def _compute_ncms(self):
+    @api.model
+    def create(self, values):
+        create_super = super(Cest, self).create(values)
+        if 'ncms' in values.keys():
+            create_super.action_search_ncms()
+        return create_super
+
+    @api.multi
+    def write(self, values):
+        write_super = super(Cest, self).write(values)
+        if 'ncms' in values.keys():
+            write_super.action_search_ncms()
+        return write_super
+
+    @api.multi
+    def action_search_ncms(self):
         ncm = self.env['l10n_br_fiscal.ncm']
         for r in self:
             if r.ncms:
-                domain = misc.domain_field_codes(r.ncms)
+                domain = misc.domain_field_codes(field_codes=r.ncms)
                 r.ncm_ids = ncm.search(domain)
