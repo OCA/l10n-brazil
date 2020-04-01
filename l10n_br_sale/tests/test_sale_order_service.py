@@ -23,6 +23,7 @@ class TestSaleOrderService(common.TransactionCase):
             line._onchange_operation_id()
             line._onchange_operation_line_id()
             line._onchange_fiscal_taxes()
+            line.price_unit = 100
             self.assertTrue(
                 line.operation_id,
                 "Error to mapping Operation on Sale Order Line.",
