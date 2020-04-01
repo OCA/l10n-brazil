@@ -4,10 +4,10 @@
 
 import logging
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.addons import decimal_precision as dp
-from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_is_zero, float_compare
+from odoo.exceptions import UserError
+from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -392,15 +392,12 @@ class SaleOrder(models.Model):
                 if line.display_type == 'line_section':
                     pending_section = line
                     continue
-                if float_is_zero(
-                    line.qty_to_invoice, precision_digits=precision):
+                if float_is_zero(line.qty_to_invoice, precision_digits=precision):
                     continue
                 if group_key not in invoices:
                     inv_data = order.with_context(
-                        document_type_id=
-                        line.operation_line_id.get_document_type(
-                            line.order_id.company_id).id
-                    )._prepare_invoice()
+                        document_type_id=line.operation_line_id.get_document_type(
+                            line.order_id.company_id).id)._prepare_invoice()
                     invoice = inv_obj.create(inv_data)
                     references[invoice] = order
                     invoices[group_key] = invoice
@@ -409,8 +406,8 @@ class SaleOrder(models.Model):
                 elif group_key in invoices:
                     if order.name not in invoices_origin[group_key]:
                         invoices_origin[group_key].append(order.name)
-                    if (order.client_order_ref and
-                        order.client_order_ref not in invoices_name[group_key]):
+                    if (order.client_order_ref and order.client_order_ref
+                            not in invoices_name[group_key]):
                         invoices_name[group_key].append(order.client_order_ref)
 
                 if line.qty_to_invoice > 0 or (line.qty_to_invoice < 0 and final):
