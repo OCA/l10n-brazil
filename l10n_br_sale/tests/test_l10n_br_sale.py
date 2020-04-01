@@ -71,7 +71,7 @@ class TestL10nBRSale(common.TransactionCase):
             self.assertEquals(
                 line.icmsfcp_tax_id.name, 'FCP 2%',
                 "Error to mapping ICMS FCP 2%"
-                 " for Venda de Contribuinte Dentro do Estado.")
+                " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
             if line.operation_line_id.name == 'Revenda':
@@ -176,9 +176,10 @@ class TestL10nBRSale(common.TransactionCase):
                          price_unit=100,
                          operation_id=self.env.ref('l10n_br_fiscal.fo_venda').id,
                          operation_line_id=self.env.ref(
-                            'l10n_br_fiscal.fo_venda_venda').id,
+                             'l10n_br_fiscal.fo_venda_venda').id
                      ),
-                     )],
+                     )
+                ],
             )
         )
         self.sale_discount.onchange_partner_id()
