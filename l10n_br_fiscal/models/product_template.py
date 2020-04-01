@@ -35,6 +35,11 @@ class ProductTemplate(models.Model):
         default=_get_default_ncm_id,
         string="NCM")
 
+    nbm_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.nbm',
+        index=True,
+        string="NBM")
+
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
         string="Fiscal Genre")
