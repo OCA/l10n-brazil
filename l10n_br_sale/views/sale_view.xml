@@ -252,7 +252,10 @@
             <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace">
                 <notebook>
                     <page string="Invoice Lines" groups="base.group_no_one">
-                        <field name="invoice_lines"/>
+                        <div attrs="{'invisible': [('display_type', '!=', False)]}">
+                            <label for="invoice_lines"/>
+                            <field name="invoice_lines"/>
+                        </div>
                     </page>
                     <page string="Informações Fiscais">
                         <group string="Informação de interesse do emissor para controle do B2B">
