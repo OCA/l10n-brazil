@@ -170,7 +170,7 @@ class OperationLine(models.Model):
 
     def map_fiscal_taxes(self, company, partner, product=None,
                          fiscal_price=None, fiscal_quantity=None,
-                         ncm=None, nbs=None, cest=None):
+                         ncm=None, nbm=None, nbs=None, cest=None):
 
         mapping_result = {
             'taxes': {},
