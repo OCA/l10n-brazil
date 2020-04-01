@@ -38,6 +38,7 @@ class TestL10nBRSale(common.TransactionCase):
             line._onchange_operation_id()
             line._onchange_operation_line_id()
             line._onchange_fiscal_taxes()
+            line.price_unit = 100
             self.assertTrue(
                 line.operation_id,
                 "Error to mapping Fiscal Position on Sale Order Line.",
@@ -205,6 +206,7 @@ class TestL10nBRSale(common.TransactionCase):
                 line.operation_line_id,
                 "Error to mapping Operation Line on Sale Order Line.",
             )
+            line.price_unit = 100
 
         self.sale_discount.action_confirm()
         self.assertTrue(self.sale_discount.state == 'sale')
@@ -214,6 +216,6 @@ class TestL10nBRSale(common.TransactionCase):
         for invoice in self.sale_discount.invoice_ids:
             self.assertEquals(
                 invoice.amount_untaxed,
-                3280.5,
+                90.0,
                 u"Error to apply discount on invoice" u" created from sale order.",
             )
