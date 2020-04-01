@@ -154,6 +154,13 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         default=_get_default_ncm_id,
         string="NCM")
 
+    nbm_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.nbm",
+        index=True,
+        string="NBM",
+        domain="[('ncm_ids', '=', ncm_id)]")
+
+
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         index=True,
@@ -924,6 +931,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             other_costs_value=self.other_costs_value,
             freight_value=self.freight_value,
             ncm=self.ncm_id,
+            nbm=self.nbm_id,
             cest=self.cest_id,
             operation_line=self.operation_line_id,
             icmssn_range=self.icmssn_range_id)
@@ -1090,6 +1098,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
                 partner=self.partner_id,
                 product=self.product_id,
                 ncm=self.ncm_id,
+                nbm=self.nbm_id,
                 nbs=self.nbs_id,
                 cest=self.cest_id)
 
@@ -1109,6 +1118,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.name = self.product_id.display_name
             self.uom_id = self.product_id.uom_id
             self.ncm_id = self.product_id.ncm_id
+            self.nbm_id = self.product_id.nbm_id
             self.cest_id = self.product_id.cest_id
             self.nbs_id = self.product_id.nbs_id
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
@@ -1118,6 +1128,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
             self.name = False
             self.uom_id = False
             self.ncm_id = False
+            self.nbm_id = False
             self.cest_id = False
             self.nbs_id = False
             self.fiscal_genre_id = False
