@@ -59,6 +59,7 @@
         "views/tax_ipi_guideline_view.xml",
         "views/tax_ipi_guideline_class_view.xml",
         "views/ncm_view.xml",
+        "views/nbm_view.xml",
         "views/nbs_view.xml",
         "views/service_type_view.xml",
         "views/cest_view.xml",

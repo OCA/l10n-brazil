@@ -16,6 +16,7 @@ def post_init_hook(cr, registry):
         "data/l10n_br_fiscal.tax.ipi.guideline.class.csv",
         "data/l10n_br_fiscal.ncm.csv",
         "data/l10n_br_fiscal.cest.csv",
+        "data/l10n_br_fiscal.nbm.csv",
         "data/l10n_br_fiscal.tax.pis.cofins.base.csv",
         "data/l10n_br_fiscal.tax.pis.cofins.credit.csv",
         "data/l10n_br_fiscal.nbs.csv",
