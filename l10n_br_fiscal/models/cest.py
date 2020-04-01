@@ -12,6 +12,12 @@ class Cest(models.Model):
     _inherit = 'l10n_br_fiscal.data.product.abstract'
     _description = 'CEST'
 
+    code = fields.Char(
+        size=9)
+
+    code_unmasked = fields.Char(
+        size=7)
+
     name = fields.Text(
         string='Name',
         required=True,
@@ -19,8 +25,7 @@ class Cest(models.Model):
 
     item = fields.Char(
         string='Item',
-        required=True,
-        size=6)
+        required=True)
 
     segment = fields.Selection(
         selection=CEST_SEGMENT,
@@ -45,14 +50,15 @@ class Cest(models.Model):
     def create(self, values):
         create_super = super(Cest, self).create(values)
         if 'ncms' in values.keys():
-            create_super.action_search_ncms()
+            create_super.with_context(do_not_write=True).action_search_ncms()
         return create_super
 
     @api.multi
     def write(self, values):
         write_super = super(Cest, self).write(values)
-        if 'ncms' in values.keys():
-            write_super.action_search_ncms()
+        do_not_write = self.env.context.get('do_not_write')
+        if 'ncms' in values.keys() and not do_not_write:
+            self.with_context(do_not_write=True).action_search_ncms()
         return write_super
 
     @api.multi

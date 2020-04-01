@@ -1,69 +1,104 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
-from ..constants.fiscal import FISCAL_IN_OUT, FISCAL_OUT, TAX_DOMAIN
+from ..constants.fiscal import (
+    FISCAL_IN_OUT,
+    FISCAL_OUT,
+    TAX_DOMAIN,
+    OPERATION_STATE_DEFAULT,
+    OPERATION_STATE
+)
+
 from ..tools import misc
 
 
 class TaxDefinition(models.Model):
     _name = 'l10n_br_fiscal.tax.definition'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Tax Definition'
 
     type_in_out = fields.Selection(
         selection=FISCAL_IN_OUT,
         string='Type',
         required=True,
-        default=FISCAL_OUT)
+        default=FISCAL_OUT,
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     tax_group_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.tax.group',
         string='Tax Group',
-        required=True)
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     custom_tax = fields.Boolean(
-        string='Custom Tax')
+        string='Custom Tax',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     tax_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.tax',
         string='Tax',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
         domain="[('tax_group_id', '=', tax_group_id)]")
 
     cst_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cst',
         string='CST',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
         domain="[('cst_type', 'in', (type_in_out, 'all')), "
                "('tax_domain', '=', tax_domain)]")
 
     cst_code = fields.Char(
         string='CST Code',
-        related='cst_id.code')
+        related='cst_id.code',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
         related='tax_group_id.tax_domain',
         store=True,
-        string='Tax Domain')
+        string='Tax Domain',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     is_taxed = fields.Boolean(
-        string='Taxed?')
+        string='Taxed?',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     is_debit_credit = fields.Boolean(
-        string='Debit/Credit?')
+        string='Debit/Credit?',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     company_id = fields.Many2one(
         comodel_name='res.company',
-        string='Company')
+        string='Company',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
-    ncms = fields.Char(
-        string='NCM List')
+    ncms = fields.Text(
+        string='NCM List',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
-    ncm_exception = fields.Char(
-        string='NCM Exeption')
+    ncm_exception = fields.Text(
+        string='NCM Exeption',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
-    not_in_ncms = fields.Char(
-        string='Not in NCM')
+    not_in_ncms = fields.Text(
+        string='Not in NCMs',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     ncm_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.ncm',
@@ -73,8 +108,10 @@ class TaxDefinition(models.Model):
         readonly=True,
         string='NCMs')
 
-    cests = fields.Char(
-        string='CEST')
+    cests = fields.Text(
+        string='CEST List',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
     cest_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.cest',
@@ -83,6 +120,63 @@ class TaxDefinition(models.Model):
         colunm2='ncm_id',
         readonly=True,
         string='CESTs')
+
+    nbms = fields.Text(
+        string='NBM List',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+
+    not_in_nbms = fields.Text(
+        string='Not in NBMs',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+
+    nbm_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.nbm',
+        relation='tax_definition_nbm_rel',
+        colunm1='tax_definition_id',
+        colunm2='nbm_id',
+        readonly=True,
+        string='NBMs')
+
+    date_start = fields.Datetime(
+        string='Start Date',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+
+    date_end = fields.Datetime(
+        string='End Date',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+
+    state = fields.Selection(
+        selection=OPERATION_STATE,
+        string='State',
+        default=OPERATION_STATE_DEFAULT,
+        index=True,
+        readonly=True,
+        track_visibility='onchange',
+        copy=False)
+
+    @api.multi
+    def action_review(self):
+        self.write({'state': 'review'})
+
+    @api.multi
+    def action_approve(self):
+        self.write({'state': 'approved'})
+
+    @api.multi
+    def action_draft(self):
+        self.write({'state': 'draft'})
+
+    @api.multi
+    def unlink(self):
+        operations = self.filtered(lambda l: l.state == 'approved')
+        if operations:
+            raise UserError(
+                _("You cannot delete an Tax Definition which is not draft !"))
+        return super(TaxDefinition, self).unlink()
 
     @api.multi
     def action_search_ncms(self):
@@ -124,15 +218,39 @@ class TaxDefinition(models.Model):
             if domain:
                 r.cest_ids = cest.search(domain)
 
+    @api.multi
+    def action_search_nbms(self):
+        nbm = self.env['l10n_br_fiscal.nbm']
+        for r in self:
+            domain = []
+
+            # Clear Field
+            r.nbm_ids = False
+            if r.nbms:
+                domain += misc.domain_field_codes(r.nbms, code_size=10)
+
+            if r.not_in_nbms:
+                domain += misc.domain_field_codes(
+                    field_codes=r.not_in_nbms,
+                    operator1='!=',
+                    operator2='not ilike',
+                    code_size=10)
+
+            if domain:
+                r.nbm_ids = nbm.search(domain)
+
     @api.model
     def create(self, values):
         create_super = super(TaxDefinition, self).create(values)
         ncm_fields_list = ('ncms', 'not_in_ncms', 'ncm_exception')
         if set(ncm_fields_list).intersection(values.keys()):
-            create_super.action_search_ncms()
+            create_super.with_context(do_not_write=True).action_search_ncms()
 
         if 'cests' in values.keys():
-            create_super.action_search_cests()
+            create_super.with_context(do_not_write=True).action_search_cests()
+
+        if 'nbms' in values.keys():
+            create_super.with_context(do_not_write=True).action_search_nbms()
 
         return create_super
 
@@ -140,11 +258,16 @@ class TaxDefinition(models.Model):
     def write(self, values):
         write_super = super(TaxDefinition, self).write(values)
         ncm_fields_list = ('ncms', 'not_in_ncms', 'ncm_exception')
-        if set(ncm_fields_list).intersection(values.keys()):
-            self.action_search_ncms()
+        do_not_write = self.env.context.get('do_not_write')
+        if (set(ncm_fields_list).intersection(values.keys())
+                and not do_not_write):
+            self.with_context(do_not_write=True).action_search_ncms()
 
-        if 'cests' in values.keys():
-            self.action_search_cests()
+        if 'cests' in values.keys() and not do_not_write:
+            self.with_context(do_not_write=True).action_search_cests()
+
+        if 'nbms' in values.keys() and not do_not_write:
+            self.with_context(do_not_write=True).action_search_nbms()
 
         return write_super
 
