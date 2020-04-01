@@ -992,3 +992,19 @@ class ICMSRegulation(models.Model):
         tax_definitions |= tax_definitions.search(icmsst_domain)
 
         return tax_definitions.mapped('tax_id')
+
+    def _map_icms_origin(self, company, partner, product, ncm=None,
+                         cest=None, operation_line=None):
+        pass
+
+    def _map_icms_destination(self, company, partner, product, ncm=None,
+                              cest=None, operation_line=None):
+        pass
+
+    def _map_icmsst(self, company, partner, product, ncm=None,
+                    cest=None, operation_line=None):
+        pass
+
+    def _map_icmsfcp(self, company, partner, product, ncm=None,
+                     cest=None, operation_line=None):
+        pass
