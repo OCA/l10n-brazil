@@ -13,6 +13,7 @@
     <!-- Service -->
     <record id="sale.advance_product_0" model="product.product">
         <field name="invoice_policy">order</field>
+        <field name="fiscal_type">09</field>
     </record>
 
     <!-- Sale Order Teste - 1 -->
