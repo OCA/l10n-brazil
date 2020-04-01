@@ -253,6 +253,24 @@
         </field>
     </record>
 
+    <!-- NBM -->
+    <record id="nbm_action" model="ir.actions.act_window">
+        <field name="name">NBM</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.nbm</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="nbm_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new NBM
+            </p><p>
+              A NBM is necessary to create
+              fiscal operations for your fiscal moves.
+            </p>
+        </field>
+    </record>
+
     <!-- NBS -->
     <record id="nbs_action" model="ir.actions.act_window">
         <field name="name">NBS</field>
