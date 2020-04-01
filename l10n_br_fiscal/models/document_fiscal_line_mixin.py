@@ -160,7 +160,6 @@ class DocumentFiscalLineMixin(models.AbstractModel):
         string="NBM",
         domain="[('ncm_ids', '=', ncm_id)]")
 
-
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         index=True,
