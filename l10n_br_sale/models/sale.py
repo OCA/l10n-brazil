@@ -77,11 +77,14 @@ class SaleOrder(models.Model):
             quantity=qty,
             partner=line.order_id.partner_invoice_id,
             product=line.product_id,
+            # TODO - The fields below are used in Base ICMS
+            #  calculation https://github.com/OCA/l10n-brazil/blob/
+            #  10.0/l10n_br_account_product/models/account_tax.py#L155
             # line.order_id.partner_id,
             # operation_id=line.operation_id,
-            insurance_value=line.insurance_value,
-            freight_value=line.freight_value,
-            other_costs_value=line.other_costs_value,
+            # insurance_value=line.insurance_value,
+            # freight_value=line.freight_value,
+            # other_costs_value=line.other_costs_value,
         )["taxes"]:
             tax = self.env["account.tax"].browse(computed["id"])
             if not tax.tax_group_id.tax_discount:
@@ -327,15 +330,8 @@ class SaleOrder(models.Model):
         # TODO FISCAL Commnet
         # result['fiscal_comment'] = " - ".join(fiscal_comment)
         # fiscal_comment = self._fiscal_comment(self)
-
         result['comment'] = " - ".join(comment)
         result['operation_id'] = self.operation_id.id
-
-        # TODO - Error -
-        #  null value in column "operation_type"
-        #  violates not-null constraint -
-        #  INSERT INTO "l10n_br_fiscal_document"
-        #  but the field are going on the dictionary
         result['fiscal_document_id'] = False
         result['document_type_id'] = self._context.get('document_type_id')
         result['operation_type'] = self.operation_id.operation_type
