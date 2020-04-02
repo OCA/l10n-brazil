@@ -87,15 +87,6 @@ class SaleOrderLine(models.Model):
         related="order_id.company_id.tax_framework",
         string="Tax Framework")
 
-    insurance_value = fields.Float(
-        string="Insurance", default=0.0, digits=dp.get_precision("Account")
-    )
-    other_costs_value = fields.Float(
-        string="Other costs", default=0.0, digits=dp.get_precision("Account")
-    )
-    freight_value = fields.Float(
-        string="Freight", default=0.0, digits=dp.get_precision("Account")
-    )
     customer_order = fields.Char(string=u"Pedido do Cliente", size=15)
     customer_order_line = fields.Char(string=u"Item do Pedido do Cliente", size=6)
 
