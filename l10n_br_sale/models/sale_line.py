@@ -34,10 +34,12 @@ class SaleOrderLine(models.Model):
                 quantity=qty,
                 product=record.product_id,
                 partner=record.order_id.partner_invoice_id,
-                # operation=record.operation_id,
-                insurance_value=record.insurance_value,
-                freight_value=record.freight_value,
-                other_costs_value=record.other_costs_value,
+                # TODO - The fields below are used in Base ICMS
+                #  calculation https://github.com/OCA/l10n-brazil/blob/
+                #  10.0/l10n_br_account_product/models/account_tax.py#L155
+                # insurance_value=record.insurance_value,
+                # freight_value=record.freight_value,
+                # other_costs_value=record.other_costs_value,
             )
 
             record.price_subtotal = record.order_id.pricelist_id.currency_id.round(
@@ -93,19 +95,6 @@ class SaleOrderLine(models.Model):
     )
     freight_value = fields.Float(
         string="Freight", default=0.0, digits=dp.get_precision("Account")
-    )
-    discount_value = fields.Float(
-        compute="_amount_line",
-        string="Vlr. Desc. (-)",
-        digits=dp.get_precision("Sale Price"),
-    )
-    price_gross = fields.Float(
-        compute="_amount_line",
-        string="Vlr. Bruto",
-        digits=dp.get_precision("Sale Price"),
-    )
-    price_subtotal = fields.Float(
-        compute="_amount_line", string="Subtotal", digits=dp.get_precision("Sale Price")
     )
     customer_order = fields.Char(string=u"Pedido do Cliente", size=15)
     customer_order_line = fields.Char(string=u"Item do Pedido do Cliente", size=6)
