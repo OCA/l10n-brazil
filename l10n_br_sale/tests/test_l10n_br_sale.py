@@ -38,7 +38,7 @@ class TestL10nBRSale(common.TransactionCase):
             line._onchange_operation_id()
             line._onchange_operation_line_id()
             line._onchange_fiscal_taxes()
-            line.price_unit = 100
+            line.price_unit = 500
             self.assertTrue(
                 line.operation_id,
                 "Error to mapping Fiscal Position on Sale Order Line.",
@@ -60,12 +60,12 @@ class TestL10nBRSale(common.TransactionCase):
 
             # ICMS
             self.assertEquals(
-                line.icms_tax_id.name, 'ICMS 25%',
-                "Error to mapping ICMS 25%"
+                line.icms_tax_id.name, 'ICMS 12%',
+                "Error to mapping ICMS 12%"
                 " for Venda de Contribuinte Dentro do Estado.")
             self.assertEquals(
                 line.icms_cst_id.code, '00',
-                "Error to mapping CST 00 from ICMS 25%"
+                "Error to mapping CST 00 from ICMS 12%"
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # ICMS FCP
