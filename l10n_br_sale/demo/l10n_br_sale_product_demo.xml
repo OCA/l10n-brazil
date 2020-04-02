@@ -21,7 +21,7 @@
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">500</field>
         <field name="insurance_value">2.0</field>
         <field name="other_costs_value">1.0</field>
         <field name="freight_value">3.0</field>
@@ -36,7 +36,7 @@
         <field name="product_id" ref="product.product_product_12"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">500</field>
         <field name="insurance_value">2.0</field>
         <field name="other_costs_value">1.0</field>
         <field name="freight_value">3.0</field>
