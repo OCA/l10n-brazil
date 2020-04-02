@@ -23,6 +23,7 @@ class TestL10nBRSaleProduct(common.TransactionCase):
             line._onchange_operation_id()
             line._onchange_operation_line_id()
             line._onchange_fiscal_taxes()
+            line.price_unit = 250
             self.assertTrue(
                 line.operation_line_id,
                 "Operation Line is missing in Sale Order Line.",
@@ -30,7 +31,7 @@ class TestL10nBRSaleProduct(common.TransactionCase):
 
         self.assertEquals(
             self.sale_stock.amount_total,
-            7327.0,
+            1012.0,
             u"Error to apply discount on sale order.",
         )
         self.assertEquals(
@@ -55,7 +56,7 @@ class TestL10nBRSaleProduct(common.TransactionCase):
         for invoice in self.sale_stock.invoice_ids:
             self.assertEquals(
                 invoice.amount_untaxed,
-                7315.0,
+                1000.0,
                 u"Error to apply discount on invoice" u" created from sale order.",
             )
             for line in invoice.invoice_line_ids:
