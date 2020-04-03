@@ -68,6 +68,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53"/>
+        <field name="state">draft</field>
     </record>
 
     <record id="fo_venda_55_serie_1" model="l10n_br_fiscal.operation.document.type">
