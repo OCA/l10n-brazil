@@ -26,6 +26,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_3"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_01"/>
+        <field name="state">draft</field>
     </record>
 
     <record id="pis_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
@@ -36,6 +37,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0_65"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_pis_01"/>
+        <field name="state">draft</field>
     </record>
 
     <!-- Empresa Simples Nacional -->
@@ -86,6 +88,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_com_credito"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_101"/>
+        <field name="state">draft</field>
     </record>
 
     <record id="cofins_tax_definition_simples_nacional" model="l10n_br_fiscal.tax.definition">
@@ -96,6 +99,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_simples_nacional"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_49"/>
+        <field name="state">draft</field>
     </record>
 
     <record id="pis_tax_definition_simples_nacional" model="l10n_br_fiscal.tax.definition">
@@ -106,6 +110,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_pis_simples_nacional"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_pis_49"/>
+        <field name="state">draft</field>
     </record>
 
     <record id="ipi_tax_definition_simples_nacional" model="l10n_br_fiscal.tax.definition">
@@ -116,6 +121,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_simples_nacional"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_99"/>
+        <field name="state">draft</field>
     </record>
 
     <!-- Configure Users -->
