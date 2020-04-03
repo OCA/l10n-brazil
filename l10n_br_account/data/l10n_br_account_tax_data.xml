@@ -68,22 +68,36 @@
     </record>
 
     <record id="l10n_br_simple.tax_template_out_icms" model="account.tax.template">
-        <field name="fiscal_tax_ids" eval="[(6, False,[
-            ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
-            ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'), ref('l10n_br_fiscal.tax_icms_antst'),
-            ref('l10n_br_fiscal.tax_icms_outras'), ref('l10n_br_fiscal.tax_icms_4'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_12'),
-            ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_175'), ref('l10n_br_fiscal.tax_icms_18'),
-            ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20')
-        ])]"/>
+      <field name="fiscal_tax_ids" eval="[(6, False,[
+          ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
+          ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'), ref('l10n_br_fiscal.tax_icms_antst'),
+          ref('l10n_br_fiscal.tax_icms_outras'), ref('l10n_br_fiscal.tax_icms_0'), ref('l10n_br_fiscal.tax_icms_1'), ref('l10n_br_fiscal.tax_icms_4'),
+          ref('l10n_br_fiscal.tax_icms_6'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_8_5'), ref('l10n_br_fiscal.tax_icms_9'),
+          ref('l10n_br_fiscal.tax_icms_10'), ref('l10n_br_fiscal.tax_icms_12'), ref('l10n_br_fiscal.tax_icms_13'), ref('l10n_br_fiscal.tax_icms_14'),
+          ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_17_5'), ref('l10n_br_fiscal.tax_icms_18'),
+          ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20') ref('l10n_br_fiscal.tax_icms_21'), ref('l10n_br_fiscal.tax_icms_25'),
+          ref('l10n_br_fiscal.tax_icms_27'), ref('l10n_br_fiscal.tax_icms_28'), ref('l10n_br_fiscal.tax_icms_29'), ref('l10n_br_fiscal.tax_icms_30'),
+          ref('l10n_br_fiscal.tax_icms_35'), ref('l10n_br_fiscal.tax_icms_37'), ref('l10n_br_fiscal.tax_icms_38'),
+          ref('l10n_br_fiscal.tax_icms_7_red_26_57'), ref('l10n_br_fiscal.tax_icms_12_red_26_57'), ref('l10n_br_fiscal.tax_icms_18_red_51_11'),
+          ref('l10n_br_fiscal.tax_icms_7_red_41_43'), ref('l10n_br_fiscal.tax_icms_12_red_41_67'), ref('l10n_br_fiscal.tax_icms_12_red_53_33'),
+          ref('l10n_br_fiscal.tax_icms_18_red_68_89'),
+      ])]"/>
     </record>
 
     <record id="l10n_br_simple.tax_template_in_icms" model="account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
             ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'), ref('l10n_br_fiscal.tax_icms_antst'),
-            ref('l10n_br_fiscal.tax_icms_outras'), ref('l10n_br_fiscal.tax_icms_4'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_12'),
-            ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_175'), ref('l10n_br_fiscal.tax_icms_18'),
-            ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20')
+            ref('l10n_br_fiscal.tax_icms_outras'), ref('l10n_br_fiscal.tax_icms_0'), ref('l10n_br_fiscal.tax_icms_1'), ref('l10n_br_fiscal.tax_icms_4'),
+            ref('l10n_br_fiscal.tax_icms_6'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_8_5'), ref('l10n_br_fiscal.tax_icms_9'),
+            ref('l10n_br_fiscal.tax_icms_10'), ref('l10n_br_fiscal.tax_icms_12'), ref('l10n_br_fiscal.tax_icms_13'), ref('l10n_br_fiscal.tax_icms_14'),
+            ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_17_5'), ref('l10n_br_fiscal.tax_icms_18'),
+            ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20') ref('l10n_br_fiscal.tax_icms_21'), ref('l10n_br_fiscal.tax_icms_25'),
+            ref('l10n_br_fiscal.tax_icms_27'), ref('l10n_br_fiscal.tax_icms_28'), ref('l10n_br_fiscal.tax_icms_29'), ref('l10n_br_fiscal.tax_icms_30'),
+            ref('l10n_br_fiscal.tax_icms_35'), ref('l10n_br_fiscal.tax_icms_37'), ref('l10n_br_fiscal.tax_icms_38'),
+            ref('l10n_br_fiscal.tax_icms_7_red_26_57'), ref('l10n_br_fiscal.tax_icms_12_red_26_57'), ref('l10n_br_fiscal.tax_icms_18_red_51_11'),
+            ref('l10n_br_fiscal.tax_icms_7_red_41_43'), ref('l10n_br_fiscal.tax_icms_12_red_41_67'), ref('l10n_br_fiscal.tax_icms_12_red_53_33'),
+            ref('l10n_br_fiscal.tax_icms_18_red_68_89'),
         ])]"/>
     </record>
 
@@ -107,13 +121,23 @@
         ])]"/>
     </record>
 
-    <!-- TODO
+
     <record id="l10n_br_simple.tax_template_out_icms_subist" model="account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_icmsst_29_43'), ref('l10n_br_fiscal.tax_icmsst_40'), ref('l10n_br_fiscal.tax_icmsst_42_73'),
+            ref('l10n_br_fiscal.tax_icmsst_47'), ref('l10n_br_fiscal.tax_icmsst_57'), ref('l10n_br_fiscal.tax_icmsst_71_48'),
+            ref('l10n_br_fiscal.tax_icmsst_146'), ref('l10n_br_fiscal.tax_icmsst_148')
+        ])]"/>
     </record>
 
     <record id="l10n_br_simple.tax_template_in_icms_subist" model="account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_icmsst_29_43'), ref('l10n_br_fiscal.tax_icmsst_40'), ref('l10n_br_fiscal.tax_icmsst_42_73'),
+            ref('l10n_br_fiscal.tax_icmsst_47'), ref('l10n_br_fiscal.tax_icmsst_57'), ref('l10n_br_fiscal.tax_icmsst_71_48'),
+            ref('l10n_br_fiscal.tax_icmsst_146'), ref('l10n_br_fiscal.tax_icmsst_148')
+        ])]"/>
     </record>
-    -->
+
 
     <record id="l10n_br_simple.tax_template_out_icmsfcp" model="account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
