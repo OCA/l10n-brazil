@@ -43,11 +43,11 @@ class AccountInvoice(models.Model):
         related='partner_id.cnpj_cpf')
 
     legal_name = fields.Char(
-        string='Legal Name',
+        string='Adapted Legal Name',
         related='partner_id.legal_name')
 
     ie = fields.Char(
-        string='State Tax Number',
+        string='Adapted State Tax Number',
         related='partner_id.inscr_est')
 
     # this default should be overwritten to False in a module pretending to
