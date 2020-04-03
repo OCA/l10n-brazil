@@ -6,6 +6,7 @@
     <field name="model">l10n_br_fiscal.tax.definition</field>
     <field name="arch" type="xml">
       <tree>
+        <field name="state" invisible="1"/>
         <field name="tax_group_id"/>
         <field name="is_taxed"/>
         <field name="tax_id"/>
