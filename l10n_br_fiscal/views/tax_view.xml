@@ -44,6 +44,8 @@
                         <field name="tax_base_type" attrs="{'invisible': [('tax_domain', 'in', ('icms', 'icmsst'))]}"/>
                         <field name="icms_base_type" attrs="{'invisible': [('tax_domain', '!=', 'icms')]}"/>
                         <field name="icmsst_base_type" attrs="{'invisible': [('tax_domain', '!=', 'icmsst')]}"/>
+                        <field name="icmsst_mva_percent" attrs="{'invisible': [('tax_domain', '!=', 'icmsst'), ('icmsst_base_type', '!=', '4')]}"/>
+                        <field name="icmsst_value" attrs="{'invisible': [('tax_domain', '!=', 'icmsst'), ('icmsst_base_type', '=', '4')]}"/>
                         <field name="percent_amount" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
                         <field name="percent_reduction" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
                         <field name="percent_debit_credit" attrs="{'invisible': [('tax_base_type', '!=', 'percent')]}"/>
