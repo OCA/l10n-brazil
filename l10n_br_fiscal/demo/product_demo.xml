@@ -231,7 +231,7 @@
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000"/>
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94"/>
         <field name="fiscal_type">00</field>
-        <field name="icms_origin">6</field>
+        <field name="icms_origin">3</field>
     </record>
 
     <!-- Drawer -->
