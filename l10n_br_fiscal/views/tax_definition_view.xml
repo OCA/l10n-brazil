@@ -21,7 +21,7 @@
         <field name="state" invisible="1"/>
         <field name="tax_group_id" invisible="1"/>
         <field name="state_from_id"/>
-        <field name="state_to_id"/>
+        <field name="state_to_ids"/>
         <field name="tax_id"/>
       </tree>
     </field>
@@ -53,7 +53,7 @@
           </group>
           <group name="state" string="State">
             <field name="state_from_id" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
-            <field name="state_to_id" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
+            <field name="state_to_ids" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
           </group>
           <notebook>
             <page name="ncms_page" string="NCM">
@@ -87,6 +87,11 @@
                   <button name="action_search_cests" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Search CESTs" title="Search CESTs"/>
                 </div>
                 <field name="cest_ids" force_save="1" nolabel="1" colspan="2"/>
+              </group>
+            </page>
+            <page name="products_page" string="Product">
+              <group name="products" string="Products">
+                <field name="product_ids" force_save="1" nolabel="1" colspan="2"/>
               </group>
             </page>
           </notebook>
