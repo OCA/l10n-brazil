@@ -49,16 +49,14 @@ class OperationLine(models.Model):
         string='CFOP External',
         domain="[('type_in_out', '=', operation_type), "
                "('type_move', '=ilike', fiscal_type + '%'), "
-               "('destination', '=', '2')]",
-    )
+               "('destination', '=', '2')]")
 
     cfop_export_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
         string='CFOP Export',
         domain="[('type_in_out', '=', operation_type), "
                "('type_move', '=ilike', fiscal_type + '%'), "
-               "('destination', '=', '3')]",
-    )
+               "('destination', '=', '3')]")
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
@@ -210,7 +208,8 @@ class OperationLine(models.Model):
                 product=product,
                 ncm=ncm,
                 nbm=nbm,
-                cest=cest)
+                cest=cest,
+                operation_line=self)
 
             for tax in tax_icms_ids:
                 mapping_result['taxes'][tax.tax_domain] = tax
