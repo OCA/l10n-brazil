@@ -986,15 +986,15 @@ class ICMSRegulation(models.Model):
 
             icms_defs_specific = icms_defs.filtered(
                 lambda d: ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids)
+                or nbm.id in d.nbm_ids.ids
+                or cest.id in d.cest_ids.ids
+                or product.id in d.product_ids.ids)
 
             icms_defs_generic = icms_defs.filtered(
                 lambda d: not d.ncm_ids.ids
-                    and not d.nbm_ids.ids
-                    and not d.cest_ids.ids
-                    and not d.product_ids.ids)
+                and not d.nbm_ids.ids
+                and not d.cest_ids.ids
+                and not d.product_ids.ids)
 
             if icms_defs_specific:
                 tax_definitions |= icms_defs_specific
@@ -1019,9 +1019,9 @@ class ICMSRegulation(models.Model):
         else:
             tax_definitions |= icmsst_defs.filtered(
                 lambda d: ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids)
+                or nbm.id in d.nbm_ids.ids
+                or cest.id in d.cest_ids.ids
+                or product.id in d.product_ids.ids)
 
         return tax_definitions.mapped('tax_id')
 
