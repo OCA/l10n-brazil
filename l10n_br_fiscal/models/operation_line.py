@@ -186,7 +186,7 @@ class OperationLine(models.Model):
 
         # 1 Get Tax Defs from Company
         company_tax_defs = company.tax_definition_ids.map_tax_definition(
-            company, partner, product, ncm, nbs, cest)
+            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest)
 
         for tax in company_tax_defs.mapped('tax_id'):
             mapping_result['taxes'][tax.tax_domain] = tax
@@ -209,6 +209,7 @@ class OperationLine(models.Model):
                 partner=partner,
                 product=product,
                 ncm=ncm,
+                nbm=nbm,
                 cest=cest)
 
             for tax in tax_icms_ids:
