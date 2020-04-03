@@ -4,6 +4,8 @@
 
 from odoo.tests.common import TransactionCase
 
+from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
+
 
 class TestFiscalDocumentGeneric(TransactionCase):
 
@@ -64,11 +66,22 @@ class TestFiscalDocumentGeneric(TransactionCase):
                     "Error to mapping CFOP 5101"
                     " for Venda de Contribuinte Dentro do Estado.")
 
+            icms_internal_sp = [
+                self.env.ref('l10n_br_fiscal.tax_icms_4'),
+                self.env.ref('l10n_br_fiscal.tax_icms_7'),
+                self.env.ref('l10n_br_fiscal.tax_icms_12'),
+                self.env.ref('l10n_br_fiscal.tax_icms_18'),
+                self.env.ref('l10n_br_fiscal.tax_icms_25')
+            ]
+
+            is_icms_internal = line.icms_tax_id in icms_internal_sp
+
             # ICMS
-            self.assertEquals(
-                line.icms_tax_id.name, 'ICMS 12%',
-                "Error to mapping ICMS 12%"
-                " for Venda de Contribuinte Dentro do Estado.")
+            self.assertTrue(
+                is_icms_internal,
+                "Error to mapping ICMS Inernal for {0}"
+                " for Venda de Contribuinte Dentro do "
+                "Estado.".format(self.nfe_same_state.partner_id.state_id.name))
             self.assertEquals(
                 line.icms_cst_id.code, '00',
                 "Error to mapping CST 00 from ICMS 12%"
@@ -150,20 +163,25 @@ class TestFiscalDocumentGeneric(TransactionCase):
                     " for Venda de Contribuinte p/ Fora do Estado.")
 
             # ICMS
-            self.assertEquals(
-                line.icms_tax_id.name, 'ICMS 7%',
-                "Error to mapping ICMS 7%"
-                " for Venda de Contribuinte p/ Fora do Estado.")
-            self.assertEquals(
-                line.icms_cst_id.code, '00',
-                "Error to mapping CST 00 from ICMS 7%"
-                " for Venda de Contribuinte p/ Fora do Estado.")
+            if line.product_id.icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
+                self.assertEquals(
+                    line.icms_tax_id.name, 'ICMS 4%',
+                    "Error to mapping ICMS 4%"
+                    " for Venda de Contribuinte p/ Fora do Estado.")
+                self.assertEquals(
+                    line.icms_cst_id.code, '00',
+                    "Error to mapping CST 00 from ICMS 4%"
+                    " for Venda de Contribuinte p/ Fora do Estado.")
+            else:
 
-            # ICMS FCP
-            # self.assertEquals(
-            #    line.icmsfcp_tax_id.name, 'FCP 2%',
-            #    "Erro ao mapear ICMS FCP 2%"
-            #    " para Venda de Contribuinte p/ Fora do Estado.")
+                self.assertEquals(
+                    line.icms_tax_id.name, 'ICMS 7%',
+                    "Error to mapping ICMS 7%"
+                    " for Venda de Contribuinte p/ Fora do Estado.")
+                self.assertEquals(
+                    line.icms_cst_id.code, '00',
+                    "Error to mapping CST 00 from ICMS 7%"
+                    " for Venda de Contribuinte p/ Fora do Estado.")
 
             # IPI
             if line.operation_line_id.name == 'Revenda':

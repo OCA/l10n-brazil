@@ -67,7 +67,7 @@
         <field name="operation_type">out</field>
     </record>
 
-    <record id="demo_nfe_line_other_state_2-1" model="l10n_br_fiscal.document.line">
+    <record id="demo_nfe_line_other_state_1-3" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_6"/>
@@ -79,12 +79,24 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <record id="demo_nfe_line_same_state_2-2" model="l10n_br_fiscal.document.line">
+    <record id="demo_nfe_line_same_state_2-3" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">out</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <record id="demo_nfe_line_same_state_2-3" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_other_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_25"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">2400</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>

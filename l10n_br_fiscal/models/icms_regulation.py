@@ -5,11 +5,14 @@ from lxml import etree
 
 from odoo import api, fields, models
 
+from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 from ..constants.fiscal import (
+    FISCAL_OUT,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ICMS_ST,
     TAX_DOMAIN_ICMS_FCP
 )
+
 
 VIEW = """
 <page name="uf_{0}" string="{1}">
@@ -965,65 +968,104 @@ class ICMSRegulation(models.Model):
         # TODO Improve this method
         # Is Partner ICMS Taxpayer?
         # ICMS
-        icms_domain = domain
-        if partner.is_company:
-            icms_domain.append(('state_to_ids', '=', partner.state_id.id))
+
+        # ICMS tax imported
+        if (product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
+                and company.state_id != partner.state_id
+                and operation_line.operation_type == FISCAL_OUT):
+            icms_taxes = self.icms_imported_tax_id
+
         else:
-            icms_domain.append(('state_to_ids', '=', company.state_id.id))
-
-        icms_domain.append(('tax_group_id', '=', tax_group_icms.id))
-
-        icms_domain += [
-            '|',
-            ('ncm_ids', '=', False),
-            ('ncm_ids', '=', ncm.id)]
-
-        icms_defs = tax_definitions.search(icms_domain)
-
-        if len(icms_defs) == 1:
-            tax_definitions |= icms_defs
-        else:
-
-            icms_defs_specific = icms_defs.filtered(
-                lambda d: ncm.id in d.ncm_ids.ids
-                or nbm.id in d.nbm_ids.ids
-                or cest.id in d.cest_ids.ids
-                or product.id in d.product_ids.ids)
-
-            icms_defs_generic = icms_defs.filtered(
-                lambda d: not d.ncm_ids.ids
-                and not d.nbm_ids.ids
-                and not d.cest_ids.ids
-                and not d.product_ids.ids)
-
-            if icms_defs_specific:
-                tax_definitions |= icms_defs_specific
+            icms_domain = domain.copy()
+            if partner.is_company:
+                icms_domain.append(('state_to_ids', '=', partner.state_id.id))
             else:
-                tax_definitions |= icms_defs_generic
+                icms_domain.append(('state_to_ids', '=', company.state_id.id))
 
-        # ICMS ST
-        icmsst_domain = domain
-        icmsst_domain += [
-            '|',
-            ('state_to_ids', '=', partner.state_id.id),
-            ('state_to_ids', '=', company.state_id.id)]
+            icms_domain.append(('tax_group_id', '=', tax_group_icms.id))
 
-        icmsst_domain.append(('tax_group_id', '=', tax_group_icmsst.id))
-        icmsst_domain.append(('ncm_ids', '=', ncm.id))
-        icmsst_domain.append(('cest_ids', '=', cest.id))
+            icms_domain += [
+                '|',
+                ('ncm_ids', '=', False),
+                ('ncm_ids', '=', ncm.id)]
 
-        icmsst_defs = tax_definitions.search(icmsst_domain)
+            icms_defs = tax_definitions.search(icms_domain)
 
-        if len(icmsst_defs) == 1:
-            tax_definitions |= icmsst_defs
-        else:
-            tax_definitions |= icmsst_defs.filtered(
-                lambda d: ncm.id in d.ncm_ids.ids
-                or nbm.id in d.nbm_ids.ids
-                or cest.id in d.cest_ids.ids
-                or product.id in d.product_ids.ids)
+            if len(icms_defs) == 1:
+                tax_definitions |= icms_defs
+            else:
 
-        return tax_definitions.mapped('tax_id')
+                icms_defs_specific = icms_defs.filtered(
+                    lambda d: ncm.id in d.ncm_ids.ids
+                    or nbm.id in d.nbm_ids.ids
+                    or cest.id in d.cest_ids.ids
+                    or product.id in d.product_ids.ids)
+
+                icms_defs_generic = icms_defs.filtered(
+                    lambda d: not d.ncm_ids.ids
+                    and not d.nbm_ids.ids
+                    and not d.cest_ids.ids
+                    and not d.product_ids.ids)
+
+                if icms_defs_specific:
+                    tax_definitions |= icms_defs_specific
+                else:
+                    tax_definitions |= icms_defs_generic
+
+            # ICMS ST
+            icmsst_domain = domain.copy()
+            icmsst_domain += [
+                '|',
+                ('state_to_ids', '=', partner.state_id.id),
+                ('state_to_ids', '=', company.state_id.id)]
+
+            icmsst_domain.append(('tax_group_id', '=', tax_group_icmsst.id))
+            icmsst_domain.append(('ncm_ids', '=', ncm.id))
+            icmsst_domain.append(('cest_ids', '=', cest.id))
+
+            icmsst_defs = tax_definitions.search(icmsst_domain)
+
+            if len(icmsst_defs) == 1:
+                tax_definitions |= icmsst_defs
+            else:
+                tax_definitions |= icmsst_defs.filtered(
+                    lambda d: ncm.id in d.ncm_ids.ids
+                    or nbm.id in d.nbm_ids.ids
+                    or cest.id in d.cest_ids.ids
+                    or product.id in d.product_ids.ids)
+
+            # ICMS FCP
+            icmsfcp_domain = domain.copy()
+            if operation_line.operation_type == FISCAL_OUT:
+                icms_domain.append(('state_to_ids', '=', partner.state_id.id))
+            else:
+                icms_domain.append(('state_from_id', '=', partner.state_id.id))
+
+            icmsfcp_defs = tax_definitions.search(icmsfcp_domain)
+
+            if len(icmsfcp_defs) == 1:
+                tax_definitions |= icmsfcp_defs
+            else:
+
+                icmsfcp_defs_specific = icmsfcp_defs.filtered(
+                    lambda d: ncm.id in d.ncm_ids.ids
+                    or nbm.id in d.nbm_ids.ids
+                    or cest.id in d.cest_ids.ids
+                    or product.id in d.product_ids.ids)
+
+                icmsfcp_defs_generic = icmsfcp_defs.filtered(
+                    lambda d: not d.ncm_ids.ids
+                    and not d.nbm_ids.ids
+                    and not d.cest_ids.ids
+                    and not d.product_ids.ids)
+
+                if icmsfcp_defs_specific:
+                    tax_definitions |= icmsfcp_defs_specific
+                else:
+                    tax_definitions |= icmsfcp_defs_generic
+
+        icms_taxes = tax_definitions.mapped('tax_id')
+        return icms_taxes
 
     def _map_icms_origin(self, company, partner, product, ncm=None,
                          cest=None, operation_line=None):
