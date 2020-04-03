@@ -66,19 +66,19 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
             # ICMS
             self.assertEquals(
-                line.icms_tax_id.name, 'ICMS 18%',
-                "Error to mapping ICMS 18%"
+                line.icms_tax_id.name, 'ICMS 12%',
+                "Error to mapping ICMS 12%"
                 " for Venda de Contribuinte Dentro do Estado.")
             self.assertEquals(
                 line.icms_cst_id.code, '00',
-                "Error to mapping CST 00 from ICMS 18%"
+                "Error to mapping CST 00 from ICMS 12%"
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # ICMS FCP
-            # self.assertEquals(
-            #     line.icmsfcp_tax_id.name, 'FCP 2%',
-            #     "Error to mapping ICMS FCP 2%"
-            #     " for Venda de Contribuinte Dentro do Estado.")
+            self.assertFalse(
+                line.icmsfcp_tax_id,
+                "Error to mapping ICMS FCP 2%"
+                " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
             if line.operation_line_id.name == 'Revenda':
