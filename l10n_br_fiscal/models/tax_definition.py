@@ -139,6 +139,13 @@ class TaxDefinition(models.Model):
         readonly=True,
         string='NBMs')
 
+    product_ids = fields.Many2many(
+        comodel_name='product.product',
+        relation='tax_definition_product_rel',
+        colunm1='tax_definition_id',
+        colunm2='product_id',
+        string='Products')
+
     date_start = fields.Datetime(
         string='Start Date',
         readonly=True,
@@ -272,11 +279,14 @@ class TaxDefinition(models.Model):
         return write_super
 
     @api.multi
-    def map_tax_definition(self, company, partner, product=None,
-                           ncm=None, nbs=None, cest=None):
+    def map_tax_definition(self, company, partner, product,
+                           ncm=None, nbm=None, nbs=None, cest=None):
 
         if not ncm:
             ncm = product.ncm_id
+
+        if not nbm:
+            nbm = product.nbm_id
 
         if not cest:
             cest = product.cest_id
@@ -284,11 +294,20 @@ class TaxDefinition(models.Model):
         domain = [
             ('id', 'in', self.ids),
             '|',
+            ('state_to_ids', '=', False),
+            ('state_to_ids', '=', partner.state_id.id),
+            '|',
             ('ncm_ids', '=', False),
             ('ncm_ids', '=', ncm.id),
             '|',
+            ('nbm_ids', '=', False),
+            ('nbm_ids', '=', nbm.id),
+            '|',
             ('cest_ids', '=', False),
             ('cest_ids', '=', cest.id),
+            '|',
+            ('product_ids', '=', False),
+            ('product_ids', '=', product.id),
         ]
 
         return self.search(domain)
