@@ -17,9 +17,12 @@ class TaxDefinitionICMS(models.Model):
         string='From State',
         domain=[('country_id.code', '=', 'BR')])
 
-    state_to_id = fields.Many2one(
+    state_to_ids = fields.Many2many(
         comodel_name='res.country.state',
-        string='To State',
+        relation='tax_definition_state_to_rel',
+        colunm1='tax_definition_id',
+        colunm2='state_id',
+        string='To States',
         domain=[('country_id.code', '=', 'BR')])
 
     @api.multi
@@ -31,7 +34,7 @@ class TaxDefinitionICMS(models.Model):
                     ('id', '!=', record.id),
                     ('icms_regulation_id', '=', record.icms_regulation_id.id),
                     ('state_from_id', '=', record.state_from_id.id),
-                    ('state_to_id', '=', record.state_to_id.id),
+                    ('state_to_ids', 'in', record.state_to_ids.ids),
                     ('tax_group_id', '=', record.tax_group_id.id),
                     ('tax_id', '=', record.tax_id.id)]
 
