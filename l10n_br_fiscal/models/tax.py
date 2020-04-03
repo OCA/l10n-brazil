@@ -120,13 +120,13 @@ class Tax(models.Model):
         comodel_name="l10n_br_fiscal.cst",
         string="CST In",
         domain="[('cst_type', 'in', ('in', 'all')), "
-        "('tax_domain', '=', tax_domain)]")
+               "('tax_domain', '=', tax_domain)]")
 
     cst_out_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST Out",
         domain="[('cst_type', 'in', ('out', 'all')), "
-        "('tax_domain', '=', tax_domain)]")
+               "('tax_domain', '=', tax_domain)]")
 
     # ICMS Fields
     icms_base_type = fields.Selection(
@@ -140,6 +140,18 @@ class Tax(models.Model):
         string="ICMS ST Base Type",
         required=True,
         default=ICMS_ST_BASE_TYPE_DEFAULT)
+
+    icmsst_mva_percent = fields.Float(
+        string="MVA Percent",
+        default=0.00,
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        required=True)
+
+    icmsst_value = fields.Float(
+        string="PFC Value",
+        default=0.00,
+        digits=dp.get_precision("Fiscal Tax Value"),
+        required=True)
 
     _sql_constraints = [(
         "fiscal_tax_code_uniq", "unique (name)",
