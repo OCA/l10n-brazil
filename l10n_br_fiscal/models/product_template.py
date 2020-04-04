@@ -42,7 +42,7 @@ class ProductTemplate(models.Model):
 
     fiscal_genre_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.product.genre',
-        string='Fiscal Genre')
+        string='Fiscal Product Genre')
 
     service_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.service.type',
@@ -52,7 +52,7 @@ class ProductTemplate(models.Model):
     fiscal_genre_code = fields.Char(
         related='fiscal_genre_id.code',
         store=True,
-        string='Fiscal Genre Code')
+        string='Fiscal Product Genre Code')
 
     ipi_guideline_class_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.tax.ipi.guideline.class',

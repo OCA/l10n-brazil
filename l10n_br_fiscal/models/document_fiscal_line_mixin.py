@@ -82,7 +82,7 @@ FISCAL_CST_ID_FIELDS = [
 ]
 
 
-class DocumentFiscalLineMixin(models.AbstractModel):
+class FiscalDocumentLineMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.document.line.mixin"
     _description = "Document Fiscal Mixin"
 
@@ -244,11 +244,11 @@ class DocumentFiscalLineMixin(models.AbstractModel):
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
-        string="Fiscal Genre")
+        string="Fiscal Product Genre")
 
     fiscal_genre_code = fields.Char(
         related="fiscal_genre_id.code",
-        string="Product Genre Code")
+        string="Fiscal Product Genre Code")
 
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
@@ -892,7 +892,7 @@ class DocumentFiscalLineMixin(models.AbstractModel):
     def fields_view_get(
             self, view_id=None, view_type="form", toolbar=False, submenu=False):
 
-        model_view = super(DocumentFiscalLineMixin, self).fields_view_get(
+        model_view = super(FiscalDocumentLineMixin, self).fields_view_get(
             view_id, view_type, toolbar, submenu)
 
         return model_view  # FIXME: Fields view get of fiscal line
