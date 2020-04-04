@@ -33,9 +33,9 @@
 "l10n_br_fiscal_cest_user","Fiscal CEST for User","model_l10n_br_fiscal_cest","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_cest_manager","Fiscal CEST for Manager","model_l10n_br_fiscal_cest","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_cest_maintenance","Fiscal CEST for Maintenance","model_l10n_br_fiscal_cest","l10n_br_fiscal.group_data_maintenance",1,1,1,1
-"l10n_br_fiscal_product_genre_user","Fiscal Product Genre for User","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_user",1,0,0,0
-"l10n_br_fiscal_product_genre_manager","Fiscal Product Genre for Manager","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_manager",1,0,0,0
-"l10n_br_fiscal_product_genre_maintenance","Fiscal Product Genre for Maintenance","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_data_maintenance",1,1,1,1
+"l10n_br_fiscal_product_genre_user","Fiscal Fiscal Product Genre for User","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_product_genre_manager","Fiscal Fiscal Product Genre for Manager","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_manager",1,0,0,0
+"l10n_br_fiscal_product_genre_maintenance","Fiscal Fiscal Product Genre for Maintenance","model_l10n_br_fiscal_product_genre","l10n_br_fiscal.group_data_maintenance",1,1,1,1
 "l10n_br_fiscal_document_type_user","Fiscal Document Type for User","model_l10n_br_fiscal_document_type","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_document_type_manager","Fiscal Document Type for Manager","model_l10n_br_fiscal_document_type","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_document_type_maintenance","Fiscal Document Type for Maintenance","model_l10n_br_fiscal_document_type","l10n_br_fiscal.group_data_maintenance",1,1,1,1

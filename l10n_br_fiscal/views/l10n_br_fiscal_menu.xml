@@ -112,7 +112,7 @@
     <!-- NBM -->
     <menuitem id="nbm_menu" action="nbm_action" groups="l10n_br_fiscal.group_manager" parent="products_config_menu" sequence="50"/>
 
-    <!-- Product Genre -->
+    <!-- Fiscal Product Genre -->
     <menuitem id="product_genre_menu" action="product_genre_action" groups="l10n_br_fiscal.group_manager" parent="products_config_menu" sequence="50"/>
 
     <!-- Taxes Settings -->
