@@ -949,9 +949,10 @@ class ICMSRegulation(models.Model):
 
         self.ensure_one()
         tax_definitions = self.env['l10n_br_fiscal.tax.definition']
+        icms_taxes = self.env['l10n_br_fiscal.tax']
         tax_group_icms = self.env.ref('l10n_br_fiscal.tax_group_icms')
         tax_group_icmsst = self.env.ref('l10n_br_fiscal.tax_group_icmsst')
-        # tax_group_icmsfcp = self.env.ref('l10n_br_fiscal.tax_group_icmsfcp')
+        tax_group_icmsfcp = self.env.ref('l10n_br_fiscal.tax_group_icmsfcp')
 
         if not ncm:
             ncm = product.ncm_id
@@ -973,7 +974,7 @@ class ICMSRegulation(models.Model):
         if (product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
                 and company.state_id != partner.state_id
                 and operation_line.operation_type == FISCAL_OUT):
-            icms_taxes = self.icms_imported_tax_id
+            icms_taxes |= self.icms_imported_tax_id
 
         else:
             icms_domain = domain.copy()
@@ -983,11 +984,6 @@ class ICMSRegulation(models.Model):
                 icms_domain.append(('state_to_ids', '=', company.state_id.id))
 
             icms_domain.append(('tax_group_id', '=', tax_group_icms.id))
-
-            icms_domain += [
-                '|',
-                ('ncm_ids', '=', False),
-                ('ncm_ids', '=', ncm.id)]
 
             icms_defs = tax_definitions.search(icms_domain)
 
@@ -1012,34 +1008,41 @@ class ICMSRegulation(models.Model):
                 else:
                     tax_definitions |= icms_defs_generic
 
-            # ICMS ST
-            icmsst_domain = domain.copy()
-            icmsst_domain += [
-                '|',
-                ('state_to_ids', '=', partner.state_id.id),
-                ('state_to_ids', '=', company.state_id.id)]
+        # ICMS ST
+        icmsst_domain = domain.copy()
+        icmsst_domain += [
+            '|',
+            ('state_to_ids', '=', partner.state_id.id),
+            ('state_to_ids', '=', company.state_id.id)]
 
-            icmsst_domain.append(('tax_group_id', '=', tax_group_icmsst.id))
-            icmsst_domain.append(('ncm_ids', '=', ncm.id))
-            icmsst_domain.append(('cest_ids', '=', cest.id))
+        icmsst_domain.append(('tax_group_id', '=', tax_group_icmsst.id))
+        icmsst_domain.append(('ncm_ids', '=', ncm.id))
+        icmsst_domain.append(('cest_ids', '=', cest.id))
 
-            icmsst_defs = tax_definitions.search(icmsst_domain)
+        icmsst_defs = tax_definitions.search(icmsst_domain)
 
-            if len(icmsst_defs) == 1:
-                tax_definitions |= icmsst_defs
-            else:
-                tax_definitions |= icmsst_defs.filtered(
-                    lambda d: ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids)
+        if len(icmsst_defs) == 1:
+            tax_definitions |= icmsst_defs
+        else:
+            tax_definitions |= icmsst_defs.filtered(
+                lambda d: ncm.id in d.ncm_ids.ids
+                or nbm.id in d.nbm_ids.ids
+                or cest.id in d.cest_ids.ids
+                or product.id in d.product_ids.ids)
 
-            # ICMS FCP
+        # ICMS FCP for DIFAL
+        if (company.state_id != partner.state_id
+                and operation_line.operation_type == FISCAL_OUT
+                and not partner.is_company):
             icmsfcp_domain = domain.copy()
+            icmsfcp_domain.append(('tax_group_id', '=', tax_group_icmsfcp.id))
+
             if operation_line.operation_type == FISCAL_OUT:
-                icms_domain.append(('state_to_ids', '=', partner.state_id.id))
+                icmsfcp_domain.append(
+                    ('state_to_ids', '=', partner.state_id.id))
             else:
-                icms_domain.append(('state_from_id', '=', partner.state_id.id))
+                icmsfcp_domain.append(
+                    ('state_from_id', '=', partner.state_id.id))
 
             icmsfcp_defs = tax_definitions.search(icmsfcp_domain)
 
@@ -1064,7 +1067,7 @@ class ICMSRegulation(models.Model):
                 else:
                     tax_definitions |= icmsfcp_defs_generic
 
-        icms_taxes = tax_definitions.mapped('tax_id')
+        icms_taxes |= tax_definitions.mapped('tax_id')
         return icms_taxes
 
     def _map_icms_origin(self, company, partner, product, ncm=None,
