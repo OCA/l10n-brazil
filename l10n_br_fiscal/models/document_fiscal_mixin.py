@@ -8,7 +8,7 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from ..constants.fiscal import FISCAL_IN_OUT
 
 
-class DocumentFiscalMixin(models.AbstractModel):
+class FiscalDocumentMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.document.mixin"
     _description = "Document Fiscal Mixin"
 
@@ -42,7 +42,7 @@ class DocumentFiscalMixin(models.AbstractModel):
     def fields_view_get(
             self, view_id=None, view_type="form", toolbar=False, submenu=False):
 
-        model_view = super(DocumentFiscalMixin, self).fields_view_get(
+        model_view = super(FiscalDocumentMixin, self).fields_view_get(
             view_id, view_type, toolbar, submenu
         )
         return model_view  # TO REMOVE
