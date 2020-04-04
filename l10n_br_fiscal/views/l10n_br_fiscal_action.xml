@@ -458,7 +458,7 @@
         <field name="res_model">product.template</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="domain">['|', ('fiscal_type', '!=', '09'), ('fiscal_type', '=', False), ('type', '!=', 'service')]</field>
+        <field name="domain">['|', '|', ('fiscal_type', '!=', '09'), ('fiscal_type', '=', False), ('type', '!=', 'service')]</field>
         <field name="view_id" ref="product_template_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -476,7 +476,7 @@
         <field name="res_model">product.template</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="domain">['|', ('fiscal_type', '=', '09'), ('fiscal_type', '=', False), ('type', '=', 'service')]</field>
+        <field name="domain">['|', '|', ('fiscal_type', '=', '09'), ('fiscal_type', '=', False), ('type', '=', 'service')]</field>
         <field name="context">{'default_fiscal_type': '09', 'default_type': 'service'}</field>
         <field name="view_id" ref="product_template_tree"/>
         <field name="help" type="html">
