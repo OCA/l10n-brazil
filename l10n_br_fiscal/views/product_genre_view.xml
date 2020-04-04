@@ -5,7 +5,7 @@
         <field name="name">l10n_br_fiscal.product.genre.search</field>
         <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
-            <search string="Product Genre">
+            <search string="Fiscal Product Genre">
                 <field name="code"/>
                 <field name="name"/>
             </search>
@@ -27,7 +27,7 @@
         <field name="name">l10n_br_fiscal.product.genre.form</field>
         <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
-            <form string="Product Genre">
+            <form string="Fiscal Product Genre">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                       <button type="action"
