@@ -502,7 +502,7 @@ msgstr "Adicionar Produto"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.product_genre_action
-msgid "Add a new Product Genre"
+msgid "Add a new Fiscal Product Genre"
 msgstr "Adicionar Gênero de Produto"
 
 #. module: l10n_br_fiscal
@@ -720,7 +720,7 @@ msgstr "Totais"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.product_genre_action
-msgid "An Product Genre is necessary to create\n"
+msgid "An Fiscal Product Genre is necessary to create\n"
 "              EFD operations for your fiscal moves."
 msgstr ""
 
@@ -2388,13 +2388,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_genre_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__fiscal_genre_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__fiscal_genre_id
-msgid "Fiscal Genre"
+msgid "Fiscal Product Genre"
 msgstr "Gênero Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__fiscal_genre_code
-msgid "Fiscal Genre Code"
+msgid "Fiscal Product Genre Code"
 msgstr "Código do Gênero Fiscal"
 
 #. module: l10n_br_fiscal
@@ -2462,7 +2462,7 @@ msgstr "Preço Unitário Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_product_genre
-msgid "Fiscal Product Genre"
+msgid "Fiscal Fiscal Product Genre"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5277,14 +5277,14 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_fiscal.product_genre_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_genre_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_genre_search
-msgid "Product Genre"
+msgid "Fiscal Product Genre"
 msgstr "Gênero de Produto"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_abstract__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_genre_code
-msgid "Product Genre Code"
+msgid "Fiscal Product Genre Code"
 msgstr ""
 
 #. module: l10n_br_fiscal
