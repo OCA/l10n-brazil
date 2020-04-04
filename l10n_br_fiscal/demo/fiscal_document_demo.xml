@@ -91,7 +91,7 @@
         <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <record id="demo_nfe_line_same_state_2-3" model="l10n_br_fiscal.document.line">
+    <record id="demo_nfe_line_same_state_3-3" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_other_state"/>
         <field name="name">Teste</field>
         <field name="product_id" ref="product.product_product_25"/>
