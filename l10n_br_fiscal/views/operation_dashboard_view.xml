@@ -37,8 +37,8 @@
                                         <div class="col-6 o_kanban_primary_right">
                                             <div class="row">
                                                 <div class="col-10">
-                                                    <a type="object" name="open_action" context="{'search_default_confirm': '1'}">
-                                                        <span title="Confirmados"><t t-esc="dashboard.number_confirm"/> Confirmados</span>
+                                                    <a type="object" name="open_action" context="{'search_default_2confirm': '1'}">
+                                                        <span title="A enviar"><t t-esc="dashboard.number_2confirm"/> A enviar</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -53,7 +53,7 @@
                                             <div class="row">
                                                 <div class="col-10">
                                                     <a type="object" name="open_action" context="{'search_default_cancelled': '1'}">
-                                                        <span title="Faturas canceladas"><t t-esc="dashboard.number_confirm"/> Cancelados</span>
+                                                        <span title="Faturas canceladas"><t t-esc="dashboard.number_cancelled"/> Cancelados</span>
                                                     </a>
                                                 </div>
                                             </div>
