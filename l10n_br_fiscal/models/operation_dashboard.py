@@ -4,9 +4,38 @@
 import json
 from odoo import _, api, fields, models
 
+from ..constants.fiscal import (
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
+    SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_REJEITADA,
+)
+
+EDOC_2_CONFIRM = (
+    SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_REJEITADA,
+)
+
+EDOC_CANCELED = (
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
+)
 
 class Operation(models.Model):
     _inherit = "l10n_br_fiscal.operation"
+
+    # TODO: Implementar no dashboard o valor total das operações, isso pode requer o
+    #   uso de querys sql diretamente, não esquecer de aplicar as regras de acesso
+    #   de forma manual ou usando o ORM:
+    #         query = self._where_calc(args)
+    #         self._apply_ir_rules(query, 'read')
 
     @api.one
     def _compute_kanban_dashboard(self):
@@ -27,68 +56,37 @@ class Operation(models.Model):
             title = _('Bills to pay') if self.fiscal_type == 'purchase' \
                 else _('Invoices owed to you')
 
-        (query, query_args) = self._get_confirmed_documents_query()
-        self.env.cr.execute(query, query_args)
-        query_results_confirmed = self.env.cr.dictfetchall()
-        number_confirm = len(query_results_confirmed)
-
-        (query, query_args) = self._get_authorized_documents_query()
-        self.env.cr.execute(query, query_args)
-        query_results_authorized = self.env.cr.dictfetchall()
-        number_authorized = len(query_results_authorized)
-
-        (query, query_args) = self._get_cancelled_documents_query()
-        self.env.cr.execute(query, query_args)
-        query_results_cancelled = self.env.cr.dictfetchall()
-        number_cancelled = len(query_results_cancelled)
+        number_2confirm = self._get_number_2confirm_documents()
+        number_authorized = self._get_authorized_documents()
+        number_cancelled = self._get_cancelled_documents()
 
         return {
-            'number_confirm': number_confirm,
+            'number_2confirm': number_2confirm,
             'number_authorized': number_authorized,
             'number_cancelled': number_cancelled,
             'title': title
         }
 
-    def _get_confirmed_documents_query(self):
-        """
-        Returns a tuple containing as its first element the SQL query used to
-        gather the bills in draft state data, and the arguments
-        dictionary to use to run it as its second.
-        """
-        # there is no account_move_lines for draft invoices, so no relevant
-        # residual_signed value
-        return ("""SELECT doc.company_id
-                  FROM l10n_br_fiscal_document doc
-                  WHERE operation_id = %(operation_id)s
-                  AND state_edoc = 'a_enviar';""", {'operation_id': self.id})
+    def _get_number_2confirm_documents(self):
+        return self.env['l10n_br_fiscal.document'].search_count([
+            ('operation_id.fiscal_type', '=', self.fiscal_type),
+            ('operation_id', '=', self.id),
+            ('state_edoc', 'in', EDOC_2_CONFIRM)
+        ])
 
-    def _get_authorized_documents_query(self):
-        """
-        Returns a tuple containing as its first element the SQL query used to
-        gather the bills in draft state data, and the arguments
-        dictionary to use to run it as its second.
-        """
-        # there is no account_move_lines for draft invoices, so no relevant
-        # residual_signed value
-        return ("""SELECT doc.company_id
-                  FROM l10n_br_fiscal_document doc
-                  WHERE operation_id = %(operation_id)s
-                  AND state_edoc = 'autorizada';""",
-                {'operation_id': self.id})
+    def _get_authorized_documents(self):
+        return self.env['l10n_br_fiscal.document'].search_count([
+            ('operation_id.fiscal_type', '=', self.fiscal_type),
+            ('operation_id', '=', self.id),
+            ('state_edoc', '=', SITUACAO_EDOC_AUTORIZADA)
+        ])
 
-    def _get_cancelled_documents_query(self):
-        """
-        Returns a tuple containing as its first element the SQL query used to
-        gather the bills in draft state data, and the arguments
-        dictionary to use to run it as its second.
-        """
-        # there is no account_move_lines for draft invoices, so no relevant
-        # residual_signed value
-        return ("""SELECT doc.company_id
-                  FROM l10n_br_fiscal_document doc
-                  WHERE operation_id = %(operation_id)s
-                  AND state_edoc = 'cancelada';""",
-                {'operation_id': self.id})
+    def _get_cancelled_documents(self):
+        return self.env['l10n_br_fiscal.document'].search_count([
+            ('operation_id.fiscal_type', '=', self.fiscal_type),
+            ('operation_id', '=', self.id),
+            ('state_edoc', 'in', EDOC_CANCELED)
+        ])
 
     @api.multi
     def action_create_new(self):
@@ -144,8 +142,10 @@ class Operation(models.Model):
             ('operation_id.fiscal_type', '=', self.fiscal_type),
             ('operation_id', '=', self.id)
         ]
-        if ctx.get('search_default_confirm'):
-            action['domain'] += [('state_edoc', '=', 'a_enviar')]
+        if ctx.get('search_default_cancel'):
+            action['domain'] += [('state_edoc', 'in', EDOC_CANCELED)]
         elif ctx.get('search_default_authorized'):
-            action['domain'] += [('state_edoc', '=', 'autorizada')]
+            action['domain'] += [('state_edoc', '=', SITUACAO_EDOC_AUTORIZADA)]
+        elif ctx.get('search_default_2confirm'):
+            action['domain'] += [('state_edoc', 'in', EDOC_2_CONFIRM)]
         return action
