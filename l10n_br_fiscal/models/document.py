@@ -54,6 +54,7 @@ class Document(models.Model):
         ],
         string='Seção do documento',
         readonly=True,
+        copy=True,
     )
 
     edoc_purpose = fields.Selection(
