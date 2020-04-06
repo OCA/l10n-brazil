@@ -405,6 +405,40 @@ class Tax(models.Model):
 
         return taxes_dict
 
+    def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
+
+        # Get Computed ICMS DIFAL Base
+        tax_dict_icms = taxes_dict.get('icms', {})
+        icms_dest_base = tax_dict_icms.get('icms_dest_base', 0.00)
+        taxes_dict[tax.tax_domain].update({'base': icms_dest_base})
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    def _compute_icmsst(self, tax, taxes_dict, **kwargs):
+        # partner = kwargs.get("partner")
+        # company = kwargs.get("company")
+        discount_value = kwargs.get("discount_value", 0.00)
+        insurance_value = kwargs.get("insurance_value", 0.00)
+        freight_value = kwargs.get("freight_value", 0.00)
+        other_costs_value = kwargs.get("other_costs_value", 0.00)
+
+        add_to_base = [insurance_value, freight_value, other_costs_value]
+        remove_from_base = [discount_value]
+
+        # Get Computed IPI Tax
+        tax_dict_ipi = taxes_dict.get("ipi", {})
+        add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
+
+        kwargs.update({
+            'add_to_base': sum(add_to_base),
+            'remove_from_base': sum(remove_from_base),
+            'icmsst_base_type': tax.icmsst_base_type
+        })
+
+        taxes_dict[tax.tax_domain].update(self._compute_tax_base(
+            tax, taxes_dict.get(tax.tax_domain), **kwargs))
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
     def _compute_icmssn(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
@@ -478,32 +512,6 @@ class Tax(models.Model):
 
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_icmsst(self, tax, taxes_dict, **kwargs):
-        # partner = kwargs.get("partner")
-        # company = kwargs.get("company")
-        discount_value = kwargs.get("discount_value", 0.00)
-        insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
-        other_costs_value = kwargs.get("other_costs_value", 0.00)
-
-        add_to_base = [insurance_value, freight_value, other_costs_value]
-        remove_from_base = [discount_value]
-
-        # Get Computed IPI Tax
-        tax_dict_ipi = taxes_dict.get("ipi", {})
-        add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
-
-        kwargs.update({
-            'add_to_base': sum(add_to_base),
-            'remove_from_base': sum(remove_from_base),
-            'icmsst_base_type': tax.icmsst_base_type
-        })
-
-        taxes_dict[tax.tax_domain].update(self._compute_tax_base(
-            tax, taxes_dict.get(tax.tax_domain), **kwargs))
-
-        return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_ii(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)

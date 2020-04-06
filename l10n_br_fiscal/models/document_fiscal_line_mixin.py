@@ -958,6 +958,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self._set_fields_irpj(TAX_DICT_VALUES)
             self._set_fields_inss(TAX_DICT_VALUES)
             self._set_fields_icms(TAX_DICT_VALUES)
+            self._set_fields_icmsfcp(TAX_DICT_VALUES)
+            self._set_fields_icmsst(TAX_DICT_VALUES)
             self._set_fields_icmssn(TAX_DICT_VALUES)
             self._set_fields_ipi(TAX_DICT_VALUES)
             self._set_fields_ii(TAX_DICT_VALUES)
@@ -1081,7 +1083,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
         # Reset Taxes
         self._remove_all_fiscal_tax_ids()
-
         if self.operation_line_id:
 
             mapping_result = self.operation_line_id.map_fiscal_taxes(
@@ -1251,6 +1252,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _set_fields_icms(self, tax_dict):
         if tax_dict:
             self.icms_cst_id = tax_dict.get("cst_id")
+            self.icms_base_type = tax_dict.get(
+                "icms_base_type", ICMS_BASE_TYPE_DEFAULT)
             self.icms_base = tax_dict.get("base")
             self.icms_percent = tax_dict.get("percent_amount")
             self.icms_reduction = tax_dict.get("percent_reduction")
@@ -1305,7 +1308,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         pass
 
     def _set_fields_icmsst(self, tax_dict):
-        self.icmsst_base_type = tax_dict.get("icmsst_base_type")
+        self.icmsst_base_type = tax_dict.get(
+            "icmsst_base_type", ICMS_ST_BASE_TYPE_DEFAULT)
         self.icmsst_mva_percent = tax_dict.get("icmsst_mva_percent")
         self.icmsst_percent = tax_dict.get("percent_amount")
         self.icmsst_reduction = tax_dict.get("percent_reduction")
