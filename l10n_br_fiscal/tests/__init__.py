@@ -8,3 +8,4 @@ from . import test_ibpt_product
 from . import test_ibpt_service
 from . import test_workflow
 from . import test_fiscal_document_generic
+from . import test_fiscal_closing
