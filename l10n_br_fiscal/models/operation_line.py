@@ -202,7 +202,7 @@ class OperationLine(models.Model):
                 mapping_result['taxes'][tax_ii.tax_domain] = tax_ii
 
             # 3 From ICMS Regulation
-            tax_icms_ids = company.icms_regulation_id.map_tax_icms(
+            tax_icms_ids = company.icms_regulation_id.map_tax(
                 company=company,
                 partner=partner,
                 product=product,

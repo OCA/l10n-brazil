@@ -945,52 +945,39 @@ class ICMSRegulation(models.Model):
 
     @api.multi
     def map_tax_icms(self, company, partner, product, ncm=None, nbm=None,
-                     cest=None, operation_line=None):
-
+                    cest=None, operation_line=None):
         self.ensure_one()
         tax_definitions = self.env['l10n_br_fiscal.tax.definition']
         icms_taxes = self.env['l10n_br_fiscal.tax']
         tax_group_icms = self.env.ref('l10n_br_fiscal.tax_group_icms')
-        tax_group_icmsst = self.env.ref('l10n_br_fiscal.tax_group_icmsst')
-        tax_group_icmsfcp = self.env.ref('l10n_br_fiscal.tax_group_icmsfcp')
 
-        if not ncm:
-            ncm = product.ncm_id
-
-        if not cest:
-            cest = product.cest_id
-
-        domain = [
-            ('icms_regulation_id', '=', self.id),
-            ('state_from_id', '=', company.state_id.id),
-            ('state', '=', 'approved'),
-        ]
-
-        # TODO Improve this method
-        # Is Partner ICMS Taxpayer?
         # ICMS
-
         # ICMS tax imported
         if (product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
                 and company.state_id != partner.state_id
                 and operation_line.operation_type == FISCAL_OUT):
             icms_taxes |= self.icms_imported_tax_id
-
         else:
-            icms_domain = domain.copy()
-            if partner.is_company:
-                icms_domain.append(('state_to_ids', '=', partner.state_id.id))
-            else:
-                icms_domain.append(('state_to_ids', '=', company.state_id.id))
+            # ICMS
+            if not ncm:
+                ncm = product.ncm_id
 
-            icms_domain.append(('tax_group_id', '=', tax_group_icms.id))
+            if not cest:
+                cest = product.cest_id
 
-            icms_defs = tax_definitions.search(icms_domain)
+            domain = [
+                ('icms_regulation_id', '=', self.id),
+                ('state', '=', 'approved'),
+                ('tax_group_id', '=', tax_group_icms.id),
+                ('state_from_id', '=', company.state_id.id),
+                ('state_to_ids', '=', partner.state_id.id)
+            ]
+
+            icms_defs = tax_definitions.search(domain)
 
             if len(icms_defs) == 1:
                 tax_definitions |= icms_defs
             else:
-
                 icms_defs_specific = icms_defs.filtered(
                     lambda d: ncm.id in d.ncm_ids.ids
                     or nbm.id in d.nbm_ids.ids
@@ -1008,18 +995,37 @@ class ICMSRegulation(models.Model):
                 else:
                     tax_definitions |= icms_defs_generic
 
+        icms_taxes |= tax_definitions.mapped('tax_id')
+        return icms_taxes
+
+    @api.multi
+    def map_tax_icmsst(self, company, partner, product, ncm=None, nbm=None,
+                       cest=None, operation_line=None):
+        self.ensure_one()
+        tax_definitions = self.env['l10n_br_fiscal.tax.definition']
+        icms_taxes = self.env['l10n_br_fiscal.tax']
+        tax_group_icmsst = self.env.ref('l10n_br_fiscal.tax_group_icmsst')
+
+        if not ncm:
+            ncm = product.ncm_id
+
+        if not cest:
+            cest = product.cest_id
+
         # ICMS ST
-        icmsst_domain = domain.copy()
-        icmsst_domain += [
+        domain = [
+            ('icms_regulation_id', '=', self.id),
+            ('state', '=', 'approved'),
+            ('state_from_id', '=', company.state_id.id),
+            ('tax_group_id', '=', tax_group_icmsst.id),
             '|',
             ('state_to_ids', '=', partner.state_id.id),
-            ('state_to_ids', '=', company.state_id.id)]
+            ('state_to_ids', '=', company.state_id.id),
+            ('ncm_ids', '=', ncm.id),
+            ('cest_ids', '=', cest.id)
+        ]
 
-        icmsst_domain.append(('tax_group_id', '=', tax_group_icmsst.id))
-        icmsst_domain.append(('ncm_ids', '=', ncm.id))
-        icmsst_domain.append(('cest_ids', '=', cest.id))
-
-        icmsst_defs = tax_definitions.search(icmsst_domain)
+        icmsst_defs = tax_definitions.search(domain)
 
         if len(icmsst_defs) == 1:
             tax_definitions |= icmsst_defs
@@ -1030,21 +1036,43 @@ class ICMSRegulation(models.Model):
                 or cest.id in d.cest_ids.ids
                 or product.id in d.product_ids.ids)
 
+        icms_taxes |= tax_definitions.mapped('tax_id')
+        return icms_taxes
+
+    @api.multi
+    def map_tax_icmsfcp(self, company, partner, product, ncm=None, nbm=None,
+                        cest=None, operation_line=None):
+
+        self.ensure_one()
+        tax_definitions = self.env['l10n_br_fiscal.tax.definition']
+        icms_taxes = self.env['l10n_br_fiscal.tax']
+        tax_group_icmsfcp = self.env.ref('l10n_br_fiscal.tax_group_icmsfcp')
+
         # ICMS FCP for DIFAL
         if (company.state_id != partner.state_id
                 and operation_line.operation_type == FISCAL_OUT
                 and not partner.is_company):
-            icmsfcp_domain = domain.copy()
-            icmsfcp_domain.append(('tax_group_id', '=', tax_group_icmsfcp.id))
+
+            if not ncm:
+                ncm = product.ncm_id
+
+            if not cest:
+                cest = product.cest_id
+
+            domain = [
+                ('icms_regulation_id', '=', self.id),
+                ('state', '=', 'approved'),
+                ('tax_group_id', '=', tax_group_icmsfcp.id),
+            ]
 
             if operation_line.operation_type == FISCAL_OUT:
-                icmsfcp_domain.append(
+                domain.append(
                     ('state_to_ids', '=', partner.state_id.id))
             else:
-                icmsfcp_domain.append(
+                domain.append(
                     ('state_from_id', '=', partner.state_id.id))
 
-            icmsfcp_defs = tax_definitions.search(icmsfcp_domain)
+            icmsfcp_defs = tax_definitions.search(domain)
 
             if len(icmsfcp_defs) == 1:
                 tax_definitions |= icmsfcp_defs
@@ -1070,18 +1098,67 @@ class ICMSRegulation(models.Model):
         icms_taxes |= tax_definitions.mapped('tax_id')
         return icms_taxes
 
-    def _map_icms_origin(self, company, partner, product, ncm=None,
-                         cest=None, operation_line=None):
-        pass
+    @api.multi
+    def map_tax_icms_difal(self, company, partner, product, ncm=None,
+                           nbm=None, cest=None, operation_line=None):
+        self.ensure_one()
+        tax_definitions = self.env['l10n_br_fiscal.tax.definition']
+        icms_taxes = self.env['l10n_br_fiscal.tax']
+        tax_group_icms = self.env.ref('l10n_br_fiscal.tax_group_icms')
 
-    def _map_icms_destination(self, company, partner, product, ncm=None,
-                              cest=None, operation_line=None):
-        pass
+        # ICMS
+        if not ncm:
+            ncm = product.ncm_id
 
-    def _map_icmsst(self, company, partner, product, ncm=None,
-                    cest=None, operation_line=None):
-        pass
+        if not cest:
+            cest = product.cest_id
 
-    def _map_icmsfcp(self, company, partner, product, ncm=None,
-                     cest=None, operation_line=None):
-        pass
+        domain = [
+            ('icms_regulation_id', '=', self.id),
+            ('state', '=', 'approved'),
+            ('state_from_id', '=', partner.state_id.id),
+            ('state_to_ids', '=', partner.state_id.id),
+            ('tax_group_id', '=', tax_group_icms.id)
+        ]
+
+        icms_defs = tax_definitions.search(domain)
+
+        if len(icms_defs) == 1:
+            tax_definitions |= icms_defs
+        else:
+            icms_defs_specific = icms_defs.filtered(
+                lambda d: ncm.id in d.ncm_ids.ids
+                or nbm.id in d.nbm_ids.ids
+                or cest.id in d.cest_ids.ids
+                or product.id in d.product_ids.ids)
+
+            icms_defs_generic = icms_defs.filtered(
+                lambda d: not d.ncm_ids.ids
+                and not d.nbm_ids.ids
+                and not d.cest_ids.ids
+                and not d.product_ids.ids)
+
+            if icms_defs_specific:
+                tax_definitions |= icms_defs_specific
+            else:
+                tax_definitions |= icms_defs_generic
+
+        icms_taxes |= tax_definitions.mapped('tax_id')
+        return icms_taxes
+
+    @api.multi
+    def map_tax(self, company, partner, product, ncm=None, nbm=None,
+                cest=None, operation_line=None):
+
+        icms_taxes = self.env['l10n_br_fiscal.tax']
+
+        icms_taxes |= self.map_tax_icms(
+            company, partner, product, ncm, nbm, cest, operation_line)
+
+        icms_taxes |= self.map_tax_icmsst(
+            company, partner, product, ncm, nbm, cest, operation_line)
+
+        icms_taxes |= self.map_tax_icmsfcp(
+            company, partner, product, ncm, nbm, cest, operation_line)
+
+        return icms_taxes
