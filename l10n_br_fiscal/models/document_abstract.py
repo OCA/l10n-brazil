@@ -143,7 +143,7 @@ class DocumentAbstract(models.AbstractModel):
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
-        required=True)
+        )
 
     operation_name = fields.Char(
         string="Operation Name")
@@ -216,43 +216,39 @@ class DocumentAbstract(models.AbstractModel):
         store=True)
 
     company_legal_name = fields.Char(
-        string="Company Legal Name",
-        related="company_id.legal_name")
+        string="Company Legal Name",)
 
     company_name = fields.Char(
         string="Company Name",
-        related="company_id.name",
         size=128)
 
     company_cnpj_cpf = fields.Char(
         string="Company CNPJ",
-        related="company_id.cnpj_cpf")
+    )
 
     company_inscr_est = fields.Char(
         string="Company State Tax Number",
-        related="company_id.inscr_est")
+    )
 
     company_inscr_mun = fields.Char(
         string="Company Municipal Tax Number",
-        related="company_id.inscr_mun")
+    )
 
     company_suframa = fields.Char(
         string="Company Suframa",
-        related="company_id.suframa")
+    )
 
     company_cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
-        related="company_id.cnae_main_id",
         string="Company Main CNAE")
 
     company_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        related="company_id.tax_framework",
         string="Company Tax Framework")
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        related="company_id.currency_id",
+        default=lambda self: self.env.user.company_id.currency_id,
         store=True,
         readonly=True)
 
@@ -444,6 +440,18 @@ class DocumentAbstract(models.AbstractModel):
     def _onchange_document_serie_id(self):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
+
+    @api.onchange("company_id")
+    def _onchange_company_id(self):
+        if self.company_id:
+            self.company_legal_name = self.company_id.legal_name
+            self.company_name = self.company_id.name
+            self.company_cnpj_cpf = self.company_id.cnpj_cpf
+            self.company_inscr_est = self.company_id.inscr_est
+            self.company_inscr_mun = self.company_id.inscr_mun
+            self.company_suframa = self.company_id.suframa
+            self.company_cnae_main_id = self.company_id.cnae_main_id
+            self.company_tax_framework = self.company_id.tax_framework
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
