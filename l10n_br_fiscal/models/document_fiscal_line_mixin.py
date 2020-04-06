@@ -443,7 +443,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     # vICMSUFDest - Valor do ICMS Interestadual para a UF de destino
     icms_destination_value = fields.Monetary(
-        string="ICMS Destination Value",
+        string="ICMS Dest. Value",
         default=0.00)
 
     # ICMS Simples Nacional Fields
@@ -889,9 +889,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=0.00)
 
     @api.model
-    def fields_view_get(
-            self, view_id=None, view_type="form", toolbar=False, submenu=False):
-
+    def fields_view_get(self, view_id=None, view_type="form",
+                        toolbar=False, submenu=False):
         model_view = super(FiscalDocumentLineMixin, self).fields_view_get(
             view_id, view_type, toolbar, submenu)
 
@@ -935,12 +934,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             operation_line=self.operation_line_id,
             icmssn_range=self.icmssn_range_id)
 
-    # @api.multi
-    # def compute_taxes(self):
-    #     for line in self:
-    #         computed_taxes = line._compute_taxes(line.fiscal_tax_ids)
-    #     return computed_taxes
-
     @api.multi
     def _get_all_tax_id_fields(self):
 
@@ -972,7 +965,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self._set_fields_pisst(TAX_DICT_VALUES)
             self._set_fields_cofins(TAX_DICT_VALUES)
             self._set_fields_cofinsst(TAX_DICT_VALUES)
-
             self._set_fields_issqn_wh(TAX_DICT_VALUES)
             self._set_fields_pis_wh(TAX_DICT_VALUES)
             self._set_fields_cofins_wh(TAX_DICT_VALUES)
@@ -1264,14 +1256,25 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self.icms_reduction = tax_dict.get("percent_reduction")
             self.icms_value = tax_dict.get("tax_value")
 
-            # TODO
-            # self.icms_destination_base = tax_dict.get(
-            #     "icms_destination_base")
-            # self.icms_origin_percent = tax_dict.get("icms_origin_percent")
-            # self.icms_destination_percent = tax_dict.get(
-            #     "icms_destination_percent")
-            # self.icms_sharing_percent = tax_dict.get("icms_sharing_percent")
-            # self.icms_origin_value = tax_dict.get("icms_origin_value")
+            # vBCUFDest - Valor da BC do ICMS na UF de destino
+            self.icms_destination_base = tax_dict.get("icms_dest_base")
+
+            # pICMSUFDest - Alíquota interna da UF de destino
+            self.icms_origin_percent = tax_dict.get("icms_origin_perc")
+
+            # pICMSInter - Alíquota interestadual das UF envolvidas
+            self.icms_destination_percent = tax_dict.get("icms_dest_perc")
+
+            # pICMSInterPart - Percentual provisório de partilha
+            # do ICMS Interestadual
+            self.icms_sharing_percent = tax_dict.get("icms_sharing_percent")
+
+            # vICMSUFRemet - Valor do ICMS Interestadual
+            # para a UF do remetente
+            self.icms_origin_value = tax_dict.get("icms_origin_value")
+
+            # vICMSUFDest - Valor do ICMS Interestadual para a UF de destino
+            self.icms_destination_value = tax_dict.get("icms_dest_value")
 
     @api.onchange(
         "icms_base",
