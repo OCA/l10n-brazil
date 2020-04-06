@@ -743,5 +743,3 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.assertTrue(zip_file_period.namelist(),
                         "Zip File for period export documents is empty")
-
-
