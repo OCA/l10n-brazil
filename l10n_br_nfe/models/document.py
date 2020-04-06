@@ -646,6 +646,102 @@ class NFe(spec_models.StackedModel):
                 field_data.nItem = i
         return res
 
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
+                    defaults):
+        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
+        value = getattr(node, attr.get_name())
+        comodel_name = "nfe.40.%s" % (node.original_tagname_,)
+
+        if key == 'nfe40_mod':
+            vals['document_section'] = 'nfe' if value == '55' else False
+            vals['document_type_id'] = \
+                self.env['l10n_br_fiscal.document.type'].search([
+                    ('code', '=', value)], limit=1).id
+
+        if key == 'nfe40_CNPJ':
+            if comodel_name == 'nfe.40.emit':
+                vals['company_cnpj_cpf'] = value
+            elif comodel_name == 'nfe.40.dest':
+                vals['partner_is_company'] = True
+                vals['partner_cnpj_cpf'] = value
+        if key == 'nfe40_CPF':
+            if comodel_name == 'nfe.40.dest':
+                vals['partner_is_company'] = False
+                vals['partner_cnpj_cpf'] = value
+        if key == 'nfe40_xNome':
+            if comodel_name == 'nfe.40.emit':
+                vals['company_legal_name'] = value
+            if comodel_name == 'nfe.40.dest':
+                vals['partner_legal_name'] = value
+        if key == 'nfe40_IE':
+            if comodel_name == 'nfe.40.emit':
+                vals['company_inscr_est'] = value
+            if comodel_name == 'nfe.40.dest':
+                vals['partner_inscr_est'] = value
+        if key == 'nfe40_ISUF':
+            if comodel_name == 'nfe.40.emit':
+                vals['company_suframa'] = value
+            if comodel_name == 'nfe.40.dest':
+                vals['partner_suframa'] = value
+
+        if key == 'nfe40_xLgr':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_street'] = value
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_street'] = value
+        if key == 'nfe40_nro':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_number'] = value
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_number'] = value
+        if key == 'nfe40_xCpl':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_street2'] = value
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_street2'] = value
+        if key == 'nfe40_xBairro':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_district'] = value
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_district'] = value
+        if key == 'nfe40_cMun':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_state_id'] = \
+                    self.env['res.country.state'].search([
+                        ('ibge_code', '=', value[:2])], limit=1).id
+                vals['company_city_id'] = \
+                    self.env['res.city'].search([
+                        ('ibge_code', '=', value[2:])], limit=1).id
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_state_id'] = \
+                    self.env['res.country.state'].search([
+                        ('ibge_code', '=', value[:2])], limit=1).id
+                vals['partner_city_id'] = \
+                    self.env['res.city'].search([
+                        ('ibge_code', '=', value[2:])], limit=1).id
+        if key == 'nfe40_CEP':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_zip'] = value
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_zip'] = value
+        if key == 'nfe40_cPais':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_country_id'] = \
+                    self.env['res.country'].search([
+                        ('ibge_code', '=', value)], limit=1)
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_country_id'] = \
+                    self.env['res.country'].search([
+                        ('ibge_code', '=', value)], limit=1)
+        if key == 'nfe40_fone':
+            if comodel_name == 'nfe.40.enderEmit':
+                vals['company_phone'] = value
+            if comodel_name == 'nfe.40.enderDest':
+                vals['partner_phone'] = value
+
+        return super(NFe, self)._build_attr(
+            node, fields, vals, path, attr, create_m2o, defaults)
+
     def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
         if self._name == 'account.invoice' and \
                 comodel._name == 'l10n_br_fiscal.document':
