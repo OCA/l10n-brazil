@@ -21,7 +21,10 @@ from ..constants.icms import (
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_ST_BASE_TYPE,
     ICMS_ST_BASE_TYPE_DEFAULT,
-    ICMS_SN_CST_WITH_CREDIT
+    ICMS_SN_CST_WITH_CREDIT,
+    ICMS_DIFAL_PARTITION,
+    ICMS_DIFAL_UNIQUE_BASE,
+    ICMS_DIFAL_DOUBLE_BASE
 )
 
 from ..constants.pis_cofins import (
@@ -278,6 +281,13 @@ class Tax(models.Model):
     def _compute_icms(self, tax, taxes_dict, **kwargs):
         partner = kwargs.get("partner")
         company = kwargs.get("company")
+        product = kwargs.get("product")
+        currency = kwargs.get("currency", company.currency_id)
+        precision = currency.decimal_places
+        ncm = kwargs.get("ncm")
+        nbm = kwargs.get("nbm")
+        cest = kwargs.get("cest")
+        operation_line = kwargs.get("operation_line")
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
@@ -307,7 +317,93 @@ class Tax(models.Model):
         taxes_dict[tax.tax_domain].update(self._compute_tax_base(
             tax, taxes_dict.get(tax.tax_domain), **kwargs))
 
-        return self._compute_tax(tax, taxes_dict, **kwargs)
+        taxes_dict[tax.tax_domain].update(self._compute_tax(
+            tax, taxes_dict, **kwargs))
+
+        # DIFAL
+        if (company.state_id != partner.state_id
+                and operation_line.operation_type == FISCAL_OUT
+                and not partner.is_company):
+            tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
+                company, partner, product, ncm, nbm, cest, operation_line)
+            tax_icmsfcp_difal = company.icms_regulation_id.map_tax_icmsfcp(
+                company, partner, product, ncm, nbm, cest, operation_line)
+
+            # Difal - Origin Percent
+            icms_origin_perc = taxes_dict[tax.tax_domain].get(
+                'percent_amount')
+
+            # Difal - Destination Percent
+            icms_dest_perc = 0.00
+            if tax_icms_difal:
+                icms_dest_perc = tax_icms_difal[0].percent_amount
+
+            # Difal - FCP Percent
+            icmsfcp_perc = 0.00
+            if tax_icmsfcp_difal:
+                icmsfcp_perc = tax_icmsfcp_difal[0].percent_amount
+
+            # Difal - Base
+            icms_base = taxes_dict[tax.tax_domain].get('base')
+            difal_icms_base = 0.00
+
+            if partner.state_id.code in ICMS_DIFAL_UNIQUE_BASE:
+                difal_icms_base = round(
+                    icms_base / (1 - (
+                        (icms_origin_perc + icmsfcp_perc) / 100)),
+                    precision)
+
+            if partner.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
+                difal_icms_base = round(
+                    icms_base / (1 - (
+                        (icms_dest_perc + icmsfcp_perc) / 100)),
+                    precision)
+
+            origin_value = round(
+                difal_icms_base * (icms_origin_perc / 100), precision)
+            dest_value = round(
+                difal_icms_base * (icms_dest_perc / 100), precision)
+
+            difal_value = dest_value - origin_value
+
+            # Difal - Sharing Percent
+            date_year = fields.Date.today().year
+
+            if date_year >= 2019:
+                taxes_dict[tax.tax_domain].update(
+                    ICMS_DIFAL_PARTITION[2019])
+            else:
+                if date_year == 2018:
+                    taxes_dict[tax.tax_domain].update(
+                        ICMS_DIFAL_PARTITION[2018])
+                if date_year == 2017:
+                    taxes_dict[tax.tax_domain].update(
+                        ICMS_DIFAL_PARTITION[2017])
+                else:
+                    taxes_dict[tax.tax_domain].update(
+                        ICMS_DIFAL_PARTITION[2016])
+
+            difal_share_origin = taxes_dict[tax.tax_domain].get(
+                'difal_origin_perc')
+
+            difal_share_dest = taxes_dict[tax.tax_domain].get(
+                'difal_dest_perc')
+
+            difal_origin_value = round(
+                difal_value * difal_share_origin / 100, precision)
+            difal_dest_value = round(
+                difal_value * difal_share_dest / 100,precision)
+
+            taxes_dict[tax.tax_domain].update({
+                'icms_origin_perc': icms_origin_perc,
+                'icms_dest_perc': icms_dest_perc,
+                'icms_dest_base': difal_icms_base,
+                'icms_sharing_percent': difal_share_dest,
+                'icms_origin_value': difal_origin_value,
+                'icms_dest_value': difal_dest_value,
+            })
+
+        return taxes_dict
 
     def _compute_icmssn(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
