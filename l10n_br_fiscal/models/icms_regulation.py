@@ -945,7 +945,7 @@ class ICMSRegulation(models.Model):
 
     @api.multi
     def map_tax_icms(self, company, partner, product, ncm=None, nbm=None,
-                    cest=None, operation_line=None):
+                     cest=None, operation_line=None):
         self.ensure_one()
         tax_definitions = self.env['l10n_br_fiscal.tax.definition']
         icms_taxes = self.env['l10n_br_fiscal.tax']
