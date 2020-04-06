@@ -120,3 +120,30 @@ ICMS_SN_CST_WITHOUT_CREDIT = [
     "500",
     "900"
 ]
+
+
+ICMS_DIFAL_PARTITION = {
+    2016: {
+        'difal_origin_perc': 60.00,
+        'difal_dest_perc': 40.00},
+    2017:  {
+        'difal_origin_perc': 40.00,
+        'difal_dest_perc': 60.00},
+    2018:  {
+        'difal_origin_perc': 20.00,
+        'difal_dest_perc': 80.00},
+    2019: {
+        'difal_origin_perc': 0.00,
+        'difal_dest_perc': 100.00}
+}
+
+
+ICMS_DIFAL_UNIQUE_BASE = [
+    'AC', 'AM', 'AP', 'CE', 'DF', 'ES', 'MA',
+    'MT', 'MS', 'PB', 'RJ', 'RN', 'RR', 'SC',
+    'SP']
+
+
+ICMS_DIFAL_DOUBLE_BASE = [
+    'AL', 'BA', 'GO', 'MG', 'PA', 'PI',
+    'PE', 'PR', 'RO', 'RS', 'SE', 'TO']
