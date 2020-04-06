@@ -20,7 +20,7 @@ def post_init_hook(cr, registry):
     if is_demo:
         path = os.path.join(l10n_br_nfe.__path__[0],
                             'tests', 'nfe', 'v4_00', 'leiauteNFe')
-        filename = os.listdir(path)[0]
-        obj = nfe_sub.parse('%s/%s' % (path, filename,))
-        # print(filename, obj.infNFe)
-        env["nfe.40.infnfe"].build(obj.infNFe, {})
+        for filename in os.listdir(path):
+            obj = nfe_sub.parse('%s/%s' % (path, filename,))
+            # print(filename, obj.infNFe)
+            env["nfe.40.infnfe"].build(obj.infNFe, {})
