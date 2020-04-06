@@ -32,7 +32,7 @@ try:
 except ImportError:
     from io import StringIO
 
-from erpbrasil.edoc import NFSe
+from erpbrasil.edoc import NFSeFactory
 
 from odoo.tools import float_round
 from odoo import api, fields, models, _
@@ -99,7 +99,17 @@ class AccountInvoice(models.Model):
         session = Session()
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
-        return NFSe(transmissao)
+        return NFSeFactory(
+            transmissao=transmissao,
+            ambiente=2,
+            cidade_ibge=int('%s%s' % (
+                self.company_id.partner_id.state_id.ibge_code,
+                self.company_id.partner_id.l10n_br_city_id.ibge_code
+            )),
+            cnpj_prestador=punctuation_rm(self.company_id.partner_id.cnpj_cpf),
+            im_prestador=punctuation_rm(
+                self.company_id.partner_id.inscr_mun or ''),
+        )
 
     @api.multi
     def _edoc_export(self):
