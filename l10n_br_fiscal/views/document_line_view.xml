@@ -131,6 +131,7 @@
                         <field name="icms_destination_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
                         <field name="icms_sharing_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
                         <field name="icms_origin_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
+                        <field name="icms_destination_value" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
                         <field name="icmsfcp_tax_id" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
                         <field name="icmsfcp_percent" force_save="1" attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)]}"/>
                         <field name="icmsfcp_value" force_save="1" attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)]}"/>
