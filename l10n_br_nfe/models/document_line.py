@@ -271,6 +271,7 @@ class NFeLine(spec_models.StackedModel):
     def _build_attr(self, node, fields, vals, path, attr, create_m2o,
                     defaults):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
+        value = getattr(node, attr.get_name())
 
         if key.startswith('nfe40_ICMS') and key not in [
                 'nfe40_ICMS', 'nfe40_ICMSTot', 'nfe40_ICMSUFDest']:
@@ -286,6 +287,33 @@ class NFeLine(spec_models.StackedModel):
         if key.startswith('nfe40_COFINS') and key not in [
                 'nfe40_COFINS', 'nfe40_COFINSST']:
             vals['nfe40_choice15'] = key
+
+        if key == 'nfe40_vUnCom':
+            vals['price_unit'] = float(value)
+        if key == 'nfe40_NCM':
+            ncm = '.'.join([value[i:i+2] for i in range(0, len(value), 2)])
+            vals['ncm_id'] = self.env['l10n_br_fiscal.ncm'].search([
+                ('code', '=', ncm)], limit=1).id
+        if key == 'nfe40_CEST' and value:
+            cest = value[:2] + '.' + value[2:5] + '.' + value[5:]
+            vals['cest_id'] = self.env['l10n_br_fiscal.cest'].search([
+                ('code', '=', cest)], limit=1).id
+        if key == 'nfe40_qCom':
+            vals['quantity'] = float(value)
+            vals['fiscal_quantity'] = float(value)
+        if key == 'nfe40_pICMS':
+            vals['icms_percent'] = float(value)
+        if key == 'nfe40_pIPI':
+            vals['ipi_percent'] = float(value)
+        if key == 'nfe40_pPIS':
+            vals['pis_percent'] = float(value)
+        if key == 'nfe40_pCOFINS':
+            vals['cofins_percent'] = float(value)
+        if key == 'nfe40_cEnq':
+            code = str(int(value))
+            vals['ipi_guideline_id'] = \
+                self.env['l10n_br_fiscal.tax.ipi.guideline'].search([
+                    ('code', '=', code)], limit=1).id
 
         return super(NFeLine, self)._build_attr(
             node, fields, vals, path, attr, create_m2o, defaults)
