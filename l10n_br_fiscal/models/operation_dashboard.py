@@ -28,6 +28,7 @@ EDOC_CANCELED = (
     SITUACAO_EDOC_INUTILIZADA,
 )
 
+
 class Operation(models.Model):
     _inherit = "l10n_br_fiscal.operation"
 
