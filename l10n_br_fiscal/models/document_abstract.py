@@ -107,6 +107,8 @@ class DocumentAbstract(models.AbstractModel):
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
 
+    is_edoc_printed = fields.Boolean(string="Impresso", readonly=True)
+
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
     active = fields.Boolean(
@@ -413,8 +415,19 @@ class DocumentAbstract(models.AbstractModel):
     def _create_serie_number(self, document_serie_id, document_date):
         document_serie = self.env['l10n_br_fiscal.document.serie'].browse(
             document_serie_id)
-        return document_serie.internal_sequence_id.with_context(
+        number = document_serie.internal_sequence_id.with_context(
             ir_sequence_date=document_date)._next()
+        invalids = \
+            self.env['l10n_br_fiscal.document.invalidate.number'].search([
+                ('state', '=', 'done'),
+                ('document_serie_id', '=', document_serie_id)])
+        invalid_numbers = []
+        for invalid in invalids:
+            invalid_numbers += range(
+                invalid.number_start, invalid.number_end + 1)
+        if int(number) in invalid_numbers:
+            return self._create_serie_number(document_serie_id, document_date)
+        return number
 
     @api.model
     def create(self, values):
@@ -426,6 +439,11 @@ class DocumentAbstract(models.AbstractModel):
                 values.get('document_serie_id'), values['date'])
 
         return super(DocumentAbstract, self).create(values)
+
+    @api.onchange("document_serie_id")
+    def _onchange_document_serie_id(self):
+        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_serie = self.document_serie_id.code
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
@@ -439,33 +457,7 @@ class DocumentAbstract(models.AbstractModel):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
-    def _set_document_serie(self):
-        if self.operation_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            if self.document_type_id:
-                self.document_serie_id = self.operation_id.get_document_serie(
-                    self.company_id, self.document_type_id)
-
-                if not self.document_serie_id:
-                    self.document_serie_id = self.env[
-                        'l10n_br_fiscal.document.serie'].search([
-                            ('company_id', '=', self.company_id.id),
-                            ('document_type_id', '=', self.document_type_id.id),
-                            ('active', '=', True)], limit=1, order="code")
-
-        if not self.operation_id:
-            self.document_type_id = self.company_id.document_type_id
-
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
-        self._set_document_serie()
         if self.operation_id:
             self.operation_name = self.operation_id.name
-
-    @api.onchange("document_type_id")
-    def _onchange_document_type_id(self):
-        self._set_document_serie()
-
-    @api.onchange("document_serie_id")
-    def _onchange_document_serie_id(self):
-        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie = self.document_serie_id.code

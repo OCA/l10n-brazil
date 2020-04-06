@@ -7,30 +7,25 @@ from odoo import api, fields, models
 
 class DocumentCorrection(models.Model):
     _name = "l10n_br_fiscal.document.correction"
+    _inherit = "l10n_br_fiscal.event.abstract"
     _description = "Fiscal Document Correction Record"
 
-    motivo = fields.Text(
-        string="Reason Description",
-        readonly=True,
-        required=True)
+    sequencia = fields.Char(
+        string=u"Sequência", help=u"Indica a sequência da carta de correcão"
+    )
 
-    sequence = fields.Char(
-        string="Sequence",
-        help="Indica a sequência da carta de correcão")
-
-    document_event_ids = fields.One2many(
+    cce_document_event_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.event",
-        inverse_name="document_correction_id",
-        string="Events")
-
-    display_name = fields.Char(
-        string="Name",
-        compute="_compute_display_name")
+        inverse_name="correction_document_event_id",
+        string=u"Eventos",
+    )
 
     @api.multi
-    @api.depends("document_event_ids")
-    def _compute_display_name(self):
+    def correction(self, event_id):
         for record in self:
-            if record.document_event_ids:
-                # TODO
-                record.display_name = record.document_event_ids[0].origin
+            if not record.document_id or not record.justificative:
+                continue
+
+            event_id.write({
+                'state': 'done',
+            })

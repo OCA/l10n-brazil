@@ -54,7 +54,9 @@ class DocumentEvent(models.Model):
             ("10", "Download"),
             ("11", "Consulta Destinadas"),
             ("12", "Distribuição DFe"),
-            ("13", "Manifestação")],
+            ("13", "Manifestação"),
+            ("14", "Carta de Correção"),
+        ],
         string="Service")
 
     response = fields.Char(
@@ -119,13 +121,17 @@ class DocumentEvent(models.Model):
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Document")
 
-    document_cancel_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.cancel",
-        string="Cancel Document")
+    cancel_document_event_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.cancel", string="Cancelamento"
+    )
 
-    document_correction_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.correction",
-        string="Correction Document")
+    correction_document_event_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.correction", string="Carta de correção"
+    )
+
+    invalid_number_document_event_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.invalidate.number", string=u"Inutilização"
+    )
 
     document_invalidate_number_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.invalidate.number",
@@ -218,7 +224,8 @@ class DocumentEvent(models.Model):
             file_name += "proc-"
         if sequencia:
             file_name += str(sequencia) + "-"
-        file_name += CODIGO_NOME[self.fiscal_document_id.document_type_id.code]
+        file_name += CODIGO_NOME[
+            self.fiscal_document_id.document_type_id.code]
         file_name += "." + extensao_sem_ponto
 
         file_path = self._grava_arquivo_disco(arquivo, file_name)
