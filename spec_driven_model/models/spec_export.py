@@ -50,7 +50,7 @@ class AbstractSpecMixin(models.AbstractModel):
                         not in self._get_spec_classes():
                     return False
             return self._export_many2one(xsd_field, xsd_required,
-                                               class_obj)
+                                         class_obj)
         elif self._fields[xsd_field].type == 'one2many':
             return self._export_one2many(xsd_field, class_obj)
         elif self._fields[xsd_field].type == 'datetime' and \
