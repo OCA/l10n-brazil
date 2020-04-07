@@ -1,7 +1,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields
+from odoo import fields
 from odoo.addons.spec_driven_model.models import spec_models
 from ..constants.nfe import (NFE_ENVIRONMENT_DEFAULT, NFE_ENVIRONMENTS,
                              NFE_VERSION_DEFAULT, NFE_VERSIONS)
