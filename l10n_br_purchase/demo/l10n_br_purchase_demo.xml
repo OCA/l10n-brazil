@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Produtos -->
+    <record id="product.product_product_27" model="product.product">
+        <field name="purchase_method">purchase</field>
+    </record>
+
+    <record id="product.product_product_12" model="product.product">
+        <field name="purchase_method">purchase</field>
+    </record>
+
     <!-- Demo Purchase Order - 1 -->
     <record id="l10n_br_purchase_order-demo_1" model="purchase.order">
         <field name="name">Demo l10n_br_purchase - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="state">draft</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_compras"/>
+        <field name="user_id" ref="base.user_demo"/>
     </record>
 
     <record id="l10n_br_purchase_orderline-demo_1-1" model="purchase.order.line">
