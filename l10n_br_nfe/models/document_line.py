@@ -207,15 +207,15 @@ class NFeLine(spec_models.StackedModel):
             self.nfe40_pICMSInterPart = 100.0
             self.nfe40_vICMSUFDest = (
                 self.nfe40_vBCUFDest * (
-                (self.nfe40_pICMSUFDest - float(
-                    self.nfe40_pICMSInter)
-                 ) / 100) * (self.nfe40_pICMSInterPart / 100))
+                    (self.nfe40_pICMSUFDest - float(
+                        self.nfe40_pICMSInter)
+                     ) / 100) * (self.nfe40_pICMSInterPart / 100))
             self.nfe40_vICMSUFRemet = (
                 self.nfe40_vBCUFDest * (
-                (self.nfe40_pICMSUFDest - float(
-                    self.nfe40_pICMSInter)
-                 ) / 100) * ((100 - self.nfe40_pICMSInterPart
-                              ) / 100))
+                    (self.nfe40_pICMSUFDest - float(
+                        self.nfe40_pICMSInter)
+                     ) / 100) * ((100 - self.nfe40_pICMSInterPart
+                                  ) / 100))
 
         return super(NFeLine, self)._export_fields(
             xsd_fields, class_obj, export_dict)
