@@ -6,7 +6,7 @@ from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.v4_00 import leiauteNFe
-from odoo import api, fields, models, _
+from odoo import api, fields, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     DENEGADO,
@@ -21,7 +21,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
     NFE_IND_IE_DEST, NFE_IND_IE_DEST_DEFAULT,
-    TAX_FRAMEWORK, TAX_FRAMEWORK_NORMAL,
 )
 from odoo.addons.l10n_br_nfe.sped.nfe.validator import txt
 from odoo.addons.spec_driven_model.models import spec_models
