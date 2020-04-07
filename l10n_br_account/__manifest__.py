@@ -25,6 +25,7 @@
         "data/l10n_br_account_tax_group_data.xml",
         "data/l10n_br_account_move_history_data.xml",
         "data/l10n_br_account_move_template_data.xml",
+        "data/operation_data.xml",
 
         "views/l10n_br_account_menu.xml",
         # Views
@@ -46,7 +47,7 @@
     ],
     "demo": [
         "demo/account_journal_demo.xml",
-        "demo/fiscal_operation_demo.xml"
+        "demo/fiscal_operation_demo.xml",
         'demo/l10n_br_account_move_history.xml',
         'demo/l10n_br_account_move_template_line.xml',
         'demo/l10n_br_account_move_template.xml',
