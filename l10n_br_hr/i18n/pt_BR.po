@@ -411,6 +411,11 @@ msgid "Contracts Count"
 msgstr "Contatos"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_ie_dest
+msgid "Contribuinte do ICMS"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_count
 msgid "Count Payment Token"
 msgstr ""
@@ -723,6 +728,11 @@ msgstr "Fêmea"
 #: selection:hr.employee,cresv_categ:0
 msgid "First Category"
 msgstr "Primeira Categoria"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__fiscal_profile_id
+msgid "Fiscal Partner Profile"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_account_position_id
@@ -1067,6 +1077,11 @@ msgstr "Razão Social"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Anexo Principal"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cnae_main_id
+msgid "Main CNAE"
+msgstr ""
 
 #. module: l10n_br_hr
 #: selection:hr.employee.dependent,dependent_gender:0
@@ -1510,6 +1525,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__category_id
 msgid "Tags"
 msgstr "Marcadores"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__tax_framework
+msgid "Tax Framework"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__vat
