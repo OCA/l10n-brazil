@@ -29,8 +29,18 @@ msgid "COFINS ST"
 msgstr ""
 
 #. module: l10n_br_simple
+#: model:account.tax.group,name:l10n_br_simple.tax_group_cofins_wh
+msgid "COFINS WH"
+msgstr ""
+
+#. module: l10n_br_simple
 #: model:account.tax.group,name:l10n_br_simple.tax_group_csll
 msgid "CSLL"
+msgstr ""
+
+#. module: l10n_br_simple
+#: model:account.tax.group,name:l10n_br_simple.tax_group_csll_wh
+msgid "CSLL WH"
 msgstr ""
 
 #. module: l10n_br_simple
@@ -44,8 +54,8 @@ msgid "ICMS FCP"
 msgstr ""
 
 #. module: l10n_br_simple
-#: model:account.tax.group,name:l10n_br_simple.tax_group_icmsdifal
-msgid "ICMS Interestadual"
+#: model:account.tax.group,name:l10n_br_simple.tax_group_icmssn
+msgid "ICMS SN"
 msgstr ""
 
 #. module: l10n_br_simple
@@ -56,6 +66,16 @@ msgstr ""
 #. module: l10n_br_simple
 #: model:account.tax.group,name:l10n_br_simple.tax_group_ii
 msgid "II"
+msgstr ""
+
+#. module: l10n_br_simple
+#: model:account.tax.group,name:l10n_br_simple.tax_group_inss
+msgid "INSS"
+msgstr ""
+
+#. module: l10n_br_simple
+#: model:account.tax.group,name:l10n_br_simple.tax_group_inss_wh
+msgid "INSS WH"
 msgstr ""
 
 #. module: l10n_br_simple
@@ -74,8 +94,18 @@ msgid "IRPJ"
 msgstr ""
 
 #. module: l10n_br_simple
+#: model:account.tax.group,name:l10n_br_simple.tax_group_irpj_wh
+msgid "IRPJ WH"
+msgstr ""
+
+#. module: l10n_br_simple
 #: model:account.tax.group,name:l10n_br_simple.tax_group_issqn
 msgid "ISSQN"
+msgstr ""
+
+#. module: l10n_br_simple
+#: model:account.tax.group,name:l10n_br_simple.tax_group_issqn_wh
+msgid "ISSQN WH"
 msgstr ""
 
 #. module: l10n_br_simple
@@ -91,6 +121,11 @@ msgstr ""
 #. module: l10n_br_simple
 #: model:account.tax.group,name:l10n_br_simple.tax_group_pisst
 msgid "PIS ST"
+msgstr ""
+
+#. module: l10n_br_simple
+#: model:account.tax.group,name:l10n_br_simple.tax_group_pis_wh
+msgid "PIS WH"
 msgstr ""
 
 #. module: l10n_br_simple
