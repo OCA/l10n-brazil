@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="document_serie_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.serie.tree</field>
+        <field name="model">l10n_br_fiscal.document.serie</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="sequence_number_next"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_serie_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.serie.form</field>
+        <field name="model">l10n_br_fiscal.document.serie</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Document Serie">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="document_type_id"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="internal_sequence_id"/>
+                        <field name="sequence_number_next"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

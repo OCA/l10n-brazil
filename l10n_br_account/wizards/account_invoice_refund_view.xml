@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_invoice_refund_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.refund.form</field>
+        <field name="model">account.invoice.refund</field>
+        <field name="inherit_id" ref="account.view_account_invoice_refund"/>
+        <field name="arch" type="xml">
+            <field name="date_invoice" position="before">
+                <field name="force_fiscal_operation_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

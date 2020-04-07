@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="document_55_serie_1" model="l10n_br_fiscal.document.serie">
+        <field name="code">1</field>
+        <field name="name">Série 1</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="active">True</field>
+    </record>
+
+    <record id="fiscal_document_dummy" model="l10n_br_fiscal.document">
+        <field name="key">dummy</field>
+        <field name="number">0</field>
+        <field name="active">False</field>
+        <field name="partner_id" ref="base.main_partner"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="operation_type">out</field>
+    </record>
+
+    <record id="fiscal_document_line_dummy" model="l10n_br_fiscal.document.line">
+        <field name="active">False</field>
+        <field name="document_id" ref="fiscal_document_dummy"/>
+    </record>
+
+    <!-- l10n_br_fiscal.operation -->
+    <record id="fo_venda" model="l10n_br_fiscal.operation">
+        <field name="code">Venda</field>
+        <field name="name">Venda</field>
+        <field name="operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_venda_venda" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="name">Venda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5101"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6101"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7101"/>
+        <field name="state">approved</field>
+        <field name="product_type">04</field>
+    </record>
+
+    <record id="fo_venda_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="name">Revenda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5102"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6102"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7102"/>
+        <field name="state">approved</field>
+        <field name="product_type">00</field>
+    </record>
+
+    <record id="fo_venda_servico" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="name">Venda de Serviço</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE"/>
+        <field name="state">approved</field>
+        <field name="product_type">09</field>
+    </record>
+
+    <record id="fo_venda_revenda_ipi_nt" model="l10n_br_fiscal.tax.definition">
+        <field name="operation_line_id" ref="fo_venda_revenda"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi"/>
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt"/>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53"/>
+        <field name="state">draft</field>
+    </record>
+
+    <record id="fo_venda_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="fo_bonificacao" model="l10n_br_fiscal.operation">
+        <field name="code">Bonificação</field>
+        <field name="name">Bonificação</field>
+        <field name="operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_bonificacao_bonificacao" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
+        <field name="name">Bonificação</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5910"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6910"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_bonificacao_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+    </record>
+
+    <record id="fo_devolucao_venda" model="l10n_br_fiscal.operation">
+        <field name="code">Devolução de Venda</field>
+        <field name="name">Devolução de Venda</field>
+        <field name="operation_type">in</field>
+        <field name="fiscal_type">sale_refund</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_venda_devolucao_venda" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_devolucao_venda"/>
+        <field name="name">Devolução de Venda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1201"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2201"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3201"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_revenda_devolucao_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_devolucao_venda"/>
+        <field name="name">Devolução de Revenda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1202"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2202"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3202"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_venda_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_devolucao_venda"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="fo_compras" model="l10n_br_fiscal.operation">
+        <field name="code">Compras</field>
+        <field name="name">Compras</field>
+        <field name="operation_type">in</field>
+        <field name="fiscal_type">purchase</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_compras_compras" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_compras"/>
+        <field name="name">Compras</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1101"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2101"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3101"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_compras" model="l10n_br_fiscal.operation">
+        <field name="code">Devolução de Compras</field>
+        <field name="name">Devolução de Compras</field>
+        <field name="operation_type">out</field>
+        <field name="fiscal_type">purchase_refund</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_compras_devolucao_compras" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_devolucao_compras"/>
+        <field name="name">Devolução de Compras</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5201"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6201"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_6201"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_compras_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_devolucao_compras"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="fo_entrada_remessa" model="l10n_br_fiscal.operation">
+        <field name="code">Entrada de Remessa</field>
+        <field name="name">Entrada de Remessa</field>
+        <field name="operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_entrada_remessa_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_entrada_remessa"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="fo_simples_remessa" model="l10n_br_fiscal.operation">
+        <field name="code">Simples Remessa</field>
+        <field name="name">Simples Remessa</field>
+        <field name="operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_simples_remessa_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+
+    <!-- l10n_br_fiscal.operation relations -->
+    <record id="fo_venda" model="l10n_br_fiscal.operation">
+        <field name="return_operation_id" ref="fo_devolucao_venda"/>
+        <field name="inverse_operation_id" ref="fo_compras"/>
+    </record>
+
+    <record id="fo_compras" model="l10n_br_fiscal.operation">
+        <field name="return_operation_id" ref="fo_devolucao_compras"/>
+        <field name="inverse_operation_id" ref="fo_venda"/>
+    </record>
+
+    <!--
+    <record id="base.main_company" model="res.company">
+        <field name="in_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
+        <field name="out_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
+        <field name="in_refund_fiscal_category_id" ref="l10n_br_account_product.fc_f20c37a9e1e1c870af37efe62a786fbf"/>
+        <field name="out_refund_fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
+        <field name="product_invoice_id" ref="l10n_br_account_product.fiscal_document_55"/>
+        <field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]"/>
+    </record> -->
+
+</odoo>

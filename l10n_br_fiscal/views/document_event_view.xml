@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--    <record id="l10n_br_account_invoice_cancel_form" model="ir.ui.view">-->
+<!--        <field name="name">l10n_br_account.invoice.cancel.form</field>-->
+<!--        <field name="model">l10n_br_account.invoice.cancel</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="NFs Canceladas" edit="false" create="false">-->
+<!--                <group>-->
+<!--                    <field name="invoice_id"/>-->
+<!--                    <field name="partner_id"/>-->
+<!--                </group>-->
+<!--                <group>-->
+<!--                    <field name="justificative"/>-->
+<!--                </group>-->
+<!--                <notebook>-->
+<!--                    <page string="Eventos">-->
+<!--                        <field name="cancel_document_event_ids"/>-->
+<!--                    </page>-->
+<!--                </notebook>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="l10n_br_account_cce_form" model="ir.ui.view">-->
+<!--        <field name="name">l10n_br_account.invoice.cce.form</field>-->
+<!--        <field name="model">l10n_br_account.invoice.cce</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Carta de Correção" version="7.0" edit="false" create="false">-->
+<!--                <group>-->
+<!--                    <field name="invoice_id"/>-->
+<!--                    <field name="sequencia"/>-->
+<!--                </group>-->
+<!--                <group>-->
+<!--                     <field name="motivo"/>-->
+<!--                </group>-->
+<!--                <notebook>-->
+<!--                    <page string="Eventos">-->
+<!--                        <field name="cce_document_event_ids"/>-->
+<!--                    </page>-->
+<!--                </notebook>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="l10n_br_account_invoice_cancel_tree" model="ir.ui.view">-->
+<!--        <field name="name">l10n_br_account.invoice.cancel.tree</field>-->
+<!--        <field name="model">l10n_br_account.invoice.cancel</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree string="NFs Canceladas" edit="false" create="false">-->
+<!--                <field name="invoice_id" style="width: 100%" />-->
+<!--                <field name="partner_id" style="width: 100%" />-->
+<!--                <field name="justificative"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="l10n_br_account_cce_tree" model="ir.ui.view">-->
+<!--        <field name="name">l10n_br_account.invoice.cce.tree</field>-->
+<!--        <field name="model">l10n_br_account.invoice.cce</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree string="Carta de Correção" edit="false" create="false">-->
+<!--                <field name="invoice_id"/>-->
+<!--                <field name="motivo"/>-->
+<!--                <field name="sequencia"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="l10n_br_account_document_event_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.event.form</field>
+        <field name="model">l10n_br_fiscal.document.event</field>
+        <field name="arch" type="xml">
+            <form string="Eventos Eletronicos" version="7.0" edit="false" create="false">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,send,wait,done"/>
+                </header>
+                <group>
+                    <field name="type"/>
+                    <field name="company_id"/>
+                    <field name="response"/>
+                    <field name="origin"/>
+                    <field name="write_date"/>
+                    <field name="file_sent"/>
+                    <field name="end_date"/>
+                    <field name="file_returned"/>
+                    <field name="status"/>
+                    <field name="message"/>
+                    <field name="state"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_document_event_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.event.tree</field>
+        <field name="model">l10n_br_fiscal.document.event</field>
+        <field name="arch" type="xml">
+            <tree edit="false" create="false">
+                    <field name="type"/>
+                    <field name="company_id"/>
+                    <field name="response"/>
+                    <field name="origin"/>
+                    <field name="write_date"/>
+                    <field name="end_date"/>
+                    <field name="status"/>
+                    <field name="message"/>
+                    <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <record id="l10n_br_account_invoice_invalid_number_form" model="ir.ui.view">-->
+<!--        <field name="name">l10n_br_account.invoice.invalid.number.form</field>-->
+<!--        <field name="model">l10n_br_account.invoice.invalid.number</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Inutilizar Faixa de Numeração" version="7.0">-->
+<!--                <header>-->
+<!--                    <button name="action_draft_done" states="draft" colspan="2" string="Confirmar" type="object" icon="gtk-convert"/>-->
+<!--                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>-->
+<!--                </header>-->
+<!--                <group>-->
+<!--                    <field name="company_id"/>-->
+<!--                    <field name="fiscal_document_id"/>-->
+<!--                    <field name="document_serie_id"/>-->
+<!--                    <field name="number_start"/>-->
+<!--                    <field name="number_end"/>-->
+<!--                    <field name="justificative"/>-->
+<!--                </group>-->
+<!--                <field name="invalid_number_document_event_ids"/>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="l10n_br_account_invoice_invalid_number_tree" model="ir.ui.view">-->
+<!--        <field name="name">l10n_br_account.invoice.invalid.number.tree</field>-->
+<!--        <field name="model">l10n_br_account.invoice.invalid.number</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree string="Inutilizar Faixa de Numeração">-->
+<!--                <field name="fiscal_document_id"/>-->
+<!--                <field name="document_serie_id"/>-->
+<!--                <field name="number_start"/>-->
+<!--                <field name="number_end"/>-->
+<!--                <field name="state"/>-->
+<!--                <field name="company_id"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="action_l10n_br_account_document_event" model="ir.actions.act_window">
+        <field name="name">Eventos Eletronicos</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document.event</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="l10n_br_account_document_event_tree"/>
+    </record>
+
+
+    <record id="action_l10n_br_account_invoice_invalid_number" model="ir.actions.act_window">
+        <field name="name">Inutilizar Faixa de Numeração</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document.invalidate.number</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <record id="action_l10n_br_account_invoice_cancel" model="ir.actions.act_window">
+        <field name="name">Documentos Eletrônicos Cancelados</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document.cancel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <record id="action_l10n_br_account_cce" model="ir.actions.act_window">
+        <field name="name">Carta de Correção</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document.correction</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="fiscal_menu" sequence="12"/>
+
+    <menuitem id="menu_l10n_br_account_document_event" name="Eventos Eletronicos" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_document_event"/>
+
+    <menuitem id="menu_l10n_br_account_invoice_invalid_number" name="Inutilizar Faixa de Numeracao" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_invoice_invalid_number"/>
+
+    <menuitem id="menu_l10n_br_account_invoice_cancel" name="NFs Canceladas" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_invoice_cancel"/>
+
+    <menuitem id="menu_l10n_br_account_cce" name="Carta de Correção" parent="menu_l10n_br_account_fiscal_manager" action="action_l10n_br_account_cce"/>
+
+</odoo>

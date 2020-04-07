@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Account Journal -->
+    <record id="l10n_br_account_journal_venda" model="account.journal">
+        <field name="name">Venda</field>
+        <field name="type">sale</field>
+        <field name="code">VND</field>
+        <!-- <field name="default_credit_account_id" ref=""/>
+        <field name="default_debit_account_id" ref=""/> -->
+    </record>
+
+    <record id="l10n_br_account_journal_bonificacao" model="account.journal">
+        <field name="name">Bonificação</field>
+        <field name="type">sale</field>
+        <field name="code">BON</field>
+        <!-- <field name="default_credit_account_id" ref=""/>
+        <field name="default_debit_account_id" ref=""/> -->
+    </record>
+
+    <record id="l10n_br_account_journal_devolucao_venda" model="account.journal">
+        <field name="name">Devolução de Vendas</field>
+        <field name="type">sale</field>
+        <field name="code">DEV</field>
+        <!-- <field name="default_credit_account_id" ref=""/>
+        <field name="default_debit_account_id" ref=""/> -->
+    </record>
+
+    <record id="l10n_br_account_journal_outras_saidas" model="account.journal">
+        <field name="name">Outras Saidas</field>
+        <field name="type">sale</field>
+        <field name="code">OEN</field>
+        <!-- <field name="default_credit_account_id" ref=""/>
+        <field name="default_debit_account_id" ref=""/> -->
+    </record>
+
+    <record id="l10n_br_account_journal_compras" model="account.journal">
+        <field name="name">Compras</field>
+        <field name="type">purchase</field>
+        <field name="code">CMP</field>
+        <!-- <field name="default_credit_account_id" ref=""/>
+        <field name="default_debit_account_id" ref=""/> -->
+    </record>
+
+    <record id="l10n_br_account_journal_devolucao_compras" model="account.journal">
+        <field name="name">Devolução de Compras</field>
+        <field name="type">purchase</field>
+        <field name="code">DEC</field>
+        <!-- <field name="default_credit_account_id" ref=""/>
+        <field name="default_debit_account_id" ref=""/> -->
+    </record>
+
+    <record id="l10n_br_account_journal_outras_entradas" model="account.journal">
+        <field name="name">Outras Entradas</field>
+        <field name="type">purchase</field>
+        <field name="code">OEN</field>
+        <!-- <field name="default_credit_account_id" ref=""/>
+        <field name="default_debit_account_id" ref=""/> -->
+    </record>
+
+</odoo>

@@ -1,0 +1,17 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_account_certificate_user","Fiscal Certificate for Account User","l10n_br_fiscal.model_l10n_br_fiscal_certificate","account.group_account_invoice",1,0,0,0
+"l10n_br_account_document_serie_user","Fiscal Document Serie for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document_serie","account.group_account_invoice",1,0,0,0
+"l10n_br_account_document_type_user","Fiscal Document Type for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document_type","account.group_account_invoice",1,0,0,0
+"l10n_br_account_cfop_user","Fiscal CFOP for Account User","l10n_br_fiscal.model_l10n_br_fiscal_cfop","account.group_account_invoice",1,0,0,0
+"l10n_br_account_ncm_user","Fiscal NCM for Account User","l10n_br_fiscal.model_l10n_br_fiscal_ncm","account.group_account_invoice",1,1,0,0
+"l10n_br_account_nbs_user","Fiscal NBS for Account User","l10n_br_fiscal.model_l10n_br_fiscal_nbs","account.group_account_invoice",1,1,0,0
+"l10n_br_account_service_type_user","Fiscal Service Type for Account User","l10n_br_fiscal.model_l10n_br_fiscal_service_type","account.group_account_invoice",1,0,0,0
+"l10n_br_account_cest_user","Fiscal CEST for Account User","l10n_br_fiscal.model_l10n_br_fiscal_cest","account.group_account_invoice",1,0,0,0
+"l10n_br_account_product_genre_user","Fiscal Product Genre for Account User","l10n_br_fiscal.model_l10n_br_fiscal_product_genre","account.group_account_invoice",1,0,0,0
+"l10n_br_account_simplified_tax_user","Fiscal Simplified Tax for Account User","l10n_br_fiscal.model_l10n_br_fiscal_simplified_tax","account.group_account_invoice",1,0,0,0
+"l10n_br_account_simplified_tax_range_user","Fiscal Simplified Range Tax for Account User","l10n_br_fiscal.model_l10n_br_fiscal_simplified_tax_range","account.group_account_invoice",1,0,0,0
+"l10n_br_account_cst_user","Fiscal CST for Account User","l10n_br_fiscal.model_l10n_br_fiscal_cst","account.group_account_invoice",1,0,0,0
+"l10n_br_account_tax_group_user","Fiscal Tax Group for Account User","l10n_br_fiscal.model_l10n_br_fiscal_tax_group","account.group_account_invoice",1,0,0,0
+"l10n_br_account_tax_user","Fiscal Tax for Account User","l10n_br_fiscal.model_l10n_br_fiscal_tax","account.group_account_invoice",1,0,0,0
+"l10n_br_account_operation_user","Fiscal Operation for Account User","l10n_br_fiscal.model_l10n_br_fiscal_operation","account.group_account_invoice",1,0,0,0
+"l10n_br_account_operation_line_user","Fiscal Operation Line for Account User","l10n_br_fiscal.model_l10n_br_fiscal_operation_line","account.group_account_invoice",1,0,0,0

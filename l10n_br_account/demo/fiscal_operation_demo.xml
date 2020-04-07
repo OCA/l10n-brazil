@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- l10n_br_fiscal.operation -->
+    <record id="l10n_br_fiscal.fo_venda" model="l10n_br_fiscal.operation">
+        <field name="journal_id" ref="l10n_br_account_journal_venda"/>
+    </record>
+
+    <record id="l10n_br_fiscal.fo_bonificacao" model="l10n_br_fiscal.operation">
+        <field name="journal_id" ref="l10n_br_account_journal_bonificacao"/>
+    </record>
+
+    <record id="l10n_br_fiscal.fo_devolucao_venda" model="l10n_br_fiscal.operation">
+        <field name="journal_id" ref="l10n_br_account_journal_devolucao_venda"/>
+    </record>
+
+    <record id="l10n_br_fiscal.fo_compras" model="l10n_br_fiscal.operation">
+        <field name="journal_id" ref="l10n_br_account_journal_compras"/>
+    </record>
+
+    <record id="l10n_br_fiscal.fo_devolucao_compras" model="l10n_br_fiscal.operation">
+      <field name="journal_id" ref="l10n_br_account_journal_devolucao_compras"/>
+    </record>
+
+    <record id="l10n_br_fiscal.fo_entrada_remessa" model="l10n_br_fiscal.operation">
+      <field name="journal_id" ref="l10n_br_account_journal_outras_entradas"/>
+    </record>
+
+    <record id="l10n_br_fiscal.fo_simples_remessa" model="l10n_br_fiscal.operation">
+        <field name="journal_id" ref="l10n_br_account_journal_outras_saidas"/>
+    </record>
+
+</odoo>
