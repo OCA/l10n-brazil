@@ -378,6 +378,11 @@ msgid "Contracts Count"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_ie_dest
+msgid "Contribuinte do ICMS"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_count
 msgid "Count Payment Token"
 msgstr ""
@@ -674,6 +679,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: selection:hr.employee,cresv_categ:0
 msgid "First Category"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__fiscal_profile_id
+msgid "Fiscal Partner Profile"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1006,6 +1016,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_main_attachment_id
 msgid "Main Attachment"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cnae_main_id
+msgid "Main CNAE"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1426,6 +1441,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__category_id
 msgid "Tags"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__tax_framework
+msgid "Tax Framework"
 msgstr ""
 
 #. module: l10n_br_hr
