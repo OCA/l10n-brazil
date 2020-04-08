@@ -157,6 +157,7 @@ class AccountEvent(models.Model):
                 'ref': 'Reversão do Evento: {}'.format(record.ref),
                 'origem': '{},{}'.format('account.event', record.id),
                 'revert_event': True,
+                'account_event_to_revert_id': False,
             })
 
             record.account_event_reversao_id = account_event_reversao_id
