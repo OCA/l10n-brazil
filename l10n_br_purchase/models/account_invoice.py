@@ -37,7 +37,8 @@ class AccountInvoice(models.Model):
                     purchase_line = self.env[
                         'purchase.order.line'].browse(
                         line[2]['purchase_line_id'])
-                    document_type_id = purchase_line.operation_line_id.get_document_type(
+                    document_type_id = \
+                        purchase_line.operation_line_id.get_document_type(
                         purchase_line.order_id.company_id).id
                     # TODO - Fields below should be filled by method
                     #  _prepare_invoice_line_from_po_line() above, but
