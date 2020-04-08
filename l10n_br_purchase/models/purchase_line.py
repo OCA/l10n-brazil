@@ -8,6 +8,7 @@ from ...l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK,
 )
 
+
 class PurchaseOrderLine(models.Model):
     _name = "purchase.order.line"
     _inherit = ["purchase.order.line", "l10n_br_fiscal.document.line.mixin"]
