@@ -7,3 +7,8 @@ erpbrasil.transmissao==0.1.0
 erpbrasil.edoc==0.1.0
 erpbrasil.edoc.pdf==0.1.0
 -e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+xmldiff
+pillow==5.2.0
+lxml==4.2.1
+-e git://github.com/erpbrasil/nfelib.git#egg=nfelib
+-e git://github.com/erpbrasil/nfselib.git#egg=nfselib
