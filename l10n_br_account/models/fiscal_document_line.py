@@ -62,13 +62,23 @@ class FiscalDocumentLine(models.Model):
         readonly=True,
     )
 
+    def _comment_vals(self):
+        return {
+            'user': self.env.user,
+            'ctx': self._context,
+            'doc': self,
+        }
+
     def generate_double_entrie(self, lines, value, template_line):
+
+        history = template_line.history_id.compute_message(self._comment_vals())
 
         if template_line.account_debit_id:
             data = {
                 # 'invl_id': self.id,  # FIXME
-                'name': self.name.split('\n')[0][:64],
-                'narration': template_line.history_id.history,
+                # 'name': self.name.split('\n')[0][:64],
+                # 'narration': template_line.history_id.history,
+                'name': history or '/',
                 'debit': value,
                 'currency_id':
                     self.currency_id and self.currency_id.id or False,
@@ -83,8 +93,8 @@ class FiscalDocumentLine(models.Model):
         if template_line.account_credit_id:
             data = {
                 # 'invl_id': self.id,  # FIXME
-                'name': self.name.split('\n')[0][:64],
-                'narration': template_line.history_id.history,
+                'name': history or '/',
+                # 'narration': template_line.history_id.history,
                 'credit': value,
                 'currency_id':
                     self.currency_id and self.currency_id.id or False,

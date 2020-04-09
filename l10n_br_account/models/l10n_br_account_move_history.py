@@ -37,3 +37,6 @@ class MoveHistory(models.Model):
             'doc': self.object_id
         }
         self.test_comment = cm(self, vals)
+
+    def compute_message(self, vals):
+        return cm(self, vals)
