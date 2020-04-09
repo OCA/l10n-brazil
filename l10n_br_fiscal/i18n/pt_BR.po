@@ -122,7 +122,9 @@ msgid "1 - Estrangeira – importação direta, exceto a indicada no código 6"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document,company_tax_framework:0
 #: selection:l10n_br_fiscal.document,partner_tax_framework:0
+#: selection:l10n_br_fiscal.document.abstract,company_tax_framework:0
 #: selection:l10n_br_fiscal.document.abstract,partner_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,company_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,partner_tax_framework:0
@@ -174,7 +176,9 @@ msgid "2 - Contribuinte Isento do ICMS"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document,company_tax_framework:0
 #: selection:l10n_br_fiscal.document,partner_tax_framework:0
+#: selection:l10n_br_fiscal.document.abstract,company_tax_framework:0
 #: selection:l10n_br_fiscal.document.abstract,partner_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,company_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,partner_tax_framework:0
@@ -194,7 +198,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document,company_tax_framework:0
 #: selection:l10n_br_fiscal.document,partner_tax_framework:0
+#: selection:l10n_br_fiscal.document.abstract,company_tax_framework:0
 #: selection:l10n_br_fiscal.document.abstract,partner_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,company_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,partner_tax_framework:0
