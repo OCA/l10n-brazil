@@ -2,12 +2,11 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from datetime import datetime
 from unicodedata import normalize
+from requests import Session
 
 from nfselib.ginfes.v3_01.tipos_v03 import (
     ListaRpsType,
-    tcContato,
     tcCpfCnpj,
     tcDadosServico,
     tcDadosTomador,
@@ -22,48 +21,20 @@ from nfselib.ginfes.v3_01.tipos_v03 import (
 )
 from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import EnviarLoteRpsEnvio
 
-from erpbrasil.assinatura.certificado import Certificado
-from requests import Session
+from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
+from erpbrasil.base import misc
+from erpbrasil.edoc import NFSeFactory
 
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
 
-from erpbrasil.edoc import NFSeFactory
-
-from odoo.tools import float_round
 from odoo import api, fields, models, _
-from odoo.addons.edoc_base.constantes import (
-    AUTORIZADO,
-    AUTORIZADO_OU_DENEGADO,
-    CANCELADO,
-    DENEGADO,
-    LOTE_EM_PROCESSAMENTO,
-    LOTE_PROCESSADO,
-    LOTE_RECEBIDO,
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_INUTILIZADA,
-    SITUACAO_EDOC_REJEITADA,
-    SITUACAO_FISCAL_CANCELADO,
-    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
-    SITUACAO_FISCAL_COMPLEMENTAR,
-    SITUACAO_FISCAL_COMPLEMENTAR_EXTEMPORANEO,
-    SITUACAO_FISCAL_DENEGADO,
-    SITUACAO_FISCAL_INUTILIZADO,
-    SITUACAO_FISCAL_MERCADORIA_NAO_CIRCULOU,
-    SITUACAO_FISCAL_MERCADORIA_NAO_RECEBIDA,
-    SITUACAO_FISCAL_REGIME_ESPECIAL,
-    SITUACAO_FISCAL_REGULAR,
-    SITUACAO_FISCAL_REGULAR_EXTEMPORANEO,
 )
 
 from .res_company import PROCESSADOR
@@ -77,22 +48,23 @@ def fiter_processador_edoc_nfe(record):
         return True
     return False
 
+
 def fiter_provedor_ginfes(record):
     if record.company_id.provedor_nfse == 'ginfes':
         return True
     return False
 
 
-class AccountInvoice(models.Model):
+class Document(models.Model):
 
-    _inherit = 'account.invoice'
+    _inherit = 'l10n_br_fiscal.document'
 
     edoc_error_message = fields.Text(
         readonly=True,
     )
 
     def _procesador_erpbrasil_nfse(self):
-        certificado = Certificado(
+        certificado = cert.Certificado(
             arquivo=self.company_id.nfe_a1_file,
             senha=self.company_id.nfe_a1_password
         )
@@ -104,16 +76,17 @@ class AccountInvoice(models.Model):
             ambiente=2,
             cidade_ibge=int('%s%s' % (
                 self.company_id.partner_id.state_id.ibge_code,
-                self.company_id.partner_id.l10n_br_city_id.ibge_code
+                self.company_id.partner_id.city_id.ibge_code
             )),
-            cnpj_prestador=punctuation_rm(self.company_id.partner_id.cnpj_cpf),
-            im_prestador=punctuation_rm(
+            cnpj_prestador=misc.punctuation_rm(
+                self.company_id.partner_id.cnpj_cpf),
+            im_prestador=misc.punctuation_rm(
                 self.company_id.partner_id.inscr_mun or ''),
         )
 
     @api.multi
     def _edoc_export(self):
-        super(AccountInvoice, self)._edoc_export()
+        super(Document, self)._edoc_export()
         for record in self.filtered(fiter_processador_edoc_nfe):
             edoc = record.serialize()[0]
             procesador = record._procesador_erpbrasil_nfse()
@@ -123,7 +96,7 @@ class AccountInvoice(models.Model):
             record._change_state(SITUACAO_EDOC_A_ENVIAR)
 
     def _serialize(self, edocs):
-        edocs = super(AccountInvoice, self)._serialize(edocs)
+        edocs = super(Document, self)._serialize(edocs)
         for record in self.filtered(
                 fiter_processador_edoc_nfe).filtered(fiter_provedor_ginfes):
             edocs.append(record.serialize_nfse())
@@ -140,12 +113,12 @@ class AccountInvoice(models.Model):
         lista_rps = []
 
         if self.partner_id.is_company:
-            tomador_cnpj = punctuation_rm(
+            tomador_cnpj = misc.punctuation_rm(
                 self.partner_id.cnpj_cpf or '')
             tomador_cpf = None
         else:
             tomador_cnpj = None
-            tomador_cpf = punctuation_rm(
+            tomador_cpf = misc.punctuation_rm(
                 self.partner_id.cnpj_cpf or '')
 
         if self.partner_id.country_id.id != self.company_id.country_id.id:
@@ -155,16 +128,16 @@ class AccountInvoice(models.Model):
         else:
             address_invoice_state_code = self.partner_id.state_id.code
             address_invoice_city = (normalize(
-                'NFKD', unicode(
-                    self.partner_id.l10n_br_city_id.name or '')).encode(
+                'NFKD', str(
+                    self.partner_id.city_id.name or '')).encode(
                 'ASCII', 'ignore'))
             address_invoice_city_code = ('%s%s') % (
                 self.partner_id.state_id.ibge_code,
-                self.partner_id.l10n_br_city_id.ibge_code)
-            partner_cep = punctuation_rm(self.partner_id.zip)
+                self.partner_id.city_id.ibge_code)
+            partner_cep = misc.punctuation_rm(self.partner_id.zip)
 
-        prestador_cnpj = punctuation_rm(self.company_id.partner_id.cnpj_cpf)
-        prestador_im = punctuation_rm(
+        prestador_cnpj = misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf)
+        prestador_im = misc.punctuation_rm(
             self.company_id.partner_id.inscr_mun or '')
 
         lista_rps.append(
@@ -206,12 +179,12 @@ class AccountInvoice(models.Model):
                         CodigoCnae=None,
                         # CodigoTributacaoMunicipio='105:6202300',
                         CodigoTributacaoMunicipio='417/8511200',
-                        Discriminacao=normalize('NFKD', unicode(
+                        Discriminacao=normalize('NFKD', str(
                             self.invoice_line_ids[0].name[:120] or '')
                         ).encode('ASCII', 'ignore'),
                         CodigoMunicipio=int('%s%s' % (
                             self.company_id.partner_id.state_id.ibge_code,
-                            self.company_id.partner_id.l10n_br_city_id.ibge_code
+                            self.company_id.partner_id.city_id.ibge_code
                         )) or None,
                     ),
                     Prestador=tcIdentificacaoPrestador(
@@ -224,34 +197,29 @@ class AccountInvoice(models.Model):
                                 Cnpj=tomador_cnpj,
                                 Cpf=tomador_cpf,
                             ),
-                            InscricaoMunicipal=punctuation_rm(
+                            InscricaoMunicipal=misc.punctuation_rm(
                                 self.partner_id.inscr_mun or ''
                             ) or None
                         ),
-                        RazaoSocial=normalize('NFKD', unicode(
+                        RazaoSocial=normalize('NFKD', str(
                                 self.partner_id.legal_name[:60] or ''
                             )).encode('ASCII', 'ignore'),
                         Endereco=tcEndereco(
                             Endereco=normalize(
                                 'NFKD',
-                                unicode(self.partner_id.street or '')
+                                str(self.partner_id.street or '')
                             ).encode('ASCII', 'ignore'),
                             Numero=self.partner_id.number or '',
                             Complemento=self.partner_shipping_id.street2 or None,
-                            Bairro=normalize('NFKD', unicode(
+                            Bairro=normalize('NFKD', str(
                                 self.partner_id.district or 'Sem Bairro')
                               ).encode('ASCII', 'ignore'),
                             CodigoMunicipio=int('%s%s' % (
                                     self.partner_id.state_id.ibge_code,
-                                    self.partner_id.l10n_br_city_id.ibge_code)),
+                                    self.partner_id.city_id.ibge_code)),
                             Uf=address_invoice_state_code,
                             Cep=int(partner_cep),
                         ) or None,
-                        # Contato=tcContato(
-                        #     Telefone=punctuation_rm(self.partner_id.phone or ''
-                        #         ).replace(' ', '')[:11] or None,
-                        #     Email=self.partner_id.email or None,
-                        # )
                     ),
                     IntermediarioServico=None,
                     ConstrucaoCivil=None,
@@ -271,7 +239,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def _edoc_send(self):
-        super(AccountInvoice, self)._edoc_send()
+        super(Document, self)._edoc_send()
         for record in self.filtered(fiter_processador_edoc_nfe):
             procesador = record._procesador_erpbrasil_nfse()
 
