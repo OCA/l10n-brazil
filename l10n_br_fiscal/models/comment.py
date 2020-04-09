@@ -2,10 +2,6 @@
 # Copyright (C) 2020  KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import copy
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-
 from odoo import api, fields, models
 from odoo.osv import expression
 

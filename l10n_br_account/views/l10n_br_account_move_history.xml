@@ -19,7 +19,16 @@
                             <field name="name"/>
                         </group>
                     </group>
-                    <field name="history" placeholder="Histórico Contábil"/>
+                    <field name="comment" placeholder="Histórico Contábil"/>
+                    <group string="Test History">
+                        <group>
+                            <field name="object_id"/>
+                        </group>
+                        <group>
+                            <button name="action_test_message" type="object" class="btn btn-primary" string="Test"/>
+                        </group>
+                        <field name="test_comment" readonly="1"/>
+                    </group>
                 </sheet>
                 <div class="oe_chatter"></div>
             </form>
@@ -43,7 +52,7 @@
             <tree>
                 <field name="code"/>
                 <field name="name"/>
-                <field name="history"/>
+                <field name="comment"/>
             </tree>
         </field>
     </record>
