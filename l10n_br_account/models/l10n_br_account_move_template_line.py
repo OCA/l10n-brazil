@@ -38,16 +38,23 @@ class L10nBrAccountMoveTemplateLine(models.Model):
     )
 
     @api.multi
-    def move_line_template_create(self, obj, lines):
+    def move_line_template_create(self, obj, lines, computed_fields=list()):
         for template_line in self:
             for obj_line in obj:
 
                 if not template_line.field_id:
                     continue
+
+                if template_line.field_id.id in computed_fields:
+                    continue
+
                 value = getattr(obj_line, template_line.field_id.name, 0.0)
 
                 if value:
                     obj_line.generate_double_entrie(lines, value, template_line)
+                    computed_fields.append(
+                        template_line.field_id.id
+                    )
 
         move_template = self.mapped('template_id')
         if move_template.parent_id:
