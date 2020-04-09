@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -27,7 +26,7 @@ class L10nBrAccountMoveTemplate(models.Model):
     item_ids = fields.One2many(
         comodel_name='l10n_br_account.move.template.line',
         inverse_name='template_id',
-        string=u'Itens',
+        string='Itens',
     )
 
     def generate_move(self, obj, lines):
