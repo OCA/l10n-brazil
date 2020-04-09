@@ -17,7 +17,7 @@
 
     <record id="line_receita_icms_st" model="l10n_br_account.move.template.line">
         <field name="template_id" ref="l10n_br_account.template_receita_all"/>
-<!--        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_st_value"/>-->
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsst_value"/>
         <field name="history_id" ref="l10n_br_account.history_icms_st_recolher"/>
     </record>
 
@@ -69,10 +69,40 @@
         <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
     </record>
 
+    <!--    Operações com produtos fabricados com ST -->
+
+    <record id="template_receita_venda_fabricadas_st" model="l10n_br_account.move.template">
+        <field name="code">201</field>
+        <field name="name">Clientes – Venda de Mercadorias Fabricadas c/ ST</field>
+        <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_receita_venda_st" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_venda_fabricadas_st"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_total"/>
+        <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
+    </record>
+
+    <!--    Operações com mercadorias revendidas com ST-->
+
+    <record id="template_receita_revenda_mercadoria_st" model="l10n_br_account.move.template">
+        <field name="code">202</field>
+        <field name="name">Clientes – Revenda de Mercadoria com ST</field>
+        <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_receita_revenda" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_revenda_mercadoria"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_total"/>
+        <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
+    </record>
+
     <!--    Operações de vendas de serviços -->
 
     <record id="template_receita_venda_serviços" model="l10n_br_account.move.template">
-        <field name="code">103</field>
+        <field name="code">301</field>
         <field name="name">Clientes – Serviços Prestados</field>
         <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
         <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
@@ -100,6 +130,32 @@
         <field name="template_id" ref="l10n_br_account.template_receita_venda_serviços"/>
 <!--        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_value"/>-->
         <field name="history_id" ref="l10n_br_account.history_csll_retido"/>
+    </record>
+
+    <!-- Devoluções -->
+
+    <record id="template_devolucao_compra" model="l10n_br_account.move.template">
+        <field name="code">501</field>
+        <field name="name">Devolução de compra</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_devolucao_compra" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_devolucao_compra"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_total"/>
+        <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
+    </record>
+
+    <record id="template_devolucao_venda" model="l10n_br_account.move.template">
+        <field name="code">601</field>
+        <field name="name">Devolução de venda</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+    </record>
+
+    <record id="line_devolucao_venda" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_devolucao_venda"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_total"/>
+        <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
     </record>
 
 </odoo>
