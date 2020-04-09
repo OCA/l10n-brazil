@@ -26,7 +26,7 @@ class Document(models.Model):
         # TODO add in res.company default Operation?
         return self.env["l10n_br_fiscal.operation"]
 
-    operation_type = fields.Selection(required=True, related=False)
+    operation_type = fields.Selection(related=False)
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
@@ -296,7 +296,7 @@ class Document(models.Model):
             record.line_ids.document_comment()
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        super(Document, self)._exec_before_SITUACAO_EDOC_A_ENVIAR(
+        super(Document, self)._exec_after_SITUACAO_EDOC_A_ENVIAR(
             old_state, new_state
         )
         self.document_comment()
