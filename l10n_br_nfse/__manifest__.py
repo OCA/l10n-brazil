@@ -12,11 +12,14 @@
     'website': 'https://kmee.com.br',
     'external_dependencies': {
         'python': [
-            'erpbrasil.edoc'
+            'erpbrasil.edoc',
+            'erpbrasil.assinatura',
+            'erpbrasil.transmissao',
+            'erpbrasil.base',
         ],
     },
     'depends': [
-        'edoc_base',
+        'l10n_br_fiscal',
     ],
     'data': [
         'security/account_invoice.xml',
