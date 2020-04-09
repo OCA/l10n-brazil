@@ -259,10 +259,6 @@ class ResCompany(models.Model):
             lambda d: d.tax_group_id == tax.tax_group_id
         )
 
-        tax_withholding = False
-        if tax.tax_group_id.tax_withholding:
-            tax_withholding = True
-
         tax_def_values = {
             "type_in_out": "out",
             "tax_group_id": tax.tax_group_id.id,
@@ -271,7 +267,6 @@ class ResCompany(models.Model):
             "custom_tax": True,
             "tax_id": tax.id,
             "cst_id": tax.cst_out_id.id,
-            "tax_withholding": tax_withholding,
         }
 
         if tax_def:
