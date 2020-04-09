@@ -1,11 +1,12 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# Copyright (C) 2020  KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import copy
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, fields, models, tools
+from odoo import tools
 
 
 def domain_field_codes(field_codes, field_name="code_unmasked",
