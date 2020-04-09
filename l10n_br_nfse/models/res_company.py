@@ -13,3 +13,10 @@ class ResCompany(models.Model):
     processador_edoc = fields.Selection(
         selection_add=[(PROCESSADOR, 'erpbrasil.edoc')]
     )
+    provedor_nfse = fields.Selection(
+        selection=[
+            ('ginfes', 'Ginfes'),
+            ('dsf', 'DSF / Iss Digital'),
+        ],
+        default='ginfes',
+    )
