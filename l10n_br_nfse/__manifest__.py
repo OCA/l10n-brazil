@@ -23,7 +23,7 @@
     ],
     'data': [
         'security/account_invoice.xml',
-        'views/account_invoice.xml',
+        'views/document_view.xml',
     ],
     'demo': [
         'demo/account_invoice.xml',
