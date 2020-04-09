@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -11,7 +10,7 @@ class L10nBrAccountMoveTemplateLine(models.Model):
 
     template_id = fields.Many2one(
         comodel_name='l10n_br_account.move.template',
-        string=u'Modelo',
+        string='Modelo',
         ondelete='cascade',
     )
     model_id = fields.Many2one(
@@ -21,20 +20,20 @@ class L10nBrAccountMoveTemplateLine(models.Model):
     )
     field_id = fields.Many2one(
         comodel_name='ir.model.fields',
-        string=u'Campo',
+        string='Campo',
         domain="[('model_id', '=', model_id),('ttype', 'in', ['monetary'])]"
     )
     account_debit_id = fields.Many2one(
         comodel_name='account.account',
-        string=u'Débito',
+        string='Débito',
     )
     account_credit_id = fields.Many2one(
         comodel_name='account.account',
-        string=u'Crédito',
+        string='Crédito',
     )
     history_id = fields.Many2one(
         comodel_name='l10n_br_account.move.history',
-        string=u'Histórico',
+        string='Histórico',
         required=True,
     )
 
