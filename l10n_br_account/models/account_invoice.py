@@ -91,3 +91,6 @@ class AccountInvoice(models.Model):
                 shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
+
+    def action_move_create(self):
+        return True
