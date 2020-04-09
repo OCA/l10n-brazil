@@ -1,2 +1,2 @@
-from . import account_invoice
+from . import document
 from . import res_company
