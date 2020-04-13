@@ -3,7 +3,7 @@
 
     <!-- res.company -->
     <record id="base.main_company" model="res.company">
-        <field name="stock_fiscal_category_id" ref="l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a"/>
+        <field name="stock_fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
     </record>
 
 </odoo>
