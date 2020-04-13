@@ -87,16 +87,6 @@ class SaleOrderLine(models.Model):
         related="order_id.company_id.tax_framework",
         string="Tax Framework")
 
-    customer_order = fields.Char(string=u"Pedido do Cliente", size=15)
-    customer_order_line = fields.Char(string=u"Item do Pedido do Cliente", size=6)
-
-    @api.onchange("customer_order_line")
-    def _check_customer_order_line(self):
-        if self.customer_order_line and not self.customer_order_line.isdigit():
-            raise ValidationError(
-                _(u"Customer order line must be " "a number with up to six digits")
-            )
-
     @api.multi
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
@@ -110,8 +100,8 @@ class SaleOrderLine(models.Model):
         result["insurance_value"] = self.insurance_value
         result["other_costs_value"] = self.other_costs_value
         result["freight_value"] = self.freight_value
-        result["partner_order"] = self.customer_order
-        result["partner_order_line"] = self.customer_order_line
+        result["partner_order"] = self.partner_order
+        result["partner_order_line"] = self.partner_order_line
 
         if self.product_id.fiscal_type == "product":
             if self.operation_line_id:

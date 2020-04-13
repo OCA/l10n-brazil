@@ -267,10 +267,10 @@
                     <page string="Informações Fiscais">
                         <group string="Informação de interesse do emissor para controle do B2B">
                             <group>
-                                <field name="customer_order"/>
+                                <field name="partner_order"/>
                             </group>
                             <group>
-                                <field name="customer_order_line"/>
+                                <field name="partner_order_line"/>
                             </group>
                         </group>
                     </page>
