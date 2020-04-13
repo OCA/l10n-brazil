@@ -66,6 +66,13 @@ class FiscalDocument(models.Model):
         copy=False,
         help="Link to the automatically generated Journal Items.")
 
+    payment_term_id = fields.Many2one(
+        comodel_name='account.payment.term',
+    )
+
+    def _generate_financial_account_moves(self, move_lines):
+        self.financial_ids.generate_move(move_lines)
+
     @api.multi
     def action_move_create(self):
         for record in self:
@@ -80,10 +87,11 @@ class FiscalDocument(models.Model):
             if not record.date:
                 raise NotImplementedError
 
-            lines = []
+            move_lines = list()
 
-            for line in record.line_ids:
-                line.move_template_id.generate_move(line, lines)
+            record._generate_financial_account_moves(move_lines)
+
+            record.line_ids.generate_move(move_lines)
 
             ctx['company_id'] = record.company_id.id
             ctx['document'] = record
@@ -92,7 +100,7 @@ class FiscalDocument(models.Model):
 
             vals = {
                 'ref': 'ref',
-                'line_ids': lines,
+                'line_ids': move_lines,
                 'journal_id': record.journal_id.id,
                 'date': record.date,
                 'narration': 'narration',
@@ -100,7 +108,7 @@ class FiscalDocument(models.Model):
 
             move = self.env['account.move'].with_context(
                 ctx_nolang).create(vals)
-            # move.post()
+            move.post()
             vals = {
                 'move_id': move.id,
                 # 'date': record.date or inv.date_invoice,

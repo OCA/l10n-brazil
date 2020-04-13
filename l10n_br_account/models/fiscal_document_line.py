@@ -69,7 +69,11 @@ class FiscalDocumentLine(models.Model):
             'doc': self,
         }
 
-    def generate_double_entrie(self, lines, value, template_line):
+    def generate_move(self, move_lines):
+        for record in self:
+            record.move_template_id.generate_move(obj=record, move_lines=move_lines)
+
+    def generate_double_entrie(self, move_lines, value, template_line):
 
         history = template_line.history_id.compute_message(self._comment_vals())
 
@@ -88,7 +92,7 @@ class FiscalDocumentLine(models.Model):
                 'quantity': self.quantity or 0,
                 'product_uom_id': self.uom_id and self.uom_id.id or False,
             }
-            lines.append((0, 0, data))
+            move_lines.append((0, 0, data))
 
         if template_line.account_credit_id:
             data = {
@@ -104,4 +108,4 @@ class FiscalDocumentLine(models.Model):
                 'quantity': self.quantity or 0,
                 'product_uom_id': self.uom_id and self.uom_id.id or False,
             }
-            lines.append((0, 0, data))
+            move_lines.append((0, 0, data))

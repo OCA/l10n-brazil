@@ -29,6 +29,6 @@ class L10nBrAccountMoveTemplate(models.Model):
         string='Itens',
     )
 
-    def generate_move(self, obj, lines):
+    def generate_move(self, obj, move_lines):
         return self.item_ids.move_line_template_create(
-            obj, lines)
+            obj, move_lines)
