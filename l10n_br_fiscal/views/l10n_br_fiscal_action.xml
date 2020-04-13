@@ -761,4 +761,13 @@
         <field name="view_type">form</field>
     </record>
 
+    <!-- Payment Term -->
+    <record model="ir.actions.act_window" id="payment_term_action">
+        <field name="name">Payment Term</field>
+        <field name="res_model">l10n_br_fiscal.payment.term</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
 </odoo>

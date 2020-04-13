@@ -170,8 +170,35 @@
                 </tree>
               </field>
             </page>
-            <page nam="finance" string="Finance">
-            </page>
+              <page name="financeiro" string="Financeiro">
+                  <group>
+                      <field name="payment_term_id"/>
+                      <newline/>
+                  </group>
+                  <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                  <field name="fiscal_payment_ids" context="{
+                        'default_amount': amount_total,
+                        'default_date': date,
+                        'default_currency_id': currency_id,
+                        'default_company_id': company_id,
+                        'default_document_id': active_id,
+                        }" nolabel="1"/>
+                  <separator name="financial" string="Financeiro" colspan="4"/>
+                  <field name="financial_ids" nolabel="1" context="{
+                            'default_document_id': active_id,
+                            'default_currency_id': currency_id,
+                            'default_company_id': company_id,
+                            }">
+                      <tree string="Duplicatas" editable="bottom">
+                          <field name="document_id" invisible="1"/>
+                          <field name="currency_id" invisible="1"/>
+                          <field name="company_id" invisible="1"/>
+                          <field name="communication"/>
+                          <field name="date_maturity"/>
+                          <field name="amount" sum="amount"/>
+                      </tree>
+                  </field>
+              </page>
             <page nam="others" string="Others">
                 <group>
                     <field name="operation_name"/>
