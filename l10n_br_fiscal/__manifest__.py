@@ -98,7 +98,8 @@
         "views/city_taxation_code.xml",
         'views/mdfe/mdfe_views.xml',
         'views/dfe/dfe_views.xml',
-
+        'views/payment_view.xml',
+        'views/payment_term_view.xml',
 
         "views/l10n_br_fiscal_menu.xml",
         "views/operation_dashboard_view.xml",
