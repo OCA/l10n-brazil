@@ -47,7 +47,6 @@ from . import icms_regulation
 from . import icms_relief
 from . import document_type
 from . import document_serie
-from . import payment
 from . import product_genre
 from . import certificate
 from . import product_template
@@ -76,3 +75,6 @@ from . import city_taxation_code
 
 from . import dfe
 from . import mdfe
+from . import payment_term
+from . import payment_line
+from . import payment

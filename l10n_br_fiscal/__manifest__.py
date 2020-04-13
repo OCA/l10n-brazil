@@ -99,6 +99,8 @@
         "wizards/wizard_document_correction_view.xml",
         "wizards/wizard_document_invalidate_view.xml",
         "wizards/wizard_document_status_view.xml",
+        'views/payment_view.xml',
+        'views/payment_term_view.xml',
 
         # Actions
         "views/l10n_br_fiscal_action.xml",
