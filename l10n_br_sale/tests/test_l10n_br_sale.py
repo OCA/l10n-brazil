@@ -69,8 +69,8 @@ class TestL10nBRSale(common.TransactionCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # ICMS FCP
-            self.assertEquals(
-                line.icmsfcp_tax_id.name, 'FCP 2%',
+            self.assertFalse(
+                line.icmsfcp_tax_id,
                 "Error to mapping ICMS FCP 2%"
                 " for Venda de Contribuinte Dentro do Estado.")
 
