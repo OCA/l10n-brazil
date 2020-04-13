@@ -255,6 +255,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Service Type LC 166",
         domain="[('internal_type', '=', 'normal')]")
 
+    partner_order = fields.Char(
+        string='Partner Order (xPed)',
+        size=15)
+
+    partner_order_line = fields.Char(
+        string='Partner Order Line (nItemPed)',
+        size=6)
+
     # ISSQN Fields
     issqn_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
