@@ -10,10 +10,10 @@
     'website': 'http://odoo-brasil.org',
     'version': '10.0.1.0.1',
     'depends': [
-        'l10n_br_account_product',
-        'l10n_br_stock',
-        'account_fiscal_position_rule_stock',
         'stock_account',
+        'stock_picking_invoicing',
+        'l10n_br_stock',
+        'l10n_br_account',
     ],
     'data': [
         'data/l10n_br_stock_account_data.xml',
