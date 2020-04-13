@@ -609,6 +609,27 @@ class Document(models.Model):
         copy=True,
     )
 
+    #
+    # Duplicatas e pagamentos
+    #
+    payment_term_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.payment.term',
+        string='Condição de pagamento',
+        ondelete='restrict',
+    )
+    financial_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment.line',
+        inverse_name='document_id',
+        string='Duplicatas',
+        copy=True,
+    )
+    fiscal_payment_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment',
+        inverse_name='document_id',
+        string='Pagamentos',
+        copy=True,
+    )
+
     # TODO esse campo deveria ser calculado de
     # acordo com o fiscal_document_id
     document_section = fields.Selection(

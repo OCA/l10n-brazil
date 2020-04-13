@@ -98,6 +98,8 @@
         "views/document_cancel.xml",
         "views/document_correction.xml",
         "views/city_taxation_code.xml",
+        'views/payment_view.xml',
+        'views/payment_term_view.xml',
     ],
     "demo": [
         # Some demo data is being loaded via post_init_hook in hook file

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_term_form_view">
+        <field name="name">l10n_br_fiscal.payment.term.form (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.term</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="number_of_terms"/>
+                        <field name="forma_pagamento"/>
+                        <field name="bandeira_cartao"/>
+                        <field name="integracao_cartao"/>
+                        <field name="partner_id"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_term_search_view">
+        <field name="name">l10n_br_fiscal.payment.term.search (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.term</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="number_of_terms"/>
+                <field name="forma_pagamento"/>
+                <field name="bandeira_cartao"/>
+                <field name="integracao_cartao"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_term_tree_view">
+        <field name="name">l10n_br_fiscal.payment.term.tree (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.term</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle" />
+                <field name="name"/>
+                <field name="number_of_terms"/>
+                <field name="forma_pagamento"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
