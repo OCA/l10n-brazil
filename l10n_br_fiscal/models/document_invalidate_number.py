@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import \
     SITUACAO_EDOC_INUTILIZADA
 
@@ -54,33 +54,26 @@ class DocumentInvalidateNumber(models.Model):
          u'Sequência existente!'),
     ]
 
-    @api.one
+    @api.multi
     @api.constrains('number_start', 'number_end')
     def _check_range(self):
-        where = []
-        if self.number_start:
-            where.append("((number_end>='%s') or (number_end is null))" % (
-                self.number_start,))
-        if self.number_end:
-            where.append(
-                "((number_start<='%s') or (number_start is null))" % (
-                    self.number_end,))
+        for record in self:
+            if record.company_id:
+                domain = [
+                    ('id', '!=', record.id),
+                    ('state', '=', 'done'),
+                    ('document_serie_id', '=', record.document_serie_id.id),
+                    '|',
+                    ('number_end', '>=', record.number_end),
+                    ('number_end', '=', False),
+                    '|',
+                    ('number_start', '<=', record.number_start),
+                    ('number_start', '=', False)]
 
-        self._cr.execute(
-            'SELECT id \
-            FROM l10n_br_fiscal_document_invalidate_number \
-            WHERE ' + ' and '.join(where) + (where and ' and ' or '') +
-            "document_serie_id = %s \
-            AND state = 'done' \
-            AND id <> %s" % (self.document_serie_id.id, self.id))
-        if self._cr.fetchall() or (self.number_start > self.number_end):
-            raise UserError(_(u'Não é permitido faixas sobrepostas!'))
+                if self.search_count(domain):
+                    raise ValidationError(_(
+                        "Não é permitido faixas sobrepostas!"))
         return True
-
-    _constraints = [
-        (_check_range, u'Não é permitido faixas sobrepostas!',
-            ['number_start', 'number_end']),
-    ]
 
     def action_draft_done(self):
         self.write({'state': 'done'})
