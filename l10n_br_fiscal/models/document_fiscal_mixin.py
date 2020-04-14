@@ -1,16 +1,19 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-# from lxml import etree
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
-from ..constants.fiscal import FISCAL_IN_OUT
+from ..constants.fiscal import (
+    FISCAL_IN_OUT,
+    NFE_IND_PRES,
+    NFE_IND_PRES_DEFAULT
+)
 
 
 class FiscalDocumentMixin(models.AbstractModel):
-    _name = "l10n_br_fiscal.document.mixin"
-    _description = "Document Fiscal Mixin"
+    _name = 'l10n_br_fiscal.document.mixin'
+    _description = 'Document Fiscal Mixin'
 
     def _date_server_format(self):
         return fields.Datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT)
@@ -27,16 +30,21 @@ class FiscalDocumentMixin(models.AbstractModel):
         return domain
 
     operation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation",
-        string="Operation",
+        comodel_name='l10n_br_fiscal.operation',
+        string='Operation',
         domain=lambda self: self._operation_domain(),
         default=_default_operation)
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
-        related="operation_id.operation_type",
-        string="Operation Type",
+        related='operation_id.operation_type',
+        string='Operation Type',
         readonly=True)
+
+    ind_pres = fields.Selection(
+        selection=NFE_IND_PRES,
+        string='Buyer Presence',
+        default=NFE_IND_PRES_DEFAULT)
 
     @api.model
     def fields_view_get(
