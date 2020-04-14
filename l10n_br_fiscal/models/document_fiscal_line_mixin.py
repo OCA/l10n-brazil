@@ -1532,6 +1532,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self.fiscal_price = self.price_unit / self.product_id.uot_factor
             self.fiscal_quantity = self.quantity * self.product_id.uot_factor
 
+        self._update_taxes()
+
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
         self._onchange_operation_id()
