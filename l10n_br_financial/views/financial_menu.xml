@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_main_menu">
+        <field name="name">Financial</field>
+        <field name="sequence" eval="39"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_overview">
+        <field name="name">Overview</field>
+        <field name="sequence" eval="10"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_receivable_menu">
+        <field name="name">Receivables</field>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_payable_menu">
+        <field name="name">Payables</field>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_reporting">
+        <field name="name">Reporting</field>
+        <field name="sequence" eval="90"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account_payment_config">
+        <field name="name">Configuration</field>
+        <field name="sequence" eval="999"/>
+    </record>
+
+</odoo>

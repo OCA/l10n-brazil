@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="document_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.form in (l10n_br_financial)</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
+        <field name="arch" type="xml">
+            <page name="amounts" position="after">
+                <page name="financial" string="Financial2">
+                    <group>
+                        <button type="object" name="generate_financial_move" string="Gerar Financeiro"/>
+                    </group>
+                    <field name="financial_move_ids" nolabel="1">
+                        <tree editable="top">
+                            <field name="document_id"/>
+                            <field name="date_maturity"/>
+                            <field name="amount" sum="Amount"/>
+                            <field name="partner_id" />
+                            <field name="journal_id"/>
+                            <field name="payment_type"/>
+                            <field name="partner_type"/>
+                            <field name="payment_method_id"/>
+                            <field name="currency_id"/>
+                            <field name="payment_date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="state"/>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
