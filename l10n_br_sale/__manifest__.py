@@ -37,4 +37,5 @@
     "auto_install": True,
     "development_status": "Production/Stable",
     "maintainers": ["renatonlima"],
+    "external_dependencies": {"python": ["erpbrasil.base"]},
 }
