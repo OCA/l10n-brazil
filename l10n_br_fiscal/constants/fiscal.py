@@ -265,6 +265,20 @@ NFE_IND_IE_DEST_2 = "2"
 NFE_IND_IE_DEST_9 = "9"
 
 
+NFE_IND_PRES = [
+    ('0', 'Não se aplica'),
+    ('1', 'Operação presencial'),
+    ('2', 'Não presencial, internet'),
+    ('3', 'Não presencial, teleatendimento'),
+    ('4', 'NFC-e entrega em domicílio'),
+    ('5', 'Operação presencial, fora do estabelecimento'),
+    ('9', 'Não presencial, outros')
+]
+
+
+NFE_IND_PRES_DEFAULT = '0'
+
+
 CFOP_TYPE_MOVE = [
     ("purchase_industry", "Purchase Industry"),
     ("purchase_commerce", "Purchase Commerce"),
