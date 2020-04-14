@@ -2,32 +2,17 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+from erpbrasil.base import misc
 
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import UserError
 from odoo.tools import float_is_zero
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class SaleOrder(models.Model):
     _name = 'sale.order'
     _inherit = ['sale.order', 'l10n_br_fiscal.document.mixin']
-
-    @api.multi
-    @api.depends('order_line.price_unit', 'order_line.tax_id',
-                 'order_line.discount', 'order_line.product_uom_qty')
-    def _amount_all_wrapper(self):
-        """ Wrapper because of direct method passing
-        as parameter for function fields """
-        return self._amount_all()
 
     @api.multi
     def _amount_all(self):
@@ -36,9 +21,9 @@ class SaleOrder(models.Model):
         v12 we should just call super when the sale is not for Brazil.
         """
         for order in self:
-            order.amount_untaxed = 0.0
-            order.amount_tax = 0.0
-            order.amount_total = 0.0
+            order.amount_untaxed = sum(line.price_subtotal for line in order.order_line)
+            order.amount_tax = sum(line.price_tax for line in order.order_line)
+            order.amount_total = sum(line.price_total for line in order.order_line)
             order.amount_extra = 0.0
             order.amount_discount = 0.0
             order.amount_gross = 0.0
@@ -47,7 +32,7 @@ class SaleOrder(models.Model):
                 amount_untaxed
             ) = amount_discount = amount_gross = amount_extra = 0.0
             for line in order.order_line:
-                amount_tax += self._amount_line_tax(line)
+                amount_tax = line.amount_tax_not_included
                 amount_extra += (
                     line.insurance_value + line.freight_value + line.other_costs_value
                 )
@@ -66,56 +51,25 @@ class SaleOrder(models.Model):
             )
             order.amount_gross = order.pricelist_id.currency_id.round(amount_gross)
 
-    @api.model
-    def _amount_line_tax(self, line):
-        value = 0.0
-        price = line._calc_line_base_price()
-        qty = line._calc_line_quantity()
-
-        for computed in line.tax_id.compute_all(
-            price_unit=price,
-            quantity=qty,
-            partner=line.order_id.partner_invoice_id,
-            product=line.product_id,
-            # TODO - The fields below are used in Base ICMS
-            #  calculation https://github.com/OCA/l10n-brazil/blob/
-            #  10.0/l10n_br_account_product/models/account_tax.py#L155
-            # line.order_id.partner_id,
-            # operation_id=line.operation_id,
-            # insurance_value=line.insurance_value,
-            # freight_value=line.freight_value,
-            # other_costs_value=line.other_costs_value,
-        )["taxes"]:
-            tax = self.env["account.tax"].browse(computed["id"])
-            if not tax.tax_group_id.tax_discount:
-                value += computed.get("amount", 0.0)
-        return value
-
-    @api.model
-    def _default_ind_pres(self):
-        company = self.env["res.company"].browse(self.env.user.company_id.id)
-        return company.default_ind_pres
+    @api.multi
+    def _compute_costs_value(self):
+        """Compute the l10n_br specific functional fields."""
+        for record in self:
+            record.amount_freight = sum(
+                line.freight_value for line in self.order_line)
+            record.amount_costs = sum(
+                line.other_costs_value for line in self.order_line)
+            record.amount_insurance = sum(
+                line.insurance_value for line in self.order_line)
 
     @api.one
-    def _get_costs_value(self):
-        """ Read the l10n_br specific functional fields. """
-        freight = costs = insurance = 0.0
-        for line in self.order_line:
-            freight += line.freight_value
-            insurance += line.insurance_value
-            costs += line.other_costs_value
-        self.amount_freight = freight
-        self.amount_costs = costs
-        self.amount_insurance = insurance
-
-    @api.one
-    def _set_amount_freight(self):
+    def _inverse_amount_freight(self):
         for line in self.order_line:
             if not self.amount_gross:
                 break
             line.write(
                 {
-                    "freight_value": misc.calc_price_ratio(
+                    'freight_value': misc.calc_price_ratio(
                         line.price_gross,
                         self.amount_freight,
                         line.order_id.amount_gross,
@@ -125,13 +79,13 @@ class SaleOrder(models.Model):
         return True
 
     @api.one
-    def _set_amount_insurance(self):
+    def _inverse_amount_insurance(self):
         for line in self.order_line:
             if not self.amount_gross:
                 break
             line.write(
                 {
-                    "insurance_value": misc.calc_price_ratio(
+                    'insurance_value': misc.calc_price_ratio(
                         line.price_gross,
                         self.amount_insurance,
                         line.order_id.amount_gross,
@@ -141,75 +95,76 @@ class SaleOrder(models.Model):
         return True
 
     @api.one
-    def _set_amount_costs(self):
+    def _inverse_amount_costs(self):
         for line in self.order_line:
             if not self.amount_gross:
                 break
             line.write(
                 {
-                    "other_costs_value": misc.calc_price_ratio(
+                    'other_costs_value': misc.calc_price_ratio(
                         line.price_gross, self.amount_costs, line.order_id.amount_gross
                     )
                 }
             )
         return True
 
-    copy_note = fields.Boolean(
-        string='Copiar Observação no documentos fiscal')
+    @api.model
+    def _default_operation(self):
+        return self.env.user.company_id.sale_fiscal_operation_id
 
-    amount_discount = fields.Float(
-        compute='_amount_all_wrapper',
-        string='Desconto (-)',
-        digits=dp.get_precision('Account'),
-        store=True,
-        help="The discount amount.")
+    @api.model
+    def _operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
 
-    amount_gross = fields.Float(
-        compute='_amount_all_wrapper',
-        string='Vlr. Bruto',
-        digits=dp.get_precision('Account'),
-        store=True, help="The discount amount.")
+    @api.model
+    def _default_copy_note(self):
+        return self.env.user.company_id.copy_note
 
-    discount_rate = fields.Float(
-        string='Desconto',
+    operation_id = fields.Many2one(
         readonly=True,
-        states={'draft': [('readonly', False)]})
+        states={'draft': [('readonly', False)]},
+        default=_default_operation,
+        domain=lambda self: self._operation_domain())
+
+    ind_pres = fields.Selection(
+        readonly=True,
+        states={"draft": [("readonly", False)]})
+
+    copy_note = fields.Boolean(
+        string='Copiar Observação no documentos fiscal',
+        default=_default_copy_note)
 
     cnpj_cpf = fields.Char(
-        string=u'CNPJ/CPF',
+        string='CNPJ/CPF',
         related='partner_id.cnpj_cpf')
 
     legal_name = fields.Char(
-        string=u'Razão Social',
+        string='Legal Name',
         related='partner_id.legal_name')
 
     ie = fields.Char(
-        string=u'Inscrição Estadual',
+        string='State Tax Number/RG',
         related='partner_id.inscr_est')
 
-    # TODO - move to l10n_br_fiscal
-    ind_pres = fields.Selection(
-        selection=[
-            (
-                "0",
-                u"Não se aplica (por exemplo,"
-                u" Nota Fiscal complementar ou de ajuste)",
-            ),
-            ("1", u"Operação presencial"),
-            ("2", u"Operação não presencial, pela Internet"),
-            ("3", u"Operação não presencial, Teleatendimento"),
-            ("4", u"NFC-e em operação com entrega em domicílio"),
-            ("5", u"Operação presencial, fora do estabelecimento"),
-            ("9", u"Operação não presencial, outros"),
-        ],
-        string=u"Tipo de operação",
+    discount_rate = fields.Float(
+        string='Discount',
         readonly=True,
-        states={"draft": [("readonly", False)]},
-        required=False,
-        help=u"Indicador de presença do comprador no estabelecimento \
-             comercial no momento da operação.",
-        default=_default_ind_pres,
-    )
+        states={'draft': [('readonly', False)]})
+
+    amount_gross = fields.Float(
+        compute='_amount_all',
+        string="Gross Price",
+        digits=dp.get_precision("Account"),
+        store=True,
+        help="Amount without discount.")
+
+    amount_discount = fields.Float(
+        compute="_amount_all",
+        string="Discount (-)",
+        digits=dp.get_precision("Account"),
+        store=True,
+        help="The discount amount.")
 
     amount_untaxed = fields.Float(
         compute="_amount_all",
@@ -217,84 +172,65 @@ class SaleOrder(models.Model):
         digits=dp.get_precision("Account"),
         store=True,
         help="The amount without tax.",
-        track_visibility="always",
-    )
+        track_visibility="always")
 
     amount_tax = fields.Float(
         compute="_amount_all",
         string="Taxes",
         store=True,
         digits=dp.get_precision("Account"),
-        help="The tax amount.",
-    )
-
-    amount_total = fields.Float(
-        compute="_amount_all",
-        string="Total",
-        store=True,
-        digits=dp.get_precision("Account"),
-        help="The total amount.",
-    )
+        help="The tax amount.")
 
     amount_extra = fields.Float(
         compute="_amount_all",
         string="Extra",
         digits=dp.get_precision("Account"),
         store=True,
-        help="The total amount.",
-    )
-
-    amount_discount = fields.Float(
-        compute="_amount_all",
-        string="Desconto (-)",
-        digits=dp.get_precision("Account"),
-        store=True,
-        help="The discount amount.",
-    )
-
-    amount_gross = fields.Float(
-        compute="_amount_all",
-        string="Vlr. Bruto",
-        digits=dp.get_precision("Account"),
-        store=True,
-        help="The discount amount.",
-    )
+        help="The total amount.")
 
     amount_freight = fields.Float(
-        compute="_get_costs_value",
-        inverse="_set_amount_freight",
-        string="Frete",
+        compute="_compute_costs_value",
+        inverse="_inverse_amount_freight",
+        string="Freight",
         default=0.00,
         digits=dp.get_precision("Account"),
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     amount_costs = fields.Float(
-        compute="_get_costs_value",
-        inverse="_set_amount_costs",
-        string="Outros Custos",
+        compute="_compute_costs_value",
+        inverse="_inverse_amount_costs",
+        string="Other Costs",
         default=0.00,
         digits=dp.get_precision("Account"),
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
 
     amount_insurance = fields.Float(
-        compute="_get_costs_value",
-        inverse="_set_amount_insurance",
-        string="Seguro",
+        compute="_compute_costs_value",
+        inverse="_inverse_amount_insurance",
+        string="Insurance",
         default=0.00,
         digits=dp.get_precision("Account"),
         readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
+        states={"draft": [("readonly", False)]})
+
+    amount_total = fields.Float(
+        compute="_amount_all",
+        string="Total",
+        store=True,
+        digits=dp.get_precision("Account"),
+        help="The total amount.")
 
     @api.onchange('discount_rate')
     def onchange_discount_rate(self):
         for sale_order in self:
             for sale_line in sale_order.order_line:
                 sale_line.discount = sale_order.discount_rate
+
+    @api.onchange("operation_id")
+    def _onchange_operation_id(self):
+        self.fiscal_position_id = self.operation_id.fiscal_position_id
 
     # TODO FIscal Comment
     # @api.model
@@ -317,11 +253,17 @@ class SaleOrder(models.Model):
         self.ensure_one()
         result = super(SaleOrder, self)._prepare_invoice()
 
-        # TODO check journal
-        # if operation_id:
-        #    result['journal_id'] = operation_id.property_journal.id
+        if self.operation_id:
+            result['operation_id'] = self.operation_id.id
+            result['fiscal_document_id'] = False
+            result['operation_type'] = self.operation_id.operation_type
+            result['partner_shipping_id'] = self.partner_shipping_id.id
 
-        result['partner_shipping_id'] = self.partner_shipping_id.id
+            #TODO Defini document_type_id in other method in line
+            result['document_type_id'] = self._context.get('document_type_id')
+
+            if self.operation_id.journal_id:
+               result['journal_id'] = self.operation_id.journal_id.id
 
         comment = []
         if self.note and self.copy_note:
@@ -331,11 +273,6 @@ class SaleOrder(models.Model):
         # result['fiscal_comment'] = " - ".join(fiscal_comment)
         # fiscal_comment = self._fiscal_comment(self)
         result['comment'] = " - ".join(comment)
-        result['operation_id'] = self.operation_id.id
-        result['fiscal_document_id'] = False
-        result['document_type_id'] = self._context.get('document_type_id')
-        result['operation_type'] = self.operation_id.operation_type
-
         return result
 
     @api.multi
