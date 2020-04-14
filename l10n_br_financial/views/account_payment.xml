@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+
+    <record model="ir.actions.act_window" id="account_payment_act_window">
+        <field name="name">Account Payment</field> <!-- TODO -->
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="account_payment_menu">
+        <field name="name">Account Payment</field>
+        <field name="parent_id" ref="xmlid of parent menu"/> <!-- TODO -->
+        <field name="action" ref="account_payment_act_window"/>
+        <field name="sequence" eval="16"/> <!-- TODO -->
+    </record>
+
+</odoo>
