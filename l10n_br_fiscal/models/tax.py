@@ -558,6 +558,7 @@ class Tax(models.Model):
             other_costs_value,
             freight_value,
             ncm,
+            nbm,
             cest,
             operation_line,
             icmssn_range
