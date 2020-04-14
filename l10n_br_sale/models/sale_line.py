@@ -57,11 +57,12 @@ class SaleOrderLine(models.Model):
     def _calc_line_base_price(self):
         return self.price_unit * (1 - (self.discount or 0.0) / 100.0)
 
-    """def _calc_line_quantity(self):
-        return self.product_uom_qty
+    # TODO
+    # def _calc_line_quantity(self):
+    #     return self.product_uom_qty
 
-    def _calc_price_gross(self, qty):
-        return self.price_unit * qty"""
+    # def _calc_price_gross(self, qty):
+    #     return self.price_unit * qty
 
     @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id')
     def _compute_amount(self):
