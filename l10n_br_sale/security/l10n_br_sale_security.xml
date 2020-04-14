@@ -5,6 +5,7 @@
         <field name="name">Desconto por valor</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
+
     <record id="group_total_discount" model="res.groups">
         <field name="name">Desconto no total</field>
         <field name="category_id" ref="base.module_category_hidden"/>
