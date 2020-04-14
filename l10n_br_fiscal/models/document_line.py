@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from ..constants.icms import ICMS_BASE_TYPE, ICMS_BASE_TYPE_DEFAULT
 
 
 class DocumentLine(models.Model):
@@ -25,8 +24,7 @@ class DocumentLine(models.Model):
         relation="l10n_br_fiscal_document_line_comment_rel",
         column1="document_line_id",
         column2="comment_id",
-        string="Comments"
-    )
+        string="Comments")
 
     additional_data = fields.Text(string="Additional Data")
 
@@ -37,11 +35,6 @@ class DocumentLine(models.Model):
     document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
         string="Document")
-
-    icms_base_type = fields.Selection(
-        selection=ICMS_BASE_TYPE,
-        string="ICMS Base Type",
-        default=ICMS_BASE_TYPE_DEFAULT)
 
     def _document_comment_vals(self):
         return {
