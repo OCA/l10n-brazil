@@ -259,11 +259,11 @@ class SaleOrder(models.Model):
             result['operation_type'] = self.operation_id.operation_type
             result['partner_shipping_id'] = self.partner_shipping_id.id
 
-            #TODO Defini document_type_id in other method in line
+            # TODO Defini document_type_id in other method in line
             result['document_type_id'] = self._context.get('document_type_id')
 
             if self.operation_id.journal_id:
-               result['journal_id'] = self.operation_id.journal_id.id
+                result['journal_id'] = self.operation_id.journal_id.id
 
         comment = []
         if self.note and self.copy_note:
