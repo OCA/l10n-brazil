@@ -12,6 +12,9 @@
     "version": "12.0.1.0.0",
     "depends": ["sale", "l10n_br_account"],
     "data": [
+        # Data
+        "data/company_data.xml",
+
         # Security
         "security/ir.model.access.csv",
         "security/l10n_br_sale_security.xml",
@@ -26,6 +29,7 @@
     ],
     "demo": [
         # Demo
+        "demo/company_demo.xml",
         "demo/l10n_br_sale_demo.xml",
         "demo/l10n_br_sale_product_demo.xml",
     ],
