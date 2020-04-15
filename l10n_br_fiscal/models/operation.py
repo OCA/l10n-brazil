@@ -107,6 +107,11 @@ class Operation(models.Model):
         column2='comment_id',
         string='Comment')
 
+    operation_subsequent_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.subsequent.operation',
+        inverse_name='id',
+        string='Subsequent Operation')
+
     _sql_constraints = [(
         "fiscal_operation_code_uniq",
         "unique (code)",
