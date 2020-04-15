@@ -35,40 +35,41 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         result = {}
         picking = fields.first(pickings)
-        journal_id = picking.fiscal_category_id.property_journal
-        fiscal_document_code = picking.company_id.product_invoice_id.code
-        context = dict(self.env.context)
-        context.update(
-            {'fiscal_document_code': fiscal_document_code})
+        journal_id = picking.operation_id.journal_id
+
         if not journal_id:
             raise UserError(
                 _('Invalid Journal! There is not journal defined'
                   ' for this company: %s in fiscal operation: %s !') %
                 (picking.company_id.name,
-                 picking.fiscal_category_id.name))
+                 picking.operation_id.name))
 
         comment = ''
-        if picking.fiscal_position_id.inv_copy_note:
-            comment += picking.fiscal_position_id.note or ''
-        if picking.note:
-            comment += ' - ' + picking.note
+        # TODO - Comments
+        # if picking.fiscal_position_id.inv_copy_note:
+        #     comment += picking.fiscal_position_id.note or ''
+        # if picking.note:
+        #     comment += ' - ' + picking.note
 
         result['partner_shipping_id'] = picking.partner_id.id
         result['comment'] = comment
-        result['fiscal_category_id'] = picking.fiscal_category_id.id
-        result['fiscal_position_id'] = picking.fiscal_position_id.id
-        result['fiscal_document_id'] = picking.company_id.product_invoice_id.id
 
-        if picking.fiscal_category_id.journal_type in ('sale_refund',
-                                                       'purchase_refund'):
+        # TODO - Should we identify when create fiscal document ?
+        result['fiscal_document_id'] = False
+        result['operation_id'] = picking.operation_id.id
+        result['document_type_id'] = self._context.get('document_type_id')
+        result['operation_type'] = picking.operation_id.operation_type
+
+        if picking.operation_id.operation_type in (
+                'sale_refund', 'purchase_refund'):
             result['nfe_purpose'] = '4'
         values = super(StockInvoiceOnshipping, self
                        )._build_invoice_values_from_pickings(pickings)
-        values.update(result)
+        values[1].update(result)
         return values
 
     @api.multi
-    def _get_invoice_line_values(self, moves, invoice):
+    def _get_invoice_line_values(self, moves, invoice_values, invoice):
         """
         Create invoice line values from given moves
         :param moves: stock.move
@@ -77,44 +78,14 @@ class StockInvoiceOnshipping(models.TransientModel):
         """
         values = super(StockInvoiceOnshipping, self
                        )._get_invoice_line_values(
-            moves, invoice)
+            moves, invoice_values, invoice)
         move = fields.first(moves)
 
-        fiscal_position_id = move.fiscal_position_id or \
-            move.picking_id.fiscal_position_id
-        fiscal_category_id = move.fiscal_category_id or \
-            move.picking_id.fiscal_category_id
-
-        values['cfop_id'] = fiscal_position_id.cfop_id.id
-        values['fiscal_category_id'] = fiscal_category_id.id
-        values['fiscal_position_id'] = fiscal_position_id.id
-
-        # TODO este código é um fix pq no core nao se copia os impostos
-        ctx = dict(self.env.context)
-        ctx['fiscal_type'] = move.product_id.fiscal_type
-        ctx['partner_id'] = invoice.partner_id.id
-
-        # Required to compute_all in account.invoice.line
+        values['cfop_id'] = move.cfop_id.id
+        values['operation_id'] = move.operation_id.id or \
+            move.picking_id.operation_id.id
+        values['operation_line_id'] = move.operation_line_id.id
         values['partner_id'] = invoice.partner_id.id
-
-        ctx['product_id'] = move.product_id.id
-
-        inv_type = invoice.type
-        if inv_type in ('out_invoice', 'in_refund'):
-            ctx['type_tax_use'] = 'sale'
-            taxes = move.product_id.taxes_id
-        else:
-            ctx['type_tax_use'] = 'purchase'
-            taxes = move.product_id.supplier_taxes_id
-
-        if fiscal_position_id:
-            taxes = fiscal_position_id.with_context(ctx).map_tax(
-                taxes, move.product_id, move.partner_id)
-        values['invoice_line_tax_ids'] = [[6, 0, taxes.ids]]
-
-        if fiscal_position_id:
-            account_id = values.get('account_id')
-            account_id = fiscal_position_id.map_account(account_id)
 
         return values
 
@@ -128,21 +99,37 @@ class StockInvoiceOnshipping(models.TransientModel):
         invoices = self._action_generate_invoices()
         if not invoices:
             raise UserError(_('No invoice created!'))
-        action = self.env.ref(
-            'l10n_br_account_product.action_invoice_tree1_view1')
-        action_dict = action.with_context(
-            dict(fiscal_document_code='55')).read()[0]
-        if action_dict:
-            action_dict.update({
-                'domain': [('id', 'in', invoices.ids)],
-            })
-            if len(invoices) == 1:
-                action_dict.update({
-                    'res_id': invoices.id,
-                })
+
+        # Update the state on pickings related to new invoices only
+        self._update_picking_invoice_status(invoices.mapped("picking_ids"))
+
+        inv_type = self._get_invoice_type()
+        # TODO - Are change the view to brazilian localization ?
+        if inv_type in ["out_invoice", "out_refund"]:
+            action = self.env.ref("account.action_invoice_tree1")
+        else:
+            action = self.env.ref("account.action_vendor_bill_template")
+
+        action_dict = action.read()[0]
+
+        if len(invoices) > 1:
+            action_dict['domain'] = [('id', 'in', invoices.ids)]
+        elif len(invoices) == 1:
+            if inv_type in ["out_invoice", "out_refund"]:
+                form_view = [(self.env.ref('account.invoice_form').id, 'form')]
+            else:
+                form_view = [(self.env.ref(
+                    'account.invoice_supplier_form').id, 'form')]
+            if 'views' in action_dict:
+                action_dict['views'] = form_view + [
+                    (state,  view) for state, view in action[
+                        'views'] if view != 'form']
+            else:
+                action_dict['views'] = form_view
+            action_dict['res_id'] = invoices.ids[0]
+
         return action_dict
 
-    @api.multi
     def _action_generate_invoices(self):
         """
         Action to generate invoices based on pickings
@@ -155,25 +142,35 @@ class StockInvoiceOnshipping(models.TransientModel):
         pick_list = self._group_pickings(pickings)
         invoices = self.env['account.invoice'].browse()
         for pickings in pick_list:
-            invoice_values = self._build_invoice_values_from_pickings(pickings)
-            invoice = self.env[
-                'account.invoice'].with_context(dict(
-                    fiscal_document_code=pickings.
-                    company_id.product_invoice_id.code)
-            ).create(invoice_values)
             moves = pickings.mapped("move_lines")
-            moves_list = self._group_moves(moves)
-            lines = []
-            for moves in moves_list:
-                line_values = self._get_invoice_line_values(moves, invoice)
-                if line_values:
-                    lines.append(line_values)
-            if lines:
-                invoice.write({
-                    'invoice_line_ids': [(0, False, l) for l in lines],
-                })
-            invoice._onchange_invoice_line_ids()
-            invoices |= invoice
-        # Update the state on pickings related to new invoices only
-        self._update_picking_invoice_status(invoices.mapped("picking_ids"))
+            grouped_moves_list = self._group_moves(moves)
+            parts = self.ungroup_moves(grouped_moves_list)
+
+            # The field document_type_id are in a function of operation_line_id
+            # but the method used to create lines need to the invoice was created
+            # to called, by this reason we need to get this information before the
+            # FOR code used to create the invoice lines
+            # TODO - Are better way to make it ?
+            move = fields.first(pickings.move_lines)
+            document_type_id = move.operation_line_id.get_document_type(
+                             move.picking_id.company_id).id
+
+            for moves_list in parts:
+                invoice, invoice_values = self.with_context(
+                    document_type_id=document_type_id)._build_invoice_values_from_pickings(
+                    pickings
+                )
+                lines = [(5, 0, {})]
+                for moves in moves_list:
+                    line_values = self._get_invoice_line_values(
+                        moves, invoice_values, invoice
+                    )
+                    if line_values:
+                        lines.append((0, 0, line_values))
+                if line_values:  # Only create the invoice if it have lines
+                    invoice_values['invoice_line_ids'] = lines
+                    invoice = self._create_invoice(invoice_values)
+                    invoice._onchange_invoice_line_ids()
+                    invoice.compute_taxes()
+                    invoices |= invoice
         return invoices
