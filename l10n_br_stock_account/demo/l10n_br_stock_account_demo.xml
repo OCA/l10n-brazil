@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="0">
+<odoo noupdate="1">
+
+    <!-- Produtos -->
+    <record id="product.product_product_27" model="product.product">
+        <field name="invoice_policy">order</field>
+    </record>
+
+    <record id="product.product_product_12" model="product.product">
+        <field name="invoice_policy">order</field>
+    </record>
 
     <!-- Picking Test - 1 -->
     <record model="stock.picking" id="demo_l10n_br_stock_account-picking-1">
@@ -14,7 +23,7 @@
 
     <record model="stock.move" id="demo_l10n_br_stock_account-move_1_1">
         <field name="name">Test - l10n_br_stock_account - 1</field>
-        <field name="product_id" ref="product.product_product_10"/>
+        <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="picking_id" ref="demo_l10n_br_stock_account-picking-1"/>
@@ -27,7 +36,7 @@
 
     <record model="stock.move" id="demo_l10n_br_stock_account-move_1_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
-        <field name="product_id" ref="product.product_product_11"/>
+        <field name="product_id" ref="product.product_product_12"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="picking_id" ref="demo_l10n_br_stock_account-picking-1"/>
