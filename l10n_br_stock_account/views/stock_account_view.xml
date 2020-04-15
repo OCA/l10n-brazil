@@ -273,6 +273,8 @@
                                     <field name="pis_cst_code" readonly="1" invisible="1"/>
                                     <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
                                 </group>
+                            </page>
+                            <page name="csll" string="CSLL" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
                                 <group>
                                     <group>
                                         <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
@@ -465,6 +467,5 @@
             </form>
         </field>
     </record>
-
 
 </odoo>
