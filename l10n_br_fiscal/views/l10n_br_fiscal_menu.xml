@@ -166,6 +166,9 @@
     <!-- Operation -->
     <menuitem id="operation_menu" action="operation_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="10"/>
 
+    <!-- Subsequent Operation -->
+    <menuitem id="subsequent_operation_menu" action="subsequent_operation_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="40"/>
+
     <!-- CFOP -->
     <menuitem id="cfop_menu" action="cfop_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="20"/>
 
