@@ -20,7 +20,6 @@ class InvoicingPickingTest(TransactionCase):
 
     def test_invoicing_picking(self):
         """Test Invoicing Picking"""
-        self.stock_picking_sp.onchange_fiscal()
         for line in self.stock_picking_sp.move_lines:
             line.onchange_product_id()
 
