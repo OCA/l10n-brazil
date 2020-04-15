@@ -88,6 +88,7 @@
               <field name="document_serie_id" attrs="{'invisible': [('issuer', '!=', 'company')], 'required': [('issuer', '=', 'company')]}" context="{'default_document_type_id': document_type_id}"/>
               <field name="document_serie" attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"/>
               <field name="codigo_motivo_situacao" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
+              <field name="document_subsequent_ids"/>
             </group>
             <group>
               <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
