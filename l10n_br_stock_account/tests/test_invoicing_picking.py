@@ -21,15 +21,17 @@ class InvoicingPickingTest(TransactionCase):
 
     def test_invoicing_picking(self):
         """Test Invoicing Picking"""
-        self.stock_picking_sp.onchange_fiscal()
         for line in self.stock_picking_sp.move_lines:
             line.onchange_product_id()
-            line.onchange_fiscal()
 
         self.stock_picking_sp.action_confirm()
-        self.stock_picking_sp.force_assign()
-        self.stock_picking_sp.do_new_transfer()
-        self.stock_picking_sp.action_done()
+        self.stock_picking_sp.action_assign()
+
+        # Force product availability
+        for move in self.stock_picking_sp.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+
+        self.stock_picking_sp.button_validate()
 
         self.assertEquals(
             self.stock_picking_sp.state, 'done',
@@ -49,8 +51,8 @@ class InvoicingPickingTest(TransactionCase):
         wizard_values = wizard_obj.default_get(fields_list)
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        action = wizard.action_generate()
-        domain = action.get('domain', [])
+        wizard.action_generate()
+        domain = [('picking_ids', '=', self.stock_picking_sp.id)]
         invoice = self.invoice_model.search(domain)
 
         self.assertTrue(invoice, 'Invoice is not created.')
@@ -67,8 +69,8 @@ class InvoicingPickingTest(TransactionCase):
             invoice.tax_line_ids, 'Total of Taxes in Invoice are missing.'
         )
         self.assertTrue(
-            invoice.fiscal_position_id,
-            'Mapping fiscal position on wizard to create invoice fail.'
+            invoice.operation_id,
+            'Mapping fiscal operation on wizard to create invoice fail.'
         )
         self.assertTrue(
             invoice.fiscal_document_id,
@@ -78,8 +80,7 @@ class InvoicingPickingTest(TransactionCase):
         self.return_wizard = self.stock_return_picking.with_context(
             dict(active_id=self.stock_picking_sp.id)).create(
             dict(invoice_state='2binvoiced'))
-
-        for line in self.return_wizard.product_return_moves :
+        for line in self.return_wizard.product_return_moves:
             line.quantity = line.move_id.product_uom_qty
 
         result = self.return_wizard.create_returns()
