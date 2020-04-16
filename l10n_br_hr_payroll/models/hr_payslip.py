@@ -1089,6 +1089,30 @@ class HrPayslip(models.Model):
         res += [salario_hora_dic]
         return res
 
+    def get_inss_vinculos(self):
+        """
+        Buscar as contribuicoes previdenciarias em outros vinculos
+        """
+
+        inss_outros_vinculos = {
+            'base': 0.0,
+            'inss': 0.0,
+        }
+
+        if self.contract_id.contribuicao_inss_ids:
+            period_id = self.env['account.period'].find(self.date_from)
+            vinculos = self.env['hr.contribuicao.inss.vinculos'].search([
+                ('contrato_id', '=', self.contract_id.id),
+                ('period_id', '=', period_id.id),
+            ])
+
+            inss_outros_vinculos.update({
+                'base': sum(vinculos.mapped('valor_remuneracao_vinculo')),
+                'inss': sum(vinculos.mapped('valor_alicota_vinculo')),
+            })
+
+        return inss_outros_vinculos
+
     @profile
     def INSS(self, BASE_INSS):
         """
@@ -1101,13 +1125,21 @@ class HrPayslip(models.Model):
         :param BASE_INSS: - float - soma das rubricas que compoe o INSS
         :return: float - Valor do inss a ser descontado do funcionario
         """
-        tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
-        if BASE_INSS:
-            inss, reference = tabela_inss_obj._compute_inss(BASE_INSS,
-                                                            self.date_from)
-            return inss, reference
-        else:
+        if not BASE_INSS:
             return 0, ' '
+
+        tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
+
+        inss_outros_vinculos = self.get_inss_vinculos()
+
+        base_total = BASE_INSS + inss_outros_vinculos.get('base')
+
+        inss_total, reference = tabela_inss_obj._compute_inss(
+            base_total, self.date_from)
+
+        inss = inss_total - inss_outros_vinculos.get('inss')
+
+        return inss, reference
 
     @profile
     def BASE_IRRF(self, TOTAL_IRRF, INSS):
