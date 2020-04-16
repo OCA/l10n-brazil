@@ -10,15 +10,16 @@
         <field name="invoice_policy">order</field>
     </record>
 
-    <!-- Picking Test - 1 -->
+    <!-- Picking Test - Main Company - Tax Framework Regime Normal -->
     <record model="stock.picking" id="demo_l10n_br_stock_account-picking-1">
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="picking_type_id" ref="stock.picking_type_out"/>
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="origin">Test - l10n_br_stock_account</field>
+        <field name="origin">Test - l10n_br_stock_account - Regime Normal</field>
         <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="company_id" ref="base.main_company"/>
     </record>
 
     <record model="stock.move" id="demo_l10n_br_stock_account-move_1_1">
