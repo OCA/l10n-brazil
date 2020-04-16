@@ -7,49 +7,44 @@
         <field name="inherit_id" ref="stock_picking_invoicing.view_picking_form"/>
         <field name="priority">32</field>
         <field name="arch" type="xml">
-            <field name="invoice_state" position="after">
+            <field name="move_type" position="before">
                 <field name="operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
-        <!-- We need to create a new FORM view to put Fiscal Data and Taxes
-             with inherit the view mess up, here we inform the new view -->
-        <field name="move_ids_without_package" position="attributes">
-            <attribute name="context">
-                {'default_invoice_state': invoice_state,
-                'address_in_id': partner_id,
-                'form_view_ref':'l10n_br_stock_account.l10n_br_stock_account-view_move_picking_form',
-                'tree_view_ref':'stock.view_move_picking_tree',
-                'default_picking_type_id': picking_type_id,
-                'default_picking_id': id,
-                'default_location_id': location_id,
-                'default_location_dest_id': location_dest_id}
-            </attribute>
-        </field>
-        </field>
-    </record>
 
-    <record id="l10n_br_view_move_picking_tree" model="ir.ui.view">
-        <field name="name">l10n_br_stock.move.tree</field>
-        <field name="model">stock.move</field>
-        <field name="inherit_id" ref="stock_picking_invoicing.view_move_tree"/>
-        <field eval="1" name="priority"/>
-        <field name="arch" type="xml">
-            <field name="invoice_state" position="after">
-                <field name="operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
-                <field name="operation_line_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
-            </field>
-        </field>
-    </record>
+            <!-- TODO check if there is a better way to make it, we need to remove editable="bottom"
+                  I tried to make the necessary changes by this way without success
 
-    <record id="l10n_br_stock_account-view_picking_form" model="ir.ui.view">
-        <field name="name">stock.picking.form</field>
-        <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock.view_picking_form"/>
-        <field eval="12" name="priority"/>
-        <field name="arch" type="xml">
+            <field name="move_ids_without_package" position="attributes">
+                <attribute name="context">
+                    {'default_invoice_state': invoice_state,
+                    'address_in_id': partner_id,
+                    'form_view_ref':'l10n_br_stock_account.l10n_br_stock_account-view_move_picking_form',
+                    'tree_view_ref':'stock.view_move_picking_tree',
+                    'default_picking_type_id': picking_type_id,
+                    'default_picking_id': id,
+                    'default_location_id': location_id,
+                    'default_location_dest_id': location_dest_id,
+                    'default_operation_id': operation_id}
+                </attribute>
+                <attribute name="editable"></attribute>
+            </field> -->
+
+            <!-- TODO - Just work by make replace -->
             <xpath expr="//form/sheet/notebook/page/field[@name='move_ids_without_package']" position="replace">
-                <field name="move_ids_without_package" attrs="{'readonly': ['|', '&amp;', ('show_operations', '=', True), '|', ('is_locked', '=', True), ('state', '=', 'done'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'l10n_br_stock_account.l10n_br_stock_account-view_move_picking_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
-                    <!-- In brazilian localization we need to open Form view to see all fields
-                     TODO check if there is a better way to make it, we need to remove editable="bottom" -->
+                <!-- In brazilian localization we need to open Form view to see all fields -->
+                <!-- TODO - The field invoice_state are not filled, why? Type Selection field ? -->
+                <field name="move_ids_without_package" attrs="{'readonly': ['|', '&amp;', ('show_operations', '=', True), '|', ('is_locked', '=', True), ('state', '=', 'done'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
+                       context="{
+                       'picking_type_code': picking_type_code,
+                       'default_picking_id': id,
+                       'form_view_ref':'l10n_br_stock_account.l10n_br_stock_account-view_move_picking_form',
+                       'address_in_id': partner_id,
+                       'default_picking_type_id': picking_type_id,
+                       'default_location_id': location_id,
+                       'default_location_dest_id': location_dest_id,
+                       'default_company_id': company_id,
+                       'default_invoice_state': invoice_state,
+                       'default_operation_id': operation_id}">
                     <!--<tree decoration-danger="not parent.immediate_transfer and state != 'done' and quantity_done > reserved_availability and show_reserved_availability" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)" string="Stock Moves" editable="bottom">-->
                     <tree decoration-danger="not parent.immediate_transfer and state != 'done' and quantity_done > reserved_availability and show_reserved_availability" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)" string="Stock Moves">
                         <field name="name" invisible="1"/>
@@ -78,6 +73,19 @@
                     </tree>
                 </field>
             </xpath>
+        </field>
+    </record>
+
+    <record id="l10n_br_view_move_picking_tree" model="ir.ui.view">
+        <field name="name">l10n_br_stock.move.tree</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock_picking_invoicing.view_move_tree"/>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <field name="invoice_state" position="after">
+                <field name="operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="operation_line_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+            </field>
         </field>
     </record>
 
@@ -125,7 +133,7 @@
                     </group>
 
                 </group>
-                <group name="l10n_br_fiscal" string="Operation"
+                <group name="l10n_br_fiscal" string="Fiscal Operation"
                        attrs="{'invisible': [('invoice_state', '=', 'none')],
                         'required': [('invoice_state', '=', '2binvoiced')],
                          'readonly': [('invoice_state', '=', 'invoiced')]}">
