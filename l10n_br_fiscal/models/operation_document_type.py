@@ -1,7 +1,7 @@
 # Copyright (C) 2020  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class OperationDocumentType(models.Model):
@@ -34,3 +34,19 @@ class OperationDocumentType(models.Model):
         required=True,
         default=lambda self: self.env["res.company"]._company_default_get(
             "l10n_br_fiscal.document"))
+
+    name = fields.Char(
+        string="Name",
+        compute="_compute_name",
+    )
+
+    @api.multi
+    @api.depends('document_type_id', 'document_serie_id')
+    def _compute_name(self):
+        for record in self:
+            document_serie = record.document_serie_id.name
+            if not document_serie:
+                document_serie = "Series not defined"
+            if record.document_type_id:
+                record.name = record.document_type_id.name + ' - ' + \
+                                        document_serie
