@@ -169,9 +169,6 @@
     <!-- Subsequent Operation -->
     <menuitem id="subsequent_operation_menu" action="subsequent_operation_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="40"/>
 
-    <!-- Subsequent Document -->
-    <menuitem id="subsequent_document_menu" action="subsequent_document_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="50"/>
-
     <!-- CFOP -->
     <menuitem id="cfop_menu" action="cfop_action" groups="l10n_br_fiscal.group_manager" parent="operations_config_menu" sequence="20"/>
 
@@ -180,6 +177,9 @@
 
     <!-- Others Settings -->
     <menuitem id="others_config_menu" name="Others" groups="l10n_br_fiscal.group_manager" parent="configuration_menu" sequence="999"/>
+
+    <!-- Subsequent Document -->
+    <menuitem id="subsequent_document_menu" action="subsequent_document_action" groups="base.group_no_one" parent="others_config_menu" sequence="50"/>
 
     <!-- Fiscal Document -->
     <menuitem id="document_type_menu" action="document_type_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="10"/>

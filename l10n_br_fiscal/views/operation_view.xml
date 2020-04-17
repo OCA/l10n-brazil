@@ -82,6 +82,9 @@
                                 </form>
                             </field>
                         </page>
+                        <page name="subsequent_operation" string="Subsequent Operations">
+                            <field name="operation_subsequent_ids"/>
+                        </page>
                         <page name="notes" string="Notes">
                             <field name="comment_ids"/>
                         </page>
