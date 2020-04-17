@@ -579,6 +579,7 @@ class Document(models.Model):
     document_subsequent_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.subsequent.document',
         inverse_name='source_document_id',
+        copy=True,
     )
 
     document_subsequent_generated = fields.Boolean(
@@ -641,6 +642,8 @@ class Document(models.Model):
     @api.constrains('number')
     def _check_number(self):
         for record in self:
+            if not record.number:
+                return
             domain = [
                 ('id', '!=', record.id),
                 ('active', '=', True),
