@@ -88,7 +88,6 @@
               <field name="document_serie_id" attrs="{'invisible': [('issuer', '!=', 'company')], 'required': [('issuer', '=', 'company')]}" context="{'default_document_type_id': document_type_id}"/>
               <field name="document_serie" attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"/>
               <field name="codigo_motivo_situacao" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
-              <field name="document_subsequent_ids"/>
             </group>
             <group>
               <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
@@ -159,6 +158,17 @@
             </page>
             <page name="document_related" string="Document Related">
               <field name="fiscal_document_related_ids"/>
+              <separator colspan="4" string="Subsequents Documents"/>
+              <field name="document_subsequent_ids">
+                  <tree string="City" editable="bottom">
+                    <field name="subsequent_document_id"/>
+                    <field name="operation_id"/>
+                    <field name="operation_performed"/>
+                    <field name="subsequent_operation_id"/>
+                    <button name="show_subsequent_document" type="object" string="Show Document"
+                        attrs="{'invisible': [('subsequent_document_id', '=', False)]}"/>
+                </tree>
+              </field>
             </page>
             <page nam="finance" string="Finance">
             </page>
