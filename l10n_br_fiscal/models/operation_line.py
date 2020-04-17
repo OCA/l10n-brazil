@@ -41,8 +41,9 @@ class OperationLine(models.Model):
         comodel_name='l10n_br_fiscal.cfop',
         string='CFOP Internal',
         domain="[('type_in_out', '=', operation_type), "
-               "('type_move', '=ilike', fiscal_type + '%'), "
-               "('destination', '=', '1')]")
+                "('destination', '=', '1'),"
+               "('type_move', '=ilike', fiscal_type + '%')]")
+
 
     cfop_external_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
