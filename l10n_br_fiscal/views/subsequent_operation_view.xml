@@ -11,6 +11,7 @@
             <tree editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="subsequent_operation_id"/>
+                <field name="document_type_id" domain="[('operation_id', '=', id)]"/>
                 <field name="partner_id"/>
                 <field name="generation_situation"/>
                 <field name="reference_document"/>
