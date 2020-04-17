@@ -19,7 +19,7 @@ SITUACAO_SUBSEQUENTE = (
 )
 
 
-class SubaequentDocument(models.Model):
+class SubsequentDocument(models.Model):
     _name = 'l10n_br_fiscal.subsequent.document'
     _description = 'Subsequent Document'
 
@@ -46,12 +46,14 @@ class SubaequentDocument(models.Model):
         string='Subsequent Document',
         comodel_name='l10n_br_fiscal.document',
         ondelete='set null',
+        copy=False,
     )
 
     operation_performed = fields.Boolean(
         string='Operation Performed',
         compute='_compute_operation_performed',
         default=False,
+        copy=False,
     )
 
     # def _subsequent_payment_type(self):
@@ -105,6 +107,9 @@ class SubaequentDocument(models.Model):
 
         for item in new_doc.line_ids:
             item._onchange_operation_id()
+            item._onchange_operation_line_id()
+            item._onchange_fiscal_taxes()
+
 
         document = new_doc
         document.action_document_confirm()
@@ -154,7 +159,7 @@ class SubaequentDocument(models.Model):
                 raise UserWarning("The document cannot be deleted: the "
                                   "subsequent document has already been "
                                   "generated.")
-        return super(SubaequentDocument, self).unlink()
+        return super(SubsequentDocument, self).unlink()
 
 
 
