@@ -62,10 +62,15 @@ class Document(models.Model):
         readonly=True,
     )
 
+    def _generate_key(self):
+        remaining = self - self.filtered(fiter_processador_edoc_nfse)
+        if remaining:
+            super(Document, remaining)._generate_key()
+
     def _processador_erpbrasil_nfse(self):
         certificado = cert.Certificado(
-            arquivo=self.company_id.nfe_a1_file,
-            senha=self.company_id.nfe_a1_password
+            arquivo=self.company_id.certificate_nfe_id.file,
+            senha=self.company_id.certificate_nfe_id.password
         )
         session = Session()
         session.verify = False
@@ -102,7 +107,7 @@ class Document(models.Model):
 
     def serialize_nfse(self):
         dh_emi = fields.Datetime.context_timestamp(
-            self, fields.Datetime.from_string(self.date_hour_invoice)
+            self, fields.Datetime.from_string(self.date)
         )
 
         numero_rps = 1236
@@ -149,7 +154,7 @@ class Document(models.Model):
                         Serie=self.document_serie_id.code or '',
                         Tipo='1',
                     ),
-                    DataEmissao='2019-11-22T14:38:54',
+                    DataEmissao='2020-04-17T09:29:54',
                     NaturezaOperacao='1',
                     RegimeEspecialTributacao='1',
                     OptanteSimplesNacional='1',
@@ -158,26 +163,44 @@ class Document(models.Model):
                     RpsSubstituido=None,
                     Servico=tcDadosServico(
                         Valores=tcValores(
-                            ValorServicos=self.amount_total,
+                            ValorServicos=float(self.amount_total),
+                            # ValorDeducoes=0.0,
+                            # ValorPis=0.0,
+                            # ValorCofins=0.0,
+                            # ValorInss=0.0,
+                            # ValorIr=0.0,
+                            # ValorCsll=0.0,
+                            # IssRetido='2',
+                            # ValorIss=0.0,
+                            # ValorIssRetido=0.0,
+                            # OutrasRetencoes=0.0,
+                            # BaseCalculo=0.0,
+                            # Aliquota=0.0,
+                            # ValorLiquidoNfse=0.0,
                             ValorDeducoes=None,
+                            ValorPis=None,
+                            ValorCofins=None,
                             ValorInss=None,
                             ValorIr=None,
                             ValorCsll=None,
                             IssRetido='2',
                             ValorIss=None,
                             ValorIssRetido=None,
+                            OutrasRetencoes=None,
                             BaseCalculo=None,
                             Aliquota=None,
                             ValorLiquidoNfse=None,
                             DescontoCondicionado=None,
                             DescontoIncondicionado=None,
                         ),
-                        ItemListaServico='417',
+                        ItemListaServico='107',
                         CodigoCnae=None,
-                        CodigoTributacaoMunicipio='417/8511200',
-                        Discriminacao=normalize('NFKD', str(
-                            self.invoice_line_ids[0].name[:120] or '')
-                        ).encode('ASCII', 'ignore'),
+                        CodigoTributacaoMunicipio='107/6209100',
+                        Discriminacao=str(
+                            self.line_ids[0].name[:120] or ''),
+                        # Discriminacao=normalize('NFKD', str(
+                        #     self.line_ids[0].name[:120] or '')
+                        # ).encode('ASCII', 'ignore'),
                         CodigoMunicipio=int('%s%s' % (
                             self.company_id.partner_id.state_id.ibge_code,
                             self.company_id.partner_id.city_id.ibge_code
@@ -197,19 +220,24 @@ class Document(models.Model):
                                 self.partner_id.inscr_mun or ''
                             ) or None
                         ),
-                        RazaoSocial=normalize('NFKD', str(
-                                self.partner_id.legal_name[:60] or ''
-                            )).encode('ASCII', 'ignore'),
+                        RazaoSocial=str(
+                                self.partner_id.legal_name[:60] or ''),
+                        # RazaoSocial=normalize('NFKD', str(
+                        #         self.partner_id.legal_name[:60] or ''
+                        #     )).encode('ASCII', 'ignore'),
                         Endereco=tcEndereco(
-                            Endereco=normalize(
-                                'NFKD',
-                                str(self.partner_id.street or '')
-                            ).encode('ASCII', 'ignore'),
-                            Numero=self.partner_id.number or '',
+                            Endereco=str(self.partner_id.street or ''),
+                            # Endereco=normalize(
+                            #     'NFKD',
+                            #     str(self.partner_id.street or '')
+                            # ).encode('ASCII', 'ignore'),
+                            Numero=self.partner_id.street_number or '',
                             Complemento=self.partner_shipping_id.street2 or None,
-                            Bairro=normalize('NFKD', str(
-                                self.partner_id.district or 'Sem Bairro')
-                              ).encode('ASCII', 'ignore'),
+                            Bairro=str(
+                                self.partner_id.district or 'Sem Bairro'),
+                            # Bairro=normalize('NFKD', str(
+                            #     self.partner_id.district or 'Sem Bairro')
+                            #   ).encode('ASCII', 'ignore'),
                             CodigoMunicipio=int('%s%s' % (
                                     self.partner_id.state_id.ibge_code,
                                     self.partner_id.city_id.ibge_code)),
@@ -223,10 +251,13 @@ class Document(models.Model):
             )
         )
         lote = tcLoteRps(
-                Cnpj=prestador_cnpj,
-                InscricaoMunicipal=prestador_im or None,
-                QuantidadeRps='1',
-                ListaRps=ListaRpsType(Rps=lista_rps)
+            # Id=prestador_cnpj + prestador_im + '32'.zfill(15),
+            # Id='lote' + '32',
+            # NumeroLote='32',
+            Cnpj=prestador_cnpj,
+            InscricaoMunicipal=prestador_im or None,
+            QuantidadeRps='1',
+            ListaRps=ListaRpsType(Rps=lista_rps)
         )
         lote_rps = EnviarLoteRpsEnvio(
             LoteRps=lote
@@ -248,21 +279,23 @@ class Document(models.Model):
                     processo = p
 
                     if processo.webservice == 'RecepcionarLoteRpsV3':
+                        if not hasattr(processo.resposta, 'Protocolo'):
+                            return
                         protocolo = processo.resposta.Protocolo
 
                 if processo.webservice == 'ConsultarSituacaoLoteRpsV3':
                     mensagem = ''
-                    if processo.resposta.Situacao == 1:
-                        mensagem = _('Não Recebido')
-
-                    elif processo.resposta.Situacao == 2:
-                        mensagem = _('Lote ainda não processado')
-
-                    elif processo.resposta.Situacao == 3:
-                        mensagem = _('Procesado com Erro')
-
-                    elif processo.resposta.Situacao == 4:
-                        mensagem = _('Procesado com Sucesso')
+                    # if processo.resposta.Situacao == 1:
+                    #     mensagem = _('Não Recebido')
+                    #
+                    # elif processo.resposta.Situacao == 2:
+                    #     mensagem = _('Lote ainda não processado')
+                    #
+                    # elif processo.resposta.Situacao == 3:
+                    #     mensagem = _('Procesado com Erro')
+                    #
+                    # elif processo.resposta.Situacao == 4:
+                    #     mensagem = _('Procesado com Sucesso')
 
                     vals = {
                         'codigo_situacao': processo.resposta.Situacao,
@@ -270,26 +303,30 @@ class Document(models.Model):
                         'protocolo_autorizacao': protocolo,
                     }
 
-                if processo.resposta.Situacao in (3, 4):
-                    processo = processador.consultar_lote_rps(protocolo)
+                # if processo.resposta.Situacao in (3, 4):
+                #     processo = processador.consultar_lote_rps(protocolo)
 
-                    if processo.resposta:
+                if processo.resposta:
 
-                        if processo.resposta.ListaMensagemRetorno:
-                            mensagem_completa = ''
-                            for mr in processo.resposta.ListaMensagemRetorno.MensagemRetorno:
+                    if processo.resposta.ListaMensagemRetorno:
+                        mensagem_completa = ''
+                        for mr in processo.resposta.ListaMensagemRetorno.MensagemRetorno:
 
-                                mensagem_completa += (
-                                    mr.Codigo + ' - ' +
-                                    mr.Mensagem +
-                                    ' - Correção: ' +
-                                    mr.Correcao + '\n'
-                                )
-                                vals['edoc_error_message'] = mensagem_completa
+                            correcao = ''
+                            if mr.Correcao:
+                                correcao = mr.Correcao
 
-                        if processo.resposta.ListaNfse:
-                            for nfse in processo.resposta.ListaNfse:
-                                print('Foi porra!')
+                            mensagem_completa += (
+                                mr.Codigo + ' - ' +
+                                mr.Mensagem +
+                                ' - Correção: ' +
+                                correcao + '\n'
+                            )
+                            vals['edoc_error_message'] = mensagem_completa
+
+                    # if processo.resposta.ListaNfse:
+                    #     for nfse in processo.resposta.ListaNfse:
+                    #         print('Foi porra!')
 
                 record.write(vals)
         return
