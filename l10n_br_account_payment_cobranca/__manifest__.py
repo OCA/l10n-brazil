@@ -39,9 +39,7 @@
         "reports/report_print_button_view.xml",
         "security/ir.model.access.csv",
     ],
-    "demo": [
-        'demo/l10n_br_payment_mode.xml',
-    ],
+    "demo": ["demo/l10n_br_payment_mode.xml"],
     "test": [
         # 'tests/invoice_create.yml'
     ],

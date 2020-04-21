@@ -136,10 +136,7 @@ TRIBUTO_GARE_SP_ITCMD = ("24", "24 - Tributo - GARE-SP ITCMD")
 TRIBUTO_IPVA = ("25", "25 - Tributo - IPVA")
 TRIBUTO_LICENCIAMENTO = ("26", "26 - Tributo - Licenciamento")
 TRIBUTO_DPVAT = ("27", "27 - Tributo – DPVAT")
-LIQUIDACAO_TITULOS_PROPRIO_BANCO = (
-    "30",
-    "30 - Liquidação de Títulos do Próprio Banco",
-)
+LIQUIDACAO_TITULOS_PROPRIO_BANCO = ("30", "30 - Liquidação de Títulos do Próprio Banco")
 PAGAMENTO_TITULOS_OUTROS_BANCOS = ("31", "31 - Pagamento de Títulos de Outros Bancos")
 EXTRATO_CONTA_CORRENTE = ("40", "40 - Extrato de Conta Corrente")
 TED_OUTRA_TITULARIDADE = ("41", "41 - TED – Outra Titularidade (1)")

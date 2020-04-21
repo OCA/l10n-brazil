@@ -18,22 +18,24 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     @api.multi
-    @api.depends('state', 'move_id.line_ids', 'move_id.line_ids.account_id')
+    @api.depends("state", "move_id.line_ids", "move_id.line_ids.account_id")
     def _compute_receivables(self):
         for record in self:
-            lines = self.env['account.move.line']
+            lines = self.env["account.move.line"]
             for line in record.move_id.line_ids:
-                if (line.account_id.id == record.account_id.id and
-                    line.account_id.internal_type in
-                    ('receivable', 'payable')):
+                if (
+                    line.account_id.id == record.account_id.id
+                    and line.account_id.internal_type in ("receivable", "payable")
+                ):
                     lines |= line
             record.move_line_receivable_ids = lines.sorted()
 
     move_line_receivable_ids = fields.Many2many(
-        comodel_name='account.move.line',
-        string=u'Receivables',
+        comodel_name="account.move.line",
+        string=u"Receivables",
         store=True,
-        compute='_compute_receivables')
+        compute="_compute_receivables",
+    )
 
     active = fields.Boolean(string="Ativo", default=True)
 
@@ -68,9 +70,7 @@ class AccountInvoice(models.Model):
         readonly=True,
     )
 
-    operation_type = fields.Selection(
-        related='payment_mode_id.operation_type',
-    )
+    operation_type = fields.Selection(related="payment_mode_id.operation_type")
 
     def register_invoice_api(self):
         """ Registrar o boleto via sua API"""
@@ -421,14 +421,13 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def _prepare_new_payment_order(self, payment_mode=None):
-        vals = super(AccountInvoice, self)._prepare_new_payment_order(
-            payment_mode)
+        vals = super(AccountInvoice, self)._prepare_new_payment_order(payment_mode)
         if payment_mode is None:
-            payment_mode = self.env['account.payment.mode']
+            payment_mode = self.env["account.payment.mode"]
         vals.update(
             {
-                'operation_type': payment_mode.operation_type or
-                                  self.payment_mode_id.operation_type
+                "operation_type": payment_mode.operation_type
+                or self.payment_mode_id.operation_type
             }
         )
         return vals

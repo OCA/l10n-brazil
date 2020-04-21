@@ -63,16 +63,10 @@ class BankPaymentLine(models.Model):
         default=0.00,
     )
     mora = fields.Float(
-        digits=(13, 2),
-        string="Valor da Mora",
-        help="Campo G047 do CNAB",
-        default=0.00,
+        digits=(13, 2), string="Valor da Mora", help="Campo G047 do CNAB", default=0.00
     )
     multa = fields.Float(
-        digits=(13, 2),
-        string="Valor da Multa",
-        help="Campo G048 do CNAB",
-        default=0.00,
+        digits=(13, 2), string="Valor da Multa", help="Campo G048 do CNAB", default=0.00
     )
     evento_id = fields.One2many(
         string="Eventos CNAB",

@@ -27,9 +27,7 @@ class PaymentMode(models.Model):
         selection=TIPO_SERVICO, string="Tipo de Serviço", help="Campo G025 do CNAB"
     )
     forma_lancamento = fields.Selection(
-        selection=FORMA_LANCAMENTO,
-        string="Forma Lançamento",
-        help="Campo G029 do CNAB",
+        selection=FORMA_LANCAMENTO, string="Forma Lançamento", help="Campo G029 do CNAB"
     )
     codigo_convenio = fields.Char(
         size=20,
@@ -124,9 +122,7 @@ class PaymentMode(models.Model):
         string="Conta Padrão",
         help="Conta padrão para Taxa",
     )
-    operation_type = fields.Selection(
-        selection_add=[('3', 'Cobrança')]
-    )
+    operation_type = fields.Selection(selection_add=[("3", "Cobrança")])
 
     @api.onchange("product_tax_id")
     def _onchange_product_tax_id(self):

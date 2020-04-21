@@ -66,9 +66,7 @@ class PaymentOrder(models.Model):
         readonly=True,
         domain=[("is_erro_exportacao", "=", True)],
     )
-    operation_type = fields.Selection(
-        selection_add=[('3', 'Cobrança')]
-    )
+    operation_type = fields.Selection(selection_add=[("3", "Cobrança")])
 
     def _confirm_debit_orders_api(self):
         """

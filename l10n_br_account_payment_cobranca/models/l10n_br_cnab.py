@@ -673,15 +673,18 @@ class L10nBrHrCnab(models.Model):
         cnab_ids = self.search([("data", "=", data)], order="id desc")
         cnab_idx = 1
         if cnab_ids:
-            search_result = list(filter(
-                lambda x: x is not None,
-                [
-                    re.search(r"\((\d)\)", name)
-                    for name in self.search(
-                        [("data", "=", data), ("id", "!=", self.id)], order="id desc"
-                    ).mapped("name")
-                ],
-            ))
+            search_result = list(
+                filter(
+                    lambda x: x is not None,
+                    [
+                        re.search(r"\((\d)\)", name)
+                        for name in self.search(
+                            [("data", "=", data), ("id", "!=", self.id)],
+                            order="id desc",
+                        ).mapped("name")
+                    ],
+                )
+            )
             if search_result:
                 cnab_idx = max(int(result.group(1)) for result in search_result) + 1
 
