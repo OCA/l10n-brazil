@@ -6,9 +6,16 @@ from odoo.addons.spec_driven_model.models import spec_models
 from ..constants.nfe import (NFE_ENVIRONMENT_DEFAULT, NFE_ENVIRONMENTS,
                              NFE_VERSION_DEFAULT, NFE_VERSIONS)
 
+PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
+PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
+
 
 class ResCompany(spec_models.SpecModel):
     _inherit = 'res.company'
+
+    processador_edoc = fields.Selection(
+        selection_add=PROCESSADOR,
+    )
 
     nfe_version = fields.Selection(
         selection=NFE_VERSIONS, string="NFe Version",
