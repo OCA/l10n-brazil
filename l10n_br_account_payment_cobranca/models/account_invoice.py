@@ -261,7 +261,9 @@ class AccountInvoice(models.Model):
 
                 new_payorder = False
                 if not payorder:
-                    payorder = apoo.create(inv._prepare_new_payment_order(payment_mode))
+                    payorder = apoo.create(
+                        inv._prepare_new_payment_order(payment_mode)
+                    )
                     new_payorder = True
                     payorder.name += "_api"
                     payorder.active = False
@@ -384,10 +386,11 @@ class AccountInvoice(models.Model):
 
                 new_payorder = False
                 if not payorder:
-                    payorder = apoo.create(inv._prepare_new_payment_order(payment_mode))
+                    payorder = apoo.create(
+                        inv._prepare_new_payment_order(payment_mode)
+                    )
                     new_payorder = True
                 result_payorder_ids.append(payorder.id)
-                action_payment_type = payorder.payment_type
                 count = 0
                 for line in applicable_lines.filtered(
                     lambda x: x.payment_mode_id == payment_mode

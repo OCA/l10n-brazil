@@ -88,12 +88,12 @@ class AccountPaymentLineCreate(models.TransientModel):
         # Exclude lines that are already in a non-cancelled
         # and non-uploaded payment order; lines that are in a
         # uploaded payment order are proposed if they are not reconciled,
-        paylines = self.env["account.payment.line"].search(
-            [
-                ("state", "in", ("draft", "open", "generated", "uploaded")),
-                ("move_line_id", "!=", False),
-            ]
-        )
+        # paylines = self.env["account.payment.line"].search(
+        #     [
+        #         ("state", "in", ("draft", "open", "generated", "uploaded")),
+        #         ("move_line_id", "!=", False),
+        #     ]
+        # )
 
         move_line_domain = ["draft"]
         if self.allow_error:

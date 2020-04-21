@@ -1,10 +1,2 @@
-[ This file is optional, it should explain how to configure
-  the module before using it; it is aimed at advanced users. ]
-
-To configure this module, you need to:
-
-#. Go to ...
-
-.. figure:: ../static/description/image.png
-   :alt: alternative description
-   :width: 600 px
++ In a multicompany environment, make sure the sequences payment line and payment order are with the company set to the one you'll use to export the payments and charges.
+    If they are not set like this, you'll not be able to add payment lines with regular users.
