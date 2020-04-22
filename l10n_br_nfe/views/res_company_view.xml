@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
-              <page name="nfe" string="NF-e" groups="nfe.group_manager">
+              <page name="nfe" string="NF-e">
                   <group name="nfe_settings" string="NF-e Default Settings">
                       <group>
                           <field name="nfe_version" required="1"/>
