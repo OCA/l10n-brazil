@@ -25,6 +25,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_nfe.sped.nfe.validator import txt
 from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
+from ..constants.nfe import (NFE_ENVIRONMENT_DEFAULT, NFE_ENVIRONMENTS,
+                             NFE_VERSION_DEFAULT, NFE_VERSIONS)
 from requests import Session
 
 
@@ -89,6 +91,17 @@ class NFe(spec_models.StackedModel):
         copy=False,
     )
 
+    nfe_version = fields.Selection(
+        selection=NFE_VERSIONS, string="NFe Version",
+        default=lambda self: self.env.user.company_id.nfe_version,
+    )
+
+    nfe_environment = fields.Selection(
+        selection=NFE_ENVIRONMENTS,
+        string="NFe Environment",
+        default=lambda self: self.env.user.company_id.nfe_environment,
+    )
+
     nfe40_natOp = fields.Char(
         related='operation_name'
     )
@@ -108,13 +121,18 @@ class NFe(spec_models.StackedModel):
     nfe40_vNF = fields.Monetary(
         related='amount_total'
     )
+    nfe40_tpAmb = fields.Selection(
+        related='nfe_environment'
+    )
+    nfe40_indIEDest = fields.Selection(
+        related='partner_ind_ie_dest'
+    )
     nfe40_tpNF = fields.Selection(
         compute='_compute_nfe_data',
         inverse='_inverse_nfe40_tpNF',
     )
     nfe40_tpImp = fields.Selection(default='1')
     nfe40_tpEmis = fields.Selection(default='1')
-    nfe40_tpAmb = fields.Selection(default='2')
     nfe40_procEmi = fields.Selection(default='0')
     nfe40_verProc = fields.Char(default='Odoo Brasil v12.0')
     nfe40_CRT = fields.Selection(
@@ -127,7 +145,6 @@ class NFe(spec_models.StackedModel):
         required=True,
         default=NFE_IND_IE_DEST_DEFAULT,
     )
-    nfe40_indIEDest = fields.Selection(related='partner_ind_ie_dest')
 
     company_street = fields.Char(string="Rua")
     company_number = fields.Char(string="Número")
@@ -330,7 +347,7 @@ class NFe(spec_models.StackedModel):
         transmissao = TransmissaoSOAP(certificado, session)
         return edoc_nfe(
             transmissao, self.company_id.state_id.ibge_code,
-            versao='4.00', ambiente='2'
+            versao=self.nfe_version, ambiente=self.nfe_environment
         )
 
     @api.multi
