@@ -29,7 +29,6 @@ class TestSubsequentOperation(TransactionCase):
             'l10n_br_fiscal.tax_cofins_0'
         )
 
-
     def test_subsequent_operation_simple_faturamento(self):
         """ Test Fiscal Subsequent Operation Simples Faturamento"""
 
@@ -51,7 +50,7 @@ class TestSubsequentOperation(TransactionCase):
         for document in subsequent_documents:
 
             self.assertTrue(document.subsequent_document_id,
-                        "Subsequent document was not created")
+                            "Subsequent document was not created")
 
             # Subsequent Document operation
             self.assertEquals(
