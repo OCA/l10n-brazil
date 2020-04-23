@@ -10,13 +10,13 @@ from ..constants.fiscal import (
 )
 
 
-SUBSEQUENT_SITUATION = (
+SUBSEQUENT_CONDITION = (
     ('manual', 'Manualmente'),
     ('nota_de_cupom', 'Gerar Nota Fiscal de Cupons Fiscais'),
     ('nota_de_remessa', 'Gerar Nota Fiscal de Remessa'),
 )
 
-SUBSEQUENT_OPERATION = SITUACAO_EDOC + SUBSEQUENT_SITUATION
+SUBSEQUENT_OPERATION = SITUACAO_EDOC + SUBSEQUENT_CONDITION
 
 """ We must be aware that some subsequent operations do not generate postings
 financial"""
