@@ -4,7 +4,7 @@
 #
 
 from __future__ import division, print_function, unicode_literals
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 from ..constants.fiscal import (
     SITUACAO_EDOC_CANCELADA,
     MODELO_FISCAL_CFE,
@@ -112,7 +112,6 @@ class SubsequentDocument(models.Model):
             item._onchange_operation_line_id()
             item._onchange_fiscal_taxes()
 
-
         document = new_doc
         document.action_document_confirm()
         document.number = False
@@ -162,8 +161,6 @@ class SubsequentDocument(models.Model):
                                   "subsequent document has already been "
                                   "generated.")
         return super(SubsequentDocument, self).unlink()
-
-
 
     @api.multi
     def _confirms_document_generation(self):
