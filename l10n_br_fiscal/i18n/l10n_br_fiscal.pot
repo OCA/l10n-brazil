@@ -938,6 +938,12 @@ msgid "Block period"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_pres
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__ind_pres
+msgid "Buyer Presence"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX
 msgid "CAIXA"
 msgstr ""
@@ -4656,11 +4662,6 @@ msgid "Indicador de Pagamento"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_pres
-msgid "Indicador de presença do comprador no estabelecimento"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__industry_type
 msgid "Industry Type"
 msgstr ""
@@ -5399,6 +5400,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
+#: selection:l10n_br_fiscal.document.mixin,ind_pres:0
 msgid "NFC-e entrega em domicílio"
 msgstr ""
 
@@ -5709,27 +5711,30 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
+#: selection:l10n_br_fiscal.document.mixin,ind_pres:0
 msgid "Não presencial, internet"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
+#: selection:l10n_br_fiscal.document.mixin,ind_pres:0
 msgid "Não presencial, outros"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
+#: selection:l10n_br_fiscal.document.mixin,ind_pres:0
 msgid "Não presencial, teleatendimento"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
+#: selection:l10n_br_fiscal.document.mixin,ind_pres:0
 msgid "Não se aplica"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:77
-#: constraint:l10n_br_fiscal.document.invalidate.number:0
+#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:74
 #, python-format
 msgid "Não é permitido faixas sobrepostas!"
 msgstr ""
@@ -5896,11 +5901,13 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
+#: selection:l10n_br_fiscal.document.mixin,ind_pres:0
 msgid "Operação presencial"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
+#: selection:l10n_br_fiscal.document.mixin,ind_pres:0
 msgid "Operação presencial, fora do estabelecimento"
 msgstr ""
 
@@ -6269,6 +6276,20 @@ msgstr ""
 #: selection:l10n_br_fiscal.document,issuer:0
 #: selection:l10n_br_fiscal.document.abstract,issuer:0
 msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_order
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_abstract__partner_order
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_order
+msgid "Partner Order (xPed)"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_order_line
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_abstract__partner_order_line
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_order_line
+msgid "Partner Order Line (nItemPed)"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7727,7 +7748,7 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:180
+#: code:addons/l10n_br_fiscal/models/document.py:166
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
@@ -8008,7 +8029,7 @@ msgid "Visualizar XML"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:96
+#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:89
 #, python-format
 msgid "Você não pode excluir uma sequência concluída."
 msgstr ""
