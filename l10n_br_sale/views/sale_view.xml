@@ -22,7 +22,7 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <field name="amount_untaxed" position="before">
-                <field name="amount_undiscounted" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                 <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="amount_untaxed" position="after">
@@ -48,6 +48,17 @@
             <xpath expr="//field[@name='order_line']/tree" position="attributes">
                 <attribute name="editable"/>
             </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <field name="discount" groups="sale.group_discount_per_so_line"/>
+                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
+                <field name="fiscal_tax_ids" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                <field name="price_total" invisible="1"/>
+            </xpath>
             <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
@@ -55,15 +66,19 @@
             <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="after">
                 <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
                 <field name="operation_type" invisible="1" readonly="1"/>
+                <field name="fiscal_type" invisible="1" readonly="1"/>
                 <field name="operation_id" required="1"/>
                 <field name="fiscal_price" force_save="1" invisible="1"/>
                 <field name="fiscal_quantity" force_save="1" invisible="1"/>
                 <field name="operation_line_id" required="1"/>
-                <field name="cfop_id"/>
+                <field name="cfop_id" attrs="{'invisible': ['fiscal_type', '=', '00']}"/>
+                <field name="service_type_id" attrs="{'invisible': ['fiscal_type', '!=', '00']}"/>
                 <field name="cfop_destination" invisible="1"/>
                 <field name="fiscal_genre_code" invisible="1"/>
                 <field name="tax_framework" invisible="1"/>
                 <field name="partner_company_type" invisible="1"/>
+                <field name="price_total" invisible="1"/>
+                <field name="price_subtotal" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
                 <notebook>
@@ -381,6 +396,9 @@
                       </page>
                 </notebook>
             </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
+            </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
                 <group style="width: 65%%"
                        groups="l10n_br_sale.group_total_discount">
@@ -391,11 +409,6 @@
                     </div>
                 </group>
             </xpath>
-                 <!--
-            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
-                <field name="amount_undiscounted"/>
-                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
-            </xpath> -->
         </field>
     </record>
 
