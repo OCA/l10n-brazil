@@ -16,6 +16,7 @@ class SaleOrderLine(models.Model):
         return protected_fields + [
             'fiscal_tax_ids', 'operation_id', 'operation_line_id']
 
+    # Adapt Mixin's fields
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
         relation='fiscal_sale_line_tax_rel',
@@ -39,40 +40,27 @@ class SaleOrderLine(models.Model):
         related='order_id.partner_id',
         string='Partner')
 
-    discount_value = fields.Float(
+    # Add Fields in model sale.order.line
+    price_gross = fields.Monetary(
         compute='_compute_amount',
-        store=True,
-        digits=dp.get_precision('Sale Price'))
-
-    price_gross = fields.Float(
-        compute='_compute_amount',
-        string='Vlr. Bruto',
-        digits=dp.get_precision('Sale Price'))
-
-    price_subtotal = fields.Float(
-        compute='_compute_amount',
-        string='Subtotal',
-        digits=dp.get_precision('Sale Price'))
+        string='Gross Amount',
+        default=0.00)
 
     def _calc_line_base_price(self):
         return self.price_unit * (1 - (self.discount or 0.0) / 100.0)
 
-    # TODO
-    # def _calc_line_quantity(self):
-    #     return self.product_uom_qty
+    def _calc_line_quantity(self):
+        return self.product_uom_qty
 
-    # def _calc_price_gross(self, qty):
-    #     return self.price_unit * qty
-
-    @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id')
+    @api.depends('product_uom_qty', 'discount', 'price_unit')
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
         for line in self:
-            price = line._calc_line_base_price()
+            line.tax_id |= line.fiscal_tax_ids.account_taxes()
             taxes = line.tax_id.compute_all(
-                price_unit=price,
+                price_unit=line._calc_line_base_price(),
                 currency=line.order_id.currency_id,
-                quantity=line.product_uom_qty,
+                quantity=line._calc_line_quantity(),
                 product=line.product_id,
                 partner=line.order_id.partner_id,
                 fiscal_taxes=line.fiscal_tax_ids,
@@ -88,9 +76,16 @@ class SaleOrderLine(models.Model):
                 fiscal_quantity=line.fiscal_quantity,
                 uot=line.uot_id,
                 icmssn_range=line.icmssn_range_id)
+
+            tax_not_included = sum(
+                t.get('amount', 0.0)
+                for t in taxes.get('taxes', []) if not t.get('tax_include'))
+
+            import pudb; pudb.set_trace()
             line.update({
-                'price_tax': sum(
-                    t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                'amount_tax_not_included': tax_not_included,
+                'price_tax': tax_not_included,
+                'price_gross': taxes['total_excluded'] + line.discount_value,
                 'price_total': taxes['total_included'],
                 'price_subtotal': taxes['total_excluded'],
             })
@@ -117,7 +112,21 @@ class SaleOrderLine(models.Model):
                         result["cfop_id"] = cfop.id
         return result
 
-    @api.onchange('product_uom', 'product_uom_qty')
+    @api.onchange('product_uom', 'product_uom_qty', 'price_unit')
     def _onchange_product_uom(self):
+        """To call the method in the mixin to update
+        the price and fiscal quantity."""
         super(SaleOrderLine, self).product_uom_change()
         self._onchange_commercial_quantity()
+
+    @api.onchange('discount_value', 'discount')
+    def _onchange_discount_value(self):
+        """Update discount percent"""
+        if self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
+            if self.discount_value:
+                self.discount = (
+                    abs(((self.price_subtotal / self.price_gross) * 100) - 1))
+        else:
+            if self.discount:
+                self.discount_value = (self.product_uom_qty *
+                    (self.price_unit * ((self.discount or 0.0) / 100.0)))
